@@ -331,9 +331,9 @@ For the proof, If R subset R' with index p, write `R = ℤ +` pR' `+ ℤ θ` and
 
 <a id="pairs-of-ternary-quadratic-forms"></a>
 
-**Pairs of ternary quadratic forms.** For a commutative ring R, an (integer-valued) ternary quadratic form is `Q(x) = sum_{i<=j} a_ij x_i x_j` with `a_ij` in R (with Gram matrix having `a_ii` on the diagonal and `a_ij/2` off it when 2 is invertible), and `W(R) =` (Sym`^2 R^3` tensor `R^2`)* is the module of pairs `(A, B)`. The group `GL3(R) x GL2(R)` acts by `(g_3, g_2) . (A, B) = (r A' + s B', t A' + u B')` with `A' = g_3 A g_3^T`, `B' = g_3 B g_3^T` and `g_2 = (r s; t u)`. Attached invariants: `4 Det(Q) = 4 a_11 a_22 a_33 + a_12 a_13 a_23 - a_11 a_23^2 - a_22 a_13^2 - a_33 a_12^2`; the cubic resolvent form `f_{(A,B)}(x, y) = 4 Det(A x - B y)`, a binary cubic form over R; the discriminant `Disc(A, B) = disc(f_{(A,B)})`; the fifteen SL2-invariants `λ^{ij}`_`{kl} = a_ij b_kl - a_kl b_ij`; and, over `ℤ`, the content `ct(A, B) = gcd` of the `λ^{ij}`_{kl}. One has `f_{(g . (A,B))} = (det g_3)^2` (`f_{(A,B)}` composed with the substitution by `(r -s; -t u)`), hence `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A, B)`.
+**Pairs of ternary quadratic forms.** For a commutative ring R, an (integer-valued) ternary quadratic form is `Q(x) = sum_{i<=j} a_ij x_i x_j` with `a_ij` in R (with Gram matrix having `a_ii` on the diagonal and `a_ij/2` off it when 2 is invertible), and `W(R) = (Sym² R³ ⊗ R²)*` is the module of pairs `(A, B)`. The group `GL3(R) x GL2(R)` acts by `(g_3, g_2) . (A, B) = (r A' + s B', t A' + u B')` with `A' = g_3 A g_3^T`, `B' = g_3 B g_3^T` and `g_2 = (r s; t u)`. Attached invariants: `4 Det(Q) = 4 a_11 a_22 a_33 + a_12 a_13 a_23 - a_11 a_23^2 - a_22 a_13^2 - a_33 a_12^2`; the cubic resolvent form `f_{(A,B)}(x, y) = 4 Det(A x - B y)`, a binary cubic form over R; the discriminant `Disc(A, B) = disc(f_{(A,B)})`; the fifteen `SL₂`-invariants `λ^{ij}_{kl} = a_ij b_kl - a_kl b_ij`; and, over `ℤ`, the content `ct(A, B) = gcd` of the `λ^{ij}_{kl}`. One has `f_{(g . (A,B))} = (det g_3)^2` (`f_{(A,B)}` composed with the substitution by `(r -s; -t u)`), hence `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A, B)`.
 
-Integer-valued convention (Bhargava HCL III `(11)`, `(19)`): diagonal coefficients integral, off-diagonal Gram entries half-integral; 4 Det has integer coefficients. Over a general coefficient ring, define det4 by the displayed integral coefficient polynomial; neither half-Gram entries nor division by four is performed in R. Congruence acts by substitution on the polynomial coefficients, and specializes to Gram congruence when 2 is invertible. Sign convention pinned: the resolvent form is 4 Det(Ax - By) (Bhargava-Shankar); HCL III writes 4 Det(`Ax +` By), which differs by `(x, y) ↦ (x, -y)` and is inconsistent with its own multiplication table. Over `ℤ`, `GL3(ℤ) =` {±1} `x SL3(ℤ)` and -1 acts trivially on pairs, so `GL3(ℤ) x GL2(ℤ)`-orbits are the `GL2(ℤ) x SL3(ℤ)`-orbits of Bhargava-Shankar.
+Integer-valued convention (Bhargava HCL III `(11)`, `(19)`): diagonal coefficients integral, off-diagonal Gram entries half-integral; `4 Det` has integer coefficients. Over a general coefficient ring, define `det4` by the displayed integral coefficient polynomial; neither half-Gram entries nor division by four is performed in R. Congruence acts by substitution on the polynomial coefficients, and specializes to Gram congruence when 2 is invertible. Sign convention pinned: the resolvent form is `4 Det(Ax − By)` (Bhargava-Shankar); HCL III writes `4 Det(Ax + By)`, which differs by `(x, y) ↦ (x, -y)` and is inconsistent with its own multiplication table. Over `ℤ`, `GL3(ℤ) = {±1} × SL3(ℤ)` and -1 acts trivially on pairs, so `GL3(ℤ) x GL2(ℤ)`-orbits are the `GL2(ℤ) x SL3(ℤ)`-orbits of Bhargava-Shankar.
 
 The required API is:
 
@@ -341,7 +341,7 @@ The required API is:
 
 - `TernaryQuadraticForm.eval`: `Q(t) = sum_{i<=j} a_ij t_i t_j`.
 
-- `TernaryQuadraticForm.det4`: 4 Det Q.
+- `TernaryQuadraticForm.det4`: `4 Det Q`.
 
 - `TernaryQuadraticForm.comp`: The form `t ↦ Q(M^T t)`, Gram matrix `M G M^T`.
 
@@ -357,7 +357,7 @@ The required API is:
 
 - `TernaryQuadraticPair.instMulAction`: The `GL3 x GL2` action of HCL III `(11)`.
 
-- `TernaryQuadraticPair.resolventForm`: The binary cubic form 4 Det(Ax - By).
+- `TernaryQuadraticPair.resolventForm`: The binary cubic form `4 Det(Ax − By)`.
 
 - `TernaryQuadraticPair.disc`: `Disc(A, B) = disc` of the resolvent form.
 
@@ -365,19 +365,19 @@ The required API is:
 
 - `TernaryQuadraticPair.coeffB`: The symmetric coefficient `b_ij`.
 
-- `TernaryQuadraticPair.lam`: `λ^{ij}`_`{kl} = a_ij b_kl - a_kl b_ij`.
+- `TernaryQuadraticPair.lam`: `λ^{ij}_{kl} = a_ij b_kl - a_kl b_ij`.
 
-- `TernaryQuadraticPair.content`: Over `ℤ`: the gcd of the `λ^{ij}`_{kl}.
+- `TernaryQuadraticPair.content`: Over `ℤ`: the gcd of the `λ^{ij}_{kl}`.
 
-- `TernaryQuadraticPair.resolventForm_A_eq`: The `x^`3-coefficient of the resolvent form is 4 Det A.
+- `TernaryQuadraticPair.resolventForm_A_eq`: The `x³`-coefficient of the resolvent form is `4 Det A`.
 
 - `TernaryQuadraticPair.disc_smul`: `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A,B)`.
 
-- `TernaryQuadraticPair.lam_smul_SL2`: The `λ^{ij}`_{kl} are invariant under `SL2`.
+- `TernaryQuadraticPair.lam_smul_SL2`: The `λ^{ij}_{kl}` are invariant under `SL2`.
 
 - `TernaryQuadraticPair.lam_eq_zero_iff`: All `λ` vanish iff A, B span a space of dimension `≤ 1` (over Q).
 
-For the proof, Define the six-coefficient ternary forms with evaluation, linear combination and composition `t ↦ Q(M^T t)` (coefficients by polarization at `e_i` and `e_i + e_j`); the pair action is then explicit; its axioms are polynomial identities. Transformation of 4 Det: `Det(g A g^T) = det(g)^2 Det(A)`; for the `GL2` part, `4 Det((r A + s B) x - (t A + u B) y) = f(r x - t y, -s x + u y)` (expand). Disc: disc of a binary cubic form scales by `c^4` under multiplication by c and by `det(M)^6` under substitution by M.
+For the proof, Define the six-coefficient ternary forms with evaluation, linear combination and composition `t ↦ Q(M^T t)` (coefficients by polarization at `e_i` and `e_i + e_j`); the pair action is then explicit; its axioms are polynomial identities. Transformation of `4 Det`: `Det(g A g^T) = det(g)^2 Det(A)`; for the `GL2` part, `4 Det((r A + s B) x - (t A + u B) y) = f(r x - t y, -s x + u y)` (expand). Disc: disc of a binary cubic form scales by `c^4` under multiplication by c and by `det(M)^6` under substitution by M.
 
 *Needs:* [binary cubic forms and the twisted action](../ArithmeticStatisticsPartI/README.md#binary-cubic-forms-and-the-twisted-action), `QuadraticForm` (Mathlib), `LinearMap.BilinMap.toQuadraticMap` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib).
 
@@ -387,7 +387,7 @@ For the proof, Define the six-coefficient ternary forms with evaluation, linear 
 
 - For `(x_1 x_3 - x_2^2, a x_1^2 + b x_1 x_2 + c x_2^2 + d x_2 x_3 + e x_3^2)` the resolvent form is `(1, c, bd - 4ae, a d^2 + b^2 e - 4ace)`.
 
-- `4 Det(x_1^2 + x_2^2 + x_3^2) = 4` (not 1: the Gram matrix of an integer-valued form has half-integral off-diagonal entries and the factor 4 makes Det integral).
+- `4 Det(x_1^2 + x_2^2 + x_3^2) = 4` (not 1: the Gram matrix of an integer-valued form has half-integral off-diagonal entries and the factor 4 makes `Det` integral).
 
 - The pair `(Q, Q)` has discriminant 0.
 
@@ -401,9 +401,9 @@ For the proof, Define the six-coefficient ternary forms with evaluation, linear 
 
 <a id="quartic-ring-and-cubic-resolvent"></a>
 
-**Quartic ring and cubic resolvent.`** A` quartic ring is a commutative ring free of rank 4 over `ℤ`. Following HCL III Definitions `19-20`, a cubic resolvent of a quartic ring Q is a cubic ring C together with an isomorphism `ξ` : wedge`^3(Q/ℤ) →` wedge`^2(C/ℤ)` and a quadratic map `φ` : `Q/ℤ → C/ℤ` such that `(29) ξ(x ^ y ^ xy) = φ(x) ^ φ(y)` for all x, y in Q, and `(34)` the binary cubic form that C corresponds to under Delone-Faddeev is `Disc(φ)` (this implies `ξ(x ^ x^2 ^ x^3) = φ(x) ^ φ(x)^2`, identity `(25)`; the converse requires that the image of `φ span` rank two and fails for degenerate rank-smaller images). In bases `<1, alpha_1, alpha_2, alpha_3>` of Q and `<1, omega_1, omega_2>` of C, with `φ`(sum `t_i alpha_i`) `= B(t) omega_1 + A(t) omega_2` modulo `ℤ`, the data is a pair `(A, B)` in `W(ℤ)` and the conditions read: `det(1, x, y, xy) = B(x) A(y) - A(x) B(y)` for all x, y in Q (coordinates of x on `alpha_1`, `alpha_2`, `alpha_3`), and the index form of `<1, omega_1, omega_2>` is -4 Det(Ax - By) (in the orientation of index-form-of-a-based-cubic-ring). The content `ct(Q)` is the supremum in N union {∞} of positive integers n for which `Q = ℤ + n Q′` inside Q tensor Q, where Q′ is an overring free of rank four over `ℤ`. The trivial square-zero quartic ring has infinite content.
+**Quartic ring and cubic resolvent.** A quartic ring is a commutative ring free of rank 4 over `ℤ`. Following HCL III Definitions `19-20`, a cubic resolvent of a quartic ring Q is a cubic ring C together with an isomorphism `ξ : ∧³(Q/ℤ) → ∧²(C/ℤ)` and a quadratic map `φ` : `Q/ℤ → C/ℤ` such that `(29) ξ(x ^ y ^ xy) = φ(x) ^ φ(y)` for all x, y in Q, and `(34)` the binary cubic form that C corresponds to under Delone-Faddeev is `Disc(φ)` (this implies `ξ(x ^ x^2 ^ x^3) = φ(x) ^ φ(x)^2`, identity `(25)`; the converse requires that the image of `φ` span rank two and fails for degenerate rank-smaller images). In bases `<1, alpha_1, alpha_2, alpha_3>` of Q and `<1, omega_1, omega_2>` of C, with `φ(Σ_i t_i α_i) = B(t) ω₁ + A(t) ω₂` modulo `ℤ`, the data is a pair `(A, B)` in `W(ℤ)` and the conditions read: `det(1, x, y, xy) = B(x) A(y) - A(x) B(y)` for all x, y in Q (coordinates of x on `alpha_1`, `alpha_2`, `alpha_3`), and the index form of `<1, omega_1, omega_2>` is `−4 Det(Ax − By)` (in the orientation of index-form-of-a-based-cubic-ring). The content `ct(Q)` is the supremum in `ℕ ∪ {∞}` of positive integers n for which `Q = ℤ + n Q′` inside `Q ⊗ ℚ`, where Q′ is an overring free of rank four over `ℤ`. The trivial square-zero quartic ring has infinite content.
 
-Base `ℤ` (the coordinate-free definition works over `ℤ_p` and `F_p` verbatim; HCL III, Appendix). The orientation `ξ` is part of the data; with the pinned orientation the sign in `(29)` is +. Degenerate quartic rings (discriminant 0) are included: the definition does not use S_4-closures. Retain the full discriminant/index-form condition `(34)`. Identity `(25)` alone does not specify the cubic ring when the image of `φ` has rank at most one (HCL III, p. 1351).
+Base `ℤ` (the coordinate-free definition works over `ℤ_p` and `F_p` verbatim; HCL III, Appendix). The orientation `ξ` is part of the data; with the pinned orientation the sign in `(29)` is +. Degenerate quartic rings (discriminant 0) are included: the definition does not use `S₄`-closures. Retain the full discriminant/index-form condition `(34)`. Identity `(25)` alone does not specify the cubic ring when the image of `φ` has rank at most one (HCL III, p. 1351).
 
 The required API is:
 
@@ -429,25 +429,25 @@ For the proof, State the based conditions (determinant identity `(12)` and the i
 
 - `ℤ^4` has the cubic resolvent `ℤ^3`.
 
-- For a based cubic resolvent the index form is -4 Det(Ax - By) and differs from `+4 Det`(Ax - By) whenever the latter is nonzero.
+- For a based cubic resolvent the index form is `−4 Det(Ax − By)` and differs from `+4 Det(Ax − By)` whenever the latter is nonzero.
 
 - The content of `ℤ^4` is 1.
 
-- For the trivial quartic ring `ℤ` ⊕ `Z³` with square-zero ideal and `φ = 0`, both `(29)` and `(25)` hold for every cubic ring C. Condition `(34)` instead forces the cubic index form to vanish, so `C = Z³` is excluded.
+- For the trivial quartic ring `ℤ ⊕ ℤ³` with square-zero ideal and `φ = 0`, both `(29)` and `(25)` hold for every cubic ring C. Condition `(34)` instead forces the cubic index form to vanish, so `C = Z³` is excluded.
 
-- `Q =` {`(x_0,x_1,x_2,x_3)` in `Z⁴` : all coordinates agree modulo 2} `= ℤ + 2 Z⁴` has content 2. The overring `Z⁴` strictly contains Q.
+- `Q = {(x₀,x₁,x₂,x₃) ∈ ℤ⁴ : all coordinates agree modulo 2} = ℤ + 2ℤ⁴` has content 2. The overring `Z⁴` strictly contains Q.
 
-- The trivial quartic ring `ℤ` ⊕ `Z³` with square-zero ideal has infinite content: each positive n occurs using the overring generated by `epsilon_i/n`.
+- The trivial quartic ring `ℤ ⊕ ℤ³` with square-zero ideal has infinite content: each positive n occurs using the overring generated by `epsilon_i/n`.
 
-- A based cubic resolvent has index form -4 Det(Ax - By), never `+4 Det`(Ax - By) when the latter is nonzero.
+- A based cubic resolvent has index form `−4 Det(Ax − By)`, never `+4 Det(Ax − By)` when the latter is nonzero.
 
 - `ℤ^4` has content 1.
 
 <a id="quartic-ring-of-a-pair"></a>
 
-**Quartic ring of a pair.** For a pair `(A, B)` of ternary quadratic forms over a commutative ring R, `Q(A, B)` is the R-algebra with basis `<1, alpha_1, alpha_2, alpha_3>` and `alpha_i alpha_j = c^0_ij + sum_k c^k_ij alpha_k`, where for every permutation `(i, j, k)` of `(1, 2, 3)` with sign `ε`: `c^i_ii = ε λ^{ik}`_`{ij} + C_i`, `c^j_ii = ε λ^{ii}`_{ik}, `c^i_ij = ε (1/2) λ^{ik}`_`{jj} + (1/2) C_j`, `c^k_ij = ε λ^{jj}`_{ii}, with `C_1 = λ^{23}`_{11}, `C_2 = -λ^{13}`_{22}, `C_3 = λ^{12}`_{33}, and `c^0_ij = sum_r (c^r_jk c^k_ri - c^r_ij c^k_rk)` for any `k ≠ i`. All `c^k_ij` are integral polynomials in the coefficients (the halves cancel: `c^1_12 = c^2_12 = c^1_13 = 0`, `c^3_13 = λ^{23}`_{11}, `c^2_23 = λ^{12}`_{33}, `c^3_23 = -λ^{13}`_{22}); the basis is normal `(c^1_12 = c^2_12 = c^1_13 = 0)`. The cubic resolvent ring is `R(A, B) = R`(-4 Det(Ax - By)) (Delone-Faddeev); with `φ`(sum `t_i alpha_i`) `= B(t) omega_1 + A(t) omega_2` the triple is a based cubic resolvent, and `Disc Q(A,B) = Disc R(A,B) = Disc(A,B)`.
+**Quartic ring of a pair.** For a pair `(A, B)` of ternary quadratic forms over a commutative ring R, `Q(A, B)` is the R-algebra with basis `<1, alpha_1, alpha_2, alpha_3>` and `alpha_i alpha_j = c^0_ij + sum_k c^k_ij alpha_k`, where for every permutation `(i, j, k)` of `(1, 2, 3)` with sign `ε`: `c^i_ii = ε λ^{ik}_{ij} + C_i`, `c^j_ii = ε λ^{ii}_{ik}`, `c^i_ij = ε (1/2) λ^{ik}_{jj} + (1/2) C_j`, `c^k_ij = ε λ^{jj}_{ii}`, with `C_1 = λ^{23}_{11}`, `C_2 = -λ^{13}_{22}`, `C_3 = λ^{12}_{33}`, and `c^0_ij = sum_r (c^r_jk c^k_ri - c^r_ij c^k_rk)` for any `k ≠ i`. All `c^k_ij` are integral polynomials in the coefficients (the halves cancel: `c^1_12 = c^2_12 = c^1_13 = 0`, `c^3_13 = λ^{23}_{11}`, `c^2_23 = λ^{12}_{33}`, `c^3_23 = -λ^{13}_{22}`); the basis is normal `(c^1_12 = c^2_12 = c^1_13 = 0)`. The cubic resolvent ring is `R(A, B) = R(−4 Det(Ax − By))` (Delone-Faddeev); with `φ(Σ_i t_i α_i) = B(t) ω₁ + A(t) ω₂` the triple is a based cubic resolvent, and `Disc Q(A,B) = Disc R(A,B) = Disc(A,B)`.
 
-The index condition in the formula for `c^0_ij` is `k ≠ i`; HCL III prints `k ≠ j`, for which the expression depends on k and the table is not associative. The sign of the resolvent form: with the table above and HCL III's normal basis of the resolvent, identity `(25)` holds for 4 Det(Ax - By), not 4 Det(`Ax +` By) as printed in `(26)`.
+The index condition in the formula for `c^0_ij` is `k ≠ i`; HCL III prints `k ≠ j`, for which the expression depends on k and the table is not associative. The sign of the resolvent form: with the table above and HCL III's normal basis of the resolvent, identity `(25)` holds for `4 Det(Ax − By)`, not `4 Det(Ax + By)` as printed in `(26)`.
 
 The required API is:
 
@@ -467,7 +467,7 @@ The required API is:
 
 - `TernaryQuadraticPair.discr_quarticBasis`: `Disc Q(A, B) = Disc(A, B)`.
 
-- `TernaryQuadraticPair.cubicResolventRing`: `R(A, B) = R`(-4 Det(Ax - By)).
+- `TernaryQuadraticPair.cubicResolventRing`: `R(A, B) = R(−4 Det(Ax − By))`.
 
 - `TernaryQuadraticPair.isResolventPair_quarticRing`: `(Q(A,B), R(A,B), (A,B))` is a based cubic resolvent.
 
@@ -483,13 +483,13 @@ For the proof, The structure constants are forced by Lemma 9 (identity `(12)`) w
 
 - For `(x_1 x_3 - x_2^2, x_1^2 + x_2 x_3)`, Algebra.discr of the normal basis of `Q(A,B)` equals `Disc(A,B)`.
 
-- `c^1_11 = λ^{13}`_`{12} + λ^{23}`_{11}, a polynomial with integer coefficients (no division by 2).
+- `c^1_11 = λ^{13}_{12} + λ^{23}_{11}`, a polynomial with integer coefficients (no division by 2).
 
 - The zero pair gives the ring with all `alpha_i alpha_j = 0`.
 
 - `Disc Q(A,B) = Disc(A,B)` for `(x_1 x_3 - x_2^2, x_1^2 + x_2 x_3)`.
 
-- `c^1_11 = λ^{13}`_`{12} + λ^{23}`_{11}.
+- `c^1_11 = λ^{13}_{12} + λ^{23}_{11}`.
 
 <a id="bhargava-parametrization-of-quartic-rings"></a>
 
@@ -515,7 +515,7 @@ For the proof, `(A,B) ↦ (Q(A,B), R(A,B))` is a based cubic resolvent (quartic-
 
 Q nontrivial for `(b)-(d)` (the trivial ring has infinite content). Maximal quartic rings of nonzero discriminant are Gorenstein and have content 1. The count `σ(n)` retains the fixed quartic ring Q. Quotienting also by `Aut(Q)`, as in the unbased `GL3 x GL2` orbit classification, can identify these resolvent structures and changes the count.
 
-For the proof, The structure constants of a normal basis of Q determine the fifteen `λ^{ij}`_{kl} by `(21)`, and associativity gives the Pluecker syzygies `(27)` (HCL III Section 3.8). Lemma 16: fifteen constants satisfying `(27)`, not all zero, are the λ-invariants of a unique `SL2(C)`-orbit, which contains an integral point when the constants are integers (elementary divisors). With a fixed normal basis of Q, the fifteen λ-invariants are fixed. Their nonzero gcd n specifies an orientation of the pencil. The relevant `SL2(ℤ)`-orbits, not full `GL3(ℤ) x GL2(ℤ)`-orbits, correspond to index-n sublattices in the maximal integral pencil lattice, with the induced orientation. Hermite normal form counts these as `Σ_(d|n) d`. Arbitrarily oriented bases would produce both `λ` and `−λ`, so the orientation is retained throughout. Apply the based parametrization and then forget the chosen basis of the fixed ring Q, transporting it by the identity of Q. This counts resolvent structures over Q without quotienting by its automorphisms. The gcd of `λ` is `ct(Q)` by `(21)`–`(23)`. Maximal rings: a ring `ℤ +` nQ' with `n > 1` is not maximal (contained in Q'), so maximal rings are primitive.
+For the proof, The structure constants of a normal basis of Q determine the fifteen `λ^{ij}_{kl}` by `(21)`, and associativity gives the Pluecker syzygies `(27)` (HCL III Section 3.8). Lemma 16: fifteen constants satisfying `(27)`, not all zero, are the λ-invariants of a unique `SL2(C)`-orbit, which contains an integral point when the constants are integers (elementary divisors). With a fixed normal basis of Q, the fifteen λ-invariants are fixed. Their nonzero gcd n specifies an orientation of the pencil. The relevant `SL2(ℤ)`-orbits, not full `GL3(ℤ) x GL2(ℤ)`-orbits, correspond to index-n sublattices in the maximal integral pencil lattice, with the induced orientation. Hermite normal form counts these as `Σ_(d|n) d`. Arbitrarily oriented bases would produce both `λ` and `−λ`, so the orientation is retained throughout. Apply the based parametrization and then forget the chosen basis of the fixed ring Q, transporting it by the identity of Q. This counts resolvent structures over Q without quotienting by its automorphisms. The gcd of `λ` is `ct(Q)` by `(21)`–`(23)`. Maximal rings: a ring `ℤ +` nQ' with `n > 1` is not maximal (contained in Q'), so maximal rings are primitive.
 
 *Needs:* [bhargava parametrization of quartic rings](#bhargava-parametrization-of-quartic-rings), [quartic ring of a pair](#quartic-ring-of-a-pair), [pairs of ternary quadratic forms](#pairs-of-ternary-quadratic-forms), [cubic ring](../ArithmeticStatisticsPartI/README.md#cubic-ring).
 
@@ -529,7 +529,7 @@ For the proof, The structure constants of a normal basis of Q determine the fift
 
 <a id="maximality-of-quartic-rings-at-p"></a>
 
-**Maximality of quartic rings at p.** If a quartic ring Q is not maximal at p, there is a ℤ-basis `<1, alpha_1, alpha_2, alpha_3>` of Q such that `ℤ + ℤ(alpha_1/p) + ℤ alpha_2 + ℤ alpha_3`, or `ℤ + ℤ(alpha_1/p) + ℤ(alpha_2/p) + ℤ alpha_3`, or `ℤ + ℤ(alpha_1/p) + ℤ(alpha_2/p) + ℤ(alpha_3/p)` is a ring. For `Q = Q(A, B)` these read, after `a GL3(ℤ) x GL2(ℤ)`-change of the pair: `(i) λ^{11}`_{22}, `λ^{11}`_{23}, `λ^{11}`_{33}, `λ^{12}`_`{13} = 0` mod p and `λ^{11}`_{12}, `λ^{11}`_`{13} = 0` mod `p^2`; `(ii) λ^{11}`_{13}, `λ^{11}`_{23}, `λ^{12}`_{13}, `λ^{12}`_{23}, `λ^{13}`_{22}, `λ^{22}`_`{23} = 0` mod p and `λ^{11}`_{12}, `λ^{11}`_{22}, `λ^{12}`_`{22} = 0` mod `p^2`; (iii) all `λ = 0` mod p. `Q(A, B)` is maximal at p iff `(A, B)` is in the set `U_p` of pairs for which none of `(i)`-(iii) can be achieved; the `U_p` are defined by congruence conditions modulo `p^2`.
+**Maximality of quartic rings at p.** If a quartic ring Q is not maximal at p, there is a `ℤ`-basis `<1, alpha_1, alpha_2, alpha_3>` of Q such that `ℤ + ℤ(alpha_1/p) + ℤ alpha_2 + ℤ alpha_3`, or `ℤ + ℤ(alpha_1/p) + ℤ(alpha_2/p) + ℤ alpha_3`, or `ℤ + ℤ(alpha_1/p) + ℤ(alpha_2/p) + ℤ(alpha_3/p)` is a ring. For `Q = Q(A, B)` these read, after `a GL3(ℤ) x GL2(ℤ)`-change of the pair: `(i) λ^{11}_{22}`, `λ^{11}_{23}`, `λ^{11}_{33}`, `λ^{12}_{13} = 0` mod p and `λ^{11}_{12}`, `λ^{11}_{13} = 0` mod `p^2`; `(ii) λ^{11}_{13}`, `λ^{11}_{23}`, `λ^{12}_{13}`, `λ^{12}_{23}`, `λ^{13}_{22}`, `λ^{22}_{23} = 0` mod p and `λ^{11}_{12}`, `λ^{11}_{22}`, `λ^{12}_{22} = 0` mod `p^2`; (iii) all `λ = 0` mod p. `Q(A, B)` is maximal at p iff `(A, B)` is in the set `U_p` of pairs for which none of `(i)`-(iii) can be achieved; the `U_p` are defined by congruence conditions modulo `p^2`.
 
 p prime; quartic rings of nonzero discriminant for the geometric reading of `(i)`, `(ii)` (double intersection points, double lines) in HCL III Section 4.2.
 
@@ -547,7 +547,7 @@ For the proof, Choose a finite p-primary overring Q′ and let `m ≥ 1` be mini
 
 <a id="splitting-types-of-pairs-of-ternary-quadratic-forms"></a>
 
-**Splitting types of pairs of ternary quadratic forms.** For a pair `(A, B)` over `ℤ` (or `ℤ_p`, `F_p`) whose conics `A = 0`, `B = 0` meet in four points of `P^2` over F_p-bar counted with multiplicity, let `((A,B), p) = (f_1^{e_1} f_2^{e_2} ...)` record the residue degrees and multiplicities of the intersection points. Then `(A,B)` is in `T_p(σ)` iff `Q(A,B)/(p) = F_{p^{f_1}}[t_1]/(t_1^{e_1}) + ...`, except for `σ = (1^4)`, where `Q(A,B)/p` may also be `F_2[x,y]/(x^2, xy + y^2)`, `F_p[x,y]/(x^2, y^2)` or `F_p[x,y]/(xy, x^2 + n y^2)`. In particular `Disc(A,B)` is nonzero mod p iff the conics meet in four distinct points iff `Q(A,B)/p` is etale over `F_p`; for maximal `Q(A,B)`, `((A,B), p)` is the splitting type of p.
+**Splitting types of pairs of ternary quadratic forms.** For a pair `(A, B)` over `ℤ` (or `ℤ_p`, `F_p`) whose conics `A = 0`, `B = 0` meet in four points of `P^2` over `𝔽̄_p` counted with multiplicity, let `((A,B), p) = (f_1^{e_1} f_2^{e_2} ...)` record the residue degrees and multiplicities of the intersection points. Then `(A,B)` is in `T_p(σ)` iff `Q(A,B)/(p) = F_{p^{f_1}}[t_1]/(t_1^{e_1}) + ...`, except for `σ = (1^4)`, where `Q(A,B)/p` may also be `F_2[x,y]/(x^2, xy + y^2)`, `F_p[x,y]/(x^2, y^2)` or `F_p[x,y]/(xy, x^2 + n y^2)`. In particular `Disc(A,B)` is nonzero mod p iff the conics meet in four distinct points iff `Q(A,B)/p` is etale over `F_p`; for maximal `Q(A,B)`, `((A,B), p)` is the splitting type of p.
 
 p prime; the two conics have no common component, so their intersection is zero-dimensional of length four. This allows discriminant-zero and nonreduced intersections; it does not require four distinct geometric points.
 
@@ -559,7 +559,7 @@ For the proof, The ring `Q(A,B)/p` depends only on the `GL3(F_p) x GL2(F_p)`-orb
 
 **Checks.**
 
-- Four F_p-rational points in general position give `F_p^4`.
+- Four `𝔽_p`-rational points in general position give `F_p^4`.
 
 - A double line in the pencil gives one of the non-reduced types (over-ramified cases).
 
@@ -567,7 +567,7 @@ For the proof, The ring `Q(A,B)/p` depends only on the `GL3(F_p) x GL2(F_p)`-orb
 
 <a id="quadruples-of-quinary-alternating-forms"></a>
 
-**Quadruples of quinary alternating forms.** For a commutative ring R, `V(R) = R^4` tensor wedge`^2 R^5` is the module of quadruples `A = (A_1, ..., A_4)` of alternating 5 x 5 matrices over R (recorded by their entries above the diagonal). The group `GL4(R) x SL5(R)` acts by `(g_4, g_5) . A =` (`sum_s (g_4)`_`{rs} g_5 A_s g_5^T`)_r. The 4 x 4 sub-Pfaffian map `Q(X) = (Q_1(X), ..., Q_5(X))`, `Q_i(X) = (-1)^{i-1} Pf`(X with row and column i deleted), is a quadratic covariant: `X Q(X) = 0` for every alternating X, and `Q(cX) = c^2 Q(X)`. The SL5-invariants {ijklm} `= Q(A_i, A_j)^T A_k Q(A_l, A_m)` (Q(.,.) the symmetric bilinear form with `Q(X,X) = 2Q(X)`) determine the multiplication table of the quintic ring `R(A)`; the fundamental relative invariant is the degree-40 discriminant `Disc(A)`, with `Disc((g_4,g_5) . A) = det(g_4)^10 Disc(A)`. Thus it is invariant under `GL4(ℤ) x SL5(ℤ)`, but is generally only a relative invariant over other base rings. The same matrix formula extends to `GL4(R) x GL5(R)`, with relative discriminant weight `det(g_4)^10 det(g_5)^16`. Over `ℤ` this has the same orbits as `GL4(ℤ) x SL5(ℤ)`, since replacing a determinant-minus-one `g_5` by `−g_5` leaves its congruence action unchanged. Over a field the full rational orbit for minimality uses this extended group.
+**Quadruples of quinary alternating forms.** For a commutative ring R, `V(R) = R⁴ ⊗ ∧² R⁵` is the module of quadruples `A = (A_1, ..., A_4)` of alternating 5 x 5 matrices over R (recorded by their entries above the diagonal). The group `GL4(R) x SL5(R)` acts by `(g_4, g_5) . A = (Σ_s (g_4)_{rs} g_5 A_s g_5^T)_r`. The 4 x 4 sub-Pfaffian map `Q(X) = (Q_1(X), ..., Q_5(X))`, `Q_i(X) = (-1)^{i-1} Pf`(X with row and column i deleted), is a quadratic covariant: `X Q(X) = 0` for every alternating X, and `Q(cX) = c^2 Q(X)`. The `SL5`-invariants `{ijklm} = Q(A_i, A_j)^T A_k Q(A_l, A_m)` (Q(.,.) the symmetric bilinear form with `Q(X,X) = 2Q(X)`) determine the multiplication table of the quintic ring `R(A)`; the fundamental relative invariant is the degree-40 discriminant `Disc(A)`, with `Disc((g_4,g_5) . A) = det(g_4)^10 Disc(A)`. Thus it is invariant under `GL4(ℤ) x SL5(ℤ)`, but is generally only a relative invariant over other base rings. The same matrix formula extends to `GL4(R) x GL5(R)`, with relative discriminant weight `det(g_4)^10 det(g_5)^16`. Over `ℤ` this has the same orbits as `GL4(ℤ) x SL5(ℤ)`, since replacing a determinant-minus-one `g_5` by `−g_5` leaves its congruence action unchanged. Over a field the full rational orbit for minimality uses this extended group.
 
 The discriminant is not written out as a polynomial (degree 40); it is characterized in HCL IV Section 3 and equals `Disc R(A)`. The displayed `GL4 x SL5` action can have a nontrivial kernel away from `ℤ`: `(ζ^(-2) I_4, ζ I_5)` acts trivially whenever `ζ^5 = 1`. Do not identify its stabilizers or rational orbits with those of the effective quotient without accounting for this kernel and descent.
 
@@ -589,7 +589,7 @@ The required API is:
 
 - `QuinaryAlternatingQuadruple.mulVec_subPfaffian`: `X Q(X) = 0`.
 
-For the proof, Define the entries, the matrices, the action and the sub-Pfaffians explicitly; the action axioms are matrix identities. `X Q(X) = 0`: the Pfaffian expansion of the 6 x 6 alternating matrix with a repeated row (by expansion with the sign convention `(-1)^{i-1}`). The invariants `P^+` and `P^`- of HCL `IV (11)-(14)` and the brackets {ijklm} `(18)` are polynomial SL5-invariants of degree 5.
+For the proof, Define the entries, the matrices, the action and the sub-Pfaffians explicitly; the action axioms are matrix identities. `X Q(X) = 0`: the Pfaffian expansion of the 6 x 6 alternating matrix with a repeated row (by expansion with the sign convention `(-1)^{i-1}`). The invariants `P^+` and `P⁻` of HCL `IV (11)-(14)` and the brackets `{ijklm}` `(18)` are polynomial `SL₅`-invariants of degree 5.
 
 *Needs:* `Matrix.SpecialLinearGroup` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib).
 
@@ -617,7 +617,7 @@ For the proof, Define the entries, the matrices, the action and the sub-Pfaffian
 
 The multiplication tables of `R(A)` (HCL IV Section 4, `(16)-(25)`) and `S(A)` (Section 6) are part of the statement; they are specified by the source and not re-derived here.
 
-For the proof, From A, Lemma 4 expresses the determinants built from conjugates through the invariants `P^+`, `P^`- and the brackets {ijklm}, which determines the normalized structure constants of `R(A)` (Section 4) and of `S(A)` (Section 6). The fundamental map g : wedge`^2 S`~ `→ R`~ realizes the inverse (Sections 5 and 7), giving Theorem 8 for nondegenerate elements; the appendix-style Definitions `10-11` extend it to all elements (Section 9). Existence and uniqueness for maximal rings: the invariant theory of Section 10 (Theorem 12 and Lemmas `13-16`) constructs an integral A with prescribed structure constants and shows uniqueness when R is maximal (minimal integral model), giving Theorem 17 and Corollaries `18-19`.
+For the proof, From A, Lemma 4 expresses the determinants built from conjugates through the invariants `P^+`, `P⁻` and the brackets `{ijklm}`, which determines the normalized structure constants of `R(A)` (Section 4) and of `S(A)` (Section 6). The fundamental map g : wedge`^2 S`~ `→ R`~ realizes the inverse (Sections 5 and 7), giving Theorem 8 for nondegenerate elements; the appendix-style Definitions `10-11` extend it to all elements (Section 9). Existence and uniqueness for maximal rings: the invariant theory of Section 10 (Theorem 12 and Lemmas `13-16`) constructs an integral A with prescribed structure constants and shows uniqueness when R is maximal (minimal integral model), giving Theorem 17 and Corollaries `18-19`.
 
 *Needs:* [quadruples of quinary alternating forms](#quadruples-of-quinary-alternating-forms), [cubic ring](../ArithmeticStatisticsPartI/README.md#cubic-ring).
 
@@ -691,7 +691,7 @@ For the proof, Define the action through a set-theoretic section of `GL2(R) → 
 
 <a id="soluble-binary-quartic-forms"></a>
 
-**Soluble binary quartic forms.`** A` binary quartic form f over a field K is K-soluble if `z^2 = f(x, y)` has a solution with x, y, z in K and `(x, y) ≠ (0, 0)`. Over a number field K, f is (everywhere) locally soluble if f is K_v-soluble for every completion `K_v`: at every finite place (Mathlib's adicCompletion at each height-one prime of `O_K`) and at every infinite place (Mathlib's InfinitePlace.Completion). Over Q this means R-soluble and Q_p-soluble for every prime p; an integral form is locally soluble if its rational form is. The rational-linear-factor locus consists of forms with a zero in `P^1(Q)`; this is only part of the polynomial-reducible locus, which also includes products of two quadratic factors. Ordinary irreducible forms have `a ≠ 0` and `f(X, 1)` irreducible over Q. Solubility is invariant under `PGL2(K)`, stable under field extension, and holds whenever f has a zero in `P^1(K)` or its leading coefficient is a square.
+**Soluble binary quartic forms.** A binary quartic form f over a field K is K-soluble if `z^2 = f(x, y)` has a solution with x, y, z in K and `(x, y) ≠ (0, 0)`. Over a number field K, f is (everywhere) locally soluble if f is `K_v`-soluble for every completion `K_v`: at every finite place (Mathlib's adicCompletion at each height-one prime of `O_K`) and at every infinite place (Mathlib's InfinitePlace.Completion). Over Q this means `ℝ`-soluble and `ℚ_p`-soluble for every prime p; an integral form is locally soluble if its rational form is. The rational-linear-factor locus consists of forms with a zero in `P^1(Q)`; this is only part of the polynomial-reducible locus, which also includes products of two quadratic factors. Ordinary irreducible forms have `a ≠ 0` and `f(X, 1)` irreducible over Q. Solubility is invariant under `PGL2(K)`, stable under field extension, and holds whenever f has a zero in `P^1(K)` or its leading coefficient is a square.
 
 `(x, y) ≠ (0, 0)` is required; z may be 0. When `char K ≠ 2`, for forms of nonzero discriminant, K-solubility is equivalent to the genus-one curve `z^2 = f(x, y)` having a K-point, but the definition does not refer to curves.
 
@@ -701,7 +701,7 @@ The required API is:
 
 - `BinaryQuartic.IsEverywhereLocallySoluble`: Solubility over every completion of a number field.
 
-- `BinaryQuartic.IsLocallySolubleQ`: A rational form: R-soluble and Q_p-soluble for all p.
+- `BinaryQuartic.IsLocallySolubleQ`: A rational form: `ℝ`-soluble and `ℚ_p`-soluble for all p.
 
 - `BinaryQuartic.IsLocallySoluble`: An integral form is locally soluble: its rational form is IsLocallySolubleQ.
 
@@ -709,7 +709,7 @@ The required API is:
 
 - `BinaryQuartic.IsIrreducibleOverQ`: An integral form is irreducible over Q (`a ≠ 0` and `f(X,1)` irreducible).
 
-- `BinaryQuartic.isLocallySoluble_iff`: An integral form is locally soluble iff it is R-soluble and Q_p-soluble for every prime p.
+- `BinaryQuartic.isLocallySoluble_iff`: An integral form is locally soluble iff it is `ℝ`-soluble and `ℚ_p`-soluble for every prime p.
 
 - `BinaryQuartic.isSoluble_pgl_smul`: Solubility is `PGL2(K)`-invariant.
 
@@ -729,7 +729,7 @@ For the proof, PGL2-invariance: if `f(x,y) = z²`, then its twisted transform ha
 
 **Checks.**
 
-- -`x^4 - y^4` is not R-soluble.
+- `−x⁴ − y⁴` is not `ℝ`-soluble.
 
 - `x^3 y + y^4` is Q-soluble (zero at `(1, 0)`).
 
@@ -849,7 +849,7 @@ For the proof, `N(G) = g_6^2`: the norm of a linear element `u + v φ` is `u^3 -
 
 - `N(G)` is always a square.
 
-- For `g=x⁴−y⁴`, `g₄=48x²y²` and `g₆=−32xy(x⁴+y⁴)`. Their resultants with g are `5308416=81·(−256)`² and `−16777216=(−256)`³; inserting `Δ` into the source formulas without converting `Δ_CF` fails both values.
+- For `g=x⁴−y⁴`, `g₄=48x²y²` and `g₆=−32xy(x⁴+y⁴)`. Their resultants with g are `5308416=81·(−256)²` and `−16777216=(−256)³`; inserting `Δ` into the source formulas without converting `Δ_CF` fails both values.
 
 - For `g=x³y−xy³` the fixed-degree quartic discriminant is 4, although `g(X,1)` has degree three. The homogeneous resultants are 1296 and 64; leading-zero coefficients must not change the prescribed degrees.
 
@@ -907,7 +907,7 @@ For the proof, Put `z_i = (4 a_i φ + p_i)/3`; `h(X) = N(X - z_1^{-1} z_2) = X^3
 
 char K not 2, 3.
 
-For the proof, Move the zero to `(1, 0)` by a proper change of `g_2`: `p_1 a_2 = a_1 p_2`. If `a_1 = 0` then `p_1 ≠ 0`, so `a_2 = 0` and both forms have a linear factor: equivalent by linear-factor-forms. Otherwise `a_1 ≠ 0`. Also `a_2 ≠ 0`, since `a_2 = p_2 = 0` would force `b_2 = 0` and make `g_2` singular. Put `t = a_2/a_1`, so `p_2 = t p_1`, without dividing by `p_1` (which may be zero). The seminvariant syzygy gives `r_2² = t³ r_1²`. Since t and `r_1` are nonzero, `r_2` is nonzero and `t = (r_2/(t r_1))`². A proper diagonal change makes `a_2 = a_1`, `p_2 = p_1` and `r_2 = r_1`; a shift makes `b_2 = b_1`. Then p,r,I recover c,d,e successively because `a_1`,2,3 are invertible, so `g_2 = g_1`.
+For the proof, Move the zero to `(1, 0)` by a proper change of `g_2`: `p_1 a_2 = a_1 p_2`. If `a_1 = 0` then `p_1 ≠ 0`, so `a_2 = 0` and both forms have a linear factor: equivalent by linear-factor-forms. Otherwise `a_1 ≠ 0`. Also `a_2 ≠ 0`, since `a_2 = p_2 = 0` would force `b_2 = 0` and make `g_2` singular. Put `t = a_2/a_1`, so `p_2 = t p_1`, without dividing by `p_1` (which may be zero). The seminvariant syzygy gives `r_2² = t³ r_1²`. Since t and `r_1` are nonzero, `r_2` is nonzero and `t = (r_2/(t r_1))²`. A proper diagonal change makes `a_2 = a_1`, `p_2 = p_1` and `r_2 = r_1`; a shift makes `b_2 = b_1`. Then p,r,I recover c,d,e successively because `a_1`,2,3 are invertible, so `g_2 = g_1`.
 
 *Needs:* [linear factor forms](#linear-factor-forms), [covariants of a binary quartic](#covariants-of-a-binary-quartic), [syzygy of binary quartic covariants](#syzygy-of-binary-quartic-covariants), [pgl2 orbits and stabilizers of binary quartic forms](#pgl2-orbits-and-stabilizers-of-binary-quartic-forms).
 
@@ -923,7 +923,7 @@ For the proof, Move the zero to `(1, 0)` by a proper change of `g_2`: `p_1 a_2 =
 
 Includes the cases `I = 0` or `J = 0`, where equivalence by `GL2 x GL1` with the same invariants need not be proper; the theorem is about `PGL2(K)` (proper) equivalence.
 
-For the proof, <=: cubic-invariant-is-an-orbit-invariant. =>: if `z = 1` both have linear factors (linear-factor-forms). Otherwise neither has a linear factor; after proper changes `r_1`, `r_2 ≠ 0`; auxiliary-quartic-root-from-equal-cubic-invariants gives a zero of `p_1 g_2 - a_1 h_2`, and linear-factor-of-the-comparison-quartic-gives-equivalence concludes.
+For the proof, `⇐`: cubic-invariant-is-an-orbit-invariant. `⇒`: if `z = 1` both have linear factors (linear-factor-forms). Otherwise neither has a linear factor; after proper changes `r_1`, `r_2 ≠ 0`; auxiliary-quartic-root-from-equal-cubic-invariants gives a zero of `p_1 g_2 - a_1 h_2`, and linear-factor-of-the-comparison-quartic-gives-equivalence concludes.
 
 *Needs:* [cubic invariant is an orbit invariant](#cubic-invariant-is-an-orbit-invariant), [linear factor forms](#linear-factor-forms), [auxiliary quartic root from equal cubic invariants](#auxiliary-quartic-root-from-equal-cubic-invariants), [linear factor of the comparison quartic gives equivalence](#linear-factor-of-the-comparison-quartic-gives-equivalence).
 
@@ -1013,7 +1013,7 @@ For the proof, Well-defined and injective: `z(q(P)) = μ(P)` (cubic-invariant-of
 
 **Checks.**
 
-- Over R: `#E(R)/2E(R) = #E(R)[2]/2`, which is 1 if `Δ < 0` and 2 if `Δ > 0`; so there are that many `PGL2(R)`-orbits of R-soluble forms with given invariants.
+- Over R: `#E(R)/2E(R) = #E(R)[2]/2`, which is 1 if `Δ < 0` and 2 if `Δ > 0`; so there are that many `PGL2(R)`-orbits of `ℝ`-soluble forms with given invariants.
 
 - Over `F_p (p ≥ 5)`: `#E(F_p)/2E(F_p) = #E(F_p)[2]`, and every nondegenerate quartic over `F_p` is soluble.
 
@@ -1059,7 +1059,7 @@ For the proof, Order: stabilizer elements are the proper self-equivalences; by b
 
 char K not 2, 3, `#K ≠ 5`.
 
-For the proof, `(a) => (b)`: `z(g)` is represented by `G(x, y)`, which is linear in `φ`. `(b) => (a)`: if `v = 0` the norm condition makes m a square, take the linear-factor form; otherwise Simon's quartic works (the invariant and squareclass identities of Cremona-Fisher Theorem `13(3)`). `(b) <=> (c)`: a unit w satisfies `m w²` linear iff its T²-coefficient vanishes. Given a nontrivial zero, the regular conic has a K-point and hence is isomorphic to `P¹_K`. It has more than six K-points since `char K ≠ 2`,3 and `#K ≠ 5`. Over an algebraic closure the nonunits lie on three projective lines, each meeting the smooth conic in at most two points. Thus a K-point outside their union supplies a unit w. Regularity: `det Q_m = -N(m)` for a depressed cubic (an integral polynomial identity).
+For the proof, `(a) => (b)`: `z(g)` is represented by `G(x, y)`, which is linear in `φ`. `(b) => (a)`: if `v = 0` the norm condition makes m a square, take the linear-factor form; otherwise Simon's quartic works (the invariant and squareclass identities of Cremona-Fisher Theorem `13(3)`). `(b) <=> (c)`: a unit w satisfies `m w²` linear iff its `T²`-coefficient vanishes. Given a nontrivial zero, the regular conic has a K-point and hence is isomorphic to `P¹_K`. It has more than six K-points since `char K ≠ 2`,3 and `#K ≠ 5`. Over an algebraic closure the nonunits lie on three projective lines, each meeting the smooth conic in at most two points. Thus a K-point outside their union supplies a unit w. Regularity: `det Q_m = -N(m)` for a depressed cubic (an integral polynomial identity).
 
 *Needs:* [cubic invariant of a binary quartic](#cubic-invariant-of-a-binary-quartic), [linear factor forms](#linear-factor-forms), `Polynomial.modByMonic` (Mathlib), `QuadraticMap.Anisotropic` (Mathlib), `QuadraticMap.not_anisotropic_iff_exists` (Mathlib).
 
@@ -1075,7 +1075,7 @@ For the proof, `(a) => (b)`: `z(g)` is represented by `G(x, y)`, which is linear
 
 <a id="locally-soluble-quartics-and-the-two-selmer-group"></a>
 
-**Locally soluble quartics and the two selmer group.** Let K be a number field and I, J in K with `4I^3 - J^2 ≠ 0`. The cubic invariant z induces a bijection between the `PGL2(K)`-orbits of everywhere locally soluble binary quartic forms over K with invariants I, J and Tau Ceti's 2-Selmer group `selmerGroup_2` of `E_{I,J}` (relative to `O_K` and the family of completions at the infinite places); the orbit of forms with a linear factor goes to 1. Equivalently (coefficient form): z is injective on these orbits, and a square class m of square norm is the cubic invariant of a locally soluble global form iff for every place v the restriction of m is the cubic invariant of a K_v-soluble form with invariants I, J.
+**Locally soluble quartics and the two selmer group.** Let K be a number field and I, J in K with `4I^3 - J^2 ≠ 0`. The cubic invariant z induces a bijection between the `PGL2(K)`-orbits of everywhere locally soluble binary quartic forms over K with invariants I, J and Tau Ceti's 2-Selmer group `selmerGroup_2` of `E_{I,J}` (relative to `O_K` and the family of completions at the infinite places); the orbit of forms with a linear factor goes to 1. Equivalently (coefficient form): z is injective on these orbits, and a square class m of square norm is the cubic invariant of a locally soluble global form iff for every place v the restriction of m is the cubic invariant of a `K_v`-soluble form with invariants I, J.
 
 K a number field; Tau Ceti's `selmerGroup_2` is defined by the norm condition and the local conditions localRes m in range(`μ` over `K_v`) at all finite places and at the infinite completions. At complex places every form is soluble and the local condition is automatic.
 
@@ -1217,11 +1217,11 @@ For the proof, Lines through `(0:1:0)` are parametrized by `(x:z)`. Their residu
 
 <a id="cubic-invariant-of-the-projected-quartic"></a>
 
-**Cubic invariant of the projected quartic.** Let E : `y² = x³ + Ax + B` be nonsingular over a field K of characteristic different from 2 and 3 with `#K ≠ 5`. Let `P=(ξ,η)` in `E(K)` and M in `SL3(K)` whose middle row is `λ·(ξ,η,1)`, for some `λ` in `K×` (equivalently `Mᵀe_2` represents P). The projection quartic F of the row-substituted cubic U∘M has invariants `I(F)=−48A`, `J(F)=−1728B` and is `PGL2(K)`-equivalent to `q(P′)`, where `P′=(36xi,216eta)` on `E_{−48A,−1728B}`. Consequently its cubic invariant is `μ(P′)`, with the corrected representative at 2-torsion. For `P=O` the same construction has a rational linear factor and cubic invariant 1. The orbit statement itself also holds over `F_5`; only the evaluation construction of z excludes that field.
+**Cubic invariant of the projected quartic.** Let E : `y² = x³ + Ax + B` be nonsingular over a field K of characteristic different from 2 and 3 with `#K ≠ 5`. Let `P=(ξ,η)` in `E(K)` and M in `SL3(K)` whose middle row is `λ·(ξ,η,1)`, for some `λ` in `K×` (equivalently `Mᵀe_2` represents P). The projection quartic F of the row-substituted cubic `U∘M` has invariants `I(F)=−48A`, `J(F)=−1728B` and is `PGL2(K)`-equivalent to `q(P′)`, where `P′=(36xi,216eta)` on `E_{−48A,−1728B}`. Consequently its cubic invariant is `μ(P′)`, with the corrected representative at 2-torsion. For `P=O` the same construction has a rational linear factor and cubic invariant 1. The orbit statement itself also holds over `F_5`; only the evaluation construction of z excludes that field.
 
 `char K ≠ 2`,3 and `4A³+27B² ≠ 0`; `#K ≠ 5` when expressing the conclusion using z. The middle row represents the projective point: a nonzero scalar multiple is allowed, as required for primitive integral coordinates.
 
-For the proof, Invariants follow from `det(M)=1`, the ternary-cubic transformation laws, and I(projection U)`=c_4(U)`, J(projection U)`=2c_6(U)`. For affine P take `M_0` with rows `(1,0,0)`, `(ξ,η,1)`, `(0,−1,0)`; `det(M_0)=1`. Substituting `(X,Y,ℤ)=(x+ξ·y,η·y−z,y)` and using `eta²=xi³+`Axi`+B` gives U∘`M_0=−((3xi²+A)x+2eta·z)y²+(z²−3xi·x²)y−x³`. Its projection is `z⁴−6xi·x²z²−8eta·x³z−(3xi²+4A)x⁴`, exactly `q(P′)(z,x)`. The variable swap has determinant `−1` and trivial determinant-square twist. For any permitted M, `L=M M_0^{-1}` has middle row `(0,λ,0)`. Write its other rows as `(a,b,c)`,`(d,e,f)`. The induced change in `(x,z)` is Gamma`=((a,c),(d,f))`, and det(Gamma)`=λ^{-1}`. Translation of y by `bx+ez` leaves the quadratic discriminant unchanged; scaling y by `λ` multiplies it by `lambda²`. Thus projection(U∘M)=Gamma twistedSMul projection(U∘`M_0`). This also proves independence of the primitive projective representative. Apply `z(q(P′))=μ(P′)` and invariance of z under `PGL2`. This identity handles 2-torsion without evaluating a nonunit representative. For O, the original Weierstrass projection `4(x³z+Axz³+Bz⁴)` has the factor z; the same block-matrix calculation proves the assertion for every M representing O.
+For the proof, Invariants follow from `det(M)=1`, the ternary-cubic transformation laws, and `I(projection U)=c₄(U)`, `J(projection U)=2c₆(U)`. For affine P take `M_0` with rows `(1,0,0)`, `(ξ,η,1)`, `(0,−1,0)`; `det(M_0)=1`. Substituting `(X,Y,ℤ)=(x+ξ·y,η·y−z,y)` and using `η²=ξ³+Aξ+B` gives `U∘M₀=−((3ξ²+A)x+2η·z)y²+(z²−3ξ·x²)y−x³`. Its projection is `z⁴−6ξ·x²z²−8η·x³z−(3ξ²+4A)x⁴`, exactly `q(P′)(z,x)`. The variable swap has determinant `−1` and trivial determinant-square twist. For any permitted M, `L=M M_0^{-1}` has middle row `(0,λ,0)`. Write its other rows as `(a,b,c)`,`(d,e,f)`. The induced change in `(x,z)` is `Γ=((a,c),(d,f))`, and `det(Γ)=λ⁻¹`. Translation of y by `bx+ez` leaves the quadratic discriminant unchanged; scaling y by `λ` multiplies it by `λ²`. Thus `projection(U∘M)=Γ twistedSMul projection(U∘M₀)`. This also proves independence of the primitive projective representative. Apply `z(q(P′))=μ(P′)` and invariance of z under `PGL2`. This identity handles 2-torsion without evaluating a nonunit representative. For O, the original Weierstrass projection `4(x³z+Axz³+Bz⁴)` has the factor z; the same block-matrix calculation proves the assertion for every M representing O.
 
 *Needs:* [projection of a plane cubic from a rational point](#projection-of-a-plane-cubic-from-a-rational-point), [invariance of ternary cubic invariants](#invariance-of-ternary-cubic-invariants), [cubic invariant of a binary quartic](#cubic-invariant-of-a-binary-quartic), [binary quartic parametrization of e mod 2e](#binary-quartic-parametrization-of-e-mod-2e), `WeierstrassCurve.Affine.μ` (Tau Ceti).
 
@@ -1233,7 +1233,7 @@ For the proof, Invariants follow from `det(M)=1`, the ternary-cubic transformati
 
 <a id="local-integral-representatives-of-soluble-quartics"></a>
 
-**Local integral representatives of soluble quartics.** Let p be a prime, A, B in `ℤ_p` with `4A^3 + 27B^2 ≠ 0`, and f a Q_p-soluble binary quartic over `Q_p` with `I(f) = -48A` and `J(f) = -1728B`. Then f is `PGL2(Q_p)`-equivalent to a binary quartic with coefficients in `ℤ_p` (with the same invariants).
+**Local integral representatives of soluble quartics.** Let p be a prime, A, B in `ℤ_p` with `4A^3 + 27B^2 ≠ 0`, and f a `ℚ_p`-soluble binary quartic over `Q_p` with `I(f) = -48A` and `J(f) = -1728B`. Then f is `PGL2(Q_p)`-equivalent to a binary quartic with coefficients in `ℤ_p` (with the same invariants).
 
 p arbitrary (including 2 and 3): the factor 4 in `F = f_2^2 + 4 f_1 f_3` is what makes the argument uniform at 2. This is the `n = 2` case of the Cremona-Fisher-Stoll Minimisation Theorem (minimal level 0 for soluble models), in the normalization with invariants `(2^4 I, 2^6 J)`.
 
@@ -1253,7 +1253,7 @@ For the proof, By binary-quartic-parametrization-of-e-mod-2e over `Q_p` (for `E_
 
 Twisted action; scalars act trivially, so lattices up to scaling suffice.
 
-For the proof, For almost all p, f is already ℤ_p-integral (finitely many denominators); take `gamma_p = 1` there. Lift each `gamma_p` to `GL2(Q_p)`, using the identity at almost all p, and set `Lambda_p=ℤ_p² gamma_p`. Choose a positive integer D supported on the finite exceptional set such that `D ℤ_p² ⊂ Lambda_p ⊂ D^{-1}ℤ_p²` for all p. Set Lambda={v in `D^{-1}Z²` : v belongs to every `Lambda_p`}. It lies between `D Z²` and `D^{-1}Z²`. The Chinese remainder theorem on these finite quotient lattices shows Lambda tensor `ℤ_p = Lambda_p` for each p; density at a single prime alone would not establish simultaneous compatibility. Lambda is free (`ℤ` a PID): Lambda `= ℤ^2 γ` for `γ` in `GL2(Q)`; then `gamma_p = k_p γ` with `k_p` in `GL2(ℤ_p)`. `γ * f = k_p^{-1} * (gamma_p * f)` is ℤ_p-integral for every p (`GL2(ℤ_p)` preserves `V(ℤ_p)`), hence integral.
+For the proof, For almost all p, f is already `ℤ_p`-integral (finitely many denominators); take `γ_p = 1` there. Lift each `γ_p` to `GL2(Q_p)`, using the identity at almost all p, and set `Λ_p=ℤ_p² γ_p`. Choose a positive integer D supported on the finite exceptional set such that `D ℤ_p² ⊂ Λ_p ⊂ D^{-1}ℤ_p²` for all p. Set `Λ={v ∈ D⁻¹ℤ² : v ∈ Λ_p for every p}`. It lies between `D ℤ²` and `D⁻¹ℤ²`. The Chinese remainder theorem on these finite quotient lattices shows `Λ ⊗ ℤ_p = Λ_p` for each p; density at a single prime alone would not establish simultaneous compatibility. `Λ` is free (`ℤ` a PID): `Λ = ℤ² γ` for `γ` in `GL2(Q)`; then `γ_p = k_p γ` with `k_p` in `GL2(ℤ_p)`. `γ * f = k_p^{-1} * (γ_p * f)` is `ℤ_p`-integral for every p (`GL2(ℤ_p)` preserves `V(ℤ_p)`), hence integral.
 
 *Needs:* [pgl2 orbits and stabilizers of binary quartic forms](#pgl2-orbits-and-stabilizers-of-binary-quartic-forms), `Module.free_of_finite_type_torsion_free'` (Mathlib), `PadicInt` (Mathlib), `Padic` (Mathlib).
 
@@ -1267,9 +1267,9 @@ For the proof, For almost all p, f is already ℤ_p-integral (finitely many deno
 
 **Integral representatives of locally soluble quartics.** Let f in `V_Q` be locally soluble with integral invariants I, J such that `2^4 . 3 | I` and `2^6 . 3^3 | J` (equivalently `I = -48A`, `J = -1728B` with A, B in `ℤ`) and `4I^3 - J^2 ≠ 0`. Then f is `PGL2(Q)`-equivalent to an integral binary quartic form.
 
-Only Q_p-solubility for every p is used (R-solubility is not needed for integrality).
+Only `ℚ_p`-solubility for every p is used (`ℝ`-solubility is not needed for integrality).
 
-For the proof, Put `A = -I/48`, `B = -J/1728` in `ℤ`. For every p, f is Q_p-soluble, so local-integral-representatives-of-soluble-quartics gives `gamma_p`. integrality-from-local-integrality.
+For the proof, Put `A = -I/48`, `B = -J/1728` in `ℤ`. For every p, f is `ℚ_p`-soluble, so local-integral-representatives-of-soluble-quartics gives `gamma_p`. integrality-from-local-integrality.
 
 *Needs:* [local integral representatives of soluble quartics](#local-integral-representatives-of-soluble-quartics), [integrality from local integrality](#integrality-from-local-integrality), [soluble binary quartic forms](#soluble-binary-quartic-forms).
 
@@ -1307,7 +1307,7 @@ For the proof, Compose the two bijections; the image of `E(K)/2E(K)`: `z o q = �
 
 *Needs:* [locally soluble quartics and the two selmer group](#locally-soluble-quartics-and-the-two-selmer-group), [cubic invariant of the quartic of a point](#cubic-invariant-of-the-quartic-of-a-point), `WeierstrassCurve.Affine.selmerGroup₂` (Tau Ceti).
 
-([[17]](#ref-17), Proposition 1.4 and the case n = 2, printed p. 10; [[11]](#ref-11), Remarks after Theorem 13, printed p. 11.)
+([[17]](#ref-17), Proposition 1.4 and the case `n = 2`, printed p. 10; [[11]](#ref-11), Remarks after Theorem 13, printed p. 11.)
 
 **Checks.**
 
@@ -1319,7 +1319,7 @@ For the proof, Compose the two bijections; the image of `E(K)/2E(K)`: `z o q = �
 
 **Embedding into pairs of ternary quadratic forms.** Let `A_1 = x_1 x_3 - x_2^2` (Gram matrix `antidiag(1/2, -1, 1/2)`) and, for `f = (a, b, c, d, e)` in `V_Z`, `B_f = a x_1^2 + b x_1 x_2 + c x_2^2 + d x_2 x_3 + e x_3^2` (Gram matrix `(a, b/2, 0; b/2, c, d/2; 0, d/2, e)`). Then `φ(f) = (A_1, B_f)` in `W_{ℤ,1} = {(A_1, B)}` (Bhargava-Shankar `(30)`). `φ` is injective, its image is the set of `(A_1, B)` with `B_13 = 0`, and every `F_{ℤ,1}`-class of `W_{ℤ,1}` (`F_{ℤ,1}` the lower unitriangular matrices of `GL2(ℤ)`, acting by `(A_1, B) ↦ (A_1, B + r A_1)`) has a unique representative in the image. `φ` preserves discriminants, and `4 Det(A_1 x - B_f y) = x^3 + c x^2 y + (bd - 4ae) x y^2 + (a d^2 + b^2 e - 4ace) y^3` is the monic cubic resolvent of f (same I, J). With `ρ(γ) = (det γ)^{-1} (a^2, ab, b^2; 2ac, ad + bc, 2bd; c^2, cd, d^2)` for `γ = (a b; c d)`, `ρ` : `GL2(ℤ) → SO(A_1, ℤ)` is a homomorphism and `φ(γ . f) = ρ(γ) . φ(f)` modulo `F_{ℤ,1}`. The induced map psi : `PGL2(ℤ)\V_Z → (GL2(ℤ) x SL3(ℤ))\W_Z` is the composite of the orbit bijection with forgetting the slice.
 
-`ρ` is written in the coordinate order that makes `φ` equivariant for the action `g . B = g B g^T`; the matrix printed as `(31)` in Bhargava-Shankar has the coordinates in the reverse order. The resolvent form is `4 Det(A x - B y)`; the 'Det(Ax - By)' printed on p. 16 has leading coefficient `1/4`.
+`ρ` is written in the coordinate order that makes `φ` equivariant for the action `g . B = g B g^T`; the matrix printed as `(31)` in Bhargava-Shankar has the coordinates in the reverse order. The resolvent form is `4 Det(A x - B y)`; the `Det(Ax − By)` printed on p. 16 has leading coefficient `1/4`.
 
 The required API is:
 
@@ -1407,7 +1407,7 @@ For the proof, `φ` induces a bijection `V_Z → F_{ℤ,1}\W_{ℤ,1}` (embedding
 
 Nonzero discriminant. The source states the bound `12 = N`; its argument gives 2N. Any uniform bound suffices for Bhargava-Shankar Theorem 2.20 and the uniformity estimate.
 
-For the proof, By orbit-bijection-for-the-embedding it suffices to bound the `F_{ℤ,1} x SO(A_1, ℤ)`-classes in `W_{ℤ,1}` inside `a GL2(ℤ) x SL3(ℤ)`-orbit w; fix `(A_1, B_0)` in w and let `g = 4 Det(A_1 x - B_0 y)` (monic). An element `(A_1, B) = (g_2, g_3) . (A_1, B_0)` of the slice has first form `p A_1 + q B_0` transformed to `A_1`, so `4 Det(p A_1 + q B_0) = 1`, i.e. `g(p, -q) = 1` for the first row `(p, q)` of `g_2` (4 Det is multiplied by `det(g_3)^2 = 1`). Two such elements with the same first row differ by `g_2' g_2^{-1} = (1 0; r s)` with `s =` ±1 and by an element of `SO(A_1, ℤ)`: for `s = 1` they are `F_{ℤ,1} x SO(A_1, ℤ)`-equivalent, for `s = -1` they differ by `(A_1, B) ↦ (A_1, -B)` (the forms f and -f). Hence the number of classes is at most `2 #{(x, y) : g(x, y) = 1} ≤ 2N`.
+For the proof, By orbit-bijection-for-the-embedding it suffices to bound the `F_{ℤ,1} x SO(A_1, ℤ)`-classes in `W_{ℤ,1}` inside `a GL2(ℤ) x SL3(ℤ)`-orbit w; fix `(A_1, B_0)` in w and let `g = 4 Det(A_1 x - B_0 y)` (monic). An element `(A_1, B) = (g_2, g_3) . (A_1, B_0)` of the slice has first form `p A_1 + q B_0` transformed to `A_1`, so `4 Det(p A_1 + q B_0) = 1`, i.e. `g(p, -q) = 1` for the first row `(p, q)` of `g_2` (`4 Det` is multiplied by `det(g_3)^2 = 1`). Two such elements with the same first row differ by `g_2' g_2^{-1} = (1 0; r s)` with `s =` ±1 and by an element of `SO(A_1, ℤ)`: for `s = 1` they are `F_{ℤ,1} x SO(A_1, ℤ)`-equivalent, for `s = -1` they differ by `(A_1, B) ↦ (A_1, -B)` (the forms f and -f). Hence the number of classes is at most `2 #{(x, y) : g(x, y) = 1} ≤ 2N`.
 
 *Needs:* [orbit bijection for the embedding](#orbit-bijection-for-the-embedding), [pairs of ternary quadratic forms](#pairs-of-ternary-quadratic-forms), DiophantineApproximationAndTranscendence §4.3 (Thue finiteness); the displayed uniform bound N is an additional hypothesis.
 
@@ -1421,7 +1421,7 @@ For the proof, By orbit-bijection-for-the-embedding it suffices to bound the `F_
 
 <a id="refinement-quartic-minors"></a>
 
-**Quartic minors.** Write the coefficient rows of the pair of ternary integral quadratic forms in the order 11,12,13,22,23,33, using the integral polynomial coefficients, including cross terms without halving. Set `λ(i,j)=a_i b_j−a_j b_i`. The 15 entries with `i<j` give the oriented SL₂-invariant wedge of the two coefficient rows.
+**Quartic minors.** Write the coefficient rows of the pair of ternary integral quadratic forms in the order 11,12,13,22,23,33, using the integral polynomial coefficients, including cross terms without halving. Set `λ(i,j)=a_i b_j−a_j b_i`. The 15 entries with `i<j` give the oriented `SL₂`-invariant wedge of the two coefficient rows.
 
 Base `ℤ` scalar extension to any commutative ring preserves the formulas.
 
@@ -1473,13 +1473,13 @@ For the proof, Choose a nonzero minor to reconstruct the rational rank-two plane
 
 <a id="binary-density-formulas"></a>
 
-**Binary density formulas.** For `n≥2`, `α₂(2)=1/2` and `α_n(2)=3/8` for `n≥3`. For odd p, `α₂(p)=(1−p^−1)(1+p^−1−p^−3)`, `α₃(p)=(1−p^−1)`²`(1+p^−1)`², and `α_n(p)=(1−p^−1)`²`(1+p^−1)(1+p^−1−p^−2)` for every `n≥4`. The density of p-maximal rank-n binary-form rings is `β₂(p)=(1−p^−1)(1+p^−1−p^−3)` and `β_n(p)=(1−p^−2)(1−p^−3)` for `n≥3`, at every prime. The special printed degree-four `α` formula is replaced by the `n≥4` formula.
+**Binary density formulas.** For `n≥2`, `α₂(2)=1/2` and `α_n(2)=3/8` for `n≥3`. For odd p, `α₂(p)=(1−p^−1)(1+p^−1−p^−3)`, `α₃(p)=(1−p^−1)²(1+p^−1)²`, and `α_n(p)=(1−p^−1)²(1+p^−1)(1+p^−1−p^−2)` for every `n≥4`. The density of p-maximal rank-n binary-form rings is `β₂(p)=(1−p^−1)(1+p^−1−p^−3)` and `β_n(p)=(1−p^−2)(1−p^−3)` for `n≥3`, at every prime. The special printed degree-four `α` formula is replaced by the `n≥4` formula.
 
 The required API is:
 
-- `ArithmeticStatistics.ST0.binary_alpha_two`: The prime-2 density has separate degree-two and degree`≥3` cases.
+- For [binary local proportion](../ArithmeticStatisticsPartI/README.md#binary-local-proportion), prove the prime-2 formula with separate degree-two and degree `≥3` cases.
 
-For the proof, Partition into `a₀` unit; `a₀∈p`,`a₁` unit; and `a₀`,`a₁∈p`. For odd p their contributions are `(1−p^−1)λ_n`, `p^−1(1−p^−1)λ_{n−1}`, and `p^−2(1−p^−1)`²`ν₀(n−2,p)`. Substitute corrected `ν₁`; degree zero has `ν₀=1`. At 2 use the mod-4 restriction and squarefree projective root count. For `β`, the local order criterion at a root of ∞ of multiplicity `≥2` is failure of `p²|a₀`; sum over its multiplicity.
+For the proof, Partition into `a₀` unit; `a₀∈p`,`a₁` unit; and `a₀`,`a₁∈p`. For odd p their contributions are `(1−p^−1)λ_n`, `p^−1(1−p^−1)λ_{n−1}`, and `p^−2(1−p^−1)²ν₀(n−2,p)`. Substitute corrected `ν₁`; degree zero has `ν₀=1`. At 2 use the mod-4 restriction and squarefree projective root count. For `β`, the local order criterion at a root of ∞ of multiplicity `≥2` is failure of `p²|a₀`; sum over its multiplicity.
 
 *Needs:* [binary local proportion](../ArithmeticStatisticsPartI/README.md#binary-local-proportion), [monic density formulas](../ArithmeticStatisticsPartI/README.md#monic-density-formulas), [local maximality](../ArithmeticStatisticsPartI/README.md#local-maximality), [binary form order](../ArithmeticStatisticsPartI/README.md#refinement-binary-form-order).
 
@@ -1499,7 +1499,7 @@ For the proof, Partition into `a₀` unit; `a₀∈p`,`a₁` unit; and `a₀`,`a
 
 <a id="refinement-quintic-multiplication"></a>
 
-**Quintic multiplication.** For the integral alternating quadruple A, construct the commutative ring `R(A)` on `Z⁵` with identity `e₀` and the usual additive group. Normalize `c¹₁₂=c²₁₂=c³₃₄=c⁴₃₄=0`. The remaining nonconstant coefficients in `e_i e_j` are the unique solution of HCL `IV (21)`, with permutation signs and bracket denominators cancelled as integral polynomials. Define `c⁰_ij=Σ_{r=1}`⁴`(cʳ_jk cᵏ_ri−cʳ_ij cᵏ_rk)`, choosing `k≠i`; this is independent of that choice. The multiplication is associative at every A, including `A=0`.
+**Quintic multiplication.** For the integral alternating quadruple A, construct the commutative ring `R(A)` on `Z⁵` with identity `e₀` and the usual additive group. Normalize `c¹₁₂=c²₁₂=c³₃₄=c⁴₃₄=0`. The remaining nonconstant coefficients in `e_i e_j` are the unique solution of HCL `IV (21)`, with permutation signs and bracket denominators cancelled as integral polynomials. Define `c⁰_ij=Σ_{r=1}⁴(cʳ_jk cᵏ_ri−cʳ_ij cᵏ_rk)`, choosing `k≠i`; this is independent of that choice. The multiplication is associative at every A, including `A=0`.
 
 A has zero diagonal and opposite off-diagonal entries; characteristic two is handled by the integral polynomial specialization.
 
@@ -1509,9 +1509,9 @@ The required API is:
 
 - `ArithmeticOrbitRefinement.quinticRing_add`: Its addition is componentwise and its identity is `e₀`.
 
-- `ArithmeticOrbitRefinement.quinticCoeff_scale`: `A↦tA` scales each nonconstant normalized structure coefficient by `t⁵`, and each constant coefficient by t¹⁰.
+- `ArithmeticOrbitRefinement.quinticCoeff_scale`: `A↦tA` scales each nonconstant normalized structure coefficient by `t⁵`, and each constant coefficient by `t¹⁰`.
 
-For the proof, Use `Q(X,Y)=Q(X+Y)−Q(X)−Q(Y)` from the Pfaffian covariant. The bracket is `Q(A_i,A_j)`ᵀ `A_k Q(A_l,A_m)`. Repeated indices give divisibility by two or four before specializing. Solve `(21)` with the four normalization constraints, then impose the constant-coefficient associativity equation. Prove the remaining identities as universal integral polynomial identities, first on the dense nondegenerate locus and then identically.
+For the proof, Use `Q(X,Y)=Q(X+Y)−Q(X)−Q(Y)` from the Pfaffian covariant. The bracket is `Q(A_i,A_j)ᵀ A_k Q(A_l,A_m)`. Repeated indices give divisibility by two or four before specializing. Solve `(21)` with the four normalization constraints, then impose the constant-coefficient associativity equation. Prove the remaining identities as universal integral polynomial identities, first on the dense nondegenerate locus and then identically.
 
 *Needs:* [quadruples of quinary alternating forms](#quadruples-of-quinary-alternating-forms), `Matrix.det` (Mathlib), `Algebra.trace` (Mathlib).
 
@@ -1519,7 +1519,7 @@ For the proof, Use `Q(X,Y)=Q(X+Y)−Q(X)−Q(Y)` from the Pfaffian covariant. Th
 
 **Checks.**
 
-- At `A=0`, `e_i e_j=0` for all i,`j>0`, so `R(0)=ℤ`⊕`Z⁴` with square-zero augmentation ideal.
+- At `A=0`, `e_i e_j=0` for all i,`j>0`, so `R(0)=ℤ⊕ℤ⁴` with square-zero augmentation ideal.
 
 - For every A, `e₀ e_i=e_i`; using the all-ones vector as identity fails this test.
 
@@ -1527,7 +1527,7 @@ For the proof, Use `Q(X,Y)=Q(X+Y)−Q(X)−Q(Y)` from the Pfaffian covariant. Th
 
 <a id="refinement-sextic-multiplication"></a>
 
-**Sextic multiplication.** Construct `S(A)` on `Z⁶` with the usual addition and identity `e₀`. Form the `4×4` determinants `δ` of the four coefficient rows of A. Use the cubic contractions D of `(35)`, but only the integral combinations specified in `(36)`: individual D expressions need not be integral. Normalize `d¹₁₂=d²₁₂=d³₃₄=d⁴₃₄=d⁴₄₅=0` and recover constant terms from the associative equation `(38)`, choosing `k≠i`. The resulting table is integral and associative for all A. Its discriminant is `(16 Disc(R(A)))`³.
+**Sextic multiplication.** Construct `S(A)` on `Z⁶` with the usual addition and identity `e₀`. Form the `4×4` determinants `δ` of the four coefficient rows of A. Use the cubic contractions D of `(35)`, but only the integral combinations specified in `(36)`: individual D expressions need not be integral. Normalize `d¹₁₂=d²₁₂=d³₃₄=d⁴₃₄=d⁴₄₅=0` and recover constant terms from the associative equation `(38)`, choosing `k≠i`. The resulting table is integral and associative for all A. Its discriminant is `(16 Disc(R(A)))³`.
 
 The identity and all six coordinates are retained. No nonzero-discriminant assumption is made for the polynomial table.
 
@@ -1537,7 +1537,7 @@ The required API is:
 
 - `ArithmeticOrbitRefinement.sexticRing_add`: The addition is componentwise and the identity is `e₀`.
 
-- `ArithmeticOrbitRefinement.sextic_discriminant`: `Disc S(A)=4096(Disc R(A))`³.
+- `ArithmeticOrbitRefinement.sextic_discriminant`: `Disc S(A)=4096(Disc R(A))³`.
 
 For the proof, The `δ` determinants are degree four. Lemma7 identifies the degree-twelve integral combinations as multiplication indices on the nondegenerate resolvent lattice. Normalization fixes translation ambiguity. Extend the table identities and discriminant identity polynomially to the zero-discriminant locus.
 
@@ -1555,7 +1555,7 @@ For the proof, The `δ` determinants are degree four. Lemma7 identifies the degr
 
 <a id="refinement-based-sextic-resolvent"></a>
 
-**Based sextic resolvent.** For based quintic and sextic rings R,S with scalar-first normalized bases, a resolvent map is a ℤ-linear `φ:R/ℤ→∧`²`(S/ℤ)`. Its 40 coordinates form the quadruple A. Require that the normalized multiplication tables recovered from A equal the given tables of both R and S. Based changes use `GL₄(ℤ)×SL₅(ℤ)`, after compatible orientations are chosen. This defines the all-discriminant resolvent data; an abstract sextic ring without `φ` does not suffice.
+**Based sextic resolvent.** For based quintic and sextic rings R,S with scalar-first normalized bases, a resolvent map is a ℤ-linear `φ:R/ℤ→∧²(S/ℤ)`. Its 40 coordinates form the quadruple A. Require that the normalized multiplication tables recovered from A equal the given tables of both R and S. Based changes use `GL₄(ℤ)×SL₅(ℤ)`, after compatible orientations are chosen. This defines the all-discriminant resolvent data; an abstract sextic ring without `φ` does not suffice.
 
 Ranks 5 and 6 with primitive scalar vector in each chosen basis. Bases and orientation convention are explicit.
 
@@ -1565,7 +1565,7 @@ The required API is:
 
 - `ArithmeticOrbitRefinement.basedSexticResolvent_self`: The pair `R(A)`,`S(A)`, with map having coordinates A, is resolvent data.
 
-- `ArithmeticOrbitRefinement.basedSexticResolvent_disc`: Resolvent data satisfies `Disc S=4096(Disc R)`³.
+- `ArithmeticOrbitRefinement.basedSexticResolvent_disc`: Resolvent data satisfies `Disc S=4096(Disc R)³`.
 
 For the proof, Identify `R/ℤ` and `S/ℤ` with their free coordinate modules through the chosen bases. Use the native exterior-power wedge basis to read `φ` as 40 coefficients. Compare multiplication and identity, rather than requiring equality of carrier types. Independence of normalized lifts follows from the translation rules in §§4 and6.
 
@@ -1579,13 +1579,13 @@ For the proof, Identify `R/ℤ` and `S/ℤ` with their free coordinate modules t
 
 - Holding A fixed forces both given coordinate multiplications, not only the quintic one.
 
-- A sextic structure with discriminant different from `4096(Disc R(A))`³ fails the resolvent condition.
+- A sextic structure with discriminant different from `4096(Disc R(A))³` fails the resolvent condition.
 
 <a id="refinement-nondegenerate-resolvent-comparison"></a>
 
-**Nondegenerate resolvent comparison.** For `Disc R≠0`, compare the all-discriminant map definition with a rank-six lattice S in the M-fixed part of the rational S₅-closure, where M is the order-20 metacyclic subgroup. Require 1 primitive, `Disc S=(16 Disc R)`³, and integral image of the alternating trace-dual map `g:∧`²`(ann(1)⊂S*)→ann(1)⊂R*`. With compatible oriented bases, its coordinates recover R and S and the lattice is closed under multiplication. The image condition and discriminant condition are both necessary.
+**Nondegenerate resolvent comparison.** For `Disc R≠0`, compare the all-discriminant map definition with a rank-six lattice S in the M-fixed part of the rational `S₅`-closure, where M is the order-20 metacyclic subgroup. Require 1 primitive, `Disc S=(16 Disc R)³`, and integral image of the alternating trace-dual map `g:∧²(ann(1)⊂S*)→ann(1)⊂R*`. With compatible oriented bases, its coordinates recover R and S and the lattice is closed under multiplication. The image condition and discriminant condition are both necessary.
 
-Nonzero discriminant; the rational S₅-closure and its permutation labels are specified.
+Nonzero discriminant; the rational `S₅`-closure and its permutation labels are specified.
 
 For the proof, The alternating trilinear determinant f of `(23)`, divided by 16 Disc R, is integral exactly when its orientation-dual bilinear map g is integral. The trace-zero dual modules have ranks four and five. Formula `(32)` and compatible orientations recover the quintic table; Lemma7 recovers the sextic table and proves ring closure.
 
@@ -1621,7 +1621,7 @@ For the proof, Lemma13 produces coefficients multiplied by an integer through ro
 
 - The normalized basis `(1,t,t²,t³,t⁴)` of `Q[t]/(t⁵)` has zero discriminant and still requires a rational realization. An argument using only the étale trace-dual construction leaves this case untreated.
 
-- The square-zero algebra Q⊕`Q⁴` has realization `A=0`, whereas the split algebra `Q⁵` has discriminant 1 and requires a nonzero tensor. Preserving only the algebra dimension cannot satisfy the realization target.
+- The square-zero algebra `ℚ⊕ℚ⁴` has realization `A=0`, whereas the split algebra `Q⁵` has discriminant 1 and requires a nonzero tensor. Preserving only the algebra dimension cannot satisfy the realization target.
 
 <a id="refinement-quintic-minimal-model"></a>
 
@@ -1629,7 +1629,7 @@ For the proof, Lemma13 produces coefficients multiplied by an integer through ro
 
 Nonzero discriminant; minimality uses the full `GL₅` rational action, for the full rational representation.
 
-For the proof, Use the 252 maximal minors of the five Pfaffian quadrics: divisibility at a prime either exhibits content or the alternative normal form yielding an overring with quotient `(ℤ/pZ)`³. Maximality excludes both. The quadrics then span the saturated integral lattice in their common rational plane, so the transition matrix is integral unimodular.
+For the proof, Use the 252 maximal minors of the five Pfaffian quadrics: divisibility at a prime either exhibits content or the alternative normal form yielding an overring with quotient `(ℤ/pZ)³`. Maximality excludes both. The quadrics then span the saturated integral lattice in their common rational plane, so the transition matrix is integral unimodular.
 
 *Needs:* [quintic multiplication](#refinement-quintic-multiplication), [integral quintic realization](#refinement-integral-quintic-realization), [maximality of quintic rings at p](#maximality-of-quintic-rings-at-p).
 
@@ -1707,7 +1707,7 @@ The required API is:
 
 - `ArithmeticOrbitRefinement.commonIsotropic_zero`: For the zero pencil the set consists of every dimension-r subspace.
 
-For the proof, The native rational-point predicate is finite rank and ∀u,`v∈U`, uᵀAv=uᵀBv`=0`. On the nonzero-discriminant locus, use the regular-pencil geometric assertions of BGW §4. Use the regular-pencil Fano scheme and its group-scheme action below; no geometric conclusion is inferred for a degenerate pencil.
+For the proof, The native rational-point predicate is finite rank and `∀ u,v ∈ U, uᵀAv=uᵀBv=0`. On the nonzero-discriminant locus, use the regular-pencil geometric assertions of BGW §4. Use the regular-pencil Fano scheme and its group-scheme action below; no geometric conclusion is inferred for a degenerate pencil.
 
 *Needs:* [symmetric pencil](../ArithmeticStatisticsPartI/README.md#refinement-symmetric-pencil), `Submodule.span` (Mathlib), `Module.finrank` (Mathlib), `Matrix.toLin'` (Mathlib).
 
@@ -1721,13 +1721,13 @@ For the proof, The native rational-point predicate is finite rank and ∀u,`v∈
 
 - If the first `g×g` blocks of both matrices vanish, the span of the first g coordinate vectors is common isotropic.
 
-- In characteristic two, `A=[[0,1],[1,0]]` has uᵀAu`=0` for every u, but `e₀ᵀAe₁=1`. The whole two-dimensional space is therefore not common bilinear-isotropic for `(A,0)`.
+- In characteristic two, `A=[[0,1],[1,0]]` has `uᵀAu=0` for every u, but `e₀ᵀAe₁=1`. The whole two-dimensional space is therefore not common bilinear-isotropic for `(A,0)`.
 
 - At `n=r=0` the set contains the unique zero submodule; for `r>n` it is empty. The finite-torsor conclusion does not apply to the zero pencil in positive dimension.
 
 <a id="refinement-oriented-ideal-triples"></a>
 
-**Oriented ideal triples.** For the preceding `(D,K,L,f)`, an oriented orbit triple is `(I,α,s)`, with I an R_f-stable full D-lattice in L, `α∈L×` and `s∈K×`, such that `I²⊂αI_f(n−3)`, `N(I)=sD` and `N(α)=s²f₀^{n−3}`. Here `N(I)` is the determinant fractional D-lattice relative to the basis 1,`ζ₁`,…,`ζ_{n−1}`: span of determinants of coordinates of n vectors of I. Equivalence for SLₙ is `(I,α,s)∼(cI,c²α,N(c)s)`. Retain s itself; replacing it with its principal ideal forgets orientation.
+**Oriented ideal triples.** For the preceding `(D,K,L,f)`, an oriented orbit triple is `(I,α,s)`, with I an `R_f`-stable full D-lattice in L, `α∈L×` and `s∈K×`, such that `I²⊂αI_f(n−3)`, `N(I)=sD` and `N(α)=s²f₀^{n−3}`. Here `N(I)` is the determinant fractional D-lattice relative to the basis 1,`ζ₁`,…,`ζ_{n−1}`: span of determinants of coordinates of n vectors of I. Equivalence for `SLₙ` is `(I,α,s)∼(cI,c²α,N(c)s)`. Retain s itself; replacing it with its principal ideal forgets orientation.
 
 `n≥3`; `n=2` needs the negative-index ideal convention and the separately stated boundary convention. L is finite étale over K and I is full finite projective.
 
@@ -1759,7 +1759,7 @@ For the proof, Use Submodule D L and the determinant line, with `R_f` stability 
 
 <a id="refinement-integral-pencil-orbits"></a>
 
-**Integral pencil orbits.** For `n≥3`, Theorem16 identifies `SLₙ(D)`-orbits with the oriented ideal triples above, preserving f. The stabilizer is the norm-one 2-torsion units of `End_{R_f}(I)⊂L`. For even `n≥4`, SLₙ`/μ₂(D)` uses the additional relation `(I,α,s)∼(MI,tα,t^{n/2}s)` where `tD=M²`. The latter stabilizer contains `End_{R_f}(I)×`[2]_`{N=1}/D×`[2], but need not equal it; the `Pic(D)[2]` and unit-square extensions must be retained.
+**Integral pencil orbits.** For `n≥3`, Theorem16 identifies `SLₙ(D)`-orbits with the oriented ideal triples above, preserving f. The stabilizer is the norm-one 2-torsion units of `End_{R_f}(I)⊂L`. For even `n≥4`, `SLₙ/μ₂(D)` uses the additional relation `(I,α,s)∼(MI,tα,t^{n/2}s)` where `tD=M²`. The latter stabilizer contains `End_{R_f}(I)×[2]_{N=1}/D×[2]`, but need not equal it; the `Pic(D)[2]` and unit-square extensions must be retained.
 
 `f₀` and `Δ(f)` are nonzero; `char K≠2`. The acting integral group is the group scheme’s D-points.
 
@@ -1771,13 +1771,13 @@ For the proof, Given a triple, extract the `ζ_{n−1}` and `ζ_{n−2}` coeffic
 
 **Checks.**
 
-- A product étale algebra and a noninvertible R_f-ideal remain allowed.
+- A product étale algebra and a noninvertible `R_f`-ideal remain allowed.
 
-- The central quotient is not implemented as the naive quotient of integral SLₙ points.
+- The central quotient is not implemented as the naive quotient of integral `SLₙ` points.
 
 <a id="refinement-oriented-norm-pairs"></a>
 
-**Oriented norm pairs.** For a degree-n finite étale K-algebra L, `n≥3` and `f₀∈K×`, define pairs `(α,s)∈L××K×` with `N(α)=s²f₀^{n−3}`. The SLₙ relation is `(α,s)∼(c²α,N(c)s)`. For even `n≥4` the central-quotient relation also allows `t∈K×` and sends the pair to `(c²tα,N(c)t^{n/2}s)`. Both signs of s are retained until the relevant equivalence identifies them.
+**Oriented norm pairs.** For a degree-n finite étale K-algebra L, `n≥3` and `f₀∈K×`, define pairs `(α,s)∈L××K×` with `N(α)=s²f₀^{n−3}`. The `SLₙ` relation is `(α,s)∼(c²α,N(c)s)`. For even `n≥4` the central-quotient relation also allows `t∈K×` and sends the pair to `(c²tα,N(c)t^{n/2}s)`. Both signs of s are retained until the relevant equivalence identifies them.
 
 Finite free étale algebra, not an arbitrarily large algebra on which a default norm has no intended meaning.
 
@@ -1787,7 +1787,7 @@ The required API is:
 
 - `ArithmeticOrbitRefinement.NormPair.rescale`: Rescale by `c∈L×` as specified above.
 
-- `ArithmeticOrbitRefinement.normPair_sign_iff`: The pairs `(α,s)` and `(α,−s)` are SLₙ-equivalent exactly when some `c∈L×` satisfies `c²=1` and `N(c)=−1`.
+- `ArithmeticOrbitRefinement.normPair_sign_iff`: The pairs `(α,s)` and `(α,−s)` are `SLₙ`-equivalent exactly when some `c∈L×` satisfies `c²=1` and `N(c)=−1`.
 
 - `ArithmeticOrbitRefinement.NormPair.ext`: Two norm pairs over the same degree-n algebra and `f₀` are equal if their `α` and s fields are equal; proof fields add no data.
 
@@ -1803,7 +1803,7 @@ For the proof, Specialize the triple classification to a field, where all full l
 
 - In characteristic different from 2 with `f₀=1`, `(1,−1)` satisfies the norm equation and its retained orientation differs from1; the constructor must not discard the sign.
 
-- In `L=K³`, `c=(−1,1,1)` has `c²=1` and `N(c)=−1`, so the two unit orientations are SL₃-equivalent.
+- In `L=K³`, `c=(−1,1,1)` has `c²=1` and `N(c)=−1`, so the two unit orientations are `SL₃`-equivalent.
 
 - NormPair with `L=K`, `n=3` and `f₀=1` is empty. The actual algebra degree must agree with n.
 
@@ -1813,7 +1813,7 @@ For the proof, Specialize the triple classification to a field, where all full l
 
 <a id="refinement-field-pencil-stabilizers"></a>
 
-**Field pencil stabilizers.** For `n≥3` and `f₀Δ≠0`, field SLₙ-orbits with invariant f are the oriented norm-pair classes. Their stabilizer group scheme is `ker(N:Res_{L/K}μ₂→μ₂)`. Forgetting s maps to squareclasses with norm `f₀^{n−3}` modulo `K×`² (norm `f₀` in even degree) one-to-one if f has an odd degree K-factor and two-to-one otherwise. For even `n≥4` use the central-quotient pair relation; the stabilizer scheme is `ker(N)/μ₂`, with the analogous fibre criterion involving odd factorizations, including quadratic-conjugate factors.
+**Field pencil stabilizers.** For `n≥3` and `f₀Δ≠0`, field `SLₙ`-orbits with invariant f are the oriented norm-pair classes. Their stabilizer group scheme is `ker(N:Res_{L/K}μ₂→μ₂)`. Forgetting s maps to squareclasses with norm `f₀^{n−3}` modulo `K×²` (norm `f₀` in even degree) one-to-one if f has an odd degree K-factor and two-to-one otherwise. For even `n≥4` use the central-quotient pair relation; the stabilizer scheme is `ker(N)/μ₂`, with the analogous fibre criterion involving odd factorizations, including quadratic-conjugate factors.
 
 Field characteristic not 2. Do not equate quotient-scheme K-points to the quotient of K-points.
 
@@ -1831,11 +1831,11 @@ For the proof, Corollaries19–20 give the orbit correspondence. A square-one un
 
 <a id="refinement-pencil-existence"></a>
 
-**Pencil existence.** For `n=2g+2≥4`, `char K≠2` and `f₀Δ≠0`, the following eight conditions are equivalent: (a) a generic pencil with invariant f exists; (b) a regular augmented pencil with invariant `fy²` exists; `(c) f₀∈K×`²`N(L×)`; `(d)` the degree-one generalized Picard torsor `J_m¹` is 2-divisible in `H¹(K,J_m)`; `(e)` the generalized Weierstrass class `W_m[2]` lifts under doubling from `H¹(K,J_m[4])`; (f) a two-cover `F_m→J_m¹` of homogeneous spaces exists; `(g)` the maximal unramified abelian exponent-two cover of C minus its two points at ∞ descends from Kˢ to K; `(h)` the maximal abelian exponent-two cover of C, ramified only at those two points, descends from Kˢ to K. Both covers have degree `2^{2g+1}`. The smooth J¹ being 2-divisible alone does not replace these conditions. Theorem25 identifies their common obstruction in `H²(K,J_m[2])`, obtained from the connecting image of `f₀` in `K×/`(`K×`²`N(L×)`).
+**Pencil existence.** For `n=2g+2≥4`, `char K≠2` and `f₀Δ≠0`, the following eight conditions are equivalent: (a) a generic pencil with invariant f exists; (b) a regular augmented pencil with invariant `fy²` exists; `(c) f₀∈(K×)²N(L×)`; `(d)` the degree-one generalized Picard torsor `J_m¹` is 2-divisible in `H¹(K,J_m)`; `(e)` the generalized Weierstrass class `W_m[2]` lifts under doubling from `H¹(K,J_m[4])`; (f) a two-cover `F_m→J_m¹` of homogeneous spaces exists; `(g)` the maximal unramified abelian exponent-two cover of C minus its two points at ∞ descends from `Kˢ` to K; `(h)` the maximal abelian exponent-two cover of C, ramified only at those two points, descends from `Kˢ` to K. Both covers have degree `2^{2g+1}`. The smooth `J¹` being 2-divisible alone does not replace these conditions. Theorem25 identifies their common obstruction in `H²(K,J_m[2])`, obtained from the connecting image of `f₀` in `K×/((K×)²N(L×))`.
 
-m is the two-point divisor above ∞, with its quadratic splitting field; generalized Jacobian data is retained. Apply SchemeAndStackFoundations §§3.6–3.7 to the nodal curve `C_m:z²=f(x,y)y²` and its normalization C. The local supporting target `ArithmeticOrbitRefinement.generalizedPicardComparison` constructs `J_m=Pic⁰(C_m)`, `J_m¹=Pic¹(C_m)`, their normalization maps to J and J¹, and the exact sequence `0→T→J_m→J→0` with `T=ker(N:Res_{K∞/K}G_m→G_m)`, `K∞=K[t]/(t²−f₀)`. Its API includes base change, the degree-one torsor action and the Picard–Brauer connecting map. This modulus comparison, rather than a second general Picard representability theorem, is the input here ([73], §3, `(4)`–`(5)`, pp.10–11).
+m is the two-point divisor above ∞, with its quadratic splitting field; generalized Jacobian data is retained. Apply SchemeAndStackFoundations §§3.6–3.7 to the nodal curve `C_m:z²=f(x,y)y²` and its normalization C. The local supporting target `ArithmeticOrbitRefinement.generalizedPicardComparison` constructs `J_m=Pic⁰(C_m)`, `J_m¹=Pic¹(C_m)`, their normalization maps to J and `J¹`, and the exact sequence `0→T→J_m→J→0` with `T=ker(N:Res_{K∞/K}G_m→G_m)`, `K∞=K[t]/(t²−f₀)`. Its API includes base change, the degree-one torsor action and the Picard–Brauer connecting map. This modulus comparison, rather than a second general Picard representability theorem, is the input here ([73], §3, `(4)`–`(5)`, pp.10–11).
 
-For the proof, The norm criterion follows from oriented norm pairs. On V⊕`K²` augment A by the block `diag(1,0)`, and B by the block with entries `B₁₂=B₂₁=1` and zero diagonal. The signed determinant becomes `f·y²`. Use the regular augmented-pencil Fano torsor and generalized Picard doubling obstruction; BGW Theorem25 identifies the common `H²` obstruction. Construct the regular augmented-pencil Fano torsor and prove its generalized-Picard obstruction comparison.
+For the proof, The norm criterion follows from oriented norm pairs. On `V⊕K²` augment A by the block `diag(1,0)`, and B by the block with entries `B₁₂=B₂₁=1` and zero diagonal. The signed determinant becomes `f·y²`. Use the regular augmented-pencil Fano torsor and generalized Picard doubling obstruction; BGW Theorem25 identifies the common `H²` obstruction. Construct the regular augmented-pencil Fano torsor and prove its generalized-Picard obstruction comparison.
 
 *Needs:* [field pencil stabilizers](#refinement-field-pencil-stabilizers), [common isotropic](#refinement-common-isotropic), SchemeAndStackFoundations §§3.6–3.7 (unpointed Picard degree torsors), TauCetiRoadmap.JacobianChallenge Layer D (pointed comparison).
 
@@ -1845,13 +1845,13 @@ For the proof, The norm criterion follows from oriented norm pairs. On V⊕`K²`
 
 - If `f₀` is a square then `K∞` is split quadratic étale and `T≃G_m`. Replacing `K∞` by the field K would incorrectly give trivial T.
 - For `f₀=−1` over R, `T(R)` is the norm-one circle in `C×`, whereas for `f₀=1` it is `R×`. The modulus torus cannot always be split.
-- Over a separable closure `J_m` has dimension `g+1` and J has dimension g. Their degree-one torsors retain this dimension difference; replacing `J_m¹` by J¹ loses the modulus obstruction.
+- Over a separable closure `J_m` has dimension `g+1` and J has dimension g. Their degree-one torsors retain this dimension difference; replacing `J_m¹` by `J¹` loses the modulus obstruction.
 
 - For a negative definite real even-degree f, L is a product of C and the negative leading coefficient is not a norm times a square; there is no rational pencil.
 
 <a id="refinement-pencil-fano-torsor"></a>
 
-**Pencil fano torsor.** For an even generic pencil `n=2g+2≥4`, the Fano scheme of common g-dimensional vector subspaces is a torsor F under the smooth hyperelliptic Jacobian J. The four-component group J⊔F⊔J¹⊔F satisfies `2[F]=[J¹]`. For SLₙ, solubility uses the augmented regular-pencil Fano variety `F_m` and gives `J_m¹(K)/2J_m(K)`; for SLₙ`/μ₂` it uses F and gives `J¹(K)/2J(K)`. In both cases soluble orbits exist exactly when C has a K-rational divisor of odd degree. These are torsor coset sets unless a basepoint is chosen.
+**Pencil fano torsor.** For an even generic pencil `n=2g+2≥4`, the Fano scheme of common g-dimensional vector subspaces is a torsor F under the smooth hyperelliptic Jacobian J. The four-component group `J⊔F⊔J¹⊔F` satisfies `2[F]=[J¹]`. For `SLₙ`, solubility uses the augmented regular-pencil Fano variety `F_m` and gives `J_m¹(K)/2J_m(K)`; for `SLₙ/μ₂` it uses F and gives `J¹(K)/2J(K)`. In both cases soluble orbits exist exactly when C has a K-rational divisor of odd degree. These are torsor coset sets unless a basepoint is chosen.
 
 `f₀Δ≠0`, characteristic not 2; rational divisor, not merely a rational geometric divisor class.
 
@@ -1869,9 +1869,9 @@ For the proof, Use Theorem23’s Fano group law. The regular augmentation realiz
 
 <a id="refinement-locally-soluble-pencil-orbits"></a>
 
-**Locally soluble pencil orbits.** Over a global field K of characteristic not 2, `n=2g+2≥4` and `f₀Δ≠0`, assume `Div¹(C)` has a point at every completion. Locally soluble SLₙ`/μ₂(K)`-orbits of invariant f correspond to `Sel₂(J¹)`, the set of locally soluble two-covers of J¹. This set is nonempty exactly when `W[2]` lifts under doubling from `Sel₄(J)`. When nonempty it is a finite torsor under `Sel₂(J)`, not canonically the group `Sel₂(J)`.
+**Locally soluble pencil orbits.** Over a global field K of characteristic not 2, `n=2g+2≥4` and `f₀Δ≠0`, assume `Div¹(C)` has a point at every completion. Locally soluble `SLₙ/μ₂(K)`-orbits of invariant f correspond to `Sel₂(J¹)`, the set of locally soluble two-covers of `J¹`. This set is nonempty exactly when `W[2]` lifts under doubling from `Sel₄(J)`. When nonempty it is a finite torsor under `Sel₂(J)`, not canonically the group `Sel₂(J)`.
 
-Local solubility includes every archimedean and nonarchimedean place. `F(K_v)≠`∅ is the pencil’s local solubility condition.
+Local solubility includes every archimedean and nonarchimedean place. `F(K_v)≠∅` is the pencil’s local solubility condition.
 
 For the proof, The norm/generalized-Picard existence criterion gives a rational orbit after the Selmer lift. Twisting by `H¹(K,J[2])` changes its Fano torsor class. The obstruction is cup product with `W[2]`; local Kummer classes and the Hasse principle put `Sel₂(J)` in its kernel. Thus twisting gives the simply transitive Selmer action and identifies the two-cover set.
 
@@ -1887,7 +1887,7 @@ For the proof, The norm/generalized-Picard existence criterion gives a rational 
 
 <a id="refinement-integral-soluble-pencils"></a>
 
-**Integral soluble pencils.** Let `n=2g+2≥4` and `f∈ℤ[x,y]` have `f₀Δ≠0` and locally soluble Div¹. If `2^{4i}` divides `f₀^{i−1}f_i` for `1≤i≤n`, every locally soluble rational SLₙ`/μ₂` orbit of invariant f has an integral representative. In particular coefficients in 16Z suffice; this gives `κ=4` for the invariant 16f in Theorem15. It asserts representatives of rational orbits, not uniqueness of integral orbits.
+**Integral soluble pencils.** Let `n=2g+2≥4` and `f∈ℤ[x,y]` have `f₀Δ≠0` and locally soluble `Div¹`. If `2^{4i}` divides `f₀^{i−1}f_i` for `1≤i≤n`, every locally soluble rational `SLₙ/μ₂` orbit of invariant f has an integral representative. In particular coefficients in `16ℤ` suffice; this gives `κ=4` for the invariant `16f` in Theorem15. It asserts representatives of rational orbits, not uniqueness of integral orbits.
 
 The divisibility hypothesis uses integral binary coefficients and every local place.
 
@@ -1905,7 +1905,7 @@ For the proof, Apply the displayed coefficient condition at `p=2` and the source
 
 <a id="quartic-monicization"></a>
 
-**Quartic monicization.** For ordinary coefficients `f=(a,b,c,d,e)` over a commutative ring, define `BinaryQuartic.monicize f` to have coefficients `(1,b,ac,a²d,a³e)`. This is a polynomial operation, including at `a=0`. Over a field with `a≠0` its binary polynomial is `a⁻¹f(x,ay)`. Its invariants are `a²I(f)`, `a³J(f)` and `a⁶Δ(f)`. Over Q, for separable f with `a≠0`, its double cover is the quadratic twist by a of `C_f`, after changing y to ay. Its Jacobian therefore need not be isomorphic to `Jac(C_f)`; the two-torsion schemes are canonically identified, while the Selmer subgroups of H¹ need not coincide.
+**Quartic monicization.** For ordinary coefficients `f=(a,b,c,d,e)` over a commutative ring, define `BinaryQuartic.monicize f` to have coefficients `(1,b,ac,a²d,a³e)`. This is a polynomial operation, including at `a=0`. Over a field with `a≠0` its binary polynomial is `a⁻¹f(x,ay)`. Its invariants are `a²I(f)`, `a³J(f)` and `a⁶Δ(f)`. Over Q, for separable f with `a≠0`, its double cover is the quadratic twist by a of `C_f`, after changing y to ay. Its Jacobian therefore need not be isomorphic to `Jac(C_f)`; the two-torsion schemes are canonically identified, while the Selmer subgroups of `H¹` need not coincide.
 
 The interface exposes:
 
@@ -1927,9 +1927,9 @@ The interface exposes:
 
 <a id="marked-quartic-selmer-embedding"></a>
 
-**Marked quartic Selmer embedding.** Let f be a separable integral binary quartic, with `a≠0`, whose curve `C_f` is soluble over every completion of Q. There is a natural injection from `Sel₂(Jac(C_f))` into rational `(SL₄/μ₂)`-orbits of pairs of symmetric matrices `(A,B)` with `det(xA+yB)=f^`mon. There is a fixed positive integer k, independent of f, such that, after replacing `f(x,y)` by `g(x,y)=f(x,ky)`, every image orbit for g has an integral representative with A the antidiagonal matrix of ones. The coordinate change identifies `C_g` with `C_f` and hence their Selmer groups. The central quotient means rational points of the quotient group scheme. For the signed-minus pencil convention above, replace B by `−B`; in dimension four the determinant sign is `+1`.
+**Marked quartic Selmer embedding.** Let f be a separable integral binary quartic, with `a≠0`, whose curve `C_f` is soluble over every completion of Q. There is a natural injection from `Sel₂(Jac(C_f))` into rational `(SL₄/μ₂)`-orbits of pairs of symmetric matrices `(A,B)` with `det(xA+yB)=f^{mon}`. There is a fixed positive integer k, independent of f, such that, after replacing `f(x,y)` by `g(x,y)=f(x,ky)`, every image orbit for g has an integral representative with A the antidiagonal matrix of ones. The coordinate change identifies `C_g` with `C_f` and hence their Selmer groups. The central quotient means rational points of the quotient group scheme. For the signed-minus pencil convention above, replace B by `−B`; in dimension four the determinant sign is `+1`.
 
-Prove the injection through the étale quartic algebra and the norm-one squareclass description of the two-torsion cohomology. Identify the local Kummer images of the original curve before monicization. The obstruction to a rational orbit lies in `H²(Q,μ₂)`; local solubility kills its images at every place, and the global-to-local Brauer injection kills the global obstruction. The first quadratic form is split at every place; the quadratic-form Hasse principle makes it split over Q. Obtain integral representatives from the inverse-different ideal-square-root dictionary, patching its local lattices; the fixed coordinate scaling clears the denominators uniformly. Fixing A then identifies these orbits, and their stabilizers, with PSO_A-orbits of B. This construction transports the original Selmer elements into a different orbit representation; it does not identify `Sel₂(Jac(C_f))` with `Sel₂`(Jac(`C_`{`f^`mon})).
+Prove the injection through the étale quartic algebra and the norm-one squareclass description of the two-torsion cohomology. Identify the local Kummer images of the original curve before monicization. The obstruction to a rational orbit lies in `H²(Q,μ₂)`; local solubility kills its images at every place, and the global-to-local Brauer injection kills the global obstruction. The first quadratic form is split at every place; the quadratic-form Hasse principle makes it split over Q. Obtain integral representatives from the inverse-different ideal-square-root dictionary, patching its local lattices; the fixed coordinate scaling clears the denominators uniformly. Fixing A then identifies these orbits, and their stabilizers, with `PSO_A`-orbits of B. This construction transports the original Selmer elements into a different orbit representation; it does not identify `Sel₂(Jac(C_f))` with `Sel₂(Jac(C_{f^{mon}}))`.
 
 *Needs:* [quartic monicization](#quartic-monicization), [oriented ideal triples](#refinement-oriented-ideal-triples), [symmetric pencil](../ArithmeticStatisticsPartI/README.md#refinement-symmetric-pencil), SelmerIwasawaCohomology Layers 0–2, ArithmeticGaloisDuality Layer R02.4 (the global-to-local Brauer injection), TauCetiRoadmap.GlobalQuadraticForms Layer 5, TauCetiRoadmap.GlobalNumberFields Layers 9–11.
 
@@ -1973,7 +1973,7 @@ For the proof, Define perturbations in the actual coefficient lattice. Reduce th
 
 <a id="refinement-q-hyperdeterminant"></a>
 
-`**Q` hyperdeterminant.** For `g≥1` and two `g×(g+1)` matrices U,V, remove column i from `xU−yV` and form the signed maximal minor `(−1)^i det`(`(xU−yV)`_`without_i`), indexed from zero. Put their coefficients of `x^{g−j}y^j` into `a (g+1)×(g+1)` matrix and define `Q(U,V)` as its determinant. For a symmetric pair with upper-left `g×g` blocks zero, Q means this polynomial on the top-right blocks. It has degree `g(g+1)`, is `SL₂×SL_g×SL_{g+1}`-invariant, and transforms under row and column changes with weights `det(h)^{g+1}det(k)^g`.
+**`Q` hyperdeterminant.** For `g≥1` and two `g×(g+1)` matrices U,V, remove column i from `xU−yV` and form the signed maximal minor `(−1)^i det((xU−yV)_{without_i})`, indexed from zero. Put their coefficients of `x^{g−j}y^j` into `a (g+1)×(g+1)` matrix and define `Q(U,V)` as its determinant. For a symmetric pair with upper-left `g×g` blocks zero, Q means this polynomial on the top-right blocks. It has degree `g(g+1)`, is `SL₂×SL_g×SL_{g+1}`-invariant, and transforms under row and column changes with weights `det(h)^{g+1}det(k)^g`.
 
 Coefficient and minor order are fixed, so the sign is testable.
 
@@ -1981,7 +1981,7 @@ The required API is:
 
 - `ArithmeticOrbitRefinement.qHyperdeterminant`: Return the signed-minor coefficient determinant.
 
-- `ArithmeticOrbitRefinement.qHyperdeterminant_transform`: Q(hUkᵀ,hVkᵀ)`=det(h)^{g+1}det(k)^gQ(U,V)`.
+- `ArithmeticOrbitRefinement.qHyperdeterminant_transform`: `Q(hUkᵀ,hVkᵀ)=det(h)^{g+1}det(k)^gQ(U,V)`.
 
 - `ArithmeticOrbitRefinement.qHyperdeterminant_scale`: `Q(tU,tV)=t^{g(g+1)}Q(U,V)`.
 
@@ -2003,7 +2003,7 @@ For the proof, Compute signed maximal minors in the universal polynomial ring, e
 
 <a id="refinement-q-discriminant-divisibility"></a>
 
-`**Q` discriminant divisibility.** On the universal integral coordinate ring of pairs of symmetric `(2g+1)×(2g+1)` matrices with zero upper-left `g×g` blocks, `Q²` divides `Δ(f_A,B)`. Consequently every integral evaluation satisfies `Q(A,B)`² `| Δ(f_A,B)`. This polynomial divisibility is stronger than a statement at one prime.
+**`Q` discriminant divisibility.** On the universal integral coordinate ring of pairs of symmetric `(2g+1)×(2g+1)` matrices with zero upper-left `g×g` blocks, `Q²` divides `Δ(f_A,B)`. Consequently every integral evaluation satisfies `Q(A,B)² | Δ(f_A,B)`. This polynomial divisibility is stronger than a statement at one prime.
 
 `g≥1`; universal integral coordinates before evaluation.
 
@@ -2051,7 +2051,7 @@ For the proof, Primitivity permits unimodular completion. Any two completions di
 
 <a id="refinement-weak-lift-odd"></a>
 
-**Weak lift odd.** Let `n=2g+1≥3` and m be an odd positive squarefree integer. There is a map `σ_m:W_m^(2)→W₀(ℤ)` with `f_{σ_m(f)}=f` and `|Q|(σ_m(f))=m`. On irreducible forms it induces an injection into integral SLₙ orbit classes; images for distinct m are disjoint. Extend an even-m domain only as the empty domain, rather than using division by2 in an integral formula.
+**Weak lift odd.** Let `n=2g+1≥3` and m be an odd positive squarefree integer. There is a map `σ_m:W_m^(2)→W₀(ℤ)` with `f_{σ_m(f)}=f` and `|Q|(σ_m(f))=m`. On irreducible forms it induces an injection into integral `SLₙ` orbit classes; images for distinct m are disjoint. Extend an even-m domain only as the empty domain, rather than using division by2 in an integral formula.
 
 The weak binary discriminant locus and zero-block target use the conventions above.
 
@@ -2087,11 +2087,11 @@ For the proof, Specialize the symmetric pencil at `A₀`. Its determinant is `(�
 
 <a id="refinement-even-weak-lift"></a>
 
-**Even weak lift.** For `n=2g+2≥4`, odd positive squarefree m and f in the weak locus with `gcd(m,f(0,1))=1`, lift xf by the odd-degree `σ_m` into pairs of size `n+1`. On the flag-adapted locus `W₁`, the `first(g+1)`² block of A and `first(g+2)`² block of B vanish; B has one-dimensional kernel nonisotropic for A. The polynomial q is Q divided by the determinant of the top-right `(g+1)×(g+1)` block of B. For irreducible f and any primitive isotropic flag `Λ⊂Λ′`, `|q|=m`, independently of the flag; `|Q|` can be m or `|f(0,1)|m`. Thus the even lift retains a flag until this independence is proved.
+**Even weak lift.** For `n=2g+2≥4`, odd positive squarefree m and f in the weak locus with `gcd(m,f(0,1))=1`, lift xf by the odd-degree `σ_m` into pairs of size `n+1`. On the flag-adapted locus `W₁`, the `first(g+1)²` block of A and `first(g+2)²` block of B vanish; B has one-dimensional kernel nonisotropic for A. The polynomial q is Q divided by the determinant of the top-right `(g+1)×(g+1)` block of B. For irreducible f and any primitive isotropic flag `Λ⊂Λ′`, `|q|=m`, independently of the flag; `|Q|` can be m or `|f(0,1)|m`. Thus the even lift retains a flag until this independence is proved.
 
 The generic condition `gcd(m,f(0,1))=1` and `Δ(f)≠0` are retained. q is a polynomial quotient on `W₁`, not pointwise division at a zero denominator.
 
-For the proof, Use `Δ(xf)=Δ(f)f(0,1)`² to preserve weak divisibility. Define `W₁` by the two zero blocks and nondegenerate kernel; show the block determinant divides Q universally. Two isotropic planes are reflections across the B-kernel with respect to A. Compare integral bases of their saturated flags to obtain the two Q values and common q value. In the even-constant-term basis use `e_{n+1}`, correcting the source’s coordinate convention.
+For the proof, Use `Δ(xf)=Δ(f)f(0,1)²` to preserve weak divisibility. Define `W₁` by the two zero blocks and nondegenerate kernel; show the block determinant divides Q universally. Two isotropic planes are reflections across the B-kernel with respect to A. Compare integral bases of their saturated flags to obtain the two Q values and common q value. In the even-constant-term basis use `e_{n+1}`, correcting the source’s coordinate convention.
 
 *Needs:* [weak lift odd](#refinement-weak-lift-odd), [marked q](#refinement-marked-q).
 
@@ -2107,7 +2107,7 @@ For the proof, Use `Δ(xf)=Δ(f)f(0,1)`² to preserve weak divisibility. Define 
 
 <a id="refinement-genus-one-stabilizer-schemes"></a>
 
-**Genus one stabilizer schemes.** Over a field of characteristic different from 2,3,5, the nondegenerate binary quartic, ternary cubic, pair of quaternary quadrics and quintuple of quinary alternating matrices give the degree `d=2`,3,4,5 line-bundle presentations of smooth genus-one curves. Their full linear-group stabilizers are extensions of `Aut(Jac(C))` (automorphisms fixing its elliptic origin) by the `θ` group `Θ_{Jac(C),d}`, which extends `Jac(C)[d]` by `G_m`. For rational-divisor formulations quotient the central `G_m` of line-bundle scalings; the stabilizer becomes the corresponding extension by `Jac(C)[d]`. In degree two this means `PGL₂×2G_m`, retaining the `μ₂` kernel of the square-scaling action: dividing out every ineffective element would also lose the hyperelliptic involution. In degree three use `PGL₃×G_m`, and in degrees four and five use the displayed one-dimensional central quotient. For fixed invariants and the differential-preserving degree2 `PGL₂` action, recover the `E[2]` stabilizer with Galois action. These are different acting groups and must not be conflated. The acting groups are `GL₂` twisted by `det⁻²` times the weight-two scalar `G_m` for degree2; `GL₃` twisted by `det⁻¹` times `G_m` for degree3; `GL₂×GL₄` for degree4; and `GL₅×GL₅` for degree5. The last two act naturally on `2⊗Sym²(4)` and `5⊗∧`²`(5)`; their ineffective scalar kernel is `(a,b)` with `ab²=1`.
+**Genus one stabilizer schemes.** Over a field of characteristic different from 2,3,5, the nondegenerate binary quartic, ternary cubic, pair of quaternary quadrics and quintuple of quinary alternating matrices give the degree `d=2`,3,4,5 line-bundle presentations of smooth genus-one curves. Their full linear-group stabilizers are extensions of `Aut(Jac(C))` (automorphisms fixing its elliptic origin) by the `θ` group `Θ_{Jac(C),d}`, which extends `Jac(C)[d]` by `G_m`. For rational-divisor formulations quotient the central `G_m` of line-bundle scalings; the stabilizer becomes the corresponding extension by `Jac(C)[d]`. In degree two this means `PGL₂×2G_m`, retaining the `μ₂` kernel of the square-scaling action: dividing out every ineffective element would also lose the hyperelliptic involution. In degree three use `PGL₃×G_m`, and in degrees four and five use the displayed one-dimensional central quotient. For fixed invariants and the differential-preserving degree2 `PGL₂` action, recover the `E[2]` stabilizer with Galois action. These are different acting groups and must not be conflated. The acting groups are `GL₂` twisted by `det⁻²` times the weight-two scalar `G_m` for degree2; `GL₃` twisted by `det⁻¹` times `G_m` for degree3; `GL₂×GL₄` for degree4; and `GL₅×GL₅` for degree5. The last two act naturally on `2⊗Sym²(4)` and `5⊗∧²(5)`; their ineffective scalar kernel is `(a,b)` with `ab²=1`.
 
 The conservative common characteristic restriction is stronger than each degree2–4 source theorem and avoids the degree5 exceptional characteristic. Degree d line bundles and rational divisor classes are distinguished where the Brauer obstruction matters.
 
@@ -2225,7 +2225,7 @@ At `p>3`, the local integral-representative theorem assumes a twist of good redu
 - A single integral orbit with the same stabilizer as its rational orbit has `m=1` and unchanged mass. Two integral orbits with that same stabilizer have `m=2`, so their two half-weights sum to one rational-orbit weight.
 - If one integral orbit has trivial stabilizer and its rational stabilizer has order three, `m=3` and its weighted mass is `1/3`. Thus both the orbit number and the stabilizer ratio are needed in the definition.
 
-Quintic integral realization also includes rational *nonétale* algebras. Prove the polynomial multiplication construction is associative and unital over every coefficient ring, not merely after checking the generic S₅ closure. Compare the nonzero-discriminant locus with the trace-dual resolvent construction and then extend the universal identities by polynomial density. The based sextic discriminant is `(16 disc R)³`. Sources are HCL IV, §§2–4, including its multiplication and resolvent formulas. When checking the quartic structure formula, the summed index condition is `k≠i`; swapping it to `k≠j` fails the ring identities.
+Quintic integral realization also includes rational *nonétale* algebras. Prove the polynomial multiplication construction is associative and unital over every coefficient ring, not merely after checking the generic `S₅` closure. Compare the nonzero-discriminant locus with the trace-dual resolvent construction and then extend the universal identities by polynomial density. The based sextic discriminant is `(16 disc R)³`. Sources are HCL IV, §§2–4, including its multiplication and resolvent formulas. When checking the quartic structure formula, the summed index condition is `k≠i`; swapping it to `k≠j` fails the ring identities.
 
 ### Examples
 
