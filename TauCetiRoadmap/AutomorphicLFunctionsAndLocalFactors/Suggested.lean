@@ -37,9 +37,13 @@ against the pinned Mathlib and Tau Ceti APIs; proving every declaration does not
 
 The formulas fix the positive Tate Fourier kernel, the unitary centre, canonical real and complex
 gamma factors, geometric-Frobenius determinant conventions and continuation before evaluation.
-The common adelic Schwartz/Fourier/Poisson space and scalar Tate continuation are consumed from
-ArithmeticGaloisRepresentations §2.7 Global inputs. The README specifies their vector-space and
-distribution refinements, representation spaces, shtukas and rational period comparisons.
+The standard trace character, local additive self-duality, restricted-product adelic duality,
+diagonal self-annihilator, common adelic Schwartz/Fourier/Poisson space and scalar Tate
+continuation are consumed from ArithmeticGaloisRepresentations §2.7 Global inputs.
+`LocalAdditiveSelfDuality` compares the supplied isomorphism with the bilinear annihilator;
+`SelfDualHaar` records the local measure adapter. The README specifies the additional
+local-factor, vector-space and distribution refinements, representation spaces, shtukas and
+rational period comparisons.
 AutomorphicFormsOnReductiveGroups §§2.3–2.7 and 3.4–3.5 supplies the general induction,
 globalization and algebraic tensor constructions; §§4.3 and 5.7 supply number-field cuspidal
 GLₙ genericity and Clozel rationality. The README specializes these for its Whittaker and
@@ -269,7 +273,8 @@ example : Real.fourierChar (1 : ℝ) = 1 ∧
 -- TauCeti.AutomorphicLFunctions.AL0.StandardAdditiveCharacter.complex_imaginary
 example : Real.fourierChar (2 * Complex.I.re) = 1 := by sorry
 
-/-- Normalization from an additive Haar μ₀ with μ₀(O)=1, at a finite place. -/
+/-- Finite-place rescaling adapter from μ₀(O)=1 to the scalar self-dual measure
+supplied by ArithmeticGaloisRepresentations §2.7, with residue size q and different exponent d. -/
 def SelfDualHaar {F : Type*} [MeasurableSpace F] (μ₀ : Measure F)
     (q : ℝ) (d : ℕ) : Measure F := ENNReal.ofReal (q ^ (-(d : ℝ)/2)) • μ₀
 
@@ -352,12 +357,15 @@ theorem BesselHalfOrderDerivative {c : ℝ} (hc : 0 < c) :
     deriv (fun ν : ℂ => BesselK ν c) (1/2) =
       (-(Real.sqrt (Real.pi/2)*Real.exp c*c^(-1/2 : ℝ)*negativeEi (2*c)) : ℝ) := by sorry
 
-/-- A nontrivial continuous character identifies the real additive group with its dual. -/
-theorem LocalAdditiveSelfDuality (ψ : AddChar ℝ Circle)
-    (hψ : Continuous ψ) (hne : ψ ≠ 1) :
-    ∃ ι : Multiplicative ℝ →ₜ* PontryaginDual (Multiplicative ℝ),
-      (∀ x y : ℝ, ι (Multiplicative.ofAdd y) (Multiplicative.ofAdd x) = ψ (x*y)) ∧
-      Function.Bijective ι ∧ IsOpenMap ι := by sorry
+/-- The scalar duality isomorphism supplied by ArithmeticGaloisRepresentations §2.7
+identifies character triviality on U with membership in the bilinear annihilator. -/
+theorem LocalAdditiveSelfDuality {F : Type*} [CommRing F] [TopologicalSpace F]
+    (ψ : AddChar F Circle)
+    (ι : Multiplicative F ≃ₜ* PontryaginDual (Multiplicative F))
+    (hι : ∀ x y : F, ι (Multiplicative.ofAdd y) (Multiplicative.ofAdd x) = ψ (x*y))
+    (U : AddSubgroup F) (y : F) :
+    y ∈ LocalFourier.pairingAnnihilator ψ (LinearMap.mul F F) U ↔
+      ∀ x ∈ U, ι (Multiplicative.ofAdd y) (Multiplicative.ofAdd x) = 1 := by sorry
 
 /-- Real archimedean square, with sections in the native Schwartz space. -/
 theorem PartialFourierTransform.square {X : Type*} (Φ : X → SchwartzMap ℝ ℂ)

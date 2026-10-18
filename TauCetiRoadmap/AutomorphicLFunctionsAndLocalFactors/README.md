@@ -8,7 +8,7 @@ The library must expose the spaces, measures, distributions and comparison maps 
 
 The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7 and 3.4–3.5, supplies normalized archimedean induction, Langlands classification, archimedean parameters, the generic unitary dual, globalization and algebraic restricted tensor factorization; §§4.3 and 5.7 supply number-field cuspidal `GLₙ` genericity and Clozel rationality; §4.5 supplies the shared `NormalizedMaassEigenform(r,δ)` carrier and its Fourier, Hecke, reflection-parity and adelization comparisons. The representation prerequisites below specialize these constructions to the `GLₙ` Whittaker and local-factor interfaces, compare their smooth and Hilbert tensor realizations, and construct function-field cuspidal carriers, number-field isobaric sums and rational Whittaker/cohomological comparisons. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and [GL₂ newvectors](#gl2-newvectors) for rank two; the compatible higher-rank newform construction is a target here. AL.2 consumes the real-parameter specialization of the shared Maass carrier for its standard and adjoint L-functions. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from the supplied cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
 
-**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. ArithmeticGaloisRepresentations §2.7, **Global inputs**, owns the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform, Poisson summation, scalar Tate integral, meromorphic continuation and scalar functional equation for every continuous idele-class quasi-character. This roadmap consumes that prefix and uses those measures for its local-vector-space, distribution and `GLₙ` extensions. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized `GLₙ` Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors; §2.7 owns the canonical finite-place rank-one scalar `tateLocalConstant`. AL.1 identifies its distribution scalar with that constant unconditionally. Higher-rank ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
+**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. ArithmeticGaloisRepresentations §2.7, **Global inputs**, owns the standard trace character, local additive self-duality, restricted-product adelic duality and diagonal self-annihilator, together with the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform, Poisson summation, scalar Tate integral, meromorphic continuation and scalar functional equation for every continuous idele-class quasi-character. This roadmap consumes that prefix and uses those measures for its local-vector-space, distribution and `GLₙ` extensions. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized `GLₙ` Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors; §2.7 owns the canonical finite-place rank-one scalar `tateLocalConstant`. AL.1 identifies its distribution scalar with that constant unconditionally. Higher-rank ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
 **LFunctions**, layers 0, 5–6, owns the primitive finite-order and algebraic Hecke functions, conductor-balanced completions, continuation and inverse-character functional equations. **ArithmeticGaloisRepresentations**, §2.7, supplies their comparison with scalar adelic Tate integrals, complex norm twists and local epsilon products. AL.0 consumes that supplier's Schwartz/Fourier/Poisson prefix and proves its finite-dimensional vector-space and partial-transform extensions and compact-uniform estimates; AL.1 proves the distribution-valued refinement. General continuous-character scalar theory is consumed from the same supplier. On the common algebraic/norm-twist domain its scalar functions are normalization adapters to those suppliers, with the exact comparison in [Canonical rank-one comparison](#canonical-rank-one-comparison). AL.4 consumes the earlier arithmetic Weil–Deligne theory; no arithmetic local-constant construction depends on AL.4.
 
@@ -44,7 +44,7 @@ The following constructions are reused. The work below proves the additional loc
 | Normalized Maass eigenforms | **AutomorphicFormsOnReductiveGroups**, §4.5: `NormalizedMaassEigenform(r,δ)`, `fourierCoefficient`, `fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`, `maassAdelization` and `maassClassicalEquiv`. AL.2 uses real `r≥0`, first coefficient one in the supplied factor-two expansion, reflection sign `(−1)^δ` and the supplied unitary adelic realization. Negative real parameters use the same eigenvalue and `K_(ir)=K_(−ir)`. The standard and adjoint L-series, local factors, completions, functional equation and L-value norm identities are targets here. |
 | Positive-argument Bessel kernel | **AutomorphicFormsOnReductiveGroups**, §4.5: the convergent cosh integral for complex order, argument derivatives, symmetry, Fourier ODE, decay and half-order value. AL.0 identifies its half-integral formula with that kernel and adds holomorphy and derivatives in the order variable. |
 | Characters and Fourier integrals | Mathlib `AddChar`, `ContinuousMonoidHom`, `Real.fourierChar`, `ZMod.toCircle`, `ZMod.dft`, `VectorFourier.fourierIntegral`, its translation/scalar/a.e. congruence lemmas, and `SchwartzMap.fourierTransformCLM`. Translation covariance and the Schwartz Fourier operator are imported. |
-| Compact-open duals | Mathlib `PontryaginDual` supplies the continuous-character space and topology. Tau Ceti's `fourierPontryaginDualEquiv` classifies the dual of an additive circle; its Fourier coefficient uniqueness and the Pontryagin Fourier–Stieltjes uniqueness results are reused in that scope. Local-field self-duality of the particular trace pairing is an additional theorem. |
+| Compact-open duals | Mathlib `PontryaginDual` supplies the continuous-character space and topology. Tau Ceti's `fourierPontryaginDualEquiv` classifies the dual of an additive circle; its Fourier coefficient uniqueness and the Pontryagin Fourier–Stieltjes uniqueness results are reused in that scope. **ArithmeticGaloisRepresentations**, §2.7's scalar Fourier/Poisson prefix, supplies the standard trace character, local self-duality, restricted-product adelic duality and diagonal self-annihilator. AL.0 compares these supplied pairings with `LocalFourier.pairingAnnihilator` and its local-factor and vector-space Fourier conventions. |
 | Distributions | Mathlib `TemperedDistribution` is the continuous dual with pointwise-convergence topology. Its `delta` is already evaluation at a point. The new work is the scaling action, eigenspaces, restrictions and finite-jet classification, not a second Dirac distribution. |
 | Parametric integrals | Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `mellin`, `mellin_differentiableAt_of_isBigO_rpow` and `mellinInv_mellin_eq`. Local integrability, strict endpoint exponent margins, continuity at the inversion point and integrability on the Mellin line remain hypotheses. |
 | Adeles and Euler products | Tau Ceti's **GlobalNumberFields**, layers 0, 5, 6, 9 and 10, and **LocalFieldsRamification**, layer 3. The completed **RestrictedProducts** roadmap, layers 0–3 on the reference topology, functorial maps, finite-factor decompositions and diagonal subgroups, and the `TauCeti.RestrictedProductGroup` and `TauCeti.rationalDiagonal` APIs are reused. **ArithmeticDirichletSeries**, layers 3 and 8, supplies analytic Euler products and Landau positivity. |
@@ -65,9 +65,11 @@ Mathlib `AddChar.compAddMonoidHom` and `AddChar.compAddMonoidHom_apply`
 (`Mathlib/Algebra/Group/AddChar.lean`) supply trace pullback as a character and its
 evaluation. `AddChar.mulShift`, `AddChar.mulShift_apply`, `AddChar.mulShift_mul`,
 `AddChar.mulShift_mulShift` and `AddChar.mulShift_zero` in the same module supply
-algebraic local character shifts. They are used directly. This roadmap adds the
-standard trace character's conductor and diagonal product theorem, and continuity
-and local-field topological self-duality of the compact-open map.
+algebraic local character shifts. They are used directly. ArithmeticGaloisRepresentations
+§2.7's scalar Fourier/Poisson prefix supplies the standard trace character, its conductor
+and diagonal product theorem, local topological self-duality, restricted-product adelic
+duality and the diagonal self-annihilator. AL.0 compares these supplied maps with its
+bilinear annihilator and local-factor Fourier normalizations.
 
 Mathlib `SchwartzMap`, `TemperedDistribution` and `TemperedDistribution.delta` supply
 the archimedean test-function carrier, its continuous dual and point evaluation;
@@ -130,7 +132,8 @@ and ArithmeticGaloisRepresentations §2.7.
   this integer and proves norm-twist invariance and analytic epsilon comparisons.
 - **LFunctions**, layers 0, 5–6 supplies primitive Hecke functions and their balanced
   completions, conductors, root numbers and functional equations; **ArithmeticGaloisRepresentations**,
-  §2.7 **Global inputs** supplies the common adelic Schwartz/Fourier/Poisson and scalar Tate
+  §2.7 **Global inputs** supplies the standard trace character, local and adelic additive
+  duality, diagonal self-annihilator, common adelic Schwartz/Fourier/Poisson and scalar Tate
   theory for general continuous quasi-characters, and the epsilon-product comparison on algebraic norm twists.
   AL.1 consumes these comparisons through [Canonical rank-one comparison](#canonical-rank-one-comparison).
 - **ZerosOfLFunctions**, layer 0 and layer 5.1–5.6 supplies the general order predicate,
@@ -208,7 +211,7 @@ All local APIs below are proposed extensions of those carriers. The suggested fi
 
 | Layer | Library built |
 | --- | --- |
-| AL.0 | Annihilators, self-dual measures, local and adelic Schwartz–Bruhat analysis, Poisson summation and Bessel transforms. |
+| AL.0 | Bilinear annihilators, local-factor and vector-space Fourier comparisons over the supplied scalar character/duality and Poisson foundations, self-dual measure adapters and Bessel transforms. |
 | AL.1 | Tate eigendistributions, local/global factor adapters, continuous-character continuation, canonical Hecke comparison and CM normalization. |
 | AL.2 | Godement–Jacquet standard factors, GL₂ and higher-rank newform tests, centered entire functions and paired products, and Maass standard functions. |
 | AL.3 | Whittaker models, Rankin–Selberg analysis, multiplicity/converse theorems, periods, function-field cuspidal polynomials and reciprocity, open-disc indices and the weight-facing acceptance suite. |
@@ -437,14 +440,22 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 ### Characters, trace duality and self-dual measures
 
+Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for the common
+scalar character/duality foundations below, without automorphic hypotheses. In particular,
+the same trace pairing identifies `𝔸_K` with `PontryaginDual(Multiplicative 𝔸_K)` by
+restricted products and has diagonal annihilator `K⊥=K`. The `StandardAdditiveCharacter`
+and `AdditiveDualityMap` names below denote specializations of this supplied API.
+The additional work is its comparison with the bilinear annihilator, normalized local
+measures and the local-factor and vector-space Fourier transforms.
+
 
 <a id="standard-additive-character"></a>
 
-**The standard additive character.** Fix `ψ_Q,∞(x)=exp(2πix)` and `ψ_Q,p(x)=exp(−2πi frac_p(x))`; on a completion `K_v` use `ψ_v=ψ_Q,w∘Tr_{K_v/Q_w}`. Their restricted product is trivial on the diagonal K. The finite conductor is the inverse different `D_v^(−1)=P_v^(−d_v)`, while the archimedean characters are `exp(2πix)` and `exp(2πi(z+z̄))`.
+**The standard additive character.** Use the supplied `standardAddChar`, with `ψ_Q,∞(x)=exp(2πix)` and `ψ_Q,p(x)=exp(−2πi frac_p(x))`; on a completion `K_v` it is `ψ_v=ψ_Q,w∘Tr_{K_v/Q_w}`. Its restricted product is trivial on the diagonal K. Its finite conductor is the inverse different `D_v^(−1)=P_v^(−d_v)`, while its archimedean characters are `exp(2πix)` and `exp(2πi(z+z̄))`. Compare these supplied formulas with the positive local-factor Fourier kernel.
 
 Work under the following hypotheses. K number field; `frac_p(x)` denotes the rational p-primary part modulo Z. These are Kudla’s positive infinity characters, the inverse of Tate’s opposite global choice.
 
-Require the following API.
+Use the following specializations of the supplied API.
 
 - `AL0.StandardAdditiveCharacter.conductor`: The largest trivial fractional ideal is `P^(−d_v)`.
 - `AL0.StandardAdditiveCharacter.diagonal`: `∏_vψ_v(a)=1` for `a∈K`.
@@ -455,17 +466,24 @@ Require the following API.
 - `AL0.StandardAdditiveCharacter.rational_unramified`: For `Q_p` the different exponent is0 and `ψ` is trivial on `Z_p` but not `p^(−1)Z_p`.
 - `AL0.StandardAdditiveCharacter.real_one`: `ψ_R(1)=1` and `ψ_R(1/2)=−1`.
 - `AL0.StandardAdditiveCharacter.complex_imaginary`: `ψ_C(i)=1` although `i≠0`; nontriviality does not mean an injective character.
+- At diagonal `1/3∈ℚ`, the real phase `exp(2πi/3)` cancels the `3`-adic phase `exp(−2πi/3)`. Giving both phases the positive sign fails diagonal triviality.
 
 (Source: [Kudla](#ref-kudla2004), §3, Proposition 3.8 and (3.30), p.124; §4, p.127, global character.)
 
-*Needs:* [Annihilator for a bilinear character pairing](#pairing-annihilator); Mathlib `AddChar.compAddMonoidHom`; Tau Ceti **GlobalNumberFields**, layer 0 places completions and the product formula; Tau Ceti **GlobalNumberFields**, layer 5 full adeles and the additive quotient; Tau Ceti **LocalFieldsRamification**, layer 3 ramification the tame and wild cases and the filtration.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, scalar character/duality prefix; [Annihilator for a bilinear character pairing](#pairing-annihilator); Mathlib `AddChar.compAddMonoidHom`.
 
 
 <a id="fractional-ideal-annihilator"></a>
 
-**The trace annihilator of a fractional ideal.** For the trace character `ψ_v` and fractional ideal `A=P^m, A⊥={y:∀x∈A,ψ_v(xy)=1}=P^(−m−d_v)`. Consequently `(A⊥)⊥=A` and every such annihilator is compact open.
+**The trace annihilator of a fractional ideal.** Identify `LocalFourier.pairingAnnihilator` for multiplication and the supplied trace character `ψ_v` with the supplied local duality annihilator. For a fractional ideal `A=P^m`, this gives `A⊥={y:∀x∈A,ψ_v(xy)=1}=P^(−m−d_v)`. Consequently `(A⊥)⊥=A` and every such annihilator is compact open.
 
 Work under the following hypotheses. Nonarchimedean completion of a number field; inverse different exponent `d_v`.
+
+**Checks.**
+
+- For `F=ℚ_p` and `m=0`, the annihilator is `ℤ_p`.
+- At a ramified completion with `d_v>0`, `O_v⊥=P_v^(−d_v)`, which strictly contains `O_v`.
+- For arbitrary integer m, applying `m↦−m−d_v` twice returns m, including for negative m.
 
 (Source: [Tate](#ref-tate1950), §2.2, Lemma2.2.3, physical p.10.)
 
@@ -474,7 +492,7 @@ Work under the following hypotheses. Nonarchimedean completion of a number field
 
 <a id="self-dual-haar"></a>
 
-**Self-dual local additive Haar measure.** The `ψ_v`-self-dual additive Haar is normalized by `μ(O)=q^(−d_v/2), μ_R=dx` and `μ_C=2 dxdy` for the standard trace characters. For `ψ_a(x)=ψ(ax), μ_{ψ_a}=|a|^(1/2)μ_ψ`. For `A=P^m, μ(A)μ(A⊥)=1`. This additive normalization is distinct from prescribing multiplicative O×-volume1.
+**Self-dual local additive Haar measure.** Compare the supplied scalar self-dual measure with the local-factor normalization. The finite-place adapter `AL0.SelfDualHaar` rescales additive Haar `μ₀` with `μ₀(O)=1` by `q^(−d_v/2)`. Identify it with the supplied `ψ_v`-self-dual measure; at infinity use `μ_R=dx` and `μ_C=2 dxdy` for the standard trace characters. Transport the supplied character scaling `ψ_a(x)=ψ(ax), μ_{ψ_a}=|a|^(1/2)μ_ψ` and prove `μ(A)μ(A⊥)=1` for `A=P^m`. This additive normalization is distinct from prescribing multiplicative O×-volume1.
 
 Work under the following hypotheses. `a∈F×`; Haar positive; `d_v` is the trace different exponent.
 
@@ -493,21 +511,21 @@ Require the following API.
 
 (Source: [Kudla](#ref-kudla2004), §3, Fourier inversion and (3.29)–(3.30), pp.122–124.)
 
-*Needs:* [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator); [Fourier inversion for a subgroup indicator](#indicator-inversion); **AdelicAlgebraicGroups**, §0.1, Borel structure and local normalization; Mathlib `fourierIntegral_gaussian`.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, scalar self-dual measure; [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator); [Fourier inversion for a subgroup indicator](#indicator-inversion); **AdelicAlgebraicGroups**, §0.1, Borel structure and local normalization; Mathlib `fourierIntegral_gaussian`.
 
 
 <a id="additive-duality-map"></a>
 
-**The additive local-field duality map.** For a local field F and continuous nontrivial additive character `ψ`, define `ι_ψ(y)(x)=ψ(xy)`, taking values in native `PontryaginDual(Multiplicative F)`. It is a continuous group homomorphism from Multiplicative F. The local-field self-duality theorem upgrades this particular map to a topological group isomorphism.
+**The additive local-field duality map.** For a number-field completion F and continuous nontrivial additive character `ψ`, use the supplied topological group isomorphism `ι_ψ(y)(x)=ψ(xy)`, taking values in native `PontryaginDual(Multiplicative F)`. Compare its underlying character with Mathlib's algebraic shift.
 
 Work under the following hypotheses. Use multiplication in F and compact-open topology on the native continuous-character group; do not replace the dual by a new carrier.
 
-Construct the continuous compact-open map with the displayed evaluation formula. Its
+Use the supplied continuous compact-open map with the displayed evaluation formula. Its
 underlying algebraic character is Mathlib's `AddChar.mulShift ψ y`, using commutativity to
 write its value as `ψ(xy)`. The additive, scalar-character and zero identities are the native
-shift identities recorded in Exact supplier contracts. The additional target is continuity
-into the compact-open dual and the local-field topological isomorphism, including its
-annihilator comparison with `LocalFourier.pairingAnnihilator`.
+shift identities recorded in Exact supplier contracts. Continuity into the compact-open
+dual and the local-field topological isomorphism belong to the supplied scalar prefix;
+its comparison with `LocalFourier.pairingAnnihilator` is specified below.
 
 **Checks.**
 
@@ -518,18 +536,24 @@ annihilator comparison with `LocalFourier.pairingAnnihilator`.
 
 (Source: [Tate](#ref-tate1950), §2.2, Theorem 2.2.1, physical p.10.)
 
-*Needs:* Mathlib `PontryaginDual`; Mathlib `AddChar`; Mathlib `ContinuousMonoidHom`; [The standard additive character](#standard-additive-character).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, local additive self-duality; Mathlib `PontryaginDual`; Mathlib `AddChar`; Mathlib `ContinuousMonoidHom`; [The standard additive character](#standard-additive-character).
 
 
 <a id="local-additive-self-duality"></a>
 
-**Self-duality of a local additive group.** For `F=R,C` or a finite extension of `Q_p`, a continuous nontrivial additive `ψ` gives a bijective `ι_ψ:F→PontryaginDual(Multiplicative F)`, and its inverse is continuous. Thus open-lattice annihilators are compact and their double annihilators equal the original lattice.
+**Self-duality of a local additive group.** Consume the topological isomorphism for `F=ℝ,ℂ` or a finite extension of `ℚ_p` from ArithmeticGaloisRepresentations §2.7. The comparison `AL0.LocalAdditiveSelfDuality` identifies `y∈LocalFourier.pairingAnnihilator ψ (multiplication) U` with `∀x∈U, ι_ψ(y)(x)=1`. It applies to every additive subgroup U; algebraically it holds for any commutative ring with a supplied topological isomorphism satisfying this evaluation formula. For local lattices transport the supplied compactness and double-annihilator identities through this comparison.
 
-Work under the following hypotheses. F is a number-field completion in AL.0’s scope (R, C, or a finite extension of `Q_p`); the topology on its dual is compact-open. Equal-characteristic residue characters are treated by the curve additive analysis in AL.3.
+Work under the following hypotheses. F is a number-field completion in AL.0’s scope (`ℝ`, `ℂ`, or a finite extension of `ℚ_p`), and `ψ` is continuous and nontrivial; the topology on its dual is compact-open. The algebraic comparison assumes the supplied isomorphism and its evaluation formula. Equal-characteristic residue characters are treated by the curve additive analysis in AL.3.
+
+**Checks.**
+
+- For `U={0}`, both annihilator descriptions give all of F.
+- For `U=F` and nontrivial `ψ`, both descriptions give `{0}`: a nonzero y has `yF=F`.
+- For `F=ℝ`, the standard character and `U=ℤ·1` give the annihilator `ℤ·1`, which is not a real subspace.
 
 (Source: [Tate](#ref-tate1950), §2.2, Theorem2.2.1, physical p.10.)
 
-*Needs:* [The additive local-field duality map](#additive-duality-map); [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, local additive self-duality; [The additive local-field duality map](#additive-duality-map); [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator).
 
 
 ### Local Schwartz–Bruhat spaces and finite Fourier levels
@@ -594,13 +618,19 @@ Work under the following hypotheses. The complex absolute value for Tate is|z|²
 
 <a id="local-fourier-inversion"></a>
 
-**Local Fourier transform, self-dual measure and inversion on `S(F)`.** Fix a nontrivial additive character `ψ` of F and identify F with its dual by `y ↦ (x ↦ ψ(xy))`. For `f ∈ S(F), f̂(x) = ∫_F f(y)ψ(xy)dy` lies in `S(F)`, and `f ↦ f̂` is a linear isomorphism of `S(F)`. There is a unique Haar measure dx, the self-dual measure for `ψ`, with `f̂̂(x) = f(−x)`. For `β ∈ F^×` and `ψ_β(x) = ψ(βx)`, the self-dual measure for `ψ_β` is `|β|^{1/2}dx`, and the `ψ_β`-transform of f is `|β|^{1/2}r(β)f̂`. For F nonarchimedean the conductor `ν(ψ)` is the largest `ν` with `ψ` trivial on `P^{−ν}`. Distributions: `⟨λ̂, f⟩ = ⟨λ, f̂⟩`.
+**Local Fourier transform, self-dual measure and inversion on `S(F)`.** Fix a continuous nontrivial additive character `ψ` of F and use the supplied duality `y ↦ (x ↦ ψ(xy))` and unique self-dual Haar measure dx. Compare the local-factor transform with that scalar Fourier normalization: for `f ∈ S(F), f̂(x) = ∫_F f(y)ψ(xy)dy` lies in `S(F)`, the map `f ↦ f̂` is a linear isomorphism, and `f̂̂(x) = f(−x)`. For `β ∈ F^×` and `ψ_β(x) = ψ(βx)`, use the supplied measure scaling `|β|^{1/2}dx` and prove that the `ψ_β`-transform of f is `|β|^{1/2}r(β)f̂`. For F nonarchimedean the conductor `ν(ψ)` is the largest `ν` with `ψ` trivial on `P^{−ν}`. Extend the comparison to distributions by `⟨λ̂, f⟩ = ⟨λ, f̂⟩`.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. Kudla's convention `ψ(x) = e(x) = e^{2πix}` on `ℝ` and `e(x + x̄)` on `ℂ` (3.30) has positive sign; Mathlib's `𝓕` uses `e^{−2πi⟨x, w⟩}`, so `f̂_Kudla(x) = 𝓕f(−x)` at `ℝ`, and at `ℂ one` also rescales by 2 through the trace pairing.
 
-(Source: [Kudla](#ref-kudla2004), §3, "Fourier transforms", printed p. 122 (physical p. 14).)
+**Checks.**
 
-*Needs:* [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); [Fourier transform of a subgroup indicator](#indicator-transform); [Fourier transform of a coset indicator](#coset-transform); [Fourier inversion for a subgroup indicator](#indicator-inversion); Mathlib `SchwartzMap.fourierTransformCLM`; Mathlib `fourierIntegral_gaussian`; Mathlib `Real.fourierChar`; [Finite-place Schwartz Fourier inversion](#finite-fourier-inversion); [Archimedean Schwartz Fourier comparison](#archimedean-fourier-comparison); [Self-dual local additive Haar measure](#self-dual-haar); [Self-duality of a local additive group](#local-additive-self-duality).
+- At an unramified finite place, the standard character and `μ(O)=1` give `f̂=1_O` for `f=1_O`.
+- At `F=ℂ`, the standard trace character and `2 dxdy` fix `exp(−2π|z|²)` under the positive transform.
+- For `β=ϖ` at a finite place, the character change gives `q^(−1/2)r(ϖ)f̂`; the factor is the square root of the additive Jacobian.
+
+(Source: [Kudla](#ref-kudla2004), §3, "Fourier transforms", printed p. 122 (physical p. 14), and character scaling, pp.123–124.)
+
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, scalar duality and self-dual measure; [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); [Fourier transform of a subgroup indicator](#indicator-transform); [Fourier transform of a coset indicator](#coset-transform); [Fourier inversion for a subgroup indicator](#indicator-inversion); Mathlib `SchwartzMap.fourierTransformCLM`; Mathlib `fourierIntegral_gaussian`; Mathlib `Real.fourierChar`; [Finite-place Schwartz Fourier inversion](#finite-fourier-inversion); [Archimedean Schwartz Fourier comparison](#archimedean-fourier-comparison); [Self-dual local additive Haar measure](#self-dual-haar); [Self-duality of a local additive group](#local-additive-self-duality).
 
 
 <a id="point-supported-distributions"></a>
@@ -657,7 +687,7 @@ Consume the carrier and tensor/Fourier API with the following interface notation
 
 <a id="adelic-poisson-summation"></a>
 
-**Vector-space Poisson comparison and compact-uniform estimates.** Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for scalar adelic self-duality, covolume one, Poisson summation and Tate's Riemann–Roch identity. Their scalar formulas are recalled here to fix the normalization. Let k be a number field and `ψ` a nontrivial character of `𝔸/k` with the self-dual measure on `𝔸`. (i) The annihilator of k in `𝔸` under `(x, y) ↦ ψ(xy)` is k (Tate Theorem 4.1.4), and `𝔸/k` has volume 1 (Tate p. 43). (ii) Poisson: if f is continuous and integrable, the net `Σ_{ξ∈E}|f(x + ξ)|` over finite `E⊂k` converges uniformly on every compact subset of `𝔸`, and `Σ_{ξ∈k}|f̂(ξ)|<∞`, then `Σ_{ξ∈k} f̂(ξ) = Σ_{ξ∈k} f(ξ)`. The periodisation is continuous and k-periodic, hence descends to `𝔸/k`; integrate over a relatively compact fundamental domain using the same compact-uniform convergence. (iii) Riemann–Roch: if f belongs to the compact-uniform Tate class `𝔷` (in particular `f ∈ S(𝔸)`), then for every idele `𝔞, (1/|𝔞|) Σ_{ξ∈k} f̂(ξ/𝔞) = Σ_{ξ∈k} f(𝔞ξ)` (Theorem 4.2.1).
+**Vector-space Poisson comparison and compact-uniform estimates.** Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for restricted-product adelic self-duality, the diagonal self-annihilator, covolume one, Poisson summation and Tate's Riemann–Roch identity. Their scalar formulas are recalled here to fix the normalization. Let k be a number field and `ψ` a nontrivial character of `𝔸/k` with the self-dual measure on `𝔸`. (i) The annihilator of k in `𝔸` under `(x, y) ↦ ψ(xy)` is k (Tate Theorem 4.1.4), and `𝔸/k` has volume 1 (Tate p. 43). (ii) Poisson: if f is continuous and integrable, the net `Σ_{ξ∈E}|f(x + ξ)|` over finite `E⊂k` converges uniformly on every compact subset of `𝔸`, and `Σ_{ξ∈k}|f̂(ξ)|<∞`, then `Σ_{ξ∈k} f̂(ξ) = Σ_{ξ∈k} f(ξ)`. The periodisation is continuous and k-periodic, hence descends to `𝔸/k`; integrate over a relatively compact fundamental domain using the same compact-uniform convergence. (iii) Riemann–Roch: if f belongs to the compact-uniform Tate class `𝔷` (in particular `f ∈ S(𝔸)`), then for every idele `𝔞, (1/|𝔞|) Σ_{ξ∈k} f̂(ξ/𝔞) = Σ_{ξ∈k} f(𝔞ξ)` (Theorem 4.2.1).
 
 For each `n≥1`, use the supplied scalar space to form `S(𝔸^n)`, with completed archimedean tensor factors, the coordinate pairing `Σ_i x_i y_i` and product self-dual measure. Prove the coordinatewise Fourier and Poisson identities, reflection under the double transform and covolume one for `k^n`. The `n=1` identity is the supplied scalar theorem. Prove continuity, integrability and joint compact-uniform absolute periodisation for f and f̂ on `S(𝔸^n)`, extending from finite-place levels and archimedean Schwartz seminorms: the sum is over `k^n`, translations lie in compact `C⊂𝔸^n` and coordinatewise idele dilations lie in compact `B⊂𝔸×`. The dilated Poisson identity has Jacobian `|a|^(−n)`, so `Σ_ξ f(aξ)=|a|^(−n)Σ_ξ f̂(ξ/a)`. For `n=1` also prove the weighted scalar idele bound `𝔷3` below; higher-rank Mellin bounds retain the exponent ns and the nonzero-vector hypotheses of the mirabolic target.
 
@@ -671,6 +701,7 @@ Thus the absolute dual sum in Poisson is finite, also after every idele dilation
 
 - For `n=2` and a product of two scalar standard functions, the coordinate transform and Poisson sum are the products of the supplied scalar identities. A completed Schwartz function need not be a single pure tensor.
 - For `n=1` the comparison is exactly the supplied scalar transform and Poisson theorem, including its measure and positive-kernel convention.
+- For `k=ℚ`, the adele with real component `1/2` and all finite components zero pairs to `−1` with diagonal 1, so is outside `ℚ⊥`. For an idele b the pairing `ψ(bxy)` has diagonal annihilator `b⁻¹k`; the equality `k⊥=k` uses the supplied diagonal-trivial character.
 - `AL0.gaussian_periodization_compact`: For `k=ℚ` and `f=1_Ẑ⊗e^(−πx∞²)`, periodisation converges absolutely and uniformly on each compact set; on the real slice with finite component zero it is `Σ_{n∈ℤ}e^(−π(x+n)²)`, uniformly for x in any compact interval.
 - `AL0.gaussian_periodization_not_uniform`: The same fixed-subset net fails to converge uniformly on all `𝔸`. For any finite `E⊂ℚ`, take an integer n∉E and `x=−n` diagonally; the omitted `ξ=n` term is `f(0)=1`. Already the real slice and finite `E⊂ℤ` have this obstruction.
 - `AL0.gaussian_periodization_compact_scaled`: On that real slice, the sums `Σ_{n∈ℤ}e^(−πa²(x+n)²)` converge absolutely and uniformly for `a∈[r,R], 0<r≤R`, and x in a compact set. Their value at `x=0` gives the theta Riemann–Roch identity under `a↦a⁻¹`; allowing `a→0` would destroy this uniform bound.
