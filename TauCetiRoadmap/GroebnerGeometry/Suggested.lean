@@ -197,3 +197,160 @@ def split12Family : Polynomial (MvPolynomial (Fin 6) R) :=
   ring
 
 end TauCeti.GroebnerGeometry
+
+
+namespace TauCeti.GroebnerGeometry.SAGBICertificates
+
+open MvPolynomial
+
+universe u v w
+
+variable {k : Type u} [Field k] {σ : Type v} {ι : Type w}
+
+/-- Explicit scalar normalization; the zero input remains zero. The monic
+statement below is only for a nonzero input. -/
+def monicNormalize (m : MonomialOrder σ) (f : MvPolynomial σ k) :
+    MvPolynomial σ k :=
+  C ((m.leadingCoeff f)⁻¹) * f
+
+@[simp] theorem monicNormalize_zero (m : MonomialOrder σ) :
+    monicNormalize m (0 : MvPolynomial σ k) = 0 := by
+  simp [monicNormalize]
+
+theorem monicNormalize_monic (m : MonomialOrder σ)
+    {f : MvPolynomial σ k} (hf : f ≠ 0) :
+    m.Monic (monicNormalize m f) := by
+  change m.leadingCoeff (C ((m.leadingCoeff f)⁻¹) * f) = 1
+  rw [m.leadingCoeff_mul, m.leadingCoeff_C,
+    inv_mul_cancel₀ (m.leadingCoeff_ne_zero_iff.mpr hf)]
+
+theorem monicNormalize_reconstruct (m : MonomialOrder σ)
+    {f : MvPolynomial σ k} (hf : f ≠ 0) :
+    C (m.leadingCoeff f) * monicNormalize m f = f := by
+  unfold monicNormalize
+  rw [← mul_assoc, ← map_mul,
+    mul_inv_cancel₀ (m.leadingCoeff_ne_zero_iff.mpr hf), map_one, one_mul]
+
+/-- Preservation includes a family containing zero; the finite criterion
+uses the subtype of nonzero members. -/
+theorem adjoin_monicNormalize (m : MonomialOrder σ)
+    (b : ι → MvPolynomial σ k) :
+    Algebra.adjoin k (Set.range fun i => monicNormalize m (b i)) =
+      Algebra.adjoin k (Set.range b) := by sorry
+
+theorem sagbi_monicNormalize_iff (m : MonomialOrder σ)
+    (b : ι → MvPolynomial σ k) (A : Subalgebra k (MvPolynomial σ k)) :
+    m.IsSAGBIBasis (Set.range fun i => monicNormalize m (b i)) A ↔
+      m.IsSAGBIBasis (Set.range b) A := by sorry
+
+/-- Diagonal change in the RELATION polynomial ring. This is an explicit
+algebra homomorphism, not a new polynomial carrier. It is invertible when
+all s i are nonzero. -/
+def coefficientScale (s : ι → k) :
+    MvPolynomial ι k →ₐ[k] MvPolynomial ι k :=
+  aeval fun i => C (s i) * X i
+
+@[simp] theorem coefficientScale_X (s : ι → k) (i : ι) :
+    coefficientScale s (X i) = C (s i) * X i := by
+  simp [coefficientScale]
+
+/-- Generator-level evaluation comparison; the full map comparison is
+its unique polynomial algebra-homomorphism extension. -/
+theorem aeval_coefficientScale_X (s : ι → k)
+    (c : ι → MvPolynomial σ k) (i : ι) :
+    aeval c (coefficientScale s (X i)) = C (s i) * c i := by
+  rw [coefficientScale_X, map_mul, aeval_C, aeval_X]
+  rfl
+
+/-- Full evaluation square, proved on the native polynomial maps. -/
+theorem aeval_comp_coefficientScale (s : ι → k)
+    (c : ι → MvPolynomial σ k) :
+    (aeval c).comp (coefficientScale s) =
+      aeval (fun i => C (s i) * c i) := by
+  rw [coefficientScale, MvPolynomial.comp_aeval]
+  congr 1
+  funext i
+  rw [map_mul, aeval_C, aeval_X]
+  rfl
+
+theorem coefficientScale_left_inverse (s : ι → k) (hs : ∀ i, s i ≠ 0) :
+    Function.LeftInverse (coefficientScale fun i => (s i)⁻¹)
+      (coefficientScale s) := by sorry
+
+/-- Specialization of the existing native linear-combination map. -/
+abbrev imageExponent (m : MonomialOrder σ) (c : ι → MvPolynomial σ k) :
+    (ι →₀ ℕ) →ₗ[ℕ] (σ →₀ ℕ) :=
+  Finsupp.linearCombination ℕ fun i => m.degree (c i)
+
+/-- The coefficient-one map is for the normalized monic family. -/
+def coefficientOneMap (m : MonomialOrder σ) (c : ι → MvPolynomial σ k) :
+    MvPolynomial ι k →ₐ[k] MvPolynomial σ k :=
+  aeval fun i => monomial (m.degree (c i)) 1
+
+def exponentBinomial (u v : ι →₀ ℕ) : MvPolynomial ι k :=
+  monomial u 1 - monomial v 1
+
+/-- A concrete bounded zero-subduction expression, with no assertion about
+the totalized degree of zero. Exact zero has the empty expression. -/
+def HasStrictSubduction (m : MonomialOrder σ) (c : ι → MvPolynomial σ k)
+    (α : σ →₀ ℕ) (g : MvPolynomial σ k) : Prop :=
+  ∃ Q : MvPolynomial ι k, aeval c Q = g ∧
+    ∀ e ∈ Q.support, m.toSyn (imageExponent m c e) < m.toSyn α
+
+theorem hasStrictSubduction_zero (m : MonomialOrder σ)
+    (c : ι → MvPolynomial σ k) (α : σ →₀ ℕ) :
+    HasStrictSubduction m c α 0 := by
+  exact ⟨0, by simp, by simp⟩
+
+/-- The algebraic lift equation is separate from its exponent bound. -/
+theorem evaluated_lift_eq_zero (c : ι → MvPolynomial σ k)
+    (u v : ι →₀ ℕ) (Q : MvPolynomial ι k)
+    (hQ : aeval c Q = aeval c (exponentBinomial (k := k) u v)) :
+    aeval c (exponentBinomial u v - Q) = 0 := by
+  rw [map_sub, hQ, sub_self]
+
+/-- Representative finite criterion. The actual toric-kernel hypothesis is
+an ideal equality, and each requested certificate is strict at the common
+exponent. The README owns its construction and sufficiency induction. -/
+theorem monic_sagbi_criterion [Finite ι] {J : Type*} [Finite J]
+    (m : MonomialOrder σ) (c : ι → MvPolynomial σ k)
+    (hc : ∀ i, m.Monic (c i)) (u v : J → (ι →₀ ℕ))
+    (hcommon : ∀ j, imageExponent m c (u j) = imageExponent m c (v j))
+    (hker : RingHom.ker (coefficientOneMap m c).toRingHom =
+      Ideal.span (Set.range fun j => (exponentBinomial (u j) (v j) : MvPolynomial ι k))) :
+    m.IsSAGBIBasis (Set.range c) (Algebra.adjoin k (Set.range c)) ↔
+      ∀ j, HasStrictSubduction m c (imageExponent m c (u j))
+        (aeval c (exponentBinomial (k := k) (u j) (v j))) := by sorry
+
+section RationalRegression
+
+abbrev x : MvPolynomial (Fin 2) ℚ := X 0
+abbrev y : MvPolynomial (Fin 2) ℚ := X 1
+
+def rawFirst : MvPolynomial (Fin 2) ℚ := x
+def rawSecond : MvPolynomial (Fin 2) ℚ := x + y
+def rawThird : MvPolynomial (Fin 2) ℚ := C 2 * x + y
+
+theorem raw_first_relation : rawFirst - rawThird = -rawSecond := by
+  unfold rawFirst rawSecond rawThird
+  simp only [map_ofNat]
+  ring
+
+theorem raw_second_relation : rawSecond - rawThird = -rawFirst := by
+  unfold rawFirst rawSecond rawThird
+  simp only [map_ofNat]
+  ring
+
+theorem y_in_raw_span_expression : rawSecond - rawFirst = y := by
+  unfold rawFirst rawSecond
+  ring
+
+def normalizedThird : MvPolynomial (Fin 2) ℚ := x + C (1 / 2 : ℚ) * y
+
+theorem normalized_first_relation :
+    rawFirst - normalizedThird = -(C (1 / 2 : ℚ) * y) := by
+  unfold rawFirst normalizedThird
+  ring
+
+end RationalRegression
+end TauCeti.GroebnerGeometry.SAGBICertificates
