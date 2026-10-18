@@ -9,12 +9,14 @@ indicator functions produce projection-valued measures. For unbounded self-adjoi
 resolvent and Cayley transform provide bounded objects from which the spectral measure and generated
 unitary group can be reconstructed.
 
-The roadmap develops these connections in five layers. Part A builds one-parameter unitary groups
-and Stone's forward theorem. Part B develops the bounded Borel functional calculus and
-projection-valued measures. Part C supplies the domain, graph, perturbation, and transport calculus
-for partial operators. Part D develops resolvents, spectral gaps, and the Cayley transform. Part E
-constructs the spectral measure of an unbounded self-adjoint operator and completes Stone theory via
-Yosida approximation.
+The roadmap develops these connections in five layers. Part A develops the one-parameter-group
+carrier and its generator calculus, consuming Tau Ceti's implemented Stone theorem for the native
+`LinearPMap` generator and proving the carrier-specific comparison used here. Part B develops the
+bounded Borel functional calculus and projection-valued measures. Part C supplies the domain, graph,
+perturbation, and transport calculus for partial operators. Part D develops resolvents, spectral gaps,
+and the Cayley transform. Part E constructs the spectral measure of an unbounded self-adjoint
+operator and proves its compatibility with the already implemented Stone correspondence, including
+the Yosida construction.
 
 Suggested homes:
 
@@ -73,7 +75,7 @@ TauCeti/MeasureTheory/
   `S_n := ½(A_n^+ + A_n^-)`. The bounded self-adjoint operators `S_n` generate the approximating
   unitary groups.
 
-## What Mathlib already has (consume)
+## What Mathlib and Tau Ceti already have (consume)
 
 - **`LinearPMap`** with `domain`, `graph`, `adjoint`, `IsFormalAdjoint`, `IsSelfAdjoint`,
   `IsSelfAdjoint.dense_domain`, `IsSelfAdjoint.isClosed`, and closure/core material — the
@@ -105,25 +107,37 @@ Tau Ceti provides the `TauCeti.LinearPMap` resolvent core in
 scalar field with the `zI-A` convention. Part D consumes it and builds the self-adjoint spectral
 theory on top, rather than restating it.
 
+Tau Ceti also implements the unbounded Stone characterization in
+`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`. Its declarations
+`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` and
+`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` apply to the native
+`LinearPMap` complex generator of a strongly continuous unitary group. SAST consumes these
+results with their normalization: if A is the SAST difference-quotient generator and G is the
+native complex generator of the same group, SA-A22 proves equality of domains and
+G = i • A, equivalently A = (−i) • G. SA-E43 identifies the spectral-PVM/Yosida
+group with this same native group. SAST does not duplicate the native Stone theorem.
+
 ---
 
 ## What is missing (build here)
 
-* One-parameter unitary groups and Stone's theorem, with the generator as a `LinearPMap` and
-  density of its domain derived.
+* The SAST-specific one-parameter-group and difference-quotient generator interface, including
+  its identification with Tau Ceti's implemented `LinearPMap` Stone theorem and the exact domain
+  comparison. Do not duplicate the native Stone proof.
 * The bounded Borel functional calculus of a normal operator as a star-algebra homomorphism
   on bundled bounded Borel symbols, and intrinsic projection-valued measures with derived
   diagonal scalar measures.
+* Cyclic multiplication models for unital representations of C(K,ℂ), their normal-
+  operator specialization, and separable measure-class/multiplicity
+  classification, including nondegenerate C₀(X) representations (`SA-B85`).
 * The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
   Sylvester equation as a structure, and the quadratic-form bounds with their spectral
   bridges.
 * The partial-operator spectrum over the supplied `TauCeti.LinearPMap` resolvent
   core, self-adjoint resolvent estimates and the Cayley transform.
-* The spectral measure of an unbounded self-adjoint operator, its spectral projections,
-  Stone uniqueness, and the imaginary-shift Yosida approximants.
-* Cyclic multiplication models, separable measurable multiplicity and classification
-  for compact-space and nondegenerate C₀ representations (SA-B85), and
-  essentially bounded PVM symbols (SA-B86).
+* The spectral measure of an unbounded self-adjoint operator, its spectral projections, the
+  carrier-specific compatibility/uniqueness comparison with native Stone, and the imaginary-shift
+  Yosida approximants.
 
 ## The build, in layers
 
@@ -134,14 +148,16 @@ labels. `Suggested.lean` cites the labels represented by its sample declarations
 
 ### Part A — one-parameter unitary groups and Stone's theorem
 
-`SA-A01`–`SA-A14` and `SA-A17`–`SA-A24` depend only on Mathlib. `SA-A15`–`SA-A16`
+`SA-A01`–`SA-A14`, `SA-A17`–`SA-A21` and `SA-A23`–`SA-A24` use Mathlib and
+preceding targets here. `SA-A22` additionally consumes Tau Ceti's implemented
+`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded` theorem. `SA-A15`–`SA-A16`
 consume the general contraction-semigroup API from
 [`OneParameterSemigroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
 
 **Objects.** A one-parameter unitary group is a strongly continuous homomorphism from
 `(ℝ,+)` to the unitary operators on a complex Hilbert space. Its generator is the partial
 operator whose domain consists of vectors with a convergent difference quotient
-`(U(t)ψ-ψ)/(it)` at `t=0`, with value given by that limit.
+`(U(t)ψ-ψ)/(it)` as `t → 0` through nonzero real times, with value given by that limit.
 
 #### Unitary groups and generators
 
@@ -200,14 +216,30 @@ estimate used by Yosida approximation.
 
 #### Self-adjointness and Stone's theorem
 
-Von Neumann's shifted-surjectivity criterion converts symmetry into self-adjointness. Stone's
-forward theorem applies this criterion to the generator of a strongly continuous unitary
-group.
+Von Neumann's shifted-surjectivity criterion converts symmetry into self-adjointness. For the native complex generator, consume the implemented Stone characterization
+`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` from
+`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`. This roadmap proves the stated
+difference-quotient/`LinearPMap` carrier comparison and the PVM compatibility below; it does not
+re-prove the native Stone theorem.
 
 - **SA-A21 — von Neumann criterion.** A symmetric partial operator for which `A+i` and
   `A-i` are surjective is self-adjoint.
-- **SA-A22 — Stone forward theorem.** The generator of every one-parameter unitary group is
-  self-adjoint.
+- **SA-A22 — Difference-quotient generator comparison.** Construct mutually inverse
+  conversions between the SAST unitary-group carrier and a native
+  `TauCeti.Semigroups.StronglyContinuousGroup` with its `IsUnitary` witness,
+  preserving the action at every real time. For that same group, let A be the
+  SAST generator from `(U(t)ψ−ψ)/(it)` and G the native `complexGenerator`.
+  Prove equality of their domains and `G = Complex.I • A`, equivalently
+  `A = (−Complex.I) • G`; the underlying-real native generator is
+  `(Complex.I • A).restrictScalars ℝ`. Compare the native right-hand limit
+  `(U(t)ψ−ψ)/t` as `t → 0+` with the two-sided punctured SAST limit: the group
+  identity gives the negative-time quotient as U(−s) applied to the
+  positive-time quotient at s>0, and strong continuity and unitarity give
+  the same limiting value. Apply
+  `LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul`
+  from `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded` to obtain
+  self-adjointness of A. For `U(t)=exp(it)I`, explicitly recover `A=I` and
+  `G=iI`.
 - **SA-A23 — Generator of a bounded exponential group.** The generator of
   `t ↦ exp(itS)` for bounded self-adjoint `S` is `S` viewed as a total partial operator.
 - **SA-A24 — Norm-continuity criterion.** A one-parameter unitary group is norm-continuous
@@ -219,9 +251,9 @@ group.
 
 ### Part B — the Borel functional calculus and projection-valued measures
 
-Part B uses Mathlib and its preceding targets. SA-B85 additionally consumes
-V4.0.Fields' independent measurable-field/direct-integral construction;
-SA-B86 follows the PVM and multiplication-model lane.
+Part B depends on Mathlib, with the two supplier extensions below.
+SA-B85 uses VonNeumannAlgebras V4.0.Fields' independent measurable-field/direct-
+integral construction; SA-B86 follows the PVM and multiplication-model lane.
 The bidual/Goldstine comparison SA-B63 and SA-B65 also consumes
 [BanachSpaceTheory B1 and B5](../../BanachSpaceTheory/README.md)'s Goldstine
 theorem and normed regular scalar-measure dual of `C(K)`. These targets
@@ -744,7 +776,7 @@ SA-B54–57 and SA-B73–78, after B3.
 consuming BanachSpaceTheory B1/B5.
 
 **Milestone B6 — multiplication models and essential symbols.** SA-B85–86
-after B3–B4, consuming V4.0.Fields' independent measurable-field construction.
+after B3–B4, with V4.0.Fields' independent measurable-field construction.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -869,8 +901,9 @@ Relative boundedness compares a domain-defined perturbation with the ambient and
 of the base operator. The perturbation constructors keep the base domain explicit and support
 bounded and Kato–Rellich self-adjointness theorems.
 
-- **SA-C44 — Relative boundedness.** Define the estimate
-  `‖Vx‖ ≤ a‖x‖ + b‖Ax‖` on `dom A`.
+- **SA-C44 — Relative boundedness.** For a partial linear operator A over 𝕜
+  and a linear map `V : A.domain →ₗ[𝕜] E`, define the estimate
+  `‖Vx‖ ≤ a‖x‖ + b‖Ax‖` on `dom A`, with `a,b ≥ 0`.
 - **SA-C45 — Zero relative perturbation.** The zero perturbation is relatively bounded with
   zero constants.
 - **SA-C46 — Monotonicity of relative bounds.** Increasing either admissible coefficient
@@ -886,8 +919,9 @@ bounded and Kato–Rellich self-adjointness theorems.
 - **SA-C51 — Restriction of a bounded perturbation to the domain.** A bounded ambient
   operator `V` restricts to a relatively bounded map on `dom A` with coefficients
   `(‖V‖,0)`.
-- **SA-C52 — Domain-defined perturbation.** For `V : dom A → E`, define the partial
-  operator `A+V` on `dom A` by `(A+V)x=Ax+Vx`.
+- **SA-C52 — Domain-defined perturbation.** For a linear map
+  `V : A.domain →ₗ[𝕜] E`, define the partial linear operator `A+V` on
+  `dom A` by `(A+V)x=Ax+Vx`.
 - **SA-C53 — Bounded perturbation as a domain map.** A bounded ambient operator restricts to
   the domain-defined perturbation in `SA-C52`.
 - **SA-C54 — Bounded Kato–Rellich theorem.** A bounded self-adjoint perturbation of a
@@ -964,12 +998,45 @@ form inequalities.
   spectral inclusion `spectrum(A|_U) ⊆ (-∞,c]`,
   `Re⟪Ax,x⟫ ≤ c‖x‖²` for every `x ∈ U`.
 
+- **SA-C86 — Compact normal spectral decomposition.** For a compact normal
+  bounded operator T on a complete complex Hilbert space, build the
+  orthogonal projections P_λ onto each nonzero eigenspace and prove
+  `H=ker T ⊕ closure(⊕_{λ≠0} eigenspace T λ)`. Give norm convergence
+  of `∑_{λ∈F}λP_λ` to T as finite F exhaust the nonzero spectrum, and
+  the tail estimate `‖T−∑_{λ∈F}λP_λ‖=sup_{λ∉F}|λ|` (zero for an
+  empty tail). Supply eigenbasis, multiplicity, kernel and finite-rank
+  approximation comparisons, including finite and zero spectra. Consume
+  [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)'s countability/finiteness and Tau Ceti's compact
+  self-adjoint eigenbasis API. Construct the simultaneous diagonalization
+  of the commuting compact self-adjoint real and imaginary parts of T:
+  diagonalize the second on each finite nonzero eigenspace of the first,
+  consuming Mathlib JointEigenspace's
+  `iSup_eigenspace_inf_eigenspace_of_commute` and
+  `orthogonalFamily_eigenspace_inf_eigenspace`, and use the native compact
+  self-adjoint eigenbasis theorem on its kernel. This does not assume a representation PVM.
+
 **Milestone C1 — domain geometry and transport.** `SA-C01`–`SA-C43`.
 
 **Milestone C2 — perturbation, spectral separation, and Sylvester vocabulary.**
 `SA-C44`–`SA-C56`, `SA-C62`–`SA-C72`.
 
 **Milestone C3 — form-bound vocabulary and spectral bridges.** `SA-C76`–`SA-C85`.
+
+**Milestone C4 — compact normal operators.** `SA-C86`, with [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces).
+
+- **SA-C87 — Finite Euclidean operator norms.** For every complex finite
+  matrix compare its Euclidean CLM norm with the largest eigenvalue of T†T:
+  `‖T‖²=max spectrum(T†T)`, with the zero-dimensional case separate.
+  Construct the singular-value/attaining-vector comparison using native
+  finite-dimensional spectral theory. On ℂ⁵, compute the matrix
+  `[[3,8,0,-10,2],[-3,4,1,0,-7],[3,-4,1,0,7],`
+  `[3,4,0,15,-3],[3,-4,0,-5,-13]]`, prove
+  T†T=diag(45,128,2,350,280), norm=√350, attained at the fourth
+  coordinate vector. This is the Euclidean operator norm, distinct from
+  BanachAlgebras A3's entrywise matrix norm. This finite-dimensional lane
+  uses native matrix theory and does not require SA-C86 or BanachAlgebras A8.
+
+**Milestone C5 — finite matrix norms.** SA-C87, using native matrix theory.
 
 ### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
 
@@ -1116,9 +1183,10 @@ and D11 interfaces.
 **Milestone D2 — characterization and bounded models.** Build SA-D35
 and the explicit-series SA-D39 target, consuming supplied D36–38.
 
-### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
+### Part E — the spectral measure of an unbounded self-adjoint operator and Stone compatibility
 
-Needs Parts A, B and D.
+Needs Parts A, B and D, together with Part C's reduced-restriction API
+SA-C12–19 for spectral subspaces.
 
 **Objects.** For self-adjoint `A : H →ₗ.[ℂ] H`, the spectral PVM is obtained from the
 Borel calculus of the Cayley transform by measurable reindexing along the inverse Cayley
@@ -1148,8 +1216,10 @@ projection data into self-adjoint reductions and form bounds.
   `dom A` into itself.
 - **SA-E08 — Spectral support on the spectrum.** If a Borel set `B` consists of resolvent
   points, then `P_A(B)=0`.
-- **SA-E09 — Self-adjoint spectral restriction.** The restriction of `A` to a spectral
-  subspace is self-adjoint.
+- **SA-E09 — Self-adjoint spectral restriction.** Prove that each spectral subspace
+  reduces A using SA-E06–07, then apply SA-C12–19's reduced restriction and
+  self-adjointness theorem. This specializes that shared partial-operator
+  construction to spectral subspaces.
 - **SA-E10 — Gap resolvent for a spectral restriction.** If a spectral subspace is supported
   away from a real point `λ` by a positive gap, then `λ` belongs to the resolvent set of the
   restricted operator.
@@ -1232,11 +1302,17 @@ inverses, and reassembly translate local spectral support into quantitative oper
 
 #### Packaged spectral theorems
 
-These declarations package the Stone correspondence, spectral-measure uniqueness, and
-compatibility with bounded and multiplication-operator models.
+These declarations package the roadmap-level Stone correspondence in its `LinearPMap`/PVM carriers, spectral-measure uniqueness, and compatibility with bounded and multiplication-operator models. The underlying one-parameter Stone theorem is implemented by the cited Tau Ceti declarations; SA-E43 owns the carrier adapter and compatibility theorem.
 
-- **SA-E43 — Packaged Stone theorem.** Self-adjoint operators and strongly continuous
-  one-parameter unitary groups correspond through `A ↦ exp(itA)` and the generator.
+- **SA-E43 — Packaged Stone interface.** Consume
+  `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` from
+  `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`, using SA-A22's inverse
+  group conversions and exact domain/scalar relation `G = Complex.I • A`.
+  Prove that the PVM/Yosida group `genToGroup A` is the converted unique
+  native group with complex generator `i • A`, that its SAST generator is A,
+  and that generating a group from the SAST generator of any unitary group
+  recovers that group. Retain the PVM and bounded-model compatibility of
+  this correspondence; consume the native uniqueness theorem.
 - **SA-E44 — Uniqueness of the spectral measure.** A real projection-valued measure whose
   diagonal measures satisfy the resolvent formula `SA-E05` equals the spectral PVM
   `SA-E01`.
@@ -1266,8 +1342,10 @@ norm-continuity criterion is `SA-A24`.
 
 **Acceptance examples.** The multiplication-operator model is `SA-B36`; half-line spectral
 projections and form bounds are `SA-B32`–`SA-B33`. SA-B85 retains multiplicity 2
-for scalar multiplication on ℂ² and handles zero H, zero control and empty cyclic
-sums; SA-B86 identifies essential symbols without choosing pointwise values on null sets.
+for scalar multiplication on ℂ², checks the weighted cyclic and RN-fibre norm
+identities and control-null/PVM-null equivalence, and covers zero H, zero control,
+empty cyclic sums and the zero-H/empty-X C₀ representation. SA-B86 identifies
+essential symbols without choosing pointwise values on null sets.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -1290,16 +1368,17 @@ generated-group compatibility is `SA-E46`; multiplication-operator spectral proj
 
 ## Ordering
 
-**Internal.** SA-B85 consumes V4.0.Fields' independent measurable-field
-construction after the representation PVM and normal spectral calculus;
-SA-B86 follows that PVM/multiplication lane. SA-B63 and SA-B65 consume
+**Internal.** Part B's SA-B85 consumes V4.0.Fields' independent measurable-field
+construction after the representation PVM and normal spectral calculus.
+SA-B63 and SA-B65 consume
 BanachSpaceTheory B1/B5 for the bidual/Goldstine comparison. Construct symbols/approximation, then abstract PVM integration, then the
 compact-space representation PVM before specializing it to cfcHom.
 SA-B05 and SA-B30 use that same construction, and SA-B54 is definitional.
 SA-B35 uses the bounded compact-spectrum coordinate and SA-B51's reindexing.
 The representation PVM and examples use no bidual comparison as an input. Part D consumes Tau Ceti’s supplied scalar-generic `TauCeti.LinearPMap`
-resolvent core; its remaining obligations build on that existing API. Part A uses Mathlib together with the
-`OneParameterSemigroups` bridge in `SA-A15`–`SA-A16`. Part C consumes
+resolvent core; its remaining obligations build on that existing API. Part A uses Mathlib,
+the `OneParameterSemigroups` bridge in `SA-A15`–`SA-A16`, and the native
+`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded` theorem in `SA-A22`. Part C's SA-C86 additionally consumes [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces). Part C consumes
 [`OrthogonalGeometry`](../OrthogonalGeometry/README.md); its real spectral-separation targets
 `SA-C62`–`SA-C65` also use the shared core `SA-D01`–`SA-D02`. Part E is the confluence
 and consumes the Cayley transform and resolvent bounds from D, the Borel
@@ -1309,10 +1388,9 @@ Part C's SA-C12–19 reduced-restriction API, after SA-E06–07 establishes its
 reducing hypotheses. Parts C, D and E share the native `LinearPMap` carrier. Within Part E the Yosida and maximality material precedes the
 construction.
 
-**External.** [VonNeumannAlgebras V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) supplies
-SA-B85 with independent measurable Hilbert fields, rectangular decomposable maps,
-fibrewise unitarity, and equivalent-measure/zero-extension transport.
-[`OrthogonalGeometry`](../OrthogonalGeometry/README.md) supplies the
+**External.** [VonNeumannAlgebras V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) supplies SA-B85
+with independent measurable Hilbert fields, rectangular decomposable maps,
+fibrewise unitarity and measure change. [`OrthogonalGeometry`](../OrthogonalGeometry/README.md) supplies the
 reducing-subspace definition and completeness of projected subspaces. Mathlib supplies invariant
 subspaces and symmetric restrictions for Part C's form bounds.
 
@@ -1321,17 +1399,17 @@ roadmap owns the general dynamical layer: strongly continuous semigroups, their 
 the generator/Laplace-resolvent bridge, Hille–Yosida, Lumer–Phillips, and real-shift Yosida
 approximation. The scalar-generic `TauCeti.LinearPMap` resolvent core is shared infrastructure
 and is consumed in Part D here. This roadmap also owns the unitary/self-adjoint specialization
-and Stone's theorem. The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
+and the carrier-specific Stone correspondence. Consume Tau Ceti's one-parameter Stone theorem, with native complex generator `G=i•A`, and prove the `LinearPMap`/PVM bridge in SA-E43. The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
 for the convention `U t = exp (i t A)`: the semigroup generator is `i A`. The two roadmaps share
 that bridge rather than duplicating semigroup or generator theory.
 
 **Downstream.** VonNeumannAlgebras V4.0.Decomposition and
-OperatorAlgebraDynamics D5 consume SA-B85's separable diagonal C₀(X)
-representation, multiplicity and measure-change theorem. VNA's spectral/central
-reduction consumes this theorem rather than rebuilding the C₀ model in Fields.
-NQS applies the general compact model to its own given joint C(K′×K) representation;
-that joint representation, its full-centre generating comparison and parameterized
-joint measurability remain NQS targets. None is a prerequisite for SA-B85.
+OperatorAlgebraDynamics D5 consume SA-B85’s separable diagonal C₀(X)
+representation, multiplicity and measure-change theorem. V10.ClosedOperators
+consumes the cyclic decomposition and summable reweighting;
+NQS.M2.ParameterizedRefinement applies SA-B85's general compact model to
+its NQS-owned joint representation of C(K′×K). NQS owns that representation,
+its full-centre generating comparison and joint measurability.
 `SpectralSubspacePerturbation` consumes Part A's unitary/Stone vocabulary,
 Part C's domain-aware `SylvesterEquation` and form-bound vocabulary, Part D's `LinearPMap`
 resolvent/spectrum API, and Part E's spectral-measure/intertwining results.
@@ -1347,8 +1425,8 @@ limit — the generator of a one-parameter unitary group.
 (ProjValMeasure.ofRepresentation (cfcHom ha)).integral`.
 SA-B04 gives the polarized matrix-element formula with the conjugate-first convention.
 
-**D3 (`SA-C52`).** `(A+V)ψ=Aψ+Vψ` on `dom A` — perturbation by a map defined on the
-domain.
+**D3 (`SA-C52`).** `(A+V)ψ=Aψ+Vψ` on `dom A` — perturbation by a linear map
+`V : A.domain →ₗ[𝕜] E`.
 
 **D4 (`SA-D03`–`SA-D07`).** The bounded two-sided inverse of `zI-A` — the resolvent at a
 point of the resolvent set.
