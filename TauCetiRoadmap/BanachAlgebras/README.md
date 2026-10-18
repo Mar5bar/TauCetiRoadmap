@@ -926,6 +926,11 @@ direction define the group action first on the span of ρ(L¹)E by
 independence, its uniformly bounded extension, strong continuity and
 recovery of ρ, using the bounded approximate identity. This construction
 precedes M(G), the regular representation and Fourier theory.
+[SmoothBanachRepresentations SB0–SB1](../RepresentationTheory/SmoothBanachRepresentations/README.md)
+owns compact-support integration for arbitrary strong Banach Lie-group actions
+using support-dependent local operator bounds, and compares its integral with
+this L¹ action when the present global uniform bound holds. Its Lie-smooth
+kernels and finite-sum factorization are not prerequisites of this L¹ correspondence.
 
 **A7.RegularL2.** On L²(G) construct `λ_xξ(y)=ξ(x⁻¹y)`, prove
 unitarity by left Haar invariance and strong continuity by C_c density,
