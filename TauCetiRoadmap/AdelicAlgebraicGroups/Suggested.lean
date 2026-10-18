@@ -14,6 +14,8 @@ import TauCeti.Algebra.AlgebraicGroup.Tangent.Cotangent
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 import TauCeti.RingTheory.DedekindDomain.FiniteAdeleRing.ClassGroup
+import TauCeti.RepresentationTheory.Induction.Brauer.Induction
+import TauCeti.RepresentationTheory.Induction.Monomial
 import TauCetiRoadmap.ReductiveGroupsPartII.Suggested
 
 /-!
@@ -28,6 +30,10 @@ RG2.0 supplier contract in `README.md`; RG2.4 supplies the local adjoint-modulus
 algebraic parabolic determinant reduction. The adelic modulus uses these suppliers before the
 AA.2.4 gauge measures. These README-only contracts have no suggested declarations here;
 SR supplies coefficient-valued moduli and square roots for normalized induction.
+
+The imported Brauer induction, nilpotent monomiality and induction transitivity provide the
+finite-group character identities used in AA.2.4. Its ramified local Artin-factor induction
+identity, one-dimensional Artin–Hecke comparison and analytic assembly are README-only targets.
 
 Design choices.
 * An affine algebraic group over a number field `F` is a commutative Hopf `F`-algebra `H`; its

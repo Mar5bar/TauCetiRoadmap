@@ -105,7 +105,11 @@ self-adjointness of a nested chain is proved in AA.3.3. GlobalQuadraticForms, la
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
 for approximation obstructions. ClassFieldTheory, layers 11–12, supplies quadratic idele
 characters, reciprocity and the global norm-index theorem. LFunctions supplies
-finite-order Hecke analysis through ThetaSeries; AA supplies Artin induction and assembly. RepresentationTheory/CompactGroups,
+finite-order Hecke analysis through ThetaSeries. RepresentationTheory/InductionRestriction,
+layer 6, supplies abstract Brauer induction; the pinned Tau Ceti Brauer, nilpotent monomiality
+and induction-transitivity theorems give integral combinations of induced linear characters.
+AA supplies the ramified local Artin-factor induction identity, the one-dimensional
+Artin–Hecke comparison and analytic assembly. RepresentationTheory/CompactGroups,
 layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the Haar probability
 measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
 measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
@@ -248,7 +252,8 @@ one, and a single weight of multiplicity two contributes the square.
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. |
 | Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
-| Rational tuple heights | [ArithmeticHeights, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-`ℓ²` height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
+| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: `arakelovMulHeight`, `arakelovMulHeight_eq_height2`, and relative extension-power transport from `height2_baseExtension`; prototype namespace `TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation` in that roadmap's `Suggested.lean` | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
+| Brauer and monomial character induction | RepresentationTheory/InductionRestriction, layer 6; pinned `TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`: `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`, `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`; `TauCeti/GroupTheory/Elementary.lean`: `TauCeti.IsElementary.isNilpotent`; `TauCeti/RepresentationTheory/Induction/Monomial.lean`: `FDRep.exists_character_eq_indClassFun_of_isNilpotent`; `TauCeti/RepresentationTheory/Induction/ClassFunction.lean`: `TauCeti.indClassFun_indClassFun_subgroupOf` | For a finite group over an algebraically closed characteristic-zero field, write every character as an integral combination of characters induced from linear characters of subgroups. AA.2.4 owns the ramified local Artin-factor induction identity, one-dimensional Artin–Hecke comparison and analytic assembly. |
 | Finite-order Hecke analysis | [LFunctions, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
 | One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
@@ -1030,9 +1035,11 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
 - For `𝔽₃[ε]/ε²`, the proposed
   comultiplication gives `Δ(ε²)=2ε⊗ε≠0`; hence the square-zero integral example
   cannot carry that Hopf structure at `p=3`.
-- After inverting `p` the algebra is the base
-  field; torsion-free integral points kill `ε`; in characteristic `p`, `ε` is a
-  nonzero nilpotent. These point and fibre properties accompany the Hopf-ideal test.
+- For `A = 𝒪_{F,S′}[ε]/(ε^p,pε)`, inverting `p` gives
+  `A[1/p] ≅ 𝒪_{F,S′}[1/p]`; its generic fibre is `A ⊗ F ≅ F`.
+  With base ring `ℤ` and `p=3`, the localization is `ℤ[1/3]`, which has no `1/2`
+  and is not `ℚ`. Torsion-free integral points kill `ε`; in a characteristic-`p`
+  fibre, `ε` is a nonzero nilpotent. These point and fibre properties accompany the Hopf-ideal test.
 
 ### 1.2 Restricted-product realization
 
@@ -1836,7 +1843,7 @@ restriction of scalars.
   The split specialization is
   `Tamagawa.splitLocalFactor F v r s = (1 − q_v^{−s})^{−r}` and
   `Tamagawa.splitLeadingCoeff F r = (dedekindZeta_residue F)^r`.
-  AA owns the general finite-image Artin theory: for a continuous finite-image
+  AA owns the general finite-image Artin factors and analytic assembly: for a continuous finite-image
   complex representation `ρ : Gal(F̄/F) → GL(V)` on a finite-dimensional complex vector
   space `V`, construct the inertia-invariant subspace `V^{I_v}` and the determinant
   `det(1 − q_v^{−s} ρ(Φ_v) | V^{I_v})`, where `Φ_v` is an arithmetic Frobenius lift.
@@ -1849,8 +1856,11 @@ restriction of scalars.
   These targets feed the character-module local factors and leading coefficient
   and the Artin product formula for the Tamagawa measure. The split formulas remain
   specializations of the character-module ones.
-  Brauer induction reduces this construction to finite-order Hecke characters.
-  Consume the two contracts in the table above, including `heckeLFunctionC_eq_primitive`
+  Use the pinned abstract Brauer induction, nilpotent monomiality and induction transitivity
+  in the supplier table to express each character of the finite Galois image as an integral
+  combination of characters induced from linear characters of subgroups. This reduces
+  the Artin construction to finite-order Hecke characters.
+  Consume the Hecke and one-dimensional Artin–Hecke contracts in the table above, including `heckeLFunctionC_eq_primitive`
   and `heckeLFunction_ne_zero_of_one_le_re`; the analytic dependency is
   AA → LFunctions → ThetaSeries, with GlobalNumberFields and
   ArithmeticDirichletSeries providing the carriers. The analytic hypotheses of
@@ -1875,7 +1885,9 @@ restriction of scalars.
   `TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`; AA.2.1;
   Mathlib `NumberField.dedekindZeta_residue_pos`,
   `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`;
-  Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`; the Hecke/reciprocity contracts above.
+  Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`;
+  RepresentationTheory/InductionRestriction, layer 6, with the pinned Brauer/monomial
+  and induction-transitivity contracts above; the Hecke/reciprocity contracts above.
   *Lean:* `Tamagawa.splitLocalFactor`, `Tamagawa.splitLeadingCoeff` (the split specialization; the
   finite-image Artin theory is specified in the README only).
 
@@ -3142,23 +3154,31 @@ cannot replace the reduced norm in the defining equation.
 ### 3.5 Algebraic heights
 
 - **Rational-point Arakelov comparison.** Identify
-  the adelic height on `g ∈ G(F)` with ArithmeticHeights's relative `NumberField.arakelovMulHeight`
+  the adelic height on `g ∈ G(F)` with DiophantineApproximationAndTranscendence's
+  relative projective `arakelovMulHeight`
   of the tuple indexed by `Bool × Fin m × Fin m`, containing the entries of
   `ρ(g)` and `ρ(g)⁻¹`. Its finite factors use normalized `|π_v|=N(v)⁻¹`; at infinity
   they use the `ℓ²` norm to exponent `mult(v)`. For `d=[F:ℚ]`, the absolute
   Arakelov height is `height(Δg)^(1/d)`, equivalently the adelic height is the
   d-th power of the absolute height. For `m=0`, the empty tuple and the adelic
-  representation both have height one. Consume ArithmeticHeights's extension-power comparison;
-  do not introduce a separate rational tuple-height definition. This is a comparison
-  of the displayed formulas in ArithmeticHeights §0.1 and the height formula of *adelic-height*, not a
-  Northcott counting bound.
+  representation both have height one; raw `height2` is zero on this tuple.
+  Consume `arakelovMulHeight_eq_height2` and the extension-power consequence of
+  `height2_baseExtension`: for an embedding `f : F → E` of number fields and any finite tuple `y`,
+  `arakelovMulHeight (f ∘ y) = arakelovMulHeight y ^ [E:F]`, including at zero.
+  The supplier is DiophantineApproximationAndTranscendence §2.5,
+  **Relative Euclidean projective normalization**, with the prototype namespace in the
+  supplier table. This comparison uses its relative height and the formula of *adelic-height*.
+  *Needs:* DiophantineApproximationAndTranscendence §2.5, **Relative Euclidean projective
+  normalization**; AA.3.5 (*adelic-height*).
   *Lean:* none; specified in the README only.
 
-  **Checks.** Rank zero gives one. The two-dimensional identity
-  gives relative height `2^[F:ℚ]` and absolute
-  height two, including over quadratic `F`. The rational `GL₁` point 2 gives
-  `sqrt(17)`: the tuple `(2,1/2)` has archimedean
-  factor `sqrt(17)/2` and 2-adic factor 2.
+  **Checks.**
+  - Rank zero gives one for both the adelic height and the relative projective height
+    of the empty tuple; raw `height2` gives zero.
+  - The entry tuple of `(I₂,I₂⁻¹)` gives relative height `2^[F:ℚ]` and absolute
+    height two, including over quadratic `F`.
+  - The rational `GL₁` point 2 gives `sqrt(17)`: the tuple `(2,1/2)` has archimedean
+    factor `sqrt(17)/2` and 2-adic factor 2.
 
 - **Local polynomial comparison for algebraic heights.** Define the local height at a finite
   place as the maximum of the normalized absolute values of entries of `r(g)` and its inverse,
@@ -4469,7 +4489,8 @@ quaternion norms and compact abelian Fourier limits.
     with even finite valuations and positive real component is a rational square.
 
 - **Pushforward of a homogeneous measure to a compact abelian quotient.** Let `C` be a compact
-  abelian group, second countable so that Mathlib's Haar uniqueness `isMulLeftInvariant_eq_smul` applies, `π : G → C` a
+  Hausdorff, second countable abelian group with its Borel sigma algebra, so that Mathlib's Haar
+  uniqueness `isMulLeftInvariant_eq_smul` applies, `π : G → C` a
   continuous surjective homomorphism, `T ≤ G` a closed subgroup with `Λ ≤ T` discrete, `Λ\T`
   compact (as for `[T(𝔸)]` with `T` anisotropic modulo the centre) and `π(Λ) = 1`, and `μ` the
   `T`-invariant probability measure on `Λ\T g`. Prove that `π_*μ` is the Haar probability
@@ -4489,6 +4510,10 @@ quaternion norms and compact abelian Fourier limits.
     gives mass `1/2` at each of `1,3` and zero off that coset.
     All three tests use the orbit quotient, its Borel sigma algebra and its normalized counting
     measure. The two-point sigma-algebra non-example above explains the Borel hypothesis.
+  - Hausdorffness is necessary for the closed-image assertion: take discrete `G = C₂`,
+    indiscrete `C = C₂`, the identity homomorphism `π`, and `T = Λ = {1}`, `g = 1`.
+    The singleton orbit is compact and carries its probability measure, but `π(T) = {1}`
+    is not closed in `C`.
 
 ### 4.7 Fourier limits on compact abelian groups
 
