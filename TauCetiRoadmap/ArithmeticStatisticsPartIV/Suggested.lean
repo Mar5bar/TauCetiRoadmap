@@ -17,6 +17,44 @@ namespace TauCetiRoadmap.ArithmeticStatisticsPartIV
 
 /-! ## Layer 3: Finite groups, matrix laws and moment tools -/
 
+/-- The number of surjective additive homomorphisms, finite for finite source and target. -/
+def surjCard (X A : Type*) [AddCommGroup X] [AddCommGroup A] : ℕ :=
+  Nat.card {f : X →+ A // Function.Surjective f}
+
+example {p : ℕ} (hp : p.Prime) : surjCard (ZMod (p ^ 2)) (ZMod p) = p - 1 := by sorry
+example {p : ℕ} (hp : p.Prime) :
+    surjCard (ZMod p × ZMod p) (ZMod p) = p ^ 2 - 1 := by sorry
+example : surjCard (ZMod 5) (ZMod 1) = 1 := by sorry
+example {p : ℕ} (hp : p.Prime) : surjCard (ZMod p) (ZMod (p ^ 2)) = 0 := by sorry
+example {p : ℕ} (hp : p.Prime) : Nat.card (ZMod p →+ ZMod (p ^ 2)) = p := by sorry
+
+/-- The rational probability of a specified right-kernel dimension for a uniform matrix. -/
+def matrixKernelLaw (F : Type*) [Field F] [Fintype F] (m n j : ℕ) : ℚ :=
+  (Nat.card {M : Matrix (Fin m) (Fin n) F //
+    Module.finrank F (LinearMap.ker M.mulVecLin) = j} : ℚ) /
+    (Fintype.card F : ℚ) ^ (m * n)
+
+example : matrixKernelLaw (ZMod 2) 1 1 0 = 1 / 2 := by sorry
+example : matrixKernelLaw (ZMod 2) 1 1 1 = 1 / 2 := by sorry
+example : matrixKernelLaw (ZMod 2) 2 2 0 = 6 / 16 := by sorry
+example : matrixKernelLaw (ZMod 2) 2 2 1 = 9 / 16 := by sorry
+example : matrixKernelLaw (ZMod 2) 2 2 2 = 1 / 16 := by sorry
+example : matrixKernelLaw (ZMod 2) 0 0 0 = 1 := by sorry
+
+/-- The rational kernel law for uniform symmetric matrices, including their diagonal entries. -/
+def symmetricKernelLaw (F : Type*) [Field F] [Fintype F] (r n : ℕ) : ℚ :=
+  (Nat.card {M : Matrix (Fin r) (Fin r) F // M.IsSymm ∧
+    Module.finrank F (LinearMap.ker M.mulVecLin) = n} : ℚ) /
+    (Fintype.card F : ℚ) ^ (r * (r + 1) / 2)
+
+example : symmetricKernelLaw (ZMod 2) 2 0 = 1 / 2 := by sorry
+example : symmetricKernelLaw (ZMod 2) 2 1 = 3 / 8 := by sorry
+example : symmetricKernelLaw (ZMod 2) 2 2 = 1 / 8 := by sorry
+example : symmetricKernelLaw (ZMod 2) 0 0 = 1 := by sorry
+example : matrixKernelLaw (ZMod 2) 2 2 0 < symmetricKernelLaw (ZMod 2) 2 0 := by sorry
+example (r : ℕ) : symmetricKernelLaw (ZMod 2) r r = 1 / (2 : ℚ) ^ (r * (r + 1) / 2) :=
+  by sorry
+
 namespace FieldStatistics
 
 /-- The p-torsion in the (k−1)st power image, rather than all p-torsion. -/
@@ -78,6 +116,16 @@ example : ¬ fkLinked (fun _ : Fin 1 => (1, 1)) 0 ∧
     fkPhase (fun _ : Fin 1 => (1, 1)) 0 = 1 ∧
     fkPhase 0 (fun _ : Fin 1 => (1, 1)) = 1 := by sorry
 
+example : ({U : Submodule (ZMod 2) (FKSpace 2) |
+    Module.finrank (ZMod 2) U = 2 ∧
+    ∀ u ∈ U, ∀ v ∈ U,
+      (∑ j, (u j).1 * ((v j).1 + (v j).2)) +
+      (∑ j, (v j).1 * ((u j).1 + (u j).2)) = 0} : Set _).ncard = 15 := by sorry
+example : ({U : Submodule (ZMod 2) (FKSpace 1) |
+    U ∈ fkGoodPlanes 1 ∧ ∀ u ∈ U, (u 0).1 + (u 0).2 = 0} : Set _).ncard = 1 := by sorry
+example : ({U : Submodule (ZMod 2) (FKSpace 1) |
+    U ∈ fkGoodPlanes 1 ∧ ∀ u ∈ U, (u 0).1 = 0} : Set _).ncard = 1 := by sorry
+
 end FieldStatistics
 
 namespace Distributions
@@ -120,13 +168,17 @@ end Distributions
 /-! The README additionally specifies the number-field counting function and its
 reciprocal-automorphism weight; classGroupTorsionCard; gaussBinom; the
 partition-indexed FinAbPGroupClass representatives, conjugate partitions,
-multiplicities and automorphism counts; surjCard; the Cohen–Lenstra constants,
+multiplicities and automorphism counts; the Cohen–Lenstra constants,
 weights and measures; surjectionMoment; IsEnlargement and enlargements; normalized
 p-adic matrix Haar measure, padicCokernel and cokernelLaw; the finite product
-Cohen–Lenstra measure; matrixKernelLaw and symmetricKernelLaw. Their full APIs,
+Cohen–Lenstra measure. Their full APIs,
 checks and end theorems remain in the README.
 
 The following API signatures are also specified in the README:
+surjCard_congr; surjCard_toGroup_self; surjCard_le_card_hom; surjCard_punit;
+surjCard_eq_zero_of_card_lt; sum_matrixKernelLaw; matrixKernelLaw_eq_zero_of_lt;
+matrixKernelLaw_zero_eq_card_GL; sum_symmetricKernelLaw; symmetricKernelLaw_self;
+symmetricKernelLaw_eq_zero_of_lt; tendsto_symmetricKernelLaw;
 FieldStatistics.powerRank_eq_log_quotient; FieldStatistics.powerRank_congr;
 FieldStatistics.powerRank_antitone; FieldStatistics.powerRank_one_eq_elementaryTwo;
 FieldStatistics.fkPhase_diagonal; FieldStatistics.fkPhase_linked_iff;

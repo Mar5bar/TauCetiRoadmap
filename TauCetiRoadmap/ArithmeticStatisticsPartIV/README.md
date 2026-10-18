@@ -9,12 +9,12 @@ This part owns the statistical adapters for number-field classes, partition-inde
 ### Prerequisites and boundaries
 
 - Mathlib already proves Hermite finiteness (`NumberField.finite_of_discr_bdd`) and the finite abelian-group structure theorem (`AddCommGroup.equiv_directSum_zmod_of_finite`). The new objects here are the isomorphism-class counting function and the partition-indexed probability carrier, with their statistical APIs. The completed EffectiveBounds Layer 2 supplies quantitative Hermite bounds; this part requests no replacement bound.
-- `TauCetiRoadmap.PolynomialGaloisGroups` Layers 0, 2 and 6 own the permutation action on roots and conjugacy-invariant transitive-group labels. The field-counting predicate specializes that action to embeddings of an extension.
+- `TauCetiRoadmap.PolynomialGaloisGroups` Layers 0 and 2 own the permutation action on roots and its conjugacy invariance; Layer 6 supplies transitive-group labels for degrees `1≤n≤5`. The field-counting predicate specializes that action to embeddings of an extension, using conjugacy to a specified subgroup in every degree.
 - Wide class groups and number-field discriminants are Mathlib's `ClassGroup (𝓞 K)` and `NumberField.discr`. Narrow class groups and their finiteness are `NumberField.NarrowClassGroup` and `NumberField.NarrowClassGroup.instFinite` in Tau Ceti. The existing elementary-two quotient and its torsion-cardinality comparison are used as the `k=1` interface; higher power-image ranks are the new statistic.
 - Scalar finite-measure moment determinacy under an exponential-moment hypothesis is already `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp` in `TauCeti.Probability.Moments.Determinacy`. The group-valued surjection moments and discrete rank-grid moments below have different carriers and growth hypotheses.
 - Tau Ceti's symmetric-matrix rank measurability in `TauCeti.MeasureTheory.Measure.SymmetricMatrix.Rank` concerns real self-adjoint matrices. The laws here count matrices over finite fields. The FK good-plane condition uses a directed nonsymmetric pairing, so the generic finite quadratic-module isotropy and orthogonal-quotient constructions are not duplicated.
 
-The arithmetic conclusions of later parts consume these models only after proving their own family-specific moments. ModularityAndLanglandsExtensions is a downstream consumer.
+The arithmetic conclusions of later parts consume these models only after proving their own family-specific moments.
 
 ## Conventions
 
@@ -42,7 +42,7 @@ Use `TauCeti.ClassGroup.ElementaryTwoQuotient` and `TauCeti.ClassGroup.card_elem
 
 ### From roadmaps on main
 
-PolynomialGaloisGroups Layers 0, 2 and 6 supply the root action, its conjugacy invariance and transitive-group labels used in §3.1. Completed EffectiveBounds Layer 2 supplies quantitative Hermite–Minkowski bounds; the finiteness used here is Mathlib's `NumberField.finite_of_discr_bdd`.
+PolynomialGaloisGroups Layers 0 and 2 supply the root action and its conjugacy invariance used in §3.1; Layer 6 supplies the label comparison only for `1≤n≤5`. Completed EffectiveBounds Layer 2 supplies quantitative Hermite–Minkowski bounds; the finiteness used here is Mathlib's `NumberField.finite_of_discr_bdd`.
 
 ### From ArithmeticStatisticsPartI §0.1
 
@@ -64,7 +64,7 @@ The finite laws are independent of their arithmetic interpretations. For the all
 
 <a id="number-field-counting-function"></a>
 
-**Number field counting function.** Fix an algebraic closure `ℚ̄` of `ℚ` (Mathlib's `AlgebraicClosure ℚ`). For an integer `n ≥ 1`, a predicate `P` on number fields that is invariant under `ℚ`-algebra isomorphism, and real numbers `ξ < η`, let `S_n(P; ξ, η)` be the set of intermediate fields `K` of `ℚ̄/ℚ` with `[K : ℚ] = n, ξ < Disc(K) < η` and `P(K)`, where `Disc(K) = NumberField.discr K ∈ ℤ` is the signed absolute discriminant (its sign is `(−1)^{r₂(K)}`). `S_n(P; ξ, η)` is finite by Hermite's theorem. Define `N_n(P; ξ, η)` as the number of classes of `S_n(P; ξ, η)` under the relation `K` ~ `K'` iff `K ≃ₐ[ℚ] K'`; since every number field of degree `n` embeds into `ℚ̄`, `N_n(P; ξ, η)` is the number of `ℚ`-isomorphism classes of degree-n number fields `K` with `ξ < Disc(K) < η` and `P(K)`. Abbreviations: `N_n^+(P; X) := N_n(P; 0, X), N_n^-(P; X) := N_n(P; −X, 0)`, and `N_n(P; X) := N_n^+(P; X) + N_n^-(P; X)` (all fields with `0 < |Disc(K)| < X`). The weighted count `N_n^{Aut}(P; ξ, η) := Σ_{classes [K]} 1/#Aut(K/ℚ)`. The three standard restrictions are pinned as follows. Signature: `P(K)` is nrComplexPlaces `K = r₂`. Galois group: for a transitive subgroup `Γ ≤ S_n`, `P(K)` says that the image of `Gal(ℚ̄/ℚ)`, acting by composition on the `n` embeddings `K → ℚ̄` (MulAction.toPermHom), is conjugate to `Γ` under some bijection between the embeddings and `{1, …, n}`; this is the permutation Galois group of PolynomialGaloisGroups, Layer 0 (the degree-n action of `(minpoly ℚ α).Gal` for `K = ℚ(α)`) with its label predicate of Layer 6. Local specifications: for a collection `Σ = (Σ_v)` of sets of isomorphism classes of étale algebras of degree `n` over `ℚ_v` (with `v` a prime or `∞`), `P(K)` says `K ⊗ ℚ_v ∈ Σ_v` for every `v`.
+**Number field counting function.** Fix an algebraic closure `ℚ̄` of `ℚ` (Mathlib's `AlgebraicClosure ℚ`). For an integer `n ≥ 1`, a predicate `P` on number fields that is invariant under `ℚ`-algebra isomorphism, and real numbers `ξ < η`, let `S_n(P; ξ, η)` be the set of intermediate fields `K` of `ℚ̄/ℚ` with `[K : ℚ] = n, ξ < Disc(K) < η` and `P(K)`, where `Disc(K) = NumberField.discr K ∈ ℤ` is the signed absolute discriminant (its sign is `(−1)^{r₂(K)}`). `S_n(P; ξ, η)` is finite by Hermite's theorem. Define `N_n(P; ξ, η)` as the number of classes of `S_n(P; ξ, η)` under the relation `K` ~ `K'` iff `K ≃ₐ[ℚ] K'`; since every number field of degree `n` embeds into `ℚ̄`, `N_n(P; ξ, η)` is the number of `ℚ`-isomorphism classes of degree-n number fields `K` with `ξ < Disc(K) < η` and `P(K)`. Abbreviations: `N_n^+(P; X) := N_n(P; 0, X), N_n^-(P; X) := N_n(P; −X, 0)`, and `N_n(P; X) := N_n^+(P; X) + N_n^-(P; X)` (all fields with `0 < |Disc(K)| < X`). The weighted count `N_n^{Aut}(P; ξ, η) := Σ_{classes [K]} 1/#Aut(K/ℚ)`. The three standard restrictions are pinned as follows. Signature: `P(K)` is nrComplexPlaces `K = r₂`. Galois group: for a transitive subgroup `Γ ≤ S_n`, `P(K)` says that the image of `Gal(ℚ̄/ℚ)`, acting by composition on the `n` embeddings `K → ℚ̄` (MulAction.toPermHom), is conjugate to `Γ` under some bijection between the embeddings and `{1, …, n}`; this is the permutation Galois group of PolynomialGaloisGroups, Layer 0 (the degree-n action of `(minpoly ℚ α).Gal` for `K = ℚ(α)`) for arbitrary `n≥1`. For `1≤n≤5` and `Γ=referenceSubgroup n j`, identify this restriction with Layer 6's `HasGaloisLabel (minpoly ℚ α) j` for a primitive element `α` of `K`. Local specifications: for a collection `Σ = (Σ_v)` of sets of isomorphism classes of étale algebras of degree `n` over `ℚ_v` (with `v` a prime or `∞`), `P(K)` says `K ⊗ ℚ_v ∈ Σ_v` for every `v`.
 
 `n ≥ 1`; for the Galois-group restriction `Γ` is a transitive subgroup of `S_n`, identified up to conjugacy. `P` must be invariant under `ℚ`-algebra isomorphism; otherwise the count depends on the chosen subfield in the class. The discriminant is Mathlib's signed `NumberField.discr`; the interval `(ξ, η)` is open at both ends, matching BST's `N₃(ξ, η)`. Fields are counted up to isomorphism, not as subfields of `ℚ̄` (a non-Galois cubic field has three conjugate subfields and is counted once).
 
@@ -91,6 +91,7 @@ The set `S_n(P; ξ, η)` is contained in the set of intermediate fields `K` of `
 - The set `S₃(⊤; −24, 0)` of subfields of `ℚ̄` has exactly 3 elements, so counting subfields instead of isomorphism classes gives `3 ≠ 1 = N₃(⊤; −24, 0)`.
 - `N₂(⊤; −5, 0) = 2` (the fields `ℚ(√−3)` and `ℚ(i)`), `N₃(⊤; −24, 0) = 1` (the field of `x³ − x − 1`, discriminant `−23`) and `N₃(⊤; 0, 50) = 1` (the cyclic field `ℚ(ζ₇)⁺`, discriminant 49).
 - Sign check: `N_n(P; −X, 0)` counts exactly the fields with `r₂` odd `(NumberField.sign_discr)`.
+- In degree six the conjugacy restriction for `Γ=S₆` is defined without a Layer 6 label; the label comparison applies only in degrees one through five.
 
 <a id="torsion-count-of-class-groups"></a>
 
@@ -126,13 +127,13 @@ Define `h_m(K)` as `Nat.card` of the subtype `{c : ClassGroup (𝓞 K) // c ^ m 
 
 <a id="gaussian-binomial-coefficient"></a>
 
-**Gaussian binomial coefficient.** Define `[n k]_t` by polynomial evaluation for `t` in any commutative ring and `n,k≥0`. For `t` in a field and `0≤k≤n`, the Gaussian binomial coefficient is `[n k]_t := ∏_{i=1}^{k} (1 − t^{n−k+i})/(1 − t^{i})` when `t` is not a root of unity of order `≤ n`, with polynomial values determined by the recursion `[n 0]_t = [n n]_t = 1, [n+1 k]_t = [n k−1]_t + t^{k}[n k]_t`, and `[n k]_t := 0` for `k > n`. For a finite field `𝔽_q`, evaluate at the integer `q` in `ℕ` or `ℚ`, rather than reducing `q` in `𝔽_q: [n k]_q` equals the number of k-dimensional subspaces of `𝔽_q^n`.
+**Gaussian binomial coefficient.** Define the Gaussian polynomial by recursion in `ℕ[t]`, and define `[n k]_t` by evaluation for `t` in any commutative semiring and `n,k≥0`. For `t` in a field and `0≤k≤n`, the Gaussian binomial coefficient is `[n k]_t := ∏_{i=1}^{k} (1 − t^{n−k+i})/(1 − t^{i})` when `t` is not a root of unity of order `≤ n`, with polynomial values determined by the recursion `[n 0]_t = [n n]_t = 1, [n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t` for `n,k≥0`, and `[n k]_t := 0` for `k > n`. For a finite field `𝔽_q`, evaluate at the integer `q` in `ℕ` or `ℚ`, rather than reducing `q` in `𝔽_q: [n k]_q` equals the number of k-dimensional subspaces of `𝔽_q^n`.
 
 The polynomial definition permits all `n,k≥0`. For the subspace count `q=#𝔽_q` is a prime power; the count is zero for `k>n`.
 
 The required API is:
 
-- `gaussBinom`: `[n k]_t` as an element of a commutative ring, via the recursion (0 for `k > n`).
+- `gaussBinom`: `[n k]_t` as an element of a commutative semiring, via polynomial evaluation of the recursion (0 for `k > n`).
 - `gaussBinom_zero_right`: `[n 0]_t = 1`.
 - `gaussBinom_self`: `[n n]_t = 1`.
 - `gaussBinom_succ_succ`: `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t`.
@@ -141,7 +142,7 @@ The required API is:
 - `gaussBinom_one`: `[n k]_1 = Nat.choose n k`.
 - `card_submodules_finrank_eq_gaussBinom`: For a finite field `K` with `q` elements, `#{W ≤ K^n : dim W = k} = [n k]_q`.
 
-Define `[n k]_t` by the recursion in `ℤ[t]` (a polynomial), and evaluate at `t`. Product formula: induct on `n`; the recursion `[n+1 k]_t = [n k−1]_t + t^k[n k]_t` is the identity `(1 − t^{n+1})/(1 − t^{k}) · P = P' + t^k P''` between the products, checked by clearing denominators (routine algebra in the fraction field). Subspace count: the k-dimensional subspaces of `𝔽_q^n` are the orbits of `GL_k(𝔽_q)` acting freely on linearly independent k-tuples; divide `mathlib:card_linearIndependent (#independent k-tuples = ∏_{i<k}(q^n − q^i))` by `mathlib:Matrix.card_GL_field (#GL_k(𝔽_q) = ∏_{i<k}(q^k − q^i))` and compare with the product formula.
+Define `[n k]_t` by the recursion in `ℕ[t]`, and evaluate at `t` using the natural-number coefficient map. Product formula: induct on `n`, treating the zero column separately; the recursion `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t` for `n,k≥0` is checked between the products by clearing the nonzero denominators in a field. Subspace count: the k-dimensional subspaces of `𝔽_q^n` are the orbits of `GL_k(𝔽_q)` acting freely on linearly independent k-tuples; divide `mathlib:card_linearIndependent (#independent k-tuples = ∏_{i<k}(q^n − q^i))` by `mathlib:Matrix.card_GL_field (#GL_k(𝔽_q) = ∏_{i<k}(q^k − q^i))` and compare with the product formula.
 
 *Needs:* `card_linearIndependent` (Mathlib), `Matrix.card_GL_field` (Mathlib), `Polynomial.coeff` (Mathlib).
 
@@ -153,6 +154,8 @@ Define `[n k]_t` by the recursion in `ℤ[t]` (a polynomial), and evaluate at `t
 - gaussBinom `t n 0 = 1` and gaussBinom `t 0 k = 0` for `k ≥ 1`.
 - gaussBinom 1 5 `2 = 10 = Nat.choose` 5 2.
 - gaussBinom 2 3 `1 = 7 ≠ 3 = Nat.choose` 3 1: the q-analogue is not the ordinary binomial.
+- At `n=k=0`, the successor recursion gives `[1 1]_t=[0 0]_t+t[0 1]_t=1`; the zero column is `[1 0]_t=1`.
+- Over `ℕ`, `[2 1]_2=3`, so the subspace cardinality uses the same semiring evaluation.
 - For `k≤n, [n k]_t = [n n−k]_t`. For `k>n, [n k]_t=0` whereas the truncated natural index `n−k=0` gives `[n 0]_t=1`; the range hypothesis cannot be omitted.
 
 <a id="cauchy-q-binomial-theorem"></a>
@@ -161,7 +164,7 @@ Define `[n k]_t` by the recursion in `ℤ[t]` (a polynomial), and evaluate at `t
 
 `n ≥ 0; t` arbitrary
 
-Induct on `n`: multiply the identity for `n` by `(1 + t^{n} z)` and compare coefficients of `z^{k}` using the recursion `[n+1 k]_t = t^{k}[n k]_t + [n k−1]_t` ([gaussian binomial coefficient](#gaussian-binomial-coefficient), API `gaussBinom_succ_succ` and `gaussBinom_symm`). Coefficient comparison is routine algebra in `ℤ[t][z]` (`Polynomial.coeff` (Mathlib)).
+Induct on `n`: multiply the identity for `n` by `(1 + t^{n} z)` and compare coefficients of `z^{k+1}` for `0≤k≤n` using `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t` and its equivalent form `[n+1 k+1]_t = [n k+1]_t + t^{n−k}[n k]_t` ([gaussian binomial coefficient](#gaussian-binomial-coefficient), API `gaussBinom_succ_succ` and `gaussBinom_symm`). Coefficient comparison is routine algebra in `ℤ[t][z]` (`Polynomial.coeff` (Mathlib)).
 
 *Needs:* [gaussian binomial coefficient](#gaussian-binomial-coefficient), `Polynomial.coeff` (Mathlib).
 
@@ -169,6 +172,7 @@ Induct on `n`: multiply the identity for `n` by `(1 + t^{n} z)` and compare coef
 
 **Checks.**
 
+- `n = 0`: the empty product and the constant term are both 1, including at `t=0`.
 - `n = 1: 1 + z = 1 + z`.
 - `n = 2: (1 + z)(1 + tz)` `= 1 + (1 + t)z` + `t z²`.
 
@@ -207,7 +211,7 @@ Define the carrier as the dependent pair type `Σ n, Nat.Partition n`; sort the 
 
 <a id="automorphism-count-of-finite-abelian-p-groups"></a>
 
-**Automorphism count of finite abelian p groups.** For `p` prime and a partition `λ` with conjugate partition `λ'` and part multiplicities `m_i, |Aut(A_λ)| = p^{Σ_i (λ'_i)²} · ∏_i ∏_{s=1}^{m_i} (1 − p^{−s})`. Equivalently (Hillar–Rhea, Theorem 4.1), for `A = ⊕_{k=1}^{n} ℤ/p^{e_k}` with `e_1 ≤` … `≤ e_n, d_k = max{l : e_l = e_k}, c_k = min{l : e_l = e_k}: |Aut A| = ∏_k (p^{d_k} − p^{k−1}) ∏_j (p^{e_j})^{n−d_j} ∏_i (p^{e_i−1})^{n−c_i+1}`.
+**Automorphism count of finite abelian p groups.** For `p` prime and a partition `λ` with conjugate partition `λ'` and part multiplicities `m_i, |Aut(A_λ)| = p^{Σ_i (λ'_i)²} · ∏_i ∏_{s=1}^{m_i} (1 − p^{−s})`. Equivalently (Hillar–Rhea, Theorem 4.1), for `A = ⊕_{k=1}^{n} ℤ/p^{e_k}` with `1 ≤ e_1 ≤` … `≤ e_n` (and empty products for `n=0`), `d_k = max{l : e_l = e_k}, c_k = min{l : e_l = e_k}: |Aut A| = ∏_k (p^{d_k} − p^{k−1}) ∏_j (p^{e_j})^{n−d_j} ∏_i (p^{e_i−1})^{n−c_i+1}`.
 
 Describe `End(A)` as the ring of `n×n` matrices `(a_{ij})` with `a_{ij} ∈ ℤ/p^{e_i}` and `p^{e_i−e_j} | a_{ij}` when `e_i > e_j` (Hillar–Rhea Theorem 3.3). An endomorphism is an automorphism iff its reduction modulo `p` is invertible on each block of equal exponents (Hillar–Rhea Theorem 3.6): count the block-triangular matrices over `F_p` with invertible diagonal blocks and multiply by the number of lifts of each entry. Collect the powers of `p` into `p^{Σ(λ'_i)²}` using `Σ_{i,j} min(λ_i, λ_j) = Σ_i (λ'_i)²` and the diagonal-block orders `|GL_{m_i}(F_p)| = p^{m_i²} ∏_{s=1}^{m_i}(1 − p^{−s})` (Mathlib `Matrix.card_GL_field`).
 
@@ -217,7 +221,8 @@ Describe `End(A)` as the ring of `n×n` matrices `(a_{ij})` with `a_{ij} ∈ ℤ
 
 **Checks.**
 
-- `|Aut(ℤ/p^k)| = p^k − p^{k−1}; |Aut((ℤ/p)^m)| = |GL_m(F_p)|`.
+- For `k≥1`, `|Aut(ℤ/p^k)| = p^k − p^{k−1}`; also `|Aut((ℤ/p)^m)| = |GL_m(F_p)|`.
+- At `k=0`, `ℤ/p^0` is trivial and has one automorphism, including for `p=3`; the `n=0` empty products also give 1.
 - `|Aut(ℤ/p² × ℤ/p)| = p³(p − 1)²`; for `p = 3: 108 = |Aut(ℤ/9 × ℤ/3)|`.
 
 <a id="surjection-count"></a>
@@ -275,6 +280,7 @@ Adding `u` copies of the row of length `j` to the Young diagram of a partition o
 
 - `u = 0: a_m = p(m) = Σ_j b_{m,j}`.
 - `m = 2, u = 1: a_2 = 1` (the partition (2)) and `b_{2,0} + b_{1,1} = 0 + 1 = 1`.
+- At `u=2,m=2`, `a₂=0` because no part can be at least 3; at `u=1,m=2`, `a₂=1`.
 
 <a id="hall-partition-identity"></a>
 
@@ -290,6 +296,7 @@ Given a partition `ν` of `N` with largest part `n`, take the Young diagram `D` 
 
 - `n = 1: Σ_N b_{N,1} q^N = q/(1 − q) = 1/(p − 1) = 1/|Aut ℤ/p|`.
 - `n = 0`: both sides are 1.
+- At `n=2,p=2`, `f₂(1/2)=1/2+1/6=2/3`; the two terms come from `C₄` and `C₂²`.
 
 <a id="weighted-inverse-automorphism-sum"></a>
 
@@ -323,7 +330,7 @@ Multiply [weighted inverse automorphism sum](#weighted-inverse-automorphism-sum)
 
 <a id="cohen-lenstra-measure"></a>
 
-**Cohen lenstra measure.** For a prime `p` and an integer `u ≥ 0` put `c_{p,u} = ∏_{i ≥ u+1} (1 − p^{−i})`. The Cohen–Lenstra measure `μ_{p,u}` is the probability measure on the isomorphism classes `L` of finite abelian p-groups with `μ_{p,u}(A) = c_{p,u} / (|A|^u · |Aut A|)`. The case `u = 0` is the Cohen–Lenstra distribution of EVW §8.1 (imaginary quadratic fields); `u = 1` is the corresponding real-quadratic model. These descriptions are conjectural arithmetic interpretations, not distribution theorems for number fields. Total mass one is the mass formula ([cohen lenstra mass formula](#cohen-lenstra-mass-formula)), which the construction takes as input.
+**Cohen lenstra measure.** For a prime `p` and an integer `u ≥ 0` put `c_{p,u} = ∏_{i ≥ u+1} (1 − p^{−i})`. The Cohen–Lenstra measure `μ_{p,u}` is the probability measure on the isomorphism classes `L` of finite abelian p-groups with `μ_{p,u}(A) = c_{p,u} / (|A|^u · |Aut A|)`. For odd `p`, `u=0` gives the conjectural imaginary-quadratic Cohen–Lenstra distribution of EVW §8.1 and §8.5, and `u=1` gives the corresponding real-quadratic model. The abstract probability measures are defined for every prime, including `2`. Total mass one is the mass formula ([cohen lenstra mass formula](#cohen-lenstra-mass-formula)), which the construction takes as input.
 
 The required API is:
 
@@ -342,15 +349,16 @@ Define `c_{p,u}` as the convergent infinite product `∏_{i≥0} (1 − p^{−(i
 
 *Needs:* [isomorphism classes of finite abelian p groups](#isomorphism-classes-of-finite-abelian-p-groups), [automorphism count of finite abelian p groups](#automorphism-count-of-finite-abelian-p-groups), [cohen lenstra mass formula](#cohen-lenstra-mass-formula).
 
-([[37]](#ref-37), Annals 183 (2016), §8.1, p. 771; [[38]](#ref-38), arXiv 1504.04391v1, Theorem 1.3, p. 3; [[45]](#ref-45), arXiv 1511.02212v1, §5.7.1, p. 35.)
+([[37]](#ref-37), Annals 183 (2016), §8.1, p. 771 and §8.5, p. 774; [[38]](#ref-38), arXiv 1504.04391v1, Theorem 1.3, p. 3; [[45]](#ref-45), arXiv 1511.02212v1, §5.7.1, p. 35.)
 
 **Checks.**
 
 - `μ_{p,0}(0) = c_{p,0}`.
 - `μ_{p,0}(ℤ/p) = c_{p,0}/(p − 1)`.
-- `μ_{p,1}(ℤ/p) = c_{p,1}/(p(p − 1))` (the real-quadratic weight carries the extra `1/|A|`).
+- `μ_{p,1}(ℤ/p) = c_{p,1}/(p(p − 1))` (for odd `p`, the real-quadratic weight carries the extra `1/|A|`).
 - `μ_{p,0}(ℤ/p²) = (p² − 1) μ_{p,0}((ℤ/p)²)`: a measure depending only on `|A|` is wrong.
 - `0.56 < c_{3,0} < 0.561`.
+- At `p=2`, `μ_{2,0}(0)=c_{2,0}>0` is an abstract mass. Genus theory gives wide 2-rank `t−1` for imaginary quadratic discriminants with `t` ramified primes, so the odd-prime quadratic interpretation does not extend to 2.
 
 ### 3.4 Surjection moments and extension groupoids
 
@@ -394,6 +402,7 @@ Write `G = ⊕_i ℤ/n_i` (Mathlib `AddCommGroup.equiv_directSum_zmod_of_finite`
 
 - `G = K = ℤ/p: B = ℤ/p²` contributes `(p − 1)/(p(p − 1)) = 1/p` and `B = (ℤ/p)²` contributes `(p² − 1)/((p² − 1)(p² − p)) = 1/(p(p − 1))`; the sum is `1/(p − 1) = 1/|Aut ℤ/p|`.
 - `G = 0`: only `B ≅ K` contributes, with `1/|Aut K|`.
+- For `G=C₂,K=C₄`, `B=C₈` and `B=C₄×C₂` each contribute `1/4`. Only two of the latter's three surjections have cyclic kernel; the total is `1/2=1/|Aut C₄|`.
 
 <a id="surjection-weighted-class-count"></a>
 
@@ -1087,7 +1096,7 @@ ArithmeticStatisticsPartI §0.1, arithmetic family, provides the family interfac
 
 ## Downstream consumers
 
-The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. The analytic inputs to arithmetic counting belong to AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4–6. ModularityAndLanglandsExtensions is a downstream consumer and supplies nothing to this part.
+The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. The analytic inputs to arithmetic counting belong to AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4–6.
 
 ## References
 
