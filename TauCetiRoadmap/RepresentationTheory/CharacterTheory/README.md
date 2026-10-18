@@ -225,7 +225,10 @@ normality and `frobeniusKernel_isComplement'`, and `GL2Borel`, `GL2PrincipalSeri
 
 - **`k[G] ≅ ∏ᵢ Matₙᵢ(k)`.** Compose Maschke with `exists_algEquiv_pi_matrix_of_isAlgClosed`
   (`k` algebraically closed, `char ∤ |G|`), a **noncomputable** algebra equivalence over a finite index
-  set of isomorphism classes of simple `k[G]`-modules; and `∑ᵢ nᵢ² = |G|` by comparing `k`-dimensions
+  set of matrix blocks, with every block size `nᵢ > 0`; Layer 2.5 identifies this index with
+  isomorphism classes of simple `k[G]`-modules.
+  Retain this positivity when deriving the center/product and block-count comparisons from a supplied
+  matrix-product equivalence. Prove `∑ᵢ nᵢ² = |G|` by comparing `k`-dimensions
   (`finrank k k[G] = |G|`). Dependency clarification: this layer consumes **Mathlib's**
   Artin-Wedderburn directly; the `../SemisimpleAlgebras` roadmap is not a prerequisite for it. What
   that roadmap supplies to this one is the machine-checked block ⇆ simple-module dictionary
@@ -582,7 +585,7 @@ This layer proves what it measures.
   (`Representation.dual`, `Representation.invariants`, both consumed from Mathlib), splitting as symmetric
   (`LinearMap.BilinForm.IsSymm`, orthogonal type) plus alternating (`LinearMap.BilinForm.IsAlt`, symplectic
   type); their dimensions are the multiplicities `⟨χ_{Sym²}, 1⟩` and `⟨χ_{Λ²}, 1⟩` built above, and for
-  irreducible `ρ` the total `⟨χ·χ̄, 1⟩` is `0` or `1`.
+  irreducible `ρ` the total `⟨χ², 1⟩` is `0` or `1`.
 - **The trichotomy.** For irreducible `ρ` over `ℂ`, `ν₂(χ) ∈ {+1, 0, -1}`: it is `+1` iff `ρ` carries a
   nonzero invariant symmetric nondegenerate form (**orthogonal**), `-1` iff a nonzero invariant alternating
   nondegenerate form (**quaternionic/symplectic**), and `0` iff `χ ≠ χ̄` (**complex**, no nonzero invariant

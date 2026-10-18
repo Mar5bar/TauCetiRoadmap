@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.CharacterTable.Wedderburn
 
 /-!
 # Character theory and computable character tables: target signatures
@@ -73,8 +74,9 @@ theorem characterPairing_nondegenerate (k : Type u) (G : Type v) [Field k] [Grou
 /-! ### Layer 1: the group algebra, its center, and structure constants -/
 
 /-- **The class sum** `∑_{g ∈ C} g ∈ k[G]`. Computable on `[Fintype G] [DecidableEq G]` data. -/
-def classSum (k : Type u) {G : Type v} [Semiring k] [Group G] [Fintype G] [DecidableEq G]
-    (C : ConjClasses G) : MonoidAlgebra k G := sorry
+def classSum : ∀ (k : Type u) {G : Type v} [Semiring k] [Group G] [Fintype G] [DecidableEq G]
+    (C : ConjClasses G),
+    MonoidAlgebra k G := sorry
 
 theorem classSum_mem_center (k : Type u) {G : Type v} [CommRing k] [Group G] [Fintype G]
     [DecidableEq G] (C : ConjClasses G) :
@@ -86,8 +88,9 @@ theorem finrank_center_monoidAlgebra (k : Type u) (G : Type v) [Field k] [Group 
 
 /-- **Structure constants** `aᵢⱼₖ = #{(x,y) : x ∈ Cᵢ, y ∈ Cⱼ, x*y = g_k}`. A computable `ℕ`-valued
 function; the entire input to Dixon-Schneider. Coercions to `ℤ`, `k`, `ZMod p` are exposed downstream. -/
-def structureConstant {G : Type v} [Group G] [Fintype G] [DecidableEq G]
-    (Ci Cj Ck : ConjClasses G) : ℕ := sorry
+def structureConstant : ∀ {G : Type v} [Group G] [Fintype G] [DecidableEq G]
+    (Ci Cj Ck : ConjClasses G),
+    ℕ := sorry
 
 theorem classSum_mul (k : Type u) {G : Type v} [CommRing k] [Group G] [Fintype G] [DecidableEq G]
     (Ci Cj : ConjClasses G) :
@@ -106,29 +109,39 @@ theorem isIntegral_classSum {G : Type v} [Group G] [Fintype G] [DecidableEq G] (
 /-! ### Layer 2: Wedderburn, irreducible indexing, and the count -/
 
 /-- **`k[G] ≅ ∏ Matₙᵢ(k)`** (`k` algebraically closed, `char ∤ |G|`); a **noncomputable** algebra
-equivalence over the finite index set of simple modules. -/
+equivalence over a finite index set of positive-sized matrix blocks. The block/simple-module dictionary
+is the separate Layer-2.5 target. -/
 theorem exists_algEquiv_pi_matrix (k : Type u) (G : Type v) [Field k] [IsAlgClosed k] [Group G]
     [Fintype G] [Invertible (Nat.card G : k)] :
-    ∃ (ι : Type) (_ : Fintype ι) (n : ι → ℕ),
-      Nonempty (MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (n i)) (Fin (n i)) k) := sorry
+    ∃ (ι : Type) (_ : Fintype ι) (n : ι → ℕ), (∀ i, 0 < n i) ∧
+      Nonempty (MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (n i)) (Fin (n i)) k) := by
+  obtain ⟨m, d, hd, he⟩ := TauCeti.exists_algEquiv_pi_matrix k G
+  exact ⟨Fin m, inferInstance, d, fun i => Nat.pos_of_ne_zero (hd i).out, he⟩
 
 theorem sum_sq_dim_eq_card (k : Type u) (G : Type v) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Nat.card G : k)] {ι : Type} [Fintype ι] (n : ι → ℕ)
     (e : MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (n i)) (Fin (n i)) k) :
-    ∑ i, (n i) ^ 2 = Nat.card G := sorry
+    ∑ i, (n i) ^ 2 = Nat.card G :=
+  TauCeti.sum_sq_eq_card_of_algEquiv_pi_matrix e
 
 /-- **The center splits** by central-character evaluation, `Z(k[G]) ≃ (ι → k)`: central characters
 **separate points** of the center. The sharp form Layer 5 needs. -/
 theorem center_algEquiv_pi (k : Type u) (G : Type v) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Nat.card G : k)] {ι : Type} [Fintype ι] (n : ι → ℕ)
+    (hn : ∀ i, 0 < n i)
     (e : MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (n i)) (Fin (n i)) k) :
-    Nonempty (Subalgebra.center k (MonoidAlgebra k G) ≃ₐ[k] (ι → k)) := sorry
+    Nonempty (Subalgebra.center k (MonoidAlgebra k G) ≃ₐ[k] (ι → k)) := by
+  let : ∀ i, NeZero (n i) := fun i => ⟨Nat.ne_of_gt (hn i)⟩
+  exact ⟨TauCeti.centerMonoidAlgebraAlgEquivPi e⟩
 
 /-- **#irreducibles = #conjugacy classes.** -/
 theorem card_irreps_eq_card_conjClasses (k : Type u) (G : Type v) [Field k] [IsAlgClosed k] [Group G]
     [Fintype G] [Invertible (Nat.card G : k)] {ι : Type} [Fintype ι] (n : ι → ℕ)
+    (hn : ∀ i, 0 < n i)
     (e : MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (n i)) (Fin (n i)) k) :
-    Fintype.card ι = Nat.card (ConjClasses G) := sorry
+    Fintype.card ι = Nat.card (ConjClasses G) := by
+  let : ∀ i, NeZero (n i) := fun i => ⟨Nat.ne_of_gt (hn i)⟩
+  exact TauCeti.card_eq_card_conjClasses_of_algEquiv_pi_matrix e
 
 /-! ### Layer 3: the character table, idempotents, completeness, second orthogonality
 
@@ -147,10 +160,11 @@ theorem irreducibleCharacters_span (k : Type u) (G : Type v) [Field k] [IsAlgClo
 /-- **Primitive central idempotents** `eχ = (χ(1)/|G|) ∑_g χ(g⁻¹) g ∈ Z(k[G])`; orthogonal idempotents
 summing to `1`, the Wedderburn projectors. The connective tissue Layer 5 uses. `char ∤ |G|` is
 required for the formula to be idempotent, hence the invertibility hypothesis. -/
-noncomputable def primitiveCentralIdempotent {k : Type u} {G : Type v} [Field k] [IsAlgClosed k]
+noncomputable def primitiveCentralIdempotent : ∀ {k : Type u} {G : Type v} [Field k] [IsAlgClosed k]
     [Group G] [Fintype G] [Invertible (Nat.card G : k)] {V : Type*} [AddCommGroup V] [Module k V]
     [FiniteDimensional k V]
-    (ρ : Representation k G V) [ρ.IsIrreducible] : MonoidAlgebra k G := sorry
+    (ρ : Representation k G V) [ρ.IsIrreducible],
+    MonoidAlgebra k G := sorry
 
 /-- **The character table**: `χᵢ(g_C)` for a representative of each class. -/
 noncomputable def characterTable (G : Type v) [Group G] [Fintype G] [DecidableEq G] :
@@ -172,9 +186,9 @@ theorem isIntegral_character {G : Type v} [Group G] [Fintype G] (V : FDRep ℂ G
     IsIntegral ℤ (V.character g) := FDRep.isIntegral_character V g
 
 /-- **The central character** `ωᵪ : Z(k[G]) → k` (Schur), with `ωᵪ(Kⱼ) = |Cⱼ| χ(gⱼ)/χ(1)`. -/
-noncomputable def centralCharacter {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G]
+noncomputable def centralCharacter : ∀ {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G]
     [Fintype G] {V : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
-    (ρ : Representation k G V) [ρ.IsIrreducible] :
+    (ρ : Representation k G V) [ρ.IsIrreducible],
     Subalgebra.center k (MonoidAlgebra k G) →ₐ[k] k := sorry
 
 /-- The value of a central character on a class sum is an algebraic integer (base-changed from the
@@ -211,7 +225,7 @@ has a machine-checked home rather than a prose promise. -/
 
 /-- **The representation ring** `R(G)` over a characteristic-zero field: the Grothendieck ring of
 `FDRep k G`, addition from `⊕`, multiplication from `⊗`. -/
-def repRing (k : Type u) (G : Type v) [Field k] [CharZero k] [Group G] [Fintype G] :
+def repRing : ∀ (k : Type u) (G : Type v) [Field k] [CharZero k] [Group G] [Fintype G],
     Type (max u v) := sorry
 
 noncomputable instance (k : Type u) (G : Type v) [Field k] [CharZero k] [Group G] [Fintype G] :
@@ -338,7 +352,8 @@ theorem characterTable_unique_rows (G : Type v) [Group G] [Fintype G] [Decidable
 /-- **Exact cyclotomic arithmetic** `ℤ[ζ_e] = ℤ[X]/Φ_e` as computable coefficient vectors, with `+`, `*`,
 `DecidableEq` as `def`s and a pinned embedding into `ℂ`. The computational artifact; `ℂ` is only used
 under `cyclotomicEmbedding` in the correctness statement. -/
-def Cyclotomic (e : ℕ) : Type := sorry
+def Cyclotomic : ∀ (e : ℕ),
+    Type := sorry
 
 /-- The (computable) ring structure on the coefficient vectors. -/
 instance (e : ℕ) : CommRing (Cyclotomic e) := sorry
@@ -348,7 +363,8 @@ def cyclotomicGen (e : ℕ) : Cyclotomic e := sorry
 
 /-- The coefficient of `X^j` on the power basis `1, ζ, …, ζ^{φ(e)-1}`; the handle for Dixon's
 size bound in `liftCyclotomic_spec`. -/
-def cyclotomicCoeff {e : ℕ} (x : Cyclotomic e) (j : ℕ) : ℤ := sorry
+def cyclotomicCoeff : ∀ {e : ℕ} (x : Cyclotomic e) (j : ℕ),
+    ℤ := sorry
 
 /-- **The pinned embedding into `ℂ`, as a ring homomorphism** (a bare function would leave the
 bridge from exact arithmetic to the `ℂ`-valued specification unconstrained). -/
@@ -376,12 +392,13 @@ abbrev ExactCharTable (G : Type v) [Group G] [Fintype G] [DecidableEq G] :=
   Matrix (Fin (Fintype.card (ConjClasses G))) (ConjClasses G) (Cyclotomic (Monoid.exponent G))
 
 /-- **Verified computable kernel basis** over a field (Gaussian elimination). -/
-def kernelBasis {F : Type u} [Field F] [DecidableEq F] {m n : ℕ} (A : Matrix (Fin m) (Fin n) F) :
+def kernelBasis : ∀ {F : Type u} [Field F] [DecidableEq F] {m n : ℕ} (A : Matrix (Fin m) (Fin n) F),
     List (Fin n → F) := sorry
 
 /-- **Eigenvalue search** over a *finite* field (needs `Fintype F`, unlike `kernelBasis`). -/
-def eigenvalueSearch {F : Type u} [Field F] [Fintype F] [DecidableEq F] {n : ℕ}
-    (A : Matrix (Fin n) (Fin n) F) : List F := sorry
+def eigenvalueSearch : ∀ {F : Type u} [Field F] [Fintype F] [DecidableEq F] {n : ℕ}
+    (A : Matrix (Fin n) (Fin n) F),
+    List F := sorry
 
 /-- **Certified Dixon-prime data**: a prime `p` with `e ∣ p - 1`, above Dixon's size bound, carrying a
 good-reduction certificate. Supplied explicitly for the worked examples; existence is a separate later
@@ -416,18 +433,30 @@ theorem center_zmod_algEquiv_pi {G : Type v} [Group G] [Fintype G] [DecidableEq 
 `α : ZMod p`, the residues over the embeddings `(ZMod e)ˣ → ZMod p`, and Dixon's bound, returning the
 unique `Cyclotomic e` element with those data. (With `p ≡ 1 mod e` the Frobenius on `ζ_e` is trivial mod
 `p`, so all embeddings are needed, not a Frobenius orbit.) -/
-def liftCyclotomic {e p : ℕ} (α : ZMod p) (residues : (ZMod e)ˣ → ZMod p) (bound : ℕ) :
+def liftCyclotomic : ∀ {e p : ℕ} (α : ZMod p) (residues : (ZMod e)ˣ → ZMod p) (bound : ℕ),
     Cyclotomic e := sorry
 
-/-- The reduction `Cyclotomic e →+* ZMod p` determined by sending the generator to `α` (defined when
-`α` is an `e`-th root of unity mod `p`; junk otherwise). The `u`-th embedding is the reduction at
-`α ^ u`. -/
-def cyclotomicReduce {e : ℕ} (p : ℕ) (α : ZMod p) : Cyclotomic e →+* ZMod p := sorry
+/-- The reduction `Cyclotomic e →+* ZMod p` determined by sending the generator to `α`.
+The explicit cyclotomic-polynomial root premise is required: outside it an appropriate unital
+ring homomorphism need not exist. Construct this map via `AdjoinRoot.lift` and the exact
+coefficient-vector/quotient comparison, with generator compatibility. -/
+def cyclotomicReduce : ∀ {e : ℕ} [NeZero e] (p : ℕ) (α : ZMod p)
+    (_hα : (Polynomial.cyclotomic e (ZMod p)).IsRoot α), Cyclotomic e →+* ZMod p := sorry
+
+/-- Primitive embedding points satisfy the root premise used by `cyclotomicReduce`.
+The existing prime/splitting/order hypotheses of the lift theorem imply this premise. -/
+theorem cyclotomicEmbeddingPoint_isRoot {e p : ℕ} [NeZero e] (hp : p.Prime)
+    (α : ZMod p) (hα : orderOf α = e) (u : (ZMod e)ˣ) :
+    (Polynomial.cyclotomic e (ZMod p)).IsRoot (α ^ (u : ZMod e).val) := by
+  let : Fact p.Prime := ⟨hp⟩
+  exact ((IsPrimitiveRoot.iff_orderOf.mpr hα).pow_of_coprime _
+    (ZMod.val_coe_unit_coprime u)).isRoot_cyclotomic (NeZero.pos e)
 
 /-- The reduction sends the generator to `α` — the pin that makes `cyclotomicReduce` the map it
 claims to be. -/
-theorem cyclotomicReduce_gen {e p : ℕ} [NeZero e] (α : ZMod p) :
-    cyclotomicReduce (e := e) p α (cyclotomicGen e) = α := sorry
+theorem cyclotomicReduce_gen {e p : ℕ} [NeZero e] (α : ZMod p)
+    (hα : (Polynomial.cyclotomic e (ZMod p)).IsRoot α) :
+    cyclotomicReduce (e := e) p α hα (cyclotomicGen e) = α := sorry
 
 /-- **Lift correctness and uniqueness** — the load-bearing companion of `liftCyclotomic`, previously
 only a comment. Stated **conditionally on an admissible witness** `y` (residue-matching with
@@ -441,14 +470,16 @@ silently depend on an unspecified `def`. -/
 theorem liftCyclotomic_spec {e p : ℕ} [NeZero e] (hp : p.Prime) (he : e ∣ p - 1)
     (α : ZMod p) (hα : orderOf α = e) (residues : (ZMod e)ˣ → ZMod p) (bound : ℕ)
     (hbound : 2 * bound < p) (y : Cyclotomic e)
-    (hy_res : ∀ u : (ZMod e)ˣ, cyclotomicReduce p (α ^ (u : ZMod e).val) y = residues u)
+    (hy_res : ∀ u : (ZMod e)ˣ, cyclotomicReduce p (α ^ (u : ZMod e).val)
+      (cyclotomicEmbeddingPoint_isRoot hp α hα u) y = residues u)
     (hy_bound : ∀ j, (cyclotomicCoeff y j).natAbs ≤ bound) :
     liftCyclotomic α residues bound = y := sorry
 
 /-- **The assembled solver**: modular reduction, the eigenvector search, degree recovery, and the lift,
 returning the exact table. A genuine `def` on `[DecidableEq G] [Fintype G]` data, `#eval`-able. -/
-def characterTableDixon (G : Type v) [Group G] [Fintype G] [DecidableEq G]
-    (d : DixonPrimeData G) : ExactCharTable G := sorry
+def characterTableDixon : ∀ (G : Type v) [Group G] [Fintype G] [DecidableEq G]
+    (d : DixonPrimeData G),
+    ExactCharTable G := sorry
 
 /-- **The summit.** The `ℂ`-embedding of the computed exact table satisfies the specification, hence (with
 `characterTable_unique_rows`) **is** the character table of `G`. -/
@@ -541,7 +572,8 @@ theorem card_realValued_eq_card_realClasses (G : Type v) [Group G] [Fintype G] [
 /-- **The Frobenius-Schur indicator of the `i`-th irreducible** (the row `i` of `characterTable`). The
 per-row form the involution count sums against. -/
 noncomputable def frobeniusSchurIndicatorRow (G : Type v) [Group G] [Fintype G] [DecidableEq G]
-    (i : Fin (Fintype.card (ConjClasses G))) : ℂ := sorry
+    (i : Fin (Fintype.card (ConjClasses G))) : ℂ :=
+  (Nat.card G : ℂ)⁻¹ * ∑ g : G, characterTable G i (ConjClasses.mk (g * g))
 
 /-- **The involution-counting formula** `#{g : g² = x} = ∑_χ ν₂(χ) χ(x)`, the degree-weighted signed sum
 over the irreducibles. At `x = 1` this is `#{g : g² = 1} = ∑_χ ν₂(χ) χ(1)` (weighted by the degrees `χ(1)`),
@@ -569,13 +601,15 @@ def IsTISet {G : Type v} [Group G] (S : Set G) (H : Subgroup G) : Prop :=
 
 /-- **The Frobenius kernel** `{1} ∪ (G ∖ ⋃_g g H g⁻¹)`: the identity and the elements in no conjugate of the
 complement. -/
-def frobeniusKernel {G : Type v} [Group G] (H : Subgroup G) : Set G := sorry
+def frobeniusKernel : ∀ {G : Type v} [Group G] (H : Subgroup G),
+    Set G := sorry
 
 /-- **Frobenius's theorem** (proved via the T.I.-set and exceptional-character route; no character-free
 proof is known): the kernel is a `Subgroup`. Promoted to a bundled `Subgroup G` so downstream results need
 not carry a chosen `N` and a carrier-equality proof. -/
-noncomputable def frobeniusKernelSubgroup {G : Type v} [Group G] [Finite G] (H : Subgroup G)
-    (hH : IsFrobeniusComplement H) : Subgroup G := sorry
+noncomputable def frobeniusKernelSubgroup : ∀ {G : Type v} [Group G] [Finite G] (H : Subgroup G)
+    (hH : IsFrobeniusComplement H),
+    Subgroup G := sorry
 
 theorem coe_frobeniusKernelSubgroup {G : Type v} [Group G] [Finite G] (H : Subgroup G)
     (hH : IsFrobeniusComplement H) :
@@ -599,8 +633,9 @@ theorem card_conjClasses_GL2 (F : Type u) [Field F] [Fintype F] [DecidableEq F] 
     Nat.card (ConjClasses (GL (Fin 2) F)) = (Fintype.card F) ^ 2 - 1 := sorry
 
 /-- **The principal series** `Ind_B^{GL₂}(α ⊗ β)`, dimension `q + 1`; irreducible iff `α ≠ β`. -/
-noncomputable def GL2PrincipalSeries (F : Type u) [Field F] [Fintype F] [DecidableEq F]
-    (α β : Fˣ →* ℂˣ) : FDRep ℂ (GL (Fin 2) F) := sorry
+noncomputable def GL2PrincipalSeries : ∀ (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (α β : Fˣ →* ℂˣ),
+    FDRep ℂ (GL (Fin 2) F) := sorry
 
 /-- The principal series has dimension `q + 1` (read off `char_one`). -/
 theorem character_one_GL2PrincipalSeries (F : Type u) [Field F] [Fintype F] [DecidableEq F]
@@ -620,8 +655,8 @@ noncomputable def GL2Steinberg (F : Type u) [Field F] [Fintype F] [DecidableEq F
 /-- **The non-split (elliptic) torus** `𝔽_{q²}^× ↪ GL₂(𝔽_q)`, embedded through a chosen `F`-basis of a
 degree-`2` extension `E` of `F` (so `Fintype.card E = q²`). The source of the cuspidal series; the
 degree-`2` extension is itself a build target, not an ambient `[Field F] [Fintype F]` datum. -/
-noncomputable def GL2NonSplitTorus (F : Type u) [Field F] [Fintype F] [DecidableEq F]
-    (E : Type u) [Field E] [Fintype E] [Algebra F E] (hE : Module.finrank F E = 2) :
+noncomputable def GL2NonSplitTorus : ∀ (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+    (E : Type u) [Field E] [Fintype E] [Algebra F E] (hE : Module.finrank F E = 2),
     Subgroup (GL (Fin 2) F) := sorry
 
 /-- **A cuspidal (discrete-series) representation** of dimension `q - 1`, attached to a character
@@ -630,9 +665,9 @@ noncomputable def GL2NonSplitTorus (F : Type u) [Field F] [Fintype F] [Decidable
 These are exactly the irreducibles absent from every principal series. The degree-2 hypothesis and
 the regularity of `θ` (it does not factor through the norm: `θ^q ≠ θ`) are carried explicitly — the
 dimension claim below is false without them. -/
-noncomputable def GL2Cuspidal (F : Type u) [Field F] [Fintype F] [DecidableEq F]
+noncomputable def GL2Cuspidal : ∀ (F : Type u) [Field F] [Fintype F] [DecidableEq F]
     (E : Type u) [Field E] [Fintype E] [Algebra F E] (hE : Module.finrank F E = 2)
-    (θ : Eˣ →* ℂˣ) (hθ : ∃ x : Eˣ, θ (x ^ Fintype.card F) ≠ θ x) :
+    (θ : Eˣ →* ℂˣ) (hθ : ∃ x : Eˣ, θ (x ^ Fintype.card F) ≠ θ x),
     FDRep ℂ (GL (Fin 2) F) := sorry
 
 /-- The cuspidal representation has dimension `q - 1` (read off `char_one`). -/
