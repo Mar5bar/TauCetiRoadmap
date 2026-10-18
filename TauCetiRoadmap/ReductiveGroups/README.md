@@ -920,6 +920,266 @@ algebra by its Killing-semisimple part.
    in bad characteristic is a separate assertion. The9B group and9C distribution
    comparisons consume this construction and are not premises for its Lie laws.
 
+   **9A.1b. Pinned fixed Lie algebras and signed ADE folding.**
+   Starting from9A.1a, construct the fixed Lie algebra of each finite ADE diagram
+   automorphism, its actual integral fixed lattice, its split characteristic-zero
+   root system and its normalized folded presentation. Include disconnected and
+   empty diagrams and a compatible action on the full reductive datum. Keep the
+   integral fixed lattice, its scalar extension, and a normalized folded
+   Chevalley lattice distinct. This construction is algebraic and precedes9B's
+   group comparison. The accompanying `FoldingADETargets.lean` gives native
+   target forms; the definitions, maps, inverses and basic laws below are part of
+   the definitive specification.
+
+   **Pinned action and actual fixed carrier.** For the ordered diagram `(Q,B,o)`
+   of9A.1a let γ permute the simple vertices and preserve B. Put
+   `q_γ(a)=Σ_{{i,j} a bond, i<j, γi>γj} a_i a_j` and
+   `s_γ(a)=(-1)^q_γ(a)`. Prove
+   `ε(a,b)s_γ(a+b)=s_γ(a)s_γ(b)ε(γa,γb)`. Define the cover map
+   `(a,t)↦(γa,t s_γ(a))`, fixing τ and sending each pinned simple lift to the
+   specified lift over its image. Construct its inverse, identity and
+   composition equations, including order/section-change conjugacy with9A.1a's
+   specified transports. On the integral Lie carrier it gives
+   `H_h↦H_(γh)` and `x_a↦s_γ(a)x_(γa)`. Prove the sign-quotient, bracket,
+   root-index and pinning equations. The lift's kth iterate is identity when
+   `γ^k=1`: it fixes all simple lifts and τ, hence every normal word. Projection
+   proves its exact order equals that of γ. The identity/rank0 order is1.
+   An arbitrary kernel-fixing lift need not have this order.
+
+   For any actual Lie equivalence φ, use native
+   `LinearMap.fixedSubmodule φ.toLinearMap` as the underlying module and extend
+   it to native `LieSubalgebra` by bracket closure. Export membership, inclusion,
+   kernel `ker(φ-id)`, bracket/evaluation laws, intertwining maps and equivalences,
+   functoriality, scalar-extension maps and the relevant inverse diagrams.
+   Reuse native `TauCeti.serreDiagramAut`, all H/E/F generator laws,
+   `serreDiagramAut_iterate_eq_id` and `serreLift_comp_serreDiagramAut`.
+   Endomorphism `LieEquiv`s here have no Group instance: state order relations
+   through function iterates. Compare the signed pinned action with native
+   `geckLieEquivOfEquiv` using its supplied base-preserving root-pairing
+   equivalence and finite crystallographic characteristic-zero domain
+   hypotheses, and prove equivariance of the actual9A.1a comparison maps.
+   Do not replace these implemented automorphisms by privately assumed copies.
+
+   When consuming native `DynkinType.diagramAut`, display both lattice maps:
+   its weight map forwards roots by γ but its coweight map is the transpose
+   map, carrying coroot indices backwards. The geometric forward action on Y
+   is the inverse of that coweight map. Prove the literal root, coroot and
+   pairing equations before using it in the full-Y construction. Check D4
+   triality, where γ and γ⁻¹ differ, as well as involutions. Native Geck module
+   and group pinning providers are comparison inputs with their actual lattice
+   and carrier hypotheses; their existence does not compute a fixed Lie algebra.
+
+   **Signed orbit modules and brackets.** On each orbit
+   `a,γa,...,γ^(l-1)a` define `c_0=1`,
+   `c_(r+1)=c_r s_γ(γ^r a)` and monodromy `μ=c_l∈{±1}`. Construct maps and
+   inverse maps from fixed coefficient tuples to `Ann_A(μ-1)` over every
+   commutative ring A: the inverse sends t to the tuple `(c_r t)_r`. A positive
+   cycle contributes A, a negative cycle A[2]. For Q's Cartan permutation the
+   distinct simple-orbit sums are an integral basis. Together with positive
+   root-cycle sums they give the actual integral fixed-module basis. Prove
+   independence, spanning, coordinate formulas, change-of-representative maps
+   and the bracket coefficients in that basis. Negative cycles have no integral
+   fixed vector; their A[2] vectors after base change must not disappear.
+   Compute the fixed bracket by restricting the ambient bracket and expanding
+   its actual finite signed sums, including the opposite-root Cartan cases.
+
+   For a permutation orbit of connected components, choose one component and
+   construct its return automorphism, restriction and diagonal-transport inverse;
+   prove their Lie and pinning equations and change-of-choice comparisons.
+   Perform this reduction before the connected root-space and generation
+   calculations. It handles arbitrary component cycles and combined internal
+   symmetries, not only action orders2/3.
+
+   Over a characteristic-zero field K, use the Gram dictionary to identify the
+   restriction of a root to the fixed Cartan with
+   `p(a)=k⁻¹Σ_(r=0)^(k-1)γ^r a`. Construct the nonzero weights arising from
+   positive-monodromy root orbits and prove their distinctness and one-dimensional
+   weight spaces. Identify the zero-weight space with the fixed Cartan and
+   prove it is a split Cartan subalgebra. Projecting every ambient root is not
+   the fixed root system: even A has negative-monodromy roots whose projections
+   would add doubled short roots of a nonreduced restricted system. Prove the
+   complete actual-root/weight-space correspondence, including negatives,
+   reflection and root/coroot equations, before identifying a Dynkin type.
+
+   **Folded frame, finite Cartan and presentation.** For a simple orbit O put
+   `d_O=Σ_(j∈O)B(α_j,α_i)` for i∈O. The induced graph on O is a regular finite
+   forest, so its degree is0 or1 and `d_O=2` or1. Reducible diagrams can give a
+   union of adjacent pairs. Set `c_O=2/d_O∈{1,2}` and define
+   `H'_O=c_OΣ_(i∈O)H_i`, `E'_O=Σ_(i∈O)x_(α_i)`,
+   `F'_O=c_OΣ_(i∈O)x_(-α_i)`; simple negative sections are inverse lifts.
+   Prove fixedness, `[E'_O,F'_O]=H'_O`, all mixed E/F and Cartan equations, with
+   the integer matrix having **H rows and E columns**
+   `C_(O,P)=c_OΣ_(i∈O)B(α_i,α_j)`, j∈P.
+   With `S_O=Σ_(i∈O)α_i` and `β_O=p(α_i)=S_O/|O|`, prove independence,
+   `B(β_O,β_O)=d_O/|O|`, and
+   `C_(O,P)=2B(β_O,β_P)/B(β_O,β_O)`. Its off-diagonal entries are nonpositive
+   integers, its zero pattern is symmetric, and multiplying row O by
+   `d_O/(2|O|)` gives the positive-definite projected Gram matrix. Construct the
+   associated finite root pairing and its simple base, rather than just naming
+   a matrix. The ambient `RootPairing.Base.cartanMatrix` uses roots as rows;
+   translate it by the actual transpose to the H-row convention as in
+   [LieHighestWeight Layer7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8e4c6c209a7a4675f8f9654b2a1a97f4966d34b3/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md).
+
+   Prove the exact higher Serre powers and construct `TauCeti.IsSerreSystem`
+   for these actual fixed vectors. The resulting native `serreLift` maps into
+   the actual fixed Lie subalgebra, with H/E/F value equations. Prove its
+   surjectivity by constructing every signed orbit root vector as a rational
+   combination of bracket words in E′/F′, and the fixed Cartan from their
+   brackets. Retain all nonzero factors2/3. Prove generation using the concrete
+   comparisons below; a dimension match or existence of the Serre map alone
+   is insufficient. Then consume Layer7's separately owned split-field
+   injectivity/straightening theorem, componentwise in the reducible case, to
+   obtain the equivalence from that same lift. Establish Killing nondegeneracy
+   and its Cartan/opposite-root pairings from the constructed root decomposition.
+   For each connected folded component prove simplicity by decomposing an ideal
+   into Cartan/weight components, using opposite brackets and nonzero root-string
+   coefficients to propagate a nonzero root component through the connected
+   root system; a nonzero Cartan component produces such a root component.
+   Construct the actual Cartan, split weight decomposition and triangularizability.
+   Thus finite dimensionality, Killing nondegeneracy, Cartan triangularizability
+   and connected simplicity are conclusions before applying Layer7, not added
+   assumptions in place of the missing folding proof. Reducible inputs assemble
+   their simple ideals; the full fixed central summand is not declared simple.
+   Keep integral injectivity/equality as a separate question.
+
+   **Uniform A and D constructions.** For A_n in the standard vertex order set
+   m=n+1 and use the actual trace-zero matrix frame
+   `e_i=E_(i,i+1)`, `f_i=E_(i+1,i)`, `h_i=E_(i,i)-E_(i+1,i+1)`.
+   For the interval root a=α_i+...+α_j of height l construct the signed matrix
+   comparison `x_a=E_(i,j+1)`, `x_-a=(-1)^(l-1)E_(j+1,i)`, its integral basis
+   inverse and all overlap/opposite brackets. Changes of vertex order consume
+   the earlier specified sign transport. Let J have antidiagonal entries
+   `J_(i,m+1-i)=(-1)^(i-1)`. Prove `Jᵀ=(-1)^(m-1)J`,
+   `J²=(-1)^(m-1)I` and that `θ(X)=-JXᵀJ⁻¹` is the pinned reversal on H/E/F.
+   Equality with the signed lift follows on generators with the tracked root
+   signs. Its fixed equation is `XᵀJ⁻¹+J⁻¹X=0`; trace0 follows since2 is
+   invertible. Construct the fixed-carrier/skew-adjoint-carrier equivalence and
+   its inverse. Native `skewAdjointMatricesLieSubalgebraEquiv F P h` maps
+   X to `P⁻¹XP` and has target form `PᵀFP`, with actual invertibility of P;
+   retain that direction in the frame value equations. For m=2r an explicit
+   signed-permutation form change gives
+   native `LieAlgebra.Symplectic.sp`, hence C_r. For m=2r+1 the form is split
+   symmetric with r hyperbolic pairs and one line. Give the explicit scalar
+   similarity and basis change to native `LieAlgebra.Orthogonal.JB/typeB`;
+   retain the nonzero scalar and basis maps. Do not replace that split carrier
+   by identity-Gram `Orthogonal.so` over ℚ. Prove an actual matrix root basis,
+   its H/E/F dictionary and bracket-word generation, covering the adjacent
+   middle pair of even A as well as the orthogonal-orbit case of odd A.
+
+   For D_n, n≥4, use native `Orthogonal.JD/typeD` on the hyperbolic basis
+   `u_1,...,u_n,v_1,...,v_n`. Let R exchange u_n,v_n and fix the other vectors.
+   Construct its orthogonality and the pinning-preserving conjugation action:
+   the fork matrices are
+   `E_(n-1,n)-E_(2n,2n-1)` and `E_(n-1,2n)-E_(n,2n-1)`, with matched
+   negative and Cartan generators. Its plus/minus spaces are orthogonal,
+   nondegenerate and have dimensions2n-1 and1. The plus space has its actual
+   basis of n-1 hyperbolic pairs and `w=u_n+v_n` of norm2; after reindexing its
+   Gram matrix is exactly native `JB`. Restriction/block extension gives mutually
+   inverse Lie maps from the fixed typeD algebra to native `typeB (Fin(n-1))`,
+   the minus-line skew-adjoint algebra being zero. Prove the source signed-frame
+   comparison, all root-basis images and rational bracket generation. Native
+   `typeBEquivSo'` is an additional existing scalar/form comparison when a
+   split-signature carrier is wanted. A norm1 alternative requires scalar
+   similarity: divide `H^(n-1)⊕<2>` by2 and replace v_i by2v_i; it is not a
+   rational isometry of the original norm2 and norm1 forms. No square root of2
+   is needed. Identity-Gram `so` needs an actual suitable field/form comparison;
+   `soIndefiniteEquiv` assumes a square root of−1 and is not such a comparison
+   over ℚ. Treat D4's conjugate involutions by their numbered permutation;
+   triality is the separate order-three case below.
+
+   **Exceptional certificates, types and components.** For D4 triality and E6
+   reversal construct full exact finite root enumerations, using the native
+   finite realizations/root-index dictionaries of RootSystems and9A.1a's
+   norm-shell theorem. Prove both inclusions, closure and the complete counts24
+   and72; select positives with counts12 and36 in the pinned simple coordinates.
+   Compute every lift sign and signed root orbit, its monodromy and actual
+   invariant vector. Give the complete Cartan/root invariant bases, with fixed
+   dimensions14 and52. Construct kernel-checkable rational certificates: for
+   every surviving root-orbit basis vector record a finite Lie word expansion
+   in the displayed E′/F′, its coefficient vector and a proof of the resulting
+   equality. Verify all rows through the ambient integral bracket laws and
+   exact rational arithmetic; prove the Cartan part by opposite brackets.
+   These equalities, not an imported external program or rank computation,
+   establish generation and all required Serre equations. Compare the actual
+   folded matrices/root pairings with G2 and F4 via explicit oriented simple
+   reindexing and root/coroot maps. Construct change-of-enumeration and
+   change-of-pinning diagrams so certificates do not become an unexplained
+   privileged model.
+
+   Derive the connected type dictionary with its actual bounds:
+   `A_(2r-1)→C_r` (r≥2), `A_(2r)→B_r` (r≥1,B1=A1),
+   `D_(r+1)→B_r` (r≥3), D4 triality→G2 and E6 reversal→F4; identity actions
+   retain their ADE component. Use RootSystems' valid-type reindexing in low
+   rank, in particular C2=B2 and B1=A1, with actual oriented root/coroot maps
+   rather than an invalid validity witness for `DynkinType.C 2` or `B 1`.
+   Assemble these identifications using the earlier
+   component-return maps. Include empty Q,
+   identity, reducible mixtures and every non-simply-laced finite type.
+
+   Export projection, distinct-orbit sum and full-k-sum as separate maps:
+   `fullSum_k(a)=|Stab(a)|·distinctSum(a)=(k/|orbit(a)|)·distinctSum(a)=k·p(a)`.
+   Full sums are a uniform scale of projected roots; distinct sums rescale
+   different orbits differently and can give the dual type. Construct lattice
+   image/index, root-length and coroot maps for each choice, without equating
+   Q^γ, p(Q), their duals or the character/cocharacter lattices of a group.
+   For connected nontrivial folds with orthogonal simple orbits and two root
+   lengths, identify fixed simple vertices with long projected simple roots.
+   Use the general formula `B(β_O,β_O)=d_O/|O|` for adjacent even-A orbits,
+   rank1, identity actions and component permutations. In particular A4 reversal
+   has no fixed vertex but has two projected root lengths, so the unrestricted
+   fixed-vertex assertion is false in that case.
+   Include A3 (outer orbit first, matrix `[[2,-2],[-1,2]]`), A4
+   `[[2,-1],[-2,2]]`, A5's two paired orbits and fixed middle vertex with its
+   full-sum factor2, and D4 triality `[[2,-3],[-1,2]]`. Track the A3 combinations
+   `x_(abc)`, `x_(ab)-x_(bc)`, `x_a+x_c`, `x_b` under the specified section and
+   sign dictionary; paired negative vectors and invariant Cartan complete the
+   basis. These mathematical examples do not decide uncertain source commas,
+   arrow marks or unexpanded proof announcements.
+
+   **Integral and full-Y comparisons.** The actual integral fixed lattice is
+   bracket-closed. For the Q-based carrier only, construct the comparison
+   `A⊗_ℤ(g_ℤ^γ)→(A⊗_ℤg_ℤ)^γ` on the orbit basis. Its extra factors are exactly
+   A[2] from negative cycles, so it is an isomorphism when A has no2-torsion;
+   if there are no negative cycles it is an isomorphism for every A. Do not
+   identify this lattice with a chosen normalized folded Chevalley form.
+   For A2 exchange prove the integral basis e=xα+xβ, f=x−α+x−β,
+   h=Hα+Hβ satisfies `[e,f]=h`, `[h,e]=e`, `[h,f]=-f`; the normalized A1 frame
+   E=e,F=2f,H=2h has index4. Construct the rational equivalence and the actual
+   integral lattice inclusion/index, retaining root-string factors2/3.
+
+   For full Y retain its actual integral automorphism γY with
+   `γY(a∨)=(γa)∨` and `⟨γa,γY y⟩=⟨a,y⟩`. Use a positive common finite
+   exponent k for both the diagram and Y action, not merely the diagram order.
+   The root action is the pinned signed one; the Cartan fixed module is
+   `ker(γY-id)`. In actual finite free bases construct unimodular maps U,V and
+   a diagonal D with `U(γY-I)V=D`. Consume native PID submodule Smith normal
+   forms through image/kernel bases; those forms alone do not include a
+   divisibility-chain normalization, and a nonsingular-matrix-only theorem
+   does not apply to a matrix with kernel. Retain all nonzero diagonal entries
+   d_i and zero positions, with the specified basis maps; no canonical invariant
+   factor ordering is needed for this comparison. Over A construct the actual
+   kernel equivalence to one free A per zero position and `Ann_A(d_i)` per
+   nonzero position. The integral fixed lattice maps to the free factors;
+   the annihilator factors are exactly the Cartan base-change obstruction,
+   in addition to any negative root-cycle A[2]. Prove the pairing/bracket
+   diagrams on all these factors. Flat scalar extension and invertibility of
+   the actual full action order give sufficient isomorphism hypotheses.
+   Preserve the root-free order-three example
+   `γY=[[0,-1],[1,-1]]`: γY-I has diagonal factors1,3, integral invariants0,
+   and F3 has the fixed vector(1,-1) despite2 invertible.
+
+   Over characteristic zero construct the action-compatible center/derived
+   decomposition of the full reductive Lie algebra and its fixed central
+   summand, separately from the folded semisimple Serre presentation. A root-free
+   full-Y torus is not the empty Q-carrier. No integral central splitting,
+   bad-characteristic simplicity, equality with a group fixed scheme or
+   global-form comparison is inferred. Those9B comparisons consume the actual
+   Lie construction and retain their group-scheme/field hypotheses; special
+   isogenies in characteristics2/3 do not make a long/short swap an ordinary
+   integral Cartan symmetry. Root-automorphism/W semidirect products, compact
+   normalizer splitting and a VOA construction are separate from this adapter.
+
+
 2. In the native `UniversalEnvelopingAlgebra ℚ` of this rational Lie algebra,
    use `TauCeti.UniversalEnvelopingAlgebra.kostantForm` with **all** root
    vectors and `H_(y_j)` for a chosen ℤ-basis `(y_j)` of the full Y. Thus its

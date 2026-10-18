@@ -68,3 +68,6 @@ IntegralRationalTargets.lean, which imports this file and the native supplier mo
 
 /- Signed ADE root-cover, integral bracket and full-Cartan comparison target forms
 are in SignedADETargets.lean, which imports IntegralRationalTargets.lean. -/
+
+/- Fixed-Lie, signed-orbit, folded Serre and full-Y kernel target forms are in
+FoldingADETargets.lean, which imports SignedADETargets.lean. This pointer adds no import. -/
