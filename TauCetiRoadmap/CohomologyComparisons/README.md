@@ -4,9 +4,9 @@
 
 ## Scope and ownership
 
-This roadmap owns comparison maps, their common normalizations, and proofs that competing constructions agree, together with the relative analytic-crystal interface, additional semistable log-prismatic period and Hyodo–Kato compatibility diagrams, and the class-map agreements specified below. AInfCohomology §AI.6.5 supplies the canonical `B_dR⁺` cohomology of a smooth proper rigid space over `C`; its relative infinitesimal realization and relative coefficient comparison are constructed here. It owns neither the coefficient rings nor the general cohomology theories: AInfCohomology supplies `AΩ` and Breuil–Kisin–Fargues theory; CrystallineCohomology supplies crystalline and log crystalline sites, crystals and Hyodo–Kato complexes; PrismaticCohomology supplies prisms and relative prismatic cohomology in Layers 0–2; PrismaticCohomologyPartII supplies absolute Nygaard data and the Frobenius-pulled AΩ comparison, and PrismaticCohomologyPartIII supplies syntomic coefficients and the graded Beilinson square; PrismaticCohomologyPartIV supplies the generic logarithmic prismatic theory and its comparisons; PadicHodgeTheory supplies period rings, local period sheaves and admissible representations.
+This roadmap owns comparison maps, their common normalizations, and proofs that competing constructions agree, together with the relative analytic-crystal interface, additional semistable log-prismatic period and Hyodo–Kato compatibility diagrams, and the class-map agreements specified below. AInfCohomology §AI.6.5 supplies the canonical `B_dR⁺` cohomology of a smooth proper rigid space over `C`; its relative infinitesimal realization and relative coefficient comparison are constructed here. It owns neither the coefficient rings nor the general cohomology theories: AInfCohomology supplies `AΩ` and Breuil–Kisin–Fargues theory; CrystallineCohomology supplies crystalline and log crystalline sites, crystals and Hyodo–Kato complexes; PrismaticCohomology supplies prisms and relative prismatic cohomology in Layers 0–2; PrismaticCohomologyPartII supplies absolute Nygaard data and the Frobenius-pulled AΩ comparison, and PrismaticCohomologyPartIII supplies syntomic coefficients and the graded Beilinson square; PrismaticCohomologyPartIV supplies the generic logarithmic prismatic theory and its comparisons; PadicHodgeTheory supplies local period sheaves, admissible representations, the finite-`K` rational constant-coefficient maps of §8.1 and the specialization agreement of §8.2; PadicPeriodRings supplies the coefficient period rings. This roadmap extends those maps to the broader bases and derived diagrams below, with `finiteBaseComparisonAgreement` in their common range.
 
-The geometric suppliers are AdicSpacesPartII, AdicSpacesPartIII and AdicEtaleGeometry. EnhancedDerivedSheaves supplies derived completion, enhanced tensor products, descent and coherent diagrams; an ordinary triangulated category records only their underlying maps. FiniteFlatGroupsAndIntegralPadicHodgeTheory supplies the small-weight integral correspondence and the separate all-weight Kisin functor. EtaleCohomologyFoundations supplies étale traces, purity, cycles, Gysin maps and the basic projective-bundle formula; EtaleDualityAndPerverseSheaves supplies higher Chern and refined flag formulas. CompletedCohomologyPartII supplies completed cohomology, its arithmetic realizations and transported actions, and locally analytic representation theory. Layer 6.2 constructs the genus-one perfectoid compactified modular tower and its Hodge–Tate map from finite-level curves and maps supplied by ModularCurvesPartII §§3.15, 4.11. PrismaticCohomologyPartIV §8.60 supplies the shared log adic structures and Kummer-étale site; the additional pro-Kummer tower, logarithmic period sheaf and affinoid-perfectoid flag basis are constructed in Layer 6 in the restricted modular-curve setting; no general Shimura-variety or canonical-subgroup theorem is required.
+The geometric suppliers are AdicSpacesPartII, AdicSpacesPartIII and AdicEtaleGeometry. EnhancedDerivedSheaves supplies derived completion, enhanced tensor products, descent and coherent diagrams; an ordinary triangulated category records only their underlying maps. FiniteFlatGroupsAndIntegralPadicHodgeTheory supplies the small-weight integral correspondence and the separate all-weight Kisin functor. EtaleCohomologyFoundations supplies étale traces, purity, cycles, Gysin maps and the basic projective-bundle formula; EtaleDualityAndPerverseSheaves supplies higher Chern and refined flag formulas. CompletedCohomologyPartII supplies completed cohomology, its arithmetic realizations and transported actions, and locally analytic representation theory. Layer 6.2 constructs the genus-one perfectoid compactified modular tower and its Hodge–Tate map from finite-level curves and maps supplied by ModularCurvesPartII §§3.15, 4.11. PrismaticCohomologyPartIV §8.60 supplies the shared log adic structures and Kummer-étale site; the additional pro-Kummer tower, logarithmic period sheaf and affinoid-perfectoid flag basis are constructed in Layer 6 in the restricted modular-curve setting; the shared small-Hasse canonical-subgroup package for abelian families is a target of §6.2, before its modular specialization. No general higher-dimensional perfectoid Shimura theorem is required.
 
 From the existing Tau Ceti roadmaps, AlgebraicVectorBundles L0B and L2B supplies finite locally free sheaves, their tensor/dual operations and geometric vector-bundle total spaces. Its projective/flag-bundle and characteristic-class successors are motivation, rather than constructed targets. SchemeAndStackFoundations §§5.4–5.6 supplies projective/flag geometry, while EtaleCohomologyFoundations §§0.9, F.6–F.7 and EtaleDualityAndPerverseSheaves §§1.1–1.3, 4.4 supply its étale class maps; their étale Kummer, crystalline PD, prismatic logarithmic and p-adic de Rham compatibility is proved here. DifferentialGeometry owns smooth real de Rham theory and its real geometric comparisons; that roadmap constructs them. The p-adic continuous differentials and period filtrations here use adic geometry. IntegralLattices, LocalGaloisGroups and ProfiniteArithmetic retain their general lattice and Galois-group constructions. AdicSpaces Layer 6.1 equips `A_inf=W(𝒪_F)`, for a perfectoid field `F` of characteristic `p`, with its `(p,[ϖ])`-adic Huber structure for the Fargues–Fontaine curve and leaves `B_dR`, `B_cris`, untilts and `θ` out of scope; the `Ainf O p` here is the bare ring `W(O^♭)` of Mathlib's tilt of a mixed-characteristic `O`, with no topology, carrying `θ` and `B_dR⁺` from Mathlib. No general real, operator, spin or peripheral-action theory is part of this build.
 
@@ -64,7 +64,7 @@ PrismaticCohomologyPartIV §§8.1–8.29 supplies logarithmic delta rings, prism
 
 ### From local p-adic Hodge theory and integral representation theory
 
-PadicPeriodRings §§1.5, 3 and 4.1–4.3 supplies the period-field/DVR theorems, crystalline/de Rham embeddings, semistable rings, invariant fields and continuous Galois actions for `C=widehat(K̄)` in arithmetic statements. PadicHodgeTheory §§0.2–0.5 supplies the relative filtration and logarithm adapters. Its §§2.1–2.7 supplies local period sheaves, toric and profinite-product calculations, the structural Poincaré lemma and primitive finite-coefficient/almost comparison, including the p-completed proper-space extension. Use these local results before the global comparison here. Its §§3.1–3.5 supplies period functors and filtered realizations using FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.1–R07.3.3 for admissibility and weak admissibility. PadicHodgeTheory §§6.1–6.2 supplies the Fontaine–Laffaille sign dictionary; §§7.1–7.3 supplies filtered connections and relative de Rham comparison. `G_K` acts on period coefficients, in particular nontrivially on `W(k̄)[1/p]`. The overconvergent syntomic-to-étale map and Banach–Colmez exactness needed for the broader `C_st` theorem are local construction targets in §4.10.
+PadicPeriodRings §§1.5, 3 and 4.1–4.3 supplies the period-field/DVR theorems, crystalline/de Rham embeddings, semistable rings, invariant fields and continuous Galois actions for `C=widehat(K̄)` in arithmetic statements. PadicHodgeTheory §§0.2–0.5 supplies the relative filtration and logarithm adapters. Its §§2.1–2.7 supplies local period sheaves, toric and profinite-product calculations, the structural Poincaré lemma and primitive finite-coefficient/almost comparison, including the p-completed proper-space extension. Use these local results before the global comparison here. Its §§3.1–3.5 supplies period functors and filtered realizations using FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.1–R07.3.3 for admissibility and weak admissibility. PadicHodgeTheory §§8.1–8.2 supplies the finite-`K` rational constant-coefficient maps and `prismaticSpecializationAgreement`; §§3.4–3.5 and 4.3–4.4 retain them through `finiteBaseComparisonAgreement`, and §§1.7–1.8 transport the supplied specialization square. PadicHodgeTheory §§6.1–6.2 supplies the Fontaine–Laffaille sign dictionary; §§7.1–7.3 supplies filtered connections and relative de Rham comparison. `G_K` acts on period coefficients, in particular nontrivially on the geometric `W(k)[1/p]`. The overconvergent syntomic-to-étale map and Banach–Colmez exactness needed for the broader `C_st` theorem are local construction targets in §4.10.
 
 FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1 supplies the finite flat group schemes used in the torsion examples. §§R07.3.15–R07.3.17 supplies its lattice correspondence and full faithfulness only for the unramified Fontaine–Laffaille interval `[0,p−2]` with the supplier's endpoint conventions; at `p=2` this interval is `[0,0]`. R07.4 must supply the all-weight crystalline-lattice Kisin functor, its `B_cris⁺` realization, `A_inf` extension and full-faithfulness over the p-power-root tower used in BMS Theorem 4.4 and Proposition 4.34. A theory restricted to finite flat groups or weight one is insufficient for the unrestricted cohomological lattice recovery.
 
@@ -76,7 +76,7 @@ CompletedCohomologyPartII §§2.2–2.3, 2.5, 2.7 and 2.9 supplies the bounded-t
 
 ## How to read the build
 
-Layer 0 fixes coefficient maps and transport conventions. Layer 1 assembles integral smooth specializations. Layer 2 consumes the canonical `B_dR⁺` construction and lattice from AInfCohomology §AI.6.5 and constructs the relative infinitesimal site and relative coefficient comparison. In that relative branch construct §2.24’s perfect-complex extension and crystalline realization before extending §2.22 from vector-bundle to perfect coefficients and applying §6.3. Layer 3 then descends the crystalline comparison and builds the nearby-cycle pullback square. Layer 4 treats vertical semistable and broader rational `C_st` comparisons in their separate ranges. PrismaticCohomologyPartIV precedes this roadmap and supplies the generic logarithmic theory consumed by §§4.6 and 6.1. Layer 5 derives torsion inequalities and integral lattice recovery, with counterexamples guarding their hypotheses. Layer 6 proves trace, cycle and Chern compatibility and the modular-curve finite-period comparisons. Within Layer 6, construct §6.2’s geometric tower, flag basis and finite-level descent first, then §6.1’s logarithmic period sheaf, then §6.11 and §§6.11a–6.15. In the class-comparison branch, construct §6.4a’s de Rham maps and the bundle/class API at the start of §6.8 before §§6.5–6.7, then prove §6.8’s higher-class comparison. A source-labelled isomorphism always means the constructed comparison map, with its specified scalar extensions and choices.
+Layer 0 fixes coefficient maps and transport conventions. Layer 1 assembles integral smooth specializations. Layer 2 consumes the canonical `B_dR⁺` construction and lattice from AInfCohomology §AI.6.5 and constructs the relative infinitesimal site and relative coefficient comparison. In that relative branch construct §2.24’s perfect-complex extension and crystalline realization before extending §2.22 from vector-bundle to perfect coefficients and applying §6.3. Layer 3 then descends the crystalline comparison and builds the nearby-cycle pullback square. Layer 4 treats vertical semistable and broader rational `C_st` comparisons in their separate ranges. PrismaticCohomologyPartIV precedes this roadmap and supplies the generic logarithmic theory consumed by §§4.6 and 6.1. Layer 5 derives torsion inequalities and integral lattice recovery, with counterexamples guarding their hypotheses. Layer 6 proves trace, cycle and Chern compatibility and the modular-curve finite-period comparisons. Within Layer 6, construct §6.2’s shared small-Hasse canonical subgroups before its geometric tower, flag basis and finite-level descent, then §6.1’s logarithmic period sheaf, then §6.11 and §§6.11a–6.15, proving the fixed-exponent compactification restriction before the almost comparison in §6.11a. In the class-comparison branch, construct §6.4a’s de Rham maps and the bundle/class API at the start of §6.8 before §§6.5–6.7, then prove §6.8’s higher-class comparison. A source-labelled isomorphism always means the constructed comparison map, with its specified scalar extensions and choices.
 
 ## Layer 0: Coefficient maps and normalization
 
@@ -150,7 +150,13 @@ The pro-étale covers and field-extension slices are those of the corrected site
 
 Fix the twist dictionary before comparing modules. `ℚ_p(1)` has `G_K` action `χ_p` and Hodge–Tate weight `+1`. Put `t=log[ε]`, so `φ(t)=pt` and `Fil^r B_dR=t^r B_dR⁺` for every integer `r`. The integral Hodge–Tate sheaves use `Ω^j{−j}` with the Breuil–Kisin twist; the identification with a Tate twist after a period extension must be an explicit map. Display a semilinear Frobenius as its linearization `φ* M→M`.
 
-For the chosen uniformizer `π` of `O_K` and compatible roots `π^{1/p^n}`, write `𝔖=W(k)[[u]]`. In the convention used for BMS lattice recovery, `𝔖→A_inf` sends `u` to `[π♭]^p` and restricts to Frobenius on `W(k)`; the specialization `𝔖→W(k)` sends `u` to zero and has the same Frobenius on coefficients. Keeping that twist visible is essential for identifying the lattice with its `φ`-action. As a normalization witness, `φ(t)=pt` gives weight `+1` to `ℚ_p(1)`, while the degree-two cohomology of `P¹` is `ℚ_p(−1)`, of weight `−1`.
+For the chosen uniformizer `π` of `O_K` and compatible roots `π^{1/p^n}`, write `𝔖₀=W(k₀)[[u]]`. In the convention used for BMS lattice recovery, `ι₁:𝔖₀→A_inf` sends `u` to `[π♭]^p` and uses Witt Frobenius followed by the coefficient inclusion `W(k₀)→A_inf`; the specialization `ε₁:𝔖₀→W(k₀)` sends `u` to zero and uses the same coefficient Frobenius. Geometric specialization is `ε₁` followed by `W(k₀)→W(k)`. Keeping that twist visible is essential for identifying the lattice with its `φ`-action. As a normalization witness, `φ(t)=pt` gives weight `+1` to `ℚ_p(1)`, while the degree-two cohomology of `P¹` is `ℚ_p(−1)`, of weight `−1`.
+
+**Checks.**
+
+- For `K=ℚ_p`, the arithmetic ring is `𝔖₀=ℤ_p[[u]]`; its geometric extension has coefficients `W(𝔽̄_p)`.
+- There is no unital map `W(𝔽̄_p)→ℤ_p`: reduction modulo `p` would embed `𝔽̄_p` into `𝔽_p`. Thus the arithmetic coefficient lift cannot start from `W(k)`.
+- At `u=0`, `ε₁` is Frobenius on `W(k₀)`; for `k₀=𝔽_(p²)` it differs from the identity on a Teichmüller element outside `𝔽_p`.
 
 (Bhatt–Morrow–Scholze, Example 4.24, p.41; §4.4, pp.43–44; introduction p.4.)
 
@@ -254,23 +260,23 @@ Keep properness in this theorem; the assertion is not a blanket comparison for a
 
 ### 1.7 Prismatic Frobenius pullback
 
-Use PrismaticCohomologyPartII §§5.23–5.25 for the Frobenius-pulled AΩ/prismatic comparison and perfect-prism uniqueness with its structural transformation. For the perfect bounded prism `(A_inf,ker θ)`, the supplied comparison identifies `φ*RΓ_Δ(𝔛/(A_inf,ker θ))` with `K_A`. State the comparison as a Frobenius-pullback map and prove its crystalline, de Rham and étale specializations coincide with the maps already chosen. A formulation with `ker θ̃` is transported by `φ` together with its scalar structure.
+Use PrismaticCohomologyPartII §§5.23–5.25 for the Frobenius-pulled AΩ/prismatic comparison and perfect-prism uniqueness with its structural transformation. For the perfect bounded prism `(A_inf,ker θ)`, the supplied comparison identifies `φ*RΓ_Δ(𝔛/(A_inf,ker θ))` with `K_A`. State the comparison as a Frobenius-pullback map and identify its crystalline, de Rham and étale specializations with the chosen maps. Use PadicHodgeTheory §8.2’s `prismaticSpecializationAgreement` for the crystalline/de Rham square in its bounded-prism range with `W(A/I)` p-torsion-free, retaining its coefficient Frobenius; transport that supplied square through the Frobenius-pulled AΩ identification. The additional étale and structural-transformation agreements belong here. A formulation with `ker θ̃` is transported by `φ` together with its scalar structure.
 
 For map agreement use the precise uniqueness result over a perfect prism `(A,I)`: put `R=A/I`, work on p-completely smooth `R`-algebras, and keep the symmetric monoidal functor `G` into derived `(p,I)`-complete `A`-complexes together with its symmetric monoidal structural transformation `η:id→G⊗^L_A R`. In this category the prismatic object has only the identity endomorphism. This controls natural transformations with `η`, rather than arbitrary isomorphisms of cohomology groups. Frobenius compatibility is not an extra premise of that uniqueness theorem. Verify that the compared constructions inhabit this category before using uniqueness.
 
 (Bhatt–Scholze, Theorem 17.2, p.117 (proof pp.117–121); Notation 18.1, Theorem 18.2 and Lemma 18.3, pp.122–123.)
 
-*Needs:* Layer 1.1 (Proper smooth `A_inf` input package); Layer 0.1 (Normalized specialization diagram); PrismaticCohomologyPartII §§5.23–5.25.
+*Needs:* Layer 1.1 (Proper smooth `A_inf` input package); Layer 0.1 (Normalized specialization diagram); PrismaticCohomologyPartII §§5.23–5.25; PadicHodgeTheory §8.2 (`prismaticSpecializationAgreement`).
 
 ### 1.8 Crystalline–de Rham overlap square
 
-Compare the two paths from the `A_inf` complex to continuous de Rham cohomology: direct `θ`-base change, and `A_cris` base change followed by `θ:A_cris→O_C` and crystalline-to-de Rham reduction. Prove the paths agree as natural morphisms of complexes using the common PD embedding calculation. Include the associativity isomorphism for successive scalar extensions in the written square.
+Use the mixed-characteristic overlap supplied by PadicHodgeTheory §8.2’s `prismaticSpecializationAgreement`, transported by §1.7, for the two paths from the `A_inf` complex to continuous de Rham cohomology: direct `θ`-base change, and `A_cris` base change followed by `θ:A_cris→O_C` and crystalline-to-de Rham reduction. The comparison is that supplied natural map, with the associativity isomorphism for successive scalar extensions in the square. Any enhanced product or Bockstein refinement of §1.9 must have this underlying square.
 
 On the `W(k)` side, crystalline reduction to `k` uses its Frobenius-normalized scalar structure and the corresponding de Rham complex. It does not give the `θ̃` Hodge–Tate complex. The square must carry the multiplication and the scalar normalization of the maps in the preceding subsections. Comparing only the resulting dimensions would lose the filtration and class compatibilities needed later.
 
 (Bhatt–Morrow–Scholze, Theorem 14.1 proof, pp.118–119; §12.2.)
 
-*Needs:* Layer 1.5 (Integral `A_cris` specialization); Layer 1.2 (Integral de Rham specialization); Layer 1.4 (Derived Witt crystalline specialization); CrystallineCohomology `CR.2`; PrismaticCohomology §§1.14, 1.21–1.23; CrystallineCohomology §CR.2.3; Layer 1.7 (Prismatic Frobenius pullback).
+*Needs:* Layer 1.5 (Integral `A_cris` specialization); Layer 1.2 (Integral de Rham specialization); Layer 1.4 (Derived Witt crystalline specialization); CrystallineCohomology `CR.2`; PrismaticCohomology §§1.14, 1.21–1.23; CrystallineCohomology §CR.2.3; Layer 1.7 (Prismatic Frobenius pullback); PadicHodgeTheory §8.2 (`prismaticSpecializationAgreement`).
 
 ### 1.9 Multiplication and Bockstein coherence
 
@@ -481,7 +487,7 @@ Use `AInf.integral_deformation_agreement` and `AInf.canonical_rational_compariso
 
 Use the Frobenius-twisted period diagram throughout §§2.18–2.24 and §6.3. Write `B_dR,GR⁺=(A_inf[1/p])^∧_(ξ̃)`, augmented by `θ̃`; write `A_cris,GR` for the p-completed PD envelope of `(ξ̃)⊂A_inf` and use its compatible map to `B_dR,GR⁺` and the compatible `θ̃_K`-augmented map from `A_inf,K`. Construct the filtered isomorphism `F_GR:B_dR,GR⁺≃B_dR⁺` induced by `φ⁻¹`. It sends `ξ̃` to `ξ` and the GR element `t=log[ε]` to `t/p`. Transport the crystalline-envelope map, every coefficient map and twist, the `W(k)` scalar structure and the fixed `O_K` lift along `F_GR` before comparing with §0.1. In particular the scalar square has top `W(k)→B_dR,GR⁺`, bottom the transported `W(k)→B_dR⁺`, left the identity and right `F_GR`; if both Witt arrows are written using the same canonical inclusion, the left arrow is instead `F_W⁻¹`. The analogous `O_K` square uses its fixed lift on top and its transported lift on the bottom. All relative-site notation below uses this GR diagram; §2.23 applies `F_GR` to identify it with the canonical absolute diagram.
 
-Fix a complete discretely valued `K/ℚ_p` with perfect residue field `k`, put `A_inf,K=A_inf⊗_{W(k)}O_K` using the GR scalar inclusion `W(k)→A_inf`, namely `φ∘j` for the canonical inclusion `j`, so `θ̃_K(a⊗b)=θ̃(a)b` is balanced, and fix a map `O_K→B_dR,GR⁺` lifting `K→C`. Write `B_dR,GR,e⁺=B_dR,GR⁺/(ξ̃)^e`. For a smooth morphism `f:X→Y` of smooth formal `O_K`-schemes let `Y_{B_dR,GR⁺,e}` be the completed base change of `Y` along `O_K→A_inf,K→B_dR,GR,e⁺`; for an affine open `Spf R` of `Y` it is the affinoid adic space of `((R⊗_{O_K}A_inf,K)^∧_p[1/p])⊗_{A_inf,K}B_dR,GR,e⁺`.
+Fix a complete discretely valued `K/ℚ_p` with perfect residue field `k₀`, put `A_inf,K=A_inf⊗_{W(k₀)}O_K` using the GR scalar inclusion `W(k₀)→A_inf`, namely `φ∘j` for the canonical inclusion `j`, so `θ̃_K(a⊗b)=θ̃(a)b` is balanced, and fix a map `O_K→B_dR,GR⁺` lifting `K→C`. Write `B_dR,GR,e⁺=B_dR,GR⁺/(ξ̃)^e`. For a smooth morphism `f:X→Y` of smooth formal `O_K`-schemes let `Y_{B_dR,GR⁺,e}` be the completed base change of `Y` along `O_K→A_inf,K→B_dR,GR,e⁺`; for an affine open `Spf R` of `Y` it is the affinoid adic space of `((R⊗_{O_K}A_inf,K)^∧_p[1/p])⊗_{A_inf,K}B_dR,GR,e⁺`.
 
 Define `RelativeInfinitesimalSite X/Y_{B_dR,GR⁺,inf}` with this intended signature.
 
@@ -504,11 +510,11 @@ Proof of `envelope`: restrict to thickenings over a fixed `Y_{B_dR,GR⁺,e}`; fo
 **Checks.**
 
 - The coefficient transport sends `ξ̃` to `ξ` and `t` to `t/p`; using §0.1’s canonical arrow before transport would send `ξ̃` to an element with `θ`-value `p`, a unit after p-inversion, so cannot define this completion.
-- On canonical Witt elements `F_GR(j(w))=j(F_W⁻¹(w))`; on the GR scalar inclusion `φ∘j` this gives `F_GR(φ(j(w)))=j(w)`, including when Frobenius on `k` is nontrivial.
+- On canonical Witt elements `F_GR(j(w))=j(F_W⁻¹(w))`; on the GR scalar inclusion `φ∘j` this gives `F_GR(φ(j(w)))=j(w)`, including when Frobenius on `k₀` is nontrivial.
 - Over the point, the structure-sheaf cohomology of `Spa C` is `B_dR,GR⁺` in degree zero.
-- For an identity relative smooth morphism the relative de Rham complex has only degree zero and agrees with its Čech-envelope calculation.
+- For an identity relative smooth morphism the relative de Rham complex of sheaves has only degree zero and agrees with its Čech-envelope calculation as a sheaf complex; derived global sections may have higher cohomology.
 - A nilpotent thickening without a map to the specified finite-level `Y` base is not a relative object, even when it is an absolute `B_dR,GR⁺` thickening.
-- For `X=Y`, `f` the identity and `Z=Y_K`, every self-product `Z^n` over `Y_K` is `Y_K` itself, so each `Z^n_{m,e}` with `m≥e` is `Y_{B_dR,GR⁺,e}` (Guo–Reinecke, Example 10.5(1)), the Čech nerve is constant and its cohomology is `O_inf` in degree zero. Forming the self-products over `Spa K` instead of over `Y_K` gives `Y_K^{n+1}`, whose diagonal neighbourhoods carry nonzero relative differentials of `Y`, and fails this check.
+- For `X=Y`, `f` the identity and `Z=Y_K`, every self-product `Z^n` over `Y_K` is `Y_K` itself, so each `Z^n_{m,e}` with `m≥e` is `Y_{B_dR,GR⁺,e}` (Guo–Reinecke, Example 10.5(1)). The constant nerve resolves the structure sheaf in degree zero; its derived global sections retain the coherent cohomology of `Y_{B_dR,GR⁺,e}`. Forming the self-products over `Spa K` instead gives diagonal neighbourhoods in `Y_K^{n+1}` and introduces relative differentials of `Y`.
 - For an enlarged framing consisting of the `d` torus coordinates and one redundant unit `u`, `D_Σ(R′)` is `R′_{B_dR,GR⁺}[[x_u−u]]`, with `u` read in `R′_{B_dR,GR⁺}`: the torus coordinates lift by étaleness and contribute no variable, as in Bhatt–Morrow–Scholze Lemma 13.12, and the redundant unit contributes one formal disc. A normal form with one variable for every element of `Σ` has relative dimension `d+|Σ|` instead of `|Σ|` and fails. Completing only along the GR period ideal `(ξ̃)`, rather than along the whole embedding kernel, also gives a different ring.
 
 (Guo–Reinecke, §1.4, pp.10–11, for the period diagram and PD envelope; §10.1, p.93, for the `θ̃_K`-augmented coefficients; Definition 10.1 and Remark 10.2, p.94; Lemma 10.3 and proof, p.94; Convention 10.4 and Example 10.5, p.95; Construction 10.6(1), p.95.)
@@ -517,9 +523,17 @@ Proof of `envelope`: restrict to thickenings over a fixed `Y_{B_dR,GR⁺,e}`; fo
 
 ### 2.19 Relative Čech–de Rham comparison
 
-For a vector-bundle crystal `F` on the relative site and a smooth ambient embedding, prove the Čech–Alexander complex of the weakly final envelope computes `RΓ_inf(X/Y_{B_dR,GR⁺},F)`: evaluate `F` on the Čech nerve `[n]↦{Z^n_{m,e}}` of `RelativeInfinitesimalSite.envelope_cech`, take the limit over `m` and `e` in each degree, and use that vector bundles on affinoid rigid spaces have no higher cohomology. Compare it with the completed relative de Rham complex of `F` evaluated on that envelope. The coefficient connection is the one supplied by the crystal's cartesian descent, and the morphisms are natural in `F` and the embedding.
+In the smooth formal affine setup of GR Convention 10.4, for a vector-bundle crystal `F` and a smooth affinoid ambient embedding `X_C→Z_C` over `Y_C`, prove the Čech–Alexander complex of the weakly final envelope computes `RΓ_inf(X/Y_{B_dR,GR⁺},F)`: evaluate `F` on the Čech nerve `[n]↦{Z^n_{m,e}}` of `RelativeInfinitesimalSite.envelope_cech` and take the limits over `m,e` and the cosimplicial index as in Construction 10.6. The affinoid neighbourhoods have no higher vector-bundle cohomology, giving the ordinary evaluations used in this calculation. Compare with the completed relative de Rham complex on the envelope. Its connection is supplied by the crystal's cartesian descent; the maps are natural in `F` and the embedding.
 
 In the formal affine smooth setup, use the canonical lift and an enlarged Laurent framing to construct the particular equivalences in GR Corollary 10.8. The ambient envelope has an ind-system of nilpotent neighbourhoods; treating it as a single final object would give an incorrect proof. Retain the completion topology on the relative differentials when identifying the two complexes.
+
+For general smooth `X,Y` and ambient `Z`, apply this calculation on compatible affine opens and their refinements, and use derived covering descent to obtain the global equivalence of Corollary 10.8. The de Rham side is global hypercohomology. Ordinary global sections on a nonaffinoid envelope do not replace that descent.
+
+**Checks.**
+
+- For the identity of a smooth affinoid and the structure crystal, the relative complex is the coefficient ring in degree zero.
+- At `p=5`, for the formal elliptic curve `y²z=x³−xz²` and its identity morphism, the constant envelope nerve has structure sheaf in degree zero, but `H¹(Y_{B_dR,GR⁺,e},O)` is free of rank one over `B_dR,GR⁺/(ξ̃^e)`.
+- Restricting a framed affine to a rational affinoid and then refining the framing gives the same comparison as refining first and restricting; these are the descent maps in the global formula.
 
 (Guo–Reinecke, Construction 10.6 and Theorem 10.7, pp.95–96; Corollary 10.8, p.97.)
 
@@ -601,9 +615,9 @@ Layer 0 and the integral maps of Layer 1 for good-reduction agreement; AdicSpace
 
 ### 3.1 Residue-section descent adapter
 
-Apply the rational crystalline base-change theorem to relate the `O_C/p` object to the `W(k)` object. Given the appropriate section of the residue map, construct `H_crys^i(Y/A_cris)[1/p]≃H_crys^i(𝔛_k/W(k))⊗A_cris[1/p]` and compose it with the rational period comparison. For a descended `O_K`-model, normalize the section through the Witt lift `W(k)→O_K` and a sufficiently small nilpotent reduction.
+Apply the rational crystalline base-change theorem to relate the `O_C/p` object to the `W(k)` object. Given the appropriate section of the residue map, construct `H_crys^i(Y/A_cris)[1/p]≃H_crys^i(𝔛_k/W(k))⊗A_cris[1/p]` and compose it with the rational period comparison. For a descended `O_K`-model, use the arithmetic Witt lift `W(k₀)→O_K` and a sufficiently small nilpotent reduction to normalize its residue-section descent.
 
-Show exactly where `W(k)` is extended to `W(k̄)` and where Frobenius acts on its coefficients. The original section must remain visible for a general `O_C`-model. Any section-independence statement is restricted to the source's hypotheses, and all these maps are rational; no integral invariance under arbitrary sections is claimed. The affine Frobenius-isogeny/base-change proof is part of the required crystalline supplier contract.
+Show exactly where the arithmetic coefficients `W(k₀)` are extended to the geometric `W(k)` and where Frobenius acts on them. Here `𝔛_k=𝔛₀,k₀×_{k₀}k` for a descended model. The original section must remain visible for a general `O_C`-model. Any section-independence statement is restricted to the source's hypotheses, and all these maps are rational; no integral invariance under arbitrary sections is claimed. The affine Frobenius-isogeny/base-change proof is part of the required crystalline supplier contract.
 
 (Bhatt–Morrow–Scholze, Proposition 13.21 and Remark 13.22, p.116; Theorem 14.6 proof, p.122.)
 
@@ -631,21 +645,29 @@ After extending to `B_dR`, prove the comparison agrees with the canonical `K_dR�
 
 ### 3.4 Crystalline comparison over a discretely valued base
 
-For proper smooth formal `𝔛₀/O_K` with `K` complete discretely valued over `ℚ_p` and perfect residue `k`, obtain
+For proper smooth formal `𝔛₀/O_K` with `K` complete discretely valued over `ℚ_p` and perfect residue `k₀`, obtain
 
 ```text
-H_ét^i(X_C,ℤ_p) ⊗ B_cris ≃ H_crys^i(𝔛₀,k/W(k)) ⊗ B_cris.
+H_ét^i(X_C,ℤ_p) ⊗ B_cris ≃ H_crys^i(𝔛₀,k₀/W(k₀)) ⊗ B_cris.
 ```
 
 Prove `G_K` equivariance and Frobenius compatibility, and prove the induced `B_dR` map preserves the convolution Hodge filtration. Use the preceding `O_C` theorem, the canonical residue-section descent, and the equality of de Rham comparison maps from Layer 2. These ingredients yield that `H_ét^i(X_C,ℚ_p)` is crystalline. Proper smooth formal is the full geometric hypothesis; no algebraic projective model is required. The filtration is read only after the specified embedding into `B_dR`.
 
-(Bhatt–Morrow–Scholze, Theorem 14.6(i), pp.121–122.)
+**Agreement with the finite-base maps** (`finiteBaseComparisonAgreement`). PadicHodgeTheory §8.1 owns the rational constant-coefficient crystalline, semistable and de Rham maps and their period-module identifications for finite `K/ℚ_p`. In that range use its maps in §§3.4–3.5 and 4.3–4.4. Prove that the degreewise maps of the derived comparisons here equal those supplied maps, with the direction inverted where necessary. The crystalline part is the agreement in §§3.4–3.5; §§4.3–4.4 give its semistable part. For arbitrary perfect `k₀` the constructions in those sections give their extension. Equality follows from the common integral period maps, residue-section bridge and structural-period-sheaf de Rham comparison; derived enhancements retain these underlying maps.
 
-*Needs:* Layer 3.3 (Rational crystalline comparison over `O_C`); Layer 3.1 (Residue-section descent adapter); Layer 2.12 (Descended de Rham lattice); Layer 2.13 (Filtered de Rham comparison over `K`); PadicHodgeTheory §§3.1–3.5.
+**Checks.**
+
+- For `K=ℚ_p` and a point, the two crystalline maps are the identity on `B_cris`, with arithmetic realization `ℚ_p`.
+- For `P¹` over any finite `K`, the degree-two maps agree on the normalized Tate line; a scalar different from 1 cannot be absorbed by equality of ranks.
+- For a split Tate curve over a ramified finite `K`, the semistable maps use the same normalized `N_raw/e` and agree after the chosen `B_st→B_dR` extension.
+
+(Bhatt–Morrow–Scholze, Theorem 14.6(i), pp.121–122; Česnavičius–Koshikawa, Proposition 6.8 and Theorem 9.5, pp.66–68,76; PadicHodgeTheory §8.1.)
+
+*Needs:* Layer 3.3 (Rational crystalline comparison over `O_C`); Layer 3.1 (Residue-section descent adapter); Layer 2.12 (Descended de Rham lattice); Layer 2.13 (Filtered de Rham comparison over `K`); PadicHodgeTheory §§3.1–3.5, 8.1.
 
 ### 3.5 Crystalline representation export
 
-For the proper smooth good-reduction representation `V=H_ét^i(X_C,ℚ_p)`, take `G_K` invariants of the `B_cris` comparison to identify `D_cris(V)` with `H_crys^i(𝔛₀,k/W(k))[1/p]` as a `φ`-module. The dimension criterion follows from `B_cris^{G_K}=K₀` and the period functor's admissibility theory. After `K₀→K`, the filtered realization is `H_dR^i(X_K/K)`.
+For the proper smooth good-reduction representation `V=H_ét^i(X_C,ℚ_p)`, take `G_K` invariants of the `B_cris` comparison to identify `D_cris(V)` with `H_crys^i(𝔛₀,k₀/W(k₀))[1/p]` as a `φ`-module. The dimension criterion follows from `B_cris^{G_K}=K₀`, where `K₀=W(k₀)[1/p]`, and the period functor's admissibility theory. After `K₀→K`, the filtered realization is `H_dR^i(X_K/K)`. For finite `K/ℚ_p`, this is the supplied PadicHodgeTheory §8.1 identification through `finiteBaseComparisonAgreement`.
 
 Use the rational period functors and their fully specified coefficient embeddings supplied by p-adic Hodge theory. This target connects geometric cohomology with those functors; it does not rebuild them. In particular the perfect residue-field hypothesis controls `K₀` and the canonical `K`-lift. A representation merely known to be de Rham is not covered by the good-reduction crystalline conclusion.
 
@@ -724,7 +746,7 @@ For proper good reduction the rational comparison recovers the crystalline repre
 
 ### Dependencies
 
-Layers 0–2; CrystallineCohomology CR.3 Frobenius-isogeny and residue-section descent; AInfCohomology AI.2/AI.5; PadicPeriodRings §§4.1–4.3 and PadicHodgeTheory §§3.1–3.5; the syntomic construction of §1.11 syntomic cohomology; DerivedDeRhamCohomology Layers 1–2 completion and Hodge-completed tensors; EnhancedDerivedSheaves E4 enhanced fibres. AInfCohomology §AI.7.2 supplies the spectral trace inputs; the rational square and graded Beilinson refinement are constructed in this layer.
+Layers 0–2; CrystallineCohomology CR.3 Frobenius-isogeny and residue-section descent; AInfCohomology AI.2/AI.5; PadicPeriodRings §§4.1–4.3 and PadicHodgeTheory §§3.1–3.5; the syntomic construction of §1.11 syntomic cohomology; DerivedDeRhamCohomology Layers 1–2 completion and Hodge-completed tensors; EnhancedDerivedSheaves E4 enhanced fibres. AInfCohomology §AI.7.2 supplies the spectral trace inputs; PrismaticCohomologyPartIII §7.0 supplies the graded Beilinson square; this layer constructs the nearby-cycle corner identifications and transports its homotopy.
 
 ## Layer 4: Semistable and logarithmic comparison
 
@@ -732,7 +754,7 @@ Layers 0–2; CrystallineCohomology CR.3 Frobenius-isogeny and residue-section d
 
 Let `𝔛₀` be proper flat p-adic formal over `O_K`, with its divisorial log structure and an étale cover by semistable charts `t₀⋯t_r=π′`, where `π′` is a nonzero nonunit and may vary with the chart. Keep the pure-dimensional special-fibre assumption of CK §7.1. After `O_C` base change, place the supplied semistable `A_inf` complex and its `θ`-log de Rham, Witt-log crystalline, `A_cris`-log crystalline and `μ`-inverted étale maps in the coefficient diagram.
 
-Record the logarithmic bases explicitly: `W(k̄)` with the `Q_{≥0}` log base occurs in the geometric integral construction, while `W(k₀)` with `N→W(k₀)`, `1↦0` occurs in arithmetic Hyodo–Kato theory. Properness remains part of the étale comparison. Products are retained only in the source-proved range; the full all-coordinate semistable `A_cris` morphism is not asserted to be multiplicative from the smooth theorem.
+Record the logarithmic bases explicitly: `W(k)` with the `Q_{≥0}` log base occurs in the geometric integral construction, while `W(k₀)` with `N→W(k₀)`, `1↦0` occurs in arithmetic Hyodo–Kato theory. Properness remains part of the étale comparison. Products are retained only in the source-proved range; the full all-coordinate semistable `A_cris` morphism is not asserted to be multiplicative from the smooth theorem.
 
 (Česnavičius–Koshikawa, §7.1–7.2, pp.68–69; Corollary 5.43, pp.58–59; Theorem 2.3, p.9.)
 
@@ -742,7 +764,7 @@ Record the logarithmic bases explicitly: `W(k̄)` with the `Q_{≥0}` log base o
 
 Use AInfCohomology §AI.6.4 `Semistable.hyodoKatoInterface` (iv) for the `B_st⁺` base-change adapter between geometric log crystalline cohomology and arithmetic Hyodo–Kato cohomology, with its two log bases, Frobenius, total monodromy and Galois action. Transport that supplied map to this roadmap’s conventions for use in §4.3. The CK Proposition 9.2 map preserves `φ` and `N`. On the Hyodo–Kato tensor, `N` is `N_HK⊗1+1⊗N_Bst`; on the `A_cris` tensor it acts on the period coefficient only.
 
-Use parts (i)–(iii) of the same supplied interface for descent from `k̄` to `k₀` and the arithmetic log-base comparison. The period map does not by itself identify the integral log objects or their coefficient fields. `G_K` acts semilinearly on the unramified extension `F^{nr}`; an element acting nontrivially on `k̄` does not fix that coefficient field pointwise. Carry this action into the balanced tensor and into subsequent period invariants.
+Use parts (i)–(iii) of the same supplied interface for descent from `k` to `k₀` and the arithmetic log-base comparison. The period map does not by itself identify the integral log objects or their coefficient fields. `G_K` acts semilinearly on the unramified extension `F^{nr}`; an element acting nontrivially on `k` does not fix that coefficient field pointwise. Carry this action into the balanced tensor and into subsequent period invariants.
 
 (Česnavičius–Koshikawa, Proposition 9.2 and Remark 9.3, pp.75–76.)
 
@@ -758,9 +780,11 @@ RΓ_ét(X_C,ℤ_p) ⊗^L B_st ≃ RΓ_logcrys(𝔛₀,k₀/W(k₀)) ⊗^L B_st.
 
 The arithmetic log base is `N→W(k₀)`, `1↦0`. The comparison respects `φ` and total `N`, with `Nφ=pφN`. Its degreewise consequence identifies the semistable period module and proves `H_ét^i(X_C,ℚ_p)` semistable over `K`. Use the log-base adapter and the actual semistable `A_inf` maps in constructing this equivalence. Potential semistability of a general proper rigid space, proved below, is a different theorem and has a different descent object.
 
+For finite `K/ℚ_p`, take the rational degreewise comparison and period-module identification from PadicHodgeTheory §8.1. The derived equivalence and arbitrary-perfect-residue extension here refine that map by `finiteBaseComparisonAgreement` of §3.4.
+
 (Česnavičius–Koshikawa, Theorem 9.5, p.76.)
 
-*Needs:* Layer 4.1 (Logarithmic integral comparison adapter); Layer 4.2 (Hyodo–Kato log-base adapter); CrystallineCohomology `CR.6`; PadicPeriodRings §§1.5, 3, 4.1–4.3; PadicHodgeTheory §§3.1–3.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.1–R07.3.3; PadicPeriodRings §4.1.
+*Needs:* Layer 4.1 (Logarithmic integral comparison adapter); Layer 4.2 (Hyodo–Kato log-base adapter); CrystallineCohomology `CR.6`; PadicPeriodRings §§1.5, 3, 4.1–4.3; PadicHodgeTheory §§3.1–3.5, 8.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.1–R07.3.3; PadicPeriodRings §4.1.
 
 ### 4.4 Semistable de Rham agreement
 
@@ -768,13 +792,15 @@ Choose an `A_cris`-algebra embedding `B_st→B_dR` of the Fontaine/CK kind. Exte
 
 Transport the Hodge filtration through the corresponding Hyodo–Kato-to-de Rham identification; the resulting `B_dR` isomorphism is strict. The embedding is a choice, so `B_st` does not acquire a choice-free filtration simply from this statement. Changing the choice is governed by the signed monodromy transport next. Include the scalar and logarithm conventions in both sides of the agreement, rather than saying only that some filtered period isomorphism exists.
 
+For finite `K/ℚ_p` this is the de Rham agreement supplied by PadicHodgeTheory §8.1; prove the derived diagram here induces it through §3.4's `finiteBaseComparisonAgreement`. The same common integral maps give the agreement for arbitrary perfect `k₀`.
+
 (Česnavičius–Koshikawa, Remark 9.6, p.77; Proposition 6.8, pp.66–68.)
 
 *Needs:* Layer 4.3 (Semistable period comparison); Layer 2.12 (Descended de Rham lattice); Layer 2.13 (Filtered de Rham comparison over `K`); AInfCohomology §AI.6.6.
 
 ### 4.5 Uniformizer change and monodromy transport
 
-Let `π` be a uniformizer, `u∈O_Kˣ` and `e=v_π(p)`. Translate the arithmetic supplier’s sign to our negative evaluation convention and distinguish its uniformizer-log-point operator `N_raw` from `N_norm=N_raw/e`. Use `N_HK=N_norm` with CK’s p-normalized `B_st`, whose operator is `N_Bst=−d/dT` and satisfies `N_Bst(log[π♭])=−1/e`. Construct this scaling adapter with the supplied log-base comparison. A coordinate for the uniformizer torsor translates by `log_K(u)`; the induced coordinate on the p-torsor translates by `e log_K(u)`.
+Let `π` be a uniformizer, `u∈O_Kˣ` and `e=v_π(p)`. Use AInfCohomology §AI.6.4's `Semistable.pNormalizedMonodromy`, including its sign, scaling `N_norm=N_raw/e`, nilpotence, ramified base change and relation `Nφ=pφN`. Use `N_HK=N_norm` with CK’s p-normalized `B_st`, whose operator is `N_Bst=−d/dT` and satisfies `N_Bst(log[π♭])=−1/e`. A coordinate for the uniformizer torsor translates by `log_K(u)`; the induced coordinate on the p-torsor translates by `e log_K(u)`.
 
 Define `ρ_π` by evaluating total-monodromy horizontal sections at `T_π=0`. Such a section associated to `x` is `exp(T_π N_norm)x`. Since `T_{πu}=T_π+e log_K(u)`, the signed target is
 
@@ -783,7 +809,7 @@ Define `ρ_π` by evaluating total-monodromy horizontal sections at `T_π=0`. Su
        = ρ_π ∘ exp(−e log_K(u) N_norm).
 ```
 
-Prove nilpotence of these cohomological operators and the unit cocycle, using additivity of `log_K` and the finite exponential. CK §9.1 gives the p-torsor and its translation rule; the arithmetic uniformizer formula also uses the ramification scaling and the supplied arithmetic log-base comparison.
+Using the supplied nilpotence, prove this evaluation formula and the unit cocycle by additivity of `log_K` and the finite exponential. CK §9.1 gives the p-torsor and its translation rule; the arithmetic uniformizer formula uses the supplied normalization and arithmetic log-base comparison.
 
 The two-term witness is `N(e₁)=e₀` and `N(e₀)=0`. Then `exp(−cN)e₁=e₁−ce₀` and `exp(−cN)e₀=e₀`. This pins both the sign and the direction of coordinate transport. At `u=1` the map is the identity; at `N=0` the uniformizer choice disappears.
 
@@ -798,9 +824,9 @@ Define `monodromyTransport c N` as `exp(−cN)` for `c∈K` and `N` in a ring `A
 
 The Tate-curve relation of Layer 4.7 has the matrix witness `φ=diag(1,p)`, `N=E₁₂` on `K²`: `Nφ=pφN` holds, and the reversed relation `φN=pNφ` fails as soon as `p²≠1`.
 
-(Česnavičius–Koshikawa, §9.1 and Proposition 9.2, pp.75–76; arithmetic scaling as in PadicHodgeTheory §8.1.)
+(Česnavičius–Koshikawa, §9.1 and Proposition 9.2, pp.75–76; AInfCohomology §AI.6.4, `Semistable.pNormalizedMonodromy`.)
 
-*Needs:* CrystallineCohomology `CR.6`; AInfCohomology §AI.6.4 `Semistable.hyodoKatoInterface`; PadicHodgeTheory §8.1 monodromy normalization; PadicPeriodRings §§1.5, 3, 4.1–4.3; Layer 4.4 (Semistable de Rham agreement); CrystallineCohomology §CR.6.2.
+*Needs:* CrystallineCohomology `CR.6`; AInfCohomology §AI.6.4 `Semistable.hyodoKatoInterface` and `Semistable.pNormalizedMonodromy`; PadicPeriodRings §§1.5, 3, 4.1–4.3; Layer 4.4 (Semistable de Rham agreement); CrystallineCohomology §CR.6.2.
 
 ### 4.6 Log prismatic comparison boundary
 
@@ -815,7 +841,8 @@ For the semistable chart range compare the rational log-crystalline specializati
 **Checks.**
 
 - Trivial log structures recover the smooth comparison of §1.7.
-- The local chart `t₀t₁=π` retains its relative dlog direction; its rank-one Hyodo–Kato `H¹` has nilpotent `N=0`.
+- The relative log differential module of `t₀t₁=π` is free of rank one, generated by `dlog t₀`, with `dlog t₁=−dlog t₀`.
+- On the closed annulus `ℚ_p⟨x,y⟩/(xy−p)`, the convergent form `ω=(Σ_{m≥1}p^m x^{p^m})dlog x` has residue zero but is not exact: a primitive would have positive Laurent coefficients 1 at every exponent `p^m`. These do not tend to zero. Its class and `[dlog x]` are independent in ordinary analytic de Rham cohomology; the completed log-crystalline chart has the same obstruction. Rank one for the differential module therefore asserts no rank-one ordinary local cohomology theorem.
 - A global split Tate elliptic curve retains nonzero rank-one monodromy on its two-dimensional Hyodo–Kato module after gluing, as in §4.7.
 - At a good-reduction point the comparison gives the coefficient ring in degree zero and `N=0`.
 - A nonexact chart is not an object of the stated site; ordinary ring maps alone do not meet its conditions.
@@ -860,9 +887,9 @@ Prove the two dual descriptions in the source's scope: `Hom^sm_{G_K}(H_ét^r,B_s
 
 ### 4.9a Analytic Hyodo–Kato realization
 
-Construct `RigidHyodoKatoCohomology X` for smooth separated rigid `X/C`, taut and countable at infinity, under the countable-residue base assumptions of §4.8. It is the analytic semistable descent complex over the uncompleted algebraic union `F^{nr}`, with semilinear Frobenius, nilpotent cohomological monodromy, `Nφ=pφN`, functorial pullback and `G_K` action when descent data are given. Use the log rigid semistable residue-model complexes of CrystallineCohomology §CR.6.5 as local values, not as an already defined realization of an arbitrary rigid generic fibre.
+Construct `RigidHyodoKatoCohomology X` for smooth separated rigid `X/C`, taut and countable at infinity, under the countable-residue base assumptions of §4.8. It is the overconvergent analytic semistable descent complex over the uncompleted algebraic union `F^{nr}`, with semilinear Frobenius, nilpotent cohomological monodromy, `Nφ=pφN`, functorial pullback and `G_K` action when descent data are given. Use the dagger/log-rigid semistable residue-model complexes of CrystallineCohomology §CR.6.5 as local values, distinct from ordinary completed log-crystalline cohomology on nonproper charts.
 
-Construct the analytic semistable covering and alteration inputs: semistable formal-model covers after finite extensions, the associated analytic hypercovers, common refinements and cohomological descent for the local overconvergent complexes. Prove hypercover independence and agreement with the supplied log rigid Hyodo–Kato complex on a semistable model. Construct the Hyodo–Kato comparison; for proper smooth `X`, its deformation form is `Rlim_n (RigidHyodoKatoCohomology X ⊗^L_{F^{nr}} B_dR⁺/ξ^n) ≃ K_dR⁺(X)`, with its compatible `C`-reduction to de Rham cohomology. Here the displayed limit specifies derived `ξ`-completion. The API includes descent, refinement cocycles, scalar extension, products and agreement with §4.8 on analytifications of smooth algebraic varieties. Finiteness in the proper case follows through this comparison and proper de Rham finiteness; no finiteness for arbitrary nonproper rigid spaces is asserted.
+Construct the analytic semistable covering and alteration inputs: semistable formal-model covers after finite extensions, the associated analytic hypercovers, common refinements and cohomological descent for the local overconvergent complexes. Prove hypercover independence and agreement with the supplied log rigid Hyodo–Kato complex on a semistable model. Its ordinary log-crystalline identification uses a proper semistable model as in CrystallineCohomology §CR.6.5; the dagger-to-completion comparison uses partial properness as in CN I, Corollary 4.32. Construct the Hyodo–Kato comparison; for proper smooth `X`, its deformation form is `Rlim_n (RigidHyodoKatoCohomology X ⊗^L_{F^{nr}} B_dR⁺/ξ^n) ≃ K_dR⁺(X)`, with its compatible `C`-reduction to de Rham cohomology. Here the displayed limit specifies derived `ξ`-completion. The API includes descent, refinement cocycles, scalar extension, products and agreement with §4.8 on analytifications of smooth algebraic varieties. Finiteness in the proper case follows through this comparison and proper de Rham finiteness; no finiteness for arbitrary nonproper rigid spaces is asserted.
 
 **Checks.**
 
@@ -963,9 +990,9 @@ If additionally `H_crys^{i+1}` is p-torsion-free, prove this inclusion is equali
 
 ### 5.4 Crystalline lattice recovery from the `G_K`-lattice
 
-Take `C=widehat(K̄)` with its canonical continuous `G_K` action. For proper smooth `𝔛₀/O_K`, assume `H_crys^i` and `H_crys^{i+1}` are p-torsion-free. Fix `π` and its compatible roots, and apply the all-weight crystalline-lattice Kisin functor to the `G_K`-lattice `T=H_ét^i(X_C,ℤ_p)`. Its finite-free module `BK(T)` over `𝔖=W(k)[[u]]` has the `B_cris⁺` identification with crystalline cohomology supplied by BMS Proposition 4.34 and the crystalline period comparison.
+Take `C=widehat(K̄)` with its canonical continuous `G_K` action. For proper smooth `𝔛₀/O_K`, assume `H_crys^i` and `H_crys^{i+1}` are p-torsion-free. Fix `π` and its compatible roots, and apply the all-weight crystalline-lattice Kisin functor to the `G_K`-lattice `T=H_ét^i(X_C,ℤ_p)`. Its finite-free module `BK_K(T)` over `𝔖₀=W(k₀)[[u]]` has the `B_cris⁺` identification with crystalline cohomology supplied by BMS Proposition 4.34 and the crystalline period comparison.
 
-Use the convention `u↦[π♭]^p` with Witt Frobenius on coefficients for `𝔖→A_inf`, and `u↦0` with Witt Frobenius for `𝔖→W(k)`. After identifying the common rational `W(k)[1/p]` module, prove `BK(T)⊗_𝔖 W(k)=H_crys^i(𝔛₀,k/W(k))` as lattices with `φ`. This is recovery from the `G_K` action, not merely from the rank of `T`. The supplied Kisin theorem is the all-weight crystalline-lattice theorem; finite-flat or p-divisible-group classification alone is weaker than this input.
+Use the convention `u↦[π♭]^p` with Witt Frobenius on coefficients for `𝔖₀→A_inf`, and `u↦0` with Witt Frobenius for `𝔖₀→W(k₀)`. After identifying the common rational `W(k₀)[1/p]` module, prove `BK_K(T)⊗_{𝔖₀,ε₁} W(k₀)=H_crys^i(𝔛₀,k₀/W(k₀))` as lattices with `φ`. After scalar extension `W(k₀)→W(k)`, this yields the geometric crystalline lattice with its induced Frobenius. This is recovery from the `G_K` action, not merely from the rank of `T`. The supplied Kisin theorem is the all-weight crystalline-lattice theorem; finite-flat or p-divisible-group classification alone is weaker than this input.
 
 (Bhatt–Morrow–Scholze, Theorem 14.6(iii) and proof, pp.121–122.)
 
@@ -973,9 +1000,9 @@ Use the convention `u↦[π♭]^p` with Witt Frobenius on coefficients for `𝔖
 
 ### 5.5 Torsion lengths over a discretely valued base
 
-For proper smooth formal `𝔛₀/O_K` with the perfect-residue mixed-characteristic DVR assumptions, prove the all-`n` torsion inequality between `H_ét^i(X_C,ℤ_p)` and `H_crys^i(𝔛₀,k/W(k))`. The ranks agree, and crystalline p-torsion-freeness implies étale p-torsion-freeness. The result uses completed geometric base change to `O_C` and the rationally normalized crystalline descent.
+For proper smooth formal `𝔛₀/O_K` with the perfect-residue mixed-characteristic DVR assumptions, prove the all-`n` torsion inequality between `H_ét^i(X_C,ℤ_p)` and `H_crys^i(𝔛₀,k₀/W(k₀))`. The ranks agree, and crystalline p-torsion-freeness implies étale p-torsion-freeness. The result uses completed geometric base change to `O_C` and the rationally normalized crystalline descent.
 
-Record the lengths over `ℤ_p` and `W(k)`, each with `p` as the truncation parameter. No ordinary length over ramified `O_K` replaces either coefficient ring in this statement. Include `n=0` and the vanishing-rank case in the checks. The opposite torsion-freeness implication fails, and no integral étale realization is determined only by the residue scheme.
+Record the lengths over `ℤ_p` and `W(k₀)`, each with `p` as the truncation parameter. No ordinary length over ramified `O_K` replaces either coefficient ring in this statement. Include `n=0` and the vanishing-rank case in the checks. The geometric variant follows by `W(k₀)→W(k)` and has the same finite torsion lengths. The opposite torsion-freeness implication fails, and no integral étale realization is determined only by the residue scheme.
 
 (Bhatt–Morrow–Scholze, Theorem 14.6(ii), pp.121–122.)
 
@@ -983,9 +1010,9 @@ Record the lengths over `ℤ_p` and `W(k)`, each with `p` as the truncation para
 
 ### 5.6 Mod-p de Rham dimension bound
 
-For proper smooth `𝔛₀/O_K`, prove `dim_k H_dR^i(𝔛₀,k)≥dim_Fp H_ét^i(X_C,F_p)`. Use derived base change for crystalline and étale complexes, together with finite generation of integral cohomology. Reduction modulo `p` in degree `i` has contributions from torsion in both degree `i` and degree `i+1`; include both before applying the two all-`n` inequalities at `n=1`.
+For proper smooth `𝔛₀/O_K`, prove `dim_{k₀} H_dR^i(𝔛₀,k₀)≥dim_Fp H_ét^i(X_C,F_p)`. Use derived base change for crystalline and étale complexes, together with finite generation of integral cohomology. Reduction modulo `p` in degree `i` has contributions from torsion in both degree `i` and degree `i+1`; include both before applying the two all-`n` inequalities at `n=1`.
 
-The result concerns the mod-p cohomology groups themselves, not only reduction of integral `H^i`. This explains why the next-degree torsion must appear in the proof even though the bound is stated in one degree. Finiteness lets the result use natural-number dimensions; no comparison of infinities or infinite-dimensional affine de Rham groups is intended.
+After extension `k₀→k`, the geometric de Rham group has the same dimension over `k`. The result concerns the mod-p cohomology groups themselves, not only reduction of integral `H^i`. This explains why the next-degree torsion must appear in the proof even though the bound is stated in one degree. Finiteness lets the result use natural-number dimensions; no comparison of infinities or infinite-dimensional affine de Rham groups is intended.
 
 (Bhatt–Morrow–Scholze, Theorem 1.1 and inequality (1), pp.2–3.)
 
@@ -1003,9 +1030,15 @@ Use the supplied rank equality when moving between full finite-coefficient group
 
 ### 5.8 Normalized log de Rham torsion export
 
-Transport the corresponding logarithmic de Rham torsion and finite-coefficient inequalities with valuation normalized by `v(p)=1`. For the torsion quotient, use `v_OC(H_logdR^i(𝔛/O_C)_tor/p^n)` on the right and the usual `ℤ_p`-length on the left. For a finitely presented cyclic `O_C`-module `O_C/(a)`, the normalized quantity is `v(a)`, defined through the zeroth Fitting ideal; keep its real-valued codomain and its scalar-extension invariance.
+Transport the corresponding logarithmic de Rham torsion and finite-coefficient inequalities with valuation normalized by `v(p)=1`. For the torsion quotient, use `v_OC(H_logdR^i(𝔛/O_C)_tor/p^n)` on the right and the usual `ℤ_p`-length on the left. For a finitely presented torsion cyclic `O_C`-module `O_C/(a)` with `a≠0`, the normalized quantity is `v(a)`, defined through the zeroth Fitting ideal; keep its real-valued codomain and its scalar-extension invariance.
 
 If the model is defined over a discrete `O_K` of absolute ramification `e`, its normalized torsion length is `length_OK/e`. Thus `O_K/(π)` has value `1/e` and `O_K/(p)` has value 1. These are the tests that distinguish normalized valuation length from unscaled module length. The source's finite-coefficient log de Rham inequality is retained with the same normalization.
+
+**Checks.**
+
+- `O_K/(π)` has normalized value `1/e`.
+- `O_K/(p)` has normalized value 1, including over ramified `K`.
+- For `a=0`, `O_C/(a)=O_C` is free, its zeroth Fitting ideal is zero and its valuation is infinite; it lies outside the real-valued torsion statement.
 
 (Česnavičius–Koshikawa, §7.10, Lemma 7.11 and Theorem 7.12, p.71.)
 
@@ -1025,7 +1058,7 @@ Use the actual filtered comparison and its lattice inclusion to identify this im
 
 For an absolutely unramified `K`, compare the geometric lattice with the supplied Fontaine–Laffaille realization after a common Tate shift puts all filtration indices in `[0,p−2]`. This is the unrestricted safe interval for torsion full faithfulness. For indices in `[0,p−1]`, impose the exact restricted subcategories excluding the endpoint subobjects or quotients of the Fontaine–Laffaille theorem. At `p=2` the unrestricted interval is `[0,0]`.
 
-In the Breuil–Kisin branch, retain the supplier's height, ramification and dyadic restrictions and compare with the lattice recovered using the Kummer tower and Frobenius-twisted `𝔖` specialization. The comparison identifies geometric outputs of these classification theories; it constructs no new classification. Equality of a crystalline lattice still uses the freeness assumptions from lattice recovery, independent of the weight interval.
+In the Breuil–Kisin branch, retain the supplier's height, ramification and dyadic restrictions and compare with the lattice recovered using the Kummer tower and Frobenius-twisted `𝔖₀` specialization. The comparison identifies geometric outputs of these classification theories; it constructs no new classification. Equality of a crystalline lattice still uses the freeness assumptions from lattice recovery, independent of the weight interval.
 
 (Bhatt–Morrow–Scholze, §4.4, pp.43–44; Theorem 14.6(iii), pp.121–122.)
 
@@ -1119,14 +1152,38 @@ The API is as follows. `panLogPeriod_restrict`: the construction is compatible w
 
 ### 6.2 Affinoid-perfectoid flag basis for the modular-curve tower
 
-For tame level `K^p⊂GL₂(A_f^p)` contained in the full level-`N` subgroup for some `N≥3` prime to `p`, construct `panModularTower`, the compactified modular curve `X_{K^p}` of infinite level at `p`, a perfectoid space over the completion `ℚ_p^cycl` of `ℚ_p(μ_{p^∞})` with its `GL₂(ℚ_p)`-action, and `π_HT:X_{K^p}→Fl=P¹` its `GL₂(ℚ_p)`-equivariant Hodge–Tate period map (Scholze, Theorem 3.1.2(i)–(ii), pp.971–972, genus one). Construct the tower and equivariant period map before the basis: use ModularCurvesPartII §3.15 `contractionMapsBetweenLevels` and §4.11 `fixedPairingIntegralComponents` for the finite-level compactified curves and maps, and prove the genus-one perfectoid-limit assertion, including its cusp charts and the canonical-subgroup estimates used in the anticanonical construction. Glue the Hodge–Tate maps with their `GL₂(ℚ_p)` equivariance and their agreement under level and field changes. CompletedCohomologyPartII §§8.4, 8.6–8.7 supplies the cohomological realization and transported actions. Then construct the basis and prove its three properties; this is the genus-one case of Scholze's Theorem 3.1.2(iii), and no perfectoid Shimura theorem in higher genus is required.
+**Shared small-Hasse canonical subgroups** (`smallHasseCanonicalSubgroups`). Let `R` be a p-adically complete flat algebra over the completed cyclotomic integers `ℤ_p^cycl`, containing the fractional powers of `p` used below. For an abelian scheme `A/R` of dimension `g`, `m≥1` and rational `0≤ε<1/2`, assume `Ha(A)^((p^m−1)/(p−1))` divides `p^ε` modulo `p`. Construct the unique finite flat subgroup `C_m⊂A[p^m]` whose reduction modulo `p^(1−ε)` is `ker F^m`, of rank `p^(mg)`. Prove flat base change and isomorphism compatibility. For p-complete `ℤ_p^cycl`-flat test algebras `R′`, sections congruent to zero modulo `p^((1−ε)/p^m)` belong to `C_m(R′)`; equality holds when `R′` is integrally closed in `R′[1/p]`.
+
+Under the strong bound `Ha(A)^(p^m)|p^ε`, prove nesting and functoriality for homomorphisms of abelian schemes with strong level `m`. If `A` has strong level `a`, then `A/C_a` has strong level `b` exactly when `A` has strong level `a+b`; in that range `0→C_a→C_{a+b}→C_b(A/C_a)→0` is exact. A principal polarization makes `C_m` isotropic. The API comprises `smallHasseCanonicalSubgroups_reduction`, `smallHasseCanonicalSubgroups_unique`, `smallHasseCanonicalSubgroups_baseChange`, `smallHasseCanonicalSubgroups_points`, `smallHasseCanonicalSubgroups_quotient` and `smallHasseCanonicalSubgroups_polarization` with these hypotheses. This is the shared abelian-family subgroup; the modular tower uses its dimension-one specialization.
+
+Use the supplied finite-flat homomorphism obstruction and Hasse invariant: the weak bound kills the co-Lie obstruction for the Frobenius kernel. Uniqueness follows from the homomorphism estimate with `1−ε>ε`, independently of any point characterization over nonnormal rings. Reduction then gives the strong quotient identities and polarization compatibility.
+
+(Scholze, *On torsion in the cohomology of locally symmetric varieties*, preprint III §2, Theorem III.2.1, Corollaries III.2.2 and III.2.6, Lemma III.2.4, Definition III.2.7 and Proposition III.2.8, pp.31–35; point equality uses the stated integral-closedness hypothesis.)
+
+**Checks.**
+
+- On the ordinary locus, `C_m` is the multiplicative subgroup of rank `p^(mg)`; the étale subgroup has the wrong Frobenius-kernel reduction.
+- At `m=1` the weak Hasse exponent is 1; at `m=2` it is `p+1`. The strong level-two quotient identity uses the level-one subgroup of `A/C₁`.
+- At `p=2`, `m=1`, `ε=0`, let `R′={(a,b)∈O_C² : a≡b mod 2}`. On an ordinary elliptic curve, `C₁=μ₂`, and `s=(−1,1)` belongs to it. But `s−1=(−2,0)` is not divisible by `√2` in `R′`, since the coordinate difference of `(-√2,0)` is not divisible by 2. Point inclusion can therefore be strict over a nonnormal test ring; uniqueness and existence still apply at `p=2`.
+
+*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.6.6 (`illusieObstructionHomomorphisms`), R07.2.21 (Hasse invariant); AbelianSchemesAndArithmeticModuli A0–A4; PELModuli M3 (abelian quotients and polarizations); DerivedModuleAlgebra §§0.4, 0.8 (cotangent complexes).
+
+For tame level `K^p⊂GL₂(A_f^p)` contained in the full level-`N` subgroup for some `N≥3` prime to `p`, construct `panModularTower`, the geometric compactified perfectoid tower
+
+```text
+X_{K^p,C} ∼ lim_{K_p} (X_{K^pK_p} ×_{ℚ_p} C),    π_HT : X_{K^p,C} → Fl=P¹_C.
+```
+
+Retain the full finite-level component system. The right `GL₂(ℚ_p)` level action is over `C`; the `G_{ℚ_p}` action is semilinear over its action on `C`, commutes with level and tame Hecke actions, and makes `π_HT` Galois-equivariant. The level-equivariance uses the corresponding action on quotient lines in `P¹_C`. The cyclotomic presentation over `ℚ_p^cycl` is separate: the full similitude action changes its structural morphism, so a single fixed-pairing component base-changed through one embedding does not supply the full geometric action. Assemble all finite-level pairing components before geometric base change.
+
+Use ModularCurvesPartII §3.15 `contractionMapsBetweenLevels` and §4.11 `fixedPairingIntegralComponents` for the finite-level compactified curves and maps. Prove the perfectoid-limit assertion and cusp charts using the shared small-Hasse subgroup above, and glue the Hodge–Tate maps with level and field compatibility. On a finite-level affinoid `V₀/K`, identify the geometric inverse image with the completed tilde-limit of `V_{K_p,L}` over finite `L/K` in `C` and open `K_p`; as a pro-Kummer object this is exactly the field-varying presentation of §6.1. The identification preserves the projections, completed `O_C`-algebras, period sheaves and commuting actions. Use `X_{K^p}=X_{K^p,C}` throughout §§6.1 and 6.11a–6.15, with the `O_C`-almost structure. CompletedCohomologyPartII §§8.4, 8.6–8.7 supplies the cohomological realization and transported actions. Then construct the basis and its properties. (Pan I §4.1, Theorems 4.1.2 and 4.1.7, pp.33–36; Pan II §3.3.1, pp.23–24; Scholze, Theorem 3.1.2(i)–(iii) and footnote 7, pp.971–972.)
 
 ```text
 panBasis : Set (Opens Fl)
   x := e₂/e₁                       the standard coordinate, e₁, e₂ the images of the standard basis in ω
   U₁ := {|x| ≤ 1},  U₂ := {|x| ≥ 1}  the two standard closed unit charts
-  panBasis := finite intersections of rational subsets of U₁ or of U₂
-panBasis_isBasis      : panBasis is a basis of the topology of Fl, stable under finite intersections
+  panBasis := nonempty finite intersections of rational subsets of U₁ or of U₂, together with the empty open
+panBasis_isBasis      : panBasis is a basis of the topology of Fl, stable under binary and nonempty finite intersections
 panBasis_perfectoid   : ∀ U ∈ panBasis, π_HT⁻¹(U) is affinoid perfectoid
 panBasis_finiteLevel  : ∀ U ∈ panBasis, ∃ K_p ⊆ GL₂(ℤ_p) open and an affinoid V_{K_p} ⊆ X_{K^pK_p} with
                         π_HT⁻¹(U) the inverse image of V_{K_p}, and the map
@@ -1135,7 +1192,7 @@ panBasis_inter        : for U, U' ∈ panBasis, π_HT⁻¹(U ∩ U') = π_HT⁻�
                         of each, again affinoid perfectoid
 ```
 
-Prove `panBasis_isBasis` from the description of rational subsets of `P¹` and closure of the generating family under intersection. Prove `panBasis_perfectoid` and `panBasis_finiteLevel` for `U₁` and `U₂` from the tower's construction, and pass to rational subsets and their finite intersections by the rational-localization theory of perfectoid spaces: a rational subset of an affinoid perfectoid space is affinoid perfectoid, and it is the inverse image of a rational subset at sufficiently small finite level. Equivariance of `π_HT` gives `π_HT⁻¹(gU)=g·π_HT⁻¹(U)` for `g∈GL₂(ℚ_p)`, which is how translates of basis opens are used later. Identify the pushforward along `π_HT` of the period sheaves with the sheaves on the étale flag site used below. The perfectoidness of these particular inverse images and their finite-level descent are the targets here, not a claim about inverse images under arbitrary maps to a flag variety. (Scholze, On torsion in the cohomology of locally symmetric varieties, Theorem 3.1.2(i)–(iii), pp.971–972, genus `g=1`; Pan II §3.2, p.19, and Lemma 7.2.6, p.120.)
+Prove `panBasis_isBasis` from the description of rational subsets of `P¹` and closure of the generating family under binary intersection. Prove `panBasis_perfectoid` and `panBasis_finiteLevel` for `U₁` and `U₂` from the tower's construction, and pass to rational subsets and their nonempty finite intersections by the rational-localization theory of perfectoid spaces: a rational subset of an affinoid perfectoid space is affinoid perfectoid, and it is the inverse image of a rational subset at sufficiently small finite level. Equivariance of `π_HT` transports inverse images under `g∈GL₂(ℚ_p)`, which is how translates of basis opens are used later. Identify the pushforward along `π_HT` of the period sheaves with the sheaves on the étale flag site used below. The perfectoidness of these particular inverse images and their finite-level descent are the targets here, not a claim about inverse images under arbitrary maps to a flag variety. (Scholze, On torsion in the cohomology of locally symmetric varieties, Theorem 3.1.2(i)–(iii), pp.971–972, genus `g=1`; Pan II §3.2, p.19, and Lemma 7.2.6, p.120.)
 
 **Checks.**
 
@@ -1143,25 +1200,28 @@ Prove `panBasis_isBasis` from the description of rational subsets of `P¹` and c
 - Their intersection is the annulus `|x|=1`, which lies in the basis; a family consisting of `U₁` and `U₂` alone is not stable under intersection and fails `panBasis_isBasis`. The inverse image of the annulus is affinoid perfectoid as a rational localization of both inverse images.
 - For `U=∅`, both the finite-level colimit and the infinite-level section ring are zero, and the dense map is surjective. For any basis open, any analytic section and any positive error tolerance, the density theorem supplies a finite-level function approximating it. This uses completion of the colimit and does not assert nonsurjectivity.
 - At a cusp the perfectoid tower chart adjoins all compatible `p`-power roots of the Tate parameter; its transitions and Hodge–Tate map agree with the finite-level cusp maps.
+- Changing the Weil pairing by a determinant with nontrivial cyclotomic action moves its pairing component; the full `C`-tower retains that component, and its level action commutes with Galois.
+- On every `V₀/K`, the field-varying pro-Kummer limit and the inverse image in `X_{K^p,C}` have the same completed section algebra and `O_C`-almost ideal.
+- The nullary intersection is `P¹_C` and is excluded: its finite-level inverse image is a proper compactified curve, which is not affinoid. The empty open remains in the basis.
 
 *Needs:* ModularCurvesPartII §§3.15, 4.11 finite-level compactified curves and maps; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1 for the finite flat groups in the genus-one construction; AdicSpacesPartII R0 rational localization and finite-level affinoid charts; PerfectoidSpaces P2 for rational localization and P3.21 for almost acyclicity; AdicEtaleGeometry A1 inverse systems. The affinoid-perfectoid basis theorem and its period-sheaf descent are constructed here.
 
 ### 6.3 Relative filtered comparison adapter
 
-Let `K` be a complete discretely valued field of characteristic zero with perfect residue field `k`, use the `θ̃`-augmented period diagram, crystalline envelope and fixed `O_K→B_dR,GR⁺` of Layer 2.18, and let `f:X→Y` be a proper smooth morphism of smooth formal `O_K`-schemes with `Y=Spf R` affine; write `R_K=R[1/p]`. Let `T` be a crystalline `ℤ_p`-lisse sheaf on the generic fibre `X_η` and `(E,φ_E)` its associated analytic prismatic F-crystal on `X`, with associated perfect crystalline coefficient `E′=perfectCrystallineRealization(analyticToPerfect E)` on `X_{p=0,crys}` and filtered vector bundle with integrable relative connection `(E,∇_{X_η/Y_η})` on `X_η`. Take a perfect prism `(A,I)` in the absolute prismatic site `Y_Δ`, p-completely flat over `(A_inf,([p]_q))` with `q=[ε]` for a compatible system `ε` of p-power roots of unity in `O_C^♭`, together with a section `R→A⊗_{W(k)}O_K` compatible with the structure map `R→A`. Put `B_dR⁺(A)=(A[1/p])^∧_I` and `B_dR(A)=B_dR⁺(A)[1/I]`; at `(A,I)=(A_inf,(ξ̃))` these are the GR period rings. Transport the entire diagram, scalar lifts, twists and crystalline maps by `F_GR` before comparison with §0.1. The section and the fixed `O_K→B_dR,GR⁺` give `R_K→B_dR(A)`.
+Let `K` be a complete discretely valued field of characteristic zero with perfect residue field `k₀`, use the `θ̃`-augmented period diagram, crystalline envelope and fixed `O_K→B_dR,GR⁺` of Layer 2.18, and let `f:X→Y` be a proper smooth morphism of smooth formal `O_K`-schemes with `Y=Spf R` affine; write `R_K=R[1/p]`. Let `T` be a crystalline `ℤ_p`-lisse sheaf on the generic fibre `X_η` and `(E,φ_E)` its associated analytic prismatic F-crystal on `X`, with associated perfect crystalline coefficient `E′=perfectCrystallineRealization(analyticToPerfect E)` on `X_{p=0,crys}` and filtered vector bundle with integrable relative connection `(E,∇_{X_η/Y_η})` on `X_η`. Take a perfect prism `(A,I)` in the absolute prismatic site `Y_Δ`, p-completely flat over `(A_inf,([p]_q))` with `q=[ε]` for a compatible system `ε` of p-power roots of unity in `O_C^♭`. Put `Ā=A/I`, so its structural map is `α:R→Ā`. Choose an auxiliary lift `s:R→A⊗_{W(k₀)}O_K` whose composite with `a⊗b↦ā·α(b)` is `α`, using the GR coefficient inclusion on `W(k₀)`. The quotient augmentation `A→Ā`, this lift and the period scalar map are distinct. Put `B_dR⁺(A)=(A[1/p])^∧_I` and `B_dR(A)=B_dR⁺(A)[1/I]`; at `(A,I)=(A_inf,(ξ̃))` these are the GR period rings. Transport the entire diagram, scalar lifts, twists and crystalline maps by `F_GR` before comparison with §0.1. The lift and the compatible `O_K` period scalar structure give `R_K→B_dR(A)`. The geometric test object is `U=Spf(Ā)_η` over `Y_η`. Define its completed constant coefficient ring `C_p(U)=H⁰(U,Ẑ_p)=lim_m H⁰(U,ℤ/p^m)`, with its canonical map to `B_dR(A)`; here `Ẑ_p=lim_m ℤ/p^m` on the pro-étale site.
 
 ```text
 relativeFilteredComparison :
   the base change to B_dR(A) of the étale–crystalline comparison of Guo–Reinecke Theorem 9.15 for T
   underlies a filtered isomorphism
-      RΓ_dR(X_η/Y_η, E) ⊗_{R_K} B_dR(A)  ≃  RΓ(X_{A[1/p]}, ét, T) ⊗_{ℤ_p(Spf(A)_η)} B_dR(A)
-  ℤ_p(Spf(A)_η)           : the locally constant ℤ_p-valued functions on the generic fibre of `Spf` A
+      RΓ_dR(X_η/Y_η, E) ⊗_{R_K} B_dR(A)  ≃  RΓ(X_{Ā[1/p]}, ét, T) ⊗_{C_p(U)} B_dR(A)
+  C_p(U)                  : lim_m H⁰(U,ℤ/p^m), the sections of the completed constant sheaf
   filtration on the right : induced by the `I`-adic filtration of B_dR⁺(A)
   filtration on the left  : the tensor product of the Hodge filtration of the relative de Rham cohomology
                             of (E, ∇_{X_η/Y_η}) with the `I`-adic filtration
 relativeFilteredComparison_functorial :
   the isomorphism is functorial in (A, I) ∈ Y_Δ together with the section, hence an isomorphism of
-  filtered sheaves  Rf_{dR,*}(E, ∇) ⊗_{O_{Y_η}} B_dR |_{Spf(A)_η}  ≃  Rf_{η,*}T ⊗̂_{ℤ_p} B_dR |_{Spf(A)_η}
+  filtered sheaves  Rf_{dR,*}(E, ∇) ⊗_{O_{Y_η}} B_dR |_{Spf(Ā)_η}  ≃  Rf_{η,*}T ⊗̂_{ℤ_p} B_dR |_{Spf(Ā)_η}
 relativeFilteredComparison_canonical :
   after tensoring with the structural de Rham period sheaf OB_dR,Y, the section disappears: a natural filtered
   isomorphism of complexes on Y_{η,proét}
@@ -1170,7 +1230,7 @@ relativeFilteredComparison_canonical :
   (Gauss–Manin ⊗ 1 + 1 ⊗ ∇ on the left, 1 ⊗ ∇ on the right)
 ```
 
-Prove the first statement by comparing, through explicit local Čech–Alexander and Koszul constructions, the étale–crystalline comparison with the de Rham comparison of the structural period sheaf, which is filtered: the comparison factors through `RΓ((X_A/A)_Δ,analyticToPerfect E)⊗_A B_dR(A)`, the crystalline cohomology of `E′` over `A_crys(A/p)`, and `RΓ(X_{A[1/p],proét},OB_dR⊗dR(E))`. The crystalline-to-infinitesimal base change of Layer 2.22 identifies the crystalline and infinitesimal sides with their connections. The canonical form uses the crystal condition of `Rf_{p=0,crys,*}E′` and Griffiths transversality of the relative Hodge filtration to identify the two filtered scalar extensions `RΓ_dR⊗_{R_K}B_dR(A)⊗_{B_dR(A)}OB_dR(A)` and `RΓ_dR⊗_{R_K}OB_dR(A)`, the second through the canonical map `R_K→OB_dR,Y(A)`. Keep the relative connection in the comparison, and keep the section as part of the functorial data before the `OB_dR` extension. Guo–Reinecke Remark 10.14 states the canonical form as a filtered isomorphism; its degreewise compatibility with the connections is an additional target here, assuming `R^if_{η,*}T` is lisse in every degree used. The general filtered isomorphism retains the full range of Theorem 10.13/Remark 10.14. Prove the additional connection assertion from their identification of the comparison with Scholze's relative de Rham comparison (Guo–Reinecke, p.100), for which the associated filtered module with integrable connection of `R^if_*T` is `R^if_{dR,*}(E)` (Scholze, p-adic Hodge theory for rigid-analytic varieties, Theorem 8.8(ii), p.52).
+Prove the first statement by comparing, through explicit local Čech–Alexander and Koszul constructions, the étale–crystalline comparison with the de Rham comparison of the structural period sheaf, which is filtered: the comparison factors through `RΓ((X_Ā/A)_Δ,analyticToPerfect E)⊗_A B_dR(A)`, the crystalline cohomology of `E′` on `X_{Ā/p}` over `A_crys(Ā/p)`, and `RΓ(X_{Ā[1/p],proét},OB_dR⊗dR(E))`. The crystalline-to-infinitesimal base change of Layer 2.22 identifies the crystalline and infinitesimal sides with their connections. The canonical form uses the crystal condition of `Rf_{p=0,crys,*}E′` and Griffiths transversality of the relative Hodge filtration to identify the two filtered scalar extensions `RΓ_dR⊗_{R_K}B_dR(A)⊗_{B_dR(A)}OB_dR(A)` and `RΓ_dR⊗_{R_K}OB_dR(A)`, the second through the canonical map `R_K→OB_dR,Y(A)`. Keep the relative connection in the comparison, and keep the section as part of the functorial data before the `OB_dR` extension. Guo–Reinecke Remark 10.14 states the canonical form as a filtered isomorphism; its degreewise compatibility with the connections is an additional target here, assuming `R^if_{η,*}T` is lisse in every degree used. The general filtered isomorphism retains the full range of Theorem 10.13/Remark 10.14. Prove the additional connection assertion from their identification of the comparison with Scholze's relative de Rham comparison (Guo–Reinecke, p.100), for which the associated filtered module with integrable connection of `R^if_*T` is `R^if_{dR,*}(E)` (Scholze, p-adic Hodge theory for rigid-analytic varieties, Theorem 8.8(ii), p.52).
 
 The analytic F-crystal input, its `analyticToPerfect` extension and `perfectCrystallineRealization` are constructed in §2.24: analytic prismatic F-crystals on smooth formal `O_K`-schemes, their equivalence with crystalline `ℤ_p`-lisse sheaves, and the relative étale–crystalline comparison of Guo–Reinecke Theorem 9.15 over a base `Y`. The equivalence for the single base `Spf O_K` alone is insufficient for these relative inputs.
 
@@ -1178,9 +1238,11 @@ The analytic F-crystal input, its `analyticToPerfect` extension and `perfectCrys
 
 - For `Y=Spf O_K`, `X=Y`, `f` the identity and `T=ℤ_p`, both sides are `B_dR(A)` in degree zero and both filtrations are the `I`-adic filtration, so the isomorphism is the identity of `B_dR(A)`; a version that convolved with a nontrivial Hodge filtration on the trivial bundle would shift the filtration and fail.
 - For `T=ℤ_p` and `f` a proper smooth curve of genus `g` over `Y=Spf O_K`, the left side has Hodge filtration with graded pieces of ranks `1,g,g,1` in degrees `0,1,1,2` (`H⁰`, then `H¹` split as `Fil¹` of rank `g` and `gr⁰` of rank `g`, then `H²`), and for `A=A_inf` with the canonical section the filtered isomorphism gives `H¹_ét` the Hodge–Tate weights 0 and `−1`, each with multiplicity `g`, in the convention of Layer 0.4 (as in Layer 4.12); an unfiltered isomorphism cannot see this.
-- The section `R→A⊗_{W(k)}O_K` is part of the data of the first two statements: two sections differing by a nonzero derivation give scalar extensions `R_K→B_dR(A)` that differ, and only the `OB_dR` form is independent of the section.
+- The lift `R→A⊗_{W(k₀)}O_K` is part of the data of the first two statements: two sections differing by a nonzero derivation give scalar extensions `R_K→B_dR(A)` that differ, and only the `OB_dR` form is independent of the section.
+- For `K=ℚ_p(√p)`, `X=Y=Spf O_K` and `(A,I)=(A_inf,(ξ̃))`, `Ā=O_C` and the auxiliary lift exists. There is no `O_K→A_inf` over `ℤ_p`: `b²=p` would force `b=pz` by reduction in the domain `O_C^♭`, and then `pz²=1`. The geometric point is formed over `Ā[1/p]=C`.
+- On `U=Spa(Cont(ℤ_p,C),Cont(ℤ_p,O_C))`, the function `s↦s` gives compatible sections modulo every `p^m`, hence a section of `Ẑ_p`. It is not locally constant. The coefficient ring must retain this section.
 
-(Guo–Reinecke, Convention 10.12, Theorem 10.13 and Remark 10.14, pp.99–100; Theorem 9.15, p.92; Scholze, p-adic Hodge theory for rigid-analytic varieties, Theorem 8.8, pp.51–52.)
+(Guo–Reinecke, Convention 10.12, Theorem 10.13 and Remark 10.14, pp.99–100; Construction 10.15, p.100; §6.1, p.55, for derived p-complete lisse coefficients; Theorem 9.15, p.92; Scholze, p-adic Hodge theory for rigid-analytic varieties, Theorem 8.8, pp.51–52.)
 
 *Needs:* Layer 2.24 (Relative analytic prismatic F-crystals); Layer 2.18 (Relative `B_dR⁺` infinitesimal site); Layer 2.22 (Relative crystalline–infinitesimal base change); PadicHodgeTheory §§2.1–2.7; PadicHodgeTheory §§7.1–7.3.
 
@@ -1283,7 +1345,7 @@ The returned interface includes scalar maps, filtration, duality, Tate/Breuil–
 
 Supply the coefficient dictionary and the commuting integral/class comparison maps to Habiro specialization and trace consumers. A specialization records the base prism or perfectoid ring, completion ideal, inversions, filtration and `BK/Tate` twist. Compare the `q=1`, p-adic and cyclotomic diagrams only after making the necessary scalar extensions and in the intersection of the source hypotheses.
 
-The Habiro consumer proves its q-gluing and any analytic/algebraic comparison. The trace consumer constructs its own cyclotomic Chern character and trace-to-prismatic morphism; this roadmap provides the class-comparison diagram into which that morphism maps. No unconditional identification of cohomology theories before base change is part of the export. The graded Beilinson specialization used for nearby cycles is built locally in Layer 3, without requiring a character construction from the consumer.
+The Habiro consumer proves its q-gluing and any analytic/algebraic comparison. The trace consumer constructs its own cyclotomic Chern character and trace-to-prismatic morphism; this roadmap provides the class-comparison diagram into which that morphism maps. No unconditional identification of cohomology theories before base change is part of the export. PrismaticCohomologyPartIII §7.0 supplies the graded Beilinson square; Layer 3 constructs its nearby-cycle corner identifications and transports the supplied homotopy, independently of the consumer’s character construction.
 
 (Bhatt–Morrow–Scholze, Theorem 14.1, p.118; specialization picture §1.2, p.6.)
 
@@ -1291,23 +1353,47 @@ The Habiro consumer proves its q-gluing and any analytic/algebraic comparison. T
 
 ### 6.11 Graded analytic vectors and decompletion
 
-In Pan's fixed-tame-level modular-curve tower, take `U` in the basis `B` and a finite `K/ℚ_p` over which `G_K` acts on `O B_dR,k⁺(U)`. For `i≥0`, `k>i` and `l>0`, prove `gr^i` commutes with `GL₂(ℚ_p)`-locally analytic vectors, with the `χ̃_l`-isotypic subspace, and with the decompleted subspace imposing both `G_{K∞}`-fixedness and `G_K` analyticity. The stabilized graded piece does not depend on the chosen truncation `k>i`.
+For `l>0`, let `χ̃_l:Z(U(gl₂(ℚ_p)))→ℚ_p` be the infinitesimal character of `Sym^(l−1)((ℚ_p²)∨)`. The centre acts through the differentiated `GL₂(ℚ_p)` action on locally analytic vectors; write `W^{χ̃_l}={w : z·w=χ̃_l(z)w for every z∈Z(U(gl₂(ℚ_p)))}` for its central eigenspace. For finite `K/ℚ_p`, let `K∞` be the maximal `ℤ_p`-extension of `K` inside `K(μ_{p∞})`, the fixed field of the kernel of the torsion-free cyclotomic projection. For each period representation `W`, the decompleted subspace is `(W^{G_{K∞}})^{G_K-an}`, imposing both conditions after taking the indicated level-analytic central eigenspace.
 
-Use the `i`-th symmetric power of the logarithmic Faltings extension to filter the decompleted piece. Its `j`-th graded term, for `j=0,…,i`, is `O_{K^p}^{la,χ̃_l}(U)_K(j)⊗_{O_{V₀}}Ω¹_{V₀}(C)^{⊗(i−j)}`. Prove locally analytic exactness and `χ̃_l` decompletion for these period representations using the derived locally analytic operations of CompletedCohomologyPartII F.4, including the Galois-analytic condition. These are the representation-specific assertions of Pan II §§6.3.8–6.3.9, not consequences of ordinary fixed-vector exactness. Ordinary fixed vectors alone do not define this subspace. The logarithmic period sheaf, pro-Kummer projection and extension used here are the early modular-curve constructions of §6.1 over PrismaticCohomologyPartIV §8.60's shared log structures and Kummer-étale site.
+In Pan's fixed-tame-level modular-curve tower, take `U` in the basis `B` and a finite `K/ℚ_p` over which `G_K` acts on `O B_dR,k⁺(U)`. For `i≥0`, `k>i` and `l>0`, prove `gr^i` commutes with `GL₂(ℚ_p)`-locally analytic vectors, with the central `χ̃_l`-eigenspace, and with the decompleted subspace imposing both `G_{K∞}`-fixedness and `G_K` analyticity. The stabilized graded piece does not depend on the chosen truncation `k>i`.
 
-(Pan II, Proposition 6.3.9 and preceding paragraphs (§6.3.8), pp.100–101.)
+Use the `i`-th symmetric power of the logarithmic Faltings extension to filter the decompleted piece. Its `j`-th graded term, for `j=0,…,i`, is `O_{K^p}^{la,χ̃_l}(U)_K(j)⊗_{O_{V₀}}Ω¹_{V₀}(C)^{⊗(i−j)}`. Prove locally analytic exactness and central `χ̃_l` decompletion for these period representations using the derived locally analytic operations of CompletedCohomologyPartII F.4, including the Galois-analytic condition. These are the representation-specific assertions of Pan II §§6.3.8–6.3.9, not consequences of ordinary fixed-vector exactness. Ordinary fixed vectors alone do not define this subspace. The logarithmic period sheaf, pro-Kummer projection and extension used here are the early modular-curve constructions of §6.1 over PrismaticCohomologyPartIV §8.60's shared log structures and Kummer-étale site.
+
+**Checks.**
+
+- At `l=1`, `χ̃₁` is the central character of the trivial algebraic representation; the condition is imposed on `Z(U(gl₂))` through differentiation.
+- At `p=2`, `Gal(ℚ₂(μ_{2∞})/ℚ₂)` has a finite sign factor as well as its `ℤ₂` factor. The field `ℚ₂∞` is the `ℤ₂`-extension, so fixedness must not silently use the full cyclotomic field.
+- At `k=i+1` the `i`-th graded piece is retained, while at `k=i` it is zero; taking graded pieces requires `k>i` even after the central and decompletion operations.
+
+(Pan II, §1.2.2, p.6; §3.3.2, p.24; Proposition 6.3.9 and preceding paragraphs (§6.3.8), pp.100–101.)
 
 *Needs:* Layer 6.1 (Logarithmic period construction on modular curves); CompletedCohomologyPartII §§8.4, 8.6–8.7.
 
 ### 6.11a Almost-integral modular comparison
 
-For the compactified perfectoid tower of §6.2, construct `panAlmostIntegralComparison`, natural in tame level and compatible with the transported `G_K` and level actions:
+**Compactification restriction at fixed exponent** (`panCompactificationRestriction`). For the full modular-curve tower of §6.2, write `X_{K^pK_p,C}` for the compactified curve and `Y_{K^pK_p,C}` for its open complement of the cusps. For every `m≥1` and `i≥0`, prove that restriction induces an isomorphism
+
+```text
+colim_{K_p} H^i_ét(X_{K^pK_p,C},ℤ/p^m) ≃ colim_{K_p} H^i_ét(Y_{K^pK_p,C},ℤ/p^m).
+```
+
+Use finite-level localization and the cusp Gysin maps, with their Tate twists. On a cusp chart `q=q′^e`, pullback multiplies the residue class by `e`; after sufficiently deep p-level its p-divisibility kills each boundary class at fixed exponent. The degree-two compactified colimit also vanishes, since cofinal transition degrees are divisible by arbitrarily large powers of `p` on every component. Prove compatibility with reduction in `m`, level and tame-level pullback, continuous Galois actions and tame Hecke correspondences. This identifies ordinary open completed cohomology with the compactified fixed-exponent colimits used by proper comparison.
+
+(Pan I, §4.4.1, arXiv v3 p.47; finite-level localization and Gysin maps as in EtaleCohomologyFoundations §§F.5–F.7.)
+
+**Checks.**
+
+- In degree zero, restriction preserves the constant section on each geometric component.
+- At finite level, a smooth compactified curve with `c>1` cusps has an extra residue subquotient of rank `c−1` in the open `H¹`; restriction is generally not an isomorphism there. For `q=q′^(p^r)` the transition on this residue is multiplication by `p^r`, hence zero modulo `p^m` once `r≥m`.
+- Each compactified component has `H²=ℤ/p^m(−1)`; pullback through a covering of degree divisible by `p^m` is zero. Both degree-two colimits vanish, and all degrees above two vanish already at finite level.
+
+For the geometric compactified perfectoid `C`-tower of §6.2, construct `panAlmostIntegralComparison`, natural in tame level and compatible with the commuting Galois, Hecke and level actions:
 
 ```text
 H̃^i(K^p,O_C^a) ≃ H^i(X_{K^p},O_X^{+a}) ≃ lim_m H^i(X_{K^p},O_X^{+a}/p^m).
 ```
 
-Retain the almost category, the p-adic topology and bounded p-primary torsion in each degree. Construct the maps from finite-level proper primitive comparison and infinite-level descent, using the integral completed cochain model and its coefficient interchange. Prove that the induced topology is the p-adic one and that the Tate-module obstruction in the inverse-limit universal-coefficient sequence vanishes by the bounded-torsion control. Its API includes finite-coefficient reduction, compatibility in `m`, continuity and equivariance. This is the `k=1` input for the truncated-coefficient induction.
+Retain the almost category, the p-adic topology and bounded p-primary torsion in each degree. First identify the open finite-coefficient realization supplied by CompletedCohomologyPartII §8.4 with the compactified colimit using `panCompactificationRestriction`. Compose with finite-level proper primitive comparison and infinite-level descent, using the supplied integral completed cochain model and coefficient interchange. Prove that the induced topology is the p-adic one and that the Tate-module obstruction in the inverse-limit universal-coefficient sequence vanishes by bounded-torsion control. Its API includes finite-coefficient reduction, compatibility in `m`, continuity and equivariance. This is the `k=1` input for the truncated-coefficient induction.
 
 **Checks.**
 
@@ -1317,7 +1403,7 @@ Retain the almost category, the p-adic topology and bounded p-primary torsion in
 
 (Pan I, Corollary 4.4.3 and Lemma 4.4.4, published pp.43–45, arXiv v3 pp.47–48; Pan II, Lemma 7.2.5, p.119.)
 
-*Needs:* Layer 6.2 (Affinoid-perfectoid flag basis for the modular-curve tower); PadicHodgeTheory §§2.1–2.7 finite-level proper primitive comparison; CompletedCohomologyPartII §§2.2–2.9, 4.3–4.5, 8.4, 8.6–8.7 completed cochains, torsion control and transported actions; EnhancedDerivedSheaves E2/E4 descent and completion; PerfectoidSpaces §P3.21 almost acyclicity.
+*Needs:* Layer 6.2 (Affinoid-perfectoid flag basis for the modular-curve tower); ModularCurvesPartII §§3.15, 4.11 (cusp charts and level maps); EtaleCohomologyFoundations §§F.5–F.7 (localization, purity and Gysin maps); ClassicalAdicEtaleCohomology §§8.2, 9.7 (finite-coefficient comparison); PadicHodgeTheory §§2.1–2.7 finite-level proper primitive comparison; CompletedCohomologyPartII §§2.2–2.9, 4.3–4.5, 8.4, 8.6–8.7 completed cochains, torsion control and transported actions; EnhancedDerivedSheaves E2/E4 descent and completion; PerfectoidSpaces §P3.21 almost acyclicity.
 
 <a id="cp6-pan-bounded-torsion-inverse-limit"></a>
 
@@ -1339,7 +1425,7 @@ The exponent `n` may depend on `i` and `k`. A bound uniform in all truncations o
 
 Stable target identifier: `CP.6/pan-completed-coefficient-and-flag-descent`.
 
-At fixed tame level and `k≥1`, identify the completed `A_inf/(ker θ)^k` coefficient group with `lim_m H̃^i(K^p,Z/p^m)⊗_{ℤ_p}A_inf/((ker θ)^k,p^m)`. Prove the more general coefficient interchange for a p-adically complete p-torsion-free `ℤ_p`-module `M` in the specified complete tower complex. The limit is over the finite coefficient quotients and retains the topology of the completed representation.
+At fixed tame level and `k≥1`, identify the completed `A_inf/(ker θ)^k` coefficient group with `lim_m H̃^i(K^p,Z/p^m)⊗_{ℤ_p}A_inf/((ker θ)^k,p^m)`. Apply CompletedCohomologyPartII §4.5’s coefficient interchange for complete p-torsion-free `ℤ_p`-modules to `M=A_inf/(ker θ)^k`, using its p-completeness and p-torsion-freeness and the supplied complete tower complex. The general coefficient theorem and complex are supplied there; the period specialization and flag descent are the targets here. The limit is over the finite coefficient quotients and retains the topology of the completed representation.
 
 For the perfectoid modular curve and its Hodge–Tate map `π_HT` to the flag variety, prove `R^jπ_HT,*A_inf,X^a/(ker θ)^k=0` for `j>0`. This gives the resulting cohomology identification with `H^i(Fl,π_HT,*A_inf,X^a/(ker θ)^k)`. Use the affinoid-perfectoid inverse-image basis constructed for this tower, and the étale almost acyclicity theorem. Neither an arbitrary Shimura tower nor unrestricted ordinary integral pushforward is included.
 
@@ -1379,7 +1465,7 @@ Layers 0–5; EtaleCohomologyFoundations F.5–F.7 and EtaleDualityAndPerverseSh
 
 HodgeTateAndCanonicalSubgroups may consume the modular-curve pro-Kummer projection and logarithmic Faltings extension of Layer 6, over PrismaticCohomologyPartIV §8.60's shared log adic structures and Kummer-étale site; its canonical-subgroup results do not enter this roadmap. PerfectoidShimuraVarieties may consume the genus-one flag-basis construction as its modular-curve case before constructing the higher-dimensional generalization. The comparison and gluing layer HQ.8 of HabiroCohomologyFoundations consumes the explicit `θ`, Witt and period maps and their commuting comparison squares; the q-deformed construction and gluing homotopies belong to that consumer. RefinedTraceMethods consumes the graded Beilinson square of Layer 3 and the specialization/Chern compatibility here, and constructs its cyclotomic trace square itself.
 
-ArithmeticGaloisRepresentations, WeightsInEtaleCohomology and CompletedCohomologyPartII are built before this roadmap and do not depend on it; CompletedCohomologyPartII supplies its completed cohomology realizations and transported actions. The genus-one geometric tower and Hodge–Tate map, and Pan’s almost-integral base comparison, are constructed in §§6.2 and 6.11a. Geometric applications of those roadmaps use the realizations constructed here: the crystalline and potentially semistable realizations with their filtrations and Galois actions (the general representation theory stays in ArithmeticGaloisRepresentations), the proper finite-dimensional period realizations with the weight conventions fixed here, and Pan's finite-period and graded-decompletion comparisons for the completed cohomology of modular curves. Each export carries the source range: good reduction, vertical semistable, proper rigid over §4.8’s countable-residue base, or smooth proper algebraic, as stated in the relevant layer.
+ArithmeticGaloisRepresentations, WeightsInEtaleCohomology and CompletedCohomologyPartII are built before this roadmap and do not depend on it; CompletedCohomologyPartII supplies its completed cohomology realizations and transported actions. The shared small-Hasse subgroup package, genus-one geometric tower and Hodge–Tate map, and Pan’s compactification restriction and almost-integral base comparison are constructed in §§6.2 and 6.11a. Geometric applications of those roadmaps use the realizations constructed here: the crystalline and potentially semistable realizations with their filtrations and Galois actions (the general representation theory stays in ArithmeticGaloisRepresentations), the proper finite-dimensional period realizations with the weight conventions fixed here, and Pan's finite-period and graded-decompletion comparisons for the completed cohomology of modular curves. Each export carries the source range: good reduction, vertical semistable, proper rigid over §4.8’s countable-residue base, or smooth proper algebraic, as stated in the relevant layer.
 
 ## References
 

@@ -13,6 +13,9 @@ The comparison theorems of the roadmap concern A_inf, crystalline, prismatic, in
 Hyodo–Kato and pro-étale cohomology of formal schemes and rigid spaces, none of which exists at the
 pins. AInfCohomology §AI.6.5 supplies canonical `B_dR⁺` cohomology and its envelope maps.
 PrismaticCohomologyPartIII §7.0 supplies the graded Beilinson square.
+PadicHodgeTheory §§8.1–8.2 supplies the finite-base rational maps and prismatic specialization
+agreement; the broader and derived comparisons retain these maps under
+`finiteBaseComparisonAgreement`.
 PrismaticCohomologyPartIV §§8.1–8.29, 8.35, 8.41–8.42, 8.56 and 8.69 supplies the generic
 logarithmic prismatic constructions and comparisons, with each comparison's hypotheses;
 §8.60 supplies the shared log adic structures, logification, pullback, integral fs charts and
@@ -481,7 +484,8 @@ variable {K A : Type*} [Field K] [Ring A] [Algebra K A] [Module ℚ A]
 `T' = T + c`, for a nilpotent monodromy `N`. For uniformizers `π` and `πu`, the negative
 evaluation convention uses `c = log_K u` with raw arithmetic monodromy, or `c = e log_K u`
 with `N_norm = N_raw / e`, where `e = v_π(p)` (Česnavičius–Koshikawa, §9.1, p.75;
-PadicHodgeTheory §8.1). -/
+AInfCohomology §AI.6.4, `Semistable.pNormalizedMonodromy`). The supplied cohomological operator
+is nilpotent; this definition provides its finite-exponential transport. -/
 noncomputable def monodromyTransport (c : K) (N : A) : A :=
   IsNilpotent.exp (-(c • N))
 
@@ -615,16 +619,22 @@ comparisons; the supplied PrismaticCohomologyPartIII §7.0 interface `gradedBeil
 with `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`,
 `gradedBeilinsonSquare_cartesian`, `gradedBeilinsonSquare_integral` and
 `gradedBeilinsonSquare_local`, and the locally constructed nearby-cycle square of Layer 3; the semistable and Beilinson
-comparisons, `RigidHyodoKatoCohomology` and proper rigid comparisons of Layer 4, including
+comparisons, the overconvergent `RigidHyodoKatoCohomology` and its proper-model log-crystalline
+agreement, and proper rigid comparisons of Layer 4, including
 §4.6's period and Hyodo–Kato agreements for PrismaticCohomologyPartIV's supplied logarithmic
 comparisons; the torsion
-inequalities, lattice recovery and counterexamples of Layer 5; `panModularTower` and
+inequalities, arithmetic `𝔖₀`-lattice recovery and counterexamples of Layer 5;
+the shared abelian-family `smallHasseCanonicalSubgroups` with its reduction, uniqueness,
+base-change, point, quotient and polarization API; `panModularTower`, the geometric full-component
+`C`-tower with its commuting Galois and level actions, `panCompactificationRestriction` and
 `panAlmostIntegralComparison`; the pro-Kummer tower over PrismaticCohomologyPartIV §8.60's
 shared log structures and Kummer-étale site; `panLogPeriod` with `panLogPeriod_restrict`, `panLogPeriod_theta`,
 `panLogPeriod_local`,
 `panLogPeriod_connection` and `panLogPeriod_faltings`; `panBasis` with `panBasis_isBasis`,
-`panBasis_perfectoid`, `panBasis_finiteLevel` and `panBasis_inter`; `relativeFilteredComparison`
-with its `_functorial` and `_canonical` forms; the trace period with `tracePeriod_spec`,
+`panBasis_perfectoid`, `panBasis_finiteLevel` and `panBasis_inter`, using nonempty finite intersections
+and the empty open; `relativeFilteredComparison` with its `_functorial` and `_canonical` forms,
+geometric base `Ā=A/I` and completed constant coefficients `H⁰(Spf(Ā)_η,Ẑ_p)`;
+the trace period with `tracePeriod_spec`,
 `tracePeriod_unique` and `tracePeriod_pow_zero`; `algebraicDeRhamTrace`, the de Rham Gysin and
 cycle maps and the higher crystalline/de Rham/prismatic Chern class constructions and comparisons; and the
 truncated period comparisons of Layer 6.
