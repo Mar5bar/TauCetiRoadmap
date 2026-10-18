@@ -238,8 +238,16 @@ congruenceModule_annihilated, congruenceModule_self, congruenceModule_isTorsion,
 congruenceModule_compare_ikm, congruenceModule_mk, congruenceModule_lift,
 congruenceModule_self_eq, congruenceIdeal_map and congruenceIdeal_ne_bot.
 
-The complete-flat and compatible-minimal-model constructions are IsMinimal,
-CompleteFlatComplex, completeFlatBasis and compatibleMinimalModel.
+The predicates IsMinimal and CompleteFlatComplex, completeFlatBasis and the
+finite-model and complete-flat comparisons are aliases or specializations of
+DeformationAndDerivedPatchingAlgebra §§7.3 and 7.5. Its §7.8 supplies
+finiteDerivedHomCompletion; the shared cofinal-limit adapter transports it to
+the open coefficient ideals, preserving projections, identities and composition.
+DerivedModuleAlgebra §§1.E.0–1.E.1 supplies generic perfect-system effectivity
+and compatible based models. The application comparisons compatibleMinimalModel
+and compatibleMinimalModel_reduction retain chosen minimal representatives,
+their given reductions and coherent operator-equivariant coefficient towers.
+Ordinary projectors and their operator-equivariant comparisons belong here.
 The odd-prime cuspidal input is ordinaryCuspidal_control_oddPrime.
 The Eisenstein inputs eisensteinConstantTerm and eisensteinCoefficientMeasure,
 assembled as eisensteinFamily, are the angular adapters of the arithmetic
