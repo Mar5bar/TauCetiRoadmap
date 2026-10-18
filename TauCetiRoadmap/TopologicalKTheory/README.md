@@ -247,7 +247,38 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    the topological construction, used unchanged by T1.6 and T6.6. Compare its
    local-coordinate bundle charts with Mathlib bundles. Construct the finite
    Schubert characteristic maps for the standard coordinate flag and their CW
-   structure, with the quotient topology equal to its weak topology. Pin the
+   structure, with the quotient topology equal to its weak topology. In the
+   complex case, for `N≥2` and `0≤a≤N` write the rank as `a`, the ambient
+   dimension as `N=a+q`, and index the cells by length-`N` binary words `w`
+   with `a` ones at one-based positions `p₁<⋯<pₐ`. These word positions are
+   combinatorial; coordinate basis vectors use zero-based `Fin N` indices, so
+   pivot `p_i` is `e_(p_i−1)`. The `N=0` carrier is rank zero. For `N=1`, `a=0` and `a=1` each give a
+   point and are handled directly; neither the `N≤1` cases nor `a>N` uses the
+   type-A root comparison. Let `F` be the standard increasing
+   coordinate flag and
+   use the cell with exact pivot dimensions
+   `dim(V∩F_j)=#ones(w[1..j])`. Use the type-A permutation model from
+   RootSystems' `A_(N−1)` example and its Layer 3 Coxeter exchange/deletion and
+   Bruhat-order floor; instantiate the finite-permutation subword criterion
+   needed for these boundaries here, rather than assuming an additional
+   Schubert-resolution theorem. For each cell take its minimal Grassmannian
+   coset representative and a reduced adjacent-transposition word. For each
+   letter use the compact `SU₂` rotation in its two coordinates,
+   `[[cos r,−e^(−iθ)sin r],[e^(iθ)sin r,cos r]]`, `0≤r≤π/2`, multiplied
+   by that letter's Weyl representative. At `r=0` the angle is immaterial;
+   at `r=π/2` the letter is replaced by a torus factor. Fix the Weyl block
+   `s=[[0,−1],[1,0]]`. Use complex disc parameter `d=−sin(r)e^(−iθ)`;
+   the product block is `[[d,−cos r],[cos r,conj d]]` and its open-cell
+   affine coordinate is `z=d/cos r=−tan(r)e^(−iθ)`. This fixes the complex
+   orientation of the open disc. Multiply these factors and project to the
+   Grassmannian, proving that the open product-disc restriction is the
+   row-echelon cell homeomorphism. Construct the required rank-one partial-flag
+   incidence spaces and projection comparisons for each adjacent-transposition
+   step; this is the local incidence adapter owned here, not a generic
+   Bott–Samelson resolution. On the boundary, push torus factors through later
+   rotations and use the finite type-A subword/Bruhat comparison derived above to land in
+   smaller Schubert cells. Prove the product-disc-to-disc radial homeomorphism
+   and weak-topology agreement by compactness and Hausdorffness. Pin the
    ambient inclusion as appending the last coordinate by Fin.castSucc. Pin
    shift as e_i↦e_(i+1), using Fin.succ in finite coordinates and
    Finsupp.mapDomain Nat.succ on U=ℕ→₀𝕜. The rank inclusion is
