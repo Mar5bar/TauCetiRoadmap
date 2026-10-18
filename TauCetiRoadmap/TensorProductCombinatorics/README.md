@@ -122,12 +122,24 @@ the new combinatorial objects.
    moment-zero bridge**, plus the Schubert-incidence compression inequality
    proving the real converse and rational-hive approximation. Neither a bare
    moment map nor the word 'GIT' supplies this bridge.
-9. H8 owns the required **type-A** path/root-operator/tableau crystal interface,
-   with its proof prerequisites. It consumes the existing tableau/slide theory
-   and is not a second generic finite-type LS-path, quantum-group or crystal-basis
-   classification. Its comparisons include both straight dominant paths and the
-   row-coordinate dominant path sketched in S2p91 and the separately pinned
-   Japanese column-word and fundamental-column models. Broader root-system path theory can consume this type-A interface.
+9. Consume [SchubertGeometry S4.1–5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e89539810e9a2821960d01212df5ebf319e0d209/TauCetiRoadmap/SchubertGeometry/README.md)'s single
+   generic finite-root-data path/crystal construction. H8 owns its actual
+   **type-A** coordinate, tableau/GT, row/column and tensor/hive applications,
+   including all the concrete algorithms and examples below. Specialize to
+   X=ℤⁿ with α_i=e_i−e_(i+1), its coroot heights and its central determinant
+   direction; compare the actual SLₙ restriction lattice as well. Use type
+   A_(n−1) only for n≥2; n=0 and the rank1 torus have no simple-root operators.
+   SchubertGeometry S9.5 owns the generic-to-concrete comparison maps;
+   H8 consumes those SAME maps and owns the concrete tableau/GT, reading-word
+   and hive comparisons on its existing carriers, not a second generic engine.
+   Its comparisons include the straight dominant path, the row-coordinate
+   dominant path of S2p91, Japanese column words and fundamental-column paths.
+   Generic S4.1–5 has no tableau, hive, recurrence or Schubert-section premise;
+   this application adds no return dependency into that generic construction.
+   SchubertGeometry S4.6–7/S5–8's geometric sections, splitting and SMT, and
+   S9.1–4's analytic comparisons, are not prerequisites for these path-only maps.
+   Quantum-group/crystal-basis and Kac–Moody extensions are not inferred from
+   this finite-type specialization.
 
 `Suggested.lean` pins representative carriers and target forms. It is not an
 exhaustive checklist; this markdown is definitive.
@@ -135,7 +147,11 @@ exhaustive checklist; this markdown is definitive.
 The construction order is H1, H2.1–4, H3.1–2, H2.5, H4, H5, H6.1–7,
 H6.8’s stretching theorem, H7 and H8. The component/
 path comparison of H8 precedes H9’s coherence comparison; the elementary
-excavation and ring associativity are independent of it.
+excavation and ring associativity are independent of it. For H8's path lane,
+construct generic SchubertGeometry S4.1–5 first and H8's concrete coordinate
+and tableau objects, then S9.5's generic-to-concrete maps on those objects,
+then the tensor/hive and H9 comparisons. The independent
+H1–H7 constructions do not gain a Schubert splitting or SMT premise.
 
 ## H1. Lattices, rhombi, boundaries and finite polytope operations
 
@@ -679,9 +695,13 @@ excavation and ring associativity are independent of it.
 
 ## H8. Type-A paths, crystals and object comparisons
 
-1. Build finite normal type-A combinatorial crystals with weights in ℤⁿ,
+1. Specialize SchubertGeometry S4.1's path-crystal category and basic API
+   to finite normal type-A objects with weights in ℤⁿ,
    partial raising/lowering `Fin(n−1) → B → Option B`, string lengths ε,φ,
    inverse/weight/string identities, strict morphisms and connected components.
+   Construct the actual coordinate/reindexing and strict-isomorphism maps on
+   these objects; do not define a second generic category or infer a
+   classification of arbitrary edge-labelled graphs from rank-one identities.
    Build tensor product on the ordinary product of sets with a **fixed**
    convention: use HK§5’s tensor convention, where e_i acts
    on a in a⊗b iff ε_i(a)>φ_i(b), while f_i acts on a iff ε_i(a)≥φ_i(b);
@@ -721,14 +741,23 @@ excavation and ring associativity are independent of it.
    the SL₃ adjoint crystal after subtracting (1,1,1): six root weights and the
    two distinct zero-weight vertices 123 and 132. Verify the two zero vertices'
    different string data; a weight-set diagram alone does not specify this crystal.
-3. Define rational piecewise-linear paths [0,1]→ℝⁿ starting0, with finite
+3. Specialize SchubertGeometry S4.1–5 to the type-A coordinate paths below.
+   The existing `RationalPath n` is a finite-presentation carrier. Construct
+   its coordinate evaluation and normalization. Consume S9.5's mutually
+   inverse maps between its reparametrization quotient and the generic
+   specialized path carrier, with these actual coordinate formulas; do
+   not assert a bijection between unquotiented presentations and paths.
+   Compare rational reparametrization equivalence with the generic convention
+   by a common rational normalization. In coordinates these are rational
+   piecewise-linear paths [0,1]→ℝⁿ starting0, with finite
    rational breakpoints and rational vertex positions, with integral endpoints, modulo nondecreasing continuous
    surjective rational PL reparametrizations (take their equivalence closure).
    Remove stationary segments and normalize by cumulative rational L¹ lengths
    of nonzero linear segments; constant0 has its separate representative.
-   H_i=π_i−π_(i+1) is the coroot height. Build Littelmann's running-extremum
-   operators on ambient paths, including the multiple reflection/excursion
-   decomposition of his §1: e_i is undefined if min H_i>−1 and f_i is undefined
+   H_i=π_i−π_(i+1) is the coroot height. Transport the generic
+   running-extremum operators and prove equality with the actual type-A
+   coordinate formulas, including the multiple reflection/excursion
+   decomposition of Littelmann's §1: e_i is undefined if min H_i>−1 and f_i is undefined
    if H_i(1)−min H_i<1. Reflect only the record-decreasing pieces for e_i and
    record-increasing pieces for f_i, leave intervening equal-height excursions
    unchanged, and translate the final tail by +α_i/−α_i. Specify the first/last
@@ -742,6 +771,11 @@ excavation and ring associativity are independent of it.
    Ambient integer endpoints or integer minima of one path alone are not an
    assumption that every subsequent root-operator image stays integral. Build
    concatenation and reversal with their operator/string/tie-case identities.
+   These proofs compare the actual operators and normalized representatives,
+   not merely character counts. On column-word components give the concrete
+   local-minimum integrality proof by their integral word/prefix heights;
+   global-minimum integrality on an arbitrary dominant-path component is not
+   silently strengthened to that local statement.
 4. For each dominant λ build the finite path crystal generated from its straight
    path by these operators and the equivalent crystal generated from the
    dominant concatenation of its fundamental-column paths plus determinant
@@ -765,8 +799,20 @@ excavation and ring associativity are independent of it.
    a finite highest-weight component. Prove the column-reading map from native
    tableaux to the column-path component, its inverse by successive strip shapes,
    and the highest-weight component equivalence with the straight-path model.
-   Prove operator, weight and cardinality compatibility; signed determinant
-   shifts change only the central linear path. Also construct the row-reading
+   Prove operator, weight and cardinality compatibility. For an integral
+   central character χ=(c,…,c), pointwise π(t)+tχ is a formula on
+   parametrized representatives, not an operation on the ambient quotient
+   by arbitrary PL reparametrizations. On B(λ) use its unique λ-LS
+   parametrization with slopes in Wλ and send those slopes to W(λ+χ);
+   handle constant/central shapes separately. Prove the resulting
+   B(λ)→B(λ+χ) preserves the operators and shifts weight by χ: it is a
+   strict crystal isomorphism AFTER twisting the source weight by χ,
+   equivalently from B(λ) tensor the one-point central crystal T_χ.
+   Its coroot heights, cut times and string lengths are unchanged. For the
+   chosen column/row models transport this map through their straight-path
+   comparisons and compare it with the explicit determinant-prefix models;
+   do not infer representative independence from centrality alone.
+   Also construct the row-reading
    comparison with rows taken from top to bottom and entries within each row
    from right to left. Prove this reading gives the same tableau crystal under
    H8.1's tensor convention as the Japanese column reading. Explicitly realize a
@@ -780,8 +826,8 @@ excavation and ring associativity are independent of it.
    highest path, turn on polynomial-part coordinates successively, row1 through
    rown; precede this by the central determinant path for signed weights.
    Prove the path remains dominant and compare its component with the straight
-   and column models by the same endpoint theorem. Build the type-A dominant-path
-   deformation theorem as well: any rational PL path staying in the closed
+   and column models by the same endpoint theorem. Specialize SchubertGeometry S4.4's generic dominant-path
+   deformation theorem to type A: any rational PL path staying in the closed
    chamber with integral endpoint λ generates a component strictly isomorphic
    to these models, carrying its distinguished highest path to the highest
    tableau. Prove uniform positive-integer stretching, subdivision and operator
@@ -793,16 +839,24 @@ excavation and ring associativity are independent of it.
    endpoint and dominant total endpoint, interpolate the split, prove linkedness
    at every L and uniqueness of the highest endpoint, then obtain equality of
    operator-word fibres (6.1–6.3). Induct on segments and use positive-integer
-   stretching (2.4–2.5) to clear rational vertices, giving7.1. Prove
+   stretching (2.4–2.5) to clear rational vertices, giving7.1. These distance,
+   level-L linking, truncation/gluing, interpolation and stretching statements
+   are the full type-A specializations of the generic supplier, with actual
+   coordinate/subdivision/operator compatibility checked here. They do not
+   reconstruct a second generic proof engine from the tableau application.
+   Prove
    operator-stable integrality and finiteness, rather than assuming them from
    integer endpoints. Rank1/n=0 require no operators.
-5. Prove the path tensor rule: concatenation decomposes into highest-weight
-   components with unique dominant path and endpoints the corresponding
-   dominant weights. The multiplicity of Vγ in Vλ⊗Vμ is the number of paths
-   in the μ-component with endpoint γ−λ for which λ+π(t) is dominant for all t.
-   Establish this via the tableau tensor product/rectification component
-   theorem, preserving ε/φ convention and endpoint weights, and consume H2's
-   LR-to-representation comparison. In type A the translated chamber condition
+5. Specialize SchubertGeometry S4.4's generic path tensor rule: concatenation
+   decomposes into highest-weight components with unique dominant path and
+   endpoints the corresponding dominant weights. The multiplicity of Vγ in
+   Vλ⊗Vμ is the number of paths in the μ-component with endpoint γ−λ for
+   which λ+π(t) is dominant for all t. Prove equality through the maps of
+   items3–4 with the independent tableau tensor/rectification component
+   theorem, preserving ε/φ convention and endpoint weights, and consume
+   H2's LR-to-representation comparison. This specialization and concrete
+   comparison do not become premises of the generic tensor theorem.
+ In type A the translated chamber condition
    maps explicitly to HK’s η⊗b_λ under factor reversal; the concatenation
    π_λ*η convention is Kashiwara’s, opposite HK’s. Its dominant-path condition
    is precisely the missing third hive rhombus family after the directional
