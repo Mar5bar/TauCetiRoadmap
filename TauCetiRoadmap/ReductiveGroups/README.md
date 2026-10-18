@@ -115,7 +115,7 @@ and special isogenies.
 ## The build, in layers
 
 The layers are ordered by mathematical prerequisites. Nonexhaustive target signatures are
-in `Suggested.lean` and `IntegralRationalTargets.lean`, using native carriers and honest
+in `Suggested.lean`, `IntegralRationalTargets.lean` and `SignedADETargets.lean`, using native carriers and honest
 `sorry` construction targets; the README remains definitive.
 
 **Cross-cutting prerequisite: sheaves and descent.** The functor-of-points comparison,
@@ -815,6 +815,111 @@ algebra by its Killing-semisimple part.
    specified transport, and the comparison with the Lie algebra of the group
    constructed in 9B. The root-free datum gives the full toral Lie algebra.
    These algebraic constructions precede that group comparison.
+   **9A.1a. Signed ADE lattice presentation and its integral comparison.**
+   For a finite, possibly disconnected ADE diagram with a specified order on its
+   vertices, use its free simple-root coordinate lattice `Q=⊕_i ℤ α_i` and Gram
+   pairing `B` with diagonal2 and off-diagonal minus the number of bonds. Specify
+   the simply-laced isometry `Q→Q∨`, `α_i↦h_i`; this identifies the presentation's
+   Cartan lattice with the coroot lattice, not with X or the full Y. Include the
+   empty diagram. Consume the actual finite realizations of
+   [RootSystems Layers5–6](../RepresentationTheory/RootSystems/README.md) and the
+   native `IntegralLattice.integralForm`, `ofIntegralForm`, `carrierIsometry` and
+   `rationalizationIsometry` dictionary from
+   [IntegralLattices](../IntegralLattices/README.md). Prove that the norm2 shell
+   `Φ={a∈Q:B(a,a)=2}` is exactly the root set of that realization, with explicit
+   root/coroot index maps. A positive norm2 vector has a simple reflection that
+   lowers height unless it is simple: its coefficients have one sign, since two
+   nonzero disjoint sign parts would have norm at least4. This gives the
+   height-induction proof, finiteness, root enumeration, reflection and component
+   APIs. In particular `a+b∈Φ` iff `B(a,b)=−1`, and `B(a,b)=±2` iff `a=±b`.
+
+   Construct the group on `Q×ℤˣ`, where `ℤˣ={±1}`, by
+   `ε(a,b)=(−1)^(Σ_(i>j) bond(i,j)a_i b_j)` and
+   `(a,s)(b,t)=(a+b,stε(a,b))`. Prove normalization and the cocycle identity,
+   identity `(0,1)`, inverse `(a,s)⁻¹=(−a,sε(a,−a))`, and the commutator formula
+   `[ê, f̂]=(−1)^B(a,b)`. Define `τ=(0,−1)`, its order2 and centrality, the actual
+   injection of `ℤˣ`, projection to `Multiplicative Q`, exact kernel/image and
+   surjectivity, packaged as native `GroupExtension`. Prove centrality separately
+   from those exact-sequence fields. Supply the presentation by the ordered
+   simple lifts and central τ with their bond commutators, via unique normal
+   words; there is no square relation on a simple lift. Give the specified set
+   section `u_a=(a,1)` and its inverse and cocycle-defect equation
+   `u_a u_b=ι(ε(a,b))u_(a+b)`, with ι the actual kernel inclusion. Prove that
+   this section is a homomorphic splitting exactly when the diagram has no
+   bonds, including the empty diagram. `τu_a` lies over a, whereas `u_a⁻¹`
+   lies over −a.
+
+   Let `Φ̂` be the inverse image of Φ. Construct the quotient of the free
+   ℤ-module on Φ̂ by `[τe]+[e]=0`, with its explicit section-basis equivalence to
+   `Φ→₀ℤ`, and use `Q⊕(Φ→₀ℤ)` for the integral Lie carrier. With section vectors
+   `x_a`, define the bilinear bracket by
+   `[H_h,H_k]=0`, `[H_h,x_a]=B(h,a)x_a`,
+   `[x_a,x_b]=ε(a,b)x_(a+b)` when `a+b∈Φ`,
+   `[x_a,x_(−a)]=ε(a,−a)H_a`, and zero in all other root/root cases.
+   On lifted generators the root-sum bracket is the vector indexed by the
+   **group product** ef; the opposite bracket is `H_(πe)` if `ef=1` and its
+   negative if `ef=τ`. Prove quotient well-definedness, additivity/scalar laws,
+   evaluation on all generators, alternation, antisymmetry and Jacobi over ℤ.
+   In particular an arbitrary negative-root section is not an inverse lift.
+   For A2 ordered `α₁<α₂`, `ε(α₁+α₂,−α₁−α₂)=−1`: the matrix example has
+   `x_(α₁+α₂)=E₁₃` but `x_(−α₁−α₂)=−E₃₁`. Include this rejection test,
+   rank1, reducible components and rank0.
+
+   Prove Jacobi before using any Serre or Chevalley comparison. Trilinearity
+   reduces it to Cartan and root vectors. The Cartan cases use weight additivity.
+   Dispose of repeated underlying root lines by alternation and antisymmetry
+   without division by2. For three remaining roots a,b,c, total degree outside
+   `Φ∪{0}` forces every term to vanish. At degree0 their cyclic lifted products
+   agree with the same central sign, and the sum is that sign times
+   `H_a+H_b+H_c=0`. At a root degree with no opposite pair the three pairings
+   have pattern `(-1,-1,0)`; precisely two products occur and differ by τ. With
+   b=−a, rescale the lift to `f=e⁻¹` and put `d=B(a,c)∈{0,±1}`. For d=0 all
+   terms vanish; for d=1 the terms are `g,0,−g`; for d=−1 they are `0,−g,g`.
+   These cases supply the complete integral proof, including disconnected types.
+
+   Supply explicit changes of section and order. For orders o,o′ let `E_rev`
+   consist **only of unordered bond edges whose relative order changes**. Then
+   `σ(a)=(−1)^(Σ_{{i,j}∈E_rev}a_i a_j)` satisfies
+   `ε′/ε=σ(a)σ(b)/σ(a+b)`; give the induced cover and Lie equivalences and
+   their composition/value equations. For general specified lattice isometries,
+   construct the corresponding quadratic coboundary, including diagonal
+   `binom(a_i,2)` terms when needed. For homomorphic cover-isomorphism lifts
+   of a fixed lattice isometry that fix the central sign kernel, classify
+   differences by characters `Q→{±1}`; this character group is trivial at
+   rank0. Normalized set sections instead differ by arbitrary normalized sign
+   functions, which need not be characters. Track the diagonal quadratic factor when
+   comparing the zero-diagonal ordered cocycle with a lattice-VOA asymmetry
+   convention; transport root signs and inverse lifts rather than identify
+   formulas belonging to different sections. The integral construction and
+   elementary Jacobi argument require no VOA premise.
+
+   Normalize the negative root vectors by inverse lifts so opposite brackets
+   become `H_(a∨)` while retaining the simple positive pinning. Over ℚ construct
+   the split root decomposition, Cartan and generation. Compute the Cartan
+   Killing pairing as `Σ_(a∈Φ)B(h,a)B(k,a)` and its nondegeneracy, and use
+   invariance to prove the nonzero opposite root-space pairings; assemble
+   components. The simple generators satisfy the actual Serre relations, giving
+   native `TauCeti.serreLift` with its H/E/F values and surjectivity. Consume
+   [LieHighestWeight Layer7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8e4c6c209a7a4675f8f9654b2a1a97f4966d34b3/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md)
+   for the split-field presentation/injectivity comparison; the native pinned
+   Serre map alone supplies no injectivity theorem. Preserve its Cartan-matrix
+   orientation even where ADE symmetry hides the transpose.
+
+   Compare **integrally** with9A.1's pinned Chevalley lattice by explicit unit-sign
+   root-basis maps and inverse maps. For each positive nonsimple root, subtract
+   a suitable simple root and track the resulting bracket word, whose ADE
+   root-string coefficient is a unit ±1. Prove word/choice consistency and
+   identify the Cartan and all root basis images. A rational equivalence alone
+   does not establish an integral equivalence. With the actual root/coroot maps
+   into a general reductive datum, extend the Cartan to its full Y, use
+   `[H_y,x_a]=⟨a,y⟩x_a`, and send the signed opposite bracket to `H_(a∨)`.
+   Prove the same integral laws, comparison with the actual full-Y frame, unit
+   basis inverse and all diagrams. Do not assume an integral center/derived
+   splitting. Base change these identities and the basis to every commutative
+   ring, with root-free data giving the full abelian toral algebra; simplicity
+   in bad characteristic is a separate assertion. The9B group and9C distribution
+   comparisons consume this construction and are not premises for its Lie laws.
+
 2. In the native `UniversalEnvelopingAlgebra ℚ` of this rational Lie algebra,
    use `TauCeti.UniversalEnvelopingAlgebra.kostantForm` with **all** root
    vectors and `H_(y_j)` for a chosen ℤ-basis `(y_j)` of the full Y. Thus its

@@ -65,3 +65,6 @@ theorem finrank_indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
 end TauCetiRoadmap.ReductiveGroups.FiniteHC
 /- Further nonexhaustive integral PBW and rational-distribution target forms are in
 IntegralRationalTargets.lean, which imports this file and the native supplier modules. -/
+
+/- Signed ADE root-cover, integral bracket and full-Cartan comparison target forms
+are in SignedADETargets.lean, which imports IntegralRationalTargets.lean. -/
