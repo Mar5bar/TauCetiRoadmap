@@ -177,9 +177,9 @@ structure FiniteCover (E B : TopCat.{u}) where
   finite_fiber : ∀ b : B, Finite {e : E // p e = b}
   fiber_card : ∀ b : B, Nat.card {e : E // p e = b} = degree
 
-noncomputable def finiteCoverTransfer (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B) :
-    SingularChains R M B ⟶ SingularChains R M E := by
+noncomputable def finiteCoverTransfer (R : Type u) [CommRing R] :
+    ∀ (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B),
+      SingularChains R M B ⟶ SingularChains R M E := by
   sorry
 
 theorem finiteCover_transfer_push (R : Type u) [CommRing R]
@@ -227,10 +227,10 @@ noncomputable abbrev regularDeckChainMap (R : Type u) [CommRing R]
     (TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩)
 
 /-- Bundle that deck action in the native representation category degree by degree. -/
-noncomputable def regularDeckSingularComplex (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] (D : RegularDeckAction P G) :
-    ChainComplex (Rep.{u} R G) ℕ := by
+noncomputable def regularDeckSingularComplex (R : Type u) [CommRing R] :
+    ∀ (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+      (G : Type u) [Group G] (D : RegularDeckAction P G),
+      ChainComplex (Rep.{u} R G) ℕ := by
   sorry
 
 noncomputable def regularDeckSingularComplexForgetIso (R : Type u) [CommRing R]
@@ -290,11 +290,11 @@ noncomputable abbrev coverHomologyRep (R : Type u) [CommRing R]
     (G : Type u) [Group G] (D : RegularDeckAction P G) (q : ℕ) : Rep.{u} R G :=
   Rep.of (coverHomologyAction R M P G D q)
 
-noncomputable def cartanLeraySpectralSequence (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G) :
-    SpectralSequence (ModuleCat.{u} R)
-      (fun r ↦ ComplexShape.spectralSequenceNat ⟨-r, r - 1⟩) 2 := by
+noncomputable def cartanLeraySpectralSequence (R : Type u) [CommRing R] :
+    ∀ (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+      (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G),
+      SpectralSequence (ModuleCat.{u} R)
+        (fun r ↦ ComplexShape.spectralSequenceNat ⟨-r, r - 1⟩) 2 := by
   sorry
 
 noncomputable def cartanLerayE2Iso (R : Type u) [CommRing R]
@@ -483,8 +483,8 @@ instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTop
 /-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
 `chartAt_apply`; the geometric construction is the restriction of the original extended chart to
 the open interior, followed by the linear homeomorphism `e`. -/
-noncomputable def chartAt [IsManifold I ∞ M] (x : C) :
-    OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
+noncomputable def chartAt [IsManifold I ∞ M] :
+    (x : C) → OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
   sorry
 
 theorem chartAt_mem_source [IsManifold I ∞ M] (x : C) :
@@ -724,10 +724,10 @@ noncomputable def localCoefficientExtensionClass (R : Type) [CommRing R] (m : �
     [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
     [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M)
+    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M) :
     (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
       ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) (ℓ : L.obj ⟨x⟩) :
+        (ModuleCat.of ℤ ℤ)) m) → (ℓ : L.obj ⟨x⟩) →
     twistedRelativeHomology R (puncturedPair (TopCat.of M) x) L m := by
   sorry
 
@@ -952,8 +952,9 @@ structure FundamentalClassDatum (R : Type u) [CommRing R] (X : TopCat.{u}) (n : 
         (TopPair.j (puncturedPair X x)) fundamentalClass} = ⊤
 
 noncomputable def poincareDualityMap (R : Type u) [CommRing R]
-    (X : TopCat.{u}) (n p : ℕ) (_hp : p ≤ n) (c : FundamentalClassDatum R X n) :
-    singularCohomology R X p ⟶ SingularHomology R (ModuleCat.of R R) X (n - p) := by
+    (X : TopCat.{u}) (n p : ℕ) (_hp : p ≤ n) :
+    (c : FundamentalClassDatum R X n) →
+      singularCohomology R X p ⟶ SingularHomology R (ModuleCat.of R R) X (n - p) := by
   sorry
 
 /-- Compact Hausdorff second-countable manifolds with a fundamental class satisfy duality. The
@@ -1050,19 +1051,19 @@ structure NDRPairData (X : TopPair.{u}) where
 /-- Relative homotopy in degrees at least two is group-valued. In particular, the degree-two
 group is not assumed commutative. The implementation uses the same based-cube model as Mathlib's
 `HomotopyGroup`. -/
-noncomputable def relativeHomotopyGroup (n : ℕ) (_hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) : GrpCat.{u} := by
+noncomputable def relativeHomotopyGroup :
+    (n : ℕ) → (hn : 2 ≤ n) → (X : BasedTopPair.{u}) → GrpCat.{u} := by
   sorry
 
 /-- A basepoint-preserving map of pairs induces the relative homotopy homomorphism. -/
-noncomputable def BasedTopPair.Hom.relativeHomotopyMap {X Y : BasedTopPair.{u}}
-    (f : X.Hom Y) (n : ℕ) (hn : 2 ≤ n) :
-    relativeHomotopyGroup n hn X ⟶ relativeHomotopyGroup n hn Y := by
+noncomputable def BasedTopPair.Hom.relativeHomotopyMap {X Y : BasedTopPair.{u}} :
+    (f : X.Hom Y) → (n : ℕ) → (hn : 2 ≤ n) →
+      relativeHomotopyGroup n hn X ⟶ relativeHomotopyGroup n hn Y := by
   sorry
 
 /-- The based homotopy group of the subspace, used as the target of the relative boundary map. -/
-noncomputable def basedSubspaceHomotopyGroup (n : ℕ) (_hn : 1 ≤ n)
-    (X : BasedTopPair.{u}) : GrpCat.{u} := by
+noncomputable def basedSubspaceHomotopyGroup :
+    (n : ℕ) → (hn : 1 ≤ n) → (X : BasedTopPair.{u}) → GrpCat.{u} := by
   sorry
 
 /-- The boundary of a relative cube lands in the subspace at its stored basepoint. -/
@@ -1073,16 +1074,17 @@ noncomputable def relativeHomotopyBoundary (n : ℕ) (hn : 2 ≤ n)
 
 /-- Changing the chosen subspace point along a path gives the standard relative-homotopy
 basepoint-change isomorphism. -/
-noncomputable def relativeHomotopyChangeBasepoint (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) (a : X.pair.snd) (_path : Path X.basepoint a) :
-    relativeHomotopyGroup n hn X ≅
-      relativeHomotopyGroup n hn { pair := X.pair, basepoint := a } := by
+noncomputable def relativeHomotopyChangeBasepoint :
+    (n : ℕ) → (hn : 2 ≤ n) → (X : BasedTopPair.{u}) →
+      (a : X.pair.snd) → (path : Path X.basepoint a) →
+      relativeHomotopyGroup n hn X ≅
+        relativeHomotopyGroup n hn { pair := X.pair, basepoint := a } := by
   sorry
 
 /-- The integral module attached to the abelianization of the relative homotopy group. This is
 the natural source of Hurewicz before any commutativity theorem. -/
-noncomputable def relativeHomotopyAbelianization (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) : ModuleCat.{u} ℤ := by
+noncomputable def relativeHomotopyAbelianization :
+    (n : ℕ) → (hn : 2 ≤ n) → (X : BasedTopPair.{u}) → ModuleCat.{u} ℤ := by
   sorry
 
 /-- The quotient map from relative homotopy to its abelianization, displayed on underlying
@@ -1094,8 +1096,8 @@ noncomputable def relativeHomotopyToAbelianization (n : ℕ) (hn : 2 ≤ n)
 
 /-- From degree three onward, relative homotopy itself has its canonical integral-module
 structure. -/
-noncomputable def relativeHomotopyModule (n : ℕ) (_hn : 3 ≤ n)
-    (X : BasedTopPair.{u}) : ModuleCat.{u} ℤ := by
+noncomputable def relativeHomotopyModule :
+    (n : ℕ) → (hn : 3 ≤ n) → (X : BasedTopPair.{u}) → ModuleCat.{u} ℤ := by
   sorry
 
 /-- In the stable relative range, the module carrier agrees with the abelianization carrier. -/
@@ -1446,8 +1448,9 @@ abbrev coordinateCubePair (n : ℕ) : TopPair.{u} :=
     {t | t.down ∈ Cube.boundary (Fin n)}
 
 /-- The monotone simplex with vertices 0, e_(p0), e_(p0)+e_(p1), …, 1. -/
-noncomputable def coordinateCubeSimplex (n : ℕ) (_p : Equiv.Perm (Fin n)) :
-    C(Convexity.StdSimplex ℝ (Fin (n + 1)), (coordinateCubePair.{u} n).fst) := by
+noncomputable def coordinateCubeSimplex (n : ℕ) :
+    (p : Equiv.Perm (Fin n)) →
+      C(Convexity.StdSimplex ℝ (Fin (n + 1)), (coordinateCubePair.{u} n).fst) := by
   sorry
 
 /-- Barycentric coordinates determine the simplex, so its orientation cannot be reversed. -/
@@ -1568,8 +1571,8 @@ noncomputable def homotopySphereAbsoluteToRelative (n : ℕ) :
 
 /-- Descend the actual native generalized loop through the pinned cube quotient. -/
 noncomputable def cubicalSphereRepresentative (n : ℕ) [NeZero n]
-    (X : Type u) [TopologicalSpace X] (x : X) (_g : GenLoop (Fin n) X x) :
-    homotopySphere n ⟶ TopCat.of X := by
+    (X : Type u) [TopologicalSpace X] (x : X) :
+    (g : GenLoop (Fin n) X x) → homotopySphere n ⟶ TopCat.of X := by
   sorry
 
 theorem cubicalSphereRepresentative_quotient (n : ℕ) [NeZero n]
@@ -1653,8 +1656,9 @@ abbrev ordinaryEMHurewiczMap (A : Type u) [AddCommGroup A]
 
 /-- Hurewicz identification, normalized by the model's distinguished homotopy group. -/
 noncomputable def ordinaryEMHurewiczIdentification (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n) :
-    ordinaryIntegralHomology K.space n ≅ ModuleCat.of ℤ A := by
+    (n : ℕ) [NeZero n] :
+    (K : OrdinaryEMModel A n) →
+      ordinaryIntegralHomology K.space n ≅ ModuleCat.of ℤ A := by
   sorry
 
 theorem ordinaryEMHurewiczIdentification_onHomotopy (A : Type u) [AddCommGroup A]
@@ -1667,9 +1671,10 @@ theorem ordinaryEMHurewiczIdentification_onHomotopy (A : Type u) [AddCommGroup A
 
 /-- The identity universal class, with normalization fixed by the actual Hurewicz map. -/
 noncomputable def ordinaryEMUniversalClass (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n) :
-    K.space.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
-      (ModuleCat.of ℤ A) n := by
+    (n : ℕ) [NeZero n] :
+    (K : OrdinaryEMModel A n) →
+      K.space.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
+        (ModuleCat.of ℤ A) n := by
   sorry
 
 theorem ordinaryEMUniversalClass_kronecker (A : Type u) [AddCommGroup A]
@@ -1792,8 +1797,8 @@ abbrev relativeObstructionCochainComplex :=
       (ModuleCat.of ℤ (Additive (HomotopyGroup (Fin n) Y y)))
 
 /-- The cochain evaluates a characteristic-map boundary after its basepoint transport. -/
-noncomputable def relativeObstructionCochain
-    (_f : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) :
+noncomputable def relativeObstructionCochain :
+    (f : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) →
     (relativeObstructionCochainComplex X B Y y n).X (n + 1) := by
   sorry
 
@@ -1815,13 +1820,13 @@ theorem relativeObstructionCochain_zero_iff_extension
 
 /-- The actual disk-gluing difference cochain of two maps agreeing on the preceding
 skeleton, with the orientation used by the subsequent coboundary theorem. -/
-noncomputable def relativeDifferenceCochain
-    (f₀ f₁ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y)
-    (_agree :
+noncomputable def relativeDifferenceCochain :
+    (f₀ f₁ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) →
+    (agree :
       TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
         (Nat.sub_le n 1)) ≫ f₁ =
       TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₀) :
+        (Nat.sub_le n 1)) ≫ f₀) →
     (relativeObstructionCochainComplex X B Y y n).X n := by
   sorry
 
@@ -2444,9 +2449,9 @@ variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [FiniteDimensional ℝ E]
 
 /-- Explicit coordinate choice pins the radial map to the actual lifted native disk. -/
-noncomputable def normedUnitBallTopCatDiskHomeomorph {k : ℕ}
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) :
-    Metric.closedBall (0 : E) 1 ≃ₜ TopCat.disk.{u} k := by
+noncomputable def normedUnitBallTopCatDiskHomeomorph {k : ℕ} :
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) →
+      Metric.closedBall (0 : E) 1 ≃ₜ TopCat.disk.{u} k := by
   sorry
 
 theorem normedUnitBallTopCatDiskHomeomorph_apply {k : ℕ}
@@ -2527,9 +2532,9 @@ theorem continuousOn_compactConvexRadialReach (C : Set E)
   sorry
 
 noncomputable def compactConvexClosedBallHomeomorph (C : Set E)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
-    (c : E) (hc : c ∈ intrinsicInterior ℝ C) :
-    Metric.closedBall (0 : (affineSpan ℝ C).direction) 1 ≃ₜ C := by
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C) :
+    (c : E) → (hc : c ∈ intrinsicInterior ℝ C) →
+      Metric.closedBall (0 : (affineSpan ℝ C).direction) 1 ≃ₜ C := by
   sorry
 
 /-- Unit direction and radial parameter fix the homeomorphism, rather than a choice. -/

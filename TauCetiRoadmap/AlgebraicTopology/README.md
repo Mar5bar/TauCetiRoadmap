@@ -83,6 +83,10 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   AT6.3's homological orientation system, chart-normalized point generators, chosen local
   section, `RelativeTwistedClassDatum` and compact-support class factory. DG9.3 owns the
   smooth/constant-system/real-coefficient conversions and the integration comparison.
+  After this independent AT6.3 class construction, Stage6.5 compares its
+  homological degree characterization with DG10's smooth mapping degree.
+  DG9.3 and DG10 do not consume AT6.5's degree comparison; neither is a
+  prerequisite for the AT6.3 orientation-system or fundamental-class construction.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
@@ -730,6 +734,10 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    the same cellwise parameters. Prove the weak-topology continuity, the
    exact intersection/union identities and relative/subcomplex naturality.
    DGFloer 1.2 uses these neighborhoods for Serre preimage excision.
+   AffineMorseLefschetz A4 consumes this subcomplex-neighborhood interface
+   on its actual triangulated compact algebraic pairs, including singular
+   subcomplexes. A4 owns the simultaneous triangulation, barycentric-neighborhood
+   construction and comparison with these generic deformation-retraction laws.
    Prove its weak topology is the compactly generated
    product topology (Hatcher Appendix A.6), and its comparison with the
    ordinary product when either factor is locally compact. Consume the
@@ -798,7 +806,10 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    with 8.2's +1 cube-to-simplex map. Prove Hausdorffness, closure
    finiteness and the weak topology. Realized simplicial maps are cellular
    and sub-simplicial inclusions identify actual CW subcomplexes. Bar,
-   Dold–Kan and singular realizations consume this one construction. Prove
+   Dold–Kan and singular realizations consume this one construction.
+   AffineMorseLefschetz A4 consumes it through GeometricTopology Layer11's
+   ordered-complex/simplicial-set realization and transported CW comparison
+   for its ambient triangulated algebraic pair and subcomplexes. Prove
    the general paracompactness of Hausdorff CW complexes used by bundle suppliers.
    Own the cell-neighborhood local contraction API for arbitrary Hausdorff
    CW complexes: for x∈U open construct a smaller open V containing x
@@ -1554,8 +1565,13 @@ This stage consumes every one of Stages 2--6.  Stage 1 is not a prerequisite.
 4. State cofibration, compactness, and finiteness assumptions explicitly.  Establish the standard
    checks `chi(S^n)=1+(-1)^n`, `chi(T^n)=0` for `n>0`, and
    `chi(CP^n)=n+1`. The complex-projective check consumes
-   ComplexKahlerGeometry K7's model and cell construction, which depends only
-   on AT Stages 4 and 6; no complex-projective construction is required in Stage 4.
+   ComplexKahlerGeometry K7.1's projective model and K7.2's finite CW structure.
+   K7.1 consumes ComplexManifolds Milestones1–3's complex-manifold,
+   real-restriction and atlas transport, K3.0's holomorphic calculus and K1's
+   complex orientation. K7.2's CW construction consumes K7.1 and AT Stage4;
+   its separate projective cup calculation consumes ordinary Stage6.
+   No complex-projective construction is required in Stage4, and the Euler
+   cell-count check does not consume K7's later Hodge or Serre-duality results.
 
 ## Stage 8: relative homotopy, Hurewicz, Whitehead, and ordinary representability
 
@@ -2058,7 +2074,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, DG2.4 sphere and DG5.1 outward-first boundary conventions, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; Stage 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary6.2 | ordinary4 cellular data, ordinary6.1–6.2, CC C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CC-S5 compatibility is a separate check | ordinary6.3–6.5, Stage7 and ordinary8 proceed independently; proper8.5 uses the needed support interfaces |
-| 6.5 linking/degree consequences | 2--4 and ordinary6.1--6.4 | 1 |
+| 6.5 linking/degree consequences | 2--4 and ordinary6.1--6.4; DG10's smooth mapping-degree comparison only after the independent AT6.3 classes | 1 |
 | 7 Euler characteristic | 2--6 and ComplexKahlerGeometry K7 for CPⁿ | 1 |
 | 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper8.5 additionally CC C1.2a S0–S3 support colimits/proper pullback and S4 jointly proper homotopy invariance and the supported-cellular comparison/countability supplement; CC-S5 is a compatibility target only | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary6–7 |
 | 8.8a raw bar/abelian input | 4, ordinary6, native nerve/realization and universal-cover APIs | DGFloer Layer1 item4 abelian K(A,1) specialization |
