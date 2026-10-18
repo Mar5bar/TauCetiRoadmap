@@ -998,6 +998,71 @@ scalar commutant. No compact Haar/Peter–Weyl theorem substitutes for this alge
 construction. In positive characteristic no direct sum of simple coefficients
 is asserted to exhaust O(G).
 
+##### Right-unipotent invariants, Cartan multiplication and the rank-one quotient
+
+For a split connected reductive group over an algebraically closed field of
+characteristic zero, fix the same positive Borel `B⁺=T⋉N⁺`, actual character
+lattice and normalized highest lines as 10B. Under 10D's coefficient map
+`φ⊗v ↦ (g↦φ(gv))` and action `(a,b)f(g)=f(a⁻¹gb)`, construct the right
+group-scheme-invariant algebra comparison
+`O(G)^(1×N⁺) ≃ ⊕_(λ∈X⁺) V(λ)*⊗V(λ)^(N⁺)`.
+Here invariants mean the coaction equalizer, not invariance only on rational
+points. Right `T` acts on the highest line with weight λ; the left summand is
+`V(λ)*`, and rewriting it as a sum of simples uses the explicit dual reindexing
+λ↦−w₀λ. Choose actual highest vectors, including the unit at weight zero, and
+construct the unique Cartan inclusion `V(λ+μ)→V(λ)⊗V(μ)` sending the chosen
+highest vector to their tensor. Prove its associativity/unit compatibilities
+and that multiplication of coefficient functions is its dual on the left
+factors and the chosen highest-line product on the right. This fixes the
+scalar coherences; unrelated choices of one-dimensional identifications do
+not define the algebra. Prove compatibility with all central characters and
+the existing flag-minor/section-ring applications. This simple-coefficient
+direct sum stays in the stated characteristic-zero lane; it does not assert
+semisimplicity of positive-characteristic rational representations.
+
+Over **every field** k, give the separate explicit `SL₂/N⁺` construction.
+For `g=[[a,b],[c,d]]`, `ad−bc=1`, right multiplication by
+`n(t)=[[1,t],[0,1]]` changes `(b,d)` to `(b+at,d+ct)` and fixes `(a,c)`.
+On coordinates the right coaction is
+`a↦a⊗1`, `c↦c⊗1`, `b↦b⊗1+a⊗t`, `d↦d⊗1+c⊗t`.
+The first-column morphism maps to `U=A²_k\{0}`. Construct its Zariski
+`N⁺`-torsor charts using the sections
+`s_a=[[a,0],[c,a⁻¹]]` on D(a) and
+`s_c=[[a,−c⁻¹],[c,0]]` on D(c), with fibre coordinates
+`u_a=b/a` and `u_c=d/c`. On the overlap prove
+`s_c=s_a n(−1/(ac))` and `u_c=u_a+1/(ac)`, and prove the represented fppf
+quotient universal property from these charts. Compute its global functions
+by the Čech equalizer/localization intersection
+`k[a,c]_a ∩ k[a,c]_c = k[a,c]` inside `k(a,c)`; explicitly prove the intersection
+using the coprime variables. Prove the right coaction invariants on each
+torsor chart are exactly its base ring by translation in an independent
+indeterminate, which remains valid over finite fields and in positive
+characteristic. Thus `O(SL₂)^(N⁺)=k[a,c]`, but the geometric quotient is the
+quasiaffine punctured plane, not its affinization `Spec k[a,c]=A²_k`.
+Identify the degree-n polynomials in `(a,c)` under left translation with10C's
+actual contragredient binary-form module `∇(n)`. The actual right torus
+`diag(t,t⁻¹)⊂SL₂` scales the first column by t and acts on degree-n functions
+by the character `t↦t^n`, including n=0; arbitrary scalar matrices are not
+being treated as elements of SL₂. Over characteristic zero compare this with the
+preceding Cartan algebra; over positive characteristic retain10C's simple
+socle, generation and nonsimplicity distinctions. In the preceding
+characteristic-zero general-group lane, apply the coefficient and
+multiplication comparisons to
+[GroebnerGeometry G5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d21bc1c2f895047275495326f5f693e89f0e244c/TauCetiRoadmap/GroebnerGeometry/README.md)'s
+polynomial flag-minor/standard-monomial construction. First prove that its
+polynomial flag-minor algebra is `O(Mat_n)^(1×N⁺)` for the actual right
+upper-unipotent matrix action. Then prove that localization at the full
+determinant identifies this algebra with `O(GL_n)^(1×N⁺)`, using the
+invariant determinant and the actual coordinate-ring inclusion. Include
+n=0, with determinant 1 and invariant algebra k. Minors in the first d
+columns use G5's increasing row subsets and the right matrix action, while the left
+action on polynomial coordinates is contragredient. Construct the row/column
+and dual-action comparison explicitly. Do not assert the original flag
+algebra is its toric initial algebra.
+
+For the complex rank-one torsor and its cocycle, compare
+[Hedén §§1,3](https://arxiv.org/html/1407.7638v2).
+
 For GL(V), construct its polynomial representation comparison with actions of
 the algebraic endomorphism monoid End(V). A finite rational action extends
 uniquely exactly when its coefficient coaction factors through
