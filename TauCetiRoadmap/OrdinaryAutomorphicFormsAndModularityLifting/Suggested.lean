@@ -143,6 +143,12 @@ example : Matrix.trace (1 : Matrix (Fin 5) (Fin 5) (ZMod 5)) = 0 ∧
   · simp only [Matrix.trace_one, Fintype.card_fin, ZMod.natCast_self]
   · simp
 
+/-- The full quotient character in §2.1 retains the nonzero labelled algebraic exponent
+even when the selected smooth factor is unramified. At p=3 the principal unit is four. -/
+example : (1 : ℚ) * (4 : ℚ) ^ (-1 : ℤ) * (4 : ℚ) ^ (0 : ℤ) = 1 / 4 ∧
+    (1 : ℚ) * (4 : ℚ) ^ (-1 : ℤ) * (4 : ℚ) ^ (0 : ℤ) ≠ 1 := by
+  norm_num
+
 /-! ## Layer 3: Nearly ordinary deformations and Galois–Hecke interfaces -/
 
 section PseudoRep
@@ -152,7 +158,9 @@ section PseudoRep
 `ρ σ = (a_σ b_σ; c_σ d_σ)` the data are `a`, `d` and `x σ τ = b_σ c_τ`. The coefficient ring
 has `2` invertible. Traces and determinants are compared with pseudocharacters through
 TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants. For fixed `z`, the trace recovers
-all three ordered functions because `2` is invertible. -/
+all three ordered functions because `2` is invertible. Section 3.8's natural equivalence
+with LocalGaloisDeformationRings' supplied determinant functor assumes `z²=1` and the
+residual characters `1, χ` with `χ(z)=−1`. Its representing ring is `PseudoDefRing`. -/
 structure PseudoRep (G A : Type*) [Group G] [TopologicalSpace G] [CommRing A]
     [TopologicalSpace A] [Invertible (2 : A)] (z : G) where
   /-- The upper-left entry. -/
@@ -375,6 +383,22 @@ example {K : Type*} [Field K] (a b c d ψ : K) :
 example : (2 : ℚ) * 3 = 6 ∧ (2 : ℚ) * 3 ≠ 3 / 2 := by
   norm_num
 
+/-- Character specialization of §3.24's tensor map cancels a linear trace twist and a
+quadratic determinant twist, leaving one copy of the same group-factor value. -/
+theorem tensorTwist_characterCheck {A : Type*} [CommRing A] (t s : A) (f n : Aˣ) :
+    (t * (f : A)) * (↑(f⁻¹) : A) * (n : A) = t * (n : A) ∧
+      (s * (f : A) ^ 2) * (↑(f⁻¹) : A) ^ 2 * (n : A) = s * (n : A) := by
+  have h : (f : A) * (↑(f⁻¹) : A) = 1 := by simp
+  constructor
+  · calc
+      (t * (f : A)) * (↑(f⁻¹) : A) * (n : A) =
+          t * ((f : A) * (↑(f⁻¹) : A)) * (n : A) := by ring
+      _ = t * (n : A) := by rw [h]; simp
+  · calc
+      (s * (f : A) ^ 2) * (↑(f⁻¹) : A) ^ 2 * (n : A) =
+          s * ((f : A) * (↑(f⁻¹) : A)) ^ 2 * (n : A) := by ring
+      _ = s * (n : A) := by rw [h]; simp
+
 /-- CM and totally real quadratic extensions have different minus-unit ranks. -/
 example (d : ℕ) (hd : 1 ≤ d) :
     (0 + d - 1) - (d + 0 - 1) = 0 ∧
@@ -445,6 +469,30 @@ example (d t m u : ℕ) (hmu : m ≤ u) (h : 2 + 2 * t + 7 * u < d / 2) :
 
 /-! ## Layer 5: Ordinary modularity lifting -/
 
+/-- The admissible Kummer example in §5.1a needs residue degree divisible by eight at two. -/
+example : (9 : ZMod 17) ^ 4 = -1 ∧ (9 : ZMod 17) ^ 8 = 1 ∧
+    (2 : ℕ) * 5 * 29 = 1 + 17 ^ 2 := by
+  decide
+
+/-- A surjective Hecke map factors a coefficient point uniquely when its kernel is
+contained in an ideal below that point's kernel. These are the explicit
+support inclusions in the conditional full-scope lifting statement of §5.8. -/
+theorem componentSupport_factor {O R T A : Type*}
+    [CommRing O] [CommRing R] [CommRing T] [CommRing A]
+    [Algebra O R] [Algebra O T] [Algebra O A]
+    (r : R →ₐ[O] T) (hr : Function.Surjective r) (x : R →ₐ[O] A)
+    (q : Ideal R) (hq : RingHom.ker r.toRingHom ≤ q)
+    (hqx : q ≤ RingHom.ker x.toRingHom) :
+    ∃! θ : T →ₐ[O] A, θ.comp r = x := by
+  classical
+  refine ⟨AlgHom.liftOfSurjective r hr x (hq.trans hqx),
+    AlgHom.liftOfSurjective_comp r hr x (hq.trans hqx), ?_⟩
+  intro θ hθ
+  ext t
+  obtain ⟨a, rfl⟩ := hr t
+  rw [AlgHom.liftOfSurjective_apply]
+  exact DFunLike.congr_fun hθ a
+
 /-- For a totally real quadratic extension the required half-rank inequality has the
 stated numerical consequence; its p-adic transcendence input is separate. -/
 example (d r : ℕ) (hr : d ≤ 2 * r) : d - r ≤ d / 2 := by
@@ -494,13 +542,14 @@ example : ((-23 : ℤ) : ZMod 3) = 1 := by
 The README also specifies the heavier definitions: nearly ordinary automorphic
 representations; permissible Eisenstein ideals and weight algebras; reducible and
 irreducible deformation data, deformation rings and permissible extensions; local
-ramification types; universal pseudo-deformations;
+ramification types; the supplied determinant representor and its ordered-presentation equivalence;
 pseudo-to-deformation maps; deformation Iwasawa algebra structures; Hida family and integral
 Hecke Galois representations; Hecke pseudo-representations; augmented and minimal Hecke
 rings and modules; pro-modular primes; good pairs, nice primes and their properties;
 Hypothesis H; and the new-quotient classical Hida representation refinements.
 The heavier API names include `stabiliserCount`, `heckeAdjoint`, `IsVGoodLine`,
-`IsNearlyOrdinary`, `IsOrdinary`, `IsPermissible`, `centralDeterminant`,
+`IsNearlyOrdinary`, `IsSmoothOrdinary`, `IsOrdinary`, `isOrdinary_iff_smoothOrdinary`,
+`IsPermissible`, `centralDeterminant`,
 `permissibleLambdaAlgebra`, `admissibleClasses`, `residualExtension`, `IsOfType`,
 `universalRing`, `IsPermissibleExtension`, `DeformationDatum.baseChange`,
 `RamificationType`, `pseudoToDeformation`, `deformationLambdaAlgebra`,
@@ -516,7 +565,15 @@ Section 1.4 also specifies `quaternionicPairing_central_scaling`,
 `traceAlong_id`, mirrored by the identity-fibre example `trace_identity`. Section 3.7 specifies
 `PseudoRep.ofRep_conj_diagonal`, `PseudoRep.trace_isPseudocharacter`,
 `pseudoRep_det_of_rep` and `pseudoRep_diagonal_conj` for the representation and
-pseudocharacter comparisons. The identity, free-pairing, two-point, stabilizer-ratio,
+pseudocharacter comparisons. Section 3.8 specifies `orderedPseudoDefEquiv`, identifying
+the ordered functor with the supplied `PseudoDefRing` and its auxiliary-inertia quotient.
+Section 5.1a specifies `abelianOrdinaryPreparation` with the possible Grunwald–Wang doubling
+of global degree. Section 5.8 specifies `CMComponentSupport` by a minimal prime below the
+coefficient point containing the kernel of the Hecke map, and `fullScopeOrdinaryLifting`
+with that additional hypothesis. Section 2.1 reuses `NearlyOrdinaryEigenpacket.isOrdinary`
+for the full quotient character; `IsSmoothOrdinary` uses only the selected smooth factor,
+and `isOrdinary_iff_smoothOrdinary` also requires all labelled algebraic exponents to vanish.
+The identity, free-pairing, two-point, stabilizer-ratio,
 determinant, diagonal-conjugation and identity-augmentation Checks have coefficient-level examples above. The arithmetic
 central-character and pseudocharacter comparisons remain README targets. Local tangent
 conditions, the determinant–flag spectrum comparison, arithmetic patching, localized R=T,
