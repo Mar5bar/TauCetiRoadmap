@@ -28,7 +28,10 @@ namespace HodgeTate
 The p-level tower `ShimuraTower.pLevel` is indexed by the compact open subgroups of
 G(ℚ_p), ordered by inclusion. The index poset and its cofilteredness are statable at
 the pins; the tower, its action and its limit diamond are README targets. A level is a
-Mathlib `OpenSubgroup` that is compact, so the order is the one of `OpenSubgroup`. -/
+Mathlib `OpenSubgroup` that is compact, so the order is the one of `OpenSubgroup`.
+The complex-point uniformization `ShimuraTower.points_eq_doubleCoset` uses a field
+isomorphism σ : C ≅ ℂ satisfying σ ∘ ι = ι_∞ for the distinguished reflex-field
+embedding ι_∞ : E → ℂ. Such an isomorphism exists when C has continuum cardinality. -/
 
 /-- Compact open subgroups of a topological group, the index of the p-level tower: the
 compact members of Mathlib's `OpenSubgroup G`. -/
@@ -294,7 +297,8 @@ example :
 On the Hasse neighbourhood of radius ε the AIP structure group B_m is contained in
 𝒪_p^×(1 + p^x Res 𝔾̂_a), where x = m − ε p^m/(p − 1). This is the corrected direction
 of BHW (7.1), recorded in 5.8. Membership of cz + d in B_m follows
-from the ratio of two lifts in the actual torsor (5.11). -/
+from the ratio of two lifts in the actual torsor (5.11). The group Γ₀*(p^n) acting
+on the infinite-level tower remains profinite for finite n (5.12). -/
 
 /-- x = m − ε p^m/(p − 1). -/
 def aipExponent (p m : ℕ) (ε : ℚ) : ℚ := m - ε * (p : ℚ) ^ m / ((p : ℚ) - 1)
@@ -315,16 +319,26 @@ Layer 0: `TauCeti.HodgeTate.conormal`, `TauCeti.HodgeTate.hodgeTateMap`,
 `TauCeti.HodgeTate.semiAbelianTorsion`, `TauCeti.HodgeTate.semiAbelianHasse`,
 `TauCeti.HodgeTate.harderNarasimhanFiltration`, `TauCeti.HodgeTate.torsionDegree`,
 `TauCeti.HodgeTate.coLieComplex`, `TauCeti.HodgeTate.abelianVerschiebung`.
+The divisor construction retains rank-one valuation bases. Its additional target
+`TauCeti.HodgeTate.farguesDivisor_constantDegree` assumes a normal admissible formal
+model locally topologically of finite type over a complete mixed-characteristic DVR:
+analytic local constancy of the degree is equivalent to a local equality bD_H = aV(p),
+with integers a ≥ 0 and b > 0, detected at special-fibre prime divisors.
+Here H is finite locally free commutative of p-power order with perfect rank-zero
+co-Lie complex of amplitude [−1,0], regular determinant and étale generic fibre.
 Here `TauCeti.HodgeTate.coLieComplex` aliases the co-Lie construction supplied, with
 its derived dual, by FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.11 and R07.6.6.
 README §0.26 supplies the additional finite-flat perfectness, determinants and
 abelian-isogeny Hodge triangle. README §0.28 supplies the general-base finite-subgroup
 extension of the complete-DVR quotient in that roadmap's R07.1.20a.
-Layer 2: `ShimuraTower.pLevel`, `ShimuraTower.translate`, `ShimuraTower.infiniteLevel`,
+Layer 2: `ShimuraTower.pLevel`, `ShimuraTower.points_eq_doubleCoset` (with σ ∘ ι = ι_∞),
+`ShimuraTower.translate`, `ShimuraTower.infiniteLevel`,
 `TauCeti.HodgeTate.hodgeTateFlagPoint`, `TauCeti.HodgeTate.hodgeTateParabolicReduction`,
 `TauCeti.HodgeTate.ExactTensorFiltration`, `TauCeti.HodgeTate.hodgeTateFlagDescent`,
 `TauCeti.HodgeTate.openTowerHodgeTateMap` (for neat Hodge-type data with a fixed
 symplectic embedding and induced universal abelian family).
+The Grassmannian, universal quotient and base change are ModularCurves §0G's shared
+finite locally free construction; partial flags are AlgebraicModuliForArithmeticGeometry §1.3's.
 Layer 3: `TauCeti.HodgeTate.hasseNeighbourhood`; `TauCeti.HodgeTate.canonicalSubgroup`
 is CohomologyComparisons §6.2's shared subgroup on the cyclotomic-base abelian-family
 range. The pointwise HN extension, degree formula and integral Hodge–Tate estimates
@@ -334,11 +348,21 @@ Layer 4: `TauCeti.HodgeTate.canonicalLocus`, `TauCeti.HodgeTate.hodgeTateCoordin
 Layer 5: `TauCeti.HodgeTate.igusaTorsor`, `TauCeti.HodgeTate.integralDifferentialLattice`,
 `TauCeti.HodgeTate.modifiedHodgeBundle`, `TauCeti.HodgeTate.modifiedMinimalModel`,
 `TauCeti.HodgeTate.modifiedPlusSheaf`, `TauCeti.HodgeTate.aipTorsor`.
+Over the ordinary locus, `TauCeti.HodgeTate.modifiedMinimalModel_ordinary` identifies
+the modified and unmodified minimal models at the same full level K(p^n), and their
+determinant lattices agree.
 Layer 6 imports `TauCeti.LogAdic.LogStructure`, `TauCeti.LogAdic.logification`,
 `TauCeti.LogAdic.logPullback`, `TauCeti.LogAdic.IntegralChart` and `TauCeti.LogAdic.KummerEtaleSite`
 from PrismaticCohomologyPartIV §8.60. The local aliases
 `TauCeti.LogAdic.IsKummer` and `TauCeti.LogAdic.IsKummerEtale` name its underlying
 conditions, definitionally compatible with the site objects.
+The target `TauCeti.LogAdic.strict_iff_stalk` tests full logified-pullback stalk maps
+for arbitrary log structures; the characteristic-stalk test assumes integral log
+structures. `TauCeti.LogAdic.FsAdicPullback.saturation` is finite surjective for fine
+spaces; for coherent X it factors as a finite surjection onto X^int followed by the
+integralization closed immersion. `TauCeti.LogAdic.finite_kummer_descent` uses
+surjective Kummer étale covering maps for both base and source descent, and descends
+finite Kummer étale objects along Kummer étale covers.
 The additional log-adic targets are:
 `TauCeti.LogAdic.KummerLocalSystem` (the finite torsion-stalk extension of the
 supplied finite-free local systems),
