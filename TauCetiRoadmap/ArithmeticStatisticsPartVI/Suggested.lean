@@ -32,6 +32,31 @@ namespace TauCetiRoadmap.ArithmeticStatisticsPartVI
 
 namespace Selmer
 
+/-- The first matrix of the soluble pencil with invariant `x⁴ - xy³ - y⁴`
+(README §4.15, pencil local global weight). -/
+def solublePencilA : Matrix (Fin 4) (Fin 4) ℤ :=
+  !![0,0,0,1; 0,0,1,0; 0,1,0,0; 1,0,0,1]
+
+/-- The second matrix of the soluble pencil with invariant `x⁴ - xy³ - y⁴`
+(README §4.15, pencil local global weight). -/
+def solublePencilB : Matrix (Fin 4) (Fin 4) ℤ :=
+  !![0,0,1,0; 0,1,0,0; 1,0,0,1; 0,0,1,1]
+
+/-- The determinant pencil has the specified quartic invariant. -/
+example (x y : ℤ) : Matrix.det (x • solublePencilA - y • solublePencilB) =
+    x ^ 4 - x * y ^ 3 - y ^ 4 := by
+  simp [Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, Matrix.submatrix_apply,
+    solublePencilA, solublePencilB]
+  ring
+
+/-- The first basis vector is a nonzero common zero of both quadratic forms. -/
+example : (1 : ℤ) ≠ 0 ∧ solublePencilA 0 0 = 0 ∧ solublePencilB 0 0 = 0 := by
+  decide
+
+/-- The first pairing is unimodular and the second determinant is minus one. -/
+example : Matrix.det solublePencilA = 1 ∧ Matrix.det solublePencilB = -1 := by
+  decide
+
 /-- Restrict an existing Selmer set by a specified local image at every place
 (README §4.17, restricted Selmer set). -/
 def restrictedSelmerSet {A V : Type*} {Q : V → Type*} (S : Set A)
