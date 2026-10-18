@@ -393,6 +393,14 @@ example :
 
 /-! ## Layer 8: Finiteness of global rings -/
 
+/-- At Hilbert weight `(2,4)` with exponents `(1,0)`, the full quotient of §8.6
+has value `1/4` on the rational principal unit `4` at `l=3` when its smooth factor is `1`.
+This distinguishes the supplier's `IsSmoothOrdinary` from `IsOrdinary`. -/
+example :
+    (1 : ℚ) * (1 + 3) ^ (-1 : ℤ) * (1 + 3) ^ (0 : ℤ) = 1 / 4 ∧
+      (1 / 4 : ℚ) ≠ 1 := by
+  norm_num
+
 namespace PolarizedAdapter
 
 /-- At an odd involution, the matrix used in the rank-two prolongation is symmetric. -/
