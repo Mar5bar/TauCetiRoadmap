@@ -10,7 +10,7 @@ This part owns Layers 4–6 and consumes [AnalyticNumberTheoryPartI, Layers 0–
 
 ProfiniteArithmetic Layer 0 uses `Additive TauCeti.zHat`: consume `TauCeti.zHat.toZMod`, `ringEquivPiPadicInt` and its two continuity theorems, `isUnit_iff_component`, `unitsEquivPiPadicInt`, `unitsLift`, `unitsLift_unique` and `continuous_unitsLift` in `TauCeti.Topology.Algebra.Group.Profinite.ZHat.{ZMod,Decomposition,Units}`. RestrictedProducts owns the restricted-product carrier and topology; GlobalNumberFields owns the number-field finite adeles. AdelicAlgebraicGroups owns additive local Haar normalization. The Bost–Connes scaling measure is a particular normalized measure on these carriers.
 
-The representation of a positive functional by a finite inner-regular measure is `LinearMap.exists_isFiniteMeasure_integral_characterSpace_eq`, in `TauCeti.Analysis.CStarAlgebra.CharacterSpaceMeasure`. It assumes a unital commutative complex `C⋆-algebra` and positivity on `star a * a`; normalization of the functional gives total mass one. The work here adds uniqueness, the Bost–Connes restriction and expectation argument, and the corresponding weak topology. The positive-definite-kernel `translation` construction already exists as `TauCeti.IsPositiveDefiniteSub.gnsSpace`, `gnsVector` and `gnsRepresentation` in `TauCeti.Analysis.PositiveDefinite.Function.GNS`; use it for the additive-group specialization. The algebraic positive-functional construction below adds bounded left multiplication for the Bost–Connes generators and its universal `C⋆-norm`. The general matrix and Hilbert-space spectral theories of OperatorTheory are prerequisites. Full and reduced crossed products, the reduced conditional expectation, the amenable full/reduced comparison and the KMS theory of a `C⋆-dynamical` system are OperatorAlgebraDynamics `D1`, `D2` and `D7`; normal representations, nonsingular crossed products and ratio-set classification are consumed from VonNeumannAlgebras. The universal `C⋆-completion` of the Bost–Connes core, its semigroup `dilation` corner and the Bost–Connes instances of these theorems are constructed here.
+The representation of a positive functional by a finite inner-regular measure is `LinearMap.exists_isFiniteMeasure_integral_characterSpace_eq`, in `TauCeti.Analysis.CStarAlgebra.CharacterSpaceMeasure`. It assumes a unital commutative complex `C⋆-algebra` and positivity on `star a * a`; normalization of the functional gives total mass one. The work here adds uniqueness, the Bost–Connes restriction and expectation argument, and the corresponding weak topology. The positive-definite-kernel `translation` construction already exists as `TauCeti.IsPositiveDefiniteSub.gnsSpace`, `gnsVector` and `gnsRepresentation` in `TauCeti.Analysis.PositiveDefinite.Function.GNS`; use it for the additive-group specialization. The algebraic positive-functional construction below adds bounded left multiplication for the Bost–Connes generators and its universal `C⋆-norm`. The general matrix and Hilbert-space spectral theories of OperatorTheory are prerequisites. Full and reduced crossed products, the reduced conditional expectation, the amenable full/reduced comparison and the KMS theory of a `C⋆-dynamical` system are OperatorAlgebraDynamics `D1`, `D2` and `D7`; normal representations, nonsingular crossed products and ratio-set classification are the local prerequisite targets `normalGNSComparison`, `nonsingularCrossedProduct` and `measuredRatioClassification` below. The universal `C⋆-completion` of the Bost–Connes core, its semigroup `dilation` corner and the Bost–Connes instances of these theorems are constructed here.
 
 Layer 5 owns the binary-cubic arithmetic needed by its analytic series: the determinant-inverse twist of row substitution, locally free cubic algebra correspondence, discriminant and trace-dual conditions, finite weighted coefficients and the uniform degree-at-most-three field count. Generic substitution on homogeneous polynomials is already `MvPolynomial.linearSubst` and `linearSubstRep` in `TauCeti.RingTheory.MvPolynomial.LinearSubst`; transpose its column convention for row variables, then add the determinant twist. It also owns the quadratic large sieve and its fourth-moment consequence.
 
@@ -32,13 +32,13 @@ Use AnalyticNumberTheoryPartI’s Conventions for its real/complex power, charac
 
 Mathlib `Cubic.discr` in `Mathlib.Algebra.CubicDiscriminant` is the coefficient invariant `b²c²−4ac³−4b³d−27a²d²+18abcd` on `Cubic A`, for every ring `A`, including tuples with zero leading coefficient. Use this carrier and invariant for binary forms. Tau Ceti `Cubic.toPoly_discr` in `TauCeti.RingTheory.Polynomial.Resultant.Discriminant` identifies it with `Polynomial.discr` over a commutative ring when the leading coefficient is nonzero; that hypothesis is essential because dehomogenization can lower degree. The new target in §5.4 is covariance for the determinant-twisted binary action, not another discriminant definition.
 
-Mathlib `HurwitzZeta.hasSum_hurwitzZeta_of_one_lt_re`, `hasSum_expZeta_of_one_lt_re`, `differentiableAt_hurwitzZeta`, `differentiableAt_hurwitzZeta_sub_one_div` and `hurwitzZeta_residue_one` supply the circle-parameter series, continuation and residue. `DirichletCharacter.LFunction_eq_LSeries`, `LFunction_changeLevel` and `IsPrimitive.completedLFunction_one_sub` supply the finite-character series, deleted factors and primitive functional equation. `Complex.integral_cpow_mul_exp_neg_mul_Ioi` supplies Gamma–Laplace for a positive real scale; §4.4a adds a complex scale with positive real part.
+Mathlib `HurwitzZeta.hasSum_hurwitzZeta_of_one_lt_re`, `hasSum_expZeta_of_one_lt_re`, `differentiableAt_hurwitzZeta`, `differentiableAt_hurwitzZeta_sub_one_div` and `hurwitzZeta_residue_one` supply the circle-parameter series, continuation and residue. `DirichletCharacter.LFunction_eq_LSeries`, `LFunction_changeLevel` and `IsPrimitive.completedLFunction_one_sub` supply the finite-character series, deleted factors and primitive functional equation. `Complex.integral_cpow_mul_exp_neg_mul_Ioi` supplies Gamma–Laplace for a positive real scale; §4.5c adds a complex scale with positive real part.
 
 Mathlib `HeckeCoset`, `HeckeCosetModule` and `IsHeckeTriple.of_diagonal` supply the coset carriers. Tau Ceti `HeckeCoset.degree_eq_relIndex`, `HeckeCosetModule.single`, `single_mul_single` and `mul_single_single`, in `TauCeti.NumberTheory.HeckeRing.Basic` and `.Multiplication`, supply relative-index degree, basis vectors and their multiplication; `.Associativity` supplies `HeckeCosetModule.instRingHeckeRing`. The Bost–Connes targets specialize these APIs to the rational affine pair. The profinite, universal-cover, positive-functional and linear-substitution suppliers are specified in Prerequisites and boundaries.
 
 ### From AnalyticNumberTheoryPartI
 
-Consume [AnalyticNumberTheoryPartI, Exact supplier contracts](../AnalyticNumberTheoryPartI/README.md#exact-supplier-contracts) for ArithmeticDirichletSeries, LFunctions/ZerosOfLFunctions, GlobalNumberFields, Tate integrals, class fields and contours. Its Layer 0 supplies quantitative prime estimates, §0.23a the normalized slit-plane Gamma logarithm and differentiated Stirling remainders, §2.5 Dedekind continuation, §2.15 bounded-degree residue estimates, §3.1 divisor subpower bounds, and §§3.23–3.24 the proved second and fourth moments. These are specified analytic interfaces with their stated uniformity, not arbitrary function-valued data.
+Consume [AnalyticNumberTheoryPartI, Exact supplier contracts](../AnalyticNumberTheoryPartI/README.md#exact-supplier-contracts) for ArithmeticDirichletSeries, LFunctions/ZerosOfLFunctions, GlobalNumberFields, Tate integrals, class fields and contours. Its Layer 0 supplies quantitative prime estimates, §0.23a the normalized slit-plane Gamma logarithm and differentiated Stirling remainders, §2.5 Dedekind continuation, §2.15 bounded-degree residue estimates, §3.1 divisor subpower bounds, §3.23 the second moment under its `BBRFiniteInput` hypothesis, and §3.24 the unconditional fourth moment. These are specified analytic interfaces with their stated uniformity, not arbitrary function-valued data.
 
 ### From AutomorphicLFunctionsAndLocalFactors
 
@@ -50,9 +50,17 @@ Consume the same AL.0 vector-space comparison for the Fourier transform and Pois
 
 The scalar compact-surface application uses the [§6.12a](#s6-12a) in Layer 6. AS.4's automorphic Hilbert sums and AS.6's compactly supported smooth trace tests are not used as exports of a scalar geometric spectrum or a Gaussian trace theorem. The Gaussian is handled directly by its radial kernel and absolutely convergent orbital integrals.
 
-### From PseudodifferentialOperators
+### Local compact scalar realization
 
-Consume [PseudodifferentialOperators P7–P7a][R33]. `P7` gives, for a Hermitian bundle on a closed Riemannian manifold, the self-adjoint `H²` realization of 1+∇*∇ with a complete smooth eigenbasis and finite spectral cutoffs. P7a specializes it to the trivial line bundle on a closed connected Riemannian manifold (with a free finite isometric group action, here the trivial group): the nonnegative scalar Laplacian d*d on `H²`, with pure point spectrum, a smooth eigenbasis and finite multiplicities including the kernel, identified with the Friedrichs realization. Use that result on the present hyperbolic `X`. The underlying compact spectral theorem is already in pinned Mathlib (`ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot` and `ContinuousLinearMap.finite_dimensional_eigenspace` in `Mathlib.Analysis.InnerProductSpace.Spectrum`); do not develop it again. Layer 6 owns only the hyperbolic chart/measure/sign comparison, identification of the explicit heat kernel with this imported realization, Gaussian orbital integrals, heat-trace expansion and Weyl constant. The general realization and regularity theorems belong to PseudodifferentialOperators P7–P7a.
+<a id="compact-scalar-realization"></a>
+
+**Closed-manifold scalar realization (`compactScalarRealization`).** For a smooth closed connected Riemannian manifold of positive dimension, construct the nonnegative scalar operator `A=−div grad` on complex `L²` of its Riemannian measure, with domain `H²`. Identify it with the Friedrichs operator of the energy form on `H¹`. Prove self-adjointness, compactness of `(1+A)^(−1)`, a complete smooth orthonormal eigenbasis, finite multiplicities and finite spectral cutoffs; the eigenvalues, with multiplicity, tend to infinity. Its kernel consists of constants. Build this target before §6.12b.
+
+Use DifferentialGeometry Layer 12 for the metric, measure and Green identity. Transfer PDE Lane A's Sobolev, density and Rellich targets and Lanes D–E's weak existence and elliptic regularity through a finite atlas and partition of unity. This target includes the manifold Sobolev adapter: coordinate-independent `H^k`, compact `H¹→L²`, the global `H²` elliptic graph-norm estimate, and bootstrap regularity. Apply the existing compact self-adjoint spectral theorem to the resolvent: `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot` and `ContinuousLinearMap.finite_dimensional_eigenspace` in `Mathlib.Analysis.InnerProductSpace.Spectrum`. The hyperbolic kernel and Weyl constant remain Layer 6 targets.
+
+**Checks.** On the unit circle, the eigenvalues are `n²`, with multiplicity two for `n>0` and one for zero. A disjoint union has one zero mode per component, so the one-dimensional kernel conclusion requires connectedness. On a manifold with boundary, unrestricted `H²` is not the Friedrichs domain; the closed-manifold hypothesis is essential.
+
+See [Helffer][R126], §7.6, p.56 (Friedrichs realization, `H²` domain and compact resolvent), and §7.3, p.52 (compact-resolvent spectral theorem). *Needs:* DifferentialGeometry Layer 12; PDE Lane A and Lanes D–E; the pinned compact self-adjoint spectral theorem.
 
 ### Further input from AutomorphicSpectralTheory
 
@@ -73,13 +81,49 @@ Consume AdelicAlgebraicGroups AA.0 for normalized additive Haar on ℚ_p with `m
 
 ### From OperatorAlgebraDynamics
 
-OperatorAlgebraDynamics is a Tau Ceti roadmap; D1, D2 and D7 supply its generic crossed-product and equilibrium theory. Consume [OperatorAlgebraDynamics D1][R38]: the full crossed product of a `C⋆-dynamical` system, the integrated form of a covariant pair and the universal property for nondegenerate covariant representations. Consume [D2][R39]: the regular covariant representation and reduced crossed product; for discrete G the dense finite-sum algebra and the faithful conditional expectation `E(Σa_g u_g)=a_e`; and the theorem that an amenable group gives `A⋊G≅A⋊_rG` for every action. Consume [D7][R40]: entire analytic elements, `β-KMS` states defined by bounded continuous functions on the closed strip, the equivalent analytic identity `ω(aτ_(iβ)(b))=ω(ba)` and its sufficiency on a norm-dense invariant algebra of entire elements, closedness of the KMS set under weak-* limits, ground states, and the theorem that weak-* limits of `β-KMS` states as `β→∞` are ground states on a unital algebra. Here `G=Q_+×` is discrete abelian. Layer 6 verifies the hypotheses of these theorems for the Bost–Connes system; it does not reconstruct crossed products, the reduced expectation, the amenable norm comparison or the dense-core KMS criterion.
+OperatorAlgebraDynamics is a Tau Ceti roadmap; D1, D2 and D7 supply its generic crossed-product and equilibrium theory. Consume [OperatorAlgebraDynamics D1][R38]: the full crossed product of a `C⋆-dynamical` system, the integrated form of a covariant pair and the universal property for nondegenerate covariant representations. Consume [D2][R39]: the regular covariant representation and reduced crossed product; for discrete G the dense finite-sum algebra and the faithful conditional expectation `E(Σa_g u_g)=a_e`; and the theorem that an amenable group gives `A⋊G≅A⋊_rG` for every action. Consume [D7][R40]: entire analytic elements, `β-KMS` states defined by bounded continuous functions on the closed strip, the equivalent analytic identity `ω(aτ_(iβ)(b))=ω(ba)` and its sufficiency on a norm-dense invariant algebra of entire elements, closedness of the KMS set under weak-* limits, ground states, and the theorem that weak-* limits of `β-KMS` states as `β→∞` are ground states on a unital algebra. Here `G=Q_+×` is discrete abelian. Layer 6 verifies the hypotheses of these theorems for the Bost–Connes system; it does not reconstruct these `C⋆` crossed products, the reduced expectation, the amenable norm comparison or the dense-core KMS criterion.
 
-### From AmenableGroups and VonNeumannAlgebras
+### Local amenability input
 
-Consume [AmenableGroups Layers 5–6][R41]: the finite-test Følner criterion and amenability of arbitrary discrete abelian groups, specialized to `Q_+×`. OperatorAlgebraDynamics `D2` turns this amenability into equality of full and reduced crossed products; the general amenability and norm-comparison theorems belong to these suppliers.
+<a id="bc-positive-rationals-amenable"></a>
 
-Consume [VonNeumannAlgebras][R42]: `V0` for completed GNS, cyclic vector, recovery and uniqueness; V1/V4 for normal representations and their von Neumann closures; `V2` for corners and central support; `V8` for countable nonsingular group actions on standard `σ-finite` spaces, Radon–Nikodym unitaries, the regular crossed product, faithful normal expectation and center/free-ergodic factor criterion; `V11` for the measured relation, modular-spectrum/ratio-set comparison and continuous-core/associated-flow type classification. These are general imported objects and theorems, not additional AN definitions. The local tasks are the pushforward-at-target convention comparison, the BC finite-adele action and its arithmetic ratio witnesses, and the GNS compression by `p=1_Ẑ`. In particular Neshveyev's arithmetic proof is not used as a proof of general modular classification.
+**Positive rational amenability (`bcPositiveRationals_amenable`).** For every finite `S⊂Q_+×` and `ε>0`, construct a finite nonempty `F⊂Q_+×` with `|qF△F|/|F|<ε` for every `q∈S`. Unique prime factorization identifies this group with the finite-support integer exponent vectors on the primes. Choose finitely many prime coordinates containing every numerator and denominator in S and use exponent boxes `[-N,N]^k`. For a translation with exponents `a_j`, the relative symmetric difference is at most `2Σ_j|a_j|/(2N+1)`. Choosing N for the maximum over S proves the simultaneous finite-test statement. Enumerating primes and increasing the boxes gives a Følner net for the whole group.
+
+The normalized indicators give Reiter `ℓ¹` densities; their integration functionals have a weak-* cluster point which is a positive normalized invariant mean. Identify this input with OperatorAlgebraDynamics D2's amenability/Reiter interface before §6.33f; D2 owns the full/reduced norm comparison.
+
+**Checks.** For `S={2}`, powers `2^a`, `−N≤a≤N`, give symmetric difference ratio `2/(2N+1)`. The test set `{2/3,5/7}` requires all four prime coordinates, including negative exponents. For `S={1}` a singleton suffices; every constructed box is nonempty, including the box with no prime coordinates.
+
+See [Juschenko][R128], Theorem 4.2.3 and proof, pp.32–34, for the Følner/Reiter/invariant-mean comparison. *Needs:* unique prime factorization of positive rationals; weak-* compactness of the dual unit ball; OperatorAlgebraDynamics D2's Reiter interface.
+
+### Local measured operator foundations
+
+<a id="local-measured-operator-foundations"></a>
+
+These prerequisites supply the general carriers and comparisons used in §§6.5 and 6.41–6.42. The arithmetic ratio witnesses use their classification theorem after its construction.
+
+<a id="normal-gns-comparison"></a>
+
+**Normal GNS and closures (`normalGNSComparison`).** Use weak-operator-closed unital star subalgebras of bounded operators on complex Hilbert spaces as von Neumann algebras. Build their commutants, bicommutant/strong-closure comparison, ultraweak topology and predual, normal positive functionals, and corners `pMp` with central support. Starting from Mathlib's `PositiveLinearMap.GNS` and `gnsStarAlgHom`, prove cyclic-vector recovery and unitary uniqueness of the completed GNS representation. For a faithful normal state on a von Neumann algebra, prove that this representation is faithful and normal. If a unital `C⋆` subalgebra is ultraweakly dense, Kaplansky density identifies its state GNS closure with this represented von Neumann algebra. Include the faithful normal semifinite weight construction on its square-integrable left ideal, with a normal representation and vector-map recovery there. Construct the closed Tomita operator from `a↦a*`, its polar factors `J,Δ`, and prove that `Δ^(it)` induces the modular automorphism group with its faithful-normal KMS characterization; these supply the modular theory used by the next two prerequisites.
+
+**Checks.** The normalized trace on `M₂(ℂ)` gives a faithful normal GNS representation on its four-dimensional Hilbert–Schmidt space. The first-coordinate vector state on `M₂(ℂ)` has a nonzero GNS null ideal, so faithfulness of the state cannot be inferred from positivity and normalization. The zero projection gives the zero corner; a nonzero projection in a factor has central support one.
+
+See [Hiai][R127], §§1.1–1.4, pp.3–6, and §3.1, Proposition 3.8, pp.23–24, for closures, normal GNS and compression; §2, Theorems 2.2 and 2.14, pp.10–19, and §7.1, pp.63–65, give the modular construction and KMS characterization. *Needs:* Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, bounded operators and Hilbert completion; weak operator and dual weak-* topologies.
+
+<a id="nonsingular-crossed-product"></a>
+
+**Nonsingular crossed products (`nonsingularCrossedProduct`).** For a countable discrete group G acting by measurable invertible nonsingular maps on a standard sigma-finite measure space `(X,μ)` with `μ≠0`, construct the regular von Neumann crossed product on `ℓ²(G,L²(X,μ))`. Its generators are `π(f)ξ(h,x)=f(hx)ξ(h,x)` and `u_gξ(h,x)=ξ(g⁻¹h,x)`. Prove covariance, Fourier-coefficient recovery and a faithful normal conditional expectation to `L∞(X,μ)`. For an essentially free action, its center is `L∞(X,μ)^G`, hence ergodicity makes it a factor. Establish the Radon–Nikodym unitary change of coordinates with `ρ_g=d(g_*μ)/dμ` at the target. The expectation composed with integration is a faithful normal semifinite weight; compute its modular action as `σ_t(u_g)=π(ρ_g^(−it))u_g`. This target includes the carrier, expectation and center theorem used in §6.41.
+
+**Checks.** A finite group acting freely and transitively on itself with counting measure gives a full matrix factor and the diagonal expectation. The trivial action on a two-point probability space has a two-dimensional center. A nontrivial group acting on one point fails essential freeness, so its crossed-product center cannot be inferred from invariant scalar functions alone.
+
+See [Hiai][R127], Lemma 10.1, Definition 10.2 and Example 10.3, pp.89–90, and Theorems 10.12–10.13, pp.93–96. Obtain the discrete expectation by the identity matrix coefficient and the free-action center theorem by its Fourier coefficients. *Needs:* `normalGNSComparison`; Radon–Nikodym derivatives; countable Hilbert sums; OperatorAlgebraDynamics D1–D2 for the regular `C⋆` comparison.
+
+<a id="measured-ratio-classification"></a>
+
+**Ratio sets, cores and type (`measuredRatioClassification`).** For the preceding essentially free ergodic nonsingular action, construct its measured orbit relation and ratio set using positive-measure returns in `A∩gA` and target derivative `ρ_g`. Prove invariance under equivalent measures and identify the positive ratio group with the modular invariant of the relation factor. Construct the continuous core from the modular action of a faithful normal semifinite weight; identify its central dual flow with the flow on the measurable quotient of `R_+×X` by `g(t,x)=(ρ_g(gx)t,gx)`. Prove the classification consequence `r=[0,∞) ⇔` the factor has type `III₁`, equivalently its flow of weights is trivial. Construct the factor-type predicates from finite projections and the modular invariant. For a nonzero modular-invariant projection p, identify `core(pMp)=p core(M)p`; if p has full central support in the core, identify the central dual flows. Every nonzero corner of a type `III₁` factor has type `III₁`. These are prerequisites of the BC compression and classification in §§6.41–6.42.
+
+**Checks.** A finite transitive free action with counting measure has ratio set `{1}` and a finite matrix factor, so it fails the `III₁` criterion. A zero corner has no faithful normalized state and is excluded. A rank-one corner of `M₂(ℂ)` remains finite; fullness alone cannot imply `III₁`. For `ρ_2=2^β`, positive imaginary Tomita time multiplies `u_2` by `2^β`, the reciprocal of its positive imaginary BC-time multiplier.
+
+See [Neshveyev][R117], §1, pp.1–2, for the return convention and relation/flow comparison, and [Hiai][R127], Theorem 10.15 and Remark 10.18, pp.98–101, for the continuous core and type classification; §3.1, Proposition 3.8, pp.23–24, gives the compression framework. *Needs:* `normalGNSComparison`; `nonsingularCrossedProduct`; Radon–Nikodym cocycles and measurable quotients; OperatorAlgebraDynamics D7's modular/KMS convention.
 
 ### From FuchsianOrbifolds
 
@@ -111,7 +155,7 @@ Each abbreviation expands to the exact prerequisite list below; these are shared
 
 ## Layer 4: Lerch continuation, complex Hurwitz zeta and Barnes G
 
-General-k moment normalization is conjectural. Only positivity/convergence of its arithmetic and Barnes constants and the `k=1,2,3` checks are proved (§§4.13–4.14); the proved second/fourth moments are AnalyticNumberTheoryPartI §§3.23–3.24.
+General-k moment normalization is conjectural. Only positivity/convergence of its arithmetic and Barnes constants and the `k=1,2,3` checks are proved (§§4.13–4.14); the second-moment comparison uses AnalyticNumberTheoryPartI §3.23 under `BBRFiniteInput`, and the fourth-moment comparison uses its unconditional §3.24.
 
 Start with absolutely convergent Lerch and complex-Hurwitz series, then specify analytic continuation on actual covering spaces with explicit loops and logarithm conventions. The two Lerch functional equations and the boundary limits use the same continuation. The Barnes product gives the normalization needed for moments and spectral determinants.
 
@@ -527,11 +571,11 @@ See [100][R100], Equations (4)–(6), (15)–(19), pp.59–61; Barnes formula (8
 
 ### 4.14 Moment model as a conditional comparison
 
-For each fixed `k>0`, the statement `∫_0^T|ζ(1/2+it)|^(2k)dt∼a(k)g(k)T(log T)^(k²)` is a conjectural model with the arithmetic Euler factor `a(k)` and random-matrix factor `g(k)` defined by this roadmap’s zeta-moment-constants target. No asymptotic for general k is asserted unconditionally; `k=1` and2 are checked against the proved moments.
+For each fixed `k>0`, the statement `∫_0^T|ζ(1/2+it)|^(2k)dt∼a(k)g(k)T(log T)^(k²)` is a conjectural model with the arithmetic Euler factor `a(k)` and random-matrix factor `g(k)` defined by this roadmap’s zeta-moment-constants target. No asymptotic for general k is asserted unconditionally. The quantitative `k=1` comparison consumes AnalyticNumberTheoryPartI §3.23 under its `BBRFiniteInput` hypothesis and carries that hypothesis explicitly. The `k=2` comparison uses its unconditional §3.24. Positivity and evaluation of `a(k),g(k)` are unconditional.
 
-Use the local arithmetic/Barnes factors in Keating–Snaith's normalization. Compare `k=1,2` with proved moments; other k remain hypotheses. A later Haar-unitary model can consume these constants, but is not a prerequisite.
+Use the local arithmetic/Barnes factors in Keating–Snaith's normalization. Compare `k=1` under `BBRFiniteInput` and `k=2` unconditionally with the supplied moments; other k remain hypotheses. A later Haar-unitary model can consume these constants, but is not a prerequisite.
 
-The quantitative proof and the normalization comparisons are required separately.
+The quantitative proof and the normalization comparisons are required separately. Checks: `a(1)g(1)=1` independently of `BBRFiniteInput`; under that input the second moment has leading term `T log T`; unconditionally `a(2)g(2)=1/(2π²)` matches the fourth moment.
 
 See [100][R100], Equations (4), (5), (15), (19), pp.59–61.
 
@@ -782,7 +826,7 @@ Fix `d≥1` and `ε>0`. There is `C(d,ε)>0`, chosen before F and `n`, such that
 `C(d,ε) n^(1/2+ε) |disc F|^(1/2+ε) h₂(F)`.
 Here `h₂(F)=|Cl(F)[2]|`, including its identity. Counting subfields in a fixed algebraic closure gives the same bound up to a factor at most 3, absorbed in `C`. Summing `n≤X` gives the corresponding `O(d,ε)(X^(3/2+ε)|disc F|^(1/2+ε)h₂(F))` cumulative bound. The base field itself contributes at `n=1`.
 
-The local theorem `relativeClassTorsion.bound` states: for an arbitrary number-field extension `[E:F]=r≥1` and integer `ℓ≥1`, `|ker(Nm:Cl(E)→Cl(F))[ℓ]| ≪_[E:ℚ],ε Norm(d(E/F))^(1/2+ε)|disc F|^((r−1)/2+ε)` (LOWW Lemma `2.5`, p.8). Its proof uses the class-group norm cokernel bound `≤r`, the class number formula and bounded-degree residue estimates of AnalyticNumberTheoryPartI §2.15, together with `relativeRegulatorRatio.lower`, the uniform lower bound `R_E/R_F≳_[E:ℚ]1` for the relative unit covolume (rank-zero regulators use the convention `R=1`). The latter is the Friedman–Skoruppa regulator-ratio theorem cited in that proof, not an assertion that relative torsion is bounded independently of discriminants. These two bounds are local targets used by this count. For `E=F` the norm kernel is trivial and the regulator ratio is 1; both bounds retain this case. The norm cokernel, rather than the norm kernel, is bounded by `r`.
+The local theorem `relativeClassTorsion.bound` states: for an arbitrary number-field extension `[E:F]=r≥1` and integer `ℓ≥1`, `|ker(Nm:Cl(E)→Cl(F))[ℓ]| ≪_[E:ℚ],ε Norm(d(E/F))^(1/2+ε)|disc F|^((r−1)/2+ε)` (LOWW Lemma `2.5`, p.8). Its proof uses the class-group norm cokernel bound `≤r`, the class number formula and the fixed-degree subpower residue lower and upper bounds of AnalyticNumberTheoryPartI §2.31e (`dedekind_residue_subpower_lower` for the lower bound), together with `relativeRegulatorRatio.lower`, the uniform lower bound `R_E/R_F≳_[E:ℚ]1` for the relative unit covolume (rank-zero regulators use the convention `R=1`). The latter is the Friedman–Skoruppa regulator-ratio theorem cited in that proof, not an assertion that relative torsion is bounded independently of discriminants. These two bounds are local targets used by this count. For `E=F` the norm kernel is trivial and the regulator ratio is 1; both bounds retain this case. The norm cokernel, rather than the norm kernel, is bounded by `r`. Use `κ_E/κ_F≪_[E:ℚ],a D_E^a D_F^a`, substitute `D_E=Norm(d(E/F))D_F^r`, and choose `a>0` with `(r+1)a≤ε` before applying the regulator-ratio lower bound.
 
 For the field count, quadratic class field theory leaves `h₂(F)` choices after local ramification data are fixed. Divisor and local-unit choices at fixed degree contribute `n^ε`, including primes over 2 and 3. An `S₃` extension has a quadratic resolvent of discriminant dividing `n`; its cyclic cubic closure over that resolvent is controlled by the displayed relative 3-torsion bound. Handle cyclic cubics by the absolute class-group bound and the same local data. Split `ε` among these finite divisor estimates. API: `smallDegreeFields.finite`, `.pointwise_bound`, `.summatory_bound`; the weighted ring-series bound below also uses the orders generating series, since this theorem counts fields only.
 
@@ -794,7 +838,7 @@ For the field count, quadratic class field theory leaves `h₂(F)` choices after
 - The constant may depend on d and `ε` but not on `F`, its signature or `n`; qualitative Hermite finiteness would not establish this uniform bound.
 - For `E=F` the norm kernel has one element and `R_E/R_F=1`; `ℓ=1` gives trivial torsion for every extension.
 
-See [107][R107], Lemma 2.5 and proof p.8, Lemma 3.5 and proof p.11, Proposition 3.4 pp.10–11; its conventions use the norm of the relative discriminant. *Needs:* ClassFieldTheory global reciprocity and local conductor groups; AnalyticNumberTheoryPartI §§2.5, 2.15 for bounded-degree class-number/residue bounds; relative norm exact sequence and the stated regulator-ratio bound.
+See [107][R107], Lemma 2.5 and proof p.8, Lemma 3.5 and proof p.11, Proposition 3.4 pp.10–11; its conventions use the norm of the relative discriminant. *Needs:* ClassFieldTheory global reciprocity and local conductor groups; AnalyticNumberTheoryPartI §§2.5, 2.31e for the class-number formula and both fixed-degree subpower residue bounds; relative norm exact sequence and the stated regulator-ratio bound.
 
 <a id="s5-8"></a>
 
@@ -1209,7 +1253,7 @@ at a complex place,
 `K_C(z,u)=(2π)^z Γ(z)^(−1)|u|^(z−1) K_(z−1)(4π|u|)`.
 Here the complex `|u|` in the Bessel expression is ordinary magnitude; the local adelic norm is its square. Evaluate these integrals first in the chamber by Gamma–Laplace and Fourier, then continue in `Re z>1`. Repeated integration by parts in the archimedean Fourier integrals bounds `K_∞` by `|u|_∞^(−ℓ)(1+|z|)^ℓ`. For each fixed strip `1<Re z≤M`, the finite Euler factors give `|1/ζ_F(z)|≤ζ_F(Re z)≤1+C_F/(Re z−1)≤C_(F,M)/(Re z−1)`. The last constant depends on `M`; it is not a valid field-only bound on the full half-plane. Regroup the rational frequency sum by integral ideals, using the different and `|v|_A=|v|_∞/N(id(v))`. The remaining sum is `ζ_F(Re z−1+ℓ)ζ_F(ℓ)≤ζ_F(ℓ)²`. This proves the precise t exponent and the bound on each such vertical strip, which is the stated form. A constant uniform as `Re z→∞` cannot be obtained this way, since `ζ_F(σ)≪1/(σ−1)` fails for large `σ`; no consumer needs it. Compare Wright Lemma6.2 and the proof of Lemma6.3, pp.525–526; the constant term, residue and Bessel normalizations are Lemma6.1, pp.523–525.
 
-API: `wrightE.constant_term`, `.nonconstant_fourier`, `.residue_two`, `.fourier_decay`, `.smoothed_weight_bound`. Checks: at `t=2,z=2` the first constant-term monomial is4, not2; writing `r=|t₁/t₂|` gives `r^(z/2)`, since `r=t²`. Over Q the Bessel argument `is2π|u|`; a complex place `has4π|u|`. For `ℓ=2` and `Re z>1` the ideal sum converges; `ℓ=1` is excluded. The pole at `z=2` is in the constant term, while `E′` stays holomorphic. *Needs:* AutomorphicSpectralTheory §§1.2–1.5; AL.0 local Fourier and AL.1 Tate integrals; [§5.3b](#s5-3b); [§5.3a][R130]; [§4.5c][R327].
+API: `wrightE.constant_term`, `.nonconstant_fourier`, `.residue_two`, `.fourier_decay`, `.smoothed_weight_bound`. Checks: for the same torus input `t₁=2,t₂=1/2`, `sqrt(|t₁/t₂|)=2`, its square is 4, and squaring the raw ratio gives 16; mirror this with the adelic `t(g)` adapter. At `t=2,z=2` the first constant-term monomial is4, not2; writing `r=|t₁/t₂|` gives `r^(z/2)`, since `r=t²`. Over Q the Bessel argument `is2π|u|`; a complex place `has4π|u|`. For `ℓ=2` and `Re z>1` the ideal sum converges; `ℓ=1` is excluded. The pole at `z=2` is in the constant term, while `E′` stays holomorphic. *Needs:* AutomorphicSpectralTheory §§1.2–1.5; AL.0 local Fourier and AL.1 Tate integrals; [§5.3b](#s5-3b); [§5.3a][R130]; [§4.5c][R327].
 
 <a id="s5-21h"></a>
 
@@ -1291,11 +1335,13 @@ See [103][R103], Theorem 6.1, pp.532–533.
 
 <a id="s5-21r"></a>
 
-**§5.21r Fourier transform of the integral lattice.** For self-dual binary-cubic pairing at `v`, `Fourier(1_(O_v^4))(x)=|3|_v^(−1)q_v^(−2e_v)·1_(O_v^4)(δ_v(x1,3x2,3x3,x4))`, where `δ_v` generates the local different in the source convention. This identifies the trace-divisible dual selector and retains the factor at v|3.
+**§5.21r Fourier transform of the integral lattice.** For self-dual binary-cubic pairing at `v`, `Fourier(1_(O_v^4))(x)=|3|_v^(−1)q_v^(−2e_v)·1_(O_v^4)(δ_v(x1,x2/3,x3/3,x4))`, where `δ_v` generates the local different in the source convention. This identifies the trace-divisible dual selector and retains the factor at v|3.
 
-Compute the annihilator of the coordinate integral lattice under the alternating pairing and different-normalized additive character. Fourier of its indicator is its self-dual mass times the annihilator indicator. The two middle coordinates acquire 3, yielding the trace-divisible dual.
+Compute the annihilator of the coordinate integral lattice under the alternating pairing and different-normalized additive character. Fourier of its indicator is its self-dual mass times the annihilator indicator. The annihilator conditions are `δ_v x1, δ_v x2/3, δ_v x3/3, δ_v x4∈O_v`; thus the middle coordinates of its support are multiples of `3δ_v^(−1)` and give the trace-divisible dual.
 
-See [105][R105], Global test-function comparison before (6.4), p.69.
+**Checks.** Over `ℚ₃` with `δ=1`, the support is `ℤ₃×3ℤ₃×3ℤ₃×ℤ₃`; `(0,1/3,0,0)` is outside it and its Fourier integral is zero. At the origin the transform is `|3|_v^(−1)q_v^(−2e_v)`, the lattice mass. At places prime to 3 with trivial different, the support is `O_v⁴`.
+
+See [105][R105], §2 pairing and Fourier definition, pp.37–38, and §6 global test-function comparison, p.69; the support here is the annihilator for that pairing.
 
 <a id="s5-21s"></a>
 
@@ -1364,8 +1410,8 @@ Use the primitive completed functional equation with its exact conductor and par
 **Checks.**
 
 - For `i=0` or 2, `r_i,η(0)=0`.
-- The `ψ2` ratio has parity `κ=0` and conductor factor 8.
-- The `ψ−2` ratio has `Γ((2−s)/2)/Γ((s+1)/2)`, retaining `κ=1`.
+- For every `η`, `r_(ψ2,η)(1/2)=1`.
+- For every `η`, `r_(ψ−2,η)(0)=√8/π`; the conductor is 8 and `Γ(1/2)=√π`. Mirror these evaluations in Lean with the `FunctionalSystem.localRatio` construction.
 
 See [102][R102], (32)–(34), pp.362–363.
 
@@ -1669,9 +1715,11 @@ See [102][R102], §3 proof after (35), p.363.
 
 <a id="s5-30p"></a>
 
-**§5.30p Functional branches agree on overlaps.** On every connected nonempty open overlap of the `R1,αR1,βR2,αR3` tube components, both branches have the same meromorphic germ: transport to the original absolute-convergence tube and use the identity theorem after clearing all encountered pole factors. Intersections used here are convex real tubes, hence connected.
+**§5.30p Functional branches agree on overlaps.** On each connected nonempty open overlap of the `R1,αR1,βR2,αR3` branches, the meromorphic germs agree after clearing the encountered pole factors. For swap, compare on `Re s,Re w>1`. For reflection, compare the normally convergent squarefree expansions on `0<Re s<1` and `Re w` sufficiently large, using §5.30d's primitive functional equation and the deleted Euler factors. The comparison is locally uniform on compact subsets of this strip with a sufficiently large w threshold.
 
-Clear the finite polar factors on each overlap. The transported functional equations agree on a nonempty absolute-convergence subdomain. The identity theorem extends agreement to the connected convex tube intersection; perform each successive gluing with that same normalization.
+The identity theorem extends these identities to each connected overlap after pole clearance. The swap overlap `R1∩αR1` is convex. The reflection overlap `R2∩βR2=R1` is convex and contains that squarefree comparison region. The last overlap `R3∩αR3=R2` is connected because `R1` and `αR1` are convex with nonempty intersection; it is not convex.
+
+**Checks.** Requiring `Re s>1` and `Re(1−s)>1` gives the empty set, so it supplies no reflection comparison. The point `(1/2,3)` lies in the squarefree comparison region. The points `(2,0),(0,2)` belong to `R3∩αR3`, but their midpoint `(1,1)` does not.
 
 See [102][R102], Lemma 2 proof, pp.362–363.
 
@@ -1909,9 +1957,9 @@ See [116][R116], §4, pp.13–15; Sarnak §1, p.603.
 
 ### 6.5 Bost–Connes ratio-witness convention
 
-For the canonical `β-scaling` measure on `A_f`, `β>0`, compare positive-rational `dilation` witnesses with V11's measured-relation cocycle. Since `q_*μβ(E)=μβ(q⁻¹E)=q^βμβ(E)`, its pushforward density at the target is `q^β`. Thus a witness for `λ≥0` is a positive-measure subset of `A∩qA` on which `|q^β−λ|<ε`, for each positive-measure measurable A and `ε>0`. This is a BC specialization, not another ratio-set carrier.
+For the canonical `β-scaling` measure on `A_f`, `β>0`, compare positive-rational `dilation` witnesses with `measuredRatioClassification`'s measured-relation cocycle. Since `q_*μβ(E)=μβ(q⁻¹E)=q^βμβ(E)`, its pushforward density at the target is `q^β`. Thus a witness for `λ≥0` is a positive-measure subset of `A∩qA` on which `|q^β−λ|<ε`, for each positive-measure measurable A and `ε>0`. This is a BC specialization, not another ratio-set carrier.
 
-- `ratioWitness_iff`: The displayed BC witnesses are equivalent to membership in V11's ratio set for this action.
+- `ratioWitness_iff`: The displayed BC witnesses are equivalent to membership in `measuredRatioClassification`'s ratio set for this action.
 - `pushforwardDensity`: The target density of `dilation q` is `q^β`; the inverse `dilation` has density `q^(−β)`.
 
 **Checks.**
@@ -1923,7 +1971,7 @@ For the canonical `β-scaling` measure on `A_f`, `β>0`, compare positive-ration
 
 See [117][R117], §1 ratio-set definition, p.2.
 
-*Needs:* [§6.2][R440]; VonNeumannAlgebras V8/V11; `MeasureTheory.Measure.rnDeriv`.
+*Needs:* [§6.2][R440]; `nonsingularCrossedProduct` and `measuredRatioClassification`; `MeasureTheory.Measure.rnDeriv`.
 
 <a id="s6-6"></a>
 
@@ -2120,13 +2168,13 @@ See [119][R119], §3.1 Lemma3.5 and proof, p.22; §3.3 explicit transform and Le
 
 <a id="s6-12b"></a>
 
-**§6.12b The compact discrete-spectrum input.** Import the P7–P7a scalar realization on `L²(X,dμ)` from [PseudodifferentialOperators][R120]. Its smooth complete eigenbasis and finite cutoffs give eigenvalues `0=λ0<λ1≤λ2≤⋯→∞`, with multiplicity. Green's identity and connectedness identify the zero eigenspace with constants. The `H²` operator is the negative of DifferentialGeometry's div-grad operator in the hyperbolic charts; matching `dμ` fixes its `L²` inner product. No automorphic Hilbert-sum theorem is used for this import.
+**§6.12b The compact discrete-spectrum input.** Apply the local [compactScalarRealization][R120] on `L²(X,dμ)`, constructed before this target. Its smooth complete eigenbasis and finite cutoffs give eigenvalues `0=λ0<λ1≤λ2≤⋯→∞`, with multiplicity. Green's identity and connectedness identify the zero eigenspace with constants. The `H²` operator is the negative of DifferentialGeometry's div-grad operator in the hyperbolic charts; matching `dμ` fixes its `L²` inner product.
 
-The local comparison target `scalarHeatKernel_spectral_multiplier` asserts `P_t φj=exp(−tλj)φj` for the preceding explicit periodization and this imported scalar realization. Both sides solve the heat equation with initial value `φj`, so the energy uniqueness argument proves equality. `L²` contraction and density extend the equality to all `L²` data. Consequently its spectral domain agrees with the imported `H²` domain. This proves the geometric/spectral identification without redoing P7's generic compactness, regularity, self-adjointness or spectral theorem. The Weyl constant is determined below by the hyperbolic trace.
+The local comparison target `scalarHeatKernel_spectral_multiplier` asserts `P_t φj=exp(−tλj)φj` for the preceding explicit periodization and this scalar realization. Both sides solve the heat equation with initial value `φj`, so the energy uniqueness argument proves equality. `L²` contraction and density extend the equality to all `L²` data. Consequently its spectral domain agrees with the `H²` domain of `compactScalarRealization`. This identifies the explicit geometric kernel with the operator constructed by that prerequisite. The Weyl constant is determined below by the hyperbolic trace.
 
 **Checks.** Connectedness gives one zero mode; on a disjoint union there is one per component. A positive eigenmode has multiplier `exp(−tλ)<1`. Reversing the differential sign gives growth and fails the heat equation. Eigenvalue multiplicity is the eigenspace dimension, not the count of distinct spectral values.
 
-The supplier's `P7` and P7a statements above are the exact general contract. The explicit-kernel comparison follows the uniqueness argument in [119][R119], Lemma3.5 and the proof of Theorem3.2, pp.22–23; the kernel construction is §3.3, pp.26–28.
+The local `compactScalarRealization` states the general manifold contract, including its regularity and Friedrichs comparison. The explicit-kernel comparison follows the uniqueness argument in [119][R119], Lemma3.5 and the proof of Theorem3.2, pp.22–23; the kernel construction is §3.3, pp.26–28.
 
 <a id="s6-12c"></a>
 
@@ -2674,7 +2722,7 @@ OperatorAlgebraDynamics `D7` proves that the bounded-strip KMS condition may be 
 
 See Laca, [122][R122], Theorem 2.1.1 and Lemma 2.1.3, pp.5–7, Theorem 2.2.1, pp.7–8, and Proposition 3.2.1, p.9; Bost–Connes, [113][R113], Proposition 18 and its amenability remark, pp.431–433; Connes–Marcolli, [112][R112], Chapter 3, Definitions 3.4–3.6, pp.445–447, and (3.19), p.450. These locate the constructions and finite-core criterion. The generator-bound proof is [§6.33a][R501]; [§6.33f][R502] and [§6.30a][R503] apply OperatorAlgebraDynamics D2 and D7 to the BC system. They are not inferred from Laca’s corner theorem.
 
-*Needs:* OperatorAlgebraDynamics `D1`, `D2` and `D7`; AmenableGroups Layer 6; Hilbert completions and bounded operators; positive `star` functionals; ProfiniteArithmetic and GlobalNumberFields' carriers; the rational core relations below. The universal completion and corner results are used after those core relations, and the state-measure reconstruction after the scaling measure has been constructed.
+*Needs:* OperatorAlgebraDynamics `D1`, `D2` and `D7`; `bcPositiveRationals_amenable`; Hilbert completions and bounded operators; positive `star` functionals; ProfiniteArithmetic and GlobalNumberFields' carriers; the rational core relations below. The universal completion and corner results are used after those core relations, and the state-measure reconstruction after the scaling measure has been constructed.
 
 <a id="s6-24"></a>
 
@@ -3018,9 +3066,9 @@ See [122][R122], Laca Theorem 2.2.1 and proof, pp.7–8; Proposition 3.2.1, p.9.
 
 <a id="s6-33f"></a>
 
-**§6.33f Full and reduced BC crossed products.** For the action `β_q f(x)=f(q⁻¹x)` of the discrete abelian group `Q_+×` on `C₀(A_f)`, the canonical quotient from the full to the reduced crossed product is an isomorphism. `Q_+×` is amenable, as is every discrete abelian group ([AmenableGroups Layer 6][R41]), and [OperatorAlgebraDynamics D2][R39] proves `A⋊G≅A⋊_rG` for amenable G and every action. The API `bcCrossedProduct.full_eq_reduced` is this specialization; the generic norm comparison belongs to OperatorAlgebraDynamics `D2`.
+**§6.33f Full and reduced BC crossed products.** For the action `β_q f(x)=f(q⁻¹x)` of the discrete abelian group `Q_+×` on `C₀(A_f)`, the canonical quotient from the full to the reduced crossed product is an isomorphism. `Q_+×` is amenable by [bcPositiveRationals_amenable][R41], and [OperatorAlgebraDynamics D2][R39] proves `A⋊G≅A⋊_rG` for amenable G and every action. The API `bcCrossedProduct.full_eq_reduced` is this specialization; the generic norm comparison belongs to OperatorAlgebraDynamics `D2`.
 
-**Checks.** For `B=ℂ` with the trivial action both sides are the group `C⋆-algebra` of `Q_+×`, which is commutative, and the regular representation is faithful on it. For the free group on two generators the full and reduced group `C⋆-algebras` differ, so the amenability hypothesis of `D2` cannot be dropped. `Q_+×` is free abelian on the primes and not finitely generated, so the input is the theorem for all discrete abelian groups, not its finitely generated case.
+**Checks.** For `B=ℂ` with the trivial action both sides are the group `C⋆-algebra` of `Q_+×`, which is commutative, and the regular representation is faithful on it. For the free group on two generators the full and reduced group `C⋆-algebras` differ, so the amenability hypothesis of `D2` cannot be dropped. `Q_+×` is free abelian on the primes and not finitely generated, so `bcPositiveRationals_amenable` must handle arbitrary finite rational test sets, with their prime coordinates chosen for each test set.
 
 Laca, [122][R122], Proposition `3.2.1` and Corollary `3.2.2`, pp.9–10, uses this equality for the BC `dilation`; Bost–Connes, Proposition `18`, pp.431–433, records the amenability input.
 
@@ -3149,7 +3197,9 @@ Only `v = ±1` comes from conjugating the pair (by `[1 0; 0 ±1]`); a general v 
 
 See [112][R112], Ch. 3, §4.3, (3.75), p. 461.
 
-*Needs:* [§6.21][R511]; [§6.22][R512]; [§6.28][R518]; `AddCircle`; `MulAut`.
+The Gibbs-state comparison is built after §6.43; the algebraic symmetry and representation comparison use the presentation and §6.28.
+
+*Needs:* [§6.21][R511]; [§6.22][R512]; [§6.28][R518]; [§6.43](#s6-43); `AddCircle`; `MulAut`.
 
 <a id="s6-36"></a>
 
@@ -3319,7 +3369,9 @@ Extend the bounded core representation to the completion. Its `epsilon_1` vector
 
 See [113][R113], §4, extremal states and zero-temperature limit, pp.434–436; CM Theorem 3.32, pp.474–476; [112][R112], Ch.3, Theorem 3.32, pp.474–476.
 
-*Needs:* `B7`; [§6.28][R518].
+The completed zero-temperature comparison is built after the core Gibbs construction §6.43 and its completed state §6.44.
+
+*Needs:* `B7`; [§6.28][R518]; [§6.43](#s6-43); [§6.44][R573].
 
 <a id="s6-39"></a>
 
@@ -3379,14 +3431,14 @@ See [114][R114], Corollary conclusion and averaging argument, p.3.
 
 ### 6.41 The measured operator algebra and factor classification
 
-Use the existing general nonsingular crossed-product carrier, center theorem and measured classification in VonNeumannAlgebras V8/V11. This subsection owns the BC comparison with that carrier. For `G=Q_+×` on `(A_f,μβ)`, with `0<β≤1`, check countability, standardness, `σ-finiteness`, nonsingularity, essential freeness, ergodicity and the full nonnegative ratio set before applying those theorems. The Radon–Nikodym convention remains `ρ_g=d(g_*μ)/dμ` at the target. V8's regular representation has `π(f)ξ(h,x)=f(hx)ξ(h,x)`, `u_gξ(h,x)=ξ(g⁻¹h,x)`. Its unitary change of coordinates `Wξ(h,x)=√ρ_h(x)ξ(h,h⁻¹x)` gives the multiplication operators below `M_f` and `U_gξ(h,x)=√ρ_g(x)ξ(g⁻¹h,g⁻¹x)`; the cocycle identity proves covariance. Thus no second group-measure-algebra structure or flow/type predicate is introduced.
+Use the local prerequisite carriers and theorems `nonsingularCrossedProduct` and `measuredRatioClassification`, after `normalGNSComparison`. This subsection owns the BC comparison with that carrier. For `G=Q_+×` on `(A_f,μβ)`, with `0<β≤1`, check countability, standardness, `σ-finiteness`, nonsingularity, essential freeness, ergodicity and the full nonnegative ratio set before applying those theorems. The Radon–Nikodym convention remains `ρ_g=d(g_*μ)/dμ` at the target. `nonsingularCrossedProduct`'s regular representation has `π(f)ξ(h,x)=f(hx)ξ(h,x)`, `u_gξ(h,x)=ξ(g⁻¹h,x)`. Its unitary change of coordinates `Wξ(h,x)=√ρ_h(x)ξ(h,h⁻¹x)` gives the multiplication operators below `M_f` and `U_gξ(h,x)=√ρ_g(x)ξ(g⁻¹h,g⁻¹x)`; the cocycle identity proves covariance. Thus no second group-measure-algebra structure or flow/type predicate is introduced.
 
-The local normal-GNS target takes `p=1_Ẑ` in `M=L∞(A_f,μβ)⋊G`. The imported faithful normal expectation E gives the faithful normal semifinite weight `Φ(x)=∫E(x)dμβ` on `M`. Since `μβ(Ẑ)=1`, its restriction `ψ` to `pMp` is a faithful normal state. The `C⋆` full-corner map has ultraweakly dense image in `pMp` by the regular realization and Kaplansky density. V0/V4's faithful normal GNS comparison therefore identifies the completed BC state algebra with `pMp`. This is a statement about the GNS von Neumann algebra, separately from the `C⋆` corner isomorphism. The finite adeles are second countable locally compact, hence standard Borel; their countable compact rational-dilate exhaustion and the scaling law prove `σ-finiteness`. The projection is nonzero and fixed by the diagonal modular dynamics. With the Tomita convention `σ_t^ψ=Δ^(it)(·)Δ^(−it)`, the pushforward density gives `σ_t^Φ(U_q)=ρ_q^(−it)U_q=q^(−iβt)U_q` on `M`. Restriction to the modular-invariant corner gives `σ_t^ψ` equal to the BC evolution at time−βt. The KMS strip uses positive imaginary BC time, consistently with `ψ(ab)=ψ(b σ_(−i)^ψ(a))`. V11's continuous core of this corner is p core(M) `p`; its center and dual action identify with those of core(M). Indeed, conjugates of p by the rational unitaries include the indicators of `(n!)⁻¹Ẑ`, whose increasing exhaustion has supremum1, also inside the continuous core. This gives p full central support there, rather than inferring core fullness solely from fullness in `M`. Hence its flow of weights is the same and its type is `III₁` when the imported ratio-set criterion gives `III₁` for `M`. General modular-core construction and classification remain upstream; this is their finite-adele/corner application.
+The local normal-GNS target takes `p=1_Ẑ` in `M=L∞(A_f,μβ)⋊G`. The faithful normal expectation E from `nonsingularCrossedProduct` gives the faithful normal semifinite weight `Φ(x)=∫E(x)dμβ` on `M`. Since `μβ(Ẑ)=1`, its restriction `ψ` to `pMp` is a faithful normal state. The `C⋆` full-corner map has ultraweakly dense image in `pMp` by the regular realization and Kaplansky density. `normalGNSComparison`'s faithful normal GNS comparison therefore identifies the completed BC state algebra with `pMp`. This is a statement about the GNS von Neumann algebra, separately from the `C⋆` corner isomorphism. The finite adeles are second countable locally compact, hence standard Borel; their countable compact rational-dilate exhaustion and the scaling law prove `σ-finiteness`. The projection is nonzero and fixed by the diagonal modular dynamics. With the Tomita convention `σ_t^ψ=Δ^(it)(·)Δ^(−it)`, the pushforward density gives `σ_t^Φ(U_q)=ρ_q^(−it)U_q=q^(−iβt)U_q` on `M`. Restriction to the modular-invariant corner gives `σ_t^ψ` equal to the BC evolution at time−βt. The KMS strip uses positive imaginary BC time, consistently with `ψ(ab)=ψ(b σ_(−i)^ψ(a))`. `measuredRatioClassification`'s continuous core of this corner is p core(M) `p`; its center and dual action identify with those of core(M). Indeed, conjugates of p by the rational unitaries include the indicators of `(n!)⁻¹Ẑ`, whose increasing exhaustion has supremum1, also inside the continuous core. This gives p full central support there, rather than inferring core fullness solely from fullness in `M`. Hence its flow of weights is the same and its type is `III₁` when `measuredRatioClassification`'s ratio-set criterion gives `III₁` for `M`. The local prerequisite targets construct the general modular core and classification before this finite-adele/corner application.
 
 The intended interface is:
 
-- `bcGroupMeasure.center_comparison`: use V8’s center theorem for the essentially free positive rational action; the coordinate unitary above matches its convention.
-- `bcGroupMeasure.ratioSet_comparison`: identify §6.5’s target-derivative ratio witnesses with V11’s relation cocycle; then apply its ratio-set/flow criterion.
+- `bcGroupMeasure.center_comparison`: use `nonsingularCrossedProduct`’s center theorem for the essentially free positive rational action; the coordinate unitary above matches its convention.
+- `bcGroupMeasure.ratioSet_comparison`: identify §6.5’s target-derivative ratio witnesses with `measuredRatioClassification`’s relation cocycle; then apply its ratio-set/flow criterion.
 - `bcGroupMeasure.integral_corner_flow`: the nonzero integral-adele projection is modular invariant and its core corner has the same central dual flow.
 - `bcGroupMeasure.expectation_gns`: the normalized expectation state has the von Neumann compression `pMp` as its GNS algebra by the preceding faithful-normal-state argument.
 
@@ -3398,9 +3450,9 @@ The intended interface is:
 - A zero projection yields the zero corner and is excluded. A nonzero corner of a finite matrix factor remains finite, so fullness or nonzero compression alone cannot prove type `III₁`.
 - For `q=2,β=1` the BC imaginary-time eigenvalue `is2⁻¹=1/2`. Its Tomita modular value at time+i has eigenvalue2, so using+βt for the Tomita group reverses the KMS identity.
 
-See Neshveyev, [Ergodicity of the action of the positive rationals on the group of finite adeles][R123], corollary proof, p.3; and [Von Neumann algebras of the Bost–Connes type][R124], §1, pp.1–2 and Theorem 2.1, p.3. These sources prove the arithmetic application. The general classification and flow-of-weights contracts are imported from [VonNeumannAlgebras V8/V11][R125], rather than attributed to Neshveyev’s application.
+See Neshveyev, [Ergodicity of the action of the positive rationals on the group of finite adeles][R123], corollary proof, p.3; and [Von Neumann algebras of the Bost–Connes type][R124], §1, pp.1–2 and Theorem 2.1, p.3. These sources prove the arithmetic application. The general classification and flow-of-weights contracts are [measuredRatioClassification][R125], with the primary locators given there.
 
-*Needs:* VonNeumannAlgebras V0/V4/V8/V11; [§6.5](#s6-5); the BC expectation/compression construction; the arithmetic ergodicity and full-ratio-set proofs.
+*Needs:* `normalGNSComparison`; `nonsingularCrossedProduct`; `measuredRatioClassification`; [§6.5](#s6-5); the BC expectation/compression construction; the arithmetic ergodicity and full-ratio-set proofs.
 
 <a id="s6-42"></a>
 
@@ -3462,17 +3514,21 @@ Approximate any finite positive-measure set by a finite valuation and unit cylin
 
 <a id="s6-42g"></a>
 
-**§6.42g The BC group-measure algebra is a factor.** For `0<β≤1` the canonical `μβ` action is essentially free: `qx=x` with `q≠1` forces `x=0`, a null point. Its space is standard and sigma-finite by the countable rational-dilate exhaustion. Apply `V8` to this action and §6.9's ergodicity to obtain factoriality of `L∞(A_f,μβ)⋊Q+×`.
+**§6.42g The BC group-measure algebra is a factor.** For `0<β≤1` the canonical `μβ` action is essentially free: `qx=x` with `q≠1` forces `x=0`, a null point. Its space is standard and sigma-finite by the countable rational-dilate exhaustion. Apply `nonsingularCrossedProduct` to this action and §6.9's ergodicity to obtain factoriality of `L∞(A_f,μβ)⋊Q+×`.
 
-For a nonidentity rational `q`, invert q-1 in the finite adeles to show its only fixed point is zero; scaling gives that point measure zero. Import VonNeumannAlgebras V8’s group-measure-space center theorem, then use the canonical ergodicity result.
+For a nonidentity rational `q`, invert q-1 in the finite adeles to show its only fixed point is zero; scaling gives that point measure zero. Apply the local `nonsingularCrossedProduct` group-measure-space center theorem, then use the canonical ergodicity result.
+
+**Checks.** A finite free transitive action gives a matrix factor. The trivial action on two points is not ergodic and gives a nontrivial center. In the BC action the only fixed point of `q≠1` is zero, and that point has measure zero.
 
 See [114][R114], Corollary proof, p.3.
 
 <a id="s6-42h"></a>
 
-**§6.42h The BC group-measure factor has type III1.** For `0<β≤1` apply `V11` to the action verified in §6.42g and the arithmetic full ratio set in §6.42f. Its group-measure factor has type III1, equivalently trivial flow of weights. This specializes the imported classification; it does not own a general ratio-set/type theorem.
+**§6.42h The BC group-measure factor has type III1.** For `0<β≤1` apply `measuredRatioClassification` to the action verified in §6.42g and the arithmetic full ratio set in §6.42f. Its group-measure factor has type III1, equivalently trivial flow of weights. This specializes the local prerequisite classification theorem.
 
-Apply the imported VonNeumannAlgebras `V11` ratio-set/associated-flow comparison and `III₁` criterion, after the `V8` factoriality check, to this established essentially free ergodic action and its full nonnegative ratio set. The theorem identifies the Connes type from that measured ratio invariant; no arithmetic witness replaces this classification input.
+Apply `measuredRatioClassification`'s ratio-set/associated-flow comparison and `III₁` criterion, after the `nonsingularCrossedProduct` factoriality check, to this established essentially free ergodic action and its full nonnegative ratio set. The theorem identifies the Connes type from that measured ratio invariant; no arithmetic witness replaces this classification input.
+
+**Checks.** An invariant probability measure has ratio set `{1}` and fails this criterion. The full BC ratio set contains 2 as well as 1, so it cannot have that finite-measure-preserving type. The positive ratio group must be all of `R_+×`; a discrete subgroup generated by a single `0<λ<1` gives type `III_λ`, not `III₁`.
 
 See [117][R117], §1 flow-of-weights/type criterion, p.2; Theorem 2.1, p.3.
 
@@ -3480,7 +3536,9 @@ See [117][R117], §1 flow-of-weights/type criterion, p.2; Theorem 2.1, p.3.
 
 **§6.42i A nonzero full corner preserves factor type.** The GNS algebra of the diagonal-expectation KMS state is `p(L∞(A_f,μβ)⋊Q+×)p`, where `p=1Ẑ` and `p≠0`. A nonzero corner of a type III1 factor is again type III1. The C*-full corner identification and the von Neumann compression identification are separate requirements.
 
-Use the expectation-measure construction to identify the completed state GNS algebra with the integral projection compression of the group-measure factor. Normalization makes that projection nonzero. Use the [§6.41](#s6-41) in §6.41 with VonNeumannAlgebras V0/V4/V11.
+Use the expectation-measure construction to identify the completed state GNS algebra with the integral projection compression of the group-measure factor. Normalization makes that projection nonzero. Use the [§6.41](#s6-41) in §6.41 with `normalGNSComparison` and `measuredRatioClassification`.
+
+**Checks.** The zero projection is excluded. A rank-one corner of `M₂(ℂ)` is finite, so nonzero compression alone does not prove `III₁`. For the BC integral projection, its rational conjugates exhaust the identity, proving full central support in the continuous core as required for the flow comparison.
 
 See [114][R114], Corollary proof, p.3; Neshveyev 2009 §1, p.2.
 
@@ -3717,7 +3775,7 @@ On `ℓ²(ℕ≥1)`, `Hε_n=(log n)ε_n`, so `exp(−βH)` has trace `ζ(β)` ex
 
 ### Dependencies
 
-Mathlib Hecke and `C⋆-algebra`, Hilbert-space, trace-class and measure tools where available; the exact positive-functional representation in the boundary section; ProfiniteArithmetic Layer 0, RestrictedProducts, GlobalNumberFields Layer 4 and AdelicAlgebraicGroups Layer 0. The BC universal completion, dilation-corner comparison and expectation-state comparison are local proof targets; crossed products, the amenable norm comparison, the reduced expectation and the dense-core KMS criterion come from OperatorAlgebraDynamics `D1`, `D2` and `D7`. AmenableGroups Layers 5–6 and VonNeumannAlgebras V0/V1/V2/V4/V8/V11 supply the general operator foundations and classification; the general ratio-set classification belongs to VonNeumannAlgebras `V11`. FuchsianOrbifolds Layers 0–2, 4 supply the compact quotient and area formula; DifferentialGeometry Layer `12` supplies the metric measure and Green identity, with the opposite Laplacian sign; PseudodifferentialOperators P7–P7a supplies the general scalar realization and spectrum. The local explicit-kernel comparison, Gaussian orbital trace, full heat expansion and Weyl adapters above provide the additional hyperbolic analysis. AS.4/AS.6 are not asserted to export these refinements. Layer 4 Barnes G normalizes the identity determinant factor.
+Mathlib Hecke and `C⋆-algebra`, Hilbert-space, trace-class and measure tools where available; the exact positive-functional representation in the boundary section; ProfiniteArithmetic Layer 0, RestrictedProducts, GlobalNumberFields Layer 4 and AdelicAlgebraicGroups Layer 0. The BC universal completion, dilation-corner comparison and expectation-state comparison are local proof targets; crossed products, the amenable norm comparison, the reduced expectation and the dense-core KMS criterion come from OperatorAlgebraDynamics `D1`, `D2` and `D7`. The local prerequisites `bcPositiveRationals_amenable`, `normalGNSComparison`, `nonsingularCrossedProduct` and `measuredRatioClassification` supply amenability and the measured operator foundations and classification. FuchsianOrbifolds Layers 0–2, 4 supply the compact quotient and area formula; DifferentialGeometry Layer `12` supplies the metric measure and Green identity, with the opposite Laplacian sign. The local `compactScalarRealization` supplies the closed-manifold scalar realization and spectrum. The local explicit-kernel comparison, Gaussian orbital trace, full heat expansion and Weyl adapters above provide the additional hyperbolic analysis. AS.4/AS.6 are not asserted to export these refinements. Layer 4 Barnes G normalizes the identity determinant factor.
 
 ## Downstream consumers
 
@@ -3754,15 +3812,13 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 [R12]: https://github.com/roed-math/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md#layer-1-gamma-factor-asymptotics-and-the-continued-l-function
 [R20]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields#layer-10-archimedean-characters-infinity-types-and-cyclotomic-arithmetic
 [R22]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields#layer-4-finite-adeles
-[R33]: ../PseudodifferentialOperators/README.md#p7-elliptic-powers-and-changes-of-order
 [R34]: ../AutomorphicSpectralTheory/README.md#15-finite-weyl-constant-term-formula
 [R36]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/Completed/UniversalCovers#stage-0-port-the-foundations-into-tauceti
 [R37]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/Completed/UniversalCovers#stage-2-lifting-criterion-and-galois-correspondence
 [R38]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/OperatorAlgebraDynamics#d1-covariant-representations-and-full-crossed-products
 [R39]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/OperatorAlgebraDynamics#d2-regular-representations-reduced-products-and-amenability
 [R40]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/OperatorAlgebraDynamics#d7-analytic-dynamics-kms-states-and-modular-theory
-[R41]: ../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups
-[R42]: ../VonNeumannAlgebras/README.md
+[R41]: #bc-positive-rationals-amenable
 [R94]: https://link.springer.com/content/pdf/10.1186/s40687-015-0049-2.pdf
 [R95]: https://arxiv.org/pdf/1005.4967v2
 [R96]: https://dlmf.nist.gov/5.17
@@ -3789,12 +3845,15 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 [R117]: https://arxiv.org/pdf/0907.1456v1
 [R118]: https://people.mpim-bonn.mpg.de/zagier/files/tex/NewPointsSelbergZeta/fulltext.pdf
 [R119]: https://perso.u-cergy.fr/~elemasson/qchyp.pdf
-[R120]: ../PseudodifferentialOperators/README.md#p7a-finite-deck-scalar-laplacian-transplantation
+[R120]: #compact-scalar-realization
 [R121]: https://people.maths.bris.ac.uk/~majm/bib/selberg.pdf
 [R122]: https://arxiv.org/pdf/math/9911135
 [R123]: https://arxiv.org/pdf/math/0002141
 [R124]: https://arxiv.org/pdf/0907.1456
-[R125]: ../VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores
+[R125]: #measured-ratio-classification
+[R126]: https://www.imo.universite-paris-saclay.fr/~helffer/deamain2008.pdf
+[R127]: https://arxiv.org/pdf/2004.02383v1
+[R128]: https://web.ma.utexas.edu/users/juschenko/files/Juschenko-Book-4.pdf
 [R130]: #s5-3a
 [R136]: ../AnalyticNumberTheoryPartI/README.md#prerequisites-and-boundaries
 [R190]: ../AnalyticNumberTheoryPartI/README.md#s2-5

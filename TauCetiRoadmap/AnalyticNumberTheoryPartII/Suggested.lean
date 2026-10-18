@@ -56,12 +56,35 @@ example : complexHurwitzSeries 0 1 = 0 := by
 example (z c : ℂ) (hz : ‖z‖ < 1) : lerchSeries z 0 c = 1 / (1 - z) := by
   sorry
 
+/-- The zero argument retains the initial summand. -/
+example : lerchSeries 0 2 1 = 1 := by
+  sorry
+
+/-- At order minus one the geometric series and its derivative give the two terms. -/
+example (z c : ℂ) (hz : ‖z‖ < 1) (hc : 0 < c.re) :
+    lerchSeries z (-1) c = c / (1 - z) + z / (1 - z) ^ 2 := by
+  sorry
+
+/-- The polylogarithm prefactor changes the value at one half from two to one. -/
+example : lerchSeries (1 / 2) 0 1 = 2 ∧
+    (1 / 2 : ℂ) * lerchSeries (1 / 2) 0 1 = 1 := by
+  sorry
+
 /-- At `c = 1` the series is `ζ(s)`. -/
 theorem complexHurwitzSeries_one {s : ℂ} (hs : 1 < s.re) : complexHurwitzSeries s 1 = riemannZeta s := by
   sorry
 
 /-- `ζ_H(2, 1) = π² / 6`. -/
 example : complexHurwitzSeries 2 1 = (Real.pi : ℂ) ^ 2 / 6 := by
+  sorry
+
+/-- The odd-integer partition gives the Hurwitz half-parameter value. -/
+example {s : ℂ} (hs : 1 < s.re) :
+    complexHurwitzSeries s (1 / 2) = ((2 : ℂ) ^ s - 1) * riemannZeta s := by
+  sorry
+
+/-- A nonreal shift detects the initial summand and the complex parameter. -/
+example : complexHurwitzSeries 2 (1 + I) - complexHurwitzSeries 2 (2 + I) = -I / 2 := by
   sorry
 
 /-- Mathlib's exponential zeta is `z Φ(z, s, 1)`. -/
@@ -103,6 +126,26 @@ example : barnesG 4 = 2 ∧ barnesG 5 = 12 := by
 example : barnesG 0 = 0 := by
   sorry
 
+/-- The first two positive integer values after the normalization both equal one. -/
+example : barnesG 2 = 1 ∧ barnesG 3 = 1 := by
+  sorry
+
+/-- The first two Barnes zeros have different multiplicities. -/
+example : meromorphicOrderAt barnesG 0 = 1 ∧ meromorphicOrderAt barnesG (-1) = 2 := by
+  sorry
+
+/-- The logarithmic derivative at one has the removable-limit value. -/
+example : deriv barnesG 1 / barnesG 1 = Complex.log (2 * Real.pi) / 2 - 1 / 2 := by
+  sorry
+
+/-- A periodic multiplier preserves normalization and recurrence but adds a nonintegral zero. -/
+example :
+    let f : ℂ → ℂ := fun z => barnesG z * (1 + Complex.sin (Real.pi * z) ^ 2)
+    f 1 = 1 ∧
+      (∀ z : ℂ, (∀ n : ℕ, z ≠ -(n : ℂ)) → f (z + 1) = Complex.Gamma z * f z) ∧
+      ∃ z : ℂ, f z = 0 ∧ ∀ n : ℕ, z ≠ -(n : ℂ) := by
+  sorry
+
 /-- The first correction in the Gamma-retaining Barnes expansion is -1/(720 z²).
 Expanding the retained Gamma term instead changes it to -1/(240 z²). -/
 example :
@@ -122,10 +165,14 @@ The canonical double-series and cubic continuation, local Fourier matrices, resi
 pole-aware convexity bounds are specified in README.md.
 -/
 
-/-- Wright's height is the square root of the torus ratio: at height two and z = two,
-the first constant-term monomial is four, while the ratio is also four. -/
-example : (2 : ℚ) ^ 2 = 4 ∧ (4 : ℚ) ^ 1 = 4 := by
-  norm_num
+/-- On the same torus input, Wright's height is two and its square is four;
+squaring the raw ratio gives sixteen. -/
+example :
+    let t₁ : ℝ := 2
+    let t₂ : ℝ := 1 / 2
+    (Real.sqrt |t₁ / t₂|) ^ 2 = 4 ∧ Real.sqrt |t₁ / t₂| = 2 ∧
+      (|t₁ / t₂|) ^ 2 = 16 := by
+  sorry
 
 /-- The two centered dihedral generators preserve the same quadratic invariant. -/
 example (x y : ℚ) :
