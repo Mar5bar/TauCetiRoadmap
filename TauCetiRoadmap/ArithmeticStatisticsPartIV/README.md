@@ -133,6 +133,7 @@ The polynomial definition permits all `n,k≥0`. For the subspace count `q=#𝔽
 
 The required API is:
 
+- `gaussBinomPoly`: the natural-coefficient Gaussian polynomial with the displayed successor recursion, zero column and empty-size values; its evaluation is `gaussBinom`.
 - `gaussBinom`: `[n k]_t` as an element of a commutative semiring, via polynomial evaluation of the recursion (0 for `k > n`).
 - `gaussBinom_zero_right`: `[n 0]_t = 1`.
 - `gaussBinom_self`: `[n n]_t = 1`.
@@ -542,9 +543,9 @@ Pick `s` by [partition tail domination](#partition-tail-domination); put `M = E_
 
 **Finite moment control of masses.** Let `ℓ` be an odd prime, `ε_0 > 0` and `L_0 ⊂ L` finite. There exist `δ > 0` and a finite `L' ⊂ L` such that every probability measure `ν` on `L` with `⟨Sur(−, A)⟩_ν ∈ [1 − δ, 1 + δ]` for all `A ∈ L'` satisfies `|ν(A) − μ_{ℓ,0}(A)| ≤ ε_0` for all `A ∈ L_0`.
 
-Suppose not; with `L'_k = {|A| ≤ k}` and `δ = 1/k` obtain `ν_k` with moments within `1/k` on `L'_k` and `|ν_k(A_k) − μ(A_k)| > ε_0` for some `A_k ∈ L_0`; pass to a subsequence with `A_k` constant. The masses `ν_k(B)` lie in `[0, 1]`; by compactness of `[0, 1]^L` (Tychonoff, countable index, sequential compactness: Mathlib `CompactSpace.tendsto_subseq`) pass to a pointwise convergent subsequence `ν_k → ν_∞`. Fatou `(ENNReal.tsum_eq_liminf_sum_nat)` gives `⟨Sur(−, A)⟩_{ν_∞} ≤ 1`. For the reverse, split the moment at `|B| ≤ c(A)` (finitely many `B`, limits commute) and bound the tail `Σ_{|B|>c}ν_k(B)|Sur(B, A)| ≤ ε · max_{A'∈M}⟨Sur(−, A')⟩_{ν_k} ≤ ε(1 + 1/k)` by [finite enlargement domination of tails](#finite-enlargement-domination-of-tails); hence `⟨Sur(−, A)⟩_{ν_∞} = 1` for all `A`. `A = 0` shows `ν_∞` is a probability measure; [moments determine the cohen lenstra measure](#moments-determine-the-cohen-lenstra-measure) gives `ν_∞ = μ`, contradicting `|ν_k(A) − μ(A)| > ε_0` in the limit.
+Suppose not; with `L'_k = {|A| ≤ k}` and `δ = 1/k` obtain `ν_k` with moments within `1/k` on `L'_k` and `|ν_k(A_k) − μ(A_k)| > ε_0` for some `A_k ∈ L_0`; pass to a subsequence with `A_k` constant. The masses `ν_k(B)` lie in `[0, 1]`; by compactness of `[0, 1]^L` (Tychonoff, countable index, sequential compactness: Mathlib `CompactSpace.tendsto_subseq`) pass to a pointwise convergent subsequence `ν_k → ν_∞`. Fatou (`MeasureTheory.lintegral_liminf_le` for counting measure on the discrete class carrier, rewritten with `MeasureTheory.lintegral_count`) gives `⟨Sur(−, A)⟩_{ν_∞} ≤ 1`; every function on this carrier is measurable. For the reverse, split the moment at `|B| ≤ c(A)` (finitely many `B`, limits commute) and bound the tail `Σ_{|B|>c}ν_k(B)|Sur(B, A)| ≤ ε · max_{A'∈M}⟨Sur(−, A')⟩_{ν_k} ≤ ε(1 + 1/k)` by [finite enlargement domination of tails](#finite-enlargement-domination-of-tails); hence `⟨Sur(−, A)⟩_{ν_∞} = 1` for all `A`. `A = 0` shows `ν_∞` is a probability measure; [moments determine the cohen lenstra measure](#moments-determine-the-cohen-lenstra-measure) gives `ν_∞ = μ`, contradicting `|ν_k(A) − μ(A)| > ε_0` in the limit.
 
-*Needs:* [finite enlargement domination of tails](#finite-enlargement-domination-of-tails), [moments determine the cohen lenstra measure](#moments-determine-the-cohen-lenstra-measure), [surjection moment](#surjection-moment), `CompactSpace.tendsto_subseq` (Mathlib), `isCompact_univ_pi` (Mathlib), `ENNReal.tsum_eq_liminf_sum_nat` (Mathlib).
+*Needs:* [finite enlargement domination of tails](#finite-enlargement-domination-of-tails), [moments determine the cohen lenstra measure](#moments-determine-the-cohen-lenstra-measure), [surjection moment](#surjection-moment), `CompactSpace.tendsto_subseq` (Mathlib), `isCompact_univ_pi` (Mathlib), `MeasureTheory.lintegral_liminf_le` (Mathlib), `MeasureTheory.lintegral_count` (Mathlib).
 
 ([[37]](#ref-37), Annals 183 (2016), Proposition 8.3, p. 772; [[37]](#ref-37), Annals 183 (2016), proof of Proposition 8.3, p. 773.)
 
@@ -552,6 +553,7 @@ Suppose not; with `L'_k = {|A| ≤ k}` and `δ = 1/k` obtain `ν_k` with moments
 
 - Applied to `ν = μ_{ℓ,0}` itself (all moments 1) the conclusion is trivial.
 - Without the tail estimate the limit could lose mass: pointwise limits of probability measures on `L` need not be probability measures (EVW p. 773).
+- For the trivial target, `#Sur(B,0)=1` for every `B`; preservation of this moment is precisely total mass one.
 
 <a id="moment-convergence-implies-distribution-convergence"></a>
 
@@ -738,6 +740,7 @@ A rank-r matrix is determined by its column space `W ⊆ F^m (dim r)` and a surj
 
 - `r = n = m: |GL_n(F_q)|`.
 - `q = 2, m = n = 2, r = 1: (4 − 1)(4 − 1)/(2 − 1)` `= 9`.
+- At `m=n=r=0` the unique empty matrix has rank zero and the empty product is 1.
 
 <a id="symmetric-matrix-kernel-law"></a>
 
@@ -786,7 +789,7 @@ Use the normalized kernel-weight identity below; the independent-(T,U) condition
 - `m=0`: both sides equal 1; the kernel weight denominator is `#ker U` - `1=1`, not zero.
 - `m=3: P(3,3,n)=(168,294,49,1)/512`, and the weighted sum is `1/15`.
 - Counterexample to the source conditioning argument: for `m=1`, independent uniform `T:𝔽₂^2` onto `𝔽₂` and `U:𝔽₂^2 -> 𝔽₂` give `P(x in ker T)=1/3` but `sum_n P(x in ker T | A_(n,x))` `P(A_(n,x))=1/6`, since the union of `A_(n,x)` is only `U(x)=0`.
-- The specified probability uses a uniform `U` followed by a uniform nonzero kernel vector; uniform sampling of all pairs (U,x in `ker U` minus `{0}`) is a different measure.
+- The specified probability uses a uniform `U` followed by a uniform nonzero kernel vector; uniform sampling of all pairs (U,x in `ker U` minus `{0}`) is a different measure. At `m=1` the zero map has probability `1/4` in the former law and `1/2` in the latter.
 
 ### 3.8 Symmetric border-rank recurrences
 
@@ -804,6 +807,7 @@ If `v=Sx` and `Sz=0`, symmetry gives `v·z=x·Sz=0`. For the converse use the na
 
 - For `S=0`, the criterion gives `v=0`.
 - For the alternating plane `S=[[0,1],[1,0]]` over `𝔽₂`, every column lies in the image.
+- At `n=0` the image and kernel are the zero space, and the unique vector satisfies the criterion.
 
 <a id="symmetric-border-rank-in-image"></a>
 
@@ -819,6 +823,7 @@ Put `c=a−x·Sx`. The invertible coordinate change `(y,t)↦(y+tx,t)` identifie
 
 - `S=0` and `x=0` give `rank B=0` for `a=0` and `rank B=1` for `a≠0`.
 - For an alternating `S` over characteristic two, `x·Sx=0`; the same formula remains valid.
+- Over `𝔽₂`, `S=[1],x=1` gives border rank 1 at `a=1` and rank 2 at `a=0`.
 
 <a id="symmetric-border-rank-outside-image"></a>
 
@@ -834,6 +839,7 @@ The top block equation `Sy+tv=0` forces `t=0`, since a nonzero `t` would put `v`
 
 - For `n=1,S=0,v=1`, the border `[[0,1],[1,a]]` has rank two for every a, including in characteristic two.
 - An invertible `S` admits no column outside its image.
+- At `n=0` no outside-image column exists; the rank-two case has no instances.
 
 <a id="symmetric-border-rank-fibers"></a>
 
@@ -902,13 +908,29 @@ Use the native subtype count `N_F(n,k)`, with `N_F(0,0)=1` and `N_F(0,k)=0` for 
 - The finite subtype counts equal the product over `𝔽₂` through size `5, 𝔽₃` through size 4 and `𝔽₄,𝔽₅,𝔽₇,𝔽₈` through size 3; at size 1 the rank-zero and rank-one counts are 1 and `q−1`.
 - The empty-size count is one at rank zero and zero at positive ranks; the characteristic-two alternating plane is included.
 
+<a id="euler-q-binomial-sum"></a>
+
+**Euler q-binomial sum.** For real `0<q<1`, `euler_qBinomial_sum` proves convergence of the nonnegative series and infinite product in `Σ_{n≥0} q^{n(n+1)/2}/∏_{i=1}^n(1−q^i) = ∏_{i≥1}(1+q^i)`.
+
+Apply the finite Cauchy identity at `t=z=q`. Extend its summands by zero for `n>N`. For each fixed n the Gaussian product formula shows that `[N n]_q` increases to `1/∏_{i=1}^n(1−q^i)` as `N→∞`. The extended summands are nonnegative and increasing, so monotone convergence for counting measure interchanges their limit and sum. The geometric series `Σ_{i≥1}q^i` converges, giving convergence of the product `∏_{i≥1}(1+q^i)` and hence finiteness of the series. At `q=1/2` this supplies the normalization of the symmetric kernel limit.
+
+*Needs:* [cauchy q binomial theorem](#cauchy-q-binomial-theorem), [gaussian binomial coefficient](#gaussian-binomial-coefficient), `MeasureTheory.lintegral_iSup` (Mathlib), `MeasureTheory.lintegral_count` (Mathlib), `Real.multipliable_one_add_of_summable` (Mathlib), `tsum_geometric_of_lt_one` (Mathlib).
+
+([[28]](#ref-28), Proposition 2.6(e)–(f) and proof, p. 7.)
+
+**Checks.**
+
+- The `n=0` summand is 1, with an empty denominator product; the finite identity at `N=0` has both sides 1.
+- At `q=1/2` the first four summands are `1,1,1/3,1/21`, with sum `50/21`.
+- The endpoint `q=1` is excluded: already the `n=1` denominator vanishes and the partial products are `2^N`.
+
 <a id="limit-of-the-symmetric-kernel-law"></a>
 
 **Limit of the symmetric kernel law.** Over `𝔽₂`, for every `n ≥ 0: lim_{r→∞} P_Sym(r, n) = P_Sym(∞, n) := ∏_{j≥0}(1 − 2^{−(2j+1)}) / ∏_{i=1}^{n}(2^i − 1)`, and `|P_Sym(r, n) − P_Sym(∞, n)| ≤ 2^{n+1−r}` for all `r ≥ 1`. The limits sum to 1.
 
-If `r=n=0`, the finite mass is 1 and the limiting mass lies in `[0,1]`, so the error is at most `1≤2`. If `n>r`, the finite kernel mass is zero and the target limit lies in `[0,1]`, while `2^{n+1−r}≥1`, so the stated bound is immediate. Assume henceforth `n≤r`. By [macwilliams symmetric rank count](#macwilliams-symmetric-rank-count) with `k = r − n = 2h` or `2h + 1: P_Sym(r, n) = 2^{−n(n+1)/2} ∏_{i=1}^{h}(1 − 2^{−2i})^{−1} ∏_{j=n+1}^{r}(1 − 2^{−j})` (the exponent kr − `k(k−1)/2 − r(r+1)/2` simplifies to `−n(n+1)/2`). Letting `r → ∞: P_Sym(∞, n) = 2^{−n(n+1)/2}∏_{i≥1}(1 − 2^{−2i})^{−1}∏_{j≥n+1}(1 − 2^{−j}) = ∏_{j odd}(1 − 2^{−j})/∏_{i=1}^{n}(2^i − 1)`. Rate: `P_Sym(r, n) = P_Sym(∞, n)·R` with R `= ∏_{i>h}(1 − 2^{−2i})/∏_{j>r}(1 − 2^{−j})`; since `2h + 2 ≥ r − n + 1, 1 − (2/3)2^{n−r} ≤` R `≤ 1 + 2^{1−r}`, and `P_Sym(∞, n) ≤ 1`. Explicitly, the omitted even-factor tail is at most `(4/3)2^{−2h−2}≤(2/3)2^{n−r}`; the denominator tail is at least `1−2^{−r}`, and `(1−2^{−r})⁻¹≤1+2^{1−r}` for `r≥1`. `Σ_n P_Sym(∞, n) = ∏_{j odd}(1 − 2^{−j}) Σ_n 2^{−n(n+1)/2}/∏_{i≤n}(1 − 2^{−i}) = ∏_{j odd}(1 − 2^{−j})∏_{i≥1}(1 + 2^{−i}) = 1` (Euler).
+If `r=n=0`, the finite mass is 1 and the limiting mass lies in `[0,1]`, so the error is at most `1≤2`. If `n>r`, the finite kernel mass is zero and the target limit lies in `[0,1]`, while `2^{n+1−r}≥1`, so the stated bound is immediate. Assume henceforth `n≤r`. By [macwilliams symmetric rank count](#macwilliams-symmetric-rank-count) with `k = r − n = 2h` or `2h + 1: P_Sym(r, n) = 2^{−n(n+1)/2} ∏_{i=1}^{h}(1 − 2^{−2i})^{−1} ∏_{j=n+1}^{r}(1 − 2^{−j})` (the exponent kr − `k(k−1)/2 − r(r+1)/2` simplifies to `−n(n+1)/2`). Letting `r → ∞: P_Sym(∞, n) = 2^{−n(n+1)/2}∏_{i≥1}(1 − 2^{−2i})^{−1}∏_{j≥n+1}(1 − 2^{−j}) = ∏_{j odd}(1 − 2^{−j})/∏_{i=1}^{n}(2^i − 1)`. Rate: `P_Sym(r, n) = P_Sym(∞, n)·R` with R `= ∏_{i>h}(1 − 2^{−2i})/∏_{j>r}(1 − 2^{−j})`; since `2h + 2 ≥ r − n + 1, 1 − (2/3)2^{n−r} ≤` R `≤ 1 + 2^{1−r}`, and `P_Sym(∞, n) ≤ 1`. Explicitly, the omitted even-factor tail is at most `(4/3)2^{−2h−2}≤(2/3)2^{n−r}`; the denominator tail is at least `1−2^{−r}`, and `(1−2^{−r})⁻¹≤1+2^{1−r}` for `r≥1`. `Σ_n P_Sym(∞, n) = ∏_{j odd}(1 − 2^{−j}) Σ_n 2^{−n(n+1)/2}/∏_{i≤n}(1 − 2^{−i}) = ∏_{j odd}(1 − 2^{−j})∏_{i≥1}(1 + 2^{−i}) = 1` by [euler q-binomial sum](#euler-q-binomial-sum) at `q=1/2` and cancellation of the even and odd factors of the convergent nonzero Euler product.
 
-*Needs:* [macwilliams symmetric rank count](#macwilliams-symmetric-rank-count), [symmetric matrix kernel law](#symmetric-matrix-kernel-law), `tsum_geometric_of_lt_one` (Mathlib).
+*Needs:* [macwilliams symmetric rank count](#macwilliams-symmetric-rank-count), [symmetric matrix kernel law](#symmetric-matrix-kernel-law), [euler q-binomial sum](#euler-q-binomial-sum), [cauchy q binomial theorem](#cauchy-q-binomial-theorem), [gaussian binomial coefficient](#gaussian-binomial-coefficient), `tsum_geometric_of_lt_one` (Mathlib).
 
 ([[41]](#ref-41), arXiv 2201.13424v1, Theorem 7.13, p. 74.)
 
@@ -916,6 +938,7 @@ If `r=n=0`, the finite mass is 1 and the limiting mass lies in `[0,1]`, so the e
 
 - `P_Sym(∞, 0) = α = ∏_{j odd}(1 − 2^{−j}) ≈ 0.41942`, the constant of Stevenhagen's conjecture.
 - `r = 2, n = 0: |1/2 − 0.4194| ≈ 0.081 ≤ 1/2`; numerically the ratio of the error to `2^{n+1−r}` stays below 0.17 for `r ≤ 40`.
+- Normalization at `q=1/2` uses `∏_{i≥1}(1+q^i)=∏_{i≥1}(1−q^{2i})/∏_{i≥1}(1−q^i)`; splitting the nonzero denominator product into its even and odd factors makes the total mass 1.
 
 ### 3.10 Four-rank phases and good subspaces
 
@@ -1027,6 +1050,7 @@ Use the infinite product only in coordinate zero, and finite polynomials in the 
 - For `m=0,p=2,b=0,z=2` the value is zero.
 - For `m=0,p=2,b=0,z=1` the value is nonzero.
 - For `m=1,p=2,b=(2,0),z=(4,8)` the finite second-coordinate factor vanishes. At the diagonal point `z=(4,4)` it is nonzero: the first excluded exponent is 3. This detects an incorrect finite interval endpoint.
+- For unrestricted natural p the convergence assertion fails: at `m=0,p=1,b=0,z=3` the head partial products are `(−2)^N` and do not converge.
 
 <a id="refinement-wood-coefficient-bound"></a>
 
