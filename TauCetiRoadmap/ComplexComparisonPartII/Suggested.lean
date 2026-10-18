@@ -47,6 +47,16 @@ EtaleCohomologyFoundations F.4's étale normalized systems and
 EnhancedDerivedSheaves’ generic derived limits/completion. F.0–F.4 supply C6;
 LefschetzPencilsAndVanishingCycles §0.8a's nearby-cycle and inertia comparison consumes C6.
 
+C−1.1 owns the general scheme analytification used by FormalConnectionsOpers F2.4's
+fixed-model manifold and curve applications. C0.4 and C5.1–C5.2 supply its coherent,
+differential-operator and connection adapters without proper GAGA. Ordinary algebraic
+operators and all-order principal parts belong to FormalConnectionsOpers F2.2;
+`commutatorWith` and `IsDifferentialOperator` below use that supplier's namespace.
+C5.4's `analyticSetLocalFiniteMass` globalizes K6.1's chart-local Lelong estimates,
+with restriction and compact-local metric comparisons. C6 uses TopologicalSheafCohomology
+TS3.1–TS3.3's extension by zero and compact supports and identifies TS3.7's common CW
+comparison maps with its support adapters.
+
 C5.2's `holomorphicConnectionDictionary` identifies the finite locally free analytic
 sheafification of CR.1 with K4's holomorphic bundle connections on C0.3's rank strata,
 including operators, curvature, tensor/dual/Hom, pullback and horizontal sheaves.
@@ -390,6 +400,12 @@ end C4
 
 /-! ### C5.1 Differential operators -/
 
+end
+
+end TauCetiRoadmap.ComplexComparisonPartII
+
+namespace TauCetiRoadmap.FormalConnectionsOpers
+
 section DifferentialOperators
 
 variable (k : Type*) {A M N : Type*} [CommRing k] [CommRing A] [Algebra k A]
@@ -401,12 +417,34 @@ variable (k : Type*) {A M N : Type*} [CommRing k] [CommRing A] [Algebra k A]
 def commutatorWith (a : A) (D : M →ₗ[k] N) : M →ₗ[k] N :=
   D ∘ₗ (a • LinearMap.id) - a • D
 
-/-- **C5.1, `IsDifferentialOperator`** (Grothendieck). A `k`-linear map has order `≤ 0` if it is
+/-- **F2.2, `IsDifferentialOperator`** (Grothendieck). A `k`-linear map has order `≤ 0` if it is
 `A`-linear, and order `≤ m + 1` if all its commutators with multiplication by elements of `A` have
-order `≤ m`. The analytification of such operators is `DifferentialOperatorAnalytification`. -/
+order `≤ m`. This characteristic-free predicate supplies C5.1's
+`DifferentialOperatorAnalytification` through the all-order principal-parts factorization. -/
 def IsDifferentialOperator : ℕ → (M →ₗ[k] N) → Prop
   | 0, D => ∀ (a : A) (x : M), D (a • x) = a • D x
   | m + 1, D => ∀ a : A, IsDifferentialOperator m (commutatorWith k a D)
+
+end DifferentialOperators
+
+end TauCetiRoadmap.FormalConnectionsOpers
+
+namespace TauCetiRoadmap.ComplexComparisonPartII
+
+open CategoryTheory AlgebraicGeometry
+open scoped TensorProduct ContDiff Manifold Topology ZeroObject
+
+universe u
+
+noncomputable section
+
+section DifferentialOperators
+
+open TauCetiRoadmap.FormalConnectionsOpers
+
+variable (k : Type*) {A M N : Type*} [CommRing k] [CommRing A] [Algebra k A]
+  [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M]
+  [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
 
 /-- Multiplication maps have order zero. -/
 example (a : A) : IsDifferentialOperator k (A := A) 0
@@ -726,9 +764,9 @@ the supporting presentation and curvature comparisons are also specified there.
   no integer-rectifiability hypothesis on general complex or positive currents),
   `closedCurrentExtension`,
   `AnalyticCycleIntegration` (arbitrary finite-dimensional Hausdorff second-countable complex
-  manifolds and pure-dimensional analytic subsets; uses ComplexKahlerGeometry K6.1's
-  `analyticSetLocalFiniteMass` on arbitrary charts and K5a's real/complex L¹ integration
-  comparison, without compactness or a Kähler hypothesis on the local mass input),
+  manifolds and pure-dimensional analytic subsets; uses C5.4's `analyticSetLocalFiniteMass`,
+  which globalizes ComplexKahlerGeometry K6.1's chart-local Lelong estimates, and K5a's
+  real/complex L¹ integration comparison, without compactness or a Kähler hypothesis),
   `AnalyticCycleIntegration.compactKaehler` (on compact Kähler manifolds, evaluation on
   the complexification of a real closed form equals the complex image of K6.1's real
   analytic-set de Rham functional, with the same complex orientation and cycle multiplicities;
