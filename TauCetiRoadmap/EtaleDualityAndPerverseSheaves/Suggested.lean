@@ -29,6 +29,9 @@ universe u v
 #check LinearMap.det_eq_of_compl₁₂_self_eq_smul
 #check TauCeti.BilinForm.IsIsometry.det_sq_mul_det_toMatrix_self
 #check CategoryTheory.Functor.dualityEquivalence
+#check CategoryTheory.Functor.RightTExact
+#check CategoryTheory.Functor.LeftTExact
+#check CategoryTheory.Functor.TExact
 
 namespace TauCetiRoadmap.EtaleDualityAndPerverseSheaves
 
@@ -83,36 +86,37 @@ variable {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C 
   {D : Type*} [Category D] [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
   [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
 
-/-- `T` is right t-exact: it maps `t₁.le 0` into `t₂.le 0` (BBD 1.3.16). -/
-def Functor.IsRightTExact (t₁ : TStructure C) (t₂ : TStructure D) (T : C ⥤ D) : Prop :=
-  ∀ X : C, t₁.le 0 X → t₂.le 0 (T.obj X)
-
-/-- `T` is left t-exact: it maps `t₁.ge 0` into `t₂.ge 0` (BBD 1.3.16). -/
-def Functor.IsLeftTExact (t₁ : TStructure C) (t₂ : TStructure D) (T : C ⥤ D) : Prop :=
-  ∀ X : C, t₁.ge 0 X → t₂.ge 0 (T.obj X)
-
-/-- `T` is t-exact: left and right t-exact. -/
-def Functor.IsTExact (t₁ : TStructure C) (t₂ : TStructure D) (T : C ⥤ D) : Prop :=
-  Functor.IsRightTExact t₁ t₂ T ∧ Functor.IsLeftTExact t₁ t₂ T
-
 /-- The adjoint criterion (BBD 1.3.17 (iii)): for triangulated `L ⊣ R`, `L` is right t-exact
-iff `R` is left t-exact. -/
+iff `R` is left t-exact, using Mathlib's native classes. -/
 theorem Functor.isRightTExact_iff_isLeftTExact_of_adjunction {t₁ : TStructure C}
     {t₂ : TStructure D} {L : C ⥤ D} {R : D ⥤ C} (adj : L ⊣ R) [L.CommShift ℤ] [R.CommShift ℤ]
     [L.IsTriangulated] [R.IsTriangulated] :
-    Functor.IsRightTExact t₁ t₂ L ↔ Functor.IsLeftTExact t₂ t₁ R := by
+    L.RightTExact t₁ t₂ ↔ R.LeftTExact t₂ t₁ := by
+  sorry
+
+/-- A t-exact triangulated functor restricts to an exact functor between the hearts. -/
+theorem Functor.heartRestriction_exists [IsTriangulated C] [IsTriangulated D]
+    (t₁ : TStructure C) (t₂ : TStructure D) (T : C ⥤ D)
+    [T.CommShift ℤ] [T.IsTriangulated] [T.TExact t₁ t₂] :
+    ∃ H : t₁.heart.FullSubcategory ⥤ t₂.heart.FullSubcategory,
+      Nonempty (H ⋙ t₂.heart.ι ≅ t₁.heart.ι ⋙ T) ∧
+      PreservesFiniteLimits H ∧ PreservesFiniteColimits H := by
   sorry
 
 /-- The identity preserves both aisles. -/
-example (t : TStructure C) : Functor.IsTExact t t (𝟭 C) :=
-  ⟨fun _ h ↦ h, fun _ h ↦ h⟩
+example (t : TStructure C) : (𝟭 C).TExact t t := by
+  sorry
 
 /-- Cohomological shift `[1]` is right t-exact. -/
-example (t : TStructure C) : Functor.IsRightTExact t t (shiftFunctor C (1 : ℤ)) := by
+example (t : TStructure C) [(shiftFunctor C (1 : ℤ)).CommShift ℤ]
+    [(shiftFunctor C (1 : ℤ)).IsTriangulated] :
+    (shiftFunctor C (1 : ℤ)).RightTExact t t := by
   sorry
 
 /-- Shift `[-1]` is left t-exact. -/
-example (t : TStructure C) : Functor.IsLeftTExact t t (shiftFunctor C (-1 : ℤ)) := by
+example (t : TStructure C) [(shiftFunctor C (-1 : ℤ)).CommShift ℤ]
+    [(shiftFunctor C (-1 : ℤ)).IsTriangulated] :
+    (shiftFunctor C (-1 : ℤ)).LeftTExact t t := by
   sorry
 
 end TExact
@@ -121,25 +125,29 @@ end TExact
 example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
     [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
     (t : TStructure C) (A : t.heart.FullSubcategory)
-    (hA : ¬ IsZero (t.heart.ι.obj A)) :
-    ¬ Functor.IsLeftTExact t t (shiftFunctor C (1 : ℤ)) := by
+    (hA : ¬ IsZero (t.heart.ι.obj A)) [(shiftFunctor C (1 : ℤ)).CommShift ℤ]
+    [(shiftFunctor C (1 : ℤ)).IsTriangulated] :
+    ¬ (shiftFunctor C (1 : ℤ)).LeftTExact t t := by
   sorry
 
 /-- Shift `[-1]` fails right t-exactness in a nonzero heart. -/
 example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
     [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
     (t : TStructure C) (A : t.heart.FullSubcategory)
-    (hA : ¬ IsZero (t.heart.ι.obj A)) :
-    ¬ Functor.IsRightTExact t t (shiftFunctor C (-1 : ℤ)) := by
+    (hA : ¬ IsZero (t.heart.ι.obj A)) [(shiftFunctor C (-1 : ℤ)).CommShift ℤ]
+    [(shiftFunctor C (-1 : ℤ)).IsTriangulated] :
+    ¬ (shiftFunctor C (-1 : ℤ)).RightTExact t t := by
   sorry
 
 /-- Neither nonzero unit shift is t-exact when the heart is nonzero. -/
 example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
     [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
     (t : TStructure C) (A : t.heart.FullSubcategory)
-    (hA : ¬ IsZero (t.heart.ι.obj A)) :
-    ¬ Functor.IsTExact t t (shiftFunctor C (1 : ℤ)) ∧
-      ¬ Functor.IsTExact t t (shiftFunctor C (-1 : ℤ)) := by
+    (hA : ¬ IsZero (t.heart.ι.obj A)) [(shiftFunctor C (1 : ℤ)).CommShift ℤ]
+    [(shiftFunctor C (1 : ℤ)).IsTriangulated] [(shiftFunctor C (-1 : ℤ)).CommShift ℤ]
+    [(shiftFunctor C (-1 : ℤ)).IsTriangulated] :
+    ¬ (shiftFunctor C (1 : ℤ)).TExact t t ∧
+      ¬ (shiftFunctor C (-1 : ℤ)).TExact t t := by
   sorry
 
 /-- The heart of a t-structure on a triangulated category admits an abelian structure.
@@ -491,10 +499,11 @@ cohomology as geometric subspaces, projective-bundle integration, sheaf blow-up 
 complete-intersection cohomology; Weil and mixed perverse categories, perverse weights,
 relative Lefschetz object and primitive objects, geometric-origin spread category and
 pure specialization; scheme and cohomological correspondences, their proper pushforward,
-pullback and composition, trace classes and integrated local terms, specialization and
+pullback and composition, proper-support 2-morphisms and their coherence, trace classes and integrated local terms, specialization and
 normal-cone deformation, contraction and Frobenius twisting with positive ramification exponents; the semisimple cyclic closure and character criterion; tubular-neighbourhood
 conditions, ULA specialization, full Artin fixed components and their finite-jet weight
-model; finite filtered localization and its graded trace; supported Betti purity for smooth closed pairs and
+model; finite filtered localization and its graded trace; supported Betti purity for smooth closed pairs,
+its realization agreement with ordinary Thom/Gysin, and
 derived-complete Betti coefficient systems; GradedFrobeniusDuality and its geometric Poincaré export.
 
 Additional prerequisite targets: curveEulerPoincareSwan, adicFiniteFieldHochschildSerre,
@@ -503,17 +512,21 @@ semisimpleCyclicClosure_diagonalizable, chowIntersection_eq_eulerTor.
 Principal names for these README targets: quasiFiniteFlatTrace, curveTrace, trace,
 derivedTrace, fundamentalClass, fundamentalClassOfCycle, chernClass, totalChernClass,
 cycleClass, chowCycleClass; TStructure.homologyZero, TStructure.homology, heartFunctor,
+Functor.rightTExact_comp, Functor.leftTExact_comp,
 Recollement, intermediateExtension, TStructure.TorsionTheory.ofNoetherianLinear, tilt,
 perverseLE, perverseGE, perverseTStructure, PerverseSheaf, perverseCoh,
 intersectionComplex, perverseLEExt, perverseGEExt; normalizedSystem,
-BettiSupportedPurity, BettiNormalizedSystem, tateOrientation_finite;
+BettiSupportedPurity, BettiNormalizedSystem, thom_realization, gysin_realization,
+tateOrientation_finite;
 MixedPerverseSheaf, weightFiltration, IsGeometricallySemisimple,
 IsGeometricallySplitSemisimple, GradedLefschetz, etaPow, HardLefschetz, primitive,
 RestrictedCategory, GoodModel, GeometricOrigin, IsSemisimpleGeometricOrigin;
 Correspondence, Correspondence.Hom, Correspondence.fix, Correspondence.graph,
 compactify_preserving_invariance, CohCorr, CohCorr.pushforward, CohCorr.rgammac,
 CohCorr.pullbackAlong, CohCorr.restrictOpen, CohCorr.restrictClosed,
-CohCorr.naiveLocalTerm, CohCorr.comp, CohCorr.traceMap, CohCorr.localTerm,
+CohCorr.naiveLocalTerm, CohCorr.comp, CohCorr.TwoHom, CohCorr.TwoHom.id,
+CohCorr.TwoHom.vcomp, CohCorr.TwoHom.hcomp, CohCorr.twoCoherence,
+CohCorr.traceMap, CohCorr.localTerm,
 IsInvariant, IsLocallyInvariant, Lift, sp, CohCorr.sp, Stabilizes,
 IsContractingNear, IsContractingNearFix, frobeniusTwist, ramification,
 NoTubularFixed, NoAlmostTubularFixed, GradedFrobeniusDuality.

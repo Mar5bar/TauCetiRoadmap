@@ -32,7 +32,7 @@ The named suppliers below are the existing TauCetiRoadmap documents, with versio
 
 ### From Mathlib and Tau Ceti
 
-Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. `CategoryTheory.Triangulated.TStructure` supplies the predicates `le`, `ge`, `heart`, `bounded`, the `Heart` inclusion class, and the functors `truncLE` and `truncGE`. `TStructure.heart` is the intersection of the two degree-zero object properties. `Triangulated.AbelianSubcategory.abelian` supplies the admissible-subcategory criterion used to prove the heart theorem in Layer 2. `DerivedCategory.TStructure.t` and `DerivedCategory.homologyFunctor` supply the ordinary derived-category comparison. Ordinary category theory supplies adjunctions, images, kernels, full subcategories and finite biproducts.
+Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. `CategoryTheory.Triangulated.TStructure` supplies the predicates `le`, `ge`, `heart`, `bounded`, the `Heart` inclusion class, and the functors `truncLE` and `truncGE`. `TStructure.heart` is the intersection of the two degree-zero object properties. Mathlib's [t-exactness classes](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/CategoryTheory/Triangulated/TStructure/TExact.lean) `CategoryTheory.Functor.RightTExact`, `LeftTExact` and `TExact` supply preservation in every degree, with `RightTExact.mk` and `LeftTExact.mk` as degree-zero constructors; their functors carry `CommShift ℤ` and `IsTriangulated`. `Triangulated.AbelianSubcategory.abelian` supplies the admissible-subcategory criterion used to prove the heart theorem in Layer 2. `DerivedCategory.TStructure.t` and `DerivedCategory.homologyFunctor` supply the ordinary derived-category comparison. Ordinary category theory supplies adjunctions, images, kernels, full subcategories and finite biproducts.
 
 Scheme morphisms, fibre products, ideal sheaves and locally finite algebraic cycles use the native Mathlib carriers. `AlgebraicGeometry.AlgebraicCycle` alone does not provide Chow groups or a cycle class. Likewise `Scheme.ellAdicSheaf` is an underived sheaf construction, rather than the normalized constructible category used here. Module duals, perfect bilinear pairings, kernels and ranges, determinants, characteristic polynomials and generalized eigenspaces are the linear-algebra inputs. The existing transpose/inverse characteristic-polynomial identities and dual-map determinant are used in Layer 8.
 
@@ -75,7 +75,7 @@ DeligneWeightsAndPurity §§0.1–0.19 supply scalar Weil numbers and fixed-`ι`
 
 ### From comparison roadmaps
 
-ComplexComparisonPartII §§C−1.1, C5.4, C6.0–C6.6 supplies algebraically constructible analytic coefficient categories, finite Artin comparison, ordinary and compact integral/rational realization, proper `Rf*` and separated finite-Tor `Rf!` comparison, and the integral exponential/Kummer first-Chern comparison. The additional nonproper constructible `Rf*` exchange, perverse equivalence and rational stable-lattice essential image are §3.5 below. AlgebraicTopology Stage 6 supplies relative cochains, local orientations and products. Section 3.6 constructs the additional supported normal-bundle Thom/Gysin maps, complete coefficient systems and torsion-sensitive noncompact constructible duality from those cochains, localization and local orientation calculations.
+ComplexComparisonPartII §§C−1.1, C5.4, C6.0–C6.6 supplies algebraically constructible analytic coefficient categories, finite Artin comparison, ordinary and compact integral/rational realization, proper `Rf*` and separated finite-Tor `Rf!` comparison, and the integral exponential/Kummer first-Chern comparison. The additional nonproper constructible `Rf*` exchange, perverse equivalence and rational stable-lattice essential image are §3.5 below. AlgebraicTopology Stage 6 supplies relative cochains, local orientations and products. CharacteristicClasses C2.1–C2.4 [TCR-CharacteristicClasses] owns the ordinary topological Thom class `U_E`, its orientation and product normalization, and embedding Gysin with supports, composition and projection formula. Section 3.6 identifies the ordinary realizations of its supported sheaf Thom/Gysin maps with those supplied maps, and constructs complete coefficient systems and torsion-sensitive noncompact constructible duality from relative cochains, localization and local orientation calculations.
 
 ClassicalAdicEtaleCohomology §§9.3–9.6, 8.2 and 11.1 supplies the chart-independent analytic smooth trace, analytic `c₁` and Huber proper and nonproper algebraic-model cohomology comparisons. AdicSpacesPartII §R1 supplies scheme-fibre-product analytification. The full smooth-duality comparison in §3.8 uses Huber's prime-to-**residue**-characteristic range, a quasi-separated target and tautness for proper supports. Extending it to normalized integral analytic systems additionally requires an analytic constructible derived-complete realization with common strata and uniform bounds; that extension is not asserted by the finite theorem.
 
@@ -416,7 +416,9 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above;
 
 - `TauCeti.EtaleDuality.finiteFlatTrace_id`: For `f = id, Tr_f` is the identity.
 
-- `TauCeti.EtaleDuality.not_finiteFlatTrace_counit_ramified`: Assume `Λ≠0`. For `x ↦ x²` on `A¹` the trace is not the counit of an adjunction `f_! ⊣ f^*`: at 0 it is `2 · id` rather than an isomorphism compatible with a left adjoint, so 'trace `=` counit' holds only for étale `f`.
+- `TauCeti.EtaleDuality.not_finiteFlatTrace_counit_ramified`: In the category of étale `𝔽₂`-module sheaves, take `f:𝔸¹_ℂ→𝔸¹_ℂ`, `t↦t²`, and `F=i_*𝔽₂` for the origin inclusion `i`. Then `f_!f^*F≅F` and `Tr_F=2·id_F=0`. Since `f^*F≠0`, no unit can satisfy `f^*(Tr_F)∘η_(f^*F)=id_(f^*F)`. Thus this trace cannot be a counit of `f_!⊣f^*`; the étale assertion above identifies the canonical counit in its stated range.
+
+- Over `k=𝔽̄₂` with `Λ=𝔽₃`, the square map is a universal homeomorphism. Topological invariance (Stacks Tag 03SI) makes `f_!=f_*` inverse to `f^*`. Its weighted trace is `2ε₀`, where `ε₀` is the equivalence counit (Stacks Tag 0GKI); together with `2⁻¹η₀` it satisfies both triangles. Ramification alone does not exclude a counit in a coefficient category.
 
 - `Spec L → Spec K` for a finite separable extension of degree `r: Tr ∘` unit `= r`.
 
@@ -1450,36 +1452,33 @@ Work with the following additional hypotheses. Triangulated functors between pre
 `t`-structures; (iii) needs an adjunction of triangulated functors (Mathlib Adjunction plus IsTriangulated on
 both functors).
 
-The interface consists of the following maps and identities.
+Use Mathlib's `T.RightTExact t₁ t₂`, `T.LeftTExact t₁ t₂` and `T.TExact t₁ t₂`, with
+`T.CommShift ℤ` and `T.IsTriangulated`. Its `isLE_obj` and `isGE_obj` supply preservation in every degree;
+the degree-zero constructors are `RightTExact.mk` and `LeftTExact.mk`.
+The additional interface consists of the following maps and identities.
 
+- `TauCeti.EtaleDuality.Functor.rightTExact_comp`: `T₁.RightTExact t₁ t₂` and `T₂.RightTExact t₂ t₃` give `(T₁ ⋙ T₂).RightTExact t₁ t₃`.
 
-- `TauCeti.EtaleDuality.Functor.IsRightTExact`: `T` maps `t₁.le 0` into `t₂.le 0`.
+- `TauCeti.EtaleDuality.Functor.leftTExact_comp`: The corresponding composition result over `LeftTExact`.
 
-- `TauCeti.EtaleDuality.Functor.IsLeftTExact`: `T` maps `t₁.ge 0` into `t₂.ge 0`.
-
-- `TauCeti.EtaleDuality.Functor.IsTExact`: `T` is left and right `t`-exact.
-
-- `TauCeti.EtaleDuality.Functor.IsRightTExact.le`: A triangulated right `t`-exact functor maps `t₁.le n` into `t₂.le n` for every `n ∈ ℤ`.
-
-- `TauCeti.EtaleDuality.Functor.IsRightTExact.comp`: Composites of right `t`-exact functors are right `t`-exact.
-
-- `TauCeti.EtaleDuality.Functor.IsLeftTExact.comp`: Composites of left `t`-exact functors are left `t`-exact.
-
-- `TauCeti.EtaleDuality.Functor.isRightTExact_iff_isLeftTExact_of_adjunction`: For an adjunction `T* ⊣ T_*` of triangulated functors, `T*` is right `t`-exact iff `T_*` is left `t`-exact.
+- `TauCeti.EtaleDuality.Functor.isRightTExact_iff_isLeftTExact_of_adjunction`: For an adjunction `L ⊣ R` with both functors carrying `CommShift ℤ` and `IsTriangulated`, `L.RightTExact t₁ t₂ ↔ R.LeftTExact t₂ t₁`.
 
 - `TauCeti.EtaleDuality.Functor.heartFunctor`: `pT := H⁰_{t₂} ∘ T ∘ ι₁` : heart`(t₁) ⥤` heart`(t₂)`.
 
-- `TauCeti.EtaleDuality.Functor.heartFunctor_preservesFiniteColimits`: If `T` is right `t`-exact, `pT` is right exact (preserves finite colimits).
+- `TauCeti.EtaleDuality.Functor.heartFunctor_preservesFiniteColimits`: Under `T.RightTExact t₁ t₂`, `pT` is right exact (preserves finite colimits).
 
-- `TauCeti.EtaleDuality.Functor.heartFunctor_preservesFiniteLimits`: If `T` is left `t`-exact, `pT` is left exact (preserves finite limits).
+- `TauCeti.EtaleDuality.Functor.heartFunctor_preservesFiniteLimits`: Under `T.LeftTExact t₁ t₂`, `pT` is left exact (preserves finite limits).
 
-- `TauCeti.EtaleDuality.Functor.heartAdjunction`: If `T* ⊣ T_*` with `T*` right `t`-exact, then `pT* ⊣ pT_*` on the hearts.
+- `TauCeti.EtaleDuality.Functor.heartAdjunction`: If `L ⊣ R` with `L.RightTExact t₁ t₂` (equivalently `R.LeftTExact t₂ t₁`), then `pL ⊣ pR` on the hearts.
 
-- `TauCeti.EtaleDuality.Functor.heartFunctorComp`: For left `t`-exact `T₁, T₂, p(T₂ ∘ T₁) ≅ pT₂ ∘ pT₁`; dually for right `t`-exact functors.
+- `TauCeti.EtaleDuality.Functor.heartFunctorComp`: Under `T₁.LeftTExact t₁ t₂` and `T₂.LeftTExact t₂ t₃`, `p(T₂ ∘ T₁) ≅ pT₂ ∘ pT₁`; dually under the two `RightTExact` hypotheses.
+
+- `TauCeti.EtaleDuality.Functor.heartRestriction_exists`: For triangulated `C₁,C₂` and `T.TExact t₁ t₂`, there is a functor on the full-subcategory hearts whose composite with the target inclusion is naturally isomorphic to `ι₁ ⋙ T`, preserving finite limits and finite colimits. It identifies with `pT`.
 
 A proof proceeds as follows.
 
-Definitions by the two inclusions; the shift statement from `T(X[1]) ≅ T(X)[1]` and `t.le n = t.le 0 [−n]`.
+Use the supplied degree-zero constructors and all-degree preservation. Composition follows by applying
+the two native preservation instances successively.
 
 (`i`), (ii): long exact sequences of `H_{t₂}` applied to `T` of a short exact sequence of the heart, using §2.1 (ii)
 (BBD 1.3.17 proof, p.37).
@@ -1492,7 +1491,7 @@ Definitions by the two inclusions; the shift statement from `T(X[1]) ≅ T(X)[1]
 Use [BBD-1982] 1.3.16 and Proposition 1.3.17, pp.36–37; Remarque 1.3.18, p.37; 1.3.19, p.38.
 
 *Needs:* §2.1; `CategoryTheory.Triangulated.TStructure`; `CategoryTheory.Functor.IsTriangulated`;
-`CategoryTheory.Adjunction`.
+`CategoryTheory.Adjunction`; Mathlib `CategoryTheory.Functor.RightTExact`, `LeftTExact`, `TExact`.
 
 **Checks.**
 
@@ -3306,7 +3305,7 @@ Prove the remaining nonproper constructible `Rf_*` comparison using EtaleCohomol
 finite and integral equivalences and rational full faithfulness with the stable-lattice essential image. Apply
 the finite comparisons levelwise to the coherent `λ`-adic systems for ramified `O_E`.
 
-For the finite non-`ctf` coefficient range, use BBD 6.1.2`(C),(C′),(C″)`, pp.148–151 and its
+For the finite non-`ctf` coefficient range, use BBD 6.1.2`(C), (C′)` and their proof, pp.150–151, with its
 localization/dévissage argument to extend the operation comparison beyond the imported `ctf` exchange. `Rf_!` is
 computed by proper pushforward and `j_!` using the existing Nagata compactifications. Define the `f^!` exchange by
 adjunction; compute it locally via smooth purity and closed/open localization as in BBD p.151. Do not infer it
@@ -3321,7 +3320,7 @@ finite-Tor boundedness receipts and realization isomorphisms identify the bounde
 coefficient fields, use their separate analytic boundedness theorem, not a universal bounded operation over
 arbitrary rings.
 
-Use [BBD-1982] 6.1.2`(A)`–`(C), (A′)`–`(C′), (A″)`–`(C″)` and the proof, pp.148–151; [TCR-ComplexComparisonPartII]
+Use [BBD-1982] 6.1.2`(A), (A′), (A″), (B′), (B″), (C), (C′)` and the proof, pp.148–151; [TCR-ComplexComparisonPartII]
 §§C−1.1,C6.0–C6.6.
 
 *Needs:* §2.4; §2.8; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
@@ -3337,16 +3336,17 @@ Use [BBD-1982] 6.1.2`(A)`–`(C), (A′)`–`(C′), (A″)`–`(C″)` and the 
 
 ### 3.6 Tate lines, orientation and supported classes
 
-**Supported topological orientation and complete coefficients.** Work on the locally compact Hausdorff analytic spaces of finite-type complex varieties, with finite cohomological dimension and algebraically constructible complexes. Define `BettiSupportedPurity` using relative cochains of the normal bundle and its complement of the zero section. For a smooth closed subvariety `i:Z→X` of a smooth complex variety `X`, of pure codimension `c`, complex orientation of the normal bundle gives `i^!Λ_X≅Λ_Z(−c)[−2c]`, after the Tate-line identification below. This constant-coefficient purity assertion is restricted to smooth pairs. Define its Thom class and Gysin map by the closed-support adjunction, and prove compatibility with the supplied integration on compactly supported top cochains. Import oriented fibre integration and trace normalization from ComplexComparisonPartII §C6.5 / `artinSmoothTrace`, and normalized topological realization with integral and rational traces from §C6.6 / `adicArtinComparison`. Extend those coefficient systems to ramified `O=O_E` using §3.4. Define this extension `BettiNormalizedSystem(O)` as coherent derived-complete `O/λ^m` systems in the supplied analytic constructible enhancement, with one finite algebraic stratification and uniform ordinary and `Tor` bounds; its reductions are derived reductions. The additional constructions are supported Thom/Gysin classes, higher-cycle comparison and constructible duality, using the relative cochains and compact-manifold duality of AlgebraicTopology Stage 6.
+**Supported topological orientation and complete coefficients.** Work on the locally compact Hausdorff analytic spaces of finite-type complex varieties, with finite cohomological dimension and algebraically constructible complexes. Define `BettiSupportedPurity` using relative cochains of the normal bundle and its complement of the zero section. For a smooth closed subvariety `i:Z→X` of a smooth complex variety `X`, of pure codimension `c`, complex orientation of the normal bundle gives `i^!Λ_X≅Λ_Z(−c)[−2c]`, after the Tate-line identification below. This constant-coefficient purity assertion is restricted to smooth pairs. Define its supported sheaf Thom class and Gysin map by the closed-support adjunction. Under the relative sheaf–cochain realization, identify their induced ordinary maps with CharacteristicClasses C2.1–C2.4's `U_E` and embedding Gysin for the same positive complex orientation, products and supports. Prove compatibility with the supplied integration on compactly supported top cochains. Import oriented fibre integration and trace normalization from ComplexComparisonPartII §C6.5 / `artinSmoothTrace`, and normalized topological realization with integral and rational traces from §C6.6 / `adicArtinComparison`. Extend those coefficient systems to ramified `O=O_E` using §3.4. Define this extension `BettiNormalizedSystem(O)` as coherent derived-complete `O/λ^m` systems in the supplied analytic constructible enhancement, with one finite algebraic stratification and uniform ordinary and `Tor` bounds; its reductions are derived reductions. The additional constructions are supported sheaf purity, its realization comparison with the ordinary Thom/Gysin maps, higher-cycle comparison and constructible duality, using the relative cochains and compact-manifold duality of AlgebraicTopology Stage 6.
 
-The API consists of `thom_normalCoordinate` (positive complex-coordinate generator), `thom_product` (direct sums of normal bundles), `gysin_localization`, `gysin_projection`, `trace_compactSupport` (compatibility with the imported trace after ramified coefficient extension), `bettiDuality_evaluation`, `normalized_reduce`, and `normalized_mappingLimit`. For an algebraically constructible finite-Tor `K` on a smooth complex `d`-fold, the duality statement is `RΓ(X,RHom(K,Λ(d)[2d]))≅RHom(RΓ_c(X,K),Λ)`; retain the derived `Hom` and its integral `Ext` term. At `O`-level use the complete limit of the finite-level maps; after inverting `λ` retain the stable-lattice analytic essential image from §3.5.
+The API consists of `thom_normalCoordinate` (positive complex-coordinate generator), `thom_product` (direct sums of normal bundles), `gysin_localization`, `gysin_projection`, `thom_realization` (the realized supported class equals the supplied `U_N` of the normal bundle), `gysin_realization` (the realized support-adjunction map equals the supplied embedding Gysin), `trace_compactSupport` (compatibility with the imported trace after ramified coefficient extension), `bettiDuality_evaluation`, `normalized_reduce`, and `normalized_mappingLimit`. For an algebraically constructible finite-Tor `K` on a smooth complex `d`-fold, the duality statement is `RΓ(X,RHom(K,Λ(d)[2d]))≅RHom(RΓ_c(X,K),Λ)`; retain the derived `Hom` and its integral `Ext` term. At `O`-level use the complete limit of the finite-level maps; after inverting `λ` retain the stable-lattice analytic essential image from §3.5.
 
-Construct the local class on `(ℂ^c,ℂ^c−{0})` from the relative-cochain generator and the standard complex orientation. Excision and the transition invariance of complex orientations glue it along a smooth normal bundle. The cup/cap identities give product, projection and composition; the zero-section construction identifies its support adjunction. For noncompact duality start with a trivial local system on an oriented ball, where compactly supported relative cochains calculate the shifted coefficient dual. Use finite algebraic stratification, open/closed localization and duality triangles to pass to constructible complexes; use finite projective coefficient resolutions for finite-Tor objects. This supplies the compact-support pairing rather than a fundamental class without compactness. The already supplied finite Artin comparison respects localization; the local Kummer/exponential generator then identifies the étale and topological maps. Form coherent `O/λ^m` diagrams and apply EnhancedDerivedSheaves coefficient reconstruction and §3.2 mapping limits with the displayed bounds. (Dimca, *Sheaves in Topology*, Proposition 3.2.11, p.65, Theorem 3.3.3, p.68, and Theorem 3.3.10, p.69, for supported purity and derived compact-support duality; finite-Tor coefficient base change supplies the finite quotient rings. BBD §§6.1.2(`A′`–`C′`), pp.149–151, and 6.1.4, pp.151–152; AlgebraicTopology Stage 6 for relative cochains and orientation products; EnhancedDerivedSheaves Layer 4 for derived completeness.) *Needs:* §§3.1–3.5, ComplexComparisonPartII §§C5.4, C6.0–C6.6, and the supplied relative-cochain/orientation API.
+Construct the supported sheaf class on `(ℂ^c,ℂ^c−{0})` from the positive relative-cochain generator. Localization glues it along the normal bundle. Under relative sheaf–cochain realization, uniqueness of the supplied Thom class with these fibre generators identifies it with CharacteristicClasses C2.1's `U_N`. Compare support adjunction with tubular extension to obtain C2.4's embedding Gysin. Transport C2.2–C2.4's products, projection and composition identities through this comparison, retaining the same support groups. For noncompact duality start with a trivial local system on an oriented ball, where compactly supported relative cochains calculate the shifted coefficient dual. Use finite algebraic stratification, open/closed localization and duality triangles to pass to constructible complexes; use finite projective coefficient resolutions for finite-Tor objects. This supplies the compact-support pairing rather than a fundamental class without compactness. The already supplied finite Artin comparison respects localization; the local Kummer/exponential generator then identifies the étale and topological maps. Form coherent `O/λ^m` diagrams and apply EnhancedDerivedSheaves coefficient reconstruction and §3.2 mapping limits with the displayed bounds. (Dimca, *Sheaves in Topology*, Proposition 3.2.11, p.65, Theorem 3.3.3, p.68, and Theorem 3.3.10, p.69, for supported purity and derived compact-support duality; finite-Tor coefficient base change supplies the finite quotient rings. BBD §§6.1.2(`A′`–`C′`), pp.149–151, and 6.1.4, pp.151–152; [TCR-CharacteristicClasses] C2.1–C2.4 for ordinary Thom/Gysin and their identities; AlgebraicTopology Stage 6 for relative cochains and orientation products; EnhancedDerivedSheaves Layer 4 for derived completeness.) *Needs:* §§3.1–3.5, ComplexComparisonPartII §§C5.4, C6.0–C6.6, CharacteristicClasses C2.1–C2.4, and the supplied relative-cochain/orientation API.
 
 **Checks.**
 
-- The zero section of the trivial complex line has relative Thom group `Λ` in degree two; its class is the positive coordinate generator, rather than its negative.
-- Codimension zero gives the identity support map. The product of two line generators gives the codimension-two class with shift four.
+- The zero section of the trivial complex line has relative Thom group `Λ` in degree two; `thom_realization` sends its class to CharacteristicClasses C2.1's positive coordinate generator.
+- Codimension zero gives the identity support map. The product of two line generators gives the codimension-two class with shift four and agrees with CharacteristicClasses C2.2's ordered Thom product.
+- For a smooth closed complex embedding, `gysin_realization` identifies the supported sheaf map with CharacteristicClasses C2.4's Thom/tubular Gysin before forgetting support; their projection and composition squares commute.
 - For the singular curve `X={xy=0}⊂ℂ²`, `Z={0}` and `Λ=𝔽₂`, the costalk has `H¹_Z(X,Λ)=Λ` and `H²_Z(X,Λ)=Λ²`: a small neighbourhood is contractible and its puncture has two components, each homotopy equivalent to a circle. Smoothness of `Z` alone does not give purity in a singular ambient space.
 - For `X=ℂ`, ordinary degree-two cohomology vanishes but `H²_c(X,Λ(1))=Λ` and its integration is the identity. Ordinary support would give a wrong trace.
 - At a point with `K=O/λ`, the derived `O`-dual has its nonzero `Ext¹` term. Ordinary `Hom` alone is zero and fails duality; reduction of the normalized object likewise keeps both derived terms.
@@ -5021,7 +5021,9 @@ Use [BBD-1982] Théorème 5.2.1 and its proof 5.2.2–5.2.8, pp. 129–134.
 
 - `F₀ = ℚ̄_ℓ[1]` on `𝔾_{m,𝔽_q}: H⁰(𝔾_m, ℚ̄_ℓ[1]) = H¹(𝔾_m, ℚ̄_ℓ) = ℚ̄_ℓ(−1)` has weight `2 ≥ 1`, consistent with weights `≥ 1`, while `H^{−1} = H⁰(𝔾_m)` has weight `0 < 1` and is not tested.
 
-- A punctual perverse sheaf `ℚ̄_ℓ(1)` at a rational point has `H⁰ = ℚ̄_ℓ(1)` of weight `−2` on every affine étale neighbourhood, so it does not have weights `≥ −1`.
+- On `X₀=𝔾_{m,𝔽_q}`, the punctual sheaf `F₀=δ₁(1)` has `H⁰(X,F)=ℚ̄_ℓ(1)` of weight `−2` on the identity affine étale neighbourhood, so it does not have weights `≥−1`.
+
+- For odd `q`, the connected affine étale cover `u:𝔾_m→𝔾_m`, `t↦t²`, has two rational lifts of 1. Thus `H⁰(U,u^*δ₁(1))=ℚ̄_ℓ(1)⊕ℚ̄_ℓ(1)`, pure of weight `−2`. For any affine étale neighbourhood meeting the support, this group is the permutation module on its finite nonempty set of geometric lifts, tensored with `ℚ̄_ℓ(1)`; Frobenius cycles contribute roots of unity, preserving weight `−2`.
 
 **Subquotients of mixed perverse sheaves keep their weight bounds.** If a mixed perverse sheaf `F₀` has weights
 `≥ w` (resp. `≤ w`), every subquotient of `F₀` in `Perv(X₀)` has weights `≥ w` (resp. `≤ w`).
@@ -5917,7 +5919,9 @@ Use [BBD-1982] Théorème 5.4.10 with `Y₀` a point, p. 144; 6.2.10, p. 165; [d
 
 - For `X₀` smooth projective and `L₀ = ℚ̄_ℓ` this is DeligneWeightsAndPurity §9.6 over `𝔽̄_q`.
 
-- Agreement with Weil II 6.2.13 (DeligneWeightsAndPurity §9.10) for `K = IC_X(L)`, whose support conditions hold with the integer `n = dim X`.
+- Agreement with Weil II 6.2.13 (DeligneWeightsAndPurity §9.10): put `d=dim X` and `K=IC_X(L)[−d]`. The perverse support bounds for `IC_X(L)` and `DIC_X(L)` give both supplier bounds with parameter `d`, since `DK[−2d]=DIC_X(L)[−d]`. Then `H^j(X,K)=IH^j(X,L)`. Equivalently, the perverse normalization `K=IC_X(L)` uses supplier parameter 0.
+
+- For `X=ℙ¹` and `L=ℚ̄_ℓ`, `IC=ℚ̄_ℓ[1]` and `DIC=ℚ̄_ℓ(1)[1]`. Parameter 1 fails for the perverse IC: `H¹(DIC[−2])` has one-dimensional support, exceeding `1−1=0`. The shifted `K=ℚ̄_ℓ` satisfies both bounds with parameter 1, giving `η:H⁰(X,K)≅H²(X,K)(1)`.
 
 ### 5.9 Restricted specialization and geometric origin
 
@@ -6412,7 +6416,10 @@ middle map is the base change `pr_C^*c₂^! → pr_D^!d₁^*` of the cartesian s
 base change isomorphism `pr_D!pr_C^* ≅ d₁^*c₂!`). Composition is associative and unital up to the canonical
 isomorphisms of fibre products, and is compatible with pushforward to `Spec k`: for `c₁, d₁` proper, `RΓ_c` of the
 composite is `RΓ_c(v) ∘ RΓ_c(u)`. Together with external products `(X, L) ⊗ (X′, L′) = (X × X′, L ⊠ L′)` these
-form a symmetric monoidal 2-category.
+form a symmetric monoidal 2-category (a bicategory). For fixed endpoints `(X,L),(Y,M)`, a 2-morphism
+`(c,u)→(d,v)` is a proper support map `p:C→D` with `d₁p=c₁`, `d₂p=c₂` and
+`v=CohCorr.pushforward (id_X,p,id_Y) u`. The equation compares the specified cohomological maps;
+`Correspondence.Hom` alone supplies only the underlying commuting squares.
 
 Work with the following additional hypotheses. All schemes are separated of finite type over a field `k`
 (separably closed whenever trace maps, local terms or traces on cohomology occur); `ℓ` is invertible in `k`; `Λ` is
@@ -6435,6 +6442,14 @@ The interface consists of the following maps and identities.
 
 - `TauCeti.EtaleDuality.CohCorr.boxProduct`: External product of cohomological correspondences, symmetric monoidal and compatible with composition.
 
+- `TauCeti.EtaleDuality.CohCorr.TwoHom`: The proper support maps with fixed endpoints and the displayed pushforward equation.
+
+- `TauCeti.EtaleDuality.CohCorr.TwoHom.id`, `TauCeti.EtaleDuality.CohCorr.TwoHom.vcomp`: Identity support maps and vertical composition, with associative and unital laws.
+
+- `TauCeti.EtaleDuality.CohCorr.TwoHom.hcomp`: Horizontal composition is the proper map `p×_Y q` between composite supports; prove its pushforward equation and interchange with vertical composition.
+
+- `TauCeti.EtaleDuality.CohCorr.twoCoherence`: The fibre-product associator and unitors are invertible 2-morphisms, natural for `TwoHom`, satisfying pentagon and triangle identities. External products of proper support maps give the symmetric monoidal coherence.
+
 A proof proceeds as follows.
 
 The base change map `pr_C^*c₂^! → pr_D^!d₁^*` exists for every cartesian square of separated finite-type schemes
@@ -6442,6 +6457,10 @@ The base change map `pr_C^*c₂^! → pr_D^!d₁^*` exists for every cartesian s
 
 Associativity and unit: coherence of base change maps with composition of squares (EtaleCohomologyFoundations
 §F.5; EnhancedDerivedSheaves §0.4).
+
+For 2-morphisms use proper pushforward composition and base change. Properness survives products and base
+change, giving horizontal composition. The corresponding mate identities prove interchange and naturality;
+the canonical support isomorphisms satisfy the bicategory and symmetric monoidal coherence identities.
 
 Compatibility with `RΓ_c`: compose the pushforwards of 1.1.6 and use proper base change (Lu–Zheng Construction
 2.6).
@@ -6465,6 +6484,10 @@ Use [Lu-Zheng-2022] §2.2, Construction 2.6, p. 13 (arXiv v4).
 - Composing the graph-type correspondences of `g` and `h` (with structures `u, v`) gives the graph-type correspondence of `g ∘ h` with the composite structure.
 
 - The identity correspondence of `(X, L)` with `u = id` is a unit.
+
+- For the fold `p:Spec k ⊔ Spec k→Spec k` with both endpoints `(Spec k,Λ)` and `u=(a,b)`, the pushforward is `a+b`. Thus `p` is a 2-morphism to `(Spec k,a+b)`; for `Λ≠0`, `a=1,b=0`, it is not one to `(Spec k,0)` despite the commuting support squares.
+
+- Over a point, horizontal composition of finite-support folds uses the Cartesian product of their index sets; the pushforward equality is distributivity of finite sums. Vertical composition is summation in stages, so interchange holds, including empty supports.
 
 ### 6.3 Trace classes, local terms and proper pushforward
 
@@ -7595,6 +7618,8 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 - **[Stacks-Morphisms]** The Stacks Project Authors, [The Stacks Project, Chapter 29: Morphisms of Schemes](https://stacks.math.columbia.edu/download/morphisms.pdf). Version ed88ff78 (compiled 14 July 2026).
 
 - **[TCR-AdicCoefficientsAndComparisons]** TauCetiRoadmap contributors, Adic coefficients and comparison with schemes. README.md, version 4a7b4d83e2622df066e2a883525bb755bce6b115.
+
+- **[TCR-CharacteristicClasses]** TauCetiRoadmap contributors, [Characteristic classes](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01224fe30cf811f9e6d239b75f4003bb8c0b685a/TauCetiRoadmap/CharacteristicClasses/README.md), C2.1–C2.4, version `01224fe30cf811f9e6d239b75f4003bb8c0b685a`.
 
 - **[TCR-ClassicalAdicEtaleCohomology]** TauCetiRoadmap contributors, Classical analytic étale cohomology. README.md, version cd2cc07b343892659c939ce98f41f8b21aa2f9ae.
 
