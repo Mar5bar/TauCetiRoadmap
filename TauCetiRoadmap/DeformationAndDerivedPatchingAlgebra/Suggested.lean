@@ -425,10 +425,15 @@ abbrev Cpx (R : Type u) [CommRing R] := CochainComplex (ModuleCat.{u} R) ℤ
 abbrev H {R : Type u} [CommRing R] (i : ℤ) (C : Der R) :=
   (DerivedCategory.homologyFunctor (ModuleCat R) i).obj C
 
-/-- Minimality is a condition on actual differentials; no bound or freeness is built in. -/
+/-- Minimality on native cochains applies to finite free and complete flat models, without bounds. -/
 def IsMinimal {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : Prop :=
   ∀ i : ℤ, LinearMap.range (P.d i (i + 1)).hom ≤
     maximalIdeal R • (⊤ : Submodule R (P.X (i + 1)))
+
+/-- A complete flat complex has bounded terms, each flat, separated and maximal-adically complete. -/
+def CompleteFlatComplex {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : Prop :=
+  (∃ a b : ℤ, ∀ i : ℤ, i < a ∨ b < i → IsZero (P.X i)) ∧
+    ∀ i : ℤ, Module.Flat R (P.X i) ∧ IsAdicComplete (maximalIdeal R) (P.X i)
 
 /-- Residual exactness of three finite free terms forces middle exactness, with no endpoint assertion. -/
 theorem three_term_residue_exactness [IsLocalRing A]
@@ -617,7 +622,7 @@ dimension and arithmetic rank adapters, generic/special component correspondence
 specialization cycles, completed component products, determinant trivialization and CI parafactoriality.
 
 Layer 7: native Tor indexing, finite-order pseudo-coherent comparisons, complete flat basis and continuous matrix
-comparison, complete flat complex, signed dual functor,
+comparison, complete flat minimal retracts, signed dual functor,
 E/O dual, strict tower action and quotient action,
 finite derived Hom completion, derived action and isolated block comparison,
 coefficient spectral sequence, its finite abutment filtration and derived right edge.
@@ -631,7 +636,8 @@ and original-level kernel containment.
 Layer 9: complex dimension and Fitting comparison, patched CM functor and finite-action canonical duality,
 spectral deformation support, generic and special action blocks, local length
 defect, normalization coefficient and derived divisor length comparison, paired
-support transport and localized derived specialization.
+support transport and localized derived specialization; its coheight-one inversion
+comparison assumes that the uniformizer lies outside the coefficient prime.
 -/
 
 end TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
