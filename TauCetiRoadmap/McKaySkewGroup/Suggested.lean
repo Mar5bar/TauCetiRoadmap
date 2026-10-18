@@ -1,4 +1,15 @@
 import Mathlib
+import TauCeti.RepresentationTheory.SU2.SymmetricPower
+import TauCeti.RepresentationTheory.ClassicalGroups.Standard
+import TauCeti.RepresentationTheory.CharacterTable.Table
+import TauCeti.RepresentationTheory.CharacterTable.Pairing
+import TauCeti.RepresentationTheory.Simple.Basic
+import TauCeti.RepresentationTheory.RepresentationRing.Basic
+import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
+import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Deletion
+import TauCeti.RingTheory.Morita.Corner
+import TauCeti.RingTheory.Semisimple.BasicAlgebra
+import TauCeti.RingTheory.Idempotents.Primitive.Basic
 import TauCetiRoadmap.RepresentationTheory.CharacterTheory.Suggested
 import TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.Suggested
 import TauCetiRoadmap.DGAInfinity.Suggested
@@ -21,7 +32,8 @@ open scoped Matrix MatrixGroups MonoidalCategory Quaternion
 -- Mathlib's `AddCommGroup` instance for simple nilpotent additive groups would otherwise supply
 -- `AddCommGroup (ZMod 2)` in binders such as `FKSGradedAlgebra (ZMod 2) A`, and it is not
 -- reducibly equal to the `AddCommGroupWithOne` projection that the curved-object instances use.
-attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+local instance (priority := 2000) fksZModTwoAddCommGroup : AddCommGroup (ZMod 2) :=
+  (inferInstance : AddCommGroupWithOne (ZMod 2)).toAddCommGroup
 
 universe u v
 
@@ -70,7 +82,13 @@ def su2ToSL2 : Matrix.specialUnitaryGroup (Fin 2) ℂ →*
 
 /-- A unit quaternion with prescribed coordinates satisfying the unit-sphere equation. -/
 noncomputable def unitQuaternionOfCoords (x : Fin 4 → ℝ)
-    (hx : ∑ i, x i ^ 2 = 1) : UnitQuaternion := sorry
+    (hx : ∑ i, x i ^ 2 = 1) : UnitQuaternion :=
+  ⟨(Quaternion.equivTuple ℝ).symm x, by sorry⟩
+
+@[simp] theorem unitQuaternionOfCoords_val (x : Fin 4 → ℝ)
+    (hx : ∑ i, x i ^ 2 = 1) :
+    Quaternion.equivTuple ℝ (unitQuaternionOfCoords x hx).val = x :=
+  (Quaternion.equivTuple ℝ).apply_symm_apply x
 
 /-- The exact coordinate predicate for the 24 Hurwitz units. -/
 def IsHurwitz24 (x : Fin 4 → ℝ) : Prop :=
@@ -177,12 +195,13 @@ noncomputable abbrev binaryIcosahedralSL2 := subgroupSL2 binaryIcosahedral
 
 /-- The defining two-dimensional representation, restricted to a concrete subgroup. -/
 noncomputable def definingRepresentation
-    (H : Subgroup (Matrix.specialUnitaryGroup (Fin 2) ℂ)) :
-    Representation ℂ H (Fin 2 → ℂ) := sorry
+    (H : Subgroup TauCeti.SU2) : Representation ℂ H (Fin 2 → ℂ) :=
+  (TauCeti.stdRep ℂ 2).comp (TauCeti.SU2.toGL.comp H.subtype)
 
 theorem definingRepresentation_faithful
     (H : Subgroup (Matrix.specialUnitaryGroup (Fin 2) ℂ)) :
-    Function.Injective (definingRepresentation H) := sorry
+    Function.Injective (definingRepresentation H) :=
+  (TauCeti.stdRep_injective ℂ 2).comp (TauCeti.SU2.toGL_injective.comp Subtype.val_injective)
 
 /-- The determinant form identifying the defining representation with its dual. -/
 def standardAlternatingForm (x y : Fin 2 → ℂ) : ℂ := x 0 * y 1 - x 1 * y 0
@@ -208,7 +227,9 @@ theorem standardAlternatingDualEquiv_equivariant
 
 /-- The defining representation pulled directly to a unit-quaternion subgroup. -/
 noncomputable def unitQuaternionDefiningRepresentation (H : Subgroup UnitQuaternion) :
-    Representation ℂ H (Fin 2 → ℂ) := sorry
+    Representation ℂ H (Fin 2 → ℂ) :=
+  (TauCeti.stdRep ℂ 2).comp
+    (TauCeti.SU2.toGL.comp (unitQuaternionEquivSU2.toMonoidHom.comp H.subtype))
 
 /-! ## Irreducibles, McKay matrix, and the regular vector -/
 
@@ -216,21 +237,46 @@ noncomputable def unitQuaternionDefiningRepresentation (H : Subgroup UnitQuatern
 noncomputable abbrev trivialFDRep (k : Type u) (G : Type v) [Field k] [Group G] : FDRep k G :=
   FDRep.of (Representation.trivial k G k)
 
-/-- A duplicate-free exhaustive family of simple finite-dimensional representations. -/
+/-- A finite presentation of the EXISTING native simple-object skeleton. Named models are
+representatives of these classes; this is not another quotient/classification engine. -/
 structure IrrepFamily (k : Type u) (G : Type v) [Field k] [Group G] where
   ι : Type v
   [fintypeι : Fintype ι]
   rep : ι → FDRep k G
   simple : ∀ i, Simple (rep i)
-  pairwise : ∀ i j, Nonempty (rep i ≅ rep j) → i = j
-  exhaustive : ∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (rep i ≅ W)
+  classEquiv : ι ≃ TauCeti.SimpleFDRepClasses k G
+  class_eq : ∀ i, @TauCeti.SimpleFDRepClasses.mk k G _ _ (rep i) (simple i) = classEquiv i
   trivial : ι
   trivial_is_one : Nonempty (rep trivial ≅ trivialFDRep k G)
 
 attribute [instance] IrrepFamily.fintypeι
 
-noncomputable def cyclicIrreps (n : ℕ) : IrrepFamily ℂ (cyclicSubgroup n) := sorry
-noncomputable def binaryDihedralIrreps (n : ℕ) : IrrepFamily ℂ (binaryDihedral n) := sorry
+theorem IrrepFamily.pairwise {k : Type u} {G : Type v} [Field k] [Group G]
+    (D : IrrepFamily k G) (i j : D.ι) (h : Nonempty (D.rep i ≅ D.rep j)) : i = j := by
+  letI := D.simple i
+  letI := D.simple j
+  apply D.classEquiv.injective
+  rw [← D.class_eq i, ← D.class_eq j]
+  exact (TauCeti.SimpleFDRepClasses.mk_eq_mk_iff _ _).mpr h
+
+/-- Native skeleton elimination and the specified representative comparison. -/
+theorem IrrepFamily.exhaustive {k : Type u} {G : Type v} [Field k] [Group G]
+    (D : IrrepFamily k G) (W : FDRep k G) (hW : Simple W) :
+    ∃ i, Nonempty (D.rep i ≅ W) := by
+  letI := hW
+  let i := D.classEquiv.symm (TauCeti.SimpleFDRepClasses.mk W)
+  refine ⟨i, ?_⟩
+  letI := D.simple i
+  apply (TauCeti.SimpleFDRepClasses.mk_eq_mk_iff _ _).mp
+  rw [D.class_eq i]
+  exact D.classEquiv.apply_symm_apply _
+
+noncomputable def cyclicIrreps : ∀ (n : ℕ),
+    IrrepFamily ℂ (cyclicSubgroup n) := sorry
+
+noncomputable def binaryDihedralIrreps : ∀ (n : ℕ),
+    IrrepFamily ℂ (binaryDihedral n) := sorry
+
 noncomputable def binaryTetrahedralIrreps : IrrepFamily ℂ binaryTetrahedral := sorry
 noncomputable def binaryOctahedralIrreps : IrrepFamily ℂ binaryOctahedral := sorry
 noncomputable def binaryIcosahedralIrreps : IrrepFamily ℂ binaryIcosahedral := sorry
@@ -255,10 +301,19 @@ noncomputable def affineCartan (D : IrrepFamily k G) (V : FDRep k G) : Matrix D.
 noncomputable def regularDimensionVector (D : IrrepFamily k G) : D.ι → ℤ :=
   fun i ↦ D.dimension i
 
+/-- The column-dimension identity is the LEFT-kernel equation in the target-first convention. -/
 theorem affineCartan_mul_regularDimensionVector [Fintype G]
     (D : IrrepFamily k G) (V : FDRep k G)
     (hTensorDimension : ∀ i,
       ∑ j, D.mckayMatrix V j i * D.dimension j = 2 * D.dimension i) :
+    (D.affineCartan V).transpose *ᵥ D.regularDimensionVector = 0 := sorry
+
+/-- Self-duality supplies symmetry in the SU2 application; the right-kernel export stays explicit. -/
+theorem affineCartan_mul_regularDimensionVector_of_symmetric [Fintype G]
+    (D : IrrepFamily k G) (V : FDRep k G)
+    (hTensorDimension : ∀ i,
+      ∑ j, D.mckayMatrix V j i * D.dimension j = 2 * D.dimension i)
+    (hSelfDualSymmetry : ∀ i j, D.mckayMatrix V i j = D.mckayMatrix V j i) :
     D.affineCartan V *ᵥ D.regularDimensionVector = 0 := sorry
 
 theorem sum_sq_regularDimensionVector [Fintype G] [IsAlgClosed k]
@@ -276,51 +331,52 @@ inductive NamedAffineADE
 
 namespace NamedAffineADE
 
-/-- Exactly the affine tags arising from the binary (noncyclic) subgroups. -/
+/-- Named group-family tags are not affine root data. Even cyclic models contain −I. -/
 def IsBinary : NamedAffineADE → Prop
-  | .cyclic _ _ => False
+  | .cyclic n _ => Even n
   | .binaryDihedral _ _ | .E6 | .E7 | .E8 => True
+
+def native : NamedAffineADE → TauCeti.AffineDynkinType
+  | .cyclic n _ => .A (n - 1)
+  | .binaryDihedral n _ => .D (n + 2)
+  | .E6 => .E6 | .E7 => .E7 | .E8 => .E8
 
 def vertexCount : NamedAffineADE → ℕ
   | .cyclic n _ => n
   | .binaryDihedral n _ => n + 3
-  | .E6 => 7
-  | .E7 => 8
-  | .E8 => 9
+  | .E6 => 7 | .E7 => 8 | .E8 => 9
 
-/-- The standard affine graph is determined by the ADE tag and parameter.  The exceptional
-numberings are star-shaped; `Ẽ₈` is definitionally the sibling roadmap's pinned graph. -/
-def standardGraph : (t : NamedAffineADE) → SimpleGraph (Fin t.vertexCount)
-  | .cyclic n _ => SimpleGraph.cycleGraph n
-  | .binaryDihedral n _ => SimpleGraph.fromRel fun i j ↦
-      (i.1 = 0 ∧ j.1 = 2) ∨ (i.1 = 1 ∧ j.1 = 2) ∨
-      (2 ≤ i.1 ∧ i.1 < n ∧ j.1 = i.1 + 1) ∨
-      (i.1 = n ∧ j.1 = n + 1) ∨ (i.1 = n ∧ j.1 = n + 2)
-  | .E6 => SimpleGraph.fromRel fun i j ↦
-      (i.1, j.1) = (0, 1) ∨ (i.1, j.1) = (1, 2) ∨
-      (i.1, j.1) = (0, 3) ∨ (i.1, j.1) = (3, 4) ∨
-      (i.1, j.1) = (0, 5) ∨ (i.1, j.1) = (5, 6)
-  | .E7 => SimpleGraph.fromRel fun i j ↦
-      (i.1, j.1) = (0, 1) ∨ (i.1, j.1) = (0, 2) ∨
-      (i.1, j.1) = (2, 3) ∨ (i.1, j.1) = (3, 4) ∨
-      (i.1, j.1) = (0, 5) ∨ (i.1, j.1) = (5, 6) ∨
-      (i.1, j.1) = (6, 7)
-  | .E8 => ZigzagPreprojective.affineE8Graph
+/-- The explicit D-numbering transport is separate from native root data. -/
+noncomputable def dihedralNativeIndex : ∀ (n : ℕ), 2 ≤ n →
+    Fin (n + 3) ≃ Fin (TauCeti.AffineDynkinType.D (n + 2)).nodes := sorry
 
-/-- The distinguished affine vertex; in the pinned `Ẽ₈` numbering this is vertex `8`. -/
-def affineVertex : (t : NamedAffineADE) → Fin t.vertexCount
-  | .cyclic _ h => ⟨0, by simpa [vertexCount] using lt_of_lt_of_le (by omega : 0 < 3) h⟩
-  | .binaryDihedral _ _ => ⟨0, by simp [vertexCount]⟩
-  | .E6 => ⟨2, by decide⟩
-  | .E7 => ⟨4, by decide⟩
-  | .E8 => ⟨8, by decide⟩
+noncomputable def nativeIndex : (t : NamedAffineADE) →
+    Fin t.vertexCount ≃ Fin t.native.nodes
+  | .cyclic n h => finCongr (by simp [vertexCount, native, TauCeti.AffineDynkinType.nodes]; omega)
+  | .binaryDihedral n h => dihedralNativeIndex n h
+  | .E6 => Equiv.refl _ | .E7 => Equiv.refl _ | .E8 => Equiv.refl _
+
+theorem dihedralNativeIndex_val (n : ℕ) (h : 2 ≤ n) (i : Fin (n + 3)) :
+    (dihedralNativeIndex n h i).val =
+      if i.val = 0 then 0 else if i.val = 1 then n + 1
+      else if i.val ≤ n then i.val - 1 else if i.val = n + 1 then n else n + 2 := sorry
+
+theorem native_valid (t : NamedAffineADE) : t.native.Valid := by
+  cases t <;> simp_all [native, TauCeti.AffineDynkinType.Valid] <;> omega
+
+theorem native_graphical (t : NamedAffineADE) : t.native.IsGraphical := by
+  cases t <;> simp_all [native, TauCeti.AffineDynkinType.IsGraphical] <;> omega
+
+/-- Pull back the actual native graph, never reimplement its edge list. -/
+noncomputable def standardGraph (t : NamedAffineADE) : SimpleGraph (Fin t.vertexCount) :=
+  SimpleGraph.fromRel fun i j => t.native.graph.Adj (t.nativeIndex i) (t.nativeIndex j)
+
+noncomputable def affineVertex (t : NamedAffineADE) : Fin t.vertexCount :=
+  t.nativeIndex.symm t.native.affineNode
 
 noncomputable def standardCartan (t : NamedAffineADE) :
     Matrix (Fin t.vertexCount) (Fin t.vertexCount) ℤ :=
-  by
-    classical
-    exact fun i j ↦ 2 * (if i = j then 1 else 0) -
-      (if t.standardGraph.Adj i j then 1 else 0)
+  t.native.cartanMatrix.submatrix t.nativeIndex t.nativeIndex
 
 end NamedAffineADE
 
@@ -340,7 +396,7 @@ structure NamedMcKayIdentification {G : Type v} [Group G]
   /-- The representation lands in `SL₂`, equivalently preserves a nondegenerate alternating form.
 
   ⚠ Self-duality and the graph tag do **not** imply this, and `IsBinary` is a condition on the tag,
-  not on the supplied representation.  The ordinary dihedral group of order eight has the faithful
+  not on the supplied representation; `contains_neg_identity` supplies the latter.  The ordinary dihedral group of order eight has the faithful
   representation generated by `r = diag(i, −i)` and `s = [[0,1],[1,0]]`; it is self-dual and has
   exactly the affine `D₄` McKay graph and dimensions `(1,1,1,1,2)` of `Q₈`, since tensoring its
   two-dimensional irreducible with any character returns that irreducible and its tensor square is
@@ -351,8 +407,11 @@ structure NamedMcKayIdentification {G : Type v} [Group G]
   `z = 1`, conjugation by `s` exchanges `x` and `y`, so `[x,y] = 1` also gives `−[x,y] = 1` and
   forces `1 = 0` over `ℂ`.  See `exists_dihedralEight_selfDual_mcKay_not_det_one`. -/
   defining_det_one : ∀ g : G, LinearMap.det (V.ρ g) = 1
+  /-- Actual scalar −I, including even cyclic groups; the tag alone is not the action. -/
+  contains_neg_identity : tag.IsBinary → ∃ g : G, V.ρ g = -LinearMap.id
   standard_connected : tag.standardGraph.Connected
   relabel : D.ι ≃ Fin tag.vertexCount
+  marks_eq : ∀ i, (D.dimension i : ℤ) = tag.native.marks (tag.nativeIndex (relabel i))
   trivial_vertex : relabel D.trivial = tag.affineVertex
   mckay_adjacent : ∀ j i,
     tag.standardGraph.Adj (relabel j) (relabel i) ↔ D.mckayMatrix V j i = 1
@@ -376,11 +435,11 @@ theorem affineCartan_kernel_eq_regularLine {G : Type v} [Group G]
 
 end NamedMcKayIdentification
 
-noncomputable def cyclicMcKayA (n : ℕ) (hn : 3 ≤ n) :
+noncomputable def cyclicMcKayA : ∀ (n : ℕ) (hn : 3 ≤ n),
     NamedMcKayIdentification (cyclicIrreps n)
       (FDRep.of (unitQuaternionDefiningRepresentation (cyclicSubgroup n))) (.cyclic n hn) := sorry
 
-noncomputable def binaryDihedralMcKayD (n : ℕ) (hn : 2 ≤ n) :
+noncomputable def binaryDihedralMcKayD : ∀ (n : ℕ) (hn : 2 ≤ n),
     NamedMcKayIdentification (binaryDihedralIrreps n)
       (FDRep.of (unitQuaternionDefiningRepresentation (binaryDihedral n)))
       (.binaryDihedral n hn) := sorry
@@ -437,8 +496,10 @@ theorem binaryIcosahedral_regularVector_eq_E8 :
 
 theorem binaryIcosahedral_trivial_vertex_E8 :
     binaryIcosahedralMcKayE8.relabel binaryIcosahedralIrreps.trivial = (8 : Fin 9) :=
-  by simpa [NamedAffineADE.affineVertex, NamedAffineADE.vertexCount] using
-    binaryIcosahedralMcKayE8.trivial_vertex
+  by
+    have h := binaryIcosahedralMcKayE8.trivial_vertex
+    change binaryIcosahedralMcKayE8.relabel binaryIcosahedralIrreps.trivial = (8 : Fin 9) at h
+    exact h
 
 theorem binaryIcosahedral_affineCartan_kernel_eq_regularLine :
     ∀ x : binaryIcosahedralIrreps.ι → ℤ,
@@ -451,17 +512,18 @@ theorem binaryIcosahedral_affineCartan_kernel_eq_regularLine :
 
 open TauCetiRoadmap.RepresentationTheory.CharacterTheory
 
-/-- The canonical class map missing from the bounded character-theory prototype. -/
+/-- The existing native split representation-ring class map. -/
 noncomputable def representationClass (k : Type u) (G : Type v) [Field k] [CharZero k]
-    [Group G] [Fintype G] : FDRep k G → repRing k G := sorry
+    [Group G] [Fintype G] : FDRep k G → repRing k G := TauCeti.SplitK0.of
 
 theorem representationClass_tensor (k : Type u) (G : Type v) [Field k] [CharZero k]
     [Group G] [Fintype G] (V W : FDRep k G) :
     representationClass k G (V ⊗ W) = representationClass k G V * representationClass k G W := sorry
 
-/-- The left regular finite-dimensional representation. -/
+/-- The left regular representation, transported by native `FDRep.ofShrink` to the field
+universe. `FDRep.ofShrinkEquiv` identifies its actual action with the original regular action. -/
 noncomputable def regularFDRep (k : Type u) (G : Type v) [Field k] [Group G] [Fintype G] :
-    FDRep k G := sorry
+    FDRep k G := FDRep.ofShrink (Representation.leftRegular k G)
 
 theorem representationClass_mckay_product {G : Type v} [Group G] [Fintype G]
     (D : IrrepFamily ℂ G) (V : FDRep ℂ G) (i : D.ι) :
@@ -483,8 +545,8 @@ abbrev AffineRootQuotient {G : Type v} [Group G] (D : IrrepFamily ℂ G) :=
   (D.ι → ℤ) ⧸ Submodule.span ℤ {D.regularDimensionVector}
 
 /-- Deleting the trivial node gives integral coordinates for the quotient because `δ_trivial=1`. -/
-noncomputable def affineRootQuotientEquivFinite {G : Type v} [Group G]
-    (D : IrrepFamily ℂ G) :
+noncomputable def affineRootQuotientEquivFinite : ∀ {G : Type v} [Group G]
+    (D : IrrepFamily ℂ G),
     AffineRootQuotient D ≃+ ({i : D.ι // i ≠ D.trivial} → ℤ) := sorry
 
 /-! ## The pinned left skew-product convention -/
@@ -510,8 +572,8 @@ structure EquivariantLeftModuleData (A Γ : Type*) [Ring A] [Group Γ]
     (g • (a • m) : carrier) = (g • a) • (g • m)
 
 /-- Left modules over the pinned skew product are exactly equivariant left `A`-modules. -/
-noncomputable def skewModuleEquivEquivariant (A Γ : Type*) [Ring A] [Group Γ]
-    [MulSemiringAction Γ A] :
+noncomputable def skewModuleEquivEquivariant : ∀ (A Γ : Type*) [Ring A] [Group Γ]
+    [MulSemiringAction Γ A],
     LeftModuleData (SkewGroupAlgebra A Γ) ≃ EquivariantLeftModuleData A Γ := sorry
 
 theorem skew_single_mul_single
@@ -523,26 +585,24 @@ theorem skew_single_mul_single
   SkewMonoidAlgebra.single_mul_single
 
 /-- The representation action lifted functorially to the symmetric algebra. -/
-@[instance_reducible] noncomputable def symmetricAlgebraAction
-    (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) : MulSemiringAction Γ (SymmetricAlgebra k V) := sorry
+@[instance_reducible] noncomputable def symmetricAlgebraAction : ∀ (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
+    MulSemiringAction Γ (SymmetricAlgebra k V) := sorry
 
 /-- The lifted action fixes scalars.  This is stated separately because it is exactly the
 hypothesis used by Mathlib's `Algebra k (SkewMonoidAlgebra _ _)` instance. -/
-@[instance_reducible] noncomputable def symmetricAlgebraAction_smulComm
-    (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+@[instance_reducible] noncomputable def symmetricAlgebraAction_smulComm : ∀ (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     letI := symmetricAlgebraAction k Γ V Vρ
     SMulCommClass Γ k (SymmetricAlgebra k V) := sorry
 
 /-- The representation action lifted functorially to the exterior algebra. -/
-@[instance_reducible] noncomputable def exteriorAlgebraAction
-    (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) : MulSemiringAction Γ (ExteriorAlgebra k V) := sorry
+@[instance_reducible] noncomputable def exteriorAlgebraAction : ∀ (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
+    MulSemiringAction Γ (ExteriorAlgebra k V) := sorry
 
-@[instance_reducible] noncomputable def exteriorAlgebraAction_smulComm
-    (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+@[instance_reducible] noncomputable def exteriorAlgebraAction_smulComm : ∀ (k Γ V : Type*) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     letI := exteriorAlgebraAction k Γ V Vρ
     SMulCommClass Γ k (ExteriorAlgebra k V) := sorry
 
@@ -631,11 +691,10 @@ noncomputable abbrev RelativeTensorAlgebra
 
 /-- The degree-two word map is defined on the balanced square, not on an unrelated generator
 space. -/
-noncomputable def relativeQuadraticWord
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+noncomputable def relativeQuadraticWord : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
-    [SMulCommClass S (MulOpposite S) W] :
+    [SMulCommClass S (MulOpposite S) W],
     BalancedTensorSquare k S W →ₗ[k] RelativeTensorAlgebra k S W := sorry
 
 noncomputable def relativeQuadraticIdeal
@@ -655,21 +714,52 @@ noncomputable abbrev RelativeQuadraticAlgebra
     (R : Submodule k (BalancedTensorSquare k S W)) :=
   RelativeTensorAlgebra k S W ⧸ (relativeQuadraticIdeal k S W R).asIdeal
 
-noncomputable def relativeQuadraticBaseMap
+/-- Canonical degree-zero linear map into the ACTUAL two-step relative quadratic quotient. -/
+noncomputable def relativeQuadraticDegreeZeroMap
     (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
     (R : Submodule k (BalancedTensorSquare k S W)) :
+    S →ₗ[k] RelativeQuadraticAlgebra k S W R :=
+  (Ideal.Quotient.mkₐ k (relativeQuadraticIdeal k S W R).asIdeal).toLinearMap ∘ₗ
+    (Ideal.Quotient.mkₐ k (relativeTensorIdeal k S W).asIdeal).toLinearMap ∘ₗ
+      (TensorAlgebra.ι k) ∘ₗ (LinearMap.inl k S W)
+
+/-- Canonical degree-one linear map; w is sent to the class of ι(0,w), with no arbitrary cast. -/
+noncomputable def relativeQuadraticDegreeOneMap
+    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+    [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
+    [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
+    [SMulCommClass S (MulOpposite S) W]
+    (R : Submodule k (BalancedTensorSquare k S W)) :
+    W →ₗ[k] RelativeQuadraticAlgebra k S W R :=
+  (Ideal.Quotient.mkₐ k (relativeQuadraticIdeal k S W R).asIdeal).toLinearMap ∘ₗ
+    (Ideal.Quotient.mkₐ k (relativeTensorIdeal k S W).asIdeal).toLinearMap ∘ₗ
+      (TensorAlgebra.ι k) ∘ₗ (LinearMap.inr k S W)
+
+noncomputable def relativeQuadraticBaseMap : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+    [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
+    [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
+    [SMulCommClass S (MulOpposite S) W]
+    (R : Submodule k (BalancedTensorSquare k S W)),
     S →ₐ[k] RelativeQuadraticAlgebra k S W R := sorry
 
-/-- The augmentation kills `W` and is the identity on the actual degree-zero copy of `S`. -/
-noncomputable def relativeQuadraticAugmentation
+/-- The old base algebra map has this SAME canonical degree-zero linear map. -/
+theorem relativeQuadraticBaseMap_toLinearMap
     (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
     (R : Submodule k (BalancedTensorSquare k S W)) :
+    (relativeQuadraticBaseMap k S W R).toLinearMap = relativeQuadraticDegreeZeroMap k S W R := sorry
+
+/-- The augmentation kills `W` and is the identity on the actual degree-zero copy of `S`. -/
+noncomputable def relativeQuadraticAugmentation : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+    [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
+    [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
+    [SMulCommClass S (MulOpposite S) W]
+    (R : Submodule k (BalancedTensorSquare k S W)),
     RelativeQuadraticAlgebra k S W R →ₐ[k] S := sorry
 
 theorem relativeQuadraticAugmentation_base
@@ -688,36 +778,32 @@ abbrev RightBimoduleDual (S W : Type u) [Ring S] [AddCommGroup W]
 
 /-- The reversed right action on the right dual is induced by precomposition with the left action
 on `W`; the `k`- and left-`S` actions are the canonical linear-map instances. -/
-@[instance_reducible] noncomputable def rightDualRightModule
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+@[instance_reducible] noncomputable def rightDualRightModule : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
-    [SMulCommClass S (MulOpposite S) W] :
+    [SMulCommClass S (MulOpposite S) W],
     Module (MulOpposite S) (RightBimoduleDual S W) := sorry
 
-@[instance_reducible] noncomputable def rightDualScalarTowerRight
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+@[instance_reducible] noncomputable def rightDualScalarTowerRight : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
-    [SMulCommClass S (MulOpposite S) W] :
+    [SMulCommClass S (MulOpposite S) W],
     letI := rightDualRightModule k S W
     IsScalarTower k (MulOpposite S) (RightBimoduleDual S W) := sorry
 
-@[instance_reducible] noncomputable def rightDualActionsCommute
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+@[instance_reducible] noncomputable def rightDualActionsCommute : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
-    [SMulCommClass S (MulOpposite S) W] :
+    [SMulCommClass S (MulOpposite S) W],
     letI := rightDualRightModule k S W
     SMulCommClass S (MulOpposite S) (RightBimoduleDual S W) := sorry
 
 /-- Evaluation descends through both balancing relations.  Its restriction to `R` defines the
 actual relative annihilator in `Wᵛ ⊗_S Wᵛ`. -/
-noncomputable def rightDualBalancedQuadraticPairing
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+noncomputable def rightDualBalancedQuadraticPairing : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
-    [SMulCommClass S (MulOpposite S) W] :
+    [SMulCommClass S (MulOpposite S) W],
     letI := rightDualRightModule k S W
     letI := rightDualScalarTowerRight k S W
     letI := rightDualActionsCommute k S W
@@ -757,21 +843,19 @@ noncomputable def RelativeQuadraticDualAlgebra
 /-- The terms below are fixed balanced terms `B ⊗_S K_n`, where `K_n` is the standard
 intersection of `W`-tensor powers determined by `R`; the carrier is a definition, not a field of
 the resolution package. -/
-noncomputable def relativeKoszulTerm
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+noncomputable def relativeKoszulTerm : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
-    (R : Submodule k (BalancedTensorSquare k S W)) (n : ℕ) :
+    (R : Submodule k (BalancedTensorSquare k S W)) (n : ℕ),
     ModuleCat.{u} (RelativeQuadraticAlgebra k S W R) := sorry
 
 /-- `S` as the augmentation module over `T_S(W)/(R)`. -/
-noncomputable def relativeAugmentationModule
-    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+noncomputable def relativeAugmentationModule : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
-    (R : Submodule k (BalancedTensorSquare k S W)) :
+    (R : Submodule k (BalancedTensorSquare k S W)),
     ModuleCat.{u} (RelativeQuadraticAlgebra k S W R) := sorry
 
 /-- An honest linear projective resolution of the fixed augmentation module by the fixed Koszul
@@ -797,38 +881,33 @@ structure RelativeLinearKoszulResolution
 
 abbrev SkewDegreeOne (Γ V : Type*) [Zero V] := Γ →₀ V
 
-@[instance_reducible] noncomputable def skewDegreeOneLeftModule
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) : Module (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) := sorry
+@[instance_reducible] noncomputable def skewDegreeOneLeftModule : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
+    Module (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) := sorry
 
-@[instance_reducible] noncomputable def skewDegreeOneRightModule
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+@[instance_reducible] noncomputable def skewDegreeOneRightModule : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     Module (MulOpposite (MonoidAlgebra k Γ)) (SkewDegreeOne Γ V) := sorry
 
-@[instance_reducible] noncomputable def skewDegreeOneScalarTowerLeft
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+@[instance_reducible] noncomputable def skewDegreeOneScalarTowerLeft : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     letI := skewDegreeOneLeftModule k Γ V Vρ
     IsScalarTower k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) := sorry
 
-@[instance_reducible] noncomputable def skewDegreeOneScalarTowerRight
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+@[instance_reducible] noncomputable def skewDegreeOneScalarTowerRight : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     letI := skewDegreeOneRightModule k Γ V Vρ
     IsScalarTower k (MulOpposite (MonoidAlgebra k Γ)) (SkewDegreeOne Γ V) := sorry
 
-@[instance_reducible] noncomputable def skewDegreeOneActionsCommute
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+@[instance_reducible] noncomputable def skewDegreeOneActionsCommute : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     letI := skewDegreeOneLeftModule k Γ V Vρ
     letI := skewDegreeOneRightModule k Γ V Vρ
     SMulCommClass (MonoidAlgebra k Γ) (MulOpposite (MonoidAlgebra k Γ))
       (SkewDegreeOne Γ V) := sorry
 
-noncomputable def polynomialSkewRelations
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+noncomputable def polynomialSkewRelations : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     letI := skewDegreeOneLeftModule k Γ V Vρ
     letI := skewDegreeOneRightModule k Γ V Vρ
     letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
@@ -885,16 +964,14 @@ theorem rightDual_finiteProjective
     letI := rightDualActionsCommute k S W
     FiniteProjectiveBimodule k S (RightBimoduleDual S W) := sorry
 
-noncomputable def polynomialSkew_relativePresentation
-    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+noncomputable def polynomialSkew_relativePresentation : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    [FiniteDimensional k V] (Vρ : Representation k Γ V),
     PolynomialRelativeAlgebra k Γ V Vρ ≃ₐ[k] SymmetricSkewAlgebra k Γ V Vρ := sorry
 
-noncomputable def polynomialSkew_relativeKoszul
-    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+noncomputable def polynomialSkew_relativeKoszul : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    [FiniteDimensional k V] (Vρ : Representation k Γ V),
     letI := skewDegreeOneLeftModule k Γ V Vρ
     letI := skewDegreeOneRightModule k Γ V Vρ
     letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
@@ -916,16 +993,79 @@ noncomputable def PolynomialSkewQuadraticDualAlgebra
   exact RelativeQuadraticDualAlgebra k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
     (polynomialSkewRelations k Γ V Vρ)
 
+/-- The actual right-dual generator in the fixed relative quadratic quotient. -/
+noncomputable def polynomialSkewQuadraticDualDegreeOneMap
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) →ₗ[k]
+      PolynomialSkewQuadraticDualAlgebra k Γ V Vρ := by
+  letI := skewDegreeOneLeftModule k Γ V Vρ
+  letI := skewDegreeOneRightModule k Γ V Vρ
+  letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
+  letI := skewDegreeOneScalarTowerRight k Γ V Vρ
+  letI := skewDegreeOneActionsCommute k Γ V Vρ
+  letI := rightDualRightModule k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+  letI := rightDualScalarTowerRight k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+  letI := rightDualActionsCommute k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+  exact relativeQuadraticDegreeOneMap k (MonoidAlgebra k Γ)
+    (RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V))
+    (rightDualOrthogonalRelations k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+      (polynomialSkewRelations k Γ V Vρ))
+
+/-- The fixed degree-zero map, also needed when V=0 and the degree-one condition is empty. -/
+noncomputable def polynomialSkewQuadraticDualDegreeZeroMap
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    MonoidAlgebra k Γ →ₗ[k] PolynomialSkewQuadraticDualAlgebra k Γ V Vρ := by
+  letI := skewDegreeOneLeftModule k Γ V Vρ
+  letI := skewDegreeOneRightModule k Γ V Vρ
+  letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
+  letI := skewDegreeOneScalarTowerRight k Γ V Vρ
+  letI := skewDegreeOneActionsCommute k Γ V Vρ
+  letI := rightDualRightModule k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+  letI := rightDualScalarTowerRight k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+  letI := rightDualActionsCommute k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+  exact relativeQuadraticDegreeZeroMap k (MonoidAlgebra k Γ)
+    (RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V))
+    (rightDualOrthogonalRelations k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+      (polynomialSkewRelations k Γ V Vρ))
+
+/-- Σ_h ψ_h#h is sent to Σ_h ι(ψ_h)#h in the ACTUAL exterior skew algebra. -/
+noncomputable def exteriorDualDegreeOneMap
+    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V) :
+    SkewDegreeOne Γ (Module.Dual k V) →ₗ[k]
+      ExteriorSkewAlgebra k Γ (Module.Dual k V) (Representation.dual Vρ) := by
+  letI := exteriorAlgebraAction k Γ (Module.Dual k V) (Representation.dual Vρ)
+  letI := exteriorAlgebraAction_smulComm k Γ (Module.Dual k V) (Representation.dual Vρ)
+  exact Finsupp.lsum k (fun h : Γ =>
+    (SkewMonoidAlgebra.lsingle k h).comp (ExteriorAlgebra.ι k))
+
+/-- The actual degree-zero inclusion s↦Σ_h s_h#h. -/
+noncomputable def exteriorDualDegreeZeroMap
+    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V) :
+    MonoidAlgebra k Γ →ₗ[k]
+      ExteriorSkewAlgebra k Γ (Module.Dual k V) (Representation.dual Vρ) := by
+  letI := exteriorAlgebraAction k Γ (Module.Dual k V) (Representation.dual Vρ)
+  letI := exteriorAlgebraAction_smulComm k Γ (Module.Dual k V) (Representation.dual Vρ)
+  exact (Finsupp.lsum k (fun h : Γ =>
+    (SkewMonoidAlgebra.lsingle k h).comp
+      (Algebra.linearMap k (ExteriorAlgebra k (Module.Dual k V))))).comp
+        (MonoidAlgebra.coeffLinearEquiv k).toLinearMap
+
 /-- The degree-one bimodule isomorphism which fixes the handedness of the quadratic dual:
 `Wᵛ ≃ V∗ ⊗ k[Γ]`, `f ↦ Σ_h (h·φ_h) # h` where `f(v # 1) = Σ_h φ_h(v) h`.  Here `Wᵛ` carries
 `(s·f)(w) = s f(w)` and `(f·t)(w) = f(t w)`; the formula intertwines both `k[Γ]`-actions with the
 left skew-product convention, so the dual is `Λ(V∗) ⋊ Γ` itself rather than its opposite. -/
-noncomputable def polynomialSkewRightDualDegreeOneEquiv
-    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+noncomputable def polynomialSkewRightDualDegreeOneEquiv : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V),
     letI := skewDegreeOneLeftModule k Γ V Vρ
     letI := skewDegreeOneRightModule k Γ V Vρ
-    RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) ≃+
+    RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V) ≃ₗ[k]
       SkewDegreeOne Γ (Module.Dual k V) := sorry
 
 theorem polynomialSkewRightDualDegreeOneEquiv_apply
@@ -936,28 +1076,106 @@ theorem polynomialSkewRightDualDegreeOneEquiv_apply
     polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ f h v =
       (f (Finsupp.single 1 (Vρ h⁻¹ v))).coeff h := sorry
 
+/-- k-linearity is now part of the actual equivalence, not an extra choice of additive map. -/
+theorem polynomialSkewRightDualDegreeOneEquiv_map_smul
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) (r : k)
+    (f : letI := skewDegreeOneRightModule k Γ V Vρ
+      RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)) :
+    letI := skewDegreeOneLeftModule k Γ V Vρ
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ (r • f) =
+      r • polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ f := by
+  letI := skewDegreeOneLeftModule k Γ V Vρ
+  letI := skewDegreeOneRightModule k Γ V Vρ
+  exact (polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ).map_smul r f
+
+/-- Full LEFT k[Γ]-compatibility for the SAME coefficient-defined equivalence. -/
+theorem polynomialSkewRightDualDegreeOneEquiv_map_left
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) (s : MonoidAlgebra k Γ)
+    (f : letI := skewDegreeOneRightModule k Γ V Vρ
+      RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)) :
+    letI := skewDegreeOneLeftModule k Γ V Vρ
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
+    letI := skewDegreeOneScalarTowerRight k Γ V Vρ
+    letI := skewDegreeOneActionsCommute k Γ V Vρ
+    letI := rightDualRightModule k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+    letI := rightDualScalarTowerRight k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+    letI := rightDualActionsCommute k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+    letI := skewDegreeOneLeftModule k Γ (Module.Dual k V) (Representation.dual Vρ)
+    letI := skewDegreeOneRightModule k Γ (Module.Dual k V) (Representation.dual Vρ)
+    polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ (s • f) =
+      s • polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ f := sorry
+
+/-- Full RIGHT k[Γ]-compatibility, using precomposition on the source and the actual skew right action. -/
+theorem polynomialSkewRightDualDegreeOneEquiv_map_right
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) (t : MonoidAlgebra k Γ)
+    (f : letI := skewDegreeOneRightModule k Γ V Vρ
+      RightBimoduleDual (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)) :
+    letI := skewDegreeOneLeftModule k Γ V Vρ
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
+    letI := skewDegreeOneScalarTowerRight k Γ V Vρ
+    letI := skewDegreeOneActionsCommute k Γ V Vρ
+    letI := rightDualRightModule k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+    letI := rightDualScalarTowerRight k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+    letI := rightDualActionsCommute k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V)
+    letI := skewDegreeOneLeftModule k Γ (Module.Dual k V) (Representation.dual Vρ)
+    letI := skewDegreeOneRightModule k Γ (Module.Dual k V) (Representation.dual Vρ)
+    polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ (MulOpposite.op t • f) =
+      MulOpposite.op t • polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ f := sorry
+
+/-- Coefficient formula for the inverse map; it is not a separately chosen dual identification. -/
+theorem polynomialSkewRightDualDegreeOneEquiv_symm_apply
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) (ψ : SkewDegreeOne Γ (Module.Dual k V)) (g h : Γ) (v : V) :
+    ((polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ).symm ψ (Finsupp.single g v)).coeff h =
+      ψ (h * g⁻¹) (Vρ (h * g⁻¹) v) := sorry
+
 /-- With the pinned left convention `T_{k[Γ]}(Wᵛ)/(R⊥)` is the exterior skew algebra on
 `V∗` itself, not its opposite.  In degree one the equivalence is the bimodule isomorphism
 `Wᵛ ≃ V∗ ⊗ k[Γ]`, `f ↦ Σ_h (h·φ_h) # h` where `f(v ⊗ 1) = Σ_h φ_h(v) h`, which fixes the
 handedness.  The source is the fixed right-dual quotient above, not another symmetric algebra. -/
-noncomputable def polynomialSkew_quadraticDualEquiv
-    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+noncomputable def polynomialSkew_quadraticDualEquiv : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    [FiniteDimensional k V] (Vρ : Representation k Γ V),
     PolynomialSkewQuadraticDualAlgebra k Γ V Vρ ≃ₐ[k]
       ExteriorSkewAlgebra k Γ (Module.Dual k V) (Representation.dual Vρ) := sorry
 
-noncomputable def polynomialQuadraticDualGrading
+/-- The algebra equivalence restricts to the EXACT specified degree-one bimodule map.
+Both inclusions are the defined canonical quotient/exterior-skew maps above. -/
+theorem polynomialSkew_quadraticDualEquiv_degreeOne
     (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
     [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    letI := skewDegreeOneLeftModule k Γ V Vρ
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    (polynomialSkew_quadraticDualEquiv k Γ V Vρ).toLinearMap.comp
+        (polynomialSkewQuadraticDualDegreeOneMap k Γ V Vρ) =
+      (exteriorDualDegreeOneMap k Γ V Vρ).comp
+        (polynomialSkewRightDualDegreeOneEquiv k Γ V Vρ).toLinearMap := sorry
+
+/-- Degree zero is pinned as well: when V=0 the preceding degree-one equality is empty. -/
+theorem polynomialSkew_quadraticDualEquiv_degreeZero
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    (polynomialSkew_quadraticDualEquiv k Γ V Vρ).toLinearMap.comp
+        (polynomialSkewQuadraticDualDegreeZeroMap k Γ V Vρ) =
+      exteriorDualDegreeZeroMap k Γ V Vρ := sorry
+
+noncomputable def polynomialQuadraticDualGrading : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V),
     ℕ → Submodule k
       (PolynomialSkewQuadraticDualAlgebra k Γ V Vρ) := sorry
 
-noncomputable def exteriorSkewGrading
-    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+noncomputable def exteriorSkewGrading : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    [FiniteDimensional k V] (Vρ : Representation k Γ V),
     ℕ → Submodule k
       (ExteriorSkewAlgebra k Γ (Module.Dual k V) (Representation.dual Vρ)) := sorry
 
@@ -969,27 +1187,108 @@ theorem polynomialSkew_quadraticDualEquiv_preserves_grading
         (polynomialQuadraticDualGrading k Γ V Vρ n) =
       exteriorSkewGrading k Γ V Vρ n := sorry
 
+/-- The source generator map identifies the actual first homogeneous piece; it is not
+an arbitrary map with the same carrier. -/
+theorem polynomialSkewQuadraticDualDegreeOneMap_range
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    LinearMap.range (polynomialSkewQuadraticDualDegreeOneMap k Γ V Vρ) =
+      polynomialQuadraticDualGrading k Γ V Vρ 1 := sorry
+
+/-- The target generator map identifies the exterior-skew first homogeneous piece. -/
+theorem exteriorDualDegreeOneMap_range
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    LinearMap.range (exteriorDualDegreeOneMap k Γ V Vρ) =
+      exteriorSkewGrading k Γ V Vρ 1 := sorry
+
+/-- There are no linear relations among the right-dual generators. -/
+theorem polynomialSkewQuadraticDualDegreeOneMap_injective
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    letI := skewDegreeOneRightModule k Γ V Vρ
+    Function.Injective (polynomialSkewQuadraticDualDegreeOneMap k Γ V Vρ) := sorry
+
+/-- This is the coefficientwise native ExteriorAlgebra.ι injection. -/
+theorem exteriorDualDegreeOneMap_injective
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    Function.Injective (exteriorDualDegreeOneMap k Γ V Vρ) := sorry
+
+/-- Degree zero is the canonical base-ring image, including when V=0. -/
+theorem polynomialSkewQuadraticDualDegreeZeroMap_range
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    LinearMap.range (polynomialSkewQuadraticDualDegreeZeroMap k Γ V Vρ) =
+      polynomialQuadraticDualGrading k Γ V Vρ 0 := sorry
+
+/-- The exterior-skew degree-zero piece is the SAME base-ring image. -/
+theorem exteriorDualDegreeZeroMap_range
+    (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+    [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    LinearMap.range (exteriorDualDegreeZeroMap k Γ V Vρ) =
+      exteriorSkewGrading k Γ V Vρ 0 := sorry
+
 /-! ## Literal full-idempotent corners -/
 
 /-- An idempotent together with the equation needed to form its corner. -/
 abbrev Idempotent (B : Type*) [Ring B] := {e : B // IsIdempotentElem e}
 
-/-- The corner carrier `eBe`, with its defining equation visible. -/
-def Corner (B : Type*) [Ring B] (e : Idempotent B) :=
-  {x : B // (e : B) * x * (e : B) = x}
+/-- The actual native corner ring. Its fixed-point carrier is identified explicitly below. -/
+abbrev Corner (B : Type*) [Ring B] (e : Idempotent B) := e.2.Corner
 
-noncomputable instance cornerRing (B : Type*) [Ring B] (e : Idempotent B) :
-    Ring (Corner B e) := sorry
+noncomputable instance cornerRing : ∀ (B : Type*) [Ring B] (e : Idempotent B),
+    Ring (Corner B e) := fun B _ e => inferInstanceAs (Ring e.2.Corner)
 
-noncomputable instance cornerAlgebra (k B : Type*) [Field k] [Ring B] [Algebra k B]
-    (e : Idempotent B) : Algebra k (Corner B e) := sorry
+noncomputable instance cornerAlgebra : ∀ (k B : Type*) [Field k] [Ring B] [Algebra k B]
+    (e : Idempotent B),
+    Algebra k (Corner B e) := fun k B _ _ _ e => inferInstanceAs (Algebra k e.2.Corner)
+
+/-- The old literal equation holds for every element of the actual native corner. -/
+theorem corner_fixedPoint (B : Type*) [Ring B] (e : Idempotent B) (x : Corner B e) :
+    (e : B) * x.1 * (e : B) = x.1 := by
+  rw [e.2.mul_corner_val x, e.2.corner_val_mul x]
+
+/-- The native range carrier and the former fixed-point subtype have the same elements. -/
+def cornerFixedPointEquiv (B : Type*) [Ring B] (e : Idempotent B) :
+    Corner B e ≃ {x : B // (e : B) * x * (e : B) = x} where
+  toFun x := ⟨x.1, corner_fixedPoint B e x⟩
+  invFun x := ⟨x.1, ⟨x.1, x.2⟩⟩
+  left_inv _ := Subtype.ext rfl
+  right_inv _ := Subtype.ext rfl
+
+@[simp] theorem corner_coe_one (B : Type*) [Ring B] (e : Idempotent B) :
+    (1 : Corner B e).1 = (e : B) := rfl
+
+@[simp] theorem corner_coe_mul (B : Type*) [Ring B] (e : Idempotent B)
+    (x y : Corner B e) : (x * y).1 = x.1 * y.1 := rfl
+
+@[simp] theorem corner_coe_algebraMap (k B : Type*) [Field k] [Ring B] [Algebra k B]
+    (e : Idempotent B) (r : k) : (algebraMap k (Corner B e) r).1 = r • (e : B) := rfl
 
 /-- Primitive means that the idempotent has no nontrivial orthogonal idempotent decomposition;
 this is the matrix-idempotent condition, not central primitivity. -/
-def IsPrimitiveMatrixIdempotent {B : Type*} [Ring B] (e : B) : Prop :=
-  IsIdempotentElem e ∧ e ≠ 0 ∧
-    ∀ f g : B, IsIdempotentElem f → IsIdempotentElem g →
-      f * g = 0 → g * f = 0 → e = f + g → f = 0 ∨ g = 0
+abbrev IsPrimitiveMatrixIdempotent {B : Type*} [Ring B] (e : B) : Prop :=
+  TauCeti.IsPrimitiveIdempotent e
+
+/-- The historical matrix-idempotent condition is exactly the native primitive predicate. -/
+theorem isPrimitiveMatrixIdempotent_iff {B : Type*} [Ring B] (e : B) :
+    IsPrimitiveMatrixIdempotent e ↔ IsIdempotentElem e ∧ e ≠ 0 ∧
+      ∀ f g : B, IsIdempotentElem f → IsIdempotentElem g →
+        f * g = 0 → g * f = 0 → e = f + g → f = 0 ∨ g = 0 := by
+  constructor
+  · intro h
+    exact ⟨h.isIdempotentElem, h.ne_zero, fun f g hf hg hfg hgf hsum =>
+      h.eq_zero_or_eq_zero_of_add hf hg hfg hgf hsum.symm⟩
+  · rintro ⟨he, h0, h⟩
+    exact ⟨he, h0, fun {f g} hf hg hfg hgf hsum => h f g hf hg hfg hgf hsum.symm⟩
 
 /-- One literal primitive matrix idempotent in each irreducible Wedderburn block. -/
 structure PrimitiveMatrixIdempotents (k G : Type*) [Field k] [Group G]
@@ -1015,24 +1314,34 @@ def GradedCorner (k B : Type*) [Field k] [Ring B] [Algebra k B]
     (piece : Submodule k B) (eⱼ eᵢ : Idempotent B) :=
   {x : B // x ∈ piece ∧ (eⱼ : B) * x * (eᵢ : B) = x}
 
-noncomputable instance gradedCornerAddCommGroup (k B : Type*) [Field k] [Ring B] [Algebra k B]
-    (piece : Submodule k B) (eⱼ eᵢ : Idempotent B) :
+noncomputable instance gradedCornerAddCommGroup : ∀ (k B : Type*) [Field k] [Ring B] [Algebra k B]
+    (piece : Submodule k B) (eⱼ eᵢ : Idempotent B),
     AddCommGroup (GradedCorner k B piece eⱼ eᵢ) := sorry
 
-noncomputable instance gradedCornerModule (k B : Type*) [Field k] [Ring B] [Algebra k B]
-    (piece : Submodule k B) (eⱼ eᵢ : Idempotent B) :
+noncomputable instance gradedCornerModule : ∀ (k B : Type*) [Field k] [Ring B] [Algebra k B]
+    (piece : Submodule k B) (eⱼ eᵢ : Idempotent B),
     Module k (GradedCorner k B piece eⱼ eᵢ) := sorry
 
-/-- Mathlib does not yet derive Morita equivalence from a full idempotent; this is the honest
-missing theorem, with the target fixed to the literal corner. -/
-noncomputable def moritaEquivalenceOfFullIdempotent
-    (k B : Type u) [Field k] [Ring B] [Algebra k B]
-    (e : Idempotent B) (full : TwoSidedIdeal.span ({(e : B)} : Set B) = ⊤) :
-    MoritaEquivalence k B (Corner B e) := sorry
+/-- The landed native full-idempotent equivalence, with the actual corner functor M ↦ eM. -/
+noncomputable def moritaEquivalenceOfFullIdempotent : ∀ (k B : Type u) [Field k] [Ring B] [Algebra k B]
+    (e : Idempotent B) (full : TwoSidedIdeal.span ({(e : B)} : Set B) = ⊤),
+    MoritaEquivalence k B (Corner B e) := fun k B _ _ _ e full =>
+  e.2.moritaEquivalenceCorner k full
 
-noncomputable instance cornerFiniteDimensional
-    (k B : Type u) [Field k] [Ring B] [Algebra k B] [FiniteDimensional k B]
-    (e : Idempotent B) : FiniteDimensional k (Corner B e) := sorry
+noncomputable instance cornerFiniteDimensional : ∀ (k B : Type u) [Field k] [Ring B] [Algebra k B] [FiniteDimensional k B]
+    (e : Idempotent B),
+    FiniteDimensional k (Corner B e) := fun k B _ _ _ _ e =>
+  FiniteDimensional.of_injective (e.2.cornerLinearEquivCornerSubmodule (R := k)).toLinearMap
+    (e.2.cornerLinearEquivCornerSubmodule (R := k)).injective
+
+/-- Under the historical finite-dimensional hypotheses, native basicness recovers exactly the
+quiver-roadmap reduced-radical-quotient condition. Semisimplicity comes from Artinianity. -/
+theorem isBasic_iff_quiverRoadmap (k B : Type*) [Field k] [Ring B] [Algebra k B]
+    [FiniteDimensional k B] :
+    TauCeti.IsBasic B ↔ TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.IsBasic k B := by
+  letI : IsArtinianRing B := IsArtinianRing.of_finite k B
+  change TauCeti.IsBasic B ↔ IsReduced (B ⧸ Ring.jacobson B)
+  exact TauCeti.isBasic_iff_isReduced B
 
 noncomputable def groupBasicIdempotent
     (k G : Type u) [Field k] [Group G] {D : IrrepFamily k G}
@@ -1040,20 +1349,27 @@ noncomputable def groupBasicIdempotent
   ⟨E.sum, E.sum_idempotent⟩
 
 /-- The degree-zero corner selected by the actual one-per-block matrix system is basic in the
-existing quiver-roadmap sense. -/
+landed native TauCeti.IsBasic sense. -/
 theorem groupAlgebraCorner_isBasic
     (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Nat.card G : k)] (D : IrrepFamily k G)
     (E : PrimitiveMatrixIdempotents k G D) :
-    TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.IsBasic k
+    TauCeti.IsBasic
       (Corner (MonoidAlgebra k G) (groupBasicIdempotent k G E)) := sorry
 
-noncomputable def symmetricSkewGrading
-    (k G : Type u) [Field k] [Group G] (V : FDRep k G) :
+/-- Compatibility export for consumers of the former quiver-roadmap predicate. -/
+theorem groupAlgebraCorner_isBasic_quiverRoadmap
+    (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    [Invertible (Nat.card G : k)] (D : IrrepFamily k G)
+    (E : PrimitiveMatrixIdempotents k G D) :
+    TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.IsBasic k
+      (Corner (MonoidAlgebra k G) (groupBasicIdempotent k G E)) :=
+  (isBasic_iff_quiverRoadmap k _).mp (groupAlgebraCorner_isBasic k G D E)
+
+noncomputable def symmetricSkewGrading : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
     ℕ → Submodule k (SymmetricSkewAlgebra k G V V.ρ) := sorry
 
-noncomputable def symmetricGroupAlgebraMap
-    (k G : Type u) [Field k] [Group G] (V : FDRep k G) :
+noncomputable def symmetricGroupAlgebraMap : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
     MonoidAlgebra k G →ₐ[k] SymmetricSkewAlgebra k G V V.ρ := sorry
 
 noncomputable def symmetricVertexIdempotent
@@ -1061,7 +1377,7 @@ noncomputable def symmetricVertexIdempotent
     (E : PrimitiveMatrixIdempotents k G D) (i : D.ι) :
     Idempotent (SymmetricSkewAlgebra k G V V.ρ) :=
   ⟨symmetricGroupAlgebraMap k G V (E.e i), by
-    simpa using (E.primitive i).1.map (symmetricGroupAlgebraMap k G V).toRingHom⟩
+    simpa using (E.primitive i).isIdempotentElem.map (symmetricGroupAlgebraMap k G V).toRingHom⟩
 
 noncomputable def symmetricBasicIdempotent
     (k G : Type u) [Field k] [Group G] {D : IrrepFamily k G} (V : FDRep k G)
@@ -1079,20 +1395,17 @@ theorem symmetricBasicIdempotent_full
 
 /-- The arrow space is now literally `e_j B₁ e_i`, with the later-factor-first order visible in
 the subtype and no arbitrary replacement carrier. -/
-noncomputable def symmetricMcKayArrowEquiv
-    (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+noncomputable def symmetricMcKayArrowEquiv : ∀ (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Nat.card G : k)] (D : IrrepFamily k G) (V : FDRep k G)
-    (E : PrimitiveMatrixIdempotents k G D) (j i : D.ι) :
+    (E : PrimitiveMatrixIdempotents k G D) (j i : D.ι),
     GradedCorner k (SymmetricSkewAlgebra k G V V.ρ) (symmetricSkewGrading k G V 1)
         (symmetricVertexIdempotent k G V E j) (symmetricVertexIdempotent k G V E i) ≃ₗ[k]
       (D.rep j ⟶ (V ⊗ D.rep i)) := sorry
 
-noncomputable def exteriorSkewGradingByDegree
-    (k G : Type u) [Field k] [Group G] (V : FDRep k G) :
+noncomputable def exteriorSkewGradingByDegree : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
     ℕ → Submodule k (ExteriorSkewAlgebra k G V V.ρ) := sorry
 
-noncomputable def exteriorGroupAlgebraMap
-    (k G : Type u) [Field k] [Group G] (V : FDRep k G) :
+noncomputable def exteriorGroupAlgebraMap : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
     MonoidAlgebra k G →ₐ[k] ExteriorSkewAlgebra k G V V.ρ := sorry
 
 noncomputable def exteriorBasicIdempotent
@@ -1109,18 +1422,26 @@ theorem exteriorBasicIdempotent_full
     TwoSidedIdeal.span ({(exteriorBasicIdempotent k G V E :
       ExteriorSkewAlgebra k G V V.ρ)} : Set _) = ⊤ := sorry
 
-noncomputable instance exteriorSkewFiniteDimensional
-    (k G : Type u) [Field k] [Group G] [Fintype G] (V : FDRep k G) :
+noncomputable instance exteriorSkewFiniteDimensional : ∀ (k G : Type u) [Field k] [Group G] [Fintype G] (V : FDRep k G),
     FiniteDimensional k (ExteriorSkewAlgebra k G V V.ρ) := sorry
 
 /-- The finite-dimensional exterior corner, rather than merely its degree-zero group-algebra
-subcorner, is basic in the existing quiver-roadmap sense. -/
+subcorner, is basic in the landed native TauCeti.IsBasic sense. -/
 theorem exteriorSkewCorner_isBasic
     (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Nat.card G : k)] {D : IrrepFamily k G} (V : FDRep k G)
     (E : PrimitiveMatrixIdempotents k G D) :
-    TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.IsBasic k
+    TauCeti.IsBasic
       (Corner (ExteriorSkewAlgebra k G V V.ρ) (exteriorBasicIdempotent k G V E)) := sorry
+
+/-- Compatibility export for the former finite-dimensional quiver-roadmap predicate. -/
+theorem exteriorSkewCorner_isBasic_quiverRoadmap
+    (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    [Invertible (Nat.card G : k)] {D : IrrepFamily k G} (V : FDRep k G)
+    (E : PrimitiveMatrixIdempotents k G D) :
+    TauCetiRoadmap.RepresentationTheory.QuiverRepresentations.IsBasic k
+      (Corner (ExteriorSkewAlgebra k G V V.ρ) (exteriorBasicIdempotent k G V E)) :=
+  (isBasic_iff_quiverRoadmap k _).mp (exteriorSkewCorner_isBasic k G V E)
 
 /-- These are the Morita equivalences *derived* from the two fullness theorems. -/
 noncomputable def symmetricSkew_moritaBasicCorner
@@ -1152,20 +1473,19 @@ noncomputable instance standardADEOrientationHomFintype (tag : NamedAffineADE)
   exact PLift.fintypeProp _
 
 /-- Huerfano--Khovanov's binary-subgroup exterior corner, on the literal full corner.  The
-`IsBinary` hypothesis excludes all cyclic cases, including the double-edge `C₂` matrix. -/
-noncomputable def binaryExteriorCornerEquivZigzag
-    {G : Type} [Group G] [Fintype G] (D : IrrepFamily ℂ G) (V : FDRep ℂ G)
+`IsBinary` includes even cycles; `NamedAffineADE` excludes C₂ and its double edge.
+The representation-level scalar −I witness is `M.contains_neg_identity binary`. -/
+noncomputable def binaryExteriorCornerEquivZigzag : ∀ {G : Type} [Group G] [Fintype G] (D : IrrepFamily ℂ G) (V : FDRep ℂ G)
     {tag : NamedAffineADE} (M : NamedMcKayIdentification D V tag)
-    (binary : tag.IsBinary) (E : PrimitiveMatrixIdempotents ℂ G D) :
+    (binary : tag.IsBinary) (E : PrimitiveMatrixIdempotents ℂ G D),
     Corner (ExteriorSkewAlgebra ℂ G V V.ρ) (exteriorBasicIdempotent ℂ G V E) ≃ₐ[ℂ]
       ZigzagPreprojective.zigzagAlgebra ℂ tag.standardGraph := sorry
 
 /-- The companion relation-level polynomial corner is the additive preprojective algebra in the
 pinned later-factor-first path convention. -/
-noncomputable def binarySymmetricCornerEquivPreprojective
-    {G : Type} [Group G] [Fintype G] (D : IrrepFamily ℂ G) (V : FDRep ℂ G)
+noncomputable def binarySymmetricCornerEquivPreprojective : ∀ {G : Type} [Group G] [Fintype G] (D : IrrepFamily ℂ G) (V : FDRep ℂ G)
     {tag : NamedAffineADE} (M : NamedMcKayIdentification D V tag)
-    (binary : tag.IsBinary) (E : PrimitiveMatrixIdempotents ℂ G D) :
+    (binary : tag.IsBinary) (E : PrimitiveMatrixIdempotents ℂ G D),
     Corner (SymmetricSkewAlgebra ℂ G V V.ρ) (symmetricBasicIdempotent ℂ G V E) ≃ₐ[ℂ]
       ZigzagPreprojective.preprojectiveAlgebra ℂ (StandardADEOrientation tag) := sorry
 
@@ -1203,14 +1523,12 @@ noncomputable def PolynomialRelativeTensorAlgebra
   exact AlgCat.of k (RelativeTensorAlgebra k (MonoidAlgebra k Γ) (SkewDegreeOne Γ V))
 
 /-- The canonical degree-zero group-algebra map and degree-one generator of `T_{k[Γ]}(W)`. -/
-noncomputable def cbhGroupAlgebraMap
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+noncomputable def cbhGroupAlgebraMap : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     MonoidAlgebra k Γ →ₐ[k] PolynomialRelativeTensorAlgebra k Γ V Vρ := sorry
 
-noncomputable def cbhDegreeOneGenerator
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) :
+noncomputable def cbhDegreeOneGenerator : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V),
     V →ₗ[k] PolynomialRelativeTensorAlgebra k Γ V Vρ := sorry
 
 /-- The CBH sign is pinned literally: the sole relation is `[x,y]-z`, not `[x,y]+z` and not a
@@ -1283,8 +1601,8 @@ theorem cbhVertexWeight_eq_cbhCentralScalar_iff {G : Type u} [Group G]
 /-- The block-scalar description of the center.  ⚠ This is an **algebra** equivalence, so it has to
 use the scalars: `z ↦ (Tr_{ρ_i}(z))_i` is linear but is not multiplicative once some
 `dim ρ_i > 1`. -/
-noncomputable def centerEquivBlockScalars {G : Type u} [Group G] [Finite G]
-    (D : IrrepFamily ℂ G) :
+noncomputable def centerEquivBlockScalars : ∀ {G : Type u} [Group G] [Finite G]
+    (D : IrrepFamily ℂ G),
     Subalgebra.center ℂ (MonoidAlgebra ℂ G) ≃ₐ[ℂ] (D.ι → ℂ) := sorry
 
 /-- A genuinely reversed orientation, kept on a distinct vertex type so the two quiver instances
@@ -1310,15 +1628,13 @@ noncomputable instance reversedADEOrientationHomFintype (tag : NamedAffineADE)
 
 /-- Reversing every arrow and multiplying the chosen reverse arrows by `-1` transports the
 later-factor-first relation without changing `λ`. -/
-noncomputable def deformedPreprojective_reverseOrientation
-    (k : Type*) [Field k] (tag : NamedAffineADE) (weight : Fin tag.vertexCount → k) :
+noncomputable def deformedPreprojective_reverseOrientation : ∀ (k : Type*) [Field k] (tag : NamedAffineADE) (weight : Fin tag.vertexCount → k),
     DeformedPreprojectiveAlgebra k (StandardADEOrientation tag) weight ≃ₐ[k]
       DeformedPreprojectiveAlgebra k (ReversedADEOrientation tag)
         (fun i ↦ weight i.val) := sorry
 
-noncomputable def cbhQuotientGroupAlgebraMap
-    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
-    (Vρ : Representation k Γ V) (x y : V) (z : MonoidAlgebra k Γ) :
+noncomputable def cbhQuotientGroupAlgebraMap : ∀ (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V) (x y : V) (z : MonoidAlgebra k Γ),
     MonoidAlgebra k Γ →ₐ[k] CBHSkewDeformation k Γ V Vρ x y z := sorry
 
 noncomputable def cbhBasicIdempotent
@@ -1352,12 +1668,11 @@ determinant pairing is exactly one.  Thus `central` and the **trace** parameter
 freely chosen pair `x,y`, and no hidden renormalization of `λ` either.  Using the block scalars
 `cbhCentralScalar` here instead would be false; see
 `cbhCornerEquivDeformedPreprojective_scalar_weights_false`. -/
-noncomputable def cbhCornerEquivDeformedPreprojective
-    {G : Type} [Group G] [Fintype G] (D : IrrepFamily ℂ G)
+noncomputable def cbhCornerEquivDeformedPreprojective : ∀ {G : Type} [Group G] [Fintype G] (D : IrrepFamily ℂ G)
     (Vρ : Representation ℂ G (Fin 2 → ℂ))
     {tag : NamedAffineADE} (M : NamedMcKayIdentification D (FDRep.of Vρ) tag)
     (binary : tag.IsBinary) (E : PrimitiveMatrixIdempotents ℂ G D)
-    (z : MonoidAlgebra ℂ G) (central : ∀ a, z * a = a * z) :
+    (z : MonoidAlgebra ℂ G) (central : ∀ a, z * a = a * z),
     Corner (CBHSkewDeformation ℂ G (Fin 2 → ℂ) Vρ
         (standardCoordinateVector 0) (standardCoordinateVector 1) z)
       (cbhBasicIdempotent ℂ G (Fin 2 → ℂ) Vρ
@@ -1375,6 +1690,14 @@ one at each of those two vertices: take the two opposite-arrow maps to be nonzer
 product realizes the two signed vertex relations.  A vertex-compatible corner equivalence with the
 scalar weights would push it back to a CBH module whose underlying `Γ`-representation is one copy of
 each irreducible; but then `Tr([x,y]) = 0` while `Tr(z) = 1·1 + 2·(−1) = −1`.
+
+For the unrestricted algebra-isomorphism conclusion below, the vertex-compatible observation
+alone is insufficient. `CBHTraceControls.q8Corner_scalar_no_equiv` supplies the stronger witness:
+the scalar-weight D4 star has a simple module of complex dimension two, while its trace-weight
+star has none by the summed finite-module trace identity and the three-isolated-leaf support.
+The positive TRACE-parameter CBH comparison identifies the actual Q8 corner with the latter.
+An arbitrary complex algebra isomorphism preserves finite module dimension and simplicity, so
+no vertex-compatibility premise is needed. The companion imports this file, never conversely.
 
 ⚠ Cyclic examples cannot detect this, because all their `δ_i` are one. -/
 theorem cbhCornerEquivDeformedPreprojective_scalar_weights_false :
@@ -1411,23 +1734,25 @@ namespace FKSGrading
 variable {ι M : Type*} [AddCommGroup ι] [DecidableEq ι] [AddCommGroup M]
 
 /-- The DGA roadmap's `ℤ`-grading of a `k`-module, with scalars forgotten. -/
-def ofInternal {k : Type*} [CommRing k] [Module k M] (G : DGAInfinity.InternalGrading k M) :
-    FKSGrading ℤ M where
-  piece p := (G.piece p).toAddSubgroup
-  isInternal := sorry
+def ofInternal : ∀ {k : Type*} [CommRing k] [Module k M] (G : DGAInfinity.InternalGrading k M),
+    FKSGrading ℤ M := fun {k} _ _ G =>
+  { piece p := (G.piece p).toAddSubgroup
+    isInternal := sorry }
 
 /-- Collapse along a homomorphism of degree groups: the new `q`-piece is the sum of the old
 pieces whose degree maps to `q`.  Along `Int.castAddHom (ZMod 2)` this is FKS's passage from
 `ℤ`-graded to `ℤ/2`-graded objects (FKS §5.1, "collapse the grading"). -/
-noncomputable def collapse {ι' : Type*} [AddCommGroup ι'] [DecidableEq ι'] (π : ι →+ ι')
-    (G : FKSGrading ι M) : FKSGrading ι' M where
-  piece q := ⨆ (p : ι) (_ : π p = q), G.piece p
-  isInternal := sorry
+noncomputable def collapse : ∀ {ι' : Type*} [AddCommGroup ι'] [DecidableEq ι'] (π : ι →+ ι')
+    (G : FKSGrading ι M),
+    FKSGrading ι' M := fun {ι'} _ _ π G =>
+  { piece q := ⨆ (p : ι) (_ : π p = q), G.piece p
+    isInternal := sorry }
 
 /-- The shift `(M[n])ᵖ = Mᵖ⁺ⁿ` of FKS §2.1. -/
-def shift (G : FKSGrading ι M) (n : ι) : FKSGrading ι M where
-  piece p := G.piece (p + n)
-  isInternal := sorry
+def shift : ∀ (G : FKSGrading ι M) (n : ι),
+    FKSGrading ι M := fun G n =>
+  { piece p := G.piece (p + n)
+    isInternal := sorry }
 
 end FKSGrading
 
@@ -1461,26 +1786,27 @@ namespace FKSGradedAlgebra
 variable {ι A : Type*} [AddCommGroup ι] [DecidableEq ι] [Ring A]
 
 /-- The collapsed grading is again multiplicative. -/
-noncomputable def collapse {ι' : Type*} [AddCommGroup ι'] [DecidableEq ι'] (π : ι →+ ι')
-    (B : FKSGradedAlgebra ι A) : FKSGradedAlgebra ι' A where
-  grading := B.grading.collapse π
-  one_mem := sorry
-  mul_mem := sorry
+noncomputable def collapse : ∀ {ι' : Type*} [AddCommGroup ι'] [DecidableEq ι'] (π : ι →+ ι')
+    (B : FKSGradedAlgebra ι A),
+    FKSGradedAlgebra ι' A := fun {ι'} _ _ π B =>
+  { grading := B.grading.collapse π
+    one_mem := sorry
+    mul_mem := sorry }
 
 /-- A ring concentrated in degree zero, as in the disk and dual-number examples below. -/
-noncomputable def concentrated (ι A : Type*) [AddCommGroup ι] [DecidableEq ι] [Ring A] :
-    FKSGradedAlgebra ι A where
-  grading :=
-    { piece := fun p ↦ if p = 0 then ⊤ else ⊥
-      isInternal := sorry }
-  one_mem := sorry
-  mul_mem := sorry
+noncomputable def concentrated : ∀ (ι A : Type*) [AddCommGroup ι] [DecidableEq ι] [Ring A],
+    FKSGradedAlgebra ι A := fun ι A _ _ _ =>
+  { grading :=
+      { piece := fun p ↦ if p = 0 then ⊤ else ⊥
+        isInternal := sorry }
+    one_mem := sorry
+    mul_mem := sorry }
 
 /-- The parity involution `σ(a) = Σₚ (-1)ᵖ aₚ`.  It is what makes `d a = σ(a) d` in the curved
 extension algebra and what twists the left action on a shifted bimodule. -/
-noncomputable def parityInvolution {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
-    (π : FKSParity ι) (B : FKSGradedAlgebra ι A) : A ≃+* A :=
-  sorry
+noncomputable def parityInvolution : ∀ {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
+    (π : FKSParity ι) (B : FKSGradedAlgebra ι A),
+    A ≃+* A := sorry
 
 theorem parityInvolution_of_mem {ι A : Type*} [AddCommGroupWithOne ι] [DecidableEq ι] [Ring A]
     (π : FKSParity ι) (B : FKSGradedAlgebra ι A) {p : ι} {a : A}
@@ -1590,7 +1916,8 @@ def FKSShiftCarrier (X : FKSCurvedObject π B c) := X.carrier
 instance (X : FKSCurvedObject π B c) : AddCommGroup (FKSShiftCarrier π B c X) :=
   inferInstanceAs (AddCommGroup X.carrier)
 
-noncomputable instance (X : FKSCurvedObject π B c) : Module A (FKSShiftCarrier π B c X) := sorry
+noncomputable instance : ∀ (X : FKSCurvedObject π B c),
+    Module A (FKSShiftCarrier π B c X) := sorry
 
 theorem fksShift_smul (X : FKSCurvedObject π B c) (a : A) (m : FKSShiftCarrier π B c X) :
     a • m = (show FKSShiftCarrier π B c X from
@@ -1660,8 +1987,10 @@ theorem one_def : (1 : FKSCurvedExtension π B c) = ⟨1, 0⟩ := sorry
 
 end FKSCurvedExtension
 
+omit π B c in
 /-- The inclusion `A → Ã_c`, `a ↦ a + 0 d`. -/
-noncomputable def fksExtensionInclusion : A →+* FKSCurvedExtension π B c := sorry
+noncomputable def fksExtensionInclusion : ∀ (π : FKSParity ι)
+    (B : FKSGradedAlgebra ι A) (c : FKSCurvature B), A →+* FKSCurvedExtension π B c := sorry
 
 theorem fksExtensionInclusion_apply (a : A) :
     fksExtensionInclusion π B c a = ⟨a, 0⟩ := sorry
@@ -1808,29 +2137,29 @@ noncomputable def fksStableToHomotopy : FKSStableCategory π B c ⥤ FKSHomotopy
 end StableComparison
 
 /-- For duplexes the shift is `2`-periodic, `[2] ≅ Id` (FKS §3.1). -/
-noncomputable def fksDuplexShiftTwoIso {A : Type u} [Ring A] (B : FKSGradedAlgebra (ZMod 2) A)
-    (c : FKSCurvature B) :
+noncomputable def fksDuplexShiftTwoIso : ∀ {A : Type u} [Ring A] (B : FKSGradedAlgebra (ZMod 2) A)
+    (c : FKSCurvature B),
     fksShiftFunctor FKSParity.zmod2 B c ⋙ fksShiftFunctor FKSParity.zmod2 B c ≅ 𝟭 _ := sorry
 
 /-- Folding a complex to a duplex: the same module and differential, with the `ℤ`-grading
 collapsed to its parity (FKS §3.1, §5.1).  This is the comparison between the complex model of
 FKS §2 and the duplex model of FKS §3 on which the Weyl functors act. -/
-noncomputable def fksFold {A : Type u} [Ring A] (B : FKSGradedAlgebra ℤ A) (c : FKSCurvature B) :
+noncomputable def fksFold : ∀ {A : Type u} [Ring A] (B : FKSGradedAlgebra ℤ A) (c : FKSCurvature B),
     FKSCurvedObject FKSParity.int B c ⥤
       FKSCurvedObject FKSParity.zmod2 (B.collapse (Int.castAddHom (ZMod 2)))
-        (c.collapse) where
-  obj X :=
-    { carrier := X.carrier
-      str :=
-        { grading := X.str.grading.collapse (Int.castAddHom (ZMod 2))
-          smul_mem := sorry
-          d := X.str.d
-          d_mem := sorry
-          d_d := X.str.d_d
-          d_smul := sorry } }
-  map f := ⟨f.hom, sorry, f.comm⟩
-  map_id := sorry
-  map_comp := sorry
+        (c.collapse) := fun {A} _ B c =>
+  { obj X :=
+      { carrier := X.carrier
+        str :=
+          { grading := X.str.grading.collapse (Int.castAddHom (ZMod 2))
+            smul_mem := sorry
+            d := X.str.d
+            d_mem := sorry
+            d_d := X.str.d_d
+            d_smul := sorry } }
+    map f := ⟨f.hom, sorry, f.comm⟩
+    map_id := sorry
+    map_comp := sorry }
 
 /-! ### Stable-category acceptance tests -/
 
@@ -1919,9 +2248,9 @@ noncomputable def fksRightCurvedAlgebra (k : Type u) {A : Type u} [CommRing k] [
 prerequisite's right curved modules: a left `(A,c)`-complex is a right module over the graded
 opposite by `m · op a = (-1)^(|a||m|) a m`, and the graded opposite of `(A, 0, -c)` has right
 curvature `op c`.  This equivalence is how `K(A,c)` inherits the prerequisite's triangulation. -/
-noncomputable def fksHomotopyEquivRightCurved (k : Type u) {A : Type u} [CommRing k] [Ring A]
+noncomputable def fksHomotopyEquivRightCurved : ∀ (k : Type u) {A : Type u} [CommRing k] [Ring A]
     [Algebra k A] {B : FKSGradedAlgebra ℤ A} (G : DGAInfinity.InternalGrading k A)
-    (hG : FKSGrading.ofInternal G = B.grading) (c : FKSCurvature B) :
+    (hG : FKSGrading.ofInternal G = B.grading) (c : FKSCurvature B),
     letI O := StablePeriodicCurved.RightCurvedDGAlgebra.gradedOpposite
       (fksRightCurvedAlgebra k G hG (-c.val) (neg_mem c.mem)
         (fun a ↦ by rw [neg_mul, mul_neg, c.central]))
@@ -1962,8 +2291,8 @@ abbrev FKSBalancedTensor (A N M : Type u) [Ring A] [AddCommGroup N] [Module Aᵐ
     {x | ∃ (a : A) (n : N) (m : M), x = (MulOpposite.op a • n) ⊗ₜ m - n ⊗ₜ (a • m)}
 
 /-- The left action on `N ⊗_A M` through `N`; it descends because the two actions on `N` commute. -/
-noncomputable instance fksBalancedTensorModule (A N M : Type u) [Ring A] [AddCommGroup N]
-    [Module A N] [Module Aᵐᵒᵖ N] [SMulCommClass A Aᵐᵒᵖ N] [AddCommGroup M] [Module A M] :
+noncomputable instance fksBalancedTensorModule : ∀ (A N M : Type u) [Ring A] [AddCommGroup N]
+    [Module A N] [Module Aᵐᵒᵖ N] [SMulCommClass A Aᵐᵒᵖ N] [AddCommGroup M] [Module A M],
     Module A (FKSBalancedTensor A N M) := sorry
 
 theorem fksBalancedTensor_smul (A N M : Type u) [Ring A] [AddCommGroup N]
@@ -1974,14 +2303,24 @@ theorem fksBalancedTensor_smul (A N M : Type u) [Ring A] [AddCommGroup N]
 variable {π B}
 
 /-- `N ⊗_A M` with the total grading and `d(n ⊗ m) = dn ⊗ m + (-1)^|n| n ⊗ dm` (FKS §2.3).  Its
-square is `l(target)`: the `r(source)` term cancels against `d²m = source · m` by balancing. -/
-noncomputable def FKSCurvedBimodule.tensorObj {target source : FKSCurvature B} {N : Type u}
-    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
-    (X : FKSCurvedObject π B source) : FKSCurvedObject π B target where
-  carrier :=
+square is `l(target)`: the `r(source)` term cancels against `d²m = source · m` by balancing.
+The total differential/grading is admitted as ONE family in K and X. Its literal carrier
+stays visible in tensorObj, while the varying differentials are not erased by a fixed str type. -/
+noncomputable def FKSCurvedBimodule.tensorStr :
+    ∀ {target source : FKSCurvature B} {N : Type u}
+      [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N]
+      (K : FKSCurvedBimodule π B target source N) (X : FKSCurvedObject π B source),
     letI : SMulCommClass A Aᵐᵒᵖ N := ⟨fun a b n ↦ K.actions_commute a b.unop n⟩
-    ModuleCat.of A (FKSBalancedTensor A N X.carrier)
-  str := sorry
+    FKSCurvedModule π B target (FKSBalancedTensor A N X.carrier) := sorry
+
+noncomputable def FKSCurvedBimodule.tensorObj : ∀ {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
+    (X : FKSCurvedObject π B source),
+    FKSCurvedObject π B target := fun {target source N} _ _ _ K X =>
+  { carrier :=
+      letI : SMulCommClass A Aᵐᵒᵖ N := ⟨fun a b n ↦ K.actions_commute a b.unop n⟩
+      ModuleCat.of A (FKSBalancedTensor A N X.carrier)
+    str := K.tensorStr X }
 
 theorem FKSCurvedBimodule.tensorObj_d {target source : FKSCurvature B} {N : Type u}
     [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
@@ -1994,13 +2333,13 @@ theorem FKSCurvedBimodule.tensorObj_d {target source : FKSCurvature B} {N : Type
 
 /-- Tensoring with a curved bimodule, `Com(A, source) ⥤ Com(A, target)` (FKS §2.4, §3.3); on
 morphisms it is `id ⊗ f`. -/
-noncomputable def FKSCurvedBimodule.tensorFunctor {target source : FKSCurvature B} {N : Type u}
-    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N) :
-    FKSCurvedObject π B source ⥤ FKSCurvedObject π B target where
-  obj := K.tensorObj
-  map := sorry
-  map_id := sorry
-  map_comp := sorry
+noncomputable def FKSCurvedBimodule.tensorFunctor : ∀ {target source : FKSCurvature B} {N : Type u}
+    [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N),
+    FKSCurvedObject π B source ⥤ FKSCurvedObject π B target := fun {target source N} _ _ _ K =>
+  { obj := K.tensorObj
+    map := sorry
+    map_id := sorry
+    map_comp := sorry }
 
 theorem FKSCurvedBimodule.tensorFunctor_map {target source : FKSCurvature B} {N : Type u}
     [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N] (K : FKSCurvedBimodule π B target source N)
@@ -2010,9 +2349,10 @@ theorem FKSCurvedBimodule.tensorFunctor_map {target source : FKSCurvature B} {N 
       (Submodule.Quotient.mk (n ⊗ₜ[ℤ] FKSCurvedObject.Hom.hom f m) :
         FKSBalancedTensor A N Y.carrier) := sorry
 
-noncomputable instance FKSCurvedBimodule.tensorFunctor_additive {target source : FKSCurvature B}
+noncomputable instance FKSCurvedBimodule.tensorFunctor_additive : ∀ {target source : FKSCurvature B}
     {N : Type u} [AddCommGroup N] [Module A N] [Module Aᵐᵒᵖ N]
-    (K : FKSCurvedBimodule π B target source N) : K.tensorFunctor.Additive := sorry
+    (K : FKSCurvedBimodule π B target source N),
+    K.tensorFunctor.Additive := sorry
 
 /-- Tensoring preserves null-homotopy, so it descends to the homotopy categories. -/
 theorem FKSCurvedBimodule.tensorFunctor_kills {target source : FKSCurvature B} {N : Type u}
@@ -2061,29 +2401,36 @@ def LeftVertexProjective (A : Type*) [Ring A] (e : Idempotent A) :=
 def RightVertexProjective (A : Type*) [Ring A] (e : Idempotent A) :=
   {x : A // (e : A) * x = x}
 
-noncomputable instance (A : Type*) [Ring A] (e : Idempotent A) :
+noncomputable instance : ∀ (A : Type*) [Ring A] (e : Idempotent A),
     AddCommGroup (LeftVertexProjective A e) := sorry
-noncomputable instance (k A : Type*) [Field k] [Ring A] [Algebra k A] (e : Idempotent A) :
+
+noncomputable instance : ∀ (k A : Type*) [Field k] [Ring A] [Algebra k A] (e : Idempotent A),
     Module k (LeftVertexProjective A e) := sorry
-noncomputable instance (A : Type*) [Ring A] (e : Idempotent A) :
+
+noncomputable instance : ∀ (A : Type*) [Ring A] (e : Idempotent A),
     Module A (LeftVertexProjective A e) := sorry
-noncomputable instance (A : Type*) [Ring A] (e : Idempotent A) :
+
+noncomputable instance : ∀ (A : Type*) [Ring A] (e : Idempotent A),
     AddCommGroup (RightVertexProjective A e) := sorry
-noncomputable instance (k A : Type*) [Field k] [Ring A] [Algebra k A] (e : Idempotent A) :
+
+noncomputable instance : ∀ (k A : Type*) [Field k] [Ring A] [Algebra k A] (e : Idempotent A),
     Module k (RightVertexProjective A e) := sorry
-noncomputable instance (A : Type*) [Ring A] (e : Idempotent A) :
+
+noncomputable instance : ∀ (A : Type*) [Ring A] (e : Idempotent A),
     Module Aᵐᵒᵖ (RightVertexProjective A e) := sorry
 
 /-- The subtype inclusions, as `k`-linear maps. -/
-noncomputable def leftVertexProjectiveSubtype (k A : Type*) [Field k] [Ring A] [Algebra k A]
-    (e : Idempotent A) : LeftVertexProjective A e →ₗ[k] A := sorry
+noncomputable def leftVertexProjectiveSubtype : ∀ (k A : Type*) [Field k] [Ring A] [Algebra k A]
+    (e : Idempotent A),
+    LeftVertexProjective A e →ₗ[k] A := sorry
 
 theorem leftVertexProjectiveSubtype_apply (k A : Type*) [Field k] [Ring A] [Algebra k A]
     (e : Idempotent A) (x : LeftVertexProjective A e) :
     leftVertexProjectiveSubtype k A e x = x.1 := sorry
 
-noncomputable def rightVertexProjectiveSubtype (k A : Type*) [Field k] [Ring A] [Algebra k A]
-    (e : Idempotent A) : RightVertexProjective A e →ₗ[k] A := sorry
+noncomputable def rightVertexProjectiveSubtype : ∀ (k A : Type*) [Field k] [Ring A] [Algebra k A]
+    (e : Idempotent A),
+    RightVertexProjective A e →ₗ[k] A := sorry
 
 theorem rightVertexProjectiveSubtype_apply (k A : Type*) [Field k] [Ring A] [Algebra k A]
     (e : Idempotent A) (x : RightVertexProjective A e) :
@@ -2141,25 +2488,25 @@ theorem fksVolumeClass_central (col : G.Coloring Bool) (a : V) (x : ZigzagAlg k 
       x * fksVolumeClass k G connected nontrivial col a := sorry
 
 /-- The center parameter `c = Σ_b x_b X_b` as a duplex curvature. -/
-noncomputable def zigzagCenterParameter (col : G.Coloring Bool) (c : V → k) :
-    FKSCurvature (zigzagParityAlgebra k G) where
-  val := ∑ v, c v • fksVolumeClass k G connected nontrivial col v
-  mem := sorry
-  central := sorry
+noncomputable def zigzagCenterParameter : ∀ (col : G.Coloring Bool) (c : V → k),
+    FKSCurvature (zigzagParityAlgebra k G) := fun col c =>
+  { val := ∑ v, c v • fksVolumeClass k G connected nontrivial col v
+    mem := sorry
+    central := sorry }
 
 abbrev ZigzagReflectionTensor (a : V) :=
   TensorProduct k
     (LeftVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
     (RightVertexProjective (ZigzagAlg k G) (zigzagVertexIdempotent k G connected nontrivial a))
 
-noncomputable instance zigzagReflectionTensorLeftModule (a : V) :
+noncomputable instance zigzagReflectionTensorLeftModule : ∀ (a : V),
     Module (ZigzagAlg k G) (ZigzagReflectionTensor k G connected nontrivial a) := sorry
 
-noncomputable instance zigzagReflectionTensorRightModule (a : V) :
+noncomputable instance zigzagReflectionTensorRightModule : ∀ (a : V),
     Module (ZigzagAlg k G)ᵐᵒᵖ (ZigzagReflectionTensor k G connected nontrivial a) := sorry
 
 /-- The tensor grading on `P_a ⊗_k {}_aP`, collapsed to parity. -/
-noncomputable def zigzagReflectionTensorGrading (a : V) :
+noncomputable def zigzagReflectionTensorGrading : ∀ (a : V),
     FKSGrading (ZMod 2) (ZigzagReflectionTensor k G connected nontrivial a) := sorry
 
 theorem zigzagReflectionTensorGrading_tmul (a : V) {p q : ZMod 2}
@@ -2170,7 +2517,7 @@ theorem zigzagReflectionTensorGrading_tmul (a : V) {p q : ZMod 2}
     x ⊗ₜ[k] y ∈ (zigzagReflectionTensorGrading k G connected nontrivial a).piece (p + q) := sorry
 
 /-- `m_a : P_a ⊗ {}_aP → A` is literal multiplication; it is a bimodule map. -/
-noncomputable def zigzagVertexMultiplication (a : V) :
+noncomputable def zigzagVertexMultiplication : ∀ (a : V),
     ZigzagReflectionTensor k G connected nontrivial a →ₗ[k] ZigzagAlg k G := sorry
 
 @[simp] theorem zigzagVertexMultiplication_tmul (a : V)
@@ -2180,7 +2527,7 @@ noncomputable def zigzagVertexMultiplication (a : V) :
 
 /-- The ordinary Frobenius coevaluation `A → P_a ⊗ {}_aP` for the sibling roadmap's symmetric
 trace; it is a bimodule map. -/
-noncomputable def zigzagVertexComultiplication (a : V) :
+noncomputable def zigzagVertexComultiplication : ∀ (a : V),
     ZigzagAlg k G →ₗ[k] ZigzagReflectionTensor k G connected nontrivial a := sorry
 
 /-- The coevaluation on `1`, pushed into `A ⊗_k A`: `Y_a ⊗ e_a + e_a ⊗ Y_a + Σ_(a--b) (a⟶b) ⊗ (b⟶a)`
@@ -2225,11 +2572,11 @@ noncomputable instance (a : V) : AddCommGroup (FKSReflectionKernel k G connected
 
 /-- The left action; on the shifted summand it is twisted by the parity involution, as for any
 shift (FKS §2.1: `a ∘ m = (-1)^|a| a m` on `M[1]`).  Pinned by `fksReflectionKernel_smul`. -/
-noncomputable instance (a : V) :
+noncomputable instance : ∀ (a : V),
     Module (ZigzagAlg k G) (FKSReflectionKernel k G connected nontrivial a) := sorry
 
 /-- The right action is untwisted.  Pinned by `fksReflectionKernel_op_smul`. -/
-noncomputable instance (a : V) :
+noncomputable instance : ∀ (a : V),
     Module (ZigzagAlg k G)ᵐᵒᵖ (FKSReflectionKernel k G connected nontrivial a) := sorry
 
 theorem fksReflectionKernel_smul (a : V) (x : ZigzagAlg k G)
@@ -2245,32 +2592,32 @@ theorem fksReflectionKernel_op_smul (a : V) (x : ZigzagAlg k G)
 /-- The reflection kernel `C_{a,-x_a}` of FKS (6.1): the parity-graded bimodule
 `A ⊕ (P_a ⊗ {}_aP)[1]`, with `d(u, t) = (-x_a m_a(t), Δ_a(u))`.  Its square is
 `l(s_a(c)) - r(c)` (FKS (6.3)--(6.4)), so tensoring sends curvature `c` to `s_a(c)`. -/
-noncomputable def fksReflectionKernel (col : G.Coloring Bool) (a : V) (c : V → k) :
+noncomputable def fksReflectionKernel : ∀ (col : G.Coloring Bool) (a : V) (c : V → k),
     FKSCurvedBimodule FKSParity.zmod2 (zigzagParityAlgebra k G)
       (zigzagCenterParameter k G connected nontrivial col (reflectCenterParameter G a c))
       (zigzagCenterParameter k G connected nontrivial col c)
-      (FKSReflectionKernel k G connected nontrivial a) where
-  grading :=
-    { piece := fun p ↦
-        { carrier := {v | v.unshifted ∈ (zigzagParityAlgebra k G).grading.piece p ∧
-              v.shifted ∈ (zigzagReflectionTensorGrading k G connected nontrivial a).piece (p + 1)}
-          add_mem' := sorry
-          zero_mem' := sorry
-          neg_mem' := sorry }
-      isInternal := sorry }
-  smul_mem_left := sorry
-  smul_mem_right := sorry
-  actions_commute := sorry
-  d :=
-    { toFun := fun v ↦
-        ⟨(-c a) • zigzagVertexMultiplication k G connected nontrivial a v.shifted,
-          fksComultiplication k G connected nontrivial col a v.unshifted⟩
-      map_zero' := sorry
-      map_add' := sorry }
-  d_mem := sorry
-  d_d := sorry
-  d_smul_left := sorry
-  d_smul_right := sorry
+      (FKSReflectionKernel k G connected nontrivial a) := fun col a c =>
+  { grading :=
+      { piece := fun p ↦
+          { carrier := {v | v.unshifted ∈ (zigzagParityAlgebra k G).grading.piece p ∧
+                v.shifted ∈ (zigzagReflectionTensorGrading k G connected nontrivial a).piece (p + 1)}
+            add_mem' := sorry
+            zero_mem' := sorry
+            neg_mem' := sorry }
+        isInternal := sorry }
+    smul_mem_left := sorry
+    smul_mem_right := sorry
+    actions_commute := sorry
+    d :=
+      { toFun := fun v ↦
+          ⟨(-c a) • zigzagVertexMultiplication k G connected nontrivial a v.shifted,
+            fksComultiplication k G connected nontrivial col a v.unshifted⟩
+        map_zero' := sorry
+        map_add' := sorry }
+    d_mem := sorry
+    d_d := sorry
+    d_smul_left := sorry
+    d_smul_right := sorry }
 
 /-- The duplex stable category `Mod₂(Ã_c)` of the zigzag algebra at center parameter `c`. -/
 abbrev ZigzagDuplexStable (col : G.Coloring Bool) (c : V → k) :=
@@ -2291,7 +2638,7 @@ noncomputable def zigzagCurvedToExtensionModule (col : G.Coloring Bool) (c : V �
         (zigzagCenterParameter k G connected nontrivial col c)) :=
   (fksExtensionModuleToCurved _ _ _).inv
 
-noncomputable instance (col : G.Coloring Bool) (c : V → k) :
+noncomputable instance : ∀ (col : G.Coloring Bool) (c : V → k),
     (zigzagCurvedToExtensionModule k G connected nontrivial col c).Additive := sorry
 
 /-- FKS Lemma 6.1: tensoring with `C_{a,-x_a}` sends projective `Ã_c`-modules to objects that are
@@ -2318,8 +2665,8 @@ noncomputable def fksReflectionStableFunctor (col : G.Coloring Bool) (a : V) (c 
     (fksReflection_kills_projectiveIdeal k G connected nontrivial col a c)
 
 /-- The stable and homotopy reflection functors agree through `Φ₂`. -/
-noncomputable def fksReflectionStableFunctor_comp_stableToHomotopy (col : G.Coloring Bool) (a : V)
-    (c : V → k) :
+noncomputable def fksReflectionStableFunctor_comp_stableToHomotopy : ∀ (col : G.Coloring Bool) (a : V)
+    (c : V → k),
     fksReflectionStableFunctor k G connected nontrivial col a c ⋙ fksStableToHomotopy _ _ _ ≅
       fksStableToHomotopy _ _ _ ⋙
         (fksReflectionKernel k G connected nontrivial col a c).homotopyFunctor := sorry
@@ -2330,7 +2677,8 @@ theorem fksReflectionStableFunctor_isEquivalence (col : G.Coloring Bool) (a : V)
     (fksReflectionStableFunctor k G connected nontrivial col a c).IsEquivalence := sorry
 
 /-- The augmentation character at a vertex: `e_a ↦ 1` and every other basis vector `↦ 0`. -/
-noncomputable def zigzagVertexCharacter (a : V) : ZigzagAlg k G →ₐ[k] k := sorry
+noncomputable def zigzagVertexCharacter : ∀ (a : V),
+    ZigzagAlg k G →ₐ[k] k := sorry
 
 theorem zigzagVertexCharacter_basis_self (a : V) :
     zigzagVertexCharacter k G a
@@ -2435,13 +2783,13 @@ noncomputable def fksOrbitReflectionFunctor_incl (a : V) (c' : FKSOrbit G c) :
         (c'.reflect a) :=
   CategoryTheory.Sigma.inclDesc _ c'
 
-noncomputable def fksReflection_commutes (a b : V) (hab : ¬ G.Adj a b) :
+noncomputable def fksReflection_commutes : ∀ (a b : V) (hab : ¬ G.Adj a b),
     fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
         fksOrbitReflectionFunctor k G connected nontrivial col c b ≅
       fksOrbitReflectionFunctor k G connected nontrivial col c b ⋙
         fksOrbitReflectionFunctor k G connected nontrivial col c a := sorry
 
-noncomputable def fksReflection_braid (a b : V) (hab : G.Adj a b) :
+noncomputable def fksReflection_braid : ∀ (a b : V) (hab : G.Adj a b),
     fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
         fksOrbitReflectionFunctor k G connected nontrivial col c b ⋙
         fksOrbitReflectionFunctor k G connected nontrivial col c a ≅
@@ -2452,7 +2800,7 @@ noncomputable def fksReflection_braid (a b : V) (hab : G.Adj a b) :
 /-- The Coxeter relation `R_a ∘ R_a ≅ Id` on a generic orbit (FKS Proposition 6.1 on each fibre,
 using `reflectCenterParameter_reflectCenterParameter`).  With the commuting and braid relations
 this makes the `R_a` a Weyl group action (FKS Theorem 1). -/
-noncomputable def fksReflection_square (generic : FKSGeneric G c) (a : V) :
+noncomputable def fksReflection_square : ∀ (generic : FKSGeneric G c) (a : V),
     fksOrbitReflectionFunctor k G connected nontrivial col c a ⋙
         fksOrbitReflectionFunctor k G connected nontrivial col c a ≅ 𝟭 _ := sorry
 
@@ -2470,7 +2818,7 @@ noncomputable def affineE8FKSReflectionKernel
 
 /-! ## Executable integration checks -/
 
-theorem cyclic_three_regular_sum_sq : ∑ _i : Fin 3, (1 : ℕ) ^ 2 = 3 := by native_decide
+theorem cyclic_three_regular_sum_sq : ∑ _i : Fin 3, (1 : ℕ) ^ 2 = 3 := by simp
 
 theorem binaryDihedral_regular_sum_sq (n : ℕ) (hn : 2 ≤ n) :
     4 * 1 ^ 2 + (n - 1) * 2 ^ 2 = 4 * n := by omega
@@ -2478,5 +2826,9 @@ theorem binaryDihedral_regular_sum_sq (n : ℕ) (hn : 2 ≤ n) :
 theorem affineE8_zigzag_dimension :
     2 * 9 + 2 * ZigzagPreprojective.affineE8Graph.edgeFinset.card = 34 :=
   ZigzagPreprojective.zigzagDimension_affineE8
+
+/-! `McKayClassificationTargets.lean` imports this file and supplies the complete classification,
+canonical-complex McKay, weighted/marked finite-root and cyclic-corner interface. It is a separate
+companion to avoid importing a module from its own prerequisite. -/
 
 end TauCetiRoadmap.McKaySkewGroup

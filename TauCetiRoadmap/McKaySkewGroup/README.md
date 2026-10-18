@@ -2,13 +2,21 @@
 
 The finite subgroups of `SU(2)` give an unusually concrete meeting point of finite-group
 representations, affine ADE diagrams, quadratic algebras, and curved homological algebra.  This
-roadmap formalizes that **algebraic prerequisite package**.  It constructs named subgroups, computes
-their McKay data, identifies the associated basic skew-group algebras, and reaches the curved
-complex and duplex functors of Frenkel--Khovanov--Schiffmann (FKS).
+roadmap formalizes that **algebraic prerequisite package**, including the complete finite-subgroup
+classification and conjugacy. It constructs named models, proves the generic McKay-matrix theorem
+for every finite subgroup, identifies the associated basic skew-group algebras, and reaches the
+curved complex and duplex functors of Frenkel--Khovanov--Schiffmann (FKS).
 
-This is not a roadmap for the downstream research project.  In particular, the regular dimension
-vector `δ` is constructed and the ordinary affine root lattice is quotiented by `ℤδ`, but no
+The regular dimension vector `δ` is constructed and the ordinary affine root lattice is quotiented by `ℤδ`, but no
 category is quotiented by `δ` and no categorified analogue of that quotient is asserted.
+
+`Suggested.lean`, `McKayClassificationTargets.lean` and `CBHTraceControls.lean` give prospective
+native interfaces.
+The first retains the full relative-quadratic, CBH and FKS targets; the companion supplies
+pole/conjugacy, canonical-complex McKay, weighted/marked-root and cyclic-presentation APIs.
+The trace-control companion pins the CBH normalization through finite module invariants.
+The README is definitive. Named irreducible models are coordinate presentations of the native
+simple-object skeleton, and named affine labels transport the native `AffineDynkinType` data.
 
 ## Conventions and hypotheses
 
@@ -63,8 +71,10 @@ The following APIs are dependencies and must not be redeveloped here.
   Morita infrastructure.  Specialize `SkewMonoidAlgebra` and prove the group/equivariant-module API;
   do not introduce a second finitely-supported convolution carrier.
 - Tau Ceti has the path algebra, vertex idempotents, arrows, the later-factor-first product, and
-  Dynkin graph data.  Inspect the pinned versions before choosing names: this roadmap is not a
-  request for parallel path-algebra or matrix-group foundations.
+  Dynkin graph data, including `TauCeti.AffineDynkinType`, its `Valid`/`IsGraphical` conditions,
+  `graph`, `cartanMatrix`, `marks` and `affineNode`. Use those actual affine carriers and their
+  deletion/model maps; this roadmap builds the McKay comparison, not another affine data engine.
+  It is not a request for parallel path-algebra or matrix-group foundations.
 
 ### Sibling roadmaps
 
@@ -76,10 +86,12 @@ The following APIs are dependencies and must not be redeveloped here.
   [`ClassicalGroups`](../RepresentationTheory/ClassicalGroups/README.md) own compact/unitary and
   `SL₂` representation infrastructure.  We supply only explicit finite subgroups and their
   restricted defining representation.
-- [`RootSystems`](../RepresentationTheory/RootSystems/README.md) owns finite ADE Cartan and Dynkin
-  data, and [`ZigzagPreprojective`](../ZigzagPreprojective/README.md) owns the affine
-  simply-laced diagrams and their generalized Cartan matrices, including the multiplicity-two
-  `Ã₁`.  Both are consumed here.  What is new here is the representation-theoretic side: the
+- [`RootSystems`](../RepresentationTheory/RootSystems/README.md) owns finite ADE Cartan, Weyl and
+  chamber theory; [`ReductiveGroups`9A.1a](../ReductiveGroups/README.md) owns the integral ADE
+  norm-shell/root-coordinate comparison. Consume the native `AffineDynkinType` data and
+  [`ZigzagPreprojective`](../ZigzagPreprojective/README.md)'s affine matrix/deletion and strict
+  algebra contracts, including the multiplicity-two `Ã₁`. These are lower inputs to the
+  explicit finite-root-to-McKay comparison here.  What is new here is the representation-theoretic side: the
   McKay matrix of an actual finite subgroup, its identification with one of those affine Cartan
   matrices, the radical statement `ker C = ℤδ`, and the algebraic quotient by `δ`.
 - [`QuiverRepresentations`](../RepresentationTheory/QuiverRepresentations/README.md) owns quiver
@@ -96,15 +108,15 @@ The following APIs are dependencies and must not be redeveloped here.
   category of the zero-differential algebra `(A, 0, -c)` over its graded opposite.
 - [`ZigzagPreprojective`](../ZigzagPreprojective/README.md) supplies doubled simple graphs, ordinary
   zigzag algebras, affine `E₈`, graded pieces, projectives, Frobenius maps, and additive
-  preprojective algebras.  Odd-cycle skew-zigzag corners are outside this roadmap, and the FKS
-  layer is stated for bipartite graphs, where FKS's orientation-signed algebra is the ordinary
-  zigzag algebra.
+  preprojective algebras and parameterized skew-zigzag relations. This roadmap proves the direct
+  odd-cyclic exterior corner calculation as well as the even-cyclic ordinary comparison. The FKS
+  layer retains its bipartite scope, where FKS's orientation-signed algebra is ordinary zigzag;
+  no odd-cycle reflection-functor theorem is inferred from the corner calculation.
 
 The last three dependencies are mathematical prerequisites.  `A∞`/DG machinery controls Koszul
 dual and Morita transfer; stable and periodic machinery is required because FKS identify maps only
 after quotienting morphisms through projectives and use differentials with `d²=c`; the zigzag API
 provides the strict algebra and the multiplication/comultiplication maps used in the functors.
-None of these dependencies imports the research assertions in `GOAL.md`.
 
 ## Layer 0: explicit finite subgroups of `SU(2)` and `SL₂(ℂ)`
 
@@ -137,26 +149,189 @@ order.
 For each subgroup expose the inclusion, faithful defining representation, determinant-one
 alternating form, and an `SL₂(ℂ)` copy.  Relate the coordinate and standard presentation
 generators so later computations can use either.  These are the explicit constructions in
-Conway--Smith [CS03, §6.5] and Choi--Lee [CL18, §§2--4, especially §2.1 and Thms. 1--2].  The target is **not** the theorem that
-these exhaust, up to conjugacy, all finite subgroups of `SU(2)` or `SL₂(ℂ)`.
+Conway--Smith [CS03, §6.5] and Choi--Lee [CL18, §§2--4, especially §2.1 and Thms. 1--2].  These named-model constructions supply the coordinate side of the complete classification
+and conjugacy target below; neither orders alone nor abstract presentation isomorphisms discharge it.
+
+### Complete finite-subgroup classification and conjugacy
+
+Classify **every** finite subgroup of the native `SU(2)` carrier up to
+conjugacy inside `SU(2)`, and every finite subgroup of `SL₂(ℂ)` up to
+`GL₂(ℂ)` conjugacy, by the concrete models above, together with the trivial
+subgroup `cyclicSU2 1 := ⊥`. Give the conjugating element, subgroup equality,
+induced group equivalence and transport of the defining representation. The
+cyclic parameter is `n≥1`; binary dihedral parameters start at `n≥2`, so their
+order-four degenerate presentation is treated as cyclic rather than counted
+twice. Keep the coordinate predicates, displayed generators, orders and
+presentation comparisons of all five families.
+
+Consume the actual native `Matrix.specialOrthogonalGroup (Fin 3) ℝ` and
+[LieGroups' `SU(2)`, `SO(3)` double-cover example](../RepresentationTheory/LieGroups/README.md),
+which owns the construction of a surjective homomorphism `p : SU(2) → SO(3)` with central
+kernel `{I,-I}`. Build the comparison of this map with quaternion conjugation
+on the imaginary coordinates, fixing the ordered real basis and all signs.
+Prove the order-two adapter `g²=I → g=I ∨ g=-I` on the actual native matrices.
+No second generic rotation or quaternion-group foundation is required.
+
+For a finite subgroup `K≤SO(3)`, construct its action on the unit sphere and
+its finite **pole set**: the points fixed by some nonidentity element. Prove
+that a nonidentity rotation fixes exactly its two axis poles, and that a pole
+stabilizer embeds into the rotations of its oriented orthogonal plane, hence
+is cyclic. Consume native `isCyclic_of_injective_ringHom` for a finite subgroup of the circle,
+using its actual injective monoid homomorphism into ℂ. This layer owns the pole-stabilizer
+embedding into that circle; no separate cyclicity engine is needed. Partition the pole set into actual
+orbits. If their stabilizer orders are `m₁,…,m_s`, prove by double-counting
+nonidentity-element/fixed-pole pairs
+
+`Σ_j (1-1/m_j) = 2-2/|K|`.
+
+Treat `K=1` first. For nontrivial `K`, prove `s=2` or `3`. The two-orbit case
+has `m₁=m₂=|K|` and is conjugate to the cyclic axis model. In the three-orbit
+case order the `m_j` and derive exactly
+
+`(2,2,n), n≥2; (2,3,3); (2,3,4); (2,3,5)`,
+
+with orders `2n,12,24,60`. Construct **conjugacies**, not just this numerical
+list. For `(2,2,n)` use the invariant pair of poles of an order-n axis and a
+perpendicular half-turn; handle `n=2` by the three orthogonal half-turn axes.
+For `(2,3,3)`, the four-point pole orbit and its order-three stabilizers give
+a regular tetrahedron. For `(2,3,4)`, the unique pole orbit with stabilizer order four has
+six points. The antipodal map commutes with `K` and preserves stabilizer orders,
+so it preserves that orbit. For a pole `p` it contains `p,-p`, and a generator
+of its order-four stabilizer cycles the other four points. Their common
+latitude is zero because the orbit centroid is `K`-fixed and `K` has no common
+axis. Hence these four points form an equatorial square, giving the octahedral
+rotation model. Prove these Gram/orthonormal-frame comparisons and equality with the full rotation
+model using the actual group orders.
+
+For `(2,3,5)`, construct the isomorphism with `A₅` and its actual real
+three-dimensional rotation representation. The required finite-group and
+matrix certificates are part of this layer: pole stabilizers and centralizers
+give conjugacy-class sizes `1,15,20,12,12`; the normal-subgroup class-size
+argument proves simplicity; the five Sylow-two Klein groups give the faithful
+permutation action on five letters and its identification with `A₅`. Match
+the two order-five classes, allowing the explicit outer relabelling. Prove
+that the rotation character is `3,-1,0,φ,1-φ`, and verify the same character
+for the projected 120-coordinate binary model, including its actual group
+and class identifications. Consume CharacterTheory's finite characteristic-zero
+character recognition to construct the complex intertwiner. Construct a real
+intertwiner using a nonzero real or imaginary part and real irreducibility,
+then its orthogonal polar normalization; adjust its orientation to obtain an
+`SO(3)` conjugacy. Thus the coordinate model, its rotation image and the
+abstract `A₅` identification are proved to agree. None is inferred from an
+E₈ graph, a dimension multiset or an unverified drawing.
+
+Lift the resulting rotation conjugacy through `p`. If a finite `H≤SU(2)`
+contains `-I`, prove `H=p⁻¹(p(H))` and identify the full preimages of the
+cyclic, dihedral, tetrahedral, octahedral and icosahedral models with the
+concrete coordinate subgroups. Include `p(H)=1`, whose full preimage is `C₂`.
+If `-I∉H`, Cauchy's theorem and the unique-involution adapter force `|H|` odd;
+its rotation image is therefore cyclic by the proved rotation classification.
+Its full inverse image is a circle and `H` is the unique finite subgroup of
+that circle of its order, giving the odd-cyclic case. Include the trivial
+subgroup explicitly. Prove the parameter and exceptional-family uniqueness
+statements, including the low-rank cyclic/dihedral overlap just excluded.
+
+For finite `H≤SL₂(ℂ)`, construct the positive-definite averaged Hermitian
+form `A=|H|⁻¹ Σ_h h* h`, verify `h*Ah=A`, and use its actual positive square
+root to conjugate `H` into `SU(2)`. Give all representation/subgroup transport
+maps. A polar-decomposition comparison converts a `GL₂(ℂ)` conjugacy between
+two unitary models into a unitary conjugacy, then into an `SU(2)` conjugacy by
+scalar determinant normalization. This proves the claimed conjugacy strength;
+abstract group isomorphism alone is insufficient.
+
+As an independent group-theoretic application, prove the binary icosahedral
+model is perfect and has only the trivial one-dimensional complex simple.
+Let `D=[H,H]`; its image is `[A₅,A₅]=A₅`. Lift an actual nonidentity involution
+of `A₅` to `d∈D`. Its square lies in `{I,-I}` and cannot be `I`, by uniqueness
+of the `SU(2)` involution and its nonidentity image. Hence `-I∈D`; containing
+the kernel and surjecting onto the quotient forces `D=H`. Every one-dimensional
+representation kills commutators. This uses the actual cover/model comparison
+and nonabelian simplicity of `A₅`, and precedes all McKay/E₈ conclusions.
 
 ## Layer 1: irreducibles, the McKay matrix, and named affine ADE
 
-For each named subgroup give a finite, duplicate-free, exhaustive family `(ρ_i)` of irreducible
-complex representations, with the trivial representation distinguished.  Define
+For every finite subgroup `Γ≤SU(2)`, use the actual restricted representation
+`(TauCeti.stdRep ℂ 2).comp (TauCeti.SU2.toGL.comp Γ.subtype)` and bundle it
+with `FDRep.of`. Its faithfulness comes from the native injective maps;
+construct its determinant-form self-duality explicitly. Use CharacterTheory's
+existing complete finite family on `I=Fin (Nat.card (ConjClasses Γ))`, namely
+`FDRep.of (TauCeti.irreducibleRepresentation ℂ i)`, with its actual finite
+coordinate carrier and unique trivial-class index. Named polynomial/quaternion
+models are compared with this family by explicit representation equivalences
+and index bijections, rather than a second irreducible-class engine.
+
+Pin both matrix conventions. Write
 
 ```text
-a_ji = dimℂ Hom_Γ(ρ_j, V ⊗ ρ_i),       C = 2 I - A,
-δ_i = dimℂ ρ_i.
+M_ij = dimℂ Hom_Γ(ρ_j, V ⊗ ρ_i),    a_ji = M_ij,
+δ_i = dimℂ ρ_i,                     C = 2I-M.
 ```
 
-Prove tensor decompositions, not merely equality of dimensions.  The defining representation is
-two-dimensional, faithful, and equivariantly self-dual through its nondegenerate determinant
-pairing; these facts make `A` symmetric and its McKay graph connected.  Package each result as an
-identification with the **affine simply-laced diagram and Cartan matrix of the indicated tag and
-parameter, taken from the zigzag/preprojective roadmap's Layer 0 family**, not as an arbitrary
-matrix carrying a name.  Prove the following named identifications, without deriving or claiming
-an exhaustive classification:
+Thus `M` has source vertex first and target vertex second; the corner/path
+notation `a_ji` retains target first. Prove the natural multiplicities and
+actual finite direct-sum decompositions using CharacterTheory Layer3's
+regrouping and Hom-dimension API. Tensor-Hom adjunction with the constructed
+self-duality gives `M_ij=M_ji`; consequently the two transposed matrices agree.
+Prove `Mδ=2δ`, all `δ_i>0`, and `δ_trivial=1`. Give invariance under relabelling
+and under conjugation of the actual subgroup/defining representation.
+
+Consume [CharacterTheory Layer3's sharp faithful tensor-generation theorem](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ea1a2eec4a5046c9244b3f397749944cd73cb38e/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md):
+every actual simple occurs in `V^⊗n` for some `n<r≤#ConjClasses Γ`, where `r`
+is the number of distinct character values. Prove by tensor associativity,
+finite regrouping and multiplicity additivity that `(M^n)_ij` is the actual
+multiplicity of `ρ_j` in `V^⊗n ⊗ ρ_i`, including `n=0`. Positive natural matrix
+products supply actual walks from the trivial vertex. Removing loop steps
+shows the off-diagonal support is connected when there is more than one
+vertex. This consumes the generic finite-complex theorem; it does not reprove
+another character-interpolation or irreducible-indexing engine here.
+
+For any finite symmetric nonnegative `M` and positive real `δ` with `Mδ=2δ`,
+prove directly
+
+`xᵀ(2I-M)x = Σ_(i<j) M_ij δ_i δ_j (x_i/δ_i-x_j/δ_j)²`.
+
+Retain diagonal entries in the coefficient calculation. Connected off-diagonal
+support makes the kernel exactly `ℝδ`; the singleton case follows directly
+from `Mδ=2δ`. This weighted identity needs no Perron-Frobenius engine.
+It does **not** prove that the diagonal entries of `M` vanish.
+
+Separate the actual `SU(2)` branches. If `V` is reducible, construct the unitary
+basis that puts `Γ` in a circle, hence makes it cyclic. For order `n`, give
+the exact multiplicity count of the two congruences `j=i+1` and `j=i-1` in
+`ZMod n`: `n=1` has `M=[2], C=[0]`; `n=2` has off-diagonal multiplicity two
+and the native affine `A₁` matrix; `n≥3` has the simple n-cycle. The singleton
+has no invented native affine `A₀` tag. If `V` is irreducible, consume native
+`Representation.finrank_dvd_card` to obtain even group order. Cauchy and the
+unique-involution lemma give `-I∈Γ`. Its scalar ± action on each simple,
+reversed by tensoring with `V`, gives a bipartition and `M_ii=0`. Keep the
+ordinary determinant-minus-one dihedral negative example: self-duality and
+an affine graph alone do not imply the determinant-one input needed by the
+skew/corner/CBH targets.
+
+For the loop-free connected case with at least two vertices, delete the
+trivial vertex. Extension by zero in the weighted identity proves the
+principal matrix `C′` positive definite. Its two-by-two principal minors force
+undeleted off-diagonal multiplicities to be zero or one, so it is a finite
+simply-laced GCM. Use native finite-type classification componentwise. With
+`x=δ_rest` and `m_i=M_i,trivial`, prove `C′x=m` and `mᵀx=2`. The vector
+`θ=Σ_i x_i α_i` in the integral finite ADE lattice has norm two. Positivity
+and evenness show that it has only one connected component: every nonzero
+component would contribute at least two to that norm. Consume RG9A.1a's
+explicit norm-shell/root correspondence, native Weyl orbit/chamber and
+dominant-cone APIs, and the adjacent-simple-root orbit adapter to identify
+this dominant root as the highest root. Construct the marked extension
+`α₀=-θ` with Gram matrix `C`, then its exact index equivalence to the native
+`TauCeti.AffineDynkinType` matrix, affine node and marks. Do not apply an
+unprovided arbitrary-matrix affine converse or treat a dependent `-θ` as a
+full affine realization `δ_aff-θ` without its separate realization map.
+
+For each named subgroup retain the complete concrete tensor decompositions
+and label comparisons, and prove the following identifications using the
+native affine carrier with its actual `Valid` and `IsGraphical` hypotheses.
+The generic theorem and the named computations are separate obligations:
+the former is valid for every finite subgroup, while the latter supplies
+explicit coordinate and irreducible labels. No finite-subgroup exhaustiveness
+proof is a premise of the generic tensor/Laplacian argument.
 
 | subgroup | order | affine type | multiset of entries of `δ` |
 |---|---:|---|---|
@@ -187,20 +362,21 @@ Expose the canonical class `[W] : R_ℂ(Γ)` and prove
 ```
 
 The second identity makes the regular-representation vector `δ` a null vector of `C`; the
-sum-of-squares identity identifies its dimension with `|Γ|`.  The equation `Cδ=0` follows from the
-two-dimensional tensor rule alone, but the stronger assertion `ker C=ℤδ` is made **only after** a
-complete irreducible family with faithful self-dual defining representation has been identified
-with one of the exact connected standard affine ADE Cartan matrices in Layer 1.  There is no
-generic radical theorem for an arbitrary `FDRep`.  For each named identification prove integrally
-that the symmetric form is positive semidefinite with radical exactly `ℤδ`.  Since the
+sum-of-squares identity identifies its dimension with `|Γ|`. Consume Layer1's actual complete
+family, faithful self-dual dimension-two action and connected weighted-kernel theorem. Its real
+radical is `ℝδ`, and the trivial coordinate `δ_trivial=1` makes its integral radical exactly
+`ℤδ`. This also holds for the singleton matrix `[0]`; it gives the zero quotient without
+an invented affine type. It is not a radical statement for an arbitrary `FDRep`. Retain the
+native affine-model comparisons and named-family integral positive-semidefinite identifications.  Since the
 trivial-representation coordinate of `δ` is `1`, construct an explicit integral equivalence
 
 ```text
 ℤ^(Irr Γ) / ℤδ  ≃+  ℤ^(Irr Γ \ {trivial})
 ```
 
-and identify the descended form with the finite ADE Cartan/root-lattice form obtained by deleting
-the affine node.  Do not state only a rational quotient, and do not conflate this ordinary
+and, in the nontrivial native-affine cases, identify the descended form with the finite ADE
+Cartan/root-lattice form obtained by deleting the affine node. For the singleton it is the zero
+form on the empty lattice.  Do not state only a rational quotient, and do not conflate this ordinary
 algebraic quotient with a categorical quotient.  The dimension-vector and highest-root statements
 are Steinberg [Ste85, §1(3)--(5)].
 
@@ -208,8 +384,11 @@ are Steinberg [Ste85, §1(3)--(5)].
 
 Define the skew product on the finitely supported carrier `Γ →₀ A`, prove the displayed
 single-term multiplication formula, its universal property, associativity, algebra structure,
-and equivalence between left modules and equivariant left `A`-modules.  Separately name the equivalence
-with the opposite/right convention.
+and equivalence between the categories of left modules and equivariant left `A`-modules.
+Specify morphisms as actual linear maps intertwining both actions. Construct the two functors
+on objects and morphisms, their inverse natural isomorphisms, and the action formulas; an
+object-level type equivalence is only its underlying data comparison. Separately name the
+equivalence with the opposite/right convention.
 
 Lift a linear representation on a finite-dimensional `V` to actions on `SymmetricAlgebra k V`
 and `ExteriorAlgebra k V`, then form
@@ -265,16 +444,49 @@ e_j B₁ e_i ≃ Hom_Γ(ρ_j, V ⊗ ρ_i).
 
 Then prove relation-level algebra equivalences:
 
-- for binary groups, `e (Λ(V) ⋊ Γ) e` is the ordinary affine-ADE zigzag algebra;
-- for binary groups, `e (Sym(V) ⋊ Γ) e` is the additive preprojective algebra of an orientation
+- for binary groups with graphical McKay type, `e (Λ(V) ⋊ Γ) e` is the ordinary affine-ADE zigzag algebra;
+- for those binary groups, `e (Sym(V) ⋊ Γ) e` is the additive preprojective algebra of an orientation
   of the affine McKay graph, with orientation independence supplied by the sibling API.
 
-These are [HK01, §6.3, Props. 16--17 and relation (42)].  Use the corrected arXiv v2 hypotheses:
-the ordinary-zigzag and preprojective propositions are for binary subgroups.  No odd-cyclic corner
-claim is attributed to those propositions.  A future cyclic relation-level target must first state
-its exact doubled-cycle signs as a separate direct calculation (or a proved consequence of the
-corrected relative quadratic-duality convention) and cite that calculation precisely; it is not a
-completion condition here.
+The binary-group results are [HK01, §6.3, Props.16–17 and relation(42)], under
+the corrected arXiv v2 hypotheses.
+The cyclic relation-level comparisons are separate direct calculations here,
+not an attribution of odd-cycle ordinary zigzag to those propositions.
+For `Γ=C_n`, `n≥3`, choose the determinant-normalized eigenbasis `x,y` of
+weights `+1,-1` and the actual primitive character idempotents `e_i`, `i∈ZMod n`.
+All simple dimensions are one, so their sum is the full identity. In the
+exterior skew algebra define arrows
+
+`X_i=e_(i+1) x e_i : i→i+1`, `Y_i=e_(i-1) y e_i : i→i-1`.
+
+Prove the literal later-factor-first relations
+
+`X_(i+1)X_i=0`, `Y_(i-1)Y_i=0`,
+`Y_(i+1)X_i = -X_(i-1)Y_i`,
+
+and that paths of length at least three vanish. Construct the inverse map
+from the resulting path quotient, and prove its basis is the `4n` elements
+`e_i,X_i,Y_i,(xy)e_i`. This is the sibling's parameterized skew-zigzag algebra
+with opposite-backtrack ratio `-1` at every vertex. For odd `n≥3` retain this
+skew parameter and its relation-level corner/Morita comparison. Do not identify
+it with ordinary zigzag in characteristic zero: the cyclic product of the
+rescaling equations would give `1=(-1)^n=-1`.
+For even `n≥4`, a specified two-colouring gives the arrow rescaling to ordinary
+zigzag and transports the grading and Frobenius data. Here the actual binary
+condition is `-I∈Γ`; it includes even cyclic groups and is not equivalent to
+being a noncyclic named tag. Characteristic two collapses the sign distinction
+as a separately stated specialization with the field/group-order hypotheses
+needed for the corner construction.
+
+For the symmetric skew algebra the same arrows instead obey
+`Y_(i+1)X_i=X_(i-1)Y_i`; prove the corresponding preprojective presentation
+with the pinned cycle orientation by a direct relation/basis or PBW comparison.
+The singleton and `C₂` cases retain their actual skew and relative-quadratic
+algebras but are not passed through a simple-graph zigzag API: at the singleton
+`Λ(ℂ²)` has dimension four, not the sibling's exceptional two-dimensional
+ordinary `A₁` zigzag algebra; `C₂` has two degree-one arrows in each direction.
+The FKS reflection layer retains its existing connected bipartite graph scope
+and does not extend to odd-cycle skew parameters by an unproved analogy.
 
 ## Layer 5: deformed preprojective algebras
 
@@ -312,6 +524,35 @@ If a vertex-compatible corner equivalence existed with the scalar weights, its i
 a CBH module whose underlying `Γ`-representation is one copy of each irreducible; but then
 `Tr([x,y]) = 0` while `Tr(z) = 1·1 + 2·(−1) = −1`, a contradiction.
 
+For the stronger statement ruling out **all** complex algebra isomorphisms, use the following
+module invariant, without requiring an isomorphism to preserve vertices. On a separated explicit
+four-leaf star orient every arrow from the centre to a leaf. Use scalar weights `−1` at the
+centre, `+1` at a chosen leaf, and zero at the other three leaves. On `ℂ²` the centre and chosen
+leaf idempotents are `E₀₀,E₁₁`, and the two arrows are `E₁₀,E₀₁`; their commutator is
+`E₁₁−E₀₀`. They generate all matrix units, so this is a simple module of complex dimension two.
+
+For every finite-dimensional module over a finite deformed preprojective quiver, prove by summing
+the actual vertex relations and taking trace that `∑ᵢ λᵢ dim(eᵢM)=0`; the vertex dimensions sum
+to `dim M`. With the **trace** weights `−2` at the centre and `+1` at the chosen leaf, a module
+of total dimension two would have `d_leaf=2d_centre`, hence both dimensions zero. Its support
+lies on the other three isolated leaves, so its action factors through `ℂ³`; every simple there
+has dimension one. Thus this trace-weight algebra has no two-dimensional simple. Restriction
+along any complex algebra isomorphism preserves simplicity and the underlying complex dimension,
+so the scalar-weight and trace-weight algebras are not isomorphic even abstractly.
+
+Identify the actual `Q₈=binaryDihedral 2` named affine-`D₄` frame with this separated star: named
+centre2 is native node1, the four leaves have dimension one, and the centre has dimension two.
+Pin the relabel and the signs when reversing only the two incoming named arrows:
+`a↦a*`, `a*↦−a`; the other two edges are unchanged. Construct the actual central block element
+by the inverse of `centerEquivBlockScalars` on the specified scalar vector, first proving that
+this equivalence evaluates to the actual `cbhCentralScalar`. The positive **trace-parameter**
+CBH theorem identifies its full corner with the trace-weight star. Combining it with the
+simple-dimension invariant rules out every corner equivalence to the scalar-weight algebra.
+This proves the existing strong negative target; the earlier vertex-compatible argument is
+only a normalization check. `CBHTraceControls.lean` gives the actual ModuleCat/path-quotient,
+matrix-unit, central-block and comparison targets. It imports Suggested; Suggested does not
+import it, so the companion supplies the witness without an import cycle.
+
 Construct `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)` as the **block-scalar** map, which is the algebra equivalence; the
 trace-coordinate map `z ↦ (Tr_{ρ_i}(z))_i` is only linear once some `δ_i > 1`, so the centre's
 algebra equivalence keeps the scalars while the preprojective comparison uses the trace.  State the
@@ -330,6 +571,13 @@ Crawley-Boevey--Holland [CBH98, §§3--4]; the exact path convention can be cros
 Crawley-Boevey--Kimura [CBK22, Introduction].  This layer proves algebraic presentations only.
 
 ## Layer 6: FKS curved complexes, duplexes, stable categories, and Weyl functors
+
+Use DGAInfinity's actual internal-grading and graded-opposite APIs and StablePeriodicCurved's actual morphism-ideal/quotient and compatible balanced-tensor APIs. The left/parity,
+algebra-valued-curvature data below are FKS-specific adapters: provide comparison functors,
+inverse natural isomorphisms and tensor/homotopy compatibility wherever the generic owner
+applies. Retain an explicit FKS construction when that owner's scalar/commutative duplex
+hypotheses do not apply, rather than asserting a nonexistent generic equivalence. Scope
+all typeclass workarounds to those declarations; do not globally remove imported instances.
 
 Let `A` be a graded ring, graded by `ℤ` or by its parity `ℤ/2`, and `c` a central element of
 degree two.  Build, in [FKS05, §§2--4]:
@@ -413,8 +661,11 @@ The examples are theorem-level integration tests, not prose illustrations.
 For `n ≥ 3`, index irreducibles by `ZMod n`, prove
 `V⊗χ_j ≃ χ_(j+1) ⊕ χ_(j-1)`, obtain the cycle matrix, `δ=(1,…,1)`, the quotient by
 the diagonal vector, the two skew-group algebras, and their relative quadratic/Koszul duality.
-The required `n=3` example computes these data but makes no relation-level zigzag-corner claim.
-Handle `n=2` separately only at the multiplicity-two McKay-matrix layer.
+The required `n=3` example includes the explicit skew-zigzag corner and its minus
+backtrack relation. Even `n≥4` includes the specified ordinary-zigzag rescaling. Handle `n=2`
+separately at the multiplicity-two matrix and actual skew-algebra layers, without a simple-graph
+zigzag identification. Handle `n=1` with `M=[2]`, zero Cartan quotient and actual `Sym(ℂ²)`,
+`Λ(ℂ²)`; no affine `A₀` or exceptional ordinary-zigzag identification is imposed.
 
 ### Binary dihedral `D̃`
 
@@ -433,21 +684,25 @@ finiteness, higher-gluing, or categorified-`δ` claims to it.
 
 ## Explicit exclusions
 
-This roadmap does not formalize classification/exhaustiveness of finite `SU(2)` subgroups, invariant
+Finite-subgroup classification and conjugacy are in Layer0. This roadmap does not formalize invariant
 theory of Kleinian surface singularities, GIT quotients, minimal resolutions, exceptional curves,
 McKay or preprojective moduli spaces, Nakajima quiver varieties, sheaves on resolutions,
 geometric/derived McKay correspondence, or FKS's geometric realization.  It also does not prove
-the research statements in `GOAL.md`, construct the proposed exceptional categorification, or
-assert a categorical quotient by `δ`.
+homological finiteness or higher-gluing assertions for exceptional categorifications, construct an
+exceptional categorification of the affine-to-finite lattice quotient, or assert a categorical
+quotient by `δ`.
 
 ## Completion criteria
 
 The roadmap is complete when:
 
-1. all five named subgroup families are concrete subgroups of both `SU(2)` and `SL₂(ℂ)`, with
-   orders and defining representations proved;
-2. their exhaustive irreducible families, tensor decompositions, affine ADE matrices and regular
-   dimension vectors are formalized, including `Ã₁` multiplicity and the pinned `Ẽ₈` numbering;
+1. all five named subgroup families and the trivial boundary are concrete subgroups of both
+   `SU(2)` and `SL₂(ℂ)`, with orders and defining representations proved, and the finiteSO3 pole
+   classification, actual conjugacy/exhaustiveness and binary-lift comparisons of Layer0 hold;
+2. the generic faithful-tensor/walk/Laplacian/marked finite-root argument is constructed, and
+   every finite subgroup has its actual native affine-index/mark comparison except the explicit
+   singleton boundary; the named models retain their complete irreducible label and tensor
+   decompositions, including `Ã₁` multiplicity and the pinned `Ẽ₈` numbering;
 3. the representation-ring identities and integral quotient by `ℤδ` identify the finite ADE
    root lattice without a categorical overclaim;
 4. the left skew-product multiplication, equivariant-module equivalence, actual relative tensor
@@ -455,8 +710,9 @@ The roadmap is complete when:
    right-dual theorems, without which they are false), right dual and orthogonal relations, graded
    quadratic duality, and linear projective Koszul resolution are proved;
 5. literal full-idempotent corners for the binary groups give the ordinary zigzag and
-   preprojective presentations, with Morita equivalence derived from fullness; cyclic `n=2` is
-   excluded from this simple-graph criterion;
+   preprojective presentations, with Morita equivalence derived from fullness; the direct cyclic
+   calculations give the odd skew-zigzag and even ordinary comparisons with their exact signs,
+   while cyclic `n=1,2` remains excluded from this simple-graph criterion;
 6. the `[x,y]-z` normalization, the trace parameter `λ_i = Tr_{ρ_i}(z) = δ_i · f_i` (and its
    distinction from the block scalar `f_i`, which is what the centre's algebra equivalence uses),
    deformed preprojective relations, orientation transport and full-corner comparison are proved in
