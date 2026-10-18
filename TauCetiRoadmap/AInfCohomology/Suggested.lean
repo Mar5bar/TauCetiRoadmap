@@ -342,6 +342,16 @@ example (q : Rˣ) : laurentQInteger q 2 = 1 + (q : R) := by sorry
 
 end QInteger
 
+/-- A finite torsion-free module over a valuation ring is free, by the pinned
+Bézout flatness criterion and finite-flat freeness over a local ring (AI.1.3). -/
+theorem valuation_finite_torsionFree_free (V M : Type*) [CommRing V] [IsDomain V]
+    [ValuationRing V] [AddCommGroup M] [Module V M] [Module.Finite V M]
+    [Module.IsTorsionFree V M] : Module.Free V M := by
+  have : Module.Flat V M :=
+    Module.Flat.flat_iff_torsion_eq_bot_of_isBezout.mpr
+      (Submodule.isTorsionFree_iff_torsion_eq_bot.mp inferInstance)
+  exact Module.free_of_flat_of_isLocalRing
+
 /-! ## Polynomial, monodromy and multiplicative checks of AI.1 and AI.6 -/
 
 -- The log chain rule sums all source occurrences with a given target value (AI.6.6).
@@ -386,6 +396,16 @@ example :
     let N : Matrix (Fin 2) (Fin 2) ℤ := !![0, 1; 0, 0]
     let N' : Matrix (Fin 2) (Fin 2) ℤ := !![0, 0; 1, 0]
     N * φ = 3 • (φ * N) ∧ N' * φ ≠ 3 • (φ * N') := by sorry
+
+-- For K = ℚ₅(√5) and E_(√5), the raw Tate coefficient is 1 and the p-normalized one is 1/2.
+-- Both satisfy Nφ = pφN, so that relation cannot distinguish the normalizations.
+example :
+    let φ : Matrix (Fin 2) (Fin 2) ℚ := !![1, 0; 0, 5]
+    let Nraw : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
+    let Np := (2 : ℚ)⁻¹ • Nraw
+    Nraw * φ = 5 • (φ * Nraw) ∧ Np * φ = 5 • (φ * Np) ∧
+      Nraw.mulVec ![0, 1] = ![1, 0] ∧ Np.mulVec ![0, 1] = ![1 / 2, 0] ∧
+      Np ≠ Nraw := by sorry
 
 -- Trivial rank-two action gives an exterior product with the ordered sign.
 example :
@@ -533,12 +553,20 @@ Layer AI.4: `AInf.hodge_tate_local` provides the θ̃ reduction and framed exter
 calculation. `AInf.eta_factorization_criterion` and `AInf.hodge_tate_cotangent` then construct
 the canonical first-truncation map with its torus dlog normalization. `AInf.hodge_tate` is
 the canonical multiplicative differential-form identification deduced from these inputs.
+`AInf.finite_witt_de_rham` is the multiplicative complex equivalence
+`AΩ ⊗^L_(A_inf,θ_r) W_r(O_C) ≃ W_rΩ^•_(𝔛/O_C),cont` for a smooth p-adic formal
+`O_C`-scheme and `r ≥ 1`, with its actual Witt differential. It is obtained from
+`φ^{r*}AΩ ≃ Lη_ξ̃_r AΩ` and Bockstein reduction, and preserves the finite-Witt
+F-V-procomplex maps; at `r = 1` it is the de Rham specialization.
 `AOmega.wittPre`, `AOmega.wittImproved`, `AInf.boundedPD`
 (`AInf.bounded_pd_coefficients`).
 
 Layer AI.5: `AOmega.proper`. In `AInf.crystalline_frobenius_bijective`, the ordinary
 Frobenius base-change formula has `Y = 𝔛_(O_C/p)` for a proper smooth p-adic formal
-`O_C`-scheme. The rational Frobenius-isogeny clause retains arbitrary qcqs smooth `Z`.
+`O_C`-scheme. The rational Frobenius-isogeny clause retains arbitrary qcqs smooth `Z`. Its affine
+constant-coefficient input over the perfect residue field comes from CR.3’s
+`p-power control for purely inseparable pullback`, with kernel and cokernel bound
+`p^(d(i+1))` in degree `i` for relative dimension `d`, and bijective Witt Frobenius.
 
 Layer AI.6: `Semistable.chartRing`, `Semistable.divisorialLog`, `Semistable.monomialExponents`,
 `Semistable.rootTower`, `Semistable.ainfChartLift`, `Semistable.aOmega`,
@@ -550,6 +578,14 @@ Layer AI.6: `Semistable.chartRing`, `Semistable.divisorialLog`, `Semistable.mono
 `Semistable.bdrComparisonMap`, `AInf.normalized_valuation_length`,
 `Semistable.deRhamLatticeFunctor`, `AInf.pure_integral_model_freeness`. The latter supplies
 purity/projectivity and local-ring freeness of algebraic integral models before completion.
+`Semistable.pNormalizedMonodromy` uses the rationalization of CR.6’s existing
+Hyodo–Kato complex over the uniformizer log point, for a proper fine log smooth
+Cartier-type model over `O_K/p`. With `e_K = ord_(π_K)(p)`, it is `N_HK,p = N_raw/e_K`;
+the integral operator remains `N_raw`. Both
+`Semistable.rational_log_crystalline_finiteness` and `Semistable.hyodoKatoInterface` (iv)
+intertwine `(N_raw/e_K)⊗1 + 1⊗N_p` on the Hyodo–Kato tensor with `1⊗N_p` on the
+`A_cris` tensor, where the period operator is CK’s `N_p = −d/dT`. The finite-extension
+base `O` in the former statement uses `e_O` in place of `e_K`.
 The local ring map of `Semistable.bdrComparisonMap` induces the map on log differentials
 `dlog X_τ ↦ dlog X_{v(τ)}` and its exterior powers, where `τ` indexes source occurrences and
 `v(τ)` is their coordinate value. Its operator identity is
