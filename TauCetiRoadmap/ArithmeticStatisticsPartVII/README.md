@@ -34,9 +34,9 @@ EllipticCurves Layers 1, 4–8 supply the exact isogeny, local-group, twist, ran
 
 AbelianSchemesAndArithmeticModuli §§A2.2–A2.5 and A3.1–A3.7 supply dual abelian varieties, isogenies, finite-flat subgroup quotients, Cartier-dual kernels, Weil pairings and theta groups. Its §§A6.1, A6.34 supply homomorphism degrees and `QuadraticAbelianTwist`, including the trivial twist and descent of the inversion cocycle. SelmerIwasawaCohomology §§2.10–2.12a supply Pontryagin duals, coranks, passage to `p`-infinity, the number-field abelian Kummer/Selmer/Sha carriers, finite Selmer groups, finite-cotype primary decomposition and all-place Kummer annihilators. Its §4.29 supplies the cohomological Cassels–Tate pairing, divisible radicals, isogeny adjointness and congruent-number two-primary parity. HeightsRationalPointsAndObstructions §§1.1–1.2 supply arbitrary-field fppf Kummer maps and the prime-to-characteristic function-field unramified comparison; §1.7 supplies `fg_points` for abelian varieties over number fields. The theta quadratic refinement and direct-summand comparisons in §§5.27 and 5.31 use these maps, retaining fppf cohomology when the characteristic divides the degree.
 
-ArithmeticGaloisDuality §§R02.4.2–R02.4.5 and R02.5.1 supply restricted products of local cohomology, finite Poitou–Tate, local invariant normalization and Greenberg–Wiles, including the specified function-field cases. Its §§D7.4–D7.6 supply local duality and abelian isogeny comparisons. The Cassels–Tate pairing is consumed from SelmerIwasawaCohomology §4.29.
+ArithmeticGaloisDuality §§R02.4.2–R02.4.5 and R02.5.1 supply restricted products of local cohomology, finite Poitou–Tate, local invariant normalization and Greenberg–Wiles, including the specified prime-to-characteristic function-field cases. Its §§D7.4–D7.6 supply the characteristic-zero local abelian duality and isogeny comparisons; the positive-characteristic flat comparisons are targets below. The Cassels–Tate pairing is consumed from SelmerIwasawaCohomology §4.29.
 
-AlgebraicModuliForArithmeticGeometry §§1.1–1.3 supply projective bundles, coherent Grassmannians and Plücker embeddings; the split quadratic locus and its integral smoothness are proved here. AdelicAlgebraicGroups §2.4 supplies local gauge measures and change of variables for smooth algebraic groups. The Oesterlé–Serre extension to general smooth schemes and their rank strata is the target of §5.29 here, not a supplied group-Haar theorem.
+AlgebraicModuliForArithmeticGeometry §§1.1–1.3 supply projective bundles, coherent Grassmannians and Plücker embeddings; the split quadratic locus and its integral smoothness are proved here. AdelicAlgebraicGroups §2.4 supplies local gauge measures and change of variables for smooth algebraic groups. The Oesterlé–Serre measure for general finite-type schemes and their rank strata is the target of §5.29 here, not a supplied group-Haar theorem.
 
 AnalyticNumberTheoryPartI Layer 3 supplies partial summation and convergent-product estimates; AnalyticNumberTheoryPartII §5.29 supplies the quadratic large sieve and real-character moments used in the twist comparison. The arithmetic use of cubic counting consumes ArithmeticStatisticsPartIII's exact windowed contract below, rather than a second cubic-algebra construction.
 
@@ -46,17 +46,17 @@ The class-group `p`-primary subgroup is Mathlib’s `CommGroup.primaryComponent`
 
 From ArithmeticStatisticsPartI require [ArithmeticStatisticsPartI: invariants height and eligible pairs](../ArithmeticStatisticsPartI/README.md#invariants-height-and-eligible-pairs), [ArithmeticStatisticsPartI: arithmetic family](../ArithmeticStatisticsPartI/README.md#arithmetic-family), [ArithmeticStatisticsPartI: elliptic curves over q ordered by height](../ArithmeticStatisticsPartI/README.md#elliptic-curves-over-q-ordered-by-height), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family), [ArithmeticStatisticsPartI: even parity classes have half density](../ArithmeticStatisticsPartI/README.md#even-parity-classes-have-half-density), [ArithmeticStatisticsPartI: positive squarefree family over q](../ArithmeticStatisticsPartI/README.md#positive-squarefree-family-over-q), [ArithmeticStatisticsPartI: density one restricts to subfamilies of positive lower density](../ArithmeticStatisticsPartI/README.md#density-one-restricts-to-subfamilies-of-positive-lower-density), [ArithmeticStatisticsPartI: family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [ArithmeticStatisticsPartI: binary cubic forms and the twisted action](../ArithmeticStatisticsPartI/README.md#binary-cubic-forms-and-the-twisted-action), [ArithmeticStatisticsPartI: twist denominator frontier](../ArithmeticStatisticsPartI/README.md#twist-denominator-frontier). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
-From ArithmeticStatisticsPartIII require [ArithmeticStatisticsPartIII: support sieves](../ArithmeticStatisticsPartIII/README.md#support-sieves), [ArithmeticStatisticsPartIII: refinement number field twist orbit count](../ArithmeticStatisticsPartIII/README.md#refinement-number-field-twist-orbit-count). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below. In addition consume its [ArithmeticStatisticsPartIII: windowed cubic counting contract](../ArithmeticStatisticsPartIII/README.md#support-coregular-count): `C(F,φ,Σ)` is the conjunction of the windowed main term and the two uniform tails, with the specified representation, multiplicity weights, local spreading, finite archimedean window, local mass factors and `SL₂` Tamagawa volume one. All seven contract items, the actual abelian Kummer images and a positive squareclass denominator are retained.
+From ArithmeticStatisticsPartIII require [ArithmeticStatisticsPartIII: refinement number field twist orbit count](../ArithmeticStatisticsPartIII/README.md#refinement-number-field-twist-orbit-count). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below. In addition consume its [ArithmeticStatisticsPartIII: windowed cubic counting contract](../ArithmeticStatisticsPartIII/README.md#support-coregular-count): `C(F,φ,Σ)` is the conjunction of the windowed main term and the two uniform tails, with the specified representation, multiplicity weights, local spreading, finite archimedean window, local mass factors and `SL₂` Tamagawa volume one. All seven contract items, the actual abelian Kummer images and a positive squareclass denominator are retained.
 
 From ArithmeticStatisticsPartIV require [ArithmeticStatisticsPartIV: cohen lenstra measure](../ArithmeticStatisticsPartIV/README.md#cohen-lenstra-measure), [ArithmeticStatisticsPartIV: isomorphism classes of finite abelian p groups](../ArithmeticStatisticsPartIV/README.md#isomorphism-classes-of-finite-abelian-p-groups), [ArithmeticStatisticsPartIV: surjection count](../ArithmeticStatisticsPartIV/README.md#surjection-count), [ArithmeticStatisticsPartIV: distribution convergence does not force moment convergence](../ArithmeticStatisticsPartIV/README.md#distribution-convergence-does-not-force-moment-convergence), [ArithmeticStatisticsPartIV: moment convergence implies distribution convergence](../ArithmeticStatisticsPartIV/README.md#moment-convergence-implies-distribution-convergence), [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [ArithmeticStatisticsPartIV: gaussian binomial coefficient](../ArithmeticStatisticsPartIV/README.md#gaussian-binomial-coefficient), [ArithmeticStatisticsPartIV: friedman washington cokernel law](../ArithmeticStatisticsPartIV/README.md#friedman-washington-cokernel-law), [ArithmeticStatisticsPartIV: friedman washington translation form](../ArithmeticStatisticsPartIV/README.md#friedman-washington-translation-form), [ArithmeticStatisticsPartIV: cohen lenstra measure over a finite set of primes](../ArithmeticStatisticsPartIV/README.md#cohen-lenstra-measure-over-a-finite-set-of-primes), [ArithmeticStatisticsPartIV: cauchy q binomial theorem](../ArithmeticStatisticsPartIV/README.md#cauchy-q-binomial-theorem). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
-From ArithmeticStatisticsPartV require [ArithmeticStatisticsPartV: davenport heilbronn mean of three torsion](../ArithmeticStatisticsPartV/README.md#davenport-heilbronn-mean-of-three-torsion), [ArithmeticStatisticsPartV: malle conjecture](../ArithmeticStatisticsPartV/README.md#malle-conjecture), [ArithmeticStatisticsPartV: bhargava mean of two torsion in cubic class groups](../ArithmeticStatisticsPartV/README.md#bhargava-mean-of-two-torsion-in-cubic-class-groups), [ArithmeticStatisticsPartV: relative three torsion propagation](../ArithmeticStatisticsPartV/README.md#relative-three-torsion-propagation), [ArithmeticStatisticsPartV: two extension three torsion means](../ArithmeticStatisticsPartV/README.md#two-extension-three-torsion-means), [ArithmeticStatisticsPartV: support character sums](../ArithmeticStatisticsPartV/README.md#support-character-sums). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
+From ArithmeticStatisticsPartV require [ArithmeticStatisticsPartV: davenport heilbronn mean of three torsion](../ArithmeticStatisticsPartV/README.md#davenport-heilbronn-mean-of-three-torsion), [ArithmeticStatisticsPartV: malle conjecture](../ArithmeticStatisticsPartV/README.md#malle-conjecture), [ArithmeticStatisticsPartV: bhargava mean of two torsion in cubic class groups](../ArithmeticStatisticsPartV/README.md#bhargava-mean-of-two-torsion-in-cubic-class-groups), [ArithmeticStatisticsPartV: relative three torsion propagation](../ArithmeticStatisticsPartV/README.md#relative-three-torsion-propagation), [ArithmeticStatisticsPartV: two extension three torsion means](../ArithmeticStatisticsPartV/README.md#two-extension-three-torsion-means). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
 From ArithmeticStatisticsPartVI require [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family), [ArithmeticStatisticsPartVI: average size of the 2 selmer group is three](../ArithmeticStatisticsPartVI/README.md#average-size-of-the-2-selmer-group-is-three), [ArithmeticStatisticsPartVI: rational p torsion has density zero](../ArithmeticStatisticsPartVI/README.md#rational-p-torsion-has-density-zero). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
 ## How to read the build
 
-Construct the finite quadratic spaces and intersection counts in §5.4 first, then the unnormalized weights and normalization in §5.5, and the alternating models in §5.6. For the locally compact model use §§5.23–5.24 before §5.26 and the global comparison in §5.27. The integral Grassmannian and intrinsic rank-stratum measures in §5.29 precede the `p`-adic intersection limit in §5.7 and its all-prime consequences in §5.30. The arithmetic conjectures in §§5.1–5.3, 5.8–5.9 and 5.28 use these model laws; the three-isogeny applications in §§5.10–5.11 and 5.32 additionally retain their counting hypotheses. The subsection numbers preserve the common layer notation across parts.
+Build §5.4 and the Poonen–Rains weights, normalization, moments and parity of §5.5 first. Build the general Oesterlé measure and the orthogonal geometry/counts of §5.29 next. Then build the alternating laws of §5.6, the Delaunay weights and compatibility in §5.5, and §5.7. Build §§5.23–5.24 and the character-duality targets before §5.26; build the finite-flat cohomology adapters before §5.27. The arithmetic conjectures and applications follow their respective model inputs, and the three-isogeny applications retain their counting hypotheses. The subsection numbers preserve the common layer notation across parts.
 
 The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
@@ -80,7 +80,7 @@ For the proof, Encode the family by a function `d ↦ K_d` with `[K_d : ℚ] = 2
 
 *Needs:* [ArithmeticStatisticsPartIV: cohen lenstra measure](../ArithmeticStatisticsPartIV/README.md#cohen-lenstra-measure), [ArithmeticStatisticsPartIV: isomorphism classes of finite abelian p groups](../ArithmeticStatisticsPartIV/README.md#isomorphism-classes-of-finite-abelian-p-groups), `ClassGroup` (Mathlib), `CommGroup.primaryComponent` (Mathlib), `NumberField.discr` (Mathlib), `Squarefree` (Mathlib), `Module.finrank` (Mathlib), [ArithmeticStatisticsPartV: davenport heilbronn mean of three torsion](../ArithmeticStatisticsPartV/README.md#davenport-heilbronn-mean-of-three-torsion).
 
-([[38]](#ref-38), arXiv 1504.04391v1, Conjecture 1.1, p. 1; [[38]](#ref-38), arXiv 1504.04391v1, §1, p. 2; [[37]](#ref-37), Annals 183 (2016), §8.5, p. 774.)
+(Imaginary `u=0`: [[38]](#ref-38), arXiv 1504.04391v1, Conjecture 1.1, pp. 1–2; [[37]](#ref-37), Annals 183 (2016), §8.5, p. 774. Real `u=1`: Wang–Wood, [arXiv:1907.11201v2](https://arxiv.org/pdf/1907.11201v2), Conjecture 3.4, p. 7, Theorem 4.1, p. 8, and Theorem 6.1, p. 11, specialized to real quadratic extensions of `ℚ`.)
 
 **Checks.**
 
@@ -104,7 +104,7 @@ For the proof, Same family and counting sets as [cohen lenstra heuristic for qua
 
 *Needs:* [cohen lenstra heuristic for quadratic fields](#cohen-lenstra-heuristic-for-quadratic-fields), [ArithmeticStatisticsPartIV: surjection count](../ArithmeticStatisticsPartIV/README.md#surjection-count).
 
-([[37]](#ref-37), Annals 183 (2016), (8.5.1), p. 774.)
+(Imaginary `u=0`: [[37]](#ref-37), Annals 183 (2016), (8.5.1), p. 774. Real `u=1`: Wang–Wood, [arXiv:1907.11201v2](https://arxiv.org/pdf/1907.11201v2), Conjecture 3.4, p. 7, Theorem 4.1, p. 8, and Theorem 6.1, p. 11, with `G=C₂`.)
 
 **Checks.**
 
@@ -184,7 +184,7 @@ For the proof, Take the family `E_k(G, X)` from Layer 3 (`G`-extension families 
 
 <a id="cohen-martinet-surjection-moment-conjecture"></a>
 
-**Cohen martinet surjection moment conjecture.** For a family of Galois `G`-extensions `K̃/k` with fixed decomposition data `σ_v` at the infinite places, ordered by discriminant, and a finite `𝔽_p[G]`-module `V` with no trivial constituent and `p∤|G|`, define the classical predicted moment by average `|Sur_G(Cl_(K̃/k),V)| → ∏_v |V^(σ_v)|^(−1)`. This is a conjectural proposition for the specified family. The dependence on ordering is essential: the weighted-subfield comparisons below test its validity and prevent assuming it for arbitrary discriminant-ordered families. Roots of unity require separately specified models. The numerical moment prediction is not an assertion that a general random Γ-group construction exists. Sources: Cohen–Martinet Hypothèse 6.6 and Wang–Wood Conjecture 3.5, Proposition 6.6, Theorems 4.1 and 6.2.
+**Cohen martinet surjection moment conjecture.** For a family of Galois `G`-extensions `K̃/k` with fixed decomposition data `σ_v` at the infinite places, ordered by discriminant, and a finite `𝔽_p[G]`-module `V` with no trivial constituent, `p∤|G|` and `p∤#μ(k)`, define the classical predicted moment by average `|Sur_G(Cl_(K̃/k),V)| → ∏_v |V^(σ_v)|^(−1)`. This is a conjectural proposition for the specified family. The dependence on ordering is essential: the weighted-subfield comparisons below test its validity and prevent assuming it for arbitrary discriminant-ordered families. When `p|#μ(k)`, a different arithmetic conjecture is required; the classical assertion here does not cover that case. The numerical moment prediction is not an assertion that a general random Γ-group construction exists. Sources: Cohen–Martinet Hypothèse 6.6 and Wang–Wood Conjecture 3.4, Remark 3.5, Proposition 6.6, Theorems 4.1 and 6.2.
 
 The required API is:
 
@@ -196,13 +196,14 @@ For the proof, For a counted family `E` of indices with relative class groups `C
 
 *Needs:* [cohen martinet predicted surjection moment](#cohen-martinet-predicted-surjection-moment), [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function).
 
-([[44]](#ref-44), Forum Math. Pi 13 (2025), e19, proof of Proposition 7.1, p. 38.)
+([[44]](#ref-44), Forum Math. Pi 13 (2025), e19, proof of Proposition 7.1, p. 38; Wang–Wood, [arXiv:1907.11201v2](https://arxiv.org/pdf/1907.11201v2), Conjecture 3.4 and Remark 3.5, pp. 7–8.)
 
 **Checks.**
 
 - For `G = C_2` acting by −1 on `V = 𝔽_p` and `σ` the generator, the conjecture predicts average `|Sur(C_i, 𝔽_p)| → 1`, the Cohen–Lenstra `u = 0` moment.
 - For the trivial module `V = 𝔽_p` the formula would predict 1/`p` for real places, but `Cl_{K̃/k}` has no trivial quotient: the hypothesis 'no trivial constituent' is needed.
 - For `V = 0` the count is 1 and the prediction is 1.
+- The base `k=ℚ(ζ₃)`, `p=3`, `G=C₂` and two sign constituents satisfy the coprime-group and nontrivial-constituent conditions but are excluded because `3|#μ(k)`. The finite fixed-space formula still makes sense there.
 - For `G = C_2` and `V` the sign character over `𝔽_p` it is the Cohen–Lenstra moment conjecture (`u = 0` imaginary, `u = 1` real).
 - LOWW Theorem `1.2 = 6.11` proves the `V = Ind_{S_F}^G U` case for `C_2 ≀ H` families (Layer 3).
 
@@ -222,7 +223,7 @@ For the proof, With `e = |S_K|^{−1}Σ_{g∈S_K} g`, multiplication by e maps `
 
 <a id="cohen-martinet-prediction-for-relative-three-torsion"></a>
 
-**Cohen martinet prediction for relative three torsion.** In the setting of [relative three torsion as irreducible hom count](#relative-three-torsion-as-irreducible-hom-count), for a family of `C_2 ≀ H`-extensions `K/k` with relative unit `rank u = rk O_K^× − rk O_F^×: Σ_v dim V^{σ_v} = u`, so the Cohen–Martinet moment conjecture for `V` predicts that the average of `h_3(K/F)` tends to `1 + 3^{−u}`. This is the value LOWW prove (Theorem `1.2 = 6.11`, at Layer 3), so their theorem confirms a new case of the heuristics.
+**Cohen martinet prediction for relative three torsion.** In the setting of [relative three torsion as irreducible hom count](#relative-three-torsion-as-irreducible-hom-count), assuming `3∤#μ(k)`, for a family of `C_2 ≀ H`-extensions `K/k` with relative unit `rank u = rk O_K^× − rk O_F^×: Σ_v dim V^{σ_v} = u`, so the Cohen–Martinet moment conjecture for `V` predicts that the average of `h_3(K/F)` tends to `1 + 3^{−u}`. This is the value LOWW prove (Theorem `1.2 = 6.11`, at Layer 3), so their theorem confirms a new case of the heuristics.
 
 For the proof, By [relative three torsion as irreducible hom count](#relative-three-torsion-as-irreducible-hom-count), `h_3(K/F) = 1 + |Sur_G(Cl, V)|`; average and apply the conjecture: the limit is `1 + ∏_v |V^{σ_v}|^{−1}`. `σ_v = x_v ⋊ r_v` permutes the basis lines `𝔽₃ e_i`: a fixed point of `r_v` with trivial `x_v`-coordinate gives a trivial line (an infinite place of `F` split in `K`), a 2-cycle gives a regular representation of `σ_v` with one trivial dimension (a place of `F` ramified over `k`); a fixed point with nontrivial coordinate contributes 0. Hence `Σ_v dim V^{σ_v}` is the number of infinite places of `F` not ramified in `K`, which is the relative unit rank `u`; so `∏_v|V^{σ_v}|^{−1} = 3^{−u}` (`cohenMartinetPredictedMoment_eq_pow`).
 
@@ -235,9 +236,11 @@ For the proof, By [relative three torsion as irreducible hom count](#relative-th
 - `G = C_2` (`H` trivial), `k = ℚ: h_3(K/ℚ) = h_3(K)`, `u = 0` for imaginary and 1 for real quadratic `K`: predictions 2 and 4/3 (Davenport–Heilbronn).
 - The prediction depends only on `u`, not on the individual decomposition groups.
 
+- For `k=ℚ(ζ₃)`, this classical arithmetic-moment deduction is excluded by `3|#μ(k)`; the finite fixed-space computation remains available.
+
 <a id="cohen-martinet-prediction-for-three-torsion-of-two-extensions"></a>
 
-**Cohen martinet prediction for three torsion of two extensions.** For `G = C_2 ≀ H` with `W = Ind_{S_F}^G 𝔽₃` the permutation representation of `H` and `W' = W/𝔽₃`: under the Cohen–Martinet moment conjectures for every submodule of `V ⊕ W'`, where `W' = ∏_i V_i^{a_i}` is the decomposition into pairwise nonisomorphic irreducible constituents, the predicted average of `h_3(K/k)` over `G`-extensions with given behaviour at infinity is `(1 + x_V) ∏_i Σ_{j=0}^{a_i} [a_i choose j]_{q_i} x_i^j`, where `x_Z = ∏_v|Z^{σ_v}|^{−1}`, `x_i = x_{V_i}` and `q_i = |End_G(V_i)|` (Gaussian binomial). When `W'` is irreducible this is `(1 + 3^{−u(K/F)})(1 + 3^{−u(F/k)})`, `u(·/·)` the relative unit ranks.
+**Cohen martinet prediction for three torsion of two extensions.** For `G = C_2 ≀ H` with `W = Ind_{S_F}^G 𝔽₃` the permutation representation of `H` and `W' = W/𝔽₃`: assuming `3∤#μ(k)` and the Cohen–Martinet moment conjectures for every submodule of `V ⊕ W'`, where `W' = ∏_i V_i^{a_i}` is the decomposition into pairwise nonisomorphic irreducible constituents, the predicted average of `h_3(K/k)` over `G`-extensions with given behaviour at infinity is `(1 + x_V) ∏_i Σ_{j=0}^{a_i} [a_i choose j]_{q_i} x_i^j`, where `x_Z = ∏_v|Z^{σ_v}|^{−1}`, `x_i = x_{V_i}` and `q_i = |End_G(V_i)|` (Gaussian binomial). When `W'` is irreducible this is `(1 + 3^{−u(K/F)})(1 + 3^{−u(F/k)})`, `u(·/·)` the relative unit ranks.
 
 `G = C_2 ≀ H` transitive with a transposition The Cohen–Martinet moment predictions for every module `V^ε ⊕ ⊕_i V_i^{j_i}`, `ε∈{0,1}`, `0≤j_i≤a_i`, on the same counted family (including the zero target, hence eventual nonemptiness). Predictions for the individual irreducibles alone are insufficient.
 
@@ -245,12 +248,14 @@ For the proof, `Ind_{S_K}^G 𝔽₃ = W × V` and `h_3(K/k) = |Hom_{S_K}(Cl_{K̃
 
 *Needs:* [cohen martinet prediction for relative three torsion](#cohen-martinet-prediction-for-relative-three-torsion), [cohen martinet surjection moment conjecture](#cohen-martinet-surjection-moment-conjecture), [cohen martinet predicted surjection moment](#cohen-martinet-predicted-surjection-moment), [ArithmeticStatisticsPartIV: gaussian binomial coefficient](../ArithmeticStatisticsPartIV/README.md#gaussian-binomial-coefficient).
 
-([[44]](#ref-44), Forum Math. Pi 13 (2025), e19, §7.2, p. 39.)
+([[44]](#ref-44), Forum Math. Pi 13 (2025), e19, §7.2, pp. 39–40; numerical table and weighted-average explanation, p. 40.)
 
 **Checks.**
 
 - Example `7.2 (k = ℚ, G = D_4)`: predicted averages of `h_3(K)` are 40/27, 16/9, 8/3, 8/3 for the four group signatures (), (24), (13)(24), (12)(34).
 - The same families have proven averages ≈ 1.12, 1.34, 2.01, 1.41 ([dihedral quartic proven average versus prediction](#dihedral-quartic-proven-average-versus-prediction)).
+
+- For base `ℚ` the roots-of-unity exclusion holds at three; for `ℚ(ζ₃)` these classical joint-moment hypotheses are not asserted.
 
 <a id="dihedral-quartic-proven-average-versus-prediction"></a>
 
@@ -262,12 +267,15 @@ For the proof, Read the factorisation `C_{G,Σ} = (1 + 3^{−u(K/F)}) ×` (weigh
 
 *Needs:* [cohen martinet prediction for three torsion of two extensions](#cohen-martinet-prediction-for-three-torsion-of-two-extensions), [cohen martinet prediction for relative three torsion](#cohen-martinet-prediction-for-relative-three-torsion), [ArithmeticStatisticsPartV: relative three torsion propagation](../ArithmeticStatisticsPartV/README.md#relative-three-torsion-propagation), [ArithmeticStatisticsPartV: two extension three torsion means](../ArithmeticStatisticsPartV/README.md#two-extension-three-torsion-means).
 
-([[44]](#ref-44), Forum Math. Pi 13 (2025), e19, Example 7.2, p. 39.)
+([[44]](#ref-44), Forum Math. Pi 13 (2025), e19, Example 7.2, pp. 39–40; numerical table and weighted-average explanation, p. 40.)
 
 **Checks.**
 
 - LOWW's table: CLM predicted `(1 + 1/9)(1 + 1/3) ≈ 1.48` versus proven ≈ 1.12 for `σ_v = ()`.
 - The relative average `h_3(K/F)` is not biased: its proven average `1 + 3^{−u}` equals the prediction.
+
+- Without the strict numerator/denominator interval inequality, the approximate table alone does not prove a strict inequality.
+
 
 ### 5.3 Joint Frobenius cokernels
 
@@ -592,9 +600,9 @@ The required API is:
 - `hasSum_delaunayWeight`: `Σ_n delaunayWeight p r n = 1`.
 - `delaunayWeight_eq_alternatingCokernel`: `delaunayWeight p 0 n` is the limit, over even sizes `2m → ∞`, of the probability that a random alternating `2m × 2m` matrix over `𝔽_p` has kernel of dimension `2n` (the `p`-rank marginal of `A_0`).
 
-For the proof, Define the weights by the convergent product (`mathlib:tprod`); total mass one is part of [delaunay compatibility of the selmer model](#delaunay-compatibility-of-the-selmer-model) for `r ∈ {0, 1}` and follows in general from [bklpr alternating cokernel limit](#bklpr-alternating-cokernel-limit) (the law of `dim G[p]` under `A_r`).
+For the proof, Define the weights by the convergent product (`mathlib:tprod`); total mass one follows for every `r≥0` from [bklpr alternating cokernel limit](#bklpr-alternating-cokernel-limit), by its `dim G[p]` marginal. The compatibility theorem then uses these normalized laws.
 
-*Needs:* `tprod` (Mathlib).
+*Needs:* [bklpr alternating cokernel limit](#bklpr-alternating-cokernel-limit), `tprod` (Mathlib).
 
 ([[28]](#ref-28), §5, p. 21.)
 
@@ -779,7 +787,7 @@ For the proof, Define the finite count over alternating matrices with entries in
 
 For the proof, (a) Fix `G` and `m = n − dim_{𝔽_p} G[p]`. Surjections `ℤ_p^n → G` pull back the pairing of `G` to alternating pairings on `ℤ_p^n` inducing `G`; `Sp(G)` acts freely on `Sur(ℤ_p^n, G)` with these pairings as orbits, so there are `#Sur(ℤ_p^n, G)/#Sp(G)` of them ([symplectic finite abelian p groups](#symplectic-finite-abelian-p-groups), [ArithmeticStatisticsPartIV: surjection count](../ArithmeticStatisticsPartIV/README.md#surjection-count)). The probability that the pairing of `A` equals a fixed one is `#GL_m(𝔽_p)^alt/#M_m(𝔽_p)^alt · (#G)^{1−n}` (BKLPR Corollaries `3.4–3.5: A ∈ D + D M_n(ℤ_p) D` with rank condition), so `π_n(G) = #Sur(ℤ_p^n, G)/#Sp(G) · #GL_m^alt/#M_m^alt · (#G)^{1−n}`; as `n → ∞`, `#Sur(ℤ_p^n, G)/(#G)^n → 1` and [count of nondegenerate alternating matrices](#count-of-nondegenerate-alternating-matrices) gives the limit. Total mass: `Σ_G π_n(G)=1` because the determinant polynomial is not identically zero on even alternating matrices, so its zero set has Haar measure zero. Let `c=∏_{i≥1}(1−p^{1−2i})>0`. Fatou and the established pointwise limit `c·#G/#Sp(G)` give `Σ_G #G/#Sp(G)≤1/c<∞`. The bound `π_n(G)≤#G/#Sp(G)` is now a summable domination, so dominated convergence yields `Σ_G A_0(G)=1`. (b) For `r ≥ 1` the measure on rank-`(n − r)` alternating matrices is the normalised canonical measure on the `ℤ_p`-points of that scheme (BKLPoonen–Rains Proposition 2.1, Lemma 3.13); its existence and the pushforward identity are the Oesterlé–Serre measure contract stated below. Given it, the proof integrates `|det|^r` (BKLPR Lemma 3.12) and repeats (a).
 
-*Needs:* [alternating cokernel law](#alternating-cokernel-law), [symplectic finite abelian p groups](#symplectic-finite-abelian-p-groups), [count of nondegenerate alternating matrices](#count-of-nondegenerate-alternating-matrices), [ArithmeticStatisticsPartIV: surjection count](../ArithmeticStatisticsPartIV/README.md#surjection-count).
+*Needs:* [general Oesterlé measure](#general-oesterle-measure), [alternating rank-stratum measure and pushforward](#alternating-stratum-measure), [alternating cokernel law](#alternating-cokernel-law), [symplectic finite abelian p groups](#symplectic-finite-abelian-p-groups), [count of nondegenerate alternating matrices](#count-of-nondegenerate-alternating-matrices), [ArithmeticStatisticsPartIV: surjection count](../ArithmeticStatisticsPartIV/README.md#surjection-count).
 
 ([[29]](#ref-29), §3.7, Theorem 3.9 and proof, pp. 9–10; [[29]](#ref-29), §3.8, Theorem 3.11, p. 11.)
 
@@ -840,19 +848,19 @@ For the proof, Canonical measure: `OGr_n` is a smooth projective `ℤ`-scheme of
 
 <a id="maximal-isotropic-direct-summands-modulo-prime-powers"></a>
 
-**Maximal isotropic direct summands modulo prime powers.** For `q = p^e (e ≥ 1)`, the hyperbolic quadratic `ℤ/qℤ`-module `(ℤ/q)^{2n}` has `#OGr_n(ℤ/qℤ) = q^{n(n−1)/2} ∏_{i=1}^{n} (1 + p^{i−n})` maximal isotropic direct summands.
+**Maximal isotropic direct summands modulo prime powers.** For `q=p^e`, `e≥1` and `n≥0`, identify the hyperbolic quadratic direct summands of `(ℤ/q)^{2n}` with `OGr_n(ℤ/q)`. Apply [ogr prime power count](#refinement-ogr-prime-power-count) to obtain `q^(n(n−1)/2)∏_{i=1}^n(1+p^(i−n))` points. This is the direct-summand adapter for the integral count.
 
-`p` prime `e ≥ 1`
+For the proof, Match the universal locally direct-summand subbundle and its quadratic vanishing equations with the module definition; use the count owned in §5.29.
 
-For the proof, `e = 1: #OGr_n(𝔽_p) = ∏_{j=0}^{n−1}(p^j + 1) = p^{n(n−1)/2}∏_{i=1}^{n}(1 + p^{i−n})` ([number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces)). Lifting: every maximal isotropic direct summand `mod p^e` lifts to `mod p^{e+1}` in exactly `p^{n(n−1)/2}` ways (smoothness of `OGr_n` of relative dimension `n(n − 1)/2`, BKLPoonen–Rains Proposition 4.4; concretely, lifts of `Z̄ = graph(Ā)` over a complement correspond to alternating corrections `p^e B` with `B ∈ M_n(𝔽_p)^alt`). The chart description gives the count directly: near a point, maximal isotropic summands transverse to a fixed complement are graphs of alternating maps.
-
-*Needs:* [number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces), [count of nondegenerate alternating matrices](#count-of-nondegenerate-alternating-matrices).
+*Needs:* [ogr prime power count](#refinement-ogr-prime-power-count).
 
 ([[29]](#ref-29), §4.3, Lemma 4.8, p. 14.)
 
 **Checks.**
 
-- `n = 1: #OGr_1(ℤ/q) = 2` for every `q` (the two coordinate lines).
+- At `n=0` the unique zero summand gives count 1.
+- At `n=1` the count is 2 at every prime-power level.
+- At `n=2,p=2,e=2` the count is 12; non-direct-summand subgroups are excluded.
 
 <a id="bklpr-injection-moments"></a>
 
@@ -992,15 +1000,80 @@ For the proof, (i),(ii): sum the densities `Q(r, G)` over `G` (countably many cl
 
 ### 5.9 Twist laws and corank consequences
 
+<a id="full-two-torsion-descent-data"></a>
+
+**Full two-torsion descent data.** Fix `E:y²=∏_{i=1}^3(x−c_i)` over `ℚ` with distinct rational `c_i` and no rational cyclic subgroup of order four. Let `S` contain 2, infinity and all bad primes, and let `D` be divisible by 8 and every finite prime in `S`. Construct the full two-descent identification of `Sel₂(E_b)` with `U_b∩W_b` in the product of local squareclass triples of product one, for squarefree `b` prime to `D`. Use the Hilbert-symbol symplectic pairing. Give bases and their pairing entries in terms of signs, local data at `S`, classes of the prime factors modulo `D`, and the pairwise Legendre symbols subject to quadratic reciprocity. Retain the two-dimensional rational 2-torsion subspace and define the reduced dimension `r_b=dim Sel₂(E_b)−2`.
+
+For the proof, Apply the supplied elliptic Kummer/descent construction, evaluate the local images at primes dividing `2D` and at the new prime factors, and compute the Hilbert symbols. The local data at infinity include the sign of `b`; negative twists and twists by divisors of `D` have their own fixed local data. Prove `|U∩W|=|V|^(−1/2)Σ_(u,w)(−1)^⟨u,w⟩` with these explicit bases.
+
+*Needs:* EllipticCurves Layers 5–7, ClassFieldTheory (Hilbert symbols and reciprocity), ArithmeticGaloisDuality (local Kummer pairings), Mathlib finite linear algebra and quadratic reciprocity.
+
+(Kane [[34]](#ref-34), §1 and §4, pp. 1–3, 18–21; Swinnerton–Dyer, [*The effect of twisting on the 2-Selmer group*](https://doi.org/10.1017/S0305004108001588), §§2–4, pp. 514–521.)
+
+**Checks.**
+
+- Every twist retains the rational `E[2]`, so the full dimension is at least two and `#Sel₂/4=2^r_b`.
+- A negative twist changes the real local condition; deleting the sign slot does not give the same descent matrix.
+- At an odd prime dividing `b` the local Kummer image has the two generators displayed by Kane in §4; replacing its Hilbert symbols by independent ordered Legendre symbols violates quadratic reciprocity.
+
+<a id="swinnerton-dyer-transition"></a>
+
+**Swinnerton–Dyer transition and stationary limit.** For the preceding descent data with fixed local squareclasses at `S`, construct the auxiliary partial-descent dimensions and prove the transition probabilities `P(i,i+2)=2^(−2i−1)`, `P(i,i)=3·2^(−i)−5·2^(−2i−1)` and `P(i,i−2)=1−3·2^(−i)+2^(1−2i)`, with other transitions zero. The distributional recursion has total variation error `O((15/16)^n)` before the terminal step, where `n` is the number of exposed prime factors. Prove irreducibility, aperiodicity, positive recurrence and convergence on each parity class, and carry the terminal rational-torsion correction through to the actual Selmer data. For fixed local parity `ε`, the full dimension `d` has limiting data frequency `2a_(d−2)` when `d≡ε mod2` and zero otherwise; averaging equally over the two parities gives `a_(d−2)`.
+
+For the proof, Add one prime to the explicit descent matrix, bound the exceptional dependencies of its new row and column, and compute the three possible dimension jumps. Use detailed balance for the conditional Poonen–Rains weights and the summable recursion error; prove the terminal comparison separately. These are data-space limits as the number of prime factors increases, before any arithmetic height averaging.
+
+*Needs:* [full two-torsion descent data](#full-two-torsion-descent-data), [poonen rains distribution](#poonen-rains-distribution), [poonen rains parity](#poonen-rains-parity); finite/countable Markov-chain convergence and its perturbation argument are included in this target.
+
+(Swinnerton–Dyer, *The effect of twisting on the 2-Selmer group*, Theorem 1 and §§5–7, especially (20)–(21), pp. 514, 521–526; Kane [[34]](#ref-34), Theorem 2, p. 2.)
+
+**Checks.**
+
+- At auxiliary state `i=0`, the probabilities of states 0 and 2 are each 1/2 and the negative-state probability is zero.
+- At `i=1`, the probabilities of states 1 and 3 are 7/8 and 1/8, with no transition to −1.
+- Each transition preserves parity. A single fixed local parity cannot have the unconditional half-even/half-odd stationary law.
+
+<a id="kane-prime-character-estimates"></a>
+
+**Kane prime-tuple character estimates and arithmetic moments.** Fix `D` with `4|D`, `log log N>1` and `(log log N)/2<n<2log log N`. Put `ε(p)=(p−1)/2 mod2`. Let `S_(N,n,D)` be the ordered tuples of distinct primes of product at most `N` and prime to `D`. For quadratic `χ_i` of modulus dividing `D` and symmetric zero-diagonal binary arrays `d_ij,e_ij`, bound the `1/n!`-normalized sum of `∏χ_i(p_i)∏_(i<j)(−1)^(ε(p_i)ε(p_j)d_ij)(p_i/p_j)^e_ij` by `O_(c,D)(N c^m)` for every fixed `c>0` when the number `m` of active indices is positive. An index is active if some incident `e_ij=1`, or its character has conductor not dividing four, or it has conductor four with every incident `d_ij=0`. Also prove Kane Proposition 10's residue-data equidistribution, uniformly for `‖f‖∞≤1`, with error `O_D(N log log log N/log log N)`. Constants are independent of `n`, the arrays and the characters in this range.
+
+For the proof, Use AnalyticNumberTheoryPartII §5.29 only for its quadratic large-sieve inequality. Supply the prime-supported bilinear reductions, the one-character prime-sum estimates, and Kane's recursive removal of active indices here. Retain the exceptional real character: in Proposition 11 use the zero parameter `β`, cutoff `B=max(exp((C+2)β log log N), exp(K(C+2)²(log D)²(log log(DN))²), n(log N)^(C+2))` and hypothesis `B^n<√N`. In the variable-modulus recursion isolate the worst exceptional modulus and control the second-worst zero as in §§3.2–3.3; no effective uniform zero-free constant is assumed. Prove the Hardy–Ramanujan tail `#{b≤N:|ω(b)−log log N|>(log log N)^(3/4)}≪N exp(−c√(log log N))`. On the central window, combine the estimates with the descent expansion and stationary limit to obtain all moments of `2^r_b` tending to `∏_{i=1}^k(2^i+1)` and parity expectation tending to zero. The outside-window count is negligible for bounded dimension indicators; no unbounded-moment transfer across that tail is inferred from its density alone.
+
+*Needs:* [full two-torsion descent data](#full-two-torsion-descent-data), [swinnerton–dyer transition and stationary limit](#swinnerton-dyer-transition), [AnalyticNumberTheoryPartII §5.29](../AnalyticNumberTheoryPartII/README.md#s5-29), AnalyticNumberTheoryPartI (prime sums and real-character zero estimates), [poonen rains moments](#poonen-rains-moments).
+
+(Kane [[34]](#ref-34), Corollary 8, Propositions 9–11, Lemmas 12–17 and Proposition 18, pp. 5–18, §§3–4.)
+
+**Checks.**
+
+- A tuple of `n` distinct primes occurs `n!` times; omitting the normalizing factor changes the moment denominator.
+- If every character and symbol is trivial, `m=0` and the sum is the full tuple count; the positive-`m` cancellation bound is inapplicable.
+- The central window eventually lies inside `(log log N)/2<n<2log log N`; a fixed-`n` estimate alone does not cover it. A possible exceptional character remains in the cutoff and cannot be discarded.
+
+<a id="parity-sensitive-twist-moment-determinacy"></a>
+
+**Parity-sensitive twist moment determinacy.** Prove `parity_sensitive_twist_moment_determinacy`: let `ν_N(r)` be probability laws on nonnegative reduced dimensions, with all moments summable and uniformly bounded, `sup_N Σ_r ν_N(r)2^(kr)≤R_k<∞` for each integer `k≥0`. Assume these moments converge to `M_k=∏_{i=1}^k(2^i+1)` for every `k`, and `Σ_r(−1)^rν_N(r)→0`. Then every dimension frequency converges to the Poonen–Rains weight `a_r`. This is the recovery theorem for the central-window twist laws just constructed.
+
+For the proof, Bound the weighted tail after dimension `L` by `R_(k+1)2^(−L)`; subsequential limits retain the moments and parity. Their generating functions are entire, and the limiting coefficient bound is `O(2^(−r(r−1)/2))`, obtained by optimizing `ν(r)≤M_k2^(−kr)`. Prove Kane's entire-function uniqueness argument with values at `−1,1,2,4,…`, then use subsequence compactness to recover every coefficient. The scalar exponential-moment criterion for `#Sel₂` is not an input.
+
+*Needs:* [kane prime-tuple character estimates and arithmetic moments](#kane-prime-character-estimates), [poonen rains moments](#poonen-rains-moments), [poonen rains parity](#poonen-rains-parity), Mathlib dominated convergence and complex Jensen formula; the indicated generating-function uniqueness argument is part of this target.
+
+(Kane [[34]](#ref-34), §4, Lemmas 19–20 and proof of Theorem 3, pp. 24–27.)
+
+**Checks.**
+
+- The Poonen–Rains law conditioned on even dimensions and that conditioned on odd dimensions have the same positive cardinality moments; the parity expectations +1 and −1 distinguish them.
+- A mixture with even weight `t` has parity expectation `2t−1`; the zero-parity condition selects `t=1/2`.
+- The `(k+1)`-st uniform bound controls the `k`-th weighted tail; convergence of bounded indicators alone supplies no such moment-tail bound.
+
+
 <a id="two-selmer-distribution-in-full-two-torsion-twist-families"></a>
 
 **Two selmer distribution in full two torsion twist families.** Let `E` : `y² = (x − c_1)(x − c_2)(x − c_3)` with `c_i ∈ ℚ` distinct and none of `(c_i − c_j)(c_i − c_k)` a rational square (equivalently `E(ℚ)[2] = E[2]` and `E` has no `ℚ`-rational cyclic subgroup of order 4), and for `b ∈ ℤ \ {0}` let `E_b` : `y² = (x − bc_1)(x − bc_2)(x − bc_3)` be the quadratic twist by `ℚ(√b)`. Then for every `d ≥ 0`, `lim_{N→∞} #{b ∈ ℤ : 0 < |b| ≤ N, dim_{𝔽₂} Sel_2(E_b) = d + 2}/(2N) = a_d`, the Poonen–Rains weight at `p = 2` ([poonen rains distribution](#poonen-rains-distribution)); the same holds among positive `b`, and among squarefree `b` prime to any fixed `D` divisible by 8 and the bad primes (relative density). For `E` : `y² = x³ − x` this is Heath-Brown's theorem.
 
 `c_1`, `c_2`, `c_3 ∈ ℚ` distinct `(c_i − c_j)(c_i − c_k) ∉ ℚ^{×2}` for `{i, j, k} = {1, 2, 3}`
 
-For the proof, Swinnerton-Dyer's algebraic step: for `b = p_1 ⋯ p_n` squarefree prime to `D`, `Sel_2(E_b)` is the intersection of two Lagrangian subspaces of a symplectic `𝔽₂`-space determined by the classes of `p_i` in `(ℤ/D)^×/(ℤ/D)^{×2}` and the Legendre symbols `(p_i/p_j)`; the proportion `π_d(n)` of such data with `dim Sel_2 = d` tends to `α_d = a_{d−2}` as `n → ∞` (a Markov chain whose stationary law is the Poonen–Rains law; [alternating kernel law limit is poonen rains](#alternating-kernel-law-limit-is-poonen-rains) identifies that law). Kane's analytic step: the moments of `#Sel_2(E_b)/4` over squarefree `b ≤ N` prime to `D` converge to the Poonen–Rains moments ([poonen rains moments](#poonen-rains-moments)), using `|U ∩ W| = |V|^{−1/2}Σ_{u,w}(−1)^{u·w}` and bounds for character sums in Legendre symbols of the prime factors (large sieve, [ArithmeticStatisticsPartIII: coefficient sieves](../ArithmeticStatisticsPartIII/README.md#support-sieves) and [ArithmeticStatisticsPartV: quadratic character-sum bounds](../ArithmeticStatisticsPartV/README.md#support-character-sums)). Thus the unnormalised `m`-th moments of `#Sel₂` are `4^m∏_{i=1}^m(2^i+1)`, accounting for the fixed rational 2-torsion.
+For the proof, Use [full two-torsion descent data](#full-two-torsion-descent-data) and [swinnerton–dyer transition and stationary limit](#swinnerton-dyer-transition) for the algebraic data law. On the central prime-factor window, [kane prime-tuple character estimates and arithmetic moments](#kane-prime-character-estimates) supplies the normalized cardinality moments and parity frequencies. Apply [parity-sensitive twist moment determinacy](#parity-sensitive-twist-moment-determinacy), then discard the negligible complement for dimension indicators. For positive integers remove fixed square factors and factors dividing `D` by the source's summable denominator decomposition; repeat with the negative base twist for signed integers. On the central window the full Selmer-size moments are `4^k∏_{i=1}^k(2^i+1)`.
 
-*Needs:* [poonen rains distribution](#poonen-rains-distribution), [poonen rains moments](#poonen-rains-moments), [alternating kernel law limit is poonen rains](#alternating-kernel-law-limit-is-poonen-rains), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family), [ArithmeticStatisticsPartIII: coefficient sieves](../ArithmeticStatisticsPartIII/README.md#support-sieves) and [ArithmeticStatisticsPartV: quadratic character-sum bounds](../ArithmeticStatisticsPartV/README.md#support-character-sums).
+*Needs:* [full two-torsion descent data](#full-two-torsion-descent-data), [swinnerton–dyer transition and stationary limit](#swinnerton-dyer-transition), [kane prime-tuple character estimates and arithmetic moments](#kane-prime-character-estimates), [parity-sensitive twist moment determinacy](#parity-sensitive-twist-moment-determinacy), [poonen rains distribution](#poonen-rains-distribution), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family).
 
 ([[34]](#ref-34), §1, setting, p. 1 (arXiv v4); [[34]](#ref-34), §1, Theorem 3 and Corollaries 4–5, p. 2 (arXiv v4); [[34]](#ref-34), §1, Theorem 2, p. 2 (arXiv v4).)
 
@@ -1008,6 +1081,89 @@ For the proof, Swinnerton-Dyer's algebraic step: for `b = p_1 ⋯ p_n` squarefre
 
 - `d = 0` (`Sel_2 = E[2]` only): density `a_0 ≈ 0.2097`.
 - The parity of `dim Sel_2(E_b)` depends only on the class of `b` in `∏_{v∈S}ℚ_v^×/ℚ_v^{×2}`, and is even for exactly half of the classes (Kane, Lemma 1).
+
+- Conditioning on a single parity changes the dimension law even though every positive cardinality moment is unchanged; parity recovery is required.
+
+<a id="geometric-height-weierstrass-family"></a>
+
+**Geometric-height Weierstrass family.** For each finite field `𝔽_q`, construct the carrier of elliptic curves over the fixed field `𝔽_q(t)` modulo origin-preserving base-field isomorphism. Define `h(E)` as the least `d≥0` admitting a long Weierstrass equation with `A_i∈H⁰(P¹,O(id))`, `i=1,2,3,4,6`. Construct the associated relatively minimal regular elliptic surface with section and identify `d` with the degree of its invariant-differential line bundle. Prove exact-height slices finite and their origin-preserving automorphism groups finite. Coordinate changes preserve the base `P¹`; quotienting by `PGL₂(𝔽_q)` is not part of this carrier.
+
+For the proof, Build the minimal long-Weierstrass surface, glue the local DVR minimal regular models over `P¹`, and prove the contraction comparison. Trivialize its line bundle by degree, and count coefficient tuples in the finite section spaces; every exact-height class has such a representative. The regular-model construction and its height comparison are included here.
+
+*Needs:* EllipticCurves (long equations and isomorphisms), AlgebraicCurves (divisors and Riemann–Roch), AlgebraicVectorBundles (line bundles on `P¹`), StableReduction Layers 4–5 (DVR regular models, modifications and minimal models), NeronModelsAndSemistableAbelianVarieties §2.7 (smooth locus comparison).
+
+(de Jong [[56]](#ref-56), §1.1, §§4.1–4.10 and Appendix B, author pp. 1, 5–8, 28.)
+
+**Checks.**
+
+- Height zero gives constant elliptic curves; this slice is not used as an asymptotic denominator.
+- Multiplying a minimal equation's line bundle by `O(m)` gives a nonminimal presentation of higher degree and does not change its least height.
+- An automorphism of `𝔽_q(t)` changing `t` does not identify two classes in this carrier; every allowed isomorphism fixes the base field.
+
+<a id="de-jong-weighted-denominator"></a>
+
+**De Jong weighted denominator.** On these exact-height slices set `I_d=Σ_(h(E)=d)1/#Aut(E,0)`. Prove `q^(−10d−1)I_d→L(q)=(1−q^(−9))(1−q^(−10))/(1−q⁻¹)>0`. Keep fixed `q` while `d→∞`, and prove eventual nonemptiness from this limit.
+
+For the proof, Count nonsingular minimal long equations, subtract nonminimal presentations indexed by effective divisors on `P¹`, and divide each orbit by the coordinate-change group with its actual stabilizer. Solve the resulting recursion as in Proposition 4.12; only its limiting denominator is required here.
+
+*Needs:* [geometric-height Weierstrass family](#geometric-height-weierstrass-family), Mathlib finite orbit/stabilizer counts; AlgebraicCurves (effective divisors on `P¹`).
+
+(de Jong [[56]](#ref-56), Proposition 4.12, author pp. 8–9.)
+
+**Checks.**
+
+- The constant-height stack mass is `I₀=q`.
+- `L(q)>0` for every prime power `q>1`; a limit ratio is taken only after this positivity.
+- `L(q)→1` as `q→∞`; changing the normalization from `q^(10d+1)` to `q^(10d)` changes the limit by a factor of `q`.
+
+<a id="de-jong-constant-j-estimates"></a>
+
+**De Jong constant-j estimates.** In the same family, prove `#{E:h(E)=d,j(E)∈𝔽_q}=O_q(dq^(9d))` for `d≥1`, and an absolute `C₁>0` with `dim_𝔽₃ Sel₃(E)≤C₁d` for these curves when `char(𝔽_q)≠3`. Include the long-equation classifications at characteristics two and three for the curve count. For sufficiently large fixed `q>3^C₁`, deduce that the constant-j contribution to the unweighted Selmer numerator is `o(q^(10d))`.
+
+For the proof, Count the constant-j normal forms with their coordinate stabilizers as in Proposition 4.14. Construct a separable trivializing cover of degree at most 24 and genus `O(d)` as in Lemma 10.1, then bound the constant-curve Selmer cohomology after restriction and its kernel. Establish the prime-to-characteristic function-field elliptic Kummer/Selmer adapter through the flat contracts below. Uniformly bounded automorphism orders turn weighted class counts into unweighted counts.
+
+*Needs:* [geometric-height Weierstrass family](#geometric-height-weierstrass-family), [finite-flat local topology and duality](#flat-local-duality), [integral flat reference and Kummer annihilators](#flat-integral-kummer), AlgebraicCurves (finite covers, genus and torsors), ArithmeticGaloisDuality §R02.4.5.
+
+(de Jong [[56]](#ref-56), Proposition 4.14 and Lemmas 10.1–10.2, author pp. 10–11, 28–29.)
+
+**Checks.**
+
+- `d=0` is excluded from the linear Selmer-dimension bound; constant curves can have nonzero Selmer groups there.
+- In characteristic two the long-equation constant-j count is required; a short-model count misses curves.
+- The exponential estimate is `dq^(9d)3^(C₁d)=o(q^(10d))` only for `q>3^C₁`; it does not give the unweighted conclusion for every fixed small `q`.
+
+<a id="de-jong-torsor-surface-comparison"></a>
+
+**De Jong torsor/surface comparison.** For `d≥1` and `char(𝔽_q)≠3`, construct the degree-three genus-one torsors attached to nonidentity `Sel₃` classes, their relatively minimal regular surfaces, and their degree-three divisor classes. Build the relative section algebra and its Gorenstein cubic model `Y→P¹`: the fibres are connected genus-one Gorenstein curves, `ω_(Y/P¹)=g*O(d)`, and the effective divisor `D` is flat of relative degree three with `O(D)` relatively very ample. Call a pair nondegenerate when its generic divisor class is not three times a degree-one class. Identify pairs under base-preserving isomorphism and rational equivalence of the divisor up to a fibre multiple. Define `A_(3,d)` as the reciprocal-automorphism mass of these nondegenerate cubic pairs. Prove `Σ_(h(E)=d)(#Sel₃(E)−1)/#Aut(E,0)≤A_(3,d)`.
+
+For the proof, Construct order-preserving degree-three torsor/divisor data, extend and adjust the divisors along singular fibres, and prove the section-algebra generation and contraction statements needed for the cubic model. Compare the automorphism groups and discard only the degenerate identity contribution. These geometric extensions and comparisons are targets here, including the Gorenstein genus-one section-algebra statements of Appendices A–B.
+
+*Needs:* [geometric-height Weierstrass family](#geometric-height-weierstrass-family), [integral flat reference and Kummer annihilators](#flat-integral-kummer), AlgebraicCurves (genus-one torsors, divisors and Riemann–Roch), AlgebraicModuliForArithmeticGeometry (relative Proj and projective bundles), StableReduction Layers 4–5 (DVR regular and minimal models).
+
+(de Jong [[56]](#ref-56), §§5.2–5.5, Proposition 5.14 and Appendices A–B, author pp. 15–16, 20, 26–28.)
+
+**Checks.**
+
+- The zero Selmer class contributes the subtracted one and is not counted as a nondegenerate cubic pair.
+- A degree-three rational divisor class is not replaced by a rational point on the torsor; the latter would trivialize it.
+- The comparison uses `d≥1` to exclude nonzero connected-component torsion sections in the automorphism kernel; it is not applied at height zero.
+
+<a id="de-jong-projective-cubic-count"></a>
+
+**De Jong projective-cubic count and geometric sum.** For the preceding `A_(3,d)`, normalize the rank-three bundle to `O⊕O(a)⊕O(b)` with `0≤a≤d` and `a≤b≤d+a`. Put `V_(a,b)=H⁰(P¹,Sym³(O⊕O(a)⊕O(b))⊗O(d−a−b))` and `PG_(a,b)=Aut(O⊕O(a)⊕O(b))/𝔽_q×`. Prove `A_(3,d)≤Σ_(a,b)#P(V_(a,b))/#PG_(a,b)` and that this finite sum, divided by `q^(10d+1)`, tends to `C(q)=3/((1−q⁻³)(1−q⁻²)²(1−q⁻¹)²)` for fixed `q`.
+
+For the proof, Prove the required rank-three bundle splitting over `P¹` and its uniqueness up to ordered degrees, using the maximal-degree line-subbundle argument and Riemann–Roch. Embed every cubic pair into its normalized projective bundle, derive the displayed inequalities from smoothness and nondegeneracy, and identify its automorphisms with the projective stabilizer. Count all projective cubic sections to obtain an upper bound, then evaluate the section dimensions and triangular bundle-automorphism counts in the finite geometric sum. The bundle splitting and this orbit-to-sum reduction are owned here.
+
+*Needs:* [de jong torsor/surface comparison](#de-jong-torsor-surface-comparison), AlgebraicVectorBundles (bundles and projectivization), AlgebraicCurves (cohomology of `O(m)` on `P¹`), Mathlib finite general-linear-group orders and geometric sums.
+
+(de Jong [[56]](#ref-56), §§6–7, Propositions 7.5 and 7.9, author pp. 21–25.)
+
+**Checks.**
+
+- For `(a,b)=(0,0)`, the automorphism quotient is `PGL₃(𝔽_q)`; scalar bundle automorphisms are divided out once.
+- A section with singular generic cubic is included in the upper bound, not falsely identified with a smooth genus-one torsor.
+- The normalized summands with `a+b>d` have vanishing total limit; the remaining sum has `C(q)→3`, rather than three surviving individual cubic orbits.
+
 
 <a id="function-field-3-selmer-average-bound"></a>
 
@@ -1017,7 +1173,7 @@ The carrier consists of isomorphism classes over the fixed base `𝔽_q(t)`; the
 
 For the proof, de Jong Theorem 1.2 bounds `q^(−10d−1) Σ_(h(E)=d)(#Sel3(E)−1)/#Aut(E,0)` by `C(q)` in limsup. Its inputs are the genus-one torsor/surface comparison (Proposition 5.14), projective ternary-cubic orbit bound (Proposition 7.5) and evaluated geometric sum (Proposition 7.9). Proposition 4.12 gives `q^(−10d−1) Σ_(h(E)=d)1/#Aut(E,0)→L(q)>0`. Divide only after this positive limit to get weighted mean at most `1+C(q)/L(q)`. Outside constant `j`, `#Aut(E,0)=2`. Propositions 4.14 and Lemma 10.2 bound the number of constant-`j` curves by `O(dq^(9d))` and their three-Selmer dimension by `C₁d` with an absolute `C₁`. For fixed `q>3^(C₁)`, their unweighted Selmer contribution is `O(d(3^(C₁)q⁹)^d)=o(q^(10d))`. Remove these curves from numerator and denominator, cancel the factor two, and obtain the unweighted comparison. The rational functions `C(q)` and `L(q)` tend to three and one with error `O(q^(−1))`. Any other coefficient family or cumulative-height convention requires its own denominator and boundary comparison.
 
-*Needs:* [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family), [poonen rains selmer conjecture](#poonen-rains-selmer-conjecture).
+*Needs:* [geometric-height Weierstrass family](#geometric-height-weierstrass-family), [de jong weighted denominator](#de-jong-weighted-denominator), [de jong constant-j estimates](#de-jong-constant-j-estimates), [de jong torsor/surface comparison](#de-jong-torsor-surface-comparison), [de jong projective-cubic count and geometric sum](#de-jong-projective-cubic-count), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family).
 
 ([[56]](#ref-56), Theorem 1.2, §1.1, Proposition 4.12, Proposition 4.14 and Lemma 10.2; author DVI pp.1–2,8–11,29. The projective-cubic bounds are Propositions 5.14,7.5,7.9, author pp.20,24–25.)
 
@@ -1214,15 +1370,18 @@ For the proof, Reduce to additive potentially good reduction (good reduction is 
 
 **Selmer ratio classes are locally defined.** Let `φ : E → E'` be a 3-isogeny over a number field `F` and `Σ ⊆ F^×/F^{×2}` a set defined by finitely many local conditions. Then for every `m ∈ ℤ`, `Σ ∩ T_m(φ)` is a finite disjoint union of families defined by finitely many local conditions; `T_m(φ)` is empty for all but finitely many `m`; and each `Σ ∩ T_m(φ)` has a density in the squareclass ordering, which is positive when the set is nonempty.
 
-For the proof, Let `S` be the finite set of places dividing `3·∞`, the places of bad reduction of `E` and the places above 2. For `v ∉ S`, `E^s` has either good reduction (`v(s)` even) or is a ramified quadratic twist of a good-reduction curve (`v(s)` odd), and in both cases `c_v(φ_s) = 1` ([tamagawa ratio under potentially good reduction](#tamagawa-ratio-under-potentially-good-reduction) with [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers)). For `v ∈ S`, `c_v(φ_s)` depends only on the class of `s` in `F_v^×/F_v^{×2}`, a finite set; so `c(φ_s) = ∏_{v∈S} c_v(φ_s)` takes finitely many values and each level set is a finite union of sets defined by local conditions at `S`. Decompose the finite set of allowed local squareclass tuples into single tuples. Each nonempty rectangle has a positive density by the number-field squareclass counting input used in BKLOS §8; sum the finitely many disjoint densities. A level set of the product of local ratios need not itself be a rectangle, and its density is a sum of products, not one product. [ArithmeticStatisticsPartI: family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions) supplies only the definition; the required arithmetic equidistribution remains part of the six-hypothesis BKLOS counting target.
+For the proof, Let `S` be the finite set of places dividing `3·∞`, the places of bad reduction of `E` and the places above 2. For `v ∉ S`, `E^s` has either good reduction (`v(s)` even) or is a ramified quadratic twist of a good-reduction curve (`v(s)` odd), and in both cases `c_v(φ_s) = 1` ([tamagawa ratio under potentially good reduction](#tamagawa-ratio-under-potentially-good-reduction) with [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers)). For `v ∈ S`, `c_v(φ_s)` depends only on the class of `s` in `F_v^×/F_v^{×2}`, a finite set; so `c(φ_s) = ∏_{v∈S} c_v(φ_s)` takes finitely many values and each level set is a finite union of sets defined by local conditions at `S`. Decompose the finite set of allowed local squareclass tuples into single tuples. ArithmeticStatisticsPartI, [Positive squareclass denominator](../ArithmeticStatisticsPartI/README.md#twist-denominator-frontier), supplies the unconditional positive denominator asymptotic for each inhabited local rectangle. Sum these asymptotics over the finite disjoint decomposition. A level set of the product of local ratios need not itself be a rectangle, and its density is a sum of products, not one product. The analytic hypothesis `C` is needed for the Selmer numerator, not for this denominator theorem.
 
-*Needs:* [selmer ratio of an isogeny](#selmer-ratio-of-an-isogeny), [tamagawa ratio under potentially good reduction](#tamagawa-ratio-under-potentially-good-reduction), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers), [ArithmeticStatisticsPartI: family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family).
+*Needs:* [ArithmeticStatisticsPartI: positive squareclass denominator](../ArithmeticStatisticsPartI/README.md#twist-denominator-frontier), [selmer ratio of an isogeny](#selmer-ratio-of-an-isogeny), [tamagawa ratio under potentially good reduction](#tamagawa-ratio-under-potentially-good-reduction), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers), [ArithmeticStatisticsPartI: family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family).
 
 ([[26]](#ref-26), §9.1, proof of Theorem 2.4, p. 14 (arXiv v2); [[26]](#ref-26), §2, p. 2 (arXiv v2).)
 
 **Checks.**
 
 - Over `ℚ` with `φ` the 3-isogeny of 19a3 (conductor 19): `S = {2, 3, 19, ∞}`.
+
+- A nonempty local rectangle has a positive squareclass denominator without assuming `C`; that hypothesis is used for the Selmer numerator.
+- Two disjoint rectangles with the same global ratio contribute the sum of their densities; their coupled level set need not have a single product density.
 
 <a id="bklos-average-size-of-three-isogeny-selmer-groups"></a>
 
@@ -1283,21 +1442,41 @@ For the proof, Apply [isogeny factorisation selmer exact sequence](#isogeny-fact
 
 - `m = 0` and `E(F)[3] = 0: dim Sel_3(E)` is even.
 
+<a id="finite-set-twist-density-zero"></a>
+
+**Finite set twist density zero.** Prove `finite_set_twist_density_zero`: for finite squareclass height slices `F(X)` with `N(X)=#F(X)→∞`, every finite set `B` of squareclasses has relative density zero. The same assertion holds in any family with finite sublevels and a growing denominator.
+
+For the proof, `0≤#(B∩F(X))/N(X)≤#B/N(X)` eventually, and the upper bound tends to zero. The positive squareclass denominator supplies growth in each inhabited finite-local-condition family.
+
+*Needs:* [ArithmeticStatisticsPartI: positive squareclass denominator](../ArithmeticStatisticsPartI/README.md#twist-denominator-frontier), Mathlib finite-set cardinal bounds, `Filter.Tendsto` and elementary inverse-limit rules.
+
+(Source: the elementary finite-subset density argument, with the squareclass height convention of BKLOS [[26]](#ref-26), §2, p. 2.)
+
+**Checks.**
+
+- The empty set has count and density zero at every cutoff.
+- A fixed singleton has count at most one, so its density is zero in a growing squareclass family.
+- A singleton family with constant denominator one has singleton density one; the denominator-growth hypothesis cannot be omitted.
+
+
 <a id="finitely-many-twists-with-rational-p-torsion"></a>
 
 **Finitely many twists with rational p torsion.** Let `E` be an elliptic curve over a number field `F` and `p` an odd prime. Then `{s ∈ F^×/F^{×2} : E^s(F)[p] ≠ 0}` has at most `p² − 1` elements; in particular it has density zero in the squareclass ordering.
 
 `p` odd prime
 
-For the proof, `E^s(F)[p] ≅ {P ∈ E(F̄)[p] : σP = χ_s(σ)P for all σ}` with `χ_s` the quadratic character of `F(√s)/F` (twist of `E` by −1 along `χ_s`, Tau Ceti EllipticCurves Layer 5). A nonzero `P` determines `χ_s`: if `σP = χ(σ)P = χ'(σ)P` then `χ(σ) = χ'(σ)` because `P ≠ 0` and `±1` are distinct mod `p` (`p` odd). So distinct squareclasses with nonzero `p`-torsion use disjoint sets of nonzero points of `E[p]`, giving at most `p² − 1` classes; a finite set has density zero ([ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family), test `familyUpperDensity.test_finite_set`).
+For the proof, `E^s(F)[p] ≅ {P ∈ E(F̄)[p] : σP = χ_s(σ)P for all σ}` with `χ_s` the quadratic character of `F(√s)/F` (twist of `E` by −1 along `χ_s`, Tau Ceti EllipticCurves Layer 5). A nonzero `P` determines `χ_s`: if `σP = χ(σ)P = χ'(σ)P` then `χ(σ) = χ'(σ)` because `P ≠ 0` and `±1` are distinct mod `p` (`p` odd). So distinct squareclasses with nonzero `p`-torsion use disjoint sets of nonzero points of `E[p]`, giving at most `p² − 1` classes; a finite set has density zero by [finite set twist density zero](#finite-set-twist-density-zero).
 
-*Needs:* [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family).
+*Needs:* [finite set twist density zero](#finite-set-twist-density-zero), EllipticCurves Layer 5 (quadratic-twist Galois action), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#quadratic-twist-squareclass-family).
 
-([[2]](#ref-2), §3.2.2, Theorem 3.5, p. 7.)
+(Silverman, *The Arithmetic of Elliptic Curves*, Chapter X §5, quadratic-twist Galois action; EllipticCurves Layer 5. The bound `p²−1` is the elementary disjoint-eigenspace argument above; its density consequence uses the positive squareclass denominator.)
 
 **Checks.**
 
 - `p = 3` and `E` with `E(F)[3] ≠ 0: s = 1` is one of the at most 8 exceptional classes.
+
+- At `p=2`, every twist has the same geometric sign action on 2-torsion, so the odd-prime argument fails.
+- For distinct quadratic characters at odd `p`, their nonzero eigenspaces are disjoint; a common nonzero point would force the two characters equal.
 
 <a id="reduced-p-selmer-rank-bounds-the-corank"></a>
 
@@ -1519,35 +1698,74 @@ For the proof, Use a finite dependent product indexed by `Fin k`. Mix the two co
 - For one prime the coupled weight equals its original marginal. For two prime laws supported at 0 and 1 with weight 1/2 each, the four rank vectors have weights `1/2,0,0,1/2` and total one.
 - If both prime laws put all mass at zero, the coupled mass at `(0,0)` is 2. Total mass one for each marginal alone does not normalize the coupling; the half-parity hypotheses are necessary.
 
+### Character duality for the locally compact model
+
+<a id="lc-character-annihilator-duality"></a>
+
+**Locally compact character and annihilator duality.** For a Hausdorff locally compact abelian group `G`, prove continuous character extension from a compact-open subgroup to `G`. For groups with a compact-open subgroup, construct topological evaluation biduality and extension from every closed subgroup. For `LCQuadraticData V` with a compact-open subgroup and every closed `H≤V`, identify the character dual of `V/H` with `H⊥` under the stored polar adjoint, with the quotient and compact-open topologies. Prove `(H⊥)⊥=H`; if `H` is compact-open, so is `H⊥`. If `X` is compact-open and quadratic-isotropic, `X⊥/X` is finite with a nondegenerate induced quadratic form. No bounded-exponent assumption is imposed on this target.
+
+For the proof, Extend a character from an open subgroup algebraically using divisibility of `ℝ/ℤ`; openness makes that extension continuous. Establish separation, closed-subgroup extension and biduality through compact-group duality and the discrete quotient by a compact-open subgroup, then prove the quotient-dual comparison. The stored adjoint transports these facts to polar annihilators. Compactness and discreteness make `X⊥/X` finite; the double annihilator computes its radical. ArithmeticGaloisDuality §R02.4.2's character-duality target supplies the bounded-exponent arithmetic specialization; the general compact-open development is owned here.
+
+*Needs:* Mathlib `PontryaginDual`, `ContinuousAddMonoidHom`, quotient topologies and compactness; ArithmeticGaloisDuality §R02.4.2 (character duality for bounded-exponent arithmetic groups); [lc quadratic](#refinement-lc-quadratic).
+
+(Poonen–Rains [[119]](#ref-119), Proposition 2.11, Corollary 2.12, Remark 2.15 and Examples 2.17–2.18, pp. 8–9; Pontryagin–van Kampen structure theorem, van Kampen 1935, Theorem 2, as cited there.)
+
+**Checks.**
+
+- Restricting a character of `ℤ/4` to `2ℤ/4` is surjective on character groups; extending the character with value `1/2` at 2 requires value `1/4` at 1.
+- For `G=ℚ_p` and the standard additive character of conductor `ℤ_p`, the annihilator of `p^aℤ_p` is `p^(−a)ℤ_p`, with its compact-open topology.
+- The finite-support subgroup of `∏_ℕ ℤ/2` is dense and proper. Its double annihilator is its closure, so closedness cannot be removed.
+
+<a id="restricted-product-character-duality"></a>
+
+**Restricted product character duality.** For Hausdorff locally compact abelian `V_i` with compact-open `W_i`, prove the topological character-dual comparison `(∏′(V_i,W_i))^∨≃∏′(V_i^∨,W_i^ann)`, by summing the evaluations. Transport factor polar adjoints through this comparison when `W_i` is self-annihilating. The reference subgroup in the dual is the annihilator of `W_i`, rather than all local characters.
+
+For the proof, A character on the compact product `∏W_i` is trivial on all but finitely many factors. Extend those finitely many restrictions and subtract them; the remaining character factors through the discrete direct sum `⊕(V_i/W_i)`. Identify both compact-open topologies using product compact sets and open reference subgroups.
+
+*Needs:* [locally compact character and annihilator duality](#lc-character-annihilator-duality), [RestrictedProducts, Export contract](../../Completed/RestrictedProducts/README.md#export-contract).
+
+(Poonen–Rains [[119]](#ref-119), Examples 2.17–2.18, pp. 8–9; the character-duality reference of the preceding target.)
+
+**Checks.**
+
+- The empty product has the trivial character group.
+- One factor recovers its ordinary character dual, with no restriction on that factor.
+- For `V_i=(ℤ/2)²` and `W_i` one hyperbolic axis, a tuple of dual characters nontrivial on `W_i` at infinitely many indices does not define a continuous character of `∏W_i`.
+
+
 ### 5.26 Locally compact quadratic probability
 
 <a id="refinement-lc-finite-reductions"></a>
 
 **Lc finite reductions.** For second-countable nondegenerate locally compact quadratic `(V,q)` with a weakly metabolic `W`, compact-open `q`-isotropic subgroups `X` form a countable directed system ordered by reverse inclusion. `X⊥/X` is a finite nondegenerate quadratic module. The reduction of `Z∈I(V)` is `((Z∩X⊥)+X)/X`, a maximal isotropic subgroup; reductions compose. If a cofinal decreasing sequence `X_j` has intersection zero, `I(V)` is bijective to the inverse limit of these finite isotropic spaces.
 
-For the proof, Use compact-open annihilator duality to show finiteness and nondegeneracy of `X⊥/X`. Reuse the finite quadratic carrier and finite isotropic reduction supplied by Tau Ceti and §5.4. Choose a countable cofinal system inside `W`; lift compatible subgroups and prove closure, isotropy and self-annihilation.
+For the proof, Apply [locally compact character and annihilator duality](#lc-character-annihilator-duality) to show finiteness and nondegeneracy of `X⊥/X`. Reuse the finite quadratic carrier and finite isotropic reduction supplied by Tau Ceti and §5.4. Choose a countable cofinal system inside `W`; lift compatible subgroups and prove closure, isotropy and self-annihilation.
 
-*Needs:* [lc quadratic](#refinement-lc-quadratic), [weak metabolic](#refinement-weak-metabolic), [maximal isotropics](#refinement-maximal-isotropics), `TauCeti.FiniteQuadraticModule` (Tau Ceti), [isotropic reduction map](#isotropic-reduction-map).
+*Needs:* [locally compact character and annihilator duality](#lc-character-annihilator-duality), [lc quadratic](#refinement-lc-quadratic), [weak metabolic](#refinement-weak-metabolic), [maximal isotropics](#refinement-maximal-isotropics), `TauCeti.FiniteQuadraticModule` (Tau Ceti), [isotropic reduction map](#isotropic-reduction-map).
 
 ([[119]](#ref-119), Theorem 2.19(a)–(c) and proof, pp. 9–10.)
 
 **Checks.**
 
 - In a finite discrete metabolic space, `X=0` recovers the original finite maximal-isotropic set and the reduction map is the identity.
+- Reducing a hyperbolic plane by either coordinate axis gives the zero quadratic module and its singleton maximal-isotropic set.
+- The diagonal in the dyadic hyperbolic plane is polar-self-orthogonal but has nonzero quadratic value, so it is rejected as a reduction subgroup.
 
 <a id="refinement-lc-canonical-measure"></a>
 
-**Lc canonical measure.** Assume additionally that `p` is prime and `pV=0`. The inverse-limit topology on `I(V)` carries a unique Borel probability whose pushforward to every finite quadratic reduction is the uniform maximal-isotropic law. This measure is invariant under every continuous quadratic isometry of `V`. Second countability and the inverse-limit Borel structure are part of the assertion.
+**Lc canonical measure.** Assume additionally that `p` is prime, `pV=0` and `p·q(v)=0` for every `v∈V`. Thus the finite reductions take quadratic values in `(1/p)ℤ/ℤ`; at `p=2` the value-group condition is additional. The inverse-limit topology on `I(V)` carries a unique Borel probability whose pushforward to every finite quadratic reduction is the uniform maximal-isotropic law. This measure is invariant under every continuous quadratic isometry of `V`. Second countability and the inverse-limit Borel structure are part of the assertion.
 
 For the proof, The finite reduction map has constant fibre size, giving consistent uniform marginals. Construct the consistent finite-isotropic inverse system and its measure extension on `I(V)`; existence and the comparison with the cofinal product/cylinder Borel structure are supporting probability targets below. After the comparison, apply Mathlib’s uniqueness for finite projective marginals; naturality of the reductions gives isometry invariance.
 
 *Needs:* [lc finite reductions](#refinement-lc-finite-reductions), [fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map), `MeasureTheory.IsProjectiveLimit.unique` (Mathlib).
 
-([[119]](#ref-119), Theorem 2.19(d)–(e), pp. 9–10.)
+([[119]](#ref-119), Proposition 2.6, Remark 2.8 and Theorem 2.19(d)–(e), pp. 6–10.)
 
 **Checks.**
 
+- For `V=0`, the unique maximal isotropic has mass one.
 - In a finite hyperbolic plane over `𝔽₂`, each of its two maximal quadratic-isotropic lines has probability 1/2.
+- In a split four-dimensional quadratic space over `𝔽₂`, the six maximal quadratic-isotropic planes each have mass 1/6; their intersections with a fixed plane have dimensions 0, 1 and 2 with respective probabilities 1/3, 1/2 and 1/6.
 
 <a id="refinement-lc-random-intersection"></a>
 
@@ -1562,6 +1780,8 @@ For the proof, Choose an exhaustion of the countable discrete dual `W*` and its 
 **Checks.**
 
 - A finite hyperbolic plane has only intersection dimensions zero and one; do not assign its law the positive tail of the infinite-dimensional distribution.
+- On `V=(ℤ/2)²`, `q(x,y)=(x²−y²)/4 mod ℤ` has nondegenerate polar matrix `diag(1/2,1/2)`, but its only maximal quadratic-isotropic subgroup is the diagonal. Its intersection dimension is always one. It fails `2q=0`, although `2V=0`; the half-zero/half-one law does not apply.
+- For `V=0`, intersection dimension is identically zero, with no half-parity conclusion.
 
 <a id="refinement-lc-restricted-product"></a>
 
@@ -1569,13 +1789,66 @@ For the proof, Choose an exhaustion of the countable discrete dual `W*` and its 
 
 For the proof, Use the completed RestrictedProducts carrier and its compact-open product subgroup. Quadratic vanishing on `W_i` makes the pointwise sum finite; prove continuity on product neighborhoods. Prove that the sum of local characters identifies the restricted product with its compact-open character dual: on the product of reference subgroups a continuous character uses finitely many nontrivial coordinates. Apply the local polar adjoints. Countable support patterns give the second-countability assertion.
 
-*Needs:* `RestrictedProduct` (Mathlib), [lc quadratic](#refinement-lc-quadratic), [weak metabolic](#refinement-weak-metabolic).
+*Needs:* [restricted product character duality](#restricted-product-character-duality), `RestrictedProduct` (Mathlib), [lc quadratic](#refinement-lc-quadratic), [weak metabolic](#refinement-weak-metabolic).
 
 ([[119]](#ref-119), Examples 2.17–2.18 and proof, p. 9.)
 
 **Checks.**
 
-- For the hyperbolic finite groups with their standard isotropic subgroups, only finitely many coordinate quadratic values can be nonzero at a restricted-product point.
+- With an empty index set the restricted product is zero and its quadratic form vanishes.
+- With one index the quadratic form and reference subgroup are those of the single factor.
+- For an infinite family of finite hyperbolic planes with reference axes `W_i`, a tuple outside `W_i` at infinitely many indices is excluded, even if some of its individual quadratic values happen to vanish.
+
+### Finite-flat cohomology for the global comparison
+
+<a id="flat-local-duality"></a>
+
+**Finite-flat local topology and duality.** Let `L` be a complete discretely valued field of positive characteristic with finite residue field, and `N/L` a finite commutative group scheme with Cartier dual `Nᴰ`. Construct the Hausdorff locally compact, second-countable topology on `H¹_fppf(L,N)` and the continuous cup/invariant pairing identifying it topologically with `H¹_fppf(L,Nᴰ)^∨`. Give `H⁰` the finite discrete topology and `H²` the discrete topology; their Cartier-dual pairing is perfect. Construct local abelian-variety Tate duality and compatibility with the two isogeny Kummer sequences, including inseparable kernels. Use HeightsRationalPointsAndObstructions §1.1 for the arbitrary-field fppf Kummer map and extend its exact sequence to `0→B(L)/φA(L)→H¹(L,A[φ])→H¹(L,A)[φ]→0`, natural in fields and isogenies; for smooth abelian varieties identify fppf torsors with the usual étale torsors.
+
+For the proof, Build the flat cohomology topology by finite splitting covers and integral cocycles, and prove independence of the cover. Establish duality for étale, multiplicative and local-local constituents and pass through exact sequences. Use the Poincaré biextension for abelian duality and the isogeny compatibility. The finite étale prime-to-characteristic cases agree with ArithmeticGaloisDuality; the general flat adapters are targets here.
+
+*Needs:* AbelianSchemesAndArithmeticModuli §§A2.2–A2.5, A3.1–A3.7 (native kernels, Cartier duals and fppf quotients); SchemeAndStackFoundations (flat descent and torsors); ArithmeticGaloisDuality §§R02.4.5, D7.6 for their prime-to-characteristic and characteristic-zero specializations; HeightsRationalPointsAndObstructions §1.1 (arbitrary-field fppf Kummer).
+
+(Poonen–Rains [[119]](#ref-119), §4.2, pp. 17–18; Milne, [Arithmetic Duality Theorems](https://www.jmilne.org/math/Books/ADTnot.pdf), III §§6–7, especially III.6.5, III.6.10 and III.7.8, pp. 270–285.)
+
+**Checks.**
+
+- For `N=α_p`, `H¹(L,N)=L/L^p` is generally infinite; its residue-differential Cartier pairing must be a topological duality, not finite-group duality.
+- For `N=μ_p`, `H¹(L,N)=L×/L×p` pairs with Artin–Schreier `H¹(L,ℤ/p)`; these are flat Kummer and étale additive classes respectively.
+- If the order of `N` is prime to `char(L)`, recover the finite discrete local Tate pairing. The identity isogeny has zero Kummer image and zero kernel cohomology.
+
+<a id="flat-integral-kummer"></a>
+
+**Integral flat reference and Kummer annihilators.** For such `L` and finite flat commutative `𝒩/O_L`, prove `H¹(O_L,𝒩)→H¹(L,N)` is injective with compact-open image, and the reference images for `𝒩` and `𝒩ᴰ` are exact annihilators. For an isogeny extending between abelian schemes over `O_L`, identify this reference image with `B(L)/φA(L)`. For every local abelian isogeny, its Kummer image and that of the dual isogeny are compact-open exact annihilators; for the self-dual theta refinement, prove quadratic vanishing.
+
+For the proof, Properness identifies integral and field-valued abelian points; finite-field torsor vanishing and the flat Kummer sequence identify the good-place image. Integral Cartier duality supplies annihilators, and local abelian duality supplies the general Kummer statement. The theta obstruction is constructed on the flat site using the supplied theta extension.
+
+*Needs:* [finite-flat local topology and duality](#flat-local-duality), AbelianSchemesAndArithmeticModuli §§A3.3–A3.7, ReductiveGroupsPartII §RG2.3.7 (Lang torsor vanishing).
+
+(Poonen–Rains [[119]](#ref-119), Propositions 4.8, 4.10 and 4.12, pp. 17–18; Milne, III §§6–8, and the flat global-duality reference in the next target.)
+
+**Checks.**
+
+- `α_p` over `O_L` gives the proper compact-open subgroup `O_L/O_L^p` inside `L/L^p`; replacing it by a finite unramified group loses classes.
+- An inseparable isogeny of a good-reduction abelian variety still has its integral flat reference subgroup equal to its Kummer image.
+- For `[1]`, the local reference, Kummer image and Selmer group all vanish. At a bad place the good-reduction identification is not asserted.
+
+<a id="flat-global-poitou-tate"></a>
+
+**Finite-flat global Poitou–Tate.** Let `k` be a global function field and `N/k` a finite commutative group scheme, extending to a finite flat group scheme over some nonempty open of its smooth proper constant-field curve. With all places included and the integral flat references outside a finite set, construct the nine-term Poitou–Tate sequence in fppf cohomology. In particular prove the exact middle sequence `H¹(k,N)→∏′_v H¹(k_v,N)→H¹(k,Nᴰ)^∨`, where the second arrow is the sum of local Cartier-cup invariants. Give global `H¹` its discrete topology and prove its image is closed. Include the finite Sha pairings and the global Brauer reciprocity sum. For self-dual `N`, the middle sequence identifies the global image with its own annihilator. This target includes connected `p`-primary kernels. For abelian isogenies over `k`, construct the flat Selmer and Sha carriers from the Kummer maps, prove their descent exact sequences and finite Selmer groups, with comparison to the number-field and prime-to-characteristic interfaces on their common domains.
+
+For the proof, Develop flat compact-support duality on the open curve and pass through shrinking opens to the all-place restricted product, preserving the integral subgroups. Establish strictness and closedness of localization and the compatible Brauer trace. ArithmeticGaloisDuality supplies the prime-to-characteristic specialization; the connected flat case and this limit comparison are owned here. The global `H¹` image is countable and closed in a locally compact Hausdorff group, hence discrete by Baire. Its intersection with the compact product of Kummer images is finite; the finite Sha¹ kernel then gives finite Selmer groups. No finiteness of unrestricted flat cohomology on an affine curve is asserted.
+
+*Needs:* [integral flat reference and Kummer annihilators](#flat-integral-kummer), [finite-flat local topology and duality](#flat-local-duality), SchemeAndStackFoundations (fppf cohomology and descent), AlgebraicCurves (global function-field curve and its opens), ArithmeticGaloisDuality §R02.4.5 (prime-to-characteristic compact-support sequence and reciprocity).
+
+(Poonen–Rains [[119]](#ref-119), §4.3 and proof of Theorem 4.13, pp. 18–20; its references Milne I.4.10(c), III.8, and González-Avilés, [*Arithmetic duality theorems for 1-motives over function fields*](https://arxiv.org/pdf/0709.4255), Proposition 4.11 and Theorem 4.12, pp. 17–19.)
+
+**Checks.**
+
+- For prime-to-characteristic `N`, the integral references become the unramified references and the sequence agrees with ArithmeticGaloisDuality §R02.4.5.
+- For `N=α_p`, localization uses `k/k^p` and `k_v/k_v^p`; passing to geometric points would erase these nonzero cohomology groups.
+- For the trivial group scheme all terms vanish. For a global Brauer class the local invariant sum is zero, which gives quadratic isotropy of the global theta obstruction.
+
 
 ### 5.27 Global cohomology as an isotropic intersection
 
@@ -1595,17 +1868,40 @@ For the proof, Use Chebotarev to inject constant cyclic classes into the local f
 
 <a id="refinement-selmer-quadratic-intersection"></a>
 
-**Selmer quadratic intersection.** Let `k` be global, `A/k` abelian, and `λ:A→Â` a self-dual isogeny of odd degree or induced by a symmetric line bundle. The theta-group quadratic maps into local Brauer groups, followed by invariants in `ℝ/ℤ`, have polarization equal to the negative Weil-cup pairing (without division by 2) and make `V=∏′_v H¹(k_v,A[λ])` a second-countable weakly metabolic locally compact quadratic module. The Kummer subgroup `W=∏_v im(Â(k_v)/λA(k_v))` is compact-open maximal isotropic; the image `Z` of `H¹(k,A[λ])` is maximal isotropic. `Sel_λ(A)/Sha¹(k,A[λ])≅Z∩W`. In characteristic dividing `deg λ` all cohomology is fppf. `Sha¹` of the finite group scheme is not `Sha(A)`.
+**Selmer quadratic intersection.** Let `k` be global, `A/k` abelian, and `λ:A→Â` a self-dual isogeny of odd degree or induced by a symmetric line bundle. The theta-group quadratic maps into local Brauer groups, followed by invariants in `ℝ/ℤ`, have polarization equal to the negative Weil-cup pairing (without division by 2) and make `V=∏′_v H¹(k_v,A[λ])` a second-countable weakly metabolic locally compact quadratic module. The Kummer subgroup `W=∏_v im(Â(k_v)/λA(k_v))` is compact-open maximal isotropic; the image `Z` of `H¹(k,A[λ])` is maximal isotropic. `Sel_λ(A)/Sha¹(k,A[λ])≅Z∩W`. In characteristic dividing `deg λ` all cohomology is fppf and uses the finite-flat local, integral and global targets above; the number-field supplier alone does not supply this case. `Sha¹` of the finite group scheme is not `Sha(A)`.
 
 For the proof, Import the existing A3 theta-group extension; extend it to the fppf quadratic Brauer obstruction. Poonen–Rains Corollary 4.6 gives its polar form as the negative Weil-cup pairing; in odd degree `q(x)=−(1/2)(x cup x)`. Local duality and the symmetric-sheaf or odd-degree hypothesis give quadratic, rather than merely bilinear, isotropy of Kummer images. Poitou–Tate and global reciprocity give global maximal isotropy; compute the kernel of localization to obtain the quotient.
 
-*Needs:* [lc restricted product](#refinement-lc-restricted-product), [maximal isotropics](#refinement-maximal-isotropics), AbelianSchemesAndArithmeticModuli:A3, SelmerIwasawaCohomology §2.12a (all-place Kummer annihilators), ArithmeticGaloisDuality §§R02.4.2–R02.4.5, D7.6, AbelianSchemesAndArithmeticModuli §A3.6, AbelianSchemesAndArithmeticModuli §A3.5.
+*Needs:* [finite-flat local topology and duality](#flat-local-duality), [integral flat reference and Kummer annihilators](#flat-integral-kummer), [finite-flat global Poitou–Tate](#flat-global-poitou-tate), [lc restricted product](#refinement-lc-restricted-product), [maximal isotropics](#refinement-maximal-isotropics), AbelianSchemesAndArithmeticModuli:A3, SelmerIwasawaCohomology §2.12a (all-place Kummer annihilators), ArithmeticGaloisDuality §§R02.4.2–R02.4.5, D7.6, AbelianSchemesAndArithmeticModuli §A3.6, AbelianSchemesAndArithmeticModuli §A3.5.
 
 ([[119]](#ref-119), Corollary 4.6, pp. 15–16; Theorem 4.13 and Sections 4.1–4.3, pp. 14–21.)
 
 **Checks.**
 
 - For `λ=[2]`, retain the theta quadratic refinement and the symmetric-sheaf hypothesis; a polar alternating pairing alone cannot certify quadratic isotropy.
+
+- In characteristic `p`, a kernel containing `α_p` has nonzero flat local cohomology despite trivial geometric points; the finite étale supplier is insufficient.
+- At a good function-field place, the local Kummer subgroup is the integral flat reference even for an inseparable kernel; its annihilator is computed by flat local duality.
+
+
+### Global coefficient families
+
+<a id="global-coefficient-model-families"></a>
+
+**Global coefficient-model families.** Fix a global field `k` and its scalar Northcott height `H_k`. For a number field use Mathlib's `Height.mulHeight₁` with its number-field admissible absolute values, the unnormalized product `∏_v max(1,|x|_v)` with local degrees in the absolute values. For a function field with full constant field `𝔽_q`, use `H_k(x)=q^(deg(div_∞ x))`, with `H_k(0)=1`; degrees are over `𝔽_q`. All coefficient weights are one and a tuple has height the maximum of its scalar coefficient heights. Construct the nonsingular short Weierstrass tuples `(a,b)` when `char(k)≠2,3`, the nonsingular long tuples `(a₁,a₂,a₃,a₄,a₆)` when `char(k)=2,3`, and, for `g≥1` and `char(k)≠2`, separable polynomial tuples of exact degree `2g+1` or `2g+2` with nonzero leading coefficient. The sublevels are inclusive `H≤B`, finite and eventually nonempty, with cardinality tending to infinity. Count each coefficient tuple once, with no quotient by coordinate changes, scaling, or isomorphism of curves or Jacobians. Construct the associated elliptic curve or smooth hyperelliptic model and Jacobian on each tuple.
+
+For the proof, Finite products of scalar Northcott sets give finiteness, and restriction to the nonsingular or separable locus preserves it. In the function-field case, bound pole divisors and use finite-dimensional Riemann–Roch spaces over the finite constant field. Explicit nonsingular equations and separable polynomials give nonemptiness; infinitely many distinct nonsingular coefficient tuples give denominator growth. These choices specify the coefficient-height interpretation of the arithmetic conjectures here; the minimal integral `ℚ` family remains a separate carrier.
+
+*Needs:* Mathlib `Height.mulHeight₁`, `NumberField.finite_setOfPred_mulHeight₁_le` and `Northcott`; AlgebraicCurves (divisors, Riemann–Roch and smooth double covers); EllipticCurves Layers 1 and 5; AbelianSchemesAndArithmeticModuli (Jacobians); [ArithmeticStatisticsPartI: arithmetic family](../ArithmeticStatisticsPartI/README.md#arithmetic-family).
+
+(Poonen–Rains [[119]](#ref-119), Conjectures 1.1, 1.7–1.8, pp. 2–4; BKLPR [[120]](#ref-120), Conjecture 6.9, p. 28. The scalar-height normalizations and coefficient weights are fixed as above.)
+
+**Checks.**
+
+- Over `ℚ`, `H_k(a/b)=max(|a|,|b|)` in lowest terms. The two short coefficient tuples `(−1,0)` and `(−16,0)` are distinct models of isomorphic curves and are counted separately.
+- In characteristic two the long equation `y²+xy=x³+1` is nonsingular and belongs to the family; a short equation does not replace its five coefficient slots.
+- A repeated-root polynomial and a tuple with zero leading coefficient are excluded. In `𝔽_q(t)`, `H_k(t^m)=q^m`; changing the constant-field normalization changes the cutoff and must be specified.
+
 
 ### 5.28 Composite Selmer and Jacobian conjectures
 
@@ -1625,7 +1921,7 @@ For the proof, Sum separately over the two parity classes; factor each nonnegati
 
 <a id="refinement-squarefree-selmer-conjecture"></a>
 
-**Squarefree selmer conjecture.** Fix a global field `k` and a squarefree integer `n>1`. In the source’s coefficient-model family from Conjecture 1.1, use short Weierstrass coefficients `a,b` in `k` of height bounded by `B` when `char(k)` is not 2 or 3, and the source’s long Weierstrass equations in characteristics 2 and 3; discard singular models and let `B` tend to infinity. The joint dimensions `dim_Fp Sel_p(E)`, `p|n`, are conjectured to have the common-parity product law. Separately, every positive `m`-th cardinality moment of `Sel_n` is conjectured to tend to `∏_{p|n}∏_{j=1}^m(p^j+1)`. Distribution convergence alone does not establish these unbounded moments. At `n=1` the group is trivial. The denominator counts these coefficient models, not minimal integral `ℚ`-isomorphism classes ordered by invariant height.
+**Squarefree selmer conjecture.** Fix a global field `k` and a squarefree integer `n>1`. In [global coefficient-model families](#global-coefficient-model-families), with the height choices specified there, use short Weierstrass coefficients `a,b` in `k` of height bounded by `B` when `char(k)` is not 2 or 3, and the source’s long Weierstrass equations in characteristics 2 and 3; discard singular models and let `B` tend to infinity. The joint dimensions `dim_Fp Sel_p(E)`, `p|n`, are conjectured to have the common-parity product law. Separately, every positive `m`-th cardinality moment of `Sel_n` is conjectured to tend to `∏_{p|n}∏_{j=1}^m(p^j+1)`. Distribution convergence alone does not establish these unbounded moments. At `n=1` the group is trivial. The denominator counts these coefficient models, not minimal integral `ℚ`-isomorphism classes ordered by invariant height.
 
 This is a stated conjectural proposition, not an established arithmetic limit.
 
@@ -1637,7 +1933,7 @@ The required API is:
 
 For the proof, Express the precise finite-height averaging assertion on the supplied arithmetic family. Separate the random-model theorem from the conjectural identification of empirical arithmetic laws.
 
-*Needs:* [joint parity weight](#refinement-joint-parity-weight), [joint parity moments](#refinement-joint-parity-moments), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family).
+*Needs:* [global coefficient-model families](#global-coefficient-model-families), [joint parity weight](#refinement-joint-parity-weight), [joint parity moments](#refinement-joint-parity-moments), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#height-moments-in-an-arithmetic-family).
 
 ([[119]](#ref-119), Conjecture 1.1 and its coefficient-height convention, p. 2; Conjecture 1.4(a)–(c), pp. 3–4.)
 
@@ -1659,9 +1955,9 @@ The required API is:
 - `Distributions.odd_degree_jacobian_conjecture.rank`: Project the rank frequencies and separate average-rank assertion.
 - `Distributions.odd_degree_jacobian_conjecture.even_degree_odd_n`: The even-degree version retains the restriction to odd `n`.
 
-For the proof, Request the fixed-global-field coefficient-height model family in Layer 0, with odd or even degree as stated. The existing Layer 0 integral even-degree family is a restricted specialization, not this supplier contract. Separate the random-model theorem from the conjectural identification of empirical arithmetic laws.
+For the proof, Use [global coefficient-model families](#global-coefficient-model-families), with the stated polynomial degree and inclusive coefficient cutoff. Separate the random-model theorem from the conjectural identification of empirical arithmetic laws.
 
-*Needs:* [squarefree selmer conjecture](#refinement-squarefree-selmer-conjecture).
+*Needs:* [global coefficient-model families](#global-coefficient-model-families), [squarefree selmer conjecture](#refinement-squarefree-selmer-conjecture).
 
 ([[119]](#ref-119), Conjecture 1.7, p. 4.)
 
@@ -1683,9 +1979,9 @@ The required API is:
 - `Distributions.even_genus_two_selmer_conjecture.moments`: Each `m`-th cardinality moment carries the factor `2^m`.
 - `Distributions.even_genus_two_selmer_conjecture.average`: The first moment is 6.
 
-For the proof, Request the fixed-global-field coefficient-height model family in Layer 0, with odd or even degree as stated. The existing Layer 0 integral even-degree family is a restricted specialization, not this supplier contract. Separate the random-model theorem from the conjectural identification of empirical arithmetic laws.
+For the proof, Use [global coefficient-model families](#global-coefficient-model-families), with the stated polynomial degree and inclusive coefficient cutoff. Separate the random-model theorem from the conjectural identification of empirical arithmetic laws.
 
-*Needs:* [poonen rains distribution](#poonen-rains-distribution), [poonen rains moments](#poonen-rains-moments).
+*Needs:* [global coefficient-model families](#global-coefficient-model-families), [poonen rains distribution](#poonen-rains-distribution), [poonen rains moments](#poonen-rains-moments).
 
 ([[119]](#ref-119), Conjecture 1.8, p. 4.)
 
@@ -1697,19 +1993,54 @@ For the proof, Request the fixed-global-field coefficient-height model family in
 
 ### 5.29 Integral orthogonal Grassmannians and rank strata
 
+<a id="general-oesterle-measure"></a>
+
+**General Oesterlé measure.** Let `p` be prime and `X/ℤ_p` finite type with nonempty generic fibre of dimension `d`. Construct the unique bounded Borel measure on `X(ℤ_p)` characterized on clopen `S` by `μ_X(S)=lim_e #im(S→X(ℤ/p^e))/p^(ed)`. An empty generic fibre has zero measure and no probability normalization. Prove that subschemes of smaller generic dimension have measure zero, and that an open set containing an integral point smooth of generic dimension `d` has positive measure. Normalize to a probability when such a point exists. Reduction images, rather than all finite-level points, determine the measure.
+
+For the proof, Establish the reduction-image limit and boundedness on affine charts by the Oesterlé–Serre counting argument and extend from clopen cylinders by the measure extension theorem. Glue finite affine covers by uniqueness. Prove lower-dimensional vanishing and positivity in a smooth generic chart. The local analytic counting argument is part of this target, not an invariant-group-form import.
+
+*Needs:* AlgebraicModuliForArithmeticGeometry §§1.1–1.3 (finite-type schemes and charts), Mathlib Borel measures and measure extension; `PadicInt` and finite reductions.
+
+(BKLPR [[120]](#ref-120), Proposition 2.1(a)–(c), Corollary 2.2, pp. 5–6; Oesterlé, *Réduction modulo pⁿ des sous-ensembles analytiques fermés de ℤ_pᴺ*, Théorème 2; Serre's analytic counting theorem, as cited there.)
+
+**Checks.**
+
+- On `Spec ℤ_p`, `d=0` and the unique point has mass one.
+- On `A¹_ℤp`, the measure is normalized additive Haar. Its closed point `0` has zero ambient mass but its own intrinsic point mass one.
+- For `X=Spec(ℤ_p[T]/(T²))`, the unique integral point has mass one: counting all nonreduced solutions modulo `p^e` would give the wrong limit.
+
+<a id="alternating-stratum-measure"></a>
+
+**Alternating rank-stratum measure and pushforward.** Let `0≤r≤n` with `n−r` even. The closure of the rank-`n−r` alternating locus in `A^(n(n−1)/2)_ℤp` has generic dimension `binomial(n,2)−binomial(r,2)`. Construct its intrinsic Oesterlé measure `μ`; its smaller-rank locus is null, so the normalized measure restricts to integral matrices of exact generic corank `r`. For `m=n−r` and `β(M,A)=Mᵀ diag(A,0_r)M`, prove `β_*(μ_GL_n × |det A|_p^r μ_Alt_m)=c_(n,r) μ` on that locus, with `c_(n,r)>0` and with Haar mass one on `GL_n(ℤ_p)`. For even `m`, also prove `∫_Alt_m |det A|_p^s dμ=∏_{i=1}^{m/2}(1−p^(1−2i))/(1−p^(1−2i−2s))` for `s≥0`. These are the measure comparisons used in the all-rank alternating limit.
+
+For the proof, Map a rank-stratum matrix to its image plane; the fibre is the open nondegenerate alternating locus, giving the dimension. Count the fibres of `β` in reduction images, retaining the determinant valuation, and pass to the intrinsic measure limit. Splitting off one hyperbolic block gives the determinant-integral recursion. This construction also supplies the intrinsic measure convention used on the orthogonal Schubert schemes below.
+
+*Needs:* [general Oesterlé measure](#general-oesterle-measure), [count of nondegenerate alternating matrices](#count-of-nondegenerate-alternating-matrices), AlgebraicModuliForArithmeticGeometry §§1.1–1.3 (Grassmannians), Mathlib Smith normal form.
+
+(BKLPR [[120]](#ref-120), Lemmas 3.10, 3.12–3.13 and proof of Theorem 3.11, pp. 10–12.)
+
+**Checks.**
+
+- At `r=n`, the rank-zero stratum is a point with intrinsic mass one; for `n≥2` it is null under the ambient alternating measure.
+- At `r=0`, the dimension is `n(n−1)/2` and the determinant-zero locus has measure zero.
+- At `m=2`, the determinant integral is `(1−p⁻¹)/(1−p^(−1−2s))`; the exponent is `2s` because `det [[0,a],[−a,0]]=a²`. At `m=0` it is the empty product one.
+
+
 <a id="refinement-smooth-cylinder-measure"></a>
 
 **Smooth cylinder measure.** Let `p` be prime and `X/ℤ_p` smooth proper of pure relative dimension `d`, with `X(𝔽_p)` nonempty. The requested Oesterlé–Serre measure has total mass `#X(𝔽_p)p^(−d)`; its probability normalization assigns `red_e^(−1)(B)` mass `#B/#X(ℤ/p^e)` for every subset `B` of the finite reduction. Smooth lifting supplies `p^d` points per fibre. For a general finite-type model the measure counts the reduction image of `X(ℤ_p)`, not every nonliftable or nonreduced finite-level point.
 
-For the proof, Import the general bounded Oesterlé measure with reduction-image counts. Formal smoothness and properness give surjective compatible reductions with constant fibres `p^d`. Compute the total mass and cylinder normalization directly.
+For the proof, Apply [general Oesterlé measure](#general-oesterle-measure) with reduction-image counts. Formal smoothness and properness give surjective compatible reductions with constant fibres `p^d`. Compute the total mass and cylinder normalization directly.
 
-*Needs:* AdelicAlgebraicGroups §2.4, AlgebraicModuliForArithmeticGeometry §§1.1–1.3.
+*Needs:* [general Oesterlé measure](#general-oesterle-measure), AlgebraicModuliForArithmeticGeometry §§1.1–1.3.
 
 ([[120]](#ref-120), Proposition 2.1 and Corollary 2.2, pp. 5–6; Lemma 4.8, p. 14.)
 
 **Checks.**
 
+- For `X=Spec ℤ_p`, total mass and the unique cylinder probability are one.
 - For `X=P¹` over `ℤ_p`, total mass is `(p+1)/p` and every level-e point cylinder has probability `1/((p+1)p^(e−1))`.
+- For `P¹ ⨿ P¹`, unnormalized mass is `2(p+1)/p`; the normalized law gives each component mass 1/2 and each level-e point cylinder half its one-component probability.
 
 <a id="refinement-ogr-smooth-projective"></a>
 
@@ -1723,7 +2054,9 @@ For the proof, Import the generic Grassmannian, universal subbundle and closed q
 
 **Checks.**
 
-- `OGr₀` is a point and `OGr₁` has two points in each fibre, including characteristic two; the latter is not the whole projective line.
+- `OGr₀` is a point.
+- `OGr₁` has two points in each fibre, including characteristic two; it is not the whole projective line.
+- `OGr₂(𝔽₂)` has six points, whereas `Gr(2,4)(𝔽₂)` has 35; quadratic vanishing is a proper condition.
 
 <a id="refinement-ogr-components"></a>
 
@@ -1741,11 +2074,11 @@ For the proof, Use the requested integral component morphism to `Spec(Z×Z)`. Gr
 
 <a id="refinement-ogr-prime-power-count"></a>
 
-**Ogr prime power count.** For prime `p`, `e≥1` and `n≥0`, `#OGr_n(ℤ/p^e)=p^(e n(n−1)/2)∏_{i=1}^n(1+p^(i−n))`. This counts direct summands. At `n=0` the count is1; at `n=1` it is2 at every level, including `p=2`. It refines the count by giving its smooth-lifting proof contract.
+**Ogr prime power count.** For prime `p`, `e≥1` and `n≥0`, `#OGr_n(ℤ/p^e)=p^(e n(n−1)/2)∏_{i=1}^n(1+p^(i−n))`. This counts direct summands. At `n=0` the count is1; at `n=1` it is2 at every level, including `p=2`. This target owns the finite-field-to-prime-power lifting count.
 
 For the proof, Use the finite-field maximal-isotropic count at `e=1`. Each smooth reduction fibre has size `p^(n(n−1)/2)`. Induct in e, matching exactly the direct-summand count and its normalization.
 
-*Needs:* [ogr smooth projective](#refinement-ogr-smooth-projective), [smooth cylinder measure](#refinement-smooth-cylinder-measure), [number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces), [maximal isotropic direct summands modulo prime powers](#maximal-isotropic-direct-summands-modulo-prime-powers).
+*Needs:* [ogr smooth projective](#refinement-ogr-smooth-projective), [number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces).
 
 ([[120]](#ref-120), Lemma 4.8, p. 14.)
 
@@ -1753,13 +2086,16 @@ For the proof, Use the finite-field maximal-isotropic count at `e=1`. Each smoot
 
 - For `n=2,p=2,e=2` the formula gives 12 direct-summand points; `n=1` gives 2 at every prime-power level.
 
+- At `n=0` the product is empty and the count is one.
+- At `e=1,n=2,p=2` the count is six, and each lift to the next level has two preimages.
+
 <a id="refinement-ogr-schubert-dimension"></a>
 
 **Ogr schubert dimension.** For `0≤r≤n` the locus `S_(n,r)⊂OGr_n` of points with `dim(Z∩W)≥r` and `dim(Z∩W)≡r mod2` is closed and has relative dimension `(n−r)(n+r−1)/2`. Its exact-rank open stratum has this dimension. Fixed-rank random models use the intrinsic measure on `S_(n,r)`; when `r≥2` they cannot be defined by conditioning the ambient OGr law on a positive-probability rank-`r` event.
 
 For the proof, Use the fixed parity component and determinantal intersection equations. Resolve by pairs `(Z,X)` with `X` an `r`-plane in `Z∩W`; over `Gr(r,W)`, select the component of `OGr_(n−r)` on which `dim((Z/X)∩(W/X))` is even. For `n=r` this fibre is the single point `OGr₀`. On the exact-rank locus `X` is unique, and the part of the fibre transverse to `W/X` is the affine space of alternating graph maps. Lower-dimensional vanishing in the requested measure gives the conditioning warning.
 
-*Needs:* [ogr components](#refinement-ogr-components), [ogr smooth projective](#refinement-ogr-smooth-projective), AlgebraicModuliForArithmeticGeometry §§1.1–1.3, AdelicAlgebraicGroups §2.4.
+*Needs:* [ogr components](#refinement-ogr-components), [ogr smooth projective](#refinement-ogr-smooth-projective), AlgebraicModuliForArithmeticGeometry §§1.1–1.3, [general Oesterlé measure](#general-oesterle-measure).
 
 ([[120]](#ref-120), Section 4.4 and Proposition 4.9, pp. 14–15; Section 5.1, p. 15.)
 
@@ -1767,6 +2103,9 @@ For the proof, Use the fixed parity component and determinantal intersection equ
 
 - At `n=2,r=2` the locus is a point and is null for the dimension-one ambient measure; it still has its own normalized intrinsic point mass.
 - At `n=1,r=0` the even-intersection locus is one of the two points of `OGr₁`. Using both components as the resolution fibre would add the excluded odd-intersection point.
+
+- For `r=0`, the dimension is `n(n−1)/2`; for `r=n`, it is zero. The intrinsic measure is normalized in each dimension separately.
+
 
 ### 5.30 Delaunay models at all primes
 
@@ -1866,13 +2205,30 @@ For the proof, Express the precise finite-height averaging assertion on the supp
 - `m=1` predicts `q`.
 - For `q=4`, `Z/4` has 2 injections from `Z/4`, whereas `(Z/2)^2` has 0 despite equal cardinality.
 
+<a id="bounded-exponent-splitting"></a>
+
+**Bounded-exponent splitting.** For `n>0`, every abelian group killed by `n` is a possibly infinite direct sum of cyclic groups of positive orders dividing `n`. Supply `bounded_exponent_decomposition` at this generality, without finite generation. Consequently `bounded_exponent_splitting` says: if `δ:A→B` is a homomorphism between groups killed by `n` and `A/mA→B/mB` is injective for every `m|n`, then `δ` admits an additive retraction; in particular its image is a direct summand. Equivalently the pure subgroup of a bounded group splits.
+
+For the proof, Decompose into primary parts and construct cyclic bases by induction on the exponent, choosing bases of the successive `p`-power layers and lifting compatible generators. For the splitting criterion take `C=coker δ`; the modulo-`m` condition gives surjectivity `B[m]→C[m]`. Lift the generator of every cyclic summand of `C` with its exact order to obtain a section. This also splits Kummer sequences whose torsion in the quotient has such order-preserving lifts.
+
+*Needs:* Mathlib direct sums, quotients and elementary primary decomposition; the infinite cyclic decomposition is a target here, not the finitely generated PID classification.
+
+(BKLPR [[120]](#ref-120), Proposition 6.7 and Lemma 6.11, pp. 27–28; the bounded abelian-group structure theorem, proved here in the infinite form used in that argument.)
+
+**Checks.**
+
+- `⊕_ℕ ℤ/4` is included despite not being finitely generated.
+- `2ℤ/4⊂ℤ/4` fails injectivity modulo 2 and does not split.
+- `n=1` forces both groups to be zero; requiring the condition only modulo `n=4` would incorrectly accept `2ℤ/4⊂ℤ/4`.
+
+
 <a id="refinement-kummer-direct-summand"></a>
 
 **Kummer direct summand.** For any field `k`, abelian variety `A/k` and `n>0`, the Kummer image of `A(k)/nA(k)` in `H¹(k,A[n])` is a `ℤ/n`-module direct summand. Interpret cohomology as fppf when `char(k)|n`. This is an algebraic splitting; continuity of a complement is not asserted.
 
-For the proof, For every `m|n`, the `m`-torsion Kummer sequence lifts an order-`m` class of `H¹(k,A)[n]` to an order-`m` class in `H¹(k,A[n])`. Use the classification of bounded-exponent abelian groups as direct sums of cyclic groups, including infinite groups. Lift cyclic generators of `H¹(k,A)[n]` with their exact orders to split the quotient.
+For the proof, For every `m|n`, the `m`-torsion Kummer sequence lifts an order-`m` class of `H¹(k,A)[n]` to an order-`m` class in `H¹(k,A[n])`. Use [bounded-exponent splitting](#bounded-exponent-splitting), including its infinite cyclic decomposition. Lift cyclic generators of `H¹(k,A)[n]` with their exact orders to split the quotient.
 
-*Needs:* SelmerIwasawaCohomology §2.12a, AbelianSchemesAndArithmeticModuli §A3.3, HeightsRationalPointsAndObstructions §1.1 (`kummer`).
+*Needs:* [bounded-exponent splitting](#bounded-exponent-splitting), [finite-flat local topology and duality](#flat-local-duality), SelmerIwasawaCohomology §2.12a, AbelianSchemesAndArithmeticModuli §A3.3, HeightsRationalPointsAndObstructions §1.1 (`kummer`).
 
 ([[120]](#ref-120), Proposition 6.7 and proof, pp. 27–28.)
 
@@ -1880,13 +2236,16 @@ For the proof, For every `m|n`, the `m`-torsion Kummer sequence lifts an order-`
 
 - At `n=1` both the Kummer image and the quotient cohomology are zero; in characteristic `p`, `n=p` must use fppf cohomology.
 
+- For an infinite quotient such as `⊕_ℕ ℤ/p²`, lift each cyclic generator with its exact order; finite generation is not required.
+- The inclusion `2ℤ/4⊂ℤ/4` does not split; Kummer order-preserving lifts, rather than bounded exponent alone, supply the splitting.
+
 <a id="refinement-adelic-kummer-direct-summand"></a>
 
 **Adelic kummer direct summand.** For global `k`, `A/k` abelian and `n>0` the adelic Kummer image is an algebraic direct summand of the restricted-product group `H¹(A_k,A[n])`. Choose complements `C_v` to each local Kummer image, using the good unramified integral reference subgroup outside finitely many places; the global complement is `⊕_v C_v`. Replacing it by `∏_v C_v` generally leaves the restricted product.
 
 For the proof, Apply the local algebraic splitting theorem. Outside the finite bad set the Kummer image is the integral reference subgroup. Decompose each adelic class into a product Kummer component and a finitely supported complement component.
 
-*Needs:* [kummer direct summand](#refinement-kummer-direct-summand), `RestrictedProduct` (Mathlib), SelmerIwasawaCohomology §2.12a.
+*Needs:* [integral flat reference and Kummer annihilators](#flat-integral-kummer), [kummer direct summand](#refinement-kummer-direct-summand), `RestrictedProduct` (Mathlib), SelmerIwasawaCohomology §2.12a.
 
 ([[120]](#ref-120), Corollary 6.8 and proof, p. 28.)
 
@@ -1894,9 +2253,12 @@ For the proof, Apply the local algebraic splitting theorem. Outside the finite b
 
 - A complement tuple with nonzero entries at infinitely many good places is excluded unless those entries belong to the integral reference subgroups.
 
+- For a single place this is the local Kummer splitting.
+- For `n=1`, every local cohomology group and the adelic complement are zero.
+
 <a id="refinement-global-image-splitting-conjecture"></a>
 
-**Global image splitting conjecture.** Fix a global field `k` and `n≥1`, with the source bounded-coefficient-height family of elliptic curves (long Weierstrass equations in characteristic2 or3). The image of `H¹(k,E[n])→H¹(A_k,E[n])` is conjectured to be a `ℤ/n`-module direct summand for a density-one subset. The local Kummer splitting theorem does not prove this global-image assertion.
+**Global image splitting conjecture.** Fix a global field `k` and `n≥1`, with the inclusive coefficient-height elliptic family of [global coefficient-model families](#global-coefficient-model-families) (long Weierstrass equations in characteristic2 or3). The image of `H¹(k,E[n])→H¹(A_k,E[n])` is conjectured to be a `ℤ/n`-module direct summand for a density-one subset. The local Kummer splitting theorem does not prove this global-image assertion.
 
 This is a stated conjectural proposition, not an established arithmetic limit.
 
@@ -1908,7 +2270,7 @@ The required API is:
 
 For the proof, Express the precise finite-height averaging assertion on the supplied arithmetic family. Separate the random-model theorem from the conjectural identification of empirical arithmetic laws.
 
-*Needs:* SelmerIwasawaCohomology §2.12a, [adelic kummer direct summand](#refinement-adelic-kummer-direct-summand).
+*Needs:* [global coefficient-model families](#global-coefficient-model-families), SelmerIwasawaCohomology §2.12a, [adelic kummer direct summand](#refinement-adelic-kummer-direct-summand).
 
 ([[120]](#ref-120), Conjecture 6.9, p. 28.)
 
@@ -1922,15 +2284,19 @@ For the proof, Express the precise finite-height averaging assertion on the supp
 
 **Trivial action global splitting.** Let `k` be global, `E/k` elliptic, `n≥1` prime to `char(k)`, and suppose `G_k` acts trivially on `E[n]`. Then the image of `H¹(k,E[n])` in `H¹(A_k,E[n])` is an algebraic direct summand. This special thin family does not prove the density-one conjecture.
 
-For the proof, The Weil pairing gives `µ_n⊂k` and `E[n]≅µ_n²`. For every `m|n`, Chebotarev gives the local-global injectivity of `k×/k×m` into adelic `m`-th-power classes. The purity condition modulo every divisor `m` and bounded cyclic decomposition split the image.
+For the proof, The Weil pairing gives `µ_n⊂k` and `E[n]≅µ_n²`. For every `m|n`, Chebotarev gives the local-global injectivity of `k×/k×m` into adelic `m`-th-power classes. The purity condition modulo every divisor `m` and [bounded-exponent splitting](#bounded-exponent-splitting) split the image.
 
-*Needs:* AbelianSchemesAndArithmeticModuli:A3, SelmerIwasawaCohomology §2.12a, ArithmeticGaloisDuality §§R02.4.2–R02.4.5, D7.6.
+*Needs:* [bounded-exponent splitting](#bounded-exponent-splitting), [finite-flat local topology and duality](#flat-local-duality), AbelianSchemesAndArithmeticModuli:A3, SelmerIwasawaCohomology §2.12a, ArithmeticGaloisDuality §§R02.4.2–R02.4.5, D7.6.
 
 ([[120]](#ref-120), Lemma 6.10 and Lemma 6.11, p. 28.)
 
 **Checks.**
 
 - At `n=1` the assertion is tautological; at larger `n` retain both trivial torsion action and invertibility of `n` in `k`.
+
+- For a direct sum of constant cyclic torsion modules, the modulo-`m` tests are the corresponding local-global power-class tests.
+- The subgroup `2ℤ/4⊂ℤ/4` passes the modulo-four injectivity test but fails the modulo-two test; checking only the exponent does not suffice.
+
 
 ### 5.32 Abelian three-isogeny twist applications
 
@@ -2007,13 +2373,46 @@ For the proof, On a signed `t=m` stratum, use Cassels’ formula to compare `φ`
 
 - On `t=0` the rank bound is 1; on `|t|=1` it is 4/3. The strata must have the established local densities.
 
+<a id="attainable-local-three-isogeny-ratios"></a>
+
+**Attainable local three-isogeny ratios.** For every 3-isogeny `φ:E→E′` over a finite extension `L/ℚ_p` with `p≠3`, prove that some quadratic twist has `c(φ_s)=1`, including `p=2`. For `L/ℚ₃` of degree `d`, prove that some twist has `1≤c(φ_s)≤3^d`. Supply the Kodaira/twist and differential tables used in these existence statements, rather than using only CM tables. At three prove `1≤α_(φ,L)≤3^d`, `α_(φ,L)α_(φ̂,L)=3^d`, and `#H¹(L,E[φ])=3^d#E(L)[φ]#E′(L)[φ̂]`.
+
+For the proof, Away from three use the split-multiplicative and IV/IV* exceptions of Proposition 10.4 with the quadratic-twist table, including the dyadic case. At three the formal differential and its dual bound `α`; choose `s` outside the at most two kernel squareclasses for `φ` and `φ̂`. Both rational kernels then vanish and local Kummer duality makes the two integer local ratios multiply to `3^d`, giving the attainable interval. To combine these choices globally apply weak approximation at the finitely many bad, dyadic, three-adic and real places; outside this set all ratios are one. The inhabited rectangle has positive denominator by ArithmeticStatisticsPartI.
+
+*Needs:* [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers), [tamagawa ratio under potentially good reduction](#tamagawa-ratio-under-potentially-good-reduction), EllipticCurves Layer 4 (Tate's algorithm, formal differentials), ArithmeticGaloisDuality (local Euler characteristic and Kummer duality), GlobalNumberFields (weak approximation), [ArithmeticStatisticsPartI: positive squareclass denominator](../ArithmeticStatisticsPartI/README.md#twist-denominator-frontier).
+
+(BKLOS [[127]](#ref-127), Propositions 10.4, 10.6–10.7, Theorem 10.5, Lemmas 10.8–10.9, Corollaries 10.10–10.11 and signature proof, pp. 15–18.)
+
+**Checks.**
+
+- At a good place away from three, the untwisted ratio is one; the theorem also includes bad dyadic places where the odd-prime twist table cannot be used.
+- At three the chosen squareclass avoids both kernel characters, so both local cokernel sizes are integers with product `3^d`; a hypothetical ratio below one is excluded for that choice.
+- Over a totally real degree-`d` field, the real-place ratios can independently be 1 or 1/3. Weak approximation combines their choices with a finite-place exponent between 0 and `d` to inhabit `T₀`.
+
+<a id="universal-twist-local-table"></a>
+
+**Universal-twist local table.** For `k≥1`, set `t_k=4^k3⁸` and `E_k:y²=x³+(t_k+27)(x+4)²`, with the 3-isogeny having kernel generated by `(0,2√(t_k+27))`. Over every number field `F`, prove the local table for every squareclass `s`: `c_v(φ_s)=1` away from `6∞`; at `v|2` it lies in `{1,3}`; at `v|3` it lies in `{3^[F_v:ℚ₃],3^([F_v:ℚ₃]+1)}`; at a real place it lies in `{1,1/3}` and at a complex place equals `1/3`. In the exceptional twist with rational dual kernel, prove split multiplicative reduction at every place over 2 and 3, giving the extra factors required for `c(φ_s)≥3^(r₂+2)`.
+
+For the proof, Compute the two `j`-invariants and their valuations, apply the local Tamagawa and differential tables, and handle every twist, not a single attainable squareclass. For the exceptional twist `−c₆` has squareclass `1−4^(2k)3¹³−4^(k+1)3⁷`; it is a square in both `ℚ₂` and `ℚ₃` and remains so after extension.
+
+*Needs:* [attainable local three-isogeny ratios](#attainable-local-three-isogeny-ratios) (local tables), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers), EllipticCurves Layer 4.
+
+(BKLOS [[127]](#ref-127), Example 13.3 and Proposition 13.4, pp. 22–23.)
+
+**Checks.**
+
+- At `v|2`, `v(j(E′))=3v(j(E))`; the split multiplicative ratio is 3, not 1/3.
+- At `v|3`, `v(j(E))=−2v(3)` and `v(j(E′))=−6v(3)`; the differential factor gives the stated degree-dependent lower bound.
+- For `k=1`, the exceptional expression is 1 modulo 8 and modulo 3, so it is a square locally. At `k=0` it is 2 modulo 8, and that argument fails.
+
+
 <a id="refinement-signature-positive-twists"></a>
 
 **Signature positive twists.** For a number field `F` and an elliptic curve `E/F` with a3-isogeny, assume `C` for that isogeny and its dual on the local ratio strata used below: if `F` is totally real, positive lower proportions of twists have rank0 and3-Selmer rank1; if `F` has at most one complex place and at least one real place, a positive lower proportion has3-Selmer rank1; if `F` is imaginary quadratic, a positive lower proportion has Mordell–Weil rank0 or1 in union. These statements use the squareclass height; the last does not give both proportions separately.
 
-For the proof, Use archimedean Selmer ratios and the finite-place attainable ranges to prove positive-density support at `t=0` or `|t|=1` under the indicated signatures. Apply the `T₀` and `|T₁|` proportion inequalities. For the imaginary-quadratic case retain the source argument giving the union of low algebraic ranks, with its parity and descent inputs.
+For the proof, Use [attainable local three-isogeny ratios](#attainable-local-three-isogeny-ratios), archimedean Selmer ratios and weak approximation at the finite controlling set of places to prove positive-density support at `t=0` or `|t|=1` under the indicated signatures. Apply the `T₀` and `|T₁|` proportion inequalities. For the imaginary-quadratic case retain the source argument giving the union of low algebraic ranks, with its parity and descent inputs.
 
-*Needs:* [elliptic explicit twist rank](#refinement-elliptic-explicit-twist-rank), [positive proportions of three selmer ranks in local subfamilies](#positive-proportions-of-three-selmer-ranks-in-local-subfamilies), [three isogeny selmer parity](#three-isogeny-selmer-parity), [ArithmeticStatisticsPartIII: number field twist orbit count](../ArithmeticStatisticsPartIII/README.md#refinement-number-field-twist-orbit-count), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers).
+*Needs:* [attainable local three-isogeny ratios](#attainable-local-three-isogeny-ratios), [elliptic explicit twist rank](#refinement-elliptic-explicit-twist-rank), [positive proportions of three selmer ranks in local subfamilies](#positive-proportions-of-three-selmer-ranks-in-local-subfamilies), [three isogeny selmer parity](#three-isogeny-selmer-parity), [ArithmeticStatisticsPartIII: number field twist orbit count](../ArithmeticStatisticsPartIII/README.md#refinement-number-field-twist-orbit-count), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers).
 
 ([[127]](#ref-127), Theorem 2.6(i)–(iii), p. 4; Section 10 local ratios, pp. 14–17; Section 11 signature proof, p. 18.)
 
@@ -2021,13 +2420,16 @@ For the proof, Use archimedean Selmer ratios and the finite-place attainable ran
 
 - The imaginary-quadratic conclusion is positive density of the union of algebraic ranks zero and one; neither individual density is asserted.
 
+- For a totally real field, independently chosen real squareclasses can cancel the attainable finite-place exponent to inhabit `T₀`; local denominator positivity then gives positive density.
+- At most one complex place with at least one real place permits an attained exponent of absolute value one. The construction combines local choices by weak approximation.
+
 <a id="refinement-complex-place-obstruction"></a>
 
 **Complex place obstruction.** For every number field `F` with `r₂` complex places, there exists an elliptic `E/F` with a3-isogeny such that `dim_𝔽₃ Sel₃(E_s)≥r₂` for every quadratic twist `s`. Thus signature hypotheses in the positive-proportion theorem cannot simply be removed. This is an existence construction, not a typical-curve law.
 
 For the proof, Use `E_k:y²=x³+(4^k·3^8+27)(x+4)²` with an integer `k≥1`. The local ratios `at2,3` and infinity give `c(φ_s)≥3^r₂` for every `s`. The local/global Selmer-ratio formula and exact sequence force the Selmer dimension lower bound. In the exceptional dual-torsion twist, the remaining factor `1−4^(2k)3^13−4^(k+1)3^7` is a square in `ℚ₂` and `ℚ₃`: it is 1 modulo 8 and 1 modulo 3. This supplies the split multiplicative cases in Proposition13.4 after any base extension.
 
-*Needs:* [selmer ratio of an isogeny](#selmer-ratio-of-an-isogeny), [cassels isogeny selmer ratio formula](#cassels-isogeny-selmer-ratio-formula), [isogeny factorisation selmer exact sequence](#isogeny-factorisation-selmer-exact-sequence), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers).
+*Needs:* [universal-twist local table](#universal-twist-local-table), [selmer ratio of an isogeny](#selmer-ratio-of-an-isogeny), [cassels isogeny selmer ratio formula](#cassels-isogeny-selmer-ratio-formula), [isogeny factorisation selmer exact sequence](#isogeny-factorisation-selmer-exact-sequence), [local selmer ratio via tamagawa numbers](#local-selmer-ratio-via-tamagawa-numbers).
 
 ([[127]](#ref-127), Final assertion of Theorem 2.6, p. 4; Example 13.3 and Proposition 13.4, pp. 22–23.)
 
@@ -2036,13 +2438,16 @@ For the proof, Use `E_k:y²=x³+(4^k·3^8+27)(x+4)²` with an integer `k≥1`. T
 - The example must work for every squareclass after one finite choice of `k` satisfying the local conditions; it is not an average-only lower bound.
 - `k=1` gives a remaining factor congruent to 1 modulo 8 and modulo 3. At `k=0` it is 2 modulo 8, so the `ℚ₂` square argument requires the stated positive lower bound on `k`.
 
+- In the exceptional rational-dual-kernel twist, every place above 2 and 3 contributes the extra multiplicative factor, giving the required two additional powers of three.
+
+
 ### Supporting probability and arithmetic comparisons
 
 <a id="support-quadratic-probability"></a>
 
-For a second-countable weakly metabolic locally compact quadratic group `V` killed by a fixed prime `p`, prove that the compact-open quadratic-isotropic reductions form a countable cofinal inverse system, that maximal-isotropic reductions compose and that the inverse-limit topology is the specified Borel structure. Under this exponent-`p` hypothesis, use compatible finite uniform laws to obtain a unique Borel probability; prove continuous isometry invariance, almost-sure discreteness and finiteness of intersection with the fixed compact-open maximal isotropic. Infinite `𝔽_p`-dimension gives the limiting Poonen–Rains law, while finite dimension gives its finite intersection law. Source: Poonen–Rains Theorem 2.19, pp. 9–11. The countable projective-measure extension is imported from Mathlib; the quadratic finite reductions and their compatibility are proved here.
+For a second-countable weakly metabolic locally compact quadratic group `V` with `pV=0` and `p·q(v)=0` for every `v`, for a fixed prime `p`, prove that the compact-open quadratic-isotropic reductions form a countable cofinal inverse system, that maximal-isotropic reductions compose and that the inverse-limit topology is the specified Borel structure. Under these group-exponent and quadratic-value hypotheses, use compatible finite uniform laws to obtain a unique Borel probability; prove continuous isometry invariance, almost-sure discreteness and finiteness of intersection with the fixed compact-open maximal isotropic. Infinite `𝔽_p`-dimension gives the limiting Poonen–Rains law, while finite dimension gives its finite intersection law. Source: Poonen–Rains Proposition 2.6, Remark 2.8 and Theorem 2.19, pp. 6–11. The countable projective-measure extension is imported from Mathlib; the quadratic finite reductions and their compatibility are proved here.
 
-For the arithmetic intersection prove the finite-flat theta obstruction and its local invariant normalization, with polar pairing the *negative* Weil-cup product and no division by two. Use global duality to identify the global image and local Kummer image as maximal isotropics and obtain `Sel_λ/Sha¹(k,A[λ])≃Z∩W`. Prove the finite-module Sha1 vanishing criteria separately from any assertion on `Sha(A)`. Characteristic dividing the isogeny degree uses fppf cohomology throughout. Source: Poonen–Rains Proposition 3.3, Corollary 4.6 and Theorem 4.13, pp. 13–21; AbelianSchemesAndArithmeticModuli §A3.6 and ArithmeticGaloisDuality §D7.6 supply the theta and duality machinery.
+For the arithmetic intersection prove the finite-flat theta obstruction and its local invariant normalization, with polar pairing the *negative* Weil-cup product and no division by two. Use global duality to identify the global image and local Kummer image as maximal isotropics and obtain `Sel_λ/Sha¹(k,A[λ])≃Z∩W`. Prove the finite-module Sha1 vanishing criteria separately from any assertion on `Sha(A)`. Characteristic dividing the isogeny degree uses fppf cohomology throughout. Source: Poonen–Rains Proposition 3.3, Corollary 4.6 and Theorem 4.13, pp. 13–21; AbelianSchemesAndArithmeticModuli §A3.6 supplies the theta extension. The finite-flat local, integral and global targets supply the positive-characteristic duality and Kummer adapters; ArithmeticGaloisDuality §D7.6 supplies its characteristic-zero specialization.
 
 For integral quadratic models construct the smooth projective split orthogonal Grassmannian over `ℤ` and prove its finite reduction counts and component parity, including `p=2`. Oesterlé–Serre measure counts the liftable reduction image. In the smooth proper nonempty case the mass is `#X(𝔽_p)p^-d`, and each reduction fibre has `p^d` lifts; the probability mass of a cylinder is its finite relative cardinality. Fixed-rank intersections use the intrinsic measure of their Schubert stratum, not conditioning on an ambient zero-probability rank-`r` event. Source: BKLPoonen–Rains Proposition 2.1, Corollary 2.2, Propositions 4.4–4.9 and §5.1, pp. 5–6 and 12–15.
 
@@ -2050,7 +2455,51 @@ For the all-prime symplectic model prove the primewise error bound and apply Bor
 
 <a id="support-cm"></a>
 
-Prove `cm_local_unit_character`: for a number field `F` containing `K` and `E/F` with `End_F(E)=O_K`, the CM Hecke character restricted to `O_v×` takes values in `O_K×` and recovers the inertia action on every prime-to-`v` Tate module under local reciprocity. Its inverse twist has good reduction. Use Rubin Theorem 5.15 and Corollary 5.22, pp. 19–22.
+<a id="cm-reciprocity"></a>
+
+**CM reciprocity.** Construct `cm_reciprocity` for an imaginary quadratic field `K⊂ℂ`, a fractional `O_K`-ideal `a`, and a maximal-order CM elliptic curve with a chosen analytic uniformization `ξ:ℂ/a≃E(ℂ)` compatible with this embedding on differentials. For `σ∈Aut(ℂ/K)` and an idele `x∈A_K×` whose Artin image is `σ|K^ab`, construct the unique uniformization `ξ′:ℂ/x⁻¹a≃E^σ(ℂ)` with `σξ(t)=ξ′(x⁻¹t)` on `K/a`. Fix Artin reciprocity so a uniformizer acts by arithmetic Frobenius on unramified torsion; the inverse idele acts on the ideal lattice. Prove compatibility with products of ideles, principal ideles and the CM ideal-isogeny action. This main reciprocity theorem is a target here.
+
+For the proof, Develop the ideal action on CM lattices and algebraic isogenies, identify their conjugates and their torsion action through reciprocity, and prove the canonical comparison and composition law. Use the existing complex uniformization and class-field reciprocity carriers; the CM comparison connecting them is included in this target.
+
+*Needs:* EllipticCurves Layers 1–3 (isogenies, Tate modules and complex uniformization), GlobalNumberFields (fractional ideals and ideles), ClassFieldTheory (Artin reciprocity), [CM ideal-isogeny comparison](#cm-ideal-isogeny-comparison).
+
+(Rubin [[55]](#ref-55), Theorem 5.11 and its diagram, pp. 17–18; §5.1, pp. 15–16.)
+
+**Checks.**
+
+- For the trivial idele and identity automorphism, the comparison is the original uniformization.
+- A principal idele changes the lattice by the corresponding scalar and acts trivially through the global Artin map; its uniformization comparison cancels that scalar.
+- On a prime-to-conductor ideal class, the conjugate CM lattice is in the inverse ideal class. Replacing `x⁻¹a` by `xa` reverses the stated Artin convention.
+
+<a id="cm-hecke-character"></a>
+
+**CM Hecke character.** Construct `cm_hecke_character` for a number field `F⊂ℂ` containing `K` and an elliptic curve `E/F` with `End_F(E)=O_K`, using the chosen differential embedding `ι:K↪ℂ`. It supplies a continuous Hecke character `ψ_E:A_F×/F×→ℂ×`. For `x` and `y=N_(F/K)x`, prove the lattice identity `ψ_E(x)O_K=ι(y_∞)⁻¹(yO_K)`. For finite ideles `x` and every prime ideal `𝔭` of `K`, `ψ_E(x)y_𝔭⁻¹∈O_(K,𝔭)×` and Artin acts on `E[𝔭^∞]` by this element. On ideals `b` prime to the conductor, `ψ_E(b)O_K=N_(F/K)b`. Use the same arithmetic-Frobenius Artin convention as CM reciprocity.
+
+For the proof, Apply CM reciprocity to compare the uniformization of `E` with its conjugate by the Artin image of `x`. The comparison scalar `ψ_fin(x)∈K×` has ideal `yO_K`; put `ψ_E(x)=ι(y_∞)⁻¹ψ_fin(x)`. Prove multiplication, principal-idele triviality, continuity and the finite-idelic torsion identity.
+
+*Needs:* [CM reciprocity](#cm-reciprocity), GlobalNumberFields (norms and Hecke characters), ClassFieldTheory (norm/Artin compatibility), EllipticCurves (CM Tate-module action).
+
+(Rubin [[55]](#ref-55), Theorem 5.15(i)–(ii) and Corollary 5.16, pp. 19–20.)
+
+**Checks.**
+
+- A principal idele has `ψ_E=1`; omitting the infinite norm factor generally violates this identity.
+- For a finite local unit idele, the ideal formula forces `ψ_E(x)∈O_K×`.
+- At a good prime, the ideal value reduces to the Frobenius endomorphism, fixing the Artin normalization and its inverse in the torsion formula.
+
+<a id="cm-local-unit-character"></a>
+
+**CM local unit character.** Prove `cm_local_unit_character`: for a number field `F` containing `K` and `E/F` with `End_F(E)=O_K`, the CM Hecke character restricted to `O_v×` takes values in `O_K×` and recovers the inertia action on every prime-to-`v` Tate module under local reciprocity. For each fixed finite place extend this finite unit character to an `O_K×`-valued global character using Kummer theory and weak approximation; its inverse twist has trivial prime-to-residue-characteristic inertia and hence good reduction by Néron–Ogg–Shafarevich. At `j=1728` and `j=0` use fourth and sixth twists respectively. Source: Rubin Theorem 5.15 and Corollary 5.22, pp. 19–22.
+
+*Needs:* [CM Hecke character](#cm-hecke-character), ClassFieldTheory (local reciprocity and Kummer characters), GlobalNumberFields (weak approximation), EllipticCurves Layer 4 (Néron–Ogg–Shafarevich).
+
+**Checks.**
+
+- If `E` already has good reduction, the local unit character is trivial.
+- Restriction recovers inertia on every Tate module with prime different from the residue characteristic; the residue-characteristic Tate module is not included in this implication.
+- For `O_K×` of order four or six the inverse character can require a fourth or sixth twist; a quadratic twist alone is not asserted.
+
+<a id="cm-ideal-isogeny-comparison"></a>
 
 Prove `cm_ideal_isogeny_comparison`: for such `E` and every nonzero ideal `a` of `O_K`, `E[a]` is base-stable, has order `N(a)`, and its quotient retains maximal-order CM; every base-defined CM order admits a base-defined isogeny to maximal order. Keep the ideal-class action and prime-ideal representatives in the inverse isogeny comparison (Rubin Proposition 5.3, Proposition 5.4 and §5.1, pp. 15–16). Normalize the differential action by `a*(ω)=ι(a)ω`, so the formal linear coefficient is `ι(a)` (Rubin Proposition 3.14, p. 11). These are mathematical comparison targets on the elliptic isogeny API.
 
@@ -2065,6 +2514,8 @@ In a split hyperbolic plane there are two quadratic-isotropic lines, even at `p=
 The symmetric two-by-two matrices over `𝔽₃` have rank counts `1,8,18`, totaling 27; bordering a fixed rank-`r` matrix has fibres `3^r`, `2·3^r`, and `3^(n+1)-3^(r+1)` for rank jumps zero, one and two. For `p`-adic alternating matrices the parity of nullity follows the size, so the two size-parity subsequences must be mixed as specified to get the Poonen–Rains law.
 
 For a prime law with half even and half odd mass, the `k`-prime common-parity weight is `2^(k-1)∏w_i` for `k≥1`. At `k=0` the carrier is a singleton of mass one; substituting `k=0` into the scalar factor would incorrectly give one half. A symplectic rank-zero all-prime model is infinite almost surely, whereas restricting to primes with convergent `Σ1/p` yields a finite group almost surely.
+
+The finite Lean controls use `binaryHyperbolic=QuadraticMap.proj 0 1`, `binaryAnisotropic=QuadraticMap.proj 0 0+QuadraticMap.proj 0 1+QuadraticMap.proj 1 1`, and `quaternaryHyperbolic=QuadraticMap.proj 0 1+QuadraticMap.proj 2 3` on the indicated `ZMod 2` coordinate spaces. They test the diagonal's polar self-orthogonality and nonzero quadratic value, the absence of nonzero isotropic vectors for the anisotropic binary form, the six quadratic-isotropic planes in dimension four, the alternating matrix count 28 in size four, and half-probability nullities zero and two in size two. A `QuadraticMap ℤ` witness with values `(x²−y²)/4 mod ℤ` records the additional dyadic value-group boundary.
 
 The locally compact quadratic data carry an actual continuous quadratic map and its polar topological self-duality. The Lean controls test surjectivity of that self-duality, injectivity, and the fact that zero quadratic form forces a trivial carrier. For the parity-coupled law the empty prime set has weight one, one prime has its original weight, two equal even dimensions have weight `2 w₀(0)w₁(0)`, and dimensions zero and one have weight zero. The normalization theorem assumes summability and exactly half-mass in each parity.
 
