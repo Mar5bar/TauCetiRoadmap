@@ -10,13 +10,21 @@ an elliptic symbol into topological data.
 
 ## Scope, carriers and suppliers
 
-Ordinary K⁰ and KO⁰ are the group completions of finite-rank complex and real
-bundles over compact Hausdorff spaces. Ranks are locally constant functions;
-spaces need not be connected. Compactly supported theory is defined for locally
-compact Hausdorff spaces. Relative compact pairs have a closed subspace;
-cofibration/CW hypotheses are displayed when skeletal or obstruction arguments
-need them. T1.6 separately classifies numerable bundles over paracompact Hausdorff bases;
-that classification is distinct from compact-support theory.
+Construct ordinary bundle K⁰ and KO⁰ by group completion of the finite-rank
+complex and real bundle categories over paracompact Hausdorff bases, including
+noncompact manifolds. Ranks are locally constant functions with finite values at
+each point; they need not be bounded across components. Use numerable bundles,
+which on these bases include every locally trivial finite-rank bundle. T1 and
+T2.0 construct this basic functor and its comparison with the compact-base theory.
+Outside T1's explicitly paracompact bundle constructions and T2.0's basic functor,
+an ordinary statement with no broader base hypothesis continues to mean compact
+Hausdorff X. The finite-cover/complement, compact-pair exactness, Bott, Thom and
+equivariant conclusions retain their stated hypotheses; the basic extension
+asserts no new global finite trivial complement or classifying-space representability.
+Compactly supported theory is separately defined for locally compact Hausdorff
+spaces. Relative compact pairs have a closed subspace; cofibration/CW hypotheses
+are displayed when skeletal or obstruction arguments need them. T1.6's numerable
+bundle classification is distinct from compact-support theory.
 A class on a noncompact space is never silently called compactly supported.
 
 Use `FiberBundle`, `VectorBundle`, `VectorBundleCore`, `Bundle.TotalSpace`, their
@@ -151,12 +159,26 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
 
 ## T1. Continuous finite-rank bundles as a category
 
-1. Construct the finite-rank bundle category, morphism composition and fibrewise
-   exactness; fixed-rank and clopen-stratum comparisons. Prove essential smallness
-   on each compact base by finite trivializing covers and finite-matrix cocycles,
-   and give an actual small model whose object-facing API is independent of
-   representatives and the universe-u/ULift comparisons specified above. Cover
-   the zero-rank bundle and disconnected/empty bases.
+1. Construct the finite-rank numerable bundle category on each paracompact
+   Hausdorff base, with continuous total-space maps linear on fibres, morphism
+   composition and fibrewise exactness; give fixed-rank and clopen-stratum
+   comparisons. For X:Type u use the actual point-indexed `FiniteRankAtlas X`
+   small model. On each rank stratum X_n choose a trivializing neighbourhood
+   U_x and a frame at every x∈X_n, with model Fin n→𝕜, and take the core's chart
+   index type to be X_n itself. Record U_x, indexAt(x)=x and the continuous
+   finite-matrix transition maps, with their inverse and cocycle laws. Frames
+   chosen in the original fibre universe are used only to construct these maps;
+   they are not chart labels or fields of the small object. All stored data live
+   in Type u, independently of the original fibre universe. Reconstruct the
+   bundle by `VectorBundleCore` and give its actual isomorphism to the original
+   bundle. Encode morphisms by compatible finite-matrix functions in these same
+   charts and prove the resulting functor fully faithful and essentially
+   surjective. These constructions prove essential smallness and the stated
+   universe-u/ULift comparisons. Covers may be infinite; use a numerable
+   refinement when needed, with no finite-cover or globally bounded-rank
+   assumption. On compact bases recover the finite-cover/finite-matrix model.
+   Cover zero rank and disconnected/empty bases. This basic category precedes
+   T2.0; T1.6's later classifying-space results are not premises for it.
 2. Build pullback, direct sum, tensor, dual, conjugate, Hom, exterior powers,
    determinant, realification and complexification, including
    `Λ^j(L⊗E)≃L^(⊗j)⊗Λ^j(E)` for a line bundle L, with identity/composition,
@@ -172,8 +194,28 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    of complements and homotopy of metric choices. For paracompact bases use
    locally finite partitions; assert a finite trivial complement only with an
    additional finite-generation/finite-cover hypothesis.
-4. Prove bundle homotopy invariance over X×I for compact Hausdorff X.
-   For every closed Y⊆X, extend a specified cylinder trivialization over Y×I
+4. Prove numerable bundle homotopy invariance over X×I for paracompact
+   Hausdorff X by the following anchored cylinder-transport construction. On
+   X×I×I write E_s,E_t for the two pullbacks of the cylinder bundle. The opens
+   U×J×J on which E is trivial over U×J cover the diagonal s=t. Choose a
+   locally finite partition of unity on the whole paracompact product,
+   subordinate to these opens together with the complement of the diagonal.
+   A chart supplies the continuous fibre map T_i(x;s,t):E_s→E_t with
+   T_i(x;s,s)=id. Extend the partition-weighted maps by zero and sum in the
+   actual Hom bundle. Divide by the sum of the chart weights on its positive
+   locus. This gives B(x;s,t) with B(x;s,s)=id; openness of invertibility yields
+   an open neighbourhood of the entire diagonal where B is invertible. No
+   arbitrary average of invertible matrices is asserted invertible. By compactness
+   only of I and a numerable refinement on X construct a positive continuous
+   δ:X→(0,1] so B is invertible whenever |t−s|≤δ(x)/2. Set
+   t_j(x,t)=min(t,jδ(x)/2) and compose B(x;t_j,t_(j+1)):E_(t_j)→E_(t_(j+1)) from 0 to t. Prove that this product is locally finite, since δ has a positive
+   lower bound near each x and all later factors are id. It defines a
+   continuous bundle isomorphism pr_X*E_0≃E, equal to id at time zero.
+   Prove its inverse, equality of endpoint bundle classes independently of the
+   choices, and pullback naturality at the class level. This construction precedes
+   T1.6 and assumes neither a finite global complement nor representability.
+   For compact Hausdorff X retain the relative extension:
+   for every closed Y⊆X, extend a specified cylinder trivialization over Y×I
    that is the identity at time0 to one over X×I, retaining its exact agreement
    with the specified data. Prove the compact CW case as a corollary. Establish
    extension of bundle maps from closed subsets to neighbourhoods and extension
@@ -402,8 +444,59 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
 
 ## T2. K-rings, universal properties and exterior operations
 
-1. Group-complete the direct-sum monoid. Prove universality, induction,
-   functoriality and equality `[E]=[F]` iff `∃G,E⊕G≃F⊕G`. For compact X replace
+**T2.0. Ordinary bundle Grothendieck functors.** On T1's genuine essentially
+small real/complex numerable bundle category over each paracompact Hausdorff X,
+use the same native `TauCeti.SplitK0.{u}` carrier. Construct its comparison with
+isomorphism classes under Whitney sum and with the pair relation
+`(E,F)~(E′,F′)` iff `∃G,E⊕F′⊕G≃E′⊕F⊕G`. Prove the class-map relation,
+induction, additive universal property and equality criterion with a common
+bundle summand; no triviality of that summand is asserted. Tensor product induces
+the commutative unital ring, with the trivial line as unit; prove all laws using
+T1's actual associativity, symmetry and distributivity isomorphisms. The empty
+base gives the zero ring.
+
+Every continuous map f:X→Y between these bases induces the bundle pullback
+functor and a unital ring map f*:K⁰(Y)→K⁰(X), and likewise for KO⁰. Prove identity,
+composition, isomorphism invariance and equality of the maps induced by a
+homotopy, using T1.4's numerable cylinder theorem. These ordinary pullbacks do
+not require f proper. Extend dual and conjugate as ring involutions, realification
+as an additive map, and complexification as a unital ring map, with `r c=2` and
+`c r=1+conjugation`. For each j construct the actual exterior-power operation
+and its sum law. The constant-one formal series λ_t extends to virtual classes
+by formal inversion, yielding its coefficient operations; if ranks are unbounded,
+λ_t(E) need not be a polynomial on X. No substitution at t=−1 or finite alternating
+sum is inferred without a global rank bound.
+
+Export the rank ring map to `LocallyConstant X ℤ`, with no bounded-image
+restriction, and its splitting by differences of trivial bundles of the locally
+constant positive and negative ranks. A chosen basepoint gives the evaluation
+augmentation and splits off one copy of ℤ, not every component's rank. For a
+set-indexed disjoint union of such bases prove `K⁰(∐_i X_i)≃∏_i K⁰(X_i)` and
+the KO analogue as rings: restrict and paste actual bundles, choose virtual-pair
+representatives componentwise, and paste their common stabilizing summands for
+injectivity. Arbitrary, not finite-support, products occur because ranks may be
+unbounded between components. Finite disjoint unions are its finite-product case.
+
+For compact Hausdorff X compare this construction naturally with the same compact
+bundle category and K/KO carriers used below. Keep K_c on locally compact
+Hausdorff spaces separate, with its proper pullback/open extension laws; where X
+is also paracompact construct the forget-support map by restriction of the actual
+compactification/triple representatives, proving the compact-X identification.
+As a noncompact regression compute ordinary K⁰(ℝ)=ℤ by bundle homotopy invariance
+and K_c⁰(ℝ)=Kred⁰(S¹)=0 by the circle calculation. Neither equality of ordinary and compactly supported K-theory,
+a global finite trivial complement, nor `[X,ℤ×BU]`/`[X,ℤ×BO]` representability
+on arbitrary paracompact bases follows from this basic functor API.
+
+For the numbered bundle-theoretic constructions T2.1 onward, retain compact
+Hausdorff X unless a different relative/support scope is explicitly displayed.
+Their pure algebraic monoid and formal power-series statements retain their
+stated unrestricted algebraic hypotheses. In particular T2.3's polynomial
+λ_(−1) evaluation and special λ identities, and T2.5's flag/Adams comparisons,
+concern those compact-base bundle classes; they are not additional arbitrary-
+paracompact conclusions of T2.0.
+
+1. For this same group completion prove universality, induction, functoriality
+   and equality `[E]=[F]` iff `∃G,E⊕G≃F⊕G`. For compact X replace
    G by a common trivial stabilization; unequal trivial ranks also change the
    absolute rank. Prove equivalence of the pair model
    `(E,F)~(E',F')` iff `∃G,E⊕F'⊕G≃E'⊕F⊕G` with the categorical presentation.
