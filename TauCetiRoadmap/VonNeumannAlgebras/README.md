@@ -45,7 +45,7 @@ in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`. Modular automorphisms an
 characterization belong here. V0 supplies abstract C*-algebra positive functionals and GNS; V4 adds their normal
 von Neumann theory.
 
-Consume [BanachSpaceTheory B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
+Consume [BanachSpaceTheory B1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/15588952fdc156cbddda2c00f896851c90d93670/TauCetiRoadmap/BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
 for annihilator and quotient theory. For V4.Core's weak-star continuous-dual
 input, consume native `LinearMap.dualEmbedding_surjective` and
 `LinearMap.rightDualEquiv` at `topDualPairing ℂ B`. Obtain right separation
@@ -188,7 +188,7 @@ state, with n=1 and the zero algebra handled separately.
 
 Use `ContinuousLinearMapWOT` and the existing SOT `PointwiseConvergenceCLM`
 (`H →Lₚₜ[ℂ] H`), and develop compatible strong-star,
-ultraweak, and ultrastrong wrappers. Consume BanachSpaceTheory B1's generic
+ultraweak, and ultrastrong wrappers. Consume [BanachSpaceTheory B1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/15588952fdc156cbddda2c00f896851c90d93670/TauCetiRoadmap/BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)'s generic
 SOT/WOT evaluation, sequence boundedness and norm-bounded product results;
 consume B1's Hilbert matrix-coefficient comparison and prove the extended topologies'
 neighborhood and net criteria, Hausdorff
