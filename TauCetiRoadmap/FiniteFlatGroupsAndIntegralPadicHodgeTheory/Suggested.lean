@@ -534,7 +534,8 @@ example (x : WittVector p (ZMod p)) : WittVector.frobenius x = x :=
   WittVector.frobenius_zmodp p x
 
 /-- If `T` is `σ`-conjugate to itself over `Frac W(k)`, its characteristic polynomial has
-coefficients in `ℤ_p`. -/
+coefficients in `ℤ_p`. For a Dieudonné module over `F_{p^a}`, `F` is `σ`-semilinear;
+`σ^a = 1` makes the iterate `F^a` Witt-linear. -/
 theorem exists_padic_charpoly [PerfectRing k p] {n : Type*} [Fintype n] [DecidableEq n]
     (T : Matrix n n (WittVector p k)) (B : Matrix n n (FractionRing (WittVector p k)))
     (hB : IsUnit B.det)
@@ -1156,7 +1157,12 @@ further instances of the statements above.
   over any scheme `S`, all killed by `p^n`, any two terms being `BT_n` implies the third is,
   with additive heights. The product and constant examples, the supersingular sequence with
   two `α_p` outer terms, and the `μ_{p^{2n}}` sequence test recognition and its hypotheses;
-  `btNRecognition` on that same shared carrier; `FormalLieGroup`, `BarsottiTate.equivFormalLieGroup`, `BarsottiTate.dim`,
+  `btNRecognition` on that same shared carrier. Sections R07.1.11 and R07.6.6 construct
+  the common coLie complex `ℓ_G = Le_G* L_(G/S)` and the Lie complex
+  `ℓ̌_G = RHom(ℓ_G, O_S)` for flat, finitely presented commutative groups, using
+  DerivedModuleAlgebra §0.4. A map H → G induces ℓ_G → ℓ_H and dually ℓ̌_H → ℓ̌_G.
+  For μ_p over R the coLie complex [R →^p R] has degrees -1,0 and its dual has degrees 0,1;
+  `FormalLieGroup`, `BarsottiTate.equivFormalLieGroup`, `BarsottiTate.dim`,
   `BarsottiTate.dim_add_dim_cartierDual`, `BarsottiTate.discr_level`,
   `invariantDifferentialsAndAbsoluteDifferent`; `BarsottiTate.completedPoints`;
   `BarsottiTate.hodgeTate`;
@@ -1174,7 +1180,11 @@ further instances of the statements above.
   `exists_of_tateModule_summand_canonicalLift`: the split canonical lift over W(F̄_p),
   with its étale Tate-module summand, has constant closures ℤ/p^vℤ, shift zero and a closed
   factor inclusion; `BarsottiTate.extend_genericFibre`;
-  `isSimple_killed_by_prime`; `BarsottiTate.quotientFiniteFlatSubgroup`;
+  `isSimple_killed_by_prime`; `BarsottiTate.quotientFiniteFlatSubgroup` over a complete
+  mixed-characteristic DVR, for a finite locally free closed subgroup killed by p^N:
+  the quotient has the same height. General-base finite-subgroup quotients belong to
+  HodgeTateAndCanonicalSubgroups; quotients by sub-p-divisible groups in families,
+  with exactness, base change and height additivity, belong to IgusaVarietiesAndTorsionConcentration;
   `Prolongation.sup`, `Prolongation.inf`, with the check
   `Prolongation.two_models_mu_p` over `ℤ_p[ζ_p]`; `BarsottiTate.exists_extension_of_levels`;
   `tameInertiaIso`, `tameInertiaIso_eq_inertiaTameCharacter`;
@@ -1187,7 +1197,10 @@ further instances of the statements above.
   `exists_fVector_composition`; the checks `prolongation_unique_Zp`, `prolongation_unique_boundary`
   and `prolongation_unique_ext` of Raynaud's theorem; `prolongation_boundary`, with its checks
   `prolongation_boundary_examples`, `prolongation_boundary_needs_simple` and
-  `prolongation_boundary_dyadic`; `tameInertia_exponents_le`; `raynaudDeterminantTameDifferent`;
+  `prolongation_boundary_dyadic`; `tameInertia_exponents_le`, with χ_(j+1) = χ_j^p and
+  ψ_j = χ_(j+1)⁻¹ ∘ θ_(q−1), where χ_(j+1)⁻¹ is the inverse identification of μ_(q−1)
+  with F^×. At level three, valuations (1,0,0) give χ₀ ∘ ψ = θ^(p²);
+  `raynaudDeterminantTameDifferent`;
   `oortTate_classification`, `oortTate_numberRing`; `katzMazur`; `orthogonalSchematicClosure`;
   `gluingEquiv`, `mayerVietoris_exact`; `raynaudAbelianEmbedding`; `pCompleteFlatDescent`.
 * Layer R07.2: `canonicalDecomposition`; `multiplicativePartFiltration`;
@@ -1332,8 +1345,14 @@ further instances of the statements above.
   extension owned here, on the shared local-ring ramification carrier. It agrees with
   LocalFieldsRamification for finite residue. Over k((t)), y^p-y=t⁻¹ has lower and upper
   break 1 and different exponent 2(p-1). `krasnerEmbeddingCriterion` uses the boundary
-  `eψ(u_{L/K}-1/e)=e i_{L/K}-1/d`, `d=|G_(i_{L/K})|`; `lciLiftingAndRamification`; `fontaineRamificationBound`;
-  `illusieObstructionHomomorphisms`; `flatDeformationTangentSpace`; `finiteFlatBaseChangeTwist`;
+  `eψ(u_{L/K}-1/e)=e i_{L/K}-1/d`, `d=|G_(i_{L/K})|`; `lciLiftingAndRamification`,
+  whose lifting proof uses the Jacobian J = aU with U invertible. For μ_p and a = p,
+  J = pX^(p-1), so U is a unit but J is not. Unramified extensions have u = 0
+  (including B = O_K, a = 1, L = K); a ramified tame extension has u = 1;
+  `fontaineRamificationBound`;
+  `illusieObstructionHomomorphisms` uses the cone of the map of Lie complexes ℓ̌_H → ℓ̌_G.
+  For the identity this cone is zero; for G = 0 it is ℓ̌_H[1], giving an Ext² obstruction;
+  `flatDeformationTangentSpace`; `finiteFlatBaseChangeTwist`;
   `raynaudDetTateModule`; `cyclotomicImageStability`.
 -/
 

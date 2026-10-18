@@ -185,10 +185,12 @@ moduli roadmaps that use them (PELModuli). Finite flat models with descent data 
 Breuil–Conrad–Diamond–Taylor beyond Savitt's weight-two tame case, Kisin modules with tame descent
 data, semistable strongly divisible modules in higher weights, and the weights `{0, p − 1}` and `{0, p}` belong to the deformation and modularity roadmaps that consume them
 (LocalGaloisDeformationRings, EllipticCurveModularity and its Part II), built on the targets of
-R07.1 and R07.4. Quotients of `p`-divisible groups in families beyond the complete-DVR finite-subgroup
-quotient of §R07.1.20a, Faltings' integral Hodge–Tate
-complex, Fargues' degree function and canonical subgroups belong to HodgeTateAndCanonicalSubgroups
-and IgusaVarietiesAndTorsionConcentration. LocalGaloisDeformationRings consumes the scalar
+R07.1 and R07.4. The quotient supplied by §R07.1.20a is by a finite flat subgroup over a complete
+DVR. General-base finite-subgroup quotients belong to HodgeTateAndCanonicalSubgroups;
+quotients by sub-`p`-divisible groups in families, with exactness, base change and height
+additivity, belong to IgusaVarietiesAndTorsionConcentration. Faltings' integral Hodge–Tate
+complex, Fargues' degree function and canonical subgroups belong to HodgeTateAndCanonicalSubgroups.
+LocalGaloisDeformationRings consumes the scalar
 Fontaine–Laffaille theory of R07.3 and owns its common coefficient extension in §1.6: the shared
 coefficient category, labelled factors and their Frobenius permutation, and the covariant
 realization by lattice and Pontryagin duals. AutomorphicGaloisRepresentations and
@@ -996,8 +998,12 @@ Over an `F_p`-base, `ω_G` is locally free of rank `dim G` and `dim G + dim G^D 
 For a truncation `G = H[p^n]` over a mixed-characteristic base, instead use
 `ω_G ≅ ω_H/p^nω_H`; this is not generally locally free over `O_S`.
 
-Here `p` is nilpotent on `S` (with `p^n = 0` for `(i)`), and the coLie complex `ℓ_G` is built from the
-cotangent complex of `G/S` along the unit section (DerivedModuleAlgebra §0.4).
+Construct the common group-specific complexes here and in §R07.6.6: for every flat, finitely
+presented commutative group scheme `G/S` with unit `e_G`, the coLie complex is
+`ℓ_G = Le_G* L_(G/S)` and its derived dual, the Lie complex, is
+`ℓ̌_G = RHom_(O_S)(ℓ_G, O_S)`, using DerivedModuleAlgebra §0.4. A homomorphism `H → G`
+induces `ℓ_G → ℓ_H` and dually `ℓ̌_H → ℓ̌_G`. Nilpotence of `p` is required for the recognition
+criteria above, not for these constructions.
 
 *Proof sketch.* `(i)` is Illusie's Corollaire 2.2.5, quoted with its notation by Anschütz–Le Bras,
 Remark 4.6.3. `(ii)` for `n = 1`: reduce to `S` over `F_p`; `F : G → G^{(p)}` factors through `G → ker(V : G^{(p)} → G)`; this map is surjective by the hypothesis on fibres, hence flat by the fibrewise
@@ -1025,6 +1031,9 @@ DerivedModuleAlgebra §0.4 (the full cotangent complex); TauCetiRoadmap.ModularC
   `ν_{G^D}` of rank `h − dim G = 0`; for `G = ℤ/p^n` the ranks are `0` and `1`.
 - For `G = μ_p` over `R = ℤ/p², ω_G = R/pR` is not free over `R`; nilpotence of `p`
   alone does not give `O_S`-local freeness. Over `F_p` it has rank `1`.
+- For `G = μ_p` over any ring `R`, the coLie complex is `[R →^{p} R]` in degrees
+  `−1, 0`, and its derived dual is the Lie complex in degrees `0, 1`; over `F_p` both
+  differentials vanish, so the two degree conventions remain distinct.
 
 ### R07.1.12 Commutative formal Lie groups, their dimension and `p`-divisibility
 
@@ -2038,8 +2047,11 @@ on the special fibre, and in the latter case `𝒢` is multiplicative. Remark 3.
 
 Prove `tameInertia_exponents_le`. Let `R` be a strictly henselian DVR of mixed characteristic `(0, p)`
 with absolute ramification `e` and `K = Frac R`. `(i)` If `G` is a `K-F`-vector scheme with equations `X_i^p = δ_i X_{i+1}` (`F` of order `q = p^r`), then `Gal(K̄/K)` acts on the `F`-line `G(K̄)` by homotheties through the
-tame character `ψ = ψ_i^{n_i} ψ_{i+1}^{n_{i+1}} ⋯ ψ_{i+r−1}^{n_{i+r−1}}` with `n_j = v(δ_j)`, where `ψ_j`
-are the fundamental characters of level `r`. `(ii)` Such `G` extends to a finite flat `R`-group scheme if
+tame character `ψ = ψ_i^{n_i} ψ_{i+1}^{n_{i+1}} ⋯ ψ_{i+r−1}^{n_{i+r−1}}` with `n_j = v(δ_j)`. Index the
+coordinate characters by `χ_(j+1) = χ_j^p`, put `θ = θ_(q−1)` as in §R07.1.26, and define the
+fundamental characters of level `r` by `ψ_j := χ_(j+1)⁻¹ ∘ θ`, with indices modulo `r`.
+Here `χ_(j+1)⁻¹` denotes the inverse of the coordinate-character identification
+`F^× ≅ μ_(q−1)`. `(ii)` Such `G` extends to a finite flat `R`-group scheme if
 and only if `ψ` can be written this way with `0 ≤ n_j ≤ e` for all `j`. (iii) Consequently, for any finite
 flat commutative `R`-group scheme killed by a power of `p`, every Jordan–Hölder quotient of `G(K̄)` is an
 `F`-line on which tame inertia acts by `ψ_1^{n_1} ⋯ ψ_r^{n_r}` with `0 ≤ n_j ≤ e`.
@@ -2065,6 +2077,9 @@ flat `R`-group by schematic closure of the corresponding subquotient (§R07.1.20
 - `tameInertia_exponents_supersingular`: over `W(F̄_p)` (`e = 1`), the `F_{p²}`-line `E[p]` of a
   supersingular elliptic curve has exponents `(n₁, n₂) = (0, 1)` up to relabelling, so inertia acts
   by a fundamental character of level `2`, not by a power of `θ_{p−1}`.
+- At level `r = 3`, valuations `(v(δ₀), v(δ₁), v(δ₂)) = (1, 0, 0)` give `ψ = ψ₀`
+  and `χ₀ ∘ ψ = θ^{p²}`, since eliminating the other coordinates gives
+  `v(a₀) = p²`. The unshifted choice `χ₀⁻¹ ∘ θ` would instead give `θ`.
 
 ### R07.1.33 Raynaud: the determinant of a finite flat group killed by `p` is the tame character of its different
 
@@ -2977,7 +2992,8 @@ is injective on coordinates. (Lipnowski–Tsimerman 2018, §3, the Dieudonné-mo
 Prove `exists_padic_charpoly`. Let `k` be a perfect field of characteristic `p, W = W(k), L = W[1/p]`
 and `σ` the Witt Frobenius. If `T ∈ M_n(W)` and `B ∈ GL_n(L)` satisfy `T = B σ(T) B^{−1}` in `M_n(L)`, there
 is a unique monic `P ∈ ℤ_p[X]` of degree `n` with `ι_k(P) = charpoly_W(T)`. Applied to the linear
-Frobenius `F^a` of a Dieudonné module over `F_{p^a}` (a `σ^a`-semilinear `F` whose a-th power is linear),
+Frobenius `F^a` of a Dieudonné module over `F_{p^a}` (`F` is `σ`-semilinear and `σ^a = 1`, so `F^a`
+is `W(F_{p^a})`-linear),
 the characteristic polynomial of `F^a` has `ℤ_p` coefficients (it is the characteristic polynomial of
 the `q`-Frobenius of an abelian variety over `F_q, q = p^a`).
 
@@ -2998,6 +3014,8 @@ Dieudonné module; the `ℤ_p`-integrality of the characteristic polynomial is d
   and `charpoly(T) = X − t`, the image of its `p`-adic polynomial.
 - The empty matrix has characteristic polynomial `1`, which descends as `1`.
 - `charpolyDescent_needs_conjugation`: without the conjugation hypothesis, `T = (ζ)` with `ζ ∈ W(F_{p²})` a primitive `(p² − 1)`-th root of unity has `charpoly X − ζ ∉ ℤ_p[X]`.
+- For the constant group `ℚ_p/ℤ_p` over `F_{p²}`, `F = σ` is not Witt-linear,
+  while `F² = 1` is Witt-linear and has characteristic polynomial `X − 1`.
 
 ### R07.2.20 The covariant Dieudonné module and the comparison of conventions
 
@@ -7306,13 +7324,16 @@ The setting is Fontaine's ramification notation of §R07.6.2.
 The bound `v_p(n!) ≤ (n − 1)/(p − 1)` gives the criteria in terms of `c`; taking
 `n = p^r` gives necessity and detects the equality boundary (Fontaine 1985, 1.6). `(b)`: reduce to `B` local
 with residue field `k`; lifts `x_j` of a basis of `m_B/(m_B² + m_K B)` make the `dx_j a (B/a)`-basis of `Ω¹`;
-`B = O_K⟦X₁, …, X_h⟧/(P₁, …, P_h)`, and `a·(∂P_i/∂X_j) = a·`(invertible matrix) after dividing by `a`; a
+`B = O_K⟦X₁, …, X_h⟧/(P₁, …, P_h)`, and the Jacobian in `B` satisfies
+`J = (∂P_i/∂X_j) = aU` with `U` invertible; a
 Newton iteration through the divided-power filtration `I^{[n]}` constructs `ū` with the
 prescribed reduction modulo `I`, uniquely (1.7(i)`(a)`, pp. 520–521). `(c): B_K` is étale since `Ω¹_{B_K/K} = 0`; `L` is the compositum of the Galois closures of the
 factors of `B_K`; for `m > v_K(a) + e/(p − 1), a^m_{E/K} ⊆ aI` with `I` topologically nilpotent PD, so `(b)`
 lifts the reduction modulo `I` of each approximate point to an `E`-point; injectivity of
-reduction modulo `I` on exact `O_K̄`-valued points makes `J(L) → J(E)` injective, which forces a `K`-embedding `L → E: L/K` satisfies `(P_m)` (1.7(ii)). By
-Proposition 1.5(ii), `u_{L/K} ≤ v_K(a) + e/(p − 1) + 1/n` with `n = e_{L/K}`; if `p ∤ n, L/K` is tame and
+reduction modulo `I` on exact `O_K̄`-valued points makes `J(L) → J(E)` injective, which forces a `K`-embedding `L → E: L/K` satisfies `(P_m)` (1.7(ii)).
+If `L/K` is unramified, `u_{L/K} = 0`. Otherwise `a` is a nonunit (a unit would make `B` étale over
+`O_K`), so `v_K(a) ≥ 1`. By Proposition 1.5(ii),
+`u_{L/K} ≤ v_K(a) + e/(p − 1) + 1/n` with `n = e_{L/K}`; if `p ∤ n, L/K` is ramified tame and
 `u_{L/K} = 1 ≤ v_K(a)`; if `p | n, n(p − 1)u_{L/K}` and `n(p − 1)v_K(a) + ne` are integers divisible by `p`
 within `p − 1` of each other, so `u_{L/K} ≤ v_K(a) + e/(p − 1)`. Corollary 1.8 follows from Proposition
 1.3 since `i_{L/K} > 0` when `L/K` is ramified. (Fontaine 1985, §1.7, Proposition, pp. 520–521:
@@ -7322,9 +7343,11 @@ Proposition 1.7; Fontaine 1985, §1.8, Corollaire, p. 524: Corollary 1.8.)
 
 **Checks.**
 
-- `lciLifting_unit`: `a` a unit: `Ω¹_{B/O_K} = 0, B` is étale, `L/K` is unramified and `u_{L/K} = 0`.
+- `lciLifting_unit`: `a` a unit: `Ω¹_{B/O_K} = 0, B` is étale, `L/K` is unramified and `u_{L/K} = 0`;
+  in particular `B = O_K, a = 1` gives `L = K` and `u_{L/K} = 0`.
 - `lciLifting_muP`: `B = O_K[X]/(X^p − 1)` (the group `μ_p`) with `a = p: L = K(ζ_p)`, and `u_{L/K} ≤ e + e/(p − 1)`; for `K = ℚ_p` and `p` odd, `u = 1 ≤ 1 + 1/(p − 1)`;
   for `p = 2, L = K` and `u = 0`.
+  Its Jacobian is `J = pX^{p−1}`, so `U = X^{p−1}` is a unit, whereas `J` is not.
 - `lciLifting_reduction_boundary`: `p = 3, B = ℤ₃[X]/(X³−1), a = 3, S = ℤ₃` and
   `I = 3ℤ₃`. The map `X ↦ 4 mod 9` is an approximate point; its reduction modulo `I`
   lifts uniquely to `X ↦ 1` in `ℤ₃`, which is not `X ↦ 4` modulo `aI = 9ℤ₃`.
@@ -7375,15 +7398,18 @@ completed maximal unramified comparison); §R07.6.2; §R07.6.1; §R07.1.6; §R07
 Prove `illusieObstructionHomomorphisms`. Let `A` be a commutative ring, `G` and `H` flat, finitely
 presented commutative group schemes over `A` and `u : H → G` a homomorphism. Let `B₁, B₂ → A` be
 square-zero thickenings with augmentation ideals `J₁, J₂` and a morphism `B₁ → B₂` over `A`, let `G̃₁` be a
-flat lift of `G` to `B₁` and `G̃₂` the induced lift to `B₂`, and let `K` be a cone of the map of coLie
+flat lift of `G` to `B₁` and `G̃₂` the induced lift to `B₂`, and let `K` be a cone of the map of Lie
 complexes `ℓ̌_H → ℓ̌_G`. `(i)` For `i = 1, 2` there is an obstruction class `o_i ∈ Ext¹(H, K ⊗^𝕃 J_i)` that
 vanishes exactly when there is a flat commutative lift `H̃_i` of `H` to `B_i` with a homomorphism `ũ_i : H̃_i → G̃_i` lifting `u`. `(ii) o₂` is the image of `o₁` under the map induced by `J₁ → J₂`. Special case:
 with `G = 0, K = ℓ̌_H[1]` and the class lies in `Ext²(H, ℓ̌_H ⊗^𝕃 J_i)`, the obstruction to deforming `H`
 itself. (For `u = id` the cone is zero and the statement is empty: `G̃` itself is a lift.)
 
 `A` any commutative ring; `Ext` is computed in the derived category of fppf abelian sheaves on `Spec A`;
-`ℓ̌` is the coLie complex, the dual of the restriction of the cotangent complex along the unit section
-(DerivedModuleAlgebra §0.4).
+construct `ℓ_G = Le_G* L_(G/A)` from DerivedModuleAlgebra §0.4 along the unit section `e_G`,
+and its derived dual `ℓ̌_G = RHom_A(ℓ_G, A)`, the Lie complex, as in §R07.1.11.
+These common group-specific constructions belong here for all the flat, finitely presented
+commutative groups in this statement; finite-flat perfectness, determinants and the
+abelian-isogeny Hodge triangle belong to HodgeTateAndCanonicalSubgroups.
 
 *Proof sketch.* `(i)` is Illusie, Complexe cotangent et déformations II, Théorème VII.4.2.5(i), with `A = ℤ` and base ring `ℤ` there, up to the shift convention in `K` (Scholze, Theorem 3.2.1, proof). `(ii)` is
 Illusie's Remarque VII.4.2.6(i). The construction uses the cotangent complex of group schemes and
@@ -7405,6 +7431,10 @@ the deformation theory of rings.)
   (the canonical subgroup).
 - `illusieObstruction_needs_flat`: for non-flat `H` (e.g. a closed subscheme that is not a subgroup
   scheme flat over `A`) the obstruction group is not defined in this form.
+- For `u = id_H`, the cone of `ℓ̌_H → ℓ̌_H` is zero and the obstruction vanishes;
+  the given lift of the target also lifts the source and the homomorphism.
+- For `G = 0`, the cone is `ℓ̌_H[1]`, so the obstruction lies in
+  `Ext²(H, ℓ̌_H ⊗^𝕃 J_i)`, retaining the Lie complex rather than the coLie complex.
 
 ### R07.6.7 Finite-flatness is a deformation condition, and its tangent space via Fontaine–Laffaille modules
 
