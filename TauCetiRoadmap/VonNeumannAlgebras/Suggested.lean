@@ -8,6 +8,7 @@ import Mathlib.Analysis.InnerProductSpace.Positive
 import Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.Calculus.Deriv.Basic
+import Mathlib.Dynamics.Ergodic.Action.OfMinimal
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -110,6 +111,17 @@ theorem range_projection_mem_commutant {K : Type*} [NormedAddCommGroup K]
     (u : H →L[ℂ] K) (huIsometry : Isometry u)
     (hu : ∀ x : M.toStarSubalgebra, u.comp (x : H →L[ℂ] H) = (π x).comp u) :
     ∀ x : M.toStarSubalgebra, Commute (u.comp u.adjoint) (π x) := by
+  sorry
+
+/-- Left translation by a countable dense subgroup is Haar-ergodic, including
+noncompact and nonmetrizable ambient groups. V8.DenseTranslations owns the L¹/L∞,
+closed-stabilizer and restricted-Haar comparison; no finite-measure premise is added. -/
+theorem ergodicSMul_dense_subgroup
+    {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [T2Space G] [LocallyCompactSpace G] [MeasurableSpace G] [BorelSpace G]
+    (μ : MeasureTheory.Measure G) [μ.IsHaarMeasure] [μ.Regular]
+    (Γ : Subgroup G) [Countable Γ] (hd : Dense (Γ : Set G)) :
+    ErgodicSMul Γ G μ := by
   sorry
 
 end VonNeumannAlgebra
