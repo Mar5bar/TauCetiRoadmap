@@ -19,8 +19,10 @@ Design choices.
   `J` becomes `y J y⁻¹` after translation by `y`.
 * Rational invariance, level and central-character conditions are predicates on functions on an
   abstract group; the arithmetic specialization supplies `G(F) ⊆ G(𝔸)` and the central subgroup.
-* `IsGFinite` is the shared algebraic finite-orbit-span predicate, with no topology.
-  `IsKFinite` abbreviates it on a complex representation restricted to the chosen subgroup.
+* `IsGFinite` and its elementary API form the independent algebraic prefix of README §2.1.
+  Banach and Hilbert specializations forget continuity and restrict the underlying representation;
+  `IsKFinite` abbreviates that predicate. The Banach density theorem and the complete locally
+  convex extension follow this prefix.
 * Cuspidality is the kernel condition for a family of linear constant-term maps; the arithmetic
   specialization indexes it by all proper rational parabolics.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
@@ -164,7 +166,8 @@ section CompactOrbits
 
 variable {𝕜 K V : Type*} [Field 𝕜] [Group K] [AddCommGroup V] [Module 𝕜 V]
 
-/-- A vector has finite orbit span over the scalar field, without topology or compactness. -/
+/-- The common finite-orbit-span predicate over any field, independent of the analytic
+compact-finiteness theorems. -/
 def IsGFinite (ρ : Representation 𝕜 K V) (v : V) : Prop :=
   FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k v))
 
@@ -199,8 +202,9 @@ section CompactRestriction
 
 variable {K V : Type*} [Group K] [AddCommGroup V] [Module ℂ V]
 
-/-- Compact-finiteness specializes the shared finite-orbit-span predicate to the chosen
-subgroup representation. Smoothness and differentiated covariance are separate data. -/
+/-- Compact-finiteness abbreviates the shared algebraic predicate on the subgroup representation.
+For a continuous Banach or Hilbert representation, first forget continuity and restrict to the
+subgroup. Its addition theorem is `gFinite_add`; smoothness and covariance are separate data. -/
 abbrev IsKFinite (ρ : Representation ℂ K V) (v : V) : Prop := IsGFinite ρ v
 
 /-- The compact-finite submodule is the shared finite-orbit-span submodule. -/
@@ -577,10 +581,19 @@ README definitions requiring additional carriers include `AdelicSmoothFunction`,
 `IsAdmissible`, `IsHarishChandraModule`, `HasInfinitesimalCharacter`, generalized central
 characters, normalized induction, `IsTempered`, `IsSquareIntegrable`, their essential
 variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParameter`,
-`D_k`, `archimedeanUnitaryDual`, `genericUnitaryClassification`, `HasWhittakerModel`,
+`D_k`, `archimedeanUnitaryDual` (the common real/complex Speh and complementary-block
+classification, including unitarity, product irreducibility, exhaustion and uniqueness),
+`genericUnitaryClassification`, `HasWhittakerModel`,
 `GContinuousNorm` and smooth Fréchet globalizations;
 `IsAutomorphicRepresentation`, `archimedeanHeckeAlgebra`, `RestrictedTensor`,
-`DiscreteOccurrence`, Whittaker coefficients and `HolomorphicSL2Form`;
+`DiscreteOccurrence`, Whittaker coefficients and `HolomorphicSL2Form`.
+The scalar character foundations `standardAddChar`, local and adelic self-duality and the
+diagonal self-annihilator theorem are supplied by ArithmeticGaloisRepresentations §2.7.
+Section 4.3 constructs `addChar_equiv` from that annihilator and then compact-quotient Fourier
+expansion. The `qExpansion` of `HolomorphicSL2Form` includes zero and the totally positive
+elements of the cusp-dependent dual fractional ideal; cuspidality kills the zero coefficient
+at every cusp. Fixed finite-support Schwartz stages are topological vector spaces; convolution
+maps supports `C₁, C₂` into `C₁ C₂`, and the union is an algebra;
 the shared §4.5 `MaassCuspForm` and its `NormalizedMaassEigenform` subtype, with
 `fourierCoefficient`, `fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`,
 `maassAdelization` and `maassClassicalEquiv`. The subtype has first coefficient one
@@ -589,7 +602,10 @@ imaginary spectral-parameter branch; the L-function consumer takes its real bran
 The adelic comparisons use the ALS.F.6 cusp carrier and preserve these normalizations;
 `IsCAlgebraic`, `IsLAlgebraic`, `IsAlgebraicCT`, `HasCohomologyWith`, the general
 `ell0` and `q0`, `A_q`, `StableAdelicLattice`, `galoisTwist`, `rationalityField`,
-`IsFieldOfDefinition` and `galoisConjugate_cuspidal`; `HermitianGroupDatum`,
+`IsFieldOfDefinition` and `galoisConjugate_cuspidal`. Section 5.7 owns these scalar-twist and
+rationality interfaces and Clozel finiteness for regular algebraic cuspidal GLₙ over any number
+field in cohomological normalization; `fieldOfRationality` in the CM/totally real consumer
+abbreviates `rationalityField` on the same finite-part representation; `HermitianGroupDatum`,
 `coherentCochains`, `coherentCohomology`,
 `CuspidalCoherentCohomology`, `DiscreteCoherentCohomology`, the GSp₄ character lattices
 and chambers, component induction and extensions, `coherentChambers` and scalar
