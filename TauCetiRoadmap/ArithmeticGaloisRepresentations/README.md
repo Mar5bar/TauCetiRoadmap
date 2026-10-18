@@ -1787,10 +1787,117 @@ Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128, with positiv
 
 Construct the Schwartz–Bruhat space on the adeles, its restricted-product and tensor-product
 API, the self-dual Fourier transform and Poisson summation for a nontrivial additive character
-of `𝔸_F/F`. Prove Tate's global zeta-integral equation,
-meromorphic continuation and product of local functional equations for `χ`, including its
-archimedean factors. These analytic constructions apply to general quasi-characters, including
-those furnished by Deligne's conductor lemma below.
+of `𝔸_F/F`. Use the positive Fourier kernel `ψ(xy)`. For the standard trace character the
+self-dual additive measures are `dx` at real places, `2 dx dy` at complex places and
+`vol(O_v) = q_v^(−ν_v/2)` at finite places, where `ν_v` is the different exponent.
+Fix Tate's multiplicative measures: `d^×x = (1−q_v⁻¹)⁻¹ dx_ψ/|x|_v` at finite places and
+`d^×x = dx_ψ/|x|_v` at infinity. Thus `vol^×(O_v^×) = q_v^(−ν_v/2)`.
+Disintegrate the idele-class measure along the norm using `dt/t`, and put
+`κ = vol(C_F¹)`, where `C_F¹ = ker(|·| : 𝔸_F^×/F^× → ℝ_{>0})`.
+Prove `κ = 2^r₁ (2π)^r₂ h_F R_F/(w_F √|d_F|)`, identifying it with Mathlib's
+`NumberField.dedekindZeta_residue F` (Tate §4.3, Lemma 4.3.1 and Theorem 4.3.2,
+thesis PDF pp. 45–48).
+
+<a id="tate-global-equation"></a>
+
+**Tate's global equation and continuation.** For every continuous idele-class quasi-character
+`χ` of a number field `F` and every `f ∈ S(𝔸_F)`, define
+`Z(f, χ, s) = ∫_{𝔸_F^×} f(x) χ(x) |x|_𝔸^s d^×x`.
+If `|χ(x)| = |x|_𝔸^r`, the integral converges absolutely for `Re(s)+r > 1`.
+It extends meromorphically to `ℂ` and satisfies
+`Z(f, χ, s) = Z(f̂, χ⁻¹, 1−s)` as meromorphic germs, with the self-dual transform for
+any nontrivial continuous additive character of `𝔸_F/F`.
+It is entire unless `χ = |·|_𝔸^t` for some `t ∈ ℂ`; in that case the only possible poles
+are simple at `−t` and `1−t`, with residues `−κ f(0)` and `κ f̂(0)`, respectively.
+A zero residue makes the corresponding singularity removable. This includes the quasi-characters
+supplied by Deligne's conductor lemma below.
+(Tate §4.4, Main Theorem 4.4.1 and its proof, thesis PDF pp. 50–52;
+Kudla, *Tate's Thesis*, §4, Theorem 4.3, p. 128.)
+*Needs:* the Schwartz–Bruhat, Fourier, Poisson and measure foundations above;
+GlobalNumberFields Layers 4–6 and 9–10; Mathlib Haar integration and Fourier transform.
+
+**Checks.**
+- Over `ℚ`, take `f = 1_Ẑ ⊗ exp(−πx∞²)` and `χ = 1`. Then `κ = f(0) = f̂(0) = 1`,
+  `Z(f,1,s) = Γ_ℝ(s) ζ(s)` and its residues at `0,1` are `−1,+1`.
+- For general `F`, take `1_{O_v}` at finite places, `exp(−πx²)` at real places and
+  `exp(−2πz z̄)` at complex places. Writing `D = |d_F|`, direct evaluation gives
+  `Z(f,1,s) = D^(−1/2) π^r₂ Γ_ℝ(s)^r₁ Γ_ℂ(s)^r₂ ζ_F(s)`.
+  Here `f(0) = 1` and `f̂(0) = D^(−1/2)`.
+  Thus the completed Dedekind function
+  `Λ_F(s) = D^((s+1)/2) π^(−r₂) Z(f,1,s)` continues meromorphically, satisfies
+  `Λ_F(s) = Λ_F(1−s)` and has simple poles at `0,1` with residues
+  `−D^(1/2) π^(−r₂) κ,+D^(1/2) π^(−r₂) κ`; the ordinary `ζ_F` has residue `κ` at `1`.
+  LFunctions Layer 3 owns these statements by Hecke's method, and the comparison below
+  identifies the two normalizations.
+- If `χ` is nontrivial on `C_F¹`, both zero-mode integrals vanish and `Z(f,χ,s)` is entire.
+- For `χ = |·|_𝔸^t`, the polar locations translate to `−t,1−t`; for `f = 0`, both
+  possible poles are removable.
+
+<a id="standard-test-function-evaluations"></a>
+
+**Standard-test-function evaluations.** For the following prescribed local functions and their
+positive-kernel Fourier transforms, evaluate
+`z_v(g,ω,s) = ∫_{F_v^×} g(x) ω(x) |x|_v^s d^×x` in its convergence half-plane and
+continue the resulting expressions meromorphically. Use
+`Γ_ℝ(u) = π^(−u/2) Γ(u/2)` and `Γ_ℂ(u) = 2(2π)^(−u) Γ(u)`, Mathlib's
+`Complex.Gammaℝ` and `Complex.Gammaℂ`.
+
+For `finiteStandardEvaluation`, let `F_v/ℚ_p` be finite, `ω : F_v^× → ℂ^×` a continuous
+quasi-character, `ψ_v` a nontrivial continuous additive character, `ν = n(ψ_v)`, `c = a(ω)` and
+`d^×x = (1−q⁻¹)⁻¹ dx_ψ/|x|_v`.
+If `c = 0`, put `f_ω = q^(ν/2) 1_{O_v}`; if `c ≥ 1`, put
+`f_ω(x) = q^(ν/2) ω(x)⁻¹` on `O_v^×` and zero elsewhere.
+Then `z_v(f_ω,ω,s) = L_v(s,ω)`, where the factor is
+`(1−ω(ϖ)q^(−s))⁻¹` for `c = 0` and `1` for `c ≥ 1`, and
+`z_v(f̂_ω,ω⁻¹,1−s) = ε_v(s,ω) L_v(1−s,ω⁻¹)`, with
+`ε_v(s,ω) = tateLocalConstant(ω |·|_v^s, ψ_v, dx_ψ)` given by Tate's local constant above.
+For `c = 0`, `f̂_ω = 1_{ϖ^(−ν)O_v}`; for `c ≥ 1`, its support is exactly
+`ϖ^(−ν−c)O_v^×`. The factor `q^(ν/2)` normalizes Tate's multiplicative unit volume;
+with unit-volume-one multiplicative measure the unscaled functions have integral `L_v`.
+
+For `archimedeanStandardEvaluation_real`, let
+`ω(x) = sgn(x)^a |x|^t`, `a ∈ {0,1}`, `t ∈ ℂ`,
+`ψ(x) = exp(2πix)` and `f_a(x) = x^a exp(−πx²)`.
+With `d^×x = dx/|x|`, prove `f̂_a = i^a f_a`,
+`z_v(f_a,ω,s) = Γ_ℝ(s+t+a)` and
+`z_v(f̂_a,ω⁻¹,1−s) = i^a Γ_ℝ(1−s−t+a)`.
+
+For `archimedeanStandardEvaluation_complex`, let
+`ω(z) = (z/|z|)^k |z|_ℂ^t`, `k ∈ ℤ`, `t ∈ ℂ`, where the angular denominator is
+the ordinary absolute value and `|z|_ℂ = z z̄`.
+Take `a,b ∈ ℕ` with `min(a,b) = 0` and `a−b = −k`, and put
+`f_{a,b}(z) = π⁻¹ z^a z̄^b exp(−2πz z̄)`.
+For `ψ(z) = exp(2πi(z+z̄))`, self-dual additive measure `2 dx dy` and
+`d^×z = 2 dx dy/|z|_ℂ`, prove `f̂_{a,b} = i^(a+b) f_{b,a}`,
+`z_v(f_{a,b},ω,s) = Γ_ℂ(s+t+|k|/2)` and
+`z_v(f̂_{a,b},ω⁻¹,1−s) = i^|k| Γ_ℂ(1−s−t+|k|/2)`.
+These are evaluations of the specified functions by geometric series, Gauss sums and Gaussian
+Mellin integrals. (Tate §2.5; Kudla §3, (3.7), (3.17), Proposition 3.5 and
+Proposition 3.8 (i)–(iv), pp. 118–125; Deligne 1973, 3.2–3.4, pp. 526–528,
+and 5.5–5.7, pp. 548–550.)
+*Needs:* the local Fourier and measure foundations above; Tate's local constant above;
+ClassFieldTheory layer 7; Mathlib Haar integration, Fourier transform and gamma integrals.
+
+**Checks.**
+- For an unramified `ω` and `ν = 0`, `f_ω = f̂_ω = 1_{O_v}` and `ε_v = 1`.
+- For an unramified `ω` and `ν = 1`, the unscaled `1_{O_v}` has zeta integral
+  `q^(−1/2)L_v(s,ω)`; the normalized function gives `L_v`, and
+  `ε_v(s,ω) = ω(ϖ)q^(1/2−s)` retains the different.
+- Over `ℚ₃`, take `ω(3) = 1`, `ω|_{ℤ₃^×}` the nontrivial quadratic residue character,
+  and `ψ(x) = exp(−2πi{x}_3)`. Then `c = 1`, `ν = 0`, `z_v(f_ω,ω,s) = 1` and
+  `f̂_ω` is supported on `3⁻¹ℤ₃^×`, with `ε_v(1/2,ω) = −i`.
+  The negative-valuation ball is not the support of `f_ω`.
+- At a real place, `a = 0` gives the fixed Gaussian and `Γ_ℝ(s+t)`; `a = 1` gives
+  `Γ_ℝ(s+t+1)` and Fourier eigenvalue `i`.
+- At a complex place, `k = 1` requires `f_{0,1}` and `k = −1` requires `f_{1,0}`;
+  using `f_{1,0}` for `k = 1` instead gives zero by angular integration.
+- At a complex place, `k = t = 0` and `s = 1` give `Γ_ℂ(1) = 1/π`.
+  The unscaled Gaussian has integral `1`, so its factor is `π Γ_ℂ(s)`.
+
+Combining Tate's global equation with these evaluations on the factorizable standard function
+gives the completed Hecke equation with epsilon product `∏_v ε_v(s,χ_v)`; after conductor
+balancing its root number is `∏_v ε_v(1/2,χ_u,v)` for the unitary character `χ_u`, as used below.
+
 For `χ = χ₀ |·|_𝔸^t` with `χ₀` algebraic of type A₀ and `t ∈ ℂ`, use LFunctions Layers 0, 5–6's
 primitive presentation, conductor, Hecke function, completion and inverse-character equation.
 Compare the integral with that primitive Hecke function on a convergence half-plane and as
@@ -1832,7 +1939,9 @@ induction and Tate's equation for the induced one-dimensional twists to prove
 the completed functional equation for finite-image `V` twisted by a continuous idele-class
 quasi-character, with the product of the local epsilon factors. For the untwisted representation,
 identify it with AA.2.4's meromorphic assembly (Deligne 1973, 3.12 (B)–(C), p. 533). These inputs precede Deligne–Langlands existence.
-*Needs:* §2.5a; LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
+*Needs:* [Tate's global equation and continuation](#tate-global-equation);
+[Standard-test-function evaluations](#standard-test-function-evaluations);
+§2.5a; LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
 GlobalNumberFields Layers 4–6 (adeles and ideles) and Layers 9–10 (Hecke characters);
 Mathlib Haar integration and Fourier transform; ClassFieldTheory layers 7, 9 and 11–12;
 RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's local constant above.
