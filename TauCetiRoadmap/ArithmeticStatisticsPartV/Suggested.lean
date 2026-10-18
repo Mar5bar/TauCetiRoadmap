@@ -322,6 +322,20 @@ example : ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n)).card = 608 
     ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 2)).card = 204 ∧
     ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 3)).card = 204 := by sorry
 
+open scoped Classical in
+/-- The open negative-discriminant interval contains exactly ten quadratic fields. -/
+example : ((Finset.Ioo (-25 : ℤ) 0).filter Int.IsFundamentalDiscr).card = 10 := by sorry
+
+/-- All subspaces, including zero and the whole space, enter the four-rank coefficient. -/
+example : Nat.card (Submodule (ZMod 2) (Fin 1 → ZMod 2)) = 2 := by sorry
+
+example : Nat.card (Submodule (ZMod 2) (Fin 2 → ZMod 2)) = 5 := by sorry
+
+/-- The real quartic and quintic masses count permutations whose square is the identity. -/
+example : (Finset.univ.filter (fun σ : Equiv.Perm (Fin 4) => σ ^ 2 = 1)).card = 10 := by sorry
+
+example : (Finset.univ.filter (fun σ : Equiv.Perm (Fin 5) => σ ^ 2 = 1)).card = 26 := by sorry
+
 example : (1/48 + 1/8 + 1/16 : ℚ) = 5/24 ∧
     (1/240 + 1/24 + 1/16 : ℚ) = 13/120 ∧
     (1 + 1/2^2 - 1/2^4 - 1/2^5 : ℚ) = 37/32 := by norm_num
@@ -370,6 +384,32 @@ example :
       4*b^3*d^3 - 4*b^2*c^3*e + b^2*c^2*d^2
     (Finset.univ.filter (fun v : Fin 5 → ZMod 9 => Δ v ≠ 0)).card = 42768 := by sorry
 
+/-- A finite list total is estimated by N/m times its ordered sample sum. -/
+def a4SampleEstimator {N m : ℕ} (counts : Fin N → ℚ) (draws : Fin m → Fin N) : ℚ :=
+  (N : ℚ) / m * ∑ i, counts (draws i)
+
+/-- Independent uniform draws with replacement give an unbiased total for a nonempty list. -/
+example {N m : ℕ} (hN : 0 < N) (hm : 0 < m) (counts : Fin N → ℚ) :
+    (∑ draws : Fin m → Fin N, a4SampleEstimator counts draws) / (N : ℚ) ^ m =
+      ∑ j, counts j := by sorry
+
+/-- Every positive-size sample from the singleton list estimates its sole value. -/
+example (m : ℕ) (hm : 0 < m) (draws : Fin m → Fin 1) :
+    a4SampleEstimator (![48] : Fin 1 → ℚ) draws = 48 := by sorry
+
+/-- A single uniform draw gives the two estimates with equal probability. -/
+example :
+    let counts : Fin 2 → ℚ := ![0,48]
+    let estimates : Fin 2 → ℚ := fun j => a4SampleEstimator counts (fun _ : Fin 1 => j)
+    estimates = ![0,96] ∧ (∑ j, estimates j) / 2 = 48 := by sorry
+
+/-- The four ordered two-draw samples include both repeated draws. -/
+example :
+    let counts : Fin 2 → ℚ := ![0,48]
+    let draws : Fin 4 → Fin 2 → Fin 2 := ![![0,0], ![0,1], ![1,0], ![1,1]]
+    let estimates : Fin 4 → ℚ := fun j => a4SampleEstimator counts (draws j)
+    estimates = ![0,48,48,96] ∧ (∑ j, estimates j) / 4 = 48 := by sorry
+
 /-
 README-only targets, with their intended carriers, hypotheses and APIs in the indicated
 sections. These need the arithmetic, orbit or geometric interfaces specified there.
@@ -409,7 +449,6 @@ Arithmetic lattice and torsion inputs:
   FieldStatistics.a4KernelFieldCorrespondence
   FieldStatistics.a4RigidCount_eq_24_mul
   FieldStatistics.a4RigidCount_eq_48_mul_orbits
-  FieldStatistics.a4SampleEstimator
   FieldStatistics.catalogueRow
   FieldStatistics.eligibleA4Kernel
   FieldStatistics.eligibleA4Kernels
@@ -476,7 +515,8 @@ Before the first cyclotomic counterexample (§3.9):
 §3.35:
   FieldStatistics.quintic_nonSymmetric_negligible
 
-§3.37:
+§3.37 (finite local masses for every embedded type; the logarithmic exponent and
+prediction take an admissible type, whose outside class count is positive):
   FieldStatistics.LogarithmicMomentPrediction
   FieldStatistics.localModelLogExponent
   FieldStatistics.localModelLogExponent_good

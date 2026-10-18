@@ -720,7 +720,7 @@ Proof: Evaluate the Jacobian on the split étale orbit, using its `n!` stabilize
 
 **Quartic quintic density constants.** For `S₄` fields over `ℚ` of signature `(r₁,r₂)` with `r₁+2r₂=4`, the coefficient of `X` is `[2r₁!2^{r₂}r₂!]^{-1}∏_p(1+p^{-2}−p^{-3}−p^{-4})`; for `S₅` it is the same archimedean prefactor with `r₁+2r₂=5` and product `∏_p(1+p^{-2}−p^{-4}−p^{-5})`. These are unweighted isomorphism-class counts because these fields have trivial `ℚ`-automorphism groups.
 
-Proof: Evaluate the finite étale local mass using partitions of `n−k` into `k` parts. Evaluate the real automorphism group as `S_{r₁}×(C₂≀S_{r₂})`. Apply the low-degree mass theorem and remove non-`S_n` fields using the nongeneric orbit estimate.
+Proof: Evaluate the finite étale local mass using `q(k,n−k)`, the number of partitions of `k` into at most `n−k` parts, as in the explicit formula below. Evaluate the real automorphism group as `S_{r₁}×(C₂≀S_{r₂})`. Apply the low-degree mass theorem and remove non-`S_n` fields using the nongeneric orbit estimate.
 
 *Needs:* [low degree jacobian mass](#low-degree-jacobian-mass).
 
@@ -728,7 +728,11 @@ Proof: Evaluate the finite étale local mass using partitions of `n−k` into `k
 
 **Checks.**
 
-- Quartic archimedean prefactors are `1/48,1/8,1/16`; quintic prefactors are `1/240,1/24,1/16`.
+- Quartic archimedean prefactors are `1/48,1/8,1/16`.
+
+- Quintic archimedean prefactors are `1/240,1/24,1/16`.
+
+- At `k=0`, `q(0,n)=1` supplies the constant term; partitions of `n>0` into zero parts would give zero.
 
 
 ### 3.24 S-integral orbits and relative mass ratios
@@ -877,7 +881,7 @@ Proof: Expand the quadratic-residue indicator as a product over the ramified pri
 
 *Needs:* [quadratic four rank conic formula](#quadratic-four-rank-conic-formula), [ArithmeticStatisticsPartIV: fk linking phase](../ArithmeticStatisticsPartIV/README.md#fk-linking-phase).
 
-([[90]](#ref-90), §5.1, (20), Lemma17, pp.14–16; Lemmas28,34,39,41,43, pp.35,42,45,48,51.)
+([[90]](#ref-90), §5.1, (20), p.15, and Lemma17, (26)–(27), p.17; Lemmas28,34,39,41,43, pp.35,42,45,48,51.)
 
 **Checks.**
 
@@ -1744,7 +1748,7 @@ The API is:
 
 - `FieldStatistics.a4RigidCount_eq_48_mul_orbits`: Equivalently it is48 times the number of eligible `S₃` orbits.
 
-- `FieldStatistics.a4SampleEstimator`: Inverse-probability weighted total for a uniform sample with replacement, unbiased for a supplied exact finite input list.
+- `FieldStatistics.a4SampleEstimator`: For a nonempty supplied exact list of `N` rigid counts and `m≥1` independent uniform draws with replacement, the estimator is `(N/m)` times the sum of the sampled counts. Its expectation is the total of that list. On the finite rational interface, the list is `counts : Fin N → ℚ` and the ordered sample is `draws : Fin m → Fin N`.
 
 Proof: Use the cubic/unramified-`C₃` correspondence and characterize the native class-group subgroups by index, quotient type and the `C₃/S₃` actions. Schur–Zassenhaus gives `a C₂²⋊C₃` group; the trivial action would make the extension abelian over `K` and stable over `ℚ`, so the retained action is `A₄`. Use `|Aut(A₄)|=24` and a stabilizer of index2 in `S₃` to prove both equivalent rigidification weights.
 
@@ -1760,7 +1764,11 @@ Proof: Use the cubic/unramified-`C₃` correspondence and characterize the nativ
 
 - For the `S₃`-module consisting of two swapped copies of the irreducible `C₃`-module `𝔽₂²`, the two coordinate kernels are eligible, giving48 rigid surjections together.
 
-- For a supplied exact list of size `N` and a uniform sample with replacement of size `m>0`, the estimator `(N/m)` times the sum of sampled rigid counts has expectation equal to the list’s total. This tests the sampling weights, without claiming an arithmetic limit.
+- For the singleton list `[48]`, every sample of positive size estimates48.
+
+- For `[0,48]` and `m=1`, the two estimates are0 and96, with mean48, the list’s total.
+
+- For `[0,48]` and `m=2`, the four ordered samples give estimates0,48,48,96, again with mean48. Repeated draws are retained; these values distinguish the factor `N/m` from `1/m`.
 
 ### 3.28 Small generators and mixed-trace field bounds
 
@@ -1782,9 +1790,9 @@ Proof: Use the trace-zero integral lattice and its covolume, then Minkowski’s 
 
 <a id="schmidt-field-count-bound"></a>
 
-**Schmidt field count bound.** For `n≥2` the number of degree-`n ℚ`-isomorphism classes with absolute discriminant `≤X` is `O_n(X^{(n+2)/4})`. For a fixed number-field base `k` the same exponent holds for relative degree `n` and relative discriminant norm `≤X`, with constant depending on `k,n`.
+**Schmidt field count bound.** For `n≥2` the number of degree-`n ℚ`-isomorphism classes with absolute discriminant `≤X` is `O_n(X^{(n+2)/4})`. For a fixed number-field base `k` the same exponent holds for relative degree `n` and relative discriminant norm `≤X`, with constant depending on `k,n`. The uniform absolute-discriminant form has the following quantifiers: for fixed integers `m≥1,n≥2`, there is `C(m,n)` such that for every degree-`m` number field `M` and every `T≥1`, the number of `M`-isomorphism classes `E/M` with `[E:M]=n` and `|Disc E|≤T` is at most `C(m,n)T^((n+2)/4)`. The constant is chosen before `M`; the cutoff is the absolute discriminant of the top field.
 
-Proof: for primitive fields count the trace-zero coefficient boxes. For imprimitive fields choose a maximal chain of intermediate fields and apply the relative primitive estimate at each step. Use the discriminant tower identity and sum dyadic base-discriminant intervals; retain the base-discriminant saving that makes the sum converge.
+Proof: for primitive fields count the trace-zero coefficient boxes. For imprimitive fields choose a maximal chain of intermediate fields and apply the relative primitive estimate at each step. Use the discriminant tower identity and sum dyadic base-discriminant intervals; retain the base-discriminant saving that makes the sum converge. For the uniform form use Schmidt [101], (1.2), p.189 and §3, pp.192–195: the lattice and coefficient estimates depend only on the degrees, with explicit saving in the base discriminant. There are only finitely many relative degree chains of product `n`; their largest step degree is at most `n`. Dropping their discriminant-saving factors gives the stated `C(m,n)`, uniformly over the degree-`m` bases. Converting an absolute cutoff to a relative-norm cutoff for fixed `k` introduces the permitted dependence on `|Disc k|`.
 
 *Needs:* [small trace zero element](#small-trace-zero-element), [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), Completed EffectiveBounds Layer 1.
 
@@ -1792,7 +1800,11 @@ Proof: for primitive fields count the trace-zero coefficient boxes. For imprimit
 
 **Checks.**
 
-- At `n=2` the bound is linear; at `n=4` its exponent is `3/2`.
+- For `m=1,n=2`, the absolute-discriminant bound is linear.
+
+- For `m=1,n=4`, its exponent is `3/2`.
+
+- If `T<|Disc M|^n`, the family is empty by discriminant transitivity. A relative-norm cutoff would instead correspond to the absolute cutoff `|Disc M|^n T`, so it cannot be substituted while keeping the same constant uniform in `M`.
 
 <a id="mixed-trace-finite-fibres"></a>
 
@@ -1864,7 +1876,7 @@ Use the [abelian discriminant series](#abelian-discriminant-series) for the base
 
 **Galois field three eighths bound.** The conditional arithmetic target `FieldStatistics.galois_count_threeEighths_of_largeSubgroups` assumes that every finite nonabelian simple `S` has a proper subgroup `H` with `|H|²>|S|`. Under that hypothesis, for a fixed number field `k` and finite `G` with `|G|>4`, Galois `G`-extensions `L/k` of relative discriminant norm `≤X` have count `O_{k,G,ε}(X^{3/8+ε})` for every `ε>0`. The unconditional endpoint `FieldStatistics.galois_count_threeEighths` is the same conclusion without that hypothesis; its finite-group requirement is specified below. No pure `O(X^{1/2})` assertion for all groups of order `≤4` is inferred; `C₂²` has a logarithmic factor.
 
-Proof: induct on `|G|` using a minimal normal subgroup `H=S^r`, and put `h=|H|, Q=G/H, q=|Q|` and `M=L^H`. Discriminant transitivity gives `N(d(M/k))≤X^(1/h)`. If `S` is nonabelian, the displayed subgroup hypothesis gives a proper core-free `H₀≤H` of order `a>√h`. The extension `L` is the normal closure over `M` of `L^(H₀)`. The relative primitive-field estimate in the Schmidt proof, retaining its base-discriminant saving, bounds the possibilities for this intermediate field by `O(X^((h/a+2)/(4a)))`, uniformly in `M`. This is the uniform form used in [102], p.735; a fixed-`M` constant cannot be summed here. Combining it with the coarse quotient bound `O(X^(1/h+ε))` gives exponent at most `1/4+1/(2√h)+1/h<3/8` for `h≥60`.
+Proof: induct on `|G|` using a minimal normal subgroup `H=S^r`, and put `h=|H|, Q=G/H, q=|Q|` and `M=L^H`. Discriminant transitivity gives `N(d(M/k))≤X^(1/h)`. If `S` is nonabelian, the displayed subgroup hypothesis gives a proper core-free `H₀≤H` of order `a>√h`. The extension `L` is the normal closure over `M` of `L^(H₀)`. The [uniform absolute-discriminant Schmidt bound](#schmidt-field-count-bound), with `[M:ℚ]=[k:ℚ]q`, relative degree `h/a` and cutoff `|Disc L^(H₀)|≤|Disc k|^(|G|/a)X^(1/a)`, bounds the possibilities for this intermediate field by `O_(k,G)(X^((h/a+2)/(4a)))`, uniformly in `M`. This is the uniform form used in [102], p.735; a fixed-`M` constant cannot be summed here. Combining it with the coarse quotient bound `O(X^(1/h+ε))` gives exponent at most `1/4+1/(2√h)+1/h<3/8` for `h≥60`.
 
 If `H=(C_p)^r`, first remove abelian `G` using the preceding abelian theorem; the remaining quotient has `q≥2`. Restriction of class-field characters to inertia has kernel bounded by `h(M)^r` and image bounded by `C^ω(Y)`, where `Y=N(d(L/M))`. Hence the number with this `Y` is `O(D_M^(r/2+ε)Y^ε)`. Away from the primes dividing `|G|d(M/k)`, tame inertia forces discriminant valuations to be multiples of `m=(p−1)|G|/p`. The possible `Y` lie in `O(N(d(M/k))^ε)` fixed `m`-power classes. Put `N₁=N(d(M/k))`; for each `M` their contribution is at most `X^(1/m+ε)N₁^(r/2−h/m+ε)`. Maximizing this last power over `1≤N₁≤X^(1/h)`, rather than bounding its two factors separately, gives
 
@@ -1876,7 +1888,7 @@ For `S₃` the cubic conductor identity and the quadratic three-torsion mean sup
 
 **Finite-group boundary.** The nonabelian step needs `FieldStatistics.simpleGroup_largeProperSubgroup`: for every finite nonabelian simple group `S` there is a proper subgroup `H` with `|H|²>|S|`. Ellenberg–Venkatesh, Remark 2.10, p.734, invokes classification for this input. For `S^r` take the product of these subgroups; simplicity makes its normal core trivial. The conditional arithmetic theorem assumes this precise inequality. `TauCetiRoadmap.CFSGStatement` defines the classification proposition only, and Tau Ceti's `TauCeti.ClassificationStatement` in `GroupTheory.SpecificGroups.CFSG.Classification` also has no proof of it. The conditional target includes this lemma as a hypothesis; the unconditional endpoint is not asserted as proved. The unconditional endpoint requires a proof of the stated finite-group inequality; the classification proposition alone cannot discharge it. The special `S₃` application used below uses the separate cubic theorem and does not require this nonabelian-simple input.
 
-*Needs:* [cyclic prime field count](#cyclic-prime-field-count), [schmidt field count bound](#schmidt-field-count-bound), Completed EffectiveBounds Layer 1.
+*Needs:* [cyclic prime field count](#cyclic-prime-field-count), [Schmidt field count bound, uniform absolute-discriminant form](#schmidt-field-count-bound), Completed EffectiveBounds Layer 1.
 
 ([[102]](#ref-102), Proposition1.3,p.725; proof Proposition2.8,§2.2,pp.734–737.)
 
@@ -2596,7 +2608,7 @@ Proof: Compute the index and `ℚ`-cyclotomic conjugacy orbit of the two minimum
 
 <a id="nonabelian-tame-local-model"></a>
 
-**Nonabelian tame local model.** For a finite embedded type `F` and an odd prime `p∤|F|`, the unramified/tame local mass is `|F|⁻¹` times the sum over `x,y∈F` with xyx `⁻¹=y^p` and `y=1` or `y∈c(F)`, weighted by1 when `y=1` and `p^{-s}` otherwise. It equals `1+N_Fp^{-s}`, where `N_F` is the number of `F`-conjugacy classes in `c(F)`. The full Malle–Bhargava local model includes separate bad-prime and infinite factors. It predicts signed arithmetic means of order `(log X)^{N_F−1}`; the global prediction is a named predicate and is not implied by the local calculation.
+**Nonabelian tame local model.** For a finite embedded type `F` and an odd prime `p∤|F|`, the unramified/tame local mass is `|F|⁻¹` times the sum over `x,y∈F` with xyx `⁻¹=y^p` and `y=1` or `y∈c(F)`, weighted by1 when `y=1` and `p^{-s}` otherwise. It equals `1+N_Fp^{-s}`, where `N_F` is the number of `F`-conjugacy classes in `c(F)`. The finite local-mass identities hold for every embedded type. For the global exponent and prediction require `F` admissible: then `c(F)` is nonempty and `N_F≥1`, and the exponent is the natural number `N_F−1`. The full Malle–Bhargava local model includes separate bad-prime and infinite factors. Its prediction asserts positive constants `c±` for signed arithmetic means asymptotic to `c±(log X)^{N_F−1}`. Inadmissible types have zero arithmetic counts and are outside this prediction; the finite local calculation does not imply the global prediction.
 
 The API is:
 
@@ -2606,11 +2618,11 @@ The API is:
 
 - `FieldStatistics.tameOutsideLocalMass_at_zero`: At `s=0` the mass is `1+ outsideClassCount(F)`.
 
-- `FieldStatistics.localModelLogExponent`: The natural exponent `N_F−1`.
+- `FieldStatistics.localModelLogExponent`: For admissible `F`, the natural exponent `N_F−1`, with `N_F≥1`.
 
 - `FieldStatistics.localModelLogExponent_good`: An admissible good type has exponent0.
 
-- `FieldStatistics.LogarithmicMomentPrediction`: Positive signed constants give asymptotics `c±(log X)^{N_F−1}`; this is a predicate, not a proved limit.
+- `FieldStatistics.LogarithmicMomentPrediction`: For admissible `F`, positive signed constants give asymptotics `c±(log X)^{N_F−1}`; this is a predicate, not a proved limit.
 
 Proof: Count `x` for each allowed `y` by its centralizer; since `y²=1` and `p` is odd, the tame relation is commutation. Sum one centralizer contribution per conjugacy class; `y=1` gives1. Factor the good-prime Euler product by `ζ(s)^{N_F}`; local/global compatibility and bad-prime constants remain heuristic except in the explicitly proved elementary-two case.
 
@@ -2625,6 +2637,8 @@ Proof: Count `x` for each allowed `y` by its centralizer; since `y²=1` and `p` 
 - For the `C₂` inverse-graph type, the factor is `1+2p^{-s}`, with exponent1.
 
 - For `G=1,F=C₂`, the factor is `1+p^{-s}`, not1.
+
+- For `G=1,F=1`, the outside-involution set is empty and the local factor is1. This type is inadmissible and its arithmetic counts vanish; natural subtraction `0−1=0` does not give a positive-constant prediction for it.
 
 ### Supporting arithmetic and moment arguments
 
