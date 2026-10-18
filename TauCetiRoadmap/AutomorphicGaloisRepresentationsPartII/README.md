@@ -89,7 +89,12 @@ Checks. They are used only after the hypotheses of the named specialization are 
   algebraic highest weights, coefficient representations, infinitesimal characters and the
   cohomological/C-algebraic dictionary. AutomorphicSpectralTheory §4.7 supplies compact quotient
   discrete spectral decomposition, and §5.11 supplies the cuspidal cohomology comparison used
-  for the boundary Levi. The rationality theorem for `GL_n` is the AG2.0 target below.
+  for the boundary Levi.
+- AutomorphicFormsOnReductiveGroups §5.7 supplies the smooth finite-part scalar twist,
+  stabilizer rationality field, twist/conjugation laws and Clozel finiteness for regular
+  algebraic cuspidal `GL_n` over any number field in cohomological normalization.
+  AG2.0 specializes that field to CM and totally real fields and proves the good Hecke polynomial
+  and attached Galois trace comparisons.
 - EndoscopicTransferAndUnitaryTraceComparison §9.1 supplies, for its Harris–Taylor
   division-algebra datum,
   `CompactUnitaryRaw.atLevel`, `CompactUnitaryRaw.localSystem`, `CompactUnitaryRaw.hecke`,
@@ -805,19 +810,19 @@ The required API is:
 
 ### Rationality of the good Hecke polynomials
 
-Define `fieldOfRationality` by `M_π = ℂ^{Aut(ℂ/π^∞)}` and prove Clozel rationality with the following hypotheses. For regular algebraic cuspidal `π` on `GL_n` over a CM or totally real field, every spherical integral Hecke polynomial `P_v(π_v;X)` has coefficients in `M_π`. At good places the traces of any attached `r` therefore lie in `ι^(−1)(M_π)`. This controls traces, not a model of `r` over `(M_π)_λ`: the Schur-index obstruction is supplied by ArithmeticGaloisRepresentations Layer 5. Coefficient conjugation sends `M_π` to `M_{σπ}=σ(M_π)`.
+Use `fieldOfRationality(π)` as an abbreviation for AutomorphicFormsOnReductiveGroups §5.7's `rationalityField(π^∞)`, specialized to `GL_n` over a CM or totally real field. Thus `M_π = ℂ^{Aut(ℂ/π^∞)}` uses the common finite-part isomorphism stabilizer. Import that section's scalar twist `galoisTwist`, its identity/composition laws, invariance under isomorphism and conjugation formula `M_{σπ}=σ(M_π)`. Import Clozel finiteness under the regular algebraic cuspidal hypotheses in cohomological normalization. For such `π`, prove that every spherical integral Hecke polynomial `P_v(π_v;X)` has coefficients in `M_π`. At good places the traces of any attached `r` therefore lie in `ι^(−1)(M_π)`. This controls traces, not a model of `r` over `(M_π)_λ`: the Schur-index obstruction is supplied by ArithmeticGaloisRepresentations Layer 5.
 
-Throughout this target, the definition uses `π^∞` only. `σπ^∞` is `π^∞` with scalars extended along `σ`. `M_π` controls traces, not realizations. The field over which `r` can be written may be strictly larger, by a Schur-index obstruction. AG2.3/finite-number-field-of-realization proves a common realization field using the regular labelled Hodge–Tate input supplied by AG2.6; the early rationality theorem does not depend on that late result. Clozel's theorem is used with its exact hypotheses: `π` regular algebraic (cohomological) and cuspidal. It is not claimed for non-cuspidal or non-algebraic `π`.
+Throughout this target, the definition uses `π^∞` only. `σπ^∞` is the supplied `galoisTwist(π^∞,σ)`; scalar conjugation acts on the smooth finite part and the labelled algebraic coefficient. The regular algebraic cuspidal conjugate is supplied by AutomorphicFormsOnReductiveGroups §5.7. `M_π` controls traces, not realizations. The field over which `r` can be written may be strictly larger, by a Schur-index obstruction. AG2.3/finite-number-field-of-realization proves a common realization field using the regular labelled Hodge–Tate input supplied by AG2.6; the early rationality theorem does not depend on that late result. Clozel's theorem is used with its exact hypotheses: `π` regular algebraic (cohomological) and cuspidal. It is not claimed for non-cuspidal or non-algebraic `π`.
 
-*Needs:* [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AutomorphicFormsOnReductiveGroups §5.7; [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); ArithmeticGaloisRepresentations Layer 5.
 
 (Sources: [ACC+](#source-accplus), §7.1, p. 1093.)
 
-For this `fieldOfRationality`, also prove that `M_π` is a number field under the regular
-algebraic cuspidal hypotheses. Its API is invariance under automorphic isomorphism,
-`M_{σπ}=σ(M_π)`, containment of each good Hecke coefficient and the equality with the
-compositum of the local spherical rationality fields. The last assertion uses strong
-multiplicity one on the same cuspidal domain. (Source: [ACC+](#source-accplus), §7.1, p.1093;
+For this `fieldOfRationality`, the imported Clozel theorem makes `M_π` a number field under
+the regular algebraic cuspidal hypotheses. In addition to the supplied isomorphism and
+conjugation laws, prove containment of each good Hecke coefficient and equality with the
+compositum of the local spherical rationality fields. The last assertion uses the supplied
+cuspidal conjugates and strong multiplicity one on the same cuspidal domain. (Source: [ACC+](#source-accplus), §7.1, p.1093;
 [Liu](#source-liu), Lemma 3.1.2, pp.138–139.)
 
 **Checks.**
@@ -888,7 +893,7 @@ Throughout this target, the local prescriptions satisfy the global unit and tota
 
 ### The coefficient field of a relevant automorphic representation
 
-For relevant `π` in Liu et al. Definition 1.1.3, import `ℚ(π)` as the fixed field of automorphisms preserving the finite part `π^∞`. Its local coefficient field is generated by coefficients of `∏_i(T−α_i q_v^{(N−1)/2})` at spherical places. Lemma 3.1.2 identifies `ℚ(π)` with the compositum of these local fields, using Clozel rationality and strong multiplicity one. This is an automorphic coefficient-field result; it does not prove Definition 3.2.5 strong Galois realization over each completion.
+For relevant `π` in Liu et al. Definition 1.1.3, use the same `fieldOfRationality(π)` as `ℚ(π)`, the fixed field of automorphisms preserving the finite part `π^∞`. Its local coefficient field is generated by coefficients of `∏_i(T−α_i q_v^{(N−1)/2})` at spherical places. Lemma 3.1.2 identifies `ℚ(π)` with the compositum of these local fields, using Clozel rationality and strong multiplicity one. This is an automorphic coefficient-field result; it does not prove Definition 3.2.5 strong Galois realization over each completion.
 
 Throughout this target, relevant regular algebraic CSD cuspidal `π` and normalized spherical parameters; all coefficient embeddings tracked.
 
@@ -902,7 +907,7 @@ For `Δ, a=(10,0)` has labels `{11,0}`; its good polynomial at 2 is `X²+24X+2¹
 
 ### Dependencies
 
-ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7; GlobalNumberFields Layers 9–10; ClassFieldTheory Layer 11; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.P.
+ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7; AutomorphicFormsOnReductiveGroups §5.7; GlobalNumberFields Layers 9–10; ClassFieldTheory Layer 11; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.P.
 
 ## Layer AG2.1a. Compact-unitary geometry and raw cohomology
 

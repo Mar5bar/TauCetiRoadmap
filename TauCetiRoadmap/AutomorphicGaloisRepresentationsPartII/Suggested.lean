@@ -27,6 +27,9 @@ The README is the definitive roadmap. These are suggested forms, not an exhausti
 The file records light definitions and milestones statable against the pinned Mathlib APIs.
 Automorphic representations, geometric realizations, period comparisons and compatible systems
 are specified in the README. Geometric Frobenius and `HT(ε) = −1` fix the numerical conventions.
+AG2.0's `fieldOfRationality` abbreviates AutomorphicFormsOnReductiveGroups §5.7's
+`rationalityField` on the smooth finite part, with its scalar twist/conjugation laws and
+Clozel finiteness for regular algebraic cuspidal representations in cohomological normalization.
 SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData`, its raw
 operations and convention adapters. AG2.P provides compatibility predicates on that carrier
 and their preservation; AG2.6 provides automorphic systems with the stated branch hypotheses.
