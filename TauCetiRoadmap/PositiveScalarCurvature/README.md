@@ -308,12 +308,23 @@ by the following explicit chain.
    also zero. Prove Toda's particular identity
    Eσ'''∘η₁₃∈{2ι₆,Eσ''',2ι₁₃}⊆π₁₄(S⁶).
    Prove this from Toda Corollary3.7, constructing the Moore-space
-   relation 2·1_M=iηj and its bracket comparison. Own the finite
-   π₁₄(S⁶) calculation with H(ν̄₆)=ν₁₁, H(ε₆)=0 and
-   [ι₆,ι₆]∘ν₁₁=Δ(ν₁₃)=±2ν̄₆ in the fixed EHP normalization.
-   Its actual indeterminacy is 2ι₆∘π₁₄(S⁶)+2π₁₄(S⁶);
-   the finite EHP/Whitehead calculation identifies this subgroup
-   with2π₁₄(S⁶). The displayed element is zero because
+   relation 2·1_M=iηj and its bracket comparison. Own the finite integral
+   calculation π₁₄(S⁶)≃ℤ/8{ν̄₆}⊕ℤ/2{ε₆}⊕ℤ/3, with an explicit
+   odd-primary generator and all generator/order comparisons. Fix
+   suspension-compatible order-eight 2-primary classes ν₁₁^(2) and
+   ν₁₃^(2), distinct from an unprojected integral quaternionic Hopf class.
+   In the 2-primary EHP calculation prove H(ν̄₆)=ν₁₁^(2), H(ε₆)=0 and
+   [ι₆,ι₆]∘ν₁₁^(2)=Δ(ν₁₃^(2))=±2ν̄₆ in the fixed normalization.
+   Here H:π₁₄(S⁶)→π₁₄(S¹¹) is the sphere EHP Hopf map; it is not
+   precomposition by a quaternionic Hopf map. Retain the actual integral
+   bracket indeterminacy 2ι₆∘π₁₄(S⁶)+2π₁₄(S⁶). On its 2-primary part
+   prove the Hilton–Hopf formula
+   (2ι₆)∘x=2x+[ι₆,ι₆]∘H(x); the preceding computations put its image
+   in the additive doubles. Degree-two postcomposition is a group
+   homomorphism and preserves odd-primary torsion, where multiplication
+   by2 is an automorphism. Use both parts to identify the full integral
+   indeterminacy with2π₁₄(S⁶), retaining its entire order-three summand.
+   The displayed element is zero because
    Eσ'''=2σ'' and precomposition by the suspension η₁₃ is additive.
    Choose this zero representative and its coherent tracks.
    The preceding lemma gives A:M₁₄→M₆, hence A:Σ⁸M₆→M₆
@@ -437,5 +448,6 @@ P6 uses these results and the stated stable-homotopy examples.
 - Toda, *Composition Methods in Homotopy Groups of Spheres*, Lemma5.13,
   Corollary3.7 and the finite EHP/π₁₄(S⁶) tables, for P6's named
   unstable base classes and Moore-space bracket identity.
+- Kachi–Mukai–Nozaki–Sumita–Tamaki, [*Some cohomotopy groups of suspended projective planes*](https://www.math.okayama-u.ac.jp/mjou/mjou43/_Kachi.pdf), Proposition4.4, for the integral π₁₄(S⁶) decomposition and the distinction between its 2-primary projection and the full quaternionic-Hopf formula. P6 owns the sphere-EHP and Hilton–Hopf comparisons used in the indeterminacy calculation.
 - Stolz, [*Positive scalar curvature—constructions and obstructions*](https://arxiv.org/abs/2202.05904), for the normal-type distinctions and proof references.
 - Lawson–Michelsohn, *Spin Geometry*, for the real Clifford/Dirac conventions and analytic comparison.
