@@ -284,9 +284,11 @@ example : ¬ Function.Surjective
 example : Function.Injective (AdicCompletion.of (Ideal.span {(p : ℤ)}) ℤ) ∧
     ∀ x : ℚ, AdicCompletion.of (Ideal.span {(p : ℤ)}) ℚ x = 0 := sorry
 
-/-- `ℚ` with no finite place in `S_f` has S-unit rank zero. -/
-example : Module.finrank ℤ (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ))
-    = 0 := sorry
+/-- `ℚ` with no finite place in `S_f` has a finitely generated S-unit module of rank zero. -/
+example : Module.Finite ℤ
+    (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ)) ∧
+    Module.finrank ℤ
+      (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ)) = 0 := sorry
 
 end CompletionChecks
 
@@ -672,7 +674,7 @@ modified local diagram: ordinary finite-place cochains, real Tate cochains and z
 terms, or the quasi-isomorphic finite-place model under `(P)` for coefficients of residue
 characteristic `p`. At dyadic real places, boundedness of the finite-place fibre depends on
 the coefficients; arithmetic duality uses the model with real Tate terms. The fibre of ordinary cochains at
-every place is compared with the modified diagram through the maps q_v of R02.3.1. -/
+every place is compared with the modified diagram through the maps `q_v` of the Conventions. -/
 abbrev compactCochains (res : A ⟶ B) : CochainComplex (ModuleCat.{u} R) ℤ :=
   (CochainComplex.mappingCone res)⟦(-1 : ℤ)⟧
 
