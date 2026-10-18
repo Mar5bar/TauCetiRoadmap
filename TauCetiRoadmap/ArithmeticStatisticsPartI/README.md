@@ -10,7 +10,7 @@ The following boundaries fix the carriers and prevent parallel versions of exist
 
 - TauCetiRoadmap.EllipticCurves Layers 1, 4–8 supply isogenies, local point groups, quadratic twists, Mordell–Weil, finite Selmer groups and their exact sequence, and the unique integral minimal short pair over `ℚ`. Here the new elliptic-family adapter sends that pair `(A,B)` to `(−3A,−27B)` and tracks the resulting height and local-density factors. Mathlib's pointwise `WeierstrassCurve.naiveHeight` is a height on points and is not this curve-family height.
 - TauCetiRoadmap.GlobalNumberFields Layers 9–11 own discriminants, orders, Picard groups and the number-field lattice dictionary. GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 3.2 supplies primitive adapted bases and maximal-minor ideals for the integer saturation-index comparison here. Its §§2.2–2.8 and IntegralLattices supply the hermitian and integral-lattice comparisons used in polarization fibres.
-- TauCetiRoadmap.NumberFieldArithmetic Layers 1, 4 and 6 and TauCetiRoadmap.LocalFieldsRamification Layer 3 supply splitting, relative discriminants, towers and local ramification. TauCetiRoadmap.ClassFieldTheory Layers 11–13 supplies Artin reciprocity, unramified class fields and conductor characters. The exact function-field slices retain the removed infinity places and their degrees.
+- TauCetiRoadmap.NumberFieldArithmetic Layers 1, 4 and 6 and TauCetiRoadmap.LocalFieldsRamification Layer 3 supply splitting, relative discriminants, towers and local ramification. TauCetiRoadmap.ClassFieldTheory Layers 11–13 supplies number-field Artin reciprocity, unramified class fields and conductor characters. ArithmeticGaloisDuality §R02.3.2 supplies function-field reciprocity and finite S-class groups. The exact function-field slices retain the removed infinity places and their degrees.
 - SchemeAndStackFoundations §§3.6–3.7 owns unpointed Picard schemes and their degree torsors, the Picard–Brauer obstruction, rational-divisor-class comparison, norm and high-degree Abel maps. The Picard quotient, carry and Hecke probability here are finite statistical specializations. AbelianSchemesAndArithmeticModuli:A3 supplies theta groups and Cartier-dual isogeny kernels; A6 supplies polarized automorphisms and the Rosati-positive-unit orbit description of principal polarizations. The finite counting fibres and their asymptotics are new.
 - TauCetiRoadmap.AlgebraicVectorBundles L0 supplies finite locally free sheaves, their rank, tensor products and line-bundle comparison. JacobianChallenge Layers B–C supply curve cohomology, Riemann–Roch and finite pushforward; AlgebraicCurves Layers 7 and 10 supply double-cover genus and smooth models. The rank-two splitting and hyperelliptic bundle-index formulas needed for the probabilities are the specialization stated in [the bundle geometry contract](#support-bundle-geometry).
 - InverseGaloisAndArithmeticFundamentalGroups:IG.3–IG.5 own reduced Schur multipliers and covers, arithmetic lifting invariants and Hurwitz components. They are imported with their marked central-cover choices and cyclotomic power actions. Here embedded wreath types, infinity rigidifications and the normalized component sums specify which arithmetic moments are counted.
@@ -45,6 +45,8 @@ From TauCetiRoadmap.EllipticCurves Layers 4–8 require the finite exact sequenc
 
 From TauCetiRoadmap.ClassFieldTheory Layers 11–13 require the unramified reciprocity quotient, including split real places for ordinary classes and allowed real ramification for narrow classes, the conductor–discriminant formula, and equivariance under field automorphisms. From NumberFieldArithmetic Layers 1, 4 and 6 require norm/extension compatibility and discriminant transitivity. From GlobalNumberFields Layer 11 require the finite order-class and overorder interfaces, trace duals, ideal norms, and discriminant/index-square identities. From GlobalQuadraticForms Layer 5 require the Hasse principle for nonsingular conics over number fields, used to compare quartic descent with the cohomological two-Selmer group.
 
+ArithmeticGaloisDuality §R02.3.2 supplies `GlobalFunctionField.classFormation`, its global/local Artin compatibility and abelian norm-group correspondence, together with `sClassGroup` and `finite_sClassGroup`. For a finite nonempty removed-place set S, transport that reciprocity to `Pic(C)/⟨[v]:v∈S⟩`, imposing splitting at S and retaining its degree quotient `ℤ/gcd(deg(v):v∈S)ℤ` and degree-zero kernel, as in [the function-field adapter](#support-function-fields).
+
 From GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 require primitive adapted bases and covolume identities; §3.2’s `hermitianMaximalMinorIdeal` supplies the general maximal-minor ideal and basis-change API. The integer two-column gcd/index comparison is a target of §0.10 here. AdelicAlgebraicGroups AA.0 supplies restricted-product measure theory for countable families of second countable locally compact groups. The adeles of `𝔽_q(t)`, rational quotient, bundle correspondence and finite-volume measure are constructed in [function-field adelic bundle measure](#function-field-adelic-bundle-measure).
 
 The finite-dimensional singular system is already owned by [TauCetiRoadmap.OperatorTheory, PolarDecomposition Part C](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OperatorTheory/PolarDecomposition/README.md): PD-C09–PD-C18 supply right and left singular vectors and reconstruction. Its real invertible two-dimensional specialization gives `g=k diag(u,u⁻¹)l`, `u≥1`, for `|det g|=1`, with k,l orthogonal. This is the supplier used in compact binary transporters. Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis` in `Analysis.InnerProductSpace.Spectrum` already supplies the underlying spectral theorem; no general singular-decomposition theory is planned here.
@@ -53,7 +55,7 @@ From SchemeAndStackFoundations Layers 0–3 and §§3.6–3.7 require representa
 
 From SelmerIwasawaCohomology Layers 0–4 require continuous/fppf cohomology, Kummer localization, finite Selmer groups and torsors and the p-infinity corank interface. ArithmeticGaloisDuality §§D7, R02.4 supplies Poitou–Tate, local invariants and local pairings. SelmerIwasawaCohomology §4.29 supplies `CasselsTate`, `CasselsTate.isogeny_adjoint`, the maximal-divisible-radical statements and the finite nondegenerate primary quotients. SchemeAndStackFoundations §3.6 and JacobianChallenge Layer D supply the degree/index and Picard–Brauer comparison: a rational relative Picard point is identified with a line bundle only after its obstruction vanishes.
 
-From InverseGaloisAndArithmeticFundamentalGroups:IG.0–IG.2 require finite embedding problems, quantitative Hilbert irreducibility and the fixed-model Lang–Weil estimate. IG.3 supplies `H₂(F,c)=H₂(F,ℤ)/Q_c`, a chosen reduced cover, and functorial cyclotomic powers. IG.4–IG.5 supply marked arithmetic lifting invariants, unramified Gamma groups and Hurwitz components with their rational Frobenius action. A stable component formula is used only in its stable multidegree range; boundary components remain in the total profile.
+From InverseGaloisAndArithmeticFundamentalGroups:IG.0–IG.2 require finite embedding problems, quantitative Hilbert irreducibility and the fixed-model Lang–Weil estimate. IG.3 supplies `H₂(F,c)=H₂(F,ℤ)/Q_c`, a chosen reduced cover, functorial cyclotomic powers and the Tate-twisted component invariant. IG.4 supplies global arithmetic lifting invariants over number fields and the marked-extension and unramified Gamma-group carriers over global fields. IG.5 supplies Hurwitz components with their rational Frobenius action. A stable component formula is used only in its stable multidegree range; boundary components remain in the total profile.
 
 From EtaleDualityAndPerverseSheaves §§0.5–0.6, 6.3 and DeligneWeightsAndPurity:DWP.7 require compactly supported cohomology, the trace formula, Poincaré duality, weights and the uniform Betti-bound hypotheses stated below. DeligneWeightsAndPurity §1.6 supplies `#C(𝔽_(q^m))=q^m+1-Σ_i α_i^m` and `|#C(𝔽_(q^m))-(q^m+1)|≤2gq^(m/2)` for a smooth proper geometrically connected curve. Its §1.4–1.5 supplies the weight-one abelian Frobenius roots and `#A(𝔽_(q^m))=det(1-π^m)`. Arithmetic Frobenius on the Tate module and geometric Frobenius on cohomology are not interchanged.
 
@@ -395,7 +397,7 @@ For the proof, On `T_j`, `N_{H′}(A ∩ T_j; X) = N_H(A ∩ T_j; X/c_j)` (`coun
 
 **Stabilizer weighted orbit count.** Let a group `Γ` act on a type V and let F be an arithmetic family on the orbit type `Γ\V = MulAction.orbitRel.Quotient Γ V` (for instance `GL₂(ℤ)` or `PGL₂(ℤ)` acting on integral binary quartic forms, with the class height H). The stabilizer weight of an orbit `Γv` is `w(Γv) := 1/#Stab_Γ(v)` (Nat.card, so an infinite stabilizer gets weight 0); it is well defined because `Stab_Γ(γv) = γ·Stab_Γ(v)·γ⁻¹` (Mathlib's `MulAction.stabilizer_smul_eq_stabilizer_map_conj`). The stabilizer-weighted orbit count of `S ⊆ Γ\V` is `N^w(S; X) := Σ_{Γv ∈ S, H(Γv) ≤ X} w(Γv) = weightedCount (1_S·w) X`; the unweighted count is `N(S; X) = count S X`. Properties: `w ≤ 1`; `w > 0` when the stabilizer is finite; `w = 1` exactly when the stabilizer is trivial; the mass formula `Σ_{orbits} w = #V/#Γ` for finite `Γ` and V (Mathlib's class formula `MulAction.card_eq_sum_card_group_div_card_stabilizer`); if a finite subgroup `Z ≤ Γ` acts trivially, `#Z·w(Γv) = 1/#(Stab_Γ(v)/Z)` is a coset-cardinality identity. When Z is normal it is the weight for the descended `Γ/Z`-action; that action is faithful precisely when Z is the full action kernel. For `GL₂(ℤ)` on binary quartic forms `−1` acts trivially ([binary quartic form](#binary-quartic-form)), every stabilizer of a nonsingular integral form is finite of even order `2r`, and Bhargava–Shankar's weight `1/r` is `2w = 1/#Stab_{PGL₂(ℤ)}(f)`. Proposed declarations: `stabilizerWeight`, `weightedOrbitCount`.
 
-The orbit family, with its Northcott property, is an input. For `GL₂(ℤ)`-classes of irreducible integral binary quartic forms of bounded height, finiteness comes from reduction theory (Bhargava–Shankar §§2.1–2.2; they quote Borel–Harish-Chandra [10, Thm 6.9]); forms of height 0 (all multiples of `x⁴`) must be excluded. The normalisation by a trivially acting subgroup is an explicit factor #Z, never absorbed silently: Bhargava–Shankar's `1/r` is twice the `GL₂(ℤ)`-stabilizer weight.
+The orbit family, with its Northcott property, is an input. For `GL₂(ℤ)`-classes of irreducible integral binary quartic forms of bounded height, finiteness comes from reduction theory (Bhargava–Shankar §§2.1–2.2; they quote Borel–Harish-Chandra [10, Thm 6.9]); the height-zero locus, including all multiples of `x⁴` and `x³y`, must be excluded. The normalisation by a trivially acting subgroup is an explicit factor #Z, never absorbed silently: Bhargava–Shankar's `1/r` is twice the `GL₂(ℤ)`-stabilizer weight.
 
 - `stabilizerWeight`: `w(Γv) = 1/#Stab_Γ(v) on Γ\V`.
 
@@ -430,6 +432,8 @@ For the proof, stabilizerWeight is Quotient.lift of `v ↦ (Nat.card Stab_Γ(v))
 - For `{±1} = (ℤ/3)ˣ` acting on `ℤ/3` by multiplication, the orbits {0} and {1, 2} have weights `1/2` and 1, total `3/2 = #V/#Γ`; reciprocal orbit lengths give the same total but reverse those individual weights.
 
 - Bhargava–Shankar p. 9: `n_i·N(V^(i); X)` is the number of integral points in the fundamental multiset, with orbits whose `GL₂(ℤ)`-stabilizer has order `2r` counted with weight `1/r`; that weight is `natCard_mul_stabilizerWeight` with `Z = {±1}`.
+
+- The form `x³y` has `I=J=Δ=0` and height zero. Its distinct projective roots have multiplicities 3 and 1, preserved under invertible substitution, so it cannot become a nonzero scalar multiple of a fourth power of a linear form.
 
 <a id="weighted-and-unweighted-orbit-counts"></a>
 
@@ -703,7 +707,7 @@ For the proof, Both identities are polynomial identities with integer coefficien
 
 <a id="quartic-discriminant-is-the-polynomial-discriminant"></a>
 
-**Quartic discriminant is the polynomial discriminant.** Let `f = (a, b, c, d, e) ∈ V_R` with `f(X, 1) = aX⁴` + bX³ + cX² + dX `+ e` of degree 4. Then `Δ(f) =` discr(`f(X, 1)`), Mathlib's Polynomial.discr (the Sylvester determinant of the polynomial and its derivative, signed so that polynomials over `ℝ` with all roots real have nonnegative discriminant). Over a field containing the roots `α₁`, `…`, `α₄` of `f(X, 1)`, `Δ(f) = a⁶∏_{i<j}(α_i − α_j)²`. Proposed declaration: `BinaryQuartic.disc_eq_discr`.
+**Quartic discriminant is the polynomial discriminant.** Let `f = (a, b, c, d, e) ∈ V_R` with `f(X, 1) = aX⁴` + bX³ + cX² + dX `+ e` of degree 4. Then `Δ(f) =` discr(`f(X, 1)`), Mathlib's Polynomial.discr (the signed Sylvester resultant with the leading-coefficient factor removed integrally, implemented by the modified matrix sylvesterDeriv; the sign makes polynomials over `ℝ` with all roots real have nonnegative discriminant). Over a field containing the roots `α₁`, `…`, `α₄` of `f(X, 1)`, `Δ(f) = a⁶∏_{i<j}(α_i − α_j)²`. Proposed declaration: `BinaryQuartic.disc_eq_discr`.
 
 Degree exactly 4 (a is not a zero divisor suffices); for `a = 0` the form has the root [1 : 0] and `f(X, 1)` has lower degree.
 
@@ -720,6 +724,8 @@ For the proof, Reindex the `7 × 7` matrix sylvesterDeriv of a degree-4 polynomi
 - The sign of `Δ` separates the real types: `Δ > 0` for four or zero real roots, `Δ < 0` for two (Bhargava–Shankar §2.1).
 
 - For `(x²−y²)²`, both the quartic invariant discriminant and the discriminant of `(X²−1)²` vanish, since the roots are repeated.
+
+- For `f(X,1)=2X⁴−2`, the discriminant is `−16384`, whereas its resultant with its derivative is `−32768`; the latter still contains the leading coefficient 2.
 
 <a id="binary-quartic-height"></a>
 
@@ -2248,7 +2254,7 @@ For the proof, Use the quotient of `PGL₂(A)` for `F=𝔽_q(t)` and the normali
 
 *Needs:* [function-field adelic bundle measure](#function-field-adelic-bundle-measure), [natural bundle law](#natural-bundle-law), [stabilizer weighted orbit count](#stabilizer-weighted-orbit-count), `MeasureTheory.Measure.map` (Mathlib).
 
-([[64]](#ref-64), Appendix A.4, Hecke Measures, p.38 (arXiv v1).)
+([[64]](#ref-64), Appendix A.4, Hecke Measures, pp.38–39 (arXiv v1).)
 
 **Checks.**
 
@@ -2257,6 +2263,8 @@ For the proof, Use the quotient of `PGL₂(A)` for `F=𝔽_q(t)` and the normali
 - A constant correspondence pushes every point to its constant pair.
 
 - For distinct b,c, the pair pushforward of a Dirac mass along constant maps b,c differs from the reversed Dirac mass at `(c,b)`.
+
+- For a rational degree-one divisor D, `μ_D(0,1)=μ_q(0)=(q−1)/(2q)`: every elementary modification of `O²` has splitting index 1. Indeed, the kernel of a surjection `O²→k(D)` is `O⊕O(−1)`, since constant changes of basis act transitively on its nonzero fibre functionals. At `q=3` this mass is `1/3`, whereas the parity-product candidate gives `8/27`.
 
 ### 0.19 Embedded types and infinity markings
 
@@ -2482,13 +2490,13 @@ For the proof, Restrict the base carrier, then use the weighted count with the e
 
 <a id="wood-root-unity-and-tame-comparison"></a>
 
-**Wood root unity and tame comparison.** Wood’s correction is the `|μ_K|`-torsion subgroup of the reduced multiplier `H₂(H,c)`, where `μ_K` is the roots-of-unity group of the base global field K. Over Q use 2; over `𝔽_q(t)` use `q−1`. Use InverseGaloisAndArithmeticFundamentalGroups:IG.3 for the reduced multiplier and IG.4 for the global lifting invariant. Restricting the quadratic base to the tame subfamily changes the denominator too. Moment counts refined by invariant value partition the rigid numerator; summing them does not by itself prove the arithmetic distribution law.
+**Wood root unity and tame comparison.** Wood’s correction is the `|μ_K|`-torsion subgroup of the reduced multiplier `H₂(H,c)`, where `μ_K` is the roots-of-unity group of the base global field K. Over Q use 2; over `𝔽_q(t)` use `q−1`. Use InverseGaloisAndArithmeticFundamentalGroups:IG.3 for the reduced multiplier. Restricting the quadratic base to the tame subfamily changes the denominator too. Moment counts refined by invariant value partition the rigid numerator; summing them does not by itself prove the arithmetic distribution law.
 
-For the lifting-invariant comparison, H is good and admissible, the global map has tame ramification, and in positive characteristic the characteristic is coprime to |H|. Retain the chosen reduced cover and the infinity marking required by IG.3–IG.4. These are hypotheses of the comparison, not conclusions of the finite partition identity.
+Over Q, compare with the global arithmetic lifting invariant of IG.4, retaining its tame, good/admissible, marked-cover and infinity hypotheses. Over `𝔽_q(t)`, define the `q−1` torsion correction and partition tame marked-cover counts using IG.3's Tate-twisted component invariant and IG.5's Hurwitz-component interface. In this finite-field construction require characteristic coprime to |H| and retain the chosen reduced cover, exact class degrees and infinity marking. Components are identified with invariant values only in the supplier's stable generating multidegree range, and rational components require Frobenius-fixed values.
 
 For the proof, Reuse the reduced multiplier and its torsion subgroup. Check root-of-unity orders for the two bases. Apply finite partition identities to the already defined rigid fibers and the same tame base slice.
 
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups:IG.3 (reduced multiplier and marked cover), InverseGaloisAndArithmeticFundamentalGroups:IG.4/global-arithmetic-invariant, [wood average normalizations](#wood-average-normalizations).
+*Needs:* InverseGaloisAndArithmeticFundamentalGroups:IG.3 (reduced multiplier, marked cover and Tate-twisted arithmetic lifting invariants), IG.4 (global arithmetic lifting invariant over Q), IG.5.6 (specialization and component lifting invariants), [wood average normalizations](#wood-average-normalizations).
 
 ([[50]](#ref-50), Conjecture 1.1 p.1 and §3 Definition 3.1 pp.8–9, arXiv v2. The predicted distribution remains conjectural.)
 
@@ -2694,7 +2702,13 @@ For finite-field abelian counts, use the native isogeny and polarization carrier
 
 <a id="support-function-fields"></a>
 
-For an odd-characteristic function field `𝔽_q(C)`, relate rational divisor classes, ideal classes after removing infinity, and `J(𝔽_q)` by the degree exact sequence, retaining the degrees of the removed places. A rational relative Picard point descends to a line bundle over a finite field because the Brauer obstruction vanishes. Use the norm/pushforward on divisors and the Frobenius action on the unramified fundamental group to obtain the split-infinity class-field quotient. For a quadratic hyperelliptic model distinguish ramified infinity, split infinity and nonsplit infinity. The real exact slice counts the split case and its marked points, not all even-degree equations. Sources are EVW, §8, pp. 776–782, and Wood, §§2–4, pp. 4–25 in arXiv:`1702.04644v2`. The Picard/Brauer machinery comes from SchemeAndStackFoundations §§3.6–3.7; the field and infinity specialization is proved here.
+For a smooth proper geometrically connected curve C over an odd finite field `𝔽_q`, relate rational divisor classes, ideal classes after removing infinity, and `J(𝔽_q)` by the degree exact sequence. A rational relative Picard point descends to a line bundle because the finite-field Brauer obstruction vanishes. ArithmeticGaloisDuality §R02.3.2 supplies `GlobalFunctionField.classFormation`, global/local Artin compatibility, abelian norm-group correspondence, `sClassGroup` and `finite_sClassGroup`. For a finite nonempty removed-place set S, transport that reciprocity to `Pic(C)/⟨[v]:v∈S⟩`: unramified abelian covers split at every v in S precisely when their Artin maps kill these classes. With `d=gcd(deg(v):v∈S)` and `L=⟨[v]:v∈S⟩`, retain the exact sequence `0→J(𝔽_q)/(L∩J(𝔽_q))→Pic(C)/L→ℤ/dℤ→0`. Use the supplied norm compatibility for pushforward of divisors. For a quadratic hyperelliptic model distinguish ramified infinity, split infinity and nonsplit infinity. The real exact slice counts the split case and its marked points, not all even-degree equations. Sources are EVW, §8, pp. 776–782, and Wood, §§2–4, pp. 4–25 in arXiv:`1702.04644v2`. The Picard/Brauer machinery comes from SchemeAndStackFoundations §§3.6–3.7; the field and infinity specialization is proved here.
+
+**Checks.**
+
+- On `P¹/𝔽_q`, removing a rational place gives trivial S-class group: Pic is ℤ and the removed class has degree one.
+- On `P¹/𝔽_q`, removing a single degree-two place gives S-class group `ℤ/2ℤ`. The unramified constant quadratic extension splits at this place; replacing the quotient by `J(𝔽_q)=0` loses it.
+- Removing places of degrees two and three on `P¹/𝔽_q` gives trivial S-class group since their degrees generate ℤ. For two rational infinity places on a hyperelliptic curve, the degree quotient is trivial and the kernel is `J(𝔽_q)/⟨[∞₁−∞₂]⟩`.
 
 The hypersurface adapter identifies degree-d homogeneous forms with the native monomial-indexed coefficient space of rank `binomial(n+d,d)` using the Veronese monomials, not an arbitrary enumeration with a hidden degree shift. For the local statistic `σ(a;Q)=Q^(−n)# {primitive x mod Q:f_a(x)=0}`, prove residue dependence, CRT multiplicativity for coprime positive moduli and the normalization at `Q=1`. It is an intensity, not necessarily a probability. These are the interfaces used by the later incidence and variance calculations ([[46]](#ref-46), Definition 2.1 p.4 for the monomial-indexed Veronese vector; (5.2)–(5.3) p.50 for primitive residues and σ; (5.11) p.53 for CRT multiplicativity). At `Q=1` the sole residue vector is primitive and solves every equation, so `σ(a;1)=1` follows directly from the finite count here.
 

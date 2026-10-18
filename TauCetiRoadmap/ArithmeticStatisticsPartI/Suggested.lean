@@ -121,6 +121,13 @@ example (a : Fin 1 → ℤ) : ¬ WeakSquareDivides (fun _ => 0) 3 a := by sorry
 example : WeakSquareDivides (fun a : Fin 1 → ℤ => a 0) 3 0 ∧
     StrongSquareDivides (fun a : Fin 1 → ℤ => (a 0) ^ 2) 3 0 := by sorry
 
+example : WeakSquareDivides
+    (fun a : Fin 2 → ℤ => (monicPolynomial 2 a).discr) 3 ![0, 9] := by sorry
+example : StrongSquareDivides
+    (fun a : Fin 3 → ℤ => (monicPolynomial 3 a).discr) 3 0 := by sorry
+example : StrongSquareDivides
+    (fun a : Fin 2 → ℤ => (monicPolynomial 2 a).discr) 2 0 := by sorry
+
 example : boxHeight (![2,-3] : Fin 2 → ℤ) = 3 := by sorry
 example : monicPolynomial 1 (![-2] : Fin 1 → ℤ) = X - C 2 := by sorry
 example : (0 : Fin 0 → ℤ) ∈ weightedBox 0 0 ∧
@@ -198,6 +205,12 @@ example : invI (⟨0,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
 example : invI (⟨1,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
     invJ (⟨1,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
     disc (⟨1,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 := by sorry
+example : invI (⟨0,1,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
+    invJ (⟨0,1,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
+    disc (⟨0,1,0,0,0⟩ : BinaryQuartic ℤ) = 0 := by sorry
+example : (C 2 * X ^ 4 - C 2 : ℤ[X]).discr = -16384 := by sorry
+example : (C 2 * X ^ 4 - C 2 : ℤ[X]).resultant
+    (C 2 * X ^ 4 - C 2 : ℤ[X]).derivative = -32768 := by sorry
 example : invI (⟨1,1,1,1,1⟩ : BinaryQuartic ℤ) = 10 ∧
     invJ (⟨1,1,1,1,1⟩ : BinaryQuartic ℤ) = 25 ∧
     disc (⟨1,1,1,1,1⟩ : BinaryQuartic ℤ) = 125 := by sorry
