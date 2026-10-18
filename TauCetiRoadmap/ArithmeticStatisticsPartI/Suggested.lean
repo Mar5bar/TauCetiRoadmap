@@ -56,6 +56,23 @@ example : (⟨fun n : ℤ => (|n| : ℝ), by sorry⟩ : ArithmeticFamily ℤ).co
 example {ι : Type*} (N : ι → ℕ) [Northcott N] (X : ℝ) :
     (TauCeti.normLE N X : Set ι) = {i | (N i : ℝ) ≤ X} := by sorry
 
+/-- Natural height gives the parity density one half. -/
+example (F : ArithmeticFamily ℕ) (hF : ∀ n, F.height n = (n : ℝ)) :
+    F.HasRelativeDensity {n | Even n} Set.univ (1 / 2) := by sorry
+
+example (F : ArithmeticFamily ℕ) (hF : ∀ n, F.height n = (n : ℝ)) :
+    F.HasRelativeDensity {0, 1, 2} Set.univ 0 := by sorry
+
+/-- Alternating geometric blocks have no relative density at natural height. -/
+example (F : ArithmeticFamily ℕ) (hF : ∀ n, F.height n = (n : ℝ)) :
+    ¬ ∃ d : ℝ, F.HasRelativeDensity
+      {n | ∃ k : ℕ, 4 ^ k ≤ n ∧ n < 2 * 4 ^ k} Set.univ d := by sorry
+
+/-- Increasing only the odd heights changes the parity density to one. -/
+example (F : ArithmeticFamily ℕ)
+    (hF : ∀ n, F.height n = if Even n then (n : ℝ) else (n : ℝ) ^ 2) :
+    F.HasRelativeDensity {n | Even n} Set.univ 1 := by sorry
+
 end ArithmeticFamily
 
 namespace Coefficients
@@ -172,6 +189,20 @@ example : pairHeight (-2) 8 = 16 := by sorry
 example : invJ (⟨1,0,0,1,0⟩ : BinaryQuartic ℤ) = -27 ∧
     invJ (⟨0,1,0,0,1⟩ : BinaryQuartic ℤ) = -27 := by sorry
 
+example : invI (⟨0,1,0,-1,0⟩ : BinaryQuartic ℤ) = 3 ∧
+    invJ (⟨0,1,0,-1,0⟩ : BinaryQuartic ℤ) = 0 := by sorry
+example : invI (⟨0,16,0,-16,0⟩ : BinaryQuartic ℤ) = 768 := by sorry
+example : invI (⟨0,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
+    invJ (⟨0,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
+    disc (⟨0,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 := by sorry
+example : invI (⟨1,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
+    invJ (⟨1,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 ∧
+    disc (⟨1,0,0,0,0⟩ : BinaryQuartic ℤ) = 0 := by sorry
+example : invI (⟨1,1,1,1,1⟩ : BinaryQuartic ℤ) = 10 ∧
+    invJ (⟨1,1,1,1,1⟩ : BinaryQuartic ℤ) = 25 ∧
+    disc (⟨1,1,1,1,1⟩ : BinaryQuartic ℤ) = 125 := by sorry
+example : pairHeight 2 2 = 8 := by sorry
+
 end BinaryQuartic
 
 /-!
@@ -184,7 +215,7 @@ The remaining README definitions are targets on their stated suppliers:
 `eligibilityCongruence` and `IsEligible`; `EllipticFamily`, its invariant maps and
 congruence subfamilies; `oddSupport`, `unitHeight`, `supportIdeal`, `squareclassHeight`,
 `twistModel`, `twistClass`, `twistFamily`, `posSquarefree`, `evenParityClasses`;
-discriminant-ordered and embedded number-field families and their Galois selectors;
+discriminant-ordered and embedded number-field families;
 the imported cubic-action/algebra adapters and their maximality predicate;
 hypersurface monomial coordinates, `FormDensity.minorGCD` and its saturation-index
 comparison, primitive residue vectors, local-density moments
@@ -195,6 +226,9 @@ hyperelliptic equation families, odd-root predicates and density transfers;
 negative-Pell radicands; unpolarized, principally polarized and polarization-fiber
 counts; natural bundle law, parity tails, Picard quotient, representatives and carry,
 finite joint bundle mass, theta tails, parity product and Hecke pushforward;
+`functionFieldAdeles`, `pgl2FunctionField_discrete`, `adelicBundleEquiv`,
+`adelicBundleQuotientMeasure`, `adelicBundleQuotientMeasure_volume` and
+`adelicBundleMeasure_map` for the function-field adelic bundle measure;
 rank-two projective-line splitting, `p1BundleIndex`, finite double-cover pushforwards,
 the hyperelliptic involution comparison and `thetaClasses`;
 Wood outside involutions, admissible and good embedded types, type automorphisms,
