@@ -1905,12 +1905,13 @@ following sequence of targets:
 
    **3d.0. Ordinary PL surgery and its algebraic engine.** Own the generic PL Whitehead-torsion
    and s-cobordism interfaces needed here. Define Wh(π)=K₁(ℤ[π])/⟨±g⟩
-   using native group rings, stabilized invertible matrices and their
-   elementary relations; construct the based finite-free cellular chain
-   torsion, basis-change/simple-collapse invariance, composition and duality.
-   Consume GrothendieckEulerForms' single projective-module K₀ construction;
-   own its comparison with idempotent matrices over a general unital ring,
-   the rank summand and reduced K₀ used here. Build the Bass–Heller–Swan
+   using native group rings and [AlgebraicKTheory A0–A3](../AlgebraicKTheory/README.md)'s
+   single arbitrary-ring stable-matrix K₁ and projective-module K₀, including
+   its elementary relations, idempotent comparison and Morita maps. Construct
+   the based finite-free cellular chain torsion, basis-change/simple-collapse
+   invariance, composition and duality. Own the rank summand and reduced K₀
+   used here. Consume AlgebraicKTheory A6's normalized Milnor patching maps
+   when constructing the following localization/patching comparisons. Build the Bass–Heller–Swan
    Laurent extension in degrees0/1, with augmentation, t-multiplication,
    localization/patching maps and their exactness. Prove the Nil summands
    vanish for the iterated Laurent rings over ℤ by regular-Noetherian
