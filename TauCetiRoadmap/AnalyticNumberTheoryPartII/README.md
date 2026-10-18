@@ -38,7 +38,7 @@ Mathlib `HeckeCoset`, `HeckeCosetModule` and `IsHeckeTriple.of_diagonal` supply 
 
 ### From AnalyticNumberTheoryPartI
 
-Consume [AnalyticNumberTheoryPartI, Exact supplier contracts](../AnalyticNumberTheoryPartI/README.md#exact-supplier-contracts) for ArithmeticDirichletSeries, LFunctions/ZerosOfLFunctions, GlobalNumberFields, Tate integrals, class fields and contours. Its Layer 0 supplies quantitative prime estimates, §0.23a the normalized slit-plane Gamma logarithm and differentiated Stirling remainders, §2.5 Dedekind continuation, §2.15 bounded-degree residue estimates, §3.1 divisor subpower bounds, §3.23 the second moment under its `BBRFiniteInput` hypothesis, and §3.24 the unconditional fourth moment. These are specified analytic interfaces with their stated uniformity, not arbitrary function-valued data.
+Consume [AnalyticNumberTheoryPartI, Exact supplier contracts](../AnalyticNumberTheoryPartI/README.md#exact-supplier-contracts) for arithmetic Dirichlet series, Hecke and Dedekind functions, GlobalNumberFields, Tate integrals, class fields and contours. Its Layer 0 supplies quantitative prime estimates, §0.23a the normalized slit-plane Gamma logarithm and Stieltjes remainder with its derivatives, §2.5 Dedekind continuation, §2.15 bounded-degree residue estimates, §3.1 divisor subpower bounds, §3.23 the second moment under its `BBRFiniteInput` hypothesis, and §3.24 the unconditional fourth moment. These are specified analytic interfaces with their stated uniformity, not arbitrary function-valued data.
 
 ### From AutomorphicLFunctionsAndLocalFactors
 
@@ -113,7 +113,7 @@ See [Hiai][R127], §§1.1–1.4, pp.3–6, and §3.1, Proposition 3.8, pp.23–2
 
 **Nonsingular crossed products (`nonsingularCrossedProduct`).** For a countable discrete group G acting by measurable invertible nonsingular maps on a standard sigma-finite measure space `(X,μ)` with `μ≠0`, construct the regular von Neumann crossed product on `ℓ²(G,L²(X,μ))`. Its generators are `π(f)ξ(h,x)=f(hx)ξ(h,x)` and `u_gξ(h,x)=ξ(g⁻¹h,x)`. Prove covariance, Fourier-coefficient recovery and a faithful normal conditional expectation to `L∞(X,μ)`. For an essentially free action, its center is `L∞(X,μ)^G`, hence ergodicity makes it a factor. Establish the Radon–Nikodym unitary change of coordinates with `ρ_g=d(g_*μ)/dμ` at the target. The expectation composed with integration is a faithful normal semifinite weight; compute its modular action as `σ_t(u_g)=π(ρ_g^(−it))u_g`. This target includes the carrier, expectation and center theorem used in §6.41.
 
-**Checks.** A finite group acting freely and transitively on itself with counting measure gives a full matrix factor and the diagonal expectation. The trivial action on a two-point probability space has a two-dimensional center. A nontrivial group acting on one point fails essential freeness, so its crossed-product center cannot be inferred from invariant scalar functions alone.
+**Checks.** A finite group acting freely and transitively on itself with counting measure gives a full matrix factor and the diagonal expectation. The trivial group acting on a two-point probability space gives ℂ², whose center is two-dimensional; ergodicity is necessary for the factor conclusion. A nontrivial group acting on one point fails essential freeness, so its crossed-product center cannot be inferred from invariant scalar functions alone.
 
 See [Hiai][R127], Lemma 10.1, Definition 10.2 and Example 10.3, pp.89–90, and Theorems 10.12–10.13, pp.93–96. Obtain the discrete expectation by the identity matrix coefficient and the free-action center theorem by its Fourier coefficients. *Needs:* `normalGNSComparison`; Radon–Nikodym derivatives; countable Hilbert sums; OperatorAlgebraDynamics D1–D2 for the regular `C⋆` comparison.
 
@@ -245,7 +245,7 @@ The product factors are `1+O(|z|³/k²)` on compacts, giving an entire G with th
 
 See [96][R96], §5.17, equations (5.17.1)–(5.17.5); [97][R97], canonical product p.2, (20) and Proposition3.1, pp.7–8, Lemma5.1 and proof, pp.10–11 (right-half-plane asymptotic).
 
-*Needs:* `Complex.Gamma`; `Complex.exp`; [ZerosOfLFunctions §§1.2–1.4][R12]; [§4.3a](#s4-3a).
+*Needs:* `Complex.Gamma`; `Complex.exp`; [§4.3b](#s4-3b); [§4.3a](#s4-3a).
 
 <a id="s4-3a"></a>
 
@@ -258,6 +258,19 @@ First obtain the right-half-plane identity from the product/integral normalizati
 For the sharp bound, the Bernoulli Fourier series gives `(−1)^N[B_(2N+2)−B_(2N+2)({t})]≥0`: its terms are a positive constant times `(1−cos(2πkt))/k^(2N+2)`. Also `|t+z|≥(t+|z|)cos(arg(z)/2)`. Therefore `|R_N(z)|≤|R_N(|z|)|sec(arg(z)/2)^(2N+1)`. The positive-real finite Taylor remainder, also directly bounded by the dilogarithm integral `(1.6)`, has the first omitted term's sign and absolute value strictly smaller than `|B_(2N+2)|/[2N(2N+1)(2N+2)|z|^(2N)]`. On `|arg z|≤π−δ` this yields the explicit bound with sec replaced by `1/sin(δ/2)`. Cauchy's estimate on a circle of radius `c_δ|z|` inside the wider sector `|arg w|≤π−δ/2` gives the stated derivative remainder, with a constant depending only on `N,δ`. This is exactly the sector uniformity used by the determinant identity.
 
 See [98][R98], (1.1), pp.1–2; Theorem1.1 (1.8), p.2 and its derivation in §2, pp.5–6; Theorem1.2 (1.9)–(1.10), p.3 and the full-sector proof in §3, pp.7–9. The canonical product and integration constant remain those of §4.3; no renormalization of G is made.
+
+<a id="s4-3b"></a>
+
+**§4.3b Gamma strip and balanced-quotient estimates (`gamma_vertical_strip_bound`).** For real `a≤b` there is `C≥1` such that, for `a≤σ≤b` and `|t|≥1`,
+`C⁻¹|t|^(σ−1/2)e^(−π|t|/2) ≤ |Γ(σ+it)| ≤ C|t|^(σ−1/2)e^(−π|t|/2)`.
+For finite families of nonzero real slopes `a_i,a′_j` and real shifts `b_i,b′_j` satisfying `Σ|a_i|=Σ|a′_j|`, the modulus of
+`∏Γ(a_i s+b_i)/∏Γ(a′_j s+b′_j)` is bounded above and below by positive constants times `|t|^κ(σ)` on every fixed real strip and `|t|≥1`, where `κ(σ)=Σ(a_iσ+b_i−1/2)−Σ(a′_jσ+b′_j−1/2)`. Constants may depend on the strip and every slope and shift; angular indices in §5.3e are fixed shifts, with no uniformity in those indices asserted.
+
+Consume AnalyticNumberTheoryPartI §0.23a's normalized slit logarithm and Stieltjes integral. Its sector bound gives `R(z)=O(1/|z|)` on vertical strips at large height. Taking real parts of `(z−1/2)Log z−z+log(2π)/2+R(z)` gives `(σ−1/2)log|t|−π|t|/2+log(2π)/2+O(1/|t|)`, uniformly in σ. Gamma recurrence shifts any fixed strip to the right, with each recurrence factor comparable to `|t|`; compactness and Gamma nonvanishing handle the remaining `|t|≥1` interval. Apply the two-sided estimate to each affine argument. The balance of absolute slopes cancels all exponential factors, including for negative slopes.
+
+**Checks.** At `σ=1/2`, `|Γ(1/2+it)|²=π/cosh(πt)`, fixing the exponential rate. The balanced quotient `Γ(s+1)/Γ(s)=s` has growth `|t|`, not a constant. Without balance, `Γ(2s)/Γ(s)` at `σ=1` has an extra `e^(−π|t|/2)` and cannot have a two-sided polynomial estimate. The restriction `|t|≥1` excludes the Gamma poles on the real axis.
+
+See [AnalyticNumberTheoryPartI §0.23a](../AnalyticNumberTheoryPartI/README.md#s0-23a), Stieltjes identity and sector bound; the modulus and quotient deductions are given above. *Needs:* that target; principal complex logarithm; Gamma recurrence, reflection and nonvanishing from Mathlib.
 
 <a id="s4-4"></a>
 
@@ -752,7 +765,7 @@ API: `.real_fourier_matrix`, `.basis_comparison`, `.double_fourier`, `.sine_norm
 
 Use the self-dual Gaussian `Φ₀=exp(−2π(|x₁|_C+|x₂|_C/3+|x₃|_C/3+|x₄|_C))`. Multiply by `P^|m|` or its conjugate as dictated by the sign of `m`. Fourier exchanges the two and their orbital zeta integrals are `Z(u+|m|,0,Φ₀)`. Applying D to the Gaussian multiplies by `(2π)⁴P̄`, so the differential recurrence makes `f(u)=Z(u,0,Φ₀)/r(u)` entire and 2-periodic. Stirling and the positive Gaussian integral bound leave only the Fourier modes0,±1, hence `f=a+b cos(πu)+c sin(πu)`. Evaluate the scalar Fourier equation on a compactly supported nondegenerate test at each parameter to show that its normalized coefficient is entire; this step does not divide globally by `Z(Φ₀)`. The reflection formula expresses it by `f(u)/f(2−u)`. Entireness forces matching roots; positivity of the Gaussian integral for real `u>1/3` excludes the remaining real-root alternative. Thus `f(u)=f(2−u)`; cancellation gives the ratio above. This also proves the angular-character shift, not only `m=0`.
 
-API: `.complex_fourier_factor`, `.angular_shift`, `.gaussian_recurrence`, `.reflection_cancellation`. Checks: m and `−m` give the same factor; at `u=1` the ratio is 1; when `m=0`, `C_C(u)` is minus the determinant of the displayed real matrix. *Needs:* the complex part of [§5.3c](#s5-3c); AL.0 Gaussian Fourier; [ZerosOfLFunctions 1.2–1.4][R12].
+API: `.complex_fourier_factor`, `.angular_shift`, `.gaussian_recurrence`, `.reflection_cancellation`. Checks: m and `−m` give the same factor; at `u=1` the ratio is 1; when `m=0`, `C_C(u)` is minus the determinant of the displayed real matrix. *Needs:* the complex part of [§5.3c](#s5-3c); AL.0 Gaussian Fourier; [§4.3b](#s4-3b).
 
 <a id="s5-4"></a>
 
@@ -856,7 +869,11 @@ Import the invariant/action and local field normalization rather than redefining
 
 - The integral of `Φ=0` is 0.
 - When `Φ` is supported where `|P|=1`, the integral is `∫Φ` dx, independently of `s`.
-- For prime `p`, the linear invariant x on `Z_p⊂Q_p` and additive Haar measure with `μ(Z_p)=1` give the actual integral `(1−p^(−1))/(1−p^(−s−1))` for `Re s>−1`. The valuation shells have masses `(1−p^(−1))p^(−k)`, `k≥0`.
+- For every prime p with `dx(Z_p⁴)=1`, at `s=0` the integral for `1_(Z_p⁴)` is 1: the zero set of the nonzero discriminant polynomial has Haar mass zero.
+- For `U={x∈Z_p⁴:P(x)∈Z_p×}`, the integral for `1_U` is `(1−p⁻¹)(1−p⁻²)` for every complex s. The squarefree degree-three divisors on `P¹(F_p)` number `binom(p+1,3)+(p+1)(p²−p)/2+(p³−p)/3`; multiplying by `p−1` counts nonzero-discriminant coefficient tuples. Division by `p⁴` gives the stated density, including at p=2 and p=3.
+- At `s=1`, replacing `1_(Z_p⁴)` by `1_(pZ_p⁴)` multiplies the integral by `p⁻⁸`: Haar measure contributes `p⁻⁴` and the degree-four discriminant contributes `p⁻⁴`.
+
+Mirror these three cubic evaluations with `LocalIntegral` when its carrier is introduced.
 
 See [107][R107], §3.2, Proposition 3.7 and Lemmas 3.8–3.11, pp.11–14; [105][R105], §3, definition (3.1) and Proposition 3.1, pp.37–38.
 
@@ -1158,6 +1175,11 @@ Apply the real/complex Fourier targets at `u=2s`, separate Gamma factors by refl
 - Each real entry vanishes at `s=1`.
 - The complex entry vanishes to order2 at `s=1`.
 - Every global entry vanishes to order at least r1+2r2 at `s=1`.
+- At `s=1/2` the real off-diagonal entries are `3/2` and `1/2` in the stated order, and the complex entry is `3/4`.
+- At `s=1/4` each real diagonal entry is `1/2`.
+- For a field with one real and one complex place, the split-to-nonsplit product at `s=1/2` is `9/8`.
+
+Mirror these nonzero evaluations with `ArchMatrix` when its carrier is introduced.
 
 See [107][R107], §3.2 equation (3.1) and preceding complex/diagonal cases, p.12.
 
@@ -1187,7 +1209,7 @@ Let `ρF=Res_s=1 ζF(s)`, `rα` the number of split real cubic factors, `n=r1+2r
 
 See [105][R105], Theorem 6.2(ii), p.71; LOWW Proposition 3.7(5), p.13.
 
-*Needs:* `B6`; `B2`; [§5.12](#s5-12); [ZerosOfLFunctions §§1.2–1.4][R12]; [§5.21s](#s5-21s); [§5.21t](#s5-21t); [§5.21u](#s5-21u); [§5.21v](#s5-21v).
+*Needs:* `B6`; `B2`; [§5.12](#s5-12); [§5.21s](#s5-21s); [§5.21t](#s5-21t); [§5.21u](#s5-21u); [§5.21v](#s5-21v).
 
 <a id="s5-21a"></a>
 
@@ -1535,11 +1557,11 @@ See [107][R107], §3.2, Proposition 3.7(4), p.13.
 
 For `−1/2≤σ≤3/2`, `|t|≥1` and `ε>0`, `ξF,α(σ+it)≪ε,n h2(F)D^(7/2−2σ+ε)(1+|t|)^(2n(3/2−σ)+ε)`. Apply Phragmén–Lindelöf to the pole-cleared function. The displayed inequality without pole exclusion is false at `s=1` and5/6; the bound is asserted only on this pole-free range.
 
-Use the positive-half-plane estimate at `σ=3/2+ε` and the reflected left estimate. Clear `(s−1)(s−5/6)` before interpolation and divide only where bounded away from both poles. Retain the same `h2` factor on both edges.
+Use the positive-half-plane estimate at `σ=3/2+ε` and the reflected left estimate. Clear `(s−1)(s−5/6)` before interpolation and divide only where bounded away from both poles. Apply Mathlib `PhragmenLindelof.vertical_strip` after the usual holomorphic power and exponential weights normalize the two boundary bounds. The order-one bound of §5.21t supplies its growth hypothesis: choose any `0<c<π/(b−a)` on the enlarged strip, so `exp(C(1+|t|)^(1+ε))` is dominated by `exp(B exp(c|t|))`. Retain the same `h2` factor on both edges.
 
 See [107][R107], §3.2 Lemma 3.11 and proof, p.14; restricted to |t|≥1 to avoid poles.
 
-*Needs:* [§5.13](#s5-13); [§5.9](#s5-9); [§5.7](#s5-7); [§5.24][R395]; [ZerosOfLFunctions §§1.2–1.4][R12]; [ZerosOfLFunctions Layer 0][R11]; [§5.21][R396]; [§5.28a](#s5-28a); [§5.28b](#s5-28b).
+*Needs:* [§5.13](#s5-13); [§5.9](#s5-9); [§5.7](#s5-7); [§5.24][R395]; [§4.3b](#s4-3b); `PhragmenLindelof.vertical_strip`; [§5.21t](#s5-21t); [§5.21][R396]; [§5.28a](#s5-28a); [§5.28b](#s5-28b).
 
 <a id="s5-28a"></a>
 
@@ -1553,7 +1575,7 @@ See [107][R107], §3.2 Lemma 3.10 and proof, pp.13–14.
 
 **§5.28b Reflected vertical bound from the matrix equation.** For `σ<−1/2` and `|t|≥1`, the functional equation gives `ξF,α(σ+it)≪ε,n,σ h2(F)D^(5/2−4σ+ε)(1+|t|)^(n(2−4σ)+ε)`, using the right-half-plane dual bound. Constants depend on the fixed real strip.
 
-Bound the dual by the ordinary positive-coefficient series `at1−σ>3/2`. Apply Stirling to the gamma factors and combine with sine growth. Multiply the functional-equation factor `D^(2−4σ)` by the right-half-plane bound `h2(F)D^(1/2+ε)`. The combined exponent is `5/2−4σ+ε`; retain the stated height power.
+Bound the dual by the ordinary positive-coefficient series `at1−σ>3/2`. Apply §4.3b to the four Gamma factors and the elementary sine exponential bound. Per real place their exponents cancel as `e^(−2π|t|)e^(2π|t|)`; per complex place the squared Gamma product cancels the four-sine growth. The remaining power is `|t|^(n(2−4σ))`. Multiply the functional-equation factor `D^(2−4σ)` by the right-half-plane bound `h2(F)D^(1/2+ε)`. The combined exponent is `5/2−4σ+ε`; retain the stated height power.
 
 See [107][R107], §3.2 proof of Lemma 3.11, left-boundary estimate, p.14; combine Proposition 3.7(3) with Lemma 3.10.
 
@@ -1591,7 +1613,7 @@ For each pair of twists there is a continuation agreeing with the series in the 
 
 See [102][R102], §3 Lemma 2, equation (27), p.361; proof pp.361–364.
 
-*Needs:* `AnalyticOnNhd`; `jacobiSym`; [§5.14](#s5-14); `zeta_eq_tsum_one_div_nat_cpow`; `LSeries`; [§5.16](#s5-16); `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`; `DirichletCharacter.LFunction_changeLevel`; [§5.1][R357]; [§5.22](#s5-22); [§5.17](#s5-17); `DirichletCharacter`; [§5.29](#s5-29); [§5.25](#s5-25); [§5.15](#s5-15); [§5.2](#s5-2); [§5.26](#s5-26); [§5.3](#s5-3); [§5.18](#s5-18); [§5.23](#s5-23); [ZerosOfLFunctions §§1.2–1.4][R12]; [§5.30a](#s5-30a); [§5.30b](#s5-30b); [§5.30c](#s5-30c); [§5.30d](#s5-30d); [§5.30e](#s5-30e); [§5.30f](#s5-30f); [§5.30g](#s5-30g); [§5.30h](#s5-30h); [§5.30i](#s5-30i); [§5.30j](#s5-30j); [§5.30k](#s5-30k); [§5.30l](#s5-30l); [§5.30m](#s5-30m); [§5.30n](#s5-30n); [§5.30o](#s5-30o); [§5.30p](#s5-30p); [§5.30q](#s5-30q); [§5.30r](#s5-30r); [§5.30s](#s5-30s); [§5.30v](#s5-30v); [§5.30w](#s5-30w); [§5.30x](#s5-30x); [§5.30y](#s5-30y); [§5.30z](#s5-30z); [§5.30aa](#s5-30aa); [§5.30ab](#s5-30ab).
+*Needs:* `AnalyticOnNhd`; `jacobiSym`; [§5.14](#s5-14); `zeta_eq_tsum_one_div_nat_cpow`; `LSeries`; [§5.16](#s5-16); `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`; `DirichletCharacter.LFunction_changeLevel`; [§5.1][R357]; [§5.22](#s5-22); [§5.17](#s5-17); `DirichletCharacter`; [§5.29](#s5-29); [§5.25](#s5-25); [§5.15](#s5-15); [§5.2](#s5-2); [§5.26](#s5-26); [§5.3](#s5-3); [§5.18](#s5-18); [§5.23](#s5-23); [§4.3b](#s4-3b); [§5.30a](#s5-30a); [§5.30b](#s5-30b); [§5.30c](#s5-30c); [§5.30d](#s5-30d); [§5.30e](#s5-30e); [§5.30f](#s5-30f); [§5.30g](#s5-30g); [§5.30h](#s5-30h); [§5.30i](#s5-30i); [§5.30j](#s5-30j); [§5.30k](#s5-30k); [§5.30l](#s5-30l); [§5.30m](#s5-30m); [§5.30n](#s5-30n); [§5.30o](#s5-30o); [§5.30p](#s5-30p); [§5.30q](#s5-30q); [§5.30r](#s5-30r); [§5.30s](#s5-30s); [§5.30v](#s5-30v); [§5.30w](#s5-30w); [§5.30x](#s5-30x); [§5.30y](#s5-30y); [§5.30z](#s5-30z); [§5.30aa](#s5-30aa); [§5.30ab](#s5-30ab).
 
 <a id="s5-30a"></a>
 
@@ -2984,7 +3006,7 @@ See [112][R112], Ch.3, Lemma 3.27, (3.91)–(3.101), pp.464–465.
 
 ### 6.32 BC diagonal heat operator
 
-For `β>0` define `e^(−βH)` on `l²(N+)` by multiplying the kth coordinate by `k^(−β)`. It is a bounded positive self-adjoint operator of norm 1. Its semigroup law is addition of positive `β`. Trace-class membership and its trace for `β>1` use the existing OperatorIdeals trace contract.
+For `β>0` define `e^(−βH)` on `l²(N+)` by multiplying the kth coordinate by `k^(−β)`. It is a bounded positive self-adjoint operator of norm 1. Its semigroup law is addition of positive `β`. The sum of diagonal coefficients in the specified positive-integer basis is studied in §6.39.
 
 For `k>=1` the real multipliers `k^(-beta)` lie in (0,1], with equality at `k=1`. The diagonal operator bound follows from the `l2` norm formula; coordinatewise real positivity and multiplication prove positivity, adjointness and the semigroup law.
 
@@ -3279,9 +3301,11 @@ See [112][R112], Chapter 3, proof of Theorem 3.30, prime-power and doubled dyadi
 
 <a id="s6-37d"></a>
 
-**§6.37d Rational power sums in a prime corner.** Let `N=p^b`, `e=1−πp`, and `zj=e` e1,j/N for `1≤j<N` in the unital corner eQ[Q/Z]. The division formula gives `Σj Pk(zj)=(N^k−1)γk e` for every `k≥1`, where Pk is evaluated with corner unit `e`. Since Pk is monic of degree `k`, triangular induction gives `Σj zj^k∈Qe`. Zero roots and repeated roots are retained; there are `N−1` indices.
+**§6.37d Rational power sums in a prime corner.** Fix a prime p and an integer `b≥1`, and put `N=p^b`, so `N≥2`. These hypotheses remain in force throughout §§6.37d–6.37i. Set `e=1−πp`, and `zj=e` e1,j/N for `1≤j<N` in the unital corner eQ[Q/Z]. The division formula gives `Σj Pk(zj)=(N^k−1)γk e` for every `k≥1`, where Pk is evaluated with corner unit `e`. Since Pk is monic of degree `k`, triangular induction gives `Σj zj^k∈Qe`. Zero roots and repeated roots are retained; there are `N−1` indices.
 
 Multiply the division identity by e and subtract the `j=0` term Pk(0)e. Solve successively for each ordinary power sum using the monic polynomial Pk and previously known lower powers.
+
+**Checks.** At `p=2,b=1`, there is one index and its cotangent root is zero. At `p=3,b=1`, there are two indices with opposite roots. At `b=0`, the empty product is `Q1=1` and does not vanish at any element of a nonzero corner; only the separate identity `e(0)=1` applies.
 
 See [112][R112], Ch.3, proof of Theorem 3.30, (3.110)–(3.113), p.468.
 
@@ -3319,9 +3343,9 @@ See [112][R112], Chapter 3, (3.117), p.469, and the following induction, pp.469�
 
 <a id="s6-37i"></a>
 
-**§6.37i Reassembly of the prime-power components.** For `N=p^b`, the `(1−πp)e(1/N)` component is supplied by the Cayley lemma. The other component is `πp e(1/N)=αp(e(p/N))`; the induction hypothesis at `p^(b−1)` and semigroup preservation put it in the Eisenstein algebra. At `b=1` its lower-level input is `e(0)=1`. Adding the complementary components recovers `e(1/N)`.
+**§6.37i Reassembly of the prime-power components.** For `N=p^b` with `b≥1`, the `(1−πp)e(1/N)` component is supplied by the Cayley lemma. The other component is `πp e(1/N)=αp(e(p/N))`; the induction hypothesis at `p^(b−1)` and semigroup preservation put it in the Eisenstein algebra. At `b=1` its lower-level input is `e(0)=1`. Adding the complementary components recovers `e(1/N)`.
 
-Split `e(1/N)` by the complementary prime projection. The Cayley lemma recovers the complementary corner; semigroup covariance expresses the prime-projection part through the lower-level torsion element. Induct on b with `e(0)=1` as the base.
+Split `e(1/N)` by the complementary prime projection. The Cayley lemma recovers the complementary corner; semigroup covariance expresses the prime-projection part through the lower-level torsion element. Induct on b with `e(0)=1` as the base. The separate level `N=1` is this identity and does not invoke `QN(z1)=0`.
 
 See [112][R112], Ch.3, last part of Theorem 3.30 proof, pp.469–470.
 
@@ -3379,11 +3403,11 @@ The completed zero-temperature comparison is built after the core Gibbs construc
 
 For `β>1`, the diagonal sum of `e^(−βH)` in the positive-integer basis is `Σ k^(−β)=ζ(β)`. The positive scalar series diverges for `β≤1`. The state-classification theorem, rather than this scalar identity alone, establishes the phase transition at `β=1`.
 
-Assume `β ∈ ℝ`; the trace is taken as the diagonal sum in the basis `(ε_k)`.
+Assume `β ∈ ℝ`; use the diagonal sum in the specified basis `(ε_k)`.
 
 `e^{−βH}ε_k = k^{−β}ε_k`, so the diagonal sum is `Σ k^{−β}`. For `β > 1` this is `riemannZeta β (zeta_eq_tsum_one_div_nat_cpow)`; for `β ≤ 1` the series diverges by comparison with the harmonic series.
 
-The value at `β = 2` is `π²/6 (riemannZeta_two)`. The diagonal sum of a positive diagonal operator is its trace in any orthonormal basis; basis independence is a trace-class statement, and nothing here uses it.
+The value at `β = 2` is `π²/6 (riemannZeta_two)`.
 
 See [112][R112], Ch. 3, §4.6, (3.142), p. 476; [112][R112], Ch. 3, §4.6, (3.140)–(3.141), p. 475.
 
@@ -3771,11 +3795,11 @@ See [112][R112], Chapter 3, Theorem 3.32(3), pp.474–475.
 
 ### Examples
 
-On `ℓ²(ℕ≥1)`, `Hε_n=(log n)ε_n`, so `exp(−βH)` has trace `ζ(β)` exactly for `β>1`; the `n=1` eigenvalue contributes 1. The relation `x₂x′₂=1+e(1/2)` detects why doubling on `ℚ/ℤ` is not an automorphism. The high-β parameter space is the probability measures on profinite units with weak topology; the limit ground states are vector states at the first basis vector. For a finite positive spectrum, scaling `λ` by c multiplies the zeta function by `c^(−s)` and its determinant by c to the number of eigenvalues. The compact scalar Laplacian has one zero mode, so the unprimed shifted determinant has a simple zero at shift zero.
+On `ℓ²(ℕ≥1)`, `Hε_n=(log n)ε_n`, so `exp(−βH)` has positive-integer-basis diagonal sum `ζ(β)` exactly for `β>1`; the `n=1` eigenvalue contributes 1. The relation `x₂x′₂=1+e(1/2)` detects why doubling on `ℚ/ℤ` is not an automorphism. The high-β parameter space is the probability measures on profinite units with weak topology; the limit ground states are vector states at the first basis vector. For a finite positive spectrum, scaling `λ` by c multiplies the zeta function by `c^(−s)` and its determinant by c to the number of eigenvalues. The compact scalar Laplacian has one zero mode, so the unprimed shifted determinant has a simple zero at shift zero.
 
 ### Dependencies
 
-Mathlib Hecke and `C⋆-algebra`, Hilbert-space, trace-class and measure tools where available; the exact positive-functional representation in the boundary section; ProfiniteArithmetic Layer 0, RestrictedProducts, GlobalNumberFields Layer 4 and AdelicAlgebraicGroups Layer 0. The BC universal completion, dilation-corner comparison and expectation-state comparison are local proof targets; crossed products, the amenable norm comparison, the reduced expectation and the dense-core KMS criterion come from OperatorAlgebraDynamics `D1`, `D2` and `D7`. The local prerequisites `bcPositiveRationals_amenable`, `normalGNSComparison`, `nonsingularCrossedProduct` and `measuredRatioClassification` supply amenability and the measured operator foundations and classification. FuchsianOrbifolds Layers 0–2, 4 supply the compact quotient and area formula; DifferentialGeometry Layer `12` supplies the metric measure and Green identity, with the opposite Laplacian sign. The local `compactScalarRealization` supplies the closed-manifold scalar realization and spectrum. The local explicit-kernel comparison, Gaussian orbital trace, full heat expansion and Weyl adapters above provide the additional hyperbolic analysis. AS.4/AS.6 are not asserted to export these refinements. Layer 4 Barnes G normalizes the identity determinant factor.
+Mathlib Hecke and `C⋆-algebra`, Hilbert-space and measure tools where available; the exact positive-functional representation in the boundary section; ProfiniteArithmetic Layer 0, RestrictedProducts, GlobalNumberFields Layer 4 and AdelicAlgebraicGroups Layer 0. The BC universal completion, dilation-corner comparison and expectation-state comparison are local proof targets; crossed products, the amenable norm comparison, the reduced expectation and the dense-core KMS criterion come from OperatorAlgebraDynamics `D1`, `D2` and `D7`. The local prerequisites `bcPositiveRationals_amenable`, `normalGNSComparison`, `nonsingularCrossedProduct` and `measuredRatioClassification` supply amenability and the measured operator foundations and classification. FuchsianOrbifolds Layers 0–2, 4 supply the compact quotient and area formula; DifferentialGeometry Layer `12` supplies the metric measure and Green identity, with the opposite Laplacian sign. The local `compactScalarRealization` supplies the closed-manifold scalar realization and spectrum. The local explicit-kernel comparison, Gaussian orbital trace, full heat expansion and Weyl adapters above provide the additional hyperbolic analysis. AS.4/AS.6 are not asserted to export these refinements. Layer 4 Barnes G normalizes the identity determinant factor.
 
 ## Downstream consumers
 
@@ -3808,8 +3832,6 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 - **121.** [Jens Marklof — Selberg's trace formula: an introduction][R121].
 - **122.** [Marcelo Laca — From endomorphisms to automorphisms and back: dilations and full corners][R122].
 
-[R11]: https://github.com/roed-math/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md#layer-0-growth-predicates-and-the-entire-completion
-[R12]: https://github.com/roed-math/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md#layer-1-gamma-factor-asymptotics-and-the-continued-l-function
 [R20]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields#layer-10-archimedean-characters-infinity-types-and-cyclotomic-arithmetic
 [R22]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields#layer-4-finite-adeles
 [R34]: ../AutomorphicSpectralTheory/README.md#15-finite-weyl-constant-term-formula

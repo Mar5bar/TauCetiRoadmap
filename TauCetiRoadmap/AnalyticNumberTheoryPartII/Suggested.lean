@@ -38,6 +38,24 @@ example :
     (∫ t : ℝ in Set.Ioi 0, (t : ℂ) * Complex.exp (-(2 * (t : ℂ)))) = 1 / 4 := by
   sorry
 
+/-- The zero-scale Gamma--Laplace integrand has no integrable tail. -/
+example : ¬MeasureTheory.IntegrableOn (fun _ : ℝ => (1 : ℂ)) (Set.Ioi 0) := by
+  sorry
+
+/-- The boundary exponent at zero has a nonintegrable origin even with positive scale. -/
+example : ¬MeasureTheory.IntegrableOn
+    (fun t : ℝ => (t : ℂ) ^ (-1 : ℂ) * Complex.exp (-(t : ℂ))) (Set.Ioi 0) := by
+  sorry
+
+/-- Gamma has two-sided Stirling modulus bounds uniformly on each fixed vertical strip. -/
+theorem gamma_vertical_strip_bound (a b : ℝ) (hab : a ≤ b) :
+    ∃ C : ℝ, 1 ≤ C ∧ ∀ σ t : ℝ, σ ∈ Set.Icc a b → 1 ≤ |t| →
+      C⁻¹ * |t| ^ (σ - 1 / 2) * Real.exp (-Real.pi * |t| / 2) ≤
+          ‖Complex.Gamma ((σ : ℂ) + t * I)‖ ∧
+        ‖Complex.Gamma ((σ : ℂ) + t * I)‖ ≤
+          C * |t| ^ (σ - 1 / 2) * Real.exp (-Real.pi * |t| / 2) := by
+  sorry
+
 /-- As its defining series `Σ zⁿ (n + c)^(-s)` with the principal
 logarithm; meaningful for `‖z‖ < 1`, `0 < re c`. -/
 def lerchSeries (z s c : ℂ) : ℂ :=
@@ -91,6 +109,11 @@ example : complexHurwitzSeries 2 (1 + I) - complexHurwitzSeries 2 (2 + I) = -I /
 theorem expZeta_eq_lerchSeries (a : ℝ) {s : ℂ} (hs : 1 < s.re) :
     expZeta (a : UnitAddCircle) s =
       Complex.exp (2 * Real.pi * I * a) * lerchSeries (Complex.exp (2 * Real.pi * I * a)) s 1 := by
+  sorry
+
+/-- The periodic-zeta prefactor changes the half-parameter value's sign. -/
+example : expZeta ((1 / 2 : ℝ) : UnitAddCircle) 2 = -(Real.pi : ℂ) ^ 2 / 12 ∧
+    lerchSeries (-1) 2 1 = (Real.pi : ℂ) ^ 2 / 12 := by
   sorry
 
 /-- For a real parameter in `(0, 1]` the complex series is
