@@ -69,7 +69,7 @@ theorem boxHeight_count (m B : ℕ) :
 example : Nat.card {a : Fin 1 → ℤ // boxHeight a ≤ 3} = 7 := by sorry
 example (a : Fin 0 → ℤ) : boxHeight a = 0 := by sorry
 
-/-- Monic coefficients are ordered from x^(n−1) to the constant term. -/
+/-- Monic coefficients are ordered from `x^(n−1)` to the constant term. -/
 def monicPolynomial {R : Type*} [CommRing R] (n : ℕ) (a : Fin n → R) : R[X] :=
   X ^ n + ∑ i : Fin n, C (a i) * X ^ (n - 1 - i.val)
 
