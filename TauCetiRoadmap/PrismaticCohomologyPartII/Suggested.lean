@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.WittVector.Frobenius
 
 /-!
 # PrismaticCohomologyPartII: representative target signatures
@@ -10,6 +11,8 @@ AInfCohomology §AI.3.3 supplies q-integers; their polynomial values, including 
 are checked here using Mathlib finite sums. These signatures and
 examples fix the coefficient, cochain sign and derivative-thickening conventions of
 Layers 3–5; the complete Nygaard, stack and q-PD constructions are specified in README.md.
+The Nygaard basis check retains the factorial coefficient of §3.2, and the Witt
+Frobenius checks distinguish the forward crystalline comparison from its inverse (§4.23).
 
 AInfCohomology §AI.0:integral.1 supplies `AInf.bkTwist` on A_inf coefficients.
 README §3.9 specifies `Prismatic.BKTwist.ainfTwistIso`, identifying the general prism
@@ -44,6 +47,27 @@ example (q : R) : (∑ i ∈ Finset.range 2, q ^ i) = 1 + q := by
 /-- A nontrivial specialization distinguishes the polynomial from the constant n. -/
 example : (∑ i ∈ Finset.range 3, (2 : ℤ) ^ i) = 7 := by
   norm_num [Finset.sum_range_succ]
+
+/-- At p = 3 and i = 2/3, the Nygaard basis image has coefficient [2]_q! = 1+q. -/
+example (q : R) :
+    (∏ j ∈ Finset.range 2, (∑ k ∈ Finset.range (j + 1), q ^ k)) = 1 + q := by
+  simp [Finset.prod_range_succ, Finset.sum_range_succ]
+
+/-- The r = 2 q-prism generator is the product of the two Frobenius factors (§3.11). -/
+example (p : ℕ) (q : R) :
+    (∑ i ∈ Finset.range p, q ^ i) * (∑ j ∈ Finset.range p, (q ^ p) ^ j) =
+      ∑ k ∈ Finset.range (p * p), q ^ k := by
+  sorry
+
+/-- On perfect characteristic-p rings, the forward crystalline comparison is Witt
+Frobenius; the reverse comparison applies the inverse Frobenius to Teichmüller elements. -/
+example (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p] (a : R) :
+    WittVector.frobenius (WittVector.teichmuller p a) =
+        WittVector.teichmuller p a ^ p ∧
+      (WittVector.frobeniusEquiv p R).symm (WittVector.teichmuller p a) =
+        WittVector.teichmuller p ((_root_.frobeniusEquiv R p).symm a) := by
+  exact ⟨WittVector.frobenius_teichmuller a,
+    WittVector.frobeniusEquiv_symm_teichmuller a⟩
 
 /-- The two-endomorphism cochain Koszul convention `d⁰ m = (D₁ m, D₂ m)`,
 `d¹ (a, b) = D₂ a - D₁ b`: commuting operators give `d¹ ∘ d⁰ = 0`. -/
@@ -130,7 +154,10 @@ example (f : Polynomial R) :
 /-
 The q-PD operation and its laws are README §5.1 targets: gamma_add, gamma_mul,
 pAnalog_mul_gamma and delta_pAnalog_sub_one_mem need the constructed δ-ring interface.
-The envelope laws in §5.7 are envelopeMap_delta, envelope_frobenius_mem,
+The envelope quotient equivalence of §5.7 assumes derived p-completeness of P/J,
+including for locally regular and completed-colimit presentations. Completeness of P
+alone does not supply this hypothesis; §5.10 identifies its discrete complete quotients.
+The other envelope laws in §5.7 are envelopeMap_delta, envelope_frobenius_mem,
 envelopeMap_mem, envelopeLift_comp, envelopeLift_unique, envelopeLift_isDeltaHom,
 envelopeLift_map_I and envelopePair_q; the q-PD envelope is a construction target.
 The site and comparison laws in §§5.9–5.10 are qCrystallineMap_id,
