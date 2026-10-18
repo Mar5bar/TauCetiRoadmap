@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.NormCoeff
 
 /-!
 # AnalyticNumberTheoryPartI: representative target signatures
@@ -210,6 +211,20 @@ theorem theta_lt (hfinite : SchoenfeldFiniteRangeInput) {x : ℝ} (hx : 0 < x) :
     Chebyshev.theta x < 1.000081 * x := by
   sorry
 
+/-- The mod-eight finite theta inequalities and the bounded-height zero input for the tail. -/
+def ModEightFiniteInput : Prop :=
+  (∀ a : ZMod 8, a = 3 ∨ a = 5 → ∀ x : ℝ,
+    (10 : ℝ) ^ 10 ≤ x → x < Real.exp 10000 →
+      |thetaAP 8 a x - x / 4| ≤ 0.002811 * x / 4) ∧
+    ∀ (χ : DirichletCharacter ℂ 8) (s : ℂ), 0 < s.re → s.re < 1 →
+      |s.im| ≤ 10000 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
+
+/-- Subtracting the mod-eight estimates gives the interval mass from the finite-range input. -/
+theorem thetaAP_mod_eight_mass (hfinite : ModEightFiniteInput) {a : ZMod 8}
+    (ha : a = 3 ∨ a = 5) {k : ℝ} (hk : 2 * (10 : ℝ) ^ 10 ≤ k) :
+    (1 - 3 * 0.002811) * k / 8 ≤ thetaAP 8 a k - thetaAP 8 a (k / 2) := by
+  sorry
+
 /-- The first prime cutoff gives the stated theta value and strict upper bound. -/
 example : Chebyshev.theta 2 = Real.log 2 ∧
     Chebyshev.theta 2 < 1.000081 * 2 := by
@@ -230,7 +245,7 @@ example : Nat.primeCounting 58 = 16 ∧
 
 /-- Exact margin left after the prime-power error at the threshold in README §0.4. -/
 example :
-    (1000081 : ℚ) / 1000000 * (1 / 140000 + 35 / 7290000) <
+    (2 : ℚ) * (1 / 140000 + 35 / 7290000) <
       (1 - 3 * (2811 / 1000000)) / 8 - 1239 / 10000 := by
   norm_num
 
@@ -342,15 +357,17 @@ open _root_.NumberField
 
 variable (K : Type*) [Field K] [NumberField K]
 
-/-- The norm-fibre count presenting LFunctions Layer 2's ordinary-class coefficients. -/
-def partialIdealZetaCoeff (A : ClassGroup (𝓞 K)) (n : ℕ) : ℂ :=
-  (Nat.card {I : (Ideal (𝓞 K))⁰ //
-    Ideal.absNorm (I : Ideal (𝓞 K)) = n ∧ ClassGroup.mk0 I = A} : ℂ)
+/-- The native norm coefficients of the ordinary-class indicator used by LFunctions Layer 2. -/
+abbrev partialIdealZetaCoeff (A : ClassGroup (𝓞 K)) : ArithmeticFunction ℂ := by
+  classical
+  exact _root_.TauCeti.normCoeff K (fun I => if ClassGroup.mk0 I = A then 1 else 0)
 
-/-- An `LSeries` presentation adapter for LFunctions Layer 2's partial zeta at trivial
-finite modulus and empty infinity part. All real places give the narrow-class presentation. -/
-def partialIdealZeta (A : ClassGroup (𝓞 K)) (s : ℂ) : ℂ :=
-  LSeries (partialIdealZetaCoeff K A) s
+/-- Each class-indicator norm coefficient counts the corresponding finite ideal fibre. -/
+theorem partialIdealZetaCoeff_eq_card (A : ClassGroup (𝓞 K)) (n : ℕ) :
+    partialIdealZetaCoeff K A n =
+      (Nat.card {I : (Ideal (𝓞 K))⁰ //
+        Ideal.absNorm (I : Ideal (𝓞 K)) = n ∧ ClassGroup.mk0 I = A} : ℂ) := by
+  sorry
 
 /-- Nonzero integral ideals contribute no coefficient at norm zero. -/
 example (A : ClassGroup (𝓞 K)) : partialIdealZetaCoeff K A 0 = 0 := by
@@ -359,15 +376,6 @@ example (A : ClassGroup (𝓞 K)) : partialIdealZetaCoeff K A 0 = 0 := by
 /-- Only the unit ideal has norm one, and its class is principal. -/
 example : partialIdealZetaCoeff K 1 1 = 1 ∧
     ∀ A : ClassGroup (𝓞 K), A ≠ 1 → partialIdealZetaCoeff K A 1 = 0 := by
-  sorry
-
-/-- The presentation adapter transports the supplier class sum to the Dedekind series. -/
-theorem sum_partialIdealZeta {s : ℂ} (hs : 1 < s.re) :
-    ∑ A : ClassGroup (𝓞 K), partialIdealZeta K A s = dedekindZeta K s := by
-  sorry
-
-/-- Over `ℚ` the only class gives `ζ`. -/
-example {s : ℂ} (hs : 1 < s.re) (A : ClassGroup (𝓞 ℚ)) : partialIdealZeta ℚ A s = riemannZeta s := by
   sorry
 
 /-- In fixed degree, hR has discriminant exponent one half, with any positive power loss. -/
@@ -909,15 +917,14 @@ end AN5
 The README also specifies the following API targets beyond the representative theorems:
 `DirichletGRH.of_primitive` (§1.6); `endpointCap.le_one`, `endpointCap.eq_inv_abs` (§3.23a);
 `atkinson.logarithmic_saddle`, `atkinson.logarithmic_saddle_uniform` (§3.23d),
-`atkinson.moving_saddle` (§3.23e), `atkinson.contour_decomposition`, `atkinson.E1_budget`,
-`atkinson.E2_budget`, `atkinson.E3_budget`, `atkinson.E4_budget`, `atkinson.budget_bound`,
+`atkinson.moving_saddle` (§3.23e), `atkinson.contour_decomposition`, `atkinson.budget_bound`,
 `atkinson.remainder_budget`, `atkinson.main_sum_bound` (§3.23g); and
 `zetaSecondMoment.error_zero`, `zetaSecondMoment.error_continuous`,
 `zetaSecondMoment.error_increment` (§3.23). These remain README API requirements.
 
 Definitions specified in README.md beyond these representative signatures include exceptional
-squareclasses (§0.13), elementary canonical factors (§0.15), the origin-zero adapter (§0.22),
-paired canonical products (§0.29), the Weil test class (§1.3), ray-character and quadratic-period
+squareclasses (§0.13), the canonical-factor comparison (§0.15), the origin-zero adapter (§0.22),
+specializations of the AL.2 paired-product theorems (§0.29), the Weil test class (§1.3), ray-character and quadratic-period
 dictionaries (§§0.30, 2.1, 2.10),
 Artin analytic conductors (§2.2) and the AdelicAlgebraicGroups AA.2.4 local polynomials, canonical continued Hecke
 and Dedekind functions (§§2.3–2.5, 2.12), norm-regrouped Artin coefficient comparisons (§2.18), ArtinHolomorphy and

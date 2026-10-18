@@ -6,6 +6,8 @@
 
 This part owns Layers 0–3: quantitative refinement and arithmetic comparison. It consumes ArithmeticDirichletSeries Layers 1–10, LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8 for order-one growth, Gamma estimates, degree-one zeros, rational explicit formulas and prime-number estimates.
 
+GlobalHolomorphicFunctions supplies the primary factors, generic entire products and entire logarithms; AutomorphicLFunctionsAndLocalFactors supplies the paired Hadamard theorem. The finite-order summability, good-circle estimate and polynomial-degree bound in §0.23 are enhancements here. Both suppliers precede these enhancements in the dependency order.
+
 ### Prerequisites and boundaries
 
 ArithmeticDirichletSeries supplies norm-indexed ideal coefficients, genuine Euler products, partial-sum continuation, Abel and Perron summation, Landau positivity, Wiener–Ikehara and the qualitative transfer from logarithmic derivatives to prime counts. Mathlib supplies arithmetic functions, ordinary Dirichlet-series continuation and functional equations, nonvanishing on the closed right half-plane, the real Dedekind residue limit, and the circle-valued real Hurwitz zeta function. None of these is constructed again here.
@@ -30,7 +32,7 @@ The functions `ψ` and `θ` use inclusive prime-power and prime cutoffs, respect
 
 A character modulus, its primitive conductor and an Artin conductor are distinct. A primitive quadratic character is obtained from a fundamental discriminant, including its 2-adic possibilities; the trivial discriminant 1 is allowed only where expressly stated. Standard Dirichlet and Hecke functional equations retain the conductor, the base discriminant, archimedean parities and the root number. Removing finitely many Euler factors multiplies an ordinary simple-pole residue by their values at 1; it preserves the coefficient of the logarithmic-derivative pole, not the original residue.
 
-Write `Γℝ(s)=π^(−s/2)Γ(s/2)`, and use the `Γℂ` convention of the consumed Tate integral. Haar measures and trace characters are fixed before comparing completed functions. For an imaginary quadratic discriminant `D`, `ω_D=|O_Kˣ|/2`; thus `ω₋₄=2` and `ω₋₃=3`. A real quadratic geodesic is divided by the full norm-one unit group; if `ε_D>1` is its least positive norm-one generator, its length is `2 log ε_D`. Ordinary and narrow classes are not interchanged without the norm-minus-one unit dichotomy.
+Write `Γℝ(s)=π^(−s/2)Γ(s/2)`, and use the `Γℂ` convention of the consumed Tate integral. Haar measures and trace characters are fixed before comparing completed functions. For an imaginary quadratic discriminant `D`, `ω_D=|O_Kˣ|/2`; thus `ω₋₄=2` and `ω₋₃=3`. For a real quadratic field the norm-one units are `{±ε_D^n : n∈ℤ}`, where `ε_D>1` generates the totally positive norm-one subgroup. The full group modulo `{±1}` defines the geodesic stabilizer in `PSL₂`, and its length is `2 log ε_D`. Ordinary and narrow classes are not interchanged without the norm-minus-one unit dichotomy.
 
 For the quadratic genus-period formulas, write `Λ_DIT(s,χ_d)=|d|^(s/2)π^(−s/2)Γ((s+α_d)/2)L(s,χ_d)`, with `α_d=(1−sign d)/2`, as a meromorphic completion (Duke–İmamoğlu–Tóth (5.13), p.964). Thus `Λ_DIT=π^(α_d/2)|d|^(s/2)·DirichletCharacter.completedLFunction(χ_d,s)`. This differs for odd characters from the completion `Λ_std=(|d|/π)^((s+α_d)/2)Γ((s+α_d)/2)L` used for the imaginary quadratic endpoint values: `Λ_std=(|d|/π)^(α_d/2)Λ_DIT`. In particular the two completions agree for `d>0`; for `d=−4, Λ_DIT(0)=Λ_DIT(1)=√π/2` whereas `Λ_std(0)=Λ_std(1)=1`; for `d=−3`, the corresponding values are `√π/3` and `1/√3`. These comparisons use canonical continued values at the endpoints.
 
@@ -63,7 +65,7 @@ Use [LFunctions Layers 0–7][R9]’s completed-function records and Layer 7’s
 | ZerosOfLFunctions section | Exact contract |
 | --- | --- |
 | [ZerosOfLFunctions 0.1–0.2][R11] | `OrderLE f A`: cobounded big-`O` of `exp(‖z‖^b)` for each `b>A`, with entirety separate. `entireCompletion` is the unique analytic pole-cleared extension with its exact divisor and nonzero former-pole values; for `ζ` it is `s(s−1)Λ`, without 1/2. |
-| [ZerosOfLFunctions 1.2–1.4][R12] | Slit-sector analytic `logΓ`, Stirling remainder, vertical-strip modulus/phase, digamma and balanced Gamma quotients. These are analytic logarithms, not pointwise logs of Gamma values. Higher remainder derivatives are local. |
+| [ZerosOfLFunctions 1.2–1.4][R12] | Analytic `logΓ` on `|arg z|<π−δ, |z|>1`, normalized at 2, Stirling remainder, vertical-strip modulus/phase, digamma and balanced Gamma quotients. §0.23a supplies the normalized slit-plane extension, its Stieltjes representation and higher remainder derivatives. |
 | [ZerosOfLFunctions 3.3–3.4][R13] | Pole-cleared conductor-uniform convexity at fixed degree and bounded shifts; order at most one for `ζ` and primitive Hecke entire completions. Finite order alone does not suffice. |
 | [ZerosOfLFunctions Layer 4][R14] | Locally finite analytic zero divisor, multiplicity-weighted restrictions, finite counts and high-height `O(log analyticQ)` local counts. Bounded-height conductor uniformity is refined here. |
 | [ZerosOfLFunctions 5.2–5.7][R15] | Zero summability/tails, `E₁(w)=(1−w)exp(w)` and its API, locally uniform unordered products, Hadamard at order `≤1` for `f(0)≠0`, and logarithmic derivative. The origin-zero adapter extends this locally. |
@@ -72,6 +74,10 @@ Use [LFunctions Layers 0–7][R9]’s completed-function records and Layer 7’s
 | [ZerosOfLFunctions 8.2–8.8][R18] | Truncated explicit formulas with endpoint/admissible-height conventions, rational PNT remainder, fixed-character and fixed-field abelian effective estimates. Conductor-uniform character PNT and nonabelian effective Chebotarev are refinements here. |
 
 Restrict the supplier divisor to the critical strip and `|Imρ|<T`, excluding height endpoints; pass through zero-avoiding heights. Complex characters pair with their conjugates. ArithmeticDirichletSeries supplies half-weight Perron endpoints; ZerosOfLFunctions owns the generic rational explicit formula.
+
+### From GlobalHolomorphicFunctions
+
+Consume [Preparatory primary factors and locally uniform products][GH-products] for every genus `E_n`, fixed- and variable-genus products, compact-uniform convergence and exact zero multiplicities, including finite, empty and repeated-zero lists. Consume [GH3][GH-factorization] for removal of the zero divisor and the entire logarithm of the resulting zero-free quotient. §0.15 identifies ZerosOfLFunctions' genus-one factor with this family; §0.23 adds the finite-order estimates and polynomial-degree conclusion. This supplier is required before the finite-order enhancement, independently of the order-one arithmetic applications.
 
 ### From GlobalNumberFields
 
@@ -84,6 +90,8 @@ Restrict the supplier divisor to the critical strip and `|Imρ|<T`, excluding he
 ### From AutomorphicLFunctionsAndLocalFactors
 
 [AL.0, The K-Bessel kernel][AL-Bessel] supplies, for `ν∈ℂ,x>0`, the absolutely convergent integral `K_ν(x)=(1/2)∫₀^∞exp(−x(u+u⁻¹)/2)exp(νlogu)du/u`, its cosh form, entire order dependence, evenness in ν and `K_(1/2)(x)=√(π/(2x))e^(−x)`. Positive-axis remainders and the divisor transform extend this function here.
+
+[AL.2, Centered entire functions and paired products][AL-paired] supplies `AL2.IsCenteredOrderOne_iff_orderLE`, `AL2.PairedHadamardFactorization`, `AL2.PairedHadamard_derivatives_nonnegative` and `AL2.PairedHadamard_derivatives_positive`. These retain parity, imaginary zero locations, eventual positive reality, origin multiplicity and nonpolynomiality for strict positivity. §§0.29–0.29b specialize these interfaces using the shared `OrderLE` predicate.
 
 [AL.0, Vector-space Poisson comparison and compact-uniform estimates][R23] supplies the completed archimedean tensor carrier and `SchwartzBruhat.AdelicSpace.tateClass`: continuity/integrability of f and f̂, jointly compact-uniform absolute translated/dilated sums for both, and weighted idele integrability for each `σ>1`. AL.1, **Distribution-valued Tate continuation and functional equation**, extends the scalar comparison to this class; **The volume κ of the norm-one idele class group** fixes Tate’s measure constant. Scalar continuation itself is the ArithmeticGaloisRepresentations contract below.
 
@@ -213,7 +221,7 @@ See [47][R47], §§6–9, especially p. 369.
 
 Under `SchoenfeldFiniteRangeInput`, for `x>0, θ(x)=Σ_{p prime,p≤x}log p < 1.000081*x`. Suggested form: `theta_lt`.
 
-Fix the conservative analytic cutoff `X=exp(10000)`. Define `SchoenfeldFiniteRangeInput` to mean `∀ x, 0<x<X → θ(x)<1.000081x`. The separate unconditional analytic target `theta_lt_tail` proves the same inequality for every `x≥X`; `theta_lt` combines it with that finite-range hypothesis. This split needs no RH table. The analytic tail follows from the explicit zero-free-region Chebyshev error of [Rosser–Schoenfeld (1962)](https://doi.org/10.1215/ijm/1255631807), Theorem 11, (3.34), p.71: its relative error at `log x=10000` is below `0.000081` and decreases thereafter. The finite input includes all real cutoffs below `X`, including the intervals between primes. Every use of this literal constant, including §§0.4 and 3.2, carries `SchoenfeldFiniteRangeInput`.
+Fix the conservative analytic cutoff `X=exp(10000)`. Define `SchoenfeldFiniteRangeInput` to mean `∀ x, 0<x<X → θ(x)<1.000081x`. The separate unconditional analytic target `theta_lt_tail` proves the same inequality for every `x≥X`; `theta_lt` combines it with that finite-range hypothesis. This split needs no RH table. The analytic tail follows from the explicit zero-free-region Chebyshev error of [Rosser–Schoenfeld (1962)](https://doi.org/10.1215/ijm/1255631807), Theorem 11, (3.34), p.71: its relative error at `log x=10000` is below `0.000081` and decreases thereafter. The finite input includes all real cutoffs below `X`, including the intervals between primes. Every use of this literal constant, including §3.2, carries `SchoenfeldFiniteRangeInput`.
 
 Checks: `θ(1)=0`; at 2 the finite input gives `log2<2.000162`; the cutoff `X` belongs to the analytic tail, while the finite hypothesis uses a strict upper endpoint.
 
@@ -225,15 +233,15 @@ See [47][R47], Equation (10), p. 362; Schoenfeld 1976, concluding note p. 360.
 
 ### 0.4 Prime powers do not erase the character-sum margin
 
-Assume `SchoenfeldFiniteRangeInput` and put `ε=0.002811`. For real `k≥2*10^10`, the prime-power mass `M=ψ(k)−θ(k)−ψ(k/2)+θ(k/2)` is smaller than `(((1−3*ε)/8)−0.1239)*k`. For `b:ℕ→ℂ` with `|b(n)|≤1` whenever `k/2<n≤k`, put `P=Σ_{k/2<p≤k, p prime}b(p)log p` and `V=Σ_{k/2<n≤k}b(n)Λ(n)`. Then `|V−P|≤M`, so `|P|≥(1−3*ε)*k/8` implies `|V|>0.1239*k`.
+Put `ε=0.002811`. For real `k≥2*10^10`, the prime-power mass `M=ψ(k)−θ(k)−ψ(k/2)+θ(k/2)` is smaller than `(((1−3*ε)/8)−0.1239)*k`. For `b:ℕ→ℂ` with `|b(n)|≤1` whenever `k/2<n≤k`, put `P=Σ_{k/2<p≤k, p prime}b(p)log p` and `V=Σ_{k/2<n≤k}b(n)Λ(n)`. Then `|V−P|≤M`, so `|P|≥(1−3*ε)*k/8` implies `|V|>0.1239*k`.
 
 Use `Λ(p)=logp` and `|b(p^j)|≤1` to get `|V−P|≤M`, hence `|V|≥|P|−M`. Estimate higher powers by `θ` at `k^(1/j)` after subtracting endpoints; retain the strict margin.
 
-Directly, `M≤ψ(k)−θ(k)≤1.000081(√k+(log k/log2)k^(1/3))`. After division by `k` both terms decrease for `k≥k₀=2·10^10`: for the second use `log k>3/2`. At `k₀, √k₀>140000, k₀^(1/3)>2700` and `log k₀/log2<35`. Therefore `M/k≤(1000081/1000000)(1/140000+35/7290000)<367/8000000=((1−3ε)/8)−0.1239`, an exact rational inequality. The prime-power sum has at most `log k/log2` terms with exponent `≥3`; no rounding of `k` is needed. The weighted implication requires the same coefficient sequence in both sums and the bound `|b(n)|≤1` at higher prime powers, not only at primes.
+Mathlib's `Chebyshev.theta_le_log4_mul_x` and `log4<2` give `θ(t)≤2t` for `t≥0`. Thus `M≤ψ(k)−θ(k)≤2(√k+(log k/log2)k^(1/3))`. After division by `k` both terms decrease for `k≥k₀=2·10^10`: for the second use `log k>3/2`. At `k₀, √k₀>140000, k₀^(1/3)>2700` and `log k₀/log2<35`. Therefore `M/k≤2(1/140000+35/7290000)<367/8000000=((1−3ε)/8)−0.1239`, an exact rational inequality. The prime-power sum has at most `log k/log2` terms with exponent `≥3`; no rounding of `k` is needed. The weighted implication requires the same coefficient sequence in both sums and the bound `|b(n)|≤1` at higher prime powers, not only at primes.
 
 See [47][R47], §6 end of Case I, pp. 369–370; Schoenfeld Theorem 6*, (5.3*)–(5.4*).
 
-*Needs:* `Chebyshev.psi`; `Chebyshev.theta`.
+*Needs:* `Chebyshev.psi`; `Chebyshev.theta`; `Chebyshev.theta_le_log4_mul_x`.
 
 <a id="s0-5"></a>
 
@@ -296,11 +304,13 @@ See [47][R47], §9 p.384; Rosser–Schoenfeld Theorem 6, p.70.
 
 For each `ε > 0` there is `c(ε) > 0`, not effectively computable, such that `L(1,χ_D) ≥ c(ε)|D|^{−ε}` for every fundamental discriminant `D ≠ 1`.
 
-For small `η>0`, no real primitive zero in `[1−η,1)` gives an effective `η`-dependent bound by zero-gap integration. Otherwise fix a least-conductor `χ₁`, conductor `q₁`, with rightmost zero `β₁` there. For primitive real `χ≠χ₁` with `q≥q₁`, `f=1∗χ∗χ₁∗χχ₁` has `f(n)≥0,f(1)=1`: Euler logarithmic coefficients have factor `(1+χ(p)^j)(1+χ₁(p)^j)≥0`. Choose smooth `φ` equal 1 on `[0,1]`, supported in `[0,2]`. Mellin inversion of `Σf(n)n^−β₁φ(n/x)≥1`, shifted to `Re s=−1`, crosses only `1−β₁`: `L(β₁,χ₁)=0` cancels the Mellin pole at 0. Functional equations/Gamma remainder give `|F(β₁−1+it)|≤C(q(|t|+2))^C`; repeated integration by parts gives arbitrary Mellin decay. At `x=C′q^C` the left integral is `≤1/2`, yielding
+For small `η>0`, no real primitive zero in `[1−η,1)` gives an effective `η`-dependent bound by zero-gap integration. Otherwise fix a least-conductor `χ₁`, conductor `q₁`, with rightmost zero `β₁` there. For primitive real nonprincipal `χ≠χ₁` with `q≥q₁`, `f=1∗χ∗χ₁∗χχ₁` has `f(n)≥0,f(1)=1`: Euler logarithmic coefficients have factor `(1+χ(p)^j)(1+χ₁(p)^j)≥0`. Choose smooth `φ` on the nonnegative real axis with `0≤φ≤1`, equal to 1 on `[0,1]` and zero for `u>2`. Mellin inversion of `Σf(n)n^−β₁φ(n/x)≥1`, shifted to `Re s=−1`, crosses only `1−β₁`: `L(β₁,χ₁)=0` cancels the Mellin pole at 0. Functional equations/Gamma remainder give `|F(β₁−1+it)|≤C(q(|t|+2))^C`; repeated integration by parts gives arbitrary Mellin decay. At `x=C′q^C` the left integral is `≤1/2`, yielding
 `1/2≤x^(1−β₁)L(1,χ₁)L(1,χ)L(1,χχ₁)Φ(1−β₁)`.
 Use `|Φ(1−β₁)|≤2/(1−β₁)`, `|L(1,χχ₁)|≤C log(qq₁)` and [§0.31a][R134]’s `L(1,χ₁)≤C(1−β₁)q₁^((1−β₁)/2)log²q₁` to obtain `L(1,χ)≥c_ηq^(−C₀η)/log³q`. Choose `η` after `ε` and absorb logs. At `χ=χ₁`, the product `χχ₁` is principal and the pole at 1 is double, so the displayed simple-pole residue is inapplicable. The finite characters of conductor `<q₁` together with `χ₁` have a positive minimum `L`-value by nonvanishing/reality. This minimum, not an effective bound on `q₁`, is the ineffective step.
 
 For the no-near-zero case integrate the logarithmic derivative on `[1,1+1/logq]`, isolating a real zero and bounding other zero/Gamma terms by `O(logq)`. The Euler product at the right endpoint gives `L(1,χ)≥c min(1/logq,1−β)`. A fixed `η`-gap suffices, with the specified contour and conductor suppliers.
+
+Checks: `χ=χ₁` gives a double pole at 1 and belongs to the finite positive minimum; distinct primitive quadratic characters have nonprincipal product even after passage to a common modulus; for `x≥1` the `n=1` summand equals 1 and every other smoothed summand is nonnegative.
 
 See [49][R49], Theorem12.9 and its Goldfeld proof pp.125–127. The proof just described uses its contour/positivity argument and retains all character and conductor factors. The theorem here is the L-value form; the zero-separation form follows with the derivative adapter specified below.
 
@@ -395,17 +405,11 @@ See [53][R53], §5.1 (5.1.4), xi definition and reflection, pp.34–35; Lemma8.3
 
 <a id="s0-15"></a>
 
-### 0.15 Elementary canonical factors of every genus
+### 0.15 Comparison of supplied canonical factors
 
-For `n≥0` define `E_n(w)=(1−w)exp(Σ_(j=1)^n w^j/j)`, with an empty sum for `n=0`. This is an entire function with a simple zero exactly at1. Genus1 agrees with the existing `E₁`.
+Use [GlobalHolomorphicFunctions' primary factors][GH-products] `E_n(w)=(1−w)exp(Σ_(j=1)^n w^j/j)`, with an empty sum for `n=0`. Their entirety, simple zero at 1 and product convergence API are supplied there. The adapter `canonical_factor.one_genus` identifies its `E₁` with [ZerosOfLFunctions 5.3][R15]'s `(1−w)exp(w)` by equality of their defining formulas.
 
-Use the finite polynomial sum and exponential. On `|w|≤1/2` cancel the first `n` Taylor coefficients of `log(1−w)`; the remaining series is `O_n(|w|^(n+1))`.
-
-- `canonical_factor.zero_genus`: `E₀(w)=1−w`.
-- `canonical_factor.one_genus`: `E₁(w)=(1−w)e^w` agrees with ZerosOfLFunctions 5.3 on the nose.
-- `canonical_factor.entire`: `E_n` is entire for every `n`.
-- `canonical_factor.zeros`: `E_n(w)=0` iff `w=1`, and its vanishing order there is1.
-- `canonical_factor.log_tail`: There is `C_n>0` with `|log(1−w)+Σ_(j=1)^n w^j/j|≤C_n|w|^(n+1)` for `|w|≤1/2`, using the principal analytic `log`.
+For the finite-order estimates, `canonical_factor.log_tail` states that there is `C_n>0` with `|log(1−w)+Σ_(j=1)^n w^j/j|≤C_n|w|^(n+1)` for `|w|≤1/2`, using the principal analytic logarithm. Cancel the first `n` terms of its Taylor series and bound the remaining geometric tail. This estimate uses the supplied factor family.
 
 **Checks.**
 
@@ -417,7 +421,7 @@ Use the finite polynomial sum and exponential. On `|w|≤1/2` cancel the first `
 
 See [54][R54], AppendixB.1, definition preceding(B.1), p.901.
 
-*Needs:* `Complex.exp`.
+*Needs:* [GlobalHolomorphicFunctions, Preparatory primary factors and locally uniform products][GH-products]; [ZerosOfLFunctions 5.3][R15]; the Taylor series of `Complex.log` on the unit disc.
 
 <a id="s0-16"></a>
 
@@ -425,11 +429,12 @@ See [54][R54], AppendixB.1, definition preceding(B.1), p.901.
 
 Assume `ModEightFiniteInput`. With `ε=0.002811`, for `a=3` or 5 and `k≥2*10^10, θ(k;a,8)-θ(k/2;a,8)≥(1-3*ε)*k/8`.
 
-Set `X=exp(10000)`. The contract `ModEightFiniteInput` is
-`∀ a∈{3,5}, ∀ x, 10^10≤x<X → |θ(x;a,8)−x/4|≤0.002811x/4`.
-Prove the same error inequality for `x≥X` from the explicit degree-one zero-free region and progression explicit formula at conductor8, separately from the finite input. Combine the two ranges, then subtract at `k` and `k/2`; the errors sum to `3εk/8`.
+Set `X=exp(10000)`. The contract `ModEightFiniteInput` consists of
+`∀ a∈{3,5}, ∀ x, 10^10≤x<X → |θ(x;a,8)−x/4|≤0.002811x/4`,
+together with the bounded-zero assertion: for every Dirichlet character modulo 8, every zero with `0<Re s<1` and `|Im s|≤10000` has `Re s=1/2`. This is [Ramaré–Rumely][RR-primes], Theorem 2.1.1, p.399, specialized to the primitive conductors 1, 4 and 8.
+Prove the same theta error inequality for `x≥X` using that bounded-zero input, the high-height zero-free region and the smoothed explicit estimate of [Ramaré–Rumely][RR-primes], §§3.6 and 4.1–4.3, especially Theorem 4.3.1, pp.415–416. The low zeros contribute a bounded zero count times `x^(−1/2)`; bound the high-zero integral with the stated zero-free region at `log x≥10000`. Combine the two theta ranges, then subtract at `k` and `k/2`; the errors sum to `3εk/8`. The representative theorem `thetaAP_mod_eight_mass` carries the full `ModEightFiniteInput` and the restriction `a=3` or `a=5`.
 
-Checks: at `k=2·10^10` the lower argument is exactly `10^10` and is included; if `k=2X`, both arguments belong to the analytic range; for `k=X`, the upper argument is analytic and the lower one uses the finite contract. The hypothesis concerns the two unit classes3 and5, and asserts no error bound for the nonunit class0.
+Checks: at `k=2·10^10` the lower argument is exactly `10^10` and is included; if `k=2X`, both arguments belong to the analytic range, whose proof retains the bounded-zero hypothesis; for `k=X`, the upper argument is analytic and the lower one uses the finite theta contract. Height 10000 is included in the bounded-zero input; deleted-factor zeros on `Re s=0` are excluded. The theta hypothesis concerns the two unit classes3 and5, and asserts no error bound for the nonunit class0.
 
 See [47][R47], §6, pp. 369,372, Ramaré–Rumely input.
 
@@ -523,15 +528,17 @@ See [53][R53], Theorem 8.7 proof, p.49, and Exercise 8.4.10, p.52. This adapter 
 
 For nonzero entire `f` of finite order at most `ρ≥0`, set `n=floor ρ`. Its nonzero zeros `α` with multiplicity satisfy `Σ|α|^(−n−1)<∞` and `f(z)=z^m exp(h(z))∏E_n(z/α)`, where `E_n(w)=(1−w)exp(Σ_{j=1}^n w^j/j), h` is a polynomial of degree `≤n` and the product converges locally uniformly. Finite/empty zero sets are allowed.
 
-Extend the zero-count/product estimates to `n=floorρ`. For `ρ<σ<s<n+1`, Jensen gives `N(r)=O(r^σ)`, hence summability at `n+1`. For the genus-`n` product `P`, prove `canonicalProduct.good_circles`: there are `R_j→∞` and `C>0` with `|P(z)|≥exp(−C R_j^s)` on `|z|=R_j`. Split zeros at `2|z|`; exclude discs of radii `|α|^(−n−1)`, whose tail radii are summable, and absorb `N(2|z|)log|z|` into `|z|^s`. On these circles the entire logarithm of `f/(z^m P)` has real part `O(R_j^s)`. Borel–Carathéodory and Cauchy force its derivatives of order `≥n+1` to vanish. Finite zero sets use the same estimates with finite products.
+For `ρ<σ<s<n+1`, Jensen gives `N(r)=O(r^σ)`, hence summability at `n+1`. Apply [GlobalHolomorphicFunctions' fixed-genus product theorem][GH-products] to this repeated zero list; [GH3][GH-factorization] supplies the entire logarithm of `f/(z^m P)`. For this supplied genus-`n` product `P`, prove `canonicalProduct.good_circles`: there are `R_j→∞` and `C>0` with `|P(z)|≥exp(−C R_j^s)` on `|z|=R_j`. Split zeros at `2|z|`; exclude discs of radii `|α|^(−n−1)`, whose tail radii are summable, and absorb `N(2|z|)log|z|` into `|z|^s`. On these circles the entire logarithm has real part `O(R_j^s)`. Borel–Carathéodory and Cauchy force its derivatives of order `≥n+1` to vanish. Finite zero sets use the same estimates with the supplier's finite products.
+
+Checks: `f=1` has an empty zero product and a constant logarithm; `f(z)=z²exp(z)` has `m=2`, an empty nonzero-zero product and degree-one exponent; `f(z)=(z−1)²` uses two occurrences of the same zero and genus zero; `f(z)=exp(z²)` has order two and a quadratic exponent, so a degree-one conclusion would fail.
 
 See [54][R54], Appendix B.1, (B.1)–(B.3), pp.901–902; [Kupers][R95], Theorem14.1.1 and proof, Lemmas14.1.4–14.1.5 and Corollary14.1.6, pp.89–93. Use the strict upper endpoint `ρ<n+1` required by that proof.
 
-*Needs:* [ZerosOfLFunctions Entire order at most `ρ`][R11]; `AnalyticOnNhd.sum_divisor_le`; `Complex.borelCaratheodory`; [§0.15](#s0-15).
+*Needs:* [ZerosOfLFunctions Entire order at most `ρ`][R11]; [GlobalHolomorphicFunctions preparatory products][GH-products] and [GH3][GH-factorization]; `AnalyticOnNhd.sum_divisor_le`; `Complex.borelCaratheodory`; [§0.15](#s0-15).
 
 <a id="s0-23a"></a>
 
-**§0.23a Higher derivatives of the Gamma remainder.** Construct the holomorphic logarithm `logΓ` on the slit plane `ℂ∖(−∞,0]`, normalized by `logΓ(1)=0`, with `exp(logΓ(z))=Γ(z)`. With the principal `Log z`, define `R(z)=logΓ(z)−(z−1/2)Log z+z−log(2π)/2`. Prove the Stieltjes identity `R(z)=∫₀^∞Q(t)/(z+t)²dt`, where `Q(t)=({t}−{t}²)/2`. On every compact slit-plane subset prove absolute convergence and a common integrable majorant. On the supplier sector `|arg z|<π−δ, |z|>1`, `0<δ<π`, identify this logarithm with [ZerosOfLFunctions 1.2–1.4][R12]’s branch: both take value 0 at 2, and their difference is a constant in `2πiℤ`.
+**§0.23a Higher derivatives of the Gamma remainder.** The intermediate target `gammaRemainder.slit_logGamma` constructs the holomorphic logarithm `logΓ` on the slit plane `ℂ∖(−∞,0]`, normalized by `logΓ(1)=0`, with `exp(logΓ(z))=Γ(z)` and real values on the positive real axis. With the principal `Log z`, define `R(z)=logΓ(z)−(z−1/2)Log z+z−log(2π)/2`. Prove the Stieltjes identity `R(z)=∫₀^∞Q(t)/(z+t)²dt`, where `Q(t)=({t}−{t}²)/2`. On every compact slit-plane subset prove absolute convergence and a common integrable majorant. On the supplier sector `|arg z|<π−δ, |z|>1`, `0<δ<π`, identify this logarithm with [ZerosOfLFunctions 1.2–1.4][R12]’s branch: both take value 0 at 2, and their difference is a constant in `2πiℤ`.
 
 For every integer `j≥1` and `z` in the slit plane,
 `R^(j)(z)=(-1)^j (j+1)! ∫₀^∞ Q(t)/(z+t)^(j+2) dt`,
@@ -614,29 +621,31 @@ See [51][R51], §7.2 proof of Proposition7.6, (7.7), p.62.
 
 ### 0.29 Strict derivative positivity requires nonpolynomiality
 
-Let `f` be a nonzero entire function of order at most 1, let `m` be its vanishing order at 0, and suppose `f(−z)=(−1)^m f(z)`, every zero of `f` is purely imaginary, and `f(x)>0` for all sufficiently large positive real `x`. If `f` is not a polynomial, every derivative `f^(k)(x)` with `k≡m` mod2 is strictly positive for `x>0`, and the same-parity Taylor coefficients from degree `m` onward are positive.
-
-Nonpolynomiality forces infinitely many pairs, so for every coefficient beyond `m` choose sufficiently many positive factors. The nonnegative convergent derivative series gives strict positivity for `x>0`.
+Let `f` be a nonzero entire function with `OrderLE f 1`, let `m` be its vanishing order at 0, and suppose `f(−z)=(−1)^m f(z)`, every zero of `f` is purely imaginary, and `f(x)>0` for all sufficiently large positive real `x`. If `f` is not a polynomial, every derivative `f^(k)(x)` is strictly positive for `x>0`, and its Taylor coefficients of degrees `m+2j`, `j≥0`, are positive. Consume [AL.2][AL-paired]'s `AL2.PairedHadamard_derivatives_positive` through `AL2.IsCenteredOrderOne_iff_orderLE`, with exactly these hypotheses.
 
 `cosh(z)` has infinitely many purely imaginary zero pairs and strictly positive same-parity Taylor coefficients. The polynomial `1+z²` satisfies the pairing hypotheses but its fourth derivative is zero; nonpolynomiality is essential. Coefficients of degree below `m` vanish, including same-parity ones; positivity starts at degree `m`. Negating `cosh` preserves its zero locations and parity but makes its even derivatives negative; eventual positivity is essential.
 
 See [54][R54], Appendix B.1, Proposition B.1 and its proof, pp.902–903.
 
-*Needs:* `TendstoLocallyUniformlyOn.deriv`; [ZerosOfLFunctions 5.4–5.6][R15]; [ZerosOfLFunctions Genus-one canonical factor][R15]; [§0.29a](#s0-29a); [§0.29b](#s0-29b); [ZerosOfLFunctions Paired genus-one factors][R15].
+*Needs:* [AutomorphicLFunctionsAndLocalFactors AL.2, Centered entire functions and paired products][AL-paired].
 
 <a id="s0-29a"></a>
 
-**§0.29a Pairing imaginary zeros.** Under these hypotheses, there is `c>0` and a locally finite positive-real family `λ_j`, with one index per positive-imaginary zero occurrence, such that `f(z)=c z^m∏_j(1+z²/λ_j²)`. The products converge locally uniformly over finite subsets; finite and empty families are included.
+**§0.29a Pairing imaginary zeros.** Consume [AL.2][AL-paired]'s `AL2.PairedHadamardFactorization`: there is `c>0` and a locally finite positive-real family `λ_j`, with one index per positive-imaginary zero occurrence and `Σ_jλ_j⁻²<∞`, such that `f(z)=c z^m∏_j(1+z²/λ_j²)`. The products converge locally uniformly over finite subsets; finite and empty families are included.
 
 Here `f` entire and not identically zero; `m` is its finite analytic order at zero; `OrderLE f 1`; `f(−z)=(−1)^m f(z)`; every zero is purely imaginary; `f(x)` is positive real for all sufficiently large positive real `x`.
 
-Parity gives equal zero multiplicities at `±iλ`. Pair the imported genus-one factors using `E₁(w)E₁(−w)=1−w²`; reciprocal-square summability makes this reindexing valid. The paired product is even and has value 1 at zero. Comparing `f(−z)` and `(−1)^m f(z)` near zero gives `exp(−2bz)=1` for all sufficiently small `z`, forcing `b=0`. For positive `x` every paired factor and `x^m` is positive, so eventual positive reality of `f` forces `c=exp(a)>0`.
+Checks: `f=z^m` has an empty family and `c=1`; `f=1+z²` has the single pair `±i`; `f=(1+z²)²` retains that pair twice. The comparison with the genus-one normalization is `E₁(z/(iλ))E₁(z/(−iλ))=1+z²/λ²`.
+
+See [54][R54], Appendix B.1, (B.3) and Proposition B.1, pp.902–903. *Needs:* [AutomorphicLFunctionsAndLocalFactors AL.2][AL-paired].
 
 <a id="s0-29b"></a>
 
-**§0.29b Nonnegative coefficients of the paired product.** For the preceding paired product, every Taylor coefficient of parity `m` is nonnegative, and all coefficients of the other parity are zero.
+**§0.29b Nonnegative coefficients of the paired product.** For entire nonzero `f` with `OrderLE f 1`, origin order `m`, parity `f(−z)=(−1)^m f(z)`, purely imaginary zeros and eventual positive reality, consume [AL.2][AL-paired]'s `AL2.PairedHadamard_derivatives_nonnegative`. Every Taylor coefficient is nonnegative, coefficients of parity opposite to `m` are zero, and every derivative is nonnegative at positive real points. Nonpolynomiality is not needed for these non-strict conclusions.
 
-Finite products have nonnegative coefficients in `z²`. Use locally uniform derivative convergence at0 to pass to every fixed coefficient.
+Checks: `1+z²` has fourth derivative zero; `z³(1+z²)` has zero coefficients below degree 3, including degree 1 of the same parity; `cosh z` has positive even coefficients and zero odd coefficients, while its odd derivatives are positive for `x>0`.
+
+See [54][R54], Appendix B.1, proof of Proposition B.1, pp.902–903. *Needs:* [AutomorphicLFunctionsAndLocalFactors AL.2][AL-paired].
 
 <a id="s0-30"></a>
 
@@ -1003,6 +1012,8 @@ Identify ideal Euler series with canonical Tate continuations before taking valu
 
 Consume AutomorphicSpectralTheory §4.17a `quadratic_weyl_domains` with its real quadratic reduced periods, Γ_A, Nielsen surfaces, genus characters, oriented boundary projection with multiplicities, area `πℓ_A` and length `2logε_D`. For a Γ_A-invariant `C²` eigenfunction satisfying `ΔF=s(1−s)F`, integrable on the supplied core and with upper truncation boundary integral tending to zero, prove `core_stokes`: the integral of `i∂_z F dz` on the intrinsic oriented boundary is `s(1−s)/2` times the area integral. Descend DifferentialGeometry's Stokes formula through finite orbifold charts, cancel identified sides with their signed multiplicities and take the cusp-exhaustion limit under these hypotheses. For Eisenstein series on `Re s=1/2`, consume §4.18 `cusp_decay` and §4.20 `eisenstein_core_integrable` to discharge them.
 
+On that supplied surface, prove `core_signature`: genus zero, `ℓ_A` elliptic points of order 2, one cusp and one geodesic boundary component. Prove `core_boundary_period`: integration along the intrinsic boundary equals integration along the full oriented geodesic `C_A`, with its parametrization and arc multiplicities. Here `ε_D>1` generates the totally positive norm-one units; the full norm-one group is `{±ε_D^n : n∈ℤ}`, whose central sign acts trivially in `PSL₂`.
+
 For negative fundamental `D`, construct the separate CM-point adapter from IntegralLattices B2/B4/B5: a primitive positive definite integral form `[a,b,c]` of discriminant `D` maps to `z_A=(−b+i√|D|)/(2a)` in the upper half-plane. Prove compatibility with the proper form/ideal-class dictionary, independence up to `PSL₂(ℤ)`, and stabilizer weight `1/ω_D`, with `ω_D=|O_Kˣ|/2`. This supplies the points used in §2.23; the form/ideal dictionary alone does not construct them. Source: [60][R60], §7 (7.1), p.970. Checks: `[1,0,1]` gives `i` and `ω₋₄=2`; `[1,1,1]` gives `(−1+i√3)/2` and `ω₋₃=3`; a proper change of form gives the same modular point and the same evaluation of an invariant function.
 
 API: `core_stokes` supplies the eigenfunction identity under the integrability and vanishing-cusp hypotheses above, compatible with the supplied oriented boundary-period comparison.
@@ -1013,6 +1024,7 @@ API: `core_stokes` supplies the eigenfunction identity under the integrability a
 - For its other narrow class, with period `(3,3,2,2,2)`, obtain area `5π` and the same boundary length. Their projections have the same geodesic image with opposite orientations; signed boundary periods must therefore distinguish them.
 - For the sign convention `Δ=−y²(∂ₓ²+∂ᵧ²)`, take `F=log y` on `0≤x≤1, 1≤y≤2`. Then `i∂F dz=dz/(2y)`, its counterclockwise boundary integral is `1/2−1/4=1/4`, and `(1/2)∫ΔF dμ=1/4`. Reversing the boundary orientation reverses this value.
 - The projected modular fundamental domain has area `π/3`, so replacing either core by that domain or by its unweighted projected image gives the wrong area. Identified polygon sides do not contribute to the intrinsic boundary.
+- The unit `−1` has norm 1 and is not a power of `ε_D>1`; quotienting by its central action preserves the length `2logε_D`.
 - A nondecaying constant term proportional to `y^s` with `Re s>1` fails the cusp and area-integrability conditions. It cannot justify the initial Eisenstein area integral on that half-plane.
 
 See Duke–İmamoğlu–Tóth, [60][R60], §2 (2.1), (2.8)–(2.10), §3 (3.1)–(3.3) and Theorem 1, pp.951–958; §7 Lemma 2, (7.10)–(7.11), p.972. The finite-orbifold-chart descent and general-eigenfunction cusp-limit adapter to DifferentialGeometry Layer 5 are required proofs here. General manifold Stokes is consumed through its existing oriented integration interface.
@@ -1112,9 +1124,9 @@ See [64][R64], Euler-factor adapter for Tsimerman, Corollary 3.3, p.384; compare
 
 ### 2.8 Partial ideal zeta series
 
-For a number field `K`, choose its ordinary or narrow ideal class group, and a class A. Let `a_A(n)` count nonzero integral ideals of `norm n` in A, with `a_A(0)=0`. Consume [LFunctions Layer 2][R9]’s partial ray-class zeta series at trivial finite modulus, with empty infinity part for ordinary classes and all real places for narrow classes. The local presentation `ζ_A(s)=LSeries a_A s` is an adapter: prove equality with that supplier series on `Re s>1` by the class-indicator coefficient dictionary. Quadratic period applications use narrow classes for real quadratic `K` and ordinary classes for imaginary quadratic `K`. Index ideals, not their generators. The finite class sum agrees with `NumberField.dedekindZeta` as an `LSeries`: the latter may have a different zeroth coefficient, which `LSeries` ignores. The representative coefficient adapter is `partialIdealZetaCoeff`; `partialIdealZeta` is its ordinary-class series presentation, and `sum_partialIdealZeta` transports the supplier’s finite class-sum identity.
+For a number field `K`, choose its ordinary or narrow ideal class group, and a class A. Write `ζ_A` for [LFunctions Layer 2][R9]’s partial ray-class zeta series transported through the class equivalence at trivial finite modulus, with empty infinity part for ordinary classes and all real places for narrow classes. Its coefficient `a_A` is the supplier's `normCoeff` of the class indicator. Prove the adapter formula counting nonzero integral ideals of norm `n` in A, with `a_A(0)=0`. Quadratic period applications use narrow classes for real quadratic `K` and ordinary classes for imaginary quadratic `K`. Index ideals, not their generators. The finite class sum agrees with `NumberField.dedekindZeta` as an `LSeries`: the latter may have a different zeroth coefficient, which `LSeries` ignores. The representative ordinary-class coefficient abbreviation is `partialIdealZetaCoeff`, defined through the native `TauCeti.normCoeff`; `partialIdealZetaCoeff_eq_card` proves its cardinality expression. The analytic function and its continuation are the supplier's throughout.
 
-Identify the finite norm-fibre count with the supplier’s `normCoeff` of the class indicator on `ClassGroup` or `NumberField.NarrowClassGroup`, fixing coefficient 0. Convergence, class sums and character sums are consumed from LFunctions Layer 2 through this equality. The local extension is quadratic conjugation and the subsequent period-normalization comparisons. Quadratic conjugation preserves norms and inverts narrow classes, hence ordinary classes through the quotient. The general conjugation identity assumes class inversion; the canonical quadratic specialization proves it.
+Identify the supplier's ray classes with `ClassGroup` or `NumberField.NarrowClassGroup` at these two moduli, and transport its indicator before applying `normCoeff`, fixing coefficient 0. Convergence and class sums are consumed from LFunctions Layer 2; the class-character identity is the specialization of Layer 5 in §2.12. The local extension is quadratic conjugation and the subsequent period-normalization comparisons. Quadratic conjugation preserves norms and inverts narrow classes, hence ordinary classes through the quotient. The general conjugation identity assumes class inversion; the canonical quadratic specialization proves it.
 
 - `partial_ideal_zeta.coeff`: `a_A(n)` is the finite cardinality of integral ideals of positive `norm n` in `A; a_A(0)=0`.
 - `partial_ideal_zeta.sum_classes`: The sum of `ζ_A` over all ideal classes is the Dedekind series on `Re s>1`.
@@ -1127,6 +1139,7 @@ Identify the finite norm-fibre count with the supplier’s `normCoeff` of the cl
 - `a_A(1)=1` for the principal class and 0 otherwise.
 - The unit ideal contributes once, even when the unit group is infinite.
 - The zero ideal contributes to no coefficient; no norm-zero negative power occurs.
+- A nontrivial finite ray modulus instead gives the Dedekind series with its bad Euler factors deleted; it is outside the ordinary/narrow trivial-finite-modulus specialization.
 
 The `ℚ` test is in the domain of this general coefficient definition; a real/imaginary quadratic restriction applies only to the subsequent period identities. Class-sum coefficient agreement is required for `n≥1`; do not infer equality of the zeroth coefficients from equality of `LSeries`.
 
@@ -1254,11 +1267,11 @@ See [65][R65], §4.5, pp. 57–59.
 
 For a finite narrow-class character `χ, L(s,χ)=Σ_aχ(a)N(a)^(−s)=∏_p(1−χ(p)N(p)^(−s))⁻¹, Re(s)>1`, and `L=Σ_Aχ(A)ζ_A`. The Euler product retains `χ(p)`; use the corrected one.
 
-Regroup the canonical ideal-character series by its finite class values. Apply ADS Euler products with `χ(p)` retained in every local factor.
+Specialize [LFunctions Layer 5][R9]'s Hecke series at trivial finite modulus and all real places. Its finite class decomposition is `L=Σ_Aχ(A)ζ_A` for the supplied partial functions of §2.8, and ADS Euler products retain `χ(p)` in every local factor.
 
 See [60][R60], §7, p970.
 
-*Needs:* [§2.8](#s2-8); [§2.3][R188].
+*Needs:* [LFunctions Layers 2 and 5][R9]; [§2.8](#s2-8); [§2.3][R188].
 
 <a id="s2-13"></a>
 
@@ -1765,7 +1778,7 @@ For a finite Galois extension `L/K` of number fields and a finite-dimensional co
 
 Define the predicate on the unique Brauer meromorphic continuation, including inertia-invariant ramified factors. Uniqueness removes expression dependence. Finite Euler deletion preserves ArtinHolomorphy in both directions, with the same order at 1. The deleted polynomial is nonzero on `Re s>0` and at 1. For the converse also prove complete holomorphy on `Re s≤0` using the completed functional equation.
 
-The required completed-equation adapter is local: assemble the primitive Hecke equations along the supplier’s integral Brauer expression to obtain `Λ(s,ρ)=w(ρ)Λ(1−s,ρ∨)`, with nonzero root number, conductor `|D_K|^dimρ N(f_ρ)` and the archimedean factors from the actual local representation. At a real place these are `Γ_R(s)^a Γ_R(s+1)^b` for its ± eigenspace dimensions; at a complex place use `Γ_C(s)^dimρ`. Compare factors and conductors under induction before cancelling signed products as meromorphic germs. This uses the finite conductor supplier and the scalar Tate equation. For `Re s<0`, the reflected Euler function and Gamma factors are regular and nonzero, and reciprocal Gamma is entire. On `Re s=0` away from 0 use Hecke boundary orders on the reflected line. At 0 the reflected pole has order `r=dim V^G`, whereas the archimedean Gamma pole order is at least `r`; division therefore leaves no pole.
+The required completed-equation adapter is local: assemble the primitive Hecke equations along the supplier’s integral Brauer expression to obtain `Λ(s,ρ)=w(ρ)Λ(1−s,ρ∨)`, with nonzero root number, conductor `|D_K|^dimρ N(f_ρ)` and the archimedean factors from the actual local representation. At a real place these are `Γ_R(s)^a Γ_R(s+1)^b` for its ± eigenspace dimensions; at a complex place use `Γ_C(s)^dimρ`. Compare factors and conductors under induction before cancelling signed products as meromorphic germs. This uses the finite conductor supplier and the scalar Tate equation. For `Re s<0`, the reflected Euler function and Gamma factors are regular and nonzero, and reciprocal Gamma is entire. On `Re s=0` away from 0 use Hecke boundary orders on the reflected line. At 0 put `r=dim V^G` and `a₀=Σ_(v real)dim V^(c_v=1)+r₂(K)dim V`. The Gamma pole order is `a₀`, so `ord₀ L=a₀−r≥0`: every invariant vector contributes at each archimedean place, and `r₁+r₂≥1`. This proves the boundary cancellation independently of Artin holomorphy.
 
 - `ArtinHolomorphy`: The proposition defined above.
 - `ArtinConjecture`: ArtinHolomorphy `ρ` for all `L/K` and all `ρ`.
@@ -1779,10 +1792,11 @@ The required completed-equation adapter is local: assemble the primitive Hecke e
 - For the regular representation, `L_K(s,ρ) = ζ_L(s)`, with a simple pole at 1, and the trivial representation occurs once.
 - Brauer meromorphy alone does not give ArtinHolomorphy: a virtual combination with negative coefficients may have poles, so the predicate is not a consequence of the continuation target.
 - Complete and finite-Euler-deleted ArtinHolomorphy are equivalent. For the trivial line over `ℚ`, the reflected simple pole and the `Γ_R` pole cancel at 0, giving `ζ(0)=−1/2`; zeros of a deleted polynomial on `Re s=0` do not conceal a complete-function pole.
+- For the zero representation, `a₀=r=0` and both complete and incomplete functions are 1; for a trivial line over a real quadratic field, `a₀−r=1` is the zero order at 0.
 
 No unconditional target of this roadmap uses the predicate; it records the requirement that general continuation statements stay visible hypotheses.
 
-See [53][R53], §22.2–22.3, Conjecture 22.2, p. 128.
+See [53][R53], §22.2–22.3, Conjecture 22.2, p.128; [Cogdell, On Artin L-functions][Artin-FE], pp.13–14, for the archimedean factors and functional equation. The deletion equivalence follows from that equation and the supplied boundary orders.
 
 *Needs:* [§2.18][R207]; [AdelicAlgebraicGroups AA.2.4][R220]; ArithmeticGaloisRepresentations §§2.7 and 3.2–3.5; [LFunctions Layer 7][R9].
 
@@ -1880,9 +1894,9 @@ Assume `d,d′` are coprime fundamental discriminants with fundamental product `
 
 Apply the appropriate one of the three genus-period identities. Use the precise gamma quotient and reciprocal-zeta bounds; polynomial height factors and `|D|^(1/4+ε)` remain visible.
 
-Checks: at `s=1/2` the negative-branch coefficient is `1/8`; at `s=1/2+i` it is `5/8`; for `D=−4` the CM weight is `1/2`.
+Checks: at `s=1/2` the negative-branch coefficient is `1/8`, while the uncompleted Eisenstein series itself vanishes; at `s=1/2+i` the coefficient is `5/8`; for `D=−4` the CM weight is `1/2`.
 
-See [60][R60], (6.7), proof of Proposition 2, p.969.
+See [60][R60], (5.12), p.963, and (6.7), proof of Proposition 2, p.969.
 
 *Needs:* `B2`; [§2.35](#s2-35); [§2.36](#s2-36); [§2.37](#s2-37); [ZerosOfLFunctions Critical-line gamma quotient][R12]; [§1.1](#s1-1).
 
@@ -2768,18 +2782,13 @@ Here is the proof chain and the quantitative accounting. For `b=N+1/2`, apply th
 
 Integrals over an unbounded interval are successive improper limits in the displayed order. First perform the finite truncations and avoid poles, then prove convergence by the saddle/tail estimates before passing to these limits. The derivation is [87][R87], §2 (16)–(21) pp.5–7; the exact `b=N+1/2` removes the divisor endpoint from the Stieltjes cutoff. The residue at `u=0` and the Gamma remainder give the displayed `E₃` and `R`; they are not suppressed in an `O`-term.
 
-The milestones are `atkinson.E1_budget` (`E₁−S₁`, §3.23d at `α↓1/2`), `atkinson.E2_budget` (cubic divisor bound), `atkinson.E3_budget` (split at `1/(2N+1),1`, retain residue `u=0`, then §3.23d at `α=3/2`), and `atkinson.E4_budget`. For `E₄` split into Tcos, `−sin/2` and `−sin/L`; use §3.23d inside. Apply §3.23f only to the first outer integral: §3.23e at `α=3/2` gives main term `−S₂`, at `α=5/2` controls the correction; §3.23a’s transition sum controls endpoints. Absolute Voronoi remainder and the cubic bound control other tails. Thus the `−E₄ sign` produces `+S₂`.
+Estimate `E₁−S₁` using §3.23d at `α↓1/2`, `E₂` using the cubic divisor bound, and `E₃` by splitting at `1/(2N+1),1`, retaining the residue `u=0`, then applying §3.23d at `α=3/2`. For `E₄` split into Tcos, `−sin/2` and `−sin/L`; use §3.23d inside. Apply §3.23f only to the first outer integral: §3.23e at `α=3/2` gives main term `−S₂`, at `α=5/2` controls the correction; §3.23a’s transition sum controls endpoints. Absolute Voronoi remainder and the cubic bound control other tails. Thus the `−E₄ sign` produces `+S₂`.
 
-Retain §3.23c’s `R_end,R_far,R_loc` and §3.23e’s `V_j`. Equations (81), (86), (93)–(95), (104), (106) of [87][R87], pp.24–35 give the four budgets. At `A′=0.9,A″=1.1,T₀=10^30,η=1/20`, use `A=√0.9` and §3.23e’s `A′=√(1.1+1/(2T₀))`. Collect `log²T, logT` and residual coefficients: `b₁≤95,b₂≤275,b₃(T)≤7.3·10^18`; more precisely `94.38860<b₁<94.38861`, `274.80674<b₂<274.80675`. `atkinson.budget_bound` includes decreasing exponential terms for `T≥T₀`. Elementary `π,γ,log,exp`,square-root/`arcsinh` inequalities and the integral-test `ζ` tail give these bounds (Theorem 2 p.4; §6 pp.34–35), with the displayed analytic errors retained.
+Retain §3.23c’s `R_end,R_far,R_loc` and §3.23e’s `V_j`. Equations (81), (86), (93)–(95), (104), (106) of [87][R87], pp.24–35 bound the four errors. At `A′=0.9,A″=1.1,T₀=10^30,η=1/20`, use `A=√0.9` and §3.23e’s `A′=√(1.1+1/(2T₀))`. Collect all errors, including `R`, into `b₁log²T+b₂logT+b₃(T)` as in the proof of Theorem 2. Prove `atkinson.budget_bound`: `b₁≤95,b₂≤275,b₃(T)≤7.3·10^18` for `T≥T₀`; more precisely `94.38860<b₁<94.38861`, `274.80674<b₂<274.80675`. The bound retains the decreasing exponential terms. Elementary `π,γ,log,exp`, square-root/`arcsinh` inequalities and the integral-test `ζ` tail give these combined bounds (Theorem 2 and Table 1 p.4; §6 pp.34–35), with the displayed analytic errors retained.
 
-For explicit statements of the four budget milestones at these fixed parameters, set `u=1+√(1+20/(9π)), v=1+√(1+20/(11π)), H=V₁(3/2)/√π·(11/10+1/(2T₀))^(1/4)√v`, with `V₁` evaluated at the preceding `A,A′,η`. Then `b₁=1.445H` and `b₂=H[15.35−2.89log((9/10)π²u²)]`. For each `T≥T₀=10^30` and integer `(9/10)T≤N≤(11/10)T`, the named contracts are
+At these fixed parameters, set `u=1+√(1+20/(9π)), v=1+√(1+20/(11π)), H=V₁(3/2)/√π·(11/10+1/(2T₀))^(1/4)√v`, with `V₁` evaluated at the preceding `A,A′,η`. Then `b₁=1.445H` and `b₂=H[15.35−2.89log((9/10)π²u²)]`. Define `b₃(T)` as the sum of the remaining positive error terms in (81), (86), (93)–(95), (104), (106)–(108) and (21), after extracting those two logarithmic terms. Its bound is the combined `7.3·10^18` allowance above.
 
-- `atkinson.E1_budget`: `|E₁−S₁(T,N)|≤4.3·10^15`.
-- `atkinson.E2_budget`: `|E₂|≤10^(−3)`.
-- `atkinson.E3_budget`: `|E₃|≤4`.
-- `atkinson.E4_budget`: `|E₄+S₂(T,cutoff(T,N+1/2))|≤b₁log²T+b₂log T+3.1·10^17`.
-
-Together with `|R|≤1`, these residual bounds sum to less than `7.3·10^18`. The first three use (81)–(84), (86), (88)–`(93); E₄` uses (94)–(95), (104), (106)–(108). Retain the displayed saddle errors, bound their positive elementary coefficients and use monotonicity for `T≥T₀`. The same elementary bounds give `b₁,b₂`; no extra analytic assumption enters.
+Check of the residual scale: at `a=0.9,T=T₀`, let `η_a=√(1/(2πa)+1/4)−1/2` and `U₄₄=3.5·10^19(aη_a)^(−1/2)(1+1/(2πa))²` as in (54). The positive term `6(7+log(aT))/(aT)^(1/6)·12U₄₄` from (95) lies between `7.264·10^18` and `7.265·10^18`. This term belongs to the upper error envelope for the combined remainder; it is not a lower bound for the oscillatory remainder itself.
 
 Take `N=⌊T⌋`, so `0.9T≤N≤1.1T`, and `Z=cutoff(T,N+1/2)` lies between fixed positive multiples of `T` below `T/(2π)`. From `e≤1` and §3.23a prove `atkinson.main_sum_bound`: `|S₁|+|S₂|≤3.87√TlogT−1.1√T`. For the explicit comparison put `z₊=(√(0.9+2/π)−√0.9)²/4`, `C₁=4√2/(2π)^(1/4)`, `C₂=4√z₊/log(1/(2πz₊))`. Then `Z≤z₊T`, `C₁+C₂<3.862`, `C₂logz₊<−1.111`; monotonicity of `√ZlogZ/log(T/(2πZ))` gives the bound, with positive logarithmic denominator by (100)–(102). Add the remainder and discard `−1.1√T`: the normalized error is at most `3.87+95logT/√T+275/√T+7.3·10^18/(√TlogT)<109.55` at `T₀`, decreasing thereafter. Hence `|E(T)|≤110√TlogT` at the full endpoint ([87][R87], §7 (109), p.35).
 
@@ -2943,17 +2952,19 @@ The constant is `C′=C_L+C_E`, with `C_E` specified in §3.14. Apply the two no
 
 **§3.31a Shifted norm intersection sieve.** Let `A(k)` say `k` is a sum of two squares and `B(k)` say `k−1` is an Eisenstein norm. For each rational prime `p`, exclude the classes ap mod `p², 1≤a<p`, if `p≡3` mod4, and the classes `1+ap` mod `p²` if `p≡2` mod3. The two lists are disjoint because their reductions modulo `p` are0 and1. `A(k)∧B(k)` avoids their union `Ω_p`. Put `ω(p)=#Ω_p=(p−1)(1_{p≡3(4)}+1_{p≡2(3)})` and `g(p)=ω(p)/p²<1`. This retains `p=2` and3. For squarefree `d`, CRT gives exactly `ω(d)=∏_{p|d}ω(p)` forbidden joint classes mod `d²`, and their count up to `X` is `Xg(d)+O(ω(d))`.
 
-Use squarefree-supported real weights `λ_d`, `d≤z`, `λ₁=1`, omitting zero-density primes. For an integer avoiding every `Ω_p` the divisor-sum square is 1. Expansion gives `count≤XQ+Σ_(d,e≤z)|λ_dλ_e|ω([d,e])`, `Q=Σλ_dλ_e g([d,e])`. Put `h(p)=g(p)/(1−g(p))`, `y_r=Σ_(r|d)λ_dg(d)`. Multiplicativity gives `Q=Σy_r²/h(r)` and Möbius inversion gives `λ₁=Σμ(r)y_r`. The minimizer is `y_r=μ(r)h(r)/G(z)`, `G=Σ_(r≤z)μ²(r)h(r)`, giving `Q=1/G`. Inversion bounds `|λ_d|≤∏_(p|d)(1−g(p))^−1≤d²`; with `ω([d,e])≤d²e²`, the remainder is `O(z^10)`.
+Use Mathlib's `BoundingSieve` in `NumberTheory/SelbergSieve.lean`. For `X≥1,z≥1`, send each `1≤k≤X` to the squarefree product of primes `p≤z` with `g(p)>0` for which `k mod p²∈Ω_p`; give each product the cardinality of its fibre. This finite weighted support has nonnegative weights. Extend `g` multiplicatively with `g(0)=0` and `g(p^j)=g(p)^j`. Set `prodPrimes=∏_(p≤z,g(p)>0)p`, `totalMass=⌊X⌋` and `nu=g`. Native divisor counts are then the CRT counts with remainder bounded by `ω(d)` for divisors of `prodPrimes`, and the sifted sum counts integers avoiding these forbidden classes.
+
+Use squarefree-supported real weights `λ_d`, `d≤z`, `λ₁=1`, omitting zero-density primes. Consume `BoundingSieve.upperMoebius_lambdaSquared` and `BoundingSieve.siftedSum_le_mainSum_errSum_of_upperMoebius` for `count≤XQ+Σ_(d,e≤z)|λ_dλ_e|ω([d,e])`, `Q=Σλ_dλ_e g([d,e])`. Put `h(p)=g(p)/(1−g(p))`, `y_r=Σ_(r|d)λ_dg(d)`. With `selbergTerms=h`, `BoundingSieve.mainSum_lambdaSquared_eq_sum_mul_sum_sq` gives `Q=Σy_r²/h(r)`. Möbius inversion gives `λ₁=Σμ(r)y_r`; the minimizer is `y_r=μ(r)h(r)/G(z)`, `G=Σ_(r≤z)μ²(r)h(r)`, giving `Q=1/G`. Inversion bounds `|λ_d|≤∏_(p|d)(1−g(p))^−1≤d²`; with `ω([d,e])≤d²e²`, the remainder is `O(z^10)`.
 
 To prove `G(z)≫log z`, fixed-modulus distribution modulo 12 gives `Σ_(p≤y)g(p)=loglog y+O(1)` and `Σg(p)logp≤C logy`, `C≥1`. Thus `W(y)=∏(1+h(p))≍logy`. On squarefree primorial divisors use probability `h(d)/W(y)`; its expected `log d` is `Σg(p)logp`. At `y=z^(1/(2C))`, Markov gives probability `d≤z` at least 1/2, so `G(z)≥W(y)/2`. Choose `z=X^(1/40)` to get `X/G(z)+O(z^10)≪X/logX`. Exact-valuation-one exclusions are necessary conditions, not exclusion of all inert prime factors.
 
-API: `shiftedNorm.forbidden_card`, `.crt_count`, `.selberg_quadratic_diagonal`, `.weights_remainder`, `.intersection_bound`, `.union_constant`. Checks: for `p=2` the forbidden set is `{3 mod4}`, of size1; for `p=3` it is `{3,6 mod9}`, of size2; for `p=11` both families contribute and `#Ω_11=20`, not10 or `121; k=9` is allowed in A because `v_3(9)=2`; no unsupported independence of the two norm indicators is assumed. The finite quadratic-form proof is the local Selberg adapter, with the standard square-majorant method as in Koukoulopoulos, [49][R49], Chapter21 §§21.1–21.2 pp.213–218. The particular mod-`p²` sets and the primorial probability lower bound are derived here for this application.
+API: `shiftedNorm.forbidden_card`, `.crt_count`, `.selberg_quadratic_diagonal`, `.weights_remainder`, `.intersection_bound`, `.union_constant`. Checks: for `p=2` the forbidden set is `{3 mod4}`, of size1; for `p=3` it is `{3,6 mod9}`, of size2; for `p=11` both families contribute and `#Ω_11=20`, not10 or `121; k=9` is allowed in A because `v_3(9)=2`; an integer avoiding every `Ω_p` maps to the empty product 1 and is retained by the native sieve. The local Selberg adapter transports the mod-`p²` counts and weights through the three supplied Mathlib theorems. The standard square-majorant method is in Koukoulopoulos, [49][R49], Chapter21 §§21.1–21.2 pp.213–218. The particular forbidden classes and the primorial probability lower bound are derived here for this application.
 
 Prove the source asymptotic independently of two-sided comparison. At cutoff 13 the union is `{1,2,4,5,8,9,10,13}`, size 8; subtract overlaps. Removing `k=0` changes the count by at most 1.
 
 See [82][R82], Introduction p.3, exceptional families; §4.1 pp.12–13; §8 p.24, arXiv:1706.06712v3.
 
-*Needs:* [§3.13](#s3-13); [§3.14](#s3-14); [§3.15](#s3-15).
+*Needs:* Mathlib `NumberTheory/SelbergSieve.lean`; [§3.13](#s3-13); [§3.14](#s3-14); [§3.15](#s3-15).
 
 <a id="s3-32"></a>
 
@@ -3352,6 +3363,11 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 - **BBR.** [Djamel Berkane, Olivier Bordellès and Olivier Ramaré — Explicit upper bounds for the remainder term in the divisor problem][BBR], Mathematics of Computation81 (2012), pp.1025–1051; explicit divisor inputs and their proofs.
 
 [R1]: ../../Completed/ArithmeticDirichletSeries/README.md#layer-6-abel-and-perron-summation
+[GH-products]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ca9d1e118dd92419d281602eabd6a6f70f04b85/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh-preparatory-products
+[GH-factorization]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ca9d1e118dd92419d281602eabd6a6f70f04b85/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh3-weierstrass
+[AL-paired]: ../AutomorphicLFunctionsAndLocalFactors/README.md#centered-entire-functions-and-paired-products
+[Artin-FE]: https://people.math.osu.edu/cogdell.1/artin-www.pdf
+[RR-primes]: https://ramare-olivier.github.io/Maths/rumely.pdf
 [R2]: ../../Completed/ArithmeticDirichletSeries/README.md#layer-3-local-factors-and-euler-products
 [R3]: ../../Completed/ArithmeticDirichletSeries/README.md#layer-8-landau-type-positivity
 [R4]: ../../Completed/ArithmeticDirichletSeries/README.md#layer-1-norm-fibres-and-mathlib-lseries
