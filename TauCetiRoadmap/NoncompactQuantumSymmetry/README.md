@@ -51,6 +51,42 @@ particular a locally closed orbit in the dual); state that hypothesis in
 the open-mapping argument. These are comparison targets, not assumed consequences of the abstract
 crossed-product notation.
 
+## M0a. Separable GCR and factor-type-I comparison
+
+**TypeIComparison — the separable GCR/factor-type-I bridge.**
+
+Consume [CStarAlgebras C1/C2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/987daa21c57e50d0e8bf58dd0519a75ef592d6b2/TauCetiRoadmap/CStarAlgebras/README.md#c2-irreducible-representations-primitive-ideals-and-the-bidual) and [VNA V3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L267-L279) for the exact primitive/ideal and spatial-factor inputs below.
+
+For separable C*-algebras own the Glimm–Sakai equivalence between: every
+factor representation generating a spatial type-I von Neumann factor;
+every irreducible image containing the compacts (GCR); a composition series
+with liminal subquotients; and injectivity of the class-to-primitive-kernel
+map. Here the composition series is an ordinal-indexed increasing family
+(I_α)_(α≤β), with I₀=0, I_β=A, limit I_λ=closure(⋃_(α<λ)I_α), and each
+I_(α+1)/I_α liminal. Specify both irreducible-image and composition-series conditions,
+rather than identifying them through the word postliminal. Own both
+directions, including the hard factor-type-I-to-GCR direction. Prove the
+GCR same-kernel lemma and the class/kernel Fell–hull-kernel homeomorphism
+here. For GCR⇒factor-type-I, a factor representation ρ has prime kernel J;
+C2's separable prime⇒primitive theorem supplies an irreducible π with this
+kernel. GCR gives `K(H_π)⊆π(A)`. Define `I=π⁻¹(K(H_π))`; this
+containment makes `I/J≃K(H_π)` onto. It acts nondegenerately under ρ,
+since its support is nonzero central in the factor. Put M=ρ(A)″=ρ(I)″.
+For a rank-one projection e in I/J≃K(H_π), faithfulness on A/J gives
+ρ(e)≠0. The rank-one corner e(I/J)e=ℂe and strong density imply
+`ρ(e)Mρ(e)=ℂρ(e)`. Thus ρ(e) is minimal in M, and V3's existing
+minimal-projection spatial theorem makes M type I. To identify the
+amplification, use the rank-one matrix units e_ij of K(H_π):
+`e_i⊗ξ↦ρ(e_i0)ξ` extends to an onto unitary
+`H_π⊗ρ(e)H_ρ≃H_ρ`, since the finite diagonal sums form an approximate
+unit for I/J and ρ(I) is nondegenerate. It intertwines I/J, and its
+nondegenerate extension to A/J intertwines ρ with π⊗1. The matrix-unit,
+corner and tensor APIs are those already owned by V3. This direction
+uses no hard converse.
+Own the same-kernel and composition-series implications separately, and
+the hard Glimm implications factor-type-I⇒GCR, kernel injectivity⇒GCR
+and GCR⇒liminal composition series. M2.MeasuredRefinement consumes the GCR and Borel-dual comparisons here; existing M0 CCR and M2 semidirect-product applications retain their stated directions. This bridge uses C1, C2 and V3 and has no M0, induction, irreducible-disintegration or semidirect-product prerequisite.
+
 ## M0. Smooth vectors, compact types and semisimple representation bridges
 
 Use native `ContRepresentation ℂ G H` and
@@ -400,6 +436,91 @@ For a second-countable locally compact group `G` acting continuously on a Polish
 
 For a transitive space `X=G/H`, with H closed and a quasi-invariant measure class, prove Mackey's imprimitivity equivalence: every such system is unitarily equivalent to induction of a representation of H, and conversely. Construct the quotient bundle and measurable sections and prove independence from their choice. On `L²(G/H, μ; K)` give the induced action with the Radon–Nikodym square root and modular factors; prove unitarity, strong continuity, covariance and the intertwining equivalence. Show how this model agrees with D3 Green induction after the H3 correspondence-to-Hilbert-space comparison, including both modular functions. Include the one-point space, `H=G`, `X=G`, and compact quotient as normalization cases.
 
+### M1.BorelRealization — equivariant Polish models and transport
+
+Own the following theorem for every Polish topological group `G` (hence every
+Hausdorff lcsc group), every standard Borel measurable space `X`, and every
+native `MulAction G X`, with `[MeasurableSpace G] [BorelSpace G]`, whose
+action map is jointly Borel, expressed by native
+`MeasurableSMul₂ G X`. Construct a Polish `G`-space `Y` with native
+`ContinuousSMul G Y` and an equivariant `MeasurableEquiv X Y`, with Y carrying
+its Borel measurable structure. Equivalently choose a Polish topology on the
+same underlying X with exactly its original sigma algebra and continuous
+action. No topology or continuity of the original X-action is an input.
+Native `MeasurableSMul G X` is only separate measurability and is not this
+hypothesis. `upgradeStandardBorel` alone chooses no action-compatible topology.
+
+M1 owns the descriptive-set prerequisites and complete realization proof,
+rather than assuming a named realization theorem. Use the Vaught transforms
+`A^(ΔU)={x | {g∈U | g•x∈A} is nonmeagre in U}` for nonempty open U in a
+countable basis of G. Own the Montgomery–Novikov category-quantifier theorem
+for Borel subsets of G×X, with the category argument proving
+these transforms Borel. Use Baire-property localization and its closure
+under complements/countable unions. Prove complement/countable-union and translation
+identities. Construct a countable Boolean family F closed under these
+transforms. Start with a compatible Polish topology and its countable base.
+At each finite stage add the current topology's countable base, Boolean
+operations and Vaught transforms of sets already added. Use native
+`MeasurableSet.isClopenable` and countable Polish refinement to make the
+added sets clopen with unchanged Borel structure; include a countable base
+of this refinement at the next stage. Apply native `PolishSpace.iInf` to
+the increasing sequence of refinements (Mathlib orders topologies in the
+reverse of inclusion of open sets). Prove its topology equals that generated
+by F: every stage base lies in F and every member of F is clopen at some
+later stage. The initial Polish topology is the common coarser Hausdorff
+topology required by `PolishSpace.iInf`. Use native
+`MeasureTheory.borel_eq_borel_of_le` at each finer-Polish comparison.
+This auxiliary topology is Polish and separates X;
+its Boolean sets need not be open in the final topology and the action is not
+asserted continuous for that auxiliary topology. For the distinct final
+topology generated by its Vaught transforms, prove separation explicitly:
+if x,y have identical transform memberships, the orbit preimages of each
+A∈F agree modulo meagre sets, by the Baire property and countable open
+basis of G. Outside the countable union of their meagre differences,
+g•x and g•y agree on all separating A∈F, hence x=y. Prove regularity,
+second countability, joint continuity and the strong-Choquet property. Own the separable metrizable
+strong-Choquet criterion and the required winning-strategy construction if
+no native supplier exists; the native Baire theorem does not imply that
+criterion. Compare the two standard Borel structures by the measurable
+identity bijection and Lusin–Souslin to obtain equality of sigma algebras.
+Consume native `StandardBorelSpace`, compatible Polish refinement,
+`MeasurableSet.isClopenable`, countable Polish refinement, Baire/meagre-set
+and `MeasurableEquiv` APIs for their actual statements. This is the
+[Becker–Kechris Theorem 1.1 and §4](https://arxiv.org/html/math/9304208)
+proof route; completing the Vaught-family and strong-Choquet arguments is an
+owned theorem obligation, not a consequence of refining a single measurable
+map to a continuous map. These prerequisites belong here and create no new
+QF5 or M2 supplier cycle.
+
+### M1.MeasuredTensor — measured subgroup, tensor and stages interfaces
+
+Work with Hausdorff second-countable locally compact groups, closed subgroups and strongly continuous unitary representations on separable complex Hilbert spaces, including zero spaces. Use left cosets and `g_*μ(B)=μ(g⁻¹B)`. On a quotient `G/H` fix a nonzero σ-finite quasi-invariant measure in its quotient Haar class and a Borel section s. Put `k_s(g,x)=s(x)⁻¹gs(g⁻¹x)` and `r_g=d(g_*μ)/dμ`. Supply a jointly Borel positive finite version of r (almost everywhere for each fixed g), its cocycle identity and the induced action
+\[
+ (U_gF)(x)=r_g(x)^{1/2}\,σ(k_s(g,x))F(g^{-1}x).
+\]
+Construct it from a continuous positive rho-function satisfying `ρ(gh)=Δ_H(h)Δ_G(h)⁻¹ρ(g)`, then transport to an equivalent measure. This is one RN square root, without a second modular multiplier. For `μ′=wμ`, `0<w<∞` almost everywhere, derive `r_g^{μ′}(x)=r_g^μ(x)w(g⁻¹x)/w(x)` and the unitary `L²(μ′)→L²(μ)`, `F↦w^{1/2}F`. For `s′=s b`, use `F(x)↦σ(b(x)⁻¹)F(x)`. Prove the representation law, unitarity, strong continuity and independence of these choices on AE classes. Every quotient integration identity is for nonnegative measurable or integrable functions.
+
+For closed H,L≤G, let σ be such an H-representation. Assume the L-action on G/H is **regular measured**: on a conull invariant Borel domain X₀ there is a Borel surjection `q:X₀→Q` onto a standard Borel space whose fibers are exactly its L-orbits, with Borel representatives `g_qH` and Borel choices `g_q∈G`. Replace the quotient measure by an equivalent probability before pushing it forward to ν on Q. Define `L_q=L∩g_qHg_q⁻¹` and `σ_q(l)=σ(g_q⁻¹lg_q)`. Construct the measurable stabilizer, quotient-measure and induced-representation fields and the unitary
+\[
+ \operatorname{Res}_L^G\operatorname{Ind}_H^Gσ
+ \simeq\int_Q^{\oplus}\operatorname{Ind}_{L_q}^{L}σ_q\,dν(q).
+\]
+Prove the conditional orbit measures lie in the quotient Haar class on `L/L_q` for ν-almost every q. A concrete proof first disintegrates the equivalent probability, then averages each conditional measure with one strictly positive L¹ Haar density on L. The averaged conditional is in the orbit Haar class; the averaged total is equivalent to the original measure with the same Q marginal. Equivalence/uniqueness of disintegrations gives the required class comparison. Do not infer an all-group common null set from separate fixed-g assertions, or push an infinite Haar measure to Q and assume the pushforward σ-finite.
+
+For a continuous lcsc action on a Polish space with all orbits locally closed, supply the regular quotient above: closures of distinct orbits differ; saturations of a countable open basis give countably many invariant Borel sets separating classes. Prove the following selector lemma in this M1 interface: for a continuous Polish-group action and an invariant Borel subspace with countably separated orbit relation, there is a Borel transversal (Burgess); use its separating family, shrinking basis/tree construction and Borel membership induction. The unique-transversal-point relation then has a Borel selector, and Lusin–Souslin identifies its class code with a standard Borel quotient. When applying this to closed-coset/pair actions, lift representatives by the Borel selectors of the closed subgroup quotients. M1.BorelRealization supplies the continuous Polish model when the original action is only jointly Borel; it supplies no smooth orbit quotient by itself.
+
+For closed H₁,H₂≤G and separable strongly continuous unitary σᵢ, assume the diagonal action on `(G/H₁)×(G/H₂)` has that regular measured quotient. Identify it with the measured double-coset parameter Q for `H₁\G/H₂`, with representatives `(H₁,g_qH₂)`. Push an equivalent probability in the product quotient Haar class to ν. Set `J_q=H₁∩g_qH₂g_q⁻¹` and `θ_q(j)=σ₁(j)⊗σ₂(g_q⁻¹jg_q)`. Prove
+\[
+ (\operatorname{Ind}_{H_1}^Gσ_1)\,\widehat\otimes\,
+ (\operatorname{Ind}_{H_2}^Gσ_2)
+ \simeq\int_Q^{\oplus}\operatorname{Ind}_{J_q}^Gθ_q\,dν(q),
+\]
+for the diagonal G-action. Construct the exterior-tensor/induction unitary for G×G, and apply the preceding restriction theorem to its closed diagonal. On L² models the exterior unitary sends `F⊗G` to `(x,y)↦F(x)⊗G(y)`; prove isometry by scalar Fubini and dense range by rectangle/simple-section density on the σ-finite product spaces. It is a completed Hilbert tensor, not merely an algebraic tensor and not an irreducibility assertion. Construct the transported systems of imprimitivity, associativity and naturality on bounded intertwiners. Atomic quotient classes give actual direct sums with the atom weights/densities; general classes give Hilbert direct integrals. These subgroup/tensor decompositions need no type-I hypothesis.
+
+For the closed-subgroup fields occurring here, construct the parameterized Haar/quotient data rather than make independent choices at each q. Reuse native `ClosedSubgroup G`; construct its standard Borel closed-set coding for lcsc G and the required countable Borel dense subgroup sections and normalize each Haar measure by its integral against one fixed nonnegative compactly supported function positive at the identity. Prove this Haar field Borel by countable compact-support integral tests, the Borel graph of invariance and uniqueness of the normalization; dense subgroup sections promote the countable invariance tests to the full subgroup. Supply Borel coset selectors, modular ratios and rho-functions on the resulting subgroup bundles. Restricted countable compact-support vector sections give measurable Gram matrices and dense induced fundamental sections. Prove the induction-in-stages unitaries below jointly measurable by their coefficient/norm tests on these sections, including when the closed subgroups vary as J_q and K_q. The variable-subgroup field construction is owned here; the fixed-subgroup theorem alone does not imply it.
+
+For closed J≤K≤G prove induction in stages `Ind_K^G(Ind_J^Kσ)≃Ind_J^Gσ`, with the unitary quotient/bundle identifications and this same single-RN normalization, consuming [D3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b8740e6e38849694bef2d6b67a259199ac6ad604/TauCetiRoadmap/OperatorAlgebraDynamics/README.md#L215-L246)/H3’s existing stages/interior-tensor induction. For fixed closed H≤G and a measurable field of separable H-representations `σ_t` over a standard Borel σ-finite base, construct the induced field and `Ind_H^G(∫⊕σ_t)≃∫⊕Ind_H^Gσ_t`. Supply the jointly measurable coefficient fields and the field-Fubini unitary on fundamental sections, norm identity, onto property and naturality; this is not an assumption that independent pointwise choices form a measurable field. VNA V4's actual measurable-field/decomposable-map clauses supply their generic carriers, and native finite-measure `Measure.condKernel` supplies scalar disintegration after equivalent-probability replacement. The measurable orbit/induction comparisons remain M1-owned. Generic finite/algebraic Mackey subgroup APIs supply subgroup/intersection identities only, not these lcsc Hilbert direct-integral theorems.
+
 ### Finite quotient spaces and almost-conjugate deck subgroups
 
 Let `G` be a second-countable unimodular locally compact group and let `Γ ◁ Γ₀ ≤ G` be
@@ -486,6 +607,31 @@ localized slices and the little-group compact operators. Prove transport to
 the ambient crossed product. Export this criterion for recursive application
 to little groups as well as to M5's Poincaré fiber; no later-milestone
 construction is required to prove it.
+
+### M2.MeasuredRefinement — fixed-algebra and fixed-group irreducible refinement
+
+Own this precise interface before M6. For a separable complex C*-algebra A that is type I in the factor-representation sense of M0a, construct a standard Borel unitary dual Â, a Borel field of nonzero inequivalent irreducible models `π_c:A→B(H_c)` on standard finite-dimensional spaces or ℓ², and for each nondegenerate representation π on a separable Hilbert space a σ-finite measure μ and measurable separable multiplicity field M_c with an onto intertwiner
+\[
+ H_π\simeq\int_{\widehat A}^{\oplus}(H_c\widehat\otimes M_c)\,dμ(c).
+\]
+When H_π≠0 choose μ an equivalent probability and M_c nonzero μ-almost everywhere. Use zero measure for H_π=0, including A=0. Prove uniqueness of the measure class and multiplicity dimension μ-almost everywhere, and the representation-equivalence criterion, with no pointwise uniqueness of models or measures.
+
+M0a supplies GCR, same-kernel and Fell–primitive-kernel comparisons; CStarAlgebras C1/C2 supply ideal/approximate-unit, primitive-space, pure-state/GNS and scalar-commutant APIs. Code nondegenerate representations on the countable standard Hilbert models by a countable dense star subalgebra and coefficients; prove the coding space standard Borel, irreducible subset Borel and unitary conjugation jointly Borel. Use M1.BorelRealization on that Borel action. GCR kernel injectivity and a countable primitive-space/norm-superlevel family separate the irreducible orbits; M1's countably separated action selector then gives a Borel transversal and representative field. Prove the quotient Mackey sigma algebra equals its canonical Fell Borel structure, using Lusin–Souslin on the selected standard Borel transversal’s countable separating norm-test code, and proving both Borel inclusions. Universal measurability alone is not this global Borel field. For existence consume [VNA V4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L398-L429)’s actual full-center factor reduction, measurable algebra fields and selection spaces, split the almost-everywhere type-I factor using measurable minimal projections/matrix units, and prove the code-to-dual and multiplicity-field comparisons. Use central-reduction uniqueness and the spatial type-I multiplicity theorem for uniqueness. Construct these comparison and selection theorems in M2.
+
+For a fixed A as above, a standard Borel probability base `(Q,ν)` and a measurable field π_q of nondegenerate representations on separable H_q, let `Q_eff={q:dim H_q>0}` and prove it Borel from fundamental sections. Construct spectral kernels μ_q on Â, probability for ν-almost every q∈Q_eff and zero off Q_eff, jointly measurable separable multiplicities M_(q,c), and measurable onto intertwiners
+\[
+ H_q\simeq\int_{\widehat A}^{\oplus}(H_c\widehat\otimes M_{q,c})\,dμ_q(c)
+\]
+for ν-almost every q, with M_(q,c) nonzero μ_q-almost everywhere on Q_eff. Own joint measurability and a common conull set for this supplied family, rather than applying single-representation existence independently at each q.
+
+Handle the zero-total/empty-dual case directly before any conditional-kernel nonemptiness assumption; all field assertions are on one common ν-conull set. One precise construction Borelly embeds Q in the compact Cantor cube K using a countable separating Borel algebra, with Borel image/inverse by Lusin–Souslin. On `C(K)⊗min A≃C(K,A)` represent a finite sum by `[q↦Σ_i f_i(q)π_q(a_i)]`; the norm is bounded by `sup_k‖Σ_i f_i(k)a_i‖`, so this specific representation extends by [CStarAlgebras C5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/987daa21c57e50d0e8bf58dd0519a75ef592d6b2/TauCetiRoadmap/CStarAlgebras/README.md#L378-L405)’s vector-valued function comparison. Prove every nondegenerate irreducible of C(K,A) is `ev_k⊗π_c`, its dual is Borelly `K×Â`, and C(K,A) is type I: in any factor representation the central multiplier C(K) acts by a character k, and the representation factors through evaluation and a type-I factor representation of A. Apply the single-algebra theorem to this represented C(K,A), retaining the Q label. The countable code and a faithful normalized measurable countable vector-state sum on each nonzero H_q give a joint control measure λ on `Q_eff×Â` with Q marginal exactly `ν|Q_eff`; first prove support on the coded Q image, then transport any equivalent control measure by its positive RN density. Native finite-measure scalar disintegration yields `λ(dq,dc)=ν(dq)μ_q(dc)`. The global onto intertwiner preserves the labelled Q-diagonal; VNA V4’s generic decomposability criterion, applied to the off-diagonal corner on the direct-sum input/output field for rectangular maps, and field Fubini recover the displayed onto intertwiners for ν-almost every q. Prove uniqueness preserving that labelled diagonal, and transport under code, model, base-measure and vector-state changes. A nonzero σ-finite base is first replaced by an equivalent probability and transported back; a zero base measure is handled as the zero direct integral.
+
+For the unlabelled total representation, put `barμ=(pr_c)_*λ`. If λ≠0 disintegrate `λ(dq,dc)=barμ(dc)α_c(dq)` and set `N_c=∫_Q^⊕M_(q,c)dα_c(q)`. Prove
+\[
+ \int_Q^{\oplus}π_q\,dν(q)
+ \simeq\int_{\widehat A}^{\oplus}(π_c\otimes1_{N_c})\,d\bar μ(c).
+\]
+Its final multiplicity is `dim N_c`, not a naive scalar sum over q; diffuse q-fibers contribute their L² multiplicity. If λ=0 use the zero representation and zero measure directly. State final uniqueness only in measure class and almost-everywhere multiplicity dimension. For a fixed lcsc type-I group G take `A=C*(G)` using D1’s integrated correspondence. Derive C*(G) separable from D1’s L¹ norm bound and dense integrated C_c span, with a countable compact exhaustion and rational compact-support approximants on the lcsc G; do not claim the arbitrary-group D1 scope already states separability. Recover strongly continuous unitary group representations from the algebra fields. Apply this fixed-G measured-family theorem to M1's q-indexed induced G-representations. It requires type I only at this irreducible-refinement step, not at M1's intermediate induced decomposition; it asserts no general selection theorem for varying little groups.
 
 ## M3. Euclidean, Galilei and Bargmann models
 
@@ -1244,6 +1390,35 @@ For the classified de Sitter representations, derive the two Casimir invariants 
 ## M6. Tensor products and source acceptance cases
 
 For the selected induced representations construct the diagonal tensor product action, decompose it using the M2 orbit and stabilizer data, and prove the exact direct-integral or discrete-sum formula only under its type-I/separability hypotheses. State multiplicity spaces and measure classes; do not call a product representation irreducible without proof. Give Euclidean, Galilei, massive Poincaré and massless examples.
+
+### M6.MeasuredPair — the exact semidirect tensor interface
+
+Let `G=N⋊H` be Hausdorff lcsc with N abelian, and use M2's actual continuous dual action `h·χ(n)=χ(h⁻¹·n)`. Fix two characters χᵢ with closed stabilizers Hᵢ, separable strongly continuous genuine unitary τᵢ of Hᵢ, and Mackey models `ρᵢ=Ind_(N⋊Hᵢ)^G(χᵢ⊗τᵢ)`. Give each `H/Hᵢ` its quotient Haar class. Assume or prove the regular measured diagonal quotient of `(H/H₁)×(H/H₂)` required by M1.MeasuredTensor; identify its standard Borel parameter Q with the measured double cosets `H₁\H/H₂`, with Borel representatives h_q and quotient measure class ν obtained from an equivalent probability in the product class. No type-I hypothesis is required for the following intermediate formula. For `x_q=χ₁(h_q·χ₂)` (product of N-characters, written as x₁+h_q·x₂ in real coordinates) define
+\[
+ J_q=H_1\cap h_qH_2h_q^{-1},\qquad
+ β_q(j)=τ_1(j)\otimes τ_2(h_q^{-1}jh_q),\qquad
+ K_q=H_{x_q},\qquad Σ_q=\operatorname{Ind}_{J_q}^{K_q}β_q.
+\]
+Prove J_q≤K_q and construct the measurable fields and unitary intertwiners
+\[
+ ρ_1\widehat\otimesρ_2
+ \simeq\int_Q^{\oplus}\operatorname{Ind}_{N\rtimes J_q}^{G}(x_q\otimes β_q)\,dν(q)
+ \simeq\int_Q^{\oplus}\operatorname{Ind}_{N\rtimes K_q}^{G}(x_q\otimes Σ_q)\,dν(q).
+\]
+Derive the first equality by M1's measured tensor theorem for `N⋊Hᵢ`; its double-coset space reduces to `H₁\H/H₂` and intersection to `N⋊J_q`. Derive the second by induction in stages: x_q extends genuinely to N⋊K_q, and the action modulus of K_q on N cancels in the ratio `Δ_(N⋊J_q)/Δ_(N⋊K_q)`, leaving precisely the K_q/J_q quotient RN factor. Prove the exterior/diagonal comparison and the translation PVM: on the product orbit base its momentum map is character multiplication. In Bargmann's real central extension use the full labels `(m,p,E)` on `N=ℝ_z×ℝ³_a×ℝ_t` with M3's fixed ℏ; all three labels add. Spatial momentum alone is insufficient. Poincaré uses the full four-momentum label. Genuine representations, fixed-central-character projective descents and cover/period restrictions remain distinct models.
+
+For M3 Euclidean/Bargmann models and all six M4 momentum-orbit types, prove regularity on the entire pair space (or explicitly retained conull invariant strata), including every mass sign, zero-mass branch, spacelike, mixed-sign, linearly dependent and null-proportional pairs. A concrete finite-dimensional proof uses Gram matrices **and linear-relation kernels** of ordered vector configurations. For a nondegenerate real quadratic ambient space of Witt index min(n₊,n₋) at most one, prove the following needed extension adapter: split a degenerate span as a regular complement U plus its radical R (dimension at most one). For a nonzero radical basis r choose `w∈U⊥` with `B(r,w)=1`, put `r′=w−B(w,w)r/2`, and match the resulting regular hyperbolic completions on both sides. Then native regular-subspace Witt extension applies. Ambient nondegeneracy is required for this adapter; the native theorem does not already extend arbitrary degenerate spans.
+
+A full orthogonal-group orbit of an ordered configuration T is exactly its fixed Gram matrix and fixed relation kernel `ker T`; the latter is the closed condition `T|ker T₀=0` plus the open maximal-rank condition on the quotient. This proves the orbit locally closed. Identify that locally compact orbit with its homogeneous quotient by the lcsc σ-compact open-mapping argument. The proper identity-component orbits are then open by the homogeneous orbit-map submersion and split the finite-component full orbit into clopen suborbits. Use spatial pairs in Euclidean ℝ³; Lorentz pairs in ℝ^{3,1}; and Bargmann triples `(e,x₁,x₂)` in ℝ⁵ with
+\[
+ Q(m,p,E)=2mE-|p|²,\quad
+ B((m,p,E),(m′,p′,E′))=mE′+Em′-p\cdot p′,\quad e=(0,0,1).
+\]
+Here `B(x,x)=Q(x)` and native `Q.polarBilin=2B`. M3's boost/rotation action is the identity component of the orthogonal stabilizer of e; its spin cover has the same orbits. Thus the same configuration argument supplies every pair stratum. For example proportional null pairs with different ratios have the same zero Gram matrix and different relation kernels, so Gram data alone do not separate them. M1's countable-basis/selector construction gives a standard Borel quotient and representatives; supply their actual Borel sections and conditional Haar/density comparisons, not only an invariant list. Transport a selected pair to `(x₁,h_q·x₂)` using the fixed homogeneous-space sections. Keep all degenerate strata in this construction even when a particular orbit-measure product assigns them zero mass; do not infer absence from the joint spectral support.
+
+When a chosen sum-orbit representative is required, use M2's regular-action Borel quotient/section and the closed-subgroup orbit selectors to choose a Borel k_q carrying x_q to it, and transport K_q, Σ_q and the induced model by that element. For irreducible refinement assume G type I and retain M2's regular-action hypotheses for the Mackey label interpretation; apply M2.MeasuredRefinement to the **fixed-G field** of full induced integrands, not a hypothetical general jointly measurable decomposition of varying little groups K_q. Prove the translation-PVM comparison forces the refined irreducibles into the sum orbit for ν-almost every q, then use M2's actual Mackey equivalence to interpret their little-group labels. Prove the Borel label comparison, spectral kernels, measure classes and full multiplicity fields, and collapse repeated irreducible labels with M2's final field-Fubini formula. Being type I does not force every closed subgroup K_q or J_q to be type I; apply any little-group type-I result only with its actual model proof. The displayed Σ_q formula alone is not an irreducible decomposition.
+
+M6 owns these semidirect/model specializations; M1 owns the generic measured subgroup/tensor/stages interfaces and M2 the fixed-algebra/group type-I refinement. QF6b consumes the resulting multiplicities and measure classes for state/outcome comparisons, and is not a prerequisite of M0a/M1/M2/M6. Develop the pair-table, endpoint/atom, cover/descent, source-correction, exchange-sector and further finite-product targets in their respective M6 milestones.
 
 Source claims are acceptance cases, not authority for omitted assumptions. Preserve the following literal/corrected distinctions: (a) `ℝ⁴` has nontrivial continuous multiplier classes, represented by alternating bilinear forms; (b) M4's connected SO₀(3,1) has a nontrivial locally continuous spin circle-extension class, with its full two-component comparison proved separately; (c) the square-root argument excluding antiunitary ray actions fails for the explicit determinant-one matrix in M4; (d) mass is a real square root only on the nonnegative mass-squared sector; (e) a Euclidean spacetime group enlarged by time reversal may be represented antiunitarily; (f) conjugate genuine Bargmann classes have the simultaneous label reversal (m,U,j)↦(−m,−U,j), with M3's explicit realization and fixed time-reversal lift, while antiparticle language is interpretive; (g) the continuous multiplier of `ℝ` is cohomologically trivial under the normalized continuous convention and yields a lift. QF5 owns the translation-multiplier and connected-ray-component facts in (a),
 (c) and (g); this milestone consumes them as source tests rather than creating
