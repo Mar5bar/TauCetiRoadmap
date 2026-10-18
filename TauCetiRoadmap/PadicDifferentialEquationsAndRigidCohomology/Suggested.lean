@@ -1,4 +1,5 @@
 import Mathlib
+import Mathlib.Topology.Algebra.Module.Spaces.ContinuousLinearMap
 import TauCeti.Algebra.AlgebraicGroup.Representation.Tannaka.GroupFunctor
 import TauCeti.Algebra.Coalgebra.Comodule.Finite.Rigid
 import TauCeti.Algebra.Coalgebra.Comodule.Finite.Symmetric
@@ -632,8 +633,10 @@ end
 
 /-! ## Layer RD.5: Finiteness, descent, duality and semistable reduction -/
 
--- Algebraic duals; the continuous duals of the duality theorems carry topologies.
+-- RD.5.41 uses algebraic cohomology functionals and Mathlib's continuous strong dual,
+-- whose topology is uniform convergence on von Neumann bounded sets.
 #check Module.Dual
+#check StrongDual
 
 -- The index of a linear map, additive under composition of maps with finite-dimensional
 -- kernel and cokernel.
@@ -1395,7 +1398,7 @@ targets with their intended signatures and are not declared here:
 * Layer RD.4: §§4.1, 4.2, 4.5, 4.10, 4.11, 4.12, 4.15, 4.16, 4.17, 4.18, 4.36, 4.41, 4.42, 4.43,
   4.44, 4.45, 4.47, 4.49, 4.51, 4.58.
 * Layer RD.5: §§5.12, 5.13, 5.14, 5.24, 5.50, 5.67, 5.68, 5.81, 5.82, 5.86, 5.87, 5.92, 5.93, 5.101,
-  5.107.
+  5.107, 5.110a, 5.110b (arbitrary-PD perfect coefficients and their convergent evaluation).
 * Layer RD.6: §§6.1, 6.2, 6.3, 6.4, 6.6, 6.8, 6.11, 6.38, 6.40, 6.41, 6.42, 6.43, 6.45, 6.51, 6.57,
   6.58, 6.59, 6.69, 6.70.
 * Layer RD.7: §§7.2, 7.18.
