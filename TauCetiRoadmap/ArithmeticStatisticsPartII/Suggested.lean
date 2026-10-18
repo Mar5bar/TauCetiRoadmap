@@ -73,34 +73,6 @@ example : quarticMinors (fun i j => if i = 0 then (if j = 1 then 1 else 0)
 example : quarticMinors (fun i j => if i = 0 then (if j = 0 then 1 else 0)
     else (if j = 0 then 2 else 0)) = 0 := by sorry
 
-section Pencil
-variable {R : Type*} [CommRing R]
-/-- Signed characteristic polynomial of a pair, retaining its prescribed matrix size. -/
-private def pencilPoly {n : ℕ} (A B : Matrix (Fin n) (Fin n) R) : R[X] :=
-  (-1)^(n*(n-1)/2) * Matrix.det (fun i j => C (A i j) * X - C (B i j))
-/-- BGW §2, p.6: descending x-degree, signed determinant of xA-yB. -/
-def pencilInvariant {n : ℕ} (A B : Matrix (Fin n) (Fin n) R) : Fin (n+1) → R :=
-  fun i => (pencilPoly A B).coeff (n-i.val)
-/-- Simultaneous congruence scales the invariant by the square determinant. -/
-theorem pencilInvariant_congr {n : ℕ} (A B g : Matrix (Fin n) (Fin n) R) :
-    pencilInvariant (g * A * g.transpose) (g * B * g.transpose) =
-      fun i => g.det^2 * pencilInvariant A B i := by sorry
-/-- Scalar pencils recover the coefficients of the signed power of a linear form. -/
-theorem pencilInvariant_scalar {n : ℕ} (a b : R) :
-    pencilInvariant (a • (1 : Matrix (Fin n) (Fin n) R)) (b • 1) =
-      fun i => ((-1 : R[X])^(n*(n-1)/2) * (C a * X - C b)^n).coeff (n-i.val) := by sorry
-example (a b : R) : pencilInvariant (!![a]) (!![b]) = ![a,-b] := by sorry
-example : pencilInvariant (1 : Matrix (Fin 3) (Fin 3) ℤ) 0 = ![-1,0,0,0] := by sorry
-example {n : ℕ} (hn : 1 ≤ n) :
-    pencilInvariant (0 : Matrix (Fin n) (Fin n) R) 0 = 0 := by sorry
-
-/-- Empty determinants give the constant one, even for the zero pencil. -/
-example : pencilInvariant (0 : Matrix (Fin 0) (Fin 0) ℤ) 0 = ![1] := by sorry
-
-example : pencilPoly (1 : Matrix (Fin 1) (Fin 1) ℤ) 0 = X := by sorry
-
-end Pencil
-
 section Isotropic
 variable {K : Type*} [Field K]
 /-- Coordinate bilinear pairing; in characteristic two this is not a quadratic refinement. -/
@@ -124,6 +96,11 @@ example : pairing (!![2] : Matrix (Fin 1) (Fin 1) ℚ) ![3] ![5] = 30 := by sorr
 /-- In characteristic two, diagonal quadratic vanishing misses mixed bilinear values. -/
 example : (⊤ : Submodule (ZMod 2) (Fin 2 → ZMod 2)) ∉
     commonIsotropic 2 (!![0,1;1,0]) 0 := by sorry
+
+/-- Two nonzero forms vanish bilinearly on the line of their common zero block. -/
+example : Submodule.span ℚ ({![1,0,0]} : Set (Fin 3 → ℚ)) ∈
+    commonIsotropic 1 (!![0,1,0;1,0,0;0,0,1] : Matrix (Fin 3) (Fin 3) ℚ)
+      (!![0,0,1;0,1,0;1,0,0]) := by sorry
 
 /-- A rank larger than the ambient dimension is excluded, even for the zero pencil. -/
 example : commonIsotropic 3 (0 : Matrix (Fin 2) (Fin 2) ℚ) 0 = ∅ := by sorry
@@ -183,6 +160,18 @@ example :
     normalizedDisc (![2,1,1,1] : Fin 4 → ℤ) = 1 ∧
     normalizedDisc (![2,3,3,1] : Fin 4 → ℤ) = -23 := by sorry
 
+/-- Interchanging variables reverses divided coefficients and preserves D. -/
+example :
+    dividedSubst (!![0,1;1,0] : Matrix (Fin 2) (Fin 2) ℤ) ![1,2,3,5] = ![5,3,2,1] ∧
+    normalizedDisc (![1,2,3,5] : Fin 4 → ℤ) = 5 ∧
+    normalizedDisc (![5,3,2,1] : Fin 4 → ℤ) = 5 := by sorry
+
+/-- A diagonal substitution scales D by the sixth power of the determinant. -/
+example :
+    dividedSubst (!![2,0;0,1] : Matrix (Fin 2) (Fin 2) ℤ) ![1,0,0,1] = ![8,0,0,1] ∧
+    normalizedDisc (![1,0,0,1] : Fin 4 → ℤ) = 1 ∧
+    normalizedDisc (![8,0,0,1] : Fin 4 → ℤ) = 64 := by sorry
+
 example : normalizedDisc (![2,0,0,2] : Fin 4 → ℤ) = 16 := by sorry
 
 /-- Ordinary coefficients forget nonzero divided data in characteristic three. -/
@@ -214,6 +203,9 @@ example : (X ^ 4 - 1 : ℚ[X]).resultant (C 48 * X ^ 2) = 5308416 := by sorry
 example : (X ^ 4 - 1 : ℚ[X]).resultant (-C 32 * X * (X ^ 4 + 1)) =
     -16777216 := by sorry
 
+/-- The resolvent of the real order-two point has no projective zero. -/
+example : ¬ ∃ u v : ℝ, (u ≠ 0 ∨ v ≠ 0) ∧ u^4 + 4 * v^4 = 0 := by sorry
+
 /-- Trace-zero representatives describe nonidentity quartic self-equivalences. -/
 example : (1 : Matrix (Fin 2) (Fin 2) ℚ).trace = 2 ∧
     ( !![1,0;0,-1] : Matrix (Fin 2) (Fin 2) ℚ).trace = 0 ∧
@@ -240,11 +232,12 @@ norm pairs; the regular-pencil Fano construction and supplied generalized Picard
 weak-discriminant loci, Q and marked Q; genus-one degree-three, four and five
 covering dictionaries; three-isogeny mirror algebras and integral multiplicities.
 Their APIs, hypotheses and Checks remain in the README. The signed polynomial
-pencil invariant above specializes the earlier-part symmetric-pencil interface.
+pencil invariant and its determinant identities are supplied by Part I §0.22.
 
 README-only API targets, grouped by their mathematical namespace:
 ArithmeticOrbitRefinement:
   basedSexticResolvent_disc, basedSexticResolvent_self, commonIsotropic_congr.
+  idealNorm, IsMaximalAtUniformizer, quinticSymmetricClosure, pencilFanoGeometry.
   commonIsotropic_zero, markedQ_equivariant, markedQ_independent.
   monogenizing_adjoin, monogenizing_translate, normPair_sign_iff.
   orbitTriple_rescale, qHyperdeterminant_scale, qHyperdeterminant_sl2.
