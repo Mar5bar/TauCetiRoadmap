@@ -402,6 +402,41 @@ direct, broken-two-edge and ordinary-breaking faces, giving
 ∂H+H∂=F_12 F_01−F_02 with the same M.3 outward-first signs. No field
 in these applications silently changes its base projection.
 
+
+**M.5a Relative Morse-cobordism application.** Let X be a compact smooth
+n-manifold whose boundary is partitioned into disjoint unions of connected
+components X₀ and X₁, and let f:X→[0,1] satisfy f⁻¹(i)=Xᵢ, with every
+critical point nondegenerate and in the interior. Let g be any Morse–Smale
+metric; no orientability assumption is imposed. Attach collars at X₀ and X₁
+to realize this as a compact regular band in a boundaryless manifold, and
+prove the extension and its agreement with the original cobordism. For
+V=−grad_g f, trajectories exit through X₀ and enter through X₁; define
+stopped forward trajectories at their first X₀ exit, rather than assuming
+an unstopped flow preserves X. Consume [MorseTheory M2](../MorseTheory/README.md#m2-compact-band-deformation-handles-and-cells)
+for the incoming-boundary relative handle/CW model and the opposite-function
+complementary-index model for the outgoing boundary. Use M.4's face-transverse relative chain subcomplex, prove its inclusion into
+relative singular chains is a quasi-isomorphism by relative moving and
+approximation, and track simplex faces and first-X₀-exit terms. Define A_rel
+by transverse stable-manifold incidence on that moved model; define D_rel by
+compactified descending manifolds modulo X₀. Prove the compactified broken
+faces give the relative Morse differential and every exit face lands in X₀.
+Construct the stopped forward-orbit prism F_rel and prove A_rel D_rel=id and
+dF_rel+F_rel d=D_rel A_rel−id in this coherent model, then identify the
+induced map with the relative singular comparison. Do not assert incidence on
+every unmoved continuous singular simplex. Compare the standard-near-critical
+construction to arbitrary g by M.5 relative continuation. For reversed f,
+construct the complementary-index determinant-line chain/cochain comparison.
+For every module-valued local system L, identify
+`H^k(X,X₀;L) ≅ H_(n−k)(X,X₁;L⊗_ℤ or_X)` with cap product by `[X,∂X]`.
+Consume AT6.4’s compactTriadPoincareLefschetz map with its fixed degree,
+cap-boundary sign and coefficient-pairing conventions, retaining the constant
+integral case. Construct direct L-valued cochains with no flatness or
+reflexivity restriction. If a dual-complex model is used, distinguish L*
+from L and state the actual hypotheses for an L** identification. The
+comparison is between cochain/chain maps, without replacing cohomology by
+Hom of homology over arbitrary rings. AT owns the generic relative cap/duality
+construction.
+
 **M.6 Bott trajectories and orientation coefficients.** For a compact
 Morse–Bott function consume MorseTheory M5's normal form and negative bundle ν⁻_C
 of rank λ_C. Use its determinant orientation local system o(ν⁻_C),
@@ -595,6 +630,13 @@ compatibility with AT products, Poincaré and relative duality, rather than
 identifying only abstract homology ranks. Compare the Morse Euler/index
 proof with MN N7's orientation-free Poincaré–Hopf theorem and CC C2.3's
 oriented Euler pairing after the ordinary comparison is available.
+
+With homological grading |x|=ind_f(x) and ordered factors 1 then 2,
+choose product unstable orientations Wᵘ(p₁) followed by Wᵘ(p₂). The product
+trajectory boundary then has the convention
+`∂(x⊗y)=∂x⊗y+(−1)^|x| x⊗∂y`: in the second-factor term its flow direction
+passes the |x|-dimensional first factor. Keep this sign with the integral
+orientation-line and Tor comparison above.
 
 **M.9a Geometric Morse cup product.** On any closed smooth X, including
 nonorientable X, construct the ordinary cochain complex
@@ -935,14 +977,33 @@ from Mathlib.
    obtain smooth solutions and the smooth completion comparison. Carry
    all N,p,r,k,ℓ inequalities into each genericity theorem.
 6. Prove the C^k closed-return genericity theorem for general vector
-   fields on a compact smooth boundaryless manifold, for each integer k≥1:
-   residual nondegeneracy of periodic
-   orbits and their iterates in each bounded-period window, with the
-   equilibrium/short-period exclusion, flow-box parameter variations,
-   countable intersection and continuation of isolated returns. State
-   k and regularity loss explicitly. Compare its fixed-point signs with
-   MorseNovikov N5's specialized closed-one-form theorem; the latter does
-   not itself give genericity for arbitrary vector fields.
+   fields on every finite-dimensional Hausdorff second-countable boundaryless
+   smooth manifold X, compact or noncompact, for each integer k≥1. On
+   Γ^k(TX) use the compact-open C^k topology defined by a countable relatively
+   compact chart exhaustion; prove it is an exhaustion-independent complete
+   metrizable Baire topology. Do not call this noncompact parameter space a
+   Banach space or apply Banach Sard–Smale to it. Every periodic orbit has
+   compact image and a locally defined finite-time return germ. Exhaust the
+   orbit data by compact chart windows with bounded return-time intervals,
+   positive speed/transversality reserves, and the local-flow/derivative
+   controls needed for each germ; prove each window's perturbation set is
+   open and dense using compactly supported flow-box variations. Construct
+   the transverse-section fixed-point problem so time translation is removed
+   and the variable and target dimensions agree; verify C^1 is the required
+   regularity threshold. For every iterate, prove the finite-iterate
+   perturbation statement, including the resonant case, rather than assuming
+   a summed variation automatically makes P^m−id transverse. Intersect over
+   the countable windows and iterate bounds, and retain the equilibrium and
+   short-period exclusions and continuation of isolated returns. Consume
+   the local section/basepoint conjugacy germ in MorseNovikov N5's early
+   return-map clause; keep its specialized −α♯ application distinct from
+   this arbitrary-field residual theorem. No completeness of every field,
+   bounded geometry, finite orbit set, or compactness of X is assumed.
+   The resulting set of fields is dense and residual in Γ^k(TX); every
+   nonstationary primitive periodic orbit and every positive iterate has a
+   normal return derivative with no eigenvalue 1. Include dimension zero
+   (no nonstationary periodic orbit) and dimension one (zero-dimensional
+   transverse space), independently of any global flow completeness.
 
    Independently of item6's return theorem, for noncompact Morse
    applications require the actual hypotheses of
