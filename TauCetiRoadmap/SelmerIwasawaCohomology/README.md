@@ -1911,18 +1911,23 @@ Prove this as follows. A crystalline integral extension gives a rational crystal
 
 ### 4.11 Finite crystalline annihilators and the inverse different
 
-For unramified `K/ℚ_p` and finite `R` satisfying `localIsTorsionCrystalline(R,a,b)` with `a<0≤b` and `b−a≤(p−2)/2`, the nonsingular groups for underlying `ℤ_p` coefficients are exact annihilators under the finite local Tate pairing. For O-coefficients and the O-linear dual `R*=Hom_O(R,E/O)`, the pairing of `H¹_ns(K,R)` with `H¹_ns(K,R*(1))` takes values in `d_(E/ℚp)^−1/O`. Thus it vanishes when the different is the unit ideal; it need not vanish in `E/O` for ramified `E`. Do not replace this statement with exact O-linear annihilators without a separate hypothesis.
+For unramified `K/ℚ_p` and finite `R` satisfying `localIsTorsionCrystalline(R,a,b)` with `a<0≤b` and `b−a≤(p−2)/2`, the nonsingular groups for underlying `ℤ_p` coefficients are exact annihilators under the finite local Tate pairing. For O-coefficients and the O-linear dual `R*=Hom_O(R,E/O)`, `H¹_ns(K,R)` and `H¹_ns(K,R*(1))` are exact annihilators under the O-linear local Tate pairing into `E/O`, including when `E/ℚ_p` is ramified. Their pairing therefore vanishes. The weaker inclusion in `d_(E/ℚp)^−1/O` follows already from the canonical unscaled coefficient trace.
 
 Finite `R`; the half-width bound allows the tensor-product crystalline calculation. The local Tate-dual interval `[−b−1,−a−1]` is passed to the supplier as `[a+1,b+1]`; its nonsingular extensions use the same reindexed integral predicate.
 
-Prove this as follows. Use the crystalline extension product to factor the nonsingular cup through crystalline `H²`, which vanishes in this range. Compare lengths of the two filtered modules and their `Fil⁰` pieces, then use local Euler characteristic and Tate duality to get exact annihilators over `ℤ_p` (Nizioł 6.2). Apply coefficient trace. Vanishing of Tr(`a·`pairing) for every `a∈O` is precisely membership in the inverse different quotient, yielding Liu 2.2.7.
+Prove this as follows. Use the crystalline extension product to factor the nonsingular cup through crystalline `H²`, which vanishes in this range. Compare lengths of the two filtered modules and their `Fil⁰` pieces, then use local Euler characteristic and Tate duality to get exact annihilators over `ℤ_p` (Nizioł 6.2). The canonical unscaled coefficient trace gives `Tr(a z)∈ℤ_p` for every `a∈O`, hence `z∈d^−1`, yielding Liu 2.2.7.
+
+For the exact O-linear assertion choose `δ∈Eˣ` with `d^−1=δO`. The character `ψ_δ:E/O→ℚ_p/ℤ_p`, `z+O↦Tr(δz)+ℤ_p`, is well-defined and `ℤ_p`-linear. The perfect integral trace form `Tr(δab)` on `O` makes composition with `ψ_δ` an isomorphism `Hom_O(R,E/O)≃Hom_ℤp(R,ℚ_p/ℤ_p)`. The O-action on the latter is precomposition with scalar multiplication on `R`; this makes the comparison O-linear and Galois-equivariant. This character is distinct from the unscaled trace; multiplication by `δ` alone need not descend to `E/O`.
+
+After twisting, §4.8's scalar-restriction predicate identifies the nonsingular conditions on these duals, with the same dual interval. If `z+O` is a nonsingular pairing value, Nizioł's vanishing applied to `ax` and the compared dual class gives `Tr(δaz)∈ℤ_p` for every `a∈O`. Thus `δz∈d^−1=δO` and `z∈O`. Conversely, any class annihilating the first nonsingular group O-linearly maps to its `ℤ_p` annihilator and hence belongs to the dual nonsingular group. Finite local duality gives the annihilator equality in both directions. Replacing `δ` by a unit multiple changes only the comparison, so the annihilators are independent of its choice.
 
 (Nizioł, Proposition 6.2 and proof, pp. 764–765; Liu–Tian–Xiao–Zhang–Zhu, Lemma 2.2.7, p. 125.)
 
 **Checks.**
 
 - For unramified `E/ℚ_p` the inverse different is `O` and the value is zero.
-- For `E=ℚ_p(√p), p` odd, `d` is nonunit and `d^−1/O` is nonzero; trace-zero values need not be zero.
+- For `E=ℚ_p(√p), p` odd, write `s=√p`. Then `d=(2s)` and `z=1/(2s)` represents a nonzero class of `d^−1/O` with `Tr(az)∈ℤ_p` for every `a∈O`. This shows the limitation of the unscaled trace test. With `δ=1/(2s)`, the normalized test at `a=1` gives `Tr(δz)=1/(2p)∉ℤ_p`, so this class cannot occur as a nonsingular pairing value.
+- Changing the generator from `δ` to `uδ`, `u∈Oˣ`, precomposes the dual comparison by multiplication by `u`; §4.8's O-submodules and their exact annihilators are unchanged.
 - Width `p−2` is insufficient for the product proof; the half-width bound is essential.
 - The local Tate line of weight `−1` dualizes to weight `0`: the intervals `[−1,0]` and `[−1,0]` on the two sides both become supplier interval `[0,1]`, consistent with supplier duality `[c,d] ↦ [1−d,1−c]`.
 

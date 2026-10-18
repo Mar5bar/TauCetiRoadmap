@@ -991,7 +991,9 @@ place), `etale_jStar_iwasawa` (infinite decomposition groups at every removed pl
 `semilocalCoind_restriction` (§3.6); `GreenbergStructureHypotheses` (§3.18);
 the small-weight crystalline realization and extension exactness (§4.7), using the reindexed
 aliases `localIsTorsionCrystalline` and `localIsIntegralCrystalline` (§§4.7–4.11);
-`crystallineNonsingular` (§4.8); `blochKatoCondition`, `blochKatoCondition_T`,
+`crystallineNonsingular` (§4.8); the finite crystalline exact O-linear annihilators (§4.11),
+including ramified coefficient fields, with the inverse-different generator used only for the
+normalized-trace comparison in the proof; `blochKatoCondition`, `blochKatoCondition_T`,
 `blochKatoStructure` (§4.9); `pRamifiedModule`, `unramifiedModule`, `closedGlobalUnitTower`,
 `arithmeticPlusMinus` (§4.16); `PadicLFunctionDatum` and the main-conjecture propositions
 (§§4.21–4.23), with `iwasawaCorank` the tuple of the component coranks above;
