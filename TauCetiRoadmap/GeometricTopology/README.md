@@ -3258,9 +3258,115 @@ following sequence of targets:
    second-countable finite-dimensional TOP manifold admits an actual proper
    locally flat embedding in a finite-dimensional real Euclidean space.
    Construct it directly from chart partitions of unity. For compact M use a
-   finite chart cover; for noncompact M own a finite-colored locally finite
-   chart refinement, using the finite covering dimension of Euclidean charts
-   and the local-to-global refinement theorem. In each color use the weighted
+   finite chart cover; for noncompact M consume the shared target below.
+
+   <a id="finite-colour-chart-refinement"></a>
+
+   **FiniteColourChartRefinement.** For every Hausdorff, second-countable
+   finite-dimensional TOP d-manifold M and every indexed open cover 𝒰,
+   construct a countable indexed locally finite **open** cover (V_j),
+   parent assignments to 𝒰 and to coordinate domains, and colours
+   c(j)∈{1,…,d+1}. Each closure(V_j) is compact and lies in both assigned
+   opens. Require indexed disjointness:
+   `j≠k ∧ c(j)=c(k) ⇒ V_j∩V_k=∅`.
+   Include the empty space, d=0 and boundary charts. In native charted-space
+   vocabulary also export the following version without a smoothness
+   hypothesis, for topological spaces H and M:
+   `I : ModelWithCorners ℝ E H`, E a real normed space with
+   `FiniteDimensional ℝ E` and `finrank ℝ E=d`, `[ChartedSpace H M]`,
+   `[T2Space M]`, `[SecondCountableTopology M]`. Native
+   `I.isClosedEmbedding` and `I.isClosed_range` identify H with a closed
+   subspace of E; `I.locallyCompactSpace` and
+   `ChartedSpace.locallyCompactSpace` supply local compactness. Compact
+   chart pieces transfer their dimension bound from E, identified with
+   ℝ^d by native `ContinuousLinearEquiv.ofFinrankEq` followed by
+   `EuclideanSpace.equiv.symm`; use the chart homeomorphism and
+   `Homeomorph.hasCoveringDimensionLE_of` in the
+   covering-dimension design below. The independent TOP formulation uses
+   Euclidean or half-space chart homeomorphisms and needs no smooth atlas.
+   Smooth and complex manifolds consume this theorem after forgetting their
+   additional structure and, for complex manifolds, restricting scalars to ℝ.
+   Use native `TopologicalSpace.IsOpenCover`, `Opens`, `LocallyFinite` and
+   continuous partition-of-unity carriers. Shape the covering-dimension API
+   by the immutable design snapshots [#43476, commit6ad9e2a](https://github.com/leanprover-community/mathlib4/tree/6ad9e2a0848368aaed7d67a8523c00c79da240ed/Mathlib/Topology/CoveringDimension)
+   and [#43475, commit9658af8](https://github.com/leanprover-community/mathlib4/tree/9658af89240cb04e5e1807d5fd1402a79bee2906/Mathlib/Topology/CoveringDimension):
+   `HasCoveringDimensionLE` and `Set.HasOrderLE` bound the number of distinct
+   range members through a point. These design sources are not installed
+   Mathlib proofs. Build the required theory in Tau Ceti, adopting Mathlib's
+   interfaces and implementations when available. Own these construction
+   targets before the embedding theorem:
+
+   - **EuclideanCompactCoverDimension.** For every compact C⊂ℝ^d and every
+     finite relatively open cover of C, construct a finite relatively open
+     refinement of point multiplicity at most d+1, by Euclidean cubical
+     refinements and a Lebesgue number. Derive the arbitrary-open-cover
+     version by compactness; include empty and zero-dimensional cases.
+   - **RelativeIndexedClosedRefinement.** Given a closed S⊂X with
+     `HasCoveringDimensionLE S d` and any indexed open cover (U_b) of X,
+     produce an indexed open cover (V_b) on the SAME index type B with
+     `V_b⊂U_b`, `V_b\S=U_b\S`, and
+     `encard {b : x∈V_b}≤d+1` for x∈S. Reindex a bounded-order refinement
+     of the traces U_b∩S by its distinct sets A_i; choose a parent b_i
+     satisfying A_i⊂U_(b_i)∩S and an ambient open O_i with A_i=S∩O_i.
+     Set
+     `V_b=(U_b\S) ∪ ⋃_(i : b_i=b)(O_i∩U_b)`.
+     Prove openness, containment, exact equality outside S and
+     coverage. At x∈S choose, for each incident b, an incident A_i with
+     b_i=b; distinct b give distinct i, so the distinct-trace bound gives
+     the INDEXED bound. This relative construction needs no normality and
+     does not use the reindexed `existsOpenRefinementWithOrderOnClosedSet`
+     or `unionClosed` helpers in the design snapshot.
+   - **LocallyFiniteClosedCoverDimension.** If X is paracompact Hausdorff,
+     (C_i)_(i∈I) is any locally finite indexed closed cover and every C_i
+     satisfies `HasCoveringDimensionLE C_i d`, prove
+     `HasCoveringDimensionLE X d`. Well-order I, retaining one fixed
+     original cover index B throughout the transfinite construction.
+     At successor i apply RelativeIndexedClosedRefinement to C_i:
+     shrink each U_b monotonically and change it only on C_i. At a limit
+     take the intersection of its earlier b-th opens. For each point choose
+     an open neighborhood meeting only finitely many C_i. Before any limit
+     if there are relevant earlier modifications, their finite index set
+     has a last stage; otherwise every indexed open retains its stage-0
+     value there. Thus every indexed open stabilizes on this neighborhood.
+     Prove the limit opens
+     and cover property from this local stabilization. Previously obtained
+     indexed multiplicity bounds persist under shrinking; a bound on the
+     number of distinct range sets alone would not have this monotonicity.
+     Finish at the full well-order and pass from indexed to range order.
+     Apply this to a countable locally finite closed precompact coordinate
+     cover of M. Local compactness, Hausdorffness and second countability
+     supply paracompactness and that closed cover. The generic theorem
+     retains arbitrary I and arbitrary input open covers, not merely finite
+     or countable input covers.
+   - **Direct partition stars and inner cover.** First refine 𝒰 by
+     precompact coordinate opens whose closures lie in BOTH the assigned
+     input member and coordinate domain. Take a bounded-order refinement
+     and reindex it by its range R of distinct open sets. Use native
+     `PartitionOfUnity.exists_isSubordinate` on all M: the paracompact
+     Hausdorff manifold is normal. Obtain continuous (ρ_i)_(i∈R), sum1, with locally
+     finite closed supports subordinate to those distinct sets. R need not
+     be countable. For every nonempty finite σ⊂R define
+     `S_σ={x : min_(i∈σ)ρ_i(x) > sup({ρ_j(x) : j∉σ}∪{0})}`.
+     On a neighborhood meeting only finitely many supports F, this is empty
+     unless σ⊂F and otherwise is a finite strict min/max inequality. Prove
+     openness and local finiteness. At each point its nonempty finite set
+     of maximum-weight indices gives coverage. If σ≠τ and |σ|=|τ|, choose
+     i∈σ\τ and j∈τ\σ; the opposite strict inequalities prove disjointness.
+     If S_σ is nonempty then 1≤|σ|≤d+1, and for i∈σ prove
+     closure(S_σ)⊂tsupport(ρ_i), hence compact containment in its assigned
+     input member AND coordinate domain. Discard all empty S_σ, retaining
+     the distinct σ as indices. Colour by |σ|; prove this indexed family
+     countable using second countability and local finiteness of its
+     nonempty opens. Export it as (V_j), and export on the SAME surviving
+     indices an inner OPEN cover (O_j) with closure(O_j) compact and
+     closure(O_j)⊂V_j, union_j O_j=M. Obtain it by normal locally finite
+     shrinking (closed seeds covering M, then open neighborhoods with
+     closure inside V_j). This generic inner cover belongs here. HF owns
+     its smooth plateau realization and its subsequent finite analytic
+     kernel shrinkings. No manifold triangulation or infinite-complex
+     realization is used.
+
+   In each color use the weighted
    chart coordinates, weight and discrete chart label; at a positive weight
    recover that chart by division. Add a proper exhaustion coordinate.
    Prove injectivity/properness and local flatness by this recovered chart:
