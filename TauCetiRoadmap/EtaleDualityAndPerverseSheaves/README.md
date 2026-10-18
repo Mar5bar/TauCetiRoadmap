@@ -7619,7 +7619,7 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 
 - **[TCR-AdicCoefficientsAndComparisons]** TauCetiRoadmap contributors, Adic coefficients and comparison with schemes. README.md, version 4a7b4d83e2622df066e2a883525bb755bce6b115.
 
-- **[TCR-CharacteristicClasses]** TauCetiRoadmap contributors, [Characteristic classes](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01224fe30cf811f9e6d239b75f4003bb8c0b685a/TauCetiRoadmap/CharacteristicClasses/README.md), C2.1–C2.4, version `01224fe30cf811f9e6d239b75f4003bb8c0b685a`.
+- **[TCR-CharacteristicClasses]** TauCetiRoadmap contributors, *Characteristic classes* (the CharacteristicClasses roadmap), C2.1–C2.4.
 
 - **[TCR-ClassicalAdicEtaleCohomology]** TauCetiRoadmap contributors, Classical analytic étale cohomology. README.md, version cd2cc07b343892659c939ce98f41f8b21aa2f9ae.
 
