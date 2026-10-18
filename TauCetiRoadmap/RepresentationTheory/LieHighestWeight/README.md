@@ -428,6 +428,77 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   monic relations to `IsIntegral` before applying those native theorems. It
   preserves the original R-module structure and the bounded ordered products;
   it does not rebuild native finite-spanning or module-finiteness machinery.
+- **PBW Rees deformation and its first-order Poisson bracket.** For this
+  construction let `R` be a commutative ring and `L` a Lie `R`-algebra with a
+  chosen ordered `R`-basis. No semisimplicity or characteristic-zero hypothesis
+  is imposed. Write `F_n` for the native increasing PBW filtration, with
+  `F_(-1)=0`. Construct the noncommutative Rees algebra as the actual subalgebra
+  of the central-variable polynomial ring `U_R(L)[t]`:
+  `Rees_PBW(L)={Σ a_n t^n | a_n∈F_n}`.
+  Build its coefficient, finite-support, grading, inclusion and multiplication
+  API. The degree-`n` part is `F_n t^n`, not the associated-graded quotient.
+  Construct the central element `ħ=t`, the `R[t]`-algebra structure, and the
+  `R`-linear generators `j(x)=ι(x)t`. Prove
+  `j(x)j(y)-j(y)j(x)=ħ j([x,y])`.
+  The coefficient ring is central; multiplication in `U_R(L)` need not commute.
+
+  Prove the presentation by the tensor algebra over `R[t]` on
+  `R[t]⊗_R L`, modulo the two-sided relations
+  `xy-yx-t[x,y]`. Its universal property identifies `R[t]`-algebra maps
+  into any associative `R[t]`-algebra `A` with `R`-linear maps `f:L→A`
+  satisfying `[f(x),f(y)]=t f([x,y])`. Construct both inverse maps on the
+  actual quotient and generators. Consume the native ordered PBW basis over
+  a commutative ring to prove that the increasing products of `j(b_i)` form
+  an `R[t]`-basis. Thus the family is free and flat over `R[t]`, and
+  multiplication by `ħ` is injective. Do not rebuild a second PBW theorem.
+  Prove naturality under Lie homomorphisms, including the generator equation,
+  and independence of the chosen basis for the Rees subalgebra and fibre maps.
+
+  Construct the following algebra comparisons by their actual base-change
+  maps and inverse generator formulas. The fibre at `t=0` is `Sym_R(L)`;
+  the fibre at `t=1` is `U_R(L)`; the fibre at a unit `a∈Rˣ` is
+  `U_R(L)` by `j(x)↦a ι(x)`, with inverse generator scaled by `a⁻¹`.
+  A nonzero nonunit in a general ring is not covered by this last assertion.
+  After scalar extension to `R[t,t⁻¹]`, identify the family with
+  `R[t,t⁻¹]⊗_R U_R(L)` by `j(x)↦t ι(x)`. Use scalar extension along
+  the commutative parameter ring, without assuming a general noncommutative
+  localization theorem. Identify the zero-fibre kernel as the central
+  two-sided ideal `ħ Rees_PBW(L)` and its degree-`n` coefficient as
+  `F_(n-1)`. Ordinary ambient evaluation `U_R(L)[t]→U_R(L)` at zero
+  is not this fibre map: it kills every `j(x)`, while the zero-fibre class
+  of `j(x)` is the symmetric-algebra generator `x`.
+
+  For `a,b` in the Rees algebra prove that `[a,b]` is uniquely `ħ c`.
+  Reducing `c` modulo `ħ` defines a bracket on the zero fibre independent
+  of both chosen lifts. Prove bilinearity, alternation, Jacobi and the two
+  Leibniz identities, its degree `-1` property, naturality, and
+  `{x,y}=[x,y]` on the symmetric generators. It is the unique biderivation
+  with this generator equation. Use associativity, the commutator identities
+  and injective multiplication by `ħ` for these proofs. For the dual-number
+  base change `R[ε]/(ε²)`, use an ordered PBW module splitting to write
+  `p⋆q=pq+ε B₁(p,q)`. Track the change of `B₁` under a change of the splitting and prove
+  `B₁(p,q)-B₁(q,p)={p,q}`. The full first-order product coefficient
+  is not asserted to be the Poisson bracket or to be alternating.
+
+  For a finite-dimensional real `L`, construct the polynomial-function map
+  `Sym_ℝ(L)→C∞(L*,ℝ)` sending `x` to `ℓ_x(ξ)=ξ(x)`, and prove its
+  injectivity, multiplication and bracket equations. Compare this bracket
+  with the **positive** standard linear Lie–Poisson structure of
+  [LieGroupoidsPoisson G4.6A](../../LieGroupoidsPoisson/README.md), so
+  `{ℓ_x,ℓ_y}=ℓ_[x,y]`. That independent geometric construction and its
+  G4.6B/ HamiltonianReduction R2 orbit–KKS comparison are consumed, not
+  reconstructed or used to prove the algebraic PBW statements. The algebraic
+  deformation precedes this real smooth comparison. Its noncommutative
+  carrier is distinct from the commutative weight-Rees families of
+  GroebnerGeometry G4.
+
+  Acceptance cases include abelian `L` (the constant commutative family),
+  the two-dimensional algebra `[x,y]=y`, and `sl₂` with
+  `[h,e]=2e`, `[h,f]=-2f`, `[e,f]=h`. Compute the parameter-dependent
+  generator relations. In `sl₂` prove that
+  `j(h)²+2ħ j(h)+4j(f)j(e)` is central and that its zero-fibre symbol
+  is the Poisson-central polynomial `h²+4ef`. These examples check the
+  parameter, sign and order conventions against the same concrete algebra.
 - **The Borel and the nilradicals.** Name the subalgebras the base determines, keeping `base` for the
   root-system base alone: `positiveNilradical base = n⁺ = ⨁_{α>0} Lα`, its opposite
   `negativeNilradical base = n⁻`, and `borelSubalgebra base = 𝔟 = H ⊕ n⁺`. Consume native `TauCeti.positiveNilradical H base`, `negativeNilradical H base` and
@@ -626,8 +697,9 @@ downstream application actually invokes.
   multiplicity one. The dominance of the target weight is essential (for `sl₂` with `λ = 0`, `μ = ω`,
   the weight `-ω` of `L(ω)` satisfies the weight condition while `L(0) ⊗ L(ω) = L(ω)`). For `gl_n`
   this specializes to the classical Pieri rules for the standard module and its dual (Layer 9).
-  General Littlewood-Richardson coefficients remain the province of
-  [../SchurWeyl/README.md](../SchurWeyl/README.md); only the minuscule case is pinned here.
+  The type-A polynomial Littlewood–Richardson counts come from
+  [SchurWeyl Layer 7](../SchurWeyl/README.md); ClassicalGroups Layer 4 identifies them
+  with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
 
 ### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
@@ -786,6 +858,18 @@ its root system.
   `centerPBWGradedMul` and its compatibility under these isomorphisms; direct-sum
   assembly gives the graded algebra identification; `centerPBWGradedMul` is bilinear
   in the two native quotient modules. Symmetrization itself is linear, not multiplicative.
+
+  After the PBW Rees construction of Layer 3, compare its first-order
+  product with this characteristic-zero PBW symmetrization. Pin the lift
+  of a quadratic symmetric product as
+  `sym(xy)=(j(x)j(y)+j(y)j(x))/2`. In the dual-number fibre its
+  transported product on linear generators is
+  `x⋆y=xy+(ε/2)[x,y]`. Prove this equation and the equality of the
+  antisymmetrized first-order coefficient with Layer 3's canonical
+  Poisson bracket. No factor `1/2` is used in the arbitrary-ring Layer 3
+  construction. This comparison follows the general symmetrization
+  construction here and is not an input to it or to the earlier PBW theorem.
+
   Export `hcProjection_pbwSymmetrization_sub_mem_degreeLE`: for homogeneous invariant p of
   positive degree n, HC_dot(sym p)−lieCartanRestriction(p) lies in degree≤n−1;
   for n=0 the two are equal. Export `weightTranslation_lower_degree`, with the same
@@ -909,7 +993,7 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   `LieAlgebra.g₂ ℝ`.
 - **`G₂ = Der(𝕆)`.** The derivation algebra of the split `𝕆` is a `14`-dimensional simple Lie algebra of
   type `G₂`, with its `7`-dimensional **fundamental representation** the imaginary octonions `Im 𝕆`
-  (`imaginaryOctonion`). Build `derivationLieAlgebra (Octonion K)` (derivations of the non-associative
+  (`imaginaryOctonion`). Build `TauCeti.derivationLieAlgebra K (TauCeti.Octonion K)` (derivations of the non-associative
   algebra `𝕆`, a Lie algebra under commutator), prove `finrank = 14`, that it is Killing-simple of type
   `G₂`, and that `Im 𝕆` is its `7`-dimensional irreducible; identify it with the **split**
   `LieAlgebra.g₂ K` via the Serre presentation of Layer 7.
@@ -1068,8 +1152,9 @@ the stated scalar extension; “formally real” is never asserted over algebrai
 The layers above fix a Killing-semisimple `L`. `gl_n` is **reductive, not semisimple**: its Killing
 form is degenerate and its centre is the scalar matrices, so none of the `IsKilling` machinery
 applies to it directly, and the group-level classification of
-[../ClassicalGroups/README.md](../ClassicalGroups/README.md) presupposes exactly the
-Lie-algebra-level `gl_n` theory that neither roadmap owned. This layer is that theory, under the
+[../ClassicalGroups/README.md](../ClassicalGroups/README.md) has its own native
+torus/transvection proof. This layer supplies the Lie-algebra-level `gl_n` theory
+and, after that group classification, the comparison between the two. This layer is that theory, under the
 conventions of the reductive standing-conventions bullet (Mathlib's `HasCentralRadical` as the
 unbundled reductivity hypothesis, the trace form as the invariant form, the matrix-unit positive
 system). It is independent of Layer 8.
@@ -1123,9 +1208,25 @@ system). It is independent of Layer 8.
   form is a standing convention and not a per-theorem choice.
 - **The dictionary to the group level.** The `DominantWeight n` of
   [../ClassicalGroups/README.md](../ClassicalGroups/README.md) (weakly decreasing integer tuples)
-  sits inside `IsGlDominantIntegral` as the integral points; the extra direction `μ + c · (1, …, 1)`,
-  `c : K`, is the central weight invisible to rational representations of the group. This is prose
-  plus the centre/derived-ideal pins; no new group-level target is stated here.
+  sits inside `IsGlDominantIntegral` as the integer-coordinate weights. Changing
+  such a tuple by `m · (1, …, 1)`, `m∈ℤ`, is the visible determinant twist.
+  The Lie condition also permits shifts by arbitrary `c∈K`; such weights need
+  not integrate to rational group representations.
+  Over ℂ, build the differentiation bridge for the polynomial GL_n representations of
+  ClassicalGroups after its Layers 2–4. State the native `TauCeti.IsRationalRep` and `TauCeti.IsPolynomialRep`
+  hypotheses explicitly. Differentiate those
+  coefficients to a gl_n action and prove preservation of tensor products and
+  intertwiners. Prove that every gl_n-stable subspace of a rational GL_n-module
+  is GL_n-stable, using connectedness of GL_n and integration of its infinitesimal
+  action; include the connectedness/integration lemmas as targets of this bridge.
+  Prove that the group character `t ↦ ∏ t_i^λ_i` differentiates to the
+  `diagonalCartan` functional `diag(a) ↦ Σ λ_i a_i`, and that group highest-weight
+  vectors satisfy the corresponding Lie highest-weight conditions. Then identify the differentiated
+  shape-λ Schur module with `glIrreducible n λ` by its highest weight and irreducibility.
+  For λ, μ with at most n rows, identify the multiplicity of `glIrreducible n ν` in their
+  tensor product with the LR count from SchurWeyl Layer 7 for every ν with at most n rows.
+  This comparison is owned here; the finite alphabet truncation and the central
+  identity-matrix weight |ν|=|λ|+|μ| are explicit in the statement.
 
 ---
 
@@ -1257,7 +1358,11 @@ self-contained units: the reductive structure theory (`HasCentralRadical` throug
 `reductive_complete_reducibility`) needs only Mathlib and can be claimed first, and the `gl_n` unit
 (`diagonalCartan` through `glCasimir_smul_of_isGlHighestWeightVector`) consumes Layers 0, 2, 4, and
 5 through the pinned `sl ↔ gl` transfer, plus the Layer 6 minuscule Pieri rule for
-`gl_dual_standard_pieri`.
+`gl_dual_standard_pieri`. The polynomial differentiation/LR comparison is a third
+unit, sequenced after this core gl_n theory and ClassicalGroups Layers 2–4;
+it consumes SchurWeyl Layer 7. The GL_n classification in ClassicalGroups Layer 3 uses its native group-level
+torus/transvection route independently of differentiation, so this comparison
+does not introduce a dependency cycle.
 
 ## References
 

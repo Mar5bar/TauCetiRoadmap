@@ -2053,3 +2053,126 @@ theorem glCasimir_smul_of_isGlHighestWeightVector {n : ℕ} {M : Type u} [AddCom
 end Reductive
 
 end TauCetiRoadmap.RepresentationTheory.LieHighestWeight
+
+
+/- Concrete PBW Rees carrier and generators. Further fibre and Poisson comparison
+   targets belong to the definitive specification. -/
+namespace TauCetiRoadmap.RepresentationTheory.LieHighestWeight.PBWRees
+
+open Polynomial
+
+universe u v
+variable (R : Type u) (L : Type v) [CommRing R] [LieRing L] [LieAlgebra R L]
+
+local notation "U" => UniversalEnvelopingAlgebra R L
+local notation "F" => TauCeti.UniversalEnvelopingAlgebra.pbwFiltration R L
+
+/-- The increasing PBW Rees algebra, with actual coefficient conditions. -/
+def algebra : Subalgebra R (Polynomial U) where
+  carrier := {p | ∀ n, p.coeff n ∈ F n}
+  zero_mem' := by simp
+  one_mem' := by
+    intro n
+    by_cases hn : n = 0
+    · subst n
+      simpa using TauCeti.UniversalEnvelopingAlgebra.one_mem_pbwFiltration R L 0
+    · simp [Polynomial.coeff_one, hn]
+  add_mem' := by
+    intro p q hp hq n
+    simpa using (F n).add_mem (hp n) (hq n)
+  mul_mem' := by
+    intro p q hp hq n
+    rw [Polynomial.coeff_mul]
+    apply Submodule.sum_mem
+    intro ij hij
+    have hsum : ij.1 + ij.2 = n := Finset.HasAntidiagonal.mem_antidiagonal.mp hij
+    simpa [hsum] using
+      TauCeti.UniversalEnvelopingAlgebra.mul_mem_pbwFiltration R L (hp ij.1) (hq ij.2)
+  algebraMap_mem' := by
+    intro r n
+    change (Polynomial.C (algebraMap R U r)).coeff n ∈ F n
+    by_cases hn : n = 0
+    · subst n
+      rw [Polynomial.coeff_C_zero]
+      exact TauCeti.UniversalEnvelopingAlgebra.algebraMap_mem_pbwFiltration R L r 0
+    · rw [Polynomial.coeff_C, ite_eq_right hn]
+      exact (F n).zero_mem
+
+/-- The central deformation parameter; its ambient value is the polynomial X. -/
+noncomputable def hbar : algebra R L :=
+  ⟨Polynomial.X, by
+    intro n
+    by_cases hn : n = 1
+    · subst n
+      simpa using TauCeti.UniversalEnvelopingAlgebra.one_mem_pbwFiltration R L 1
+    · rw [Polynomial.coeff_X_of_ne_one hn]
+      exact (F n).zero_mem⟩
+
+/-- A degree-one Rees lift of the canonical Lie generator. -/
+noncomputable def generator (x : L) : algebra R L :=
+  ⟨Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R x), by
+    intro n
+    by_cases hn : n = 1
+    · subst n
+      simpa using TauCeti.UniversalEnvelopingAlgebra.ι_mem_pbwFiltration_one R L x
+    · simp [Polynomial.coeff_monomial, Ne.symm hn]⟩
+
+@[simp] theorem hbar_val : (hbar R L).val = Polynomial.X := rfl
+@[simp] theorem generator_val (x : L) :
+    (generator R L x).val = Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R x) := rfl
+
+theorem hbar_central (a : algebra R L) : hbar R L * a = a * hbar R L := by
+  apply Subtype.ext
+  exact Polynomial.X_mul
+
+
+
+/-- Parameter multiplication is injective over every commutative coefficient ring. -/
+theorem hbar_mul_injective :
+    Function.Injective (fun a : algebra R L => hbar R L * a) := by
+  intro p q hpq
+  apply Subtype.ext
+  apply Polynomial.ext
+  intro n
+  have hc := congrArg (fun a : algebra R L => a.val.coeff (n + 1)) hpq
+  change (Polynomial.X * p.val).coeff (n + 1) =
+    (Polynomial.X * q.val).coeff (n + 1) at hc
+  simpa only [Polynomial.coeff_X_mul] using hc
+
+
+@[simp] theorem generator_add (x y : L) :
+    generator R L (x + y) = generator R L x + generator R L y := by
+  apply Subtype.ext
+  change Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R (x + y)) = _
+  simp [map_add]
+
+@[simp] theorem generator_smul (r : R) (x : L) :
+    generator R L (r • x) = r • generator R L x := by
+  apply Subtype.ext
+  change Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R (r • x)) =
+    r • Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R x)
+  rw [map_smul, Polynomial.smul_monomial]
+
+/-- Rees generators are linear; their commutators have one parameter factor. -/
+noncomputable def generatorLinearMap : L →ₗ[R] algebra R L where
+  toFun := generator R L
+  map_add' := generator_add R L
+  map_smul' := generator_smul R L
+
+theorem generator_commutator (x y : L) :
+    generator R L x * generator R L y - generator R L y * generator R L x =
+      hbar R L * generator R L ⁅x, y⁆ := by
+  apply Subtype.ext
+  change Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R x) *
+      Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R y) -
+      Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R y) *
+      Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R x) =
+      Polynomial.X * Polynomial.monomial 1 (UniversalEnvelopingAlgebra.ι R ⁅x, y⁆)
+  rw [Polynomial.X, Polynomial.monomial_mul_monomial,
+    Polynomial.monomial_mul_monomial, Polynomial.monomial_mul_monomial,
+    ← map_sub]
+  congr 1
+  simpa using TauCeti.UniversalEnvelopingAlgebra.mul_sub_mul_eq_map_ι_lie
+    (AlgHom.id R U) x y
+
+end TauCetiRoadmap.RepresentationTheory.LieHighestWeight.PBWRees
