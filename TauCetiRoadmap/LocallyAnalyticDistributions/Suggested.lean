@@ -1294,14 +1294,16 @@ theorem analyticStageDilate_comp (a b : A) (ha : ‖a‖ ≤ 1) (hb : ‖b‖ �
     (analyticStageDilate a ha).comp (analyticStageDilate b hb) = analyticStageDilate (a * b) hab := by
   sorry
 
-variable [CompleteSpace A] [IsUltrametricDist A]
-
-/-- §4.15: evaluation is the convergent coefficient sum at a point in the closed unit disc. -/
-def analyticStageEvaluate (x : A) (hx : ‖x‖ ≤ 1) : C₀(ℕ, A) →L[A] A where
+/-- §4.15: over a complete ultrametric ring, evaluation is the convergent coefficient sum
+at a point in the closed unit disc. -/
+def analyticStageEvaluate [CompleteSpace A] [IsUltrametricDist A]
+    (x : A) (hx : ‖x‖ ≤ 1) : C₀(ℕ, A) →L[A] A where
   toFun f := ∑' n : ℕ, f n * x ^ n
   map_add' := by sorry
   map_smul' := by sorry
   cont := by sorry
+
+variable [CompleteSpace A] [IsUltrametricDist A]
 
 /-- §4.15: the coefficient expansion converges to the stage evaluation. -/
 theorem analyticStageEvaluate_hasSum (x : A) (hx : ‖x‖ ≤ 1) (f : C₀(ℕ, A)) :
@@ -1322,7 +1324,7 @@ def analyticStageConstantTranspose (a : A) (ha : ‖a‖ ≤ 1) (j : A)
     (μ : C₀(ℕ, A) →L[A] A) : C₀(ℕ, A) →L[A] A :=
   (j • μ).comp (analyticStageDilate a ha)
 
-variable {B : Type*} [NormedCommRing B] [CompleteSpace B] [IsUltrametricDist B]
+variable {B : Type*} [NormedCommRing B]
 
 /-- §4.15: specialize analytic coefficients along a bounded ring homomorphism. -/
 def analyticStageSpecialization {I : Type*} [TopologicalSpace I] [DiscreteTopology I]
@@ -1333,22 +1335,25 @@ def analyticStageSpecialization {I : Type*} [TopologicalSpace I] [DiscreteTopolo
   zero_at_infty' := by sorry
 
 /-- §4.15: uniformly bounded dual coefficients give a summable specialized pairing. -/
-theorem familySpecialization_summable (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+theorem familySpecialization_summable [CompleteSpace B] [IsUltrametricDist B]
+    (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
     (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
     (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M)
     (f : C₀(ℕ, B)) :
     Summable (fun n : ℕ => f n * η (μ (NonarchimedeanFredholm.c0Single n 1))) := by sorry
 
 /-- §4.15: the specialized pairing has the uniform bound `C * M`. -/
-theorem familySpecialization_sum_norm_le (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+theorem familySpecialization_sum_norm_le [CompleteSpace B] [IsUltrametricDist B]
+    (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
     (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
     (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M)
     (f : C₀(ℕ, B)) :
     ‖∑' n : ℕ, f n * η (μ (NonarchimedeanFredholm.c0Single n 1))‖ ≤ (C * M) * ‖f‖ := by sorry
 
-/-- §4.15: specialize dual basis values with an explicit uniform bound and extend their pairing
-continuously to the new analytic stage. -/
-def familySpecialization (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+/-- §4.15: specialize uniformly bounded dual basis values into a complete ultrametric ring
+and extend their pairing continuously to the new analytic stage. -/
+def familySpecialization [CompleteSpace B] [IsUltrametricDist B]
+    (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
     (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
     (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M) :
     C₀(ℕ, B) →L[B] B where
@@ -1356,6 +1361,8 @@ def familySpecialization (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
   map_add' := by sorry
   map_smul' := by sorry
   cont := by sorry
+
+variable [CompleteSpace B] [IsUltrametricDist B]
 
 /-- §4.15: specialization maps each bounded dual basis value by the coefficient homomorphism. -/
 theorem familySpecialization_coeff (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
@@ -1406,6 +1413,16 @@ example [Nontrivial B] (η : A →+* B) (μ : C₀(ℕ, A) →L[A] A) (c : ℕ �
       ν (NonarchimedeanFredholm.c0Single n 1) =
         η (μ (NonarchimedeanFredholm.c0Single n 1)) := by sorry
 
+/-- §4.15 check `specialization_realTarget`: coefficient summation on integer-valued `c₀`
+has basis bound one, but its coefficients have no continuous extension over the real target
+along the contractive inclusion. -/
+example : ∃ μ : C₀(ℕ, ℤ) →L[ℤ] ℤ,
+    (∀ n, μ (NonarchimedeanFredholm.c0Single n 1) = 1) ∧
+    (∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ 1) ∧
+    ¬ ∃ ν : C₀(ℕ, ℝ) →L[ℝ] ℝ, ∀ n,
+      ν (NonarchimedeanFredholm.c0Single n 1) =
+        (Int.castRingHom ℝ) (μ (NonarchimedeanFredholm.c0Single n 1)) := by sorry
+
 /-- §4.15 check `specialization_single`: arbitrary discrete coefficient indices are preserved. -/
 example {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
     (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (i : I) (a : A) :
@@ -1442,6 +1459,15 @@ example :
 /-- §4.15 check `specialization_two_factors`, infinite family: bounded constant dual
 coefficients act on a genuinely decaying analytic vector. -/
 example :
+    letI : IsUltrametricDist (ℚ_[3] × ℚ_[3]) :=
+      IsUltrametricDist.isUltrametricDist_of_forall_norm_add_le_max_norm fun x y => by
+        change max ‖x.1 + y.1‖ ‖x.2 + y.2‖ ≤
+          max (max ‖x.1‖ ‖x.2‖) (max ‖y.1‖ ‖y.2‖)
+        calc
+          _ ≤ max (max ‖x.1‖ ‖y.1‖) (max ‖x.2‖ ‖y.2‖) :=
+            max_le_max (IsUltrametricDist.norm_add_le_max _ _)
+              (IsUltrametricDist.norm_add_le_max _ _)
+          _ = _ := max_max_max_comm _ _ _ _
     let μ := ((1, 2) : ℚ_[3] × ℚ_[3]) •
       analyticStageEvaluate (1 : ℚ_[3] × ℚ_[3]) (by simp)
     let f : C₀(ℕ, ℚ_[3]) :=
@@ -1472,6 +1498,12 @@ example (f : C₀(ℕ, A)) : analyticStageEvaluate 0 (by simp) f = f 0 := by sor
 example [NormOneClass A] : analyticStageEvaluate 1 (by simp)
     (NonarchimedeanFredholm.c0Single 2 (1 : A)) = 1 := by sorry
 
+/-- §4.15 check `stageEvaluate_realBoundary`: real finite coefficient vectors can have
+sup norm `1 / N` and coefficient sum one, obstructing continuous boundary evaluation. -/
+example (N : ℕ) (hN : 0 < N) : ∃ f : C₀(ℕ, ℝ),
+    (∀ n, f n = if n < N then (N : ℝ)⁻¹ else 0) ∧
+    ‖f‖ = (N : ℝ)⁻¹ ∧ (∑' n : ℕ, f n * (1 : ℝ) ^ n) = 1 := by sorry
+
 /-- §4.15 check `stageEvaluate_zeroFunction`: zero evaluates to zero. -/
 example (x : A) (hx : ‖x‖ ≤ 1) : analyticStageEvaluate x hx 0 = 0 := by sorry
 
@@ -1482,6 +1514,15 @@ second-fibre value `189` and first-fibre value `90` on the quadratic coefficient
 example (hd : ‖((3, 3) : ℚ_[3] × ℚ_[3])‖ ≤ 1)
     (hs : ∀ a : ℚ_[3] × ℚ_[3], ‖(AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]) a‖ ≤ 1 * ‖a‖)
     (hf : ∀ a : ℚ_[3] × ℚ_[3], ‖(AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]) a‖ ≤ 1 * ‖a‖) :
+    letI : IsUltrametricDist (ℚ_[3] × ℚ_[3]) :=
+      IsUltrametricDist.isUltrametricDist_of_forall_norm_add_le_max_norm fun x y => by
+        change max ‖x.1 + y.1‖ ‖x.2 + y.2‖ ≤
+          max (max ‖x.1‖ ‖x.2‖) (max ‖y.1‖ ‖y.2‖)
+        calc
+          _ ≤ max (max ‖x.1‖ ‖y.1‖) (max ‖x.2‖ ‖y.2‖) :=
+            max_le_max (IsUltrametricDist.norm_add_le_max _ _)
+              (IsUltrametricDist.norm_add_le_max _ _)
+          _ = _ := max_max_max_comm _ _ _ _
     let μ := ((5, 7) : ℚ_[3] × ℚ_[3]) • analyticStageEvaluate (1 : ℚ_[3] × ℚ_[3]) (by simp)
     let acted := analyticStageConstantTranspose (3, 3) hd (2, 3) μ
     let quadratic := NonarchimedeanFredholm.c0Single 2 (1 : ℚ_[3] × ℚ_[3])

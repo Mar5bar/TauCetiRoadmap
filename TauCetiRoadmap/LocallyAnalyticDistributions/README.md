@@ -555,10 +555,21 @@ separated completion*); §0.2 (`naProjectiveLimit_cohomology_finiteDimensionalML
 
 **Checks.**
 
-- `open_disc`: The open unit disc has H¹_HK=0, computed through good-reduction dagger discs.
+- `affine_line`: Rigid analytic `A¹_K` is exhausted by the good-reduction dagger discs
+  `U_m = {|T| ≤ |π|^(−m)}`, `m ≥ 0`, with coordinate `z_m = π^m T` and model
+  `Spwf(O_K⟨z_m⟩^†)`. Their inclusions satisfy `z_(m+1) = π z_m` and are relatively compact.
+  The HK complexes are compatibly represented by `K₀` in degree zero; this constant system
+  satisfies the strict-limit hypotheses and gives `H¹_HK(A¹_K) = 0`.
+  Source: Colmez–Dospinescu–Nizioł, *Cohomology of p-adic Stein spaces*, Example 1.9, p.4,
+  and §3.1.1, pp.13–14.
 - `open_annulus`: An open annulus has H¹_HK=K₀·dlog t, φ=pσ and N=0.
 - `countable_lines`: A countable disjoint union of analytic multiplicative lines has
   H¹_HK=∏_ℕK₀ with the product Fréchet topology, using finite unions and annular exhaustions.
+- `open_disc_radius` (boundary): Over fixed discretely valued `K`, a good-reduction unit
+  dagger disc mapping relatively compactly into `|T| < 1` pulls `T` back to a series of Gauss
+  norm at most `|π|`. Such images miss every geometric point `T = π^(1/n)` with `n > 1`.
+  Discs of radii `|π|^(1/n)` approach the open-disc boundary and acquire good reduction after
+  finite ramified extension; the unit-disc models over `O_K` alone do not give that exhaustion.
 
 **Completed Hyodo–Kato comparison for Stein curves.** For the smooth semistable Stein curve and
 strict-limit hypotheses above, the uniformizer-dependent HK map extends to a topological isomorphism
@@ -2564,7 +2575,16 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 - `AnalyticDistributionTests.dualExtension_point` (compatibility): At a point K⊗̂_K A→Hom_A(A,A) is multiplication.
 - `AnalyticDistributionTests.dualExtension_derivative`: dδ_0⊗a has Amice coefficients a times those of log(1+T).
 
-**One-disc coefficient action models** (construction). On c₀(N,A), `analyticStageDilate a` for ‖a‖≤1 has nth coefficient a^n f_n, the pullback along z↦az. `analyticStageEvaluate x` for ‖x‖≤1 is Σ f_n x^n, a continuous A-linear functional when A is complete and ultrametric. The native constant-multiplier transpose `analyticStageConstantTranspose a j μ` is (j·μ) composed with the dilation map. API: `analyticStageDilate_coeff`, `analyticStageDilate_comp`, `analyticStageEvaluate_hasSum`, `analyticStageEvaluate_basis`, `analyticStageEvaluate_dilate`. These are concrete specializations of the chart constructions; their coefficient formulas make the family/action comparison testable at the native pins. Needs: §0.3 stage substitution, affinoid stages here and ultrametric coefficient summation. Source: Urban Lemmas 3.4.6–3.4.7, pp. 43–44; Colmez §II.4, pp. 34–37.
+**One-disc coefficient action models** (construction). Let `A` be a normed commutative ring.
+On `c₀(ℕ,A)`, `analyticStageDilate a` for `‖a‖ ≤ 1` has nth coefficient `a^n f_n`, the
+pullback along `z ↦ az`. For complete ultrametric `A`, `analyticStageEvaluate x` for `‖x‖ ≤ 1`
+is `Σ_n f_n x^n`, a continuous `A`-linear functional, including points on the boundary.
+The constant-multiplier transpose `analyticStageConstantTranspose a j μ` is `(j·μ)` composed
+with dilation and is defined over any normed commutative `A`. API: `analyticStageDilate_coeff`,
+`analyticStageDilate_comp`, `analyticStageEvaluate_hasSum`, `analyticStageEvaluate_basis`,
+`analyticStageEvaluate_dilate`. These specialize the chart constructions by explicit coefficient
+formulas. *Needs:* §0.3 stage substitution, affinoid stages here and ultrametric coefficient
+summation. Source: Urban Lemmas 3.4.6–3.4.7, pp.43–44; Colmez §II.4, pp.34–37.
 
 **Checks.**
 
@@ -2573,9 +2593,12 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 - `stageDilate_quadratic`: The basis e_2 maps to a²e_2, distinguishing coordinate dilation from scalar multiplication by a.
 - `stageEvaluate_zero`: Evaluation at zero is f_0.
 - `stageEvaluate_quadratic`: Evaluation of e_2 at x is x², including x=1 on the boundary.
+- `stageEvaluate_realBoundary` (non-example): Over `ℝ`, let `f_N(n) = 1/N` for `n < N` and
+  zero otherwise, with `N ≥ 1`. Then `‖f_N‖ = 1/N → 0`, whereas `Σ_n f_N(n)·1^n = 1`.
+  Thus the coefficient formula at `x = 1` cannot define a continuous real functional.
 - `stageEvaluate_zeroFunction`: The zero analytic function evaluates to zero at every allowed point; constant coefficients one are not an analytic input on an infinite index set.
 
-**Specialization of distribution families** (construction). For a bounded K-affinoid map η:A→B, construct the completed analytic-stage coefficient map S_η:c₀(I,A)→c₀(I,B), S_η(f)_i=η(f_i), using ‖η(a)‖≤C_η‖a‖; via §0.0 this is the canonical map of completed scalar tensors. A stage functional has basis values λ_i=μ(e_i). In the affinoid setting their uniform bound follows by restricting μ to the common nontrivially valued ground field K. The ring-general adapter instead requires explicit data M≥0 and ∀i, ‖λ_i‖≤M; continuity over an arbitrary complete ultrametric normed ring does not imply this bound. For these data, prove summability of Σ_i f_i η(λ_i) and the estimate ‖Σ_i f_i η(λ_i)‖≤(C_η M)‖f‖ using PadicFunctionalAnalysis §2.1, then construct sp_η(μ). The dual family need not be c₀. This constructs D_h(X,A)→D_h(X,B), then its B-bilinear scalar extension D_h(X,A)×B→D_h(X,B). On coefficients it sends μ(e_α)⊗b to image(μ(e_α))b. Successive specializations carry M to C_η M and then C_θ C_η M. For every radius h retain a bound M_h for the corresponding dual coefficients; no uniform bound in h is assumed. It is compatible with radius transitions because the substitution matrices specialize coefficientwise and the bounded sums commute with η. Thus sp_η(μ)(S_η f)=η(μ(f)) on every stage, and the same formula holds on the global projective limit. This compatibility is a theorem of the constructed maps, not a supplied equality. For a finite residue-field specialization it gives the character-fibre distribution; an isomorphism after completed tensor is a separate hypothesis. Under (a). Its API consists of `familySpecialization_summable` and `familySpecialization_sum_norm_le` (Summability and the C_η M bound before constructing the map), `familySpecialization` (Specialize dual coefficients with explicit M≥0 and the bound on every basis value), `familySpecialization_coeff_bound` (The transported bound C_η M), `familySpecialization_coeff` (Basis coefficient values map by the specified algebra homomorphism) and `familySpecialization_comp` (Successive bounded coefficient maps compose on every coefficient), `analyticStageSpecialization` (The completed coefficient map S_η for any discrete index set I), `familySpecialization_eval` (The displayed evaluation comparison) and `familySpecialization_radius` (The projective-limit comparison).
+**Specialization of distribution families** (construction). For a bounded K-affinoid map η:A→B, construct the completed analytic-stage coefficient map S_η:c₀(I,A)→c₀(I,B), S_η(f)_i=η(f_i), using ‖η(a)‖≤C_η‖a‖; via §0.0 this is the canonical map of completed scalar tensors. A stage functional has basis values λ_i=μ(e_i). In the affinoid setting their uniform bound follows by restricting μ to the common nontrivially valued ground field K. For normed commutative rings `A` and `B` with `B` complete and ultrametric, the ring-general adapter requires explicit data `M ≥ 0` and `∀ i, ‖λ_i‖ ≤ M`; continuity over an arbitrary complete ultrametric source ring does not imply this bound. The coefficient map `S_η` itself is defined for any normed commutative `A` and `B`, using the displayed bound on `η`. For these data, prove summability of Σ_i f_i η(λ_i) and the estimate ‖Σ_i f_i η(λ_i)‖≤(C_η M)‖f‖ using PadicFunctionalAnalysis §2.1, then construct sp_η(μ). The dual family need not be c₀. This constructs D_h(X,A)→D_h(X,B), then its B-bilinear scalar extension D_h(X,A)×B→D_h(X,B). On coefficients it sends μ(e_α)⊗b to image(μ(e_α))b. Successive specializations carry M to C_η M and then C_θ C_η M. For every radius h retain a bound M_h for the corresponding dual coefficients; no uniform bound in h is assumed. It is compatible with radius transitions because the substitution matrices specialize coefficientwise and the bounded sums commute with η. Thus sp_η(μ)(S_η f)=η(μ(f)) on every stage, and the same formula holds on the global projective limit. This compatibility is a theorem of the constructed maps, not a supplied equality. For a finite residue-field specialization it gives the character-fibre distribution; an isomorphism after completed tensor is a separate hypothesis. Under (a). Its API consists of `familySpecialization_summable` and `familySpecialization_sum_norm_le` (Summability and the C_η M bound before constructing the map), `familySpecialization` (Specialize dual coefficients into complete ultrametric `B`, with explicit `M ≥ 0` and the bound on every basis value), `familySpecialization_coeff_bound` (The transported bound C_η M), `familySpecialization_coeff` (Basis coefficient values map by the specified algebra homomorphism) and `familySpecialization_comp` (Successive bounded coefficient maps compose on every coefficient), `analyticStageSpecialization` (The completed coefficient map S_η for any discrete index set I), `familySpecialization_eval` (The displayed evaluation comparison) and `familySpecialization_radius` (The projective-limit comparison).
 
 *Needs:* §4.15 (Affinoid-valued Banach-stage distributions); §4.15 `distributionScalarExtension`; PadicFunctionalAnalysis §2.1 (bounded-family extension from c₀). Source: Urban, Lemmas 3.4.6–3.4.7 and Corollary 3.4.10, pp.43–45; the bounded-coefficient specialization adapter is derived here from that supplied extension.
 
@@ -2586,6 +2609,7 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 - `AnalyticDistributionTests.specialization_empty`: The empty analytic chart remains zero after any bounded coefficient map.
 - `AnalyticDistributionTests.specialization_atom`: A-valued aδ_x specializes to image(a)δ_x. In the one-disc model both x and η(x) have norm at most one, and the specialized evaluation point is η(x).
 - `specialization_discreteRing` (non-example): Give A=F₃[t] the norm ‖a‖=3^(deg a) for a≠0. It is complete, discrete and Noetherian, and c₀(ℕ,A) consists of finite-support vectors. The continuous A-linear μ((a_n))=Σ_n a_n t^n has unbounded basis values. The isometric map η:A→B=F₃((s)), η(t)=s⁻¹, with ‖s‖=1/3 is contractive. On s^n e_n→0 any coefficient-preserving specialization would have value one, and on the c₀ vector (s^n) its defining summands are all one. Thus no continuous specialization exists without the dual bound, even for a Noetherian A and contractive η.
+- `specialization_realTarget` (non-example): With the usual norms, `c₀(ℕ,ℤ)` is discrete and consists of finite-support vectors. Its coefficient-sum functional has every basis value equal to one, with uniform bound `M = 1`. The inclusion `ℤ → ℝ` is contractive, but the prescribed real dual coefficients are again all one. The vectors of `stageEvaluate_realBoundary` exclude a continuous specialization, so the dual bound does not replace ultrametricity of `B`.
 - `AnalyticDistributionTests.specialization_logarithm` (compatibility): For finite field specialization the unbounded Amice series specializes coefficientwise, including log(1+T).
 - `AnalyticDistributionTests.specialization_two_factors`: For A=K×K and η the second projection, μ(e_0)=(1,2), μ(e_1)=(3,4), all others zero. On f=e_0+5e_1 the specialization gives 22, whereas the first projection gives 16. With μ(e_n)=(1,2) for every n, specialization is still the coefficient-sum functional multiplied by 2; on the decaying Q₃ vector f_n=3^n it gives −1 (the first projection gives −1/2). Requiring a c₀ dual incorrectly excludes it.
 
