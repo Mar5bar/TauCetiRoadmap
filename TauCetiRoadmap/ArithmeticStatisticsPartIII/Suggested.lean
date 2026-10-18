@@ -40,6 +40,34 @@ example : () ∈ squareDivisorTail (fun _ : Unit => 36) (fun _ => 0) 5 1 ∧
     squareDivisorMultiplicity (fun _ : Unit => 36) 5 () = 1 := by sorry
 example (M : ℕ) : squareDivisorTail (fun _ : Unit => 0) (fun _ => 0) M 1 = ∅ ∧
     squareDivisorMultiplicity (fun _ : Unit => 0) M () = 0 := by sorry
+example (M : ℕ) (hM : 1 ≤ M) :
+    squareDivisorTail (fun _ : Unit => 1) (fun _ => 0) M 1 = ∅ := by sorry
+
+/-- The cubic coefficient invariant I on the univariate monic cubic carrier. -/
+def monicCubicI (g : ℤ[X]) : ℤ := g.coeff 2 ^ 2 - 3 * g.coeff 1
+
+/-- The cubic coefficient invariant J uses the signed coefficient formula. -/
+def monicCubicJ (g : ℤ[X]) : ℤ :=
+  -2 * g.coeff 2 ^ 3 + 9 * g.coeff 2 * g.coeff 1 - 27 * g.coeff 0
+
+/-- The invariant height of a monic cubic uses the real quotient J squared over four. -/
+def monicCubicHeight (g : ℤ[X]) : ℝ :=
+  max (|(monicCubicI g : ℝ)| ^ 3) ((monicCubicJ g : ℝ) ^ 2 / 4)
+
+/-- Integral translations preserve both monic cubic invariants and their height. -/
+theorem monicCubic_translation (g : ℤ[X]) (hg : g.Monic) (hd : g.natDegree = 3)
+    (k : ℤ) :
+    monicCubicI (g.comp (X + C k)) = monicCubicI g ∧
+    monicCubicJ (g.comp (X + C k)) = monicCubicJ g ∧
+    monicCubicHeight (g.comp (X + C k)) = monicCubicHeight g := by sorry
+
+example : monicCubicI (X ^ 3) = 0 ∧ monicCubicJ (X ^ 3) = 0 ∧
+    monicCubicHeight (X ^ 3) = 0 := by sorry
+example : monicCubicI (X ^ 3 - X) = 3 ∧ monicCubicJ (X ^ 3 - X) = 0 ∧
+    monicCubicHeight (X ^ 3 - X) = 27 := by sorry
+example : Irreducible (X ^ 3 - C 2 : ℚ[X]) ∧
+    monicCubicI (X ^ 3 - C 2) = 0 ∧ monicCubicJ (X ^ 3 - C 2) = 54 ∧
+    monicCubicHeight (X ^ 3 - C 2) = 729 := by sorry
 
 /-- The rational-root estimate uses the actual strict weighted coefficient box. -/
 theorem monic_rational_root_bound (n : ℕ) (hn : 2 ≤ n) :
@@ -73,6 +101,15 @@ example : sectionKernel (fun _ : Unit => ()) (fun _ : Unit => ())
     (fun _ : Equiv.Perm (Fin 2) => (2 : ℝ)) (fun _ => 3) () = 12 := by sorry
 example : sectionKernel (fun _ : Unit => ()) (fun _ : Unit => ())
     (fun _ : Equiv.Perm (Fin 2) => (2 : ℝ)) (fun _ => 0) () = 0 := by sorry
+
+example : sectionKernel (fun _ : Unit => ()) (fun _ : Unit => ())
+    (fun _ : Equiv.Perm Unit => (2 : ℝ)) (fun _ => 3) () = 6 := by sorry
+
+example :
+    letI : MulAction (Equiv.Perm Unit) Bool :=
+      { smul := fun _ b => b, one_smul := fun _ => rfl, mul_smul := fun _ _ _ => rfl }
+    sectionKernel (fun _ : Bool => ()) (fun _ : Unit => false)
+      (fun _ : Equiv.Perm Unit => (2 : ℝ)) (fun _ => 3) true = 0 := by sorry
 
 /-- A coupled CRT condition occupies two residues, rather than four marginal combinations. -/
 example : ({x : ZMod 15 | x = 0 ∨ x = 1}.ncard : ℚ) / 15 = 2 / 15 ∧
@@ -136,6 +173,82 @@ example (a b c d e x y : ℤ) :
       d * (-x) * (-y)^3 + e * (-y)^4 =
     a * x^4 + b * x^3 * y + c * x^2 * y^2 + d * x * y^3 + e * y^4 := by sorry
 
+/-- A lower triangular row substitution preserves the monic quadratic carrier. -/
+example (a b t l x y : ℚ) :
+    (x + t*y)^2 + a*(x + t*y)*(l*y) + b*(l*y)^2 =
+      x^2 + (l*a + 2*t)*x*y + (l^2*b + l*t*a + t^2)*y^2 := by sorry
+
+/-- The upper triangular substitution sends the leading coefficient of x squared plus y squared to two. -/
+example :
+    let w := Matrix.vecMul (![1, 0] : Fin 2 → ℚ) (!![1, 1; 0, 1])
+    w 0 ^ 2 + w 1 ^ 2 = 2 := by sorry
+
+/-- The degree-two tail includes a weak square divisor but excludes the unit and singular cases. -/
+example : (X ^ 2 - C 25 : ℤ[X]).discr = 100 ∧
+    (X ^ 2 + X : ℤ[X]).discr = 1 ∧ (X ^ 2 : ℤ[X]).discr = 0 ∧
+    (5 : ℤ)^2 ∣ (X ^ 2 - C 25 : ℤ[X]).discr := by sorry
+
+/-- Gram determinants detect both scaling a row and loss of row rank. -/
+example :
+    let R : Matrix (Fin 2) (Fin 3) ℝ := !![1, 0, 0; 0, 1, 0]
+    Matrix.det (R * R.transpose) = 1 := by sorry
+example (t : ℝ) :
+    let R : Matrix (Fin 2) (Fin 3) ℝ := !![1, 0, 0; 0, t, 0]
+    Matrix.det (R * R.transpose) = t^2 := by sorry
+example :
+    let R : Matrix (Fin 2) (Fin 3) ℝ := !![1, 0, 0; 2, 0, 0]
+    Matrix.det (R * R.transpose) = 0 := by sorry
+
+/-- The paired deep-block example has a nonzero degree-five discriminant. -/
+example :
+    let A : Matrix (Fin 5) (Fin 5) ℤ[X] :=
+      !![0, 0, 0, 2, 1; 0, 0, 1, 1, -1; 0, 1, 0, 2, 1;
+        2, 1, 2, -1, 1; 1, -1, 1, 1, 2]
+    let B : Matrix (Fin 5) (Fin 5) ℤ[X] :=
+      !![0, 0, 1, 0, 0; 0, 0, 0, 1, 0; 1, 0, 0, 0, 0;
+        0, 1, 0, 0, 0; 0, 0, 0, 0, 0]
+    Matrix.det ((X : ℤ[X]) • A - B) = X * (3*X^4 + 30*X^3 - 15*X^2 - 4*X + 2) ∧
+      (Matrix.det ((X : ℤ[X]) • A - B)).discr = 2529792 := by sorry
+
+/-- Constant local factors distinguish one exceptional prime from infinitely many factors. -/
+example : (∏' _p : Nat.Primes, (1 : ℝ)) = 1 ∧
+    (∏' p : Nat.Primes, if p.val = 2 then (1/2 : ℝ) else 1) = 1/2 ∧
+    (∏' _p : Nat.Primes, (1/2 : ℝ)) = 0 := by sorry
+
+/-- Normalized coefficient-residue averages of a constant factor retain that constant. -/
+example (p : ℕ) [NeZero p] (hp : p.Prime) (r : ℕ) :
+    (∑ _a : Fin r → ZMod p, (1/2 : ℝ)) / (p : ℝ)^r = 1/2 := by sorry
+
+/-- The even main-body savings use their minimum at the quartic boundary. -/
+example : min (1/(4*4) : ℝ) ((4-2)/(2*4^2+2*4+2)) = 1/21 ∧
+    min (1/(4*6) : ℝ) ((6-2)/(2*6^2+2*6+2)) = 1/24 := by sorry
+
+/-- Finite and infinite real roots distinguish the quartic root types with positive discriminant. -/
+example : (X^3 - X : ℝ[X]).roots.card + 1 = 4 ∧
+    (X^3 + X : ℝ[X]).roots.card + 1 = 2 ∧
+    (X^4 + 1 : ℝ[X]).roots.card = 0 ∧
+    (X^4 + 1 : ℤ[X]).discr = 256 := by sorry
+
+/-- Perturbing the leading coefficient exhibits weak divisibility in the quartic carrier. -/
+example : (25*X^4 + X^2 + 1 : ℤ[X]).discr = 3920400 ∧
+    (25 : ℤ) ∣ (25*X^4 + X^2 + 1 : ℤ[X]).discr ∧
+    ¬ (25 : ℤ) ∣ (30*X^4 + X^2 + 1 : ℤ[X]).discr := by sorry
+
+/-- The cubic weak-divisibility witness uses the same leading-coordinate perturbation. -/
+example : (25*X^3 + X + 1 : ℤ[X]).discr = -25*679 ∧
+    ¬ (25 : ℤ) ∣ (30*X^3 + X + 1 : ℤ[X]).discr := by sorry
+
+/-- The split local quartic algebra has six suborders of index five. -/
+example : {S : Subring (Fin 4 → ZMod 5) | S.toAddSubgroup.index = 5}.ncard = 6 := by sorry
+
+/-- An Artin–Schreier quadratic over the rational function field has unit discriminant. -/
+example :
+    (X^2 + X + C (RatFunc.X : RatFunc (ZMod 2)) : (RatFunc (ZMod 2))[X]).discr = 1 := by sorry
+
+/-- Polynomial coefficient boxes over a finite constant field have their Riemann–Roch cardinality. -/
+example (q : ℕ) [NeZero q] (k : ℕ) :
+    Fintype.card (Fin (k+1) → ZMod q) = q^(k+1) := by sorry
+
 end Counting
 
 /-!
@@ -143,6 +256,7 @@ The README also specifies the arithmetic carriers and their APIs: real quartic
 root types and fundamental sets; real cubic sign regions; Gauss/Iwasawa multiset regions and their orbit
 multiplicities; quarticAveragedCount, quarticAveragedCount_weighted,
 quarticRegionB and cubicAveragedCount; strong and weak discriminant divisibility;
+the weighted extension of ArithmeticStatisticsPartI’s Kappa acceptable specifications,
 Counting.IsKappaAcceptable, Counting.kappa_good_prime and
 Counting.kappa_finite_product_residue; local congruence
 selectors and densities; real invariant sections and their smoothed unfolding;

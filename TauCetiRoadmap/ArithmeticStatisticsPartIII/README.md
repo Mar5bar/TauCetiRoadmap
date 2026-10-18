@@ -10,7 +10,7 @@ The boundaries fix the carriers and prevent parallel versions of existing mathem
 
 - PolynomialGaloisGroups Layers 0, 2 and 4 supply the root-permutation action and static integral resolvents. InverseGaloisAndArithmeticFundamentalGroups §§IG.0–IG.2 supply specialization and quantitative Hilbert irreducibility. The anisotropic weighted-box exclusion and its uniform rectangular curve estimate are targets here.
 - GlobalNumberFields Layers 0–3 and 11 supply places, ideal classes, units, ideal lattices, order classes and discriminant/index-square identities. GeometryOfNumbersAndQuadraticArithmetic Layers 0–4 supply primitive-vector saturation, successive minima and bounded semialgebraic lattice counts. The new estimates use skew, truncated and averaged arithmetic regions, with the cusp and divisor-multiplicity errors retained.
-- AdelicAlgebraicGroups Layers 0–4 supply adelic Haar measures, quotient integration, arithmetic reduction and fundamental multisets. The representation-specific Jacobians, cusp estimates and the `SL₂` Tamagawa value in the local [mass and assembly target](#cubic-mass-and-assembly) are targets here.
+- For number fields, AdelicAlgebraicGroups Layers 0–4 supply adelic Haar measures, quotient integration, arithmetic reduction and fundamental multisets. The function-field lattice and reduction branch is owned in §2.10. The representation-specific Jacobians, cusp estimates and the `SL₂` Tamagawa value in the local [mass and assembly target](#cubic-mass-and-assembly) are targets here.
 - SchemeAndStackFoundations Layers 0–3,5 supply scheme dimension, finite presentation, spreading and projective intersection theory. DeligneWeightsAndPurity §1.6 supplies the curve Weil bound. The degree-uniform smooth-hypersurface estimate and its statistical local-density application are targets here.
 - AbelianSchemesAndArithmeticModuli §§`A3`.1–`A3`.6 supply isogenies, finite-flat kernels and duality; SelmerIwasawaCohomology §2.12a supplies local Kummer maps. The three-isogeny count keeps the actual Kummer images, integral multiplicities and the explicit windowed counting hypothesis in every abelian dimension.
 - AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layer 5 supply the analytic estimates identified below. Their cubic representation, projective algebra equivalence and weighted coefficients are reused with the stated sign and lattice adapters.
@@ -45,11 +45,11 @@ OperatorTheory, PolarDecomposition Part `C`, targets PD-`C09`–PD-`C18` supply 
 
 ### From AdelicAlgebraicGroups
 
-Layers 0–4 supply the restricted-product Haar measure, adelic points, quotient integration, invariant differential/Tamagawa normalization, arithmetic reduction and central-isogeny measure comparison. In particular §§2.2–2.4 and §3.4 supply the quotient and fundamental-multiset integrals used in the windowed cubic count. Finite volume does not assert volume one: [Local mass and assembly](#cubic-mass-and-assembly) includes the separate `SL₂` volume theorem with its full number-field and differential normalization.
+For number fields, Layers 0–4 supply the restricted-product Haar measure, adelic points, quotient integration, invariant differential/Tamagawa normalization, arithmetic reduction and central-isogeny measure comparison. Only AA.0 is used unchanged for function fields; their reduction and lattice estimates are targets in §2.10. In particular §§2.2–2.4 and §3.4 supply the quotient and fundamental-multiset integrals used in the windowed cubic count. Finite volume does not assert volume one: [Local mass and assembly](#cubic-mass-and-assembly) includes the separate `SL₂` volume theorem with its full number-field and differential normalization.
 
 ### From SchemeAndStackFoundations and AlgebraicCurves
 
-SchemeAndStackFoundations Layers 0–3,5 supply dimension and projection closures, finite irreducible decomposition, finite-presentation spreading after clearing denominators, and projective intersection/degree and hyperplane-family interfaces. AlgebraicCurves Layers 1–5 supply plane curves, normalization, genus bounds, smooth local parameters and Bézout. DeligneWeightsAndPurity §1.6 supplies `|#C(F_(q^m))−(q^m+1)|≤2gq^(m/2)` for smooth proper geometrically connected curves. These inputs support the local degree-uniform Lang–Weil induction; no smoothness of the whole hypersurface is assumed.
+SchemeAndStackFoundations Layers 0–3,5 supply dimension and projection closures, finite irreducible decomposition, finite-presentation spreading after clearing denominators, and projective intersection/degree and hyperplane-family interfaces. AlgebraicCurves Layers 2 and 12 supply finite normalization and the regular-projective-model/scheme comparison. SchemeAndStackFoundations §5.12, `bezout_inequality`, supplies Bézout. The plane-curve genus and singular-point comparison are local targets in §2.13. At a rational place `P` with uniformizer `t`, Tau Ceti’s `TauCeti.Place.powerSeriesExpansion`, `TauCeti.Place.mem_filtration_iff_coeff_powerSeriesExpansion_eq_zero` and `TauCeti.Place.completionIntegersEquivPowerSeries` supply local expansions, with hypotheses `P.degree=1` and `P.ord t=1` (modules `TauCeti.FieldTheory.FunctionField.Place.Expansion.PowerSeries` and `.Completion`). DeligneWeightsAndPurity §1.6 supplies `|#C(F_(q^m))−(q^m+1)|≤2gq^(m/2)` for smooth proper geometrically connected curves. These inputs support the local degree-uniform Lang–Weil induction; no smoothness of the whole hypersurface is assumed.
 
 ### From abelian-isogeny and specialization roadmaps
 
@@ -57,7 +57,7 @@ AbelianSchemesAndArithmeticModuli §§`A3`.1–`A3`.6 supply isogenies, finite-f
 
 ### From the analytic-number-theory parts
 
-AnalyticNumberTheoryPartI §3.26 supplies `τ(n)≪_ε n^ε` for every positive integer `n`, with the constant retained at small inputs; §3.22 supplies `Σ_(n≤Y)τ(n)=O(Y log Y)`. Its §§3.3–3.4 and §3.27 supply ideal-coefficient and fixed-degree ideal-count bounds; Layer 0 supplies prime selection, and Layer 3 supplies multiplicative sums and partial summation for the weighted sieve. ArithmeticDirichletSeries, completed Layers 1–5, supplies the native Euler products, Abel/Perron summation, continuation and Tauberian interfaces with their actual convergence and coefficient hypotheses. AutomorphicLFunctionsAndLocalFactors §AL.0, **Vector-space Poisson comparison and compact-uniform estimates**, supplies the additive adelic Fourier/Poisson interface used in the `SL₂` volume argument, with the required absolute sums and integrability.
+AnalyticNumberTheoryPartI §3.26 supplies `τ(n)≪_ε n^ε` for every positive integer `n`, with the constant retained at small inputs; §3.22 supplies `Σ_(n≤Y)τ(n)=O(Y log Y)`. Its §§3.3–3.4 and §3.27 supply ideal-coefficient and fixed-degree ideal-count bounds; Layer 0 supplies prime selection, and Layer 3 supplies multiplicative sums and partial summation for the weighted sieve. Completed ArithmeticDirichletSeries Layer 3 supplies `EulerProductData`; Layer 6 supplies `perronFormula` and `continuedLFunctionOfWeight`; Layer 9 supplies `wienerIkehara` with its `LSeriesHasSum`, nonnegative coefficient/residue and continuous boundary remainder hypotheses. The arithmetic residue and boundary verification are application targets here or in the cited denominator owner. AutomorphicLFunctionsAndLocalFactors §AL.0, **Vector-space Poisson comparison and compact-uniform estimates**, supplies the additive adelic Fourier/Poisson interface used in the `SL₂` volume argument, with the required absolute sums and integrability.
 
 AnalyticNumberTheoryPartII supplies the [binary-cubic action and discriminant][AN-II-1] (§5.4), [projective cubic-algebra equivalence][AN-II-2] (§5.5), [finite weighted cubic coefficients][AN-II-3] (§5.6), [uniform small-degree field bound][AN-II-4] (§5.7), [cubic continuation and residues][AN-II-5] (§5.21), [pole-aware cubic convexity][AN-II-6] (§5.28), and [quadratic large sieve and real-character moment][AN-II-7] (§5.29). The projective equivalence includes nonprincipal rank-two modules, stabilizers and determinant-line discriminants; the free-lattice counting adapters retain these inputs. The source-specific local selectors, secondary densities, sieve estimates and statistical applications are targets here.
 
@@ -72,6 +72,8 @@ From ArithmeticStatisticsPartII require [ArithmeticStatisticsPartII, stabilizer 
 ## How to read the build
 
 The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+
+The quartic dependency order starts with maximal-order suborders and items 2–4 of the class-group/conductor inputs (quadratic characters, quadratic genus and reducible étale algebras). These supply the fixed-resolvent bound and the reducible-resolvent discard in Lemma 12, then the §2.8 finite congruence count and maximal-field upper counts. The noncyclic cubic mass sum (item 1) follows that finite count and supplies the overramified tail. The §2.8 nonmaximal tail and the separate non-`S4` field estimate supply quartic-field transport before §2.5 weak transport and its sieve. The fixed-resolvent bound precedes its large-stabilizer consumer in §2.3. The function-field constructions at the start of §2.10 precede all three global-field counts. The degree-two monic weak tail precedes the summed monic tail; the row-spanning and paired-fibre contracts precede every conditional even-degree estimate.
 
 ## Layer 2: Uniform orbit counts and sieves
 
@@ -627,7 +629,7 @@ For the proof, Coefficient bounds: `R_X(h·L) ⊆ N′A′KΛh·L` with `h·L` i
 
 <a id="reducible-monic-binary-cubic-forms"></a>
 
-**Reducible monic binary cubic forms.** For a monic integral binary cubic form `g = x^3 + rx^2y + sxy^2 + ty^3` put `I(g) := r^2 − 3s`, `J(g) := −2r^3 + 9rs − 27t` and `H(g) := max(|I(g)|^3, J(g)^2/4)`; these are invariant under the group `F_{ℤ,1}` of lower unitriangular integer matrices acting by `g ↦ g((x, y)γ)`. For every `ε > 0` the number of `F_{ℤ,1}`-orbits of monic integral binary cubic forms that are reducible over `ℚ` and have `H(g) < X` is `O_ε(X^{1/2+ε})`.
+**Reducible monic binary cubic forms.** For a monic integral binary cubic form `g = x^3 + rx^2y + sxy^2 + ty^3` put `I(g) := r^2 − 3s`, `J(g) := −2r^3 + 9rs − 27t` and `H(g) := max(|I(g)|^3, J(g)^2/4)`; the univariate carrier uses `Counting.monicCubicI`, `Counting.monicCubicJ` and `Counting.monicCubicHeight`; these are invariant under the group `F_{ℤ,1}` of lower unitriangular integer matrices acting by `g ↦ g((x, y)γ)`. For every `ε > 0` the number of `F_{ℤ,1}`-orbits of monic integral binary cubic forms that are reducible over `ℚ` and have `H(g) < X` is `O_ε(X^{1/2+ε})`.
 
 Monic means `g(1, 0) = 1` The invariants agree with those of the binary quartic whose monic cubic resolvent is `g` ([ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2])
 
@@ -641,7 +643,13 @@ For the proof, The substitution `x ↦ x + ky` changes `r` by `3k`, so every `F_
 
 - The count of all monic forms with `r ∈ {−1, 0, 1}` and `H < X` is of order `X^{1/3}·X^{1/2} = X^{5/6}`, so reducibility saves `X^{1/3}`.
 
-- `F_{ℤ,1}`-invariance: `g(x + ky, y)` has the same `I` and `J` (a direct computation).
+- `g=x³` has `(I,J,H)=(0,0,0)` and is singular.
+
+- `g=x³−xy²` has `(I,J,H)=(3,0,27)` and is reducible.
+
+- `g=x³−2y³` is irreducible over `Q` and has `(I,J,H)=(0,54,729)`, fixing the sign in `J`.
+
+- `Counting.monicCubic_translation`: for a monic degree-three polynomial, composition with `X+k` preserves `I,J,H`; this is the `F_{ℤ,1}` API law.
 
 <a id="orbits-with-large-stabilizer-are-negligible"></a>
 
@@ -651,7 +659,7 @@ The stabiliser is for the standard action; its image in `PGL_2(ℚ)` is nontrivi
 
 For the proof, A nontrivial `PGL₂(Q)` stabilizer is a nonzero rational two-torsion point on the invariant elliptic curve, hence gives a reducible cubic resolvent. Count reducible monic resolvents by `O_epsilon(X^(1/2+epsilon/2))`. For each such resolvent of discriminant `O(X)`, use the uniform bound `O_epsilon(X^(1/4+epsilon/2))` from the fixed-resolvent theorem and the finite embedding fibre bound. Their product is `O_epsilon(X^(3/4+epsilon))`. The same conclusion for `GL₂(Z)` follows by quotienting its central subgroup `{±1}`.
 
-*Needs:* [ArithmeticStatisticsPartII, stabilizer of a binary quartic is two torsion][AS-II-1], [ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2], [reducible monic binary cubic forms](#reducible-monic-binary-cubic-forms), [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3].
+*Needs:* [ArithmeticStatisticsPartII, stabilizer of a binary quartic is two torsion][AS-II-1], [ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2], [reducible monic binary cubic forms](#reducible-monic-binary-cubic-forms), [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3], [quartic fixed reducible resolvent](#refinement-quartic-fixed-reducible-resolvent).
 
 ([[1]](#ref-1), Section 2.2, Lemma 2.4, printed p. 10; [[1]](#ref-1), Section 2.8, proof of Lemma 2.4, printed p. 21.)
 
@@ -660,6 +668,8 @@ For the proof, A nontrivial `PGL₂(Q)` stabilizer is a nonzero rational two-tor
 - The form `x^3y − xy^3` has stabiliser containing the rotation `(x, y) ↦ (−y, x)`, and its resolvent has the rational root corresponding to the 2-torsion point of `y^2 = x^3 − x`.
 
 - Order check: `X^{3/4+ε}` is below the main term `X^{5/6}`.
+
+- At `epsilon=1/24`, the exponent is `19/24<5/6`; at `epsilon=1/12` it equals `5/6`, so the lower-order consequence uses the strict smaller range.
 
 <a id="binary-quartic-lattice-points-in-the-cusp"></a>
 
@@ -849,15 +859,27 @@ For the proof, `Y_4` has codimension 2 in `𝔸^5_ℤ` ([discriminant loci of co
 
 - The bound is used with `M` fixed and `X → ∞`: the term `X^{2/3}` is then negligible against `X^{5/6}`.
 
+<a id="quartic-field-weak-transport"></a>
+
+**Quartic-field weak transport.** Uniformly for primes `p` and `X≥1`, the number of ternary-pair orbits whose quartic algebra is a field, with `0<|Disc|<X` and weak `p²`-divisibility, is `O(X/p²)`. A smooth discriminant reduction has one double geometric point and two simple points. At an odd prime a maximal order with this reduction is simply tamely ramified and has discriminant valuation one; weak square divisibility therefore forces nonmaximality. At 2 the discriminant polynomial is a square modulo 2, so weak divisibility is empty. Apply the `S4` nonmaximal tail and the separate non-`S4` maximal-field/suborder estimate. This proves the field assertion with cubic-resolvent multiplicity, including reducible resolvents.
+
+*Needs:* [quartic nonmaximal overramified tail](#refinement-quartic-nonmaximal-overramified-tail), [non-S4 quartic maximal fields](#non-s4-quartic-maximal-fields), [quartic maximal-order suborders](#quartic-maximal-order-suborders), ArithmeticStatisticsPartII's quartic ring dictionary and maximality criterion. Sources: [[1]](#ref-1), Theorem 2.19 and (37), p.18; [[77]](#ref-77), Proposition 23 pp.1056–1058 for `S4` only, with the preceding separate field estimates.
+
+**Checks.**
+
+- An irreducible binary quartic maps to a field algebra because the conic intersection and its four roots are isomorphic Galois sets; a reducible quartic has no such transitivity implication.
+- For coprime positive fundamental discriminants `D_K,D_L≡1 mod20`, the ring `(Z+5O_K)×O_L` has discriminant `25D_KD_L` and reduction `F_5[epsilon]/epsilon²×F_5²`. These product algebras are excluded: varying the two discriminants gives order `X log X` pairs below `X` at this fixed prime. The local pencil `A=xy,B=z²−x²−c y²` has discriminant `16c`, whose `c` derivative is a unit at 5, so the weak condition does not remove this boundary example.
+- If `p²≥X`, the counted set is empty, since its nonzero integral discriminant has absolute value at least `p²`.
+
 <a id="weakly-divisible-quartic-discriminants-via-ternary-pairs"></a>
 
 **Weakly divisible quartic discriminants via ternary pairs.** There is an absolute constant `C` such that for every prime `p` and every `X ≥ 1`, the number of `GL_2(ℤ)`-classes of irreducible integral binary quartic forms `f ∈ W_p^(2)(V)` with `H(f) < X` is at most `C·X/p^2`.
 
-Use the all-orbit ternary-pair transport assertion under supporting uniform estimates. The `S4`-only quartic maximal-order tail is insufficient for this assertion, which includes non-`S4` and reducible-resolvent pairs. The estimate is uniform in both `p` and `X`; the integral quartic-to-pair embedding has the stated fibre bound at most 24.
+Use the [quartic-field weak transport estimate](#quartic-field-weak-transport). The quartic algebra of the embedded irreducible binary quartic is a field: the four intersection points on the fixed smooth conic are the Veronese images of its four roots, equivariantly for the Galois action. Transitivity therefore gives a degree-four field algebra. Non-`S4` fields are included; products of quadratic algebras are excluded. The estimate is uniform in both `p` and `X`; the integral quartic-to-pair embedding has the stated fibre bound at most 24.
 
-For the proof, The map `φ` of (30) sends `f` to `(A_1, B_f) ∈ W_ℤ`, preserves the discriminant, and induces `ψ` : `PGL_2(ℤ)\V_ℤ → (GL_2(ℤ) × SL_3(ℤ))\W_ℤ` with fibres of size at most 24 over elements of nonzero discriminant (Theorem 2.14 and Proposition 2.16, [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3]). `φ` is affine-linear in `f` with `φ(f + pg) − φ(f) = (0, p·B_g)`, so if `Δ(f + pg)` is not divisible by `p^2` for some `g`, the same perturbation shows `Δ_W(φ(f))` is not strongly divisible: `φ` maps `W_p^(2)(V)` into `W_p^(2)(W)` (definitions of [strongly and weakly divisible values](#strongly-and-weakly-divisible-values)). `H(f) < X` implies `|Δ(f)| = |4I^3 − J^2|/27 ≤ (4|I|^3 + J^2)/27 ≤ 8H(f)/27 < X`. Theorem 2.19: the number of `GL_2(ℤ) × SL_3(ℤ)`-orbits on `W_p^(2)(W)` with `|Δ| < X` is `O(X/p^2)` with the constant independent of `p` (the all-orbit transport estimate below); multiply by 24.
+For the proof, The map `φ` of (30) sends `f` to `(A_1, B_f) ∈ W_ℤ`, preserves the discriminant, and induces `ψ` : `PGL_2(ℤ)\V_ℤ → (GL_2(ℤ) × SL_3(ℤ))\W_ℤ` with fibres of size at most 24 over elements of nonzero discriminant (Theorem 2.14 and Proposition 2.16, [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3]). `φ` is affine-linear in `f` with `φ(f + pg) − φ(f) = (0, p·B_g)`, so if `Δ(f + pg)` is not divisible by `p^2` for some `g`, the same perturbation shows `Δ_W(φ(f))` is not strongly divisible: `φ` maps `W_p^(2)(V)` into `W_p^(2)(W)` (definitions of [strongly and weakly divisible values](#strongly-and-weakly-divisible-values)). `H(f) < X` implies `|Δ(f)| = |4I^3 − J^2|/27 ≤ (4|I|^3 + J^2)/27 ≤ 8H(f)/27 < X`. Theorem 2.19: the number of `GL_2(ℤ) × SL_3(ℤ)`-orbits on `W_p^(2)(W)` whose quartic algebra is a field and with `0<|Δ| < X` is `O(X/p^2)` with the constant independent of `p` (the quartic-field weak transport estimate); multiply by 24.
 
-*Needs:* [ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2], [strongly and weakly divisible values](#strongly-and-weakly-divisible-values), [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3].
+*Needs:* [ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2], [strongly and weakly divisible values](#strongly-and-weakly-divisible-values), [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3], [quartic-field weak transport](#quartic-field-weak-transport).
 
 ([[1]](#ref-1), Section 2.6, Theorem 2.19 and (37), printed p. 18.)
 
@@ -866,6 +888,10 @@ For the proof, The map `φ` of (30) sends `f` to `(A_1, B_f) ∈ W_ℤ`, preserv
 - For `p>X^{1/2}` the set is empty: irreducibility implies `Δ(f)≠0`, while `p²|Δ(f)` gives `p²≤|Δ(f)|<X`. This follows from the discriminant inequality, not by dropping the unspecified constant in `O(X/p²)`.
 
 - The transport uses only that `φ` preserves the discriminant and is affine in `f`; no information about the strongly divisible part of `W_ℤ` is needed, because `W_p^(1)(V)` is handled by the geometric sieve.
+
+- `x⁴−2y⁴` is irreducible and its conic intersection gives the same quartic field `Q(2^(1/4))`, whose closure has group `D4`; the field comparison is not confined to `S4`.
+
+- `(x²−5y²)(x²−13y²)` is reducible and its étale root algebra is a product of quadratic fields, outside this irreducible-form count.
 
 <a id="uniformity-for-weakly-divisible-quartic-discriminants"></a>
 
@@ -1235,21 +1261,65 @@ For the proof, Average the finite-cover fundamental domain with its stabilizer m
 
 - Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
 
+<a id="quartic-maximal-order-suborders"></a>
+
+**Quartic maximal-order suborders.** For every `epsilon>0` there is `C_epsilon`, independent of the quartic étale `Q`-algebra `L` and positive integer `k=product p^e`, such that the number of unital suborders of index `k` in its maximal order `O_L` is at most `C_epsilon^omega(k) product p^((2+epsilon) floor(e/4))`. The local constant is retained once for each prime dividing `k`; it can instead be absorbed into a further `k^epsilon` loss for a fixed-resolvent estimate. Use the maximal étale order componentwise. A nonmaximal ambient order is outside this statement. Cubic-resolvent multiplicity is `sigma(c)` for content `c`, with discriminant scaling `c⁶`; it is included when counting pairs.
+
+Prove the local maximal-order estimates and multiply them with their uniform constants, then sum the convergent content series and Euler factors `1+O_epsilon(p⁻²)`. This retains the uniform `p⁻²` tail without absorbing the local constant into a power of the distinguished prime. *Needs:* GlobalNumberFields Layer 11; ArithmeticStatisticsPartII **Existence and number of cubic resolvents**. Source: [[77]](#ref-77), proof of Proposition 23, pp.1056–1057 (Nakagawa's suborder estimate), and Lemma 12, p.1045, for the étale version.
+
+**Checks.**
+
+- At `k=1` the unique suborder is `O_L`.
+- At `k=p,p²,p³` the displayed prime-power factor is one, with local multiplier `C_epsilon`; at `k=p⁴` it is `C_epsilon p^(2+epsilon)`. For `O_L=Z⁴` there are six index-`p` suborders, one for each pair of equal residue coordinates, and exactly `6^omega(k)` index-`k` suborders for squarefree `k`. A single constant independent of `k` cannot replace `C_epsilon^omega(k)`.
+- For `L=Q⁴`, the order `Z+pO_L` has index `p³` and content `p`, hence `p+1` cubic resolvents. The suborder count alone does not count pair orbits.
+
+<a id="quartic-class-group-and-conductor-inputs"></a>
+
+**Quartic class-group and conductor inputs.** For an étale `Q`-algebra `K`, define `h_2^*(K)=#Cl(O_K)[2]`, the size of the subgroup killed by two in the ordinary ideal class group, componentwise on products. It includes the identity. Items 2–4 supply the fixed-resolvent count and the finite-congruence reducible-resolvent discard; item 1 follows the finite count and supplies the overramified tail:
+
+1. For `X≥1`, `sum_(K noncyclic cubic field, 0<|Disc K|<X) h_2^*(K) ≤ C X`.
+2. For a noncyclic cubic field `K`, count degree-two field extensions `E/K` up to `K`-isomorphism whose normal closure over `Q` has group `S4` in its cubic-resolvent realization. Call these acceptable. With conductor ideal `f(E/K)` (equal to the relative discriminant ideal), let `g_K(N)` count those with `Norm f=N`. Then `g_K(N)=0` for nonsquare positive `N`, and `g_K(m²)≤C h_2^*(K) 3^omega(m)` for every `m≥1`, with `C` independent of `K,m`. In a Kummer presentation `E=K(sqrt(alpha))`, acceptability uses the square norm class of `alpha`, together with the nontrivial extension condition; a square norm of the finite conductor is used as a necessary condition.
+3. For every quadratic field `F` and `epsilon>0`, `h_2^*(F)≤C_epsilon |Disc F|^epsilon`; set `h_2^*(Q×Q)=1`.
+4. If `K=Q×F` is a reducible cubic étale algebra, and `d≠0` is an integer with `d/Disc(K)` a positive square, the number of quartic étale algebras `L` with cubic resolvent algebra `K` and `|Disc(L)|` dividing `|d|` is at most `C_epsilon h_2^*(K)|d|^epsilon`, uniformly in `K,d`. Here the discriminant of an étale algebra means that of its maximal order.
+
+Use ClassFieldTheory Layer 12 `globalClassFieldCorrespondence`, `globalAbelianGaloisEquiv` and its conductor/ray-class compatibility for quadratic characters, retaining the bounded factors at 2 and infinity. Prove (1) by the unramified quadratic-extension/quartic-field correspondence and the finite-congruence quartic count, including the cyclic cubic contribution if using the source's all-cubic version. Genus theory gives (3). The norm-square character condition and local quadratic characters give (2),(4). *Needs:* ClassFieldTheory Layers 12–13; GlobalNumberFields Layer 11; AnalyticNumberTheoryPartI §3.26; the quartic finite congruence count for item 1 only. Items 2–4 do not use that count. Sources: [[77]](#ref-77), Lemma 12 pp.1044–1045, Lemmas 24–26 and (33)–(34) pp.1056–1057; genus-theory step in the proof of Lemma 12.
+
+**Checks.**
+
+- `Cl(Z)=0`, so the split cubic algebra has `h_2^*=1`, rather than zero.
+- `Q(sqrt(−5))` has `h_2^*=2`; the genus bound retains an `epsilon`-dependent constant.
+- `g_K(3)=0`, while the bound at conductor norm one is `C h_2^*(K)` and counts only nontrivial quadratic extensions, not the split algebra `K×K`. For the noncyclic cubic field of discriminant `−23`, `K(i)/K` has conductor norm `64`, but its normal closure has group `S3×C2`, so a square conductor norm alone does not imply acceptability.
+- For `K=Q³,d=1`, the split quartic algebra is allowed by (4); `d=0` and a nonsquare `d/Disc(K)` do not enter its stated domain.
+
+<a id="non-s4-quartic-maximal-fields"></a>
+
+**Non-S4 quartic maximal fields.** For `X≥1` the number of maximal quartic fields with group `D4,C4,V4` or `A4` and `0<|Disc|<X` is `O(X)`. Count maximal orders without cubic-resolvent multiplicity. For `D4` use the quadratic-tower Dirichlet series and its linear bound; cyclic and biquadratic fields have `O(X^(1/2)(log(2X))²)` count. For `A4`, whose cubic resolvent is a cyclic field, use the quartic fundamental-multiset main-body and irreducible-resolvent cusp upper estimates, which give `O(X)` without a full-`S4` sieve. Sum maximal-order suborders and their content/resolvent factors to obtain `O(X/p²)` for nonmaximal pair orbits in these field algebras, uniformly in `p`.
+
+*Needs:* the quartic finite congruence geometry and cusp upper estimates; the two preceding arithmetic inputs; ClassFieldTheory Layer 12. Sources: [[77]](#ref-77), Lemma 11 and proof of Theorem 7, pp.1043–1054, for the irreducible-resolvent upper count; [Cohen–Diaz y Diaz–Olivier, *Enumerating quartic dihedral extensions*](https://doi.org/10.1023/A:1016310902973), §1.1 p.65 and Proposition 6.2, for the quadratic-tower counts. The `S4`-only Proposition 23 is not an input for this non-`S4` assertion.
+
+**Checks.**
+
+- `Q(zeta_5)` is a `C4` field of discriminant `125`; it is included.
+- `Q(sqrt(2),sqrt(3))` is a `V4` field of discriminant `2304`; it is included once as a field, despite its three quadratic subfields.
+- `Q(sqrt(5))×Q(sqrt(13))` is not a field and is excluded, even though its discriminant is nonzero.
+
 <a id="refinement-quartic-fixed-reducible-resolvent"></a>
 
 **Quartic fixed reducible resolvent.** For every `epsilon>0` and every reducible cubic ring `R` with nonzero discriminant `d`, the number of quartic-pair orbits with resolvent `R` is `O_epsilon(|d|^(1/4+epsilon))`. The constant is independent of `R`. This is the corrected loss-bearing input for the large-stabilizer estimate, not an `O(|d|^1/4)` assertion.
 
-For the proof, The fixed-resolvent field count uses the squareclass/quadratic genus bound with an `epsilon` loss. Sum quartic suborder counts by index and include cubic-resolvent multiplicity at nonprimitive content. Prove the quartic suborder and quadratic-extension multiplicity estimates stated under supporting uniform estimates.
+For the proof, The fixed-resolvent field count uses the squareclass/quadratic genus bound with an `epsilon` loss. Sum quartic suborder counts by index and include cubic-resolvent multiplicity at nonprimitive content. Prove the preceding quartic maximal-order suborder and class-group/conductor inputs.
 
-*Needs:* [ArithmeticStatisticsPartII, quartic ring and cubic resolvent][AS-II-8], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9], GlobalNumberFields Layer 11; AnalyticNumberTheoryPartI §3.26; the quartic suborder and quadratic-extension estimates in [Supporting uniform estimates](#supporting-uniform-estimates).
+*Needs:* [ArithmeticStatisticsPartII, quartic ring and cubic resolvent][AS-II-8], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9], GlobalNumberFields Layer 11; AnalyticNumberTheoryPartI §3.26; [quartic maximal-order suborders](#quartic-maximal-order-suborders) and [quartic class-group and conductor inputs](#quartic-class-group-and-conductor-inputs).
 
 ([[77]](#ref-77), Lemma 12 and proof, pp.1044–1046.)
 
 **Checks.**
 
-- Retain `epsilon` in both the fixed-resolvent and induced `X^(3/4+epsilon)` bound.
+- The split resolvent `R=Z³` has discriminant one; its split quartic maximal order contributes one pair orbit.
 
-- The zero-discriminant resolvent is excluded.
+- At squarefree nonzero `d`, the suborder index satisfies `k²|d`, hence `k=1`.
+
+- `R=Z[T]/(T³)` has discriminant zero and is outside the target; `epsilon=1/24` gives the induced exponent `19/24<5/6`.
 
 <a id="refinement-quartic-nonmaximal-overramified-tail"></a>
 
@@ -1257,15 +1327,17 @@ For the proof, The fixed-resolvent field count uses the squareclass/quadratic ge
 
 For the proof, For nonmaximal orders use the suborder index bound and sum the content factor `sigma(n)/n^6`. For overramification use acceptable quadratic extensions of noncyclic cubic fields, square conductor norms, and the `O(X)` sum of their 2-class-group masses. The absolute convergence of sum `3^omega(m)/m^2` gives a `p`-independent constant.
 
-*Needs:* [quartic finite congruence count](#refinement-quartic-finite-congruence-count), [ArithmeticStatisticsPartII, maximality of quartic rings at p][AS-II-10], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9].
+*Needs:* [quartic finite congruence count](#refinement-quartic-finite-congruence-count), [ArithmeticStatisticsPartII, maximality of quartic rings at p][AS-II-10], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9], [quartic maximal-order suborders](#quartic-maximal-order-suborders), [quartic class-group and conductor inputs](#quartic-class-group-and-conductor-inputs).
 
 ([[77]](#ref-77), Proposition 23, pp.1056–1058.)
 
 **Checks.**
 
-- State the `S4` restriction and the exact `W_p` set.
+- The `S4` field defined by `T⁴−T−1` has maximal order of discriminant `−283`; at 5 that maximal order lies outside `W_5`.
 
-- Do not infer the binary-quartic weak-discriminant bound for all irreducible resolvents without the separate transport and exceptional-orbit comparison.
+- Its order `Z+5O_K` has index `5³`, discriminant `−283·5⁶`, and belongs to `W_5`.
+
+- A maximal order of type `P⁴` belongs to `W_p`; tame type `(1²11)` does not. Products of quadratic fields are outside the `S4` domain.
 
 ### 2.9 Quintic-ring orbit counts
 
@@ -1277,11 +1349,15 @@ For the proof, Use the 40-dimensional finite-cover domain and lattice-translate 
 
 *Needs:* [ArithmeticStatisticsPartII, quadruples of quinary alternating forms][AS-II-11], [ArithmeticStatisticsPartII, bhargava parametrization of quintic rings][AS-II-12], GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
-([[78]](#ref-78), Theorems 17–18, §2.7, pp.1585–1586; Lemma 14, pp.1584–1585.)
+([[78]](#ref-78), Theorems 17–18, §2.7, pp.1585–1586; Lemma 14, p.1583; proof §3.2, pp.1587–1588.)
 
 **Checks.**
 
 - Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
+
+- For the full residue set `nu(S)=1`; a single residue class modulo `m` has density `m⁻⁴⁰` before imposing invariance.
+
+- A product algebra `Q×K_4` has nonzero discriminant when `K_4` is étale but is excluded from this quintic-field count.
 
 <a id="refinement-quintic-nonmaximal-tail"></a>
 
@@ -1295,15 +1371,59 @@ For the proof, For index `p^k` use the local suborder bound `O(p^min(2k−2,20k/
 
 ### 2.10 Global-field orbit counts
 
+<a id="function-field-lattices-and-shells"></a>
+
+**Function-field lattices and shells.** Fix a global function field `F` with exact finite constants `F_q` and a nonempty finite place set `S`. Construct `O_S={a∈F:ord_v(a)≥0 for v∉S}`, `F_S=product_(v∈S) F_v`, and the discrete cocompact additive lattices obtained from fractional `O_S`-ideals, their translates and coefficientwise finite-index variants. Fix local additive measures by `vol(O_v)=1`, record the lattice covolumes, and use their reciprocal to normalize coefficient volume. Construct finite ideal-class charts and the corresponding representation lattices for the native `G_n,V_n`, including the affine quadratic model. The multiplicative height `|Delta|_S=product_(v∈S) q^(−deg(v)ord_v(Delta))` is counted on shells `|Delta|_S=X`, through the possible norm values; the shell measure is the restriction of coefficient Haar measure, not a real radial derivative.
+
+Consume ArithmeticGaloisDuality §R02.3.2 `GlobalFunctionField.ideles`, `sUnits`, `sClassGroup`, `ideleDegree_principal`, `sUnits_exact` and `finite_sClassGroup`, with their finite/nonempty-`S` hypotheses. AlgebraicCurves Layers 3–5 supply `riemannRochSpace`, `Divisor.dim`, the Riemann–Roch theorem and the `deg D≥2g−1` dimension formula. Use these to construct ideal-lattice fundamental sets and count divisor-bounded sections. The completion-valued charts, their covolumes and their representation action are targets here. Sources: [[80]](#ref-80), §§3–4.1 pp.9–12 and §9 pp.25–28; AlgebraicCurves Layer 4, Stichtenoth Theorem 1.5.15.
+
+**Checks.**
+
+- For `F=F_2(t),S={infinity}`, `O_S=F_2[t]`, with units `F_2^×`, and the additive fundamental set at infinity is `t⁻¹F_2[[t⁻¹]]`. With `vol(O_infinity)=1`, its volume is `1/2`.
+- There are exactly `q^(k+1)` polynomials of degree at most `k≥0` in `F_q[t]`, and `(q−1)q^k` of degree exactly `k`. A shell is not a cumulative sublevel.
+- For `S=empty`, the diagonal constants are not a cocompact lattice in a product of completions yielding this count, and the divisor class group has infinite degree quotient; the nonempty hypothesis is required.
+
+<a id="function-field-reduction-and-compact-count"></a>
+
+**Function-field reduction and compact count.** For the preceding `F,S` and native `G_n`, construct a finite union of `S`-arithmetic Siegel domains covering a measurable fundamental multiset for every subgroup commensurable with `G_n(O_S)`. For `n=3,4,5`, use `N'T(c,c')K'` with the roots, balanced torus and compact factors of [[80]](#ref-80), (16)–(17); retain the finite central translate classes and their stabilizers. For `n=2` use the semidirect `G_a,G_m` coordinates of §9.2: its norm-one fundamental set is bounded. For any fixed compact boundary-null coefficient region `B⊂F_S^r`, lattice translate `L+b`, and central scalars `a_k` with `|a_(k,v)|_v→infinity` at every `v∈S`, prove `#((L+b)∩a_k B)=vol(a_k B)/covol(L)+o(vol(a_k B))`. The estimate is uniform for a fixed finite set of lattice cosets and a compact family of translates. Apply it to compact truncations and to differences defining admissible discriminant shells. Every class chart retains its covolume.
+
+Use the `S`-unit and ideal-class statements in the preceding target, Riemann–Roch lattice counts on local boxes, and the explicit root-group elimination/reduction argument for these split groups. The root-group and torus reduction, bounded-overlap multiset and compact approximation are owned here. Sources: [[80]](#ref-80), §4.3, (16)–(17), Theorem 4.1 pp.12–14, §§4.4–4.6 pp.14–19, and §9.2 pp.26–27. *Needs:* the preceding target and AdelicAlgebraicGroups AA.0 restricted-product measures only.
+
+**Checks.**
+
+- On the rational-function-field polynomial lattice, the compact-count formula for the infinity ball of degree `k` is exactly `q^(k+1)` with the preceding covolume `1/q`.
+- Passing to a fixed coefficient residue class modulo a degree-`d` polynomial divides this count by `q^d` once `k≥d−1`.
+- At characteristic two, `(x,y)↦(x+t y,lambda y)` preserves the leading coefficient one; the upper triangular substitution can change it. A shell with no possible discriminant norm has empty fundamental slice and volume zero.
+
+<a id="function-field-geometric-sieve"></a>
+
+**Function-field geometric sieve.** Fix the preceding `F,S`, a closed finite-presentation subscheme `Z⊂A^r_(O_S)` of codimension `c≥2`, and a compact coefficient box `B`, a finite union of products of local balls. Choose `v_0∈S`, expand this box by a scalar `a_k` at `v_0` only, and put `T=|a_k|_(v_0)→infinity`. Outside a fixed finite bad-place set, bound the number of `u∈O_S^r∩a_k B` reducing into `Z(k(p))` at some `p∉S` with `N(p)>M≥2` by `O_(F,S,Z,B)(T^r/(M^(c−1) log M)+T^(r−c+1))`. The constants are independent of `M,k`. Include fixed lattice translates, fractional-ideal charts and the compact-truncation boxes of the preceding reduction target via finite denominator comparison. For moving cusp boxes retain their torus-dependent projection errors until integration; the compact-box estimate does not itself count a cusp.
+
+Spread finite coordinate projections, use finite-field degree bounds, Riemann–Roch for residue-lattice boxes, and polynomial elimination for primes larger than the box. The prime-ideal sum uses the finite-field curve Weil estimate and partial summation. Prove the representation-specific cusp and local maximalization comparisons of §5 before the generic orbit tail. Sources: [[80]](#ref-80), Theorems 5.2–5.3 and proof pp.19–21; [[19]](#ref-19), §3 geometric-sieve argument, in the divisor-box formulation. *Needs:* the preceding two targets; DeligneWeightsAndPurity §1.6 and AlgebraicCurves Layers 3–5.
+
+**Checks.**
+
+- Over `F_q[t]`, the coordinate locus `u_1=u_2=0` has exactly `q^((r−2)(k+1))` points in degree-at-most-`k` boxes, compatible with the error term.
+- A prime polynomial of degree greater than `k` divides a coordinate of degree at most `k` only if that coordinate is zero; the large-prime elimination term retains these points.
+- Codimension one is excluded: the condition `u_1=0 mod p` at large primes has no reciprocal-square prime tail. Primes at the finitely many bad reductions are absorbed before `M` tends to infinity.
+
 <a id="refinement-global-field-generic-finite-count"></a>
 
-**Global field generic finite count.** Fix a global field `F`, a nonempty finite `S` containing the archimedean places, and `n` in `{2,3,4,5}`. For `n=3,4,5` use the representation `G_n,V_n` in Global Fields `I` Table 1. For `n=2` use §9'`s` affine representation `V={x^2+a xy+b y^2}`, with `G=`{`[[1,t],[0,lambda]]:lambda` invertible} acting by change of variables; this model works also in characteristic two and at places above 2. Fix an `S`-local type `sigma`. Let `Gamma` be commensurable with `G(O_S)`, let `L` be commensurable with `V(O_S)`, and require `Gamma` to preserve `L`. Let `F_G` be a fundamental domain for `Gamma` in `G(F_S)`. The generic `Gamma`-orbit count, weighted by `1/|Stab_Gamma(v)|`, is `vol_L(F_G(X)v_sigma)/|Aut(sigma)|+o(X)`. Number-field height regions have `0<|Delta|_S<X`; function-field regions have `|Delta|_S=X`, with `X` tending to `infinity` through admissible norm values. Additive volume is normalized by the coefficient lattice. An invariant finite congruence subset of `L` multiplies this main term by its actual finite residue density; independently imposed prime-power conditions factor that density. Generic means the `S_n`-field condition, not just nonzero `Delta`.
+**Global field generic finite count.** Fix a global field `F`, a nonempty finite `S` containing the archimedean places, and `n` in `{2,3,4,5}`. For `n=3,4,5` use the representation `G_n,V_n` in Global Fields `I` Table 1. For `n=2` use §9’s affine representation `V={x^2+a xy+b y^2}`, with `G={[[1,0],[t,lambda]]:lambda invertible}`, acting by `(x,y)↦(x+t y,lambda y)` and `(a,b)↦(lambda a+2t,lambda²b+lambda t a+t²)`; this model works also in characteristic two and at places above 2. Fix an `S`-local type `sigma`. Let `Gamma` be commensurable with `G(O_S)`, let `L` be commensurable with `V(O_S)`, and require `Gamma` to preserve `L`. Let `F_G` be a fundamental domain for `Gamma` in `G(F_S)`. The generic `Gamma`-orbit count, weighted by `1/|Stab_Gamma(v)|`, is `vol_L(F_G(X)v_sigma)/|Aut(sigma)|+o(X)`. Number-field height regions have `0<|Delta|_S<X`; function-field regions have `|Delta|_S=X`, with `X` tending to `infinity` through admissible norm values. Additive volume is normalized by the coefficient lattice. An invariant finite congruence subset of `L` multiplies this main term by its actual finite residue density; independently imposed prime-power conditions factor that density. Generic means the `S_n`-field condition, not just nonzero `Delta`.
 
-For the proof, Choose the `S`-arithmetic Siegel set and invariant bounded-height slice. Generic means the field/Galois-group condition in this representation, not merely nonzero discriminant. Use the lattice estimate on a compact truncation, the coordinate cusp estimate and finite splitting-type sieve to discard nongeneric points. Use the `S`-adic Haar and reduction-theory contracts together with the commensurable-lattice comparison below. Keep weighted counts and the source function-field norm shells. For `n=2` the bounded fundamental region and nonreductive Haar/Jacobian computation are §9.2 and §9.4 inputs; Table 1'`s G_m` model cannot parametrize characteristic-two quadratic extensions.
+For the proof, Choose the `S`-arithmetic Siegel set and invariant bounded-height slice. Generic means the field/Galois-group condition in this representation, not merely nonzero discriminant. Use the lattice estimate on a compact truncation, the coordinate cusp estimate and finite splitting-type sieve to discard nongeneric points. For number fields use the AdelicAlgebraicGroups contracts; for function fields use the three preceding function-field targets. Retain the commensurable-lattice comparison below. Keep weighted counts and the source function-field norm shells. For `n=2` the bounded fundamental region and nonreductive Haar/Jacobian computation are §9.2 and §9.4 inputs; Table 1’s `G_m` model cannot parametrize characteristic-two quadratic extensions.
 
-*Needs:* [ArithmeticStatisticsPartII, bhargava parametrization of quartic rings][AS-II-7], [ArithmeticStatisticsPartII, bhargava parametrization of quintic rings][AS-II-12], GeometryOfNumbersAndQuadraticArithmetic §4.1.
+*Needs:* [ArithmeticStatisticsPartII, bhargava parametrization of quartic rings][AS-II-7], [ArithmeticStatisticsPartII, bhargava parametrization of quintic rings][AS-II-12], GeometryOfNumbersAndQuadraticArithmetic §4.1 in the number-field branch; [function-field lattices and shells](#function-field-lattices-and-shells), [function-field reduction and compact count](#function-field-reduction-and-compact-count), [function-field geometric sieve](#function-field-geometric-sieve).
 
-([[80]](#ref-80), Theorem 4.7, §4.6, p.18; count convention §4.1; quadratic replacement §§9.1–9.4, pp.25–28.)
+([[80]](#ref-80), Theorem 4.7, §4.6, p.19; count convention §4.1; quadratic replacement §§9.1–9.4, pp.25–28.)
+
+**Checks.**
+
+- Over `Q`, the lower unipotent element with `t=1` sends `x²+y²` to `x²+2xy+2y²`; the upper unipotent sends it to `2x²+2xy+y²` and fails to preserve the carrier.
+
+- Over `F_2(t)`, `x²+xy+t y²` is separable, with discriminant one; translating by `y` preserves the leading coefficient and separability.
+
+- A function-field norm value outside the possible discriminant shells gives an empty slice and zero volume; the asymptotic uses only the admissible values.
 
 <a id="refinement-global-field-large-prime-tail"></a>
 
@@ -1315,6 +1435,14 @@ For the proof, The extra-ramification locus `W_p^(2)` reduces into a fixed codim
 
 ([[80]](#ref-80), Theorems 5.2–5.3 and proof, pp.19–21; quadratic maximal sieve §9.3, p.27.)
 
+**Checks.**
+
+- Over `F_2(t)`, `x²+t²xy+t²y²` defines a nonmaximal order at `(t)`: adjoining `w=alpha/t` gives `w²+t w+1=0`. Its discriminant is `t⁴`.
+
+- The Artin–Schreier polynomial `x²+xy+t y²` defines a maximal order at every finite prime because its discriminant is a unit; it contributes no finite maximality tail.
+
+- At `n=2` the extra-ramification locus is empty; at a fixed commensurable lattice only finitely many denominator primes alter the standard comparison.
+
 <a id="refinement-global-field-large-local-count"></a>
 
 **Global field large local count.** In the `Gamma`-stable commensurable lattice setting above, write `L_p` for each local coefficient-lattice closure and normalize `vol(L_p)=1`. Let `Z=L` intersection `intersection_{p outside S} Z_p`, where the local compact `Z_p` are invariant under the local closure of `Gamma`, have null boundary, and contain every maximal minimally ramified ring for all sufficiently large `p`. With stabilizer-weighted generic orbits and the same function-field norm-shell convention, `N(Z;X)=vol_L(F_G(X)v_sigma)/|Aut(sigma)|` times `product_{p outside S} vol(Z_p)+o(X)`. The factors are imposed independently; an arbitrary subset with these marginal closures is insufficient. The commensurable-lattice tail comparison and §9 quadratic model are explicit targets in the supporting estimates below.
@@ -1324,6 +1452,14 @@ For the proof, First fix finitely many local conditions and apply the finite cou
 *Needs:* [global field generic finite count](#refinement-global-field-generic-finite-count), [global field large prime tail](#refinement-global-field-large-prime-tail), [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2].
 
 ([[80]](#ref-80), Theorem 5.1, pp.18–19; tail proof pp.19–21; quadratic specialization §§9.2–9.4, pp.27–28.)
+
+**Checks.**
+
+- With all `Z_p=L_p`, the density product is one and the finite generic count is recovered.
+
+- If a single `Z_p` is empty, the global set and its main coefficient are zero; acceptability at the other primes does not restore nonemptiness.
+
+- The two coupled residue classes `0,1 mod15` have density `2/15`; replacing them by the two marginal closures would give `4/15` and violates the intersection hypothesis.
 
 ### 2.11 Secondary cubic densities
 
@@ -1379,7 +1515,7 @@ For the proof, Use the finite positive divisor set of the nonzero invariant. Res
 
 <a id="refinement-kappa-acceptable"></a>
 
-**Kappa acceptable.** For coordinate rank `r, Delta:Z^r→Z` and local factors `phi_p:Z^r→[0,1], kappa`-acceptability consists of residue dependence modulo `p^kappa` at every prime `p` and a threshold `P` such that `phi_p(a)=1` whenever `p>P` and `p^2` does not divide `Delta(a)`. Infinite-product convergence and real signatures remain the congruence-function interface. Residue dependence is a quantitative addition, not a replacement of that interface.
+**Weighted kappa acceptability.** Extend ArithmeticStatisticsPartI’s **Kappa acceptable specifications** with factors valued in `[0,1]`. For coordinate rank `r`, invariant `Delta:Z^r→Z` and `kappa≥0`, each factor must descend modulo `p^kappa`, and one threshold `P` must give `phi_p(a)=1` whenever `p>P` and `p²∤Delta(a)`. This adds weights and the cases `kappa=0,1` to the existing specification interface. Infinite products and real signatures use the congruence-function interface. For monic degree-`n` coefficients and `kappa≥2`, indicator factors are acceptable exactly when their residue subsets satisfy Part I’s predicate; the intersection of their one-loci is exactly `ArithmeticStatisticsPartI.localSpecificationFamily`.
 
 The required API is:
 
@@ -1389,9 +1525,11 @@ The required API is:
 
 - `Counting.kappa_finite_product_residue`: For a finite set of distinct primes, the product factors through the coefficient residue modulo their product to the `kappa` power. This is compatible with the finite congruence function.
 
+- The indicator comparison at `kappa≥2` identifies both the acceptability predicate and the family with ArithmeticStatisticsPartI’s **Kappa acceptable specifications** and `localSpecificationFamily`.
+
 For the proof, Compare coordinates modulo `p^kappa`. Keep a single threshold valid for every coefficient vector. The modulus dependence is what controls the total small-modulus error.
 
-*Needs:* [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2], [strongly and weakly divisible values](#strongly-and-weakly-divisible-values).
+*Needs:* [ArithmeticStatisticsPartI, Kappa acceptable specifications](../ArithmeticStatisticsPartI/README.md#kappa-acceptable-specifications), [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2], [strongly and weakly divisible values](#strongly-and-weakly-divisible-values).
 
 ([[74]](#ref-74), Definition of kappa-acceptability preceding Theorem 4.1, pp.20–21.)
 
@@ -1402,6 +1540,8 @@ For the proof, Compare coordinates modulo `p^kappa`. Keep a single threshold val
 - The factor testing evenness of the only coordinate at `p=2`, and 1 otherwise, is acceptable with `kappa=1` and `Delta=1`.
 
 - The same nonconstant parity factor is not acceptable with `kappa=0`, since modulus 1 identifies every coefficient vector.
+
+- For indicator factors and `kappa=2` on monic coefficients, full residue sets recover Part I’s unconstrained family; an empty residue set only at 2 is still acceptable and gives its empty `localSpecificationFamily`.
 
 ### 2.13 Monic weighted sieves
 
@@ -1415,13 +1555,25 @@ For the proof, A rational root is integral and divides the constant term. Handle
 
 ([[74]](#ref-74), Lemma 4.2, p.21.)
 
+<a id="plane-curve-normalization-bounds"></a>
+
+**Plane-curve normalization bounds.** For an integral projective plane curve `C` of degree `d≥1` over a perfect field, construct its finite smooth projective normalization `nu:Ctilde→C` and prove `dim_k H¹(Ctilde,O)≤(d−1)(d−2)/2`; in the geometrically integral case this is the usual genus bound. The finite map is an isomorphism over the smooth locus. If `C` is geometrically integral over `F_q`, bound its geometric singular points by `d(d−1)` and each normalization fibre by `d`, giving `|#C(F_q)−#Ctilde(F_q)|≤(d+1)d(d−1)`. These bounds, including the finitely many points at infinity in an affine chart, supply the curve base case of Lang–Weil. At a rational smooth place choose a uniformizer and identify vanishing order with the first nonzero power-series coefficient via `TauCeti.Place.powerSeriesExpansion` and `TauCeti.Place.mem_filtration_iff_coeff_powerSeriesExpansion_eq_zero`; over `Q_p` the residue-class determinant argument also uses `hensels_lemma` at a coordinate derivative that is a unit.
+
+Use AlgebraicCurves Layers 2 and 12 for normalization and scheme comparison. The finite-normalization exact sequence makes the normalization's `H¹` a quotient of the plane curve's `H¹`; the plane hypersurface sequence computes the latter dimension. Bound the singular locus using a nonzero partial derivative and `bezout_inequality` of SchemeAndStackFoundations §5.12. Sources: [Stacks 0BYD](https://stacks.math.columbia.edu/tag/0BYD), Lemma 53.9.3; [Stacks 0CE3](https://stacks.math.columbia.edu/tag/0CE3), Lemma 53.18.3; [[83]](#ref-83), proof of Theorem 3.6 p.3. *Needs:* those normalization, coherent-cohomology and intersection suppliers, and the pinned place expansion declarations with `P.degree=1,P.ord t=1`.
+
+**Checks.**
+
+- A line has normalization `P¹`, genus zero and no singular-point discrepancy.
+- The cuspidal cubic `y²z=x³` in characteristic zero normalizes to `P¹`: its normalization genus is zero, while its plane arithmetic genus is one.
+- A split nodal integral cubic over a finite field of odd characteristic has two rational normalization points above its rational node, so `#Ctilde(F_q)−#C(F_q)=1`. For a nonsplit node that difference is `−1`; normalization does not preserve rational point counts at singularities.
+
 <a id="rectangular-plane-curve-count"></a>
 
 **Rectangular plane-curve count.** Fix `d≥1` and `ε>0`. For an irreducible nonconstant `F∈Z[u,v]` of total degree `d` and real `P_1,P_2≥2`, let `T=max{P_1^i P_2^j : u^i v^j occurs in F}`. Then `T≥2` and
 `#{(u,v)∈Z²:F(u,v)=0, |u|≤P_1, |v|≤P_2} ≪_(d,ε) max(P_1,P_2)^ε exp(log(P_1)log(P_2)/log(T))`.
 The constant is independent of the coefficients of `F`. In particular, the occurrence of a pure monomial `u^m` with `m≥1` gives the upper bound `max(P_1,P_2)^ε P_2^(1/m)`.
 
-For an absolutely irreducible curve homogenize with the extra coordinate fixed to one. In the determinant method order the auxiliary monomials by their rectangular weights and exclude multiples of a leading monomial of `F`. On each good-prime residue class compare the real determinant bound from those weights with the `p`-adic divisibility obtained by expanding in a smooth local parameter. Choose the auxiliary degree and prime ranges with `ε` slack so that the determinant vanishes. The resulting auxiliary polynomial is not divisible by `F`; Bézout bounds its intersections with `F`. Singular classes and exceptional primes are handled by the uniform coefficient-height alternative in this argument, so the final bound does not acquire a coefficient-dependent constant. If `F` is irreducible over `Q` but not absolutely irreducible, its rational points lie on intersections of distinct conjugate components; Bézout gives `O_d(1)` instead. Sources: [Dietmann](https://arxiv.org/pdf/1010.5341v1), Lemma 6 and its proof, p.4; [Browning–Heath-Brown, *Plane curves in boxes and equal sums of two powers*](https://arxiv.org/pdf/math/0506497v1), Theorem 1 and (3), p.2, §2 pp.4–11 for the determinant argument, with the integral-point specialization (3) on p.2. *Needs:* AlgebraicCurves:Layers 1–5 (plane curves, smooth local parameters and Bézout); Mathlib matrices, determinants, integer divisibility and `p`-adic valuations; AnalyticNumberTheoryPartI Layer 0 and §§3.1,3.26 (prime selection and elementary size estimates). The rectangular determinant estimate is proved here; ordinary lattice-point counting does not supply it.
+For an absolutely irreducible curve homogenize with the extra coordinate fixed to one. In the determinant method order the auxiliary monomials by their rectangular weights and exclude multiples of a leading monomial of `F`. On each good-prime residue class compare the real determinant bound from those weights with the `p`-adic divisibility obtained by expanding in a smooth local parameter. Choose the auxiliary degree and prime ranges with `ε` slack so that the determinant vanishes. The resulting auxiliary polynomial is not divisible by `F`; Bézout bounds its intersections with `F`. Singular classes and exceptional primes are handled by the uniform coefficient-height alternative in this argument, so the final bound does not acquire a coefficient-dependent constant. If `F` is irreducible over `Q` but not absolutely irreducible, its rational points lie on intersections of distinct conjugate components; Bézout gives `O_d(1)` instead. Sources: [Dietmann](https://arxiv.org/pdf/1010.5341v1), Lemma 6 and its proof, p.4; [Browning–Heath-Brown, *Plane curves in boxes and equal sums of two powers*](https://arxiv.org/pdf/math/0506497v1), Theorem 1 and (3), p.2, §2 pp.4–11 for the determinant argument, with the integral-point specialization (3) on p.2. *Needs:* AlgebraicCurves Layers 2,12 (normalization and scheme comparison); SchemeAndStackFoundations §5.12 `bezout_inequality`; Tau Ceti’s `TauCeti.Place.powerSeriesExpansion` and `TauCeti.Place.mem_filtration_iff_coeff_powerSeriesExpansion_eq_zero` at rational smooth places with a uniformizer; Mathlib matrices, determinants, integer divisibility and `p`-adic valuations; AnalyticNumberTheoryPartI Layer 0 and §§3.1,3.26 (prime selection and elementary size estimates). The rectangular determinant estimate is proved here; ordinary lattice-point counting does not supply it.
 
 **Checks.**
 
@@ -1508,15 +1660,35 @@ For the proof, Lift weak forms to marked distinguished slices with preserved inv
 
 ([[74]](#ref-74), Theorem 1.5(b), p.4; §§2–4.)
 
+<a id="degree-two-monic-weak-tail"></a>
+
+**Degree-two monic weak tail.** For `X≥2,M≥1,epsilon>0`, count `x²+a x+b` with `|a|<X,|b|<X²,Delta=a²−4b≠0` and some squarefree `m>M` for which divisibility is weak at every `p|m`. Their number is `O_epsilon(X^(3+epsilon)/M+X^(14/5+epsilon))`. In fact the stronger `O(X³/M+X²)` bound holds. Weak moduli are odd. Nonzero discriminant implies `m≤sqrt(5)X`; for fixed `a` and odd `m`, `m²|a²−4b` restricts `b` to one residue modulo `m²`, giving `O(X²/m²+1)` possibilities. Sum over `a,m`; this also bounds the union by a finite sum.
+
+*Needs:* the square-divisor tail, elementary congruences and AnalyticNumberTheoryPartI §3.26 for subsequent multiplicity losses. Source: [[74]](#ref-74), Theorem 1.5(b) p.4 and the degree-two boundary of Theorem 4.4 p.22; the displayed elementary quadratic argument supplies this case independently of the higher-dimensional lift.
+
+**Checks.**
+
+- `x²−25` has `Delta=100` weakly divisible by `5²`, and enters the tail for `M<5,X>5`.
+- `x²+x` has `Delta=1` and no allowed modulus for `M≥1`.
+- `x²` has zero discriminant and is excluded; at `M≥sqrt(5)X` the whole nonzero-discriminant tail is empty.
+
 <a id="refinement-monic-summed-tail"></a>
 
 **Monic summed tail.** For every `n>=2` and `epsilon>0`, the sum over squarefree `m>M` of `# {monic weighted-box f : Delta(f) nonzero, m^2 divides Delta(f)}` is `O_{n,epsilon}(X^(D+epsilon)/sqrt(M)+X^(D−1/5+epsilon))`, for `X>=2,M>=1`.
 
-For the proof, Factor the squarefree `m` into strong and weak parts; one exceeds `sqrt(M)`. Sum nonzero-invariant divisor multiplicities with an `epsilon` loss. Use dyadic ranges and uniform strong/weak estimates, plus a separate degree 2 weak construction. Nonzero `Delta` bounds `m` and makes the exchange of sums finite. The special degree 2 input is the supporting estimates below.
+For the proof, Factor the squarefree `m` into strong and weak parts; one exceeds `sqrt(M)`. Sum nonzero-invariant divisor multiplicities with an `epsilon` loss. Use dyadic ranges and uniform strong/weak estimates, with the preceding degree-two monic weak tail when `n=2`. Nonzero `Delta` bounds `m` and makes the exchange of sums finite. The degree-two input is the preceding named target.
 
-*Needs:* [square divisor tail](#refinement-square-divisor-tail), [monic strong tail](#refinement-monic-strong-tail), [monic weak tail](#refinement-monic-weak-tail), AnalyticNumberTheoryPartI §§3.22,3.26.
+*Needs:* [square divisor tail](#refinement-square-divisor-tail), [monic strong tail](#refinement-monic-strong-tail), [monic weak tail](#refinement-monic-weak-tail), [degree-two monic weak tail](#degree-two-monic-weak-tail), AnalyticNumberTheoryPartI §§3.22,3.26.
 
 ([[74]](#ref-74), Theorem 4.4, (39), p.22.)
+
+**Checks.**
+
+- `x²−9` has `Delta=36`; at `M=5` its multiplicity is one (`m=6`), and at `M=6` it is zero.
+
+- `x²+x` has `Delta=1` and contributes zero for every `M≥1`.
+
+- `x²` has `Delta=0` and is excluded, preventing an infinite modulus sum from a single polynomial.
 
 <a id="refinement-monic-fixed-modulus-sieve"></a>
 
@@ -1524,7 +1696,7 @@ For the proof, Factor the squarefree `m` into strong and weak parts; one exceeds
 
 For the proof, Use Mobius truncation only on `Delta` nonzero and CRT for the small squarefree moduli. Bound `Delta=0` by `O(X^(D−1))`. For fixed `Sigma` the excluded residue density satisfies `theta_bar(m)≪_{Sigma,epsilon}m^(−2+epsilon)` on squarefree `m`, after absorbing its finitely many exceptional primes. Truncate at `Y=X^(1/kappa)`. The congruence remainder is `X^(D−1)` times the sum of `theta_bar(m)m^kappa` for `m≤Y`, hence `O_{Sigma,kappa,epsilon}(X^(D−1/kappa+epsilon))`, with the logarithm absorbed when `kappa=1`. The Euler-product remainder is `O_{Sigma,epsilon}(X^D/Y^(1−epsilon))`; combine both with the summed tail at `Y`. The displayed source middle exponent `D−n` is not used.
 
-*Needs:* [kappa acceptable](#refinement-kappa-acceptable), [monic summed tail](#refinement-monic-summed-tail), [local density of values divisible by p squared](#local-density-of-values-divisible-by-p-squared), GeometryOfNumbersAndQuadraticArithmetic §4.1.
+*Needs:* [weighted kappa acceptability](#refinement-kappa-acceptable), [monic summed tail](#refinement-monic-summed-tail), [local density of values divisible by p squared](#local-density-of-values-divisible-by-p-squared), GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
 ([[74]](#ref-74), Theorem 4.1, p.21; proof (41), p.23.)
 
@@ -1578,6 +1750,59 @@ For the proof, Transfer weak forms into marked pencils with `Q=m` and bounded or
 
 ([[82]](#ref-82), Theorem 5(b), pp.3–4; Proposition 4.2 and §4.)
 
+<a id="row-spanning-count"></a>
+
+**Row-spanning count.** For `m≥2,1≤r<m`, a primitive lattice `Λ⊂Z^m` of rank `r`, `s∈SL_m(R)` and `Y≥1`, let `S_span(Λ)` be the integral symmetric matrices whose rows are contained in `Λ` and span `Λ⊗R`. They need not generate `Λ` integrally. Fix a bounded coefficient ball `D` in the symmetric matrices. Put `gamma=s⁻¹`, let `mu_1≤…≤mu_r` be the minima of `gamma Λ`, and set `d_gamma=covol(gamma Λ)`. There are constants depending only on `m,D` such that
+
+`# {B∈S_span(Λ): gamma B gamma^t∈YD} ≤ C Y^(r(r+1)/2) d_gamma^(−r−1) product_(1≤i<j≤r, i+j≤r+1)(mu_j/mu_i)`.
+
+The set is empty unless `mu_i mu_(r+1−i)≤C Y` for all `1≤i≤r`. In dyadic ranges `L_i≤mu_i<2L_i`, replace the minima by `L_i` and `d_gamma` by `product_i L_i`, up to constants depending only on `m`. The lower-rank matrices in the row-contained lattice do not satisfy this spanning assertion. The transformed covolume is essential when `s` stretches the row space.
+
+Use the symmetric-square lattice of a reduced basis, the full-rank determinant condition and successive-minimum counting; the lattice basis products have lengths comparable to `mu_i mu_j`. *Needs:* GeometryOfNumbersAndQuadraticArithmetic Layers 0–3 and §4.1. Source: [[82]](#ref-82), §5 Propositions 5.4–5.5 and proof of (25)–(27), pp.22–23, with row containment and full rank explicit and covolume taken after `gamma`.
+
+**Checks.**
+
+- For `r=1,Λ=Z e_1,s=1`, the matrices are `b e_1 e_1^t` with nonzero `b`, and their count in the unit sup-norm ball dilated by `Y` is `2 floor(Y)`. The bound is `O(Y)`.
+- For `Λ=Z e_1` and `gamma=diag(T,T⁻¹,1,…)`, this count is `2 floor(Y/T²)`; it vanishes for `T²>Y`. The transformed covolume factor is `T⁻²`.
+- The zero matrix belongs to every row-contained lattice but never to `S_span(Λ)` when `r>0`. For `r=2`, `diag(1,0,0)` is excluded from the spanning set on `Z e_1+Z e_2`.
+
+<a id="paired-fibre-counting-hypothesis"></a>
+
+**Paired-fibre counting hypothesis.** Fix even `n=2g+2≥4`, put `m=n+1`, and fix the bounded symmetric coefficient ball `D`, a compact averaging set and positive constants `Theta_1,Theta_2` supplying the torus and minimum-range coverage below. Write `s=diag(t_1⁻¹,…,t_m⁻¹)` in the source's positive Siegel torus, `product t_i=1`, with simple-root coordinates and Haar character `delta(s)` as in [[82]](#ref-82), §6.1. Restrict to `Y^(−Theta_1)≤t_i≤Y^Theta_2`. For each `0<kappa<1`, let `L_good(M)` be the union, over odd squarefree `d>M`, of `SL_(n+1)(Z)`-translates of the even lifts `sigma_d(f)` with `f∈W_d^(2)`, `gcd(d,f(0,1))=1`, full `S_n` group and the retained `kappa` discriminant/constant-term inequalities below; carry their integral flags and rulings through the action. For every primitive rank-`n` lattice `Λ⊂Z^m`, dyadic `L_1≤…≤L_n` with `Y^(−Theta_1)≤L_i≤Y^Theta_2`, and exact coordinate zero patterns `Z=(Z_A,Z_B,Z_ell)` for the two matrices and chosen basis, define the finite fibre `P_kappa(Λ,Z;Y,s,M,G)` to consist of integral symmetric pairs satisfying all of:
+
+- `s⁻¹As⁻t,s⁻¹Bs⁻t∈YD`, `B∈S_span(Λ)`, and the minima of `s⁻¹Λ` lie in `[L_i,2L_i)`; `A_ij=0` for `Z_A`, `B_ij=0` for `Z_B`, with the entries designated nonzero in the pattern actually nonzero.
+- The pair belongs to this marked weak-lift union `L_good(M)`: it has invariant form `x f`, where `f` has degree `n`, nonzero discriminant, full `S_n` group, retained small-discriminant/constant-term inequalities, and the marked `|q|>M`. The integral flag and ruling are those of ArithmeticStatisticsPartII's even weak lift. In particular `rank B=n` and its kernel is not `A`-isotropic.
+- In a deep fibre both actual upper `(g+1)`-square blocks vanish. In a shallow fibre the `a_11` coordinate interval is shorter than one and some entry of these blocks is nonzero. In a main fibre that interval has length at least one. Impose every additional zero forced by `|A_ij|,|B_ij|≤C_D Y/(t_i t_j)<1`.
+- Choose one almost reduced basis `ell_1,…,ell_n` of the actual saturated row lattice, with `|s⁻¹ell_i|` comparable to `L_i`. Its required coordinate zeros hold on these vectors themselves: a coordinate bound `C_n L_i/t_j<1` forces `ell_(i,j)=0`. Any further basis zeros are explicit restrictions of this fibre. In the restricted deep fibre require `ell_(i,j)=0` for `i,j≤g+1`, and `Gram=det(B_top B_top^t)≥G>0`, where `B_top` is the actual top-right `(g+1)×(g+2)` block of `s⁻¹Bs⁻t`. A condition on the abstract row space does not impose these zeros on `B`.
+
+Here `M≥1`; in main/shallow fibres take `G=0` and omit the Gram restriction. Define `a_Z(Y,s)=product_(i≤j,(i,j)∉Z_A)(1+C_D Y/(t_i t_j))`. Let `K_(Λ,Z_B)` be the lattice of row-contained symmetric matrices with those `B` zeros, transformed by `s⁻¹(−)s⁻t`; if it has rank `h`, let `nu_1,…,nu_h` be its successive minima in its real span. Let `E(Y,s,Λ)` be the row-spanning right side in the preceding target, assigned zero when its necessary existence inequalities fail. The local counting clause is
+
+`#P_kappa(Λ,Z;Y,s,M,G) ≤ C a_Z(Y,s) min(E(Y,s,Λ), product_(j=1)^h(1+C Y/nu_j))`.
+
+It is zero if any required nonzero coordinate interval is shorter than the integer spacing, or the rank, minimum-range or actual basis-zero conditions fail. In a restricted deep fibre it is also zero when
+
+`M > C Y^((g+1)(g+2)) product_(i=1)^(g+1) L_i / sqrt(G)`.
+
+The paired hypothesis includes the following precise dyadic summation clauses, beyond the local upper bound. Put `X=Y^(n+1)≥2`. For `R=main,shallow,deep`, define
+
+`I_R = sum_(dyadic L) sum_(exact patterns Z) integral_(T_R(L,Z)) sum_(Λ with minima in [L,2L)) #P_kappa(Λ,Z;Y,s,M,G) delta(s) d^×s`.
+
+The torus cells use the interval inequalities above, and each lattice, pair and zero pattern is counted once; a fixed finite chart multiplicity can be absorbed in `C`. Require, for every `epsilon>0,eta>0,0<kappa<1`, with constants depending only on `n,D,Theta_1,Theta_2,epsilon,eta,kappa` and the fixed averaging charts:
+
+`I_main ≤ C_epsilon X^(n+1−theta_n+epsilon)` for all `M≥1`;
+
+`I_shallow ≤ C_eta X^(n+1−min(eta,1)/(22n⁶))` for all `M>X^eta`;
+
+`I_deep ≤ C_kappa X^(n+1+kappa_double)(log X)^(2n)/M` for all `M≥1` and `G=c Y^(2g+2)X^(−2kappa_double)`, with fixed `c>0` and `kappa_double=kappa n/(n−1)`.
+
+Here `theta_n=min(1/(4n),(n−2)/(2n²+2n+2))`. The hypothesis includes coverage of every retained main/shallow/deep pair by its stated torus, minimum and zero-pattern cells. In particular every retained deep pair lies in the actual basis-zero fibres; coverage is a separate assertion from the local count. All constants are independent of `Y,s,L,Λ,M`. These clauses are named hypotheses of the even implications below. The generic symmetric-lattice count proves neither their paired summations nor their coverage. Their target proofs retain actual block equations while summing lattices, and use the `q` inequality and restricted Gram bound only on the stated fibres. *Needs:* the preceding row-spanning target; ArithmeticStatisticsPartII's even lift, marked `q` and invariant pencil; GeometryOfNumbersAndQuadraticArithmetic §4.1. Sources: [[82]](#ref-82), §§5–6, Propositions 5.4–5.5 pp.22–23, §6.1 (38)–(40) pp.26–28, Theorems 6.6,6.11,6.24 and Proposition 6.26 pp.29–47, with the paired and spanning restrictions retained.
+
+**Checks.**
+
+- For `n=4`, take `B=[[0,0,1,0,0],[0,0,0,1,0],[1,0,0,0,0],[0,1,0,0,0],[0,0,0,0,0]]` and `A=[[0,0,0,2,1],[0,0,1,1,−1],[0,1,0,2,1],[2,1,2,−1,1],[1,−1,1,1,2]]`. Both upper two-square blocks vanish, `rank B=4`, `B_top B_top^t=I_2`, and `det(xA−yB)=x(3x⁴+30x³y−15x²y²−4xy³+2y⁴)` has discriminant `2529792`. These are concrete block/rank tests; membership in the marked lift additionally requires its flag and modulus conditions.
+- With this same `B` and `A=B`, the determinant polynomial is zero, so the pair is excluded despite the unchanged row lattice and Gram determinant.
+- With `B=0`, every positive-rank spanning fibre is empty. In a deep fibre an actual top-block entry `B_11=1` is forbidden even when all rows lie in a prescribed lattice. If the displayed `q` upper bound is at most `M`, the strict `|q|>M` fibre is empty.
+
 ### 2.16 Even-degree binary-form tails and finite truncation
 
 <a id="even-tail-parameters"></a>
@@ -1608,7 +1833,11 @@ For the proof, Control small discriminant by its polynomial sublevel estimate an
 
 **Checks.**
 
-- Use the small positive `kappa` range; count each integer slice with its boundary term and dyadic height windows.
+- For `f=x⁴`, `H=1, Delta=0` and constant term zero, both discarded conditions hold for every `0<kappa<1`.
+
+- For `f=x⁴−y⁴`, `H=1, |Delta|=256` and `|f(0,1)|=1`, neither discarded condition holds.
+
+- `kappa=0` and `kappa=1` are outside the stated open parameter range; the constant-term inequality is strict, so equality belongs to the retained set.
 
 <a id="refinement-even-binary-constant-term-tail"></a>
 
@@ -1622,7 +1851,7 @@ For the proof, For each prime dividing `m`, weak discriminant divisibility toget
 
 <a id="refinement-even-binary-main-shallow"></a>
 
-**Even binary main shallow.** Assume the actual-row-lattice counting estimate stated in the supporting uniform estimates. For even `n≥4` in the `(n+1)`-dimensional symmetric-pencil lift, the main-body estimate is `O_ε(X^(n+1−θ_n+ε))`, where `θ_n=min(1/(4n),(n−2)/(2n²+2n+2))`. In the shallow cusp, the selected `L(M)` with `M>X^η` contributes `O(X^(n+1−min(η,1)/(22n⁶)))` for `η>0`. In particular `θ_4=1/21`, while `θ_n=1/(4n)` for even `n≥6`. These are conditional estimates for the specified paired lattice.
+**Even binary main shallow.** Assume the [row-spanning count](#row-spanning-count) and [paired-fibre counting hypothesis](#paired-fibre-counting-hypothesis), including its main/shallow dyadic summation clauses. For even `n≥4` in the `(n+1)`-dimensional symmetric-pencil lift, the main-body estimate is `O_ε(X^(n+1−θ_n+ε))`, where `θ_n=min(1/(4n),(n−2)/(2n²+2n+2))`. In the shallow cusp, the selected `L(M)` with `M>X^η` contributes `O(X^(n+1−min(η,1)/(22n⁶)))` for `η>0`. In particular `θ_4=1/21`, while `θ_n=1/(4n)` for even `n≥6`. These are conditional estimates for the specified paired lattice.
 
 For the proof, The two main-body alternatives yield two savings, whose minimum must be retained; the smaller `n=4` value is `not1/16`. In the shallow cusp count actual nondegenerate matrices by their saturated row lattices and retain the paired upper-block constraints. Generic symmetric-rank estimates and lattice height comparisons are supplier inputs, not new generic lattice nodes.
 
@@ -1632,13 +1861,17 @@ For the proof, The two main-body alternatives yield two savings, whose minimum m
 
 **Checks.**
 
-- These main/shallow implications assume the row-contained spanning lattice count with its existence and vanishing hypotheses. This conditional clause is separate from the restricted deep Gram estimate.
+- At `n=4`, the two main-body savings are `1/16` and `2/42`, so `theta_4=1/21`.
+
+- At `n=6`, they are `1/24` and `4/86`, so `theta_6=1/24`.
+
+- At `eta=1` the shallow saving is `1/(22n⁶)`; `eta=0` is excluded. A zero matrix cannot enter a row-spanning fibre of positive rank.
 
 <a id="refinement-even-binary-restricted-gram"></a>
 
-**Even binary restricted gram.** For `n=2g+2≥4`, put `0<κ<1, κ`″`=κn/(n−1)`, and `Y=X^(1/(n+1))`. In a dyadic box retain generic weak-lift forms with `|Δ(f)|>H(f)^(2n−2−κ)` and `|f(0,1)|≥H(f)^(1−κ/(2n−2))`. Define the restricted Gram hypothesis to say that the relevant row Gram determinant for the actual paired `(A,B)` in the deep-cusp locus `L_good(M)` is at least `cY^(2g+2)X^(−2κ″)`, with a positive constant uniform in that box and the sieve parameters. Proving this restricted hypothesis is a supporting target. All estimates that use it take it as an explicit assumption; an unrestricted Gram bound is not asserted.
+**Even binary restricted gram.** For `n=2g+2≥4`, put `0<κ<1, κ″=κn/(n−1)`, and `Y=X^(1/(n+1))`. In a dyadic box retain generic weak-lift forms with `|Δ(f)|>H(f)^(2n−2−κ)` and `|f(0,1)|≥H(f)^(1−κ/(2n−2))`. Define the restricted Gram hypothesis to say that the Gram determinant `det(B_top B_top^t)` of the actual paired matrix `s⁻¹Bs⁻t` in its bounded `YD` box in the deep-cusp locus `L_good(M)` is at least `cY^(2g+2)X^(−2κ″)`, with a positive constant uniform in that box and the sieve parameters. Proving this restricted hypothesis is a supporting target. All estimates that use it take it as an explicit assumption; an unrestricted Gram bound is not asserted.
 
-For the proof, Use `Delta(x f)=Delta(f) f(0,1)^2`, degree `2n(n+1)` in pencil entries, and `Y` scaling to obtain `|Delta(Y^-1 A,Y^-1 B)|>=c X^(−kappa_double)`. Prove discriminant membership in the maximal-minor determinantal ideal and a bounded-real Cauchy–Binet estimate `|Delta|<=C sqrt`(Gram). The printed product-divisibility inference is not valid. Retain block constraints only for the actual `B` paired with A.
+For the proof, Use `Delta(x f)=Delta(f) f(0,1)^2`, degree `2n(n+1)` in pencil entries, and `Y` scaling to obtain `|Delta(Y^-1 A,Y^-1 B)|>=c X^(−kappa_double)`. Prove discriminant membership in the maximal-minor determinantal ideal and a bounded-real Cauchy–Binet estimate `|Delta|<=C sqrt(Gram)`. The printed product-divisibility inference is not valid. Retain block constraints only for the actual `B` paired with A.
 
 *Needs:* [ArithmeticStatisticsPartII, even weak lift][AS-II-18], [even binary small discriminant](#refinement-even-binary-small-discriminant), SchemeAndStackFoundations Layer 0.
 
@@ -1646,13 +1879,15 @@ For the proof, Use `Delta(x f)=Delta(f) f(0,1)^2`, degree `2n(n+1)` in pencil en
 
 **Checks.**
 
-- Verify the factor 2 in the Gram exponent.
+- The row matrices `[[1,0,0],[0,1,0]]`, `[[1,0,0],[0,t,0]]` and `[[1,0,0],[2,0,0]]` have Gram determinants `1,t²,0`, respectively. In particular scaling one row by `t` scales the Gram determinant by `t²`.
 
-- The restricted implication needs both the determinantal ideal argument and its restricted-fibre count; neither is replaced by an unrestricted row-space estimate.
+- At `n=4`, the explicit paired-block example in the paired-fibre contract has `B_top=[[1,0,0],[0,1,0]]` and Gram determinant one.
+
+- Replacing its `A` by `B` makes `det(xA−yB)` identically zero, so the positive discriminant hypothesis fails even though this Gram determinant stays one. The dependent-row example has Gram zero and cannot satisfy a positive restricted lower bound.
 
 <a id="refinement-even-binary-restricted-deep-tail"></a>
 
-**Even binary restricted deep tail.** Conditional on the restricted Gram lower bound and the actual paired-fibre lattice count, the even-degree `L_good(M)` deep-cusp contribution is `O_n(X^(n+1+kappa_double)(log X)^(2n)/M)`. The unconditional height inequality used is `|q|<=C Y^((g+1)(g+2)) product_i L_i/sqrt`(Gram); inserting the lower bound gives `C Y^((g+1)^2) X^kappa_double product_i L_i`. No bound on the original unrestricted `L(M)` is asserted.
+**Even binary restricted deep tail.** Conditional on the restricted Gram lower bound, the [row-spanning count](#row-spanning-count) and the deep summation clause of the [paired-fibre counting hypothesis](#paired-fibre-counting-hypothesis), the even-degree `L_good(M)` deep-cusp contribution is `O_n(X^(n+1+kappa_double)(log X)^(2n)/M)`. On the stated deep block and actual basis-zero fibres the height inequality, independent of the restricted Gram lower bound, is `|q|<=C Y^((g+1)(g+2)) product_(i=1)^(g+1) L_i/sqrt(Gram)`; inserting the lower bound gives `C Y^((g+1)^2) X^kappa_double product_(i=1)^(g+1) L_i`. Here `L_1≤…≤L_n` are dyadic successive-minimum parameters of `s⁻¹Λ`, where `Λ` is the actual saturated rank-`n` row lattice of `B`; the chosen almost reduced basis obeys the explicit deep-box zero conditions in the paired-fibre contract. No bound on the original unrestricted `L(M)` is asserted.
 
 For the proof, Enumerate saturated row lattices and successive-minimum ranges while keeping the top-block-zero conditions on actual paired matrices. Sum the `q`-height bound over the restricted fibres and dyadic ranges. A final `epsilon` or strictly smaller saving is needed to absorb `log^(2n)X`; endpoint absorption is invalid.
 
@@ -1660,15 +1895,31 @@ For the proof, Enumerate saturated row lattices and successive-minimum ranges wh
 
 ([[82]](#ref-82), Theorem 6.24, p.44; Proposition 6.26, pp.45–47; (74)–(78), pp.47–49; conditional restricted estimate.)
 
+**Checks.**
+
+- At `g=1`, the product is `L_1 L_2` in a rank-four row lattice, not `L_1 L_2 L_3 L_4`.
+
+- For `n=4,kappa=1/10`, `kappa_double=2/15`, and taking the square root of the Gram lower bound loses `X^(2/15)` in the height inequality.
+
+- When the height upper bound is at most `M`, no pair with strict `|q|>M` survives; Gram zero is outside the restricted fibre.
+
 <a id="refinement-binary-summed-tail"></a>
 
-**Binary summed tail.** For odd `n>=3` and `epsilon>0`, the sum over squarefree `m>M` of the coefficient-box counts with nonzero `Delta` and `m^2` dividing `Delta` is `O_{n,epsilon}(X^(n+1+epsilon)/sqrt(M)+X^(n+1−1/(2n)+epsilon))`. For even `n>=4` the target is existence of positive `delta,eta` and `xi>=0` with `tau=max(eta,(eta+xi)/delta)<1` and `(2n+1)tau<n+1`, and a bound `O_{n,epsilon}(X^(n+1+xi+epsilon)/M^delta+X^(n+1−eta+epsilon))`. The even clause is conditional on the restricted deep-cusp hypothesis and a quantitative non-Sn coefficient-box exclusion; no published numerical endpoint is certified.
+**Binary summed tail.** For odd `n>=3` and `epsilon>0`, the sum over squarefree `m>M` of the coefficient-box counts with nonzero `Delta` and `m^2` dividing `Delta` is `O_{n,epsilon}(X^(n+1+epsilon)/sqrt(M)+X^(n+1−1/(2n)+epsilon))`. For even `n>=4` the target is existence of positive `delta,eta` and `xi>=0` with `tau=max(eta,(eta+xi)/delta)<1` and `(2n+1)tau<n+1`, and a bound `O_{n,epsilon}(X^(n+1+xi+epsilon)/M^delta+X^(n+1−eta+epsilon))`. The even clause assumes the row-spanning count, the paired-fibre counting hypothesis with all three summation clauses, the restricted Gram hypothesis and a quantitative non-Sn coefficient-box exclusion; no published numerical endpoint is certified.
 
 For the proof, Split a squarefree modulus into its strong and weak factors; control the total divisor multiplicity on the nonzero locus. Use a union bound by the sum of the strong-large and weak-large counts; neither count separately bounds the original union. Use the odd tail directly. In the even case balance restricted deep, shallow, small-discriminant, small-constant-term and non-Sn terms with slack. The inequalities in `tau` make the general finite-modulus sieve errors subleading. Recover the source truncation `3(eta+xi)` only with a tail exponent `delta>=1/3`.
 
 *Needs:* [square divisor tail](#refinement-square-divisor-tail), [binary strong tail](#refinement-binary-strong-tail), [odd binary weak tail](#refinement-odd-binary-weak-tail), [even binary constant term tail](#refinement-even-binary-constant-term-tail), [even binary main shallow](#refinement-even-binary-main-shallow), [even binary restricted deep tail](#refinement-even-binary-restricted-deep-tail), [coefficient sieves](#support-sieves), [even binary small discriminant](#refinement-even-binary-small-discriminant).
 
 ([[82]](#ref-82), Corollary 6.27, p.51; corrected nonzero domain and union bound; even clause conditional on the restricted hypothesis.)
+
+**Checks.**
+
+- At odd `n=3`, the second exponent is `4−1/6=23/6`.
+
+- For even `n=4`, the parameter tuple `delta=1/2,eta=1/100,xi=0` meets both cutoff inequalities; it supplies a sieve conclusion only if the stated counting hypotheses hold.
+
+- A coefficient vector of discriminant zero contributes no modulus multiplicity; a nonzero vector with `|Delta|≤M²` also has no squarefree modulus exceeding `M`.
 
 <a id="refinement-quadratic-binary-summed-tail"></a>
 
@@ -1682,13 +1933,21 @@ For the proof, For each fixed nonzero `Delta=N`, fix `a1` and count divisors of 
 
 <a id="refinement-binary-fixed-modulus-sieve"></a>
 
-**Binary fixed modulus sieve.** Let `n>=2`, impose a fixed finite initial modulus `N^2` and require `p^2` not dividing `Delta` at every prime, including `p|N`. If the normalized finite residue count is `nu_N` and the other prime good densities are `alpha_n(p)`, the nonzero-discriminant count has main coefficient `nu_N product_{p not dividing N} alpha_n(p)` times the real-box volume `X^(n+1)`. For `n>=3` a tail with parameters `delta>0,eta>0,xi>=0` yields, for `tau=max(eta,(eta+xi)/delta)`, error `O_epsilon(X^(n+1−eta+epsilon)+N^2 X^(n+tau+epsilon)+N^(2n+2) X^((2n+1)tau+epsilon))`. Require `tau<1` and `(2n+1)tau<n+1` for a subleading error at fixed `N`. If `delta>=1/3`, the larger source truncation `tau_source=3(eta+xi)` gives the displayed source exponents `n+3(eta+xi)` and `(6n+3)(eta+xi)`. Odd `n` uses `delta=1/2,eta=1/(2n),xi=0`, so the sharper `tau` is `1/n`. The even conclusion remains conditional on the conditional restricted tail; `n=2` requires the separate finite-modulus truncation.
+**Binary fixed modulus sieve.** Let `n>=2`, impose a fixed finite initial modulus `N^2` and require `p^2` not dividing `Delta` at every prime, including `p|N`. If the normalized finite residue count is `nu_N` and the other prime good densities are `alpha_n(p)`, the nonzero-discriminant count has main coefficient `nu_N product_{p not dividing N} alpha_n(p)` times the real-box volume `X^(n+1)`. For `n>=3` a tail with parameters `delta>0,eta>0,xi>=0` yields, for `tau=max(eta,(eta+xi)/delta)`, error `O_epsilon(X^(n+1−eta+epsilon)+N^2 X^(n+tau+epsilon)+N^(2n+2) X^((2n+1)tau+epsilon))`. Require `tau<1` and `(2n+1)tau<n+1` for a subleading error at fixed `N`. If `delta>=1/3`, the larger source truncation `tau_source=3(eta+xi)` gives the displayed source exponents `n+3(eta+xi)` and `(6n+3)(eta+xi)`. Odd `n` uses `delta=1/2,eta=1/(2n),xi=0`, so the sharper `tau` is `1/n`. The even conclusion assumes the row-spanning count, paired-fibre counting hypothesis, restricted Gram hypothesis and quantitative non-Sn exclusion used in the binary summed tail; `n=2` requires the separate finite-modulus truncation.
 
 For the proof, Build the initial residue set so it already contains the squarefree restrictions at `p|N`, then use Mobius sums only for `m` coprime to `N`. Compare finite-modulus lattice errors and nonzero summed tails. Products and main coefficients are Layer 0 local-data inputs; Appendix local-density formulas are not reproved here. For truncation `M=X^tau` retain the Euler-product remainder `X^(n+1)/M` and the tail `X^(n+1+xi)/M^delta`. The chosen `tau` makes both `O(X^(n+1−eta))`; an arbitrary positive `delta` does not justify the source exponent `3(eta+xi)`.
 
 *Needs:* [binary summed tail](#refinement-binary-summed-tail), [quadratic binary summed tail](#refinement-quadratic-binary-summed-tail), GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
 ([[82]](#ref-82), Theorem 7.1 and its proof, pp.51–52; generalized truncation from the proved tail exponent; degree 2 remains separate.)
+
+**Checks.**
+
+- With `N=1` the finite residue factor is one, so the main coefficient is `product_p alpha_n(p)`.
+
+- If the finite residue condition is empty, `nu_N=0` and the count vanishes.
+
+- At odd `n=3,delta=1/2,eta=1/6,xi=0`, `tau=1/3` and the last error exponent is `7/3<4`; at `n=4,tau=3/5`, the last exponent `27/5>5` fails the required inequality.
 
 ### 2.17 Symmetric-pencil orbit counts
 
@@ -1718,9 +1977,11 @@ For the proof, For a fixed finite prime set the full weight is at most its trunc
 
 **Checks.**
 
-- No equality is inferred from acceptability or positivity of individual factors.
+- With all weights one, every local integral and their product are one, giving the finite-count upper constant.
 
-- The order of height and prime limits is explicit.
+- With the factor at 2 constantly `1/2` and all others one, the weighted count and the upper constant are halved.
+
+- With constant factor `1/2` at every prime, each normalized local integral is positive but the product and the full weight are zero. The upper bound is zero after taking the height limit and then the prime limit.
 
 <a id="refinement-large-coefficient-family-tail"></a>
 
@@ -1927,7 +2188,7 @@ For the proof, use the general-abelian dictionary and uniform local integrality 
 `#H_smooth(F_q) ≥ q^(n−1)−C(n,d)(q^(n−3/2)+q^(n−2))`.
 Consequently `q>Q(n,d)` guarantees a smooth rational point, uniformly in the defining coefficients and characteristic. This uniform-in-the-model statement is stronger than the fixed-model estimate imported from InverseGaloisAndArithmeticFundamentalGroups §IG.2.
 
-Prove degree-uniform Lang–Weil by induction on dimension: the curve case uses the genus bound and the curve Weil estimate; average hyperplane sections and bound their bad locus by equations of bounded degree. For the smooth-locus version, at least one partial derivative is nonzero for an absolutely irreducible polynomial over the perfect field `F_q`. Intersect with that derivative, obtaining dimension at most `n−2` and degree at most `d(d−1)`, and subtract its `O_(n,d)(q^(n−2))` points. Sources: [Lang–Weil, *Number of points of varieties in finite fields*](https://doi.org/10.2307/2372655), Theorem 1 and Lemmas 1–2, pp.819–823; [[83]](#ref-83), proof of Theorem 3.6 p.3, for this smooth-point consequence. *Needs:* DeligneWeightsAndPurity §1.6 (curve point bound); AlgebraicCurves:Layers 3–5 (normalization and genus bound); SchemeAndStackFoundations Layers 0–3,5 (projective intersections, dimension, degree and hyperplane families); [uniform subscheme point bound](#uniform-bound-for-points-of-a-subscheme-modulo-p). The hyperplane bad-locus degree bound is part of the local induction, not an assumption of smoothness of `H`.
+Prove degree-uniform Lang–Weil by induction on dimension: the curve case uses the genus bound and the curve Weil estimate; average hyperplane sections and bound their bad locus by equations of bounded degree. For the smooth-locus version, at least one partial derivative is nonzero for an absolutely irreducible polynomial over the perfect field `F_q`. Intersect with that derivative, obtaining dimension at most `n−2` and degree at most `d(d−1)`, and subtract its `O_(n,d)(q^(n−2))` points. Sources: [Lang–Weil, *Number of points of varieties in finite fields*](https://doi.org/10.2307/2372655), Theorem 1 and Lemmas 1–2, pp.819–823; [[83]](#ref-83), proof of Theorem 3.6 p.3, for this smooth-point consequence. *Needs:* DeligneWeightsAndPurity §1.6 (curve point bound); the [plane-curve normalization bounds](#plane-curve-normalization-bounds); AlgebraicCurves Layers 2,12 (normalization and scheme comparison); SchemeAndStackFoundations Layers 0–3,5 (projective intersections, dimension, degree and hyperplane families); [uniform subscheme point bound](#uniform-bound-for-points-of-a-subscheme-modulo-p). The hyperplane bad-locus degree bound is part of the local induction, not an assumption of smoothness of `H`.
 
 **Checks.**
 
@@ -1971,11 +2232,11 @@ For the proof, For each finite place set use the primitive ball count. The unifo
 
 The geometric sieve needs a projection/spreading adapter, not just a codimension slogan. For a fixed closed subscheme of affine `r`-space of codimension `k`, choose integral coordinate projections and a finite exceptional-prime set so that finite fibres have a uniform degree bound after reduction. For a bounded semialgebraic region `B` and dilation `t≥1`, prove the required finite-field point bound, the small-prime lattice estimate and the large-prime elimination estimate. The result is `O_B(t^r/(M^(k-1) log M)+t^(r-k+1))` for primes greater than `M≥2`, with the stated dimension restrictions and the customary harmless weakening at the boundary. Codimension one does not give a vanishing tail. Source: Bhargava, geometric sieve, Theorem 3.3 and its proof in §3. The strongly divisible discriminant locus is checked representation by representation; it is not assumed smooth at `p=2`.
 
-For weakly square-divisible quartics the required transport estimate is on *all* relevant ternary-pair orbits, not merely `S4`-field orbits. Separate nonmaximal, overramified and reducible-resolvent contributions, with the uniform fixed-resolvent bound `O_ε(|d|^(1/4+ε))`. Quartic suborder and quadratic-extension multiplicities must be summed with the source stabilizer weights; Proposition 23 of the quartic counting paper alone is restricted to the `S4` locus. For quintic rings supply the corresponding uniform suborder bound before invoking its nonmaximal tail. The references are Bhargava's quartic paper, Lemma 12 and Proposition 23, pp. 1044–1046 and 1056–1058, and the quintic paper, Proposition 19, pp. 1586–1588. Retain `ε` in the fixed-resolvent estimate.
+For weakly square-divisible quartics use the quartic-field weak transport target, excluding product algebras. Its non-`S4` contribution and its maximal-order suborder estimates are separate targets in §2.8. Fixed reducible resolvents retain `O_ε(|d|^(1/4+ε))`; the genus and acceptable-extension bounds there are summed with the cubic-resolvent multiplicities. Proposition 23 alone covers only `S4` fields. For quintic rings supply the corresponding uniform suborder bound before invoking its nonmaximal tail. The references are Bhargava's quartic paper, Lemma 12 and Proposition 23, pp. 1044–1046 and 1056–1058, and the quintic paper, Proposition 19, pp. 1586–1588. Retain `ε` in the fixed-resolvent estimate.
 
 For the monic sieve prove an average divisor-sum estimate for the rational-root and reducible loci; a pointwise assertion that every nonzero integer has boundedly many divisors is false. Degree four's extra quadratic-factor locus has the weaker exponent `22/3+ε`. A commensurable `S`-arithmetic lattice requires a finite-index denominator comparison of both generic orbit counts and bad-prime tails; it does not inherit a standard-lattice estimate without that comparison. The source is BSW `I`, Lemma 4.2, Proposition 4.3 and Theorems 4.1, 4.4, pp. 20–23, and Global Fields `I`, Theorems 4.7, 5.1–5.3, pp. 18–21.
 
-For the even-degree binary sieve isolate the following implication. Assume a paired-fibre lattice count on actual full-rank `(A,B)` rows and the restricted Gram lower bound on `L_good(M)`, after deleting small discriminants and small constant terms. Then combine main, shallow and deep estimates and the non-Sn exclusion to obtain positive `δ,η` and `ξ≥0` with `τ=max(η,(η+ξ)/δ)<1` and `(2n+1)τ<n+1`. These assumptions give the summed tail and fixed-modulus sieve with those parameters. No numerical even-degree endpoint is inferred without those assumptions. The supporting tasks are to prove the paired-fibre count, the Cauchy–Binet/determinantal-ideal lower bound and the quantitative excluded-locus bound with logarithmic slack. A row-space condition is not a proof that a small coordinate block vanishes; use the deep-box inequalities themselves. Degree two has its own quadratic discriminant sieve. Source: BSW II, §§5–6, especially the restricted replacement for Lemma 6.25. The numerical exponent `1/(88n⁶)` is a proposed endpoint of this implication, rather than an unconditional consequence of the odd-degree argument.
+For the even-degree binary sieve isolate the following implication. Assume a paired-fibre lattice count on actual full-rank `(A,B)` rows and the restricted Gram lower bound on `L_good(M)`, after deleting small discriminants and small constant terms. Then combine main, shallow and deep estimates and the non-Sn exclusion to obtain positive `δ,η` and `ξ≥0` with `τ=max(η,(η+ξ)/δ)<1` and `(2n+1)τ<n+1`. These assumptions give the summed tail and fixed-modulus sieve with those parameters. No numerical even-degree endpoint is inferred without those assumptions. The named row-spanning and paired-fibre contracts before §2.16 specify the counting sets, inequalities and uniform summations. The additional targets are the Cauchy–Binet/determinantal-ideal lower bound and the quantitative excluded-locus bound with logarithmic slack. A row-space condition is not a proof that a small coordinate block vanishes; use the deep-box inequalities themselves. Degree two has its own quadratic discriminant sieve. Source: BSW II, §§5–6, especially the restricted replacement for Lemma 6.25. The numerical exponent `1/(88n⁶)` is a proposed endpoint of this implication, rather than an unconditional consequence of the odd-degree argument.
 
 <a id="support-coregular-count"></a>
 
