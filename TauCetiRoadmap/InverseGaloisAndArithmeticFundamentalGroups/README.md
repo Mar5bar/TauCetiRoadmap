@@ -275,6 +275,12 @@ moduli of Belyi pairs), 12 (the `ℚ̄`/`ℂ` comparison, the geometric fundamen
 theorem and faithfulness on dessins). This roadmap uses their statements as written there, with the
 convention transport of Layer IG.6.
 
+### From AdicEtaleGeometry
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Algebraic Galois tensor map and finite étale torsors | Supplied by AdicEtaleGeometry §A4.2 / `Algebra.galoisTensorMap`, `Algebra.galoisTensorMap_restrictScalars`, `Algebra.IsFiniteEtaleTorsor`, `Algebra.IsFiniteEtaleTorsor.iff_field` | IG.0.2 restricts the tensor map to `K`-algebras and abbreviates the torsor class for finite groups over fields; disconnected algebras and arbitrary characteristic are included. |
+
 ### From EtaleCohomologyFoundations
 
 | Object | Exact supplier | Convention/consumer |
@@ -563,8 +569,17 @@ A ⊗_K A → ∏_{h ∈ H} A,      a ⊗ b ↦ (a · h(b))_h
 
 is an isomorphism of `K`-algebras. Fix once and for all that `H` acts on `A` on the left, so that it
 acts on the set of points `Hom_K(A, K^sep)` on the right; every statement below is written in this
-convention. Define the predicate `IsGaloisAlgebra K A H` through the displayed map
-`galoisTensorMap`. Provide `GaloisAlgebra.split`, the
+convention. Supplied by AdicEtaleGeometry §A4.2: the generic tensor map and finite étale
+torsor class. Set `galoisTensorMap K A H := (Algebra.galoisTensorMap H K A).restrictScalars K`;
+`Algebra.galoisTensorMap_restrictScalars` identifies it with the displayed pure-tensor map.
+For finite `H`, abbreviate `IsGaloisAlgebra K A H := Algebra.IsFiniteEtaleTorsor H K A`.
+Expose `IsGaloisAlgebra.iff_field`, the specialization of
+`Algebra.IsFiniteEtaleTorsor.iff_field`:
+`IsGaloisAlgebra K A H ↔ Nontrivial A ∧ Module.Finite K A ∧ Algebra.Etale K A ∧ Function.Bijective (galoisTensorMap K A H)`.
+Over a field, nonzero modules are free and faithfully flat, while faithful flatness forces
+`K → A` to be injective, so the shared class has exactly this nonzero finite-étale formulation
+([Stacks, Tag 00HQ](https://stacks.math.columbia.edu/tag/00HQ)).
+Provide `GaloisAlgebra.split`, the
 function algebra `K^H = Map(H, K)` with the translation action, which is an `H`-Galois algebra;
 `GaloisAlgebra.torsorMap`, saying that for a nonzero finite étale `K`-algebra with `H`-action the
 displayed map is an isomorphism exactly when the torsor condition holds; `GaloisAlgebra.invariants`:
@@ -576,12 +591,16 @@ the surjective homomorphisms. *Proof sketch.* Test the torsor condition after ba
 set; compute the displayed map on the split algebra and descend; invariants under `N` correspond to
 orbit sets of `N`. Source: [Merkurjev–Scavia](https://arxiv.org/pdf/2410.12560v1), §1.2, pp. 1–2,
 and Lemma 3.2, pp. 8–9, where lifts of Galois representations are read as Galois algebras that need
-not be fields. *Needs:* Supplied by EtaleCohomologyFoundations §F.0 /
+not be fields. *Needs:* Supplied by AdicEtaleGeometry §A4.2 / `Algebra.galoisTensorMap`,
+`Algebra.galoisTensorMap_restrictScalars`, `Algebra.IsFiniteEtaleTorsor`,
+`Algebra.IsFiniteEtaleTorsor.iff_field`; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; Mathlib `CommAlgCat.FiniteEtale`;
 SchemeAndStackFoundations Layer 1 (descent).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-*Lean:* `galoisTensorMap`, `IsGaloisAlgebra`, `isGaloisAlgebra_of_isGalois`.
+*README-only signatures in Suggested.lean:* `galoisTensorMap`, `IsGaloisAlgebra`,
+`IsGaloisAlgebra.iff_field`, `isGaloisAlgebra_of_isGalois`; these use the shared algebra API
+specified in AdicEtaleGeometry §A4.2.
 
 **Checks.**
 
@@ -591,6 +610,8 @@ locally Noetherian schemes or the componentwise groupoid.
   and corresponds to a surjective homomorphism `Gal(K^sep/K) → C₂`.
 - The trivial homomorphism `Gal(K^sep/K) → C₂` corresponds to `K × K` with the swap action, not to a
   quadratic field: weak solutions of lifting problems are Galois algebras, not realizations.
+- `𝔽₂ × 𝔽₂` with the swap action is a `C₂`-Galois algebra: both the shared torsor class and
+  `IsGaloisAlgebra.iff_field` accept it, although the characteristic divides the group order.
 - The zero algebra: its displayed tensor map is the isomorphism `0 → 0`, but its geometric fibre is
   empty, so it is not an `H`-Galois algebra; a definition that only asked for the tensor criterion
   without `A ≠ 0` would accept it.

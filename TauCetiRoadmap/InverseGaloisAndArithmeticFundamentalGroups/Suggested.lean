@@ -39,31 +39,37 @@ universe u
 
 /-! ## Layer IG.0: Galois algebras, local systems and pro-étale fundamental groups -/
 
+/-
+README-only field-specialization signatures using the shared algebra API of
+AdicEtaleGeometry A4.2. The supplier declarations are outside the pinned libraries;
+these signatures describe their use without a roadmap import.
+
 section GaloisAlgebra
 
 variable (K : Type*) [Field K] (A : Type*) [CommRing A] [Algebra K A]
   (H : Type*) [Group H] [MulSemiringAction H A] [SMulCommClass H K A]
 
-/-- The map `A ⊗_K A → ∏_{h ∈ H} A`, `a ⊗ b ↦ (a · h(b))_h`, whose bijectivity is the torsor
-condition for an `H`-Galois algebra (Layer IG.0, *Finite Galois algebras and torsors*). -/
-def galoisTensorMap : TensorProduct K A A →ₐ[K] (H → A) :=
-  Algebra.TensorProduct.lift (Pi.constAlgHom K H A)
-    (AlgHom.pi (fun h : H => MulSemiringAction.toAlgHom K A h))
-    (fun _ _ => Commute.all _ _)
+/-- The restriction to `K`-algebras of the Galois map supplied by AdicEtaleGeometry A4.2.
+`Algebra.galoisTensorMap_restrictScalars` gives `a ⊗ b ↦ (h ↦ a * h • b)`. -/
+abbrev galoisTensorMap : TensorProduct K A A →ₐ[K] (H → A) :=
+  (Algebra.galoisTensorMap H K A).restrictScalars K
 
-/-- `A` is an `H`-Galois algebra over `K`: a nonzero finite étale `K`-algebra on which `H` acts by
-`K`-algebra automorphisms such that the Galois tensor map is bijective. Nonzero-ness is part of
-the definition: the zero algebra satisfies the tensor condition but has an empty geometric
-fibre. -/
-def IsGaloisAlgebra : Prop :=
-  Nontrivial A ∧ Module.Finite K A ∧ Algebra.Etale K A ∧
-    Function.Bijective (galoisTensorMap K A H)
+/-- An `H`-Galois algebra over a field is the finite étale torsor supplied by
+AdicEtaleGeometry A4.2; disconnected algebras and arbitrary characteristic are included. -/
+abbrev IsGaloisAlgebra [Finite H] := Algebra.IsFiniteEtaleTorsor H K A
+
+/-- The shared field criterion exposes the nonzero finite-étale formulation of a Galois algebra. -/
+theorem IsGaloisAlgebra.iff_field [Finite H] :
+    IsGaloisAlgebra K A H ↔
+      Nontrivial A ∧ Module.Finite K A ∧ Algebra.Etale K A ∧
+        Function.Bijective (galoisTensorMap K A H) :=
+  Algebra.IsFiniteEtaleTorsor.iff_field H K A
 
 -- The tensor map multiplies the first factor by the translate of the second.
 example (a b : A) (h : H) : galoisTensorMap K A H (a ⊗ₜ[K] b) h = a * h • b := sorry
 
 -- A zero algebra has no nonempty geometric fibre, even though its tensor map is bijective.
-example [Subsingleton A] : ¬ IsGaloisAlgebra K A H := sorry
+example [Finite H] [Subsingleton A] : ¬ IsGaloisAlgebra K A H := sorry
 
 end GaloisAlgebra
 
@@ -77,6 +83,8 @@ example :
 /-- A finite Galois field extension `L/K` is a `Gal(L/K)`-Galois algebra. -/
 theorem isGaloisAlgebra_of_isGalois (K L : Type*) [Field K] [Field L] [Algebra K L]
     [FiniteDimensional K L] [IsGalois K L] : IsGaloisAlgebra K L (L ≃ₐ[K] L) := sorry
+
+-/
 
 /-! ## Layer IG.1: arithmetic fundamental groups, inertia and specialization
 
