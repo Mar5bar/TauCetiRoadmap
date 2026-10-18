@@ -86,6 +86,28 @@ example : ¬ ∃ h : EquivariantRetract (C := Type) ℤ ℤ
       h.i = 𝟙 ℤ ∧ h.toRetract.r = 𝟙 ℤ := by sorry
 end EquivariantRetract
 
+/-- The coefficient exponent after the supplied ambient twist `ε^(1-a)` equals the
+ACC monic unitary exponent, for every rank and coefficient index (README §0.7a;
+IgusaVarietiesAndTorsionConcentration IG.6.6b). This records the twist already present
+in that export. -/
+theorem unitary_ambient_twist_exponent (j a : ℚ) :
+    j * (1 - 2 * a + j) / 2 + j * (a - 1) = j * (j - 1) / 2 := by ring
+
+/-- At half-rank two, the second coefficient gains two powers of `q`, giving exponent one. -/
+example : (2 : ℚ) * (1 - 2 * 2 + 2) / 2 + 2 * (2 - 1) = 1 := by norm_num
+
+/-- At an inert place over cardinality three, the norm used by the rank-two polynomial is nine. -/
+example : (3 : ℤ) ^ 2 * 5 = 45 ∧ (3 : ℤ) * 5 ≠ 45 := by norm_num
+
+/-- The supplied GL rank-one polynomial `1-6X` at `q=3, U₁=2` becomes the standard
+reciprocal `1-2X` after the cyclotomic substitution (README §0.7b;
+IgusaVarietiesAndTorsionConcentration IG.6.6a). -/
+theorem gln_torsion_polynomial_rank_one (x : ℚ) : 1 - 6 * (x / 3) = 1 - 2 * x := by ring
+
+/-- The rank-two conversion retains the standard constant coefficient `q U₂=10`. -/
+example (x : ℚ) :
+    1 - 6 * (x / 2) + 40 * (x / 2) ^ 2 = 1 - 3 * x + 10 * x ^ 2 := by ring
+
 /-- The unitary weight attached to descending `GLₙ` rows `a = λ_τ` and `b = λ_{τc}`: the row
 `(-b_{n-1}, …, -b_0, a_0, …, a_{n-1})` (ACC (2.2.2), pp. 918–919). -/
 def UnitaryLeviWeight {n : ℕ} (a b : Fin n → ℤ) : Fin (n + n) → ℤ :=
@@ -645,17 +667,21 @@ example : (3 : ℚ) ^ (-1 : ℤ) * 2 * 5 = 10 / 3 ∧ (2 : ℚ) * 5 = 10 := by s
 
 /-
 Stated in README.md and absent here, because their carriers are not available at the pins:
-the integral cohomology models and Siegel boundary comparisons of Layer 0, its torsion attachments
-(`residual_unitary_galois_inputs`, `finite_coefficient_gln_galois_inputs`) and geometric vanishing
-(`integral_caraiani_scholze_vanishing`), the unitary perfectoid towers, compactified period maps
-and finite-level Hodge–Tate sections (`unitary_torsion_tower_geometry`), the integral dual Weyl
+the integral cohomology models and Siegel boundary comparisons of Layer 0; the arithmetic
+adapters `unitary_similitude_tower_comparison` and `admissible_torsion_hecke_comparison`;
+the transported IgusaVarietiesAndTorsionConcentration IG.6.6a–b residual instances
+(`residual_unitary_galois_inputs`, `finite_coefficient_gln_galois_inputs`), its IG.7.5–7.6
+vanishing specialization (`integral_caraiani_scholze_vanishing`), and the supplied
+HodgeTateAndCanonicalSubgroups / PerfectoidShimuraVarieties tower specialization
+(`unitary_torsion_tower_geometry`); the integral dual Weyl
 modules with their Levi splitting and bottom-alcove duality (`IntegralDualWeylModule`), the Hecke
 algebras of positive monoids, the image of a residually multiplicity-free pair, the forms of
 products of `PGL₂`, the density-one comparison of semisimple Galois representations, the
 nonabelian cocycle quotient (`NonabelianGaloisH1`), the irreducibility of pure unramified principal
 series, smooth modules over open monoids
 (`SmoothMonoidModules`), the residual Iwahori Hecke algebra at Taylor–Wiles places, the Kostant and
-Fontaine–Laffaille comparisons of Layer 1 (`unitary_generic_vanishing`,
+Fontaine–Laffaille comparisons of Layer 1 (`unitary_generic_vanishing`, the specialization of
+IgusaVarietiesAndTorsionConcentration IG.7.8 together with IG.7.5–7.6,
 `fontaine_laffaille_local_global`, `fontaine_laffaille_normalization`,
 `degree_reflection_duality` with compact supports and its supported non-Eisenstein ordinary
 corollary), the soluble
