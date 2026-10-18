@@ -17,6 +17,9 @@ AutomorphicFormsOnReductiveGroups supplies the test-function topology, real repr
 constructions, smooth globalizations, algebraic restricted tensors and constant-term
 transitivity used by the spectral adapters of README §§0.11 and 0.48–0.51.
 Its §2.6 supplies the real/complex unitary block classification used by README §7.0b.
+Its §3.2 supplies the minimal cuspidal Eisenstein family, meromorphic continuation,
+finite-block denominators and constant terms. README §§1.2–1.5 identify that family
+with the chamber construction; §§2.4–2.4a extend it to discrete and smooth inducing data.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -61,26 +64,29 @@ def StripOrder (f : ℂ → V) (d C : ℝ) : Prop :=
 def FiniteStripOrder (f : ℂ → V) (C : ℝ) : Prop :=
   ∃ d : ℝ, 0 < d ∧ StripOrder f d C
 
-/-- One local denominator regularizes the whole vector, on a ball contained in `U`. -/
-def CommonDenominator [NormedSpace ℂ V] (U : Set ℂ) (f : ℂ → V) : Prop :=
-  ∀ z ∈ U, ∃ n : ℕ, ∃ r : ℝ, 0 < r ∧ Metric.ball z r ⊆ U ∧
-    ∃ g : ℂ → V, AnalyticOnNhd ℂ g (Metric.ball z r) ∧
-      ∀ s ∈ Metric.ball z r, s ≠ z → g s = (s - z) ^ n • f s
+/-- Native Banach-valued meromorphy is equivalent to local analytic regularization
+on balls in the open domain, independently of the value at the centre. -/
+theorem meromorphicOn_iff_local_regularization [NormedSpace ℂ V] [CompleteSpace V]
+    (U : Set ℂ) (hU : IsOpen U) (f : ℂ → V) :
+    MeromorphicOn f U ↔
+      ∀ z ∈ U, ∃ n : ℕ, ∃ r : ℝ, 0 < r ∧ Metric.ball z r ⊆ U ∧
+        ∃ g : ℂ → V, AnalyticOnNhd ℂ g (Metric.ball z r) ∧
+          ∀ s ∈ Metric.ball z r, s ≠ z → g s = (s - z) ^ n • f s := by sorry
 
-/-- Continuous linear postcomposition preserves the chosen local denominator. -/
-theorem CommonDenominator.postcomp [NormedSpace ℂ V]
+/-- Continuous linear postcomposition preserves native vector-valued meromorphy. -/
+theorem meromorphicOn_postcomp [NormedSpace ℂ V]
     {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W]
-    (U : Set ℂ) (f : ℂ → V) (hf : CommonDenominator U f) (ell : V →L[ℂ] W) :
-    CommonDenominator U (fun z => ell (f z)) := by sorry
+    (U : Set ℂ) (f : ℂ → V) (hf : MeromorphicOn f U) (ell : V →L[ℂ] W) :
+    MeromorphicOn (fun z => ell (f z)) U := by sorry
 
 example : StripOrder (fun z : ℂ => z ^ 3) 1 0 := by sorry
 example : StripOrder Complex.exp 1 0 := by sorry
 example : FiniteStripOrder (fun z : ℂ => Complex.exp (z ^ 2)) 0 := by sorry
 example : ¬ FiniteStripOrder (fun z : ℂ => Complex.exp (Complex.exp (-Complex.I * z))) (-1) := by sorry
-example : CommonDenominator Set.univ (fun z : ℂ => z⁻¹) := by sorry
-example : CommonDenominator Set.univ (fun z : ℂ => z) := by sorry
-example : CommonDenominator Set.univ (fun z : ℂ => (Complex.exp z - 1) / z) := by sorry
-example : ¬ CommonDenominator Set.univ (fun z : ℂ => Complex.exp z⁻¹) := by sorry
+example : MeromorphicOn (fun z : ℂ => z⁻¹) Set.univ := by sorry
+example : MeromorphicOn (fun z : ℂ => z) Set.univ := by sorry
+example : MeromorphicOn (fun z : ℂ => (Complex.exp z - 1) / z) Set.univ := by sorry
+example : ¬ MeromorphicOn (fun z : ℂ => Complex.exp z⁻¹) Set.univ := by sorry
 end VectorAnalysis
 
 namespace Herglotz
@@ -596,6 +602,12 @@ induced_family, eisenstein_series, convergent_intertwiner, euclidean_paley_wiene
 cuspidal_datum_space, unramified_character_torus, induced_spherical_section,
 induction_normalization_transport, bessel_kloosterman_coefficient, poincare_family,
 poincare_one_form, character_eisenstein, genus_eisenstein.
+
+The cuspidal restrictions of eisenstein_series, convergent_intertwiner and
+cuspidal_constant_term identify the minimal analytic family supplied by
+AutomorphicFormsOnReductiveGroups §3.2 in the same normalized compact picture and measures.
+The eisenstein_continuation target extends that family to discrete inducing data, with
+hyperplane control, functional equations and unitary-axis regularity.
 
 Layer 2: local_intertwiner, mu_function, residue_calculus, generic_packet, shahidi_normalization,
 isobaric_sum, operator_intertwiner_family, resolvent_kernel, automorphic_green,

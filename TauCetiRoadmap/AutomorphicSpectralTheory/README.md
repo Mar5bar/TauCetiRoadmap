@@ -4,11 +4,11 @@
 
 ## Scope and ownership
 
-The new functional analysis consists of spectral representations with measurable multiplicity, automorphic spectral-domain transport, measurable integral kernels and their diagonal trace formulas, locally convex vector integration, meromorphic families and strip-order continuation. The automorphic layers own convergent and continued intertwining operators, Eisenstein residues, truncation, spectral completeness, weighted finite-character acyclicity, Franke's comparison and its cuspidal-support weight contract, Paley–Wiener transforms and trace distributions.
+The new functional analysis consists of spectral representations with measurable multiplicity, automorphic spectral-domain transport, measurable integral kernels and their diagonal trace formulas, locally convex vector integration, meromorphic families and strip-order continuation. The automorphic layers own convergent and continued intertwining operators, discrete and smooth extensions of the supplied cuspidal Eisenstein family, Eisenstein residues, truncation, spectral completeness, weighted finite-character acyclicity, Franke's comparison and its cuspidal-support weight contract, Paley–Wiener transforms and trace distributions.
 
 OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/UnboundedOperators Part A owns the generic unbounded spectral integral, its exact domain and recovery of the original self-adjoint partial operator (UO-A01–UO-A02), and the generic multiplier comparison (UO-A07). Only UO-A01–UO-A02's independent PVM-based prefix is consumed here. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. VonNeumannAlgebras V4.0.Fields owns measurable Hilbert fields, direct integrals, decomposable operators and measure transport; V4.Core owns the generic complex operator trace on those ideals. These contracts use the analytic prefix independently of modular theory and factor classification. Section 0.7 constructs the spectral representation of a nondegenerate `C₀(X)` representation on these supplied fields. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The other additions are the automorphic spectral transform, its domain and resolvent-convention transport, square-integrable kernels on general scalar `L²` spaces and representative-dependent or regularized diagonal trace formulas.
 
-For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, `G(𝔸)¹`, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and `L`-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.6–2.7 and 3.4–3.5 supplies the general-group real representation foundations, the real/complex unitary block classification, smooth Fréchet globalizations and algebraic restricted tensor factorization; §§0.48–0.50 identify their spectral inducing realizations and Hilbert tensor completions, agreeing with the `GLₙ` specializations of AutomorphicLFunctionsAndLocalFactors. Its §0.2 supplies the support/level test-function topology and §4.1 supplies constant-term transitivity; §§0.11 and 0.51 add the nuclear-space and spectral constant-term adapters. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar `L`-functions, local factors, Fourier–Laplace analysis, `K`-Bessel transforms, curve additive analysis, `GLₙ` isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized `GLₙ` intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and `GLₙ` transfer applications (Layer 7).
+For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, `G(𝔸)¹`, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and `L`-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.6–2.7 and 3.4–3.5 supplies the general-group real representation foundations, the real/complex unitary block classification, smooth Fréchet globalizations and algebraic restricted tensor factorization; §§0.48–0.50 identify their spectral inducing realizations and Hilbert tensor completions, agreeing with the `GLₙ` specializations of AutomorphicLFunctionsAndLocalFactors. Its §0.2 supplies the support/level test-function topology, §3.2 supplies the shared minimal cuspidal Eisenstein family and continuation, and §4.1 supplies constant-term transitivity; §§0.11 and 0.51 add the nuclear-space and spectral constant-term adapters. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar `L`-functions, local factors, Fourier–Laplace analysis, `K`-Bessel transforms, curve additive analysis, `GLₙ` isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized `GLₙ` intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and `GLₙ` transfer applications (Layer 7).
 
 Ordinary orbital integrals, discrete-series pseudo-coefficients and generic packets built from given tempered packets are constructed here. Layer 7 also constructs the cyclic `GLₙ` twisted orbital integrals, transfer and trace comparison required for prime-degree base change. General endoscopic transfer and stabilization belong to the roadmaps that consume this material. Tempered packets, their generic members and compatibility of their local factors with parameters are hypotheses; this roadmap does not prove the general local Langlands correspondence. Its analytic Green kernel precedes the arithmetic Green functions and heights of Gross–Zagier.
 
@@ -35,7 +35,7 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | ReductiveGroupsPartII | RG2.0, RG2.4–RG2.5: local points, decompositions, integration, dual groups and `L`-groups. |
 | SmoothRepresentationsOfLocalGroups | SR.1–SR.4: Hecke actions, normalized induction, Jacquet modules, finite length, conditional Langlands classification and Satake parameters. |
 | AdelicAlgebraicGroups | §§0.1–0.3, 2.1–2.3, 3.1, 3.4–3.6: restricted Haar products, height, quotient integration, Iwasawa data and reduction. |
-| AutomorphicFormsOnReductiveGroups | §0.2: support/level test-function stages, inductive-limit topology, cofinal-choice independence, convolution and involution; §§2.1–2.4 and 2.7: Harish-Chandra modules, normalized real induction, tempered/discrete series, Langlands classification and Casselman–Wallach globalization; §2.6: real/complex Speh and complementary blocks, their unitarity, product irreducibility, unitary-dual exhaustion and block uniqueness; §§3.4–3.5: restricted tensors, finite corners, spherical lines and Flath factorization; §4.1: nested-parabolic quotient disintegration, constant terms in stages and conjugation. |
+| AutomorphicFormsOnReductiveGroups | §0.2: support/level test-function stages, inductive-limit topology, cofinal-choice independence, convolution and involution; §§2.1–2.4 and 2.7: Harish-Chandra modules, normalized real induction, tempered/discrete series, Langlands classification and Casselman–Wallach globalization; §2.6: real/complex Speh and complementary blocks, their unitarity, product irreducibility, unitary-dual exhaustion and block uniqueness; §3.2: minimal cuspidal Eisenstein family, meromorphic extension, finite-block common denominators and constant-term identities; §§3.4–3.5: restricted tensors, finite corners, spherical lines and Flath factorization; §4.1: nested-parabolic quotient disintegration, constant terms in stages and conjugation. |
 | ArithmeticGaloisRepresentations | §§2.4–2.7: local factors and constants evaluated on the specified compatible packet parameter in §2.8; §2.7 **Global inputs**: the scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, meromorphic continuation and Hecke functional equation. |
 | ArithmeticLocallySymmetricSpaces | ALS.0.2, ALS.F.1, ALS.F.5–ALS.F.6, ALS.4.5, ALS.5b.1, ALS.5b.3, ALS.5b.5: real Lie data, cochains, growth spaces, constant terms, cuspidal discreteness, Kostant theory and cohomological comparisons. |
 | AutomorphicLFunctionsAndLocalFactors | Representation prerequisites, `isobaric-construction`, `archimedean-smooth-representations`, `restricted-tensor-realizations`; AL.0 local Fourier/Bessel analysis and vector-space adelic extensions; AL.1 distribution-valued Tate theory and number-field normalization adapters; AL.2 standard-factor analysis and generic paired Hadamard theory; AL.3 cuspidal pair factors, continuation, functional equations, poles, `isobaric-strong-multiplicity-one`, curve additive analysis, pure realization and tensor determinant. |
@@ -45,6 +45,8 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | Shared mathematics | Canonical owner and boundary |
 |---|---|
 | Number-field residual Speh index and representations | AutomorphicSpectralTheory §4.14a owns the index `(τ,ν)` with `τ` on `GL_d`, `N=νd` and `ω_τ^ν=ω`, the representation `τ⊠ν`, its residue realization, existence, uniqueness, multiplicity one and exhaustive discrete-spectrum classification. Endoscopic parameter dictionaries and transfer applications use this same index and representation. |
+
+AutomorphicFormsOnReductiveGroups §3.2's `eisensteinFiniteJetRealization` owns the shared minimal cuspidal Eisenstein family. For number-field connected reductive `G`, a rational parabolic `P=MN`, cuspidal inducing data with compatible central character, and fixed finite level, compact type and finite-dimensional holomorphic test sections, its analytic prefix supplies the chamber sum, meromorphic extension, a common nonzero local holomorphic denominator on each such block, and the rational Bruhat constant-term identities. For associate parabolics these give the finite Weyl sum. Use the normalized induction and quotient measures of §§0.48–0.51 and 1.1 here. Sections 1.2–1.5 identify this family with the chamber sum and its unipotent intertwining integrals; equality on the chamber determines the meromorphic continuation uniquely. Section 2.4 adds discrete inducing data, affine-hyperplane pole control, functional equations and unitary-axis regularity; §2.4a adds smooth Fréchet operator topology and full-group equivariance; Layers 3–4 add the spectral identities and completeness. The finite-jet occurrence theorem remains with its supplier.
 
 ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6 supply finite Galois localization, finite-coefficient Poitou–Tate and all-place Sha duality, Grunwald–Wang with its dyadic obstruction, and character roots with local Brauer obstructions. Layer 7 constructs their application to controlled auxiliary extensions.
 
@@ -102,7 +104,7 @@ For the specified compatible packet parameters in §2.8, ArithmeticGaloisReprese
 
 ## How to read the build
 
-Layer 0 constructs the new analytic interfaces and explicit kernels. Construct §0.7 after the measurable-field and compact-space PVM suppliers, then apply the independent UO-A01–UO-A02 domain theorem in §0.6. Layers 1–4 pass from convergent induction and Eisenstein series through continuation, truncation and norm identities to the onto spectral transform. Layer 5 uses that theory to prove weighted acyclicity and the complete Franke contract. Within Layer 5, construct the rapidly decreasing core theorem §5.7a and the constant-term resolution §5.9 before weighted acyclicity §5.8. Layer 6 constructs Paley–Wiener transforms and then the trace distributions. Layer 7 constructs the cyclic twisted trace comparison and norm transfer from those distributions, then solvable base change and the degree-one comparison. Build §2.3a before §3.6a; build §§3.6a–3.6d in order after their listed prerequisites. The number-field residual-block theorem §4.14a follows §§1.1–1.5, 2.4 and 2.6. Within the main branch, chamber convergence and the pseudo-Eisenstein inner product precede continuation; the packet norm precedes, and does not substitute for, onto completeness.
+Layer 0 constructs the new analytic interfaces and explicit kernels. Construct §0.7 after the measurable-field and compact-space PVM suppliers, then apply the independent UO-A01–UO-A02 domain theorem in §0.6. Layers 1–4 pass from convergent induction and Eisenstein series through continuation, truncation and norm identities to the onto spectral transform. Layer 5 uses that theory to prove weighted acyclicity and the complete Franke contract. Within Layer 5, construct the logarithmically weighted core theorem §5.7a and the constant-term resolution §5.9 before weighted acyclicity §5.8. Layer 6 constructs Paley–Wiener transforms and then the trace distributions. Layer 7 constructs the cyclic twisted trace comparison and norm transfer from those distributions, then solvable base change and the degree-one comparison. Build §2.3a before §3.6a; build §§3.6a–3.6d in order after their listed prerequisites. The number-field residual-block theorem §4.14a follows §§1.1–1.5, 2.4 and 2.6. Within the main branch, consume AutomorphicFormsOnReductiveGroups §3.2's cuspidal analytic prefix and identify its chamber family in §§1.2–1.5; differentiated chamber convergence and the pseudo-Eisenstein inner product precede the discrete-data continuation of §2.4; the packet norm precedes, and does not substitute for, onto completeness.
 
 The layers group targets by subject. Two branches therefore cite later-numbered sections; the dependency graph has no cycles, and the following orders build them.
 
@@ -367,7 +369,7 @@ Prove the following API statements.
 
 ([BPCZ22], Appendix A.0.3–A.0.4, pp.328–329 supplies weak holomorphy and pointwise Hom topology. The bounded-set operator topology and common-denominator meromorphic extension are additional targets here; [Art05], §7, pp.33–35 supplies their Eisenstein application.)
 
-For a normed target and an open one-complex-parameter domain `U`, `CommonDenominator(U,f)` means that near every `z∈U` there are `n≥0`, `r>0` and an analytic `g` with `g(s)=(s−z)^n f(s)` for `s≠z`. Require the chosen ball to lie in `U`. The value assigned to `f(z)` is irrelevant. `CommonDenominator.mono` restricts to an open subdomain and `CommonDenominator.postcomp` transports regularization through a continuous linear map.
+For a normed complex target use Mathlib's `MeromorphicOn f U`. For a Banach target and open `U⊆ℂ`, prove `meromorphicOn_iff_local_regularization`: this is equivalent to the existence, at every `z∈U`, of `n≥0`, `r>0` and `g` analytic on the ball `B(z,r)⊆U`, with `g(s)=(s−z)^n f(s)` for `s≠z` in that ball. The value assigned to `f(z)` is irrelevant. Use `MeromorphicOn.mono_set` for restriction; prove `meromorphicOn_postcomp` for continuous linear postcomposition between normed targets, without completeness assumptions. Applying native meromorphy to `f:ℂ→(E→L[ℂ]F)` gives a single exponent for the entire bounded operator in operator norm. The locally convex bounded-set topology and several-parameter hyperplane products above retain their stated stronger contracts.
 
 **Checks.**
 
@@ -375,7 +377,9 @@ For a normed target and an open one-complex-parameter domain `U`, `CommonDenomin
 - An analytic function uses exponent zero; a removable singularity does not require a nonzero polar part.
 - The scalar essential singularity `exp(1/z)` has no finite denominator at zero, and the coordinate family `z^(−n)` has no common exponent for all coordinates.
 
-*Needs:* §0.11; §0.12; `WithSeminorms.banach_steinhaus`. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
+(Mathlib `Analysis.Meromorphic.Basic`: `MeromorphicAt`, `MeromorphicOn`, `MeromorphicAt.congr` and `MeromorphicAt.iff_eventuallyEq_zpow_smul_analyticAt`; analytic-factor regularization on a ball uses completeness of the target.)
+
+*Needs:* §0.11; §0.12; `WithSeminorms.banach_steinhaus`; Mathlib `MeromorphicOn`. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
 
 
 ### 0.16 Analytic Fredholm continuation
@@ -901,7 +905,7 @@ Prove the following API statements.
 
 ### 1.2 Eisenstein series in the convergence chamber
 
-Define `eisenstein_series` as follows. For `φ∈H_P⁰`, define `E_P(g,φ,λ)=Σ_{δ∈P(F)\G(F)}φ(δg)exp((λ+ρ_P)H_P(δg))`. It is smooth and automorphic in the positive chamber, independent of representatives; Layer 2 gives continuation.
+Define `eisenstein_series` as follows. For `φ∈H_P⁰`, define `E_P(g,φ,λ)=Σ_{δ∈P(F)\G(F)}φ(δg)exp((λ+ρ_P)H_P(δg))`. It is smooth and automorphic in the positive chamber, independent of representatives. For cuspidal data, identify it with the family supplied by AutomorphicFormsOnReductiveGroups §3.2's analytic prefix, using the same inducing realization, half-modulus and quotient measures. Layer 2 extends that family to discrete data and supplies its spectral functional equations.
 
 *Standing hypotheses:* `Re(λ−ρ_P)(α∨)>0` for every simple root; `φ` is smooth `K`-finite finite-level discrete inducing data; the sum ranges over all rational cosets.
 
@@ -917,18 +921,18 @@ Prove the following API statements.
 
 ([Art05], §7 (7.1), p.33; Lemma 7.1, p.34.)
 
-*Needs:* §1.1; AdelicAlgebraicGroups §§3.4, 3.6 (Siegel covering).
+*Needs:* §1.1; AutomorphicFormsOnReductiveGroups §3.2 (minimal cuspidal Eisenstein family); AdelicAlgebraicGroups §§3.4, 3.6 (Siegel covering).
 
 
 ### 1.3 Absolute and differentiated chamber convergence
 
-Prove `eisenstein_convergence`. On `Re λ∈ρ_P+(𝔞_P*)⁺` the series defining `E_P` and the unipotent integrals defining `M(w,λ)` converge absolutely, locally uniformly for `g` in compact sets and `λ` in compact subsets of that chamber. They are holomorphic in `λ`. Every fixed right archimedean differential operator and finite-level translation can be applied termwise; resulting functions have moderate growth on Siegel sets uniformly on compact parameter subsets. For a finite-dimensional inducing space and fixed derivative, a finite power of the adelic height bounds the absolute majorant.
+Prove `eisenstein_convergence`. Extend the supplied cuspidal chamber convergence to the discrete inducing space of §1.1 and establish the differentiated estimates used here. On `Re λ∈ρ_P+(𝔞_P*)⁺` the series defining `E_P` and the unipotent integrals defining `M(w,λ)` converge absolutely, locally uniformly for `g` in compact sets and `λ` in compact subsets of that chamber. They are holomorphic in `λ`. Every fixed right archimedean differential operator and finite-level translation can be applied termwise; resulting functions have moderate growth on Siegel sets uniformly on compact parameter subsets. For a finite-dimensional inducing space and fixed derivative, a finite power of the adelic height bounds the absolute majorant.
 
 *Standing hypotheses:* the inducing vectors are `H_P⁰`; local uniformity stays strictly inside the chamber; differentiated bounds are for a fixed finite family of derivatives.
 
 ([Art05], §7 Lemma 7.1, p.34; §13 paragraph after Proposition 13.2 and (13.9), p.73.)
 
-*Needs:* §1.1; AdelicAlgebraicGroups §§3.5–3.6 (height estimates on Siegel sets); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal discreteness and finite multiplicity); `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
+*Needs:* §1.1; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal chamber family); AdelicAlgebraicGroups §§3.5–3.6 (height estimates on Siegel sets); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal discreteness and finite multiplicity); `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
 
 
 ### 1.4 Convergent Weyl intertwining integrals
@@ -936,6 +940,8 @@ Prove `eisenstein_convergence`. On `Re λ∈ρ_P+(𝔞_P*)⁺` the series defini
 Define `convergent_intertwiner` as follows. For `w∈W(𝔞_P,𝔞_Q)`, choose a rational representative ŵ. In the common compact picture `M(w,λ)φ(x)=exp(−(wλ+ρ_Q)H_Q(x))∫_{(N_Q∩ŵN_Pŵ⁻¹)(𝔸)\N_Q(𝔸)}φ(ŵ⁻¹nx)exp((λ+ρ_P)H_P(ŵ⁻¹nx))dn`. The chamber convergence theorem defines a map `H_P⁰→H_Q⁰` with the Weyl-transported inducing datum. Rational representatives and compatible quotient measures give the same map; it intertwines the `(𝔤_∞,K_∞) × G(𝔸_f)`-actions. Its smooth extension and full-group equivariance are constructed in §2.4a. This object precedes both the constant-term and pseudo-Eisenstein inner-product formulas.
 
 *Standing hypotheses:* `Re λ−ρ_P` is positive; Haar measures and rational Weyl representatives are fixed compatibly.
+
+For cuspidal inducing data, prove that these integrals are the intertwining coefficients in the supplied §3.2 constant terms. The identification uses the same rational Weyl representatives, transported inducing datum and quotient measures.
 
 Prove the following API statements.
 - `intertwines`: `M(w,λ)I_P(λ,h)=I_Q(wλ,h)M(w,λ)` for `h∈K_∞ × G(𝔸_f)`, and `M(w,λ)dI_P(λ,X)=dI_Q(wλ,X)M(w,λ)` for `X∈𝔤_∞`, as maps on `H_P⁰`.
@@ -949,18 +955,18 @@ Prove the following API statements.
 
 ([Art05], §7 equation (7.2) and Lemma 7.1, p.34.)
 
-*Needs:* §1.1; §1.3; AdelicAlgebraicGroups §2.2 (integration in stages); `zeta_eq_tsum_one_div_nat_add_one_cpow`.
+*Needs:* §1.1; §1.3; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal constant-term coefficients); AdelicAlgebraicGroups §2.2 (integration in stages); `zeta_eq_tsum_one_div_nat_add_one_cpow`.
 
 
 ### 1.5 Finite Weyl constant-term formula
 
-Prove `cuspidal_constant_term`. For cuspidal inducing `φ∈H_P,cusp⁰`, the `N_Q` constant term of `E_P` equals the sum over `W(𝔞_P,𝔞_Q)` of `exp((wλ+ρ_Q)H_Q(g))(M(w,λ)φ)(g)`. When the Weyl set is empty the term is zero. For an arbitrary parabolic constant term, the general formula groups rational Bruhat cells by double cosets: each surviving summand is an Eisenstein series on `M_Q` induced from the appropriate constant term of `φ`, with its own Levi intertwiner. The displayed finite exponential formula is asserted only for associate `Q` and cuspidal data.
+Prove `cuspidal_constant_term`, identifying AutomorphicFormsOnReductiveGroups §3.2's cuspidal constant-term identities with the realizations of §§1.1–1.4. For cuspidal inducing `φ∈H_P,cusp⁰`, the `N_Q` constant term of `E_P` equals the sum over `W(𝔞_P,𝔞_Q)` of `exp((wλ+ρ_Q)H_Q(g))(M(w,λ)φ)(g)`. When the Weyl set is empty the term is zero. For an arbitrary parabolic constant term, the general formula groups rational Bruhat cells by double cosets: each surviving summand is an Eisenstein series on `M_Q` induced from the appropriate constant term of `φ`, with its own Levi intertwiner. The displayed finite exponential formula is asserted only for associate `Q` and cuspidal data. Transport the supplied identities through the chamber identification of §1.2; continuation of this same family preserves them as meromorphic identities.
 
 *Standing hypotheses:* initial equality is in absolute convergence; `N_Q(F)\N_Q(𝔸)` has volume one; the simple associate formula uses cuspidal data.
 
 ([Lan66], §3, Lemma 3 and the following Bruhat computation, transcription pp.3–4.)
 
-*Needs:* §1.2; §1.4; ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); SmoothRepresentationsOfLocalGroups Layer 2.
+*Needs:* §1.2; §1.4; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal Bruhat constant terms); ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); SmoothRepresentationsOfLocalGroups Layer 2.
 
 
 ### 1.6 Paley–Wiener pseudo-Eisenstein series
@@ -1500,11 +1506,19 @@ Prove `local_normalization`. There exist scalar meromorphic `r_Q|P(π_λ)`, prod
 
 Prove `eisenstein_continuation`. For `φ∈H_P⁰`, `E_P(g,φ,λ)` and `M(w,λ)φ` extend meromorphically to all `𝔞_P,ℂ*`. On each finite inducing/K-type block there is a common local product of affine linear forms clearing the polar divisor. They obey `E_Q(g,M(w,λ)φ,wλ)=E_P(g,φ,λ)` and `M(vw,λ)=M(v,wλ)M(w,λ)`. On `i𝔞_P*` both families are regular and `M(w,λ)` extends to a unitary `H_P→H_Q`. Regularity here is for unitary discrete inducing data and the global family; a scalar normalizing factor or arbitrary nonunitary local family can still have a pole.
 
+On cuspidal inputs use the continuation supplied by AutomorphicFormsOnReductiveGroups §3.2 and prove agreement with §1.2 and uniqueness: after multiplication by local denominators, evaluation at each `g` and inducing vector reduces equality to the holomorphic identity theorem on the connected parameter space. Construct the discrete-data extension and the stated hyperplane control, functional equations and unitary-axis conclusions on that same family. Its smooth extension in §2.4a restricts to this identified family.
+
 *Standing hypotheses:* number field; discrete inducing `H_P⁰`; hyperplane denominators here are local and on fixed finite blocks. These continuations retain the `(𝔤_∞,K_∞) × G(𝔸_f)`-equivariance of §§1.2 and 1.4. The smooth Fréchet topology, its pole-clearing statement and full-group identities are supplied by §2.4a.
 
 ([Art05], §7 Theorem 7.2(a), equations (7.3)–(7.4), p.35.)
 
-*Needs:* §1.10; §1.8; §1.4; §0.6; §0.15; §0.16.
+**Checks.**
+
+- For `P=G`, the cuspidal family is the inducing function with denominator `1`.
+- For spherical `SL₂/ℚ` data, both constructions give the chamber sum of §1.2 and its constant-term coefficient `ξ(2s−1)/ξ(2s)`; their continued meromorphic germs therefore agree.
+- Multiplying a local pole `z⁻¹A` by `z` gives holomorphic value `A` at zero. Equality is of meromorphic germs, independent of any point value assigned to the original family at the pole.
+
+*Needs:* §1.10; §1.8; §1.4; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal continuation and finite-block denominators); §0.6; §0.15; §0.16.
 
 
 ### 2.4a Smooth Eisenstein and intertwining extensions
@@ -2723,17 +2737,17 @@ Prove `franke_graded_isomorphism`. For `r` in the closed positive chamber, each 
 *Needs:* §5.5; §5.6; §4.4.
 
 
-### 5.7a Finite-character acyclicity of the rapidly decreasing core
+### 5.7a Finite-character acyclicity of the logarithmically weighted core
 
-Prove `core_finite_character_acyclic`: the all-derivative logarithmically weighted smooth space `S_log([G])` of [Fra98] §5 is `Fin_J`-acyclic in the larger category of §5.3, for finite-codimension invariant `J`. Construct the Casimir spectral cutoffs and polynomially bounded smooth multiplier estimates of [Fra98] §5.1: each cutoff acts continuously on the all-derivative weighted seminorms, commutes with the compatible actions and provides the finite-character comparison homotopy. Use the split spectral models of [Fra98] §5.3 and the filtered Koszul calculation of its §5.4 on distributions supported at the finite central-character locus to prove `R^iFin_J(S_log)=0` for `i>0`. This is a derived-functor theorem for `S_log` itself; the boundary consumer uses its inclusion in the weighted spaces and the compatible quotient resolution of §5.9. In the cocompact case all weights are equivalent and this supplies the induction base of §5.8.
+Prove `core_finite_character_acyclic`: the logarithmically weighted smooth space `S_log([G])=⋃_{n≥0}S_{w^(−n)}([G])` of [Fra98] §5, with its inductive-limit topology, is `Fin_J`-acyclic in the larger category of §5.3, for finite-codimension invariant `J`. Here `w≥1` is a smooth logarithmic height equivalent to Franke's `log p_λ` for interior positive `λ`; membership means that one `n` makes `w^(−n)Df` square integrable for every archimedean enveloping-algebra derivative `D`. The intersection `S_{−log}=⋂_{n≥0}S_{w^n}` imposes the distinct rapid logarithmic decay condition. Construct the Casimir spectral cutoffs and polynomially bounded smooth multiplier estimates of [Fra98] §5.1: each cutoff acts continuously on the all-derivative seminorms of the weighted stages and on their inductive limit, commutes with the compatible actions and provides the finite-character comparison homotopy. Use the split spectral models of [Fra98] §5.3 and the filtered Koszul calculation of its §5.4 on distributions supported at the finite central-character locus to prove `R^iFin_J(S_log)=0` for `i>0`. This is a derived-functor theorem for `S_log` itself; the boundary consumer uses its inclusion in the weighted spaces and the compatible quotient resolution of §5.9. In the cocompact case all weights are equivalent and this supplies the induction base of §5.8.
 
 **Checks.**
 
 - On a compact quotient the logarithmic weights are bounded above and below; the core is the full smooth `K`-finite space and the higher `Fin_J` functors vanish.
 - In one spectral coordinate the filtered Koszul complex on distributions at zero retains the finite-order delta derivatives in degree zero and has zero positive cohomology.
-- A smooth power `y^a` on a noncompact cusp need not belong to `S_log`: its all-log-weight seminorms distinguish this core from an arbitrary smooth growth space.
+- On a modular cusp with `w` equivalent to `1+log y`, a smooth function equal to `y^a` for large `y`, with `a>1/2`, fails every `w^(−n)` weighted `L²` condition. A single logarithmic weight must control every derivative; membership does not require all positive logarithmic weights.
 
-([Fra98], §5.1 Theorems 8–10, pp.214–219; §5.3 Theorem 12, pp.222–230; §5.4 Theorem 13 and its Koszul proof, pp.230–231.)
+([Fra98], §5 opening definitions, p.213; §5.1 Theorems 8–10, pp.214–219; §5.3 Theorem 12, pp.222–230; §5.4 Theorem 13 and its Koszul proof, pp.230–231.)
 
 *Needs:* §5.3; §5.4; §5.2; §4.3–§4.4; §0.6; §3.4.
 
@@ -3124,13 +3138,19 @@ Prove `invariant_trace_formula`. For `f∈H(G)`, `I(f)=lim_S Σ_M (|W₀^M|/|W�
 
 ### 6.17 Trace formula for compact quotients
 
-Prove `compact_trace_specialization`. If `G(F)\G(𝔸)^1` is compact (equivalently `G` has no proper `F`-parabolic), smooth compactly supported convolution is trace class and its trace equals `∫_[G]K_f(x,x)dx=Σ_[γ] vol(G_γ(F)\G_γ(𝔸)^1)∫_{G_γ(𝔸)\G(𝔸)}f(x⁻¹γx)dx=Σ_πm(π)tr π(f)`. Use the same connected/full centralizer convention in both volume and orbital integral. The convolution spectrum is discrete with finite multiplicities; compactness of `G` itself is not required.
+Prove `compact_trace_specialization`. If `G(F)\G(𝔸)^1` is compact (equivalently `G` has no proper `F`-parabolic), smooth compactly supported convolution is trace class and its trace equals `∫_[G]K_f(x,x)dx=Σ_[γ] c_γ⁻¹ vol(G_γ(F)\G_γ(𝔸)^1)∫_{G_γ(𝔸)\G(𝔸)}f(x⁻¹γx)dx=Σ_πm(π)tr π(f)`. Here `[γ]` ranges over rational conjugacy classes, `G_γ` is connected as in §6.9, and `c_γ=[G_{γ,+}(F):G_γ(F)]`. Unfolding first gives `G_{γ,+}(F)\G(𝔸)^1`; replacing its rational stabilizer by `G_γ(F)` gives a cover of degree `c_γ`. Integration in stages therefore retains `c_γ⁻¹`. The convolution spectrum is discrete with finite multiplicities; compactness of `G` itself is not required.
 
 *Standing hypotheses:* compact arithmetic quotient; smooth finite-level `f`; compatible quotient measures; disconnected centralizer index retained.
 
-([Art05], §1, (1.1)–(1.3), pp.7–11; §16, `(16.1)′′`, p.90.)
+**Checks.**
 
-*Needs:* §6.4; §6.6; §4.7; §0.10.
+- For central `γ`, `c_γ=1`, and matching centralizer and ambient Haar gives the summand `vol([G]^1)f(γ)`.
+- Multiplying the connected centralizer Haar by `a>0` multiplies its volume by `a` and its orbital integral by `a⁻¹`; it leaves `c_γ⁻¹` unchanged.
+- For `D=(−1,−1)_ℚ`, `G=PGL₁(D)` and `γ=[i]`, the connected rational centralizer is `ℚ(i)×/ℚ×`; the full one also has its `[j]` coset, since `jij⁻¹=−i`. Thus `c_γ=2`. The anisotropic adjoint quotient is compact and `G(𝔸)^1=G(𝔸)`; the connected volume times orbital integral must be divided by two, including for a nonnegative test positive near `γ`.
+
+([Art05], §1, (1.1)–(1.3), pp.7–11; §16, `(16.1)′′`, p.90; §19, (19.5)–(19.6), p.113, for the rational component index.)
+
+*Needs:* §6.4; §6.6; §4.7; §0.10; §6.9; AdelicAlgebraicGroups §2.3 (rational counting and fundamental-domain quotient measures).
 
 
 ### 6.18 Discrete functionals and pseudo-coefficients
@@ -3177,13 +3197,19 @@ Prove the following API statements.
 
 ### 6.20 `L²`-Lefschetz traces of Hecke operators
 
-Prove `l2_lefschetz`. For Arthur’s reductive `Q`-group, coefficient `ξ`, level `K_f` and central balancing character, with `f_ξ` constructed for the reduced pair `(𝔪_G,K∞)` and the same central quotient as §6.19, the alternating trace of `h` on finite-dimensional `L²` relative cohomology is `Σ_{π∈Π_disc}m_disc(π)EP(𝔪_G,K∞;π∞⊗ξ)tr π_f(h)=I(f_ξ⊗h)`. The invariant geometric expansion computes this trace with lower-Levi corrections. In the split classical groups over `ℤ` of [CT20], at level one, `h=∏_p1_{G(ℤ_p)}` with `vol G(ℤ_p)=1` gives `EP(G;λ)=T_geom(G;λ)`; its elliptic term is `Σ_[γ finite order]vol(G_γ(ℚ)\G_γ(𝔸))O_γ(h)tr(γ|V_λ)`, with signed Euler–Poincaré measure at infinity and the matching local centralizer measures. Residual cohomology contributes unless a separate theorem excludes it.
+Prove `l2_lefschetz`. For Arthur’s reductive `Q`-group, coefficient `ξ`, level `K_f` and central balancing character, with `f_ξ` constructed for the reduced pair `(𝔪_G,K∞)` and the same central quotient as §6.19, the alternating trace of `h` on finite-dimensional `L²` relative cohomology is `Σ_{π∈Π_disc}m_disc(π)EP(𝔪_G,K∞;π∞⊗ξ)tr π_f(h)=I(f_ξ⊗h)`. The invariant geometric expansion computes this trace with lower-Levi corrections. In the split classical groups over `ℤ` of [CT20], at level one, `h=∏_p1_{G(ℤ_p)}` with `vol G(ℤ_p)=1` gives `EP(G;λ)=T_geom(G;λ)`; its elliptic term is `Σ_[γ finite order]c_γ⁻¹ vol(G_γ(ℚ)\G_γ(𝔸))O_γ(h)tr(γ|V_λ)`, where `c_γ=[G_{γ,+}(ℚ):G_γ(ℚ)]`, the centralizers are connected as in §6.9, `O_γ(h)` is the finite-adelic connected-centralizer orbital integral, and the volume uses signed Euler–Poincaré measure at infinity and matching finite centralizer measures. Rational classes are counted once. Conversion from full centralizers retains this rational denominator even with Euler–Poincaré measure. Residual cohomology contributes unless a separate theorem excludes it.
 
 *Standing hypotheses:* finite-dimensional algebraic coefficient; finite level; full `K∞` component; invariant quotient by the split centre; `G(ℝ)/A_G(ℝ)⁰` has a compact Cartan subgroup ([Art89L], §2, p.264). The [CT20] specialization uses the split classical groups admitting discrete series and the coefficient regularity of its §1.4.
 
-([Art89L], §2, p.264 (compact-Cartan hypothesis) and Proposition 2.1; §3, Proposition 3.2; §6, Theorem 6.1. [CT20], §1.4.)
+**Checks.**
 
-*Needs:* §6.19; §6.16; §4.3; §4.5.
+- For a connected full centralizer, `c_γ=1` and the connected formula agrees with the full-centralizer formula.
+- Rescaling a finite centralizer Haar by `a>0` scales the volume and finite orbital integral inversely, preserving their product and the rational component denominator.
+- In the compact inner form `PGL₁((−1,−1)_ℚ)` of §6.17, the involution `[i]` has `c_γ=2`; its elliptic coefficient retains the factor `1/2` with signed Euler–Poincaré measure as well.
+
+([Art89L], §2, p.264 (compact-Cartan hypothesis) and Proposition 2.1; §3, Proposition 3.2; §6, Theorem 6.1. [CT20], §1.4, (1.4.3)–(1.4.4), p.269, uses full centralizers; [Tai17], §3.1.3, (3.1.1), p.280, gives the connected-centralizer conversion.)
+
+*Needs:* §6.19; §6.16; §4.3; §4.5; §6.9; AdelicAlgebraicGroups §2.3 (rational quotient measures).
 
 
 ### 6.21 Truncated geometric kernel and fixed-degree trace
@@ -3779,6 +3805,7 @@ Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpa
 - **[CGH20]**: Frank Calegari, David Geraghty and Michael Harris, [Bloch–Kato Conjectures for Automorphic Motives](https://arxiv.org/pdf/1907.08694). arXiv:1907.08694v1, July2019.
 - **[BCG25]**: George Boxer, Frank Calegari and Toby Gee, [Cuspidal Cohomology of GLₙ(Z) and SLₙ(Z)](https://math.uchicago.edu/~fcale/papers/WeightZero.pdf). author WeightZero PDF.
 - **[BPCZ22]**: Raphaël Beuzart-Plessis, Pierre-Henri Chaudouard and Michał Zydor, [The Global Gan–Gross–Prasad Conjecture for Unitary Groups: the Endoscopic Case](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00129-1.pdf). Publ. Math. IHES 135 (2022), 183–337.
+- **[Tai17]**: Olivier Taïbi, [Dimensions of Spaces of Level One Automorphic Forms for Split Classical Groups Using the Trace Formula](https://www.numdam.org/item/10.24033/asens.2321.pdf). Ann. ENS 50 (2017), 269–344, §3.1.3, (3.1.1), p.280.
 - **[CT20]**: Gaëtan Chenevier and Olivier Taïbi, [Discrete Series Multiplicities for Classical Groups over Z and Level 1 Algebraic Cusp Forms](https://pmihes.centre-mersenne.org/item/10.1007/s10240-020-00115-z.pdf). Publ. Math. IHES 131 (2020), 261–323.
 - **[GZ86]**: Benedict H. Gross and Don B. Zagier, [Heegner Points and Derivatives of L-Series](https://wstein.org/papers/bib/Gross-Zagier_Heegner_points_and_derivatives_of_Lseries.pdf). Invent. Math. 84 (1986), 225–320.
 - **[Sha25]**: Jacob Shapiro, [Functional Analysis: Princeton University MAT520 Lecture Notes](https://web.math.princeton.edu/~js129/PDFs/teaching/MAT520_fall_2025/MAT520_Lecture_Notes.pdf). Fall 2025; last typeset 10 December 2025.
