@@ -705,8 +705,13 @@ algebra by its Killing-semisimple part.
    rule
    `E_α^(a)F_α^(b)=Σ_(r≤min(a,b)) F_α^(b−r)binom(H_(α∨)−a−b+2r,r)E_α^(a−r)`.
    Supply every different-root Chevalley straightening coefficient, including
-   non-simply-laced constants without inverting bad primes. Construct the Hopf
-   restriction: root divided powers and toral binomials have the sum coproduct
+   non-simply-laced constants without inverting bad primes. Consume native
+   `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebraKostantForm` and its
+   `kostantForm_comul`, `kostantForm_counit`, `kostantForm_antipode` comparisons
+   from `Kostant.HopfAlgebra`, specialized to all root vectors and the full Y
+   basis. Use `kostantFormComul_dividedPower`, `kostantFormComul_ringChoose`
+   from `Kostant.Comultiplication` and the formulas in `Kostant.Antipode`:
+   root divided powers and toral binomials have the sum coproduct
    over a+b=m, counit zero for m>0 and one for m=0; antipode sends a root
    divided power to `(−1)^m` times itself and `binom(H_y,m)` to
    `binom(−H_y,m)`. Use Layer0's left-factor-first Hopf coproduct convention throughout.
