@@ -683,7 +683,8 @@ B3.log: `horizontalLogSites`, `canonicalKummerCoefficient`, `unipotentLogPeriodC
 
 B3.BGG: `siegelRelativeBGG`, `siegelDualBGGComplex`, `siegelBGGGradedComparison`.
 
-B3.HT: `smallHasseCanonicalSubgroups`, `siegelAnticanonicalTower`, `siegelBoundaryHebbarkeit`,
+B3.HT: the Siegel-family application of CohomologyComparisons §6.2's supplied
+`smallHasseCanonicalSubgroups`, `siegelAnticanonicalTower`, `siegelBoundaryHebbarkeit`,
 `siegelPerfectoidPeriodTower`, `siegelPerfectoidToroidalTower`,
 `hodgeTypePerfectoidToroidalTower`, `rationalHTLeviTorsor`, `algebraicVBZero`.
 

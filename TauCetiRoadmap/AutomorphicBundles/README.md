@@ -63,8 +63,9 @@ The roadmap owns:
   pro-Kummer-étale site and perfectoid basis, canonical coefficient systems, log periods and the ordinary and
   compact-support comparisons (Layer B3.log), and the relative/geometric Siegel dual BGG
   construction with coherent graded pieces and degeneration (Layer B3.BGG);
-- the shared small-Hasse canonical-subgroup package and its Siegel application, the rational
-  Siegel and closed Hodge-type perfectoid toroidal towers, their rational Levi period torsor
+- the Siegel application of the shared small-Hasse canonical-subgroup package supplied by
+  CohomologyComparisons §6.2, the rational Siegel and closed Hodge-type perfectoid toroidal
+  towers, their rational Levi period torsor
   and finite-algebraic `VB⁰` descent (Layer B3.HT);
 - classical and cuspidal forms, the automorphy-factor adapter to Mathlib's `SlashAction`, the
   analytic comparison, the modular, Hilbert, Siegel and unitary weight conventions, integral forms
@@ -131,7 +132,8 @@ It leaves to other roadmaps:
   Levi period torsor and finite-algebraic `VB⁰` used here are B3.HT. Integral Hodge–Tate refinements,
   additional canonical-subgroup regions and general locally analytic VB theory belong to
   HodgeTateAndCanonicalSubgroups and PerfectoidShimuraVarieties. The shared cyclotomic-base
-  abelian-family canonical-subgroup contract is B3.HT.1; PerfectoidShimuraVarieties uses
+  abelian-family canonical-subgroup package is supplied by CohomologyComparisons §6.2 and
+  used in B3.HT.1; PerfectoidShimuraVarieties uses
   the rational tower and algebraic coefficient descent.
   Multiplicativity of Siegel Fourier–Jacobi expansions,
   their comparison with analytic Fourier series beyond rank one, and q-expansions of analytic
@@ -297,14 +299,14 @@ terms.
 | PrismaticCohomologyPartIV §8.60 | `TauCeti.LogAdic.LogStructure`, `logification`, `logPullback`, `IntegralChart`, `KummerEtaleSite`, and `NoetherianFsLogAdicSpace.kummerSite`, `.kummerTopology`, `.LocalSystem`, `.trivialLogSite`; the shared locally noetherian fs carriers specialized in B3.log.1. |
 | AdicSpacesPartII Layer R0; AdicSpacesPartIII Layers F0, R2 | Analytic morphisms and charts; formal completions of locally Noetherian schemes, coherent formal modules and sections near a closed subset; admissible blow-ups and generic fibres. Formal completion uses `FormalScheme.completion` and its map API, compatible with SchemeAndStackFoundations §4.8. |
 | PadicHodgeTheory §§0.1, 2.1–2.4, 2.7, 7.1–7.3 | Tate–Sen descent from PadicPeriodRings §§1.1–1.5, 2; completed structure and period sheaves on perfectoids and profinite products; filtered Poincaré and Faltings; finite-coefficient primitive comparison and finiteness; filtered connections, relative de Rham pairs and the relative Hodge–Tate filtration. The proper and smooth hypotheses are retained. B3.log constructs the horizontal-boundary and supported variants. |
-| FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.19, R07.2.21, R07.6.6 | The rational Hodge–Tate sequence, the `BT₁` Hasse invariant, and `illusieObstructionHomomorphisms` with its co-Lie cone, square-zero lifting criterion and functoriality. B3.HT.1 owns the shared cyclotomic-base abelian-family small-Hasse subgroup and quotient package and its Siegel application. |
+| FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.19, R07.2.21, R07.6.6 | The rational Hodge–Tate sequence, the `BT₁` Hasse invariant, and `illusieObstructionHomomorphisms` with its co-Lie cone, square-zero lifting criterion and functoriality. CohomologyComparisons §6.2 supplies the shared cyclotomic-base abelian-family small-Hasse subgroup and quotient package; B3.HT.1 applies it to Siegel families. |
 | DerivedModuleAlgebra §§0.4, 0.8 | The full cotangent complex and transitivity triangle used by the co-Lie obstruction argument. |
 | DerivedDeRhamCohomology §§1.14–1.22 | Filtered derived categories, filtered completion, completed tensors, and the stated valid exchanges with derived operations. This is the filtered categorical infrastructure of B3.log and B3.BGG. |
 | EnhancedDerivedSheaves §§0.1–0.4, E1.1–E1.4, E1.8, E2:towers.1, E3.1–E3.4 | Enhanced ringed-site operations, extension by zero, quasi-coherent descent, derived inverse limits, coherent diagrams and colimits. Limits are taken in the enhancement. |
 | ClassicalAdicEtaleCohomology §8.2 | Proper algebraic/analytic finite-coefficient comparison on the normalized finite covers in B3.log, before derived inverse limits and rationalization. |
 | AdicCoefficientsAndComparisons Layer L0 | Integral coefficient systems, rationalization and completed coefficient operations. |
 | EtaleCohomologyFoundations §§0.7, F.2.3, F.5; EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 | Localization and proper supports, the exceptional adjoint, finite-coefficient traces and duality, and the compatible recollement. B3.log.5 constructs the supported logarithmic period comparison and its compatibility with these maps. |
-| CohomologyComparisons §6.1 | The one-boundary-variable modular-curve logarithmic period calculation, used as the compatibility specialization of B3.log. It supplies no higher-dimensional logarithmic site. |
+| CohomologyComparisons §§6.1–6.2 | §6.1 supplies the one-boundary-variable modular-curve logarithmic period calculation, used as the compatibility specialization of B3.log, with no higher-dimensional logarithmic site. §6.2 supplies `smallHasseCanonicalSubgroups` for abelian families of arbitrary dimension, with weak/strong bounds, uniqueness, the point criterion, base change, functoriality, strong quotient identities and polarization compatibility, used by B3.HT.1. |
 | RepresentationTheory/LieHighestWeight Layers 2–7 | Highest weights, PBW and universal enveloping algebras, Verma modules and central characters. ArithmeticLocallySymmetricSpaces ALS.F.5 and ALS.4.5 supply the Chevalley–Eilenberg complex and `LocallySymmetric.kostant_splittingField`; B3.BGG specializes its weights and constructs the relative resolution. |
 
 - **ShimuraVarieties §7.0i** (`TauCeti.Shimura.abelian_absolute_hodge`) supplies Deligne's
@@ -355,7 +357,7 @@ isomorphism for nonflat `M` is assumed from C5.15.
 | End targets | Construction in this roadmap | Lower-tier or bundle input |
 |---|---|---|
 | B4.15, B5.16–B5.19 (ramified Hilbert) | B3.Hilbert.0–4: open splitting model, cusp classification, ordinary gluing, coefficient lines, completed descent and fibrewise cusp detection | HilbertModularVarietiesAndShimuraCurves H1–H3; ShimuraCompactifications C0–C5's generic toric and degeneration machinery |
-| B4.21, B5.20 | B3.HT.1–8: rational tower, period Levi torsor and finite-algebraic function/coefficient descent | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1/R07.2/R07.6; PerfectoidSpaces; PadicHodgeTheory §§2.1–2.4, 7.1–7.3; the partner's finite-level models |
+| B4.21, B5.20 | B3.HT.1–8: rational tower, period Levi torsor and finite-algebraic function/coefficient descent | CohomologyComparisons §6.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1/R07.2/R07.6; PerfectoidSpaces; PadicHodgeTheory §§2.1–2.4, 7.1–7.3; the partner's finite-level models |
 | B5.21 | B3.log.1–4 and B3.BGG.1–3: local system, ordinary log comparison, relative and geometric dual BGG, degeneration | lower-tier étale, local period, filtered-derived, LieHighestWeight and log Kodaira–Spencer inputs |
 | B5.22 | B3.log.5 and B3.BGG.2–3: supported period kernels, compact comparison, `−D` dual BGG and duality | EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 and the preceding local/ordinary constructions |
 
@@ -3201,8 +3203,9 @@ coefficients are built here.
 
 The shared carriers of B3.HT.1–7 are used with the following downstream identifications.
 For the cyclotomic-base abelian-family range, `TauCeti.HodgeTate.canonicalSubgroup` denotes
-B3.HT.1's `C_m`; the comparison with any pointwise construction is equality of finite flat
-subgroup schemes by Frobenius-congruent uniqueness, with `S_m=(p^m−1)/(p−1)` and the same
+the `C_m` supplied by CohomologyComparisons §6.2 and used in B3.HT.1; the comparison with
+any pointwise construction is equality of finite flat subgroup schemes by Frobenius-congruent
+uniqueness, with `S_m=(p^m−1)/(p−1)` and the same
 weak/strong bounds. Equality in its point criterion requires `R′` integrally closed in `R′[1/p]`.
 Hasse charts, good triples and anticanonical Frobenius charts use B3.HT.2–3's completed rings,
 boundary ideals and transition maps. The rational minimal and toroidal towers use
@@ -3216,24 +3219,25 @@ hypotheses.
 
 ### B3.HT.1 Shared small-Hasse canonical subgroups and their Siegel application
 
-Construct `smallHasseCanonicalSubgroups`. Write `ℤ_p^cycl` for the completed
+Use CohomologyComparisons §6.2's shared `smallHasseCanonicalSubgroups` for the
+Siegel family and period-map applications. Write `ℤ_p^cycl` for the completed
 ring of integers in the cyclotomic perfectoid extension of `ℚ_p`. For an
 abelian scheme `A/R` of relative dimension `g`, where `R` is a `p`-adically
 complete flat `ℤ_p^cycl`-algebra, an integer `m≥1`, and rational
 `0≤ε<1/2` with the required fractional powers of `p` in the base, suppose
-`Ha(A)^((p^m−1)/(p−1))` divides `p^ε` modulo `p`. Construct a finite flat
-subgroup `C_m⊂A[p^m]` reducing to `ker F^m` modulo `p^(1−ε)`. Prove uniqueness
-among such lifts, compatibility with flat base change and isomorphisms,
-and the degree `p^(mg)` assertion. For every `p`-complete `ℤ_p^cycl`-flat `R`-algebra `R′`,
-prove the inclusion
+`Ha(A)^((p^m−1)/(p−1))` divides `p^ε` modulo `p`. The supplied finite flat
+subgroup `C_m⊂A[p^m]` reduces to `ker F^m` modulo `p^(1−ε)`, is unique
+among such lifts, commutes with flat base change and isomorphisms,
+and has degree `p^(mg)`. For every `p`-complete `ℤ_p^cycl`-flat `R`-algebra `R′`,
+the supplied point criterion gives the inclusion
 `{s∈A[p^m](R′) : s=0 mod p^((1−ε)/p^m)} ⊆ C_m(R′)`.
-If `R′` is integrally closed in `R′[1/p]`, prove equality. For this converse,
+If `R′` is integrally closed in `R′[1/p]`, this is equality. For this converse,
 Frobenius congruence gives divisibility of the `p^m`-th powers of the
 coordinates; the required coordinate quotients are integral in `R′[1/p]`,
 so integral closedness puts them in `R′`. Power divisibility alone does not
 give coordinate divisibility over an arbitrary flat test algebra.
-In the stronger small-Hasse regions `Ha(A)^(p^m)|p^ε`, prove the nesting
-and quotient identities used by the anticanonical tower. A strong level
+In the stronger small-Hasse regions `Ha(A)^(p^m)|p^ε`, use the supplied nesting
+and quotient identities in the anticanonical tower. A strong level
 `b` gives `C_a⊂C_b` for `a≤b`; given strong level `a`, the quotient
 `B=A/C_a` has strong level `b` exactly when `A` has strong level `a+b`,
 and then `0→C_a→C_{a+b}→C_b(B)→0` is exact. Morphisms between abelian
@@ -3241,35 +3245,20 @@ schemes admitting strong level `m` preserve `C_m`. Under a principal
 polarization these subgroups are isotropic for the Weil pairing.
 These are assertions on the specified regions, not on all nonordinary points.
 
-This target owns the shared abelian-family weak/strong subgroup, uniqueness,
-point characterization, functoriality, isotropy and strong quotient package.
-Its Siegel application uses the universal polarized family on the Hasse regions
-of B3.HT.2, with the same groups under level pullback. The additional
-pointwise Harder–Narasimhan construction, degree formula and integral
-Hodge–Tate estimates belong to HodgeTateAndCanonicalSubgroups §§3.6–3.9;
-they are not inputs to this package.
-
-Import the obstruction to lifting a homomorphism of finite flat group
-schemes from R07.6. Apply it to the relative Frobenius kernel: the Hasse
-bound makes `p^ε` null-homotopic on the relevant co-Lie complex and kills
-the lifting obstruction. For `ker F^m`, the quotient has co-Lie determinant
-`Ha^((p^m−1)/(p−1))`, so the same square-zero lifting argument produces
-`C_m` directly. The stronger Hasse bound then gives the nesting and
-iterated-quotient identities. Prove uniqueness independently of point equality:
-the map from one lift to the quotient by another vanishes modulo `p^(1−ε)`;
-the quotient's invariant differentials are killed by `p^ε`, so the homomorphism estimate
-of Lemma III.2.4 kills the map since `1−ε>ε`. Apply this on the finite flat
-coordinate algebra of the source subgroup. Then deduce functoriality; an
-arbitrary subgroup lift would not suffice. For the polarization assertion compare the
-annihilator under the Weil pairing with the same Frobenius-kernel lift;
-uniqueness identifies it with `C_m`. No classification of all `p`-divisible groups over
-`O_C` is needed in this argument.
+CohomologyComparisons §6.2 supplies the shared abelian-family weak/strong subgroup,
+uniqueness, point criterion, functoriality, isotropy and strong quotient package.
+B3.HT.1 applies this same subgroup to the universal polarized Siegel family on the
+Hasse regions of B3.HT.2. Identify its pullbacks along level maps and its iterated
+quotients using the supplied base-change and uniqueness statements, so the family
+used by the anticanonical tower and period-map constructions has these same groups.
+The additional pointwise Harder–Narasimhan construction, degree formula and integral
+Hodge–Tate estimates belong to HodgeTateAndCanonicalSubgroups §§3.6–3.9.
 
 *Source:* [Scholze15], III §2, Theorem III.2.1, Corollary III.2.2 and Lemma III.2.4, pp.31–33,
 Corollary III.2.6 and Definition III.2.7 with its following properties,
 pp.33–35 (including Proposition III.2.8).
 
-The API:
+The supplied API, used for the Siegel family:
 
 - `smallHasseCanonicalSubgroups_reduction`: rank and reduction are as above.
 - `smallHasseCanonicalSubgroups_points`: for `p`-complete `ℤ_p^cycl`-flat `R`-algebras `R′`, the
@@ -3285,11 +3274,9 @@ The API:
 - `smallHasseCanonicalSubgroups_polarization`: the principal polarization
   gives isotropy, hence the required polarized quotient isogeny.
 
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.6
-(`illusieObstructionHomomorphisms`), R07.2.21 (Hasse invariant of a `BT₁`);
-PELModuli M3 (abelian quotients and polarization moduli);
-AbelianSchemesAndArithmeticModuli A0–A4; DerivedModuleAlgebra §§0.4, 0.8
-(cotangent complexes and transitivity); ShimuraCompactifications C4–C5
+*Needs:* CohomologyComparisons §6.2 (`smallHasseCanonicalSubgroups` and its
+abelian-family API); PELModuli M3 (abelian quotients and polarization moduli);
+AbelianSchemesAndArithmeticModuli A0–A4; ShimuraCompactifications C4–C5
 (the semi-abelian family and integral Hodge line).
 *Lean:* none; specified in the README only.
 
@@ -5471,9 +5458,10 @@ and coefficient-detecting expansions.
 
 - **HodgeTateAndCanonicalSubgroups** §§1–2, 7.29–7.30 use the Hodge tensors, principal
   bundle, automorphic realizations and nilpotent-residue boundary extensions of B0–B3;
-  its Layers 6–7 compare their smooth-pair instance with B3.log.1–3. B3.HT.1 is the
-  shared lower contract for its §§3.4, 3.6–3.8 cyclotomic-base abelian-family weak/strong subgroup
-  assertions: its `TauCeti.HodgeTate.canonicalSubgroup` is this finite flat subgroup with the same
+  its Layers 6–7 compare their smooth-pair instance with B3.log.1–3. B3.HT.1 uses
+  CohomologyComparisons §6.2's shared package and retains the identification for its
+  §§3.4, 3.6–3.8 cyclotomic-base abelian-family weak/strong subgroup assertions: its
+  `TauCeti.HodgeTate.canonicalSubgroup` is this finite flat subgroup with the same
   congruence, base-change, nesting and quotient maps. Its additional pointwise Harder–Narasimhan
   construction agrees on the overlap by subgroup uniqueness; its wider ranges, degree formula
   and integral Hodge–Tate estimates remain there.
