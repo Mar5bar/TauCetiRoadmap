@@ -1205,6 +1205,38 @@ dictionary remain separate targets of the complete contraction table.
 Before using Casimirs, pin source generators J_ab, signature and commutators, transcribe the course I₁,I₂ and Dixmier Ω,Ω′ definitions, then derive their conversion in the enveloping algebra with all R, i and signature factors. Prove flat Casimir convergence on the common core. A matching pair of central characters is only a necessary check. Keep literal Dooley p.30 claims beside corrected normalization and prove the full
 source dictionaries and contraction regimes as targets with their stated hypotheses.
 
+### M5.AffineG5 — the chosen affine group and central extension
+
+Retain Dooley p.29's proposed containment/contraction statements as source claims. Define the following chosen construction separately; neither matching names nor a Lie-algebra contraction identifies it with the historical group or proves its proper-time conventions. Let `W=ℝ⁴`, `η=diag(1,1,1,−1)`, `L=SO₀(η)`, with the subspace Lie-group topology from the existing M4 Lorentz construction. Match spatial coordinates 1–3 and time coordinate4 to M4 indices0–2 and3: `η_G₅=−η_M4`. Orthogonal groups agree under global negation, whereas index-raising and quadratic-Casimir signs require that negation, not just a coordinate permutation. This is separate from M5's other five-dimensional de Sitter conventions.
+
+On `G₅=L×W×W×ℝ` use tuples `g=(Λ,a,b,σ)` and the faithful affine action on `W×ℝ`
+\[
+ M(g)=\begin{pmatrix}Λ&b&a\\0&1&σ\\0&0&1\end{pmatrix},
+ \qquad (w,r)\longmapsto(Λw+br+a,r+σ).
+\]
+With `g₂g₁=g₂∘g₁`, prove the group law, unit and inverse
+\[
+ g₂g₁=(Λ₂Λ₁,\ a₂+Λ₂a₁+b₂σ₁,\ b₂+Λ₂b₁,\ σ₂+σ₁),\quad 1=(I,0,0,0),
+\]
+\[
+ g^{-1}=(Λ^{-1},-Λ^{-1}a+Λ^{-1}bσ,-Λ^{-1}b,-σ).
+\]
+Use the product manifold and these smooth formulas to obtain a connected real Lie group of dimension `6+4+4+1=15`. Identify the kernel of `G₅→L` as the connected 9-dimensional two-step nilpotent radical, with infinitesimal bracket `[Q_μ,S]=P_μ`; prove that it is the solvable radical because the quotient is the semisimple Lorentz algebra. The Poincaré subgroup is `b=0,σ=0`. The proper Galilei subgroup is `Λ=diag(R,1)`, `a=(q,0)`, `b=(v,0)`, `R∈SO(3)`, with σ its time coordinate and the fourth W coordinate inert. Prove the subgroup embeddings and their law comparisons with M3/M4. Neither 10-dimensional simple algebra `𝔰𝔬(3,2)` nor `𝔰𝔬(4,1)` embeds into `Lie(G₅)`: its intersection with the solvable radical is an ideal, hence zero, and an injection into the six-dimensional quotient is impossible. Preserve the source's de Sitter-containment assertion beside this obstruction, without declaring the chosen G₅ to be its verified identity.
+
+For the contraction put `V=W⊕ℝe₅` with form `η⊕(−1)` and use `ISO₀(3,2)=V⋊SO₀(η⊕(−1))`. Define `L_μe₅=e_μ`, `L_μe_ν=η_{μν}e₅`, translations `P_μ=e_μ`, `S=e₅`, and `J_{μν}=[L_μ,L_ν]`. Verify skew-adjointness and the affine bracket `[(A,u),(B,v)]=([A,B],Av−Bu)`. On the fixed vector space `E=𝔰𝔬(η)⊕W_Q⊕W_P⊕ℝS`, use for `t>0` the invertible linear map `D_t(J,Q,P,S)=(J,tL,tP,S)` to the affine algebra, and define `[x,y]_t=D_t⁻¹[D_tx,D_ty]`. Derive
+\[
+ [Q_μ,S]_t=P_μ,\qquad [Q_μ,P_ν]_t=t²η_{μν}S,\qquad [Q_μ,Q_ν]_t=t²J_{μν},
+\]
+with the usual Lorentz action on both W copies and the other vanishing brackets. Extend the polynomial structure coefficients to zero on E, prove Jacobi there and identify the limit with `Lie(G₅)`. The abstract Q/P basis remains independent at zero; this does not treat zero scaled matrices as a basis, assert convergence of global groups, or identify source rescaling parameters. Own an explicit comparison map for any cited proper-time/source convention before using it, or record precisely which identification is not established.
+
+For the central extension let `x=(a,b)` and `ω(x₂,x₁)=η(a₂,b₁)−η(a₁,b₂)`. Build the Heisenberg group with product `(x₂,z₂)(x₁,z₁)=(x₂+x₁,z₂+z₁+ω(x₂,x₁)/2)`. The diagonal Lorentz action and shears `(a,b)↦(a+σb,b)` preserve ω. Use the factorization `g=S(σ)H(a,b)Λ` (conjugation by S(σ) acts by the shear with −σ), so moving H(a₂,b₂) past S(σ₁) produces `(a₂+σ₁b₂,b₂)`. Derive the normalized smooth real cocycle
+\[
+ c(g₂,g₁)=\tfrac12\{η(a₂+σ₁b₂,Λ₂b₁)-η(Λ₂a₁,b₂)\},
+\]
+and prove `c(1,g)=c(g,1)=0` and `c(g₃,g₂)+c(g₃g₂,g₁)=c(g₂,g₁)+c(g₃,g₂g₁)`. For each `κ∈ℝ`, form the circle central extension with law `(g₂,z₂)(g₁,z₁)=(g₂g₁,z₂z₁ exp(iκc(g₂,g₁)))`. In the real central extension with coefficient1, prove `[P_μ,Q_ν]=η_{μν}Z` and `[Q_μ,S]=P_μ`; in the circle extension the central bracket is scaled by κ. Pull back the Lorentz factor through M4's `SL(2,ℂ)→SO₀(η)`, keeping its `{±I}` kernel distinct from the phase center.
+
+Reuse native matrix multiplication/commutator and `LieAlgebra.so'` or `skewAdjointMatricesLieSubalgebra`, with the explicit coordinate equivalence for η and `η⊕(−1)`; use `SemidirectProduct` for the Heisenberg/shear/Lorentz constructions after supplying their action homomorphisms. TauCeti’s scalar `HeisenbergGroup ℝ`, its product-topology API and three-dimensional `heisenberg ℝ` calibrate the one-coordinate normalization; they do not already supply this 9-dimensional η-pairing group. Build the required bilinear adapter with one scalar center, not `HeisenbergGroup (ℝ⁴)`, whose center has the wrong dimension. LieGroups supplies matrix Lie groups, differentials and covering transport; Consume M1’s normalized central-extension, section and coboundary interface, on the QF5 projective carriers it already uses. QF6b consumes this concrete law, contraction and c to derive its cochain, signed Galilei-mass and Weyl-phase dictionary; no QF6b prerequisite is introduced here and the generic Weyl algebra remains D8-owned.
+
 Reproduce the Bacry–Lévy-Leblond kinematical Lie-algebra classification under its actual assumptions: spatial isotropy, parity and time reversal as automorphisms, the noncompact inertial subgroup/causality condition. Derive the Jacobi constraints and list the resulting relativistic, absolute-time, static and contracted cases; identify Lie-algebra isomorphism versus distinct global covers/groups. The classification is conditional on those assumptions and does not claim all spacetime symmetry groups.
 
 For the classified de Sitter representations, derive the two Casimir invariants `I₁,I₂`, fix their normalization in R, and compute their flat contraction to mass and spin Casimirs; keep literal course-note formulas and corrected convention separately. Consume M4.SpatialLocalization's exact fixed-time spatial covariance criterion, selected positive-energy classification and supplied covariant model pairs. Its full-spacetime sharp-PVM/positive-energy obstruction is the separate M4 theorem above. QF6b owns state-normality, operational probabilities and outcome pushforwards. This is a one-particle localization theorem, not a local quantum field theory.
