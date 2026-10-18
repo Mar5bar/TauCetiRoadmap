@@ -514,6 +514,12 @@ AdicBerkovichToposMorphism, OverconvergentEtaleSheaf, PreadicSpace.ZpLocalSystem
 PreadicSpace.IsogenyZpLocalSystem, PreadicSpace.QpLocalSystem, PreadicSpace.BoundedLattice,
 AdicSpace.AnalyticEtaleCover, AdicSpace.AnalyticCoverFiber,
 AdicSpace.AnalyticEtaleFundamentalGroup, AnalyticTateQuotient, AnalyticRationalLatticeCover.
+README §§3.5 and 3.7 use covering descent and quotients on the Berkovich etale site.
+For taut strict adic X this is u(X)_et,s, identified by s_0 with the partially proper
+etale adic subsite; its covering families are jointly surjective in that subsite.
+AnalyticRationalLatticeCover.boundedStratum has a natural-number index: stratum 0 is L_0(T),
+and stratum m+1 is L_(m+1)(T) minus L_m(T). These finite etale strata decompose the lattice
+sheaf on that same site. The zero system has stratum 0 equal to X and all successor strata empty.
 AnalyticTateQuotient.finiteEtaleDegreeOneIso: a finite etale map of strict analytic spaces over
 an algebraically closed complete nontrivially valued field, with nonempty connected target
 and one classical fibre of cardinality one, is an analytic isomorphism, including all completed
@@ -546,6 +552,9 @@ Valuation.gauss, Valuation.gaussValuationSubring, OrientedEtaleProduct,
 PlurinodalPresentation, aicGenericExtensionEquivalence_functor,
 aicGenericExtensionEquivalence_inverse.
 Layer 6: AdicSpace.ValuationBase.invarianceMap.
+README §6.2's nearby-cycle finiteness (iii) uses a locally closed L in X_s separated over k(s),
+with compact supports from EtaleCohomologyFoundations F.2.5 / VanishingCycles.compactSupportCohomology.
+The finite-type morphism X -> Spec A in (i)-(ii) need not be separated.
 Layer 7: AdicSpace.GeometricFieldPair, AdicSpace.FiniteTypeApprox.
 Layer 8: AdicSpace.IsCompactifiable, AdicSpace.compactification,
 RelativelyCompactRigidOpen, SCompactifiableFormalCurve, LocallySCompactifiableFormalCurve,
@@ -553,6 +562,12 @@ SemistableFormalCurveModel, proper_trait_comparison_agreement, FormalCurve.compa
 FormalCurve.local_compactification_at, AdicSpace.properSupportSections,
 AdicSpace.RProperSupportSections, AdicSpace.lowerShriek, AdicSpace.lowerShriekUnbounded,
 AdicSpace.compactCohomology, AdicSpace.quasiFiniteTrace.
+README §8.2 defines completed transcendence dimension dim.tr using Huber's iterated relative
+algebraic and topological closures and the completed residue-field extensions. A quasi-compact
+separated taut +weakly finite type f has proper universal compactification f^c with
+dim.tr(f^c) = dim.tr(f). The open inclusion is bijective on rank-one points; the fibres over
+rank-one base points can acquire higher-rank points. No locally finite-type fibre criterion
+is required for this equality.
 README §8.3's arbitrary-open model expression is the fixed proper-model composite
 R pi_(P_0)* j_0!, agreeing with ClassicalAlgebraic.properSupports when the open is quasi-compact.
 Layer 9: AdicSpace.IsSmoothCurve, AdicSpace.curveTrace, BoundaryPretrace,
@@ -578,6 +593,10 @@ proper-support direct image is constant. For quasi-compact smooth-model tubes a 
 condition is that the normalized scheme trace is an isomorphism over the whole residual base;
 the tube P^1_eta over rank-two S fails this condition, with top direct image j_! Z/n.
 Layer 10: AnnulusKummerGenerator.
+README §10.4's extension-by-zero isomorphism on compact supports is for a nonempty concentric
+closed subannulus retaining the same coordinate, inside a closed or analytic open annulus over
+Spa(C,O_C), with C algebraically closed complete nontrivially valued and coefficients Z/n,
+n > 0 prime to the residue characteristic. It is dual to the ordinary restriction isomorphism.
 Layer 11: BallExhaustion, radiusBall.
 -/
 end TauCetiRoadmap.ClassicalAdicEtaleCohomology

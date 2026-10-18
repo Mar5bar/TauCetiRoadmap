@@ -78,7 +78,7 @@ The ownership statements above are exact contracts: use only the named layers an
 For scheme coefficients, use `SchemeAndStackFoundations`, §§2.1–2.2 (`Sheaf.derivedPushforward`, `Sheaf.higherDirectImage`, `leray_spectral_sequence`) for the underlying abelian `D⁺` functors and Leray; `EnhancedDerivedSheaves`, §0.4, supplies their module-valued enhancement and coefficient-forgetting comparison. `EtaleCohomologyFoundations`, §`F`.2.1 (`VanishingCycles.properBaseChange`), supplies proper base change for every `D⁺` torsion complex, without invertibility or Noetherian hypotheses. `EtaleCohomologyFoundations`, §0.8 applies it to the chosen proper factor of `EtaleCohomologyFoundations`, §`G`.1 (`Compactification`, `DenseCompactification`), using §`G`.2 (`nagataCompactification`) for existence and §`G`.3 (`compactificationCommonRefinement`) for coherent comparison. Only finite-presentation compactification diagrams enter `EtaleCohomologyFoundations`, §0.5's descent. Constructible lower-shriek exchange and ctf preservation are the additional contracts of `EtaleCohomologyFoundations`, §§`F`.2–`F`.3; they use its `D⁺` functor. Its §`F`.4 uses the derived limits and completion of `EnhancedDerivedSheaves`, §0.3, to construct geometric adic realization, rather than identifying it with an underived limit of cohomology groups.
 
 
-`AdicEtaleGeometry`, Layer A2, supplies spectral dimension, relative dimension on rank-one fibres, relative completed transcendence degree and relative pure dimension. Pure dimension `d` means dimension `d` on every nonempty open; relative pure dimension `d` means that every nonempty fibre is pure of dimension `d`. Empty fibres impose no surjectivity condition. The geometry supplier includes addition of dimensions for composites of smooth partially proper maps and agreement with Berkovich relative dimension on taut rigid spaces. These interfaces are used for the top-degree Leray trace; no new dimension predicate is defined here. (Huber (1996), Definitions 1.8.1 and 1.8.7; Zavyalov, *`Mod`-`p` Poincaré duality*, Definition 5.3.1 and the argument after Lemma `A`.8 in Theorem 5.3.3, pp. 77–78 and Appendix `A`.)
+`AdicEtaleGeometry`, Layer A2, supplies spectral dimension, relative pure dimension and its detection on fibres over rank-one points for locally finite-type morphisms. Pure dimension `d` means dimension `d` on every nonempty open; relative pure dimension `d` means that every nonempty fibre is pure of dimension `d`. Empty fibres impose no surjectivity condition. The geometry supplier includes addition of dimensions for composites of smooth partially proper maps and agreement with Berkovich relative dimension on taut rigid spaces. These interfaces are used for the top-degree Leray trace. Section 8.2 defines the distinct completed transcendence dimension `dim.tr` used for universal compactifications. (Huber (1996), Definitions 1.8.1–1.8.4 and Corollary 1.8.7; Zavyalov, *`Mod`-`p` Poincaré duality*, Definition 5.3.1 and the argument after Lemma `A`.8 in Theorem 5.3.3, pp. 77–78 and Appendix `A`.)
 
 ## How to read the build
 
@@ -1416,19 +1416,25 @@ The image of a de Jong covering `Y→X` is a union of connected components of `X
 
 *Needs:* Section 3.5; `AdicEtaleGeometry`, layer A1 (`etale-open-map`); Section 3.1.
 
-An étale sheaf on `X_et` is represented by a de Jong covering if and only if its pullback to each member of an étale covering of `X` is so. Effective descent retains a single ordinary neighbourhood on which all fibres are a disjoint union of finite étale pieces; arbitrary sheaf representability alone would not prove this covering condition.
+A sheaf of sets on the Berkovich étale site of a `k`-analytic space is represented by a de Jong covering if and only if its pullback to each member of a covering in that site is so. For a taut strict adic space `X`, this is the site `u(X)_ét,s` of Section 3.1: `s₀` identifies it with the subsite of partially proper étale adic maps, with jointly surjective covering families. This identification transports the descent assertion and its represented covering to `X`. Effective descent retains a single ordinary Berkovich neighbourhood on which all fibres are a disjoint union of finite étale pieces.
 
 (de Jong (1995), Lemma 2.3 and proof, pp. 92–93.)
 
+**Checks.**
+
+- Descent along the identity covering returns the original represented covering.
+- Finite étale descent on this site agrees with A1's finite étale descent after transport by `s₀`.
+- In characteristic `p`, the Artin–Schreier construction on `A = {|ϖ| ≤ |T| ≤ |ϖ|⁻¹}` is a disjoint union of finite étale covers over each of the rational opens `{|ϖ| ≤ |T| ≤ 1}` and `{1 ≤ |T| ≤ |ϖ|⁻¹}`, but is not a de Jong covering over `A`. These rational opens do not form a covering in the partially proper étale subsite. (Achinger–Lara–Youcis, *Variants of the de Jong fundamental group*, Construction 2.1.3 and Proposition 2.1.4, [arXiv:2203.11750v1](https://arxiv.org/html/2203.11750v1#S2.SS1).)
+
 *Needs:* Section 3.5; `SchemeAndStackFoundations`, Layer 2; `DiamondsAndVStacks`, layer D0; Section 3.1.
 
-For a de Jong covering `Y→X` and an equivalence relation `R` which is a union of connected components of `Y×_X Y`, the étale quotient sheaf `Y/R` is represented by a de Jong covering. Locally reduce to finite étale pieces and quotient by the descended relation; the component condition is essential to that reduction.
+For a de Jong covering `Y→X` and an equivalence relation `R` which is a union of connected components of `Y×_X Y`, the quotient sheaf `Y/R` on the Berkovich étale site (on `u(X)_ét,s` after adic transport) is represented by a de Jong covering. Locally reduce to finite étale pieces and quotient by the descended relation; the component condition is essential to that reduction.
 
 (de Jong (1995), Lemma 2.4 and proof, p. 93.)
 
 *Needs:* Section 3.5; `SchemeAndStackFoundations`, Layer 2; `DiamondsAndVStacks`, layer D0.
 
-A sheaf of sets on `X_ét` is representable by a de Jong covering iff it is so after an étale covering of `X`. If `Y→X` is such a covering and `R⊆Y×_X Y` is an equivalence relation that is a union of connected components, then the quotient étale sheaf `Y/R` is representable by a de Jong covering. Coverings are separated and stable under base change; their images are unions of connected components. The quotient assertion retains the connected-component condition on `R`.
+A sheaf of sets on the Berkovich étale site is representable by a de Jong covering iff it is so after a covering in that site. On a taut strict adic `X` this means `u(X)_ét,s`, transported by `s₀` to the partially proper étale subsite of Section 3.1. If `Y→X` is such a covering and `R⊆Y×_X Y` is an equivalence relation that is a union of connected components, then the quotient sheaf in this same site is representable by a de Jong covering. Coverings are separated and stable under base change; their images are unions of connected components. The quotient assertion retains the connected-component condition on `R`.
 
 (de Jong (1995), Lemmas 2.2–2.4 with proofs, pp. 91–93.)
 
@@ -1553,18 +1559,18 @@ Provide `AnalyticTateQuotient.cover`, `deck_equiv_int`, `kernel_points`, `quotie
 
 *Needs:* Section 3.1; `AdicEtaleGeometry`, layer A1 (`finite-etale-affinoid-algebra`); `AdicSpacesPartII`, layer R0 (`quasi-finite-and-finiteness-criteria`); Mathlib finite projective modules and Nakayama.
 
-For an étale `ℚ_p`-local system `V` on a `k`-analytic `X`, let `Lat(V)` be the étale sheaf whose sections are finite-free integral `ℤ_p`-lattices in `V`, with inclusion after rationalization equal to `V`. It is represented by a de Jong covering: locally choose an integral presentation `T`, and express its lattice sheaf as the increasing union of the open and closed finite étale subspaces `L_m(T)`, hence as the disjoint union of the finite étale differences `L_m(T)∖L_{m−1}(T)`. Étale-local representability then gives a global analytic covering. This construction allows `Lat(V)` to lack a global section.
+For an étale `ℚ_p`-local system `V` on a `k`-analytic Berkovich space, let `Lat(V)` be the sheaf on its Berkovich étale site whose sections are finite-free integral `ℤ_p`-lattices in `V`, with inclusion after rationalization equal to `V`. For a corresponding taut strict adic space `X`, use `u(X)_ét,s` before transport by `s₀`. Locally choose an integral presentation `T`. Its lattice sheaf is the increasing union of the open and closed finite étale subspaces `L_m(T)`, and its disjoint decomposition is `L_0(T) ⊔ ⨿_{m≥0}(L_{m+1}(T)∖L_m(T))`. Descent on this same Berkovich site (Section 3.5) gives a global de Jong covering, transported to the adic space by `s₀`. This construction allows `Lat(V)` to lack a global section.
 
 (de Jong (1995), Proof of Theorem 4.2, p. 104.)
 
-Provide `AnalyticRationalLatticeCover`: The represented covering `Lat(V)→X`; `AnalyticRationalLatticeCover.fiber`: At `x` its points are `ℤ_p`-lattices in the rational fibre `V_x`; `AnalyticRationalLatticeCover.boundedStratum`: For a local integral presentation `T`, the finite étale stratum `L_m(T)∖L_{m−1}(T)` of lattices with least two-sided bound `m`; `Lat(V)` is locally the disjoint union of these strata; `AnalyticRationalLatticeCover.universalLattice`: The tautological integral system on `Lat(V)` rationalizes to the pullback of `V`.
+Provide `AnalyticRationalLatticeCover`: The represented covering `Lat(V)→X`; `AnalyticRationalLatticeCover.fiber`: At `x` its points are `ℤ_p`-lattices in the rational fibre `V_x`; `AnalyticRationalLatticeCover.boundedStratum`: For a local integral presentation `T` and index in `ℕ`, stratum 0 is `L_0(T)` and stratum `m+1` is `L_{m+1}(T)∖L_m(T)`; its points have least two-sided bound equal to the index, and `Lat(V)` is locally the disjoint union of these finite étale strata; `AnalyticRationalLatticeCover.universalLattice`: The tautological integral system on `Lat(V)` rationalizes to the pullback of `V`.
 
 Provide `AnalyticRationalLatticeCover.pullback`: `Lat(f^*V)≅Lat(V)×_X X′`; `AnalyticRationalLatticeCover.section`: Global sections correspond to global integral lattices in `V`.
 
 **Checks.**
 
-- For `V=0` the lattice cover is `X` with its unique zero lattice.
-- For trivial rank-one `V` at a geometric point, the lattice set is `{p^aℤ_p | a∈ℤ}`.
+- For `V=0`, every `L_m` is `X`; stratum 0 is `X` and all successor strata are empty, so the lattice cover is `X` with its unique zero lattice.
+- For trivial rank-one `V` at a geometric point, stratum 0 is `{ℤ_p}` and stratum `m+1` is `{p^(m+1)ℤ_p, p^(−m−1)ℤ_p}`; their union is `{p^aℤ_p | a∈ℤ}`.
 - The Tate-curve `p^ℤ` monodromy system has no section of its lattice cover.
 
 *Needs:* Section 3.3; Section 3.4; Section 3.5; `SchemeAndStackFoundations`, Layer 2; `AdicEtaleGeometry`, layer A1.
@@ -3179,9 +3185,9 @@ Degenerate: `f` proper, `X̄ = X, ∂_s = ∅`, and `(b)` reduces to proper-near
 
 *Needs:* Section 6.2; Section 5.2; `EtaleCohomologyFoundations`, §§0.5–0.6; `EtaleCohomologyFoundations`, §0.8 (`ClassicalAlgebraic.properSupports`); `EtaleCohomologyFoundations`, §§`G`.1–`G`.3 (`Compactification`, `nagataCompactification`, `compactificationCommonRefinement`); `EtaleCohomologyFoundations`, §`F`.2.1 (`VanishingCycles.properBaseChange`); `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation.
 
-Let `A` be a strictly henselian valuation ring with separably closed fraction field `K, S = Spec A, f: X → S` of finite type with fibres of dimension `≤ N`. Let `Λ` be a noetherian ring with `mΛ = 0` for an integer `m` invertible in `A`, and `F ∈ D^b_c((X_η)_et, Λ)` with cohomology sheaves in degrees `[a, b]`. Then: (i) `RΨF ∈ D^b_c((X_s)_et, Λ)`, with `R^nΨF = 0` for `n ∉` [a, `b +` 2N]; (ii) for every closed subscheme `L ⊆ X_s` proper over `k(s)` (for instance `L = X_s` when `f` is proper), each `Hⁿ(L, RΨF|_L)` is a finitely generated `Λ`-module and vanishes for all but finitely many `n`; (iii) for every locally closed subscheme `L ⊆ X_s`, each `H^n_c(L, RΨF|_L)` is finitely generated; (iv) if `f` is proper, `Hⁿ(X_η, F) ≅ Hⁿ(X_s, RΨF)` is finitely generated, and if `f` is separated of finite presentation, `H^n_c(X_η, F)` is finitely generated.
+Let `A` be a strictly henselian valuation ring with separably closed fraction field `K, S = Spec A, f: X → S` of finite type with fibres of dimension `≤ N`. Let `Λ` be a noetherian ring with `mΛ = 0` for an integer `m` invertible in `A`, and `F ∈ D^b_c((X_η)_et, Λ)` with cohomology sheaves in degrees `[a, b]`. Then: (i) `RΨF ∈ D^b_c((X_s)_et, Λ)`, with `R^nΨF = 0` for `n ∉` [a, `b +` 2N]; (ii) for every closed subscheme `L ⊆ X_s` proper over `k(s)` (for instance `L = X_s` when `f` is proper), each `Hⁿ(L, RΨF|_L)` is a finitely generated `Λ`-module and vanishes for all but finitely many `n`; (iii) for every locally closed subscheme `L ⊆ X_s` separated over `k(s)`, each `H^n_c(L, RΨF|_L)` is finitely generated, with compact supports as in `EtaleCohomologyFoundations`, §`F`.2.5; (iv) if `f` is proper, `Hⁿ(X_η, F) ≅ Hⁿ(X_s, RΨF)` is finitely generated, and if `f` is separated of finite presentation, `H^n_c(X_η, F)` is finitely generated.
 
-This uses `A` a strictly henselian valuation ring with separably closed fraction field; `f: X → Spec A` of finite type with fibres of dimension `≤ N` (of finite presentation and separated for the compactly supported part of (iv)); `Λ` noetherian with `mΛ = 0, m` invertible in `A`; `F ∈ D^b_c((X_η)_et, Λ)` with cohomology in degrees `[a, b]`.
+This uses `A` a strictly henselian valuation ring with separably closed fraction field; `f: X → Spec A` of finite type with fibres of dimension `≤ N` (of finite presentation and separated for the compactly supported part of (iv)); `L` separated over `k(s)` for (iii); `Λ` noetherian with `mΛ = 0, m` invertible in `A`; `F ∈ D^b_c((X_η)_et, Λ)` with cohomology in degrees `[a, b]`.
 
 (Luc Illusie, Vanishing cycles over general bases after P. Deligne, O. Gabber, G. Laumon and F. Orgogozo, §1.1 (b), p. 2; Vladimir G. Berkovich, Vanishing cycles for formal schemes, §5, proof of Corollary 5.5 (GDZ OCR); Fabrice Orgogozo, Modifications et cycles proches sur une base générale (arXiv title: Modifications et cycles évanescents sur une base de dimension supérieure à un), §6 Énoncés, p. 16 (arXiv math/0507475v1); Fabrice Orgogozo, Modifications et cycles proches sur une base générale (arXiv title: Modifications et cycles évanescents sur une base de dimension supérieure à un), Proposition 2.3, p. 3 (arXiv math/0507475v1); Stacks project, Étale Cohomology chapter, Situation 83.1 statement (5) (Tag 0A57), version ed88ff78; Stacks project, Étale Cohomology chapter, Situation 83.1 statement (4) (Tag 0A56), version ed88ff78.)
 
@@ -3189,10 +3195,11 @@ This uses `A` a strictly henselian valuation ring with separably closed fraction
 
 - For an algebraically closed field `K` of characteristic `p (A = K, η = s), H¹(A^1_K, Z/p) ≅ K[x]/{gᵖ − g}` is infinite: ordinary cohomology of a non-proper `L` with `p`-torsion coefficients is not finite, and the construction claims finiteness only for proper `L` and for compact supports, with `m` invertible for (i).
 - For `X = A^N_A` and `F = Λ` (smooth, so `RΨΛ = Λ` by local acyclicity), `R^nΨΛ = 0` for `n > 0`, within the bound [0, 2N].
+- For algebraically closed `A=k`, the affine line with doubled origin `X`, `η=s` and `F=ℤ/ℓ` with `ℓ` invertible in `k`, (i) gives `RΨF=F`. The choice `L=X` does not meet (iii)'s separatedness hypothesis: it cannot be an open subscheme of a proper `k`-scheme. Either affine-line chart is separated and does meet (iii).
 
 Nondiscrete rank one: `A = O_C, X = E` an elliptic curve over `O_C` with good reduction, `F = Z/ℓⁿ` with `ℓ ≠ p: H¹(E_s, RΨF) ≅ H¹(E_C, Z/ℓⁿ) ≅ (Z/ℓⁿ)²`. Higher-rank plus ring: `A = C⁺` of rank two, `X = P¹`: the groups of (iv) are `Λ`, 0, `Λ(−1)`. `η = s: A = K` a field, `RΨF = F` and (ii)–(iii) are the finiteness theorems over `K`.
 
-*Needs:* Section 5.4; Section 5.2; Section 6.2; `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFiniteType; Mathlib AlgebraicGeometry.IsProper; Section 5.3; `EtaleCohomologyFoundations`, §§0.5–0.6.
+*Needs:* Section 5.4; Section 5.2; Section 6.2; `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFiniteType; Mathlib AlgebraicGeometry.IsProper; Section 5.3; `EtaleCohomologyFoundations`, §§0.5–0.6 and §`F`.2.5 (`VanishingCycles.compactSupportCohomology`, on separated finite-type schemes over a field; Stacks, Definition 63.12.1, tag 0GJZ).
 
 Let `A` be a strictly henselian microbial valuation ring with separably closed fraction field `K` and its valuation topology, `a ∈ p_A` a nonzero element of its height-one prime, `S = Spec A, f: X → S` locally of finite type, `X^ the` a-adic completion of `X` (of type `(S)` by Section 4.5 3.5.16), `X_0 = X ×_S V(p_A), T ⊆ d(X^)` the preimage of the closed point of `d(Spf A) = Spa(K, A), Z = (d(X^), T)` and `c: Z → X_η` the natural morphism. Let `Λ` be a torsion ring and `F ∈ D⁺((X_η)_et, Λ)`. (i) The isomorphism `κ_X: RΓ(Z, c^*F) ≅ RΓ(X_s, i^*Rj_*F)` of 3.5.16 has target `RΓ(X_s, RΨF), RΨ` the nearby-cycle functor of Section 5.2 (`X_η ⊆ X` is open and the strict localisation at `η` is `η`). (ii) For every closed subset `L` of `X_0` contained in `X_s`, the sheaf-level isomorphism of 3.5.13 restricted to `L` gives `κ_{X,L}: RΓ(d(X^, L), c_L^*F) ≅ RΓ(L, RΨF|_L)`, with `κ_{X,X_s} = κ_X`, compatible with restriction to closed L' `⊆ L` and with extension by zero from open L' `⊆ L` (3.5.11). (iii) Let `φ: A → B` be a continuous surjective map of valuation spectra to a ring `B` of the same kind (fraction field `L`), `X_B = X ×_S Spec B`. The morphism `d(X_B^) → d(X^)` maps the tube `Z_B` over the closed point of `Spa(L, B)` into `Z`, and pullback of tube cohomology `RΓ(Z, c^*F) → RΓ(Z_B, c_B^*F_B)` corresponds under `κ_X` and `κ_{X_B}` to the invariance map `inv_φ(F)`. (iv) For `A = O_C` complete of rank one (necessarily nondiscrete, its fraction field `C` being separably closed), `T = d(X^)` and `κ_X` is `RΓ(X_s, −)` applied to the isomorphism `i^*Rj_*F ≅ Rb_*a^*F` of 3.5.13, with `b: d(X^)_et → X^_et ≅ (X_s)_et` and a: `d(X^)_et → (X_η)_et`: the algebraic nearby cycles are the analytic nearby cycles of the completion.
 
@@ -3562,25 +3569,31 @@ Closed unit disc over `S = Spa(C, O_C): X̄ = Spa(C⟨T⟩, B'⁺)` with `B'⁺`
 
 *Needs:* Section 8.1; the supplier contracts; `AdicSpacesPartII`, layer R0 (`partially-proper-morphism`); `AdicSpacesPartII`, layer R0 (`separated-proper-partially-proper`); `AdicSpacesPartII`, layer R0 (`universally-closed-and-proper-morphism`); `AdicSpacesPartII`, layer R0 (`fibre-product-points`); `AdicSpacesPartII`, layer R0 (`locally-noetherian-adic-space`).
 
-Let `f : X → Y` be compactifiable and quasi-compact (`i.e`. of `+`weakly finite type), with universal compactification `f = f̄ ∘ j` (Section 8.2). Then (i) `f̄ : X̄ → Y` is proper; (ii) `j` is a quasi-compact open immersion; (iii) `f` and `f̄` have the same rank-one fibres, so dim `f̄ =` dim `f` for the relative dimension computed on rank-one fibres (`AdicEtaleGeometry`, layer A2 (`relative-dimension-rank-one-fibres`)) and the topological transcendence dimensions of ECD Definition 21.1–21.2 agree. In particular every `f ∈ 𝓔` factors as `f = p ∘ i` with `i ∈ 𝓘` and `p ∈ 𝓟`.
+Let `f : X → Y` be compactifiable and quasi-compact (`i.e`. of `+`weakly finite type), with universal compactification `f = f̄ ∘ j` (Section 8.2). Then (i) `f̄ : X̄ → Y` is proper; (ii) `j` is a quasi-compact open immersion; (iii) `dim.tr f̄ = dim.tr f`, by the completed transcendence-dimension contract below. In particular every `f ∈ 𝓔` factors as `f = p ∘ i` with `i ∈ 𝓘` and `p ∈ 𝓟`.
 
 This uses `f` compactifiable and quasi-compact; `Y` locally noetherian analytic.
 
 (Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 1, p. 28; Bogdan Zavyalov, Some foundational results in adic geometry, proof of Lemma 9.1, Step 1, p. 24; Scholze, Étale cohomology of diamonds, Corollary 18.8(vi), p. 106.)
 
-For the closed unit disc over `Spa(C, C⁺), B → B̄` is a quasi-compact open immersion and `B̄ → Spa(C, C⁺)` is proper of relative dimension 1. Non-example: for the open unit disc (not quasi-compact) the compactification is `D` itself and `D → Spa(C, O_C)` is partially proper but not proper.
+For the closed unit disc over `Spa(C, C⁺), B → B̄` is a quasi-compact open immersion and `B̄ → Spa(C, C⁺)` is proper with `dim.tr = 1`. Non-example: for the open unit disc (not quasi-compact) the compactification is `D` itself and `D → Spa(C, O_C)` is partially proper but not proper.
 
-*Needs:* Section 8.2; `AdicSpacesPartII`, layer R0 (`proper-iff-partially-proper-quasi-compact`); `AdicSpacesPartII`, layer R0 (`universally-closed-and-proper-morphism`); `AdicEtaleGeometry`, layer A2 (`dimension-of-adic-spaces`); `AdicEtaleGeometry`, layer A2 (`relative-dimension-rank-one-fibres`); `AdicSpacesPartII`, layer R0 (`plus-weakly-finite-type`).
+*Needs:* Section 8.2; `AdicSpacesPartII`, layer R0 (`proper-iff-partially-proper-quasi-compact`); `AdicSpacesPartII`, layer R0 (`universally-closed-and-proper-morphism`); `AdicSpacesPartII`, layer R0 (`plus-weakly-finite-type`).
 
-For a quasi-compact separated taut `+`weakly finite type morphism `f:X→Y` of locally noetherian analytic adic spaces, let `j:X→`Xᶜ and fᶜ:Xᶜ`→Y` be its universal compactification. The morphism fᶜ is proper and dim.tr fᶜ `=` dim.tr `f`, with the relative transcendence-dimension convention of Huber §1.8. In particular a finite upper bound remains valid at the added higher-rank points. This statement does not assert that fᶜ is locally of finite type.
+**Completed transcendence dimension and compactification invariance.** For an extension `E⊆F` of nonarchimedean fields, define `tr.c(F/E)` as the least finite bound on `trdeg(L/E)` among intermediate fields `L` from which finitely many repetitions of relative algebraic closure in `F` followed by topological closure in `F` reach `F`; put `tr.c(F/E)=∞` when no finite bound exists. Prove invariance under topological isomorphisms of field extensions and tower subadditivity. For an analytic adic morphism `f:X→Y`, define `dim.tr f = sup_{x∈X} tr.c(κ̂(x)/κ̂(f(x)))`, with empty supremum `−∞`, using the completed residue fields of `AdicSpacesPartII`, layer R0. Prove invariance under isomorphisms of morphisms and monotonicity on open subspaces of `X`.
 
-This uses `f` is in the inherited universal-compactification scope; dim.tr is supplied by A2 for `+`weakly finite type maps, including maps not locally of finite type.
+For a quasi-compact separated taut `+`weakly finite type morphism `f:X→Y` of locally noetherian analytic adic spaces, let `j:X→Xᶜ` and `fᶜ:Xᶜ→Y` be its universal compactification. Then `fᶜ` is proper and `dim.tr fᶜ = dim.tr f`. Every added point specializes from a point of `X`, and the induced completed residue-field extensions are isomorphic, including the corresponding base fields; this preserves their `tr.c`. In particular a finite upper bound remains valid at the added higher-rank points. The morphism `fᶜ` need not be locally of finite type.
 
-(Bogdan Zavyalov, Some foundational results in adic geometry, Lemma 9.1, proof of (1), p. 24.)
+This uses `f` is in the universal-compactification scope of Sections 8.1–8.2; no rank-one-fibre criterion is required for `fᶜ`.
 
-The boundary of the compactified disc contains a rank-two point while its relative transcendence dimension stays one. Do not apply A2’`s` locally-finite-type rank-one fibre criterion to fᶜ without proving its hypotheses.
+(Huber (1996), Definitions 1.8.2 and 1.8.4 and Remark 1.8.3(i), p. 91; Corollary 5.1.14 and its proof, p. 280; Bogdan Zavyalov, Some foundational results in adic geometry, Lemma 9.1, proof of (1), p. 24.)
 
-*Needs:* Section 8.2; `AdicEtaleGeometry`, layer A2.
+**Checks.**
+
+- Over the unique rank-one point of `Spa(C,O_C)`, the compactified closed disc's fibre contains the added exterior rank-two point. The fibres differ although `j` is a bijection on rank-one points and both morphisms have `dim.tr = 1`.
+- For a proper `f`, `j` is an isomorphism and the equality of completed transcendence dimensions is immediate.
+- The empty morphism to a nonempty base has `dim.tr = −∞`; the identity of a nonempty analytic space has `dim.tr = 0`.
+
+*Needs:* Sections 8.1–8.2; `AdicSpacesPartII`, layer R0 (completed residue fields and their specialization isomorphisms); Mathlib field algebraicity, transcendence degree and topological closure.
 
 (Huber 3.7.1) Let `R` be an adic space, `S` a scheme and `φ: R → S` a morphism of locally ringed spaces; let `X, Y` be schemes locally of finite type over `S` and `f: X → Y` an `S`-morphism; put `X^ad = X ×_S R, Y^ad = Y ×_S R` (`AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`)) with `f^ad: X^ad → Y^ad`, and let `φ_X, φ_Y` be the induced morphisms of étale sites, which form a commutative square with `f` and `f^ad`. (Theorem 3.7.2) If `f` is proper and `Λ` is a torsion ring, the base-change transformation `φ_Y^* ∘ R⁺f_* → R⁺f^ad_* ∘ φ_X^*` of functors `D⁺(X_ét, Λ) → D⁺((Y^ad)_ét, Λ)` is an isomorphism. Here `φ^*` is inverse image. No constructibility and no condition on the torsion relative to the residue characteristics is imposed. (Lemma 3.7.3) For proper `f` the morphism `f^ad` is separated and quasi-compact, indeed proper; this is imported from `AdicSpacesPartII`, layer R1 (`analytification-separated-proper`) `(ii′)`. The generality of `R` is that in which the fibre product exists (R1); no non-noetherian extension is added.
 
@@ -4939,13 +4952,17 @@ For `F_ℓ` the dimensions are (1, 1, 0, …); a primitive root of unity only un
 
 *Needs:* Section 10.1; Section 10.2; Section 10.3; Section 9.6; `EnhancedDerivedSheaves`, §§0.1–0.4.
 
-For a closed annulus `A` over `Spa(C, O_C)` and `Λ = ℤ/n` prime to the residue characteristic: `H¹_c(A, Λ) = Λ, H²_c(A, Λ) = Λ(−1)`, and `H^q_c(A, Λ) = 0` otherwise, for Huber's proper-support cohomology. The same holds for the analytic open annulus, and extension by zero from a closed subannulus is an isomorphism in every degree. The identifications are those of Layers 8–9 trace and duality pairing.
+For a closed annulus `A` over `Spa(C, O_C)` and `Λ = ℤ/n` prime to the residue characteristic: `H¹_c(A, Λ) = Λ, H²_c(A, Λ) = Λ(−1)`, and `H^q_c(A, Λ) = 0` otherwise, for Huber's proper-support cohomology. The same holds for the analytic open annulus. For either ambient annulus, extension by zero along the inclusion `j:V→A` of a nonempty concentric closed subannulus, retaining the same coordinate `T`, is an isomorphism in every degree. Under the curve-duality pairing this map is dual to restriction: `⟨j_!u,v⟩_A = ⟨u,j*v⟩_V`. Restriction preserves the coordinate Kummer generator, as in the adjacent ordinary-cohomology contract, so its dual is an isomorphism.
 
-This uses `C` algebraically closed, complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent `p`; base `Spa(C, O_C)`; radii in `|C^×|`; `Λ = ℤ/n` with `n` prime to `p` (false for `p`-torsion: Berkovich Remarks 6.2.10 and 6.4.2); `H^q_c` is Huber's proper-support cohomology relative to `Spa(C, O_C)` (Section 8.3); for a quasi-compact non-proper space it differs from Berkovich's compact-support cohomology; `0 < r ≤ R` with `r, R ∈ |C^×|`; `r < R` for the open annulus.
+This uses `C` algebraically closed, complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent `p`; base `Spa(C, O_C)`; radii in `|C^×|`; `Λ = ℤ/n` with `n` prime to `p` (false for `p`-torsion: Berkovich Remarks 6.2.10 and 6.4.2); `H^q_c` is Huber's proper-support cohomology relative to `Spa(C, O_C)` (Section 8.3); for a quasi-compact non-proper space it differs from Berkovich's compact-support cohomology; `0 < r ≤ R` with `r, R ∈ |C^×|`; `r < R` for the open annulus. The extension-by-zero assertion requires `V` nonempty, closed and concentric in the coordinate `T`.
 
 (Vladimir G. Berkovich, Étale cohomology for non-Archimedean analytic spaces, §6.2, Theorem 6.2.1, p. 112; Peter Scholze, Étale cohomology of diamonds, proof of Theorem 19.5 (ii), p. 112.)
 
-For `F_ℓ` the compact-support dimensions are (0, 1, 1); the closed disc, by contrast, has (0, 0, 1).
+**Checks.**
+
+- For `F_ℓ` the compact-support dimensions are (0, 1, 1); the closed disc has (0, 0, 1).
+- The concentric circle `{|T|=s}` inside `A(r,R)`, with `r≤s≤R`, gives an extension-by-zero isomorphism, including when the ambient annulus is itself a circle.
+- Over `C=ℂ₃` with `Λ=ℤ/2`, take `A={|3|≤|T|≤|3|⁻¹}` and `V={|3|²≤|T−1|≤|3|}`. Writing `S=T−1`, one has `|S|≤|3|<1`, so the convergent square-root series for `1+S` kills the restriction of `δ₂(T)`. Thus `H¹_c(V,Λ)→H¹_c(A,Λ)` is zero between copies of `Λ`, by the pairing. The same `V` lies in the analytic open annulus with these endpoint radii and gives the same zero map there.
 
 *Needs:* Section 10.4; Section 9.6; Section 8.3.
 
