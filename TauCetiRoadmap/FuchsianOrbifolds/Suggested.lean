@@ -427,6 +427,30 @@ theorem riemannHurwitz (f : TauCeti.RiemannSurface.FiniteHolomorphicMap X Y) :
 
 end TauCeti.RiemannSurface
 
+/-! Public short names for the native compact-curve API and this owner's surface specializations.
+The aliases use the same carriers and declarations; they add no independent degree or genus theory. -/
+namespace RiemannSurface
+
+/-- Finite formal integer sums on the native divisor carrier. -/
+abbrev Divisor (X : Type*) := TauCeti.AlgebraicGeometry.WeilDivisor X
+
+export TauCeti.RiemannSurface
+  (FiniteHolomorphicMap localMultiplicity localMultiplicity_pos degree degree_eq_fiber_sum
+   localMultiplicity_comp degree_comp biholomorphOfDegreeEqOne biholomorphOfDegreeEqOne_toFun
+   divisorPullback surfaceEulerCharacteristic genus ramificationDegree riemannHurwitz)
+
+export TauCetiRoadmap.FuchsianOrbifolds
+  (surfaceEulerCharacteristic_eq_two_sub_two_mul_genus branchedCover_eulerCharacteristic)
+
+namespace FiniteHolomorphicMap
+
+export TauCeti.RiemannSurface.FiniteHolomorphicMap
+  (mk toFun holomorphic nonconstant finite_fiber comp)
+
+end FiniteHolomorphicMap
+
+end RiemannSurface
+
 namespace TauCetiRoadmap.FuchsianOrbifolds
 
 def p85Scale (u : (ZMod 8)ˣ) : MulAut (Multiplicative (ZMod 8)) where
