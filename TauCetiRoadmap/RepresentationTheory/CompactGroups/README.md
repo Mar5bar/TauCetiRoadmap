@@ -375,7 +375,12 @@ finite bundle embeddings that apply this theorem. NoncompactQuantumSymmetry
 M0 owns the further Hilbert isotypic orthogonal projections, multiplicity
 spaces, completed-tensor and smooth-vector comparisons, using this same
 orbit-span predicate and density input. Its Hilbert structure is not part
-of the generic Banach density theorem.
+of the generic Banach density theorem. For compact Lie groups,
+[SmoothBanachRepresentations SB4](../SmoothBanachRepresentations/README.md)
+compares this same G-finite predicate with smooth vectors and proves density
+in their stronger Fréchet topology. This comparison consumes Layer5.1;
+Layer5.1's arbitrary compact-group Banach density has no Lie-smoothness
+or Dixmier–Malliavin prerequisite.
 
 - **Density in `L²(G)`.** From uniform density plus `ContinuousMap.toLp_denseRange` (continuous
   functions dense in `L²` on the compact finite-measure `G`), `𝓡(G)` is **dense in `L²(G)`**, so its
