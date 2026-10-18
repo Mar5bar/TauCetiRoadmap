@@ -47,6 +47,62 @@ theorem separated_generator_high_coefficients (n : ℕ) (hn : 2 ≤ n)
       (∀ j, ‖∑ i : Fin n, (m i : ℂ) * ((Y : ℂ) * z j) ^ i.val‖ ≤ C * Y) →
       ∀ i, 2 ≤ i.val → m i = 0 := by sorry
 
+/-- A single absolute constant controls every primitive nonprincipal quadratic conductor. -/
+theorem quadraticCharacter_intervalBound :
+    ∃ C : ℝ, 0 < C ∧ ∀ (Q : ℕ), 1 < Q →
+      ∀ χ : DirichletCharacter ℂ Q, χ.IsPrimitive → χ ≠ 1 → χ ^ 2 = 1 →
+      ∀ M H : ℕ,
+      ‖∑ n ∈ Finset.range H, χ ((M + n : ℕ) : ZMod Q)‖ ≤
+        C * Real.sqrt Q * Real.log (2 * Q) := by sorry
+
+/-- Prefix minimization among columns of unimodular integral matrices gives real Gram reduction. -/
+def IsMinkowskiReducedGram {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ) : Prop :=
+  A.PosDef ∧ ∀ (j : Fin n) (U : Matrix (Fin n) (Fin n) ℤ),
+    IsUnit U.det →
+    (∀ i : Fin n, i < j → ∀ k : Fin n, U k i = if k = i then 1 else 0) →
+    A j j ≤ ∑ k : Fin n, ∑ l : Fin n, A k l * (U k j : ℝ) * (U l j : ℝ)
+
+/-- A strong real Gram basis is reduced and every other reduced basis differs by signs. -/
+def IsStrongReducedGram {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ) : Prop :=
+  IsMinkowskiReducedGram A ∧
+    ∀ U : Matrix (Fin n) (Fin n) ℤ, IsUnit U.det →
+      IsMinkowskiReducedGram ((U.map (Int.castRingHom ℝ)).transpose * A *
+        U.map (Int.castRingHom ℝ)) →
+      ∃ ε : Fin n → ℤ, (∀ i, ε i = 1 ∨ ε i = -1) ∧ U = Matrix.diagonal ε
+
+/-- Monic Gram quasi-reduction preserves the unitriangular basis-change restriction. -/
+def IsMonicQuasiReducedGram {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ) : Prop :=
+  ∃ U : Matrix (Fin n) (Fin n) ℤ,
+    (∀ i j : Fin n, j ≤ i → U i j = if i = j then 1 else 0) ∧
+    IsMinkowskiReducedGram ((U.map (Int.castRingHom ℝ)).transpose * A *
+      U.map (Int.castRingHom ℝ))
+
+example : IsMinkowskiReducedGram (!![1,0;0,2] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+    IsStrongReducedGram (!![1,0;0,2] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+
+example : ¬ IsMinkowskiReducedGram (!![2,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+    ¬ IsStrongReducedGram (!![2,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+
+example : IsMinkowskiReducedGram (!![1,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+    ¬ IsStrongReducedGram (!![1,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+
+/-- Prefix minimization detects shortening of the second vector, even with a shortest first vector. -/
+example : ¬ IsMinkowskiReducedGram (!![1,-1;-1,3] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+    IsMonicQuasiReducedGram (!![1,-1;-1,3] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+
+example : IsMonicQuasiReducedGram (!![1,0;0,2] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+    IsMonicQuasiReducedGram (!![1,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+
+/-- A full lattice swap reduces this matrix but cannot preserve the fixed first vector. -/
+example : ¬ IsMonicQuasiReducedGram (!![1,0;0,1/4] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+    IsMinkowskiReducedGram (!![1/4,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+
+example : Matrix.det (!![0,1;1,0] : Matrix (Fin 2) (Fin 2) ℤ) = -1 ∧
+    Matrix.det (!![1,-1;0,1] : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by norm_num
+
+/-- The determinant-one binary shear gives a reduced representative of the same binary order. -/
+example (x y : ℝ) : (x-y)^2 + 2*(x-y)*y + 3*y^2 = x^2 + 2*y^2 := by ring
+
 example : weightedDilation 2 (![1,2] : Fin 2 → ℝ) = ![2,8] := by sorry
 example : weightedDilation 3 (weightedDilation 2 (![1,2] : Fin 2 → ℝ)) =
     ![6,72] := by sorry
@@ -213,14 +269,6 @@ example : (3 / 16 + 1 / 6 : ℚ) = 17 / 48 ∧ (17 / 48 : ℚ) < 3 / 8 := by nor
 /-- The nonabelian induction starts at the smallest simple-group order, sixty. -/
 example : (1 / 4 + 1 / (2 * Real.sqrt 60) + 1 / 60 : ℝ) < 3 / 8 := by sorry
 
-/-- A single absolute constant controls every primitive nonprincipal quadratic conductor. -/
-theorem quadraticCharacter_intervalBound :
-    ∃ C : ℝ, 0 < C ∧ ∀ (Q : ℕ), 1 < Q →
-      ∀ χ : DirichletCharacter ℂ Q, χ.IsPrimitive → χ ≠ 1 → χ ^ 2 = 1 →
-      ∀ M H : ℕ,
-      ‖∑ n ∈ Finset.range H, χ ((M + n : ℕ) : ZMod Q)‖ ≤
-        C * Real.sqrt Q * Real.log (2 * Q) := by sorry
-
 /-- Complete periods cancel for the nonprincipal quadratic character modulo three. -/
 example : (jacobiSym 1 3 : ℤ) + jacobiSym 2 3 = 0 ∧ jacobiSym 1 3 = 1 := by norm_num
 
@@ -256,6 +304,72 @@ example : (∏ j ∈ Finset.Icc 1 0, (1 - (2 : ℚ) ^ (1 - 2 * (j : ℤ)))) = 1 
 /-- Ten transpositions among the 120 permutations give the quintic sieve density. -/
 example : (10 / 120 : ℚ) = 1 / 12 ∧ (1 - 1 / 12 : ℚ) = 11 / 12 := by norm_num
 
+/-- The five nonzero binary-cubic splitting counts at two and three retain the zero exclusion. -/
+example : (1/6 * (2-1)^2 * 2 * (2+1) : ℚ) = 1 ∧
+    (1/2 * (2-1)^2 * 2 * (2+1) : ℚ) = 3 ∧
+    (1/3 * (2-1)^2 * 2 * (2+1) : ℚ) = 2 ∧
+    ((2-1)*2*(2+1) : ℚ) = 6 ∧ ((2-1)*(2+1) : ℚ) = 3 ∧
+    (8+24+16+24+8 : ℕ) = 3^4-1 := by norm_num
+
+example : ((1-1/2^2)*(1-1/2^3) : ℚ) = 21/32 ∧
+    ((1-1/2^2)^2 : ℚ) = 9/16 ∧ (21/32 - 9/16 : ℚ) = 3/32 := by norm_num
+
+example : (((2-1)^2*(2+1))/2^4 : ℚ) = 3/16 ∧
+    (((2-1)^2*(2+1))/2^5 : ℚ) = 3/32 := by norm_num
+
+example : ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n)).card = 608 ∧
+    ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 1)).card = 200 ∧
+    ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 2)).card = 204 ∧
+    ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 3)).card = 204 := by sorry
+
+example : (1/48 + 1/8 + 1/16 : ℚ) = 5/24 ∧
+    (1/240 + 1/24 + 1/16 : ℚ) = 13/120 ∧
+    (1 + 1/2^2 - 1/2^4 - 1/2^5 : ℚ) = 37/32 := by norm_num
+
+example : (2 * Real.pi) / (4 * 2) = Real.pi / 4 := by ring
+
+example : (X^8 + 6*X^4 + 1 : (ZMod 7)[X]) =
+    (X^2+X+4)*(X^2+2*X+2)*(X^2+5*X+2)*(X^2+6*X+4) := by sorry
+
+example : (X^8 + 6*X^4 + 1 : (ZMod 11)[X]) =
+    (X^4+5*X^2+10)*(X^4+6*X^2+10) := by sorry
+
+/-- The cubic interpolation exception is witnessed by the full derivative matrix at seven points. -/
+example :
+    let E := {e : Fin 5 → Fin 4 // (∑ i : Fin 5, (e i).val) = 3}
+    let pts : Fin 7 → Fin 5 → ℚ :=
+      ![![1,0,0,0,0], ![0,1,0,0,0], ![0,0,1,0,0], ![0,0,0,1,0],
+        ![0,0,0,0,1], ![1,1,1,1,1], ![1,2,3,4,5]]
+    let A : Matrix (Fin 7 × Fin 5) E ℚ := fun q e =>
+      ((e.1 q.2).val : ℚ) * ∏ i : Fin 5,
+        (pts q.1 i) ^ ((e.1 i).val - (if i = q.2 then 1 else 0))
+    Matrix.rank A = 34 := by sorry
+
+example (Y : ℝ) : Matrix.det (!![Y,0;0,Y^2] : Matrix (Fin 2) (Fin 2) ℝ) = Y^3 ∧
+    Matrix.det (!![Y,0,0;0,Y^2,0;0,0,Y^3] : Matrix (Fin 3) (Fin 3) ℝ) = Y^6 := by sorry
+
+/-- The imported quartic residue count uses the fixed-degree binary discriminant. -/
+example :
+    let Δ : (Fin 5 → ZMod 4) → ZMod 4 := fun v =>
+      let a := v 0; let b := v 1; let c := v 2; let d := v 3; let e := v 4
+      256*a^3*e^3 - 192*a^2*b*d*e^2 - 128*a^2*c^2*e^2 +
+      144*a^2*c*d^2*e - 27*a^2*d^4 + 144*a*b^2*c*e^2 -
+      6*a*b^2*d^2*e - 80*a*b*c^2*d*e + 18*a*b*c*d^3 +
+      16*a*c^4*e - 4*a*c^3*d^2 - 27*b^4*e^2 + 18*b^3*c*d*e -
+      4*b^3*d^3 - 4*b^2*c^3*e + b^2*c^2*d^2
+    (Finset.univ.filter (fun v : Fin 5 → ZMod 4 => Δ v ≠ 0)).card = 384 := by sorry
+
+/-- The imported quartic residue count uses the fixed-degree binary discriminant. -/
+example :
+    let Δ : (Fin 5 → ZMod 9) → ZMod 9 := fun v =>
+      let a := v 0; let b := v 1; let c := v 2; let d := v 3; let e := v 4
+      256*a^3*e^3 - 192*a^2*b*d*e^2 - 128*a^2*c^2*e^2 +
+      144*a^2*c*d^2*e - 27*a^2*d^4 + 144*a*b^2*c*e^2 -
+      6*a*b^2*d^2*e - 80*a*b*c^2*d*e + 18*a*b*c*d^3 +
+      16*a*c^4*e - 4*a*c^3*d^2 - 27*b^4*e^2 + 18*b^3*c*d*e -
+      4*b^3*d^3 - 4*b^2*c^3*e + b^2*c^2*d^2
+    (Finset.univ.filter (fun v : Fin 5 → ZMod 9 => Δ v ≠ 0)).card = 42768 := by sorry
+
 /-
 README-only targets, with their intended carriers, hypotheses and APIs in the indicated
 sections. These need the arithmetic, orbit or geometric interfaces specified there.
@@ -272,6 +386,14 @@ sections. These need the arithmetic, orbit or geometric interfaces specified the
   FieldStatistics.rigidFieldCount_eq_normalizer_mul_embedded
   FieldStatistics.rigidFieldCount_eq_weightedIso
   FieldStatistics.rigidFieldCount_mono
+
+Arithmetic lattice and torsion inputs:
+  FieldStatistics.integerLattice_largestMinimum
+  FieldStatistics.squareIdeal_smallGenerator
+  FieldStatistics.squareNorm_count
+  FieldStatistics.classGroupTwoTorsion_powerSaving
+  FieldStatistics.elliptic_integralPoints_rankBound
+  FieldStatistics.cubicClassGroupTwoTorsion_bound
 
 §3.25:
   FieldStatistics.cubicConductor_choices
@@ -313,8 +435,10 @@ sections. These need the arithmetic, orbit or geometric interfaces specified the
 §3.28:
   FieldStatistics.doublePointInterpolation
 
-§3.29:
+Before the first cyclotomic counterexample (§3.9):
   FieldStatistics.abelianDiscriminantSeries
+
+§3.29:
   FieldStatistics.cubicIdealCount_uniform
   FieldStatistics.galois_count_threeEighths
   FieldStatistics.galois_count_threeEighths_of_largeSubgroups
@@ -322,6 +446,7 @@ sections. These need the arithmetic, orbit or geometric interfaces specified the
   FieldStatistics.simpleGroup_largeProperSubgroup
 
 §3.30:
+  FieldStatistics.jointSpin_primeBound
   FieldStatistics.IsRankGoverningField
   FieldStatistics.governing_conjugate_class
   FieldStatistics.governing_enlarge
@@ -340,10 +465,8 @@ sections. These need the arithmetic, orbit or geometric interfaces specified the
 
 §3.32:
   FieldStatistics.IsBinaryQuasiReduced
-  FieldStatistics.IsMinkowskiReducedGram
   FieldStatistics.IsMinkowskiReducedGram_exists
   FieldStatistics.IsMonicQuasiReduced
-  FieldStatistics.IsStrongReducedGram
   FieldStatistics.binaryOrderGram
   FieldStatistics.binaryOrderGram_ring
   FieldStatistics.monicOrderGram

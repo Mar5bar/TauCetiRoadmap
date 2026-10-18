@@ -62,6 +62,20 @@ From ArithmeticStatisticsPartIV require [ArithmeticStatisticsPartIV: number fiel
 
 This README specifies every target with hypotheses, source locator, API and Checks. `Suggested.lean` gives representative light definitions and signatures on pinned carriers; new arithmetic and geometric carriers are README targets. Source counts retain their strict or inclusive cutoffs and denominators.
 
+The thematic section numbers are stable locators. The supporting targets occur before their consumers in the following build order.
+
+| Supporting targets, in order | First consumers |
+| --- | --- |
+| PartIII secondary congruence and strongly acceptable sieve contracts | Roberts and three-torsion secondary specializations (§3.5) |
+| `quadraticCharacter_intervalBound` | Quadratic all-order L-value mean and Siegel count (§3.6); prime-factor patterns (§3.31) |
+| Rigid fields → relative torsion splitting | Relative character fibres and tower torsion |
+| S-integral parametrization → imported global tail → Jacobian masses → quartic character fibre → class-group mass ratios | Number-field counts and cubic two-torsion means (§3.7) |
+| Conic formula → six-family Jacobi expansion → maximal unlinked support → main coefficient → narrow/ordinary comparison; independent rank-moment uniqueness | Arithmetic four-rank moments and rank laws (§3.8) |
+| `abelianDiscriminantSeries` | First cyclotomic counterexample (§3.9); cyclic-prime and Galois counts (§3.29) |
+| Relative small-split-prime bound → uniform quadratic/order bounds → torsion propagation → five-range bound → tower tail | Thin two-groups and wreath means (§§3.25–3.26) |
+| Integer-lattice largest minimum → small square-ideal generators → square-norm count → general two-torsion saving; elliptic point/rank bounds → cubic two-torsion bound | General wreath means, mixed-trace count (§3.28) and quartic torsion applications (§3.29) |
+| Principality transfer → sixteen-rank spin criterion; `jointSpin_primeBound` from Type I → Type II → prime extraction | Conditional absence of a sixteen-rank governing field (§3.30) |
+
 ## Layer 3: Fields and class-group statistics
 
 Integral orbit counts become field and class-group statistics only after maximality, resolvent multiplicity, real-place conditions and base-field characters are matched. Secondary terms need a second local density and a stronger sieve, not an application of the first-order density theorem. The finite-group moment tools are built before their use in quadratic four-`rank` laws; their probability conclusions are distinct from the arithmetic moment hypotheses.
@@ -156,6 +170,8 @@ Proof: Membership in `T_p(σ)` depends only on `f mod p`, so `μ_p(T_p(σ)) = #{
 
 - At `p = 2` the counts of forms are 1, 3, 2, 6, 3 (sum `15 = 2⁴ − 1`).
 
+- At `p=3`, multiplying the five densities by `3⁴` gives counts `8,24,16,24,8`, totaling80; the zero form is excluded.
+
 <a id="densities-of-splitting-types-of-maximal-forms"></a>
 
 **Densities of splitting types of maximal forms.** `U_p(111) = T_p(111), U_p(12) = T_p(12), U_p(3) = T_p(3)`; and `μ_p(U_p(1²1)) = (p − 1)²(p + 1)/p⁴, μ_p(U_p(1³)) = (p − 1)²(p + 1)/p⁵`. Equivalently, a proportion `(p − 1)/p` of the forms in `T_p(1²1)` and in `T_p(1³)` lie in `U_p`.
@@ -174,6 +190,8 @@ Proof: for `σ ∈ {(111), (12), (3)}` the discriminant is prime to `p` (`f mod 
 
 - `μ_p(U_p(1³)) = ((p − 1)/p) · (p − 1)(p + 1)/p⁴`.
 
+- At two the ramified maximal densities are `3/16` and `3/32`; maximality removes half of each corresponding ramified splitting locus.
+
 <a id="densities-of-maximal-and-nowhere-totally-ramified-forms"></a>
 
 **Densities of maximal and nowhere totally ramified forms.** `μ_p(U_p) = (p³ − 1)(p² − 1)/p⁵ = (1 − p^{−2})(1 − p^{−3})` and `μ_p(V_p) = (p² − 1)²/p⁴ = (1 − p^{−2})²`.
@@ -191,6 +209,8 @@ Proof: `U_p` is the disjoint union of the `U_p(σ)` over the five symbols (a for
 - `∏_p μ_p(U_p) = ∏_p (1 − p^{−2})(1 − p^{−3}) = 1/(ζ(2)ζ(3))` and `∏_p μ_p(V_p) = 1/ζ(2)² = 36/π⁴` (Euler products).
 
 - At `p = 2: μ₂(U₂) = 21/32` and `μ₂(V₂) = 9/16`.
+
+- Their difference is `3/32`, exactly the maximal totally ramified density at two.
 
 <a id="maximal-irreducible-cubic-rings-are-rings-of-integers-of-cubic-fields"></a>
 
@@ -280,7 +300,7 @@ Proof: Class field theory (ClassFieldTheory Layer 13, `gal_hilbertClassField_equ
 
 The constant is uniform in `p`; this is what licenses the sieve over infinitely many primes in the proof of the mean of 3-torsion Only the maximal (field) part of `Y_p` is bounded here; a form in `Y_p` that is not maximal at another prime `q` lies in `W_q` and is covered by the nonmaximal estimate of Layer 2
 
-Proof: Cyclic cubic fields have `Disc=f²`, and total ramification at `p` forces `p|f`. There are at most `C·2^{ω(f)}` fields of conductor `f`, with an absolute constant (including the exceptional conductor factor at 3). Bound each indicator `f²<X` by `X/f²`. The count is at most `C X Σ_{p|f}2^{ω(f)}/f² ≤ 2C X/p² · Σ_{g≥1}2^{ω(g)}/g² = O(X/p²)`, since the last Euler product converges. This directly gives uniformity; the former bound `O(X^{1/2+ε}/p)` does not imply `O(X/p²)` uniformly up to `p=√X`. `S₃`-cubic fields: for `K` with quadratic resolvent `K₂` of discriminant `D₂`, the Galois closure `K₆` is a cyclic cubic extension of `K₂` on whose group `Gal(K₂/ℚ)` acts by inversion, hence `K₆` lies in the ring class field of an order `O_f` of `K₂` (ClassFieldTheory Layer 13, ringClassField and `gal_ringClassField_equiv_pic`), and `Disc(K) = D₂ f²` with `f` the conductor; by the inertia argument of the resolvent lemma a prime `p ≥ 5` is totally ramified in `K` iff `p | f`. For fixed `K₂` and `f`, the cubic fields with resolvent `K₂` and conductor `f` correspond to some of the index-3 subgroups of `Pic(O_f)` (quadratic orders and their Picard groups: GlobalNumberFields Layer 11), so there are at most `#Pic(O_f)[3]`; from the exact sequence `1 → (O_{K₂}/fO_{K₂})^×/((ℤ/fZ)^×·image(O_{K₂}^×)) → Pic(O_f) → Cl(K₂) → 1`, whose kernel has `3-rank` at most `ω(f) + 2, #Pic(O_f)[3] ≤ 3^{ω(f)+2} h₃(K₂)`. `Σ_{0<|D₂|<Y} h₃(K₂) = O(Y)`: by [three torsion of quadratic class groups counts cubic fields](#three-torsion-of-quadratic-class-groups-counts-cubic-fields), `Σ (h₃(K₂) − 1)/2` counts nowhere totally ramified cubic fields with `|Disc| < Y`, which is at most the number `M₃(Y) = O(Y)` of orders in cubic fields (BST Theorem 6, from Layer 2), and the number of `K₂` is `O(Y)`. Summing over `f` divisible by `p` and `K₂` with `|D₂| < X/f²`: the count is `O(X Σ_{p|f} 3^{ω(f)} f^{−2}) ≤ O(3X p^{−2} Σ_{g≥1} 3^{ω(g)} g^{−2}) = O(X/p²)`, the series converging. The primes `p = 2, 3` are covered by the trivial bound `N₃(X) = O(X)` with a fixed constant.
+Proof: Cyclic cubic fields have `Disc=f²`, and total ramification at `p` forces `p|f`. There are at most `C·2^{ω(f)}` fields of conductor `f`, with an absolute constant (including the exceptional conductor factor at 3). Bound each indicator `f²<X` by `X/f²`. The count is at most `C X Σ_{p|f}2^{ω(f)}/f² ≤ 2C X/p² · Σ_{g≥1}2^{ω(g)}/g² = O(X/p²)`, since the last Euler product converges. This directly gives uniformity; the bound `O(X^{1/2+ε}/p)` does not imply `O(X/p²)` uniformly for `p≤√X`. `S₃`-cubic fields: for `K` with quadratic resolvent `K₂` of discriminant `D₂`, the Galois closure `K₆` is a cyclic cubic extension of `K₂` on whose group `Gal(K₂/ℚ)` acts by inversion, hence `K₆` lies in the ring class field of an order `O_f` of `K₂` (ClassFieldTheory Layer 13, ringClassField and `gal_ringClassField_equiv_pic`), and `Disc(K) = D₂ f²` with `f` the conductor; by the inertia argument of the resolvent lemma a prime `p ≥ 5` is totally ramified in `K` iff `p | f`. For fixed `K₂` and `f`, the cubic fields with resolvent `K₂` and conductor `f` correspond to some of the index-3 subgroups of `Pic(O_f)` (quadratic orders and their Picard groups: GlobalNumberFields Layer 11), so there are at most `#Pic(O_f)[3]`; from the exact sequence `1 → (O_{K₂}/fO_{K₂})^×/((ℤ/fZ)^×·image(O_{K₂}^×)) → Pic(O_f) → Cl(K₂) → 1`, whose kernel has `3-rank` at most `ω(f) + 2, #Pic(O_f)[3] ≤ 3^{ω(f)+2} h₃(K₂)`. `Σ_{0<|D₂|<Y} h₃(K₂) = O(Y)`: by [three torsion of quadratic class groups counts cubic fields](#three-torsion-of-quadratic-class-groups-counts-cubic-fields), `Σ (h₃(K₂) − 1)/2` counts nowhere totally ramified cubic fields with `|Disc| < Y`, which is at most the number `M₃(Y) = O(Y)` of orders in cubic fields (BST Theorem 6, from Layer 2), and the number of `K₂` is `O(Y)`. Summing over `f` divisible by `p` and `K₂` with `|D₂| < X/f²`: the count is `O(X Σ_{p|f} 3^{ω(f)} f^{−2}) ≤ O(3X p^{−2} Σ_{g≥1} 3^{ω(g)} g^{−2}) = O(X/p²)`, the series converging. The primes `p = 2, 3` are covered by the trivial bound `N₃(X) = O(X)` with a fixed constant.
 
 *Needs:* [nowhere totally ramified cubic fields and unramified cubic extensions of the resolvent](#nowhere-totally-ramified-cubic-fields-and-unramified-cubic-extensions-of-the-resolvent), [three torsion of quadratic class groups counts cubic fields](#three-torsion-of-quadratic-class-groups-counts-cubic-fields), [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), [splitting symbol and local sets of binary cubic forms](#splitting-symbol-and-local-sets-of-binary-cubic-forms), [maximal irreducible cubic rings are rings of integers of cubic fields](#maximal-irreducible-cubic-rings-are-rings-of-integers-of-cubic-fields), [ArithmeticStatisticsPartIII: davenport count of binary cubic forms](../ArithmeticStatisticsPartIII/README.md#davenport-count-of-binary-cubic-forms).
 
@@ -464,6 +484,9 @@ Proof: Count forms in dyadic ranges of the discriminant with the second-order co
 
 - The ratio of the `X^{5/6}` coefficients (negative : positive discriminant) is `√3`, while the ratio of main terms is 3.
 
+- The imported sieve requires strong acceptability; an arbitrary infinite collection of cubic local conditions cannot be substituted in the secondary specialization.
+
+
 <a id="second-order-term-for-the-mean-of-three-torsion"></a>
 
 **Second order term for the mean of three torsion.** `Σ_{0<D<X} #Cl₃(D) = (4/3) Σ_{0<D<X} 1 + (8ζ(1/3)/(5Γ(2/3)³)) ∏_p (1 − (p^{1/3} + 1)/(p(p + 1))) X^{5/6} + O_ε(X^{5/6−1/48+ε})` and `Σ_{−X<D<0} #Cl₃(D) = 2 Σ_{−X<D<0} 1 + (√3 · 8ζ(1/3)/(5Γ(2/3)³)) ∏_p (1 − (p^{1/3} + 1)/(p(p + 1))) X^{5/6} + O_ε(X^{5/6−1/48+ε})`, the sums over fundamental discriminants `D` of quadratic fields.
@@ -482,15 +505,16 @@ Proof: Count forms in dyadic ranges of the discriminant with the second-order co
 
 - The main terms are Theorem 2's constants `4/3` and 2 times the quadratic-field counts.
 
+- The numerator ranges over fundamental discriminants. Counting all quadratic orders instead would change both the family and the secondary Euler product.
+
+
 <a id="second-order-term-for-cubic-orders-with-local-specifications"></a>
 
 **Second order term for cubic orders with local specifications.** Let `Σ = (Σ_p) ∪ Σ_∞` be strongly acceptable. For a free `Z_p`-module `M` put `M^{Prim} := M \ pM`. Then `N₃(Σ; X) = (1/2)(Σ_{R∈Σ_∞} 1/#Aut(R)) ∏_p ((p − 1)/p · Σ_{R∈Σ_p} 1/(Disc_p(R) #Aut(R))) X + (1/ζ(2))(Σ_{R∈Σ_∞} c₂(R)) ∏_p ((1 − p^{−1/3}) Σ_{R∈Σ_p} (1/(Disc_p(R) #Aut(R))) ∫_{(R/Z_p)^{Prim}} i(x)^{2/3} dx) X^{5/6} + O_ε(X^{5/6−1/48+ε})`, where `i(x)` is the index of `Z_p[x]` in `R, dx` gives `(R/Z_p)^{Prim}` measure 1, and `c₂(ℝ³) = √3 ζ(2/3)Γ(1/3)(2π)^{1/3}/(30Γ(2/3)), c₂(ℝ ⊕ ℂ) = ζ(2/3)Γ(1/3)(2π)^{1/3}/(10Γ(2/3))`.
 
-`Σ` strongly acceptable (not merely acceptable) Use Layer 2 secondary counts and BST Lemma 37, passing to the limit on the index-form zero set as specified below. A primitive class `x` modulo `Z_p` need not generate the cubic algebra. On the null set where its index form vanishes, `i(x)` is infinite; use an extended nonnegative integrand, or assign any finite value on that null set. Near a simple projective root the singularity is `|t|_p^{-2/3}`, which is locally integrable. This qualification is needed for the integral, and the source Lemma37 finite-partition proof must pass to the limit.
+This is the import contract of [ArithmeticStatisticsPartIII §2.11, refinement-cubic-secondary-sieve-error](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-sieve-error), using its [refinement-cubic-secondary-congruence-count](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-congruence-count). Retain strong acceptability, the primitive quotient measure and the null-set convention for infinite index. The supplier owns the local integrals, switching and optimization. This part specializes the result to maximal cubic fields and quadratic class-group torsion.
 
-Proof: Theorem 31 for the first term ([density of cubic orders with local specifications](#density-of-cubic-orders-with-local-specifications)). Lemma 37 expresses the second-order local density `μ₂(R, p) = (1 − p^{−2})(1 − p^{−1/3}) (1/(Disc_p(R) #Aut(R))) ∫_{(R/Z_p)^{Prim}} i(x)^{2/3} dx`, via the slicing count of Section 6 and the change of variables of Lemma 32. The refined sieve of Section 9 (as in the second-order nodes) gives the error term.
-
-*Needs:* [density of cubic orders with local specifications](#density-of-cubic-orders-with-local-specifications), [acceptable local specifications for cubic orders](#acceptable-local-specifications-for-cubic-orders), [p adic density of a local specification](#p-adic-density-of-a-local-specification), [ArithmeticStatisticsPartIII: cubic secondary congruence count](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-congruence-count), [ArithmeticStatisticsPartIII: cubic secondary sieve error](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-sieve-error).
+*Needs:* [ArithmeticStatisticsPartIII: cubic secondary sieve error](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-sieve-error), [ArithmeticStatisticsPartIII: cubic secondary congruence count](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-congruence-count), [acceptable local specifications for cubic orders](#acceptable-local-specifications-for-cubic-orders).
 
 ([[5]](#ref-5), Theorem 7, (7), p. 3.)
 
@@ -499,6 +523,8 @@ Proof: Theorem 31 for the first term ([density of cubic orders with local specif
 - All orders: the second term is `c₂^{(i)} X^{5/6}`, BST Theorem 6 (Shintani's second term).
 
 - All maximal orders: Theorem 3's second term; maximal not totally ramified: Theorem 4's.
+
+- A primitive quotient element need not generate the cubic algebra. Its index is infinite on a null set; the imported integral uses the locally integrable singularity `|t|_p^(−2/3)`, not a uniform bound at the roots.
 
 ### 3.6 Classical quadratic and cubic orbit counts
 
@@ -521,6 +547,18 @@ Proof: Reduction: every positive definite form is `SL₂(ℤ)`-equivalent to exa
 - Small values: `h⁺(−3) = h⁺(−4) = 1, h⁺(−12) = 2` (`x² + 3y²` and `2x² + 2xy + 2y²`), `h⁺(−16) = 2` (`x² + 4y²` and `2x² + 2y²`).
 
 - The constant is `(1/6) ×` area `(SL₂(ℤ)\H) = (1/6)(π/3)`.
+
+<a id="quadratic-character-interval-bound"></a>
+
+**Quadratic-character interval bound.** `FieldStatistics.quadraticCharacter_intervalBound` provides the following estimate: there is an absolute `C>0` such that every primitive nonprincipal quadratic character of conductor `Q>1` has every interval sum at most `C√Q log(2Q)`. Expand the character by its primitive Gauss sum and sum each additive phase over the interval. The primitive transform identity is already `DirichletCharacter.IsPrimitive.fourierTransform_eq_inv_mul_gaussSum` and inversion is `ZMod.invDFT_apply`. For the norm `√Q`, factor the quadratic conductor into distinct odd primes and a factor1,4 or8. Chinese remaindering factors the Gauss sum; `star_gaussSum_eq` and `gaussSum_mul_gaussSum_eq_card` give norm `√p` at each odd prime, and the finite four/eight-term sums give the dyadic norm. This proves the composite-conductor norm used here without treating a finite-field theorem as a theorem over every ZMod `Q`. For nonzero frequency `a` the geometric sum is at most `min(H,(2‖a/Q‖)⁻¹)`. Pair `a` and `Q−a` and sum the harmonic bound. Full periods vanish. The same bound holds on a progression of step coprime to `Q` by changing the additive frequencies. This is also the character-sum input used by the quadratic-order means above; it is not a prime-distribution assertion. Quadratic reciprocity and the finite character interfaces are reused; the interval bound is the additional target proved here.
+
+Source: the primitive transform and inversion in `Mathlib.Analysis.Fourier.ZMod`, `DirichletCharacter.IsPrimitive.fourierTransform_eq_inv_mul_gaussSum` and `ZMod.invDFT_apply`; the Gauss identities `star_gaussSum_eq` and `gaussSum_mul_gaussSum_eq_card` in `Mathlib.NumberTheory.GaussSum`. The argument above supplies the conductor factorization and interval estimate from these identities.
+
+**Checks.**
+
+- The nonprincipal character modulo three sums to zero on a complete period and to one on the singleton `{1}`.
+- A principal character has unbounded interval sums and is excluded.
+- A progression with step coprime to the conductor preserves the bound; a progression of step divisible by the conductor need not cancel.
 
 <a id="siegel-count-of-indefinite-binary-quadratic-forms"></a>
 
@@ -548,7 +586,7 @@ since `Στ(c)c⁻³` converges. Removing the `O(√T)` square values of `D` cos
 
 Truncating this convergent sum at `√N` costs `O(T/√N)`. Take `N=⌊T⌋` for `T≥2`, and absorb smaller `T` into the constant. Abel summation with the weight `√D` now gives `(2/3)(ζ(2)/(2ζ(3)))X^(3/2)` and error `O(X log(2X))`, the required constant and error. No limiting interchange at `s=1` is needed. For the all-form corollary write each form uniquely as `g` times a primitive form. Its stabilizer is unchanged and its discriminant is `g²D`. Sum at `X/g²; Σg⁻³=ζ(3)` changes the leading constant to `π²/18`, and dominated convergence controls the tail. Source [137], pp.185–186, fixes the order-class convention and conductor comparison; the analytic argument above supplies the all-order mean directly from quadratic character sums and partial summation.
 
-*Needs:* `NumberField.dedekindZeta_residue` (Mathlib), `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` (Mathlib), `NumberField.Units.regulator` (Mathlib), `FieldStatistics.quadraticCharacter_intervalBound` in §3.31.
+*Needs:* `NumberField.dedekindZeta_residue` (Mathlib), `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` (Mathlib), `NumberField.Units.regulator` (Mathlib), [quadratic-character interval bound](#quadratic-character-interval-bound).
 
 ([[1]](#ref-1), Theorem 1.4(b), p. 3; [[54]](#ref-54), Section1.1, printed578–579, Theorem1.2(2).)
 
@@ -582,6 +620,154 @@ Proof: Imaginary quadratic part: [mertens count of positive definite binary quad
 
 - Sign check: numerically, the reduced positive definite forms with `4ac − b² < 4·10⁵` number `0.17414 X^{3/2}`, against `π/18 ≈ 0.17453`; including the negative definite classes would double this.
 
+### 3.23 Rigid fields and relative torsion
+
+<a id="rigid-embedded-field-family"></a>
+
+**Rigid embedded field family.** Fix a number field `k`, its algebraic closure, `n≥1` and a transitive subgroup `G≤S_n`. A rigid `G`-field consists of a finite degree-`n` intermediate field `K/k` in that algebraic closure and a bijection `e:Hom_k(K,kbar)→ Fin n` for which the transported Galois-action image is exactly `G`. Count these pairs by absolute discriminant. The underlying fields are embedded fields; conjugate fields and different labelings are retained. `Aut_perm(G)` is the normalizer `N_{S_n}(G)`, not the abstract automorphism group of `G`. Group-signature restrictions use conjugacy classes of complex conjugation at the real base places.
+
+`k` is a number field; `n≥1; G≤S_n` is transitive; all fields use the fixed algebraic closure.
+
+The API is:
+
+- `FieldStatistics.RigidField`: The embedded degree-`n` field and its compatible numbering of embeddings.
+
+- `FieldStatistics.RigidField.field`: Forget the numbering to an actual intermediate field of `kbar /k`.
+
+- `FieldStatistics.RigidField.relabel`: The normalizer of `G` acts on labels by postcomposition; identity and composition laws hold.
+
+- `FieldStatistics.rigidFieldCount`: Cardinality of the absolute-discriminant-bounded rigid pairs, with isomorphism-invariant local conditions supplied by a selection predicate.
+
+- `FieldStatistics.rigidFieldCount_eq_normalizer_mul_embedded`: The rigid count is `|N_{S_n}(G)|` times the embedded-field count.
+
+- `FieldStatistics.rigidFieldCount_eq_weightedIso`: It is the sum over field isomorphism classes of `|N_{S_n}(G)| n/|Aut_k K|`.
+
+- `FieldStatistics.rigidFieldCount_mono`: Increasing the discriminant bound or enlarging the local condition increases the count.
+
+Proof: Use the embedding-action predicate, keeping its numbering rather than existentially discarding it. Prove the labels over a fixed admissible embedded field form a normalizer torsor. Use Hermite finiteness for the underlying fields and finiteness of labels to obtain the height count.
+
+*Needs:* [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [ArithmeticStatisticsPartI: number fields ordered by discriminant](../ArithmeticStatisticsPartI/README.md#number-fields-ordered-by-discriminant), `NumberField.discr` (Mathlib), `NumberField.finite_of_discr_bdd` (Mathlib).
+
+([[95]](#ref-95), §1 notation, p.2; Definition6.7 and Lemma6.8, pp.33–34.)
+
+**Checks.**
+
+- For `n=1,G=1` the only field is `k`; the count is1 above its absolute discriminant and0 below.
+
+- Each quadratic field contributes two rigid pairs: it has one embedded copy and two compatible labels.
+
+- A non-Galois `S₃` cubic isomorphism class contributes18 rigid pairs: three embedded copies, each with six labels. Counting only abstract automorphisms would give a wrong multiplicity.
+
+- A singleton field with absolute discriminant `D` contributes zero for `X<D` and its full label multiplicity at `X=D`.
+
+<a id="relative-torsion-splitting"></a>
+
+**Relative torsion splitting.** For a finite extension `L/K` of number fields and a prime `ℓ` not dividing `d=[L:K]`, the norm and extension maps split `Cl_L[ℓ]` as `Cl_{L/K}[ℓ]×Cl_K[ℓ]`. Hence `h_ℓ(L)=h_ℓ(L/K)h_ℓ(K)`. In a tower of quadratic extensions `h₃` therefore factors over all steps. `Cl_{L/K}` is the kernel of the native relative class-group norm, not a second class-group carrier. The same splitting and cardinal factorization hold for `Cl⁺` using ideal norm and extension on the native narrow class groups: total positivity makes both maps descend, and their composite is the dth power. Define the relative narrow group as this norm kernel.
+
+`L/K` is finite; `ℓ` is prime and `ℓ∤[L:K]`.
+
+The required API is `FieldStatistics.relativeNarrowClassGroup`, the kernel of the narrow norm; `relativeNarrowClassGroup_mem`, its norm-one membership criterion; `narrowNorm_extended`, the degree-power identity; and `relativeTorsionEquiv` and `relativeNarrowTorsionEquiv`, the product isomorphisms on `ℓ`-torsion. Their cardinality consequences are `torsionCount_relative_mul` and `narrowTorsionCount_relative_mul`. The section is extension followed by exponentiation by the inverse of `d` modulo `ℓ`, so its composite with norm is the identity on `ℓ`-torsion; extension by itself is generally not that section.
+
+Proof: Use `norm∘extension=power d` on the native class group. Invert `d` on its `ℓ`-torsion by Bézout and construct a section of norm. Split the finite abelian group by kernel and section, and take cardinalities. For the narrow version first descend norm and extension through totally positive principal ideals. At a real base place, norms of totally positive elements are positive, including the positive contributions of complex conjugate pairs. Then repeat the same finite-group splitting.
+
+*Needs:* [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), `ClassGroup.extendedHom` (Mathlib), `ClassGroup.relNorm` (Tau Ceti), `ClassGroup.relNorm_comp_extendedHom` (Tau Ceti).
+
+([[95]](#ref-95), §2, p.7, norm/extension exact sequence; [[92]](#ref-92), Theorem6(b), pp.4–5; §10.1, pp.29–30.)
+
+**Checks.**
+
+- For a quadratic tower step and `ℓ=3`, degree2 is invertible on torsion. The assertion deliberately excludes `ℓ=2`.
+- For `L=K`, the norm is the identity, both relative kernels are trivial, and the product formula is `h_ℓ(K)=1·h_ℓ(K)`.
+- For `K=ℚ`, ordinary and narrow base class groups are trivial, so relative torsion equals absolute torsion in each convention. This does not identify the ordinary and narrow groups of `L`.
+- On the abstract torsion group `C₃` with `d=2`, take norm to be the identity and extension to be inversion; their composite is squaring. Raising the extension value to 2 gives the identity section, whereas extension alone is not a section. For `ℓ|d` the degree-power map on `C_ℓ` is trivial and cannot give a section.
+
+
+### 3.21 S-integral orbits and relative mass ratios
+
+<a id="low-degree-s-integral-parametrization"></a>
+
+**Low degree s integral parametrization.** For a number field `F, n∈{2,3,4,5}` and finite `S` containing the infinite places and the places above 2 when `n=2`, separable degree-`n` extensions correspond to the disjoint union of `Γ_β`-orbits of `S`-maximal elements of `L_β`, over the finite double-coset set `G_n(O^S)\G_n(A^S)/G_n(F)`. Here `L_β=V_n(F)∩β^{-1}(∏_{v∉S}V_n(O_v)×∏_{v∈S}V_n(F_v))` and `Γ_β` is the analogous conjugated integral subgroup. The stabilizer is `Aut_F(L)`, and `Disc_S(L)=(χ(β)²Δ_n(v))` as fractional `O_S` ideals, with the idele character interpreted componentwise.
+
+Proof: Import the cubic, quartic-resolvent and quintic orbit parametrizations from Layer 1, including maximal-order stabilizers. For `n=2` use `G_m` acting on `G_a` by `g·v=g²v`, the squareclass algebra `F[t]/(t²−v/4)`, and maximal quadratic orders with2 inverted. Patch the local maximal elements using the finite adelic double-coset decomposition. Maximal local orders force a rational conjugating element to be integral in the same adelic lattice; the determinant character identifies the discriminant and Steinitz class.
+
+*Needs:* [ArithmeticStatisticsPartII: delone faddeev parametrization of cubic rings](../ArithmeticStatisticsPartII/README.md#delone-faddeev-parametrization-of-cubic-rings), [ArithmeticStatisticsPartII: bhargava parametrization of quartic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quartic-rings), [ArithmeticStatisticsPartII: bhargava parametrization of quintic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quintic-rings), AdelicAlgebraicGroups:AA.0.
+
+([[92]](#ref-92), §3, Theorems3.1–3.4, pp.9–12.)
+
+**Checks.**
+
+- For `n=2, S` contains all primes over `2; v` and `g²v` give the same quadratic algebra and `Δ₂(v)=v` gives its localized discriminant ideal. For `n>2` use the respective Layer 1 parametrizations.
+
+<a id="low-degree-maximal-sieve"></a>
+
+Use [ArithmeticStatisticsPartIII §2.10, refinement-global-field-large-prime-tail](../ArithmeticStatisticsPartIII/README.md#refinement-global-field-large-prime-tail), specialized to the number-field representations and adelic lattices above. Retain stabilizer weights, `M≥2`, the uniform `o(X)`, the empty quadratic extra-ramification locus and the fixed commensurable-lattice comparison. The at-most-ten local fibres and the tail proof belong to that supplier. Source: [[92]](#ref-92), §5, Theorems5.1–5.3 and (29), pp.18–20; quadratic case §9.3 p.27.
+
+<a id="low-degree-jacobian-mass"></a>
+
+**Low degree jacobian mass.** For the BSW degree-`n` representation with `n∈{2,3,4,5}`, the orbit map has pullback `π_v^*ω_V=JΔ_n(v)χ²ω_G`, with `J=2` for `n=2` and `J=±1` for `n≥3`. Thus each maximal local orbit contributes `|J|_v/(Disc_v(R)|Aut R|)` times Vol `(G_n(O_v))`; the product of `|J|_v` is one. The final weighted field constant is `κ_F/2` times the product of finite masses `(1−q_v^{-1})Σ_R(Disc_v(R)|Aut R|)^{-1}` and infinite masses `Σ_R|Aut R|^{-1}`.
+
+Proof: Evaluate the Jacobian on the split étale orbit, using its `n!` stabilizer and its reduction modulo every prime. Use change of variables on each local orbit, including the stabilizer divisor. Sum over the adelic double cosets; the Tamagawa number of `G_n` is one, and integration over the positive determinant character gives the factor `1/2`. Restore the places in `S` and cancel `J` by the product formula.
+
+*Needs:* [low degree s integral parametrization](#low-degree-s-integral-parametrization), [ArithmeticStatisticsPartIII: global field large prime tail](../ArithmeticStatisticsPartIII/README.md#refinement-global-field-large-prime-tail), AdelicAlgebraicGroups:AA.2.
+
+([[92]](#ref-92), §7, Propositions7.1–7.3 and §8, pp.21–25.)
+
+**Checks.**
+
+- In degree two, `J=2` has `|J|∞=2` and `|J|₂=1/2`; omitting the dyadic place destroys the product formula. A quadratic field has automorphism weight `1/2`, while a non-Galois `S₃` cubic has weight 1.
+
+<a id="quartic-quintic-density-constants"></a>
+
+**Quartic quintic density constants.** For `S₄` fields over `ℚ` of signature `(r₁,r₂)` with `r₁+2r₂=4`, the coefficient of `X` is `[2r₁!2^{r₂}r₂!]^{-1}∏_p(1+p^{-2}−p^{-3}−p^{-4})`; for `S₅` it is the same archimedean prefactor with `r₁+2r₂=5` and product `∏_p(1+p^{-2}−p^{-4}−p^{-5})`. These are unweighted isomorphism-class counts because these fields have trivial `ℚ`-automorphism groups.
+
+Proof: Evaluate the finite étale local mass using partitions of `n−k` into `k` parts. Evaluate the real automorphism group as `S_{r₁}×(C₂≀S_{r₂})`. Apply the low-degree mass theorem and remove non-`S_n` fields using the nongeneric orbit estimate.
+
+*Needs:* [low degree jacobian mass](#low-degree-jacobian-mass).
+
+([[92]](#ref-92), §2.2, (9)–(11), pp.7–8; Theorem1, pp.1–2.)
+
+**Checks.**
+
+- Quartic archimedean prefactors are `1/48,1/8,1/16`; quintic prefactors are `1/240,1/24,1/16`.
+
+
+### 3.24 S-integral orbits and relative mass ratios
+
+<a id="quartic-class-group-two-torsion-fibre"></a>
+
+**Quartic class group two torsion fibre.** For a non-Galois cubic extension `L/F`, the nontrivial order-two characters of `Cl(L)` that annihilate the image of `Cl(F)` under ideal extension correspond to quadratic extensions `L₂/L` unramified at all places whose normal closure over `F` has group `S₄`. Their number is `h₂(L/F)−1`, with `Cl(L/F)=ker(N_{L/F})`; the prime-to-degree splitting identifies the relevant dual quotient. The quartic-resolvent correspondence gives nowhere overramified quartic fields `L₄` with resolvent `L` and `Disc(L₄/F)=Disc(L/F)`. For finite-place unramified extensions replace both class groups by their narrow versions and use `h₂⁺(L/F)−1`.
+
+`L/F` is a separable non-Galois cubic number-field extension. Ordinary class fields split at real places; narrow class fields allow real ramification.
+
+Proof: Use the Hilbert or narrow Hilbert class field to identify order-two characters. Retain precisely the characters trivial on extended base classes; the degree-three norm/extension split gives their count `h₂(L/F)−1` or `h₂⁺(L/F)−1`. Use the `S₄` resolvent correspondence, tracking the normal closure and every real place. The local discriminant equality is equivalent to the stated ramification restriction; the trivial character is excluded.
+
+*Needs:* [ArithmeticStatisticsPartII: bhargava parametrization of quartic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quartic-rings), `TauCetiRoadmap.ClassFieldTheory` Layer 13, [relative torsion splitting](#relative-torsion-splitting).
+
+([[92]](#ref-92), §10.1, proof of Theorem6(b), pp.29–30.)
+
+**Checks.**
+
+- Over `F=ℚ` the base class groups are trivial and the familiar absolute fibre statement is recovered.
+
+- A nontrivial unramified quadratic extension `E/F` pulled back to `L` produces a base character. Its closure over `F` has group `S₃×C₂`, so it is excluded by the condition of annihilating extended base classes.
+
+<a id="low-degree-class-group-mass-ratios"></a>
+
+**Low degree class group mass ratios.** For a positive-density acceptable family over a fixed number field `F` with fixed pure infinite specifications, let `α₂` count real base places with quadratic algebra `ℝ²`, and `α₃` those with cubic algebra `ℝ³`. The means of relative torsion are `h₃(L/F): 1+3^{−r₂(F)−α₂}`; ordinary cubic `h₂(L/F): 1+2^{−r₁(F)−2r₂(F)−α₃}`; and narrow cubic `h₂⁺(L/F): 1+2^{−r₁(F)−2r₂(F)+α₃}`. At finite places the compatible fibre numerator/denominator mass ratio is one. The absolute `h₃(L), h₂(L), h₂⁺(L)` means are these expressions multiplied respectively by `h₃(F), h₂(F), h₂⁺(F)`, using the prime-to-degree norm/extension splitting. Finite specifications must be the matching resolvent-lift specifications, not independent numerator restrictions.
+
+Proof: Apply the relative cyclic-cubic and quartic-resolvent character fibres. Base characters are excluded before applying the `S₃/S₄` count. Use the low-degree mass theorem for numerator and denominator with compatible finite specifications. At complex places the quartic/cubic ratio is `1/4`; at a real `ℝ×ℂ` place it is `1/2`; at `ℝ³` it is `1/4` in the ordinary case and 1 in the narrow case. Account for the quadratic automorphism weight `1/2` separately.
+
+*Needs:* [quartic class group two torsion fibre](#quartic-class-group-two-torsion-fibre), [low degree jacobian mass](#low-degree-jacobian-mass), [three torsion of quadratic class groups counts cubic fields](#three-torsion-of-quadratic-class-groups-counts-cubic-fields), [relative torsion splitting](#relative-torsion-splitting).
+
+([[92]](#ref-92), Theorem6 and §10.1, (43)–(44), pp.4 and28–30.)
+
+**Checks.**
+
+- Over `ℚ`: real/imaginary quadratic `h₃` means `4/3` and2; totally real/complex cubic ordinary `h₂` means `5/4` and `3/2`, and narrow means2 and `3/2`.
+
+- For a base with `h₃(F)>1` or `h₂(F)>1`, the absolute mean carries the base factor; the relative mean does not.
+
+
 ### 3.7 Low-degree field and relative class-group means
 
 <a id="bhargava-count-of-quartic-fields"></a>
@@ -600,7 +786,7 @@ Proof: Source route: BSW Theorem 2 with `F = ℚ, n = 4` and `Σ_∞` one real a
 
 - Sum of the signature constants: `1/48 + 1/8 + 1/16 = 10/48 = 5/24 = (1/2)(#S₄[2]/4!)` with `#S₄[2] = 10` (BSW Theorem 1 `(a)` for `F = ℚ`).
 
-- `c₄` is an absolutely convergent Euler product (each factor is `1+O(p^{-2})`). The partial product through `p<10000` is about1.21668; in particular the former value1.06 was already smaller than the product of the factors at2 and3.
+- `c₄` is an absolutely convergent Euler product (each factor is `1+O(p^{-2})`). The partial product through `p<10000` is about1.21668.
 
 - Totally real `S₄`-fields are the rarest: ratio 1 : 6 : 3 for `r₂ = 0 : 1 : 2`.
 
@@ -630,7 +816,7 @@ The weight `1/#Aut(L/F)` is 1 for `n ≥ 3` and `1/2` for `n = 2` The residue is
 
 Proof: for `F = ℚ: Res = 1, r₁ = 1, r₂ = 0`, and the formula gives `(1/2)(#S_n[2]/n!) ∏_p (…): 3/π²` for `n = 2` (weighted; `6/π²` unweighted quadratic fields), `1/(3ζ(3))` for `n = 3` (Davenport-Heilbronn), `(5/24) c₄` and `(13/120) c₅` for `n = 4, 5`. The discriminant-norm identity `N(Disc(L/F)) = |Disc(L)|/|Disc(F)|^n` is the tower formula for discriminants (NumberFieldArithmetic Layer 4, relative discriminant).
 
-*Needs:* [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [count of quadratic fields](#count-of-quadratic-fields), [davenport heilbronn count of cubic fields](#davenport-heilbronn-count-of-cubic-fields), `NumberField.dedekindZeta_residue` (Mathlib), `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` (Mathlib), `NumberField.InfinitePlace.nrRealPlaces` (Mathlib), `NumberField.InfinitePlace.nrComplexPlaces` (Mathlib).
+*Needs:* [low degree jacobian mass](#low-degree-jacobian-mass), [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [count of quadratic fields](#count-of-quadratic-fields), [davenport heilbronn count of cubic fields](#davenport-heilbronn-count-of-cubic-fields), `NumberField.dedekindZeta_residue` (Mathlib), `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` (Mathlib), `NumberField.InfinitePlace.nrRealPlaces` (Mathlib), `NumberField.InfinitePlace.nrComplexPlaces` (Mathlib).
 
 ([[20]](#ref-20), Theorem 1(a), p. 2.)
 
@@ -650,7 +836,7 @@ The family is `S₃`-cubic fields (cyclic cubic fields have density zero); the a
 
 Proof: Proved in Bhargava's quartic paper ([8] of BSW) by relating 2-torsion in class groups of cubic fields to quartic fields with a given cubic resolvent (class field theory) and counting through the parametrization of quartic rings; reproved over global fields as BSW Theorem 6 `(b)`.
 
-*Needs:* [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [davenport heilbronn count of cubic fields](#davenport-heilbronn-count-of-cubic-fields), [ArithmeticStatisticsPartII: bhargava parametrization of quartic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quartic-rings), [ArithmeticStatisticsPartII: existence and number of cubic resolvents](../ArithmeticStatisticsPartII/README.md#existence-and-number-of-cubic-resolvents), [ArithmeticStatisticsPartIII: quartic fixed reducible resolvent](../ArithmeticStatisticsPartIII/README.md#refinement-quartic-fixed-reducible-resolvent).
+*Needs:* [quartic class group two torsion fibre](#quartic-class-group-two-torsion-fibre), [low degree class group mass ratios](#low-degree-class-group-mass-ratios), [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [davenport heilbronn count of cubic fields](#davenport-heilbronn-count-of-cubic-fields), [ArithmeticStatisticsPartII: bhargava parametrization of quartic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quartic-rings), [ArithmeticStatisticsPartII: existence and number of cubic resolvents](../ArithmeticStatisticsPartII/README.md#existence-and-number-of-cubic-resolvents), [ArithmeticStatisticsPartIII: quartic fixed reducible resolvent](../ArithmeticStatisticsPartIII/README.md#refinement-quartic-fixed-reducible-resolvent).
 
 ([[20]](#ref-20), Theorem 6(b), p. 5, and the paragraph after it.)
 
@@ -659,6 +845,118 @@ Proof: Proved in Bhargava's quartic paper ([8] of BSW) by relating 2-torsion in 
 - Totally real: `1 + 2^{−1−0−1} = 5/4`; complex: `1 + 2^{−1} = 3/2`; narrow totally real: `1 + 2^{−1+1} = 2`.
 
 - It is the `(G, p) = (S₃, 2)` case of the Cohen-Lenstra-Martinet prediction, as Davenport-Heilbronn is `(S₂, 3)`.
+
+- Over a base with nontrivial two-torsion the absolute mean includes `h₂(F)` (or `h₂⁺(F)`); the relative mean does not, by the preceding norm/extension splitting.
+
+
+### 3.22 Four-rank expansions and limiting laws
+
+<a id="quadratic-four-rank-conic-formula"></a>
+
+**Quadratic four rank conic formula.** For a fundamental quadratic discriminant `D`, let `C_D` be the narrow class group. Then `2^{rk₄ C_D}` is one half the number of positive squarefree divisors `b` of `D` for which `b′` is the signed squarefree part of `D/b` and the conic `b x²−b′ y²=z²` has a nonzero rational point. All signs and the prime2 conditions are retained; replacing this by residue conditions only at the odd primes is insufficient.
+
+`D` is a fundamental discriminant, `D≠1`; for positive `D` the class group is narrow.
+
+Proof: Represent the two-torsion classes by ramified ideals and apply the quadratic genus-character test for being a square. Translate the square condition to the conic; use its local-to-global principle and quadratic reciprocity. Count the two complementary factorizations for each class.
+
+*Needs:* [ArithmeticStatisticsPartIV: prime power class group rank](../ArithmeticStatisticsPartIV/README.md#prime-power-class-group-rank), `TauCetiRoadmap.GlobalQuadraticForms` Layer 5.
+
+([[90]](#ref-90), §3, Theorem5 and Lemmas4–10, pp.9–12.)
+
+**Checks.**
+
+- For `D=5` the positive divisors1,5 give two soluble conics and `rk₄ Cl⁺(ℚ(√5))=0`. Allowing `−1`,`−5` would double the count incorrectly. The complementary factor `b′`, rather than the summation divisor `b`, retains the sign of `D`.
+
+<a id="quadratic-four-rank-jacobi-expansion"></a>
+
+**Quadratic four rank jacobi expansion.** If `D<0` is odd and fundamental, then `2^{rk₄ C_D}=2^{-1−ω(|D|)} Σ_{|D|=D₀D₁D₂D₃}(D₂/D₀)(D₁/D₃)(D₃/D₀)(D₀/D₃)`, over positive pairwise coprime squarefree factors. Raising this to `k` gives the `(𝔽₂²)^k`-indexed sum with weight `2^{-kω(∏D_u)}`, phase `Φ_k(u,v)` and prefactor `2^{-k}`. For the other five sign/congruence families the same phase persists with the precise characters at `−1` and2 supplied by Lemmas28,34,39,41,43. Explicitly write `u=(a_j,b_j)_{j=1}^k, λ_k(u)=Σ_j a_jb_j, ξ_j(u)=(a_j+1)(b_j+1), Q_Γ(u)=Σ_{j∈Γ}a_jb_j+Σ_{j∉Γ}ξ_j(u)`, and `V_Γ(u)=Σ_{j∉Γ}(a_j+b_j)`, all in `𝔽₂`. In each moment sum let `W(D_u)=∏_u2^{−kω(D_u)}∏_{u,v}(D_u/D_v)^{Φ_k(u,v)}`, with positive odd pairwise coprime squarefree `D_u`. For negative odd discriminants sum `2^{−k}W` with `∏D_u≤X` and `∏D_u≡−1 mod4`; for positive odd ones sum `2^{−k}W∏_u(−1/D_u)^{λ_k(u)}`, with product `≡1 mod4`. For negative discriminants divisible by8 sum `W∏_u(2/D_u)^{λ_k(u)}`, with product `≤X/8` and either odd residue `mod4`. For the positive8 family sum `2^{−k}` over `Γ` of `W∏_u(2/D_u)^{λ_k(u)}(−1/D_u)^{Q_Γ(u)}`, in the same product domain. For the negative `4 mod8` family sum `2^{−k}` over `Γ` of `W∏_u(2/D_u)^{V_Γ(u)+k−|Γ|}`, with product `≤X/4` and product `≡1 mod4`; for the positive `4 mod8` family multiply each such summand by `∏_u(−1/D_u)^{λ_k(u)}` and require product `≡−1 mod4`.
+
+`k≥1`; the six families are `D` of either sign with `D` odd, `D≡0 mod8`, or `D≡4 mod8`.
+
+Proof: Expand the quadratic-residue indicator as a product over the ramified primes. Distribute each prime among the four factors, then among the `4^k` factors for kth moments. For the even and positive cases carry the `−1` and2 character factors through the expansion.
+
+*Needs:* [quadratic four rank conic formula](#quadratic-four-rank-conic-formula), [ArithmeticStatisticsPartIV: fk linking phase](../ArithmeticStatisticsPartIV/README.md#fk-linking-phase).
+
+([[90]](#ref-90), §5.1, (20), Lemma17, pp.14–16; Lemmas28,34,39,41,43, pp.35,42,45,48,51.)
+
+**Checks.**
+
+- All six sign/parity domains carry the indicated prefactor, product cutoff and character twists; in particular the negative8 family has no `2^(−k)` prefactor, and the sign at `4 mod8` switches the product residue.
+
+<a id="fk-maximal-unlinked-support"></a>
+
+**Fk maximal unlinked support.** An unlinked subset `U` of `(𝔽₂²)^k` has at most `2^k` members. Equality holds exactly for the affine translates of `k`-dimensional totally singular subspaces for `P_k`. In the kth Jacobi moment only maximal unlinked supports give a main term: boxes with two linked large variables, with an intermediate linked variable, or with fewer than `2^k` large variables contribute `O_{k,ε}(X(log X)^{-2^{-k}+ε})`.
+
+`k≥1` and `ε>0` are fixed; `X≥2`.
+
+Proof: Translate an unlinked support to contain zero and use its polar orthogonality; the maximal dimension is `k`. Dissect each factor into multiplicative boxes with mesh `1+(log X)^{-2^k}` and remove the boundary and excessive prime-factor boxes. Apply the two quadratic bilinear estimates to linked pairs and Siegel–Walfisz to the remaining small characters. Estimate the supports with fewer than `2^k` large variables by the multiplicative mean-value bound.
+
+*Needs:* [quadratic four rank jacobi expansion](#quadratic-four-rank-jacobi-expansion), [ArithmeticStatisticsPartIII: coefficient sieves](../ArithmeticStatisticsPartIII/README.md#support-sieves) and [quadratic character-sum bounds](#support-character-sums), AnalyticNumberTheoryPartII §5.29, AnalyticNumberTheoryPartI §3.26.
+
+([[90]](#ref-90), §§5.3–5.5, pp.17–23; Lemma 18, pp.22–23, and Proposition 3, p.23.)
+
+**Checks.**
+
+- For `k=1` the space has four points and a maximal unlinked support has two, not four. A singleton is unlinked but is not maximal-cardinality and supplies no leading support.
+
+<a id="fk-main-coefficient"></a>
+
+**Fk main coefficient.** Write `N(k,2)` for the number of all subspaces of `𝔽₂^k`. Summing the reciprocity signs over maximal unlinked supports gives imaginary coefficient `N(k,2)`, and real coefficient `2^{-k}(N(k+1,2)−N(k,2))`. The same coefficients hold separately in each of the three fundamental-discriminant congruence families; the `−1` and2 twists restrict the affine translates but do not change these normalized coefficients.
+
+`k≥1`.
+
+Proof: Evaluate the character sum on the group of subsets under symmetric difference; its square vanishes unless the full bilinear form `L` is zero on the underlying `k`-plane. Use the good-subspace bijection; for real discriminants sum the sizes of the projected subspaces. For the even families impose the linear constraints from the2-character; the constrained count is `N(k−1,2)`. Sum over the subsets of coordinates carrying that character.
+
+*Needs:* [fk maximal unlinked support](#fk-maximal-unlinked-support), [ArithmeticStatisticsPartIV: fk good subspace bijection](../ArithmeticStatisticsPartIV/README.md#fk-good-subspace-bijection).
+
+([[90]](#ref-90), §5.5–5.7, Propositions4–5 and Lemmas20–26, pp.24–34; (105), pp.40–41; §§7–10, pp.41–52.)
+
+**Checks.**
+
+- `N(1,2)=2` and `N(2,2)=5` give first-moment coefficients2 (imaginary) and `3/2` (real).
+
+<a id="fk-narrow-wide-moment-comparison"></a>
+
+**Fk narrow wide moment comparison.** For every fixed `k≥1` and `ε>0`, the sum over positive fundamental `D<X` of `|2^{k rk₄ Cl⁺(D)}−2^{k rk₄ Cl(D)}|` is `O_{k,ε}(X(log X)^{-1/2+ε})`. The ranks agree off the thin family whose odd prime divisors are all `1 mod4`; this is an averaged comparison and does not assert equality for every real quadratic field.
+
+`D` is positive and fundamental; `k≥1, ε>0, X≥2`.
+
+Proof: Use the narrow-to-ordinary exact sequence and the genus criterion to locate the exceptional family. Count that family by the prime-factor sieve and apply Hölder using higher four-`rank` moments. Combine the high-moment bound with the exceptional-family count and let the Hölder exponent grow.
+
+*Needs:* [fk main coefficient](#fk-main-coefficient), [ArithmeticStatisticsPartI: squarefree denominators](../ArithmeticStatisticsPartI/README.md#support-squareclasses), `NumberField.NarrowClassGroup.toClassGroup` (Tau Ceti).
+
+([[90]](#ref-90), §3.2, Lemma10, Corollary1 and proof, pp.11–12.)
+
+**Checks.**
+
+- For a positive discriminant with a prime divisor `3 mod4` the exceptional-family criterion is false, so the two four-ranks agree. A discriminant with every odd prime divisor `1 mod4` is only a candidate for the exceptional family; the criterion does not assert that its ranks differ.
+
+<a id="rank-moments-determine-rank-law"></a>
+
+**Rank moments determine rank law.** Let `p` be prime, `u≥0` an integer and `μ_X` a probability measure on `N`. Suppose every moment `Σ_r p^{kr} μ_X(r)` tends to `Σ_{j=0}^k #{j-dimensional subspaces of 𝔽_p^k} p^{-uj}`. Then for every `r≥0, μ_X(r)` tends to `p^{-r(r+u)} η_∞(p)/(η_r(p)η_{r+u}(p))`, with `η_t=∏_{i=1}^t(1−p^{-i})`. The conclusion applies to the empirical `4-rank` by putting `p=2` and `u=0` or1; it does not deduce an arithmetic moment hypothesis from the heuristic.
+
+`p` is prime; `u∈ℕ`; all displayed moments exist; the probability measures may be empirical measures of a height-ordered family.
+
+Proof: Higher moments give tightness and uniform integrability for each lower moment, so every subsequential limit has the prescribed moments. Finite Gaussian-`binomial` inversion gives the elementary-abelian surjection moments `E #Sur(𝔽_p^r,𝔽_p^j)=p^(−uj)`. The subspace-count formula bounds the moment coefficients by `O_p((k+1)p^(k²/4))`, which supplies a Gaussian bound on limiting masses. Apply `RankGrid.geometricZero` below, with these growth bounds; Delaunay–Jouhet Theorem 5 at length one gives the same argument. This uses elementary-abelian test groups and does not invoke uniqueness from all finite-`p`-group tests. Evaluate the unique law by the `q-binomial` identities and remove the subsequence.
+
+The supporting theorem `RankGrid.geometricZero` has the following exact scope. Fix a real `a>1, α∈R` and `C>0`. If an entire `g(z)=Σ_r w_r z^r` has `|w_r|≤C a^{−r²/2+αr}`, vanishes at `a^m` for every `m≥0`, and has vanishing order `ω>α−1/2` at0, then `g=0`. If `g≠0`, apply Mathlib's `MeromorphicOn.circleAverage_log_norm` in `Analysis.Complex.JensenFormula` on radius `a^k`. Its zeros `a^0,…,a^{k−1}` and its zero of order `ω` at0 give
+
+```text
+`log M(a^k) ≥ log|w_ω| + (ωk + k(k+1)/2) log` a.
+```
+
+The coefficient bound and completion of the square give `M(a^k)≤C' a^{(k+α)²/2}`; the Gaussian sum defining `C'` is finite and independent of the integer `k`. Comparison as `k→∞` forces `ω≤α−1/2`, a contradiction. For two limiting rank laws, the moment estimate with `k=2r` bounds each mass by `O_p((2r+1)p^{−r²})`, hence their coefficient difference satisfies the separator with `α=0`. Thus `ω≥0` suffices, and rank-marginal uniqueness follows without a full finite-`p`-group moment hypothesis. This proves the analytic step directly from the pinned Jensen formula; it does not assume the quoted FK06 lemma.
+
+*Needs:* [ArithmeticStatisticsPartIV: prime power class group rank](../ArithmeticStatisticsPartIV/README.md#prime-power-class-group-rank), [ArithmeticStatisticsPartIV: gaussian binomial coefficient](../ArithmeticStatisticsPartIV/README.md#gaussian-binomial-coefficient), `MeromorphicOn.circleAverage_log_norm` (Mathlib).
+
+([[94]](#ref-94), §2, Lemma3 and Corollary4, pp.5–6; §3, Theorem5 and its proof, pp.6–8, specialized to ℓ=1.)
+
+**Checks.**
+
+- At `k=0` the prescribed moment is 1. At `k=1` it is `1+p^(−u)`; for `p=2` this gives 2 at `u=0` and `3/2` at `u=1`. For `r=0` the predicted probability is `η∞/η_u`, retaining `η₀=1`.
+- For the separator, `g=0` satisfies all bounds, while a nonzero constant fails the zero conditions. The nonzero entire product `∏_{m≥0}(1−z/a^m)` has `ω=0` and coefficient growth `O_a(a^{−r²/2+r/2})`; it shows that the strict inequality `ω>α−1/2` cannot be weakened at `α=1/2`.
+- A rank-zero point mass has first moment1, so it cannot satisfy the required first moment `1+p^{−u}`. Matching normalization alone does not determine the law.
+
 
 ### 3.8 Quadratic four-rank moments
 
@@ -670,7 +968,7 @@ The narrow class group is used; for `D < 0` it equals the class group, and FK's 
 
 Proof: Rédei: `rk₄(C_D)` is the corank of an explicit `𝔽₂`-matrix (the Rédei matrix) built from Legendre symbols between the prime factors of `D`. Expand `2^{k·rk₄}` as a sum of products of Jacobi symbols over factorizations of `D`, and show that only the 'diagonal' terms contribute to the main term (Siegel-Walfisz and large-sieve estimates for the others); FK Theorems 6-11 treat the six families (3). Proposition 1 turns the moments into `Conj^±(2, α)`; FK Theorem 2 (from [5]) turns all moments into the distribution (Theorem 3).
 
-*Needs:* [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), [count of quadratic fields](#count-of-quadratic-fields).
+*Needs:* [quadratic four rank conic formula](#quadratic-four-rank-conic-formula), [quadratic four rank jacobi expansion](#quadratic-four-rank-jacobi-expansion), [fk maximal unlinked support](#fk-maximal-unlinked-support), [fk main coefficient](#fk-main-coefficient), [rank moments determine rank law](#rank-moments-determine-rank-law), [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), [count of quadratic fields](#count-of-quadratic-fields).
 
 ([[22]](#ref-22), Theorem 1 and Conjecture 2, p. 3; [[22]](#ref-22), (4)-(9), pp. 3-4; [[22]](#ref-22), Conjecture 3 and Theorem 3, p. 4.)
 
@@ -814,6 +1112,28 @@ Proof: Define `Z(k, G; x)` as a finite count (Hermite's theorem over `k`) and th
 
 - `MalleStrong(ℚ, C₃ ≀ C₂)` fails ([kluners counterexample to malle conjecture](#kluners-counterexample-to-malle-conjecture)).
 
+<a id="abelian-discriminant-series"></a>
+
+**Abelian discriminant series.** `FieldStatistics.abelianDiscriminantSeries` provides the following regular-action counting theorem. For a nontrivial finite abelian A over a fixed number field `k`, put `ℓ=min{p prime:p|card(A)}`, `a=1/(|A|(1−1/ℓ))` and `b=#{g∈A:ord(g)=ℓ}/[k(ζ_ℓ):k]`. Count surjective continuous characters of the idèle class group into A by the **regular** extension discriminant, and denote the series by `D_A(s)`. It continues meromorphically to Re `(s)>a−δ` for some `δ>0`, has its only pole in this strip at `a`, of exact order `b`, and `c=lim_(s→a)(s−a)^bD_A(s)>0`. Its coefficient sum is asymptotic to `c/(aΓ(b)) X^a(log X)^(b−1)`. For field isomorphism classes divide by `|Aut(A)|`; for `A=C_p` this is `p−1`. The trivial group is handled separately by its single base field, not by this undefined minimum prime.
+
+A complete alternate original proof supplier for Wright's theorem is Frei–Loughran–Newton [141], Theorem1.7, p.5 and §§2–4, pp.9–30, specialized to unrestricted local conditions. These conditions satisfy (1.4). For positivity fix one realized `A`-extension; unrestricted abelian realizability follows from class-field theory, or by restricting to `k` a `ℚ`-abelian extension linearly disjoint from `k`. The latter can be constructed as a compositum of cyclic prime-power subfields of cyclotomic fields at distinct primes unramified in `k` and congruent to one modulo the required prime power. Fixed-progression PNT supplies these primes. Every nontrivial subextension of their compositum ramifies at one of them, whereas `k` is unramified there, proving disjointness. Thus there is no unproved prescription of arbitrary local data, which could fail by Wang's obstruction.
+
+The source-to-proof chain to implement is as follows. For each subgroup `H≤A` sum all idèle characters into `H` with the product of their conductor characters, and perform finite subgroup-lattice Möbius inversion to impose surjectivity. The discriminant exponent is scaled by `|A|/|H|` ([141], Lemma2.2, pp.9–10; (4.1), p.20). Poisson summation on the idèle class characters, with unit quotient normalization, rewrites each conductor series as a sum of local Fourier Euler products (Proposition3.8, pp.16–18; (4.2), p.20). Outside a finite `S` containing primes dividing `|A|`, the leading local terms come exactly from inertia of order `ℓ`. Factoring their Frobenius averages by zeta functions of `k(ζ_ℓ)` gives pole order at most `#{h∈H:ord(h)=ℓ}/[k(ζ_ℓ):k]`; higher-inertia terms converge to the left of a. Lemmas4.1–4.7, pp.21–26 prove the uniform convergence of the Fourier sum and the vertical growth needed for the Tauberian step. Subgroups of order prime to `ℓ` are holomorphic there. This gives the claimed meromorphic continuation and upper pole order, but does not yet prove noncancellation.
+
+For the exact pole and its sign use §4.7, pp.27–30. Reverse Poisson and subgroup inversion after restricting to finitely many places `T`. The resulting approximants are sums of nonnegative surjective-character terms; Lemma4.8 justifies their limit. Fix a realized extension and a finite `T₀` containing its ramified places and enough local images to generate A. Twist it by characters trivial at `T₀` and with inertia order dividing `ℓ` outside `T₀`. They stay surjective. Their normalized Fourier factors are nonnegative; at a good prime they are `1+(ℓ^β−1)/q`, `1−1/q` or 1 according to the local `ℓ`-power test (Lemma4.9, p.30), where `ℓ^β=|` A `[ℓ]|`. The trivial dual character contributes, after the zeta normalization, an absolutely convergent product of positive factors `1+O(q⁻²)`, times positive factors at `T₀`. It has positive limit, so the original leading coefficient cannot cancel. This proves `c>0`, not just existence of a possible pole. The Tauberian normalization `c/(aΓ(b))` follows by integrating the coefficient measure against `x^(−s)`; it agrees with a simple pole giving residue/a. The 2023 corrigendum to [141] concerns its Theorems1.1 and1.5(2), not this counting theorem or its proof.
+
+For `C_p/ℚ` the `ℓ`-order elements form one cyclotomic orbit, hence `b=1`. For `C₃/ℚ(ζ₃), a=1/2` and `b=2`, so its count is `C X^(1/2)log X` with `C>0`. That exact positive logarithmic term supplies the cyclotomic subfamily in the counterexample below; a `ℚ`-only cyclic bound is insufficient. For `V₄/ℚ, a=1/2` and `b=3`, giving `C X^(1/2)(log X)²`. Local conditions can also be retained in this theorem precisely under [141], (1.4), and existence of a realized global extension; positivity is never asserted for incompatible local conditions.
+
+*Needs:* `ClassFieldTheory` Layer13, AnalyticNumberTheoryPartI §§2.5 and2.21, Completed ArithmeticDirichletSeries Layers3,6 and9.
+
+Source: [[141]](#ref-141), Theorem1.7 p.5 and §§2–4 pp.9–30.
+
+**Checks.**
+
+- For `C₃/ℚ(ζ₃)`, `a=1/2,b=2` gives a positive `X^(1/2)log X` term, whereas `C₃/ℚ` has `b=1`.
+- For `V₄/ℚ`, `a=1/2,b=3`; its two logarithmic factors cannot be discarded from a pure square-root bound.
+- For a simple pole the cumulative coefficient is residue divided by `a`; the trivial group has a singleton family and is excluded from the minimum-prime formula.
+
 <a id="kluners-counterexample-to-malle-conjecture"></a>
 
 **Kluners counterexample to malle conjecture.** For `G = C₃ ≀ C₂ = C₃² ⋊ C₂ ≤ S₆` (order 18), `a(G) = 1/2` and `b(ℚ, G) = 1`, but `Z(ℚ, G; x) ≫ x^{1/2} log x`; hence `MalleStrong(ℚ, C₃ ≀ C₂)` is false. More precisely `Z̃(ℚ, G; x) ≥ Z(ℚ(ζ₃), C₃; x/27) ~ (c(ℚ(ζ₃), C₃)/√27) x^{1/2} log x`, where `Z̃` counts towers `L/K/ℚ` with `Gal(L/K) = C₃, [K : ℚ] = 2, |d_L| ≤ x`, and the `C₆` and `S₃(6)` contributions are `O(x^{1/3})` and `O(x^{1/2})`, respectively, which suffice for the contradiction (the source quotes a stronger `S₃(6)` bound).
@@ -822,7 +1142,7 @@ The failure is caused by the cyclotomic intermediate field `K = ℚ(ζ₃)`: exc
 
 Proof: Compute `a(G) = 1/2` (the elements of order 3 with three fixed points have index 2) and `b(ℚ, G) = 1` (the two classes of such elements are fused by the cyclotomic action over `ℚ`), but `b(ℚ(ζ₃), C₃) = 2`. Lower bound: every cyclic cubic extension `L/K` of `K = ℚ(ζ₃)` with Galois group of `L/ℚ` equal to `G` gives a sextic field with `|d_L| = d_K³ N(d_{L/K}) = 27 N(d_{L/K})`; by Wright's theorem `Z(K, C₃; y) ~ c y^{1/2} log y`; at `y=x/27` the leading constant is `c/√27 (b(K, C₃) = 2)`. The `C₆` contribution is `O(x^{1/3})` by the abelian case. For `S₃` Galois sextic fields `L`, choose a conjugate cubic subfield `K`. The tower discriminant identity gives `|Disc L|≥|Disc K|²`, and the Galois closure determines `L` from the isomorphism class of `K`; Davenport–Heilbronn thus gives `O(x^{1/2})`. Both are `o(x^{1/2} logx)`, sufficient for the claimed counterexample. The stronger `O(x^{1/3})` bound quoted without proof by Klüners is not needed here.
 
-*Needs:* [malle conjecture](#malle-conjecture), [malle invariants of a permutation group](#malle-invariants-of-a-permutation-group), [davenport heilbronn mean of three torsion](#davenport-heilbronn-mean-of-three-torsion), [davenport heilbronn count of cubic fields](#davenport-heilbronn-count-of-cubic-fields).
+*Needs:* [abelian discriminant series](#abelian-discriminant-series), [malle conjecture](#malle-conjecture), [malle invariants of a permutation group](#malle-invariants-of-a-permutation-group), [davenport heilbronn mean of three torsion](#davenport-heilbronn-mean-of-three-torsion), [davenport heilbronn count of cubic fields](#davenport-heilbronn-count-of-cubic-fields).
 
 ([[23]](#ref-23), Section 2, pp. 2-3; [[23]](#ref-23), Section 2, p. 2.)
 
@@ -880,344 +1200,123 @@ Proof: Apply the conductor–discriminant adapter and the quadratic-order torsio
 
 - At `p=3` the count includes `X³−3` for `X>243`: its field discriminant is `−243` and its conductor is wild. The assertion is for prime `p`; substituting `p=1` would not describe a ramification condition. Summing `p^(−2)` over `p>M` is bounded by the integer tail `O(1/M)`, so the stated union bound needs no prime-number asymptotic.
 
-### 3.20 Secondary cubic local integrals and switching
+### 3.20 Imported secondary cubic estimates
 
 <a id="secondary-cubic-lattice-coefficient"></a>
-
-**Secondary cubic lattice coefficient.** For a full lattice `L⊆V_Z` of index `T=T₁T₂` containing `mV_Z`, with leading-coefficient image `T₁ℤ` and fibre index `T₂`, and `m⁴≤X`, the BST averaged fundamental-domain count `N(L;X)` of irreducible binary cubic forms of sign `i` is `c₁⁽ⁱ⁾X/T+c₂⁽ⁱ⁾X^{5/6}/(T₁^{1/3}T₂)+O(mX^{3/4}/T)`. A translate uses the corresponding Hurwitz-zeta residue average, rather than the same scalar secondary coefficient. For an invariant locus this agrees with the weighted orbit count; for a noninvariant lattice or translate `N` refers to the averaged count, since membership is not an orbit property.
-
-Proof: Import Layer 2’s averaged fundamental domain, slicing and Mellin smoothing with its lattice-covolume normalization. The sum of `a^{-1/3}` over the permitted leading coefficients has residues at `s=2/3` and `s=0`; the residue at zero produces `ζ(1/3)`. Take smoothing parameter `κ=X^{1/12}`; the condition `m⁴≤X` absorbs the remaining error terms.
-
-*Needs:* [ArithmeticStatisticsPartIII: cubic secondary congruence count](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-congruence-count).
-
-([[91]](#ref-91), §6, Theorem27 and Remark3, pp.19–20.)
-
-**Checks.**
-
-- For the full lattice, `T₁=T₂=m=1`, recover `c₁X+c₂X^(5/6)+O(X^(3/4))`.
-
 <a id="cubic-secondary-local-factor-evaluation"></a>
-
-**Cubic secondary local factor evaluation.** For every prime `p` the secondary density of maximal cubic forms is `μ₂(p)=(1−p^{-2})(1−p^{-5/3})`; for maximal forms which are not totally ramified it is `μ₂′(p)=(1−p^{-2})(1−(p^{1/3}+1)/(p(p+1)))`. The five splitting-type factors are obtained by disjoint projective-root lattices and removal of the zero reduction, with maximality imposed modulo `p²`.
-
-Proof: Use the secondary lattice coefficient on the root lattices, separating those with a root at infinity from the others. For a repeated root at infinity remove the `p²`-divisibility sublattice with secondary ratio `p^{-1/3}`; at another root the ratio is `p^{-1}`. Sum the five disjoint splitting types and remove the totally ramified type for `μ₂′`.
-
-*Needs:* [secondary cubic lattice coefficient](#secondary-cubic-lattice-coefficient), [splitting symbol and local sets of binary cubic forms](#splitting-symbol-and-local-sets-of-binary-cubic-forms), [densities of splitting types of maximal forms](#densities-of-splitting-types-of-maximal-forms).
-
-([[91]](#ref-91), §7, Table 1, Lemma 28 and formula (56), pp.21–22; the global maximality mass comparison is §8.4, formula (57), p.25..)
-
-**Checks.**
-
-- At `p=2, μ₂(p)=(3/4)(1−2^(−5/3))`, whereas `μ₂′(p)=(3/4)(1−(2^(1/3)+1)/6)`. These secondary factors differ from the additive maximality density `21/32`.
-
 <a id="cubic-root-weighted-sieve-identity"></a>
-
-**Cubic root weighted sieve identity.** For `W_p` the nonmaximal locus and `V_{p,α}` the forms with root `α mod p, N(W_p;X)=Σ_{α∈P¹(𝔽_p)}N(V_{p,α};X/p²)−Σ_αN(V_{p,α};X/p⁴)+N(V_Z;X/p⁴)`. The CRT gives the corresponding identity for squarefree `n`; the zero reduction has `p+1` roots and must retain that multiplicity. Each `N(V_{p,α};Y)` is the same averaged fundamental-domain count as in the lattice estimate; the sum over `α` is the invariant projective-root-weighted orbit count. Individual root conditions are not invariant orbit sets.
-
-Proof: Use the `p`-adic maximality criterion to rescale a repeated-root form, tracking the new discriminant and the extra root. Apply inclusion-exclusion to the forms divisible by `p`. Iterate the identity at distinct primes by CRT; group the terms by their root weights.
-
-*Needs:* [ArithmeticStatisticsPartII: davenport heilbronn maximality criterion](../ArithmeticStatisticsPartII/README.md#davenport-heilbronn-maximality-criterion), [ArithmeticStatisticsPartIII: binary cubic counts with congruence conditions](../ArithmeticStatisticsPartIII/README.md#binary-cubic-counts-with-congruence-conditions).
-
-([[91]](#ref-91), §9.1, Proposition33 and (70)–(71), pp.27–29.)
-
-**Checks.**
-
-- The zero binary cubic has `p+1` projective roots, so its contribution cannot be silently treated as one root.
-
 <a id="refined-cubic-sieve"></a>
-
-**Refined cubic sieve.** For squarefree `n` define `E_n(X/2,X)=N(W_n;X/2,X)−γ₁(n)c₁X/2−γ₂(n)c₂(1−2^{−5/6})X^{5/6}`, where `γ_j(n)=∏_{p|n}(1−μ_j(p))`. For `0<δ₁<1/6` and `δ₂>0` the sums of `|E_n(X/2,X)|` over `n≤X^{1/6−δ₁}, n≥X^{1/6+δ₂}`, and the intermediate range are respectively `O_ε(X^{5/6−δ₁/2+ε}), O_ε(X^{5/6−δ₂+ε}+X^{13/18−2δ₂/3+ε})`, and `O_ε(X^{29/36+δ₁/6+ε}+X^{2/3+4δ₂+ε})`. The choices `δ₁=1/24,δ₂=1/30` give a dyadic error `O_ε(X^{5/6−1/48+ε})`. Summing the dyadic intervals gives the same order of cumulative field-count remainder.
-
-Fix either binary-cubic discriminant sign. `X≥2, n` is squarefree, `ε>0`; cutoffs are measured against the height of each dyadic interval.
-
-Proof: Apply the root-weighted sieve identity and the lattice estimate to small `n`. Use the uniform total-ramification and nonmaximality bounds in the large range. For the middle range use the finite Fourier transform of the root-count weight: its zero coefficient is `1+p^{-1}`, and each nonzero coefficient is `O(p^{-1})`; average over the regular sliced fundamental domain. Use Möbius inversion and the absolutely convergent Euler products to recover the two field-counting terms. Sum the resulting interval estimates over `X/2^{j+1}<|Disc|≤X/2^j`; their geometric sum preserves the saving `1/48`.
-
-*Needs:* [cubic root weighted sieve identity](#cubic-root-weighted-sieve-identity), [secondary cubic lattice coefficient](#secondary-cubic-lattice-coefficient), [cubic secondary local factor evaluation](#cubic-secondary-local-factor-evaluation), [cubic large total ramification bound](#cubic-large-total-ramification-bound), [ArithmeticStatisticsPartIII: cubic secondary sieve error](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-sieve-error).
-
-([[91]](#ref-91), §9.2–9.6, Lemmas34–36, (75), (85), (91)–(94), pp.29–35.)
-
-**Checks.**
-
-- `δ₁=1/24` and `δ₂=1/30` make all three errors smaller than `X^(5/6)`, with an overall saving `1/48`.
-- For `n=1` the empty product gives `γ₁(1)=γ₂(1)=1; E₁` subtracts the two full-lattice dyadic main terms, including the factor `1−2^(−5/6)` on the secondary term.
-- The small-range endpoint `δ₁=0` gives no saving in its first bound, and is excluded. At `δ₂=1/30` the middle-range exponent `2/3+4δ₂` is `4/5`, below `13/16=5/6−1/48`.
-
 <a id="cubic-secondary-orbit-integral"></a>
 
-**Cubic secondary orbit integral.** For a rank-three `Z_p`-order `R` whose generic fibre `R⊗Q_p` is étale, the secondary orbit density equals `(1−p^{-2})(1−p^{-1/3})/(Disc_p(R)|Aut R|)` times `∫_{(R/Z_p)^Prim}` index `(R:Z_p[x])^{2/3} dx`. Primitive means `x` has nonzero reduction in `(R/Z_p)/p`, and the Haar measure on that primitive set is normalized to one. Infinite index points form a null set; convergence near roots of the associated cubic is part of the assertion.
+Use [ArithmeticStatisticsPartIII §2.11, refinement-cubic-secondary-congruence-count](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-congruence-count) for the dyadic averaged lattice count, including `m⁴≤X`, the `m/T` error and the separate translated coefficient. Use [refinement-cubic-secondary-sieve-error](../ArithmeticStatisticsPartIII/README.md#refinement-cubic-secondary-sieve-error) for strongly acceptable specifications, the primitive-index local integrals, projective-root switching and the optimized error. Their source is [[91]](#ref-91), Theorem27 and Remark3 pp.19–20, §7 pp.21–22 and §9 pp.27–36. The cumulative field and class-group specializations are §3.5; no cumulative estimate for a noninvariant lattice is required here.
 
-Proof: Identify primitive quotient elements with primitive binary vectors and their index with `|f(v)|_p^{-1}`. Truncate the integral away from the zero locus and use the orbit Jacobian to calculate each congruence approximation. Prove integrability of `|f(v)|_p^{-2/3}` near each simple root and pass to the limit by dominated convergence. Treat distinct roots with separate neighborhoods; do not use a uniform bound on singular congruence roots.
+### Arithmetic lattice and torsion inputs
 
-*Needs:* [p adic density of a local specification](#p-adic-density-of-a-local-specification), [secondary cubic lattice coefficient](#secondary-cubic-lattice-coefficient).
+<a id="relative-small-split-prime-torsion-bound"></a>
 
-([[91]](#ref-91), §9.7, Lemma37, pp.35–36.)
+**Relative small-split-prime torsion bound.** For a number-field extension `L/K` with `d=[L:K]≥2`, put `N=[L:ℚ]` and `D=Nm(disc(L/K))`. Let `ℓ≥1`, `ε>0` and `0<θ<1/(4ℓ(N−1))`. If `M≥1` distinct primes of `K` of norm strictly less than `D^θ` split completely in `L`, then `|Cl(L/K)[ℓ]|≪_(N,θ,ε) D^(1/2+ε)|disc K|^((d−1)/2+ε)/M`. Here `Cl(L/K)` is the norm kernel. No coprimality of `ℓ` and `d` is required.
 
-**Checks.**
+Construct the relative Arakelov norm-kernel lattice, compare its covolume with the regulator ratio, and pack the prime-ratio classes. Use pairs of distinct primes over each completely split base prime; their valuation pattern prevents descent to a proper intermediate field. A packing collision gives height `O_N(D^(2θℓ))`, contradicting the discriminant-height inequality for a relative primitive element in this range. Norms of the principal generators are base units, not necessarily one. Pigeonhole them modulo `(O_Kˣ)^d`, whose index is at most `d^[K:ℚ]`, divide the generators by suitable base units, and take ratios inside one class. Their relative norms are then one and every weighted archimedean block sum vanishes. Include this finite cost in the packing constant. The regulator/class-number comparison is part of this target, using the relative regulator lower bound and bounded-degree Brauer–Siegel as in [[95]](#ref-95), Lemma2.4, p.8; elementary ideal counts alone do not give it.
 
-- The formula includes ramified and nonmaximal cubic orders with separable generic fibre; it does not require `R` itself to be étale over `Z_p`.
+*Needs:* [relative torsion splitting](#relative-torsion-splitting), `ClassFieldTheory` Layer13, GeometryOfNumbersAndQuadraticArithmetic §1, AnalyticNumberTheoryPartI §2.32.
 
-### 3.21 S-integral orbits and relative mass ratios
-
-<a id="low-degree-s-integral-parametrization"></a>
-
-**Low degree s integral parametrization.** For a number field `F, n∈{2,3,4,5}` and finite `S` containing the infinite places and the places above 2 when `n=2`, separable degree-`n` extensions correspond to the disjoint union of `Γ_β`-orbits of `S`-maximal elements of `L_β`, over the finite double-coset set `G_n(O^S)\G_n(A^S)/G_n(F)`. Here `L_β=V_n(F)∩β^{-1}(∏_{v∉S}V_n(O_v)×∏_{v∈S}V_n(F_v))` and `Γ_β` is the analogous conjugated integral subgroup. The stabilizer is `Aut_F(L)`, and `Disc_S(L)=(χ(β)²Δ_n(v))` as fractional `O_S` ideals, with the idele character interpreted componentwise.
-
-Proof: Import the cubic, quartic-resolvent and quintic orbit parametrizations from Layer 1, including maximal-order stabilizers. For `n=2` use `G_m` acting on `G_a` by `g·v=g²v`, the squareclass algebra `F[t]/(t²−v/4)`, and maximal quadratic orders with2 inverted. Patch the local maximal elements using the finite adelic double-coset decomposition. Maximal local orders force a rational conjugating element to be integral in the same adelic lattice; the determinant character identifies the discriminant and Steinitz class.
-
-*Needs:* [ArithmeticStatisticsPartII: delone faddeev parametrization of cubic rings](../ArithmeticStatisticsPartII/README.md#delone-faddeev-parametrization-of-cubic-rings), [ArithmeticStatisticsPartII: bhargava parametrization of quartic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quartic-rings), [ArithmeticStatisticsPartII: bhargava parametrization of quintic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quintic-rings), AdelicAlgebraicGroups:AA.0.
-
-([[92]](#ref-92), §3, Theorems3.1–3.4, pp.9–12.)
+Source: [[95]](#ref-95), Lemma2.1 and Remark2.2, pp.7–9; the base-discriminant exponent is the relative-degree exponent of Lemma2.4, p.8.
 
 **Checks.**
 
-- For `n=2, S` contains all primes over `2; v` and `g²v` give the same quadratic algebra and `Δ₂(v)=v` gives its localized discriminant ideal. For `n>2` use the respective Layer 1 parametrizations.
+- For `K=ℚ`, the base-discriminant factor is one and the result is the absolute small-split-prime bound.
+- At `M=0` division is unavailable; at `M=1` the target gives the relative trivial scale. A prime of norm exactly `D^θ` is outside the strict hypothesis.
+- For `d=2,ℓ=3`, the allowed range is `0<θ<1/(12(N−1))`. Generator norms in different unit-square classes must be separated before taking norm-one ratios.
 
-<a id="low-degree-maximal-sieve"></a>
+<a id="integer-lattice-largest-minimum"></a>
 
-**Low degree maximal sieve.** For `n∈{2,3,4,5}` and a fixed number field `F` and `S`-integral orbit family, let `W_𝔭` mean nonmaximality or ramification beyond one quadratic ramified factor. Then `Σ_{N𝔭>M}N(W_𝔭;X)=O_F(X/(M log M))+o_F(X)`, uniformly in `M>1`. Finite local specifications consequently extend to acceptable infinite specifications by this tail bound.
+**Largest minimum of the integer lattice.** `FieldStatistics.integerLattice_largestMinimum` asserts that for a degree-`n≥2` number field `K`, the last successive minimum of `O_K` in its canonical real embedding is `≪_n |disc K|^(1/n)`. The Euclidean norm counts each complex pair once. Together with the basis-from-minima theorem this gives a `ℤ`-basis of the whole integer ring with the same bound, up to a degree-dependent constant.
 
-Proof: Import the Layer 2 cusp bounds and semialgebraic lattice estimate for each adelic lattice. The extra-ramification locus has codimension at least two; the geometric sieve bounds its contribution. For weak nonmaximality use a local change of variables reducing the discriminant by `N𝔭²`, then patch to one of finitely many adelic lattices. Fibres have cardinal at most ten. Apply finite-place inclusion-exclusion before taking `M` to infinity.
+Use successive-minimum witnesses with first vector one, and an adapted integral basis to express multiplication. If the coefficient-of-the-last-vector pairing on the middle `n−2` vectors were degenerate, multiplication by a nonscalar element would preserve a codimension-one rational subspace. That subspace would be a vector space over a proper extension of `ℚ`, contradicting divisibility of dimensions. A nonzero determinant term pairs the middle vectors so that their length products dominate the last minimum. Multiply these inequalities and apply Minkowski's second theorem. Convert independent short witnesses into a full integral basis using the named supplier; independence alone does not give index one.
 
-*Needs:* [low degree s integral parametrization](#low-degree-s-integral-parametrization), [ArithmeticStatisticsPartIII: global field large prime tail](../ArithmeticStatisticsPartIII/README.md#refinement-global-field-large-prime-tail), [ArithmeticStatisticsPartIII: global field generic finite count](../ArithmeticStatisticsPartIII/README.md#refinement-global-field-generic-finite-count).
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§1.2–1.5 (successive minima and Minkowski's second theorem), [HeightsAndUnits Layer2.1, a basis from the minima](../HeightsAndUnits/README.md#layer-2-a-basis-from-the-minima-and-bombierivaaler-in-the-sup-norm).
 
-([[92]](#ref-92), §5, Theorems5.1–5.3 and (29), pp.18–20.)
-
-**Checks.**
-
-- `M=1` is excluded because `log M` vanishes. For fixed large `M` the stated `X/(M log M)` term tends to zero after division by `X` and then `M→∞`; this is the order of limits needed for infinite local specifications.
-
-<a id="low-degree-jacobian-mass"></a>
-
-**Low degree jacobian mass.** For the BSW degree-`n` representation with `n∈{2,3,4,5}`, the orbit map has pullback `π_v^*ω_V=JΔ_n(v)χ²ω_G`, with `J=2` for `n=2` and `J=±1` for `n≥3`. Thus each maximal local orbit contributes `|J|_v/(Disc_v(R)|Aut R|)` times Vol `(G_n(O_v))`; the product of `|J|_v` is one. The final weighted field constant is `κ_F/2` times the product of finite masses `(1−q_v^{-1})Σ_R(Disc_v(R)|Aut R|)^{-1}` and infinite masses `Σ_R|Aut R|^{-1}`.
-
-Proof: Evaluate the Jacobian on the split étale orbit, using its `n!` stabilizer and its reduction modulo every prime. Use change of variables on each local orbit, including the stabilizer divisor. Sum over the adelic double cosets; the Tamagawa number of `G_n` is one, and integration over the positive determinant character gives the factor `1/2`. Restore the places in `S` and cancel `J` by the product formula.
-
-*Needs:* [low degree s integral parametrization](#low-degree-s-integral-parametrization), [low degree maximal sieve](#low-degree-maximal-sieve), AdelicAlgebraicGroups:AA.2.
-
-([[92]](#ref-92), §7, Propositions7.1–7.3 and §8, pp.21–25.)
+Source: [[99]](#ref-99), Theorem1.6 p.3 and §3, Theorem3.1 p.5.
 
 **Checks.**
 
-- In degree two, `J=2` has `|J|∞=2` and `|J|₂=1/2`; omitting the dyadic place destroys the product formula. A quadratic field has automorphism weight `1/2`, while a non-Galois `S₃` cubic has weight 1.
+- In degree two the middle multiplication matrix is empty; Minkowski's product bound with the first minimum bounded gives the required square-root scale directly.
+- For `ℚ(i)` the basis `(1,i)` has both lengths one. The result controls the last minimum as well as the first.
+- The lattice with Gram matrix `diag(1,T²)` has last minimum `T` and covolume `T`. Generic lattice bounds cannot replace the arithmetic exponent `1/n`; the ring multiplication is essential.
 
-<a id="quartic-quintic-density-constants"></a>
+<a id="small-square-ideal-generators"></a>
 
-**Quartic quintic density constants.** For `S₄` fields over `ℚ` of signature `(r₁,r₂)` with `r₁+2r₂=4`, the coefficient of `X` is `[2r₁!2^{r₂}r₂!]^{-1}∏_p(1+p^{-2}−p^{-3}−p^{-4})`; for `S₅` it is the same archimedean prefactor with `r₁+2r₂=5` and product `∏_p(1+p^{-2}−p^{-4}−p^{-5})`. These are unweighted isomorphism-class counts because these fields have trivial `ℚ`-automorphism groups.
+**Small square-ideal generators.** `FieldStatistics.squareIdeal_smallGenerator` supplies, for every `c∈Cl(O_K)[2]` in a degree-`n` number field, a nonzero integral ideal `I` representing `c` and `β∈O_K` with `I²=(β)` and `|σ(β)|≤C_n|disc K|^(1/n)` at every archimedean embedding. Distinct ideal classes can be assigned distinct such generators. Apply Minkowski to `I⁻¹` with the box scaled by the archimedean absolute values of an initial generator of `I²`; replacing `I` by `κI` makes it integral and balances the generator. Retain the complex-place volume factors.
 
-Proof: Evaluate the finite étale local mass using partitions of `n−k` into `k` parts. Evaluate the real automorphism group as `S_{r₁}×(C₂≀S_{r₂})`. Apply the low-degree mass theorem and remove non-`S_n` fields using the nongeneric orbit estimate.
+*Needs:* GlobalNumberFields Layers3 and11 (fractional ideals and their lattices), GeometryOfNumbersAndQuadraticArithmetic §1.
 
-*Needs:* [low degree jacobian mass](#low-degree-jacobian-mass).
-
-([[92]](#ref-92), §2.2, (9)–(11), pp.7–8; Theorem1, pp.1–2.)
-
-**Checks.**
-
-- Quartic archimedean prefactors are `1/48,1/8,1/16`; quintic prefactors are `1/240,1/24,1/16`.
-
-### 3.22 Four-rank expansions and limiting laws
-
-<a id="quadratic-four-rank-conic-formula"></a>
-
-**Quadratic four rank conic formula.** For a fundamental quadratic discriminant `D`, let `C_D` be the narrow class group. Then `2^{rk₄ C_D}` is one half the number of positive squarefree divisors `b` of `D` for which `b′` is the signed squarefree part of `D/b` and the conic `b x²−b′ y²=z²` has a nonzero rational point. All signs and the prime2 conditions are retained; replacing this by residue conditions only at the odd primes is insufficient.
-
-`D` is a fundamental discriminant, `D≠1`; for positive `D` the class group is narrow.
-
-Proof: Represent the two-torsion classes by ramified ideals and apply the quadratic genus-character test for being a square. Translate the square condition to the conic; use its local-to-global principle and quadratic reciprocity. Count the two complementary factorizations for each class.
-
-*Needs:* [ArithmeticStatisticsPartIV: prime power class group rank](../ArithmeticStatisticsPartIV/README.md#prime-power-class-group-rank), `TauCetiRoadmap.GlobalQuadraticForms` Layer 5.
-
-([[90]](#ref-90), §3, Theorem5 and Lemmas4–10, pp.9–12.)
+Source: [[99]](#ref-99), Theorem1.5 p.3 and Theorem2.1/§2 p.4, specialized to `m=2`.
 
 **Checks.**
 
-- For `D=5` the positive divisors1,5 give two soluble conics and `rk₄ Cl⁺(ℚ(√5))=0`. Allowing `−1`,`−5` would double the count incorrectly. The complementary factor `b′`, rather than the summation divisor `b`, retains the sign of `D`.
+- The identity class permits `I=O_K,β=1`; the absolute norm is a nonzero square.
+- In `ℚ(√−5)`, `I=(2,1+√−5)` has `I²=(2)` and represents the nontrivial two-torsion class.
+- An arbitrary generator multiplied by a large unit need not satisfy the archimedean bound; the conclusion chooses a representative and generator together.
 
-<a id="quadratic-four-rank-jacobi-expansion"></a>
+<a id="square-norm-counting"></a>
 
-**Quadratic four rank jacobi expansion.** If `D<0` is odd and fundamental, then `2^{rk₄ C_D}=2^{-1−ω(|D|)} Σ_{|D|=D₀D₁D₂D₃}(D₂/D₀)(D₁/D₃)(D₃/D₀)(D₀/D₃)`, over positive pairwise coprime squarefree factors. Raising this to `k` gives the `(𝔽₂²)^k`-indexed sum with weight `2^{-kω(∏D_u)}`, phase `Φ_k(u,v)` and prefactor `2^{-k}`. For the other five sign/congruence families the same phase persists with the precise characters at `−1` and2 supplied by Lemmas28,34,39,41,43. Explicitly write `u=(a_j,b_j)_{j=1}^k, λ_k(u)=Σ_j a_jb_j, ξ_j(u)=(a_j+1)(b_j+1), Q_Γ(u)=Σ_{j∈Γ}a_jb_j+Σ_{j∉Γ}ξ_j(u)`, and `V_Γ(u)=Σ_{j∉Γ}(a_j+b_j)`, all in `𝔽₂`. In each moment sum let `W(D_u)=∏_u2^{−kω(D_u)}∏_{u,v}(D_u/D_v)^{Φ_k(u,v)}`, with positive odd pairwise coprime squarefree `D_u`. For negative odd discriminants sum `2^{−k}W` with `∏D_u≤X` and `∏D_u≡−1 mod4`; for positive odd ones sum `2^{−k}W∏_u(−1/D_u)^{λ_k(u)}`, with product `≡1 mod4`. For negative discriminants divisible by8 sum `W∏_u(2/D_u)^{λ_k(u)}`, with product `≤X/8` and either odd residue `mod4`. For the positive8 family sum `2^{−k}` over `Γ` of `W∏_u(2/D_u)^{λ_k(u)}(−1/D_u)^{Q_Γ(u)}`, in the same product domain. For the negative `4 mod8` family sum `2^{−k}` over `Γ` of `W∏_u(2/D_u)^{V_Γ(u)+k−|Γ|}`, with product `≤X/4` and product `≡1 mod4`; for the positive `4 mod8` family multiply each such summand by `∏_u(−1/D_u)^{λ_k(u)}` and require product `≡−1 mod4`.
+**Square-norm counting and quadratic-subfield comparison.** For degree `n≥3` fields with no index-two subfield, `FieldStatistics.squareNorm_count` bounds the number of `β∈O_K` with all conjugates `≤C_nD_K^(1/n)` and square absolute rational norm by `O_(n,ε)(D_K^(1/2−1/(2n)+ε))`. Primitive translation lines have `O_n(D_K^(1/2−1/n))` representatives. On each, use both signs in `y²=±Nm(β−x)`, each an absolutely irreducible degree-`n` curve in a box of side `O_n(D_K^(1/2))`. Prove the uniform Bombieri–Pila determinant-method bound `O_(n,ε)(B^(1/n+ε))` for its integral points. This curve estimate, with degree fixed and coefficient-independent constant, is an owned supporting result here. Nonprimitive elements lie in proper subfields of index at least three; the preceding lattice bound counts them by `O_n(D_K^(1/3))`, which is within the target exponent.
 
-`k≥1`; the six families are `D` of either sign with `D` odd, `D≡0 mod8`, or `D≡4 mod8`.
+For a quadratic `K/F`, also prove the genus-theoretic comparison `h₂(K)≪_(n,ε)D_K^ε h₂(F)²`, including dyadic and real ramification. The ambiguous-class exact sequence and the norm/extension maps give this bound. Induction on degree, with the quadratic genus bound as base, handles the index-two case in the torsion target below; no assertion of the square-norm element count is made for that case.
 
-Proof: Expand the quadratic-residue indicator as a product over the ramified primes. Distribute each prime among the four factors, then among the `4^k` factors for kth moments. For the even and positive cases carry the `−1` and2 character factors through the expansion.
+*Needs:* [largest minimum of the integer lattice](#integer-lattice-largest-minimum), `ClassFieldTheory` Layer13, [ArithmeticStatisticsPartIV: class group ranks](../ArithmeticStatisticsPartIV/README.md#prime-power-class-group-rank).
 
-*Needs:* [quadratic four rank conic formula](#quadratic-four-rank-conic-formula), [ArithmeticStatisticsPartIV: fk linking phase](../ArithmeticStatisticsPartIV/README.md#fk-linking-phase).
-
-([[90]](#ref-90), §5.1, (20), Lemma17, pp.14–16; Lemmas28,34,39,41,43, pp.35,42,45,48,51.)
-
-**Checks.**
-
-- All six sign/parity domains carry the indicated prefactor, product cutoff and character twists; in particular the negative8 family has no `2^(−k)` prefactor, and the sign at `4 mod8` switches the product residue.
-
-<a id="fk-maximal-unlinked-support"></a>
-
-**Fk maximal unlinked support.** An unlinked subset `U` of `(𝔽₂²)^k` has at most `2^k` members. Equality holds exactly for the affine translates of `k`-dimensional totally singular subspaces for `P_k`. In the kth Jacobi moment only maximal unlinked supports give a main term: boxes with two linked large variables, with an intermediate linked variable, or with fewer than `2^k` large variables contribute `O_{k,ε}(X(log X)^{-2^{-k}+ε})`.
-
-`k≥1` and `ε>0` are fixed; `X≥2`.
-
-Proof: Translate an unlinked support to contain zero and use its polar orthogonality; the maximal dimension is `k`. Dissect each factor into multiplicative boxes with mesh `1+(log X)^{-2^k}` and remove the boundary and excessive prime-factor boxes. Apply the two quadratic bilinear estimates to linked pairs and Siegel–Walfisz to the remaining small characters. Estimate the supports with fewer than `2^k` large variables by the multiplicative mean-value bound.
-
-*Needs:* [quadratic four rank jacobi expansion](#quadratic-four-rank-jacobi-expansion), [ArithmeticStatisticsPartIII: coefficient sieves](../ArithmeticStatisticsPartIII/README.md#support-sieves) and [quadratic character-sum bounds](#support-character-sums), AnalyticNumberTheoryPartII §5.29, AnalyticNumberTheoryPartI §3.26.
-
-([[90]](#ref-90), §§5.3–5.5, pp.17–23; Lemma 18, pp.22–23, and Proposition 3, p.23.)
+Source: [[99]](#ref-99), §4 pp.6–7, including Lemma4.1 and the application of Bombieri–Pila, *The number of integral points on arcs and ovals*, Theorem5 (its reference [4]).
 
 **Checks.**
 
-- For `k=1` the space has four points and a maximal unlinked support has two, not four. A singleton is unlinked but is not maximal-cardinality and supplies no leading support.
+- In odd degree no index-two subfield exists; the square-norm count applies directly.
+- If `[K:F]` is even, `Nm_(K/ℚ)(β−x)` can be a polynomial square for `β∈F`; the primitive-line estimate cannot be applied to it.
+- At `n=3` the product of translation-line and curve exponents is `1/6+1/6=1/3`. The nonprimitive contribution has this same exponent.
 
-<a id="fk-main-coefficient"></a>
+<a id="class-group-two-torsion-power-saving"></a>
 
-**Fk main coefficient.** Write `N(k,2)` for the number of all subspaces of `𝔽₂^k`. Summing the reciprocity signs over maximal unlinked supports gives imaginary coefficient `N(k,2)`, and real coefficient `2^{-k}(N(k+1,2)−N(k,2))`. The same coefficients hold separately in each of the three fundamental-discriminant congruence families; the `−1` and2 twists restrict the affine translates but do not change these normalized coefficients.
+**Two-torsion power saving.** `FieldStatistics.classGroupTwoTorsion_powerSaving` proves `h₂(K)≪_(n,ε)D_K^(1/2−1/(2n)+ε)` for every degree-`n≥3` number field and every `ε>0`. Count the chosen small square-ideal generators by the square-norm estimate. In the index-two case apply the genus comparison and the result in smaller degree; the degree-two genus bound is subpolynomial. This gives a uniform field-dependent discriminant bound, not an average over fields.
 
-`k≥1`.
+*Needs:* [small square-ideal generators](#small-square-ideal-generators), [square-norm counting](#square-norm-counting).
 
-Proof: Evaluate the character sum on the group of subsets under symmetric difference; its square vanishes unless the full bilinear form `L` is zero on the underlying `k`-plane. Use the good-subspace bijection; for real discriminants sum the sizes of the projected subspaces. For the even families impose the linear constraints from the2-character; the constrained count is `N(k−1,2)`. Sum over the subsets of coordinates carrying that character.
-
-*Needs:* [fk maximal unlinked support](#fk-maximal-unlinked-support), [ArithmeticStatisticsPartIV: fk good subspace bijection](../ArithmeticStatisticsPartIV/README.md#fk-good-subspace-bijection).
-
-([[90]](#ref-90), §5.5–5.7, Propositions4–5 and Lemmas20–26, pp.24–34; (105), pp.40–41; §§7–10, pp.41–52.)
+Source: [[99]](#ref-99), Theorem1.1 p.1 and §4 pp.6–7; its stronger cubic/quartic bounds imply the displayed weaker estimate in those degrees too.
 
 **Checks.**
 
-- `N(1,2)=2` and `N(2,2)=5` give first-moment coefficients2 (imaginary) and `3/2` (real).
+- At `n=3` the exponent is `1/3`, and at `n=4` it is `3/8`.
+- Degree two uses genus theory and is outside this statement; the bound does not claim a uniform positive saving independent of degree.
+- For `ε<1/(2n)` the exponent is strictly below `1/2`; choosing `ε=1/(4n)` retains saving `1/(4n)`.
 
-<a id="fk-narrow-wide-moment-comparison"></a>
+<a id="elliptic-point-rank-bounds"></a>
 
-**Fk narrow wide moment comparison.** For every fixed `k≥1` and `ε>0`, the sum over positive fundamental `D<X` of `|2^{k rk₄ Cl⁺(D)}−2^{k rk₄ Cl(D)}|` is `O_{k,ε}(X(log X)^{-1/2+ε})`. The ranks agree off the thin family whose odd prime divisors are all `1 mod4`; this is an averaged comparison and does not assert equality for every real quadratic field.
+**Elliptic integral-point and rank bounds.** For an integral Weierstrass equation of an elliptic curve `E/ℚ` with nonzero equation discriminant `Δ`, `FieldStatistics.elliptic_integralPoints_rankBound` proves `#E(ℤ)≪_ε|Δ|^ε exp((β+ε)rank E(ℚ))`, where `α=√3/2` and `β=((1+α)/(2α))log((1+α)/(2α))−((1−α)/(2α))log((1−α)/(2α))`. For a monic separable cubic `f∈ℤ[X]`, the same supporting target supplies `rank E(ℚ)≤dim_𝔽₂ Cl(ℚ[X]/(f))[2]+2ω(|Δ|)+2` for `E:y²=f(x)`. For an étale product the class-group dimension is the sum over its factors. Keep the equation discriminant and the field discriminant distinct.
 
-`D` is positive and fundamental; `k≥1, ε>0, X≥2`.
+Prove the point bound by the height decomposition, local repulsion and spherical-code estimate used in the `t=0` case of Helfgott–Venkatesh, Corollary3.11 (reference [11] of [99]). Prove the rank bound by the cubic-algebra two-descent map into squareclasses, its norm-square condition, the unramified ideal-class quotient and local contributions at primes dividing `2Δ` and infinity; use the exact Brumer–Kramer bound recorded in [99], Theorem5.2. Both quantitative estimates are targets here, with their local and height arguments, rather than consequences of mere finiteness of integral points.
 
-Proof: Use the narrow-to-ordinary exact sequence and the genus criterion to locate the exceptional family. Count that family by the prime-factor sieve and apply Hölder using higher four-`rank` moments. Combine the high-moment bound with the exceptional-family count and let the Hölder exponent grow.
+*Needs:* `TauCetiRoadmap.EllipticCurves` Layers6–7 (Mordell–Weil, descent and Selmer groups), `ClassFieldTheory` Layer13 and GlobalNumberFields Layer11.
 
-*Needs:* [fk main coefficient](#fk-main-coefficient), [ArithmeticStatisticsPartI: squarefree denominators](../ArithmeticStatisticsPartI/README.md#support-squareclasses), `NumberField.NarrowClassGroup.toClassGroup` (Tau Ceti).
-
-([[90]](#ref-90), §3.2, Lemma10, Corollary1 and proof, pp.11–12.)
-
-**Checks.**
-
-- For a positive discriminant with a prime divisor `3 mod4` the exceptional-family criterion is false, so the two four-ranks agree. A discriminant with every odd prime divisor `1 mod4` is only a candidate for the exceptional family; the criterion does not assert that its ranks differ.
-
-<a id="rank-moments-determine-rank-law"></a>
-
-**Rank moments determine rank law.** Let `p` be prime, `u≥0` an integer and `μ_X` a probability measure on `N`. Suppose every moment `Σ_r p^{kr} μ_X(r)` tends to `Σ_{j=0}^k #{j-dimensional subspaces of 𝔽_p^k} p^{-uj}`. Then for every `r≥0, μ_X(r)` tends to `p^{-r(r+u)} η_∞(p)/(η_r(p)η_{r+u}(p))`, with `η_t=∏_{i=1}^t(1−p^{-i})`. The conclusion applies to the empirical `4-rank` by putting `p=2` and `u=0` or1; it does not deduce an arithmetic moment hypothesis from the heuristic.
-
-`p` is prime; `u∈ℕ`; all displayed moments exist; the probability measures may be empirical measures of a height-ordered family.
-
-Proof: Higher moments give tightness and uniform integrability for each lower moment, so every subsequential limit has the prescribed moments. Finite Gaussian-`binomial` inversion gives the elementary-abelian surjection moments `E #Sur(𝔽_p^r,𝔽_p^j)=p^(−uj)`. The subspace-count formula bounds the moment coefficients by `O_p((k+1)p^(k²/4))`, which supplies a Gaussian bound on limiting masses. Apply `RankGrid.geometricZero` below, with these growth bounds; Delaunay–Jouhet Theorem 5 at length one gives the same argument. This uses elementary-abelian test groups and does not invoke uniqueness from all finite-`p`-group tests. Evaluate the unique law by the `q-binomial` identities and remove the subsequence.
-
-The supporting theorem `RankGrid.geometricZero` has the following exact scope. Fix a real `a>1, α∈R` and `C>0`. If an entire `g(z)=Σ_r w_r z^r` has `|w_r|≤C a^{−r²/2+αr}`, vanishes at `a^m` for every `m≥0`, and has vanishing order `ω>α−1/2` at0, then `g=0`. If `g≠0`, apply Mathlib's `MeromorphicOn.circleAverage_log_norm` in `Analysis.Complex.JensenFormula` on radius `a^k`. Its zeros `a^0,…,a^{k−1}` and its zero of order `ω` at0 give
-
-```text
-`log M(a^k) ≥ log|w_ω| + (ωk + k(k+1)/2) log` a.
-```
-
-The coefficient bound and completion of the square give `M(a^k)≤C' a^{(k+α)²/2}`; the Gaussian sum defining `C'` is finite and independent of the integer `k`. Comparison as `k→∞` forces `ω≤α−1/2`, a contradiction. For two limiting rank laws, the moment estimate with `k=2r` bounds each mass by `O_p((2r+1)p^{−r²})`, hence their coefficient difference satisfies the separator with `α=0`. Thus `ω≥0` suffices, and rank-marginal uniqueness follows without a full finite-`p`-group moment hypothesis. This proves the analytic step directly from the pinned Jensen formula; it does not assume the quoted FK06 lemma.
-
-*Needs:* [ArithmeticStatisticsPartIV: prime power class group rank](../ArithmeticStatisticsPartIV/README.md#prime-power-class-group-rank), [ArithmeticStatisticsPartIV: gaussian binomial coefficient](../ArithmeticStatisticsPartIV/README.md#gaussian-binomial-coefficient), `MeromorphicOn.circleAverage_log_norm` (Mathlib).
-
-([[94]](#ref-94), §2, Lemma3 and Corollary4, pp.5–6; §3, Theorem5 and its proof, pp.6–8, specialized to ℓ=1.)
+Source: [[99]](#ref-99), §5.1, Theorems5.1–5.2 and (1)–(3), pp.7–8, with the original results identified there.
 
 **Checks.**
 
-- At `k=0` the prescribed moment is 1. At `k=1` it is `1+p^(−u)`; for `p=2` this gives 2 at `u=0` and `3/2` at `u=1`. For `r=0` the predicted probability is `η∞/η_u`, retaining `η₀=1`.
-- For the separator, `g=0` satisfies all bounds, while a nonzero constant fails the zero conditions. The nonzero entire product `∏_{m≥0}(1−z/a^m)` has `ω=0` and coefficient growth `O_a(a^{−r²/2+r/2})`; it shows that the strict inequality `ω>α−1/2` cannot be weakened at `α=1/2`.
-- A rank-zero point mass has first moment1, so it cannot satisfy the required first moment `1+p^{−u}`. Matching normalization alone does not determine the law.
+- Rank zero leaves the bound `O_ε(|Δ|^ε)`; it does not force the integral-point set to be empty.
+- A repeated root gives `Δ=0` and a singular cubic, excluded from both estimates.
+- For `y²=x³−x` the cubic algebra is `ℚ³`, so its class-group contribution is zero; the ramified-prime and constant terms remain.
 
-### 3.23 Rigid fields and relative torsion
+<a id="cubic-class-group-two-torsion-bound"></a>
 
-<a id="rigid-embedded-field-family"></a>
+**Cubic two-torsion bound.** With `β` as above and `a=1/(6(1−β/log2))`, `FieldStatistics.cubicClassGroupTwoTorsion_bound` proves `h₂(K)≪_εD_K^(a+ε)` for all cubic fields, cyclic or noncyclic. Translate the small generators to `O(D_K^(1/6))` elliptic curves with cubic algebra `K`, equation discriminant `O(D_K²)` and the coordinate bounds of [[99]](#ref-99), §5.1. The preceding point/rank estimates give `h₂(K)≪_εD_K^(1/6+ε)h₂(K)^(β/log2+ε)`. Prove `β<log2`, solve this inequality and rename `ε`.
 
-**Rigid embedded field family.** Fix a number field `k`, its algebraic closure, `n≥1` and a transitive subgroup `G≤S_n`. A rigid `G`-field consists of a finite degree-`n` intermediate field `K/k` in that algebraic closure and a bijection `e:Hom_k(K,kbar)→ Fin n` for which the transported Galois-action image is exactly `G`. Count these pairs by absolute discriminant. The underlying fields are embedded fields; conjugate fields and different labelings are retained. `Aut_perm(G)` is the normalizer `N_{S_n}(G)`, not the abstract automorphism group of `G`. Group-signature restrictions use conjugacy classes of complex conjugation at the real base places.
+*Needs:* [small square-ideal generators](#small-square-ideal-generators), [largest minimum of the integer lattice](#integer-lattice-largest-minimum), [elliptic integral-point and rank bounds](#elliptic-point-rank-bounds).
 
-`k` is a number field; `n≥1; G≤S_n` is transitive; all fields use the fixed algebraic closure.
-
-The API is:
-
-- `FieldStatistics.RigidField`: The embedded degree-`n` field and its compatible numbering of embeddings.
-
-- `FieldStatistics.RigidField.field`: Forget the numbering to an actual intermediate field of `kbar /k`.
-
-- `FieldStatistics.RigidField.relabel`: The normalizer of `G` acts on labels by postcomposition; identity and composition laws hold.
-
-- `FieldStatistics.rigidFieldCount`: Cardinality of the absolute-discriminant-bounded rigid pairs, with isomorphism-invariant local conditions supplied by a selection predicate.
-
-- `FieldStatistics.rigidFieldCount_eq_normalizer_mul_embedded`: The rigid count is `|N_{S_n}(G)|` times the embedded-field count.
-
-- `FieldStatistics.rigidFieldCount_eq_weightedIso`: It is the sum over field isomorphism classes of `|N_{S_n}(G)| n/|Aut_k K|`.
-
-- `FieldStatistics.rigidFieldCount_mono`: Increasing the discriminant bound or enlarging the local condition increases the count.
-
-Proof: Use the embedding-action predicate, keeping its numbering rather than existentially discarding it. Prove the labels over a fixed admissible embedded field form a normalizer torsor. Use Hermite finiteness for the underlying fields and finiteness of labels to obtain the height count.
-
-*Needs:* [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), [ArithmeticStatisticsPartI: number fields ordered by discriminant](../ArithmeticStatisticsPartI/README.md#number-fields-ordered-by-discriminant), `NumberField.discr` (Mathlib), `NumberField.finite_of_discr_bdd` (Mathlib).
-
-([[95]](#ref-95), §1 notation, p.2; Definition6.7 and Lemma6.8, pp.33–34.)
+Source: [[99]](#ref-99), §5.1, (1)–(4), pp.7–8.
 
 **Checks.**
 
-- For `n=1,G=1` the only field is `k`; the count is1 above its absolute discriminant and0 below.
-
-- Each quadratic field contributes two rigid pairs: it has one embedded copy and two compatible labels.
-
-- A non-Galois `S₃` cubic isomorphism class contributes18 rigid pairs: three embedded copies, each with six labels. Counting only abstract automorphisms would give a wrong multiplicity.
-
-- A singleton field with absolute discriminant `D` contributes zero for `X<D` and its full label multiplicity at `X=D`.
-
-<a id="relative-torsion-splitting"></a>
-
-**Relative torsion splitting.** For a finite extension `L/K` of number fields and a prime `ℓ` not dividing `d=[L:K]`, the norm and extension maps split `Cl_L[ℓ]` as `Cl_{L/K}[ℓ]×Cl_K[ℓ]`. Hence `h_ℓ(L)=h_ℓ(L/K)h_ℓ(K)`. In a tower of quadratic extensions `h₃` therefore factors over all steps. `Cl_{L/K}` is the kernel of the native relative class-group norm, not a second class-group carrier. The same splitting and cardinal factorization hold for `Cl⁺` using ideal norm and extension on the native narrow class groups: total positivity makes both maps descend, and their composite is the dth power. Define the relative narrow group as this norm kernel.
-
-`L/K` is finite; `ℓ` is prime and `ℓ∤[L:K]`.
-
-The required API is `FieldStatistics.relativeNarrowClassGroup`, the kernel of the narrow norm; `relativeNarrowClassGroup_mem`, its norm-one membership criterion; `narrowNorm_extended`, the degree-power identity; and `relativeTorsionEquiv` and `relativeNarrowTorsionEquiv`, the product isomorphisms on `ℓ`-torsion. Their cardinality consequences are `torsionCount_relative_mul` and `narrowTorsionCount_relative_mul`. The section is extension followed by exponentiation by the inverse of `d` modulo `ℓ`, so its composite with norm is the identity on `ℓ`-torsion; extension by itself is generally not that section.
-
-Proof: Use `norm∘extension=power d` on the native class group. Invert `d` on its `ℓ`-torsion by Bézout and construct a section of norm. Split the finite abelian group by kernel and section, and take cardinalities. For the narrow version first descend norm and extension through totally positive principal ideals. At a real base place, norms of totally positive elements are positive, including the positive contributions of complex conjugate pairs. Then repeat the same finite-group splitting.
-
-*Needs:* [ArithmeticStatisticsPartIV: torsion count of class groups](../ArithmeticStatisticsPartIV/README.md#torsion-count-of-class-groups), `ClassGroup.extendedHom` (Mathlib), `ClassGroup.relNorm` (Tau Ceti), `ClassGroup.relNorm_comp_extendedHom` (Tau Ceti).
-
-([[95]](#ref-95), §2, p.7, norm/extension exact sequence; [[92]](#ref-92), Theorem6(b), pp.4–5; §10.1, pp.29–30.)
-
-**Checks.**
-
-- For a quadratic tower step and `ℓ=3`, degree2 is invertible on torsion. The assertion deliberately excludes `ℓ=2`.
-- For `L=K`, the norm is the identity, both relative kernels are trivial, and the product formula is `h_ℓ(K)=1·h_ℓ(K)`.
-- For `K=ℚ`, ordinary and narrow base class groups are trivial, so relative torsion equals absolute torsion in each convention. This does not identify the ordinary and narrow groups of `L`.
-- On the abstract torsion group `C₃` with `d=2`, take norm to be the identity and extension to be inversion; their composite is squaring. Raising the extension value to 2 gives the identity section, whereas extension alone is not a section. For `ℓ|d` the degree-power map on `C_ℓ` is trivial and cannot give a section.
-
-### 3.24 S-integral orbits and relative mass ratios
-
-<a id="quartic-class-group-two-torsion-fibre"></a>
-
-**Quartic class group two torsion fibre.** For a non-Galois cubic extension `L/F`, the nontrivial order-two characters of `Cl(L)` that annihilate the image of `Cl(F)` under ideal extension correspond to quadratic extensions `L₂/L` unramified at all places whose normal closure over `F` has group `S₄`. Their number is `h₂(L/F)−1`, with `Cl(L/F)=ker(N_{L/F})`; the prime-to-degree splitting identifies the relevant dual quotient. The quartic-resolvent correspondence gives nowhere overramified quartic fields `L₄` with resolvent `L` and `Disc(L₄/F)=Disc(L/F)`. For finite-place unramified extensions replace both class groups by their narrow versions and use `h₂⁺(L/F)−1`.
-
-`L/F` is a separable non-Galois cubic number-field extension. Ordinary class fields split at real places; narrow class fields allow real ramification.
-
-Proof: Use the Hilbert or narrow Hilbert class field to identify order-two characters. Retain precisely the characters trivial on extended base classes; the degree-three norm/extension split gives their count `h₂(L/F)−1` or `h₂⁺(L/F)−1`. Use the `S₄` resolvent correspondence, tracking the normal closure and every real place. The local discriminant equality is equivalent to the stated ramification restriction; the trivial character is excluded.
-
-*Needs:* [ArithmeticStatisticsPartII: bhargava parametrization of quartic rings](../ArithmeticStatisticsPartII/README.md#bhargava-parametrization-of-quartic-rings), `TauCetiRoadmap.ClassFieldTheory` Layer 13, [relative torsion splitting](#relative-torsion-splitting).
-
-([[92]](#ref-92), §10.1, proof of Theorem6(b), pp.29–30.)
-
-**Checks.**
-
-- Over `F=ℚ` the base class groups are trivial and the familiar absolute fibre statement is recovered.
-
-- A nontrivial unramified quadratic extension `E/F` pulled back to `L` produces a base character. Its closure over `F` has group `S₃×C₂`, so it is excluded by the condition of annihilating extended base classes.
-
-<a id="low-degree-class-group-mass-ratios"></a>
-
-**Low degree class group mass ratios.** For a positive-density acceptable family over a fixed number field `F` with fixed pure infinite specifications, let `α₂` count real base places with quadratic algebra `ℝ²`, and `α₃` those with cubic algebra `ℝ³`. The means of relative torsion are `h₃(L/F): 1+3^{−r₂(F)−α₂}`; ordinary cubic `h₂(L/F): 1+2^{−r₁(F)−2r₂(F)−α₃}`; and narrow cubic `h₂⁺(L/F): 1+2^{−r₁(F)−2r₂(F)+α₃}`. At finite places the compatible fibre numerator/denominator mass ratio is one. The absolute `h₃(L), h₂(L), h₂⁺(L)` means are these expressions multiplied respectively by `h₃(F), h₂(F), h₂⁺(F)`, using the prime-to-degree norm/extension splitting. Finite specifications must be the matching resolvent-lift specifications, not independent numerator restrictions.
-
-Proof: Apply the relative cyclic-cubic and quartic-resolvent character fibres. Base characters are excluded before applying the `S₃/S₄` count. Use the low-degree mass theorem for numerator and denominator with compatible finite specifications. At complex places the quartic/cubic ratio is `1/4`; at a real `ℝ×ℂ` place it is `1/2`; at `ℝ³` it is `1/4` in the ordinary case and 1 in the narrow case. Account for the quadratic automorphism weight `1/2` separately.
-
-*Needs:* [quartic class group two torsion fibre](#quartic-class-group-two-torsion-fibre), [low degree jacobian mass](#low-degree-jacobian-mass), [three torsion of quadratic class groups counts cubic fields](#three-torsion-of-quadratic-class-groups-counts-cubic-fields), [relative torsion splitting](#relative-torsion-splitting).
-
-([[92]](#ref-92), Theorem6 and §10.1, (43)–(44), pp.4 and28–30.)
-
-**Checks.**
-
-- Over `ℚ`: real/imaginary quadratic `h₃` means `4/3` and2; totally real/complex cubic ordinary `h₂` means `5/4` and `3/2`, and narrow means2 and `3/2`.
-
-- For a base with `h₃(F)>1` or `h₂(F)>1`, the absolute mean carries the base factor; the relative mean does not.
+- Numerically `β≈0.2782` and `a≈0.2784`; they are different constants and `a<1/3`.
+- Solving the feedback inequality gives denominator `1−β/log2`, not `1−β`.
+- The bound applies to cyclic cubic resolvents as well as `S₃` fields; the quartic applications need both families.
 
 ### 3.25 Uniform torsion estimates in quadratic towers
 
@@ -1243,7 +1342,7 @@ Proof: Use the Shintani order series with isomorphism weights `|Aut R|^{-1}`; un
 
 *Needs:* [rigid embedded field family](#rigid-embedded-field-family), [ArithmeticStatisticsPartIII: uniformity estimate for nonmaximal binary cubic forms](../ArithmeticStatisticsPartIII/README.md#uniformity-estimate-for-nonmaximal-binary-cubic-forms), AnalyticNumberTheoryPartII §§5.8, 5.21 and 5.28, AnalyticNumberTheoryPartI §§2.5, 2.21 and 2.32; Completed ArithmeticDirichletSeries Layers 3, 6 and 9.
 
-([[95]](#ref-95), §3.1, Proposition3.6 and Lemmas3.7–3.10, pp.12–16.)
+([[95]](#ref-95), §3.2, Proposition3.6 and Lemmas3.7–3.10, pp.12–16.)
 
 **Checks.**
 
@@ -1318,13 +1417,20 @@ Proof: Use the fixed-discriminant estimate in the first range. Use propagation, 
 
 Proof: In the base case split `D_{F₁}` at `X^{1/3±δ₀}`; the noncritical ranges use the five-range estimate and partial summation. Before applying the relative small-prime lemma, pigeonhole generator norms in `O_K^*/(O_K^*)^d`, a set of size at most `d^[K:ℚ]`. Rescale generators in one class by base units; their ratios then have relative element norm1, so each archimedean block sum vanishes. This gives the needed unit normalization at bounded degree-dependent cost. In the critical range use the relative small-split-prime torsion bound and two applications of the quadratic zero-density estimate. Treat each exceptional field set by its cardinal bound and the uniform class-group bounds. Induct on `m`, splitting the preceding discriminant at `X^b` and choosing `b` and `δ₀` so every exponent stays below1.
 
-*Needs:* [relative three torsion piecewise bound](#relative-three-torsion-piecewise-bound), [relative torsion splitting](#relative-torsion-splitting), [uniform quadratic field bound](#uniform-small-degree-field-bound), Completed EffectiveBounds Layer 1, AnalyticNumberTheoryPartI §§2.32, 3.27; Completed ArithmeticDirichletSeries Layer 6.
+For the critical base range `X^(1/3−δ₀)≤D_F₁≤X^(1/3+δ₀)`, fix `0<δ₀<1/100` and a positive `δ₁<1/(12(4[k:ℚ]−1))`. Set `B₀=X^(1/3+δ₀)`, `B₁=X/D_F₁²` and `x=(X/(2D_F₁²))^δ₁`. Use the single exceptional set `E(k,B₀,ε₁)` simultaneously for all prime cutoffs `4≤t≤B₀`, and for each surviving `F₁` the single set `E(F₁,B₁,ε₁)` for all `4≤t≤B₁`. In particular take `t=x/2` in the first and `t=x` in the second. For sufficiently large `X` these lie in the required ranges; the bounded remaining range is absorbed in the constant. Each set has cardinal `O_(degree,ε₁)(D_base^ε₁ B_i^ε₁)` and is fixed before varying `t`. The induction reuses this two-step contract at the corresponding penultimate base.
+
+*Needs:* [relative small-split-prime torsion bound](#relative-small-split-prime-torsion-bound), [relative three torsion piecewise bound](#relative-three-torsion-piecewise-bound), [relative torsion splitting](#relative-torsion-splitting), [uniform quadratic field bound](#uniform-small-degree-field-bound), Completed EffectiveBounds Layer 1, [AnalyticNumberTheoryPartI §2.48: many split primes outside a small quadratic exception set](../AnalyticNumberTheoryPartI/README.md#s2-48), [§2.38: ray-class zero density](../AnalyticNumberTheoryPartI/README.md#s2-38), §2.32 (Brauer–Siegel) and §3.27 (ideal counting); Completed ArithmeticDirichletSeries Layer 6.
 
 ([[95]](#ref-95), §5, Theorem5.1, Lemmas5.7–5.9 and induction, pp.22–29.)
 
 **Checks.**
 
 - Every quadratic tower obeys `D_Fm=D_F(m−1)² Norm(d_Fm/F(m−1))`. Thus `Y>√X` makes the specified tail empty. The base case is `m=2; m=1` would have no varying penultimate field.
+
+- At a prime cutoff `t=4`, the split-prime supplier still uses the same exceptional set as at larger `t`; its error may dominate the main term at this endpoint.
+
+- For `D_F₁≈X^(1/3)`, the second family bound is `B₁≈X^(1/3)` and the chosen prime cutoff is `≈X^(δ₁/3)`, within both applications for large `X`.
+
 
 ### 3.26 Wreath-type field counts and torsion means
 
@@ -1350,13 +1456,20 @@ Proof: The transpositions identify the2-element blocks; transitivity supplies al
 
 Proof: Before applying the relative small-prime lemma, pigeonhole generator norms in `O_K^*/(O_K^*)^d`, a set of size at most `d^[K:ℚ]`. Rescale generators in one class by base units; their ratios then have relative element norm1, so each archimedean block sum vanishes. This gives the needed unit normalization at bounded degree-dependent cost. A finite `p`-group subgroup chain expresses the field as a tower of quadratic extensions. Use the fixed-discriminant quadratic character estimate and the2-torsion bound in quadratic towers. A nontrivial inertia group without a transposition has permutation index `≥2`; count powerful discriminants. Combine the tower tail with the relative small-split-prime bound in the remaining short-base range.
 
-*Needs:* [AnalyticNumberTheoryPartII §5.7](../AnalyticNumberTheoryPartII/README.md#s5-7) (pointwise quadratic bound), [uniform quadratic field bound](#uniform-small-degree-field-bound), [quadratic tower torsion tail](#quadratic-tower-torsion-tail), Completed EffectiveBounds Layer 1, AnalyticNumberTheoryPartI §§2.32, 3.27; Completed ArithmeticDirichletSeries Layer 6, `TauCetiRoadmap.ClassFieldTheory` Layer 13.
+In the short-base range put `Y=X^b` with a fixed sufficiently small `0<b<1/2`, `B_F=X/D_F²` and `x=(X/(2Y²))^δ₁`, where `0<δ₁<1/(12([K:ℚ]−1))`. For each `D_F≤Y` fix `E(F,B_F,ε₁)` once, uniformly for `4≤t≤B_F`; use it at `t=x`. For sufficiently large `X`, `4≤x≤B_F` for every such base. The cardinal is `O_(degree,ε₁)(D_F^ε₁B_F^ε₁)`; neither the exception set nor its constant depends on the chosen prime cutoff. Treat bounded `X` with the uniform class-group bounds.
+
+*Needs:* [relative small-split-prime torsion bound](#relative-small-split-prime-torsion-bound), [AnalyticNumberTheoryPartII §5.7](../AnalyticNumberTheoryPartII/README.md#s5-7) (pointwise quadratic bound), [uniform quadratic field bound](#uniform-small-degree-field-bound), [quadratic tower torsion tail](#quadratic-tower-torsion-tail), Completed EffectiveBounds Layer 1, [AnalyticNumberTheoryPartI §2.48: many split primes outside a small quadratic exception set](../AnalyticNumberTheoryPartI/README.md#s2-48), [§2.38: ray-class zero density](../AnalyticNumberTheoryPartI/README.md#s2-38), §2.32 (Brauer–Siegel) and §3.27 (ideal counting); Completed ArithmeticDirichletSeries Layer 6, `TauCetiRoadmap.ClassFieldTheory` Layer 13.
 
 ([[95]](#ref-95), Lemma6.3 and Theorems6.4–6.5, pp.31–33.)
 
 **Checks.**
 
 - A regular `V₄` quartic has no transposition; its nontrivial inertia indices are at least two. `A D₄` quartic has transpositions and is excluded from this thin-family conclusion. The unit ideal is powerful, so unramified finite discriminant is retained.
+
+- For `D_F≤Y=X^b`, `B_F≥X^(1−2b)`; the common prime cutoff `(X/(2Y²))^δ₁` is smaller when `δ₁<1`.
+
+- An exceptional set chosen separately at every prime cutoff would not give the simultaneous split-prime contract used in this tail; fix `E(F,B_F,ε₁)` first.
+
 
 <a id="quadratic-tower-counting-constants"></a>
 
@@ -1376,7 +1489,7 @@ Proof: Apply the number-field quadratic mass theorem to the finitely many bases 
 
 <a id="two-extension-three-torsion-means"></a>
 
-**Two extension three torsion means.** For embedded degree `2^m` two-extensions the mean `h₃(K)` tends to `C_m=[Σ_F w_F h₃(F)(1+2^{r₁(F)}/3^{r₁(F)+r₂(F)})]/Σ_F w_F`, where `w_F=κ_F/(2^{r₂(F)}ζ_F(2)D_F²)`. For fixed `G=C₂≀H` the unrestricted mean uses the same weights over rigid `H`-fields. At a fixed realized group signature `Σ` it is `(1+3^{-u(Σ)})` times `[Σ_{F of signature Σbar}h₃(F)κ_F/(ζ_F(2)D_F²)]/[Σ_F κ_F/(ζ_F(2)D_F²)]`. Every displayed sum converges and every denominator is positive.
+**Two extension three torsion means.** For embedded degree `2^m` two-extensions the mean `h₃(K)` tends to `C_m=[Σ_F w_F h₃(F)(1+2^{r₁(F)}/3^{r₁(F)+r₂(F)})]/Σ_F w_F`, where `w_F=κ_F/(2^{r₂(F)}ζ_F(2)D_F²)`. For fixed `G=C₂≀H` the unrestricted mean uses the same weights over rigid `H`-fields. At a fixed realized group signature `Σ` it is `(1+3^{-u(Σ)})` times `[Σ_{F∈RigidH(Σbar)}h₃(F)κ_F/(ζ_F(2)D_F²)]/[Σ_{F∈RigidH(Σbar)} κ_F/(ζ_F(2)D_F²)]`. Both fixed-signature sums range over the same rigid `H`-fields with induced signature `Σbar`. Every displayed sum converges and every denominator is positive.
 
 `m≥1; k` is a fixed number field; the fixed-signature family is realized. For `m=0` the sole field is `k` and its mean is `h₃(k)`, outside the displayed quadratic-step formula.
 
@@ -1389,6 +1502,8 @@ Proof: Split `h₃(K)` by the relative torsion identity. For a fixed base apply 
 **Checks.**
 
 - At `m=1` over `ℚ`, the weighted formula gives `1+2/3=5/3`. Separating real and imaginary quadratic signatures gives `4/3` and 2. The `m=0` mean is 1 over `ℚ` and is not `5/3`.
+- For `H=C₂` over `ℚ`, an induced real quadratic base signature restricts both sums to real quadratic fields; an induced imaginary signature restricts both to imaginary quadratic fields. An unrestricted denominator mixes two different base families.
+- A signature with no rigid base fields has zero denominator and is excluded by realizedness.
 
 <a id="relative-wreath-three-torsion-mean"></a>
 
@@ -1398,13 +1513,18 @@ The fixed-`u` family is nonempty; the general-`H` counting or weighted-counting 
 
 Proof: For2-groups use the tower tail and the thin-group torsion estimate. For general `H` replace the tower tail by the five-range bound and the nontrivial2-torsion estimate of BSTTTZ. At finitely many completely split base primes impose one inert block and all other split blocks; any such prime forces the full wreath group. The local exclusion product tends to zero, so the smaller-group contribution is `o(X)`. Apply the quadratic mean and cancel the denominator.
 
-*Needs:* [two extension three torsion means](#two-extension-three-torsion-means), [relative three torsion piecewise bound](#relative-three-torsion-piecewise-bound), [wreath transposition fibre](#wreath-transposition-fibre), [low degree class group mass ratios](#low-degree-class-group-mass-ratios), Completed EffectiveBounds Layer 1.
+*Needs:* [two extension three torsion means](#two-extension-three-torsion-means), [relative three torsion piecewise bound](#relative-three-torsion-piecewise-bound), [wreath transposition fibre](#wreath-transposition-fibre), [low degree class group mass ratios](#low-degree-class-group-mass-ratios), [two-torsion power saving](#class-group-two-torsion-power-saving).
 
 ([[95]](#ref-95), Theorem6.11, pp.37–38; Theorem8.1 and proof, pp.40–41.)
 
 **Checks.**
 
 - For `H=1` over `ℚ, u=0` and `u=1` recover the imaginary and real quadratic means 2 and `4/3`. An unrealized signature gives no positive denominator and is excluded.
+
+- The general-`H` extension requires a counting bound for every positive `ε`, not merely one exponent with a fixed large loss.
+
+- The absolute mean additionally weights the base fields by `h₃(F/k)`; the relative-mean hypothesis alone does not control that unbounded numerator.
+
 
 ### 3.27 Nonabelian quadratic moments
 
@@ -1690,7 +1810,7 @@ The differential specialization proves the induction from the three ranks at `(m
 
 **Finite-fibre target.** `FieldStatistics.polynomialMap_finiteFibres` is valid for a characteristic-zero field `k` and `N≥1`: if `F=(f₁,…,f_N)` has nonzero Jacobian determinant, there is a nonzero `Q∈k[y₁,…,y_N]` such that for every algebraically closed extension `Ω/k` and `Q(y)≠0`, the geometric fibre `F⁻¹(y)` is finite and has at most `∏deg(f_i)` distinct points. Its source version has the nonzero polynomial `P=Q∘F`. Prove algebraic independence of the `f_i` by differentiating a relation of least degree: invertibility of the Jacobian over `k(x₁,…,x_N)` makes all derivatives of the relation vanish, impossible in characteristic zero. Then `k(x)/k(f)` is a finite field extension. Clear the coefficients of monic equations for each `x_i` to obtain a finite integral algebra after inverting one nonzero `Q`; its geometric fibres are zero-dimensional. For the numerical bound, homogenize `f_i−y_i`. The affine isolated-intersection Bézout inequality bounds their isolated points, with multiplicities, by `∏deg(f_i)`, even if the homogenized intersection also has components at infinity. This inequality follows by successive hypersurface intersection and addition of degrees of the isolated components; components at infinity cannot increase the degree left for the affine isolated points. This gives the exact route used in [98], Lemma2.1, p.3, without assuming that every fibre is finite. It also supplies a nonzero exceptional hypersurface of bounded degree depending on `F`; in the fixed mixed-trace problem `F` itself depends only on `n,r,d`.
 
-**Checks.** For binary degree-`d` forms, `n` distinct double zeros impose `min(d+1,2n)` conditions. For ternary quadrics with two points, the square of their joining line survives, so rank is5 rather than the expected6; the quadratic exception is necessary. Seven general double points in `P⁴` on cubics have rank34 rather than35. The mixed-trace case `(n,r,d)=(6,3,5)` has `binomial21>18` and gives a minor of size18. The map `(x,y)↦(x,xy)` has determinant `x`: its fibre over `(0,0)` is a line, while all fibres with first coordinate nonzero are singletons. In characteristic `p` the map `x↦x^p` has zero Jacobian; the characteristic-zero algebraic-independence argument must not be used there.
+**Checks.** For binary degree-`d` forms, `n` distinct double zeros impose `min(d+1,2n)` conditions. For ternary quadrics with two points, the square of their joining line survives, so rank is5 rather than the expected6; the quadratic exception is necessary. Seven general double points in `P⁴` on cubics have rank34 rather than35. An explicit witness is the seven points `e₀,…,e₄,(1,1,1,1,1),(1,2,3,4,5)`: the matrix of the five partial derivatives of all35 degree-three monomials at these points has rank34 over `ℚ`. The mixed-trace case `(n,r,d)=(6,3,5)` has `binomial21>18` and gives a minor of size18. The map `(x,y)↦(x,xy)` has determinant `x`: its fibre over `(0,0)` is a line, while all fibres with first coordinate nonzero are singletons. In characteristic `p` the map `x↦x^p` has zero Jacobian; the characteristic-zero algebraic-independence argument must not be used there.
 
 *Needs:* `MvPolynomial` (Mathlib), `Matrix.det` (Mathlib), `FieldStatistics.doublePointInterpolation`, `FieldStatistics.polynomialMap_finiteFibres`.
 
@@ -1706,13 +1826,18 @@ The differential specialization proves the induction from the three ranks at `(m
 
 Proof: Use the ring-of-integers largest-minimum bound to choose a basis of size `O_n(D_K^{1/n})`. Avoid the finite-fibre hypersurface and the first-element discriminant hypersurface by bounded integer combinations of that basis. The first element generates `K`; count the integer mixed traces and bound their fibre multiplicity. Optimize `d,r` using Stirling and prove the inequalities giving the constant1.564 and threshold95.
 
-*Needs:* [mixed trace finite fibres](#mixed-trace-finite-fibres), [schmidt field count bound](#schmidt-field-count-bound), Completed EffectiveBounds Layer 1.
+*Needs:* [mixed trace finite fibres](#mixed-trace-finite-fibres), [schmidt field count bound](#schmidt-field-count-bound), [largest minimum of the integer lattice](#integer-lattice-largest-minimum).
 
 ([[98]](#ref-98), Theorems1.1–1.2,pp.1–2; Lemmas4.1–4.2 and proofs,pp.5–6.)
 
 **Checks.**
 
 - The first strict improvement over Schmidt in the numerical comparison is at `n=95; n=94` fails the strict inequality.
+
+- A short independent integral family may have nontrivial index in `O_K`; the chosen basis must generate the full integer lattice before counting its integral combinations.
+
+- A mixed trace of total degree `e` of elements bounded by `C_nD_K^(1/n)` has size `O_(n,e)(D_K^(e/n))`; this exponent uses the arithmetic largest minimum.
+
 
 ### 3.29 Special Galois types and weighted quartic bounds
 
@@ -1722,15 +1847,7 @@ Proof: Use the ring-of-integers largest-minimum bound to choose a basis of size 
 
 Proof: Use conductor–discriminant for Dirichlet characters and divide the primitive order-`p` characters by `p−1`. At good primes the number of possible nontrivial characters is `p−1` only when the prime is `1 mod p`; analyze the bad prime separately. Factor the conductor series by the appropriate `ζ`/ Dirichlet-`L` products and apply a Tauberian theorem.
 
-The supporting target `FieldStatistics.abelianDiscriminantSeries` is more general. For a nontrivial finite abelian A over a fixed number field `k`, put `ℓ=min{p prime:p|card(A)}`, `a=1/(|A|(1−1/ℓ))` and `b=#{g∈A:ord(g)=ℓ}/[k(ζ_ℓ):k]`. Count surjective continuous characters of the idèle class group into A by the **regular** extension discriminant, and denote the series by `D_A(s)`. It continues meromorphically to Re `(s)>a−δ` for some `δ>0`, has its only pole in this strip at `a`, of exact order `b`, and `c=lim_(s→a)(s−a)^bD_A(s)>0`. Its coefficient sum is asymptotic to `c/(aΓ(b)) X^a(log X)^(b−1)`. For field isomorphism classes divide by `|Aut(A)|`; for `A=C_p` this is `p−1`. The trivial group is handled separately by its single base field, not by this undefined minimum prime.
-
-A complete alternate original proof supplier for Wright's theorem is Frei–Loughran–Newton [141], Theorem1.7, p.5 and §§2–4, pp.9–30, specialized to unrestricted local conditions. These conditions satisfy (1.4). For positivity fix one realized `A`-extension; unrestricted abelian realizability follows from class-field theory, or by restricting to `k` a `ℚ`-abelian extension linearly disjoint from `k`. The latter can be constructed as a compositum of cyclic prime-power subfields of cyclotomic fields at distinct primes unramified in `k` and congruent to one modulo the required prime power. Fixed-progression PNT supplies these primes. Every nontrivial subextension of their compositum ramifies at one of them, whereas `k` is unramified there, proving disjointness. Thus there is no unproved prescription of arbitrary local data, which could fail by Wang's obstruction.
-
-The source-to-proof chain to implement is as follows. For each subgroup `H≤A` sum all idèle characters into `H` with the product of their conductor characters, and perform finite subgroup-lattice Möbius inversion to impose surjectivity. The discriminant exponent is scaled by `|A|/|H|` ([141], Lemma2.2, pp.9–10; (4.1), p.20). Poisson summation on the idèle class characters, with unit quotient normalization, rewrites each conductor series as a sum of local Fourier Euler products (Proposition3.8, pp.16–18; (4.2), p.20). Outside a finite `S` containing primes dividing `|A|`, the leading local terms come exactly from inertia of order `ℓ`. Factoring their Frobenius averages by zeta functions of `k(ζ_ℓ)` gives pole order at most `#{h∈H:ord(h)=ℓ}/[k(ζ_ℓ):k]`; higher-inertia terms converge to the left of a. Lemmas4.1–4.7, pp.21–26 prove the uniform convergence of the Fourier sum and the vertical growth needed for the Tauberian step. Subgroups of order prime to `ℓ` are holomorphic there. This gives the claimed meromorphic continuation and upper pole order, but does not yet prove noncancellation.
-
-For the exact pole and its sign use §4.7, pp.27–30. Reverse Poisson and subgroup inversion after restricting to finitely many places `T`. The resulting approximants are sums of nonnegative surjective-character terms; Lemma4.8 justifies their limit. Fix a realized extension and a finite `T₀` containing its ramified places and enough local images to generate A. Twist it by characters trivial at `T₀` and with inertia order dividing `ℓ` outside `T₀`. They stay surjective. Their normalized Fourier factors are nonnegative; at a good prime they are `1+(ℓ^β−1)/q`, `1−1/q` or 1 according to the local `ℓ`-power test (Lemma4.9, p.30), where `ℓ^β=|` A `[ℓ]|`. The trivial dual character contributes, after the zeta normalization, an absolutely convergent product of positive factors `1+O(q⁻²)`, times positive factors at `T₀`. It has positive limit, so the original leading coefficient cannot cancel. This proves `c>0`, not just existence of a possible pole. The Tauberian normalization `c/(aΓ(b))` follows by integrating the coefficient measure against `x^(−s)`; it agrees with a simple pole giving residue/a. The 2023 corrigendum to [141] concerns its Theorems1.1 and1.5(2), not this counting theorem or its proof.
-
-For `C_p/ℚ` the `ℓ`-order elements form one cyclotomic orbit, hence `b=1`. For `C₃/ℚ(ζ₃), a=1/2` and `b=2`, so its count is `C X^(1/2)log X` with `C>0`. That exact positive logarithmic term supplies the cyclotomic subfamily in the counterexample below; a `ℚ`-only cyclic bound is insufficient. For `V₄/ℚ, a=1/2` and `b=3`, giving `C X^(1/2)(log X)²`. Local conditions can also be retained in this theorem precisely under [141], (1.4), and existence of a realized global extension; positivity is never asserted for incompatible local conditions.
+Use the [abelian discriminant series](#abelian-discriminant-series) for the base-field pole and its positive coefficient.
 
 *Needs:* [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), `TauCetiRoadmap.ClassFieldTheory` Layer 13, AnalyticNumberTheoryPartI §§2.5, 2.21 and 2.32; Completed ArithmeticDirichletSeries Layers 3, 6 and 9, Completed ArithmeticDirichletSeries Layer 9.
 
@@ -1839,17 +1956,22 @@ Proof: A shell `T≤D_K<2T` contributes `O_{F,b,η}(X^{1/2}T^{a+η}(1+log T)^{b+
 
 <a id="quartic-torsion-counting-applications"></a>
 
-**Quartic torsion counting applications.** Set `α=√3/2, β=((1+α)/(2α))log((1+α)/(2α))−((1−α)/(2α))log((1−α)/(2α))`, and `a=1/(6(1−β/log2))`; thus `a≈0.2784`. The requested cubic two-torsion bound is `h₂(K)≪_ηD_K^{a+η}` for every `η>0`. Then `N₄(A₄,X)≪_εX^{1/2+a+ε}`, and for each fixed quadratic resolvent `F, N₄(S₄,F,X)≪_{F,ε}X^{1/2+a+ε}`. Keep `F`-dependence in the second estimate; the pure-cubic resolvent is handled with its logarithmic factor.
+**Quartic torsion counting applications.** Set `α=√3/2, β=((1+α)/(2α))log((1+α)/(2α))−((1−α)/(2α))log((1−α)/(2α))`, and `a=1/(6(1−β/log2))`; thus `a≈0.2784`. The [cubic two-torsion bound](#cubic-class-group-two-torsion-bound) gives `h₂(K)≪_ηD_K^{a+η}` for every `η>0`. Consequently `N₄(A₄,X)≪_εX^{1/2+a+ε}`, and for each fixed quadratic resolvent `F, N₄(S₄,F,X)≪_{F,ε}X^{1/2+a+ε}`. Keep `F`-dependence in the second estimate; the pure-cubic resolvent is handled with its logarithmic factor.
 
 Proof: Apply the weighted quartic estimate to cyclic cubic resolvents for `A₄`, and to fixed-quadratic-resolvent cubic fields for `S₄`. Use the cyclic cubic `√T` count and the fixed-resolvent bound `√T(1+log T)`, including `F=ℚ(√−3)`, together with the nontrivial cubic two-torsion bound. Apply weighted partial summation with arbitrary `ε>0`.
 
-*Needs:* [baily weighted quartic count](#baily-weighted-quartic-count), [cyclic prime field count](#cyclic-prime-field-count), [fixed resolvent cubic count](#fixed-resolvent-cubic-count), [weighted cubic partial summation](#weighted-cubic-partial-summation), Completed EffectiveBounds Layer 1.
+*Needs:* [baily weighted quartic count](#baily-weighted-quartic-count), [cyclic prime field count](#cyclic-prime-field-count), [fixed resolvent cubic count](#fixed-resolvent-cubic-count), [weighted cubic partial summation](#weighted-cubic-partial-summation), [cubic two-torsion bound](#cubic-class-group-two-torsion-bound).
 
 ([[99]](#ref-99), Theorem1.4,p.2; §6,(8)–(9),Remark6.1,p.10.)
 
 **Checks.**
 
 - With `a≈0.2784`, the exponent is about0.7784; fixed-resolvent constants may depend on `F`.
+
+- For cyclic cubic resolvents the pointwise cubic bound is still required; an `S₃`-only two-torsion theorem would not supply the `A₄` application.
+
+- The exceptional resolvent `ℚ(√−3)` contributes one logarithm to its cubic count. It is absorbed into `X^ε` only after the weighted partial summation.
+
 
 ### 3.30 Governing fields and spin criteria
 
@@ -1928,11 +2050,13 @@ The arithmetic input includes irreducibility of each displayed factor over its r
 - The basis index128 gives `2³⁶/128²=2²²`, and the255 nonzero half-cosets all fail integrality. The norm-two element `g` has an Eisenstein polynomial with constant term2, rather than4; the latter would not certify a norm-two prime.
 - At3 and11 the first possible prime-ideal norms are `3⁴` and `11⁴`; at5 and7 they are `5²` and `7²`. All exceed12, so the rational primes below13 are not automatically small-norm ideals.
 
+For every intermediate field `L⊆E`, the unique prime over two is totally ramified in `E/L`. Every intermediate extension of degree greater than one is therefore ramified there, so `H_L∩E=L` for the ordinary Hilbert class field `H_L`. Unramified reciprocity and norm functoriality give `coker(Cl(E)→Cl(L))≃Gal(H_L∩E/L)=1`. Since `Cl(E)=1`, also `Cl(L)=1`. This supplies principality for every involution-fixed field in [[135]](#ref-135), Proposition6.1, pp.20–21, under the existing arithmetic data. The norm/reciprocity input is `ClassFieldTheory` Layer13 (also [[95]](#ref-95), Lemma2.3, pp.7–8).
+
 <a id="sixteen-rank-spin-criterion"></a>
 
 **Sixteen rank spin criterion.** Assume the integral-basis, discriminant, local-factorization and class-number-one data for `E` in §3.30 above. Fix `r` of order4 in `Gal(E/ℚ)`. There are `F>0` and `ψ₀:(O_E/F O_E)ˣ→C` invariant under multiplication by unit squares, such that for odd `p∤F` splitting completely in `E` and any generator `π` of a prime over `p,16|h(−4p)` iff `ψ₀(π modF)(r(π)/π)_{E,2}=1`. Generator independence, the2-adic residue correction and the fixed `r` convention are part of the assertion.
 
-Proof: Import the corrected quadratic residue-symbol and joint-spin convention. Use Bruin–Hemenway [134], TheoremA, p.64, proved on pp.75–76. Its finite-residue conversion is [135], Proposition6.1, pp.20–21, (6.6)–(6.7), p.21, and Proposition6.2, p.22. Define `ψ₀` by its three involution-spin corrections and the quadratic character of `√(1+i)`; quadratic reciprocity makes each correction depend only on the residue modulo `F`. Formula (6.7) verifies unit-square invariance, while Proposition6.2 applies to every generator. The modulus in (3.1), p.7, includes the discriminant and the selected auxiliary prime norms.
+Proof: Import the corrected quadratic residue-symbol and joint-spin convention. Use the preceding principality transfer for all subfields, then Bruin–Hemenway [134], TheoremA, p.64, proved on pp.75–76. Its finite-residue conversion is [135], Proposition6.1, pp.20–21, (6.6)–(6.7), p.21, and Proposition6.2, p.22. Define `ψ₀` by its three involution-spin corrections and the quadratic character of `√(1+i)`; quadratic reciprocity makes each correction depend only on the residue modulo `F`. Formula (6.7) verifies unit-square invariance, while Proposition6.2 applies to every generator. The modulus in (3.1), p.7, includes the discriminant and the selected auxiliary prime norms.
 
 *Needs:* [eight rank governing field](#eight-rank-governing-field), [prime character-sum estimates](#support-character-sums), `TauCetiRoadmap.ClassFieldTheory` Layer 13.
 
@@ -1944,19 +2068,46 @@ Proof: Import the corrected quadratic residue-symbol and joint-spin convention. 
 - For a unit `β`, replacing `π` by `πβ²` leaves each quadratic-symbol correction unchanged because `σ(β)²` is a square; this fixes the direction `r(π)/π`.
 - For `p=3` the complete-splitting condition fails already in `ℚ(ζ₈)`. Even a chosen residue class modulo `F` cannot bring that prime into the criterion.
 
+<a id="joint-spin-prime-bound"></a>
+
+**Conditional joint-spin prime bound.** `FieldStatistics.jointSpin_primeBound` uses a fixed finite Galois `M/ℚ` of degree `n`, and a nonempty `S⊂Gal(M/ℚ)` with `S∩S⁻¹=∅`. If `M` is totally real, assume that every totally positive unit is a square; no such unit hypothesis is imposed in the totally complex case. Fix the ideal-class representatives and modulus `F` of [[103]](#ref-103), §2.2, and a finite residue function `ψ:(O_M/F)ˣ→ℂ` invariant under unit squares. Fix a decomposition `O_Mˣ=T_M×V_M`. For an odd principal ideal `a=(α)` prime to `F`, define
+
+`s_a=Σ_(t∈T_M)Σ_(v∈V_M/V_M²) 1_(tvα totally positive) ψ(tvα modF) ∏_(σ∈S) (tvα/σ(tvα))_(M,2)`.
+
+Set `s_a=0` for nonprincipal ideals and those not prime to `F`. Prove generator independence. Assume `C_(|S|n)` with saving `δ>0`. For `X≥2` and every `ε>0`, prove
+
+`|Σ_(p prime,Np≤X) s_p|≪_(M,ψ,S,ε) X^(1−δ/(54|S|²n(12n+1))+ε)`.
+
+All auxiliary choices are fixed; the implied constant may depend on those choices. The required analytic chain is owned here: Type I (2.5), uniformly in a nonzero ideal `m`, bounds `Σ_(Na≤X,m|a)s_a` by `O_ε(X^(1−δ/(54n|S|²)+ε))`; Type II (2.6) bounds `Σ_(Na≤x,Nb≤y)v_a w_b s_ab` by `O_ε((x^(−1/(6n))+y^(−1/(6n)))(xy)^(1+ε))` for `|v_a|,|w_b|≤1`. Prove Type I by the unit-domain lattice decomposition, quadratic reciprocity, and short progression sums from `C_(|S|n)`, retaining the common-divisor exceptional locus. Prove Type II by reciprocity, Cauchy–Schwarz and the nonsquare ideal-pair estimate. Implement the prime-extraction sieve of §2.6 from these two bounds, including higher prime powers, to obtain exactly the displayed saving. A rational character-sum hypothesis alone does not assert cancellation over number-field primes.
+
+*Needs:* the conjecture `C_n` and quadratic residue corrections in [prime character-sum estimates](#support-character-sums), GlobalNumberFields Layers3 and11, `ClassFieldTheory` Layer13.
+
+Source: [[103]](#ref-103), Theorem1 p.2, §2.3 (2.4) pp.5–6, §2.6 (2.5)–(2.6) p.7 and §§3–4 pp.8–21.
+
+**Checks.**
+
+- For a singleton containing an order-four automorphism, `S∩S⁻¹=∅`; a singleton involution fails the hypothesis.
+- The empty `S` gives no asserted cancellation and is excluded; the disjointness condition implies `n≥3` for every allowed `S`.
+- In a totally complex field the positivity indicator is identically one. Replacing `α` by a unit multiple permutes `T_M×V_M/V_M²` and preserves `s_a`.
+
 <a id="no-sixteen-rank-governing-field"></a>
 
 **No sixteen rank governing field.** Assume the `E` arithmetic data of the spin criterion and the short real-character-sum conjecture `C_n` of KM §2.5 for every `n≥3`. Then no finite normal `M/ℚ` with a class function governs the `16-rank` of `Cl⁺(ℚ(√−4p))` as odd `p≡1 mod4` varies. The conclusion remains conditional; it is not a Chebotarev theorem or a proved unconditional counterexample.
 
 Proof: Enlarge a hypothetical governing field to contain `E`. Take `S` to be the inverse image of the fixed order4 element `r; S` is disjoint from `S⁻¹`. Use the norm identity for the joint spin and the finite residue selector to express it on degree-one principal primes as `2|T_M||V_M/V_M²|(1_{16|h(−4p)}−1/2)`. The governing class function makes the sign constant on degree-one primes. The conditional joint-spin estimate gives a power saving, while prime-ideal Chebotarev gives a positive main term, a contradiction.
 
-*Needs:* [governing field interface](#governing-field-interface), [sixteen rank spin criterion](#sixteen-rank-spin-criterion), [prime character-sum estimates](#support-character-sums), [mixed-trace and character-sum estimates](#support-character-sums), AnalyticNumberTheoryPartI §2.49.
+*Needs:* [conditional joint-spin prime bound](#joint-spin-prime-bound), [governing field interface](#governing-field-interface), [sixteen rank spin criterion](#sixteen-rank-spin-criterion), [prime character-sum estimates](#support-character-sums), [mixed-trace and character-sum estimates](#support-character-sums), AnalyticNumberTheoryPartI §2.49.
 
 ([[103]](#ref-103), Theorem3,p.3; proof §5,pp.22–23.)
 
 **Checks.**
 
 - One fixed conjecture `C₃` is insufficient: the extension degree after enlarging a hypothetical governing field is unbounded. The proof therefore quantifies `C_n` over every `n≥3`.
+
+- The compositum with `E` is totally complex, so the totally-real unit hypothesis in the joint-spin theorem is unnecessary for this application.
+
+- A putative governing field for eight-divisibility exists by the complete-splitting criterion above; the contradiction uses the sixteen-rank spin sign and does not exclude that field.
+
 
 ### 3.31 Restricted radicands and historical Pell bounds
 
@@ -2010,7 +2161,7 @@ The unrestricted and odd/even Fouvry–Klüners inequalities are [139], Theorem1
 
 For every fixed `t≥1`, `FieldStatistics.pell_fixedPrimeFactor_lower` proves `liminf_(X→∞) #D_t⁻(X)/#D_t(X)≥q_t≥α`. This gives the numerical lower bound attributed to Cremona–Odoni by [104], §1, p.2, through the following independent proof; it makes no identification with the original paper's notation `λ_t`. All limits fix `t` before `X` tends to infinity.
 
-First prove `FieldStatistics.quadraticCharacter_intervalBound`: there is an absolute `C>0` such that every primitive nonprincipal quadratic character of conductor `Q>1` has every interval sum at most `C√Q log(2Q)`. Expand the character by its primitive Gauss sum and sum each additive phase over the interval. The primitive transform identity is already `DirichletCharacter.IsPrimitive.fourierTransform_eq_inv_mul_gaussSum` and inversion is `ZMod.invDFT_apply`. For the norm `√Q`, factor the quadratic conductor into distinct odd primes and a factor1,4 or8. Chinese remaindering factors the Gauss sum; `star_gaussSum_eq` and `gaussSum_mul_gaussSum_eq_card` give norm `√p` at each odd prime, and the finite four/eight-term sums give the dyadic norm. This proves the composite-conductor norm used here without treating a finite-field theorem as a theorem over every ZMod `Q`. For nonzero frequency `a` the geometric sum is at most `min(H,(2‖a/Q‖)⁻¹)`. Pair `a` and `Q−a` and sum the harmonic bound. Full periods vanish. The same bound holds on a progression of step coprime to `Q` by changing the additive frequencies. This is also the character-sum input used by the quadratic-order means above; it is not a prime-distribution assertion. Quadratic reciprocity and the finite character interfaces are reused; the interval bound is the additional target proved here.
+Use the [quadratic-character interval bound](#quadratic-character-interval-bound) for the character sums below.
 
 Next prove `FieldStatistics.fixedPrimeFactor_legendrePatterns`: for every fixed `t≥1`, among increasing primes `p₁<⋯<p_t`, all congruent to1 modulo4 and with product `≤X`, each prescribed list `(p_i/p_j)=ε_ij∈{−1,1}`, `i<j`, has asymptotic proportion `2^(−binom(t,2))`. Here is a direct induction using only the interval estimate, fixed-modulus PNT and its reciprocal-prime consequence, with no uniform PNT for growing moduli. Write `L=log log X`. The unsigned count is asymptotic `X L^(t−1)/(2^t (t−1)! log X)`. For `t≥2` and any fixed `0<η<1/4`, discard tuples whose product `m` of the `t−1` smaller primes exceeds `X^η`. Such a tuple has at least two primes above `X^(η/(t−1))`. Fixing the other `t−2` primes with product `r`, the elementary bound `π(X/(rq))≪X/(rq log X)` and the bounded reciprocal-prime sum over `X^(η/(t−1))<q≤√X` give total `O_(t,η)(X L^(t−2)/log X)`. Tuples with a prime `≤(log X)^A` contribute `O_(t,A)(X L^(t−2)log log log X/log X)`, also negligible. These estimates follow by induction from fixed-modulus PNT and partial summation; repeated prime factors can be omitted in the upper bounds.
 
@@ -2044,7 +2195,7 @@ For `t≥2` the even radicands have only `t−1` odd prime factors, hence count 
 
 <a id="polynomial-order-lattice-reduction"></a>
 
-**Polynomial order lattice reduction.** For monic real `g` of degree `n` with nonzero discriminant, form `A_g=ℝ[X]/(g)`, its basis `1,θ,…,θ^{n−1}`, and the `ℤ`-span of that basis. For a real binary `n`-ic `f` with `a₀≠0` and nonzero discriminant, put `θ=X` in `ℝ[X]/(f(X,1))` and `ζ_k=Σ_{j=0}^{k−1}a_jθ^{k−j}`; use `1,ζ₁,…,ζ_{n−1}`. The norm is the sum of the squares at real embeddings and `|z|²` for one embedding from each complex pair. A basis is Minkowski-reduced when at each step it minimizes norm among vectors extending the preceding vectors to a `ℤ`-basis. Monic quasi-reduction permits upper unitriangular integral basis changes; binary quasi-reduction permits an `SL₂(ℤ)` representative. Strong quasi-reduction means uniqueness of the reduced basis modulo independent signs. It is a separate condition. This Euclidean metric must not be replaced by the all-embeddings weighted metric.
+**Polynomial order lattice reduction.** For monic real `g` of degree `n` with nonzero discriminant, form `A_g=ℝ[X]/(g)`, its basis `1,θ,…,θ^{n−1}`, and the `ℤ`-span of that basis. For a real binary `n`-ic `f` with `a₀≠0` and nonzero discriminant, put `θ=X` in `ℝ[X]/(f(X,1))` and `ζ_k=Σ_{j=0}^{k−1}a_jθ^{k−j}`; use `1,ζ₁,…,ζ_{n−1}`. The norm is the sum of the squares at real embeddings and `|z|²` for one embedding from each complex pair. A basis is Minkowski-reduced when at each step it minimizes norm among vectors extending the preceding vectors to a `ℤ`-basis. Monic quasi-reduction permits upper unitriangular integral basis changes; binary quasi-reduction permits an `SL₂(ℤ)` representative. Strong quasi-reduction requires uniqueness of the reduced basis modulo independent signs in addition to quasi-reduction. For a displayed Gram basis, strong reducedness also requires that displayed basis to be reduced. This Euclidean metric must not be replaced by the all-embeddings weighted metric.
 
 `n≥2`; real coefficients; nonzero discriminant; binary leading coefficient nonzero.
 
@@ -2062,7 +2213,9 @@ The API is:
 
 - `FieldStatistics.IsBinaryQuasiReduced`: Some `SL₂(ℤ)` representative has reduced displayed basis.
 
-- `FieldStatistics.IsStrongReducedGram`: Reduced Gram bases form exactly one orbit under independent signs.
+- `FieldStatistics.IsStrongReducedGram`: The displayed basis is reduced and every unimodular change giving a reduced basis is diagonal with entries `±1`.
+
+- `FieldStatistics.IsMonicQuasiReducedGram`: The Gram-matrix adapter for monic quasi-reduction: an upper unitriangular integral change gives a reduced basis. For `monicOrderGram g` it is equivalent to `IsMonicQuasiReduced g`.
 
 - `FieldStatistics.monicOrderGram_ring`: For integral monic `g` it is the Gram matrix on the native quotient ring `ℤ[X]/(g)`.
 
@@ -2085,6 +2238,15 @@ Proof: construct the quotient-algebra basis and its embedding Gram matrix, count
 - An independent sign change always preserves reducedness; literal unique ordered basis is impossible in positive rank.
 
 - Scaling `f` by `ρ` leaves the root `θ` fixed, fixes basis vector1 and scales every other `ζ_k` by `ρ`, so it is not a homothety of the whole lattice.
+
+- For `IsMinkowskiReducedGram`, `diag(1,2)` is reduced; `diag(2,1)` fails the first minimum because the second vector is shorter; `[[1,−1],[−1,3]]` fails the second minimum because adding the first vector shortens the second. The boundary `diag(1,1)` is reduced.
+
+- For `IsStrongReducedGram`, `diag(1,2)` is strong; `diag(1,1)` is not strong because the swap is another reduced basis outside independent signs; `diag(2,1)` is not strong because its displayed basis is not reduced. This tests both requirements separately.
+
+- For `IsMonicQuasiReduced` and its Gram adapter, `X²+2` is quasi-reduced with strong Gram matrix `diag(1,2)`; `X²+1` is quasi-reduced but not strong; `X²+1/4` is not quasi-reduced because `θ` has norm `1/2`, shorter than the fixed first vector1. Its Gram matrix `diag(1,1/4)` becomes reduced after swapping columns, but that swap is not upper unitriangular. An arbitrary unimodular reduction cannot establish monic quasi-reduction.
+
+- For `IsBinaryQuasiReduced`, `x²+2y²` is quasi-reduced with strong displayed Gram matrix. The nonreduced displayed basis for `x²+2xy+3y²` has Gram matrix `[[1,−1],[−1,3]]`, but the allowed substitution `(x,y)↦(x−y,y)` has determinant one and gives `x²+2y²`. The form `x²+(1/4)y²` is not quasi-reduced: every induced order isomorphism fixes1, while its lattice contains an element of norm `1/2`. A lattice swap reduces `diag(1,1/4)` but cannot be induced by a permitted binary substitution. Finally `x²+y²` is quasi-reduced but its Gram basis is not strong.
+
 
 <a id="squarefree-field-discriminant-sn"></a>
 
@@ -2152,7 +2314,7 @@ Proof: Request the codimension-one sieve with its exact height and boundary cons
 
 *Needs:* [monic polynomial sieve counts](#monic-polynomial-sieve-counts), [ArithmeticStatisticsPartIII: monic fixed modulus sieve](../ArithmeticStatisticsPartIII/README.md#refinement-monic-fixed-modulus-sieve).
 
-([[105]](#ref-105), Theorem5.4,p.25.)
+([[105]](#ref-105), Theorem5.4,p.26 (with the stated correction).)
 
 **Checks.**
 
@@ -2260,17 +2422,15 @@ Proof: Specify the exact height, monogenic-field family and normalized trace-zer
 
 <a id="binary-discriminant-local-factors"></a>
 
-**Binary discriminant local factors.** For squarefree discriminants `α₂(2)=1/2` and `α_n(2)=3/8` for `n≥3`. At odd `p, α₂(p)=(1−p⁻¹)(1+p⁻¹−p⁻³), α₃(p)=(1−p⁻¹)²(1+p⁻¹)²` and `α_n(p)=(1−p⁻¹)²(1+p⁻¹)(1+p⁻¹−p⁻²)` for all `n≥4`. For maximal orders `β₂(p)=1−p⁻²−p⁻³+p⁻⁴` and `β_n(p)=(1−p⁻²)(1−p⁻³)` for `n≥3`. The corrected quartic squarefree factor at3 is `176/243`, with42,768 good coefficient tuples among `9⁵` modulo9.
+**Imported binary local factors.** Use [ArithmeticStatisticsPartII §1.9, binary-density-formulas](../ArithmeticStatisticsPartII/README.md#binary-density-formulas) for `α_n(p)` and `β_n(p)`, including the corrected degree-four factor and the dyadic cases. This part forms their convergent global products and applies them to field counts. The local coefficient enumeration and maximality calculation belong to that supplier.
 
-Proof: Partition by the first coefficient not divisible by `p`; include the double root at infinity and all lifts modulo `p²`. Use the corrected monic discriminant-valuation counts, not the erroneous `n=4` expression in AppendixA.1. For maximality use coprime Hensel factors and the local maximal-order criterion, separating the zero reduction. The quartic discriminant count modulo9 is a worked Check; the all-prime assertion follows from the local argument.
-
-*Needs:* [ArithmeticStatisticsPartI: binary form order](../ArithmeticStatisticsPartI/README.md#refinement-binary-form-order), [ArithmeticStatisticsPartIII: binary fixed modulus sieve](../ArithmeticStatisticsPartIII/README.md#refinement-binary-fixed-modulus-sieve).
-
-([[106]](#ref-106), AppendixA,PropositionsA.1–A.2,pp.53–55, corrected at n=4.)
+Source: [[106]](#ref-106), AppendixA, PropositionsA.1–A.2, pp.53–55, with the degree-four correction specified by the supplier.
 
 **Checks.**
 
-- Modulo9 the quartic count is `42768/59049=176/243`, and modulo4 it is `384/1024=3/8`.
+- Degree two uses the supplier's separate quadratic-order maximality criterion, including the dyadic case.
+- The degree-four odd-prime squarefree factor is the corrected degree-`≥4` factor; no separate quartic local formula is constructed here.
+- For `n≥3`, the imported maximality factors have global product `ζ(2)⁻¹ζ(3)⁻¹`; these are the factors used by the field sieve.
 
 <a id="binary-form-sieve-counts"></a>
 
@@ -2278,7 +2438,7 @@ Proof: Partition by the first coefficient not divisible by `p`; include the doub
 
 Proof: Truncate Möbius inversion using the corrected Layer 2 weak/strong tail contract. Count translates of `m²N²ℤ^{n+1}` and sum every boundary error before choosing the cutoff. Apply the corrected local-factor formulas; remove reducible forms by a quantitative estimate. For a region/specific signature prove its Jordan regularity and uniform tail separately.
 
-*Needs:* [binary discriminant local factors](#binary-discriminant-local-factors), [ArithmeticStatisticsPartIII: binary fixed modulus sieve](../ArithmeticStatisticsPartIII/README.md#refinement-binary-fixed-modulus-sieve), [ArithmeticStatisticsPartIII: binary summed tail](../ArithmeticStatisticsPartIII/README.md#refinement-binary-summed-tail).
+*Needs:* [ArithmeticStatisticsPartII: binary density formulas](../ArithmeticStatisticsPartII/README.md#binary-density-formulas), [ArithmeticStatisticsPartIII: binary fixed modulus sieve](../ArithmeticStatisticsPartIII/README.md#refinement-binary-fixed-modulus-sieve), [ArithmeticStatisticsPartIII: binary summed tail](../ArithmeticStatisticsPartIII/README.md#refinement-binary-summed-tail).
 
 ([[106]](#ref-106), Theorems1–2 and6,pp.2–4; §7,Theorem7.1,pp.51–52.)
 
@@ -2386,7 +2546,7 @@ The supporting argument is the discriminant, inertia and permutation-group proof
 
 **Unramified alternating extension lower bound.** For odd `n≥3` there are `≫_n X^((n+1)/(2n−2))` pairs `(k,L)` as above with `k` real quadratic and `|disc(k)|<X`, and separately as many with `k` imaginary quadratic. For even `n≥4` both bounds assume the same even binary summed-tail hypothesis, including `δ,η,ξ` and the two `τ` inequalities, as the binary field lower bound. Extensions over real `k` are unramified at finite and infinite places. This counts extensions as the base varies, not distinct base fields.
 
-Proof: apply the signature-specific binary field lower bound with `r₂=0` for the real case and `r₂=1` for the imaginary case. The transfer preserves `|disc(k)|=|disc(K)|`, and dividing by `2^(n!)` preserves the exponent. Thus no withdrawn binary-form rigidity claim is used. Source endpoint: [[106]](#ref-106), Theorem 4 p.3. The explicit normal-closure/inertia argument above supplies the correspondence and the uniform multiplicity and infinity comparison.
+Proof: apply the signature-specific binary field lower bound with `r₂=0` for the real case and `r₂=1` for the imaginary case. The transfer preserves `|disc(k)|=|disc(K)|`, and dividing by `2^(n!)` preserves the exponent.  Source endpoint: [[106]](#ref-106), Theorem 4 p.3. The explicit normal-closure/inertia argument above supplies the correspondence and the uniform multiplicity and infinity comparison.
 
 *Needs:* [binary form field lower bound](#binary-form-field-lower-bound-target), [squarefree alternating extension transfer](#squarefree-alternating-extension-transfer).
 
@@ -2474,7 +2634,7 @@ For quadratic four-ranks prove the Jacobi expansion in each of the six fundament
 
 For mixed traces prove that the chosen rn monomials have a nonzero Jacobian on `r` ordered `n`-tuples and that outside its discriminant hypersurface the fibre has degree at most the product of coordinate degrees. Quantitative exclusion and lattice counting then use the small trace-zero generator bound and successive minima. The nonzero Jacobian is a polynomial identity and must be witnessed, not assumed from the number of coordinates. Sources: Lemke Oliver–Thorne, mixed-trace lemmas and the proof of their field-count theorem; the exact numerical ranges are those in the targets above.
 
-For the spin/governing-field application the short real-character-sum conjecture is an explicit hypothesis `C_n` for every `n≥3`, with Koymans–Milović [103], §2.5, pp.9–10, giving its ranges and constants. The corrected finite residue factor comes from [135], Proposition6.1, (6.6)–(6.7), pp.20–21, and Proposition6.2, p.22.
+For the spin/governing-field application the short real-character-sum conjecture is an explicit hypothesis `C_n` for every `n≥3`, with Koymans–Milović [103], §2.5, pp.6–7, Conjecture C_n and Corollary2.2 p.7, giving its ranges and constants. The corrected finite residue factor comes from [135], Proposition6.1, (6.6)–(6.7), pp.20–21, and Proposition6.2, p.22.
 
 <a id="support-embedded-types"></a>
 
@@ -2488,6 +2648,8 @@ For the classical and low-degree arithmetic counts use the proof contracts at th
 
 The polynomial-to-field lower bounds use the quantified replacements in [regular monic region](#regular-monic-region) through [monogenic field lower bound](#monogenic-field-lower-bound-target), and [regular binary region sieve](#regular-binary-region-sieve) through [binary form field lower bound](#binary-form-field-lower-bound-target). The full monic region has `O(Y)` field fibres; the binary region has uniformly bounded fibres by the invariant-order theorem and compact transporters. Neither route uses the trace-zero quadratic sieve or asymptotic uniqueness of strongly reduced bases. The binary bounds in even degree retain the stated uniform tail hypothesis. The [squarefree alternating extension transfer](#squarefree-alternating-extension-transfer) supplies the normal-closure, finite inertia, infinity and bounded-multiplicity comparisons directly. The monogenic asymptotic remains conjectural and needs its separate volume, cusp and uniqueness inputs. Sources: BSW `I` §5 pp.24–27; BSW II Theorems 3–4 p.3; Bérczes–Evertse–Győry Theorem 2.1 and Corollary 2.1 pp.5–6.
 ### Examples
+
+The imported PartII quartic residue values have finite regression mirrors in `Suggested.lean`: among coefficient tuples modulo9, `42768/59049=176/243` have discriminant nonzero modulo9; modulo4, `384/1024=3/8` have discriminant nonzero modulo4. These test the fixed-degree binary discriminant, including zero leading coefficient.
 
 For a real quadratic field, ordinary and narrow four-ranks need not agree individually; the comparison above is averaged. The fundamental discriminant one is excluded from quadratic fields. At the prime three the order-conductor rank bound includes one possible wild extra dimension, so `3∤f` is essential to the sharper factor.
 
