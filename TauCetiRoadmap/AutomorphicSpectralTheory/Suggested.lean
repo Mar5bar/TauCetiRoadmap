@@ -16,6 +16,7 @@ realization and resolvent-convention transport in §0.6.
 AutomorphicFormsOnReductiveGroups supplies the test-function topology, real representation
 constructions, smooth globalizations, algebraic restricted tensors and constant-term
 transitivity used by the spectral adapters of README §§0.11 and 0.48–0.51.
+Its §2.6 supplies the real/complex unitary block classification used by README §7.0b.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -458,6 +459,10 @@ constituent character identities. Induction gives such an identity on irreducibl
 only when both products are irreducible. General norm-twisted isobaric base change in §7.1
 uses the Langlands-quotient construction without asserting that character identity.
 Finite-place quotient constructions retain SR.3.3's Harish–Chandra tempered-support hypothesis.
+The unitary classification constructed in §7.0b concerns finite places only;
+AutomorphicFormsOnReductiveGroups §2.6 supplies the real/complex Speh and complementary
+blocks, their unitarity, product irreducibility, exhaustion and block uniqueness.
+Section 7.0b constructs the archimedean Shintani and normalized-operator comparisons.
 -/
 
 /-- The cyclic norm is an ordered product, also for a noncommutative group. -/
