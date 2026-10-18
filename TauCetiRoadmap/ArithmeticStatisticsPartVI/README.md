@@ -74,7 +74,7 @@ The two-Selmer calculation is a quotient of two asymptotics with positive matchi
 
 <a id="rational-orbit-weight"></a>
 
-**Rational orbit weight.** Let a group G act on a set V, let Γ ≤ G be a subgroup and Y ⊆ V a Γ-stable subset. For v ∈ V put `G_{v,Y}` := {g ∈ G : g·v ∈ Y}; it is a union of right cosets Γg. The orbit weight of v is `w_{Γ,Y}(v)` := #(Γ\`G_{v,Y}`), the number of right cosets Γg contained in `G_{v,Y}` (a natural number when the coset set is finite; the value 0 marks an infinite set, following Nat.card), and the orbit count is `n_{Γ,Y}(v)` := #(Γ\ (G·v ∩ Y)). For binary quartic forms, with `PGL_2` acting through the twisted action γ·f(x,y) = (det γ)^{-2} f((x,y)·γ) of Layer 0: the global weight of f ∈ `V_Z` is m(f) := `w_{PGL_2(Z),V_Z}(f)` for G = `PGL_2(Q)` acting on `V_Q`, and the local weight of f ∈ `V_{Z_p}` is `m_p(f)` := `w_{PGL_2(Z_p),V_{Z_p}`}(f) for G = `PGL_2(Q_p)` acting on `V_{Q_p}`; `PGL_2(Z)` and `PGL_2(Z_p)` are the images of `GL_2(Z)` and `GL_2(Z_p)`. Equivalently m(f) = #[`PGL_2(Z)`\`PGL_2`(Q)_f] and `m_p(f)` = #[`PGL_2(Z_p)`\`PGL_2`(`Q_p`)_f] with `PGL_2`(Q)_f := {γ : γ·f ∈ `V_Z`}, the description used in the proof of Proposition 3.6.
+**Rational orbit weight.** Let a group G act on a set V, let Γ ≤ G be a subgroup and Y ⊆ V a Γ-stable subset. For v ∈ V put `G_{v,Y}` := {g ∈ G : g·v ∈ Y}; it is a union of right cosets Γg. The orbit weight of v is `w_{Γ,Y}(v)` := #(Γ\`G_{v,Y}`), the number of right cosets Γg contained in `G_{v,Y}` (a natural number when the coset set is finite; the value 0 marks an infinite set, following Nat.card), and the orbit count is `n_{Γ,Y}(v)` := #(Γ\ (G·v ∩ Y)). For binary quartic forms, with `PGL_2` acting through the twisted action `γ·f(x,y) = (det γ)^{-2} f((x,y)·γ)` of Layer 0: the global weight of f ∈ `V_Z` is m(f) := `w_{PGL_2(Z),V_Z}(f)` for G = `PGL_2(Q)` acting on `V_Q`, and the local weight of f ∈ `V_{Z_p}` is `m_p(f) := w_{PGL_2(Z_p),V_{Z_p}}(f)` for G = `PGL_2(Q_p)` acting on `V_{Q_p}`; `PGL_2(Z)` and `PGL_2(Z_p)` are the images of `GL_2(Z)` and `GL_2(Z_p)`. Equivalently m(f) = `#[PGL_2(Z)\PGL_2(Q)_f]` and `m_p(f)` = `#[PGL_2(Z_p)\PGL_2(Q_p)_f]` with `PGL_2(Q)_f` := {γ : γ·f ∈ `V_Z`}, the description used in the proof of Proposition 3.6.
 
 Y is Γ-stable, so that membership g·v ∈ Y depends only on the right coset Γg. The action is the twisted action (21)/(32): the centre acts trivially and I, J are invariant. With the untwisted action every scalar would stabilise the invariants only up to a power, and `G_{v,Y}` would not descend to `PGL_2`. The source defines m(f) as the stabilizer sum `Σ_{f'∈B(f)}` #`Aut_Q(f')`/#`Aut_Z(f')`; the coset count is equal to it whenever `Aut_Q(f)` is finite (lemma orbit-weight-as-a-stabilizer-sum), in particular whenever Δ(f) ≠ 0.
 
@@ -120,13 +120,13 @@ Form `G_{v,Y}` ⊆ G and its image in the right-coset space Γ\G; `w_{Γ,Y}(v)` 
 
 - For v ∈ Y the identity coset lies in Γ\`G_{v,Y}`, so `w_{Γ,Y}(v)` ≥ 1 whenever it is finite.
 
-- w is G-invariant: w(g·v) = w(v), through the bijection Γh ↦ Γhg^{-1} of coset sets.
+- w is G-invariant: w(g·v) = w(v), through the bijection `Γh ↦ Γhg^{-1}` of coset sets.
 
 <a id="locally-soluble-forms-attached-to-a-family"></a>
 
-**Locally soluble forms attached to a family.** Let F be a family of elliptic curves over Q defined by congruence conditions (Layer 0), with invariant set Inv(F) = {(I(E), J(E)) : E ∈ F} ⊆ Z², local sets `Inv_p(F)` ⊆ Z_p² and sign set `Inv_∞(F)` ⊆ R². Define S(F) := {f ∈ `V_Z` : f is locally soluble and (I(f), J(f)) = (2⁴I, 2⁶J) for some (I, J) ∈ Inv(F)}, each `PGL_2(Z)`-orbit weighted by 1/m(f); for every prime p, `S_p(F)` := {f ∈ `V_{Z_p}` : f is `Q_p`-soluble, 2⁴ | I(f) and 2⁶ | J(f) in `Z_p`, and (2^{-4}I(f), 2^{-6}J(f)) ∈ `Inv_p(F)`}, weighted by 1/`m_p(f)`; and `S_∞(F)` := {f ∈ `V_R` : f is R-soluble and (I(f), J(f)) ∈ `Inv_∞(F)`}. Here a form over a field K is K-soluble when z² = f(x, y) has a solution with x, y, z ∈ K and (x, y) ≠ (0, 0), and locally soluble means R-soluble and `Q_p`-soluble for every p (Layer 1). The set `S_p(F)` is the local condition set; the source calls `S_p(F)` the p-adic closure of S(F) and then uses exactly this description.
+**Locally soluble forms attached to a family.** Let F be a family of elliptic curves over Q defined by congruence conditions (Layer 0), with invariant set Inv(F) = {(I(E), J(E)) : E ∈ F} ⊆ Z², local sets `Inv_p(F)` ⊆ Z_p² and sign set `Inv_∞(F)` ⊆ R². Define S(F) := {f ∈ `V_Z` : f is locally soluble and (I(f), J(f)) = (2⁴I, 2⁶J) for some (I, J) ∈ Inv(F)}, each `PGL_2(Z)`-orbit weighted by 1/m(f); for every prime p, `S_p(F)` := {f ∈ `V_{Z_p}` : f is `Q_p`-soluble, 2⁴ | I(f) and 2⁶ | J(f) in `Z_p`, and `(2^{-4}I(f), 2^{-6}J(f)) ∈ Inv_p(F)`}, weighted by 1/`m_p(f)`; and `S_∞(F)` := {f ∈ `V_R` : f is R-soluble and (I(f), J(f)) ∈ `Inv_∞(F)`}. Here a form over a field K is K-soluble when z² = f(x, y) has a solution with x, y, z ∈ K and (x, y) ≠ (0, 0), and locally soluble means R-soluble and `Q_p`-soluble for every p (Layer 1). The set `S_p(F)` is the local condition set; the source calls `S_p(F)` the p-adic closure of S(F) and then uses exactly this description.
 
-F is presented as `F_Σ` by closed local sets `Σ_p` with null boundary (Layer 0), so that `Inv_p(F)` ⊆ `Σ_p` is relatively closed in the nonsingular locus. This does not by itself imply null boundary for `Inv_p(F)`; that additional assertion is justified in the positive-mass case at count-of-curves-in-a-large-family. The scaling (2⁴, 2⁶) is forced by Theorem 3.5 (Layer 1): Selmer elements of E^{I,J} are classes of integral forms with invariants (2⁴I, 2⁶J), not (I, J). Because `Inv_∞(F)` is a union of sign conditions, it is invariant under (I, J) ↦ (λ²I, λ³J) for λ > 0; in particular (2⁴I, 2⁶J) ∈ `Inv_∞(F)` iff (I, J) ∈ `Inv_∞(F)`.
+F is presented as `F_Σ` by closed local sets `Σ_p` with null boundary (Layer 0), so that `Inv_p(F)` ⊆ `Σ_p` is relatively closed in the nonsingular locus. This does not by itself imply null boundary for `Inv_p(F)`; that additional assertion is justified in the positive-mass case at count-of-curves-in-a-large-family. The scaling (2⁴, 2⁶) is forced by Theorem 3.5 (Layer 1): Selmer elements of `E^{I,J}` are classes of integral forms with invariants (2⁴I, 2⁶J), not (I, J). Because `Inv_∞(F)` is a union of sign conditions, it is invariant under (I, J) ↦ (λ²I, λ³J) for λ > 0; in particular (2⁴I, 2⁶J) ∈ `Inv_∞(F)` iff (I, J) ∈ `Inv_∞(F)`.
 
 Required API:
 
@@ -162,9 +162,9 @@ Define the three sets as subsets of `V_Z`, `V_{Z_p}` and `V_R` through the invar
 
 <a id="local-masses-of-a-family"></a>
 
-**Local masses of a family.** For (I, J) in a field K ⊇ Q with Δ(I, J) = (4I³ − J²)/27 ≠ 0 let E^{I,J}: y² = x³ − (I/3)x − J/27. For a family F defined by congruence conditions define, with dIdJ the Haar probability measure on Z_p² and the Lebesgue measure on R²: `M_p(V, F)` := ∫_{`Inv_p(F)`} #(E^{I,J}(`Q_p`)/2E^{I,J}(`Q_p`)) / #E^{I,J}(`Q_p`)[2] dIdJ; `M_∞(F; X)` := ∫_{(I,J) ∈ `Inv_∞(F)`, H(I,J) < X} dIdJ; `M_∞(V, F; X)` := ∫_{(I,J) ∈ `Inv_∞(F)`, H(I,J) < X} #(E^{I,J}(R)/2E^{I,J}(R)) / #E^{I,J}(R)[2] dIdJ. The unweighted local mass `M_p(F)` = ∫_{`Inv_p(F)`} dIdJ is the local density of the family at p supplied by [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions).
+**Local masses of a family.** For (I, J) in a field K ⊇ Q with Δ(I, J) = (4I³ − J²)/27 ≠ 0 let `E^{I,J}: y² = x³ − (I/3)x − J/27`. For a family F defined by congruence conditions define, with dIdJ the Haar probability measure on Z_p² and the Lebesgue measure on R²: `M_p(V, F) := ∫_{Inv_p(F)} #(E^{I,J}(Q_p)/2E^{I,J}(Q_p)) / #E^{I,J}(Q_p)[2] dIdJ`; `M_∞(F; X) := ∫_{(I,J) ∈ Inv_∞(F), H(I,J) < X} dIdJ`; `M_∞(V, F; X) := ∫_{(I,J) ∈ Inv_∞(F), H(I,J) < X} #(E^{I,J}(R)/2E^{I,J}(R)) / #E^{I,J}(R)[2] dIdJ`. The unweighted local mass `M_p(F) = ∫_{Inv_p(F)} dIdJ` is the local density of the family at p supplied by [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions).
 
-The integrands are finite: E^{I,J}(K)[2] has at most 4 elements, and E(`Q_p`)/2E(`Q_p`), E(R)/2E(R) are finite (local-two-descent-index, archimedean-selmer-ratio-is-one-half). The measure on Z_p² is the Haar probability measure, so `M_p(F)` ≤ 1; the archimedean measure is Lebesgue measure in the coordinates (I, J), with the height H(I, J) = max{|I|³, J²/4} of Layer 0. The curve E^{I,J} is written in the source's normalisation (Theorem 3.2); for integral (I, J) = (−3A, −27B) it is `E_{A,B}`.
+The integrands are finite: `E^{I,J}(K)[2]` has at most 4 elements, and E(`Q_p`)/2E(`Q_p`), E(R)/2E(R) are finite (local-two-descent-index, archimedean-selmer-ratio-is-one-half). The measure on Z_p² is the Haar probability measure, so `M_p(F)` ≤ 1; the archimedean measure is Lebesgue measure in the coordinates (I, J), with the height H(I, J) = max{|I|³, J²/4} of Layer 0. The curve `E^{I,J}` is written in the source's normalisation (Theorem 3.2); for integral (I, J) = (−3A, −27B) it is `E_{A,B}`.
 
 Required API:
 
@@ -174,13 +174,13 @@ Required API:
 
 - `archimedeanSelmerMass`: `M_∞(V, F; X)`.
 
-- `archimedeanMass_homogeneous`: `M_∞(F; X)` = X^{5/6} `M_∞(F; 1)` and `M_∞(V, F; X)` = X^{5/6} `M_∞(V, F; 1)` for X > 0, since H(λ²I, λ³J) = λ⁶H(I, J).
+- `archimedeanMass_homogeneous`: `M_∞(F; X) = X^{5/6} M_∞(F; 1)` and `M_∞(V, F; X) = X^{5/6} M_∞(V, F; 1)` for X > 0, since H(λ²I, λ³J) = λ⁶H(I, J).
 
 - `archimedeanMass_pos`: `M_∞(F; X)` > 0 for X > 0 (`Inv_∞(F)` is a nonempty open cone).
 
 - `localSelmerMass_nonneg`: 0 ≤ `M_p(V, F)` ≤ 2 `M_p(F)`.
 
-- `archimedeanMass_of_sign`: `M_∞(F; X)` = (8/5)X^{5/6}, (32/5)X^{5/6} or 8X^{5/6} for the three sign conditions.
+- `archimedeanMass_of_sign`: `M_∞(F; X) = (8/5)X^{5/6}`, `(32/5)X^{5/6}` or `8X^{5/6}` for the three sign conditions.
 
 Define the integrands as functions of (I, J) on {Δ ≠ 0} and integrate over the local invariant sets of Layer 0. Measurability: the integrands are locally constant on {Δ ≠ 0} (they take finitely many values determined by the sign of Δ at ∞, and by local-two-descent-index at p).
 
@@ -190,19 +190,19 @@ Define the integrands as functions of (I, J) on {Δ ≠ 0} and integrate over th
 
 **Checks.**
 
-- For `Inv_∞` = {Δ > 0}: `M_∞(F; X)` = (8/5)X^{5/6}.
+- For `Inv_∞` = {Δ > 0}: `M_∞(F; X) = (8/5)X^{5/6}`.
 
-- For `Inv_∞` = {Δ < 0}: `M_∞(F; X)` = (32/5)X^{5/6}.
+- For `Inv_∞` = {Δ < 0}: `M_∞(F; X) = (32/5)X^{5/6}`.
 
 - `M_∞(V, F; 1)` = `M_∞(F; 1)`/2 ≠ `M_∞(F; 1)`: the archimedean Selmer mass is not the unweighted mass.
 
 - `M_∞(F; X)` = 0 for X ≤ 0.
 
-- For the family of all curves `M_2(V, F)` = 2(1 − 2^{-10}), twice the local density at 2.
+- For the family of all curves `M_2(V, F) = 2(1 − 2^{-10})`, twice the local density at 2.
 
-- For `Inv_∞(F)` = {Δ ≠ 0}, `M_∞(F; X)` = 8X^{5/6}, the sum of the two sign cases (source (24), (25)).
+- For `Inv_∞(F)` = {Δ ≠ 0}, `M_∞(F; X) = 8X^{5/6}`, the sum of the two sign cases (source (24), (25)).
 
-- For the family of all curves: `M_p(F)` = 1 − p^{-10} for p ≥ 5, `M_3(F)` = 3^{-4}(1 − 3^{-10}) and `M_2(F)` = 1 − 2^{-10}, so ∏_p `M_p(F)` = 1/(81 ζ(10)).
+- For the family of all curves: `M_p(F) = 1 − p^{-10}` for p ≥ 5, `M_3(F) = 3^{-4}(1 − 3^{-10})` and `M_2(F) = 1 − 2^{-10}`, so ∏_p `M_p(F)` = 1/(81 ζ(10)).
 
 - `M_p(V, F)` = `M_p(F)` for odd p and `M_2(V, F)` = 2M_2(F); `M_∞(V, F; X)` = `M_∞(F; X)`/2 (local-selmer-mass-ratios).
 
@@ -250,7 +250,7 @@ Define N(F; X) and the partial sums with the counting API of [arithmetic family]
 
 - The constant function c has average c over any infinite family.
 
-- Over all elliptic curves the indicator of {B = 0} has average 0 (#{A : 4|A|³ < X} ≍ X^{1/3} while N ≍ X^{5/6}).
+- Over all elliptic curves the indicator of {B = 0} has average 0 (`#{A : 4|A|³ < X} ≍ X^{1/3}` while `N ≍ X^{5/6}`).
 
 - For positive integers with h(n)=n, φ(n)=n and strict cutoff X=5, `Avg_h(φ;5)`=5/2 whereas `Avg_{2h}(φ;5)`=3/2. The limiting-average rescaling statement must not assert equality at the same finite cutoff.
 
@@ -258,9 +258,9 @@ Define N(F; X) and the partial sums with the counting API of [arithmetic family]
 
 **Orbit weight as a stabilizer sum.** In the setting of rational-orbit-weight let v ∈ Y with `Stab_G(v)` finite and Γ\ (G·v ∩ Y) finite. Then `w_{Γ,Y}(v)` = `Σ_{Γv' ∈ Γ\ (G·v ∩ Y)}` #`Stab_G(v')` / #`Stab_Γ(v')`, and #`Stab_G(v')` = #`Stab_G(v)` for every v' ∈ G·v. Consequently `n_{Γ,Y}(v)` ≤ `w_{Γ,Y}(v)` ≤ #`Stab_G(v)`·`n_{Γ,Y}(v)`, and `w_{Γ,Y}(v)` = `n_{Γ,Y}(v)` iff `Stab_Γ(v')` = `Stab_G(v')` for every v' ∈ G·v ∩ Y; in particular w = n when `Stab_G(v)` = 1. For binary quartic forms: m(f) = `Σ_{f' ∈ B(f)}` #`Aut_Q(f)`/#`Aut_Z(f')` and `m_p(f)` = `Σ_{f' ∈ B_p(f)}` #`Aut_{Q_p}(f)`/#`Aut_{Z_p}(f')`, and for the `PGL_2(Z_p)`-orbits `f_1`, …, `f_k` inside one `PGL_2(Q_p)`-class, `Σ_i` 1/#`Aut_{Z_p}(f_i)` = `m_p(f)`/#`Aut_{Q_p}(f)`.
 
-`Stab_G(v)` finite; for binary quartic forms with Δ(f) ≠ 0 the stabilizer in `PGL_2(K)` is isomorphic to E^{I,J}(K)[2] (Layer 1, Theorem 3.2), of order at most 4. `Stab_Γ(v')` = Γ ∩ `Stab_G(v')` is a subgroup of `Stab_G(v')`, so each ratio is a positive integer.
+`Stab_G(v)` finite; for binary quartic forms with Δ(f) ≠ 0 the stabilizer in `PGL_2(K)` is isomorphic to `E^{I,J}(K)[2]` (Layer 1, Theorem 3.2), of order at most 4. `Stab_Γ(v')` = Γ ∩ `Stab_G(v')` is a subgroup of `Stab_G(v')`, so each ratio is a positive integer.
 
-The orbit map `G_{v,Y}` → G·v ∩ Y, g ↦ g·v, is surjective and Γ-equivariant, so it induces a surjection Γ\`G_{v,Y}` → Γ\ (G·v ∩ Y). The fibre over Γv' with v' = g'·v is {Γg : g·v ∈ Γ·v'} = Γ\ (Γg'`Stab_G(v)`), in bijection with (g'^{-1}Γg' ∩ `Stab_G(v)`)\`Stab_G(v)` ≅ `Stab_Γ(v')`\`Stab_G(v')`, of size #`Stab_G(v')`/#`Stab_Γ(v')` by Lagrange (mathlib:Subgroup.card_mul_index). Stabilizers along one G-orbit are conjugate, so #`Stab_G(v')` = #`Stab_G(v)`; sum over the fibres. The ratio is ≥ 1 with equality iff `Stab_Γ(v')` = `Stab_G(v')`, which gives the comparison with n and the equality criterion. For the last formula apply the first one inside the class of f and use `m_p(f_i)` = `m_p(f)`.
+The orbit map `G_{v,Y}` → G·v ∩ Y, g ↦ g·v, is surjective and Γ-equivariant, so it induces a surjection Γ\`G_{v,Y}` → Γ\ (G·v ∩ Y). The fibre over Γv' with v' = g'·v is {Γg : g·v ∈ Γ·v'} = Γ\ (Γg'`Stab_G(v)`), in bijection with `(g'^{-1}Γg' ∩ Stab_G(v))\Stab_G(v)` ≅ `Stab_Γ(v')`\`Stab_G(v')`, of size #`Stab_G(v')`/#`Stab_Γ(v')` by Lagrange (mathlib:Subgroup.card_mul_index). Stabilizers along one G-orbit are conjugate, so #`Stab_G(v')` = #`Stab_G(v)`; sum over the fibres. The ratio is ≥ 1 with equality iff `Stab_Γ(v')` = `Stab_G(v')`, which gives the comparison with n and the equality criterion. For the last formula apply the first one inside the class of f and use `m_p(f_i)` = `m_p(f)`.
 
 *Needs:* [rational orbit weight](#rational-orbit-weight), [stabilizer weighted orbit count](../ArithmeticStatisticsPartI/README.md#stabilizer-weighted-orbit-count), `MulAction.stabilizer` (Mathlib), `Subgroup.card_mul_index` (Mathlib).
 
@@ -278,11 +278,11 @@ The orbit map `G_{v,Y}` → G·v ∩ Y, g ↦ g·v, is surjective and Γ-equivar
 
 <a id="cartan-decomposition-of-pgl2-over-qp"></a>
 
-**Cartan decomposition of pgl2 over qp.** For every prime p and every γ ∈ `GL_2(Q_p)` there are `k_1`, `k_2` ∈ `GL_2(Z_p)` and integers a ≤ b with γ = `k_1`·diag(p^a, p^b)·`k_2`, and (a, b) is uniquely determined by γ (a = min of the valuations of the entries, a + b = `v_p(det γ)`). Consequently every element of `PGL_2(Q_p)` outside `PGL_2(Z_p)` lies in `PGL_2(Z_p)`·diag(1, p^k)·`PGL_2(Z_p)` for a unique integer k ≥ 1, and each such double coset is a finite union of p^{k−1}(p + 1) right cosets `PGL_2(Z_p)`·g.
+**Cartan decomposition of pgl2 over qp.** For every prime p and every γ ∈ `GL_2(Q_p)` there are `k_1`, `k_2` ∈ `GL_2(Z_p)` and integers a ≤ b with γ = `k_1`·diag(p^a, p^b)·`k_2`, and (a, b) is uniquely determined by γ (a = min of the valuations of the entries, a + b = `v_p(det γ)`). Consequently every element of `PGL_2(Q_p)` outside `PGL_2(Z_p)` lies in `PGL_2(Z_p)`·diag(1, p^k)·`PGL_2(Z_p)` for a unique integer k ≥ 1, and each such double coset is a finite union of `p^{k−1}(p + 1)` right cosets `PGL_2(Z_p)`·g.
 
 `Z_p` is a principal ideal domain (a discrete valuation ring). The statement is about `GL_2` and its image `PGL_2` = `GL_2`/`Q_p`^×; scaling by p^m shifts (a, b) to (a + m, b + m), so the `PGL_2` invariant is k = b − a.
 
-The decomposition and the uniqueness of the double coset are the split `GL_2` case of the Cartan decomposition of TauCetiRoadmap.ReductiveGroupsPartII RG2.4.4, with K = `GL_2(Z_p)` hyperspecial and λ = (a, b) dominant; what is added here is the description of (a, b) by valuations and the right-coset count. Directly: multiply γ by a power of p so that it has entries in `Z_p`; then the `Z_p`-lattice Z_p²·γ is a submodule of Z_p². Apply the Smith normal form over the PID `Z_p` (mathlib:Submodule.smithNormalForm): there is a basis of Z_p² in which the submodule is spanned by d_1e_1, d_2e_2 with `d_1` | `d_2`; write `d_i` = `u_i` p^{`a_i`} with units `u_i`. The change-of-basis matrices lie in `GL_2(Z_p)`; absorb the units into `k_1` to obtain γ = `k_1` diag(p^a, p^b) `k_2`. Uniqueness: the minimum valuation of the entries and `v_p(det)` are invariant under multiplication by `GL_2(Z_p)` on either side. The coset count: the right cosets in `PGL_2(Z_p)` diag(1, p^k) `PGL_2(Z_p)` correspond to the sublattices of Z_p² of index p^k with cyclic quotient, of which there are p^{k−1}(p + 1).
+The decomposition and the uniqueness of the double coset are the split `GL_2` case of the Cartan decomposition of TauCetiRoadmap.ReductiveGroupsPartII RG2.4.4, with K = `GL_2(Z_p)` hyperspecial and λ = (a, b) dominant; what is added here is the description of (a, b) by valuations and the right-coset count. Directly: multiply γ by a power of p so that it has entries in `Z_p`; then the `Z_p`-lattice Z_p²·γ is a submodule of Z_p². Apply the Smith normal form over the PID `Z_p` (mathlib:Submodule.smithNormalForm): there is a basis of Z_p² in which the submodule is spanned by d_1e_1, d_2e_2 with `d_1` | `d_2`; write `d_i = u_i p^{a_i}` with units `u_i`. The change-of-basis matrices lie in `GL_2(Z_p)`; absorb the units into `k_1` to obtain γ = `k_1` diag(p^a, p^b) `k_2`. Uniqueness: the minimum valuation of the entries and `v_p(det)` are invariant under multiplication by `GL_2(Z_p)` on either side. The coset count: the right cosets in `PGL_2(Z_p)` diag(1, p^k) `PGL_2(Z_p)` correspond to the sublattices of Z_p² of index p^k with cyclic quotient, of which there are `p^{k−1}(p + 1)`.
 
 *Needs:* TauCetiRoadmap.ReductiveGroupsPartII RG2.4.4, `Submodule.smithNormalForm` (Mathlib), `PadicInt` (Mathlib), `Matrix.ProjGenLinGroup` (Mathlib).
 
@@ -296,11 +296,11 @@ The decomposition and the uniqueness of the double coset are the split `GL_2` ca
 
 <a id="nonintegral-local-translates-force-square-discriminant"></a>
 
-**Nonintegral local translates force square discriminant.** Let p be any prime and f ∈ `V_{Z_p}` with Δ(f) ≠ 0. If γ·f ∈ `V_{Z_p}` for some γ ∈ `PGL_2(Q_p)` \ `PGL_2(Z_p)` (twisted action), then p² | Δ(f). Equivalently: if p² ∤ Δ(f) then `PGL_2`(`Q_p`)_f = `PGL_2(Z_p)` and `m_p(f)` = 1; in particular `m_p(f)` = 1 whenever p ∤ Δ(f). More precisely, if γ·f ∈ `V_{Z_p}` with γ ∈ `PGL_2(Z_p)` diag(1, p^k) `PGL_2(Z_p)` then p^{2k} | Δ(f); hence `PGL_2`(`Q_p`)_f is a finite union of right `PGL_2(Z_p)`-cosets and `m_p(f)` is finite.
+**Nonintegral local translates force square discriminant.** Let p be any prime and f ∈ `V_{Z_p}` with Δ(f) ≠ 0. If γ·f ∈ `V_{Z_p}` for some γ ∈ `PGL_2(Q_p)` \ `PGL_2(Z_p)` (twisted action), then p² | Δ(f). Equivalently: if p² ∤ Δ(f) then `PGL_2(Q_p)_f` = `PGL_2(Z_p)` and `m_p(f)` = 1; in particular `m_p(f)` = 1 whenever p ∤ Δ(f). More precisely, if γ·f ∈ `V_{Z_p}` with γ ∈ `PGL_2(Z_p)` diag(1, p^k) `PGL_2(Z_p)` then `p^{2k} | Δ(f)`; hence `PGL_2(Q_p)_f` is a finite union of right `PGL_2(Z_p)`-cosets and `m_p(f)` is finite.
 
 Valid for every prime p, including p = 2 and p = 3 (only the solubility half of Proposition 3.18 needs p odd). The twisted action preserves I, J and Δ, and elements of `PGL_2(Z_p)` preserve integrality.
 
-By cartan-decomposition-of-pgl2-over-qp write γ = `k_1` δ `k_2` with δ = diag(1, p^k) or diag(p^k, 1), k ≥ 1; since `k_1` preserves `V_{Z_p}`, δ·(`k_2`·f) ∈ `V_{Z_p}`, and Δ(`k_2`·f) = Δ(f) ([relative invariance of i and j](../ArithmeticStatisticsPartI/README.md#relative-invariance-of-i-and-j)). Replace f by `k_2`·f. For δ = diag(1, p^k) the twisted action sends the coefficients (a, b, c, d, e) to (p^{-2k}a, p^{-k}b, c, p^{k}d, p^{2k}e); integrality forces p^{2k} | a and p^{k} | b. For diag(p^k, 1) the roles of (a, b) and (e, d) are exchanged. Δ lies in the ideal (a, b²) of Z[a, b, c, d, e]: Δ(0, b, c, d, e) = −b²(27b²e² − 18bcde + 4bd³ + 4c³e − c²d²) = b²·disc(bx³ + cx² + dx + e); and Δ(a, b, c, d, e) = Δ(e, d, c, b, a). Every monomial of Δ is therefore divisible by a or by b², hence p^{2k} | Δ(f). Since `v_p`(Δ(f)) is finite, k ≤ `v_p`(Δ(f))/2, and each double coset contains finitely many right cosets; so `PGL_2(Z_p)`\`PGL_2`(`Q_p`)_f is finite.
+By cartan-decomposition-of-pgl2-over-qp write γ = `k_1` δ `k_2` with δ = diag(1, p^k) or diag(p^k, 1), k ≥ 1; since `k_1` preserves `V_{Z_p}`, δ·(`k_2`·f) ∈ `V_{Z_p}`, and Δ(`k_2`·f) = Δ(f) ([relative invariance of i and j](../ArithmeticStatisticsPartI/README.md#relative-invariance-of-i-and-j)). Replace f by `k_2`·f. For δ = diag(1, p^k) the twisted action sends the coefficients (a, b, c, d, e) to `(p^{-2k}a, p^{-k}b, c, p^{k}d, p^{2k}e)`; integrality forces `p^{2k} | a` and `p^{k} | b`. For diag(p^k, 1) the roles of (a, b) and (e, d) are exchanged. Δ lies in the ideal (a, b²) of Z[a, b, c, d, e]: Δ(0, b, c, d, e) = −b²(27b²e² − 18bcde + 4bd³ + 4c³e − c²d²) = b²·disc(bx³ + cx² + dx + e); and Δ(a, b, c, d, e) = Δ(e, d, c, b, a). Every monomial of Δ is therefore divisible by a or by b², hence `p^{2k} | Δ(f)`. Since `v_p`(Δ(f)) is finite, k ≤ `v_p`(Δ(f))/2, and each double coset contains finitely many right cosets; so `PGL_2(Z_p)\PGL_2(Q_p)_f` is finite.
 
 *Needs:* [cartan decomposition of pgl2 over qp](#cartan-decomposition-of-pgl2-over-qp), [rational orbit weight](#rational-orbit-weight), [binary quartic invariants](../ArithmeticStatisticsPartI/README.md#binary-quartic-invariants), [relative invariance of i and j](../ArithmeticStatisticsPartI/README.md#relative-invariance-of-i-and-j).
 
@@ -310,7 +310,7 @@ By cartan-decomposition-of-pgl2-over-qp write γ = `k_1` δ `k_2` with δ = diag
 
 - For f = p²x⁴ + y⁴ (Δ = 256p⁶), δ = diag(1, p) gives δ·f = x⁴ + p²y⁴ ∈ `V_{Z_p}`, so `m_p(f)` ≥ 2, consistent with p² | Δ.
 
-- For p odd and f = x⁴ − y⁴ (Δ = −256), `PGL_2`(`Q_p`)_f = `PGL_2(Z_p)`.
+- For p odd and f = x⁴ − y⁴ (Δ = −256), `PGL_2(Q_p)_f` = `PGL_2(Z_p)`.
 
 <a id="class-number-one-for-pgl2-over-q"></a>
 
@@ -336,7 +336,7 @@ Right cosets `GL_2`(Z)γ ↔ lattices L = Z²γ ⊆ Q² (free of rank 2, as subm
 
 Δ(f) ≠ 0; the product is finite because `m_p(f)` = 1 for p ∤ Δ(f).
 
-By rational-orbit-weight, m(f) = #`PGL_2(Z)`\`PGL_2`(Q)_f and `m_p(f)` = #`PGL_2(Z_p)`\`PGL_2`(`Q_p`)_f. The diagonal map τ: `PGL_2(Z)`\`PGL_2`(Q)_f → ∏_p `PGL_2(Z_p)`\`PGL_2`(`Q_p`)_f is well defined; the product is finite by nonintegral-local-translates-force-square-discriminant (`PGL_2`(`Q_p`)_f = `PGL_2(Z_p)` for p ∤ Δ(f)), and each factor is finite by the same lemma. τ is injective by class-number-one-for-pgl2-over-q (`PGL_2(Q)` ∩ ∏_p `PGL_2(Z_p)` = `PGL_2(Z)`). τ is surjective: class-number-one-for-pgl2-over-q gives γ ∈ `PGL_2(Q)` with prescribed local cosets; then γ·f ∈ `V_{Z_p}` for all p, so γ·f ∈ `V_Z` and γ ∈ `PGL_2`(Q)_f.
+By rational-orbit-weight, m(f) = #`PGL_2(Z)\PGL_2(Q)_f` and `m_p(f)` = #`PGL_2(Z_p)\PGL_2(Q_p)_f`. The diagonal map τ: `PGL_2(Z)\PGL_2(Q)_f` → ∏_p `PGL_2(Z_p)\PGL_2(Q_p)_f` is well defined; the product is finite by nonintegral-local-translates-force-square-discriminant (`PGL_2(Q_p)_f` = `PGL_2(Z_p)` for p ∤ Δ(f)), and each factor is finite by the same lemma. τ is injective by class-number-one-for-pgl2-over-q (`PGL_2(Q)` ∩ ∏_p `PGL_2(Z_p)` = `PGL_2(Z)`). τ is surjective: class-number-one-for-pgl2-over-q gives γ ∈ `PGL_2(Q)` with prescribed local cosets; then γ·f ∈ `V_{Z_p}` for all p, so γ·f ∈ `V_Z` and γ ∈ `PGL_2(Q)_f`.
 
 *Needs:* [rational orbit weight](#rational-orbit-weight), [nonintegral local translates force square discriminant](#nonintegral-local-translates-force-square-discriminant), [class number one for pgl2 over q](#class-number-one-for-pgl2-over-q).
 
@@ -344,7 +344,7 @@ By rational-orbit-weight, m(f) = #`PGL_2(Z)`\`PGL_2`(Q)_f and `m_p(f)` = #`PGL_2
 
 **Checks.**
 
-- For f = 4x⁴ + y⁴ one has Δ(f) = 2^{14}, so `m_p(f)` = 1 for every odd p and m(f) = `m_2(f)` ≥ 2 (diag(1, 2) maps f to x⁴ + 4y⁴).
+- For f = 4x⁴ + y⁴ one has `Δ(f) = 2^{14}`, so `m_p(f)` = 1 for every odd p and m(f) = `m_2(f)` ≥ 2 (diag(1, 2) maps f to x⁴ + 4y⁴).
 
 - For f = x⁴ − y⁴ (Δ = −2⁸) one has m(f) = `m_2(f)`.
 
@@ -370,11 +370,11 @@ Case a ≠ 0: Δ(f) = disc(f(x, 1)) ≠ 0 iff f(x, 1) is separable (mathlib:Poly
 
 <a id="nonsingular-binary-quartic-forms-over-finite-fields-are-soluble"></a>
 
-**Nonsingular binary quartic forms over finite fields are soluble.** Let p be an odd prime and f ∈ `V_{F_p}` with Δ(f) ≠ 0. Then f is `F_p`-soluble: there are x, y, z ∈ `F_p` with (x, y) ≠ (0, 0) and z² = f(x, y). Consequently, for p ≥ 5 and (I, J) ∈ F_p² with Δ(I, J) ≠ 0, `Σ_{f ∈ PGL_2(F_p)\V_{F_p}(I, J)`} 1/#`Aut_{F_p}(f)` = 1 (the second assertion of Lemma 3.15).
+**Nonsingular binary quartic forms over finite fields are soluble.** Let p be an odd prime and f ∈ `V_{F_p}` with Δ(f) ≠ 0. Then f is `F_p`-soluble: there are x, y, z ∈ `F_p` with (x, y) ≠ (0, 0) and z² = f(x, y). Consequently, for p ≥ 5 and (I, J) ∈ F_p² with Δ(I, J) ≠ 0, `Σ_{f ∈ PGL_2(F_p)\V_{F_p}(I, J)}` 1/#`Aut_{F_p}(f)` = 1 (the second assertion of Lemma 3.15).
 
 p odd. For p ≥ 5 the proof is uniform; p = 3 is a finite verification; p = 2 is excluded (squares are not a proper subgroup of `F_2`^×). The `PGL_2(F_p)`-action is the twisted action, which preserves (I, J).
 
-(p ≥ 5) For (I, J) with Δ(I, J) ≠ 0 let E = E^{I,J}. By Layer 1 (Theorem 3.2 over K = `F_p`, characteristic ≠ 2, 3) the `F_p`-soluble `PGL_2(F_p)`-orbits in V(I, J) := {f : (I(f), J(f)) = (I, J)} correspond to E(`F_p`)/2E(`F_p`), and every stabilizer is isomorphic to E(`F_p`)[2]. E(`F_p`) is finite (tauceti:WeierstrassCurve.Affine.`finite_point`), and for a finite abelian group #(G/2G) = #G[2] (mathlib:Subgroup.`index_ker` with mathlib:Subgroup.card_mul_index applied to multiplication by 2). Orbit–stabilizer (mathlib:MulAction.card_orbit_mul_card_stabilizer_eq_card_group): the number of soluble f ∈ V(I, J) is #`PGL_2(F_p)`·#(E/2E)/#E[2] = #`PGL_2(F_p)` = p(p² − 1). There are p² − p pairs (I, J) with Δ(I, J) ≠ 0 (the curve J² = 4I³ has the p points (t², 2t³)), so the number of soluble nonsingular forms is (p² − p)p(p² − 1) = p²(p + 1)(p − 1)², which is the number of all nonsingular forms by count-of-nonsingular-binary-quartic-forms-over-a-finite-field. Hence every nonsingular form is soluble, and the mass formula follows. (p = 3) Exhaustive check of the 3⁵ = 243 forms over `F_3`: each of the 144 forms with Δ ≠ 0 vanishes at a point of P¹(`F_3`) or takes the nonzero square value 1 there.
+(p ≥ 5) For (I, J) with Δ(I, J) ≠ 0 let `E = E^{I,J}`. By Layer 1 (Theorem 3.2 over K = `F_p`, characteristic ≠ 2, 3) the `F_p`-soluble `PGL_2(F_p)`-orbits in V(I, J) := {f : (I(f), J(f)) = (I, J)} correspond to E(`F_p`)/2E(`F_p`), and every stabilizer is isomorphic to E(`F_p`)[2]. E(`F_p`) is finite (tauceti:WeierstrassCurve.Affine.`finite_point`), and for a finite abelian group #(G/2G) = #G[2] (mathlib:Subgroup.`index_ker` with mathlib:Subgroup.card_mul_index applied to multiplication by 2). Orbit–stabilizer (mathlib:MulAction.card_orbit_mul_card_stabilizer_eq_card_group): the number of soluble f ∈ V(I, J) is #`PGL_2(F_p)`·#(E/2E)/#E[2] = #`PGL_2(F_p)` = p(p² − 1). There are p² − p pairs (I, J) with Δ(I, J) ≠ 0 (the curve J² = 4I³ has the p points (t², 2t³)), so the number of soluble nonsingular forms is (p² − p)p(p² − 1) = p²(p + 1)(p − 1)², which is the number of all nonsingular forms by count-of-nonsingular-binary-quartic-forms-over-a-finite-field. Hence every nonsingular form is soluble, and the mass formula follows. (p = 3) Exhaustive check of the 3⁵ = 243 forms over `F_3`: each of the 144 forms with Δ ≠ 0 vanishes at a point of P¹(`F_3`) or takes the nonzero square value 1 there.
 
 *Needs:* [count of nonsingular binary quartic forms over a finite field](#count-of-nonsingular-binary-quartic-forms-over-a-finite-field), `WeierstrassCurve.Affine.finite_point` (Tau Ceti), `Subgroup.index_ker` (Mathlib), `Subgroup.card_mul_index` (Mathlib), `MulAction.card_orbit_mul_card_stabilizer_eq_card_group` (Mathlib), [binary quartic invariants](../ArithmeticStatisticsPartI/README.md#binary-quartic-invariants), [binary quartic parametrization of e mod 2e](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-e-mod-2e), [stabilizer of a binary quartic is two torsion](../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion).
 
@@ -412,11 +412,11 @@ If p ∤ Δ(f): by nonsingular-binary-quartic-forms-over-finite-fields-are-solub
 
 <a id="local-weights-and-solubility-are-locally-constant"></a>
 
-**Local weights and solubility are locally constant.** Let p be a prime. On the open set {f ∈ `V_{Z_p}` : Δ(f) ≠ 0} the functions f ↦ `m_p(f)` and f ↦ 1[f is `Q_p`-soluble] are locally constant; precisely, `m_p` is constant on f + p^{δ+1}`V_{Z_p}` where δ = `v_p`(Δ(f)). The set {f ∈ `V_{Z_p}` : Δ(f) = 0} is closed and has Haar measure zero. Consequently, for a family F defined by congruence conditions whose actual invariant closure `Inv_p(F)` has null boundary, `φ_p` := 1_{`S_p(F)`}/`m_p` is a function `V_{Z_p}` → [0, 1] that is locally constant outside the closed null set {Δ = 0} ∪ {f : (2^{-4}I(f), 2^{-6}J(f)) ∈ ∂`Inv_p(F)`}.
+**Local weights and solubility are locally constant.** Let p be a prime. On the open set {f ∈ `V_{Z_p}` : Δ(f) ≠ 0} the functions f ↦ `m_p(f)` and f ↦ 1[f is `Q_p`-soluble] are locally constant; precisely, `m_p` is constant on `f + p^{δ+1}V_{Z_p}` where δ = `v_p`(Δ(f)). The set {f ∈ `V_{Z_p}` : Δ(f) = 0} is closed and has Haar measure zero. Consequently, for a family F defined by congruence conditions whose actual invariant closure `Inv_p(F)` has null boundary, `φ_p := 1_{S_p(F)}/m_p` is a function `V_{Z_p}` → [0, 1] that is locally constant outside the closed null set `{Δ = 0} ∪ {f : (2^{-4}I(f), 2^{-6}J(f)) ∈ ∂Inv_p(F)}`.
 
 For the final consequence, assume `μ_p`(∂`Inv_p(F)`) = 0 explicitly. Closedness and null boundary of `Σ_p` alone do not justify it for a closed subset `Inv_p(F)`. For large families with positive local specification masses, count-of-curves-in-a-large-family supplies this assertion by CRT and the discriminant tail estimate. The zero-mass case of the weighted count uses an upper bound at one prime instead. The invariant map is a submersion on the nonsingular locus, so the p-adic inverse-function/change-of-variables input pulls Haar-null subsets of Q_p² back to null subsets of Q_p⁵. Use the nonsingular submersion change-of-variables assertion stated below, independently of the full orbit-integral formula. The divisibility conditions at 2 cut out clopen subsets.
 
-`m_p`: by nonintegral-local-translates-force-square-discriminant only double cosets `PGL_2(Z_p)` diag(1, p^k) `PGL_2(Z_p)` with 2k ≤ δ can meet `PGL_2`(`Q_p`)_f; whether `δ_k`·(κ·f) is integral (κ ∈ `PGL_2(Z_p)`) depends only on f modulo p^{2k}; f' ≡ f (mod p^{δ+1}) has `v_p`(Δ(f')) = δ, so the same cosets occur for f and f'. Solubility is open: a solution (x, y, z) with z ≠ 0 persists because `Q_p^{×2}` is open (Hensel's lemma, mathlib:`hensels_lemma`); a solution with z = 0 is a simple root of f (Δ(f) ≠ 0) and persists under perturbation by Hensel's lemma. Insolubility is open: if f is insoluble, f(x, y) lies in the open set `Q_p`^× \ `Q_p^{×2}` for all primitive (x, y) ∈ Z_p², a compact set; by continuity of (f, x, y) ↦ f(x, y) and compactness (tube lemma) the same holds on a neighbourhood of f. {Δ = 0} is null: for fixed (a, b, c, d) with (a, b) ≠ (0, 0), Δ is a nonzero polynomial of degree at most 3 in e, so it has at most 3 roots; Fubini on Z_p⁴ × `Z_p` with the Haar measure (mathlib:MeasureTheory.Measure.haarMeasure) gives measure zero. `φ_p` takes values in [0, 1] because `m_p` ≥ 1 (rational-orbit-weight) and is locally constant off the displayed closed null set.
+`m_p`: by nonintegral-local-translates-force-square-discriminant only double cosets `PGL_2(Z_p)` diag(1, p^k) `PGL_2(Z_p)` with 2k ≤ δ can meet `PGL_2(Q_p)_f`; whether `δ_k`·(κ·f) is integral (κ ∈ `PGL_2(Z_p)`) depends only on f modulo `p^{2k}`; `f' ≡ f (mod p^{δ+1})` has `v_p`(Δ(f')) = δ, so the same cosets occur for f and f'. Solubility is open: a solution (x, y, z) with z ≠ 0 persists because `Q_p^{×2}` is open (Hensel's lemma, mathlib:`hensels_lemma`); a solution with z = 0 is a simple root of f (Δ(f) ≠ 0) and persists under perturbation by Hensel's lemma. Insolubility is open: if f is insoluble, f(x, y) lies in the open set `Q_p`^× \ `Q_p^{×2}` for all primitive (x, y) ∈ Z_p², a compact set; by continuity of (f, x, y) ↦ f(x, y) and compactness (tube lemma) the same holds on a neighbourhood of f. {Δ = 0} is null: for fixed (a, b, c, d) with (a, b) ≠ (0, 0), Δ is a nonzero polynomial of degree at most 3 in e, so it has at most 3 roots; Fubini on Z_p⁴ × `Z_p` with the Haar measure (mathlib:MeasureTheory.Measure.haarMeasure) gives measure zero. `φ_p` takes values in [0, 1] because `m_p` ≥ 1 (rational-orbit-weight) and is locally constant off the displayed closed null set.
 
 *Needs:* [rational orbit weight](#rational-orbit-weight), [nonintegral local translates force square discriminant](#nonintegral-local-translates-force-square-discriminant), [locally soluble forms attached to a family](#locally-soluble-forms-attached-to-a-family), [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [acceptable weight function](../ArithmeticStatisticsPartI/README.md#acceptable-weight-function), `hensels_lemma` (Mathlib), `MeasureTheory.Measure.haarMeasure` (Mathlib).
 
@@ -426,7 +426,7 @@ For the final consequence, assume `μ_p`(∂`Inv_p(F)`) = 0 explicitly. Closedne
 
 - `m_p(x⁴ − y⁴)` = 1 on the whole ball (x⁴ − y⁴) + p `V_{Z_p}` for odd p.
 
-- The indicator of `Q_3`-solubility is 0 on the ball `f_0` + 3V_{`Z_3`} with `f_0` = 2x⁴ + 4x²y² + 3xy³ + 2y⁴ (all values ≡ 2 mod 3).
+- The indicator of `Q_3`-solubility is 0 on the ball `f_0 + 3V_{Z_3}` with `f_0` = 2x⁴ + 4x²y² + 3xy³ + 2y⁴ (all values ≡ 2 mod 3).
 
 <a id="real-solubility-of-binary-quartic-forms"></a>
 
@@ -452,7 +452,7 @@ If f(`x_0`, `y_0`) ≥ 0 for some (`x_0`, `y_0`) ≠ (0, 0) then z = √f(`x_0`,
 
 **Jacobian of the orbit map.** Let `s_{I,J}` := x³y − (I/3)xy³ − (J/27)y⁴, so that I(`s_{I,J}`) = I and J(`s_{I,J}`) = J, and let ψ: `PGL_2` × A² → V, ψ(g, I, J) := g·`s_{I,J}` (twisted action). Let ω be the left-invariant top-degree form on `PGL_2` whose value at the identity on the images of `E_{11}`, `E_{12}`, `E_{21}` in `pgl_2` = `gl_2`/(scalars) is 1 (these images form a Z-basis of `gl_2(Z)`/Z·1, so ω generates the invariant top-degree forms of `PGL_2` over Z, as in the source's Proposition 2.8), and let dv = da ∧ db ∧ dc ∧ dd ∧ de. Then ψ*(dv) = −(1/27)·ω ∧ dI ∧ dJ identically on `PGL_2` × A², over every commutative ring in which 3 is invertible. At g = 1 the Jacobian matrix (rows a, …, e; columns `E_{11}`, `E_{12}`, `E_{21}`, ∂_I, ∂_J) is [[0,1,0,0,0],[1,0,0,0,0],[0,−I,3,0,0],[I/3,−4J/27,0,−1/3,0],[2J/27,0,−I/3,0,−1/27]], of determinant −1/27.
 
-The action is the twisted action, whose determinant on the 5-dimensional space V is 1 (for the untwisted action it would be (det g)^{10}). The sign of ω is fixed by the ordered basis (`E_{11}`, `E_{12}`, `E_{21}`); only |−1/27| enters the measure statements.
+The action is the twisted action, whose determinant on the 5-dimensional space V is 1 (for the untwisted action it would be `(det g)^{10}`). The sign of ω is fixed by the ordered basis (`E_{11}`, `E_{12}`, `E_{21}`); only |−1/27| enters the measure statements.
 
 The twisted action of g on V has determinant 1 (polynomial identity), and ω is left-invariant, so the Jacobian of ψ at (g, I, J) equals its value at (1, I, J). At g = 1 the derivative of t ↦ (1 + tE)·`s_{I,J}` for E ∈ {`E_{11}`, `E_{12}`, `E_{21}`} and the partial derivatives ∂_I s, ∂_J s give the displayed matrix; its determinant (mathlib:Matrix.det) is −1/27, independent of (I, J). The identity is a polynomial identity with coefficients in Z[1/3], hence valid after base change to R, `Q_p` and every Z[1/3]-algebra.
 
@@ -468,11 +468,11 @@ The twisted action of g on V has determinant 1 (polynomial identity), and ω is 
 
 <a id="volume-of-pgl2-zp"></a>
 
-**Volume of pgl2 zp.** For every prime p, with |ω|_p the Haar measure on `PGL_2(Q_p)` attached to the Z-generator ω of jacobian-of-the-orbit-map, vol(`PGL_2(Z_p)`) = #`PGL_2(F_p)`/p³ = 1 − p^{-2}.
+**Volume of pgl2 zp.** For every prime p, with |ω|_p the Haar measure on `PGL_2(Q_p)` attached to the Z-generator ω of jacobian-of-the-orbit-map, `vol(PGL_2(Z_p)) = #PGL_2(F_p)/p³ = 1 − p^{-2}`.
 
-ω is the Z-generator, so |ω|_p gives the principal congruence subgroup volume p^{-3}.
+ω is the Z-generator, so |ω|_p gives the principal congruence subgroup volume `p^{-3}`.
 
-Reduction `PGL_2(Z_p)` → `PGL_2(F_p)` is surjective (`GL_2(Z_p)` → `GL_2(F_p)` is surjective by lifting a matrix with unit determinant) with kernel K(1), the image of 1 + `pM_2(Z_p)`. In the coordinates of the Z-basis (`E_{11}`, `E_{12}`, `E_{21}`) normalize a representative to have lower-right entry 1; the chart (a,b,c) ↦ [[1+a,b],[c,1]], for (a,b,c) ∈ (`pZ_p`)³, identifies K(1) with (`pZ_p`)³, with unit Jacobian for ω; by the p-adic change of variables, vol(K(1)) = p^{-3}. #`PGL_2(F_p)` = #`GL_2(F_p)`/(p − 1) = (p² − 1)(p² − p)/(p − 1) = p(p² − 1) (mathlib:Matrix.card_GL_field), hence vol(`PGL_2(Z_p)`) = p(p² − 1)/p³ = 1 − p^{-2}.
+Reduction `PGL_2(Z_p)` → `PGL_2(F_p)` is surjective (`GL_2(Z_p)` → `GL_2(F_p)` is surjective by lifting a matrix with unit determinant) with kernel K(1), the image of 1 + `pM_2(Z_p)`. In the coordinates of the Z-basis (`E_{11}`, `E_{12}`, `E_{21}`) normalize a representative to have lower-right entry 1; the chart (a,b,c) ↦ [[1+a,b],[c,1]], for (a,b,c) ∈ (`pZ_p`)³, identifies K(1) with (`pZ_p`)³, with unit Jacobian for ω; by the p-adic change of variables, `vol(K(1)) = p^{-3}`. #`PGL_2(F_p)` = #`GL_2(F_p)`/(p − 1) = (p² − 1)(p² − p)/(p − 1) = p(p² − 1) (mathlib:Matrix.card_GL_field), hence `vol(PGL_2(Z_p)) = p(p² − 1)/p³ = 1 − p^{-2}`.
 
 *Needs:* [jacobian of the orbit map](#jacobian-of-the-orbit-map), `Matrix.card_GL_field` (Mathlib), `Matrix.ProjGenLinGroup` (Mathlib), `PadicInt` (Mathlib).
 
@@ -482,15 +482,15 @@ Reduction `PGL_2(Z_p)` → `PGL_2(F_p)` is surjective (`GL_2(Z_p)` → `GL_2(F_p
 
 - p = 2: vol = 6/8 = 3/4; p = 3: vol = 24/27 = 8/9 (used in the source's computation of |J|_3).
 
-- ∏_p vol(`PGL_2(Z_p)`) = ∏_p (1 − p^{-2}) = 1/ζ(2).
+- `∏_p vol(PGL_2(Z_p)) = ∏_p (1 − p^{-2}) = 1/ζ(2)`.
 
 <a id="p-adic-change-of-measure-for-binary-quartic-forms"></a>
 
-**P adic change of measure for binary quartic forms.** Let p be a prime, df the Haar probability measure on `V_{Z_p}` = Z_p⁵, dIdJ the Haar probability measure on Z_p² and dg = |ω|_p on `PGL_2(Z_p)`. For every nonnegative measurable φ: `V_{Z_p}` → R, ∫_{`V_{Z_p}`} φ(f) df = |1/27|_p ∫_{(I,J) ∈ Z_p², Δ(I,J) ≠ 0} ( `Σ_{f ∈ PGL_2(Z_p)\V_{Z_p}(I,J)`} (1/#`Aut_{Z_p}(f)`) ∫_{`PGL_2(Z_p)`} φ(g·f) dg ) dIdJ, where `V_{Z_p}(I, J)` = {f ∈ `V_{Z_p}` : I(f) = I, J(f) = J} is a finite union of `PGL_2(Z_p)`-orbits when Δ(I,J) ≠ 0 and `Aut_{Z_p}(f)` is the (finite) stabilizer of f in `PGL_2(Z_p)`. For `PGL_2(Z_p)`-invariant φ the right side is |1/27|_p (1 − p^{-2}) ∫ `Σ_f` φ(f)/#`Aut_{Z_p}(f)` dIdJ.
+**P adic change of measure for binary quartic forms.** Let p be a prime, df the Haar probability measure on `V_{Z_p}` = Z_p⁵, dIdJ the Haar probability measure on Z_p² and dg = |ω|_p on `PGL_2(Z_p)`. For every nonnegative measurable φ: `V_{Z_p}` → R, `∫_{V_{Z_p}} φ(f) df = |1/27|_p ∫_{(I,J) ∈ Z_p², Δ(I,J) ≠ 0} ( Σ_{f ∈ PGL_2(Z_p)\V_{Z_p}(I,J)} (1/#Aut_{Z_p}(f)) ∫_{PGL_2(Z_p)} φ(g·f) dg ) dIdJ`, where `V_{Z_p}(I, J)` = {f ∈ `V_{Z_p}` : I(f) = I, J(f) = J} is a finite union of `PGL_2(Z_p)`-orbits when Δ(I,J) ≠ 0 and `Aut_{Z_p}(f)` is the (finite) stabilizer of f in `PGL_2(Z_p)`. For `PGL_2(Z_p)`-invariant φ the right side is `|1/27|_p (1 − p^{-2}) ∫ Σ_f φ(f)/#Aut_{Z_p}(f) dIdJ`.
 
-Nonnegative measurable φ (the source states continuous φ in Proposition 3.7 and measurable φ in Proposition 3.12); indicator functions of the sets `S_p(F)` are included. The constant is |1/27|_p = 1 for p ≠ 3 and 27 for p = 3. The stabilizers are finite: `Aut_{Z_p}(f)` ⊆ `Aut_{Q_p}(f)` ≅ E^{I,J}(`Q_p`)[2] ([stabilizer of a binary quartic is two torsion](../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion), over `Q_p`). The statement for nonnegative measurable φ uses the extended nonnegative integral and the nonsingular p-adic change-of-variables input of the supporting targets at the end of this layer; its real-valued form for integrable `PGL_2(Z_p)`-invariant φ is a specialization.
+Nonnegative measurable φ (the source states continuous φ in Proposition 3.7 and measurable φ in Proposition 3.12); indicator functions of the sets `S_p(F)` are included. The constant is |1/27|_p = 1 for p ≠ 3 and 27 for p = 3. The stabilizers are finite: `Aut_{Z_p}(f) ⊆ Aut_{Q_p}(f) ≅ E^{I,J}(Q_p)[2]` ([stabilizer of a binary quartic is two torsion](../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion), over `Q_p`). The statement for nonnegative measurable φ uses the extended nonnegative integral and the nonsingular p-adic change-of-variables input of the supporting targets at the end of this layer; its real-valued form for integrable `PGL_2(Z_p)`-invariant φ is a specialization.
 
-By jacobian-of-the-orbit-map, ψ*(dv) = −(1/27) ω ∧ dI ∧ dJ over `Q_p`. To transfer the Jacobian calculation from the soluble section to an arbitrary nonsingular geometric orbit, use the single geometric orbit for fixed invariants over an algebraic closure and determinant-one invariance of the action; descend the resulting differential-form identity. The local transverse section is then supplied by the p-adic inverse function theorem. For `f_0` ∈ `V_{Z_p}` with Δ(`f_0`) ≠ 0 choose, as in the source, a plane P through `f_0` defined over Q and a neighbourhood `P_0` on which the invariant map is injective and the stabilizer order is constant; the map `PGL_2(Z_p)` × `P_0` → `V_{Z_p}` is #`Aut_{Z_p}(f_0)`-to-one onto its open image. The p-adic change-of-variables formula for polynomial maps with nonvanishing Jacobian (the p-adic change-of-variables supporting target below) gives #`Aut_{Z_p}(f_0)`·vol(`PGL_2(Z_p)`·`P_0`) = |1/27|_p vol(`PGL_2(Z_p)`) vol(Inv(`P_0`)). `V_{Z_p}(I, J)` is compact and each `PGL_2(Z_p)`-orbit in it is open (the orbit map is submersive by the Jacobian identity), so it is a finite union of orbits. Cover {Δ ≠ 0} by such neighbourhoods and sum; the set {Δ = 0} is null (local-weights-and-solubility-are-locally-constant). For invariant φ, ∫_{`PGL_2(Z_p)`} φ(g·f) dg = vol(`PGL_2(Z_p)`) φ(f) = (1 − p^{-2})φ(f) by volume-of-pgl2-zp.
+By jacobian-of-the-orbit-map, ψ*(dv) = −(1/27) ω ∧ dI ∧ dJ over `Q_p`. To transfer the Jacobian calculation from the soluble section to an arbitrary nonsingular geometric orbit, use the single geometric orbit for fixed invariants over an algebraic closure and determinant-one invariance of the action; descend the resulting differential-form identity. The local transverse section is then supplied by the p-adic inverse function theorem. For `f_0` ∈ `V_{Z_p}` with Δ(`f_0`) ≠ 0 choose, as in the source, a plane P through `f_0` defined over Q and a neighbourhood `P_0` on which the invariant map is injective and the stabilizer order is constant; the map `PGL_2(Z_p)` × `P_0` → `V_{Z_p}` is #`Aut_{Z_p}(f_0)`-to-one onto its open image. The p-adic change-of-variables formula for polynomial maps with nonvanishing Jacobian (the p-adic change-of-variables supporting target below) gives #`Aut_{Z_p}(f_0)`·vol(`PGL_2(Z_p)`·`P_0`) = |1/27|_p vol(`PGL_2(Z_p)`) vol(Inv(`P_0`)). `V_{Z_p}(I, J)` is compact and each `PGL_2(Z_p)`-orbit in it is open (the orbit map is submersive by the Jacobian identity), so it is a finite union of orbits. Cover {Δ ≠ 0} by such neighbourhoods and sum; the set {Δ = 0} is null (local-weights-and-solubility-are-locally-constant). For invariant φ, `∫_{PGL_2(Z_p)} φ(g·f) dg = vol(PGL_2(Z_p)) φ(f) = (1 − p^{-2})φ(f)` by volume-of-pgl2-zp.
 
 *Needs:* [jacobian of the orbit map](#jacobian-of-the-orbit-map), [volume of pgl2 zp](#volume-of-pgl2-zp), [local weights and solubility are locally constant](#local-weights-and-solubility-are-locally-constant), [binary quartic invariants](../ArithmeticStatisticsPartI/README.md#binary-quartic-invariants), `MeasureTheory.Measure.haarMeasure` (Mathlib), [binary quartic parametrization of e mod 2e](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-e-mod-2e), [stabilizer of a binary quartic is two torsion](../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion).
 
@@ -498,19 +498,19 @@ By jacobian-of-the-orbit-map, ψ*(dv) = −(1/27) ω ∧ dI ∧ dJ over `Q_p`. T
 
 **Checks.**
 
-- φ = 1: both sides are 1, so ∫ `Σ_{f}` 1/#`Aut_{Z_p}(f)` dIdJ = |27|_p/(1 − p^{-2}), the total mass of integral orbits.
+- φ = 1: both sides are 1, so `∫ Σ_{f} 1/#Aut_{Z_p}(f) dIdJ = |27|_p/(1 − p^{-2})`, the total mass of integral orbits.
 
-- For p ≠ 3 and φ the indicator of {f : (I(f), J(f)) ≡ (`I_0`, `J_0`) mod p} with Δ(`I_0`, `J_0`) ≢ 0: the left side is #`PGL_2(F_p)`/p⁵ = (1 − p^{-2})p^{-2}, and the right side is (1 − p^{-2})·p^{-2} by the source's Lemma 3.15 (unit mass of integral orbits with p ∤ Δ), recovering the source's |J|_p = 1.
+- For p ≠ 3 and φ the indicator of {f : (I(f), J(f)) ≡ (`I_0`, `J_0`) mod p} with Δ(`I_0`, `J_0`) ≢ 0: the left side is `#PGL_2(F_p)/p⁵ = (1 − p^{-2})p^{-2}`, and the right side is `(1 − p^{-2})·p^{-2}` by the source's Lemma 3.15 (unit mass of integral orbits with p ∤ Δ), recovering the source's |J|_p = 1.
 
-- p = 3, φ the indicator of {I(f) ≡ 3 (mod 9)}: the left side is 24/3⁵ and the right side is 27·(8/9)·3^{-5} = 24/3⁵ (again with unit mass), recovering |J|_3 = 27.
+- p = 3, φ the indicator of {I(f) ≡ 3 (mod 9)}: the left side is 24/3⁵ and the right side is `27·(8/9)·3^{-5} = 24/3⁵` (again with unit mass), recovering |J|_3 = 27.
 
 <a id="weighted-p-adic-change-of-measure"></a>
 
-**Weighted p adic change of measure.** Let p be a prime and φ: `V_{Z_p}` → `R_{≥0}` measurable and `PGL_2(Q_p)`-invariant (φ(γ·f) = φ(f) whenever f, γ·f ∈ `V_{Z_p}`), such that every f in the support of φ has Δ(f) ≠ 0, is `Q_p`-soluble, and satisfies 2⁴·3 | I(f), 2⁶·3³ | J(f). Then ∫_{`V_{Z_p}`} φ(f)/`m_p(f)` df = |1/27|_p (1 − p^{-2}) ∫_{(I,J) ∈ `D_p`} (1/#E^{I,J}(`Q_p`)[2]) `Σ_{σ ∈ E^{I,J}(Q_p)`/2E^{I,J}(`Q_p`)} φ(`f_σ`) dIdJ, where `f_σ` ∈ `V_{Z_p}` is any integral form in the `PGL_2(Q_p)`-class corresponding to σ under Theorem 3.2 (Layer 1).
+**Weighted p adic change of measure.** Let p be a prime and φ: `V_{Z_p}` → `R_{≥0}` measurable and `PGL_2(Q_p)`-invariant (φ(γ·f) = φ(f) whenever f, γ·f ∈ `V_{Z_p}`), such that every f in the support of φ has Δ(f) ≠ 0, is `Q_p`-soluble, and satisfies 2⁴·3 | I(f), 2⁶·3³ | J(f). Then `∫_{V_{Z_p}} φ(f)/m_p(f) df = |1/27|_p (1 − p^{-2}) ∫_{(I,J) ∈ D_p} (1/#E^{I,J}(Q_p)[2]) Σ_{σ ∈ E^{I,J}(Q_p)/2E^{I,J}(Q_p)} φ(f_σ) dIdJ`, where `f_σ` ∈ `V_{Z_p}` is any integral form in the `PGL_2(Q_p)`-class corresponding to σ under Theorem 3.2 (Layer 1).
 
 `D_p` = {(I,J) ∈ Z_p² : Δ(I,J) ≠ 0, 2⁴·3 | I, 2⁶·3³ | J}. The outer integral is restricted to `D_p`; outside it integral representatives `f_σ` need not exist, so an unrestricted sum over such representatives is not defined. The divisibility conditions guarantee (local form of Lemma 3.4, Layer 1) that every soluble `PGL_2(Q_p)`-class with these invariants meets `V_{Z_p}`, so `f_σ` exists. `m_p` is `PGL_2(Z_p)`-invariant and `PGL_2(Q_p)`-invariant on `V_{Z_p}` (rational-orbit-weight).
 
-Apply p-adic-change-of-measure-for-binary-quartic-forms to the `PGL_2(Z_p)`-invariant function φ/`m_p`. Group the `PGL_2(Z_p)`-orbits `f_1`, …, `f_k` in `V_{Z_p}(I, J)` by `PGL_2(Q_p)`-class; by orbit-weight-as-a-stabilizer-sum, `Σ_i` φ(`f_i`)/(`m_p(f_i)`#`Aut_{Z_p}(f_i)`) = φ(f)/#`Aut_{Q_p}(f)`. By Layer 1 (Theorem 3.2 over `Q_p` and the local Lemma 3.4) the soluble `PGL_2(Q_p)`-classes in `V_{Z_p}(I, J)` correspond to E^{I,J}(`Q_p`)/2E^{I,J}(`Q_p`), and `Aut_{Q_p}(f)` ≅ E^{I,J}(`Q_p`)[2].
+Apply p-adic-change-of-measure-for-binary-quartic-forms to the `PGL_2(Z_p)`-invariant function φ/`m_p`. Group the `PGL_2(Z_p)`-orbits `f_1`, …, `f_k` in `V_{Z_p}(I, J)` by `PGL_2(Q_p)`-class; by orbit-weight-as-a-stabilizer-sum, `Σ_i` φ(`f_i`)/(`m_p(f_i)`#`Aut_{Z_p}(f_i)`) = φ(f)/#`Aut_{Q_p}(f)`. By Layer 1 (Theorem 3.2 over `Q_p` and the local Lemma 3.4) the soluble `PGL_2(Q_p)`-classes in `V_{Z_p}(I, J)` correspond to `E^{I,J}(Q_p)/2E^{I,J}(Q_p)`, and `Aut_{Q_p}(f) ≅ E^{I,J}(Q_p)[2]`.
 
 *Needs:* [p adic change of measure for binary quartic forms](#p-adic-change-of-measure-for-binary-quartic-forms), [orbit weight as a stabilizer sum](#orbit-weight-as-a-stabilizer-sum), [rational orbit weight](#rational-orbit-weight), [binary quartic parametrization of e mod 2e](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-e-mod-2e), [stabilizer of a binary quartic is two torsion](../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion), [local integral representatives of soluble quartics](../ArithmeticStatisticsPartII/README.md#local-integral-representatives-of-soluble-quartics).
 
@@ -518,17 +518,17 @@ Apply p-adic-change-of-measure-for-binary-quartic-forms to the `PGL_2(Z_p)`-inva
 
 **Checks.**
 
-- With φ the indicator of the soluble forms with invariants in a small ball around (`I_0`, `J_0`), the right side is |1/27|_p(1 − p^{-2}) times the ball's volume times #(E(`Q_p`)/2E(`Q_p`))/#E(`Q_p`)[2].
+- With φ the indicator of the soluble forms with invariants in a small ball around (`I_0`, `J_0`), the right side is `|1/27|_p(1 − p^{-2})` times the ball's volume times #(E(`Q_p`)/2E(`Q_p`))/#E(`Q_p`)[2].
 
 - An implementation that forgets 1/`m_p` double-counts the `PGL_2(Z_p)`-orbits inside one `PGL_2(Q_p)`-class.
 
 <a id="local-mass-formula-for-locally-soluble-forms"></a>
 
-**Local mass formula for locally soluble forms.** For every family F defined by congruence conditions and every prime p, ∫_{`S_p(F)`} `m_p(f)^{-1}` df = |2^{10}/27|_p (1 − p^{-2}) `M_p(V, F)`.
+**Local mass formula for locally soluble forms.** For every family F defined by congruence conditions and every prime p, `∫_{S_p(F)} m_p(f)^{-1} df = |2^{10}/27|_p (1 − p^{-2}) M_p(V, F)`.
 
 `S_p(F)` is the local set of locally-soluble-forms-attached-to-a-family; `Inv_p(F)` ⊆ 3Z_p × 27Z_p because I(E) = −3A and J(E) = −27B.
 
-Apply weighted-p-adic-change-of-measure to φ = 1_{`S_p(F)`}: every f ∈ `S_p(F)` has Δ(f) ≠ 0, is `Q_p`-soluble, and has invariants (2⁴I, 2⁶J) with 3 | I, 27 | J, so 2⁴·3 | I(f) and 2⁶·3³ | J(f); φ is `PGL_2(Q_p)`-invariant. For (I, J) = (2⁴I', 2⁶J') the curves E^{I,J} and E^{I',J'} are isomorphic over `Q_p` ((x, y) ↦ (4x, 8y)), so the Selmer ratio is unchanged, and every soluble class is counted exactly when (I', J') ∈ `Inv_p(F)`. The substitution (I, J) = (2⁴I', 2⁶J') has Jacobian |2^{10}|_p, giving |2^{10}|_p·|1/27|_p(1 − p^{-2}) `M_p(V, F)`.
+Apply weighted-p-adic-change-of-measure to `φ = 1_{S_p(F)}`: every f ∈ `S_p(F)` has Δ(f) ≠ 0, is `Q_p`-soluble, and has invariants (2⁴I, 2⁶J) with 3 | I, 27 | J, so 2⁴·3 | I(f) and 2⁶·3³ | J(f); φ is `PGL_2(Q_p)`-invariant. For (I, J) = (2⁴I', 2⁶J') the curves `E^{I,J}` and `E^{I',J'}` are isomorphic over `Q_p` ((x, y) ↦ (4x, 8y)), so the Selmer ratio is unchanged, and every soluble class is counted exactly when (I', J') ∈ `Inv_p(F)`. The substitution (I, J) = (2⁴I', 2⁶J') has Jacobian `|2^{10}|_p`, giving `|2^{10}|_p·|1/27|_p(1 − p^{-2}) M_p(V, F)`.
 
 *Needs:* [weighted p adic change of measure](#weighted-p-adic-change-of-measure), [locally soluble forms attached to a family](#locally-soluble-forms-attached-to-a-family), [local masses of a family](#local-masses-of-a-family), [elliptic families defined by congruence conditions](../ArithmeticStatisticsPartI/README.md#elliptic-families-defined-by-congruence-conditions).
 
@@ -536,19 +536,19 @@ Apply weighted-p-adic-change-of-measure to φ = 1_{`S_p(F)`}: every f ∈ `S_p(F
 
 **Checks.**
 
-- For p ≥ 5 the factor |2^{10}/27|_p is 1; for p = 2 it is 2^{-10}; for p = 3 it is 27.
+- For p ≥ 5 the factor `|2^{10}/27|_p` is 1; for p = 2 it is `2^{-10}`; for p = 3 it is 27.
 
-- The product over all p of |2^{10}/27|_p is 27/2^{10}, which cancels the archimedean factor 2^{10}/27 in selmer-average-as-product-of-local-masses.
+- The product over all p of `|2^{10}/27|_p` is `27/2^{10}`, which cancels the archimedean factor `2^{10}/27` in selmer-average-as-product-of-local-masses.
 
 ### 4.6 Local Kummer indices
 
 <a id="two-division-quotient-of-a-group-with-a-finite-index-zp-subgroup"></a>
 
-**Two division quotient of a group with a finite index zp subgroup.** Let G be an abelian group and U ≤ G a subgroup of finite index with U ≅ (`Z_p`, +) as abstract groups, p prime. Then G[2] and G/2G are finite and #(G/2G) = |2|_p^{-1}·#G[2]: #(G/2G) = #G[2] for p odd and #(G/2G) = 2·#G[2] for p = 2.
+**Two division quotient of a group with a finite index zp subgroup.** Let G be an abelian group and U ≤ G a subgroup of finite index with U ≅ (`Z_p`, +) as abstract groups, p prime. Then G[2] and G/2G are finite and `#(G/2G) = |2|_p^{-1}·#G[2]`: #(G/2G) = #G[2] for p odd and #(G/2G) = 2·#G[2] for p = 2.
 
 Only the abstract group structure is used; G is written additively and 2G is the image of multiplication by 2.
 
-Tau Ceti's `AddSubgroup.index_range_nsmul_mul_card_ker` with n = 2 gives (G : 2G)·#U[2] = #G[2]·(U : 2U) for the finite-index subgroup U. Here U[2] = `Z_p`[2] = 0 and (U : 2U) = #(`Z_p`/2Z_p) = |2|_p^{-1}. G[2] meets U trivially, so it injects into the finite group G/U and is finite; then the displayed identity gives #(G/2G) = |2|_p^{-1}·#G[2], and G/2G is finite.
+Tau Ceti's `AddSubgroup.index_range_nsmul_mul_card_ker` with n = 2 gives (G : 2G)·#U[2] = #G[2]·(U : 2U) for the finite-index subgroup U. Here U[2] = `Z_p`[2] = 0 and `(U : 2U) = #(Z_p/2Z_p) = |2|_p^{-1}`. G[2] meets U trivially, so it injects into the finite group G/U and is finite; then the displayed identity gives `#(G/2G) = |2|_p^{-1}·#G[2]`, and G/2G is finite.
 
 *Needs:* `AddSubgroup.index_range_nsmul_mul_card_ker` (Tau Ceti), `PadicInt` (Mathlib).
 
@@ -580,11 +580,11 @@ E(`Q_p`) contains a subgroup of finite index isomorphic to (`Z_p`, +): for a min
 
 <a id="archimedean-selmer-ratio-is-one-half"></a>
 
-**Archimedean selmer ratio is one half.** For (I, J) ∈ R² with Δ(I, J) ≠ 0 and E = E^{I,J}: #E(R)[2] = 4 and #(E(R)/2E(R)) = 2 if Δ(I, J) > 0, and #E(R)[2] = 2 and #(E(R)/2E(R)) = 1 if Δ(I, J) < 0; in both cases the ratio is 1/2. Moreover for f ∈ `V_R^{(i)}` with invariants (I, J), #`Stab_{PGL_2(R)}(f)` = #E(R)[2], i.e. `n_0` = `n_{2±}` = 4 and `n_1` = 2.
+**Archimedean selmer ratio is one half.** For (I, J) ∈ R² with Δ(I, J) ≠ 0 and `E = E^{I,J}`: #E(R)[2] = 4 and #(E(R)/2E(R)) = 2 if Δ(I, J) > 0, and #E(R)[2] = 2 and #(E(R)/2E(R)) = 1 if Δ(I, J) < 0; in both cases the ratio is 1/2. Moreover for f ∈ `V_R^{(i)}` with invariants (I, J), #`Stab_{PGL_2(R)}(f)` = #E(R)[2], i.e. `n_0 = n_{2±} = 4` and `n_1` = 2.
 
 Δ(I, J) = (4I³ − J²)/27 is the discriminant of the cubic x³ − (I/3)x − J/27 (polynomial identity).
 
-E(R)[2] = {O} ∪ {(r, 0) : r a real root of x³ − (I/3)x − J/27}; the cubic has three real roots iff its discriminant is positive and one iff negative (discriminant as the product of squared root differences, mathlib:Cubic.discr_eq_prod_three_roots over C: a complex-conjugate pair contributes a negative square). By Layer 1 (Theorem 3.2 over K = R), #(E(R)/2E(R)) is the number of R-soluble `PGL_2(R)`-orbits with invariants (I, J), and stabilizers are ≅ E(R)[2]. By the real orbit structure (Layer 2, §2.1 of the source) the forms with invariants (I, J) form one `SL_2`^±(R)-orbit (in V^{(1)}) if Δ < 0 and three (in V^{(0)}, V^{(2+)}, V^{(2−)}) if Δ > 0; `PGL_2(R)`-orbits coincide with `SL_2`^±(R)-orbits for the twisted action. By real-solubility-of-binary-quartic-forms the soluble ones are V^{(1)} (Δ < 0) and V^{(0)}, V^{(2+)} (Δ > 0), giving 1 and 2.
+E(R)[2] = {O} ∪ {(r, 0) : r a real root of x³ − (I/3)x − J/27}; the cubic has three real roots iff its discriminant is positive and one iff negative (discriminant as the product of squared root differences, mathlib:Cubic.discr_eq_prod_three_roots over C: a complex-conjugate pair contributes a negative square). By Layer 1 (Theorem 3.2 over K = R), #(E(R)/2E(R)) is the number of R-soluble `PGL_2(R)`-orbits with invariants (I, J), and stabilizers are ≅ E(R)[2]. By the real orbit structure (Layer 2, §2.1 of the source) the forms with invariants (I, J) form one `SL_2`^±(R)-orbit (in `V^{(1)}`) if Δ < 0 and three (in `V^{(0)}`, `V^{(2+)}`, `V^{(2−)}`) if Δ > 0; `PGL_2(R)`-orbits coincide with `SL_2`^±(R)-orbits for the twisted action. By real-solubility-of-binary-quartic-forms the soluble ones are `V^{(1)}` (Δ < 0) and `V^{(0)}`, `V^{(2+)}` (Δ > 0), giving 1 and 2.
 
 *Needs:* [averaging over the fundamental domain and cutting the cusp](../ArithmeticStatisticsPartIII/README.md#averaging-over-the-fundamental-domain-and-cutting-the-cusp), [real solubility of binary quartic forms](#real-solubility-of-binary-quartic-forms), `Cubic.discr_eq_prod_three_roots` (Mathlib), [binary quartic parametrization of e mod 2e](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-e-mod-2e), [stabilizer of a binary quartic is two torsion](../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion).
 
@@ -618,11 +618,11 @@ The integrand of `M_p(V, F)` is identically 1 (p odd) or 2 (p = 2) on {Δ ≠ 0}
 
 <a id="locally-soluble-set-is-cut-out-by-local-conditions"></a>
 
-**Locally soluble set is cut out by local conditions.** Let F = `F_Σ` be a family of elliptic curves defined by congruence conditions (Layer 0). For f ∈ `V_Z`: f ∈ S(F) if and only if f ∈ `S_∞(F)` and f ∈ `S_p(F)` for every prime p (regarding `V_Z` inside `V_{Z_p}` and `V_R`). Consequently, for f ∈ `V_Z` with Δ(f) ≠ 0 and `φ_p` := 1_{`S_p(F)`}/`m_p`: 1_{`S_∞(F)`}(f)·`Π_p` `φ_p(f)` = 1_{S(F)}(f)/m(f).
+**Locally soluble set is cut out by local conditions.** Let F = `F_Σ` be a family of elliptic curves defined by congruence conditions (Layer 0). For f ∈ `V_Z`: f ∈ S(F) if and only if f ∈ `S_∞(F)` and f ∈ `S_p(F)` for every prime p (regarding `V_Z` inside `V_{Z_p}` and `V_R`). Consequently, for f ∈ `V_Z` with Δ(f) ≠ 0 and `φ_p := 1_{S_p(F)}/m_p`: `1_{S_∞(F)}(f)·Π_p φ_p(f) = 1_{S(F)}(f)/m(f)`.
 
-F is presented as `F_Σ`: E^{I,J} ∈ F iff (I, J) ∈ `Σ_p` for every p, with Inv(F) ⊆ `Inv_p(F)` ⊆ `Σ_p`, and (I, J) = (−3A, −27B) for a minimal pair (A, B), a condition that is local at every prime.
+F is presented as `F_Σ`: `E^{I,J} ∈ F` iff (I, J) ∈ `Σ_p` for every p, with Inv(F) ⊆ `Inv_p(F)` ⊆ `Σ_p`, and (I, J) = (−3A, −27B) for a minimal pair (A, B), a condition that is local at every prime.
 
-Locally soluble means R-soluble and `Q_p`-soluble for all p (Layer 1). (I(f), J(f)) = (2⁴I, 2⁶J) with (I, J) ∈ Z² iff 2⁴ | I(f) and 2⁶ | J(f), a condition at p = 2 only. (I, J) ∈ Z² lies in Inv(F) iff it lies in `Inv_p(F)` for every p and in `Inv_∞(F)`: one direction because Inv(F) ⊆ `Inv_p(F)`; the other because (I, J) ∈ `Inv_p(F)` ⊆ `Σ_p` for all p puts E^{I,J} in `F_Σ` = F (Layer 0). Multiply the local weights: `Π_p` `m_p(f)^{-1}` = m(f)^{-1} by global-weight-is-product-of-local-weights.
+Locally soluble means R-soluble and `Q_p`-soluble for all p (Layer 1). (I(f), J(f)) = (2⁴I, 2⁶J) with (I, J) ∈ Z² iff 2⁴ | I(f) and 2⁶ | J(f), a condition at p = 2 only. (I, J) ∈ Z² lies in Inv(F) iff it lies in `Inv_p(F)` for every p and in `Inv_∞(F)`: one direction because Inv(F) ⊆ `Inv_p(F)`; the other because (I, J) ∈ `Inv_p(F)` ⊆ `Σ_p` for all p puts `E^{I,J}` in `F_Σ` = F (Layer 0). Multiply the local weights: `Π_p m_p(f)^{-1} = m(f)^{-1}` by global-weight-is-product-of-local-weights.
 
 *Needs:* [locally soluble forms attached to a family](#locally-soluble-forms-attached-to-a-family), [global weight is product of local weights](#global-weight-is-product-of-local-weights), [elliptic families defined by congruence conditions](../ArithmeticStatisticsPartI/README.md#elliptic-families-defined-by-congruence-conditions), [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [binary quartic parametrization of two selmer](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-two-selmer).
 
@@ -636,11 +636,11 @@ Locally soluble means R-soluble and `Q_p`-soluble for all p (Layer 1). (I(f), J(
 
 <a id="selmer-count-as-weighted-orbit-count"></a>
 
-**Selmer count as weighted orbit count.** Let F be a family of elliptic curves defined by congruence conditions. For every ε > 0 and X ≥ 1, `Σ_{E ∈ F, H'(E) < X}` (#`S_2(E)` − 1) = Σ_{`PGL_2(Z)`·f ⊆ S(F), f irreducible over Q, H(f) < 2^{12}X} 1/m(f) + `O_ε(X^{3/4+ε})`, where `S_2(E)` is the (finite) 2-Selmer group and the implied constant is independent of F.
+**Selmer count as weighted orbit count.** Let F be a family of elliptic curves defined by congruence conditions. For every ε > 0 and X ≥ 1, `Σ_{E ∈ F, H'(E) < X} (#S_2(E) − 1) = Σ_{PGL_2(Z)·f ⊆ S(F), f irreducible over Q, H(f) < 2^{12}X} 1/m(f) + O_ε(X^{3/4+ε})`, where `S_2(E)` is the (finite) 2-Selmer group and the implied constant is independent of F.
 
 `S_2(E)` is finite (Tau Ceti EllipticCurves layer 7) and is identified with the locally soluble 2-coverings of Layer 1. The weights 1/m(f) and 1/n(f) lie in (0, 1]; the error comes only from orbits with a nontrivial stabilizer in `PGL_2(Q)` and from forms that are products of two irreducible quadratic forms.
 
-By Layer 1 (Theorem 3.5), the nonidentity elements of `S_2(E^{I,J})` correspond bijectively to the `PGL_2(Q)`-classes of locally soluble integral forms with invariants (2⁴I, 2⁶J) and no rational linear factor; distinct curves have distinct invariants, and H(2⁴I, 2⁶J) = 2^{12}H(I, J) (Layer 0). Each such class C meets `V_Z` in n(f) `PGL_2(Z)`-orbits, and `Σ_{orbits in C}` 1/n(f) = 1. By orbit-weight-as-a-stabilizer-sum, m(f) = n(f) unless some orbit in C has a nontrivial stabilizer in `PGL_2(Q)`; by Layer 2 (Lemma 2.4) the `PGL_2(Z)`-orbits of height < Y with nontrivial `PGL_2(Q)`-stabilizer number `O_ε(Y^{3/4+ε})`, and each weight is at most 1. Forms with no rational linear factor are irreducible or products of two irreducible quadratic forms; the latter have a ≠ 0 and are reducible, so by Layer 2 (Lemma 2.3 and Proposition 2.7: the cusp contains only forms with a = 0) they number `O_ε(Y^{2/3+ε})`.
+By Layer 1 (Theorem 3.5), the nonidentity elements of `S_2(E^{I,J})` correspond bijectively to the `PGL_2(Q)`-classes of locally soluble integral forms with invariants (2⁴I, 2⁶J) and no rational linear factor; distinct curves have distinct invariants, and `H(2⁴I, 2⁶J) = 2^{12}H(I, J)` (Layer 0). Each such class C meets `V_Z` in n(f) `PGL_2(Z)`-orbits, and `Σ_{orbits in C}` 1/n(f) = 1. By orbit-weight-as-a-stabilizer-sum, m(f) = n(f) unless some orbit in C has a nontrivial stabilizer in `PGL_2(Q)`; by Layer 2 (Lemma 2.4) the `PGL_2(Z)`-orbits of height < Y with nontrivial `PGL_2(Q)`-stabilizer number `O_ε(Y^{3/4+ε})`, and each weight is at most 1. Forms with no rational linear factor are irreducible or products of two irreducible quadratic forms; the latter have a ≠ 0 and are reducible, so by Layer 2 (Lemma 2.3 and Proposition 2.7: the cusp contains only forms with a = 0) they number `O_ε(Y^{2/3+ε})`.
 
 *Needs:* [binary quartic parametrization of two selmer](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-two-selmer), [rational orbit weight](#rational-orbit-weight), [orbit weight as a stabilizer sum](#orbit-weight-as-a-stabilizer-sum), [locally soluble forms attached to a family](#locally-soluble-forms-attached-to-a-family), [averaging over the fundamental domain and cutting the cusp](../ArithmeticStatisticsPartIII/README.md#averaging-over-the-fundamental-domain-and-cutting-the-cusp), [quartic to curve height normalisation](../ArithmeticStatisticsPartI/README.md#quartic-to-curve-height-normalisation), [binary quartic height](../ArithmeticStatisticsPartI/README.md#binary-quartic-height).
 
@@ -668,7 +668,7 @@ If `m_p(f)` ≠ 1: nonintegral-local-translates-force-square-discriminant. If f 
 
 - `f_0` = 2x⁴ + 4x²y² + 3xy³ + 2y⁴ is bad at 3 and 3² | Δ(`f_0`) = 28116.
 
-- For p ≥ 5 every f with p² ∤ Δ(f) is good at p: this is what makes 1_{`S_p(F)`}/`m_p` acceptable.
+- For p ≥ 5 every f with p² ∤ Δ(f) is good at p: this is what makes `1_{S_p(F)}/m_p` acceptable.
 
 <a id="count-of-real-soluble-integral-orbits"></a>
 
@@ -676,7 +676,7 @@ If `m_p(f)` ≠ 1: nonintegral-local-translates-force-square-discriminant. If f 
 
 Vol(`PGL_2(Z)`\`PGL_2(R)`) is taken with respect to |ω|_∞ for the ω of jacobian-of-the-orbit-map; its value 2ζ(2) is supplied by Layer 2.
 
-By Layer 2 (Theorem 2.1 in the form (20), with the volumes (23)–(26)), N(`V_Z^{(i)}` ∩ {`Inv_∞`}; X) = Vol(`R_X`(L^{(i)}))/`n_i` + `O_ε(X^{3/4+ε})` with Vol(`R_X`(L^{(i)})) = (1/27)·Vol(`PGL_2(Z)`\`PGL_2(R)`)·∫_{R^{(i)}(X)} dIdJ. By real-solubility-of-binary-quartic-forms the R-soluble components over `Inv_∞(F)` are i ∈ {0, 2+} above Δ > 0 and i = 1 above Δ < 0. By archimedean-selmer-ratio-is-one-half, `n_i` = #E(R)[2] and the number of soluble components above (I, J) is #(E(R)/2E(R)); summing, `Σ_{soluble i}` 1/`n_i` = #(E(R)/2E(R))/#E(R)[2], whose integral over {(I, J) ∈ `Inv_∞(F)`, H < X} is `M_∞(V, F; X)`.
+By Layer 2 (Theorem 2.1 in the form (20), with the volumes (23)–(26)), `N(V_Z^{(i)} ∩ {Inv_∞}; X) = Vol(R_X(L^{(i)}))/n_i + O_ε(X^{3/4+ε})` with `Vol(R_X(L^{(i)})) = (1/27)·Vol(PGL_2(Z)\PGL_2(R))·∫_{R^{(i)}(X)} dIdJ`. By real-solubility-of-binary-quartic-forms the R-soluble components over `Inv_∞(F)` are i ∈ {0, 2+} above Δ > 0 and i = 1 above Δ < 0. By archimedean-selmer-ratio-is-one-half, `n_i` = #E(R)[2] and the number of soluble components above (I, J) is #(E(R)/2E(R)); summing, `Σ_{soluble i}` 1/`n_i` = #(E(R)/2E(R))/#E(R)[2], whose integral over {(I, J) ∈ `Inv_∞(F)`, H < X} is `M_∞(V, F; X)`.
 
 *Needs:* [averaging over the fundamental domain and cutting the cusp](../ArithmeticStatisticsPartIII/README.md#averaging-over-the-fundamental-domain-and-cutting-the-cusp), [real solubility of binary quartic forms](#real-solubility-of-binary-quartic-forms), [archimedean selmer ratio is one half](#archimedean-selmer-ratio-is-one-half), [local masses of a family](#local-masses-of-a-family).
 
@@ -684,19 +684,19 @@ By Layer 2 (Theorem 2.1 in the form (20), with the volumes (23)–(26)), N(`V_Z^
 
 **Checks.**
 
-- For `Inv_∞` = {Δ > 0}: 2·(1/27)·2ζ(2)·(8/5)X^{5/6}/4 = (8/135)ζ(2)X^{5/6}, which is (1/27)·2ζ(2)·(4/5)X^{5/6}.
+- For `Inv_∞` = {Δ > 0}: `2·(1/27)·2ζ(2)·(8/5)X^{5/6}/4 = (8/135)ζ(2)X^{5/6}`, which is `(1/27)·2ζ(2)·(4/5)X^{5/6}`.
 
-- For `Inv_∞` = {Δ < 0}: (1/27)·2ζ(2)·(32/5)X^{5/6}/2 = (32/135)ζ(2)X^{5/6}.
+- For `Inv_∞` = {Δ < 0}: `(1/27)·2ζ(2)·(32/5)X^{5/6}/2 = (32/135)ζ(2)X^{5/6}`.
 
 ### 4.8 Elliptic family denominators
 
 <a id="lattice-points-of-bounded-invariant-height"></a>
 
-**Lattice points of bounded invariant height.** Let L ⊆ Z² be a union of k cosets of mZ² (m ≥ 1). Then, uniformly in X ≥ 1, #{(I, J) ∈ L : H(I, J) < X, 4I³ − J² > 0} = (k/m²)·(8/5)X^{5/6} + `O_m(X^{1/2})` and #{(I, J) ∈ L : H(I, J) < X, 4I³ − J² < 0} = (k/m²)·(32/5)X^{5/6} + `O_m(X^{1/2})`.
+**Lattice points of bounded invariant height.** Let L ⊆ Z² be a union of k cosets of mZ² (m ≥ 1). Then, uniformly in X ≥ 1, `#{(I, J) ∈ L : H(I, J) < X, 4I³ − J² > 0} = (k/m²)·(8/5)X^{5/6} + O_m(X^{1/2})` and `#{(I, J) ∈ L : H(I, J) < X, 4I³ − J² < 0} = (k/m²)·(32/5)X^{5/6} + O_m(X^{1/2})`.
 
-H(I, J) = max{|I|³, J²/4}; the regions R^±(X) have areas (8/5)X^{5/6} and (32/5)X^{5/6} (source (24), (25)).
+H(I, J) = max{|I|³, J²/4}; the regions R^±(X) have areas `(8/5)X^{5/6}` and `(32/5)X^{5/6}` (source (24), (25)).
 
-Count by columns: for fixed I with |I| < X^{1/3}, the admissible J form at most two intervals of total length ℓ_±(I) (|J| < 2X^{1/2} and J² < 4I³, resp. J² > 4I³), so each column contains ℓ_±(I)/m + O(1) points of each coset. Summing over the O(X^{1/3}/m + 1) admissible I in each residue class gives (1/m)`Σ_I` ℓ_±(I) + O(X^{1/3}), and `Σ_{I ≡ i_0 (m)}` ℓ_±(I) = (1/m)∫ℓ_±(I) dI + O(max ℓ) = area/m + O(X^{1/2}), since ℓ_± is piecewise monotone with a bounded number of pieces.
+Count by columns: for fixed I with `|I| < X^{1/3}`, the admissible J form at most two intervals of total length ℓ_±(I) (`|J| < 2X^{1/2}` and J² < 4I³, resp. J² > 4I³), so each column contains ℓ_±(I)/m + O(1) points of each coset. Summing over the `O(X^{1/3}/m + 1)` admissible I in each residue class gives `(1/m)Σ_I ℓ_±(I) + O(X^{1/3})`, and `Σ_{I ≡ i_0 (m)} ℓ_±(I) = (1/m)∫ℓ_±(I) dI + O(max ℓ) = area/m + O(X^{1/2})`, since ℓ_± is piecewise monotone with a bounded number of pieces.
 
 *Needs:* [binary quartic height](../ArithmeticStatisticsPartI/README.md#binary-quartic-height), `MeasureTheory.Measure.haarMeasure` (Mathlib).
 
@@ -704,17 +704,17 @@ Count by columns: for fixed I with |I| < X^{1/3}, the admissible J form at most 
 
 **Checks.**
 
-- L = Z² (k = m = 1): #{H < X, Δ > 0} = (8/5)X^{5/6} + O(X^{1/2}).
+- L = Z² (k = m = 1): `#{H < X, Δ > 0} = (8/5)X^{5/6} + O(X^{1/2})`.
 
-- L = 3Z × 27Z, the pairs (−3A, −27B), is the union of k = 9 cosets of 27Z², of density 9/27² = 1/81: the factor 3^{-4} in `M_3` for the family of all curves before minimality.
+- L = 3Z × 27Z, the pairs (−3A, −27B), is the union of k = 9 cosets of 27Z², of density 9/27² = 1/81: the factor `3^{-4}` in `M_3` for the family of all curves before minimality.
 
 <a id="tail-estimate-for-square-divisors-of-the-discriminant"></a>
 
-**Tail estimate for square divisors of the discriminant.** There is an absolute constant C such that for all M ≥ 5 and X ≥ 2, #{(A, B) ∈ Z² : 4|A|³ < X, 27B² < X, 4A³ + 27B² ≠ 0, p² | 4A³ + 27B² for some prime p > M} ≤ C(X^{5/6}/M + X^{5/6}/log X). In particular `limsup_{X→∞}` X^{-5/6}·#{E : H(E) < X, p² | Δ(E) for some p > M} = O(1/M).
+**Tail estimate for square divisors of the discriminant.** There is an absolute constant C such that for all M ≥ 5 and X ≥ 2, `#{(A, B) ∈ Z² : 4|A|³ < X, 27B² < X, 4A³ + 27B² ≠ 0, p² | 4A³ + 27B² for some prime p > M} ≤ C(X^{5/6}/M + X^{5/6}/log X)`. In particular `limsup_{X→∞} X^{-5/6}·#{E : H(E) < X, p² | Δ(E) for some p > M} = O(1/M)`.
 
 Pairs (A, B), not only minimal pairs, are counted; H(`E_{A,B}`) = max{4|A|³, 27B²}. Δ(`E_{A,B}`) = −16(4A³ + 27B²); for p ≥ 5 the conditions p² | Δ and p² | 4A³ + 27B² agree.
 
-If p² | D := 4A³ + 27B² ≠ 0 then p² ≤ |D| ≪ X, so only primes p ≪ X^{1/2} occur. Multiplicative case p ∤ A (p ≥ 5): then p ∤ B, and for fixed A the congruence B² ≡ −4A³/27 (mod p²) has at most 2 solutions modulo p², so the number of pairs is ≪ (X^{1/3} + 1)(X^{1/2}/p² + 1) ≪ X^{5/6}/p² + X^{1/3}. Additive case p | A: then p | B, and the number of pairs is ≪ (X^{1/3}/p + 1)(X^{1/2}/p + 1) ≪ X^{5/6}/p² + X^{1/2}/p + 1. Sum over M < p ≪ X^{1/2}: Σ X^{5/6}/p² ≪ X^{5/6}/M, Σ X^{1/3} ≪ X^{1/3}·X^{1/2}/log X, Σ X^{1/2}/p ≪ X^{1/2} log log X, Σ 1 ≪ X^{1/2}.
+If p² | D := 4A³ + 27B² ≠ 0 then p² ≤ |D| ≪ X, so only primes `p ≪ X^{1/2}` occur. Multiplicative case p ∤ A (p ≥ 5): then p ∤ B, and for fixed A the congruence B² ≡ −4A³/27 (mod p²) has at most 2 solutions modulo p², so the number of pairs is `≪ (X^{1/3} + 1)(X^{1/2}/p² + 1) ≪ X^{5/6}/p² + X^{1/3}`. Additive case p | A: then p | B, and the number of pairs is `≪ (X^{1/3}/p + 1)(X^{1/2}/p + 1) ≪ X^{5/6}/p² + X^{1/2}/p + 1`. Sum over `M < p ≪ X^{1/2}`: `Σ X^{5/6}/p² ≪ X^{5/6}/M`, `Σ X^{1/3} ≪ X^{1/3}·X^{1/2}/log X`, `Σ X^{1/2}/p ≪ X^{1/2} log log X`, `Σ 1 ≪ X^{1/2}`.
 
 *Needs:* [elliptic curves over q ordered by height](../ArithmeticStatisticsPartI/README.md#elliptic-curves-over-q-ordered-by-height), [binary quartic height](../ArithmeticStatisticsPartI/README.md#binary-quartic-height).
 
@@ -722,17 +722,17 @@ If p² | D := 4A³ + 27B² ≠ 0 then p² ≤ |D| ≪ X, so only primes p ≪ X^
 
 **Checks.**
 
-- Pairs with p | A and p | B satisfy p² | 4A³ + 27B² and have density p^{-2}, so the tail is ≫ X^{5/6}/(M log M): the bound O(X^{5/6}/M) is sharp up to the logarithm.
+- Pairs with p | A and p | B satisfy p² | 4A³ + 27B² and have density `p^{-2}`, so the tail is `≫ X^{5/6}/(M log M)`: the bound `O(X^{5/6}/M)` is sharp up to the logarithm.
 
-- The per-prime bound O(X^{5/6}/p² + X^{1/3}) is uniform, but its X^{1/3} remainder has no p-decay. Summing only over p ≪ X^{1/2} and using the elementary prime-counting bound is what gives the required o(X^{5/6}) remainder.
+- The per-prime bound `O(X^{5/6}/p² + X^{1/3})` is uniform, but its `X^{1/3}` remainder has no p-decay. Summing only over `p ≪ X^{1/2}` and using the elementary prime-counting bound is what gives the required `o(X^{5/6})` remainder.
 
 <a id="uniformity-estimate-for-elliptic-curves"></a>
 
-**Uniformity estimate for elliptic curves.** The number of elliptic curves E/Q with H'(E) < X and p² | Δ(E) is O(X^{5/6}/p^{3/2}), with the implied constant independent of p and X.
+**Uniformity estimate for elliptic curves.** The number of elliptic curves E/Q with H'(E) < X and p² | Δ(E) is `O(X^{5/6}/p^{3/2})`, with the implied constant independent of p and X.
 
-The count is over Q-isomorphism classes, i.e. minimal pairs (A, B) (Layer 0 / Tau Ceti EllipticCurves layer 8). For p ≤ X^{1/3} the elementary counts of tail-estimate-for-square-divisors-of-the-discriminant suffice; for larger p the proof needs the Davenport–Heilbronn bound O(X/p²) for `GL_2(Z)`-classes of integral binary cubic forms with p² | disc, together with a uniform bound on the number of preimages.
+The count is over Q-isomorphism classes, i.e. minimal pairs (A, B) (Layer 0 / Tau Ceti EllipticCurves layer 8). For `p ≤ X^{1/3}` the elementary counts of tail-estimate-for-square-divisors-of-the-discriminant suffice; for larger p the proof needs the Davenport–Heilbronn bound O(X/p²) for `GL_2(Z)`-classes of integral binary cubic forms with p² | disc, together with a uniform bound on the number of preimages.
 
-Embed x³ + Ax + B ↦ the binary cubic form x³ + Axy² + By³; a `GL_2(Z)`-class has at most 12 preimages, since each preimage gives a distinct integral solution of v(a, b) = 1 and a cubic Thue equation of nonzero discriminant has at most 12 solutions (the [cubic Thue bound](#support-cubic-thue)). By Davenport–Heilbronn's Proposition 1 (equivalently Bhargava–Shankar–Tsimerman's Proposition 29 for `Z_p` = `W_p` ∪ `Y_p`) the `GL_2(Z)`-classes of integral binary cubic forms with |disc| < CX and p² | disc number O(X/p²): the forms nonmaximal at p are Layer 2's uniformity estimate, the maximal forms totally ramified at p are Layer 3's cubic-fields-totally-ramified-at-large-primes-are-sparse (extend its decomposition to these local maximality conditions). Hence the curves with p² | Δ number O(X/p²). Additive reduction (p | A, p | B): O(X^{5/6}/p² + X^{1/2}/p + 1), combined with O(X/p²) gives O(X^{5/6}/p^{5/3}). Multiplicative reduction with p² | Δ: O(X^{1/3}(X^{1/2}/p² + 1)), combined with O(X/p²) gives O(X^{5/6}/p^{3/2}).
+Embed x³ + Ax + B ↦ the binary cubic form x³ + Axy² + By³; a `GL_2(Z)`-class has at most 12 preimages, since each preimage gives a distinct integral solution of v(a, b) = 1 and a cubic Thue equation of nonzero discriminant has at most 12 solutions (the [cubic Thue bound](#support-cubic-thue)). By Davenport–Heilbronn's Proposition 1 (equivalently Bhargava–Shankar–Tsimerman's Proposition 29 for `Z_p` = `W_p` ∪ `Y_p`) the `GL_2(Z)`-classes of integral binary cubic forms with |disc| < CX and p² | disc number O(X/p²): the forms nonmaximal at p are Layer 2's uniformity estimate, the maximal forms totally ramified at p are Layer 3's cubic-fields-totally-ramified-at-large-primes-are-sparse (extend its decomposition to these local maximality conditions). Hence the curves with p² | Δ number O(X/p²). Additive reduction (p | A, p | B): `O(X^{5/6}/p² + X^{1/2}/p + 1)`, combined with O(X/p²) gives `O(X^{5/6}/p^{5/3})`. Multiplicative reduction with p² | Δ: `O(X^{1/3}(X^{1/2}/p² + 1))`, combined with O(X/p²) gives `O(X^{5/6}/p^{3/2})`.
 
 *Needs:* [tail estimate for square divisors of the discriminant](#tail-estimate-for-square-divisors-of-the-discriminant), [uniformity estimate for nonmaximal binary cubic forms](../ArithmeticStatisticsPartIII/README.md#uniformity-estimate-for-nonmaximal-binary-cubic-forms), [cubic fields totally ramified at large primes are sparse](../ArithmeticStatisticsPartV/README.md#cubic-fields-totally-ramified-at-large-primes-are-sparse), [elliptic curves over q ordered by height](../ArithmeticStatisticsPartI/README.md#elliptic-curves-over-q-ordered-by-height).
 
@@ -740,17 +740,17 @@ Embed x³ + Ax + B ↦ the binary cubic form x³ + Axy² + By³; a `GL_2(Z)`-cla
 
 **Checks.**
 
-- For p > X^{1/2} the count is 0: H'(E) < X gives |4A³ + 27B²| ≤ 8X/27, and p² | Δ ≠ 0 forces p² ≤ 8X/27.
+- For `p > X^{1/2}` the count is 0: H'(E) < X gives |4A³ + 27B²| ≤ 8X/27, and p² | Δ ≠ 0 forces p² ≤ 8X/27.
 
-- Summing the bound over p > M gives O(X^{5/6}/M^{1/2}), a weaker tail than the elementary tail estimate but uniform in X.
+- Summing the bound over p > M gives `O(X^{5/6}/M^{1/2})`, a weaker tail than the elementary tail estimate but uniform in X.
 
 <a id="count-of-curves-in-a-large-family"></a>
 
-**Count of curves in a large family.** Let F be a large family of elliptic curves defined by congruence conditions and N(F; X) := #{E ∈ F : H'(E) < X}. Then N(F; X) = `M_∞(F; X)`·`Π_p` `M_p(F)` + o(X^{5/6}), and the product converges: 1 − `M_p(F)` = O(p^{-2}) for all but finitely many p.
+**Count of curves in a large family.** Let F be a large family of elliptic curves defined by congruence conditions and N(F; X) := #{E ∈ F : H'(E) < X}. Then `N(F; X) = M_∞(F; X)·Π_p M_p(F) + o(X^{5/6})`, and the product converges: `1 − M_p(F) = O(p^{-2})` for all but finitely many p.
 
 Curves are counted up to Q-isomorphism, through their invariants (I, J) = (−3A, −27B) for the unique minimal pair (A, B) (Layer 0, from Tau Ceti EllipticCurves layer 8). The main term may vanish (if some `M_p(F)` = 0); the statement is still true, and theorems dividing by N(F; X) assume `Π_p` `M_p(F)` > 0.
 
-First incorporate the local minimal-pair conditions and I ∈ 3Z_p, J ∈ 27Z_p into `Σ_p`, obtaining `T_p`. The minimal-pair and divisibility conditions are clopen off Δ = 0. Intersecting them with the given relatively closed, null-boundary `Σ_p` makes `T_p` relatively closed there with null boundary; `T_p` itself need not be clopen. `Inv_p(F)` ⊆ `T_p`. For all sufficiently large p, largeness implies {p² ∤ Δ} ⊆ `Inv_p(F)` ⊆ `T_p`, so 1−`μ_p(T_p)`=O(p^{-2}). If `μ_q(T_q)`=0 for some q, then `μ_q`(`Inv_q(F)`)=0. Compact clopen outer neighbourhoods of the closure of `T_q` have arbitrarily small mass (adding Δ=0 costs zero mass). The finite-congruence lattice count bounds N(F;X)/X^{5/6} by an arbitrarily small constant, proving the claimed zero main term without any regularity assertion about `Inv_p(F)` at other primes. Otherwise every `μ_p(T_p)`>0. Fix a prime q and a nonempty clopen ball B contained in the interior of `T_q`. CRT counts with finitely many inner clopen approximations to the other `T_p` have positive normalized main term: the infinite product of their masses is positive since 1−`μ_p(T_p)`=O(p^{-2}). Choose the approximation errors summably small and the prime cutoff Y large enough that the discriminant-tail bound O(1/Y) is smaller than this main term. Count first as X→∞ with all finite data fixed. At least one resulting global minimal pair lies in B, meets all `T_p` and satisfies the chosen real sign. Repeating inside every subball proves interior(`T_q`) ⊆ `Inv_q(F)`. Thus, in this positive-mass case, interior(`T_p`) ⊆ `Inv_p(F)` ⊆ `T_p` for every p. The difference is supported on ∂`T_p`, so `μ_p`(`Inv_p(F)`)=`μ_p(T_p)`>0 and ∂`Inv_p(F)` is null. This supplies the boundary assertion; it is not inherited merely by taking a closed subset. Finite approximation: for a finite set of primes P and closed-open sets `U_p` ⊆ Z_p² that are finite unions of cosets of p^kZ_p², lattice-points-of-bounded-invariant-height gives #{(I, J) ∈ Z² : (I, J) ∈ `U_p` ∀p ∈ P, (I, J) ∈ `Inv_∞(F)`, H < X} = `M_∞`(F; X)`Π_{p∈P}` `μ_p(U_p)` + `O_P(X^{1/2})`. Upper bound: in the positive-mass case, since ∂`Inv_p(F)` is null by the preceding CRT/tail argument, choose `U_p` ⊇ `Inv_p(F)` with `μ_p`(`U_p` \ `Inv_p(F)`) small; letting P grow gives limsup N(F; X)/X^{5/6} ≤ `M_∞`(F; 1)`Π_p` `M_p(F)`. Lower bound: choose `U_p` ⊆ `Inv_p(F)` for p ≤ Y; a pair in all `U_p` (p ≤ Y) but outside Inv(F) fails `Inv_p(F)` at some p > Y, and for Y beyond the exceptional primes of largeness this forces p² | Δ(I, J); by tail-estimate-for-square-divisors-of-the-discriminant these number O(X^{5/6}/Y + X^{5/6}/log X). Convergence: for p ≥ 5 outside the exceptional set, `Inv_p(F)` ⊇ {p² ∤ Δ}, and `μ_p`{p² | Δ(I, J)} ≤ 3p^{-2} (at most 2 residues of J modulo p² for each unit I, and p² classes with p | I, p | J). Let Y → ∞.
+First incorporate the local minimal-pair conditions and I ∈ 3Z_p, J ∈ 27Z_p into `Σ_p`, obtaining `T_p`. The minimal-pair and divisibility conditions are clopen off Δ = 0. Intersecting them with the given relatively closed, null-boundary `Σ_p` makes `T_p` relatively closed there with null boundary; `T_p` itself need not be clopen. `Inv_p(F)` ⊆ `T_p`. For all sufficiently large p, largeness implies {p² ∤ Δ} ⊆ `Inv_p(F)` ⊆ `T_p`, so `1−μ_p(T_p)=O(p^{-2})`. If `μ_q(T_q)`=0 for some q, then `μ_q`(`Inv_q(F)`)=0. Compact clopen outer neighbourhoods of the closure of `T_q` have arbitrarily small mass (adding Δ=0 costs zero mass). The finite-congruence lattice count bounds `N(F;X)/X^{5/6}` by an arbitrarily small constant, proving the claimed zero main term without any regularity assertion about `Inv_p(F)` at other primes. Otherwise every `μ_p(T_p)`>0. Fix a prime q and a nonempty clopen ball B contained in the interior of `T_q`. CRT counts with finitely many inner clopen approximations to the other `T_p` have positive normalized main term: the infinite product of their masses is positive since `1−μ_p(T_p)=O(p^{-2})`. Choose the approximation errors summably small and the prime cutoff Y large enough that the discriminant-tail bound O(1/Y) is smaller than this main term. Count first as X→∞ with all finite data fixed. At least one resulting global minimal pair lies in B, meets all `T_p` and satisfies the chosen real sign. Repeating inside every subball proves interior(`T_q`) ⊆ `Inv_q(F)`. Thus, in this positive-mass case, interior(`T_p`) ⊆ `Inv_p(F)` ⊆ `T_p` for every p. The difference is supported on ∂`T_p`, so `μ_p`(`Inv_p(F)`)=`μ_p(T_p)`>0 and ∂`Inv_p(F)` is null. This supplies the boundary assertion; it is not inherited merely by taking a closed subset. Finite approximation: for a finite set of primes P and closed-open sets `U_p` ⊆ Z_p² that are finite unions of cosets of p^kZ_p², lattice-points-of-bounded-invariant-height gives `#{(I, J) ∈ Z² : (I, J) ∈ U_p ∀p ∈ P, (I, J) ∈ Inv_∞(F), H < X} = M_∞(F; X)Π_{p∈P} μ_p(U_p) + O_P(X^{1/2})`. Upper bound: in the positive-mass case, since ∂`Inv_p(F)` is null by the preceding CRT/tail argument, choose `U_p` ⊇ `Inv_p(F)` with `μ_p`(`U_p` \ `Inv_p(F)`) small; letting P grow gives `limsup N(F; X)/X^{5/6} ≤ M_∞(F; 1)Π_p M_p(F)`. Lower bound: choose `U_p` ⊆ `Inv_p(F)` for p ≤ Y; a pair in all `U_p` (p ≤ Y) but outside Inv(F) fails `Inv_p(F)` at some p > Y, and for Y beyond the exceptional primes of largeness this forces p² | Δ(I, J); by tail-estimate-for-square-divisors-of-the-discriminant these number `O(X^{5/6}/Y + X^{5/6}/log X)`. Convergence: for p ≥ 5 outside the exceptional set, `Inv_p(F)` ⊇ {p² ∤ Δ}, and `μ_p{p² | Δ(I, J)} ≤ 3p^{-2}` (at most 2 residues of J modulo p² for each unit I, and p² classes with p | I, p | J). Let Y → ∞.
 
 *Needs:* [lattice points of bounded invariant height](#lattice-points-of-bounded-invariant-height), [tail estimate for square divisors of the discriminant](#tail-estimate-for-square-divisors-of-the-discriminant), [local masses of a family](#local-masses-of-a-family), [elliptic families defined by congruence conditions](../ArithmeticStatisticsPartI/README.md#elliptic-families-defined-by-congruence-conditions), [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [elliptic curves over q ordered by height](../ArithmeticStatisticsPartI/README.md#elliptic-curves-over-q-ordered-by-height).
 
@@ -758,19 +758,19 @@ First incorporate the local minimal-pair conditions and I ∈ 3Z_p, J ∈ 27Z_p 
 
 **Checks.**
 
-- Family of all curves: N(F; X) ~ 8X^{5/6}/(81ζ(10)); in terms of H(E) < T this is (2^{4/3}/(3^{3/2}ζ(10)))T^{5/6}.
+- Family of all curves: `N(F; X) ~ 8X^{5/6}/(81ζ(10))`; in terms of H(E) < T this is `(2^{4/3}/(3^{3/2}ζ(10)))T^{5/6}`.
 
-- For a large family with a measure-zero Cantor-type condition at 5 the main term is 0 and N(F; X) = o(X^{5/6}).
+- For a large family with a measure-zero Cantor-type condition at 5 the main term is 0 and `N(F; X) = o(X^{5/6})`.
 
 ### 4.9 From soluble orbits to Selmer numerators
 
 <a id="count-of-locally-soluble-orbits-in-a-large-family"></a>
 
-**Count of locally soluble orbits in a large family.** Let F be a large family of elliptic curves defined by congruence conditions. Then, as Y → ∞, `Σ_{PGL_2(Z)·f ⊆ S(F), f irreducible, H(f) < Y}` 1/m(f) = N(`V_Z` ∩ `S_∞(F)`; Y)·`Π_p` ∫_{`S_p(F)`} `m_p(f)^{-1}` df + o(Y^{5/6}), where N(`V_Z` ∩ `S_∞(F)`; Y) is the number of irreducible `GL_2(Z)`-orbits of integral forms that are R-soluble with invariants in `Inv_∞(F)` and height < Y, and the Euler product converges absolutely.
+**Count of locally soluble orbits in a large family.** Let F be a large family of elliptic curves defined by congruence conditions. Then, as Y → ∞, `Σ_{PGL_2(Z)·f ⊆ S(F), f irreducible, H(f) < Y} 1/m(f) = N(V_Z ∩ S_∞(F); Y)·Π_p ∫_{S_p(F)} m_p(f)^{-1} df + o(Y^{5/6})`, where N(`V_Z` ∩ `S_∞(F)`; Y) is the number of irreducible `GL_2(Z)`-orbits of integral forms that are R-soluble with invariants in `Inv_∞(F)` and height < Y, and the Euler product converges absolutely.
 
-F large: for all but finitely many p, `Inv_p(F)` contains every (I, J) ∈ Z_p² with p² ∤ Δ(I, J) (Layer 0). The sieve of Layer 2 (Theorem 2.21) is applied separately to each component V^{(i)}, i ∈ {0, 1, 2+, 2−}; only the R-soluble components with invariants in `Inv_∞(F)` contribute.
+F large: for all but finitely many p, `Inv_p(F)` contains every (I, J) ∈ Z_p² with p² ∤ Δ(I, J) (Layer 0). The sieve of Layer 2 (Theorem 2.21) is applied separately to each component `V^{(i)}`, i ∈ {0, 1, 2+, 2−}; only the R-soluble components with invariants in `Inv_∞(F)` contribute.
 
-Use the regularity dichotomy proved in count-of-curves-in-a-large-family. When every local specification has positive mass, each actual `Inv_p(F)` has null boundary and the following acceptable-weight argument applies. If a specification has zero mass at q, then `M_q(F)`=0 and the local mass formula makes the Euler product zero. Bound 1_{S(F)}/m ≤ 1_{`S_q(F)`}; clopen outer approximations to the null inverse image of `Inv_q(F)`, followed by the one-prime Layer 2 lattice count, give a global o(Y^{5/6}) upper bound. No boundary assertion at the other primes is needed in that case. Local weights: `φ_p` := 1_{`S_p(F)`}/`m_p`: `V_{Z_p}` → [0, 1] is locally constant outside a closed null set (local-weights-and-solubility-are-locally-constant). Product: for f ∈ `V_Z` with Δ(f) ≠ 0 in an R-soluble component with invariants in `Inv_∞(F)`, `Π_p` `φ_p(f)` = 1_{S(F)}(f)/m(f) (locally-soluble-set-is-cut-out-by-local-conditions, global-weight-is-product-of-local-weights); the product converges because `φ_p(f)` = 1 for p ∤ 6Δ(f) outside the exceptional primes of largeness. Acceptability ([acceptable weight function](../ArithmeticStatisticsPartI/README.md#acceptable-weight-function)): for p ≥ 5 outside the finite exceptional set, if p² ∤ Δ(f) then f is `Q_p`-soluble and `m_p(f)` = 1 (bad-forms-have-square-discriminant), and (2^{-4}I(f), 2^{-6}J(f)) ∈ `Inv_p(F)` by largeness since Δ(2^{-4}I, 2^{-6}J) = 2^{-12}Δ(f); so `φ_p(f)` = 1. Apply Theorem 2.21 (Layer 2) on each R-soluble component and add; the Euler product converges because 1 − ∫`φ_p` ≤ `μ_p`{p² | Δ} = O(p^{-2}) for large p.
+Use the regularity dichotomy proved in count-of-curves-in-a-large-family. When every local specification has positive mass, each actual `Inv_p(F)` has null boundary and the following acceptable-weight argument applies. If a specification has zero mass at q, then `M_q(F)`=0 and the local mass formula makes the Euler product zero. Bound `1_{S(F)}/m ≤ 1_{S_q(F)}`; clopen outer approximations to the null inverse image of `Inv_q(F)`, followed by the one-prime Layer 2 lattice count, give a global `o(Y^{5/6})` upper bound. No boundary assertion at the other primes is needed in that case. Local weights: `φ_p := 1_{S_p(F)}/m_p: V_{Z_p} → [0, 1]` is locally constant outside a closed null set (local-weights-and-solubility-are-locally-constant). Product: for f ∈ `V_Z` with Δ(f) ≠ 0 in an R-soluble component with invariants in `Inv_∞(F)`, `Π_p φ_p(f) = 1_{S(F)}(f)/m(f)` (locally-soluble-set-is-cut-out-by-local-conditions, global-weight-is-product-of-local-weights); the product converges because `φ_p(f)` = 1 for p ∤ 6Δ(f) outside the exceptional primes of largeness. Acceptability ([acceptable weight function](../ArithmeticStatisticsPartI/README.md#acceptable-weight-function)): for p ≥ 5 outside the finite exceptional set, if p² ∤ Δ(f) then f is `Q_p`-soluble and `m_p(f)` = 1 (bad-forms-have-square-discriminant), and `(2^{-4}I(f), 2^{-6}J(f)) ∈ Inv_p(F)` by largeness since `Δ(2^{-4}I, 2^{-6}J) = 2^{-12}Δ(f)`; so `φ_p(f)` = 1. Apply Theorem 2.21 (Layer 2) on each R-soluble component and add; the Euler product converges because `1 − ∫φ_p ≤ μ_p{p² | Δ} = O(p^{-2})` for large p.
 
 *Needs:* [uniformity estimate for infinitely many congruence conditions](../ArithmeticStatisticsPartIII/README.md#uniformity-estimate-for-infinitely-many-congruence-conditions), [acceptable weight function](../ArithmeticStatisticsPartI/README.md#acceptable-weight-function), [local weights and solubility are locally constant](#local-weights-and-solubility-are-locally-constant), [locally soluble set is cut out by local conditions](#locally-soluble-set-is-cut-out-by-local-conditions), [global weight is product of local weights](#global-weight-is-product-of-local-weights), [bad forms have square discriminant](#bad-forms-have-square-discriminant), [real solubility of binary quartic forms](#real-solubility-of-binary-quartic-forms), [elliptic families defined by congruence conditions](../ArithmeticStatisticsPartI/README.md#elliptic-families-defined-by-congruence-conditions), [count of curves in a large family](#count-of-curves-in-a-large-family), [local mass formula for locally soluble forms](#local-mass-formula-for-locally-soluble-forms).
 
@@ -778,7 +778,7 @@ Use the regularity dichotomy proved in count-of-curves-in-a-large-family. When e
 
 **Checks.**
 
-- For the family of all curves the local factor at p ≥ 5 is ∫_{`S_p`} `m_p^{-1}` = (1 − p^{-2})(1 − p^{-10}) (local-mass-formula-for-locally-soluble-forms and (74)).
+- For the family of all curves the local factor at p ≥ 5 is `∫_{S_p} m_p^{-1} = (1 − p^{-2})(1 − p^{-10})` (local-mass-formula-for-locally-soluble-forms and (74)).
 
 - Replacing the weight 1/m by 1 would count `PGL_2(Z)`-orbits rather than Selmer elements and change every local factor at the primes dividing the discriminants.
 
@@ -786,11 +786,11 @@ Use the regularity dichotomy proved in count-of-curves-in-a-large-family. When e
 
 <a id="selmer-average-as-product-of-local-masses"></a>
 
-**Selmer average as product of local masses.** Let F be a large family of elliptic curves defined by congruence conditions with `M_p(F)` > 0 for every prime p. Then `lim_{X→∞}` (`Σ_{E ∈ F, H'(E) < X}` (#`S_2(E)` − 1)) / N(F; X) = Vol(`PGL_2(Z)`\`PGL_2(R)`)·(`M_∞(V, F; X)`/`M_∞(F; X)`)·`Π_p` ((1 − p^{-2})·`M_p(V, F)`/`M_p(F)`), where the archimedean ratio `M_∞(V, F; X)`/`M_∞(F; X)`, taken at X > 0 so that `M_∞(F; X)` > 0, does not depend on X.
+**Selmer average as product of local masses.** Let F be a large family of elliptic curves defined by congruence conditions with `M_p(F)` > 0 for every prime p. Then `lim_{X→∞} (Σ_{E ∈ F, H'(E) < X} (#S_2(E) − 1)) / N(F; X) = Vol(PGL_2(Z)\PGL_2(R))·(M_∞(V, F; X)/M_∞(F; X))·Π_p ((1 − p^{-2})·M_p(V, F)/M_p(F))`, where the archimedean ratio `M_∞(V, F; X)`/`M_∞(F; X)`, taken at X > 0 so that `M_∞(F; X)` > 0, does not depend on X.
 
-The positivity hypothesis `M_p(F)` > 0 for all p is not in the source's statement; without it the main terms may vanish and the argument gives no limit. Heights: forms of height < 2^{12}X correspond to curves of height H' < X.
+The positivity hypothesis `M_p(F)` > 0 for all p is not in the source's statement; without it the main terms may vanish and the argument gives no limit. Heights: forms of height < `2^{12}X` correspond to curves of height H' < X.
 
-Fix 0 < ε < 1/12 so that X^{3/4+ε}=o(X^{5/6}). Numerator: by selmer-count-as-weighted-orbit-count and count-of-locally-soluble-orbits-in-a-large-family, Σ(#`S_2(E)` − 1) = N(`V_Z` ∩ `S_∞(F)`; 2^{12}X)·`Π_p` ∫_{`S_p(F)`} `m_p^{-1}` + o(X^{5/6}). By count-of-real-soluble-integral-orbits and homogeneity (`M_∞(V, F; 2^{12}X)` = 2^{10}`M_∞(V, F; X)`), N(`V_Z` ∩ `S_∞(F)`; 2^{12}X) = (2^{10}/27)Vol(`PGL_2(Z)`\`PGL_2(R)`)`M_∞(V, F; X)` + O(X^{3/4+ε}). By local-mass-formula-for-locally-soluble-forms, ∫_{`S_p(F)`} `m_p^{-1}` = |2^{10}/27|_p(1 − p^{-2})`M_p(V, F)`; the product formula gives (2^{10}/27)·`Π_p` |2^{10}/27|_p = 1. Denominator: count-of-curves-in-a-large-family, with `M_∞`(F; X)`Π_p` `M_p(F)` ≍ X^{5/6} by the positivity hypothesis. Take the ratio; `M_∞(V, F; X)`/`M_∞(F; X)` is constant by homogeneity (local-masses-of-a-family).
+Fix 0 < ε < 1/12 so that `X^{3/4+ε}=o(X^{5/6})`. Numerator: by selmer-count-as-weighted-orbit-count and count-of-locally-soluble-orbits-in-a-large-family, `Σ(#S_2(E) − 1) = N(V_Z ∩ S_∞(F); 2^{12}X)·Π_p ∫_{S_p(F)} m_p^{-1} + o(X^{5/6})`. By count-of-real-soluble-integral-orbits and homogeneity (`M_∞(V, F; 2^{12}X) = 2^{10}M_∞(V, F; X)`), `N(V_Z ∩ S_∞(F); 2^{12}X) = (2^{10}/27)Vol(PGL_2(Z)\PGL_2(R))M_∞(V, F; X) + O(X^{3/4+ε})`. By local-mass-formula-for-locally-soluble-forms, `∫_{S_p(F)} m_p^{-1} = |2^{10}/27|_p(1 − p^{-2})M_p(V, F)`; the product formula gives `(2^{10}/27)·Π_p |2^{10}/27|_p = 1`. Denominator: count-of-curves-in-a-large-family, with `M_∞(F; X)Π_p M_p(F) ≍ X^{5/6}` by the positivity hypothesis. Take the ratio; `M_∞(V, F; X)`/`M_∞(F; X)` is constant by homogeneity (local-masses-of-a-family).
 
 *Needs:* [selmer count as weighted orbit count](#selmer-count-as-weighted-orbit-count), [count of locally soluble orbits in a large family](#count-of-locally-soluble-orbits-in-a-large-family), [count of real soluble integral orbits](#count-of-real-soluble-integral-orbits), [local mass formula for locally soluble forms](#local-mass-formula-for-locally-soluble-forms), [count of curves in a large family](#count-of-curves-in-a-large-family), [local masses of a family](#local-masses-of-a-family), [average over a height ordered family](#average-over-a-height-ordered-family).
 
@@ -798,17 +798,17 @@ Fix 0 < ε < 1/12 so that X^{3/4+ε}=o(X^{5/6}). Numerator: by selmer-count-as-w
 
 **Checks.**
 
-- The Euler factors (1 − p^{-2})`M_p(V, F)`/`M_p(F)` are 1 − p^{-2} for odd p and 2(1 − 1/4) = 3/2 at p = 2.
+- The Euler factors `(1 − p^{-2})M_p(V, F)/M_p(F)` are `1 − p^{-2}` for odd p and 2(1 − 1/4) = 3/2 at p = 2.
 
 - The limit is a product over all places, with the archimedean factor 2ζ(2)·(1/2).
 
 <a id="tamagawa-number-of-pgl2-is-two"></a>
 
-**Tamagawa number of pgl2 is two.** With the measures |ω|_ν attached to the Z-generator ω of jacobian-of-the-orbit-map, Vol(`PGL_2(Z)`\`PGL_2(R)`)·`Π_p` vol(`PGL_2(Z_p)`) = 2ζ(2)·`Π_p` (1 − p^{-2}) = 2.
+**Tamagawa number of pgl2 is two.** With the measures |ω|_ν attached to the Z-generator ω of jacobian-of-the-orbit-map, `Vol(PGL_2(Z)\PGL_2(R))·Π_p vol(PGL_2(Z_p)) = 2ζ(2)·Π_p (1 − p^{-2}) = 2`.
 
 The archimedean volume Vol(`PGL_2(Z)`\`PGL_2(R)`) = 2ζ(2) is supplied by Layer 2 (the source cites Langlands [33]).
 
-Vol(`PGL_2(Z)`\`PGL_2(R)`) = 2ζ(2) (Layer 2). vol(`PGL_2(Z_p)`) = 1 − p^{-2} (volume-of-pgl2-zp). `Π_p` (1 − p^{-2})^{-1} = ζ(2) (Euler product, mathlib:riemannZeta_eulerProduct_tprod at s = 2), and ζ(2) = π²/6 ≠ 0 (mathlib:`riemannZeta_two`).
+Vol(`PGL_2(Z)`\`PGL_2(R)`) = 2ζ(2) (Layer 2). `vol(PGL_2(Z_p)) = 1 − p^{-2}` (volume-of-pgl2-zp). `Π_p (1 − p^{-2})^{-1} = ζ(2)` (Euler product, mathlib:riemannZeta_eulerProduct_tprod at s = 2), and ζ(2) = π²/6 ≠ 0 (mathlib:`riemannZeta_two`).
 
 *Needs:* [averaging over the fundamental domain and cutting the cusp](../ArithmeticStatisticsPartIII/README.md#averaging-over-the-fundamental-domain-and-cutting-the-cusp), [volume of pgl2 zp](#volume-of-pgl2-zp), `riemannZeta_eulerProduct_tprod` (Mathlib), `riemannZeta_two` (Mathlib).
 
@@ -826,7 +826,7 @@ Vol(`PGL_2(Z)`\`PGL_2(R)`) = 2ζ(2) (Layer 2). vol(`PGL_2(Z_p)`) = 1 − p^{-2} 
 
 F must be large, not merely defined by congruence conditions: largeness allows infinitely many conditions but requires that at all but finitely many p nothing is excluded away from p² | Δ. `M_p(F)` > 0 for every p: an added hypothesis without which the source's proof does not apply. The ordering is by the naive height; a different ordering (by conductor or discriminant) is a different theorem. `S_2(E)` is the 2-Selmer group `Sel_2(E/Q)` of Tau Ceti EllipticCurves layer 7, identified by Layer 1 with the locally soluble 2-coverings; it is finite.
 
-By selmer-average-as-product-of-local-masses the average of #`S_2(E)` − 1 is Vol(`PGL_2(Z)`\`PGL_2(R)`)·(`M_∞(V, F; X)`/`M_∞(F; X)`)·`Π_p` (1 − p^{-2})`M_p(V, F)`/`M_p(F)`. By local-selmer-mass-ratios the ratios are 1/2 at ∞, 2 at p = 2 and 1 at odd p. By tamagawa-number-of-pgl2-is-two the value is 2ζ(2)·(1/2)·2·`Π_p(1 − p^{-2})` = 2. Add the constant 1 (average-over-a-height-ordered-family: averages add) and pass from H' to H (27H = 4H').
+By selmer-average-as-product-of-local-masses the average of #`S_2(E)` − 1 is `Vol(PGL_2(Z)\PGL_2(R))·(M_∞(V, F; X)/M_∞(F; X))·Π_p (1 − p^{-2})M_p(V, F)/M_p(F)`. By local-selmer-mass-ratios the ratios are 1/2 at ∞, 2 at p = 2 and 1 at odd p. By tamagawa-number-of-pgl2-is-two the value is `2ζ(2)·(1/2)·2·Π_p(1 − p^{-2}) = 2`. Add the constant 1 (average-over-a-height-ordered-family: averages add) and pass from H' to H (27H = 4H').
 
 *Needs:* [selmer average as product of local masses](#selmer-average-as-product-of-local-masses), [local selmer mass ratios](#local-selmer-mass-ratios), [tamagawa number of pgl2 is two](#tamagawa-number-of-pgl2-is-two), [average over a height ordered family](#average-over-a-height-ordered-family), [quartic to curve height normalisation](../ArithmeticStatisticsPartI/README.md#quartic-to-curve-height-normalisation), [binary quartic parametrization of two selmer](../ArithmeticStatisticsPartII/README.md#binary-quartic-parametrization-of-two-selmer).
 
@@ -858,7 +858,7 @@ For one residue class, CRT factors its condition into independent prime-power co
 
 **Checks.**
 
-- For (a): `M_p` = 1 − p^{-10} (p ≥ 5), `M_3` = 3^{-4}(1 − 3^{-10}), `M_2` = 1 − 2^{-10}.
+- For (a): `M_p = 1 − p^{-10}` (p ≥ 5), `M_3 = 3^{-4}(1 − 3^{-10})`, `M_2 = 1 − 2^{-10}`.
 
 - The family {B = 0} (j = 1728) is not large (Layer 0), and the Cantor-type family is large with `M_5(F)` = 0: both fail the hypotheses.
 
@@ -886,11 +886,11 @@ Apply average-size-of-the-2-selmer-group-is-three to all curves, to each nonempt
 
 <a id="rational-two-torsion-has-density-zero"></a>
 
-**Rational two torsion has density zero.** #{(A, B) ∈ Z² : max{4|A|³, 27B²} < X, x³ + Ax + B has a rational root} = O(X^{1/2}). Consequently, for every large family F with `M_p(F)` > 0 for all p, the proportion of E ∈ F with E(Q)[2] ≠ 0 tends to 0 and the average of `r_2`(E(Q)[2]) over F is 0.
+**Rational two torsion has density zero.** #{(A, B) ∈ Z² : max{4|A|³, 27B²} < X, x³ + Ax + B has a rational root} = `O(X^{1/2})`. Consequently, for every large family F with `M_p(F)` > 0 for all p, the proportion of E ∈ F with E(Q)[2] ≠ 0 tends to 0 and the average of `r_2`(E(Q)[2]) over F is 0.
 
 `E_{A,B}(Q)`[2] ≠ 0 iff x³ + Ax + B has a rational root; `r_2`(E(Q)[2]) ≤ 2.
 
-A rational root of the monic integral cubic is an integer r (mathlib:isInteger_of_is_root_of_monic), and then B = −r³ − Ar. With |A| ≤ α := (X/4)^{1/3}: if r² ≥ 4α then |r³ + Ar| ≥ (3/4)|r|³ ≥ 6α^{3/2} > (X/27)^{1/2}, so |r| < 2α^{1/2} ≪ X^{1/6}; each pair (A, r) determines B, giving O(X^{1/3}·X^{1/6}) = O(X^{1/2}) pairs. By count-of-curves-in-a-large-family, N(F; X) ≫ X^{5/6} when `Π_p` `M_p(F)` > 0; divide.
+A rational root of the monic integral cubic is an integer r (mathlib:isInteger_of_is_root_of_monic), and then B = −r³ − Ar. With `|A| ≤ α := (X/4)^{1/3}`: if `r² ≥ 4α` then `|r³ + Ar| ≥ (3/4)|r|³ ≥ 6α^{3/2} > (X/27)^{1/2}`, so `|r| < 2α^{1/2} ≪ X^{1/6}`; each pair (A, r) determines B, giving `O(X^{1/3}·X^{1/6}) = O(X^{1/2})` pairs. By count-of-curves-in-a-large-family, `N(F; X) ≫ X^{5/6}` when `Π_p` `M_p(F)` > 0; divide.
 
 *Needs:* [count of curves in a large family](#count-of-curves-in-a-large-family), [average over a height ordered family](#average-over-a-height-ordered-family), [elliptic curves over q ordered by height](../ArithmeticStatisticsPartI/README.md#elliptic-curves-over-q-ordered-by-height), `isInteger_of_is_root_of_monic` (Mathlib).
 
@@ -898,7 +898,7 @@ A rational root of the monic integral cubic is an integer r (mathlib:isInteger_o
 
 **Checks.**
 
-- The family y² = x³ + Ax (B = 0, r = 0) has rational 2-torsion and O(X^{1/3}) members of height < X.
+- The family y² = x³ + Ax (B = 0, r = 0) has rational 2-torsion and `O(X^{1/3})` members of height < X.
 
 - The bound is a density statement, not an inequality between ranks.
 
@@ -908,7 +908,7 @@ A rational root of the monic integral cubic is an integer r (mathlib:isInteger_o
 
 The conclusion is about the upper average (limsup); no lower bound and no limit is asserted. The inequality 2k ≤ 2^k for k ∈ N, an equality exactly at k = 1, 2, is where the loss from average size 3 to average rank 1.5 occurs. The rank bound needs E(Q) finitely generated and `S_2(E)` finite (EllipticCurves Layer 7's pointwise identity).
 
-Pointwise, 2·`r_2`(`S_2(E)`) ≤ 2^{`r_2`(`S_2(E)`)} = #`S_2(E)` (mathlib:Nat.mul_le_pow with a = 2: 2k ≤ 2^k). Average: `Avg_F`(`r_2(S_2)`; X) ≤ `Avg_F(#S_2; X)`/2 → 3/2 by average-size-of-the-2-selmer-group-is-three, so the upper average is at most 3/2. r(E) ≤ `r_2`(`S_2(E)`) (EllipticCurves Layer 7's pointwise identity), so the upper average of r(E) is at most 3/2 (`upperFamilyAverage_mono`).
+Pointwise, `2·r_2(S_2(E)) ≤ 2^{r_2(S_2(E))} = #S_2(E)` (mathlib:Nat.mul_le_pow with a = 2: 2k ≤ 2^k). Average: `Avg_F`(`r_2(S_2)`; X) ≤ `Avg_F(#S_2; X)`/2 → 3/2 by average-size-of-the-2-selmer-group-is-three, so the upper average is at most 3/2. r(E) ≤ `r_2`(`S_2(E)`) (EllipticCurves Layer 7's pointwise identity), so the upper average of r(E) is at most 3/2 (`upperFamilyAverage_mono`).
 
 *Needs:* [average size of the 2 selmer group is three](#average-size-of-the-2-selmer-group-is-three), EllipticCurves Layer 7's pointwise two-Selmer rank identity (Scope and ownership), [average over a height ordered family](#average-over-a-height-ordered-family), `Nat.mul_le_pow` (Mathlib).
 
@@ -1004,7 +1004,7 @@ Define `S_m(f;X)` as a finite sum over F(X) (finiteness from [arithmetic family]
 
 Here p is any prime.
 
-p = 2: this is [rational two torsion has density zero](#rational-two-torsion-has-density-zero) (an integer root t of x³ + Ax + B gives B = −t³ − At with |t| ≪ X^{1/6}, so O(X^{1/2}) pairs against ≍ X^{5/6} curves). p odd: E(ℚ)[p] ≠ 0 forces a rational root of the p-division polynomial of `E_{A,B}`. The generic curve over ℚ(A, B) has no rational p-torsion (its mod-p image is `GL_2(𝔽_p)`, so its p-division polynomial has no root in ℚ(A, B); this generic statement is part of the present target), so the set is contained in a thin set of (A, B) ∈ ℤ², which by the counting form of Hilbert irreducibility has o(X^{5/6}) points in the box |A| ≪ X^{1/3}, |B| ≪ X^{1/2} (InverseGaloisAndArithmeticFundamentalGroups:IG.2).
+p = 2: this is [rational two torsion has density zero](#rational-two-torsion-has-density-zero) (an integer root t of x³ + Ax + B gives B = −t³ − At with `|t| ≪ X^{1/6}`, so `O(X^{1/2})` pairs against `≍ X^{5/6}` curves). p odd: E(ℚ)[p] ≠ 0 forces a rational root of the p-division polynomial of `E_{A,B}`. The generic curve over ℚ(A, B) has no rational p-torsion (its mod-p image is `GL_2(𝔽_p)`, so its p-division polynomial has no root in ℚ(A, B); this generic statement is part of the present target), so the set is contained in a thin set of (A, B) ∈ ℤ², which by the counting form of Hilbert irreducibility has `o(X^{5/6})` points in the box `|A| ≪ X^{1/3}, |B| ≪ X^{1/2}` (InverseGaloisAndArithmeticFundamentalGroups:IG.2).
 
 *Needs:* [invariants height and eligible pairs](../ArithmeticStatisticsPartI/README.md#invariants-height-and-eligible-pairs), [arithmetic family](../ArithmeticStatisticsPartI/README.md#arithmetic-family), InverseGaloisAndArithmeticFundamentalGroups:IG.2, [rational two torsion has density zero](#rational-two-torsion-has-density-zero).
 
@@ -1022,7 +1022,7 @@ p = 2: this is [rational two torsion has density zero](#rational-two-torsion-has
 
 Here F is a nonempty family of `E_{A,B}`/ℚ defined by finitely many congruence conditions on (A, B), and its height counting function tends to infinity; the congruence conditions must admit minimal nonsingular models, so empty congruence families are excluded.
 
-Parametrisation (source §3): 3-Selmer elements of `E_{A,B}` correspond to `PGL_3(ℚ)`-classes for the determinant-twisted action γ·f(x)=det(γ)⁻¹f(xγ) of locally soluble ternary cubic forms with invariants (I, J) matching (A, B) (up to fixed scalars), with integral representatives and stabiliser E[3]; this is a genus-one orbit parametrisation in the scope of Layer 1 (the explicit genus-one orbit dictionaries stated there). Counting (source §2): the number of `SL_3(ℤ)`-classes of strongly irreducible integral ternary cubic forms (no rational flex) of height < X, via averaging over a fundamental domain for `SL_3(ℤ)` acting on `SL_3(ℝ)` and cutting off the cusp, is (vol) · X^{5/6} + o(X^{5/6}); this is the geometry-of-numbers step of Layer 2 for the representation Sym³(3) of `SL_3`, with Davenport's lemma imported from GeometryOfNumbersAndQuadraticArithmetic §4.1. Sieve to locally soluble forms and to F (source §3): multiply by local masses; the uniformity estimate for infinitely many congruence conditions is the Layer 2 tail estimate. Mass computation: the product of local masses and the Tamagawa number τ(`PGL_3`) = 3 give 3 nontrivial elements on average; add the identity element: 1 + 3 = 4 = σ(3). The smooth finite-field ternary-cubic count in source Lemma 33 must use stack weights: the claim of exactly one `F_p`-isomorphism class per j is false because of twists. For each elliptic curve, degree-3 line bundles modulo translations carry mass #E(`F_p`)/3E(`F_p`) divided by #E(`F_p`)[3], which is 1; summing 1/#Aut(E) over elliptic curves gives p. Equation scalings then give p(p−1)#PGL₃(`F_p`). This repairs the stated finite-field count without the false j-class assertion.
+Parametrisation (source §3): 3-Selmer elements of `E_{A,B}` correspond to `PGL_3(ℚ)`-classes for the determinant-twisted action γ·f(x)=det(γ)⁻¹f(xγ) of locally soluble ternary cubic forms with invariants (I, J) matching (A, B) (up to fixed scalars), with integral representatives and stabiliser E[3]; this is a genus-one orbit parametrisation in the scope of Layer 1 (the explicit genus-one orbit dictionaries stated there). Counting (source §2): the number of `SL_3(ℤ)`-classes of strongly irreducible integral ternary cubic forms (no rational flex) of height < X, via averaging over a fundamental domain for `SL_3(ℤ)` acting on `SL_3(ℝ)` and cutting off the cusp, is `(vol) · X^{5/6} + o(X^{5/6})`; this is the geometry-of-numbers step of Layer 2 for the representation Sym³(3) of `SL_3`, with Davenport's lemma imported from GeometryOfNumbersAndQuadraticArithmetic §4.1. Sieve to locally soluble forms and to F (source §3): multiply by local masses; the uniformity estimate for infinitely many congruence conditions is the Layer 2 tail estimate. Mass computation: the product of local masses and the Tamagawa number τ(`PGL_3`) = 3 give 3 nontrivial elements on average; add the identity element: 1 + 3 = 4 = σ(3). The smooth finite-field ternary-cubic count in source Lemma 33 must use stack weights: the claim of exactly one `F_p`-isomorphism class per j is false because of twists. For each elliptic curve, degree-3 line bundles modulo translations carry mass #E(`F_p`)/3E(`F_p`) divided by #E(`F_p`)[3], which is 1; summing 1/#Aut(E) over elliptic curves gives p. Equation scalings then give p(p−1)#PGL₃(`F_p`). This repairs the stated finite-field count without the false j-class assertion.
 
 *Needs:* [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [invariants height and eligible pairs](../ArithmeticStatisticsPartI/README.md#invariants-height-and-eligible-pairs), [height moments in an arithmetic family](#height-moments-in-an-arithmetic-family), [ternary cubic forms and their invariants](../ArithmeticStatisticsPartII/README.md#ternary-cubic-forms-and-their-invariants), [invariance of ternary cubic invariants](../ArithmeticStatisticsPartII/README.md#invariance-of-ternary-cubic-invariants), [genus one stabilizer schemes](../ArithmeticStatisticsPartII/README.md#refinement-genus-one-stabilizer-schemes), [ternary cubic acceptable count](../ArithmeticStatisticsPartIII/README.md#refinement-ternary-cubic-acceptable-count), [average size of the 2 selmer group is three](#average-size-of-the-2-selmer-group-is-three).
 
@@ -1040,7 +1040,7 @@ Parametrisation (source §3): 3-Selmer elements of `E_{A,B}` correspond to `PGL_
 
 The input is that the average of #`Sel_3` is 4 ([average size of the 3 selmer group](#average-size-of-the-3-selmer-group)).
 
-For every integer r ≥ 0, 6r − 3 ≤ 3^r (equality at r = 1, 2; convexity). At each nonempty height cutoff, the pointwise inequality gives 6·Avg(r₃)≤Avg(3^{r₃})+3. Take limsup and use Avg(3^{r₃})→4 to obtain M⁺₁(r₃)≤7/6. This is an affine inequality at finite cutoffs; an upper moment is not generally linear under sums. rank E(ℚ) ≤ `r_3(E)` since E(ℚ)/3E(ℚ) ↪ `Sel_3(E)` (EllipticCurves Layer 7), the step of [rank bound from the selmer average](#rank-bound-from-the-selmer-average).
+For every integer r ≥ 0, 6r − 3 ≤ 3^r (equality at r = 1, 2; convexity). At each nonempty height cutoff, the pointwise inequality gives `6·Avg(r₃)≤Avg(3^{r₃})+3`. Take limsup and use `Avg(3^{r₃})→4` to obtain M⁺₁(r₃)≤7/6. This is an affine inequality at finite cutoffs; an upper moment is not generally linear under sums. rank E(ℚ) ≤ `r_3(E)` since E(ℚ)/3E(ℚ) ↪ `Sel_3(E)` (EllipticCurves Layer 7), the step of [rank bound from the selmer average](#rank-bound-from-the-selmer-average).
 
 *Needs:* [average size of the 3 selmer group](#average-size-of-the-3-selmer-group), [height moments in an arithmetic family](#height-moments-in-an-arithmetic-family), [rank bound from the selmer average](#rank-bound-from-the-selmer-average).
 
@@ -1056,7 +1056,7 @@ For every integer r ≥ 0, 6r − 3 ≤ 3^r (equality at r = 1, 2; convexity). A
 
 Here F is a nonempty family of `E_{A,B}`/ℚ defined by finitely many congruence conditions on (A, B), and its height counting function tends to infinity; the congruence conditions must admit minimal nonsingular models, so empty congruence families are excluded.
 
-Parametrisation: locally soluble 4-coverings of E embed in ℙ³ as intersections of two quadrics (Cassels), so 4-Selmer elements correspond to locally soluble G(ℚ)-orbits on pairs of quaternary quadratic forms 2 ⊗ Sym²(4), G = {(`g_2`, `g_4`) : det `g_2` det `g_4` = 1}/{(λ^{−2}`I_2`, `λI_4`)}, whose invariants correspond to (A, B) (the explicit genus-one orbit dictionaries stated there; scope of Layer 1). Counting integral orbits of bounded height in a fundamental domain and sieving to local solubility and to F (Layer 2 methods, GeometryOfNumbersAndQuadraticArithmetic §4.1 Davenport input). Mass computation with τ(G) and local masses gives σ(4) = 7 on average, the elements of `Sel_4` of order dividing 2 being counted through `Sel_2` ([average size of the 2 selmer group is three](#average-size-of-the-2-selmer-group-is-three)).
+Parametrisation: locally soluble 4-coverings of E embed in ℙ³ as intersections of two quadrics (Cassels), so 4-Selmer elements correspond to locally soluble G(ℚ)-orbits on pairs of quaternary quadratic forms 2 ⊗ Sym²(4), `G = {(g_2, g_4) : det g_2 det g_4 = 1}/{(λ^{−2}I_2, λI_4)}`, whose invariants correspond to (A, B) (the explicit genus-one orbit dictionaries stated there; scope of Layer 1). Counting integral orbits of bounded height in a fundamental domain and sieving to local solubility and to F (Layer 2 methods, GeometryOfNumbersAndQuadraticArithmetic §4.1 Davenport input). Mass computation with τ(G) and local masses gives σ(4) = 7 on average, the elements of `Sel_4` of order dividing 2 being counted through `Sel_2` ([average size of the 2 selmer group is three](#average-size-of-the-2-selmer-group-is-three)).
 
 *Needs:* [family defined by local conditions](../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions), [invariants height and eligible pairs](../ArithmeticStatisticsPartI/README.md#invariants-height-and-eligible-pairs), [height moments in an arithmetic family](#height-moments-in-an-arithmetic-family), [genus one stabilizer schemes](../ArithmeticStatisticsPartII/README.md#refinement-genus-one-stabilizer-schemes), [quaternary acceptable count](../ArithmeticStatisticsPartIII/README.md#refinement-quaternary-acceptable-count), [average size of the 2 selmer group is three](#average-size-of-the-2-selmer-group-is-three).
 
