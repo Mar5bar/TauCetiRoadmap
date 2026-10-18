@@ -39,13 +39,18 @@ The formulas fix the positive Tate Fourier kernel, the unitary centre, canonical
 gamma factors, geometric-Frobenius determinant conventions and continuation before evaluation.
 The standard trace character, local additive self-duality, restricted-product adelic duality,
 diagonal self-annihilator and common adelic Schwartz/Fourier/Poisson space are consumed from
-ArithmeticGaloisRepresentations §2.7 Global inputs. Its `tate-global-equation` supplies the scalar
-Tate equation, continuation, poles, residues and κ. Its `standard-test-function-evaluations`
+ArithmeticGaloisRepresentations §2.7 Global inputs. Its `standard-test-function-evaluations`
 supplies `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and
 `archimedeanStandardEvaluation_complex`, including the Fourier values on those vectors.
-The local equation for arbitrary Schwartz functions, eigendistribution uniqueness and
-distribution-valued global refinements are targets here. The scalar theorem, standard-function
-evaluations and `tateLocalConstant` belong to that supplier.
+Its `hecke-zeta-integral-comparison`, `continuous-character-hecke-completion` and
+`root-number-product-formula` supply the standard-integral normalization, Hecke's classical
+equation with continuous infinity types and the product of local constants.
+AL.2 proves global matrix-integral continuation by Poisson summation for every n ≥ 1;
+AL.1 gives its n = 1 distribution specialisation and the Hecke normalization comparisons.
+The local equation for arbitrary Schwartz functions and eigendistribution uniqueness
+are targets here. The standard-function evaluations and `tateLocalConstant` belong to that
+supplier. The equality of the norm-one idele-class volume with Mathlib's Dedekind residue κ
+is a corollary of AL.2 at n = 1 and the standard Hecke comparison.
 `LocalAdditiveSelfDuality` compares the supplied isomorphism with the bilinear annihilator;
 `SelfDualHaar` records the local measure adapter. The README specifies the additional
 local-factor, vector-space and distribution refinements, representation spaces, shtukas and
@@ -483,17 +488,17 @@ example (a : ℝ) (ha : 0 < a) :
       1 / a ^ (1 / 2 : ℝ) * ∑' n : ℤ, Real.exp (-Real.pi / a * (n : ℝ) ^ 2) :=
   Real.tsum_exp_neg_mul_int_sq ha
 
-/-- The scalar Tate equation consumed from ArithmeticGaloisRepresentations §2.7's
-`tate-global-equation`,
-for `k = ℚ`, `κ = 1`, `f(0) = f̂(0) = 1`, provides the bracket
-`κ f̂(0)/(s - 1) - κ f(0)/s` and the functional equation `ζ(f, c) = ζ(f̂, ĉ)`. -/
+/-- The n = 1 specialisation of AL.2's global Godement–Jacquet equation, compared with
+Hecke's completion, gives the polar bracket and reflection over ℚ. For the standard
+function, κ = f(0) = f̂(0) = 1, so the bracket is `1/(s - 1) - 1/s`. -/
 example (s : ℂ) :
     completedRiemannZeta s = completedRiemannZeta₀ s - 1 / s - 1 / (1 - s) ∧
       completedRiemannZeta (1 - s) = completedRiemannZeta s :=
   ⟨completedRiemannZeta_eq s, completedRiemannZeta_one_sub s⟩
 
-/-- The κ supplied by ArithmeticGaloisRepresentations §2.7 Global inputs and used in
-`tate-global-equation` specializes to 1 over ℚ in `AL.1/idele-class-volume`:
+/-- Mathlib's Dedekind residue κ specializes to 1 over ℚ. The n = 1
+Godement–Jacquet residue and the standard Hecke comparison identify it with the norm-one
+idele-class volume in `AL.1/idele-class-volume`:
 `r₁ = 1`, `r₂ = 0`, `h = R = 1`, `w = 2`, `|d| = 1`. -/
 example : (2 : ℝ) ^ 1 * (2 * Real.pi) ^ 0 * 1 * 1 / (2 * Real.sqrt 1) = 1 := by
   norm_num
@@ -590,10 +595,11 @@ example : localGaussSum Measure.count ({1} : Set (ZMod 2)) 2 0 1
     (1 : (ZMod 2)ˣ) (fun _ => 1) (ZMod.toCircle (N := 2)) =
     -(Real.sqrt 2 : ℂ) := by sorry
 
-/-- Product notation for the supplied unbalanced all-place factors on their convergence domain.
-ArithmeticGaloisRepresentations §2.7's `tate-global-equation` and
-`standard-test-function-evaluations` supply the continued scalar Hecke germ for general
-quasi-characters; the algebraic norm-twist normalization is compared with LFunctions layers 0, 5–6. -/
+/-- Product notation for the unbalanced all-place factors on their convergence domain.
+The n = 1 Godement–Jacquet continuation is compared with Hecke's germ using
+ArithmeticGaloisRepresentations §2.7's `standard-test-function-evaluations`,
+`hecke-zeta-integral-comparison` and `continuous-character-hecke-completion`.
+The algebraic norm-twist normalization agrees with LFunctions layers 0, 5–6. -/
 def completedHeckeL {ι : Type*} (L : ι → ℂ → ℂ) (s : ℂ) : ℂ := ∏' v, L v s
 
 /-- The product after removing the specified places, on its convergence domain. -/
@@ -635,11 +641,11 @@ example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by 
 example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
 
 /-- Finite-product notation for the scalar epsilon factors in ArithmeticGaloisRepresentations
-§2.7's `standard-test-function-evaluations` and its completed Hecke comparison with
-`tate-global-equation`. The finite factors agree with the distribution scalar by
-epsilonFactor_eq_tateLocalConstant; the archimedean factors use the supplied real and complex
-evaluations. On algebraic norm twists the rank-one comparison identifies the root number
-and primitive conductor power. -/
+§2.7's `root-number-product-formula` and `standard-test-function-evaluations`.
+The finite factors agree with the distribution scalar by epsilonFactor_eq_tateLocalConstant;
+the archimedean factors use the supplied real and complex evaluations. The rank-one
+Godement–Jacquet specialisation and Hecke comparison identify the Hecke root number and
+primitive conductor power, including continuous infinity types and complex norm twists. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 
@@ -792,8 +798,10 @@ end TauCeti.AutomorphicLFunctions.AL1
 
 namespace TauCeti.AutomorphicLFunctions.AL2
 
-/-- Formula on GLₙ supplied as a measurable carrier G, with its matrix inclusion
-    and normalized determinant absolute value. The integrand is supplied as a function. -/
+/-- The Godement–Jacquet integral formula on GLₙ supplied as a measurable carrier G,
+with its matrix inclusion and normalized determinant absolute value. The integrand is
+supplied as a function. The global continuation uses matrix Poisson summation for every
+n ≥ 1; its n = 1 case supplies AL.1's rank-one global distribution theory. -/
 def GodementJacquetIntegral {G : Type*} [MeasurableSpace G] (n : ℕ)
     (μ : Measure G) (β Φ : G → ℂ) (absDet : G → ℝ) (s : ℂ) : ℂ :=
   ∫ g, β g * Φ g * (absDet g : ℂ)^(s+((n : ℂ)-1)/2) ∂μ
@@ -805,6 +813,8 @@ theorem GodementJacquetIntegral.twist {G : Type*} [MeasurableSpace G] (n : ℕ)
       GodementJacquetIntegral n μ β Φ absDet (s+t) := by sorry
 
 -- TauCeti.AutomorphicLFunctions.AL2.GodementJacquetIntegral.rank_one
+/-- At n = 1 the matrix exponent is s and the integral is the rank-one integral.
+Its global continuation and reflected equation specialize the same matrix theory. -/
 example {G : Type*} [MeasurableSpace G] (μ : Measure G) (β Φ : G → ℂ)
     (absDet : G → ℝ) (s : ℂ) :
     GodementJacquetIntegral 1 μ β Φ absDet s =
