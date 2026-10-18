@@ -29,6 +29,8 @@ variable (M : Type v) [AddCommGroup M] [Module A M]
 Layers 1–2 are specified in README.md, §§1.1–2.8. The small-extension predicate
 is supplied by SchemeAndStackFoundations §4.2; the labelled coefficient,
 relation-obstruction and hull comparisons require their further carriers.
+GroebnerGeometry G4 supplies the ordinary associated-graded direct-sum ring and
+its class/map API; §§1.1–1.2 compare it with the ordinary Rees quotient.
 Specializing the coefficient base retains the joint-completion carrier and the
 chosen presentation kernel. Continuous framed representing pairs are compared
 by the unique coefficient isomorphism preserving the actual universal lift.
@@ -188,6 +190,15 @@ theorem trace_eq_top_iff_free_summand [IsLocalRing A] :
 /-- Membership is tested after multiplying by an element outside the prime. -/
 theorem symbolicSquare_membership (p : Ideal A) [p.IsPrime] (a : A) :
     a ∈ symbolicSquare A p ↔ ∃ s : A, s ∉ p ∧ s * a ∈ p ^ 2 := by
+  sorry
+
+/-- A complete Noetherian local ring inherits finite Frobenius from its residue field. -/
+theorem frobenius_finite_of_complete_noetherian_local
+    [IsLocalRing A] [IsNoetherianRing A]
+    [IsAdicComplete (maximalIdeal A) A]
+    (p : ℕ) [Fact p.Prime] [CharP A p] [CharP (ResidueField A) p]
+    (hresidue : (frobenius (ResidueField A) p).Finite) :
+    (frobenius A p).Finite := by
   sorry
 
 
@@ -515,6 +526,20 @@ example : (-1 : ZMod 2) = 1 := by
 
 /-! ## Layer 8: Simultaneous finite coefficient selection -/
 
+/-!
+The genuine-action variant of §8.4 retains the chosen scalar lift ι and requires
+q_T.comp l = q together with l.comp ι = scalar. Compatible finite derived actions
+satisfy the same scalar equation at every quotient, and system maps intertwine them.
+-/
+
+/-- Multiplication by x + ε on the basis (1, ε) differs from scalar multiplication by x. -/
+example (S : Type*) [CommRing S] [Nontrivial S] (x : S) :
+    (!![x, 0; 1, x] : Matrix (Fin 2) (Fin 2) S) ≠
+      x • (1 : Matrix (Fin 2) (Fin 2) S) := by
+  intro h
+  have hentry := congrArg (fun m : Matrix (Fin 2) (Fin 2) S => m 1 0) h
+  simp at hentry
+
 /-- A finite-ring germ has its unique ultrafilter-large value; principal ultrafilters are allowed. -/
 theorem finite_germ_equivalence (F : Ultrafilter ℕ)
     (B : Type u) [CommRing B] [Finite B] :
@@ -605,7 +630,8 @@ bounded Hom subcomplex and stable quotient, residue acyclic closure with graded 
 operations and its PBW/Yoneda comparison, stable residue injection, depth_shortExact from residue Ext, finite resolution/depth comparison, top local-cohomology tensor comparison, explicit Cohen-presentation and noncomplete bounded-complex duality comparisons and canonical CM dual, canonical module with its regular-presentation Ext and regular-quotient comparisons, Gorenstein predicate,
 type, graded Hilbert
 polynomial and intrinsic/ambient multiplicities, Koszul parameter Euler comparison, superficial reductions and normalization descent for multiplicity one,
-F-finiteness and local-locus adapters, total jets, shifted jet multiplication,
+F-finiteness and local-locus adapters, with Noetherianity in the complete-local residue criterion,
+total jets, shifted jet multiplication,
 plane-curve postulation defect and quotient length comparisons.
 
 Layer 4: algebraic/valued point comparison, generic formal smoothness and regular
@@ -629,7 +655,7 @@ coefficient spectral sequence, its finite abutment filtration and derived right 
 
 Layer 8: based matrix complex presentation, finite germ evaluation construction,
 finite complex patch datum, paired patch datum, finite decorated coefficient types,
-complete simultaneous patch, genuine derived deformation lift, augmentation and
+complete simultaneous patch, genuine derived deformation lift with the retained exact scalar equation, augmentation and
 paired comparison, finite-cutoff cohomology-action patch datum with actions on every framing quotient
 and original-level kernel containment.
 
