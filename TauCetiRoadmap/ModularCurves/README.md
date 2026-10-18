@@ -427,20 +427,70 @@ Prove compatibility with arbitrary base change.
 ### 0G. Parameter spaces for subgroup schemes
 
 Weil restriction represents maps from a fixed finite locally free source; it does not parameterise
-all subgroup schemes. Given a finite locally free commutative group scheme `G/S`, construct the
-relative Grassmannian of locally free rank-`N` quotients of its Hopf algebra. Cut out the unit,
+all subgroup schemes. This block owns the shared relative Grassmannian for a finite locally free
+`O_S`-module `E` over a scheme `S`: its functor on `T → S` is the set of locally free rank-`N`
+quotients of `E_T`, modulo quotient isomorphisms. Consume Mathlib's module-valued Grassmannian
+functor and Tau Ceti's `Module.Grassmannian.scheme`, `glueData`, `toSpec`, `chartEquiv` and
+`chartHomEquiv` on affine bases. Follow [Mathlib PR14686](https://github.com/leanprover-community/mathlib4/pull/14686)'s
+scheme design; build missing interfaces on these carriers and adopt Mathlib's when available.
+Prove affine representability, construct the universal quotient and kernel, and glue over
+trivializing affine covers of `E`. Prove independence of cover and trivializations, the relative
+universal property, and compatibility with arbitrary base change.
+For any finite locally free F, identify the N=1 Grassmannian with
+StableReduction Layer 2's `Proj_S(Sym F)`, using AVB L2A's
+`gradedSymmetricAlgebra F`, generated in degree one by the finite locally free
+module F. Prove its rank-one quotient functor-of-points equivalence, identify
+`F_P → O(1)` as the universal quotient, and make the identification and
+its O(1) comparison commute with arbitrary base change. This is the
+quotient-convention projective bundle, on the existing relative-Proj carrier.
+Construct the relative Plücker map first into `Grass_1(∧^N E)` from
+the universal exterior-power quotient
+`∧^N E_T → det(Q)` and transport it through that identification.
+Prove it is a closed immersion into `P(∧^N E)`,
+using the rank-one quotient convention `P(F)=Proj_S(Sym F)`. Consume
+[AlgebraicVectorBundles L0B–L0C,L2A](../AlgebraicVectorBundles/README.md) for the
+finite locally free sheaf, exterior powers/determinant and graded symmetric algebra,
+and [StableReduction Layer 2](../StableReduction/README.md)
+for relative Proj of finitely generated graded quasi-coherent algebras, its affine
+comparison and base change. Projective here means closed immersion into a projective
+bundle of a finite type quasi-coherent sheaf, as in
+[Stacks 01W8](https://stacks.math.columbia.edu/tag/01W8), with its morphism
+base-change API and stability under composition with a closed immersion;
+no globally trivial projective ambient space is assumed.
+Prove finite presentation and `SmoothOfRelativeDimension`, with dimension `N(n−N)` on a rank-`n` locus, the `N=0,n`
+point cases and emptiness when `N>n`. The generic relative construction is supplied here to
+flag/Schubert and other consumers, not rebuilt by them.
+
+Given a finite locally free commutative group scheme `G/S`, apply this construction to its Hopf
+algebra. Cut out the unit,
 multiplication, counit, comultiplication, antipode, and Hopf-ideal equations as closed loci. Prove
 that the relative spectrum of the universal quotient is a finite locally free subgroup scheme of
 `G`, has rank `N`, and commutes with arbitrary base change. The resulting parameter scheme is
 projective and finitely presented over `S`, with the stated universal subgroup. It is not asserted
 to be finite: for example, rank-`p` subgroup schemes of `α_p²` form a positive-dimensional family.
 
-At the current pin, Mathlib supplies the module-valued Grassmannian functor but not the relative
-Grassmannian scheme or its representability. This block constructs its affine charts, transition
-maps, gluing, and universal property. The elliptic specialization `G=E[N]` and the name
+The native affine chart/gluing construction is consumed rather than duplicated; its generic
+representability, relative extension and universal/base-change comparisons are targets of this
+block. Rank-`d` subspaces of a rank-`n` vector space correspond to quotient-rank-`n−d` of that
+space, or quotient-rank-`d` of its dual; supply both comparisons with the universal bundles.
+The elliptic specialization `G=E[N]` and the name
 `[N-Isog]` occur only in Layer 6, after `E[N]` exists.
 
-**Dependencies.** Layers 0B and 0F and Mathlib's algebraic Grassmannian functor.
+**Dependencies.** The generic block uses Mathlib's algebraic Grassmannian functor,
+exterior-power algebra and scheme gluing/morphism properties; native
+`TauCeti.RingTheory.Grassmannian.Chart.*` and
+`TauCeti.AlgebraicGeometry.Grassmannian.Basic`; AlgebraicVectorBundles L0B–L0C,L2A;
+and the general relative-Proj/projective-morphism portion of StableReduction Layer 2,
+which precedes its curve contraction consumers. The Hopf locus additionally uses
+Layer 0B's finite locally free group/Hopf algebra and closed-locus equations.
+Weil restriction in 0F is a separate parameter-space construction, not an input to
+the generic Grassmannian. SchemeAndStackFoundations' consumers of this block do not
+supply it with a later Grassmannian result.
+
+**Native provenance.** The affine Grassmannian modules are implemented at Tau Ceti
+`4f1bd4f40d0ed34139f54b8c7edc9b720bec4166`, beyond this repository's
+`a91d3aaf` dependency snapshot. Adopt these modules and build the missing interfaces
+on their carriers; this is not a claim that the snapshot already exports them.
 
 ## Layer 1: elliptic curves over a base scheme
 
