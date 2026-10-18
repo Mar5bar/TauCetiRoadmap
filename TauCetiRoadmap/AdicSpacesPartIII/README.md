@@ -155,10 +155,14 @@ waiting for upstream work.
 10. **Coherent and locally free.** Coherent sheaves are defined on locally noetherian adic spaces
     only; vector bundles on every adic space, corresponding to finite projective modules on sheafy
     Tate affinoids.
-11. **Traces.** The trace of an endomorphism of a finite projective module is
-    `LinearMap.projectiveTrace` (R3), through `dualTensorHomEquiv`; Mathlib's `LinearMap.trace` and
-    `Algebra.trace` are used only for free modules. A trace is never defined as a sum over geometric
-    points.
+11. **Traces.** The scalar trace of a finite projective module is contraction through
+    `dualTensorHomEquiv`. Its standard API follows Mathlib's finite-projective refactor
+    [#44636](https://github.com/leanprover-community/mathlib4/pull/44636): `LinearMap.trace`,
+    `Algebra.trace` and `Algebra.traceForm`. The local `projectiveTrace` spellings in R3 are
+    compatibility material for the pinned library, whose standard traces require a finite basis
+    to give this value. The basic linear trace is over commutative semirings and additive
+    commutative monoids; the categorical realization and geometric applications are over rings.
+    A trace is never defined as a sum over geometric points.
 12. **Names.** Declarations live directly under `TauCetiRoadmap.AdicSpacesPartIII` or in its
     namespaces `IsAdicRing`, `AdicRing`, `FormalScheme`, `FormalModuleGluing`,
     `Module`, `IsCoherentRing`, `Huber`, `AlgebraicGeometry`, `ValuationSpectrum`, `AdicSpace`,
@@ -329,6 +333,16 @@ R3 uses it on Čech complexes with differential `d′ + (−1)^p d″`.
 
 ### Trace contracts
 
+Follow the design of [Mathlib #44636](https://github.com/leanprover-community/mathlib4/pull/44636)
+(head `655ffd91a9416821deede0476a01e773c70532f7`): the standard finite-projective scalar API is
+`LinearMap.trace`, with `trace_comp_comm'` and `trace_baseChange`, and `Algebra.trace`,
+`traceForm` and `trace_trace`. Build the required material in Tau Ceti against that design.
+The local `projectiveTrace`, `projectiveTraceForm`, `projectiveTrace_cyclic`,
+`projectiveTrace_baseChange` and `projectiveTrace_trans` declarations express compatibility with
+the current pin; replace them by standard imports when the generalized API is available.
+The categorical/scalar comparison, local-rank identities, étale pairing criterion and geometric
+trace comparisons remain targets here.
+
 | Contract | Supplier and exact label | Retained gap / consumer |
 | --- | --- | --- |
 | Generic categorical trace, coherence and cyclicity | [PivotalSpherical](../PivotalSpherical/README.md), Layers 0–2 and 10 | Use its categorical trace and symmetric pivotal/spherical structures on the pinned finite-projective category. These are supplier targets; Part III specializes them rather than building a generic trace library. |
@@ -404,7 +418,9 @@ If `A` is Mittag-Leffler, the supplier's vanishing of `lim¹ A` gives
 [0598](https://stacks.math.columbia.edu/tag/0598); EGA III₁ Ch. 0,
 13.2.2, p. 66). Systems with a countable cofinal subset use §1.1's cofinal comparison.
 
-The same supplier owns the associated generic Mittag-Leffler criteria used here:
+**Mittag-Leffler criteria for quotient, extension and Artinian towers.**
+(*mittag-leffler-criteria*) Part III proves the following short consequences of the supplied
+tower calculus, for countable towers of modules over a fixed ring with linear transitions:
 in a levelwise short exact sequence, `B` Mittag-Leffler implies `C`
 Mittag-Leffler, and `A` and `C` Mittag-Leffler imply `B` Mittag-Leffler
 (EGA III₁ Ch. 0, 13.2.1, pp. 65–66). Quotient stability follows by applying the
@@ -419,8 +435,9 @@ Use Mathlib's `CategoryTheory.Functor.IsMittagLeffler` in
 `Mathlib/CategoryTheory/CofilteredSystem.lean`, its
 `isMittagLeffler_iff_eventualRange` and `isMittagLeffler_of_surjective`, and the
 descending-chain stabilization theorem `IsArtinian.monotone_stabilizes` in
-`Mathlib/RingTheory/Artinian/Module.lean`. Part III applies this shared package
-to its quotient-module and coherent-cohomology towers.
+`Mathlib/RingTheory/Artinian/Module.lean`. These three consequences are README-only targets here;
+DerivedModuleAlgebra supplies the native towers, six-term sequence and ML vanishing.
+Part III applies the consequences to its quotient-module and coherent-cohomology towers.
 The dense Banach inverse-sequence theorem in R3.4 uses its own topological
 hypotheses; density alone does not imply the algebraic Mittag-Leffler condition.
 
@@ -435,6 +452,10 @@ hypotheses; density alone does not imply the algebraic Mittag-Leffler condition.
 - The constant `ℤ/p` tower with zero transitions is Artinian and
   Mittag-Leffler with stable image zero, despite nonsurjective transitions;
   the shift is the identity, so both `lim` and `lim¹` vanish.
+- In the constant exact sequence `0 → pℤ → ℤ → ℤ/p → 0`, quotient stability gives
+  the constant quotient tower its full stable image `ℤ/p`.
+- In `0 → A → A ⊕ C → C → 0` with `A` constant and `C_n = ℤ/p` with zero
+  transitions, extension stability gives stable image `A ⊕ 0` in every middle term.
 
 ### From DerivedModuleAlgebra §S.1
 
@@ -630,14 +651,14 @@ The section headings of `Suggested.lean` name the target labels they carry:
 | F0.1 Finite modules over an adic noetherian ring | *finite-module-inverse-limit* | `IsAdicRing.finite_limit`. |
 | F0.3 The first-order ideal of a square-zero tower | *formal-scheme-carrier-comparison* | Two ring-level Checks on `RingHom.ker (TrivSqZeroExt.fstHom k k V)`. |
 | F0.7 Formal functions and Grothendieck's existence theorem | *pow-quotient-formal-module-comparison*, *theorem-on-formal-functions*, *grothendieck-existence* | `IsPowQuotient`, `formalFunctions`, `grothendieckExistence`, `grothendieckExistence_hom`. |
-| R2.1 Algebras topologically of finite presentation | *topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent* | `Huber.IsCompleteRankOneBase`, `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`, `IsTopologicallyFinitePresentation.iff_of_surjective`, `isTopologicallyFinitePresentation_of_flat`, `isAdmissibleAlgebra_iff_flat`, `IsTopologicallyFinitePresentation.finitePresentation_of_fg`, `IsTopologicallyFinitePresentation.isAdicComplete`. |
+| R2.1 Algebras topologically of finite presentation | *topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent*, *formal-localization-flatness* | `Huber.IsCompleteRankOneBase`, `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`, `IsTopologicallyFinitePresentation.iff_of_surjective`, `isTopologicallyFinitePresentation_of_flat`, `isAdmissibleAlgebra_iff_flat`, `IsTopologicallyFinitePresentation.finitePresentation_of_fg`, `IsTopologicallyFinitePresentation.isAdicComplete`, `IsTopologicallyFinitePresentation.completedAway_quotient`, `IsTopologicallyFinitePresentation.completedAway_flat`. |
 | R2.9 Frobenius lifts | *frobenius-lift-etale-over-torus* | `exists_unique_frobeniusLift_of_etale`. |
 | R2.10 Fractional valuation bounds | *fractional-valuation-bound* | `ValuationSpectrum.fracPowLE`, `ValuationSpectrum.fracPowGE`, `ValuationSpectrum.mem_fracPowLE_iff`, `ValuationSpectrum.fracPow_inter_spa`. |
 | R3.1–R3.2 Rational completions, glueing squares and Kiehl's theorem | *tate-acyclicity-finite-modules*, *noetherian-rod-acyclicity-finite-modules*, *glueing-square*, *glueing-square-finite-projective-descent*, *simple-laurent-glueing-square*, *strongly-noetherian-laurent-gluing* | `Huber.IsRationalCompletion`, `Huber.laurent_exact_of_finite`, `Huber.GlueingSquare`, `Huber.GlueingDatum`, `GlueingDatum.sections`, `GlueingDatum.ofModule`, `GlueingDatum.projective_sections`, `GlueingSquare.of_simpleLaurent`, `GlueingDatum.finite_sections_of_simpleLaurent`. |
 | R3.4 Dense inverse sequences | *dense-banach-inverse-system-exactness* | `Huber.denseBanach_inverseSystem_exact`. |
 | R3.5 Uniform Banach rings | *uniform-iff-power-bound* | `Huber.isUniform_tfae`. |
 | R3.9 The Gel'fand spectrum of a Banach ring | *gelfand-spectrum-banach-ring* | `Huber.GelfandSpectrum`, its topology, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`. |
-| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace*, *projective-trace-cyclicity*, *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *pull-identify-trace* | `LinearMap.projectiveTrace` (local scalar restatement), `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, and the affine Checks of pull–identify–trace; the categorical/scalar comparison is a README target. |
+| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace*, *projective-trace-cyclicity*, *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *pull-identify-trace* | `LinearMap.projectiveTrace` (compatibility with the pinned trace API), `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, and the affine Checks of pull–identify–trace; the categorical/scalar comparison is a README target. |
 
 The heading `R3/<label>` of a target names its block when it is formalised; the labels below
 group the declarations of the larger R3 targets:
@@ -4071,7 +4092,8 @@ with `cohomologyMapBaseLinear`, `cohomologyδ`, `exact_cohomologyMap_cohomology�
 *formal-scheme-carrier-comparison*; §4.9 `Scheme.Modules.Cohomology.formalFunctionsIso`; §4.10
 `Formal.grothendieck_existence`, `Formal.algebraize_hom`); StableReduction layer 2 and
 JacobianChallenge layer C; DerivedModuleAlgebra §§1.T.1 and 1.1
-(the shared tower calculus and Mittag-Leffler criteria);
+(the shared tower calculus, surjective and finite-term Mittag-Leffler criteria, and ML vanishing);
+*mittag-leffler-criteria* here (quotients, extensions and Artinian terms);
 AlgebraicVectorBundles layers L0A and L0B. AdicSpacesPartII R0.1a–R0.1b supplies adic rings
 and noetherian adic completion; its Layer R0 supplies *completed-tensor-product* and AdicSpacesPartII *completed-tensor-product* for the
 comparison with F0's ideal-adic construction. The projective-geometry inputs
@@ -4284,16 +4306,55 @@ separated; the statement `flat_iff_forall_flat_quotient` takes `B` tfp) and `M` 
 `B`-module, `M` is flat (resp. faithfully flat) over `A` if and only if `M/ϖ^{m}M` is flat (resp.
 faithfully flat) over `A/ϖ^{m}A` for all `m ≥ 1`; for `M = 0` both sides of the flatness criterion
 hold, and both sides of the faithful-flatness criterion fail unless `A = 0`, since `A/ϖ^m A = 0`
-forces `A = ϖA`, hence `A = 0` by separatedness. Flatness of `A → A⟨f⁻¹⟩` for `f ∈ A` is Tau
-Ceti's `PairOfDefinition.flat_toCompletionLoc` for the pair of definition `(A, ϖA)` with `T = {1}`
-and `s = f` (its `HasDenominatorPower` hypothesis holds trivially), and is cited, not restated. For
+forces `A = ϖA`, hence `A = 0` by separatedness. Use *formal-localization-flatness* below for
+flatness of the basic formal restrictions. For
 instance the cover of `Spf O_K⟨T⟩` by `Spf
 O_K⟨T⟩⟨T⁻¹⟩ = Spf O_K⟨T, T⁻¹⟩` and `Spf O_K⟨T⟩⟨(1 − T)⁻¹⟩` gives a faithfully flat map `O_K⟨T⟩ →
 O_K⟨T,T⁻¹⟩ × O_K⟨T,(1−T)⁻¹⟩`. *Needs:* *topologically-finitely-presented-algebra*;
 *saturated-submodule-finitely-generated*; *tfp-algebra-coherent*; *flat-tft-is-tfp*;
-*adic-local-flatness-criterion*; *formal-spectrum* (layer F0); Tau Ceti
-`TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`; Mathlib `Module.Flat`,
+*adic-local-flatness-criterion*; *formal-spectrum* (layer F0); Mathlib `Module.Flat`,
 `AlgebraicGeometry.LocallyOfFinitePresentation`.
+
+**Checks.**
+
+- The basic opens at `T` and `1 − T` cover `Spf O_K⟨T⟩`; the product of their
+  completed localisations is faithfully flat over `O_K⟨T⟩`.
+- For `A = 0`, the empty cover gives `A → ∏_∅ B_i = 0`, the identity of the zero
+  ring; it is faithfully flat and `A` is admissible.
+- The single basic open at `T` does not cover `Spf O_K⟨T⟩`: the nonzero module
+  `A/(T)` becomes zero there, so its flat restriction map is not faithfully flat.
+
+**Flatness of completed localisation over a tfp valuation-ring algebra.**
+(*formal-localization-flatness*) Let `A` be a tfp `O_K`-algebra with its `ϖ`-adic topology
+and let `f ∈ A`. On the carrier of *completed-localization*, put
+`B = AdicRing.CompletedAway A f = A⟨f⁻¹⟩`. It is tfp, and for every `m ≥ 1` construct
+`B/ϖ^m B ≅ (A/ϖ^m A)[1/f]`. This is an isomorphism of `A`-algebras: the class of the image
+of `a ∈ A` is sent to the localized class of `a`; the reduction maps as `m` varies commute
+with it. Ordinary localisation is flat, so the criterion `flat_iff_forall_flat_quotient`
+in *tfp-locality*, applied to the coherent `B`-module `B`, proves `Module.Flat A B`
+(BL I §1, Lemma 1.6, pp. 295–296, and the completed-localisation description preceding
+Proposition 1.7, p. 296). This supplies the basic-open flatness used in *tfp-locality*;
+the quotient criterion itself uses *adic-local-flatness-criterion*, independently of this
+corollary. Nondiscrete rank-one valuation bases and tfp algebras with `ϖ`-torsion are allowed.
+Tau Ceti's `PairOfDefinition.flat_toCompletionLoc` applies instead to complete separated
+strongly noetherian Tate rings, as used in R3. *Needs:* *completed-localization*;
+*topologically-finitely-presented-algebra*; *tfp-algebra-coherent*;
+*adic-local-flatness-criterion*; Mathlib `IsLocalization.flat`, `Module.Flat`.
+Lean: `IsTopologicallyFinitePresentation.completedAway_quotient` identifies the actual
+structural maps, and `IsTopologicallyFinitePresentation.completedAway_flat` states flatness;
+the compatibility with reduction in `m` is specified in this README only.
+
+**Checks.**
+
+- For `A = ℤ_p⟨T⟩` and `f = T`, reduction is
+  `B/p^m B ≅ (ℤ/p^m)[T,T⁻¹]`. This integral `A` is not a Tate ring: its topologically
+  nilpotent elements lie in `pA` and cannot be units.
+- For `f = 1`, `B = A` and the quotient comparison is the identity. For `f = 0` or
+  `f = ϖ`, both quotient rings and `B` are zero; the zero module is flat.
+- For `A = O_K⟨T⟩/(ϖT)` and `f = T`, `B = (O_K/ϖ)[T,T⁻¹]` and the comparison is
+  ordinary localisation at every `m ≥ 1`, although `A` has `ϖ`-torsion.
+- For `O_K = O_{ℂ_p}` and `A = O_K⟨T⟩`, the same quotient comparison and flatness
+  hold with `ϖ = p`; no noetherianity of `O_K` or `A` is assumed.
 
 ### R2.2 admissible formal schemes, type (S) and `FS_C`
 
@@ -8330,7 +8391,9 @@ generated by `(f_j, c)` where `s = f_j e_j` (independent of generators), and let
 Bl_𝒜 𝔛` be the open formal subscheme where `s` generates `𝒜O`; the model is an open formal subscheme
 of an admissible blow-up, not the blow-up itself, and its generic fibre is the domain `{|s| ≥ |c|}`,
 not `d(𝔛)`. Locally, over `U = Spf A` with `ℒ|_U = Ae` and `s = fe`, `𝔛(|s| ≥ |c|) ×_𝔛 U =
-Spf(A⟨u⟩/(fu − c) modulo ϖ-torsion)`, with `u ∈ Γ(ℒ⁻¹)` the section with `u·s = c`. Universal
+Spf(R/R[ϖ^∞])`, where `R = A⟨u⟩/(fu − c)` and
+`R[ϖ^∞] = ker(R → R[1/ϖ])` is the `ϖ`-power torsion ideal, with
+`u ∈ Γ(ℒ⁻¹)` the section with `u·s = c`. Universal
 property: for a `ϖ`-torsion-free formal scheme `Z` over `Spf O_K` with `g : Z → 𝔛`, lifts of `g` to
 `𝔛(|s| ≥ |c|)` correspond bijectively to sections `u ∈ Γ(Z, g*ℒ⁻¹)` with `u·g*s = c` (such `u` is
 unique if it exists). Generic fibre: `d(𝔛(|s| ≥ |c|)) → d(𝔛)` is an open immersion with image `{x :
@@ -8342,7 +8405,7 @@ Flatness: if `f̄` is a non-zero-divisor on `A/ϖ` and `c ∈ m_K` (or `c` a uni
 already `ϖ`-torsion-free. In `FormalScheme`, define `sectionDomainModel` (`𝔛(|s| ≥ |c|)`, an
 admissible formal scheme over `𝔛`), `sectionDomainModel.toBlowUp` (the open immersion `𝔛(|s| ≥ |c|) → Bl_{(s,c)} 𝔛` onto the locus where `s` generates) and `sectionDomainModel.u_mul_s` (the
 tautological section `u` of `ℒ⁻¹` with `u·s = c`); prove the simp lemma `sectionDomainModel_affine`
-(over `Spf A` with `ℒ = Ae`, `s = fe`: `Spf(A⟨u⟩/(fu − c) / ϖ-torsion)`),
+(over `Spf A` with `ℒ = Ae`, `s = fe`: `Spf(R/R[ϖ^∞])` for `R = A⟨u⟩/(fu − c)`),
 `sectionDomainModel.homEquiv` (for `ϖ`-torsion-free `Z` and `g : Z → 𝔛`: lifts of `g ≃ {u ∈ Γ(Z,
 g*ℒ⁻¹) : u · g*s = c}`), `sectionDomainModel_genericFibre` (`d(𝔛(|s| ≥ |c|)) → d(𝔛)` is an open
 immersion onto `{|s| ≥ |c|} = sectionDomainGE s q` when `|c| = |ϖ|^q`),
@@ -8370,6 +8433,11 @@ is this construction with `ℒ = ω^{⊗(p−1)}`, `s = H̃a`, `c = p^ε`. *Need
 - `sectionDomainModel_test_torsion` (non-example) — for `s = ϖT` on `Spf O_K⟨T⟩` and `c = ϖ`, the
   ring `O_K⟨T, u⟩/(ϖTu − ϖ)` has nonzero `ϖ`-torsion (the class of `Tu − 1`); only after killing it
   does one get `O_K⟨T, T⁻¹⟩`, whose generic fibre `{|T| = 1} = {|ϖT| ≥ |ϖ|}` is correct.
+- (power-torsion boundary) — for `A = ℤ_p`, `f = p²`, `c = p³`, write `P = ℤ_p⟨u⟩`
+  and `t = u − p`. Then `R = P/(p²t)`, `R/R[p] = P/(pt)` still has the nonzero
+  `p`-torsion class of `t`, whereas `R/R[p^∞] = P/(t) ≅ ℤ_p`, the intended model.
+  For `f = 0`, `c = p²`, the first-order quotient is `𝔽_p[u]`, with nonempty formal
+  spectrum; the power-torsion quotient is zero, as required by `sectionDomainModel_zeroSection`.
 - `sectionDomainModel_test_points` (characterisation) — for `s = T`, `c = ϖ` on `Spf O_K⟨T⟩`: the
   `O_K`-point `T ↦ ϖ` lifts uniquely (`u = 1`), while `T ↦ ϖ²` does not lift (`uϖ² = ϖ` has no
   solution in `O_K`).
@@ -11814,10 +11882,13 @@ Checks: the unit's identity has trace `1`; the zero module has trace `0`;
 on `R²`, the matrix with diagonal `a,d` has trace `a+d`.
 
 **Cross-object cyclicity for finite projective modules.** (*projective-trace-cyclicity*)
-For finite projective `R`-modules `M`, `N` and linear maps `f : M → N`, `g : N → M`,
+For a commutative semiring `R`, finite projective `R`-semimodules `M`, `N` (additive
+commutative monoids) and linear maps `f : M → N`, `g : N → M`,
 prove `LinearMap.projectiveTrace_cyclic`: `tr_M(g ∘ f) = tr_N(f ∘ g)`.
-Transport PivotalSpherical Layer 2’s categorical cyclicity through the scalar realization
-(Stacks Tag 02DU, Exercise 111.22.6; Mathlib `_root_.LinearMap.trace_comp_comm'` in the free case).
+The contraction formula proves this by finite sums of pure tensors; over rings it also
+transports PivotalSpherical Layer 2’s categorical cyclicity through the scalar realization
+(Stacks Tag 02DU, Exercise 111.22.6; Mathlib #44636's `_root_.LinearMap.trace_comp_comm'`;
+the pinned `_root_.LinearMap.trace_comp_comm'` is its free-module specialization).
 *Needs:* PivotalSpherical Layer 2; *projective-trace-realization*; finite-projective duality.
 Lean: `LinearMap.projectiveTrace_cyclic`.
 
@@ -11825,8 +11896,10 @@ Checks (Lean examples): with `M = N = R`, this is `ab = ba`; with `M = 0`, both 
 with `M = R`, `N = R²`, `f(x) = (ax,bx)` and `g(y,z) = cy+dz`, both traces are `ca+db`.
 
 **Finite-projective trace realization and scalar extension.** (*projective-trace-realization*)
-Let `R` be a commutative ring and `M` a finitely generated projective `R`-module.
-Use `(TauCeti.finiteProjectiveModules R).FullSubcategory` and its supplied
+Let `R` be a commutative semiring and `M` a finitely generated projective `R`-semimodule
+(an additive commutative monoid). For the categorical comparison assume that `R` is a
+commutative ring and `M` an additive commutative group; use
+`(TauCeti.finiteProjectiveModules R).FullSubcategory` and its supplied
 `TauCeti.finiteProjectiveModulesSymmetricCategory` structure, with
 `ModuleCat.hasLeftDualOfFiniteProjective` and `ModuleCat.hasRightDualOfFiniteProjective`.
 The dual is `M^∨ = Hom_R(M,R)`. Identify its canonical double dual with
@@ -11840,15 +11913,18 @@ where `dualTensorHomEquiv : M^∨ ⊗_R M ≅ End_R(M)` (Mathlib, for `M` finite
 finite basis, so it is not the trace of a finite projective non-free module. The same
 construction `contractLeft ∘ dualTensorHomEquiv⁻¹` in the almost category is PerfectoidSpaces
 layer P0 (P0.12), the almost-ring version of this target. In `LinearMap`,
-retain `projectiveTrace` as the local scalar restatement `End_R(M) →ₗ[R] R` for `M` finite
-projective; prove that `projectiveTrace (dualTensorHom φ m) = φ m`, equivalently `projectiveTrace ∘ dualTensorHom =
+retain `projectiveTrace` as compatibility with the pin for the standard `LinearMap.trace`
+of Mathlib [#44636](https://github.com/leanprover-community/mathlib4/pull/44636), using the same
+contraction definition over commutative semirings. Prove that
+`projectiveTrace (dualTensorHom φ m) = φ m`, equivalently `projectiveTrace ∘ dualTensorHom =
 contractLeft`; `projectiveTrace_eq_trace` (for `M` free finite,
 `projectiveTrace R M = LinearMap.trace R M`; in particular it equals `Matrix.trace` of the matrix
 in any basis); `projectiveTrace_baseChange` (for `R → R'`,
-`tr_{R' ⊗ M}(f.baseChange R') = algebraMap R R' (tr_M f)`); that
+`tr_{R' ⊗ M}(f.baseChange R') = algebraMap R R' (tr_M f)` for a commutative `R`-semialgebra `R'`); that
 `tr_{M × N}(f.prodMap g) = tr_M f + tr_N g`; that `tr_N(e ∘ f ∘ e⁻¹) = tr_M f` for a linear
-equivalence `e : M ≃ N`; that the image of `tr_M(id)` in `R_𝔭` is `Module.rankAtStalk M 𝔭` for
-every prime `𝔭`; and that `tr_M f` is nilpotent when `f` is nilpotent (Stacks Tag 02DU, Exercise 111.22.6, the trace of an endomorphism of a finite locally
+equivalence `e : M ≃ N`. Over commutative rings prove that the image of `tr_M(id)` in `R_𝔭`
+is `Module.rankAtStalk M 𝔭` for every prime `𝔭`; and that `tr_M f` is nilpotent when `f` is
+nilpotent (Stacks Tag 02DU, Exercise 111.22.6, the trace of an endomorphism of a finite locally
 free, equivalently finite projective, module; Stacks Tag 0BVH, §49.3, the sheaf version for
 finite locally free modules; KL15 §1.1, Def. 1.1.2, p. 11, finite projective modules as the
 setting).
@@ -11885,7 +11961,9 @@ factor: for `B = R × R` it is the dot product, `Tr((x₁, x₂)(y₁, y₂)) = 
 `B = 0` (rank `0`) the trace and the form are `0`. It is not defined as a sum
 over geometric points: for `B = k[x]/(x²)`, `Tr(1) = 2` although `Spec B` has one geometric point.
 In `Algebra`, define `projectiveTrace` as `Tr_{B/R} : B →ₗ[R] R` and `projectiveTraceForm` as the
-bilinear form `(x, y) ↦ Tr(xy)`, and prove that this form is symmetric; prove that
+bilinear form `(x, y) ↦ Tr(xy)`, the compatibility spellings for Mathlib #44636's
+`Algebra.trace` and `Algebra.traceForm` on finite projective algebras. Use that standard API
+for the Tau Ceti construction. Prove that this form is symmetric; prove that
 `projectiveTrace R B b = LinearMap.projectiveTrace R B (lmul R B b)` (the definition); that for
 `B` free and finite `projectiveTrace R B = Algebra.trace R B`; that `Tr(algebraMap r) = r · Tr(1)`
 and the image of `Tr(1)` in `R_𝔭` is `rank_𝔭 B`; base change along `R → R'` (stated as
@@ -12022,6 +12100,11 @@ scheme-theoretic trace of a finite locally free morphism and its local descripti
 SchemeAndStackFoundations Layer 2 (§2.19, §2.21, `trace`); Mathlib `AlgebraicGeometry.IsFinite`,
 `AlgebraicGeometry.Flat`, `AlgebraicGeometry.LocallyOfFinitePresentation`,
 `AlgebraicGeometry.Scheme.Modules`, `Scheme.Hom.finrank`.
+
+AutomorphicBundles B5.1 is a consumer of this scheme trace and its unit, composition and
+arbitrary-base-change laws. Its scheme-level `finiteLocallyFreeTrace` denotes this
+`AlgebraicGeometry.Scheme.Hom.finiteTrace`, by import or transparent alias; its coefficient
+projection-formula and stack-descent adapters belong to AutomorphicBundles.
 
 The declaration `AlgebraicGeometry.Scheme.Hom.finiteTrace_baseChange` gives the
 commuting square on affine opens `W ⊆ g⁻¹(V)` in a cartesian square: the trace of
@@ -12494,8 +12577,9 @@ unramified, smooth and étale classes (*differentials-unramified-smooth-etale*),
 complete Tate rings), AdicSpacesPartII R1 (analytification of schemes and general module pullback, the rigid–adic comparison,
 properness and finiteness comparisons, analytic affine and projective spaces, analytic Kähler
 differentials), R3.1a's affinoid section comparison for analytified modules,
-DerivedModuleAlgebra §§1.T.1 and 1.1 (generic Mittag-Leffler tower calculus) and
+DerivedModuleAlgebra §§1.T.1 and 1.1 (generic tower calculus and ML vanishing) and
 §S.1 (canonical double-complex comparisons),
+*mittag-leffler-criteria* here (quotients, extensions and Artinian terms),
 and F0 (formal-module tower applications, the theorem on formal functions, Chow's lemma and
 dévissage) of this roadmap, and the structure sheaf, rational localisations, sheafiness,
 uniformity and the Buzzard–Verberkmoes theorem of the Foundations of adic spaces roadmap
@@ -12561,7 +12645,7 @@ residue discs of R2.
 - [Zavyalov-Q] Bogdan Zavyalov, *Quotients of admissible formal schemes and adic spaces by finite groups*, arXiv:2102.02762v2 (7 June 2023); published in Algebra & Number Theory 18(3) (2024) 409–475. https://arxiv.org/abs/2102.02762
 - [Scholze13] Peter Scholze, *p-adic Hodge theory for rigid-analytic varieties*, arXiv:1205.3463v2 (3 Nov 2012) (Forum Math. Pi 1 (2013)). https://arxiv.org/abs/1205.3463
 - [FK] Kazuhiro Fujiwara, Fumiharu Kato, *Foundations of Rigid Geometry I*, arXiv:1308.4734v5 (28 Feb 2017). https://arxiv.org/abs/1308.4734
-- [BHW] Christopher Birkbeck, Ben Heuer, Chris Williams, *Perfectoid Hilbert modular forms and overconvergent Hilbert modular forms*, Annales de l'Institut Fourier 2023. https://aif.centre-mersenne.org/item/10.5802/aif.3560.pdf
+- [BHW] Christopher Birkbeck, Ben Heuer, Chris Williams, *Overconvergent Hilbert modular forms via perfectoid modular varieties*, Annales de l'Institut Fourier **73** (2023), no. 4, 1709–1794. DOI: [10.5802/aif.3560](https://doi.org/10.5802/aif.3560). https://aif.centre-mersenne.org/item/10.5802/aif.3560.pdf
 - [DLLZ-A] Hansheng Diao, Kai-Wen Lan, Ruochuan Liu, Xinwen Zhu, *Logarithmic adic spaces: some foundational results*, arXiv:1912.09836v2 (30 Oct 2022); PDF page = printed page. https://arxiv.org/abs/1912.09836v2
 - [Conrad-IC] Brian Conrad, *Irreducible components of rigid spaces*, Ann. Inst. Fourier 49 (1999); author PDF irredpaper.pdf. https://math.stanford.edu/~conrad/papers/irredpaper.pdf
 - [Zavyalov24] Bogdan Zavyalov, *Some foundational results in adic geometry*, arXiv:2409.15516v2 (17 Jul 2025). https://arxiv.org/abs/2409.15516

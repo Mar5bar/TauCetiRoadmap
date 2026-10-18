@@ -422,7 +422,8 @@ namespace Huber
 open TauCeti.Huber
 
 /-! ### R2.1 Algebras topologically of finite presentation
-(*topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent*) -/
+(*topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent*,
+*formal-localization-flatness*) -/
 
 /-- Standing data on a valuation ring `O` (the instance `[ValuationRing O]` is separate): rank
 one (Krull dimension one), a pseudouniformiser `ϖ` (nonzero, not a unit), and the `ϖ`-adic
@@ -495,6 +496,29 @@ theorem IsTopologicallyFinitePresentation.finitePresentation_of_fg
 (Bosch–Lütkebohmert I, §1, Proposition 1.1(b), p. 293). -/
 theorem IsTopologicallyFinitePresentation.isAdicComplete
     (hA : IsTopologicallyFinitePresentation O A) : IsAdicComplete (Ideal.span {ϖ}) A := sorry
+
+/-- Reduction of completed localisation is ordinary localisation of the reduction, with
+the canonical maps from `A` identified (Bosch–Lütkebohmert I, §1, p. 296). -/
+theorem IsTopologicallyFinitePresentation.completedAway_quotient
+    [TopologicalSpace A] [IsTopologicalRing A] [IsAdicRing A]
+    (hA : IsTopologicallyFinitePresentation O A)
+    (hϖ : IsAdic (Ideal.span {algebraMap O A ϖ})) (f : A) (m : ℕ) (hm : 1 ≤ m) :
+    let B := AdicRing.CompletedAway A f
+    let J : Ideal B := Ideal.span {(algebraMap A B (algebraMap O A ϖ)) ^ m}
+    let Q := A ⧸ Ideal.span {(algebraMap O A ϖ) ^ m}
+    let fbar : Q := Ideal.Quotient.mk _ f
+    ∃ e : (B ⧸ J) ≃+* Localization.Away fbar, ∀ a : A,
+      e (Ideal.Quotient.mk J (algebraMap A B a)) =
+        algebraMap Q (Localization.Away fbar) (Ideal.Quotient.mk _ a) := sorry
+
+/-- Completed localisation of a tfp valuation-ring algebra is flat, by reduction modulo all
+positive powers of the pseudouniformiser (Bosch–Lütkebohmert I, §1, Lemma 1.6, pp. 295–296).
+The algebra may have pseudouniformiser torsion and the valuation base may be nondiscrete. -/
+theorem IsTopologicallyFinitePresentation.completedAway_flat
+    [TopologicalSpace A] [IsTopologicalRing A] [IsAdicRing A]
+    (hA : IsTopologicallyFinitePresentation O A)
+    (hϖ : IsAdic (Ideal.span {algebraMap O A ϖ})) (f : A) :
+    Module.Flat A (AdicRing.CompletedAway A f) := sorry
 
 end TFP
 
@@ -1005,12 +1029,11 @@ end Huber
 
 namespace LinearMap
 
-variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] [Module.Finite R M]
+variable (R M : Type*) [CommSemiring R] [AddCommMonoid M] [Module R M] [Module.Finite R M]
   [Module.Projective R M]
 
-/-- Scalar realization of the symmetric categorical trace on finite projective modules,
-supplied by PivotalSpherical Layers 0–2 and 10, by contraction and evaluation at `1`
-on the endomorphisms of the unit module `R`. -/
+/-- Trace by contraction on a finite projective semimodule. Over rings this realizes
+PivotalSpherical's symmetric categorical trace by evaluation at `1` on endomorphisms of `R`. -/
 def projectiveTrace : (M →ₗ[R] M) →ₗ[R] R :=
   contractLeft R M ∘ₗ (dualTensorHomEquiv R M M).symm.toLinearMap
 
@@ -1021,30 +1044,30 @@ theorem projectiveTrace_eq_trace [Module.Free R M] :
     projectiveTrace R M = LinearMap.trace R M := sorry
 
 /-- The projective trace commutes with base change. -/
-theorem projectiveTrace_baseChange (R' : Type*) [CommRing R'] [Algebra R R'] (f : M →ₗ[R] M) :
+theorem projectiveTrace_baseChange (R' : Type*) [CommSemiring R'] [Algebra R R']
+    (f : M →ₗ[R] M) :
     projectiveTrace R' (R' ⊗[R] M) (f.baseChange R') = algebraMap R R' (projectiveTrace R M f) :=
   sorry
 
-/-- Scalar realization of PivotalSpherical Layer 2’s cyclicity across two finite
-projective modules. -/
-theorem projectiveTrace_cyclic {N : Type*} [AddCommGroup N] [Module R N]
+/-- Cyclicity across finite projective semimodules, realizing categorical cyclicity over rings. -/
+theorem projectiveTrace_cyclic {N : Type*} [AddCommMonoid N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
     projectiveTrace R M (g.comp f) = projectiveTrace R N (f.comp g) := sorry
 
 /-- On two scalar modules, cyclicity is commutativity of scalar multiplication. -/
-example (R : Type*) [CommRing R] (a b : R) :
+example (R : Type*) [CommSemiring R] (a b : R) :
     projectiveTrace R R ((b • LinearMap.id).comp (a • LinearMap.id)) = b * a ∧
       projectiveTrace R R ((a • LinearMap.id).comp (b • LinearMap.id)) = a * b ∧
       b * a = a * b := sorry
 
 /-- A zero source makes both cross-object traces zero. -/
-example (R Z N : Type*) [CommRing R] [AddCommGroup Z] [Module R Z] [Subsingleton Z]
-    [Module.Finite R Z] [Module.Projective R Z] [AddCommGroup N] [Module R N]
+example (R Z N : Type*) [CommSemiring R] [AddCommMonoid Z] [Module R Z] [Subsingleton Z]
+    [Module.Finite R Z] [Module.Projective R Z] [AddCommMonoid N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] (f : Z →ₗ[R] N) (g : N →ₗ[R] Z) :
     projectiveTrace R Z (g.comp f) = 0 ∧ projectiveTrace R N (f.comp g) = 0 := sorry
 
 /-- The rank-one/rank-two cyclicity formula has the common value `ca + db`. -/
-example (R : Type*) [CommRing R] (a b c d : R) :
+example (R : Type*) [CommSemiring R] (a b c d : R) :
     let f : R →ₗ[R] R × R := (a • LinearMap.id).prod (b • LinearMap.id)
     let g : R × R →ₗ[R] R := c • LinearMap.fst R R R + d • LinearMap.snd R R R
     projectiveTrace R R (g.comp f) = c * a + d * b ∧
@@ -1058,15 +1081,15 @@ example [Module.Finite (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})]
       LinearMap.trace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = 0 := sorry
 
 /-- Every endomorphism of the zero module has trace zero. -/
-example (R Z : Type*) [CommRing R] [AddCommGroup Z] [Module R Z] [Subsingleton Z]
+example (R Z : Type*) [CommSemiring R] [AddCommMonoid Z] [Module R Z] [Subsingleton Z]
     [Module.Finite R Z] [Module.Projective R Z] (f : Z →ₗ[R] Z) :
     projectiveTrace R Z f = 0 := sorry
 
 /-- An endomorphism of the scalar module has trace its value at `1`. -/
-example (R : Type*) [CommRing R] (f : R →ₗ[R] R) : projectiveTrace R R f = f 1 := sorry
+example (R : Type*) [CommSemiring R] (f : R →ₗ[R] R) : projectiveTrace R R f = f 1 := sorry
 
 /-- On `R²` the trace of `!![a, b; c, d]` is `a + d`. -/
-example {R : Type*} [CommRing R] (a b c d : R) :
+example {R : Type*} [CommSemiring R] (a b c d : R) :
     projectiveTrace R (Fin 2 → R) (Matrix.toLin' !![a, b; c, d]) = a + d := sorry
 
 end LinearMap
