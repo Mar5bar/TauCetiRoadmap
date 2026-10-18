@@ -17,8 +17,8 @@ perfectoid spaces of D1, the v-topology
 on Tau Ceti's perfectoid spaces with its descent theorems (D2–D3), the size obstructions for
 torsors and compact Hausdorff realization (D3–D4), and the Berkovich spectrum and the component
 formula of D5, and the shared affine seminormality, subintegrality and seminormal-reflection
-API of D6.9. Applications use this predicate, reflection carrier and unit; exchanging square–cube
-variables gives the equivalent convention, and `sn_compare` identifies reflection presentations.
+API of D6.9, including seminormal equalizers for compatible branch functions. Applications use
+this predicate, reflection carrier and unit; exchanging square–cube variables gives the equivalent convention, and `sn_compare` identifies reflection presentations.
 Constructions that are themselves formalisation targets (pro-étale
 morphisms and sites, stackification, diamonds, their underlying spaces, spatial diamonds, marked
 untilts and `Spd`) are specified in the README only.
@@ -506,6 +506,23 @@ theorem IsSeminormalRing.prod_iff (A B : Type u) [CommRing A] [CommRing B] :
 example : IsSeminormalRing ℤ := sorry
 example : IsSeminormalRing (ℚ × ℚ) := sorry
 example : ¬ IsSeminormalRing (ℚ × ZMod 4) := sorry
+
+/-- Equalizers of maps from a seminormal ring to a reduced ring are seminormal:
+the images of a square–cube root coincide in the reduced codomain
+(KL16 Definition 1.4.1, p. 19; Stacks 0EUL). -/
+theorem IsSeminormalRing.eqLocus {A B : Type u} [CommRing A] [CommRing B] [IsReduced B]
+    (hA : IsSeminormalRing A) (f g : A →+* B) : IsSeminormalRing (f.eqLocus g) := sorry
+
+-- Checks: identity equalizers and matching constant terms on two branches are seminormal;
+-- the section with different branch constants is excluded.
+example : IsSeminormalRing ((RingHom.id ℚ).eqLocus (RingHom.id ℚ)) := sorry
+example (k : Type u) [Field k] : IsSeminormalRing
+    (((Polynomial.evalRingHom (0 : k)).comp (RingHom.fst (Polynomial k) (Polynomial k))).eqLocus
+      ((Polynomial.evalRingHom (0 : k)).comp (RingHom.snd (Polynomial k) (Polynomial k)))) := sorry
+example (k : Type u) [Field k] :
+    (1, 0) ∉
+      ((Polynomial.evalRingHom (0 : k)).comp (RingHom.fst (Polynomial k) (Polynomial k))).eqLocus
+        ((Polynomial.evalRingHom (0 : k)).comp (RingHom.snd (Polynomial k) (Polynomial k))) := sorry
 
 /-- A noetherian ring whose prime localizations are normal domains is a finite product of
 integrally closed domains, allowing the empty product (Stacks 030C). -/

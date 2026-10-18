@@ -437,6 +437,7 @@ namespace, and have signatures in `Suggested.lean`.
 | --- | --- | --- |
 | seminormal-ring | `IsSeminormalRing`, `IsSeminormalRing.iff_unique` | Reducedness and square–cube lifting on every affine open in `Rigid.IsSeminormal`. |
 | normal-ring-check | `IsSeminormalRing.of_isIntegrallyClosed`, `IsSeminormalRing.prod_iff`, `Affine.normal_finiteProduct` | Normal domain charts and their finite products in `rigid_seminormal_normal`. |
+| compatible-branch-rings | `IsSeminormalRing.eqLocus` | Seminormality of branch functions with matching values in a reduced ring, including the node of D6.9. |
 | seminormalization-ring | `snRing`, `snMap`, `snRing_seminormal`, `sn_lift`, `sn_compare` | The public ring reflection and its unique comparison with any seminormal subintegral extension, used to construct `Rigid.seminormalization`. |
 | subintegral-unit | `IsSubintegral`, `subintegral_lift`, `subintegral_bijective_of_seminormal`, `snMap_subintegral`, `snMap_isIntegral`, `snMap_fieldPoints` | Subintegral maps, unique extension into seminormal rings, and bijectivity with seminormal source and reduced target; the unit is subintegral. |
 | fixed-rings-and-restriction | `snMap_bijective`, `snRing_localization` | Fixed seminormal rings and compatibility with principal affine restriction; rigid rational restriction is the analytic statement of D6.9. |
@@ -2886,8 +2887,8 @@ rest of this subsection is specified in the README only (no Lean declaration).
 ### D1.7 w-local and w-strictly local perfectoid spaces
 
 The w-localization and the universally open cover are the two constructions that produce
-disconnected covers of an arbitrary affinoid perfectoid space; the w-local predicates are what the
-first of them produces.
+disconnected covers of an arbitrary affinoid perfectoid space. The first produces w-local spaces;
+w-strict locality also requires algebraically closed completed residue fields.
 
 **w-local and w-strictly local perfectoid spaces.** (*w-local-and-w-strictly-local*) A perfectoid
 space `X` is w-local when its underlying topological space is a w-local spectral space, that is,
@@ -2895,10 +2896,10 @@ when `X` is qcqs, every open cover of `X` splits, and the subset `Xᶜ ⊂ |X|` 
 closed. The extra condition over total disconnectedness is exactly the closedness of the set of
 closed points, so a w-local perfectoid space is totally disconnected. A perfectoid space is
 w-strictly local when it is w-local and for every `x ∈ X` the completed residue field `K(x)` is
-algebraically closed; a w-strictly local space is strictly totally disconnected. These two stronger
-predicates are what the w-localization of D1.8 supplies, while the geometric arguments after it use
-only the two disconnectedness predicates ([ECD] §7, Def. 7.4, p. 31; [ECD] §7, Def. 7.17 and the
-remark before it, p. 36). Define `IsWLocalSpace` as the predicate that a space is spectral, that
+algebraically closed; a w-strictly local space is strictly totally disconnected. D1.8 supplies
+w-locality. W-strict locality requires the additional algebraic-closedness condition on completed
+residue fields; the geometric arguments after D1.8 use the two disconnectedness predicates
+([ECD] §7, Def. 7.4, p. 31; [ECD] §7, Def. 7.17 and the remark before it, p. 36). Define `IsWLocalSpace` as the predicate that a space is spectral, that
 every open cover splits and that the set of closed points is closed, `IsWLocalPerfectoid` as the
 predicate `IsWLocalPerfectoid (Geometry.space p c) X` on `X : Geometry.Spaces p c`, and
 `IsWStrictlyLocalPerfectoid p X` as the predicate that `X` is w-local and all of its completed
@@ -2930,6 +2931,12 @@ Mathlib `SpectralSpace`, `IsClosed`.
   of w-local examples used later).
 - `s1_7_w_strictly_local_of_algebraically_closed` (degenerate case) — for `C` algebraically closed,
   `Spa(C, C⁺)` is w-strictly local (the one-component case).
+- `s1_7_w_localization_not_w_strict` (non-example) — let
+  `K = completion(⋃ₙ 𝔽_p((t^{1/pⁿ})))` for prime `p`. This rank-one perfectoid field has residue
+  field `𝔽_p`. A root of `zᵖ − z − 1` would have absolute value `1`, and its reduction would
+  satisfy `0 = 1` in `𝔽_p`, so `K` is not algebraically closed. The one-point space
+  `Spa(K, O_K)` and its completed structure sheaf are unchanged by w-localization; its
+  w-localization is w-local and fails w-strict locality.
 
 The topological predicate `IsWLocalSpace` also has the following Checks, in addition to
 `one_closed_point` and `totally_disconnected_not_w_local`:
@@ -9708,24 +9715,151 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 The closing targets are the seminormal structure-sheaf comparison and the one full-faithfulness
 statement of the roadmap, over a fixed base field and with a seminormal source.
 
+**Characteristic-zero resolution prerequisite.** The generic theorem contract is assigned to
+SchemeAndStackFoundations §0.21 (quasi-excellence) and Layer 4 (projective modifications): every
+reduced noetherian quasi-excellent `ℚ`-scheme `S` admits a projective birational morphism
+`f₀ : Y₀ → S`, with `Y₀` regular and `f₀` an isomorphism over the regular locus of `S`
+([Temkin-resolution] Theorem 1.2.1, pp. 2–3). For `S = Spec A` with `A` a reduced `K`-affinoid
+algebra and
+`K ⊇ ℚ_p` complete, affinoid excellence permits its application. D6.9 establishes that the relative
+analytification `Y = Y₀^an` is smooth over `K`, using regularity and characteristic zero, and that
+`f : Y → Spa(A, A°)` is proper and surjective ([KL16] Remark 8.1.2, p. 159).
+*Needs:* SchemeAndStackFoundations §0.21 and Layer 4; RigidAnalyticGeometry §1.2
+(affinoid excellence, on main); AdicSpacesPartII R1 (relative analytification);
+AdicSpacesPartIII R3.7, *proper-gaga*.
+
+**Checks.**
+
+- `s6_9_resolution_smooth` — the identity is a resolution of a smooth affinoid.
+- `s6_9_resolution_node` — the normalization of `K⟨u,v⟩/(uv)` is the disjoint union of its two
+  smooth branches and is an isomorphism away from the node.
+- `s6_9_resolution_cusp` — the normalization of `K⟨t²,t³⟩` is the smooth disc; existence of a
+  smooth modification alone imposes no seminormality on the target.
+
+**Smooth completed-function recovery.** For a smooth rigid space `X` over a complete
+nonarchimedean field `K ⊇ ℚ_p`, prove `O_X ≅ ν_*Ô_X`, with the natural topologies on affinoid
+sections. D6.9 owns the following calculations as well as their passage to this comparison
+([KL16] Theorem 8.2.3, first two paragraphs of the proof, p. 163):
+
+- Over a perfectoid field containing all p-power roots of unity, take a smooth affinoid chart
+  étale over a d-dimensional torus and its restricted coordinate-root tower. Prove that its
+  completed ring `A∞` is perfectoid and identify its pro-étale Čech objects with continuous
+  functions on powers of the coordinate-root group `Γ = ℤ_p^d`. Prove the topological equality
+  `A = A∞^Γ`, and identify these invariants
+  with `H⁰(X_proét, Ô_X)`. Rational restriction and étale localization give the smooth comparison
+  over that field ([KL16] Remark 8.1.1, p. 158, Theorem 7.1.9, p. 149, and Proposition
+  5.7.14(b), p. 132). PerfectoidSpaces P7.16 supplies the perfectoid basis and the root objects;
+  the invariant calculation and completed-function recovery are targets here.
+- For arbitrary `K`, put `C = completion(K̄)` and let `C₂` be the uniform completion of
+  `C ⊗_K C`. Prove `C^{G_K} = K` and the completed scalar Čech equalizer
+  `0 → K → C ⇉ C₂` ([KL16] Proposition 8.2.1, p. 162). For a smooth affinoid algebra `A`,
+  prove the topological equalizer `0 → A → A ⊗̂_K C ⇉ A ⊗̂_K C₂` and its identification
+  with the two restriction maps on completed pro-étale sections. Completed tensoring preserves
+  the kernel of the difference of the scalar maps by [KL15] Lemma 2.2.9(b), p. 31 (the Banach
+  kernel statement cited as Lemma 2.2.10(b) in [KL16]). This descends the smooth comparison
+  to `K`, naturally under rigid pullback.
+
+*Needs:* AdicEtaleGeometry A1.12 (the site, base change and `ν`); PerfectoidSpaces P7.16
+(the basis, completed pairs and coordinate-root objects); D2.7 (v-descent of functions);
+AdicSpacesPartII R0–R1 (affinoid tensor products and smooth torus charts). The toric and scalar
+calculations in this target are independent of PerfectoidTowers P9.12.
+
+**Checks.**
+
+- `s6_9_toric_invariants` — for an algebraically closed complete `C ⊇ ℚ_p`, on `C⟨T±¹⟩` the
+  invariants of `C⟨T±¹/p^∞⟩` under the coordinate-root action are exactly `C⟨T±¹⟩`.
+- `s6_9_scalar_point` — for `X = Spa(K, O_K)`, the scalar equalizer recovers `K`, even when
+  `K` is not perfectoid.
+- `s6_9_smooth_disc` — the two annular charts with coordinates `T` and `T − 1` recover
+  `K⟨T⟩`; the disc coordinate need not be invertible globally.
+
+**Seminormal analytic compatible-section descent.** Let `K ⊇ ℚ_p` be complete and `A` a
+seminormal `K`-affinoid algebra. Put `X = Spa(A, A°)` and choose the projective resolution
+`f₀ : Y₀ → Spec A` above. Write `Y = Y₀^an`, `R₀ = (Y₀ ×_{Spec A} Y₀)_red`,
+`R = R₀^an = (Y ×_X Y)_red`, and let `r : R → X` and `p₁,p₂ : R ⇉ Y` be the induced maps.
+Prove the equalizer of sheaves on `X`
+`O_X ≅ Eq(f_*O_Y ⇉ r_*O_R)`, with the arrows induced by `p₁,p₂`, and prove its topological
+version on every affinoid open of `X` ([KL16] Proposition 1.4.22, p. 23, for the
+compatible-section interpretation of h-descent; AdicSpacesPartIII R3.7, *proper-gaga*, relative
+coherent direct-image comparison). Reduction of the overlap is part of the statement; replacing
+`R` by its finite seminormalization gives the same equalizer, since `O_R → O_{R^sn}` is injective.
+
+The algebraic argument uses the finite `A`-algebra
+`E = Eq(Γ(Y₀,O) ⇉ Γ(R₀,O))`. Proper coherent direct images and noetherianity make it finite;
+`A → E` is injective and `E` is reduced. SchemeAndStackFoundations §4.9's
+`stein_factorization` makes `Y₀ → Spec Γ(Y₀,O)` surjective. The ring `Γ(Y₀,O)` is integral
+over `E`, so lying over shows that every geometric point of `Spec E` lifts to `Y₀`. Over each geometric point of `Spec A`, the two projections from `R₀`
+force any two such lifts to have the same value for every element of `E`. Thus `Spec E → Spec A`
+is finite, surjective and universally injective; its residue extensions are purely inseparable,
+hence trivial in characteristic zero. Apply D6.9's `subintegral_bijective_of_seminormal` to
+`A → E`. This proves `E = A` without a separate algebraic h-descent prerequisite. Relative
+proper GAGA for `f₀` and `R₀ → Spec A`, including compatibility of coherent kernels and
+analytification with reduction and fibre products, transports this equalizer to `X`. Rational
+restriction gives the sheaf statement; the finite-module topologies give the asserted
+homeomorphism.
+
+For the completed-section bridge, prove that `O_Z → ν_*Ô_Z` is injective for every reduced rigid
+`K`-space `Z`: on affinoids, evaluate at completed algebraic closures of classical residue fields
+and use the Jacobson property and reducedness. If `s ∈ H⁰(X_proét, Ô_X)`, its pullback to `Y`
+corresponds to `b ∈ O_Y(Y)` by smooth completed-function recovery. The two pullbacks of `b` to
+`R` agree in the completed sheaf by functoriality and hence agree in `O_R(R)` by that injection.
+The equalizer gives a unique `a ∈ A`. Establish also that `f^◇ : Y^◇ → X^◇` is a v-cover:
+after every perfectoid test map its proper surjective pullback admits a v-cover by affinoid
+perfectoid spaces, using the proper valuative criterion ([KL16] Remark 8.1.2, p. 159).
+D2.7 then identifies `s` with `a`. For the topology, the inverse section map factors through
+`O_Y(Y)` with its finite `A`-module topology; smooth completed-function recovery and the closed
+equalizer above make this inverse continuous. The forward map is continuous by construction.
+No smoothness or seminormality of `R` is assumed.
+*Needs:* the resolution prerequisite and smooth completed-function recovery above; D2.7;
+D6.4–D6.5; the local subintegral and seminormalization targets below;
+SchemeAndStackFoundations §4.9 (finite Stein factor and proper coherent direct images);
+AdicSpacesPartIII R3.3 (coherent kernels) and R3.7, *proper-gaga*;
+RigidAnalyticGeometry §§1.1–1.2 (Jacobson property, finite residue fields and affinoid excellence,
+on main); AdicSpacesPartII R1 (analytification and the proper valuative criterion);
+AdicEtaleGeometry A1.12;
+PerfectoidSpaces P7.16.
+
+**Checks.**
+
+- `s6_9_node_compatible_sections` — for `A = K⟨u,v⟩/(uv)` and
+  `B = K⟨u⟩ × K⟨v⟩`, the normalization is proper with smooth source, and
+  `A = {(g,h) ∈ B : g(0) = h(0)}`. This ring is seminormal by square–cube lifting in its
+  normal branches and uniqueness of the common lift of their constant terms. The two cross-branch
+  points of `R` impose that equality. The section `(1,0) ∈ B` fails it and does not descend;
+  `f_*O_Y` itself is strictly larger than `O_X`.
+- `s6_9_cusp_overlap_reduction` — for `A = K⟨t²,t³⟩` and its normalization `B = K⟨t⟩`,
+  `(B ⊗_A B)_red = B`, with the same two maps from `B`. Their equalizer is `B`, not `A`;
+  the seminormality hypothesis is essential, and the finite compatible-function algebra is
+  precisely the seminormalization in this example.
+- `s6_9_descent_smooth_identity` — for a smooth `X` and `f = id_X`, the overlap and its two
+  projections are `X ⇉ X`, and compatible-section descent is the identity on functions.
+
 **Seminormal structure-sheaf comparison.** For `K/ℚ_p` complete and `X` a seminormal rigid space
 over `K`, the map `O_X → ν_*Ô_X` to the completed structure sheaf of the pro-étale site of `X` is an
 isomorphism; on an affinoid `X` this says that `O_X(X)` maps homeomorphically onto the sections over
-`X^◇` of the sheaf `T ↦ O(T♯)` ([KL16] Theorem 8.2.3, p. 162; [Berkeley] proof of Proposition
-10.2.3, p. 78; [HK] §2.2, p. 15). This foundational comparison is owned here and proved directly
-from [KL16] on the pro-étale site of `X` (AdicEtaleGeometry A1.12, with the basis of affinoid
-perfectoid objects of PerfectoidSpaces P7.16); it uses no descent along a Galois tower, and
-PerfectoidTowers P9.12 (function descent `O_Y = (h_* O_{X_∞})^G` over a seminormal rigid base,
-*function-descent-seminormal-base*) is its specialisation to a tower and a consumer. Seminormality
-of a ring and of a rigid space, and the seminormalisation as a universal homeomorphism terminal
-among seminormal spaces over `X`, are those of [KL16] Definition 1.4.1, p. 19, and Remark 3.7.3, p.
-80. *Needs:* D6.4; D6.5; AdicEtaleGeometry A1.12; PerfectoidSpaces P7.16;
+`X^◇` of the sheaf `T ↦ O(T♯)` ([KL16] Theorem 8.2.3, pp. 162–163; [Berkeley] proof of
+Proposition 10.2.3, p. 78; [HK] §2.2, p. 15). This comparison is owned here: smooth
+completed-function recovery and seminormal analytic compatible-section descent above supply its
+local proof, followed by gluing. AdicEtaleGeometry A1.12 supplies the pro-étale site, and
+PerfectoidSpaces P7.16 supplies its affinoid perfectoid basis.
+PerfectoidTowers P9.12 is a consumer: function
+descent (`O_Y = (h_* O_{X_∞})^G` over a seminormal rigid base,
+*function-descent-seminormal-base*) is its specialization to a tower. Independence
+from that target retains the toric invariant calculation and completed scalar Čech descent above.
+Seminormality of a ring and of a rigid space, and the seminormalisation as a universal homeomorphism
+terminal among seminormal spaces over `X`, are those of [KL16] Definition 1.4.1, p. 19, and Remark
+3.7.3, p. 80. *Needs:* D6.4; D6.5; AdicEtaleGeometry A1.12; PerfectoidSpaces P7.16;
+smooth completed-function recovery and seminormal analytic compatible-section descent above;
 the local affine seminormality predicate and geometric comparison below (seminormal-ring).
 
 **Checks.**
 
 - `s6_9_cusp_extra_function` — for the cusp `K⟨t², t³⟩`, which is not seminormal, `t` is a section
   of `ν_*Ô` not in `O`, since the normalisation `K⟨t⟩` has the same diamond.
+- `s6_9_seminormal_node_recovery` — the node recovers pairs of branch functions with equal
+  constants; `(1,0)` is excluded by completed-section compatibility.
+- `s6_9_field_recovery` — for `X = Spa(K, O_K)`, the comparison recovers `K` with its given
+  topology and agrees with the scalar calculation above.
 
 **Seminormal rigid full faithfulness.** (*seminormal-rigid-full-faithfulness*) Fix a complete
 nonarchimedean field `K` over `ℚ_p`. If `X` is a seminormal rigid `K`-variety and `Y` any rigid
@@ -9798,6 +9932,21 @@ normal-ring-check on every normal affinoid open.
 - `affine_normal_product` — `ℚ × ℚ` is seminormal although it is not a domain; each component
   supplies its own lift.
 - `affine_product_bad_factor` — `ℚ × ℤ/4` fails the criterion, witnessed in its second factor.
+
+**Seminormality of equalizers.** For seminormal `A`, reduced `B` and ring maps
+`f,g : A →+* B`, prove `IsSeminormalRing.eqLocus`: Mathlib's subring `f.eqLocus g` is seminormal.
+The unique square–cube root in `A` lies in the equalizer because its images in the reduced ring
+`B` have equal squares and cubes and therefore coincide ([KL16] Definition 1.4.1, p. 19;
+[Stacks seminormalization] Tag 0EUL). This supplies the branch-matching argument in
+`s6_9_node_compatible_sections`, with `A` the product of the two normal branch rings and `B = K`.
+
+**Checks.**
+
+- `affine_equalizer_identity` — the equalizer of two identity maps on `ℚ` is seminormal.
+- `affine_equalizer_node` — for any field `k`, the equalizer of the constant-term maps from
+  `k[U] × k[V]` to `k` is seminormal, and `(1,0)` fails its defining condition.
+- `affine_equalizer_nonreduced_codomain` — the maps `ℚ[t] ⇉ ℚ[ε]/(ε²)` sending `t` to `ε`
+  and `0` have equalizer `ℚ[t²,t³]`, which is not seminormal. Reducedness of `B` cannot be omitted.
 
 **Finite decomposition for normal noetherian rings.** Prove `Affine.normal_finiteProduct`:
 if a commutative noetherian ring `A` has normal-domain localizations at every prime, then
@@ -10133,7 +10282,7 @@ the discrete quotient's diamondification ([Berkeley] §18.1 and Prop. 18.2.2).
 
 Lean: the local ring-theoretic declarations `IsSeminormalRing`,
 `IsSeminormalRing.iff_unique`, `IsSeminormalRing.of_isIntegrallyClosed`,
-`IsSeminormalRing.prod_iff`, `Affine.normal_finiteProduct`, `snRing`,
+`IsSeminormalRing.prod_iff`, `IsSeminormalRing.eqLocus`, `Affine.normal_finiteProduct`, `snRing`,
 `snRing.commRing`, `snMap`, `snRing_seminormal`, `sn_lift`,
 `IsSubintegral`, `subintegral_lift`, `subintegral_bijective_of_seminormal`,
 `snMap_subintegral`, `snMap_isIntegral`, `snMap_fieldPoints`, `snMap_bijective`,
@@ -10185,8 +10334,14 @@ perfectoid Tate ring, perfectoid Tate rings and algebras, marked untilts), layer
 spaces and glued tilting, rational localisation of perfectoid affinoids, the tilting slice
 equivalence), layer P3 (étale-site tilting and étale almost acyclicity) and layer P5 (cofiltered
 limits of affinoid perfectoid spaces), with P2.12, P5.6, P6.2 and P6.4 in D6.6; PerfectoidSpaces
-P7.16 (D6.9, the affinoid perfectoid basis over a locally noetherian rigid base); AdicEtaleGeometry
-layer A1 (the generalised étale site, the finite étale site, Yoneda and adic fibre products, with
+P7.16 (D6.9, the affinoid perfectoid basis over a locally noetherian rigid base);
+D6.9 owns smooth completed-function recovery, its toric invariant and completed scalar Čech
+calculations, and seminormal analytic compatible-section descent. Its generic resolution theorem
+contract is assigned to SchemeAndStackFoundations §0.21 and Layer 4 as stated in D6.9; §4.9 supplies
+the finite Stein factor and proper coherent direct images. AdicSpacesPartIII R3.3 and R3.7 supply
+coherent kernels and relative proper GAGA. RigidAnalyticGeometry §§1.1–1.2 on main supplies
+affinoid excellence, Jacobson and residue-field properties; AdicSpacesPartII R1 supplies
+analytification and the proper valuative criterion. AdicEtaleGeometry layer A1 (the generalised étale site, the finite étale site, Yoneda and adic fibre products, with
 the pro-étale site A1.12 in D6.9), A4.3–A4.5 and A4.7 (torsor towers, completion and finite étale
 effective descent); PerfectoidSpaces P1.32 and P6.15–P6.17 (perfectoid completion and torsor
 presentations); AdicSpacesPartIII layer F0 (the formal spectrum), AdicSpacesPartII layer R0
@@ -10239,6 +10394,9 @@ instead of pages.
   https://arxiv.org/pdf/1301.0792. arXiv:1301.0792, author version of Astérisque 371 (2015).
 - [KL16] Kiran Kedlaya and Ruochuan Liu, Relative p-adic Hodge theory II: imperfect period rings.
   https://arxiv.org/pdf/1602.06899. arXiv:1602.06899, author manuscript.
+- [Temkin-resolution] Michael Temkin, Functorial desingularization of quasi-excellent schemes in
+  characteristic zero: the non-embedded case. https://arxiv.org/pdf/0904.1592v2.
+  Theorem 1.2.1, pp. 2–3.
 - [Heuer] Ben Heuer, A p-adic Simpson correspondence for smooth proper rigid varieties.
   https://arxiv.org/pdf/2307.01303. arXiv:2307.01303v3; used for the site conventions and
   attribution of the vector-bundle comparison.
