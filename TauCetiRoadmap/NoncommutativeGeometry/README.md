@@ -486,8 +486,13 @@ Construct 𝒜_θ, the rapidly decreasing Fourier series
 Develop rapid-decay seminorms, convergence, complete Fréchet star-algebra
 structure, the injective dense map into A_θ and Fourier coefficient
 uniqueness. Identify 𝒜_θ with the smooth vectors of the two-torus gauge
-action; prove spectral invariance in all matrix levels by differentiating
-inverses and applying K3. For every real θ identify the underlying
+action, comparing its rapid-decay seminorms with the derivative seminorms of
+[SmoothBanachRepresentations SB2/SB8](../RepresentationTheory/SmoothBanachRepresentations/README.md).
+Consume that roadmap's generic density, complete Fréchet star-algebra,
+Lie-derivation and all-matrix inverse/holomorphic-closure theorems through
+this identification. Retain the torus Fourier proof and the explicit inverse
+derivative comparison here; K3 supplies the K-theory comparison for this
+inverse-closed algebra. For every real θ identify the underlying
 C*-algebra with K7's rotation crossed product by `U₁=v,U₂=u`.
 
 Construct the canonical faithful trace τ(a)=a_00 and the derivations
