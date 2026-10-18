@@ -141,6 +141,13 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
 - **SchemeAndStackFoundations** Layer 2 owns coherent cohomology, perfect complexes, Tor-independent
   base change and coherent Grothendieck duality with its trace; Layer 4 owns deformations of smooth
   schemes and line bundles (§4.6).
+- **LocalPurity** §§2.1–2.2 owns regular-local purity and extension of finite étale covers
+  across missing points with regular local stalks of dimension at least two. **PurityOfBranchLocus** §§2.1–2.2
+  owns generic branch purity and its global finite-morphism corollary. **AbhyankarLemma**
+  Layers 0–3 owns DVR tameness, DVR Abhyankar, ramification in codimension one and the
+  regular-divisor theorem. CR.5:log-algebra.4 owns the SNC Abhyankar theorem, the compatible
+  tame Kummer tower and its full tame fundamental group, and the logarithmic application,
+  using those shared inputs.
 - **AdicSpacesPartIII** owns formal schemes, the theorem on formal functions and Grothendieck
   existence (Layer F0), admissible formal schemes, generic fibres, specialisation and tubes (Layer
   R2) and coherent sheaves (Layer R3). **AdicSpacesPartIV** owns the analytic site comparisons
@@ -421,6 +428,26 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
 
 ### From other roadmaps
 
+- **LocalPurity**, §§2.1–2.2: purity for regular local rings of dimension at least two
+  (Stacks [0BMA](https://stacks.math.columbia.edu/tag/0BMA), the cover-extension formulation),
+  spreading out and extension across points where purity holds
+  ([0EY7](https://stacks.math.columbia.edu/tag/0EY7)). Its
+  `finiteEtale_extend_of_regular_codimTwo` and fully faithful restriction give unique extension
+  from an open `U ⊆ X` when every `x ∈ X ∖ U` has a regular local stalk of dimension at least two.
+- **PurityOfBranchLocus**, §§2.1–2.2: Zariski–Nagata branch purity (SGA 1 X, Théorème 3.1;
+  Stacks [0BMB](https://stacks.math.columbia.edu/tag/0BMB)) and its global corollary: a finite
+  dominant morphism from a normal integral locally noetherian scheme to a regular integral
+  locally noetherian scheme is étale if it is unramified at every codimension-one point of
+  the source. Apply this componentwise to finite normal covers with dominant components.
+  This is the shared generic branch-purity theorem.
+- **AbhyankarLemma**, §§0.1–0.3, 1.1 and 3.3–3.4: tame finite separable extensions of DVR
+  fraction fields, their Kummer extensions and DVR Abhyankar
+  ([0BRM](https://stacks.math.columbia.edu/tag/0BRM)); the codimension-one tame-cover predicate
+  and its base-change laws with their stated hypotheses; and the regular-divisor local
+  structure and finite normalization
+  ([0EYG](https://stacks.math.columbia.edu/tag/0EYG),
+  [0EYH](https://stacks.math.columbia.edu/tag/0EYH)). These supply the one-branch inputs to
+  CR.5:log-algebra.4; the SNC extension and tame Kummer tower are constructed here.
 - **DerivedModuleAlgebra**: §§1.2, 1.3 and 1.5 (derived completeness, the completion
   reflector and ordinary quotient towers); **DerivedDeRhamCohomology** §1.22 (valid
   exchanges of completion with derived operations), perfectness modulo a nilpotent ideal and of
@@ -543,7 +570,9 @@ three de Rham–Witt complexes, and ends with the crystalline comparison, slopes
 filtration. CR.DDR.4.5 and CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 then build derived Witt
 and quasiregular crystalline theory; CR.3:duality uses its top-degree sheaf to build the trace.
 Layer CR.5:log-algebra is
-independent of all crystalline layers and can be built in parallel with CR.1–CR.4; Layer CR.5
+independent of all crystalline layers and can be built in parallel with CR.1–CR.4. Its
+Abhyankar targets use LocalPurity §§2.1–2.2, PurityOfBranchLocus §§2.1–2.2 and
+AbhyankarLemma Layers 0–3 as specified in *Exact supplier contracts*. Layer CR.5
 combines it with Layer CR.1 and the PD foundations to build log crystalline cohomology. CR.DDR.6 develops
 logarithmic classifiers and crystalline comparisons on DerivedDeRhamCohomology §6.20's shared
 constructors after CR.5.5. Layer CR.6 builds
@@ -1594,7 +1623,16 @@ The API:
 60.9.4); O_crys is an algebra over u⁻¹f⁻¹O_S through the structure morphism of Stacks Remark 60.9.6.
 The derived direct image and derived global sections are taken in the enhanced derived categories of
 EnhancedDerivedSheaves Layer E1. `RΓ(Cris(X/S),−)=RΓ(X_Zar,−)∘Ru_{X/S,*}` because
-`Γ(Cris(X/S),−)=Γ(X_Zar,u_{X/S,*}−)` and `u_{X/S,*}` preserves injectives. Limit formula, following the
+`Γ(Cris(X/S),−)=Γ(X_Zar,u_{X/S,*}−)` and the direct image of an injective `O_crys`-module is
+totally acyclic, hence acyclic for global sections (Stacks
+[08J6](https://stacks.math.columbia.edu/tag/08J6), using
+[072Z](https://stacks.math.columbia.edu/tag/072Z) and
+[0731](https://stacks.math.columbia.edu/tag/0731)). For unbounded complexes, use K-injective
+replacements and the canonical comparisons with underlying abelian sheaves (Stacks
+[0D6J](https://stacks.math.columbia.edu/tag/0D6J)); the exact inverse image on abelian sheaves
+gives composition there, and the comparisons transport it with its `Γ(S,O_S)`-action to modules.
+This is the coherent composition comparison of EnhancedDerivedSheaves E1.4, also Stacks
+[0D6E](https://stacks.math.columbia.edu/tag/0D6E). Limit formula, following the
 hint of Remark 60.24.10: reduce to F injective; then the F_e are injective, the maps
 `Γ(F_{e+1})→Γ(F_e)` are surjective, and Γ(F)=lim_eΓ(F_e) because every object of Cris(X/S) is Zariski
 locally an object of some Cris(X/S_e). The identification RΓ(Cris(X/S), F) = Rlim_e RΓ(Cris(X/S_e),
@@ -1615,6 +1653,12 @@ EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`) and §E2.2
 - `test_RΓcrys_empty`: The empty scheme has zero crystalline cohomology.
 - `test_RΓcrys_point`: For k a perfect field of characteristic p, X=Spec k and S=Spec W_e(k) with
   the canonical PD structure on (p): RΓ_crys(X/S,O_crys)=W_e(k) in degree 0.
+- `Crystalline.pdPoint_pullback_p_boundary`: For `X = Spec 𝔽_p`, `S = Spec ℤ_p` and `I = (p)`
+  with its canonical divided powers, multiplication by `p` is injective on `f⁻¹O_S = ℤ_p`.
+  Module pullback takes it to multiplication by `p` on `O_crys`, whose section `1` on the identity
+  thickening `(X,X)` is nonzero and killed by `p`. Thus module pullback is not exact and module
+  direct image need not preserve injectives (Stacks
+  [015Z](https://stacks.math.columbia.edu/tag/015Z)); the comparison uses acyclicity instead.
 - `test_RΓcrys_limit_not_groups`: For `X=𝔸¹_{F_p}` over S=Spec ℤ_p and F=O_crys, the map
   H¹(RΓ_crys(X/S,O_crys))→lim_eH¹(RΓ_crys(X/S_e,O_crys)) is not injective: the class of
   `η=Σ_{e>0}pᵉx^{pᵉ−1}dx` is nonzero and maps to zero, since `η≡d(Σ_{0<j<e}x^{pʲ})` modulo pᵉ (Stacks
@@ -7903,21 +7947,32 @@ groups of V at the generic point of div(f_i). Then every n_i is prime to p, and 
 uniquely, up to unique isomorphism, to a finite étale cover of X′. When X is strictly local, every
 connected tamely ramified cover of U is a quotient of such a U′, and the tame fundamental group of U
 is canonically `∏_{ℓ≠p} ℤ_ℓ(1)^r`.
+For strictly local `X`, the covers `U′` for all tuples `(n_i)` prime to `p` form the compatible
+tame Kummer tower: when `m_i ∣ n_i` for every `i`, the transition to the `m`-tuple sends its root coordinate to
+`T_i^{n_i/m_i}`. Its inverse limit is a universal tame pro-cover; its automorphism group is
+`lim_(n_i) ∏_i μ_{n_i} = ∏_{ℓ≠p} ℤ_ℓ(1)^r`, with the transition maps on roots of unity given by
+the same powers.
 
 *Proof sketch.* Regularity of X′: its local ring is finite and flat over A with maximal ideal
 generated by T₁,…,T_r,g_(r+1),…,g_d, where f₁,…,f_r,g_(r+1),…,g_d is a regular system
 of parameters of A. The extension has dimension d, so these d generators make it regular. Étaleness of U′ when the n_i
 are prime to p: the f_i are units on U. For the extension statement, uniqueness holds because X′ is
-normal (the extension is the normalisation of X′ in V ×_U U′); by purity for regular schemes (an
-étale cover defined off codimension two extends) it suffices to extend at the points of codimension
-one, where it is the discrete valuation ring case of the lemma. Primality of the n_i to p is proved
+normal (the extension is the normalisation of `X′` in `V ×_U U′`). AbhyankarLemma §0.3 supplies
+the DVR extension at codimension-one points; its §1.1 supplies the tame-cover predicate.
+After spreading out these extensions, LocalPurity §§2.1–2.2 extends uniquely across the remaining
+complement, whose points have codimension at least two in the regular scheme `X′`. Generic
+branch purity for finite normalizations is supplied by PurityOfBranchLocus §§2.1–2.2.
+Primality of the n_i to p is proved
 by contradiction with a descent argument along X[T₁]/(T₁^p − f₁) on the strictly henselian local
-scheme. The description of the tame fundamental group follows from the action of
-`μ_{n₁} × ⋯ × μ_{n_r}` on U′ ([SGA 1](https://arxiv.org/abs/math/0206203), Exposé XIII, Appendice I, Proposition
+scheme. Over a strictly local `X`, the action of `μ_{n₁} × ⋯ × μ_{n_r}` on `U′` is compatible with
+the tower transitions; cofinal domination of connected tame covers makes the inverse limit
+universal and gives the full tame fundamental group ([SGA 1](https://arxiv.org/abs/math/0206203), Exposé XIII, Appendice I, Proposition
 5.1, Proposition 5.2 (absolute Abhyankar lemma) and Corollaire 5.3, pp. 314–316 of the arXiv
 edition). *Needs:* Mathlib `IsRegularLocalRing` and `Algebra.Etale`; the strict normal crossings
-divisor of *Divisorial log structures*; purity of the branch locus for regular schemes (SGA 1,
-Exposé X, Théorème 3.1), which is part of this target.
+divisor of *Divisorial log structures*; LocalPurity §§2.1–2.2 (regular-local purity, spreading out
+and codimension-two cover extension); PurityOfBranchLocus §§2.1–2.2 (generic branch purity);
+AbhyankarLemma §§0.1–0.3, 1.1 and 3.3–3.4 (DVR tameness and Abhyankar, codimension-one
+tame covers, regular-divisor local structure and normalization).
 
 **Checks.**
 
@@ -7929,6 +7984,9 @@ Exposé X, Théorème 3.1), which is part of this target.
   prime to p makes V ×_U U′ extend to an étale cover; tameness cannot be dropped.
 - `abhyankar_tame_pi1`: for X strictly local of dimension one (a strictly henselian discrete
   valuation ring) and r = 1, the tame fundamental group of the punctured spectrum is `∏_{ℓ≠p} ℤ_ℓ(1)`.
+- For `A = k⟦x,y⟧` with `k` separably closed of characteristic `p` and `D = V(xy)`, the compatible
+  prime-to-p root covers of `x` and `y` give `∏_{ℓ≠p} ℤ_ℓ(1)^2`. The divisor `D` is singular at the
+  closed point, so the regular-divisor theorem alone does not cover this SNC example.
 
 **Logarithmic Abhyankar lemma.** Let X be regular noetherian with SNC boundary D, U=X∖D, and V→U a
 finite étale cover whose normal finite extension Y→X is tamely ramified along D. With the divisorial

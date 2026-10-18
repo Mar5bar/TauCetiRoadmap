@@ -71,6 +71,25 @@ example (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] :
 
 end Crystalline
 
+/-! ## Layer CR.2: Crystalline direct image and global sections -/
+
+namespace Crystalline
+
+/-- Multiplication by `p` is injective on `ℤ_p` and fails injectivity on the identity crystalline
+thickening of `Spec 𝔽_p` over `Spec ℤ_p`. These coefficient maps witness failure of exactness of
+module pullback; derived global sections use acyclicity of direct images of injectives. -/
+theorem pdPoint_pullback_p_boundary (p : ℕ) [Fact p.Prime] :
+    Function.Injective (fun x : ℤ_[p] ↦ (p : ℤ_[p]) * x) ∧
+      ¬ Function.Injective (fun x : ZMod p ↦ (p : ZMod p) * x) := by
+  constructor
+  · intro x y hxy
+    exact mul_left_cancel₀ (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero) hxy
+  · intro h
+    have h01 : (0 : ZMod p) = 1 := h (by simp)
+    exact zero_ne_one h01
+
+end Crystalline
+
 /-! ## Layer CR.4: Ordinary and relative de Rham–Witt complexes -/
 
 namespace Crystalline
@@ -380,7 +399,11 @@ abelian sheaf with sections G(U) on (U,T); the structure sheaf instead has secti
 Commutative p-divisible sheaves satisfy the same condition. The downstream internal Ext
 construction is owned by AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
 Layer CR.6 includes log rigid Hyodo–Kato cohomology; Layer CR.5:log-algebra includes the classical
-normalization and tame Kummer comparison used in the logarithmic Abhyankar lemma.
+SNC Abhyankar theorem, compatible prime-to-residue-characteristic Kummer tower, universal tame
+pro-cover and full tame fundamental group used in the logarithmic Abhyankar lemma. LocalPurity
+§§2.1–2.2 supplies regular-local purity and codimension-two cover extension;
+PurityOfBranchLocus §§2.1–2.2 supplies generic branch purity; AbhyankarLemma Layers 0–3 supplies
+DVR tameness, DVR Abhyankar, codimension-one ramification and the regular-divisor theorem.
 Log rigid Hyodo–Kato cohomology uses S† = Spwf(A₀[t]†), weak formal lifts, products and blow-ups,
 and dagger generic fibres. The convergent comparison uses their adic completions over
 Ŝ = Spf A₀⟨t⟩. The point lift is Z = S†, with t = 0 fibre Spf A₀.
