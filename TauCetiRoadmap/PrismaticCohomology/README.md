@@ -155,7 +155,7 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 | AlgebraicVectorBundles, Layers L0A–L0B | `2` | Monoidal sheaves, duals and finite projective modules `≃` finite locally free sheaves on affines (Layers L0A–L0B). Compatible-tower effectivity is §2.28, not part of this equivalence. |
 | DerivedModuleAlgebra §0.K.1; AInfCohomology §AI.1.7 | 0–2 | Finite-sequence Koszul complexes, exterior terms, alternating contraction, concatenation and regular-sequence acyclicity; the commuting-endomorphism cochain adapter, with its signed tensor differential. |
 | DerivedDeRhamCohomology §§PD.6–PD.7 | `0`, `1`, `2` | PD envelopes with their initial property and flat base change, including p-completion. For p-torsion-free `B` and a sequence regular modulo `p`, retain p-torsion-freeness; in characteristic `p` use the divided-power monomial basis. `A_crys(S)` is the initial p-complete PD thickening of a semiperfect `F_p`-algebra `S`, with Frobenius, PD/conjugate filtrations and the PD logarithm. The `γ_p-stability` and `γ_k∘γ_p` identities are used with their p-torsion-free hypotheses (BS22 Lemmas 2.38, 16.11). |
-| DerivedModuleAlgebra §§1.1–1.9, 1.E.1; DerivedDeRhamCohomology §§1.10–1.23 | `0`, `1`, `2` | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). Finite complete Tor-amplitude base change commutes with bounded-below totalizations (BS22 Lemma 4.22). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure and heart and Bocksteins retain their enhanced coherences. Derived complete `M` with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
+| DerivedModuleAlgebra §§1.1–1.9, 1.E.1; DerivedDeRhamCohomology §§1.10–1.23 | `0`, `1`, `2` | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). The finite complete Tor-amplitude tensor/totalization exchange is a local target of [§1.10](#s1-10). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure and heart and Bocksteins retain their enhanced coherences. Derived complete `M` with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
 | EnhancedDerivedSheaves §§0.1–0.3, E1.1–E1.4 | `0` | Enhanced module derived categories, derived tensor, adjunctions and derived limits; their homotopy categories recover ordinary derived categories. The complete enhancements and algebra objects are retained, not inferred from triangulated categories. |
 | EnhancedDerivedSheaves §E0.4 | `0` | Products and limits with fixed universe cutoffs; §0.93 takes its solution-set product in a larger ambient universe. |
 | DerivedModuleAlgebra §§0.1–0.17, 0.25 | `0`, `1`, `2` | Full cotangent complexes, transitivity, derived exterior/divided powers, décalage `∧^i(M[1])≃Γ^i(M)[i]`, p-complete Tor-amplitude and quasisyntomic/QRSP predicates. Square-zero deformation classes, map-lifting and uniqueness under cotangent vanishing are affine inputs; scheme lifting groupoids are §2.6. |
@@ -2214,13 +2214,29 @@ Apply the objectwise Frobenius lift of the δ-sheaf `O_Δ`, then `Rν_*` and glo
 
 Consume oriented affine base change from PerfectoidSpaces §P4.15.3. For smooth `R/A/I` and any bounded-prism map `A→A′`, the base-changed presentation computes `Δ_(R′/A′)`, `R′=R⊗̂_AA′`. If `A′` has finite `(p,I)-complete` Tor-amplitude over A, tensor commutes with totalization, giving `Δ⊗̂^L_AA′≃Δ_(R′/A′)` and the corresponding Hodge–Tate iso. This step extends to unoriented bases before §1.21 removes its `Tor` bound.
 
-Finite complete Tor-amplitude means `A′⊗^L_AA/(p,I)` has finite amplitude over `A/(p,I)`; this is the prerequisite for the Hodge–Tate proof, not a consequence of §1.21.
+Finite complete Tor-amplitude means `A′⊗^L_AA/(p,I)` has finite Tor-amplitude over `A/(p,I)`; this is the prerequisite for the Hodge–Tate proof, not a consequence of §1.21.
 
 (BS22, Lemma 4.20, Lemma 4.22 and their proofs; pp. 43, 44.)
 
 *Needs:* [§1.7](#s1-7), [§1.8](#s1-8), [§0.86](#s0-86), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23.
 
-**Proof route.** Use oriented base change termwise and finite complete `Tor` amplitude to commute tensor with totalization, then descend orientations (BS22 Lemma 4.20, p.43, and Lemma 4.22, p.44).
+<a id="complete-base-change-totalization"></a>
+
+**Completed tensor and totalization.** Construct `Prismatic.completeBaseChange_totalization` here. Let `C` be a commutative ring, `J` a finitely generated ideal, and `C→C′` a ring map of finite J-complete Tor-amplitude. For a cosimplicial object `M•` of `D(C)`, suppose there is one integer `b` with `Mⁿ∈D≥b(C)` for every cosimplicial degree `n`. Then the canonical comparison
+
+`LΛ_(JC′)(Tot(M•)⊗ᴸ_C C′) → Tot(LΛ_(JC′)(M•⊗ᴸ_C C′))`
+
+is an equivalence. Completion uses the image ideal `JC′`; the terms need not already be complete. Separate lower bounds depending on `n` do not supply the uniform hypothesis. (BS22, Lemma 4.22 and proof, p.44.)
+
+*Needs:* DerivedModuleAlgebra §§1.1–1.8 (derived limits, completion and complete Tor-amplitude); EnhancedDerivedSheaves §§0.1–0.3 (enhanced derived categories and limits).
+
+**Checks.**
+
+- Identity base change on derived J-complete terms recovers their totalization.
+- For `C→C[t]`, flatness gives Tor-amplitude zero, so the exchange holds for every uniformly bounded-below diagram, even though `C[t]` need not be perfect over `C`.
+- For `C=Z`, `J=(p)` and `C′=F_p`, the exchange holds with Tor-amplitude `[−1,0]`; `F_p⊗ᴸ_Z F_p` retains its nonzero degree `−1` term.
+
+**Proof route.** Finite partial totalizations commute with completed tensor by exactness. A Koszul complex on finite generators of `J` and the finite complete Tor-amplitude give a fixed integer `c` such that completed base change sends `D≥n(C)` into `D≥n−c(C′)`. Thus the errors of the partial totalizations tend uniformly to arbitrarily high degrees, and the comparison survives the inverse limit (BS22 Lemma 4.22, p.44). For prismatic base change the Čech terms are discrete, so their common lower bound is zero. Apply the helper to oriented base change termwise, then descend orientations (BS22 Lemma 4.20, p.43).
 
 <a id="s1-11"></a>
 <a id="layer-1-etale-localization"></a>
@@ -2875,7 +2891,9 @@ The prism category here includes unbounded prisms. Weak initiality must not be r
 
 ### 2.13 Prismatic cohomology of a regular quotient is the prismatic envelope
 
-Consume the oriented regular envelope of PerfectoidSpaces §§P4.15.2–P4.15.3; retain the nonprincipal gluing and canonical graded formula. For finite Koszul-regular `f_i` mod `I`, `J=(I,f_i)`, bounded-p-torsion `R=A/J` has `gr_i^conjΔ̄=Γ^i_R(J/(J²+I)){−i}`, finite free; `Δ̄` is discrete completely faithfully flat over `R`, `Δ` discrete I-regular and initial among all prisms over A receiving `R`. Locally `I=(d)`, `Δ=A{f_i/d}^∧`; under §0.86’s relative complete-regularity hypotheses it is that envelope. These identifications glue, without choosing a global orientation.
+Consume the oriented regular envelope of PerfectoidSpaces §§P4.15.2–P4.15.3; retain the nonprincipal gluing and canonical graded formula. For finite Koszul-regular `f_i` mod `I`, `J=(I,f_i)`, bounded-p-torsion `R=A/J` has `gr_i^conjΔ̄=Γ^i_R(J/(J²+I)){−i}`, finite projective; `Δ̄` is discrete completely faithfully flat over `R`, `Δ` discrete I-regular and initial among all prisms over A receiving `R`. Locally `I=(d)`, `Δ=A{f_i/d}^∧`; under §0.86’s relative complete-regularity hypotheses it is that envelope. These identifications glue, without choosing a global orientation.
+
+Put `L_R=(I/I²)⊗_(A/I)R`. For `r>0` regular relations, their conormal basis identifies `gr_i^conjΔ̄` with `binom(r+i−1,i)` copies of `L_R^(−i)`. Thus each piece is finite locally free of that rank. A trivialization of `L_R^(−i)`, in particular one induced by an orientation of `I`, gives a global basis. Its general module interface asserts `Module.Finite`, `Module.Projective` and this stalk rank (Stacks Tag 00NX, Lemma 10.78.2).
 
 Regular means Koszul-regular; all δ-adjunctions and completions in the local formula are animated.
 
@@ -2884,6 +2902,16 @@ Regular means Koszul-regular; all δ-adjunctions and completions in the local fo
 *Needs:* [§2.3](#s2-3), [§2.12](#s2-12), [§2.7](#s2-7), [§2.10](#s2-10), [§0.86](#s0-86), [§0.60](#s0-60), [§0.55](#s0-55), [§0.63](#s0-63), DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `RingTheory.Sequence.IsRegular`.
 
 **Proof route.** Consume the oriented regular envelope and glue its divided-power graded pieces with canonical ideal twists (BS22 Lemma 7.7, pp.57–58).
+
+**Checks.**
+
+- For `r=0`, `Δ=A`; the graded rank is 1 at `i=0` and 0 otherwise.
+- For an oriented prism and `r>0`, the relation basis and the orientation give a basis of `gr_i` of size `binom(r+i−1,i)`. The degree-zero piece is canonically `R` for every prism.
+- A nonprincipal boundary occurs at `p=2`. Let `B=F₂[x,y]/(y²+xy+x³+1)`, `t=y+1` and `h=y+x²`. This is the smooth elliptic curve with its point at infinity `O` removed. The ideal `N=(x,t)` of `P=(0,1)` is invertible, `t²=xh`, and `N²=(x)`. It is nonprincipal: a generator would have divisor `P−O` on the projective curve and give a degree-one map to `P¹`.
+
+  Put `C=W(B)^∧_2`, `X=[x]`, `T=[t]`, `H=[h]`. The ring `C` is 2-torsion-free. The opens `D(X),D(H)` cover, and `T²=XH`. The transition `G=X/T` lifts `N` to an invertible C-module `M` with local generators `d₁=Gd₂`; it remains nonfree after reduction to `B`. On `A₀=Sym_C(M)^∧_(2,I₀)`, where `I₀` is the augmentation ideal, the Witt Frobenius extends by `φ(d₁)=d₁²+2X`, `φ(d₂)=d₂²+2H`. These formulas agree because `F(G)=G²` and `G²H=X`. Both local generators are regular and distinguished, `A₀/I₀=C` is 2-torsion-free, and `(A₀,I₀)` is a bounded prism with conormal line `M`.
+
+  For `A=(A₀[u])^∧_(2,I₀)` with `δ(u)=0` and the regular relation `u`, the quotient is `C` and `gr_1=M^∨` is nonfree. For the affine line over `A₀/I₀`, `H¹(Δ̄)=C⟨v⟩⊗_C M^∨` is likewise nonfree, as specialization at `v=0` shows.
 
 <a id="s2-13a"></a>
 <a id="layer-2-quasiregular-quotient-initiality"></a>
@@ -2904,7 +2932,7 @@ The algebraic part of the signatures uses `Prismatic.quotientStructureMap` for t
 - `quasiregularQuotient_fatPoint`: for `A=ℤ_p⟨x⟩`, `δ(x)=0`, `I=(p)` and `S=𝔽_p[x]/(x²)`, the shifted cotangent complex over `𝔽_p[x]` is free of rank one. The envelope adjoins `x²/p` with its δ-relations; this example does not require `S` to be semiperfectoid.
 - `quasiregularQuotient_unboundedTargets`: the lift equivalence includes unbounded target prisms, beyond the bounded site.
 - `quasiregularQuotient_nonsurjective`: `𝔽_p→𝔽_p[x]` is not surjective and its cotangent complex has the degree-zero generator `dx`. Its positive-degree Hodge–Tate cohomology precludes this discrete initiality conclusion.
-- With `r` regular relations, `gr_i` is free of rank `binom(r+i−1,i)`; for `r=0` the rank is 1 at `i=0` and 0 otherwise. For `(A,I)=(ℤ_p⟨x⟩,(p))` and the relation `x^p`, the envelope is the p-completed PD envelope of `(x)`; for `A_inf(O_C)` and the relation `p` it is `A_inf{p/ξ}^∧`.
+- With `r>0` regular relations, `gr_i` is finite locally free of rank `binom(r+i−1,i)`, with its conormal twist retained; for `r=0` the rank is 1 at `i=0` and 0 otherwise. A trivialization of the inverse i-th power of the pulled-back conormal line gives global freeness; the nonprincipal Check of §2.13 has nonfree `gr_1`. For `(A,I)=(ℤ_p⟨x⟩,(p))` and the relation `x^p`, the envelope is the p-completed PD envelope of `(x)`; for `A_inf(O_C)` and the relation `p` it is `A_inf{p/ξ}^∧`.
 
 *Needs:* [§2.12](#s2-12), [§2.13](#s2-13), [§0.93](#s0-93), [§2.3](#s2-3) and [§2.10](#s2-10) (derived Hodge–Tate comparison and conjugate filtration), DerivedModuleAlgebra §§0.1–0.17 (cotangent complexes) and §§1.1–1.9 (complete flatness and completion), [§0.58](#s0-58) (animated δ-algebras). A logarithmic application requires identification with this ordinary relative complex after exactification, together with the cotangent and torsion hypotheses above.
 
@@ -3216,9 +3244,9 @@ Local API `Prismatic.Almost.ideal_tensor`: for `Q=(R/J)_perfd` and `K=ker(R→Q)
 
 The derived self-intersection `R=(A/I)⊗^L_((A/I)⟨x⟩)(A/I)`, `x↦0`, has `π₀=A/I` and `π₁=A/I`. Its cotangent complex is R[1], so the conjugate graded pieces are `R{−i}` in degree pattern prescribed below; replacing `R` by `π₀` loses its nonzero negative cohomology. For the crystalline perfect base and `S=F_p[x]`, `S_perfd=F_p[x^(1/p^∞)]` is discrete, whereas `Δ̄` has `H¹=F_p[x]dx`. The completed Frobenius perfection is therefore a genuine loss of positive conjugate pieces, rather than a substitution of notation.
 
-**§2.1.** `Δ_{(A/I)/A} = A` with `φ = φ_A`, and `Δ̄_{(A/I)/A} = A/I`. For `R = (A/I)⟨x⟩` the value is Layer 1's complex: `H^0(Δ̄_{R/A}) = R`, `H^1(Δ̄_{R/A}) = Ω^1_{R/(A/I)}{−1}` free of rank `1`, and no other cohomology. For `R = A/I × A/I` (p-completely étale over `A/I`) the value is A `× A`. For a discrete p-complete `R`, two polynomial simplicial resolutions give canonically equivalent values. A non-discrete input is computed in §2.14.
+**§2.1.** `Δ_{(A/I)/A} = A` with `φ = φ_A`, and `Δ̄_{(A/I)/A} = A/I`. For `R = (A/I)⟨x⟩` the value is Layer 1's complex: `H^0(Δ̄_{R/A}) = R`, `H^1(Δ̄_{R/A}) = Ω^1_{R/(A/I)}{−1}` finite locally free of rank `1`, with a global basis after trivializing the pulled-back conormal line, and no other cohomology. For `R = A/I × A/I` (p-completely étale over `A/I`) the value is A `× A`. For a discrete p-complete `R`, two polynomial simplicial resolutions give canonically equivalent values. A non-discrete input is computed in §2.14.
 
-**§2.3.** Polynomial algebra: recovers `Ω^i{−i}` ≅ `H^i(Δ̄)`. `R = A/I`: `gr_i^conj = 0` for `i > 0`. `R = (A/I)/(f)`, `f` a nonzerodivisor, `R` of bounded `p^∞-torsion`: `gr_i^conj = Γ^i_R(R·f̄){−i}`, free of rank `1`. `S` perfectoid over a perfect prism: `L^∧_{S/(A/I)} = 0`, so `Δ̄_{S/A} = S` and `Δ_{S/A} = A_inf(S)`. `R = A/I ⊗^L_{(A/I)⟨x⟩} A/I`: `gr_i^conj ≃ R{−i}` for all `i` (§2.14).
+**§2.3.** Polynomial algebra: recovers `Ω^i{−i}` ≅ `H^i(Δ̄)`. `R = A/I`: `gr_i^conj = 0` for `i > 0`. `R = (A/I)/(f)`, `f` a nonzerodivisor, `R` of bounded `p^∞-torsion`: `gr_i^conj = Γ^i_R(R·f̄){−i}`, finite locally free of rank `1`, and globally free after trivializing the inverse i-th power of the pulled-back conormal line. `S` perfectoid over a perfect prism: `L^∧_{S/(A/I)} = 0`, so `Δ̄_{S/A} = S` and `Δ_{S/A} = A_inf(S)`. `R = A/I ⊗^L_{(A/I)⟨x⟩} A/I`: `gr_i^conj ≃ R{−i}` for all `i` (§2.14).
 
 **§2.4.** For `X` smooth the object `Δ_{X/A}` is the one of Layer `1`. For `X = Spf(R)` affine, `RΓ(X, Δ_{X/A}) = Δ_{R/A}`. For a finite disjoint union the value is the product: `Δ_{(R_1 × R_2)/A} = Δ_{R_1/A} × Δ_{R_2/A}`.
 
@@ -3234,7 +3262,7 @@ The derived self-intersection `R=(A/I)⊗^L_((A/I)⟨x⟩)(A/I)`, `x↦0`, has `
 
 **§2.12.** `R = A/I`: the prism is `(A, I)`, which is initial. `R` p-completely smooth of positive relative dimension: `Δ̄_{R/A}` is not discrete and `(b)` does not apply. `R = (A/I)/(f)`: `(b)` applies and the idempotent is the identity (§2.13). `R` perfectoid over a perfect prism: `Δ_{R/A} = A_inf(R)` with its unique δ-structure.
 
-**§2.13.** `r = 0`: `R = A/I` and `Δ_{R/A} = A`. `(A, I) = (Z_p⟨x⟩, (p))` with `δ(x) = 0` and `f = x^p`: `R = F_p[x]/(x^p)` and `Δ_{R/A} = Z_p⟨x⟩{x^p/p}^∧` is the p-completed PD envelope of `(x)` in `Z_p⟨x⟩` (Layer `0`, PD envelopes of regular sequences are δ-envelopes). `(A, I) = (A_inf(O_C), (ξ))` and `f = p`: `R = O_C/p` and `Δ_{R/A} = A_inf{p/ξ}^∧` (§2.21). The graded pieces `gr_i^conj` are free of rank `binom(r+i−1, i)`.
+**§2.13.** `r = 0`: `R = A/I` and `Δ_{R/A} = A`. `(A, I) = (Z_p⟨x⟩, (p))` with `δ(x) = 0` and `f = x^p`: `R = F_p[x]/(x^p)` and `Δ_{R/A} = Z_p⟨x⟩{x^p/p}^∧` is the p-completed PD envelope of `(x)` in `Z_p⟨x⟩` (Layer `0`, PD envelopes of regular sequences are δ-envelopes). `(A, I) = (A_inf(O_C), (ξ))` and `f = p`: `R = O_C/p` and `Δ_{R/A} = A_inf{p/ξ}^∧` (§2.21). For `r>0` the graded pieces `gr_i^conj` are finite locally free of rank `binom(r+i−1, i)`; these two oriented examples have global bases, while the nonprincipal Check in §2.13 has nonfree `gr_1`.
 
 **§2.14.** the crystalline calculation gives negative reduced classes `εu^{[kp−1]}` for `k≥1` and degree-zero reduced classes `u^{[kp]}` for `k≥0`. These are direct sums over `F_p` after reduction, since restricted p-adic coefficients reduce to finite support. They agree with the conjugate-filtration calculation. Base change between bounded prisms carries the self-intersection and the Künneth formula to the corresponding example; no assertion of unreduced nondiscreteness accompanies that base change.
 
@@ -3244,7 +3272,9 @@ The derived self-intersection `R=(A/I)⊗^L_((A/I)⟨x⟩)(A/I)`, `x↦0`, has `
 
 **§2.18.** `gr_1^conj Δ̄_S` is free of rank `1` over `S`. `H^2(gr_i^conj Δ̄_{B/A}) = R{−i}` for every `i ≥ 2`. For `R = F_p`: `S = F_p[x^{1/p^∞}, y^{1/p^∞}]/(xy)` and `Δ_S` is the p-completed PD envelope of `((xy)^{1/p})` in `Z_p[x^{1/p^∞}, y^{1/p^∞}]^∧`. `S^1` is a quotient of a perfectoid ring by a regular sequence of length `3`.
 
-**§2.19.** `S = k`: `Δ_{k/A} = W(k) = RΓ_crys(k/A)`; by contrast `dR^∧_{k/W(k)} = (W(k)⟨x⟩/(x − p))^∧` is not `W(k)`, so the derived de Rham complex over `W(k)` cannot replace derived crystalline cohomology. `S =` k[x]: the right side is the p-completed de Rham complex of `W(k)⟨x⟩` and the left side is `Δ_{k[x]/W(k)}` twisted by `φ`. `S` quasiregular semiperfect: the right side is `A_crys(S)` (§2.20). `S = k/(x)`: `Δ_{S/A} = A{[x]/p}^∧` and `RΓ_crys(S/A) = A{[x]^p/p}^∧` are different subrings of `A[1/p]-algebras`; the twist cannot be removed.
+**§2.19.** `S = k`: `Δ_{k/A} = W(k) = RΓ_crys(k/A)`. Put `P=Γ_(W(k))(W(k)·x)`, the PD polynomial algebra. Then `dR^∧_{k/W(k)} ≃ LΛ_p[P --(x−p)→ P]`, with the two terms in degrees `−1,0`. For `k=F_p`, the uncompleted complex is `Z_p ⊕ ⊕_(j>0) Z_p/j` in degree zero, whose derived p-completion retains the nonzero `Z_p/p` summand. Thus this derived de Rham theory cannot replace derived crystalline cohomology (Bha12, Proposition 8.5 and Corollary 8.6, pp.31–32; DerivedDeRhamCohomology §4.6). In contrast, for the ordinary completed polynomial algebra, evaluation gives `Z_p⟨x⟩/(x−p)≅Z_p`.
+
+For `S=k[x]`, the right side is the p-completed de Rham complex of the ordinary completed polynomial algebra `W(k)⟨x⟩` and the left side is `Δ_{k[x]/W(k)}` twisted by `φ`. For `S` quasiregular semiperfect, the right side is `A_crys(S)` (§2.20). For `S=k/(x)`, `Δ_{S/A}=A{[x]/p}^∧` and `RΓ_crys(S/A)=A{[x]^p/p}^∧` are different subrings of `A[1/p]-algebras`; the twist cannot be removed.
 
 **§2.20.** `S = k` perfect: both sides are `W(k)` and the isomorphism of `(2)` is `φ`. `S = F_p[x^{1/p^∞}]/(x)`: `Δ_S` is the p-completed PD envelope of `(x^{1/p})` in `Z_p[x^{1/p^∞}]^∧`, and `A_crys(S)` that of `(x)`. `S = O_C/p`: `Δ_S = A_inf{ξ/p}^∧ = φ^{−1}(A_crys)` and `A_crys(S) = A_inf{φ(ξ)/p}^∧` is Fontaine's `A_crys`. The identification is not `W(k)-linear`: for `S = k/(x)`, `[x]/p` lies in `Δ_S` but not in `A_crys(S) ⊂ W(k)[1/p]`.
 

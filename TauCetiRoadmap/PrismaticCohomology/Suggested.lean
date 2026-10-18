@@ -630,6 +630,23 @@ The derived comparison targets are `Prismatic.quasiregularQuotient.bounded`,
 `Prismatic.quasiregularQuotient.envelopeEquiv` and `Prismatic.quasiregularQuotient.map`.
 Their cotangent complexes, completed conjugate filtrations and derived prismatic algebras
 are the supplied enhanced constructions specified in the README.
+
+The regular-quotient graded module (§2.13) is `Γ^i_R(J/(J²+I)){−i}`.
+For `r > 0` regular relations it is finite projective of stalk rank `binom(r+i−1,i)`;
+its module interface provides `Module.Finite` and `Module.Projective`. A trivialization
+of the inverse i-th power of the pulled-back conormal line provides a global basis.
+For `r = 0` the rank is one in degree zero and zero otherwise. The affine-line
+degree-one Hodge–Tate module (§2.1) likewise retains its inverse conormal twist.
+
+`Prismatic.completeBaseChange_totalization` (§1.10) provides completed tensor/totalization
+interchange for a finitely generated ideal `J` and a finite J-complete Tor-amplitude
+map `C → C′`. The cosimplicial complexes have one common cohomological lower bound;
+completion on the target uses `JC′`.
+
+The crystalline control example (§2.19) uses the PD algebra `DividedPowerAlgebra A A`,
+where `A = W(k)` and `x` is its degree-one generator. Its two-term complex has
+multiplication by `x − p` in degrees `−1,0` and is derived p-completed.
+The smooth polynomial example instead uses the ordinary completed polynomial algebra.
 -/
 
 end Prismatic
