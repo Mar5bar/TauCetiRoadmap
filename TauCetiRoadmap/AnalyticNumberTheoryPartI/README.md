@@ -3363,8 +3363,8 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 - **BBR.** [Djamel Berkane, Olivier Bordellès and Olivier Ramaré — Explicit upper bounds for the remainder term in the divisor problem][BBR], Mathematics of Computation81 (2012), pp.1025–1051; explicit divisor inputs and their proofs.
 
 [R1]: ../../Completed/ArithmeticDirichletSeries/README.md#layer-6-abel-and-perron-summation
-[GH-products]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ca9d1e118dd92419d281602eabd6a6f70f04b85/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh-preparatory-products
-[GH-factorization]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ca9d1e118dd92419d281602eabd6a6f70f04b85/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh3-weierstrass
+[GH-products]: GlobalHolomorphicFunctions README
+[GH-factorization]: GlobalHolomorphicFunctions README
 [AL-paired]: ../AutomorphicLFunctionsAndLocalFactors/README.md#centered-entire-functions-and-paired-products
 [Artin-FE]: https://people.math.osu.edu/cogdell.1/artin-www.pdf
 [RR-primes]: https://ramare-olivier.github.io/Maths/rumely.pdf
