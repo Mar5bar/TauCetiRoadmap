@@ -993,7 +993,9 @@ For the proof, As in part (c) of [real orbits and stabilizers of binary cubic fo
 
 - `f = x^3 + x^2y − 2xy^2 − y^3` (the cyclic cubic of conductor `7, Disc = 49`) is fixed by the order`-3` element `γ = [[0, −1], [1, −1]]` of `SL_2(ℤ)`, i.e. `(x, y) ↦ (y, −x − y)`; its stabiliser in `GL_2(ℤ)` is exactly `{1, γ, γ^2}` (checked by enumeration).
 
-- A form with `Disc < 0` always has trivial stabiliser in `GL_2(ℤ)`.
+- An irreducible integral binary cubic form with `Disc<0` has trivial stabilizer in `GL₂(Z)`; `x³−2y³`, with discriminant `−108`, is an example.
+
+- The reducible form `x³+xy²` has discriminant `−4` and stabilizer `{1,diag(−1,1)}` for the twisted action, so the negative-discriminant assertion needs irreducibility. Suggested.lean mirrors its discriminant and the determinant-twisted substitution fixing it.
 
 <a id="reducible-binary-cubic-forms-in-the-main-body"></a>
 
@@ -1263,15 +1265,24 @@ For the proof, Average the finite-cover fundamental domain with its stabilizer m
 
 <a id="quartic-maximal-order-suborders"></a>
 
-**Quartic maximal-order suborders.** For every `epsilon>0` there is `C_epsilon`, independent of the quartic étale `Q`-algebra `L` and positive integer `k=product p^e`, such that the number of unital suborders of index `k` in its maximal order `O_L` is at most `C_epsilon^omega(k) product p^((2+epsilon) floor(e/4))`. The local constant is retained once for each prime dividing `k`; it can instead be absorbed into a further `k^epsilon` loss for a fixed-resolvent estimate. Use the maximal étale order componentwise. A nonmaximal ambient order is outside this statement. Cubic-resolvent multiplicity is `sigma(c)` for content `c`, with discriminant scaling `c⁶`; it is included when counting pairs.
+**Quartic maximal-order suborders.** For a quartic étale `Q`-algebra `L`, let `s_L(k)` count the unital suborders of positive index `k` in the maximal order `O_L`, as embedded subrings. Here `O_L` is the product of the maximal orders of the field factors; suborders may couple those factors. Prove finiteness and multiplicativity in `k`. Establish these estimates with constants independent of `L` and the prime `p`:
 
-Prove the local maximal-order estimates and multiply them with their uniform constants, then sum the convergent content series and Euler factors `1+O_epsilon(p⁻²)`. This retains the uniform `p⁻²` tail without absorbing the local constant into a power of the distinguished prime. *Needs:* GlobalNumberFields Layer 11; ArithmeticStatisticsPartII **Existence and number of cubic resolvents**. Source: [[77]](#ref-77), proof of Proposition 23, pp.1056–1057 (Nakagawa's suborder estimate), and Lemma 12, p.1045, for the étale version.
+1. `s_L(1)=1`, `s_L(p)≤C_0` for an absolute constant `C_0`, and, for every `epsilon>0`, `s_L(p^e)≤C_epsilon p^((1/2+epsilon)e)` for `e≥2`.
+2. The weighted local series satisfies `sum_(e≥1) s_L(p^e)/p^(2e)≤C/p²`, with an absolute constant. Consequently the global index series is uniformly bounded and its subseries over `p|k` is `O(p⁻²)`.
+3. For every `epsilon>0`, `s_L(k)≤C_epsilon k^(1/2+epsilon)`. This fixed-index estimate is used for fixed reducible resolvents, separately from the uniform weighted tail.
+
+A nonmaximal ambient order is outside these assertions. For a quartic order of content `c`, the number of resolvent structures over that fixed order is `sigma(c)`; forgetting its automorphisms gives at most this many pair orbits. Write the order uniquely as `Z+cQ'` with `Q'` primitive. If `Q'` has index `j` in `O_L`, the resulting index is `c³j` and discriminant is `c⁶j² Disc(L)`.
+
+Prove the local estimates by enumerating multiplicatively closed index lattices in the maximal étale order. For the weighted series use the first-index bound and the higher-index bound with, for example, `epsilon=1/4`; the higher-index contribution is `O(p^(-5/2))`. Multiply the Euler factors `1+O(p⁻²)`. For the fixed-index estimate absorb each local constant into the prescribed `k^epsilon` loss. Sum content independently: `sum_c sigma(c)/c⁶` converges and its subseries over `p|c` is `O(p⁻⁵)`. Nonmaximality at `p` means `p|j` or `p|c`, so both subseries enter the pair-orbit tail. At fixed index retain `sum_(c³j=k) sigma(c)s_L(j)≪_epsilon k^(1/2+epsilon)`; the content weight is absorbed using `sigma(c)≪_epsilon c^(1+epsilon)` and the divisor bound.
+
+*Needs:* GlobalNumberFields Layer 11; ArithmeticStatisticsPartII **Existence and number of cubic resolvents**; AnalyticNumberTheoryPartI §3.26. Sources: [[77]](#ref-77), Lemma 12 pp.1044–1046 and proof of Proposition 23 pp.1056–1057, for the suborder/content reduction; [Shankar–Tsimerman, *Secondary terms in the counting functions of quartic fields*](https://arxiv.org/pdf/2503.02381v1), §11, Proposition 11.2, (45), and Corollary 11.3, p.41, for the local index dependence and content-weighted fixed-index bound deduced from Nakagawa’s enumeration.
 
 **Checks.**
 
 - At `k=1` the unique suborder is `O_L`.
-- At `k=p,p²,p³` the displayed prime-power factor is one, with local multiplier `C_epsilon`; at `k=p⁴` it is `C_epsilon p^(2+epsilon)`. For `O_L=Z⁴` there are six index-`p` suborders, one for each pair of equal residue coordinates, and exactly `6^omega(k)` index-`k` suborders for squarefree `k`. A single constant independent of `k` cannot replace `C_epsilon^omega(k)`.
-- For `L=Q⁴`, the order `Z+pO_L` has index `p³` and content `p`, hence `p+1` cubic resolvents. The suborder count alone does not count pair orbits.
+- For `O_L=Z⁴` there are six index-`p` suborders, one for each pair of equal residue coordinates, and exactly `6^omega(k)` index-`k` suborders for squarefree `k`. The global `k^epsilon` loss absorbs these factors; a constant bound at all squarefree indices would fail.
+- For every prime `p` and `[a:b]∈P¹(F_p)`, the subring `R_[a:b]={(x,y,z,w)∈Z⁴: x≡y≡z mod p, a(x−z)+b(y−z)≡0 mod p²}` has index `p³`. The last condition is independent of the integer lifts of `a,b`. These are `p+1` distinct suborders, so `s_(Q⁴)(p³)≥p+1`; they contribute at least `(p+1)/p⁶` to the weighted local series. Suggested.lean mirrors the subring/index assertion and this lower bound on the native `Subring` carrier.
+- For `L=Q⁴`, the order `Z+pO_L` has index `p³` and content `p`, hence `p+1` resolvent structures over the fixed order. Its content-series weight is `(p+1)/p⁶`, even when the primitive index `j=1`; the suborder count alone does not count pair orbits.
 
 <a id="quartic-class-group-and-conductor-inputs"></a>
 
@@ -1293,7 +1304,7 @@ Use ClassFieldTheory Layer 12 `globalClassFieldCorrespondence`, `globalAbelianGa
 
 <a id="non-s4-quartic-maximal-fields"></a>
 
-**Non-S4 quartic maximal fields.** For `X≥1` the number of maximal quartic fields with group `D4,C4,V4` or `A4` and `0<|Disc|<X` is `O(X)`. Count maximal orders without cubic-resolvent multiplicity. For `D4` use the quadratic-tower Dirichlet series and its linear bound; cyclic and biquadratic fields have `O(X^(1/2)(log(2X))²)` count. For `A4`, whose cubic resolvent is a cyclic field, use the quartic fundamental-multiset main-body and irreducible-resolvent cusp upper estimates, which give `O(X)` without a full-`S4` sieve. Sum maximal-order suborders and their content/resolvent factors to obtain `O(X/p²)` for nonmaximal pair orbits in these field algebras, uniformly in `p`.
+**Non-S4 quartic maximal fields.** For `X≥1` the number of maximal quartic fields with group `D4,C4,V4` or `A4` and `0<|Disc|<X` is `O(X)`. Count maximal orders without cubic-resolvent multiplicity. For `D4` use the quadratic-tower Dirichlet series and its linear bound; cyclic and biquadratic fields have `O(X^(1/2)(log(2X))²)` count. For `A4`, whose cubic resolvent is a cyclic field, use the quartic fundamental-multiset main-body and irreducible-resolvent cusp upper estimates, which give `O(X)` without a full-`S4` sieve. Apply the weighted local series of [quartic maximal-order suborders](#quartic-maximal-order-suborders), and sum the independent content/resolvent factors, separating `p|j` from `p|c`, to obtain `O(X/p²)` for nonmaximal pair orbits in these field algebras, uniformly in `p`.
 
 *Needs:* the quartic finite congruence geometry and cusp upper estimates; the two preceding arithmetic inputs; ClassFieldTheory Layer 12. Sources: [[77]](#ref-77), Lemma 11 and proof of Theorem 7, pp.1043–1054, for the irreducible-resolvent upper count; [Cohen–Diaz y Diaz–Olivier, *Enumerating quartic dihedral extensions*](https://doi.org/10.1023/A:1016310902973), §1.1 p.65 and Proposition 6.2, for the quadratic-tower counts. The `S4`-only Proposition 23 is not an input for this non-`S4` assertion.
 
@@ -1307,7 +1318,7 @@ Use ClassFieldTheory Layer 12 `globalClassFieldCorrespondence`, `globalAbelianGa
 
 **Quartic fixed reducible resolvent.** For every `epsilon>0` and every reducible cubic ring `R` with nonzero discriminant `d`, the number of quartic-pair orbits with resolvent `R` is `O_epsilon(|d|^(1/4+epsilon))`. The constant is independent of `R`. This is the corrected loss-bearing input for the large-stabilizer estimate, not an `O(|d|^1/4)` assertion.
 
-For the proof, The fixed-resolvent field count uses the squareclass/quadratic genus bound with an `epsilon` loss. Sum quartic suborder counts by index and include cubic-resolvent multiplicity at nonprimitive content. Prove the preceding quartic maximal-order suborder and class-group/conductor inputs.
+For the proof, The fixed-resolvent field count uses the squareclass/quadratic genus bound with an `epsilon` loss. Use `s_L(k)≪_epsilon k^(1/2+epsilon)` and its content-weighted fixed-index version from [quartic maximal-order suborders](#quartic-maximal-order-suborders). Since `k²|d`, the index contributes at most `|d|^(1/4+epsilon)` after dividing the epsilon budget among the algebra, divisor and content factors. Prove the preceding quartic maximal-order suborder and class-group/conductor inputs.
 
 *Needs:* [ArithmeticStatisticsPartII, quartic ring and cubic resolvent][AS-II-8], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9], GlobalNumberFields Layer 11; AnalyticNumberTheoryPartI §3.26; [quartic maximal-order suborders](#quartic-maximal-order-suborders) and [quartic class-group and conductor inputs](#quartic-class-group-and-conductor-inputs).
 
@@ -1325,7 +1336,7 @@ For the proof, The fixed-resolvent field count uses the squareclass/quadratic ge
 
 **Quartic nonmaximal overramified tail.** Let `W_p` be quartic pairs whose quartic ring is nonmaximal at `p`, or maximal with one of the overramified splitting types `P^4, P^2, P1^2 P2^2` of §3.2. For absolutely irreducible `S4` orbits, `N_i(W_p;X)<=C X/p^2` uniformly in primes `p` and `X>=1`. Restricting to nonmaximal pairs also satisfies this bound.
 
-For the proof, For nonmaximal orders use the suborder index bound and sum the content factor `sigma(n)/n^6`. For overramification use acceptable quadratic extensions of noncyclic cubic fields, square conductor norms, and the `O(X)` sum of their 2-class-group masses. The absolute convergence of sum `3^omega(m)/m^2` gives a `p`-independent constant.
+For the proof, For nonmaximal orders use the uniform weighted local series from [quartic maximal-order suborders](#quartic-maximal-order-suborders), and sum the content factor `sigma(c)/c⁶` independently. Separate the cases `p|j` and `p|c`; their weighted tails are `O(p⁻²)` and `O(p⁻⁵)`, respectively. For overramification use acceptable quadratic extensions of noncyclic cubic fields, square conductor norms, and the `O(X)` sum of their 2-class-group masses. The absolute convergence of sum `3^omega(m)/m^2` gives a `p`-independent constant.
 
 *Needs:* [quartic finite congruence count](#refinement-quartic-finite-congruence-count), [ArithmeticStatisticsPartII, maximality of quartic rings at p][AS-II-10], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9], [quartic maximal-order suborders](#quartic-maximal-order-suborders), [quartic class-group and conductor inputs](#quartic-class-group-and-conductor-inputs).
 
@@ -2204,7 +2215,13 @@ For the proof, Uniform Lang–Weil gives an `F_p`-point on geometrically integra
 
 *Needs:* [quantitative ekedahl geometric sieve](#quantitative-ekedahl-geometric-sieve), [degree-uniform hypersurface smooth points](#degree-uniform-hypersurface-smooth-points), `hensels_lemma` (Mathlib), SchemeAndStackFoundations Layer 0, [uniform bound for points of a subscheme modulo p](#uniform-bound-for-points-of-a-subscheme-modulo-p).
 
-([[83]](#ref-83), PV Theorem 3.6, p.3, with proof; coefficient conventions §1 pp.1–2; Fano §1 pp.1–3.)
+([[83]](#ref-83), PV Theorem 3.6, p.3, with proof; coefficient conventions §2 pp.1–2; Fano range Conjecture 2.2(ii), p.2.)
+
+**Checks.**
+
+- Plane cubics have `N=10` and reducible-locus codimension two. Plane conics have `N=6` and codimension one, and are excluded.
+- `x_0^d−x_1 x_2^(d−1)` has the smooth point `[0:0:1:0:…:0]` over every `F_p`, since its `x_1` derivative is `−1` there; Hensel gives a local point at every prime.
+- The primitive polynomial `x_0^d` is geometrically nonreduced but locally soluble everywhere. The reducible locus contains the possible large-prime failures; it is not equal to the insoluble locus.
 
 <a id="refinement-hypersurface-finite-local-count"></a>
 
@@ -2214,7 +2231,13 @@ For the proof, Use Mobius inversion for the common coefficient `gcd`, CRT and bo
 
 *Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.1, [ArithmeticStatisticsPartI, family defined by local conditions][AS-I-5], AnalyticNumberTheoryPartI §§3.22,3.26.
 
-([[83]](#ref-83), PV Theorem 3.6 and proof, p.3; primitive restriction Remark 2.1, p.2; Euclidean-ball adaptation not in PV.)
+([[83]](#ref-83), PV Theorem 3.6 and proof, p.3; primitive restriction Remark 2.1(2), p.1; Euclidean-ball adaptation not in PV.)
+
+**Checks.**
+
+- With no place restrictions and `(n,d)=(3,3)`, `N=20` and the main term is `vol(B_20)A²⁰/(2 zeta(20))`; the sign quotient contributes the factor two.
+- Every real cubic in at least three variables has a nontrivial zero, by oddness on the connected unit sphere. Thus the real factor for cubic surfaces is one. In contrast, `x_0²+x_1²+x_2²+x_3²` has no nontrivial real zero.
+- Multiplying `x_0^d−x_1 x_2^(d−1)` by `p^r`, `r≥1`, preserves its local zero set but makes its coefficient vector nonprimitive at `p`. This is the radial contribution removed by primitive conditioning.
 
 <a id="refinement-hypersurface-local-density"></a>
 
@@ -2224,7 +2247,13 @@ For the proof, For each finite place set use the primitive ball count. The unifo
 
 *Needs:* [hypersurface local tail](#refinement-hypersurface-local-tail), [hypersurface finite local count](#refinement-hypersurface-finite-local-count).
 
-([[83]](#ref-83), PV Theorem 3.6 and proof, p.3; Fano §1 (1.2)–(1.3), pp.1–3; with the Euclidean unit-ball real factor.)
+([[83]](#ref-83), PV Theorem 3.6 and proof, p.3; Conjecture 2.2(ii), p.2, for the Fano range; the local-density theorem is Theorem 3.6, p.3; with the Euclidean unit-ball real factor.)
+
+**Checks.**
+
+- Cubic surfaces have `(n,d)=(3,3)`, `N=20`, real factor one and a positive product of finite local factors.
+- For quadrics in `P³`, `N=10` and `0<c_infinity,ball<1`: indefinite forms with a smooth real zero and positive definite forms each occupy an open coefficient set.
+- Plane conics `(n,d)=(2,2)` lie outside the theorem; the codimension-one reducible locus does not supply its required summable prime tail.
 
 ### Supporting uniform estimates
 

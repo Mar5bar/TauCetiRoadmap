@@ -157,6 +157,15 @@ example : (X ^ 3 - 3 * X : ℤ[X]).discr = 108 ∧
     (X ^ 3 + X : ℤ[X]).discr = -4 ∧ (X ^ 3 : ℤ[X]).discr = 0 ∧
     (X ^ 4 - 1 : ℤ[X]).discr = -256 := by sorry
 
+/-- Negative discriminant is compatible with a nonidentity twisted stabilizer for a reducible cubic. -/
+example (x y : ℤ) :
+    (-1 : ℤ) * ((-x)^3 + (-x)*y^2) = x^3 + x*y^2 ∧
+    Matrix.det (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) = -1 := by sorry
+
+/-- The irreducible cubic X cubed minus two has negative discriminant. -/
+example : Irreducible (X^3 - C 2 : ℚ[X]) ∧
+    (X^3 - C 2 : ℤ[X]).discr = -108 := by sorry
+
 /-- The ordered quartic tangent basis E11,E12,E21 fixes the Jacobian sign. -/
 example (i j : ℚ) :
     Matrix.det (!![0, 1, 0, 0, 0; 1, 0, 0, 0, 0; 0, -i, 3, 0, 0;
@@ -240,6 +249,18 @@ example : (25*X^3 + X + 1 : ℤ[X]).discr = -25*679 ∧
 
 /-- The split local quartic algebra has six suborders of index five. -/
 example : {S : Subring (Fin 4 → ZMod 5) | S.toAddSubgroup.index = 5}.ncard = 6 := by sorry
+
+/-- A nonzero residue linear condition on two coordinate differences defines an index-p-cubed suborder. -/
+example (p : ℕ) (hp : p.Prime) (a b : ℤ)
+    (hab : ¬ ((p : ℤ) ∣ a ∧ (p : ℤ) ∣ b)) :
+    ∃ S : Subring (Fin 4 → ℤ),
+      (∀ v, v ∈ S ↔ (p : ℤ) ∣ v 0 - v 2 ∧ (p : ℤ) ∣ v 1 - v 2 ∧
+        (p : ℤ)^2 ∣ a * (v 0 - v 2) + b * (v 1 - v 2)) ∧
+      S.toAddSubgroup.index = p^3 := by sorry
+
+/-- Projective residue directions give at least p plus one split quartic suborders of index p cubed. -/
+example (p : ℕ) (hp : p.Prime) :
+    p + 1 ≤ {S : Subring (Fin 4 → ℤ) | S.toAddSubgroup.index = p^3}.ncard := by sorry
 
 /-- An Artin–Schreier quadratic over the rational function field has unit discriminant. -/
 example :
