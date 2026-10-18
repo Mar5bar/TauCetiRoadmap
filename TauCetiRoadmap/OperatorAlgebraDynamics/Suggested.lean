@@ -2,6 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import Mathlib.GroupTheory.FreeGroup.Reduce
 import Mathlib.Analysis.CStarAlgebra.Hom
 import Mathlib.Analysis.CStarAlgebra.PositiveLinearFunctional
 import Mathlib.Analysis.InnerProductSpace.StarOrder
@@ -124,4 +125,22 @@ theorem kms_entire_identity (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A))
   sorry
 
 end KMS
+section PowersPartition
+
+/-- The full finite-partition interface for Powers averaging. The basis may
+have arbitrary cardinality; a and b are two distinct free generators.
+The translates are explicit set images, not an unspecified Powers predicate. -/
+theorem exists_powers_partition {ι : Type*} (a b : ι) (hab : a ≠ b)
+    (F : Finset (FreeGroup ι)) (hF : ∀ f ∈ F, f ≠ 1)
+    (N : ℕ) (hN : 0 < N) :
+    ∃ (C D : Set (FreeGroup ι)) (γ : Fin N → FreeGroup ι),
+      Disjoint C D ∧ C ∪ D = Set.univ ∧
+      (∀ f ∈ F, Disjoint ((fun x : FreeGroup ι => f * x) '' C) C) ∧
+      Pairwise (fun i j : Fin N =>
+        Disjoint ((fun x : FreeGroup ι => γ i * x) '' D)
+          ((fun x : FreeGroup ι => γ j * x) '' D)) := by
+  sorry
+
+end PowersPartition
+
 end OperatorAlgebraDynamics
