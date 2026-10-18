@@ -521,12 +521,13 @@ Local Langlands for tori is an input stated where used.
 Local fields and ramification, layer 4: the wild and tame filtrations and the Iwasawa
 presentation Fr s Fr⁻¹ = s^q.
 
-### From TauCetiRoadmap.DGAInfinity and DerivedDeRhamCohomology
+### From TauCetiRoadmap.DGAInfinity and DerivedModuleAlgebra
 
 [DGAInfinity](../DGAInfinity/README.md) layers 0–1 supply A-linear Hom complexes, their
 comparison with Mathlib's additive Hom complex, and dg enrichment.
-[DerivedDeRhamCohomology](../DerivedDeRhamCohomology/README.md) §0.2 supplies K-flat
-resolutions and derived tensor products for underlying A-module complexes. SR.0d
+[DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.2 supplies K-flat
+resolutions for arbitrary, possibly unbounded A-module complexes and the derived tensor
+bifunctor `DerivedDeRham.derivedTensor`. SR.0d
 constructs the equivariant resolutions and the K-injective smooth subcategory on these APIs.
 
 ## How to read the build
@@ -1714,7 +1715,7 @@ restriction to open subgroups, derived invariants and derived tensor products ov
 functors or are computed by K-flat/K-injective replacements in this model ([Stacks] Tag 070Y and
 Tag 079P). *Needs:* *k-injective-resolutions*, *derived-smooth-category*, *derived-invariants*;
 DGAInfinity layers 0–1 (A-linear Hom complexes and dg enrichment);
-DerivedDeRhamCohomology §0.2 (underlying module K-flat resolutions and derived tensor).
+DerivedModuleAlgebra §0.2 (underlying module K-flat resolutions and derived tensor).
 
 Check (Koszul sign): for the two complexes [ℤ → ℤ] with identity differentials in degrees 0 and 1, the tensor differential is (x,y) ↦ x − y in the (0,1),(1,0) ordering. The vector (0,1) maps to −1.
 
@@ -1724,7 +1725,7 @@ Check (Koszul sign): for the two complexes [ℤ → ℤ] with identity different
 - For G = ℤ_p and A = F_p, H¹ RHom_G(F_p, F_p) = F_p.
 - For G finite discrete, RHom_G agrees with RHom over A[G] after Rep.equivalenceModuleMonoidAlgebra.
 
-Use the diagonal tensor product, the internal Hom and the tensor–Hom adjunction of smooth representations. The tensor product of complexes is Mathlib’s direct-sum total tensor complex with its Koszul differential. Use the underlying module K-flat and derived-tensor API of DerivedDeRhamCohomology §0.2.
+Use the diagonal tensor product, the internal Hom and the tensor–Hom adjunction of smooth representations. The tensor product of complexes is Mathlib’s direct-sum total tensor complex with its Koszul differential. Use the underlying module K-flat and derived-tensor API of DerivedModuleAlgebra §0.2, with bifunctor `DerivedDeRham.derivedTensor`.
 Construct equivariant K-flat resolutions here: every smooth complex has a quasi-isomorphic
 smooth complex whose underlying A-module complex is K-flat; the diagonal tensor product
 preserves smoothness. These resolutions compute the derived tensor in this dg model.
@@ -1840,7 +1841,7 @@ non-admissible complex F_ℓ[ℚ_p/ℤ_p].
 
 SR.0 and SR.1; Mathlib's Grothendieck-abelian, derived-category, K-injective and Ext API;
 ProfiniteCohomology layers 7 and 10; DGAInfinity layers 0–1;
-DerivedDeRhamCohomology §0.2.
+DerivedModuleAlgebra §0.2.
 
 ## Layer SR.2: induction, compact induction and Jacquet functors
 

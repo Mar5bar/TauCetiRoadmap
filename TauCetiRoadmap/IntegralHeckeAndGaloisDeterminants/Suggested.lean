@@ -11,6 +11,10 @@ theorems that can already be stated against the pinned Mathlib and Tau Ceti APIs
 layer. DerivedModuleAlgebra §§0.DP.1–0.DP.2 and 0.K.1 supply polynomial-law predicates,
 Roby algebras and Koszul complexes. The determinant fields below spell out the supplied
 homogeneity and multiplicativity conditions on Mathlib's law carrier.
+The arbitrary-module degree-one law construction and characterization belong to
+DerivedModuleAlgebra §0.DP.1. README §0.7 uses ReductiveGroups layer 1 and Tau Ceti's native
+cofree adjunction for arbitrary-base flat-Hopf cohomology and algebraic induction, with
+tensor-permutation and inversion comparisons; §6.4 supplies the integral GL₂ applications.
 
 Design choices.
 * A `d`-dimensional determinant (Chenevier) is a Mathlib `PolynomialLaw` `R →ₚₗ[A] A` that is

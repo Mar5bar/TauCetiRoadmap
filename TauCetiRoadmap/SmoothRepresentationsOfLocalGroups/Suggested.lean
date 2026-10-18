@@ -19,6 +19,9 @@ import TauCetiRoadmap.ReductiveGroupsPartII.Suggested
 The mathematical roadmap is `README.md`. This file records the definitions and the headline
 theorems that can already be stated against the pinned Mathlib and Tau Ceti APIs and the
 `ReductiveGroupsPartII` roadmap. It is not an exhaustive list of the targets of any layer.
+For SR.0d, DerivedModuleAlgebra §0.2 supplies the underlying-module K-flat and
+`DerivedDeRham.derivedTensor` API; equivariant K-flat resolutions and the smooth
+derived-category comparison belong to this roadmap.
 
 Design choices.
 * A representation is Mathlib's `Representation A G V` on an `A`-module with no topology; it is

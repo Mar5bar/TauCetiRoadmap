@@ -69,7 +69,11 @@ exact declarations are listed under *Exact supplier contracts*.
   appropriate dimension bound, finite-dimensional central-simple splitting over the centre, and
   conjugacy of algebra isomorphisms; the determinant-specific boundedness and inseparable norm
   factors are developed here.
-- The roadmap **ReductiveGroups** (layer 9) supplies split reductive group schemes over `ℤ` with
+- The roadmap **ReductiveGroups** (layer 1) supplies the comodule, morphism, tensor and
+  regular-representation foundations. Their native Tau Ceti API supplies cofree comodules and
+  the cofree adjunction; §0.7 builds rational cohomology and algebraic induction over arbitrary
+  commutative bases with flat coordinate Hopf algebras on these foundations.
+  ReductiveGroups layer 9 supplies split reductive group schemes over `ℤ` with
   their Hopf algebras, points functor and base change, for a given root datum; `GLₙ` and `GSp₂ₙ`
   enter as the split groups of their root data. Tau Ceti supplies `GeneralLinear.coordinateHopfAlgebra` and its generic
   matrix dictionary. The invariant coordinate algebras of Layer IHG.0 use an actual commutative
@@ -396,7 +400,9 @@ character map of a group algebra is `MonoidAlgebra.lift`.
 
 `TauCeti.Comodule` (`Algebra/Coalgebra/Comodule/`): right comodules over a coalgebra, the fixed
 subcomodule `Comodule.fixedSubcomodule`, the abelian category of comodules over a flat coalgebra,
-`Comodule.tensor` and `Comodule.cofree`. Conjugation invariants, rational cohomology and good
+`Comodule.tensor`, `Comodule.cofree`, the coaction embedding `Comodule.Hom.cofreeUnit` and
+the cofree adjunction `Comodule.Hom.cofreeEquiv`. `Comodule.Corestrict` corestricts a right
+coaction along a coalgebra morphism. Conjugation invariants, rational cohomology and good
 filtrations are built on these in Layers IHG.0 and IHG.6.
 
 `TauCeti.completedGroupAlgebra`, `TauCeti.completedGroupAlgebra.proj` and
@@ -462,6 +468,12 @@ isomorphisms over a field. The determinant-specific boundedness and inseparable 
 developed here (Layer IHG.1).
 
 ### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
+
+ReductiveGroups layer 1: comodules, comodule morphisms, tensor products and the regular
+representation, together with the representation–comodule dictionary. The native Tau Ceti
+cofree and corestriction APIs listed above supply the adjunction and change of coaction used
+in §0.7. The arbitrary-base cofree-resolution comparison and algebraic induction are targets
+of §0.7; the integral `GL₂` cohomology and good-filtration calculations are targets of §6.4.
 
 ReductiveGroups layer 9: split reductive group schemes over `ℤ` constructed from a root datum
 (Chevalley–Demazure), with their Hopf algebras, base change and points over a field; `GLₙ` and
@@ -584,11 +596,12 @@ laws, including their scalar-extension definitions and degree-one characterizati
 
 ### 0.2 Scalar-extension laws and degree one
 
-**The polynomial law of a linear map.** For an `A`-linear map `ℓ : M → N`, define the law of `ℓ`
-as the degree-one polynomial law with `ℓ_S = S ⊗ ℓ` (`LinearMap.lTensor`) for every commutative
-`A`-algebra `S`. Prove that the degree-one laws are exactly these and that the ground map of the
-law of `ℓ` is `ℓ` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.2(i), p. 7). *Needs:*
-DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws, Mathlib `LinearMap.lTensor`.
+DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws supplies the polynomial law of
+an `A`-linear map `ℓ : M → N` on Mathlib's `PolynomialLaw` carrier, for arbitrary `A`-modules
+`M, N`. Its scalar-extension map is `ℓ_S = S ⊗ ℓ` (`LinearMap.lTensor`) for every commutative
+`A`-algebra `S`, and its ground map is `ℓ` under `A ⊗_A M ≅ M`. The construction and ground-value
+comparison belong to that supplier ([Chenevier](https://arxiv.org/pdf/0809.0415v2),
+Example 1.2(i), p.7).
 
 **Checks.**
 
@@ -599,13 +612,14 @@ DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws, Mathlib `LinearMap.
 - The law of `0` is the zero law, the degenerate case; a construction producing a nonzero constant
   term would fail it.
 
-**Degree-one polynomial laws are linear.** For arbitrary `A`-modules `M, N`, prove that a polynomial
-law `P : M → N` is homogeneous of degree one if and only if it is the scalar-extension law of a
-unique `A`-linear map `ℓ : M → N`; no flatness or finite-generation hypothesis is needed. The proof
-expands `P(uX + vY)` and compares total degree after the substitution `(X, Y) ↦ (XT, YT)`: its two
-coefficients give additivity, and homogeneity gives scalar linearity. Naturality then identifies
-every scalar-extension value with the induced linear map, including for torsion modules
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.2(i) and footnote 11, p.7). *Needs:* The polynomial law of a linear map.
+The converse and uniqueness are also supplied by DerivedModuleAlgebra §0.DP.1 / Homogeneous
+polynomial laws: a law `P : M → N` has degree one exactly when it is the scalar-extension law
+of a unique `A`-linear map, with no flatness or finite-generation hypothesis. The characterization
+and its proof belong there ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.2(i) and
+footnote 11, p.7). For the torsion specialization `A = ℤ`, `M = N = ℤ/2`, the identity law is
+still degree one and corresponds to `id`; the characteristic-polynomial target below uses the
+same supplied characterization for determinant traces, and the one-dimensional determinant
+target uses it for algebra maps.
 
 **Determinants (Chenevier).** For `A` commutative and `R` any associative unital `A`-algebra, a
 `d`-dimensional determinant valued in `A` is a degree-`d` homogeneous polynomial law `D : R → A`
@@ -641,7 +655,7 @@ degree zero), prove that `χ(x, t)` is monic, that `deg χ = d`, and that `χ(x,
 define `Determinant.traceLinear` (`Tr` as an `A`-linear map) and prove `Tr(1) = d`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, p. 12;
 [Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, (1.3), p. 12). *Needs:* Determinants (Chenevier), Mathlib `Polynomial`, `Algebra.TensorProduct.rid`, `Polynomial.Monic`,
-Degree-one polynomial laws are linear.
+DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws (degree-one characterization).
 *Lean:* `Determinant.charpoly`, `Determinant.trace`, `Determinant.traceLinear`.
 
 **Checks.**
@@ -728,7 +742,8 @@ Mathlib `TensorProduct.AlgebraTensorModule.cancelBaseChange`.
 the map `D ↦ D_A` is a bijection between `1`-dimensional `A`-valued determinants on `R` and
 `A`-algebra homomorphisms `R → A`; for `R = A[G]`, these are the characters `G → A^×`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5, p. 9). *Needs:* Determinants (Chenevier),
-Mathlib `AlgHom`, Degree-one polynomial laws are linear.
+Mathlib `AlgHom`, DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws
+(degree-one characterization).
 
 **Two-dimensional determinants on a group.** For a group `G` (for monoids, Chenevier's form with
 `f(g, h)` applies instead), prove that `D ↦ (T, D|_G)` is a bijection between `2`-dimensional
@@ -808,7 +823,9 @@ image of `Ker(P) ⊗ B` in `M ⊗ B` lies in `Ker(P ⊗ B)` ([Chenevier](https:/
 **Laws factor through their kernel.** For an `A`-submodule `K` of `M` with quotient map
 `π : M → M/K`, prove that `Ker(P)` is the largest submodule `K ⊆ M` such that `P = P̃ ∘ π` for a
 polynomial law `P̃ : M/K → N`: `P` factors through `M/K` iff `K ≤ Ker(P)`
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.18(i), p. 16). *Needs:* The polynomial law of a linear map, Kernels are compatible with base change, Mathlib `Submodule.mkQ`.
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.18(i), p. 16). *Needs:*
+DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws (scalar-extension law of a linear map),
+Kernels are compatible with base change, Mathlib `Submodule.mkQ`.
 
 **The induced law on M/Ker(P) is faithful.** Prove that if `P = P̃ ∘ π` with
 `π : M → M/Ker(P)`, then `P̃` is faithful ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.18(ii), p. 16).
@@ -1176,15 +1193,36 @@ p.22.) *Needs:* Mathlib `CommHopfAlgCat`, `HopfAlgebra`; Tau Ceti's Hopf points 
   ordered products. For zero-arity coordinates, every tuple evaluates a scalar to that scalar.
 
 **Rational cohomology of a flat affine group scheme.** Let `A` be commutative, `H` a commutative
-Hopf `A`-algebra flat over `A`, and `M` an `H`-comodule. The term of degree `n` is
+Hopf `A`-algebra flat over `A`, and `M` any right `H`-comodule, without a finiteness or
+`A`-flatness hypothesis on `M`. Use the comodule foundations of ReductiveGroups layer 1 and
+the native Tau Ceti cofree adjunction. Establish enough injectives by embedding the underlying
+module into an injective `A`-module `I` and using `M → M ⊗ H → I ⊗ H`; flatness of `H`
+makes the second map injective, and the cofree adjunction makes `I ⊗ H` injective as a comodule
+(Jantzen I.3.9, p.43). Construct the augmented cofree resolution and its comparison with an
+injective resolution. Its underlying module complex is split exact by the counit, and its
+terms are acyclic for scheme invariants. The resulting invariants complex has degree-`n` term
 `M ⊗ H^⊗n`, associated to the left. The cofaces insert the coefficient coaction at the beginning,
 the coproduct at each interior position, and the unit at the end. The differential is their
 alternating sum, and the resulting cochain complex is the Hochschild complex. Define the
 rational cohomology `Hⁿ(H, M)` as its homology. For flat `H` this computes derived
 scheme invariants (Jantzen I.4.2, I.4.14–4.16, pp.50, 55–56).
 Prove that degree zero is `ker(ρ − (m ↦ m ⊗ 1))`, and compute the regular comodule `H` by its
-counit contraction: it is acyclic, with `H⁰(H, H) = A` (Jantzen I.4.15). Cofree comodules need not be injective unless the underlying
-module is injective. *Needs:* Tau Ceti `Comodule`, Mathlib `CochainComplex` and module homology.
+counit contraction: it is acyclic, with `H⁰(H, H) = A` (Jantzen I.4.15). More generally, the
+cofree comodule `N ⊗ H` has `H⁰(H, N ⊗ H) ≅ N` and zero positive cohomology for every
+`A`-module `N`; this acyclicity does not require `N` to be injective (Jantzen I.4.7(a), p.52).
+*Needs:* ReductiveGroups layer 1 (comodules, morphisms and regular representation);
+Tau Ceti `Comodule.cofree`, `Comodule.Hom.cofreeUnit`, `Comodule.Hom.cofreeEquiv` and
+the abelian comodule category for flat `H`; Mathlib module injectives, `CochainComplex` and
+module homology.
+
+Prove the natural chain isomorphism to the coefficient-last tensor convention. Its degree-`n`
+map is the tensor permutation `τ_n(m ⊗ h₁ ⊗ ⋯ ⊗ h_n) = h₁ ⊗ ⋯ ⊗ h_n ⊗ m`, with the
+associators understood, and the target cofaces are `τ_(n+1) δ_i τ_n⁻¹`. In particular the
+coaction coface sends `h₁ ⊗ ⋯ ⊗ h_n ⊗ m` to
+`Σ m₁ ⊗ h₁ ⊗ ⋯ ⊗ h_n ⊗ m₀` when `ρ(m) = Σ m₀ ⊗ m₁`; the unit coface appends `1`
+before `m`. The Hopf factors and the coface numbering retain their order, so no sign is
+introduced. Require compatibility with coefficient maps, the derived-invariants comparison
+and connecting maps (Jantzen I.4.14–4.16, pp.55–56, transported by tensor symmetry).
 
 A comodule morphism `f : M → N` induces the map of complexes acting by `f` on the first
 tensor factor, in every degree.
@@ -1206,6 +1244,10 @@ specified in §6.4, following DKSW Lemma 4.12 and the proof of Corollary 4.13, p
   degrees `0,1,2` each have rank two.
   The three coface values are `δ₀⁰(m)=ρ(m)`, `δ₁⁰(m)=m⊗1`, and
   `δ₁¹(m⊗h)=assoc⁻¹(m⊗Δh)`.
+  The coefficient-last comparisons in these degrees are respectively `m ↦ m`,
+  `m⊗h ↦ h⊗m` and `(m⊗h)⊗k ↦ (h⊗k)⊗m`.
+  For `H = ℤ[t,t⁻¹]` and the weight-one line `M = ℤ`, the transported differential is
+  `τ₁ d⁰(1) = (t − 1) ⊗ 1`, with the Hopf factor first.
 - The computed two-term differential is `d⁰(m)=ρ(m)−m⊗1`; the next is
   `d¹(m⊗h)=ρ(m)⊗h−assoc⁻¹(m⊗Δh)+(m⊗h)⊗1`. Their composite is zero.
   For the trivial group over `ℤ`, the complex sends `3` to zero in degree zero,
@@ -1213,16 +1255,26 @@ specified in §6.4, following DKSW Lemma 4.12 and the proof of Corollary 4.13, p
 - For the regular comodule, `H⁰(H,H)=A`, `H¹(H,H)=0`, and `H²(H,H)=0`.
   For the trivial group over `ℤ`, the module `ℤ` is nevertheless not injective:
   no `ℤ`-linear map has `f(2)=1`.
+  The nonflat coefficient module `ℤ/2` is also acyclic for the trivial group, with
+  `H⁰ = ℤ/2`; neither the cofree comparison nor its contraction requires flat coefficients.
 
 **Algebraic induction.** For flat commutative Hopf `A`-algebras `H,K`, a bialgebra map
 `f:H→K`, and a right `K`-comodule `M`, the induced module `Ind_f M` is the cotensor equalizer
 inside `M⊗H` of `ρ_M⊗1` and `(1⊗f⊗1)(1⊗Δ_H)`, with the displayed associator.
 Its `H`-comodule structure restricts `1⊗Δ_H` along the inclusion into `M⊗H`.
-Frobenius reciprocity is against restriction along `f`, and its forward map
-is evaluation at the identity using the counit. The cotensor convention is
-`F(hg)=hF(g)` with right translation on `F`; inversion gives Jantzen's
-`f(gh)=h⁻¹f(g)` with left translation (Jantzen I.3.3–3.7, pp.37–41).
-*Needs:* Tau Ceti `Comodule.Corestrict`, the Hopf counit and tensor equalizers.
+Frobenius reciprocity is the natural bijection
+`Hom_H(N, Ind_f M) ≅ Hom_K(Corestrict_f N, M)` for every right `H`-comodule `N`.
+Its forward map is evaluation at the identity using the counit, and its inverse sends
+`u` to `(u ⊗ 1)ρ_N`. Construct this arbitrary-base induction on the native comodule and
+corestriction carriers; flatness of `H` makes its coaction restrict to the equalizer.
+The cotensor convention is `F(hg)=hF(g)` with right translation on `F`.
+Prove that `F ↦ (g ↦ F(g⁻¹))`, induced on tensors by `1 ⊗ S_H`, identifies it with
+Jantzen's `f(gh)=h⁻¹f(g)` with left translation. This involution intertwines the group
+actions, fixes counit evaluation and hence identifies the reciprocity bijections, naturally
+in the coefficient comodule and over every commutative `A`-algebra
+(Jantzen I.3.3–3.7, pp.37–41). The integral `GL₂` applications in §6.4 use this comparison.
+*Needs:* ReductiveGroups layer 1 (comodule morphisms and the representation–comodule
+dictionary); Tau Ceti `Comodule.Corestrict`, the Hopf counit and antipode, and tensor equalizers.
 
 **Checks.**
 
@@ -1235,6 +1287,8 @@ is evaluation at the identity using the counit. The cotensor convention is
 - For `C₂=⟨(12)⟩⊂S₃` with trivial coefficients, `Ind_{C₂}^{S₃}(ℤ)` has rank three,
   with the delta basis of right cosets `C₂g`. Right translation takes the delta function
   of `C₂g` to that of `C₂gk⁻¹`; a three-cycle permutes the three basis vectors cyclically.
+  Inversion sends the basis function of `C₂g` to that of `g⁻¹C₂` in the left-translation
+  convention; for `g=(123)` this is the left coset `(132)C₂`.
 
 **Compatible invariant-coordinate evaluation.** For the invariant coordinate algebras
 `Cₙ = O[Hⁿ]^H`, the group `H(A)`, and a commutative `O`-algebra `A`, a compatible evaluation is a
@@ -1596,7 +1650,8 @@ polynomial-law carrier `PolynomialLaw` with `PolynomialLaw.id`, `PolynomialLaw.c
 `Function.minimalPeriod`, `LinearMap`, `Continuous`, `Continuous.ext_on`, `Subgroup.Normal`,
 `IsOpen`, `HopfAlgebra` and `CategoryTheory.Abelian`. From Tau Ceti it uses `TauCeti.Comodule`,
 `TauCeti.Comodule.fixedSubcomodule` and `TauCeti.Comodule.cofree`. From the roadmaps it uses
-ReductiveGroups layer 9 (the split reductive group schemes and their Hopf algebras) and the
+ReductiveGroups layer 1 (comodule foundations and the representation–comodule dictionary),
+layer 9 (the split reductive group schemes and their Hopf algebras) and the
 top exterior power at constant rank from PadicMeasuresIwasawaAlgebras §5.1, with Mathlib `IsAzumaya`
 and SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`, including its
 finite-cover adapter, for the reduced-norm input. General invariant-word colimit is constructed
@@ -4113,8 +4168,9 @@ Jantzen I.2.3, pp.21–22, and I.3.3, pp.38–39).
   `ℤ²`. Each of `H⁰((0,0))`, `H⁰((1,0))`, `H⁰((0,−1))` has a one-step good
   filtration. A nonzero `H¹(G,M)` excludes a good filtration on `M`.
 
-**Good filtrations and acyclicity.** For `G = GL₂/ℤ` with lower Borel `B`, algebraic induction of
-a `B`-module `W` is `Ind_B^G(W) = (O[G] ⊗_ℤ W)^B`, with `B` acting on `O[G]` through right
+**Good filtrations and acyclicity.** For `G = GL₂/ℤ` with lower Borel `B`, use *Algebraic induction*
+of §0.7 in its inversion-equivalent Jantzen convention. For a `B`-module `W` it is
+`Ind_B^G(W) = (O[G] ⊗_ℤ W)^B`, with `B` acting on `O[G]` through right
 translation. For a character `λ = (λ₁, λ₂)` of the diagonal torus, extended to `B`, this is the
 module of functions `f ∈ O[G]` with `f(gb) = λ(b)⁻¹ f(g)`, on which `G` acts by left translation;
 it is the dual Weyl module `H⁰(λ)`, nonzero exactly when `λ` is dominant for the upper Borel,
@@ -4142,7 +4198,8 @@ good filtration is `G`-acyclic, `H^i(G, V) = 0` for `i > 0` (rational cohomology
 group scheme commutes with filtered colimits, Jantzen I.4.17, p.57, so the finite case of DKSW
 Theorem 4.7 gives the exhaustive one), and that the tensor product of two
 `G`-modules with good filtrations has a good filtration ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Definition 4.6 and
-Theorem 4.7, p.23; Theorem 4.8, p.24). *Needs:* Rational cohomology of a flat affine group scheme, Adjoint weight and dual identities.
+Theorem 4.7, p.23; Theorem 4.8, p.24). *Needs:* Rational cohomology of a flat affine group scheme,
+Algebraic induction, Adjoint weight and dual identities.
 
 **Checks.**
 
