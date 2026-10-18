@@ -1,3 +1,6 @@
+import Mathlib.Algebra.Lie.Cochain
+import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
+import Mathlib.Topology.Algebra.Group.Basic
 import TauCeti.AlgebraicTopology.Cohomology.Cup
 import TauCeti.AlgebraicTopology.Cohomology.Relative
 import Mathlib.NumberTheory.Bernoulli
@@ -149,5 +152,80 @@ theorem root_exponential_tensor_product
       (∑ j, PowerSeries.rescale (y j) (PowerSeries.exp A)) =
     ∑ i, ∑ j, PowerSeries.rescale (x i + y j) (PowerSeries.exp A) := by
   simp_rw [Finset.sum_mul, Finset.mul_sum, PowerSeries.exp_mul_exp_eq_exp_add]
+
+/-!
+Representative interfaces for C5a. These extend the standard nonexhaustive
+Suggested.lean note. They use actual native cochains, exterior algebra,
+polynomials and singular-cohomology maps. They do not prototype an unimplemented
+CE/de Rham or classifying-space carrier.
+-/
+
+abbrev RationalCohomology (X : TopCat.{0}) (n : ℕ) : ModuleCat ℚ :=
+  X.singularCohomology (ModuleCat.of ℚ ℚ) ℚ (ModuleCat.of ℚ ℚ) n
+
+/-- The space-level multiplication pullback; Künneth and the Hopf packaging
+are C5a targets. Multiplication is not asserted to be a Lie homomorphism. -/
+def rationalMultiplicationPullback
+    (K : Type) [TopologicalSpace K] [Group K] [IsTopologicalGroup K] (n : ℕ) :
+    RationalCohomology (TopCat.of K) n ⟶
+      RationalCohomology (TopCat.of (K × K)) n :=
+  TopCat.singularCohomologyMap
+    (R := ModuleCat.of ℚ ℚ) (k := ℚ) (M := ModuleCat.of ℚ ℚ)
+    (TopCat.ofHom ⟨fun p : K × K ↦ p.1 * p.2,
+      continuous_fst.mul continuous_snd⟩) n
+
+/-- The actual native trivial-coefficient sign used in C5a.1. -/
+theorem compactCE_degreeOne_sign
+    {R L V : Type*} [CommRing R] [LieRing L] [LieAlgebra R L]
+    [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V]
+    [LieModule.IsTrivial L V]
+    (a : LieModule.Cohomology.oneCochain R L V) (x y : L) :
+    LieModule.Cohomology.d₁₂ R L V a x y = -a ⁅x, y⁆ :=
+  LieModule.Cohomology.d₁₂_apply_apply_ofTrivial R L V a x y
+
+/-- Closed native degree-one cochains annihilate the actual bracket. -/
+theorem compactCE_degreeOne_closed_iff
+    {R L V : Type*} [CommRing R] [LieRing L] [LieAlgebra R L]
+    [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V]
+    [LieModule.IsTrivial L V]
+    (a : LieModule.Cohomology.oneCochain R L V) :
+    LieModule.Cohomology.d₁₂ R L V a = 0 ↔ ∀ x y : L, a ⁅x, y⁆ = 0 := by
+  constructor
+  · intro ha x y
+    have h := congrArg
+      (fun b : LieModule.Cohomology.twoCochain R L V ↦ b x y) ha
+    change LieModule.Cohomology.d₁₂ R L V a x y = 0 at h
+    rw [compactCE_degreeOne_sign] at h
+    exact neg_eq_zero.mp h
+  · intro ha
+    ext x y
+    change LieModule.Cohomology.d₁₂ R L V a x y = 0
+    rw [compactCE_degreeOne_sign, ha x y, neg_zero]
+
+/-- The degree-one generator map of the Koszul model on the ACTUAL polynomials.
+It is not a stand-in for the full differential or its regular-sequence proof. -/
+def compactKoszulGeneratorMap {r : ℕ}
+    (P : Fin r → MvPolynomial (Fin r) ℚ) :
+    (Fin r → ℚ) →ₗ[ℚ] MvPolynomial (Fin r) ℚ where
+  toFun v := ∑ i, v i • P i
+  map_add' v w := by simp [add_smul, Finset.sum_add_distrib]
+  map_smul' c v := by simp [Finset.smul_sum, smul_smul]
+
+/-- The coefficient family is retained, including each chosen generator. -/
+theorem compactKoszulGeneratorMap_basis {r : ℕ}
+    (P : Fin r → MvPolynomial (Fin r) ℚ) (i : Fin r) :
+    compactKoszulGeneratorMap P (Pi.single i 1) = P i := by
+  classical
+  simp [compactKoszulGeneratorMap, Pi.single_apply]
+
+/-- Actual exterior generator, without claiming the general cohomology theorem. -/
+def compactExteriorGenerator {r : ℕ} (i : Fin r) :
+    ExteriorAlgebra ℚ (Fin r → ℚ) :=
+  ExteriorAlgebra.ι ℚ (Pi.single i 1)
+
+theorem compactExteriorGenerator_square {r : ℕ} (i : Fin r) :
+    compactExteriorGenerator i * compactExteriorGenerator i = 0 := by
+  simpa only [compactExteriorGenerator] using
+    (ExteriorAlgebra.ι_sq_zero (R := ℚ) (Pi.single i (1 : ℚ) : Fin r → ℚ))
 
 end TauCetiRoadmap.CharacteristicClasses

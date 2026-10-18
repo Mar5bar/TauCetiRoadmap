@@ -2,7 +2,9 @@
 
 Build integral Chern, Pontryagin and Euler classes, mod2 Stiefel–Whitney classes,
 cohomological Thom and Gysin maps, universal cohomology calculations, and the
-comparison with curvature. Construct the rational Chern character and the
+comparison with curvature. Construct the compact connected Lie-group CE/de Rham,
+primitive/exterior and universal-transgression comparisons on these same
+cohomology and universal-bundle carriers. Construct the rational Chern character and the
 Todd, L and Â multiplicative classes, including their relative and supported
 interfaces. Classes carry their coefficient ring, degree, orientation and
 bundle; formal roots are a proved splitting device.
@@ -104,6 +106,16 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   it uses [LieHighestWeight L1,L7 and L9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e2bb7060603f59e7b353b224589766a18e9e396e/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-7-the-center-of-ul-harish-chandra-freudenthal-and-serres-relations)
   for Cartan/root decomposition, generic Lie-algebra Chevalley restriction
   with its homogeneous compatibility, and the reductive decomposition.
+- [LieGroupoidsPoisson G1.3a](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050)
+  owns the all-degree real Lie-algebra CE complex, its coefficient modules
+  and low-degree native comparison. C5a constructs the compact-group
+  invariant-form and Haar homotopies on that complex.
+  [ReflectionInvariantTheory §§1–3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1118)
+  owns the early fixed-polynomial algebra, homogeneous basic-invariant
+  evaluation, regular sequence, coinvariant and character-lattice scalar-change
+  interfaces independently of topology. C5a consumes those maps and owns
+  their compact cohomology/transgression application. Its exterior theorem is
+  not a premise for the reflection invariant-algebra theorem.
 - [TopologicalKTheory T2–T5](../TopologicalKTheory/README.md) owns actual SplitK0
   K-rings, relative triples/complexes, compact supports, λ-operations, Bott and
   the dual-Koszul Thom class. C6 constructs ch on these functors and its Thom
@@ -914,6 +926,317 @@ AT8.1's relative-cell connectivity and transport theorem.
    plane with its complex line and B6 normalization, and descend to identify
    C4's Pfaffian class with the real image of the integral Euler class.
 
+## C5a. Compact Lie cohomology, invariant forms and universal transgression
+
+Work with a compact connected finite-dimensional smooth real Lie group K, on
+its actual Hausdorff second-countable boundaryless manifold, and write g for
+its Lie algebra. Include the trivial group and rank0. Use C1's same right
+principal universal bundle EK→BK and its actual finite smooth principal
+approximations; the infinite join and BK are not smooth manifolds. All general
+exterior and primitive statements below have coefficients Q or R. Their
+integral and positive-characteristic analogues are not inferred by scalar
+change. An integral class, its rational image and its de Rham representative
+remain distinct objects.
+
+**C5a.1. The compact invariant-form comparison.** Consume
+[LieGroupoidsPoisson G1.3a](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050)'s
+all-degree real CE complex, including its scalar trivial-module comparison,
+and DG's smooth alternating forms, wedge, d, pullback and Cartan homotopy
+formula. Construct the left-trivialization map
+`j:CE^q(g;R)→Ω^q(K)` by
+`j(a)_k(v_1,…,v_q)=a(dL_(k⁻¹)v_1,…,dL_(k⁻¹)v_q)`.
+Prove that its image is exactly the left-invariant forms, with inverse
+evaluation at the identity; prove the linear, wedge, unit, differential and
+Lie-homomorphism pullback identities. The trivial-coefficient CE convention is
+`(da)(X_0,…,X_q)=Σ_(i<j)(−1)^(i+j)a([X_i,X_j],X_0,…,omit X_i,…,omit X_j,…,X_q)`,
+where the remaining arguments retain their order. In degree1 this is
+`da(X,Y)=−a([X,Y])`. Compare with native
+`LieModule.Cohomology.d₁₂_apply_apply_ofTrivial` and LGP's all-degree maps;
+do not construct a second generic CE complex here.
+
+Consume CompactGroups Layer0's normalized bi-invariant Haar probability.
+Define `A_forms:Ω^q(K)→Ω^q(K)` by
+`A_forms(ω)=∫_K L_g*ω dg`, pointwise in the finite-dimensional alternating-form
+fibre. Prove smoothness in the base variable and all parameter derivatives,
+compatibility with chart changes, linearity, `A_forms∘d=d∘A_forms` and
+left-translation invariance of its image. Let ev1 denote degreewise evaluation
+at the identity and define `A_CE=ev1∘A_forms:Ω^q(K)→CE^q(g;R)`.
+Evaluation alone is not asserted to be a cochain map on arbitrary forms.
+Prove `A_forms∘j=j`, `A_CE∘j=id_CE`, `j∘A_CE=A_forms` and
+`A_CE∘d=d_CE∘A_CE`. Prove compact-parameter differentiation under these
+finite-dimensional integrals in local charts, with uniform bounds on each
+compact parameter/base set. The full space Ω^q(K) is not asserted
+finite-dimensional or a Bochner target. Prove the analogous smooth
+finite-parameter identities needed by the following homotopy.
+
+Construct `H:Ω^q(K)→Ω^(q−1)(K)` with
+`dH+Hd=A_forms−id_Ω=j∘A_CE−id_Ω` (H=0 in degree0).
+Cover the group parameter by finitely many exponential neighbourhoods U_i.
+For their centres choose fixed smooth paths from1; concatenate with the
+smooth local exponential paths to g∈U_i, using fixed endpoint-flat time
+reparametrizations. Construct the Cartan homotopies H_(i,g) between id and
+L_g*, with all g derivatives on U_i. Choose a smooth partition ρ_i in the
+group parameter, supported inside U_i, and integrate the zero-extended
+ρ_i(g)H_(i,g). Prove the extension, integral and cochain identities. No global
+continuous path choice1→g is assumed. Thus j induces a natural de Rham
+cohomology **ring** isomorphism and, through DG's de Rham map with its proved
+cohomology product comparison, an actual singular-cohomology comparison over R.
+A_CE is a linear cochain inverse to j up to homotopy. Neither A_forms nor A_CE
+is asserted multiplicative on arbitrary forms. Retain compatibility with
+Lie-group homomorphisms at the inclusion and cohomology levels; Haar averaging
+for two different groups is not claimed to commute on arbitrary forms under
+every homomorphism.
+
+Also construct finite-dimensional Ad averaging on the CE pieces. Prove
+that conjugation by k acts trivially on CE cohomology by the preceding
+natural comparison and a path from1 to k; this uses no globally varying
+choice of such a path. Commutation of finite-dimensional quotient maps
+with averaging shows that inclusion `CE(g)^K→CE(g)` induces a cohomology
+isomorphism. Prove algebraically that the differential on the invariant
+trivial-coefficient tensors is zero: in a basis prove
+`2d=Σ_a e^a∧L_(e_a)` and use connectedness to pass between group and
+infinitesimal invariance. Retain the basis-independent equality and degree0.
+This identifies the invariant CE target used in C5a.4 with the full CE
+cohomology; it is not an unstated replacement of that complex.
+
+Deduce `H¹(K;R)=ann([g,g])⊂g*`, with the actual evaluation and bracket maps.
+Compare degree-one Hurewicz and the topological-group abelianness of π1 with
+`H¹(K;R)=Hom(H_1(K;R),R)`; an identification of H_1 with its dual requires a
+chosen pairing. For a compact Lie algebra with zero centre, prove that there
+are finitely many **connected** compact global forms: use the adjoint group,
+this vanishing, finite generation of its integral H_1, degree-one Hurewicz,
+and LieGroups' universal-cover/central-quotient classification. Disconnected
+products with arbitrary finite groups are not included in this finiteness
+claim.
+
+**C5a.2. Actual invariant generators and the rational structure.** Consume
+[ReflectionInvariantTheory §§1–3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1118)'s early graded polynomial evaluation
+isomorphism, regular-sequence and coinvariant interfaces for the actual Weyl
+action on the maximal-torus character representation. These early interfaces
+use no BG, compact cohomology, Schubert geometry or transgression theorem.
+Transport their homogeneous basic generators through C5.1's actual
+restriction isomorphism. Construct their products, homogeneous components,
+augmentation ideal I_+ and indecomposables `QI=I_+/(I_+)²`, and prove the
+basis/change-of-generators and coefficient-change maps. If the basic
+generators have polynomial degrees d_i≥1, give them cohomological weights
+2d_i. The number of generators is rankK. Carry the fixed central directions
+as degree1 generators, and assemble the semisimple factors componentwise.
+
+For rational coefficients use the actual character lattice
+`X*(T)⊗_Z Q` and its Weyl action, not an assumed rational form of g. Its
+character generator maps to that character's actual integral degree2 class
+on BT. After real scalar change the associated linear polynomial on t is
+`(i/(2π))dχ` in the existing unitary convention; for
+`θ↦exp(iθ)` it is `−a/(2π)`. Prove the diagram with C1.5, C4 and C5.2–3,
+including independence of character bases and compatibility with the
+geometric/abstract Weyl comparison from LieGroups. This defines the rational
+structure on the invariant-polynomial algebra used here. The resulting
+`u_i∈H^(2d_i)(BK;Q)` are the actual C5 universal classes; their real images
+are `cw(P_i)`. Basic generators are choices; QI, the comparison maps and the
+multiset of degrees are intrinsic. The regular-sequence and polynomial
+presentation used below must be the supplied maps, not a count of degrees.
+
+**C5a.3. The Weil differential and normalized transgression forms.** Construct
+the graded-commutative Weil algebra
+`W(g)=Sym(g*[2])⊗Λ(g*[1])`, with polynomial generators Ω in degree2 and
+exterior generators θ in degree1, on the native symmetric/exterior and
+graded tensor carriers. Define the bracket of g-valued forms with its wedge
+and graded signs. Specify the differential by
+`d_Wθ=Ω−(1/2)[θ,θ]`, `d_WΩ=−[θ,Ω]` and graded Leibniz. Define contraction
+`ι_Xθ=X`, `ι_XΩ=0` and Lie derivative `L_X=d_Wι_X+ι_Xd_W`.
+Prove basis independence, d²=0, the Cartan relations, functoriality under Lie
+homomorphisms and the augmentation. Identify the horizontal invariant
+subalgebra with I(g), in doubled degrees, using the actual inclusion P↦P(Ω).
+Prove its differential is zero.
+
+Prove W(g) augments quasi-isomorphically to R. Begin with the linear Koszul
+differential `d_0θ=Ω,d_0Ω=0` and its Euler contraction, dividing by the positive
+polynomial-plus-exterior count on every nonconstant monomial. Construct the
+perturbation by the bracket term. Prove that the finite homotopy-perturbation
+sums terminate in each degree by their increasing exterior filtration,
+bounded by dim g; prove the contraction identities, with no completion or
+unproved convergence. Prove equivariance or average the finite-degree
+contraction with Haar before restricting to invariant tensors. Consequently
+`W(g)^K` has only its degree0 cohomology. This total acyclicity is not a
+quotient or base-change theorem.
+
+For homogeneous invariant P of polynomial degree d≥1, use its existing
+polarization B_P with `P(X)=B_P(X,…,X)` and define
+`CS_P=(degree P)·∫_0^1 B_P(θ,F_t,…,F_t)dt`,
+`F_t=tΩ+((t²−t)/2)[θ,θ]`.
+The integral is a coefficientwise polynomial integral on [0,1]. Prove
+`d_W CS_P=P(Ω)`, its degree2d−1, pullback naturality, and the precise
+product/decomposable correction. Setting Ω=0 gives a CE cocycle τ(P).
+Construct the corresponding map on QI; prove that changing P by a
+positive-degree product changes this cocycle by an explicit coboundary.
+Do not insert an additional d!,2π or i factor: those normalizations are
+already in B_P and in P. Prove the rank-one formula
+`τ(−a/(2π))=−θ/(2π)` for the positive real Maurer–Cartan coordinate of the
+circle.
+
+For an actual connection a on a finite principal approximation E_m→B_m,
+construct the evaluation `θ↦a, Ω↦F_a` as a map of differential graded
+algebras, with its horizontal/basic and pullback comparisons. Prove the
+connection-path homotopies and compatibility with increasing finite
+approximations in each stable degree. Restriction to a positively identified
+right fibre gives the same Maurer–Cartan and CE sign. This uses SBC's
+connections and C4's finite universal map; there is no de Rham complex on
+the infinite join being silently substituted.
+
+**C5a.4. The filtered Cartan–Koszul comparison.** Prove the compact reductive
+Cartan transgression theorem as an actual construction on the preceding
+Weil and CE complexes. For chosen basic P_i form
+`K_I=I(g)⊗Λ(e_i)`, `|e_i|=2d_i−1`, `D(e_i)=P_i`, `D(P_i)=0`.
+Construct the map to `W(g)^K` sending e_i to CS_(P_i) and the polynomial
+factor to its basic inclusion. Prove the Koszul sign rule, filtration maps,
+augmentation, change-of-basic-system and functoriality statements. Prove the
+regular-sequence Koszul resolution and identify its successive quotients
+with explicit bases, including the empty generator system.
+
+Own the required **augmentation/base-change comparison**: after quotienting
+the basic augmentation ideal, prove that setting Ω=0 from
+`W(g)^K/I_+W(g)^K` to the invariant CE complex is a quasi-isomorphism;
+prove that the induced map from `K_I/I_+K_I=Λ(e_i)` is a quasi-isomorphism.
+These are not consequences of the two unfiltered total complexes being
+acyclic. Construct their filtered comparisons by finite invariant-tensor
+splittings from the invariant positive form, the linear Koszul contraction,
+and successive homogeneous invariant-polynomial division. Prove the needed
+closed-image/direct-sum and exactness statements in each finite-dimensional
+bigraded piece and the termination of the elimination. The key elimination
+lemma must identify the surviving classes with the restrictions τ(P_i),
+show that products of basic invariants give boundaries, and construct a
+contracting homotopy on the complementary summands. Include the reductive
+central tensor factor and the complexified semisimple/real descent maps;
+no separation-of-variables or harmonic-decomposition assertion is imported
+without constructing the precise tensor splitting used by this lemma.
+
+Deduce `Λ(τ(P_i))≃H^*(CE(g;R))` with actual product and graded-generator
+maps. Prove the transgression map `QI→H^*(CE)` is injective and identifies its
+image as the primitive subspace under the cohomology Hopf structure in the
+next item, and that exterior products of these images give all cohomology.
+The primitive assertion is established by that item's actual multiplication
+comparison, not by an asserted CE coproduct. The comparison theorem,
+elimination lemma and contraction just specified are construction targets
+of this item; a conditional theorem assuming those conclusions does not
+discharge them.
+
+**C5a.5. Actual cohomology Hopf maps and universal Serre transgression.** On
+singular cohomology use the continuous space maps multiplication, unit and
+inversion of K, and the existing cross-product/Künneth isomorphism over Q or
+R. Prove graded Hopf laws, Koszul tensor signs and naturality under Lie-group
+homomorphisms. Use compact finite-dimensional cohomological finiteness for
+the direct-sum Künneth identifications. Group multiplication is not a group
+homomorphism when K is nonabelian; `(X,Y)↦X+Y` is not a Lie-algebra
+homomorphism in that case. No strict CE Hopf coproduct is asserted.
+
+Construct the pullback of the transgression forms by multiplication using
+its actual Maurer–Cartan identity and the two-connection simplicial
+Chern–Simons homotopy on K×K. Prove, with an explicit correction form, that
+`m*τ(P)−pr_1*τ(P)−pr_2*τ(P)` is exact. Compare the resulting primitive
+classes with the singular Hopf structure through the multiplicative de Rham
+and cross-product comparison. Together with C5a.4 obtain the actual real
+graded Hopf isomorphism from the exterior algebra on these primitive
+classes, with each generator in degree2d_i−1. There is no claim that the
+chosen averaging map respects multiplication or the coproduct on forms.
+
+Apply DGFloer Layer1.2's multiplicative cohomological Serre construction to
+`K→EK→BK` on C1's same numerable model, with local coefficients and their
+trivialization proved from connectedness (`π1(BK)=π0(K)=0`). Use
+`d_r:E_r^(p,q)→E_r^(p+r,q−r+1)` and compare with the filtered finite
+connection/Weil models in every bounded total degree. Construct the actual
+relative cochain representatives and boundary comparison that identify the
+CE cocycle τ(P_i) with a universally transgressive class and its differential
+with cw(P_i). Prove the sign by that cochain comparison and the circle test;
+do not change DGF's differential convention to fit an unspecified sign.
+
+At the successive pages the equation is
+`d_(2d_i)(z_i)=u_i` modulo the ideals already killed by earlier generators,
+with the corresponding surviving fibre representatives. Record choices and
+triangular changes among generators of the same degree and additions of
+decomposables. Prove the tensor-product/Koszul page calculation with the
+actual regular sequence, strong degreewise convergence and augmentation to
+H^0(EK)=Q or R. The primitive, polynomial and transgression maps form one
+commuting comparison; matching dimensions or total acyclicity alone is not
+its proof. Include naturality under homomorphisms, finite central covers,
+products and coefficient change, at the indecomposable/primitive level
+rather than claiming a natural basis of generators.
+
+Descend to Q by C1's degreewise finite-generation and C5.3's actual rational
+character-lattice comparison, the singular Q→R maps, and the rational Serre
+page comparison. Prove that `QI_Q→Prim H^*(K;Q)` realifies to the map just
+constructed; this supplies rational periods and the rational exterior Hopf
+isomorphism. Do not posit a rational Lie-algebra form or take a
+Q-valued differential-form integral. The general formula is
+`H^*(K;Q)=Λ_Q(z_1,…,z_r)`, `|z_i|=2d_i−1`, and its real scalar extension.
+It does not imply that integral cohomology is torsion free.
+
+**C5a.6. Same-model topology and scope comparisons.** Using C1's subgroup
+associated fibrations on the same EK, construct
+`K/T→EK/T→BK`, `K/N(T)→EK/N(T)→BK`, and the free finite covering
+`EK/T→EK/N(T)` with deck W. Prove the universal-bundle comparison maps with
+BT and BN, not a new classifier. Consume SchubertGeometry S9.6's rational
+acyclicity of K/N(T) and finite-cover transfer, and use DGF's actual
+cohomological Serre comparison to recover the BN proof of
+`H^*(BK;Q)≃H^*(BT;Q)^W`. Compare its **maps** with the already independent
+C5.2–3 Borel theorem. This application does not enter the proof of C5.2 or
+SchubertGeometry's acyclicity. Distinguish the finite W cover BT→BN from
+the homotopy fibration BT→BN→BW arising from T→N→W.
+
+Prove that a finite central cover of connected compact groups induces a
+rational/real Hopf isomorphism, using deck translations homotopic to the
+identity, transfer and the actual covering maps. Combine with LieGroups'
+finite central cover by a torus times compact simply connected simple
+factors; preserve its lattices and finite kernel. Prove the Poincaré series
+`P_K(t)=∏_i(1+t^(2d_i−1))`, total Betti number2^rankK and top degree
+`Σ_i(2d_i−1)=dim K`, using the actual central and root-plane dimensions.
+For positive-dimensional connected K the Euler characteristic is0; the
+trivial group has Euler characteristic1. Compare the nonzero top exterior
+product with a chosen Lie-group orientation and its fundamental class,
+recording the resulting nonzero scalar rather than asserting an uncomputed
+positive normalization. For a disconnected
+compact group apply the preceding theorems to K^0, describe componentwise
+ordinary cohomology and the multiplication/conjugation maps, and retain
+C5.3's separate component-invariant BG theorem. Averaging over all
+components is not a quasi-isomorphism onto left-invariant forms on a
+disconnected group. Do not extend the connected exterior-Hopf or global-form
+finiteness assertion to it.
+
+**C5a.7. Degree and normalization calculations.** Derive, through the actual
+invariant-generator and universal-class maps,
+`H^*(BU(n);Q)=Q[c_1,…,c_n]`, degrees2,4,…,2n,
+and `H^*(U(n);Q)=Λ(z_1,z_3,…,z_(2n−1))`;
+for SU(n), n≥1, the ordinary invariant degrees are2,…,n, so the
+polynomial generators of H^*(BSU(n);Q) have cohomological degrees4,6,…,2n
+and the exterior generators of H^*(SU(n);Q) have degrees3,5,…,2n−1. Prove the determinant/central-circle maps and their effects on
+the normalized degree1/degree2 generators. Include U(0)=SU(1)=pt,
+U(1)=S1 and SU(2)=S3, the U(2) degrees1,3, the U(1), U(2), U(3)
+calculations and the first three odd generators1,3,5 for U(n) when n≥3. For these unitary groups additionally construct the integral
+exterior generators by the actual last-column sphere fibrations and the
+integral multiplicative Serre/Gysin comparisons, proving torsion freeness
+and matching the integral Chern transgressions. Do not infer this integral
+result from the general rational theorem or identify a homotopy-sphere
+generator with a homology generator without its Hurewicz degree.
+
+For tori use C1.5's actual CP∞ products, standard character −h and the dual
+character +h; match the degree1 Maurer–Cartan integral and degree2
+transgression with those signs. For compact simple factors consume the purely root-theoretic
+[ReflectionInvariantTheory §4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1118) degree/exponent convention `e_i=d_i−1`, and hence
+odd degrees2e_i+1; central directions have d=1 and e=0. Keep the single
+Coxeter number only for an irreducible semisimple factor, and use
+componentwise formulas on reducible groups. Verify the E8 eight-entry
+exponent list `1,7,11,13,17,19,23,29` gives odd degrees
+`3,15,23,27,35,39,47,59`; no seven-entry list is used.
+
+Retain the separate integral SU(2) normalizer comparison
+`SU(2)/N(T)=RP²`, with H^0=Z and H^2=Z/2, from SchubertGeometry S9.6;
+it tests why rational acyclicity is not integral acyclicity. Include the
+strict-upper-triangular exercise only with n≥3 (n=1 trivial); n=2 is an
+abelian one-dimensional counterexample to an unqualified centre-in-derived
+claim. These exercises consume the actual bracket and low-degree CE maps.
+The KKS root-plane Hessian/Morse comparison is a symplectic application at
+the HamiltonianReduction/SchubertGeometry boundary, not a prerequisite for
+the constructions here or an additional generic characteristic-class owner.
+
 ## C6. Multiplicative series, Chern character and the Thom correction
 
 1. Construct universal multiplicative sequences from rational constant1 power
@@ -1056,6 +1379,23 @@ C6 constructs the multiplicative series before its Chern-character and Thom
 comparisons; C7's coefficient and acceptance calculations then use C5–C6. The projective cohomology theorem is
 independent of K-theoretic Bott/Thom, and the characteristic development has no
 analytic-index or generic pseudodifferential prerequisite.
+
+C5a.1 consumes the earlier LGP CE, CompactGroups Haar and DG form/cohomology
+interfaces and supplies the compact invariant-form comparison. The early
+ReflectionInvariantTheory polynomial/regular-sequence interfaces precede
+C5a.2; none consumes compact cohomology. C5a.3 builds the Weil algebra and
+finite universal connection maps from C4. C5a.4 owns the invariant-tensor
+Cartan quotient comparison and its regular-sequence Koszul model, rather than
+assuming a quotient comparison from total acyclicity. C5a.5 then builds
+actual cohomology Hopf maps and matches the universal Serre transgression,
+with rational descent and all signs. C5a.6's normalizer route compares the
+already independent C5 Borel theorem with the existing SG result; it is not
+an input to either construction. The integral unitary examples in C5a.7 use
+their separate sphere-fibration induction; its exponent lists consume only
+ReflectionInvariantTheory §4's pure root-theoretic data. That supplier's late
+topological adapters consume these results and are not premises for them.
+No KKS moment-Morse application,
+analytic index or Floer count enters these compact constructions.
 
 - Milnor–Stasheff, [*Characteristic Classes*](https://aareyanmanzoor.github.io/assets/books/characteristic-classes.pdf), §§9–15,18 and AppendixC, for Thom, Euler, universal classes and curvature; Theorem15.3 records the integral Pontryagin correction.
 - Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §§9–10, for invariant curvature forms, transgression and classical polynomials.
