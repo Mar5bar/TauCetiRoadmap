@@ -1320,7 +1320,8 @@ generated (by Manin's presentation) and torsion-free and embeds in `Symb_{Γ₁(
 change; the intersection with a `K`-line is nonzero (clear denominators) and is a finitely generated torsion-free
 module of rank one, hence free; the quotient by it is torsion-free by construction. A generator
 `φ_𝒪^±` is unique up to `𝒪^×`, so the integral period `Ω_{f,𝒪}^± = Ω_f^±(φ_𝒪^±)` is defined up to `𝒪^×`. It depends on
-the lattice `V_k(𝒪)`: `V_k(𝒪)` and `Hom(Sym^k 𝒪², 𝒪)` agree only after inverting `k!`. A local coefficient field
+the lattice `V_k(𝒪)`: `V_k(𝒪)` and `Hom(Sym^k 𝒪², 𝒪)` can differ integrally; the pairing of §0.6
+identifies them after inverting `k!`. A local coefficient field
 has no distinguished complex embedding, so a complex scalar period requires a chosen embedding of `K`
 into `ℂ` extending the one of `K_f`; without it the integral period is a coordinate on the abstract signed
 line. Comparisons with integral Hecke modules (freeness of the `f`-part over a localised Hecke algebra,
@@ -1341,6 +1342,8 @@ periods); §0.5 (Modular symbols commute with flat base change); §0.6 (The inva
   unit.
 - For `p ≤ k, V_k(𝒪)` and `Hom(Sym^k 𝒪², 𝒪)` can give different saturations, the pairing of §0.6 having the
   denominators `C(k, i)`.
+- For `k = 3` over `ℤ₂`, the binomial coefficients `(1, 3, 3, 1)` are all units, so the pairing of §0.6
+  is already integral and perfect, and `TauCeti.binaryFormDual` is bijective, although `3! = 6` is not a unit.
 
 ### 1.2 The twisted Mellin formula and algebraicity of critical values
 
@@ -2614,7 +2617,10 @@ deformations.
   87 (2013), 428–452. Author version (locators are to this version):
   https://math.bu.edu/people/ghs/papers/critical_LMS_post_referee_v4.pdf
 - [Wiese] G. Wiese, *Computational arithmetic of modular forms*, course notes, arXiv:1809.04645v1 (2018);
-  also in *Modular Forms and Related Topics in Number Theory*, Springer, 2019.
+  also in I. Inam and E. Büyükaşık (eds.), *Notes from the International Autumn School on Computational
+  Number Theory*, Birkhäuser, Cham (2019), pp. 63–170,
+  [doi:10.1007/978-3-030-12558-5_2](https://doi.org/10.1007/978-3-030-12558-5_2).
+  The theorem and page locators are to arXiv v1.
   https://arxiv.org/pdf/1809.04645v1
 - [Pollack AWS] R. Pollack, *Overconvergent modular symbols*, Arizona Winter School 2011 lecture notes.
   https://swc-math.github.io/aws/2011/2011PollackNotes.pdf

@@ -156,6 +156,12 @@ example : slashPoly ℤ !![1, 1; 0, 1] (X 0) = X 0 ∧
 
 end Coefficients
 
+/-- In degree three over `ℤ₂`, all binomial coefficients are units and the dual-to-form map is
+bijective, although `3!` is not a unit. -/
+example : (∀ i : Fin 4, IsUnit ((Nat.choose 3 i : ℕ) : ℤ_[2])) ∧
+    Function.Bijective (TauCeti.binaryFormDual ℤ_[2] 3) ∧
+      ¬ IsUnit (Nat.factorial 3 : ℤ_[2]) := sorry
+
 section HeckeMonoid
 
 /-- **The Hecke monoid** `Σ₀(N)`: integral matrices `!![a, b; c, d]` with `det ≠ 0`, `N ∣ c` and
