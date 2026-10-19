@@ -45,7 +45,9 @@ zero-count and root-perturbation comparisons.
 ColemanIntegration, L0–L1, owns analytic primitives and Frobenius continuation;
 AnabelianGeometryAndNonabelianChabauty §§2.0–2.7 and `6.1–6.8`, owns the universal unipotent connection,
 quadratic Chabauty pairs and the determinant criterion. The geometric identification of abelian
-integrals and the explicit finite data belong here. Jacobians and Abel–Jacobi come from
+integrals with regular Coleman integrals, the global abelian logarithm and its pairing come from
+AnabelianGeometryAndNonabelianChabauty §5.8; their effective numerical applications and the explicit
+finite data belong here. Jacobians and Abel–Jacobi come from
 `TauCetiRoadmap.JacobianChallenge`, Layers D–F. The smooth relative Jacobian, its base change and its
 reduction square needed here are constructed in §§4.1 and `5.11`, from the Picard and Néron-model
 contracts below.
@@ -284,8 +286,17 @@ From HeightsRationalPointsAndObstructions §§1.15a–1.17: consume integral com
 groups, formal identity charts for smooth groups over complete DVRs, the unique formal logarithm
 and its isomorphism on ideals of depth greater than e/(p−1), and local doubling indices.
 Section 3.1 specializes the index theorem through the pinned descent-kernel comparison.
-Section 4.2 extends the supplied formal logarithm to A(K), proves parameter independence
-and functoriality of that extension, and identifies the invariant-differential pairing.
+
+From AnabelianGeometryAndNonabelianChabauty §5.8 use `abelianLog.add`,
+`abelianLog.derivative`, `abelianLog.kernel`, `abelianLog.functorial`, `abelianLog.formal`,
+`abelianLog.baseChange`, `abelianLog.cp`, `abelianLog.pairing` and `abelianLog.unique`:
+the global logarithm for arbitrary abelian varieties over finite `K/ℚ_p`, its normalized formal
+restriction, finite torsion kernel over K, morphism and base-change laws, extension to every
+`ℂ_p`-point, and invariant-differential pairing. Section 4.2 compares its formal-coordinate
+presentation with this supplied logarithm. For smooth proper geometrically connected curves
+with good reduction, use the same section's `colemanAbelian.integral` and
+`colemanAbelian.basepoint` for the regular Coleman/abelian equality, including finite-extension
+and `ℂ_p` evaluation. Section 4.6 specializes that equality to the numerical data here.
 
 From AnabelianGeometryAndNonabelianChabauty §§6.1–6.8: consume the following geometric interfaces: (a) quadratic Chabauty pairs and
 the determinant criterion (BDMTV §1.4 (5), Lemma `1.5`), with the K-equivariant variant replacing `E` by
@@ -4336,6 +4347,13 @@ copy p.6; [Samir Siksek](https://arxiv.org/abs/1010.2603), §3.4 Lemma 3.1(iii),
 
 ### 4.2 The p-adic abelian logarithm and the integration pairing
 
+Consume AnabelianGeometryAndNonabelianChabauty §5.8's `abelianLog.add`,
+`abelianLog.derivative`, `abelianLog.kernel`, `abelianLog.functorial`, `abelianLog.formal`,
+`abelianLog.baseChange`, `abelianLog.cp`, `abelianLog.pairing` and `abelianLog.unique`.
+The names below compare the formal-coordinate presentation used in the effective applications
+with this single supplied logarithm and pairing. HeightsRationalPointsAndObstructions
+§§1.15a–1.16 supplies the formal groups, charts and logarithms used by that owner.
+
 Let `K` be a finite extension of `ℚ_p` with ring of integers `O_K`, residue field k and ramification index
 e, and A an abelian variety of dimension g over `K`. Write `Lie(A)` for its tangent space at 0 (a
 K-vector space of dimension g) and `Ω_A := H⁰(A, Ω¹)` for its space of regular 1-forms, which are the
@@ -4346,7 +4364,8 @@ abelian scheme when A has good reduction), F̂ its formal group, the completion 
 section, a g-dimensional commutative formal Lie group over `O_K` once formal parameters `s = (s₁, …, s_g)` are chosen, and `A¹(K) := ker(𝒜(O_K) → 𝒜(k)) = F̂(m_K)`. Let `log_F̂ ∈ (K[[s]])^g` be the supplied formal
 logarithm, the unique homomorphism of formal groups F̂ `→ Ĝ_a^g` over `K` whose linear term is the
 identity; its coordinates are the formal primitives of a basis of invariant differentials and
-converge on `m_K^g`. Put `N :=` #𝒜(k) `= [A(K) : A¹(K)`] and `log_A(x) := N⁻¹ log_F̂(s(N x))`, identifying
+converge on `m_K^g`. Put `N :=` #𝒜(k) `= [A(K) : A¹(K)`]. The supplied logarithm satisfies
+`log_A(x) = N⁻¹ log_F̂(s(N x))`, identifying
 `K^g` with `Lie(A)` by ds at 0. The integration pairing is `⟨x, ω⟩ := ω(log_A x) ∈ K` for `x ∈ A(K), ω ∈ Ω_A`. Properties: (a) `log_A` is a homomorphism, independent of the choices of formal parameters and of
 `N` among multiples of the exponent of `𝒜(k)`; (b) ker `log_A = A(K)_tors`, which is finite; `(c) log_A` is
 continuous, its differential at 0 is the identity, and for `n >` e/(p − 1) it maps the subgroup
@@ -4356,7 +4375,8 @@ varieties over `K, log_B` ∘ `φ = dφ` ∘ `log_A, i.e`. `⟨φ(x), ω⟩ = �
 in `ω`, its kernel in `Ω_A, {ω : ⟨x, ω⟩ = 0 ∀x}`, is 0 and its kernel in `A(K)` is `A(K)_tors`; for each `ω, x ↦ ⟨x, ω⟩` is the unique locally analytic homomorphism `A(K) → K` whose differential at 0 is `ω`. The
 compatible logarithms over finite K'/K first define `log_A` on `A(ℚ̄_p)`. Over `ℂ_p` use the analytic
 logarithm of the `ℂ_p-Lie` group, extending this map continuously; the union over finite extensions
-alone does not define it on all `A(ℂ_p)` (KRZB Definition `3.8` and Proposition `3.16`).
+alone does not define it on all `A(ℂ_p)`; this is the supplied `abelianLog.cp`
+(KRZB Definition `3.8` and Proposition `3.16`).
 
 Work under the following conditions. `K` finite over `ℚ_p`; A an abelian variety over `K`. Good reduction
 is not assumed; when A has good reduction 𝒜 is the abelian scheme extending A and `𝒜(k)` is the group
@@ -4365,13 +4385,13 @@ invariant differential on a tangent vector; no sign or scaling is inserted.
 
 The interface includes these statements.
 
-- `abelianLog: log_A : A(K) →+ Lie(A)`.
+- `abelianLog`: The formal-coordinate expression above equals the restriction of the supplied `log_A : A(K) →+ Lie(A)`.
 - `abelianLog_eq_formalLog`: On `A¹(K) = F̂(m_K), log_A(x) = log_F̂(s(x))` for any choice of formal parameters s.
 - `abelianLog_nsmul: log_A(n • x) = n` • `log_A(x)` for `n ∈ ℤ`.
 - `ker_abelianLog: log_A x = 0 ↔ x` has finite order; `A(K)_tors` is finite.
 - `abelianLog_map: log_B(φ x) = dφ(log_A x)` for a homomorphism `φ : A → B; d(id) = id` and `d(ψ` ∘ `φ) = dψ` ∘ `dφ`.
 - `abelianLog_baseChange`: For K'/K finite, `log_{A_{K'}}(x) = log_A(x) ⊗ 1` for `x ∈ A(K)`.
-- `integrationPairing: ⟨x, ω⟩ := ω(log_A x)` for `x ∈ A(K), ω ∈ Ω_A = Module.Dual K Lie(A)`.
+- `integrationPairing`: The coordinate evaluation `ω(log_A x)` equals the supplied pairing for `x ∈ A(K), ω ∈ Ω_A = Module.Dual K Lie(A)`.
 - `integrationPairing_eq_zero_iff: ⟨x, ω⟩ = 0` for all `ω` iff x is torsion; `⟨x, ω⟩ = 0` for all x iff `ω = 0`.
 - `abelianLog_unique`: A continuous homomorphism `λ : A(K) → Lie(A)` that agrees with `log_F̂` on some open subgroup equals `log_A`.
 - `ED4.formalLogExtension`: Supporting extension `A→+T` of a supplied homomorphism on a finite-index subgroup from FormalLogDatum; no abelian variety or analytic construction is encoded.
@@ -4384,21 +4404,15 @@ The interface includes these statements.
 - `ED4.formalLogPairing_eq_zero_iff`: Vanishing against every abstract linear functional is equivalent to finite additive order.
 - `ED4.formalLogExtension_unique`: A homomorphism extending the supplied finite-index subgroup homomorphism equals `formalLogExtension`.
 
-For the proof, use the integral formal group, formal identity chart and logarithm from
-HeightsRationalPointsAndObstructions §§1.15a–1.16 on the smooth Néron model.
-The Néron mapping property gives `A(K)=𝒜(O_K)`; smooth lifting identifies the finite quotient
-by `A¹(K)` with `𝒜(k)`. The supplier logarithm converges on `m_K^g`, and is an isomorphism
-on ideals of depth greater than e/(p−1).
-Extension: `A(K)/A¹(K)` is finite of order `N` and `Lie(A)` is uniquely
-divisible, so `x ↦ N⁻¹ log_F̂(s(N x))` is the unique homomorphism extending `log_F̂|A¹(K)`; a change of
-parameters composes F̂ with a formal isomorphism, which `log_F̂` absorbs (McCallum–Poonen §4.1 and
-Remark `4.1`). Kernel and local isomorphism: apply the supplied small-ideal isomorphism for `n >` e/(p − 1), so `F̂(m_K^n)` is torsion-free and ker `log_A` consists of elements
-with a multiple in a torsion-free group mapping to `0, i.e`. `A(K)_tors; A(K)` is compact, so `A(K)_tors`
-is finite. Functoriality: `φ` extends to the Néron models and induces a homomorphism of formal groups
-whose linear term is `dφ; log_B` ∘ `φ̂ = dφ` ∘ `log_A` by uniqueness of the formal logarithm
-(Katz–Rabinoff–Zureick-Brown §3.3). Pairing: trivial kernel in `Ω_A` for the displayed order `A(K) × Ω_A` because `log_A(A(K))` contains a lattice spanning `Lie(A)`; uniqueness of the locally analytic
-homomorphism because the difference of two has zero differential, so it vanishes on an open subgroup
-of finite index and takes values in a torsion-free group.
+For the comparison, apply AnabelianGeometryAndNonabelianChabauty §5.8's
+`abelianLog.formal` on a deep congruence subgroup and `abelianLog.unique` to the displayed
+coordinate expression. Agreement extends to `A¹(K)` by multiplying into that deep subgroup
+and cancelling the nonzero integer in `Lie(A)`. The remaining geometric laws are the supplied
+`abelianLog.kernel`, `abelianLog.functorial`, `abelianLog.baseChange` and `abelianLog.pairing`.
+The abstract `ED4.formalLogExtension` and `ED4.formalLogPairing` retain their arbitrary
+additive-group and vector-space generality. When their datum is the supplied Néron formal
+chart and logarithm, `ED4.formalLogExtension_unique` identifies the extension with the
+restriction of the owner's logarithm; evaluation identifies its pairing with the owner's pairing.
 
 The intended signatures also include `ED4.abelianLog, ED4.abelianLog_eq_formalLog, ED4.abelianLog_nsmul, ED4.ker_abelianLog, ED4.abelianLog_map, ED4.abelianLog_baseChange, ED4.integrationPairing, ED4.integrationPairing_eq_zero_iff, ED4.abelianLog_unique, ED4.abelianLog_elliptic, ED4.abelianLog_torsion, ED4.abelianLog_E11_five_torsion, ED4.abelianLog_C05_kernel_point, ED4.integrationPairing_leftKernel`. Let `K` be a finite extension
 of `ℚ_p` with ring of integers `O_K`, residue field k and ramification index e, and A an abelian variety
@@ -4412,7 +4426,8 @@ g-dimensional commutative formal Lie group over `O_K` once formal parameters `s 
 chosen, and `A¹(K) := ker(𝒜(O_K) → 𝒜(k)) = F̂(m_K)`. Let `log_F̂ ∈ (K[[s]])^g` be the supplied formal logarithm,
 the unique homomorphism of formal groups F̂ `→ Ĝ_a^g` over `K` whose linear term is the identity; its
 coordinates are the formal primitives of a basis of invariant differentials and converge on `m_K^g`.
-Put `N :=` #𝒜(k) `= [A(K) : A¹(K)`] and `log_A(x) := N⁻¹ log_F̂(s(N x))`, identifying `K^g` with `Lie(A)` by
+Put `N :=` #𝒜(k) `= [A(K) : A¹(K)`]. The comparison with AnabelianGeometryAndNonabelianChabauty
+§5.8's supplied logarithm is `log_A(x) = N⁻¹ log_F̂(s(N x))`, identifying `K^g` with `Lie(A)` by
 ds at 0. The integration pairing is `⟨x, ω⟩ := ω(log_A x) ∈ K` for `x ∈ A(K), ω ∈ Ω_A`. Properties: (a)
 `log_A` is a homomorphism, independent of the choices of formal parameters and of `N` among multiples of
 the exponent of `𝒜(k)`; (b) ker `log_A = A(K)_tors`, which is finite; `(c) log_A` is continuous, its
@@ -4424,7 +4439,8 @@ kernel in `Ω_A, {ω : ⟨x, ω⟩ = 0 ∀x}`, is 0 and its kernel in `A(K)` is 
 is the unique locally analytic homomorphism `A(K) → K` whose differential at 0 is `ω`. The compatible
 logarithms over finite K'/K first define `log_A` on `A(ℚ̄_p)`. Over `ℂ_p` use the analytic logarithm of
 the `ℂ_p-Lie` group, extending this map continuously; the union over finite extensions alone does not
-define it on all `A(ℂ_p)` (KRZB Definition `3.8` and Proposition `3.16`). Hypotheses: `K` finite over `ℚ_p`; A
+define it on all `A(ℂ_p)`; use the supplied `abelianLog.cp`
+(KRZB Definition `3.8` and Proposition `3.16`). Hypotheses: `K` finite over `ℚ_p`; A
 an abelian variety over `K`. Good reduction is not assumed; when A has good reduction 𝒜 is the abelian
 scheme extending A and `𝒜(k)` is the group of points of its special fibre. Normalisation: `Lie(A) = T₀A`
 and the pairing is evaluation of an invariant differential on a tangent vector; no sign or scaling
@@ -4451,7 +4467,7 @@ Stoll](https://arxiv.org/abs/1307.1773v4), §3, p.7; [Eric Katz, Joseph Rabinoff
 Zureick-Brown](https://arxiv.org/abs/1504.00694v2), §3.3 Definition 3.8, p.19; [Eric Katz, Joseph
 Rabinoff and David Zureick-Brown](https://arxiv.org/abs/1504.00694v2), §3.3, p.20.)
 
-*Needs:* Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`; JacobianChallenge Layer `E` (abelian varieties); NeronModelsAndSemistableAbelianVarieties §1.7; NeronModelsAndSemistableAbelianVarieties §1.8; HeightsRationalPointsAndObstructions §§1.15a–1.16; Mathlib `Module.Dual`; Mathlib IsOfFinOrder.
+*Needs:* AnabelianGeometryAndNonabelianChabauty §5.8; Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`; JacobianChallenge Layer `E` (abelian varieties); NeronModelsAndSemistableAbelianVarieties §1.7; NeronModelsAndSemistableAbelianVarieties §1.8; HeightsRationalPointsAndObstructions §§1.15a–1.16; Mathlib `Module.Dual`; Mathlib IsOfFinOrder.
 
 ### 4.3 Abelian integrals of regular differentials on a curve
 
@@ -4636,6 +4652,11 @@ v2)](https://arxiv.org/abs/0803.2836), §3 proof of Lemma 5, p.10.)
 
 ### 4.6 Coleman integrals of regular differentials are abelian integrals
 
+Consume AnabelianGeometryAndNonabelianChabauty §5.8's `colemanAbelian.integral` and
+`colemanAbelian.basepoint`, using its `abelianLog.cp` on every `ℂ_p`-point. The target
+`ED4.colemanIntegral_eq_abelianIntegral` compares the ColemanIntegration realization and
+the §4.3 notation used in the effective applications with this supplied regular equality.
+
 Let `K` be a finite extension of `ℚ_p` with residue field `𝔽_q`, (𝒳, `D`) a good-reduction pair over `O_K`
 (ColemanIntegration §L1.1) with generic fibre `X` of genus `g ≥ 1, Y =` 𝒳 `− D`, a `∈ ℂ_p`
 a branch of the logarithm and (`φ, ω•, M`, g•) a Frobenius-structured datum on (𝒳, `D`)
@@ -4654,27 +4675,16 @@ The interface includes these statements.
 
 - `ED4.residueConstantDifference_eq_zero_of_frobeniusRelation`: Algebraic uniqueness for a candidate function on ReductionDiscData: its difference from `formalLogIntegral` is constant on fibres, satisfies the supplied Frobenius-polynomial relation with `P` coprime to `X^m−1` for every `m≥1`, and vanishes at the base point. No Coleman primitive or cohomological Frobenius relation is constructed.
 
-For the proof, Let `F` be the Coleman primitive of `ω` with `F(x) = 0` and `η(P) := ⟨[P − x], ω_J⟩`. On
-every residue disc of `Y_k` and on every end germ both are analytic primitives of `ω`: for `F` by
-ColemanIntegration §L1.19 (f) and the vanishing of residues of the regular form `ω`; for `η` by §4.4 over
-finite extensions. Hence `G := F − η` is locally constant, an element of `A_loc^a` with `dG = 0`
-(ColemanIntegration §L1.4). Cayley–Hamilton for `M` and `φ*ω_i = Σ_j M_ij ω_j + dg_i` give
-`P_Y(φ*)ω = dh` with `h ∈` A⁺(Y); by ColemanIntegration §L1.19 (a)–(c), `P_Y(φ*)F − h` is a Coleman function
-with zero differential, hence constant (ColemanIntegration §L1.18). Let `π` be the q-power
-Frobenius endomorphism of J̃ `= 𝒥_k`, the Jacobian of the special fibre `𝒳_k`, and `P_J ∈ ℤ[t]` its
-characteristic polynomial, so `P_J(π) = 0` in `End(J̃)` (supplied by DeligneWeightsAndPurity §§1.1–1.4).
-Write `P_J = Σ c_i t^i` and fix `x₀ ∈ ]Y_k[`. For `P` in a wide open `W` on which `φ` is defined, `Ψ(P) := Σ_i c_i [φ^i(P) − φ^i(x₀)]` reduces to `P_J(π)[P̃ − x̃₀] = 0`, because `φ` reduces to the q-power Frobenius
-on points. `Ψ` is rigid analytic (`ι` algebraic, `φ` analytic, the group law of 𝒥 analytic) with values in
-the open polydisc of the kernel of reduction, so `P ↦ ⟨Ψ(P), ω_J⟩ = log_F̂(s(Ψ(P)))·ω_J` is analytic
-on `W`; thus `P_J(φ*)η ∈ A⁺(Y) + ℂ_p` (ColemanIntegration §L1.2, §4.2). With `Q := P_Y·P_J, Q(φ*)G` lies
-in A⁺(Y) `+ ℂ_p` and has zero differential, so it is constant (hypothesis (H0) of the datum). The
-roots of `Q` are Weil numbers of weights 1 and 2 (ColemanIntegration §L1.9;
-DeligneWeightsAndPurity §1.4), so none is a root of unity
-(ColemanIntegration §L1.8), and Dwork's principle (ColemanIntegration §L1.11 (c)) shows that `G` is
-constant; `G(x) = 0`, so `F = η`. Independence of a and of `φ`, rationality on K'-points and vanishing on
-torsion classes are now properties of `η (§4.3)`. This is the comparison of
-Katz–Rabinoff–Zureick-Brown Corollary `3.18` transported from Berkovich–Coleman integration to the
-Frobenius-continuation integral of ColemanIntegration L1.
+For the comparison, identify the invariant form by §4.3's Abel–Jacobi pullback and apply
+AnabelianGeometryAndNonabelianChabauty §5.8's `colemanAbelian.integral` to the supplied
+ColemanIntegration integral. Use `colemanAbelian.basepoint` to pass from its fixed base point
+to arbitrary endpoints x and y. If `X(K)` is empty, choose a finite extension L/K with a point
+of `X(L)` and apply the supplied comparison over L; its base-change law identifies the result.
+Its finite-extension and `ℂ_p` evaluation laws use the same
+`abelianLog.cp`; independence of branch and Frobenius lift, rationality on K'-points and
+vanishing on torsion classes then follow from the supplied pairing. The abstract
+`ED4.residueConstantDifference_eq_zero_of_frobeniusRelation` remains an algebraic
+uniqueness statement for the stated candidate functions and polynomial hypotheses.
 
 The intended signatures also include `ED4.colemanIntegral_eq_abelianIntegral`. Let `K` be a
 finite extension of `ℚ_p` with residue field `𝔽_q`, (𝒳, `D`) a good-reduction pair over `O_K`
@@ -4687,14 +4697,15 @@ takes values in K' on points of `X(K')` for K' `⊆ ℂ_p` finite over `K`, and 
 divisor whose class is torsion. Hypotheses: (𝒳, `D`) a good-reduction pair over `O_K, K` finite over
 `ℚ_p; ω` a regular differential on the proper curve `X` (not merely on `Y`). The Frobenius-structured
 datum exists by ColemanIntegration §L1.9; its Frobenius matrix `M` has
-characteristic polynomial `P_Y ∈ K[t]` whose roots are Weil q-numbers of weights 1 and 2. Derive local primitive equality and Frobenius
-compatibility from the actual Coleman/cohomology suppliers and the Weil polynomial; a function
-supplied with the desired identities is only supporting algebra.
+characteristic polynomial `P_Y ∈ K[t]` whose roots are Weil q-numbers of weights 1 and 2.
+This is the specialization of AnabelianGeometryAndNonabelianChabauty §5.8's regular equality
+to the supplied datum and the §4.3 pairing, with identical base-point normalization.
 
 **Checks.**
 
 - For `y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1` over `ℚ_3` with `D =` closure of `∞⁺`, the Coleman integral `∫^{Col}_{(0,1)}^{(−3,1)}` dx/y equals the tiny integral `≡ 2·3 + 3⁴ (mod 3⁵`) of §4.3.
 - Degenerate case `g = 1`: for an elliptic curve with good reduction the Coleman integral of the invariant differential from `O` is the formal-group logarithm extended to `E(ℂ_p)`.
+- For a degree-zero divisor with torsion Jacobian class, the sum of its regular Coleman integrals is zero by the supplied torsion-kernel comparison.
 
 ([Eric Katz, Joseph Rabinoff and David Zureick-Brown](https://arxiv.org/abs/1504.00694v2), §3.5,
 p.24; [Eric Katz, Joseph Rabinoff and David Zureick-Brown](https://arxiv.org/abs/1504.00694v2), §3.4
@@ -4702,7 +4713,7 @@ Corollary 3.18, p.23; [McCallum–Poonen (2012)](https://math.mit.edu/~poonen/pa
 Remark 8.3(2), author copy p.12; [Jennifer S. Balakrishnan, Robert W. Bradshaw and Kiran S.
 Kedlaya](https://arxiv.org/abs/1004.4936v2), §1, p.2.)
 
-*Needs:* §4.3; §4.2; §4.4; ColemanIntegration §L1.19; ColemanIntegration §L1.18; ColemanIntegration §L1.9; ColemanIntegration §L1.11; ColemanIntegration §L1.8; ColemanIntegration §L1.2; ColemanIntegration §L1.4; DeligneWeightsAndPurity §§1.1–1.4.
+*Needs:* AnabelianGeometryAndNonabelianChabauty §5.8; §4.3; §4.2; ColemanIntegration §L1.19; ColemanIntegration §L1.9.
 
 ### 4.7 Constants of integration on residue discs without a known rational point
 

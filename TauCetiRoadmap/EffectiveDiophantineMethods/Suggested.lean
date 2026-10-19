@@ -395,8 +395,13 @@ example :
     (∀ v : Fin 1 → ℚ, M.mulVec v = 0 ↔ v = 0) := by
   sorry
 
-/- Layer 4 applies HeightsRationalPointsAndObstructions §§1.15a–1.16 for the formal
-identity chart and logarithm, extending it to A(K) and its integration pairing.
+/- Layer 4 consumes AnabelianGeometryAndNonabelianChabauty §5.8's global abelian
+logarithm on A(K) and all A(C_p), its formal restriction, torsion kernel, morphism
+and base-change laws, integration pairing and regular Coleman/abelian equality.
+Its formal groups, identity charts and logarithms are supplied by
+HeightsRationalPointsAndObstructions §§1.15a–1.16.
+README §§4.2 and 4.6 compare the effective coordinate presentations with these
+supplied constructions and specify their numerical applications.
 Layer 3 applies its §1.17 local doubling count through the pinned descent kernel.
 Layer 4 consumes RestrictedPowerSeries §2.4 for Strassmann's theorem.
 The residue-disc application and its finite coefficient certificates are specified
@@ -868,6 +873,13 @@ ED4.suppliedDualEquiv_ext.
 ED4.abelianIntegral_eq_primitive.
 
 §4.2:
+The geometric names compare the coordinate presentation with
+AnabelianGeometryAndNonabelianChabauty §5.8's abelianLog.add, abelianLog.derivative,
+abelianLog.kernel, abelianLog.functorial, abelianLog.formal, abelianLog.baseChange,
+abelianLog.cp, abelianLog.pairing and abelianLog.unique. The abstract finite-index
+extension statements keep their arbitrary additive-group generality;
+ED4.formalLogExtension_unique identifies their Néron-chart specialization with
+the supplied logarithm, and evaluation identifies the pairings.
 ED4.abelianLog_C05_kernel_point,
 ED4.abelianLog_E11_five_torsion,
 ED4.abelianLog_baseChange,
@@ -895,6 +907,9 @@ ED4.card_rationalPoints_le_badReduction.
 ED4.card_rationalPoints_le_coleman.
 
 §4.6:
+The regular equality specializes AnabelianGeometryAndNonabelianChabauty §5.8's
+colemanAbelian.integral and colemanAbelian.basepoint to the §4.3 pairing and
+ColemanIntegration realization, including abelianLog.cp evaluation.
 ED4.colemanIntegral_eq_abelianIntegral,
 ED4.residueConstantDifference_eq_zero_of_frobeniusRelation.
 
