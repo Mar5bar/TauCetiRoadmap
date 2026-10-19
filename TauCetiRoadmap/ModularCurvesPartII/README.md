@@ -1635,6 +1635,7 @@ The public interface should expose:
 
 - The result has an explicit algebraically closed field-extension hypothesis.
 - No compactification or compact uniformization statement is used.
+- Separably closedness is essential: `Spec ℂ` is connected over `ℝ`, whereas its base change to `ℂ` has two connected components.
 
 *Needs:* [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); `SchemeAndStackFoundations §0.7/geometric_irreducible_components`.
 
@@ -2527,7 +2528,8 @@ Establish this as follows. The algebraic pullback–trace operators are defined 
 
 The public interface should expose:
 
-- `firstCoefficientHeckePairing`: `β(T,f)=a₁(Tf)` over Q and its scalar extensions.
+- `analyticFullHeckeAlgebra`: The complex operator image on the native `cuspFormCharSpace 2 1`, the trivial-character realization of `S₂(Γ₀(N),ℂ)`, generated as a complex algebra by all positive-index `heckeTCompositeGamma0` actions. The identification with `S₂(Γ₀(N),ℂ)` is Tau Ceti's `cuspFormCharSpaceOneEquiv` in `TauCeti/NumberTheory/ModularForms/TrivialNebentypus.lean`.
+- `firstCoefficientHeckePairing`: `β(T,f)=a₁(Tf)` over Q and its scalar extensions. The Lean definition is its complex analytic realization on `analyticFullHeckeAlgebra`; the rational differential realization and its base-change comparison use the geometric carriers of this section.
 - `firstCoefficientHeckePairing_bilinear`: Q-linearity in both arguments.
 - `firstCoefficientHeckePairing_Tn`: `β(T_n,f)=a_n(f)` for every `n≥1`.
 - `firstCoefficientHeckePairing_action`: `β(ST,f)=β(S,Tf)`.
@@ -2558,7 +2560,7 @@ All operators `T_n` act with `a₁(T_n f)=a_n(f)`, and their Q-span is `T_Q` by 
 
 Establish this as follows. If `β(T_n,f)=0` for all n, every q coefficient of f vanishes, so `f=0`. If `β(T,f)=0` for every f, then `a_n(Tf)=a₁(T_nTf)=a₁(TT_nf)=0` by commutativity; hence `Tf=0` for every f, and `T=0` in the image algebra. Both radicals vanish; finite-dimensional linear algebra gives equal dimensions and perfection over C. The rational coefficient and operator definitions, or faithful scalar extension, give perfection over Q.
 
-The theorem is `perfectHeckePairing`.
+The theorem is `perfectHeckePairing`. Its Lean statement uses the native complex cusp space and `LinearMap.IsPerfPair`, so both induced maps to dual spaces are bijective; the rational geometric realization retains the preceding scalar-extension comparison.
 
 **Checks.**
 

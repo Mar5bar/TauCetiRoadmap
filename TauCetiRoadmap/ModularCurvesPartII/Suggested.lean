@@ -1,6 +1,8 @@
 import Mathlib
 import TauCeti.RepresentationTheory.SymmetricPower
 import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
+import TauCeti.NumberTheory.ModularForms.HeckeSlash.Nebentypus.Composite
+import TauCeti.NumberTheory.ModularForms.QExpansion.Basic
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 
 /-!
@@ -18,6 +20,8 @@ Their supplier is §R2.11, `compactified-moduli-generalised-elliptic-curves`.
 -/
 
 namespace TauCetiRoadmap.ModularCurvesPartII
+
+universe u
 
 open scoped BigOperators TensorProduct
 noncomputable section
@@ -39,7 +43,54 @@ def IsCongruenceCharacter (N q : ℕ)
     ∀ (g : CongruenceSubgroup.Gamma N), g.val ∈ CongruenceSubgroup.Gamma M →
       ψ (Additive.ofMul g) = 0
 
+open HeckeRing.GL2
+
+local notation "S₂(" N ")" =>
+  cuspFormCharSpace (N := N) (2 : ℤ) (1 : (ZMod N)ˣ →* ℂˣ)
+
+/-- The full complex Hecke image on weight-two trivial-character cusp forms, generated
+by every positive-index operator, including the bad-prime blocks (README §7.5). -/
+def analyticFullHeckeAlgebra (N : ℕ) [NeZero N] :
+    Subalgebra ℂ (Module.End ℂ S₂(N)) :=
+  Algebra.adjoin ℂ (Set.range fun n : ℕ+ =>
+    heckeRingHomCuspCharSpace 2 (1 : (ZMod N)ˣ →* ℂˣ)
+      (heckeTCompositeGamma0 N n))
+
+/-- The complex first-coefficient pairing `β(T,f)=a₁(Tf)`, on the full operator image
+and the whole weight-two trivial-character cusp space (README §7.5). -/
+def firstCoefficientHeckePairing (N : ℕ) [NeZero N] :
+    analyticFullHeckeAlgebra N →ₗ[ℂ] S₂(N) →ₗ[ℂ] ℂ :=
+  ((LinearMap.llcomp ℂ S₂(N) S₂(N) ℂ)
+    ((CuspForm.qExpansionCoeffₗ (by norm_num) (TauCeti.one_mem_strictPeriods_Gamma1_map N)
+      2 1).comp (cuspFormCharSpace (N := N) 2 (1 : (ZMod N)ˣ →* ℂˣ)).subtype)).comp
+    (analyticFullHeckeAlgebra N).val.toLinearMap
+
 /-! ## Milestones on existing carriers -/
+
+/-- The full Hecke first-coefficient pairing is perfect over `ℂ`, identifying each
+space with the other's dual, including the zero-dimensional case (README §7.6). -/
+theorem perfectHeckePairing (N : ℕ) [NeZero N] :
+    (firstCoefficientHeckePairing N).IsPerfPair := by
+  sorry
+
+/-- Every positive-index Hecke operator reads the corresponding Fourier coefficient,
+including indices sharing a prime factor with the level (README §7.5). -/
+theorem firstCoefficientHeckePairing_Tn (N : ℕ) [NeZero N] (n : ℕ+) (f : S₂(N)) :
+    firstCoefficientHeckePairing N
+      ⟨heckeRingHomCuspCharSpace 2 (1 : (ZMod N)ˣ →* ℂˣ)
+        (heckeTCompositeGamma0 N n), Algebra.subset_adjoin ⟨n, rfl⟩⟩ f =
+      (UpperHalfPlane.qExpansion 1
+        (f : CuspForm ((CongruenceSubgroup.Gamma1 N).map
+          (Matrix.SpecialLinearGroup.mapGL ℝ)) 2)).coeff n := by
+  sorry
+
+/-- Multiplication in the full Hecke image agrees with its action in the second
+argument of the first-coefficient pairing (README §7.5). -/
+theorem firstCoefficientHeckePairing_action (N : ℕ) [NeZero N]
+    (S T : analyticFullHeckeAlgebra N) (f : S₂(N)) :
+    firstCoefficientHeckePairing N (S * T) f =
+      firstCoefficientHeckePairing N S (T.val f) := by
+  sorry
 
 /-- The discriminant of the normalized lattice cubic is `g₂³ − 27g₃²` (README §1.1). -/
 theorem latticeWeierstrass_discriminant (L : PeriodPair) :
@@ -142,11 +193,6 @@ def splitOneGonEquation : WeierstrassCurve ℤ where
   a₄ := 0
   a₆ := 0
 
-/-- The split one-gon equation is singular, as required for a nodal boundary fibre. -/
-example : splitOneGonEquation.Δ = 0 := by
-  norm_num [splitOneGonEquation, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
 /-! ## Layer 3: integral level stacks and the open comparison -/
 
 /-- Exponents of the basis of the fibre of the proper Tate power map at a node.
@@ -172,6 +218,17 @@ theorem positiveFrame_changeMarking (γ : Matrix.SpecialLinearGroup (Fin 2) ℤ)
     ((γ.transpose • τ : UpperHalfPlane) : ℂ) =
       ((γ 0 0 : ℂ) * (τ : ℂ) + (γ 1 0 : ℂ)) /
         ((γ 0 1 : ℂ) * (τ : ℂ) + (γ 1 1 : ℂ)) := by
+  sorry
+
+/-! ## Layer 4: connected components under field extension -/
+
+open CategoryTheory Limits AlgebraicGeometry in
+/-- Extending a separably closed base field preserves all connected components of a
+scheme, through the actual base-change projection (README §4.9; Stacks 0363). -/
+theorem connectedComponents_fieldExtension {k K : Type u} [Field k] [IsSepClosed k]
+    [Field K] [Algebra k K] (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) :
+    Function.Bijective
+      (pullback.fst f (Spec.map (CommRingCat.ofHom (algebraMap k K)))).continuous.connectedComponentsMap := by
   sorry
 
 /-! ## Layer 9: algebraic correspondences and quotient curves -/
@@ -300,11 +357,6 @@ theorem degeneracyNormMatrix_det {R : Type*} [CommRing R] (a b : R) (d : Rˣ) :
   rw [Matrix.det_fin_two_of]
   ring
 
-/-- Zero is a congruence character at every positive level. -/
-example (N q : ℕ) (hN : 0 < N) :
-    IsCongruenceCharacter N q 0 := by
-  exact ⟨N, hN, dvd_refl N, by simp⟩
-
 /-- A finite codomain does not force an ordinary character to be congruence.
 CDT Theorem 4.5.2 and the genus-zero four-cusp quotient Γ(3) give this negative control. -/
 theorem exists_noncongruenceCharacter_level_three :
@@ -382,7 +434,8 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * The marked torus family over the upper half-plane, with the positive-frame
   KγK action and the S transport for its forgetful maps (README §§3.14 and 4.5)
 * Characteristic-zero pullback and trace actions
-* The full Hecke first-coefficient pairing
+* The rational differential realization and scalar-extension comparison of the full
+  Hecke first-coefficient pairing; its complex analytic perfection is stated above
 * Semistable genus-one curves
 * Homomorphisms of generalized elliptic curves
 * Contraction along a positive Cartier divisor
@@ -453,6 +506,9 @@ The additional interfaces specified in the README are:
 * §2.11: generalizedTorsionDecontraction for the smooth-locus-preserving polygon lift.
 * §2.10a: generalizedTorsionTransport before generalized generator ranks and level maps.
 * §7.1a (R12.5): kodairaSpencer_normalization on the fine curve with its universal family.
+* §7.5: firstCoefficientHeckePairing_bilinear is the linearity bundled in the complex
+  definition; firstCoefficientHeckePairing_baseChange identifies the rational differential
+  pairing with this complex analytic realization.
 * §11.2: cyclicIsogenyDeformationRing with its source/target coordinates.
 * §13.1: modularJacobian_thetaSpecialization constructs the relative theta polarization
   for a smooth proper geometrically connected curve over a locally Noetherian base,
