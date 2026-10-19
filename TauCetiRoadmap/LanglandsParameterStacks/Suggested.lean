@@ -13,10 +13,9 @@ Design choices.
 * A parameter with prescribed finite projection `η : Γ →* Q` is a homomorphism into Mathlib's
   `SemidirectProduct` `H ⋊[β] Q` lifting `η` (`ParameterLift`). Its first coordinate is the crossed
   cocycle for the action `β ∘ η`; gauge by `h` is conjugation by `SemidirectProduct.inl h`. This is
-  the section form of the crossed cocycles of `SmoothRepresentationsOfLocalGroups`, layer SR.6.1.
-* SmoothRepresentationsOfLocalGroups supplies SR.6.1 crossed-cocycles,
-  finite-wild-discretization, finite-wild-representability and ell-adic-extension,
-  and SR.6.3 excursion-algebra and excursion-invariant-comparison.
+  the section form of the crossed cocycles constructed in LP0.1.
+* LP0.4 constructs finite-wild discretization and continuous extension, LP1.1 the representing
+  scheme, LP2e.9 its excursion comparison, and LP2i.1 the integral comparison at good primes.
 * Degrees are homomorphisms to `Multiplicative ℤ`. The arithmetic degree of `ClassFieldTheory`
   sends arithmetic Frobenius to `1`; the geometric degree used here is its inverse.
 * Weil–Deligne parameters are prototyped for `GL_n`, with the scaling `r(w) N r(w)⁻¹ = q^{-deg w} N`
@@ -40,7 +39,7 @@ section ParameterLifts
 variable {Γ H Q : Type*} [Group Γ] [Group H] [Group Q]
 
 /-- Parameters of `Γ` with values in `H ⋊[β] Q` and prescribed projection `η` (LP0.1): homomorphisms
-lifting `η`. The first coordinate is the crossed cocycle of SR.6.1 for the action `β ∘ η`
+lifting `η`. The first coordinate is the crossed cocycle of LP0.1 for the action `β ∘ η`
 (Fargues–Scholze, Definition VIII.1.1, p.278). -/
 def ParameterLift (β : Q →* MulAut H) (η : Γ →* Q) : Type _ :=
   {φ : Γ →* H ⋊[β] Q // SemidirectProduct.rightHom.comp φ = η}
@@ -100,6 +99,45 @@ example :
   intro β
   simp [ParameterLift.cocycleValue, ParameterLift.gauge, ParameterLift.unit, β]
   norm_num
+
+-- Negation gives a crossed cocycle on C₂ with value 1 at the involution; it is not multiplicative.
+example :
+    let s : MulAut (Multiplicative ℤ) := MulEquiv.inv _
+    let C := Subgroup.zpowers s
+    let a : C := ⟨s, Subgroup.mem_zpowers s⟩
+    ∃ φ : ParameterLift C.subtype (MonoidHom.id C),
+      φ.cocycleValue a = Multiplicative.ofAdd 1 ∧
+      φ.cocycleValue (a * a) ≠ φ.cocycleValue a * φ.cocycleValue a := by
+  sorry
+
+-- The same C₂ action has precisely two gauge classes, distinguished by parity.
+example :
+    let s : MulAut (Multiplicative ℤ) := MulEquiv.inv _
+    let C := Subgroup.zpowers s
+    let a : C := ⟨s, Subgroup.mem_zpowers s⟩
+    (∀ n : ℤ, ∃ φ : ParameterLift C.subtype (MonoidHom.id C),
+      φ.cocycleValue a = Multiplicative.ofAdd n) ∧
+    ∀ φ ψ : ParameterLift C.subtype (MonoidHom.id C),
+      (∃ h : Multiplicative ℤ, φ.gauge h = ψ) ↔
+        Even (Multiplicative.toAdd (ψ.cocycleValue a) -
+          Multiplicative.toAdd (φ.cocycleValue a)) := by
+  sorry
+
+-- H¹ of the trivial group is a singleton; the unit lift supplies a representative.
+example (H : Type*) [Group H]
+    (φ : ParameterLift (1 : Unit →* MulAut H) (MonoidHom.id Unit)) :
+    φ = ParameterLift.unit 1 (MonoidHom.id Unit) := by
+  sorry
+
+-- For trivial action, evaluation at 1 identifies H¹(ℤ,H) with conjugacy classes in H.
+example (H : Type*) [Group H] :
+    (∀ h : H, ∃ φ : ParameterLift (1 : Unit →* MulAut H)
+      (1 : Multiplicative ℤ →* Unit), φ.cocycleValue (Multiplicative.ofAdd 1) = h) ∧
+    ∀ φ ψ : ParameterLift (1 : Unit →* MulAut H) (1 : Multiplicative ℤ →* Unit),
+      (∃ h : H, φ.gauge h = ψ) ↔
+        ∃ h : H, h * φ.cocycleValue (Multiplicative.ofAdd 1) * h⁻¹ =
+          ψ.cocycleValue (Multiplicative.ofAdd 1) := by
+  sorry
 
 section Degree
 
@@ -178,6 +216,21 @@ theorem HasFiniteWildRamification.of_finite_image [TopologicalSpace G] [T1Space 
 example (P : Subgroup Γ) : HasFiniteWildRamification P (1 : Γ →* G) :=
   HasFiniteWildRamification.of_le_ker P 1 (by simp)
 
+-- An open kernel need not have finite index in a noncompact source.
+example :
+    letI : TopologicalSpace (Multiplicative ℤ) := ⊥
+    HasFiniteWildRamification (⊤ : Subgroup (Multiplicative ℤ)) (MonoidHom.id _) ∧
+      (Set.range (MonoidHom.id (Multiplicative ℤ))).Infinite := by
+  sorry
+
+-- A finite image in an indiscrete target need not have open kernel, even for a compact source.
+example :
+    let C := Equiv.Perm (Fin 2)
+    letI : TopologicalSpace C := ⊤
+    Continuous (MonoidHom.id C) ∧ (Set.range (MonoidHom.id C)).Finite ∧
+      ¬ HasFiniteWildRamification (⊤ : Subgroup C) (MonoidHom.id C) := by
+  sorry
+
 end FiniteWild
 
 section WildInertial
@@ -186,8 +239,9 @@ variable {L W P : Type*} [Group L] [Group W] [Group P]
 
 /-- The abstract extension predicate underlying a wild inertial parameter (LP0.5): a homomorphism `ρ : P →* L` that extends to a section `φ` of
 `π : L →* W` along `i : P →* W`. The extension is a condition, not data (Kurinczuk–Skodlerack–Stevens,
-§1.20–1.21, pp.8–9). Admissibility, continuity and the `SL₂` factor of the
-classical-group definition remain README conditions. -/
+§1.20–1.21, pp.8–9). The classical subtype `ClassicalAdmissibleParameter` of LP0.5 additionally imposes finite inertia,
+Frobenius semisimplicity, continuity and an algebraic `SL₂` factor; this predicate asserts only
+section extension. -/
 def IsWildInertialParameter (π : L →* W) (i : P →* W) (ρ : P →* L) : Prop :=
   ∃ φ : W →* L, π.comp φ = MonoidHom.id W ∧ φ.comp i = ρ
 
@@ -214,6 +268,14 @@ example [Nontrivial W] :
   have hp := DFunLike.congr_fun h.projection w
   simp at hp
   exact hw hp.symm
+
+-- Conjugation outside the projection kernel changes the prescribed section in S₃.
+example :
+    let a : Equiv.Perm (Fin 3) := Equiv.swap 0 1
+    let b : Equiv.Perm (Fin 3) := Equiv.swap 1 2
+    ¬ IsWildInertialParameter (MonoidHom.id _) (MonoidHom.id _)
+      (MulAut.conj a).toMonoidHom ∧ a * b * a⁻¹ = Equiv.swap 0 2 := by
+  sorry
 
 end WildInertial
 
@@ -250,10 +312,17 @@ theorem section_mem_twistedWildCentralizer (P : Subgroup W) [P.Normal] (φ : W �
     (hφ : SemidirectProduct.rightHom.comp φ = MonoidHom.id W) (w : W) :
     φ w ∈ twistedWildCentralizer P (φ.comp P.subtype) := sorry
 
--- With the trivial homomorphism, every element satisfies the twisted condition.
-example (P : Subgroup W) [P.Normal] (x : H ⋊[α] W) :
-    x ∈ twistedWildCentralizer P (1 : P →* H ⋊[α] W) := by
-  simp [twistedWildCentralizer]
+-- A noncentral section value is twisted-centralizing but fails ordinary centralization.
+example :
+    let W := Equiv.Perm (Fin 3)
+    let α : W →* MulAut Unit := 1
+    let P : Subgroup W := ⊤
+    let ρ : P →* Unit ⋊[α] W := SemidirectProduct.inr.comp P.subtype
+    let x : Unit ⋊[α] W := SemidirectProduct.inr (Equiv.swap 0 1)
+    x ∈ twistedWildCentralizer P ρ ∧
+      x * ρ ⟨Equiv.swap 1 2, Subgroup.mem_top _⟩ ≠
+        ρ ⟨Equiv.swap 1 2, Subgroup.mem_top _⟩ * x := by
+  sorry
 
 end TwistedCentralizer
 
@@ -295,6 +364,13 @@ example (q : Λˣ) (d : W →* Multiplicative ℤ) (r : W →* GL n Λ) :
     IsWeilDelignePair q d r 0 := IsWeilDelignePair.zero q d r
 
 end WeilDeligne
+
+-- Over dual numbers, nilpotent rank-one matrix monodromy need not vanish.
+example :
+    let N : Matrix (Fin 1) (Fin 1) (DualNumber ℚ) := fun _ _ => DualNumber.eps
+    IsWeilDelignePair (1 : (DualNumber ℚ)ˣ) (1 : Unit →* Multiplicative ℤ)
+      (1 : Unit →* GL (Fin 1) (DualNumber ℚ)) N ∧ N ≠ 0 := by
+  sorry
 
 -- In `GL₂(ℚ)` with `q = 3`, geometric Frobenius `diag(1/3, 1)` scales `N = E₁₂` by `q⁻¹ = 1/3`:
 -- this is the sign convention of `IsWeilDelignePair`.
@@ -366,10 +442,21 @@ theorem FreeCocycleIndex.ofTuple_map_of {n : ℕ} (γ : Fin n → Γ) (i : Fin n
     (FreeCocycleIndex.ofTuple γ).map (FreeGroup.of i) = γ i :=
   FreeGroup.lift_apply_of
 
-/-- The zero-generator object is initial. -/
+/-- There is at most one word map from the zero-generator object. -/
 theorem FreeCocycleIndex.subsingleton_hom_zero (b : FreeCocycleIndex Γ) :
     Subsingleton (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
   sorry
+
+/-- A word map from the zero-generator object exists (LP2e.7). -/
+theorem FreeCocycleIndex.nonempty_hom_zero (b : FreeCocycleIndex Γ) :
+    Nonempty (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
+  sorry
+
+-- Initiality includes both existence and uniqueness, even for the empty tuple.
+example (b : FreeCocycleIndex Γ) :
+    Nonempty (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) ∧
+    Subsingleton (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
+  ⟨FreeCocycleIndex.nonempty_hom_zero b, FreeCocycleIndex.subsingleton_hom_zero b⟩
 
 -- Two generators retain their order under evaluation.
 example (a b : Γ) :
@@ -420,6 +507,23 @@ example (G : Type*) [Group G] (g : G) :
     excursionCoefficient (Representation.trivial ℚ G ℚ) 1 LinearMap.id g = 1 := by
   simp [excursionCoefficient]
 
+-- Scalar tensor coefficients retain their actual values: 2 times 3 is 6.
+example :
+    let ρ := Representation.trivial ℚ Unit ℚ
+    excursionCoefficient (ρ.tprod ρ) ((2 : ℚ) ⊗ₜ (3 : ℚ))
+      (TensorProduct.dualDistrib ℚ ℚ ℚ
+        ((LinearMap.id : Module.Dual ℚ ℚ) ⊗ₜ (LinearMap.id : Module.Dual ℚ ℚ))) () = 6 := by
+  sorry
+
+-- Multiplication by 2 changes the scalar coefficient when the creation vector is not fixed.
+example :
+    let ρ := Representation.ofDistribMulAction ℚ ℚˣ ℚ
+    let a : ℚˣ := Units.mk0 2 two_ne_zero
+    ρ a (1 : ℚ) ≠ 1 ∧
+      excursionCoefficient ρ 1 LinearMap.id (1 * 1 * a) ≠
+        excursionCoefficient ρ 1 LinearMap.id 1 := by
+  sorry
+
 /-! ## Layer LP2c: pseudocharacters with prescribed projection and local continuity -/
 
 section TraceAdapter
@@ -434,6 +538,14 @@ def traceExtension (τ : Γ → A) : MonoidAlgebra A Γ →ₗ[A] A :=
 theorem traceExtension_of (τ : Γ → A) (γ : Γ) :
     traceExtension τ (MonoidAlgebra.of A Γ γ) = τ γ := by
   simp [traceExtension, MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single]
+
+-- Linearity on two distinct basis elements preserves both coefficients and the minus sign.
+example (τ : Multiplicative ℤ → ℚ) :
+    traceExtension τ
+      ((2 : ℚ) • MonoidAlgebra.of ℚ (Multiplicative ℤ) (Multiplicative.ofAdd 0) -
+        MonoidAlgebra.of ℚ (Multiplicative ℤ) (Multiplicative.ofAdd 1)) =
+      2 * τ (Multiplicative.ofAdd 0) - τ (Multiplicative.ofAdd 1) := by
+  simp only [map_sub, map_smul, traceExtension_of, smul_eq_mul]
 
 -- Pin the supplied character, its value at the identity, and the trace over general rings.
 #check Representation.character
@@ -472,6 +584,7 @@ stacks and stable categories that do not exist at the pins. -/
 `CrossedCocycle.restrict`, `CrossedCocycle.sectionEquiv`, `CrossedCocycle.descend`,
 `CrossedCocycle.quotientEquiv`, `H¹(Γ, H)`, continuous crossed cocycles,
 `condensedCoefficients`, `LParameter`, `FiniteWildPiece`, `NormalWildCutoff`,
+`ClassicalAdmissibleParameter`, `WeilGroup.center_eq_bot`,
 `WildInertialParameter`, `wildEnhancementGroup`, `ExtendedWildParameter`, `WildParameterClasses`,
 `IntegralCocycleScheme`, `DerivedParameterStack`, `WeilDeligneParameter`, `ParameterSingularities`,
 `QCoh` and `Perf` of animated quotient stacks, `cotangentToHochschild`,
