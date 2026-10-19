@@ -702,6 +702,67 @@ downstream application actually invokes.
   [SchurWeyl Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk), specifically its shared skew-tableau, ballot-count and tableau-product contracts; ClassicalGroups Layer 4 identifies them
   with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
 
+### Layer 6F: Fourier boundary values of the Weyl formula
+
+Consume Layer6's actual integral weight group algebra, denominator-cleared
+Weyl formula and Kostant coefficient theorem, ClassicalGroups Layers3–4's
+group-character comparison, and
+[TensorProductCombinatorics H1.6](../../TensorProductCombinatorics/README.md#h16-rational-cone-series-fourier-boundary-values-and-lattice-endpoints)'s
+localization, common-chamber series and Fourier/distribution comparisons.
+This is a comparison after the independent character theorem; it is not a
+new proof premise for Freudenthal, Casimir, highest weights or generic cones.
+
+For each actual finite crystallographic root datum and group character
+lattice X, place all monomials in ℤ[X] before localization. Prove
+`wρ−ρ=−Σ_(α>0,w⁻¹α<0) α`, with the inversion convention pinned by the
+specified Weyl action and base. Only wρ−ρ and w(λ+ρ)−ρ need belong to X;
+ρ itself need not be a character. The normalized formula is
+
+`ch L(λ) = [Σ_w sgn(w)e^(w(λ+ρ)−ρ)] / ∏_(α>0)(1−e^(−α))`.
+
+Prove equality with the fixed-point rational sum
+`Σ_w e^(wλ)/∏_(α>0)(1−e^(−wα))` and retain the signs and the shift produced
+by every inverted denominator factor. For GL_n, compare the half-sum ρ
+with the integral staircase δ=(n−1,…,0); their difference is W-fixed,
+so shifted exponents agree without adjoining fractional characters. Do not
+substitute an unshifted positive-root denominator into this identity.
+
+For every covector regular on all roots apply ONE common cone expansion
+to the whole rational equality. Define every polarized summand's actual
+coefficient function and its Fourier boundary value and prove their finite
+alternating sum equals the finite weight multiplicity function/ordinary
+torus character. For a covector negative on the positive roots this is the
+existing Kostant partition formula, with argument
+`w(λ+ρ)−(μ+ρ)`; for another covector construct the explicit change-of-base/
+wall-crossing comparison. Individual summands depend on the covector; the
+sum does not. No product or cancellation of arbitrary singular distributions
+is inferred from the fraction-field identity alone.
+
+Transport to the actual compact maximal torus through its character-lattice
+and normalized Haar dictionary. Prove the coefficient sign with native
+`mFourierCoeff` and the Cartan angular/2π normalization. The character's
+Fourier coefficients are its integral weight multiplicities. Singular torus
+elements are covered by the finite polynomial equality and continuity, not
+by evaluating an individual pole. Differentiate neither chamber series nor
+distributional boundary values without their specified topology/support
+hypotheses. The Weyl-invariant integral finite character lattice and the
+triangular irreducible-character basis then give the virtual-character
+expansion; [CompactGroups Layer6](../CompactGroups/README.md#layer-6-characters-of-compact-groups)'s
+actual compact-group character orthogonality gives its squared group-Haar
+norm. State that norm on the group, and consume
+[LieGroups Layer6](../LieGroups/README.md#layer-6-maximal-tori-the-weyl-group-and-weyl-integration)'s
+normalized Weyl integration theorem if rewriting it as a weighted torus norm. These inputs
+are distinct from polynomiality or an unweighted torus norm.
+
+In type A compose the same coefficient theorem with H2.6's exact root-lattice
+count and H1.6's directional discrete/continuous/Todd comparison, including
+boundary weights and empty-root cases. Supply GL2's standard character
+`t1+t2`, SU2's weights n,n−2,…,−n, and a nontrivial A2 chamber/wall example.
+Compare the integer staircase, inversion-set polarization offsets and the
+direction chosen to restrict piecewise polynomials as distinct operations.
+This complete convention API does not identify an ambiguous source symbol
+with any of those independently defined operations.
+
 ### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
 The structural layer behind the character formula: the center that the Casimir of Layer 5 sits inside,
