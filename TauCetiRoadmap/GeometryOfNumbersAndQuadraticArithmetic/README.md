@@ -189,7 +189,7 @@ The rows specify the inputs and local consumer carriers used in this folder.
 
 ## How to read the build
 
-Layer 0 gives the Gram-determinant and Hadamard bounds, consumes ThetaSeries’ reciprocal dual covolume, and proves the projection and primitive-intersection identities and the adapted bases behind them. Layer 1 defines successive minima, proves their calculus and both sharp halves of Minkowski's second theorem, and proves Minkowski's linear forms theorem. Layer 2 sets up integral quadratic and hermitian lattices over Dedekind domains with their local theory and their genera, and the comparisons that connect them to the field theory and to the `ℤ`-lattices of Tau Ceti. Layer 3 counts: finite-field representation numbers, local densities and Siegel polynomials, stabilizers, classes, mass, theta coefficients. Layer 4 is the analytic and dynamical side: lattice-point bounds, the homogeneous-dynamics theorems and their two arithmetic applications, transference, star bodies and critical lattices, Siegel's mean value theorem, lattices from codes. Layer 5 develops LLL-reduced bases and their short-vector approximation bound. Layer 6 is hermitian K-theory of exact categories, beginning with the ordinary K-theoretic inputs it needs. Its implementable targets exclude the motivic/étale comparison, arithmetic K inputs and higher integer GW tables described in the final roadmap-for-a-roadmap. Within Layer 2, build 2.2 and 2.7 before the field comparisons and the dual-quotient invariants. Within Layer 3, build the primitive/saturation counts and the 3.2.5 finite weights before the 3.2.4 polynomial, then the spherical Fourier comparison before its functional equation. The 3.4 theta series is ThetaSeries' theta series read through its real model and does not depend on Layer 4. Within Layer 6, build 6.1a–b and 6.8a before their derived consumers, 6.6a filtering quotients before the cone suspension, and 6.10.6 multiplicative suppliers before the 6.10.5 conditional stable comparison; the degree-zero presentations and formation comparison feed the exact and stable comparisons. Each target's `*Needs:*` line names its inputs by subsection number or supplier, and every definition ends with its checks; `Suggested.lean` includes a selection of proved examples on these carriers.
+Layer 0 gives the Gram-determinant and Hadamard bounds, consumes ThetaSeries’ reciprocal dual covolume, and proves the projection and primitive-intersection identities and the adapted bases behind them. Layer 1 defines successive minima, proves their calculus and both sharp halves of Minkowski's second theorem, and proves Minkowski's linear forms theorem. Layer 2 sets up integral quadratic and hermitian lattices over Dedekind domains with their local theory and their genera, and the comparisons that connect them to the field theory and to the `ℤ`-lattices of Tau Ceti. Layer 3 counts: finite-field representation numbers, local densities and Siegel polynomials, stabilizers, classes, mass, theta coefficients. Layer 4 is the analytic and dynamical side: lattice-point bounds, the homogeneous-dynamics theorems and their two arithmetic applications, transference, star bodies and critical lattices, Siegel's mean value theorem, lattices from codes. Layer 5 develops LLL-reduced bases and their short-vector approximation bound. Layer 6 is hermitian K-theory of exact categories, beginning with the ordinary K-theoretic inputs it needs. Its implementable targets exclude the motivic/étale comparison, arithmetic K inputs and higher integer GW tables described in the final roadmap-for-a-roadmap. Within Layer 2, build 2.2 and 2.7 before the field comparisons and the dual-quotient invariants. Within Layer 3, build the primitive/saturation counts and the 3.2.5 finite weights before the 3.2.4 polynomial, then the spherical Fourier comparison before its functional equation. The 3.4 theta series is ThetaSeries' theta series read through its real model and does not depend on Layer 4. Within Layer 6, build 6.1a–b and 6.8a before their derived consumers, 6.6a filtering quotients before the cone suspension, and 6.10.6 multiplicative suppliers before the 6.10.5 conditional stable comparison; the degree-zero presentations and formation comparison feed the exact and stable comparisons. Each target's `*Needs:*` line names its inputs by subsection number or supplier, and every definition ends with its checks; `Suggested.lean` includes a proved cochain-differential test of the DG duality sign.
 ## Layer 0: Lattices, Gram determinants and covolumes
 
 This layer is the calculus of covolumes of discrete full ℤ-submodules of a real inner-product space `E`. Everything is stated intrinsically: a lattice of lower rank is first moved into its real span, which carries the inherited inner product and its own Lebesgue measure, and every volume is the canonical Euclidean volume of the space in which it is taken, with volume one in dimension zero. The layer proves the Gram–Hadamard inequality in the hermitian generality needed by Couveignes’ counting argument and consumes ThetaSeries §2C’s reciprocal inner-dual covolume; it establishes the covolume of an orthogonal projection and the equality of the covolumes of the two primitive intersections `Δ ∩ W` and `Δ ∩ W^⊥` of a self-dual lattice. The adapted-basis lemmas of 0.2 are the integral linear algebra these identities need (Smith normal form for a saturated sublattice, the projected basis, biorthogonal families) and are reusable on their own.
@@ -927,15 +927,17 @@ This variant localises at a prime of a Dedekind domain inside the fixed fraction
 - Localizing a nonprincipal coefficient ideal makes it principal at a nonzero prime of a Dedekind domain.
 - Localizing the zero-dimensional lattice still gives the zero-dimensional lattice.
 
-2.2.3. Prove that for full R-lattices L,M in a fixed fraction-field K-space over a Dedekind domain, L is contained in M iff `L_(p)` is contained in `M_(p)` for every maximal ideal p.
+2.2.3. Prove `IntegralQuadraticLattice.le_iff_local`: for full R-lattices L,M in a fixed fraction-field K-space over a Dedekind domain, L is contained in M iff `L_(p)` is contained in `M_(p)` for every maximal ideal p.
 
 (Source: Voight2026, Lemma 9.4.6 and Corollary 9.4.7, printed p.140.)
 *Needs:* 2.2.4, 2.2 `IntegralQuadraticLattice.localize`.
 **Checks.**
 
 - 2Z is contained in Z at every prime, and the reverse inclusion fails at prime 2.
+- For equal lattices all local containments hold, with denominator 1.
+- For `L=ℤ` and `M=6ℤ`, the containment fails at both 2 and 3; testing only one other prime cannot detect it.
 
-2.2.4. Prove that for a full R-lattice L in a fixed fraction-field K-space over a Dedekind domain, L equals the intersection of its localizations `L_(p)` over maximal ideals p, as embedded submodules.
+2.2.4. Prove `IntegralQuadraticLattice.mem_iff_local`: for a full R-lattice L in a fixed fraction-field K-space over a Dedekind domain, L equals the intersection of its localizations `L_(p)` over maximal ideals p, as embedded submodules. Local membership means that some denominator outside p carries the vector into L.
 
 (Source: Voight2026, Lemma 9.4.6 and Corollary 9.4.7, printed p.140.)
 *Needs:* 2.2 `IntegralQuadraticLattice.localize`.
@@ -943,6 +945,7 @@ This variant localises at a prime of a Dedekind domain inside the fixed fraction
 
 - 2Z and Z differ at the prime 2, though their Q-spans coincide.
 - For equal embedded localizations the conclusion is L=M; independent local isometries do not supply a single global integral isometry.
+- The intersection of the embedded `ℤ_(p)` over all rational primes is ℤ; using the completions would not give an intersection inside ℚ.
 
 2.2.5. Prove that if R is a DVR with fraction field K and completion R̂ with fraction field K̂, extension L↦L⊗R R̂ and intersection N↦N∩V are inverse bijections between full R-lattices in finite-dimensional V and full R̂-lattices in V⊗K K̂.
 Intersection uses the canonical injection V→V⊗K K̂. Finite-generation and torsion-free hypotheses are retained; a torsion R-module is not declared free.
@@ -1013,9 +1016,14 @@ This variant takes the spin image at each finite place of a number field, rather
 (Source: Li–Zhang2019v3, §1.7, printed p.8.)
 *Needs:* 2.7 `IntegralHermitianLattice.dual`.
 
-2.5.2. Prove that the primary torsion cited decomposes L∨/L into `O_F/(π^a_i)`; remove zero summands, order the exponents and pad with zeros to exactly n entries.
+2.5.2. Prove `HermitianLatticeInvariants.exists_of_primary`: the primary torsion cited decomposes L∨/L into `O_F/(π^a_i)`; remove zero summands, order the exponents and pad with zeros to exactly n entries.
 (Source: Li–Zhang2019v3, §1.7, printed p.8.)
 *Needs:* Mathlib `Module.torsion_by_prime_power_decomposition`, 2.5.1.
+**Checks.**
+
+- The zero module has the all-zero tuple, including the empty tuple when n=0.
+- A cyclic module `R/(π^a)` with a>0 has one positive exponent and n−1 padded zeros.
+- The module `R/(π) ⊕ R/(π²)` needs two generators; it cannot be encoded by a length-one tuple.
 
 2.5.3. Prove that for exponents `a_i` and m≥1, dimension over the residue field of `π^(m−1)M/π^m M` is `#{i:a_i≥m}`.
 (Source: Li–Zhang2019v3, §1.7, printed p.8.)
@@ -1029,9 +1037,14 @@ This variant takes the spin image at each finite place of a number field, rather
 (Source: Li–Zhang2019v3, §1.7, printed p.8.)
 *Needs:* 2.5.4.
 
-2.5.6. Prove that for finite residue field of size Q, `length(M)=Σa_i` and `#M=Q^(Σa_i)`. For an unramified quadratic `O_F/O_F0` extension Q=q², giving `q^(2Σa_i)`.
+2.5.6. Prove `HermitianLatticeInvariants.length_eq` and `HermitianLatticeInvariants.card_eq`: for finite residue field of size Q, `length(M)=Σa_i` and `#M=Q^(Σa_i)`. For an unramified quadratic `O_F/O_F0` extension Q=q², giving `q^(2Σa_i)`.
 (Source: Li–Zhang2019v3, §1.7, printed p.8.)
 *Needs:* 2.5.3.
+**Checks.**
+
+- A self-dual lattice has zero dual quotient, exponent sum zero and quotient cardinality one.
+- Over an unramified quadratic extension with base residue cardinality q, a single exponent one contributes q² elements.
+- For an infinite residue field, finite length does not imply finite set cardinality; the cardinality formula assumes the residue field finite.
 
 ### 2.6 Atomic forms over a local principal ideal domain
 
@@ -1062,7 +1075,7 @@ Its API is `IsAtomicIntegralQuadraticForm` (The exact unary or dyadic binary val
 (Source: Voight2012v2, §3, Algorithm 3.12, correctness proof, printed pp.12–14.)
 *Needs:* 2.6.2.
 
-2.6.11. Prove that every integral quadratic form on a finite projective module over a characteristic-zero DVR admits an integral basis giving an orthogonal sum of scaled atomic unary/binary blocks `π^{e₁}Q₁⊥…⊥π^{e_s}Q_s`, with ordered finite exponents `0≤e₁≤…≤e_s` and separate rank-one zero blocks, represented by the infinity-exponent convention. Uniqueness is not asserted. Prove existence by induction on rank using the integral orthogonal-complement identities. Finite projective modules over a DVR are free; in characteristic zero a zero polar pairing forces q=0. At dyadic DVRs the binary blocks are retained.
+2.6.11. Prove `atomic_normal_form`: every integral quadratic form on a finite projective module over a characteristic-zero DVR admits an integral basis giving an orthogonal sum of scaled atomic unary/binary blocks `π^{e₁}Q₁⊥…⊥π^{e_s}Q_s`, with ordered finite exponents `0≤e₁≤…≤e_s` and separate rank-one zero blocks, represented by the infinity-exponent convention. Uniqueness is not asserted. Prove existence by induction on rank using the integral orthogonal-complement identities. Finite projective modules over a DVR are free; in characteristic zero a zero polar pairing forces q=0. At dyadic DVRs the binary blocks are retained.
 (Source: Voight2026, Proposition 9.8.4 and proof reference, printed pp.147–148.)
 *Needs:* 2.6 `IsAtomicIntegralQuadraticForm`, 2.6.2–2.6.4, finite-projective freeness over a DVR and induction on rank.
 **Checks.**
@@ -1837,7 +1850,7 @@ Define `integralPrimitiveSubgroup Δ` by containment in the integer-coordinate l
 Prove `quantitative_nondivergence`: on a ball `B⊂R^s` with enlarged ball `3^d B`, `h:3^dB→GL_d(R)` continuous, every nonzero primitive Δ has `primitiveExteriorCovolume(hΔ)` (C,α)-good and supremum on B at least ρ, where 0<ρ≤1/d. Then for 0<ε≤ρ the proportion with a nonzero `hZ^d` vector of sup norm <ε is at most `dC(3^s N_s)^d(ε/ρ)^α`, with `N_s=`Mathlib `Besicovitch.multiplicity (Fin s → ℝ)`, its finite-dimensional packing/covering constant; use `Besicovitch.exist_disjoint_covering_families` rather than reconstructing the covering theorem. Prove `marked_primitive_chain_estimate` first: the primitive-subgroup poset has length d, its small-coordinate sets are locally finite, and the good-function covering estimate bounds failure of a marked chain by that constant. At a marked point x, append 0 and `Z^d` to its chain and, for any `v∈Z^d\{0}`, choose the first term `Δ_i` containing v. Then `v∈Δ_i\Δ_(i−1)`, so primitivity gives `v∉span_R Δ_(i−1)`. The extension Π=`primitiveSpanExtension Δ_(i−1) v` is contained in `Δ_i` and comparable with every chain term; marking gives `ν_(h(x))(Π)≥ε`. If `Δ_(i−1)≠0`, its chain bound `ν_(h(x))(Δ_(i−1))≤ρ` and `primitiveExteriorCovolume_sat_extension_le` give `‖h(x)v‖_∞≥ε/(dρ)≥ε`. If `Δ_(i−1)=0`, use `primitiveExteriorCovolume_sat_extension_zero_le` to get `‖h(x)v‖_∞≥ν_(h(x))(Π)≥ε` directly; the zero term's exterior norm one is not bounded by ρ. For `h(t)=u_t g`, the exterior coordinates are polynomials of degree ≤d², and `ρ=min(1/d,inf_Δ‖gΔ‖)>0` by exterior-lattice discreteness. This gives `unipotent_quantitative_recurrence`, with exponent 1/d² and a constant depending only on d. Apply 4.5 Mahler compactness to the resulting shortest-vector lower bound to obtain 4.2.3, uniformly for every T>0.
 (Source: Kleinbock–Margulis Theorem 4.1, pp.10–13, Theorem 5.2 and Theorem 5.3 with their proofs, pp.14–15; source labels the latter a theorem, not a corollary.)
 
-4.2.1. Prove that for a connected noncompact almost-simple real Lie group G with finite centre and a strongly continuous unitary representation on a Hilbert space with no nonzero G-invariant vector, every matrix coefficient tends to 0 as g leaves all compact subsets of G.
+4.2.1. Prove `howe_moore`: for a connected noncompact almost-simple real Lie group G with finite centre and a strongly continuous unitary representation on a Hilbert space with no nonzero G-invariant vector, every matrix coefficient tends to 0 as g leaves all compact subsets of G.
 Strong continuity, unitarity, finite centre and almost simplicity are retained. For a semisimple product one must specify escape in every noncompact factor or the appropriate factor-invariant exclusions.
 (Source: Ciobotaru Theorems 1.1 and 3.2, §4.1, pp.2,9–10; Benoist Fact 3.3, physical p.20, is the consumer statement.)
 *Needs:* `StronglyContinuous`, `contraction_generation_decay`, `cartan_coefficient_reduction`, `simple_cartan_contraction_generation`, RepresentationTheory/LieGroups Layer 9.
@@ -1845,8 +1858,9 @@ Strong continuity, unitarity, finite centre and almost simplicity are retained. 
 
 - A constant vector in the full L² quotient space has a nondecaying coefficient; remove constants before applying the theorem.
 - Escaping only one factor of a product does not justify the unqualified product theorem.
+- The zero representation space satisfies the invariant exclusion and every coefficient is zero.
 
-4.2.2. Let G be connected noncompact almost-simple with finite centre, Γ a lattice and μ the invariant probability measure on G/Γ. Every closed noncompact subgroup H acts ergodically on (G/Γ,μ).
+4.2.2. Prove `moore_ergodicity`: let G be connected noncompact almost-simple with finite centre, Γ a lattice and μ the invariant probability measure on G/Γ. Every closed noncompact subgroup H acts ergodically on (G/Γ,μ).
 Finite quotient volume is used to normalize μ; G is almost-simple, not an arbitrary product.
 (Source: Morris2015v6, Moore-ergodicity conventions in the standing setting, §4.10; consequence derived from the preceding matrix-coefficient target.)
 *Needs:* 4.2.1, `quotientKoopman_invariants`, `meanZeroL2`, `ergodic_iff_L2_fixed_constants`, AdelicAlgebraicGroups AA.2.
@@ -1854,8 +1868,9 @@ Finite quotient volume is used to normalize μ; G is almost-simple, not an arbit
 
 - A compact subgroup does not meet the noncompactness hypothesis.
 - For a semisimple product, a lattice quotient with factor-invariant functions requires an irreducibility/factor version instead.
+- On a compact lattice quotient the theorem still applies to a closed noncompact subgroup; compactness of the quotient is not compactness of that subgroup.
 
-4.2.3. Prove that for d≥2, `X=SL_d(R)/SL_d(Z)`, a one-parameter unipotent subgroup `u_t`, x∈X and epsilon>0, there exists a compact K⊂X such that for every T>0, Leb`{t∈[0,T]:u_t x∈K}/T≥1−epsilon`.
+4.2.3. Prove `dani_margulis_nondivergence`: for d≥2, `X=SL_d(R)/SL_d(Z)`, a one-parameter unipotent subgroup `u_t`, x∈X and epsilon>0, there exists a compact K⊂X such that for every T>0, Leb`{t∈[0,T]:u_t x∈K}/T≥1−epsilon`.
 K depends on x, epsilon and the flow. This is qualitative recurrence; no spectral rate or uniform compact set over all x is asserted.
 (Source: Benoist2019, Fact 3.4, physical p.20.)
 *Needs:* `unipotent_quantitative_recurrence`, 4.5 Mahler compactness. The compact set is the shortest-vector sublevel complement, not a consequence of Minkowski alone.
@@ -1863,6 +1878,7 @@ K depends on x, epsilon and the flow. This is qualitative recurrence; no spectra
 
 - A diagonal flow can diverge and cannot replace the unipotent flow.
 - The statement controls every T>0 with a compact set containing the necessary initial trajectory segment.
+- For the constant identity flow, a compact set containing x has occupation proportion one for every T>0.
 
 **Algebraic support and shearing.** The measure-classification branch first treats a real linear algebraic G and a connected algebraic unipotent U, with Γ discrete and μ a U-invariant ergodic probability on G/Γ. Prove `minimal_algebraic_support`: a positive-measure algebraic subset of G contains a coset Px whose image supports μ, for a connected algebraic subgroup P containing U. Minimize dimension using Noetherianity; invariance and countably many Γ-translates identify the minimal cosets, and ergodicity selects one. The input `algebraic_probability_fixed_points` says that a probability invariant under a group generated by unipotents and real-split semisimple elements is supported on its fixed points in a real algebraic variety. A projective embedding and the attracting/escaping orbit alternatives prove the one-generator case; intersections prove the generated-group case. This applies also to the Grassmannian-valued stabilizer maps. Thus the later proof may assume connected G and Zariski-dense μ, without assuming the support is already homogeneous. Prove `transverse_recurrence_pairs`: for a sufficiently large-measure set Q, a local algebraic transversal L to an open subgroup F and a proper algebraic M⊊L, Zariski-dense F-invariant μ gives `g_j→1` in L\M with `Q∩g_jQ` nonempty. Local product coordinates and Fubini would otherwise concentrate positive measure on a proper algebraic coset.
 (Source: Margulis–Tomanov, Lemmas 3.1 and 3.3 and Proposition 3.2, pp.356–358; real specialization. RepresentationTheory/LieGroups Layer 9 and the algebraic-group/Grassmannian suppliers provide the carriers.)
@@ -2044,15 +2060,17 @@ With these inputs, prove `oneOrbitAverageIdentification` without assuming an orb
 - For a dense unipotent orbit the homogeneous limit has full quotient support; no smaller singular orbit is inferred from a constant wedge alone.
 - Escaped mass on the compactification is excluded by no escape; invariance of a subprobability alone would not identify the probability limit.
 
-4.2.4. Prove that for a connected linear semisimple real Lie group G, a lattice Γ, a connected subgroup U generated by one-parameter unipotent subgroups and x=gΓ, the closure of Ux is Lx for a connected closed subgroup L containing U, with `L∩gΓg^−1` a lattice in L.
-The homogeneous orbit has finite invariant volume; the subgroup is generated by unipotent flows. A general diagonal orbit does not satisfy this conclusion.
+4.2.4. Prove `ratner_orbit_closure`: for a connected linear semisimple real Lie group G, a lattice Γ, a connected subgroup U generated by one-parameter unipotent subgroups and x=gΓ, the closure of Ux is Lx for a connected closed subgroup L containing U, with `L∩gΓg^−1` a lattice in L.
+The homogeneous orbit has finite invariant volume; equivalently, it supports an L-invariant probability. The subgroup is generated by unipotent flows. A general diagonal orbit does not satisfy this conclusion.
 (Source: Morris2015v6, Theorem 20.1.3 and Remarks 20.1.4–20.1.5, printed pp.406–407; connected specialization.)
 *Needs:* `unipotent_measure_classification_algebraic`, the generated-subgroup and algebraic-envelope adapters, RepresentationTheory/LieGroups Layer 9, `generalUnipotentNoEscape`, `boundedVolumeSubgroupFiniteness`, `singularWedgeUniqueRepresentative`, `polynomialSingularAvoidance`, `unipotentSingularOrbitDetection`, and `oneOrbitAverageIdentification`. The flow case precedes the generated-subgroup enlargement; it does not use 4.2.6 as an assumed theorem.
 **Checks.**
 
 - The orbit closure carries a finite L-invariant measure, not just an unspecified closed set.
+- For U trivial, the closure is the single point x, with its Dirac probability and trivial connected L.
+- A periodic one-parameter unipotent orbit is already a closed finite-volume homogeneous orbit; its closure need not be the full quotient.
 
-4.2.5. Prove that in the preceding homogeneous setting, every ergodic U-invariant probability measure on G/Γ is the unique normalized L-invariant measure on a closed finite-volume orbit Lx for a closed subgroup L containing U.
+4.2.5. Prove `ratner_measure_classification`: in the preceding homogeneous setting, every ergodic U-invariant probability measure on G/Γ is the unique normalized L-invariant measure on a closed finite-volume orbit Lx for a closed subgroup L containing U.
 U is connected and generated by one-parameter unipotent subgroups. Probability, invariance and ergodicity are separate hypotheses.
 (Source: Morris2015v6, Theorem 20.3.4, printed p.413.)
 *Needs:* `minimal_algebraic_support`, `quasiregular_measure_enlargement`, `maximal_leaf_transversality`, `opposite_leaf_support`, `contracting_subordinate_entropy`, `leaf_entropy_bound_and_equality`, `contracting_leaf_support_reduction`, `unipotent_measure_classification_algebraic`, and the generated-subgroup and algebraic-envelope adapters. Their measurable-partition, disintegration and pointwise-averaging constructions precede this theorem.
@@ -2060,8 +2078,9 @@ U is connected and generated by one-parameter unipotent subgroups. Probability, 
 
 - A convex combination of different homogeneous orbit measures need not be ergodic.
 - Replacing probability by an arbitrary infinite invariant measure is outside the statement.
+- A Dirac probability at a U-fixed point is homogeneous, with L the trivial group; the theorem includes atomic measures.
 
-4.2.6. Prove that for a one-parameter unipotent flow `u_t` and x∈G/Γ, there is a closed finite-volume homogeneous orbit Lx containing `u_t x` and a normalized invariant probability `μ_L` such that `T^−1∫_0^T f(u_t x)dt→∫f dμ_L` for every continuous compactly supported f.
+4.2.6. Prove `ratner_equidistribution`: for a one-parameter unipotent flow `u_t` and x∈G/Γ, there is a closed finite-volume homogeneous orbit Lx containing `u_t x` and a normalized invariant probability `μ_L` such that `T^−1∫_0^T f(u_t x)dt→∫f dμ_L` for every continuous compactly supported f.
 The orbit measure is on the actual orbit closure, not necessarily all of G/Γ. No quantitative rate is inferred.
 (Source: Morris2015v6, Definition 20.3.2 and Theorem 20.3.3, printed pp.412–413.)
 *Needs:* 4.2.5, `oneOrbitAverageIdentification`, `generalUnipotentNoEscape`, `homogeneousWedgeProperness`, `polynomialSingularAvoidance`, and `unipotentSingularOrbitDetection`. The last proof chain requires the general bounded-volume finiteness, finite-volume-envelope and no-escape inputs named above; it is independent of 4.2.4.
@@ -2069,6 +2088,7 @@ The orbit measure is on the actual orbit closure, not necessarily all of G/Γ. N
 
 - A closed periodic unipotent orbit equidistributes on itself, not on the full quotient.
 - The limiting measure has mass 1; vague convergence with escaped mass would not satisfy the statement.
+- The identity flow has time average f(x) and limiting Dirac probability at x.
 
 ### 4.3 Oppenheim and Duke
 
@@ -2244,8 +2264,8 @@ Nondegeneracy, indefiniteness, dimension≥3 and irrationality up to scalar are 
 - The n=2 form x²−(3+2√2)y² shows why dimension≥3 is required.
 - `x² + y² − z²` takes every real value, the conclusion of `indefinite_quadratic_surjective`.
 
-4.3.2. Prove As n→∞ through positive square-free integers n not congruent to 7 modulo 8, the normalized counting measure on {v/√n:v∈Z³,‖v‖²=n} converges to normalized rotation-invariant surface measure on S².
-The representation set is nonempty on the stated admissible sequence by `siegel_three_square_lower_bound`. No effective constant is claimed: the representation-number lower bound is ineffective.
+4.3.2. Prove `duke_sphere_equidistribution`: as n→∞ through positive square-free integers n not congruent to 7 modulo 8, the normalized counting measure on {v/√n:v∈Z³,‖v‖²=n} converges to normalized rotation-invariant surface measure on S².
+The surface probability is Euclidean volume transported to the unit sphere by Mathlib’s polar-coordinate measure and divided by its total mass. The representation set is nonempty on the stated admissible sequence by `siegel_three_square_lower_bound`. No effective constant is claimed: the representation-number lower bound is ineffective.
 (Source: Duke 1988, Introduction, printed p.74, before Theorem 1.)
 *Needs:* `ternaryHarmonicTheta_cuspidal`, `halfIntegralCoefficientBound`, and `siegel_three_square_lower_bound`. Divide the weighted coefficient by `n^(ℓ/2)r₃(n)`: the remaining exponent is −1/28+2ε, hence negative for ε<1/56. Nonconstant spherical harmonics therefore have mean tending to zero; constants have mean one. Apply `polynomial_sphere_harmonic_span` to pass by linearity to every polynomial restriction. Mathlib Stone–Weierstrass gives uniform density of these restrictions in C(S²). For probability measures μ, `|∫(f−p)dμ|≤‖f−p‖∞`; apply this bound to both the shell measure and surface measure to pass from polynomial tests to every continuous test, giving weak convergence.
 **Checks.**
@@ -2278,7 +2298,7 @@ Its API is `latticeCoveringRadius` (Supremum of the distance-to-lattice function
 - For Z², μ=√2/2, larger than its packing radius 1/2.
 - In dimension zero μ=0; a non-full-rank subgroup in positive dimension can have infinite ambient covering radius.
 
-4.4.3. Prove that for a full real Euclidean lattice L and symmetric convex body K with nonempty interior, `λ_i(K,L)·λ_{n+1−i}(K°,L*)≥1` for 1≤i≤n, where K° is the inner-product polar and L* the pairing-integral dual.
+4.4.3. Prove `polar_dual_transference_lower`: for a full real Euclidean lattice L and symmetric convex body K with nonempty interior, `λ_i(K,L)·λ_{n+1−i}(K°,L*)≥1` for 1≤i≤n, where K° is the inner-product polar and L* the pairing-integral dual.
 Use the same inner-product and intrinsic dimension on both sides. The sharp upper transference and covering bounds require separate source theorems; they are not exported by this elementary lower bound.
 (Source: Lenstra–Lenstra–Lovász 1982, Proposition 1.11 uses the same integral-coefficient norm floor; transference is a separate deduction from the polar pairing, not an attributed LLL theorem.)
 *Needs:* 1.2 `exists_successiveMin_witnesses`, ThetaSeries §2C as read in §0.3.2 / `covolume_dual`.
@@ -2286,6 +2306,7 @@ Use the same inner-product and intrinsic dimension on both sides. The sharp uppe
 
 - For `L=Z^n` and `K=product_i[-a_i,a_i]`, `a_i>0`, the polar is the cross-polytope `sum_i a_i|y_i|<=1`. The ordered minima of K are sorted reciprocals `1/a_i` and those of its polar are sorted `a_i`, so the oppositely indexed products equal one.
 - An arbitrary real pairing has no integer ≥1 floor.
+- In dimension one, a lattice `aℤ` and the interval `[−b,b]`, a,b>0, have oppositely paired primal and polar minima with product one.
 
 Define `latticeGaussianSum` (4.4.4): for s>0 define `ρ_s(x)=exp(-π||x||²/s²)` and `ρ_s(L+u)=Σ_{x∈L}ρ_s(x+u)`, using the countable sum of real values. For s>0 it is a value of ThetaSeries' coset theta series: prove `thetaCoset_eq_latticeGaussianSum`, `thetaCoset L u (i/s²) = ρ_s(L+u)`, since `exp(π i (i/s²)‖x+u‖²) = ρ_s(x+u)`; `latticeGaussianSum_translate` is then ThetaSeries' 3B descent of `thetaCoset` to `u + L`.
 Its API is `latticeGaussianSum` (The countable Gaussian sum on the lattice subtype.); `latticeGaussianSum_zeroRank` (The sum in rank zero is 1.); `latticeGaussianSum_translate` (Integral shifts preserve the sum.); `latticeGaussianSum_scale` (Simultaneous positive scaling of L,u,s preserves the sum.).
@@ -2307,13 +2328,23 @@ Its API is `latticeGaussianSum` (The countable Gaussian sum on the lattice subty
 (Source: Regev2004, Lecture 11 p.3, equations preceding Lemma 5.)
 *Needs:* 4.4.5, ThetaSeries 1A `poissonSummation`, 1F `fourier_gaussian`.
 
-4.4.7. Prove that for every translate u, `ρ_s(L+u)≤ρ_s(L)`.
+4.4.7. Prove `gaussian_shift_le`: for every translate u, `ρ_s(L+u)≤ρ_s(L)`.
 (Source: Regev2004, Lecture 11 Lemma 5, p.3.)
 *Needs:* 4.4.6.
+**Checks.**
 
-4.4.8. Prove that for s≥1, `ρ_s(L+u)≤s^nρ_1(L)`.
+- For u∈L, translating the summation index gives equality.
+- For `L=ℤ⊂ℝ` and u=1/2 the inequality is strict: the positive odd dual terms change sign in Poisson summation.
+- In rank zero both sides are one.
+
+4.4.8. Prove `gaussian_scale_le`: for s≥1, `ρ_s(L+u)≤s^nρ_1(L)`.
 (Source: Regev2004, Lecture 11 Lemma 6, p.3.)
 *Needs:* 4.4.7, 4.4.6.
+**Checks.**
+
+- At s=1 this is the shifted-sum bound; equality holds when u∈L.
+- In rank zero the factor s⁰ and both sums are one.
+- For `L=ℤ⊂ℝ` and s>1, the unshifted sum increases but remains below s times its unit-scale value.
 
 4.4.9. Prove that for n≥1, the sum of `ρ_1` over (L+u) outside the open radius-√n ball is at most `c^nρ_1(L)`, where c=2 exp(-3π/4)<1/4.
 (Source: Regev2004, Lecture 11 Lemma 7, p.4.)
@@ -2359,6 +2390,11 @@ The n constant here is Euclidean; it is not asserted for arbitrary polar convex 
 
 **Gaussian variable tail.** Prove `gaussian_variable_tail`: for n≥1 and `c≥(2π)^−1/2`, the unshifted Gaussian mass at norm at least c√n is at most `b(c)^nρ_1(L)`, where b(c)=c√(2πe)exp(−πc²). Apply the Gaussian scale bound with scale √(2πc²) and compare each summand on the tail; optimize the resulting exponential factor. In particular `b(3/4)^n<3/20` for n≥3. This is the sharper unshifted bound needed here; 4.4.9 supplies the translated tail at radius √n.
 (Source: Banaszczyk, Lemma 1.5(i) and proof, p.630.)
+**Checks.**
+
+- At `c=(2π)^(-1/2)`, b(c)=1, giving the nonnegative subseries bound by the whole Gaussian sum.
+- At c=3/4 and n≥3 the bound is less than `3ρ₁(L)/20`, the estimate used in the two-span argument.
+- The sum includes vectors on the radius-c√n sphere; replacing the closed tail by a strict tail would omit boundary mass.
 
 **Two short spans contradiction.** Prove `gaussian_short_spans_contradiction`: for a full lattice of rank n≥3, if the real spans of its vectors of norm <3√n/4 and of its reciprocal's vectors of norm <4√n/3 have dimension sum <n, there exists u of norm 1/√3 with `gaussianCharacteristic L u`>7/10 and `ρ_1(L*+u)/ρ_1(L*)<2/5`. The first inequality uses that the cosine is 1 on the first span and at least −1 elsewhere. For the second, split L* into the subgroup generated by its short vectors and its complement. Orthogonality factors the first part by exp(−π/3); the complement translated by u has norm at least √n and is bounded by 4.4.9. Check `exp(−π/3)+(2exp(−3π/4))^n<2/5` for n≥3. The Poisson identity equates the two quantities, giving a contradiction. The existence assertion deliberately exposes the incompatible estimates for the subsequent proof by contradiction.
 (Source: Banaszczyk, Theorem 2.1, equations (9)–(13) and conclusion, pp.631–632.)
@@ -2415,7 +2451,7 @@ Its API is `criticalDeterminant` (Infimum over admissible full lattices.); `crit
 (Source: Mahler 1946, §7, proof of Theorem 8, printed p.159; asymmetric gauge extension uses the same argument.)
 *Needs:* 4.5 `CompactStarBody.ofGauge`.
 
-4.5.8. Prove that for n≥2 and `X_n=SL_n(R)/SL_n(Z)`, the closed set of covolume-one lattices whose shortest nonzero norm is at least epsilon>0 is compact. A subset is relatively compact iff its first minimum is uniformly bounded below away from zero.
+4.5.8. Prove `mahler_compactness` and `mahler_relativelyCompact_iff`: for n≥2 and `X_n=SL_n(R)/SL_n(Z)`, the closed set of covolume-one lattices whose shortest nonzero norm is at least epsilon>0 is compact. A subset is relatively compact iff its first minimum is uniformly bounded below away from zero.
 Covolume normalization and closedness for compactness are explicit. Relative compactness does not require the subset itself to be closed.
 (Source: Benoist2019, Fact 1.5, physical p.7.)
 *Needs:* 1.5 `minkowski_second_upper`, AdelicAlgebraicGroups AA.3.
@@ -2423,6 +2459,7 @@ Covolume normalization and closedness for compactness are explicit. Relative com
 
 - `diag(t,t^−1)Z²` escapes compact sets as t→∞ because its first minimum tends to 0.
 - A nonclosed subset with a uniform first-minimum bound is relatively compact, but need not be compact.
+- The standard lattice has first minimum one, so every sublevel with 0<epsilon≤1 is nonempty.
 
 4.5.9. Prove that every compact star body in finite-dimensional Euclidean space has a critical full lattice.
 (Source: Mahler 1946, §7, Theorem 8 and its complete proof, printed pp.158–159.)
@@ -2430,7 +2467,7 @@ Covolume normalization and closedness for compactness are explicit. Relative com
 
 ### 4.6 Siegel’s mean value theorem
 
-4.6.1. Prove that for n≥2, invariant probability μ on `X_n=SL_n(R)/SL_n(Z)`, and integrable `f:R^n→R`, its lattice transform `Σ_{v∈L\{0}}f(v)` is integrable on `X_n` and its μ-integral equals the Lebesgue integral of f. For nonnegative measurable f the Tonelli version permits infinity.
+4.6.1. Prove `siegel_mean_value`: for n≥2, invariant probability μ on `X_n=SL_n(R)/SL_n(Z)`, and integrable `f:R^n→R`, its lattice transform `Σ_{v∈L\{0}}f(v)` is integrable on `X_n` and its μ-integral equals the Lebesgue integral of f. For nonnegative measurable f the Tonelli version permits infinity.
 Zero vectors are excluded; μ has total mass 1 and lattices have covolume 1. n=1 is excluded. Integrability of the lattice transform is a theorem, not an assumption silently imported from integrability of f.
 (Source: Siegel, *A mean value theorem in geometry of numbers*, theorem and equation (2), p.341; proof §§4–6, pp.342–346.)
 *Needs:* AdelicAlgebraicGroups AA.2 and AA.3, `siegelTransform` below, `siegel_reduction_majorant`, `siegel_primitive_unfolding`, `siegel_dilation_limit`. Prove `siegel_reduction_majorant`: for bounded compactly supported Riemann-integrable f, the transforms `t^nΣ_(v≠0)|f(tv)|`, 0<t≤1, have a common integrable majorant on a reduced fundamental domain (Siegel §4, lemma, pp.343–344). Prove `siegel_dilation_limit` by lattice Riemann sums and dominated convergence. Prove `siegel_primitive_unfolding` using the stabilizer of the first column and the decomposition of every nonzero integer vector as a positive integer times a primitive vector; its scalar factor is ζ(n), finite precisely for n≥2 (Siegel §§5–6, pp.344–346). Unfolding makes the averaged dilated transform independent of t; the dilation limit determines its value. Extend from test functions to nonnegative measurable functions by equality of measures and monotone convergence, and then to L¹ by positive and negative parts. The majorant proves transform integrability; it is not a hypothesis.
@@ -2438,6 +2475,7 @@ Zero vectors are excluded; μ has total mass 1 and lattices have covolume 1. n=1
 
 - Including v=0 adds f(0) and changes the formula.
 - In dimension one the single lattice Z does not give the Lebesgue mean-value formula.
+- The indicator of a Euclidean ball has expected nonzero lattice count equal to the ball volume; no summability hypothesis on the lattice transform is added.
 
 **Lattice transform.** Define `siegelTransform L f` as `Σ_(v∈L\{0})f(v)`. Its API gives additivity when the summands are summable, positivity for nonnegative f, and the measurable quotient descent under integral basis change; the theorem supplies L¹ descent for integrable f on `R^n`.
 **Checks.**
@@ -2495,7 +2533,7 @@ Its API is `IsLLLReduced` (The concrete independence, size and Lovász predicate
 - The basis ((2,0),(0,1)) has size coefficients zero but fails the Lovász condition.
 - The dependent family ((1,0),(2,0)) is not reduced even when a zero-denominator convention makes some inequalities vacuous.
 
-5.1.3. Prove that for an LLL-reduced family and j<i, `‖b*_j‖²≤2^{i−j}‖b*_i‖²`.
+5.1.3. Prove `lll_gramSchmidt_bound`: for an LLL-reduced family and j<i, `‖b*_j‖²≤2^{i−j}‖b*_i‖²`.
 Fin-index differences are ordinary nonnegative integer differences.
 (Source: Lenstra–Lenstra–Lovász 1982, Proof of Proposition 1.6, physical p.3.)
 *Needs:* 5.1 `IsLLLReduced`.
@@ -2503,6 +2541,7 @@ Fin-index differences are ordinary nonnegative integer differences.
 
 - For orthonormal input the right-hand side is at least the left-hand side.
 - The exponent is an index difference, not the full ambient dimension.
+- A reduced planar basis with μ₁₀=1/2 and squared Gram–Schmidt lengths 1 and 1/2 attains the adjacent factor two.
 
 5.1.4. Prove `lll_short_vector_factor`: for n≥1 and an LLL-reduced basis b of a full real Euclidean Z-lattice L, every nonzero x∈L satisfies `‖b₀‖²≤2^{n−1}‖x‖²`. Equivalently b₀ is within factor `2^{(n−1)/2}` of the shortest nonzero vector.
 L-membership is in the exact integer span of b, not the real span. This is an approximation bound; it does not assert exact SVP or CVP.
