@@ -70,7 +70,8 @@ neat levels, finiteness of `Isom`, deformation theory, formal smoothness, effect
 map and isomorphism, properness when `End_B(V)` is a division algebra, unitary Grothendieck–Messing
 deformations, kernel ranks of isogenies of unitary abelian schemes with the perfect-field Dieudonné
 length identity, Zink's displays with their polarized `O`-version and Wedhorn's ordinariness
-criterion. Continuous nonabelian Galois cohomology of the PEL group and `ker¹(ℚ, G)`, the Hasse
+criterion. The torsor/Galois-cohomology comparison for smooth affine groups over arbitrary fields, continuous
+nonabelian Galois cohomology of the PEL group and `ker¹(ℚ, G)`, the Hasse
 principle in Cases A and C, the complex points and the analytic and algebraic uniformization of
 `M_K^ad`, including the full disconnected group in type D, and the hermitian space of homomorphisms
 from a CM object. Reciprocity on CM points, canonical models, the twisting automorphisms of Case A
@@ -131,7 +132,7 @@ explicit nonempty examples.
 - *TauCetiRoadmap.LocalFieldsRamification, Layer 2*, and *TauCetiRoadmap.NumberFieldArithmetic.*
   Finite unramified extensions of `ℚ_p` with their integer rings, residue fields and Frobenius; the
   completions of a number field at its places.
-- *TauCetiRoadmap.ModularCurves.* §2E (Cartier–Nishi duality and the Weil pairing `e_N` of an
+- *TauCetiRoadmap.ModularCurves.* §0E (effective affine descent), §2E (Cartier–Nishi duality and the Weil pairing `e_N` of an
   elliptic curve), §3C (the four level structures, in particular `[Γ(N)]`), §5B (the full level
   scheme `Y_full(N)` over `ℤ[1/N]` and its fibre `Y(N, ζ)` over `ℤ[1/N, ζ_N]`), §7D (universal
   deformations of elliptic curves over `W(k)[[T]]`), §9E (the coarse `j`-line).
@@ -140,7 +141,7 @@ explicit nonempty examples.
 
 Elliptic curves themselves, their level structures and the modular curves are ModularCurves'; this
 roadmap compares its genus-one Siegel moduli with them (M5.3) and never rebuilds them. The general
-theory of algebraic groups, torsors, strong approximation and neat subgroups is
+theory of algebraic groups, geometric torsors, strong approximation and neat subgroups is
 AdelicAlgebraicGroups' and ReductiveGroups'; the PEL group is constructed here as a closed subgroup
 of `GL(L) × G_m` and these theories are applied to it.
 
@@ -793,25 +794,35 @@ This identifies PEL continuous cocycles with the common torsor classes and suppl
 all-place kernel for possibly disconnected PEL groups, using the coordinate comparison and simply
 connected Hasse statements of AdelicAlgebraicGroups §4.1.
 
-Define, for a linear algebraic group `G` over a field `k` of characteristic zero (smooth and affine,
-possibly disconnected), the pointed set `galoisH1 k G = H¹(k, G)` of continuous cocycles
-`Γ_k → G(k̄)` (profinite `Γ_k = Gal(k̄/k)`, discrete `G(k̄)`) modulo coboundaries, functorial in `G`
-and in `k`; for an abelian `G` it is the continuous cohomology of TauCetiRoadmap.ProfiniteCohomology.
+Define, for a smooth affine group `G` of finite type over any field `k`, possibly disconnected,
+the pointed set `galoisH1 k G = H¹(k, G)` of continuous cocycles
+`Γ_k → G(k^sep)` (profinite `Γ_k = Gal(k^sep/k)`, discrete `G(k^sep)`) modulo coboundaries,
+functorial in `G` and in `k`. In characteristic zero `k^sep = k̄`; for an abelian `G` this is
+the continuous cohomology of TauCetiRoadmap.ProfiniteCohomology.
 Define the localization maps `H¹(ℚ, G) → H¹(ℚ_v, G)` at every place `v ≤ ∞` and
 `ker1 G = ker¹(ℚ, G)`, the classes that are trivial at every place (Kottwitz, §7, p. 393). Prove:
-(1) `galoisH1_equiv_torsorClasses`: identify `galoisH1 k G` with the continuous-cocycle target of
-ReductiveGroups Layer 1's `smoothAffineTorsor_galoisH1` through `galoisH1_smoothAffineEquiv`, and
-take the inverse of that lower comparison. The lower comparison has source the common class set
+(1) `smoothAffineTorsor_galoisH1`: construct here the pointed bijection from the common class set
 `torsorClasses G = NonabelianH1 (fppfTopology.over (Spec k)) h_G` of
-SchemeAndStackFoundations §§1.15 and 2.3, with the coordinate comparison of
-AdelicAlgebraicGroups §4.1. The identification preserves the base point, field extension and
-homomorphisms of groups (Milne, *Algebraic Groups* (2017), Proposition 3.50).
+SchemeAndStackFoundations §§1.15 and 2.3 to `galoisH1 k G`, and its inverse
+`galoisH1_equiv_torsorClasses`, for every smooth affine finite-type `G/k`, without a connectedness
+hypothesis (Milne, *Algebraic Groups* (2017), Proposition 3.50, p. 80).
+An fppf torsor under `G` is an affine scheme by affine descent, and is smooth, nonempty and of finite
+type over `k`; hence it has a point over a finite separable extension. A choice of point over
+`k^sep` gives a continuous cocycle. Conversely a continuous cocycle has finite image and, after
+choosing an open normal subgroup contained in `c⁻¹(1)` and fixing all its values, factors through
+`Gal(K/k)` with values in `G(K)` for a finite Galois extension `K/k`. On the trivial right
+`G_K`-torsor use the semilinear descent action `x ↦ c_σ σ(x)`; affine Galois descent gives a
+right `G`-torsor over `k`. Prove that changes of point give exactly gauge equivalence, that both
+composites are the identity on classes, and that the bijections preserve the trivial class,
+arbitrary field extensions and pushforward along homomorphisms of smooth affine finite-type groups.
+Use ModularCurves §0E for effective affine descent and SchemeAndStackFoundations §§1.15, 2.3
+for torsor representability, base change and pushforward. AdelicAlgebraicGroups §4.1 identifies the resulting
+geometric classes with its coordinate torsor classes, so its local and Hasse statements transport
+through this bijection.
 For a right torsor use `σ(s) = s·c_σ`, so `c_{στ} = c_σ σ(c_τ)` and replacing `s` by `s·g`
 gives `g⁻¹c_σ σ(g)`; the common left action is `g·s = s·g⁻¹`.
-The consumer interface agrees with PadicHodgeTheory, “From ReductiveGroups” and “Downstream
-consumers”: it uses the same characteristic-zero comparison, including disconnected groups;
-localization maps and all-place kernels belong here.
-(2) `twist_bijection`: forms of a structure on a vector space whose
+The comparison, localization maps and all-place kernels are owned here.
+(2) `twist_bijection`: over a characteristic-zero field `k`, forms of a structure on a vector space whose
 automorphism group scheme is `G` are classified by `H¹(k, G)`, and for a class `c` the twist `G_c` is
 an inner form with `H¹(k, G_c) ≅ H¹(k, G)` carrying the base point to `c` (Borel–Serre, §§1.6–1.10 and §2.2, pp. 116–118 and 127–128); (3) `ker1_finite`: `ker¹(ℚ, G)` is finite for every linear
 algebraic group over `ℚ`, connected or not (Borel–Serre, *Théorèmes de finitude en cohomologie
@@ -830,8 +841,8 @@ for a cyclic extension `F/F₀` the norm-one torus has trivial `ker¹`, and for 
 `cyclicHasseNorm` and Hilbert 90 for `G_m`, `TauCeti.hilbert90`). *Needs:* M0.7, M0.8;
 TauCetiRoadmap.AdelicAlgebraicGroups §4.1 (`torsorClasses`, local triviality and the real Hasse
 principle for semisimple simply connected groups); the continuous Hilbert-90 library supplier;
-TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.ReductiveGroups Layers 1 and 6;
-SchemeAndStackFoundations §§1.15 and 2.3;
+TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.ReductiveGroups Layer 6;
+TauCetiRoadmap.ModularCurves §0E; SchemeAndStackFoundations §§1.15 and 2.3;
 ShimuraVarieties §P.5 `TauCeti.Shimura.real_approximation_tori`.
 
 **Checks.**
@@ -842,8 +853,14 @@ ShimuraVarieties §P.5 `TauCeti.Shimura.real_approximation_tori`.
 - `ker1_normOneTorus_quadratic`: for `F = ℚ(i)`, `F₀ = ℚ`, the norm-one torus has trivial `ker¹`: a
   rational number that is a norm from `ℚ_v(i)` at every `v` is a norm from `ℚ(i)`.
 - `ker1_disconnected`: for `G = μ₂` (disconnected, finite), (1) identifies `H¹` with quadratic
-  étale algebras up to isomorphism; (4) does not apply, and its conclusion is not asserted for
-  disconnected groups.
+  étale algebras up to isomorphism. The right torsor `Spec ℚ(√2)` gives
+  `c_σ = σ(√2)/√2`, becomes trivial over `ℚ(√2)`, and has no rational section; (4) does not apply.
+- For the smooth disconnected constant group `C₂/𝔽_q`, the two classes are the trivial torsor
+  and `Spec 𝔽_{q²}`, corresponding to the two possible images of Frobenius in `C₂`.
+  This includes characteristic two and tests the comparison beyond characteristic zero.
+- Smoothness is essential: for `k = 𝔽_p(t)`, the nonsmooth group `α_p` has the nontrivial fppf
+  torsor `x^p = t`, with no point over `k^sep`, while `α_p(k^sep) = 0` makes its continuous
+  Galois `H¹` trivial.
 
 - `ker1_infinity_essential`: for the simply connected group `SL₁(D)` with `D` the
   Hamilton quaternion algebra over `ℚ`, the torsor `Nrd(x) = −1` has points at every
@@ -2950,9 +2967,11 @@ ShimuraVarieties Layers 0–1; SchemeAndStackFoundations Layer 1; Mathlib `Upper
   formula. Choosing `L_K = aℤ²` makes the formula invariant.
 - `uniformization_g1`: for `g = 1`, `⊔_{(ℤ/n)^×} Γ(n)\ℍ → Y(n)(ℂ)^an`,
   `(a,τ) ↦ (ℂ/(ℤ + ℤτ), (1/n, aτ/n))`, with
-  `ζ_n = exp(2πi/n)`, has Weil pairing `ζ_n^a`. The basis `(1/n,τ/n)` is the
-  `a = 1` component. At `n = 3`, `a = 2`, `τ = i`, the pairing is `ζ₃²`,
-  distinct from that on the `a = 1` component.
+  `ζ_n = exp(2πi/n)`, has polarized PEL pairing `e_n^pol = ζ_n^a` and ModularCurves
+  equation pairing `e_n^MC = ζ_n^(−a)` (AbelianSchemesAndArithmeticModuli A3.5–A3.7;
+  ModularCurvesPartII §1.5). The basis `(1/n,τ/n)` has PEL label `a = 1` and lies in
+  `Y(n,ζ_n⁻¹)`. At `n = 3`, `a = 2`, `τ = i`, the equation pairing is
+  `ζ₃^(−2) = ζ₃`, distinct from the PEL pairing `ζ₃²`.
 - `periodMap_constant`: a constant polarized PEL family with constant level on a connected analytic
   open has constant `per`; its Hodge filtration is constant in a flat marking.
 - `periodMap_marking`: replacing a marking by `γ` changes both the filtration and the level coset
@@ -3490,23 +3509,34 @@ SchemeAndStackFoundations §1.23.
 
 Prove `genusOneComparison`: for `g = 1`, `D = (1)` and `n ≥ 3` there is an isomorphism over `ℤ[1/n]`
 between `A_{1,1,n} = M_{U(n)}` and ModularCurves' full level scheme `Y_full(n)` (§5B), sending
-`(A, λ, α_n, ν_n)` to the elliptic curve `A` with its basis `(P, Q) = (α_n(e₁), α_n(f₁))`, normalized by
-`e_n(P, Q) = ν_n(⟨e₁, f₁⟩ mod n)` with `⟨e₁, f₁⟩` the chosen generator of `ℤ(1)`; over `ℤ[1/n, ζ_n]` the
-fibre `ν_n(1) = ζ` is `Y(n, ζ)` (§5B). One-dimensional abelian schemes are elliptic curves
+`(A, λ, α_n, ν_n)` to the elliptic curve `A` with its basis `(P, Q) = (α_n(e₁), α_n(f₁))`.
+Write `e_n^pol` for M1.4's polarized pairing and `e_n^MC` for ModularCurves' equation pairing.
+With `⟨e₁, f₁⟩` the chosen generator of `ℤ(1)`, the normalization is
+`e_n^pol(P, Q) = ν_n(1)` and `e_n^MC(P, Q) = ν_n(1)⁻¹`.
+Indeed the positive elliptic self-duality `ι_E(y) = O([−y] − [0])` is
+`λ_E^MC ∘ [−1]`, where `λ_E^MC(y) = O([y] − [0])`; AbelianSchemesAndArithmeticModuli
+A3.5–A3.7's inversion adapter gives `e_n^MC = (e_n^pol)⁻¹`.
+Over `ℤ[1/n, ζ_n]` the fibre `ν_n(1) = ζ` is therefore `Y(n, ζ⁻¹)` (§5B).
+One-dimensional abelian schemes are elliptic curves
 (AbelianSchemesAndArithmeticModuli A1), each with a unique principal polarization, so `λ` is determined;
 liftability is automatic for the self-dual `L`; the level structures match ModularCurves' `[Γ(n)]`
-(§3C) with the Cartier–Nishi Weil pairing (§2E), whose sign is fixed by `⟨e₁, f₁⟩ = +1`; universal
+(§3C) with the Cartier–Nishi/equation comparison (§2E) and this inversion adapter; universal
 objects correspond by their universal properties, and the `GL₂(ℤ/n)`-actions agree after the transpose
-convention between row and column vectors (ShimuraVarieties §§8.11–8.13 pin it) (Lan, Definition 1.3.6.1,
+convention between row and column vectors (ShimuraVarieties §§8.11–8.13 pin it). A basis change
+`u ∈ GL₂(ℤ/n)` raises both pairings to `det u`, so the component dictionary `ζ ↦ ζ⁻¹`
+commutes with this action (Lan, Definition 1.3.6.1,
 p. 133; Milne, Theorem 6.11, p. 74, and the remark on full level `N`, p. 75). *Needs:* M1.5, M5.2;
-AbelianSchemesAndArithmeticModuli A1; TauCetiRoadmap.ModularCurves §2E, §3C, §5B.
+AbelianSchemesAndArithmeticModuli A1, A3.5–A3.7; TauCetiRoadmap.ModularCurves §2E, §3C, §5B;
+ModularCurvesPartII §1.5 (Conrad, *Modular curves*, Example 7.15 and Proposition 7.16, p. 17).
 
 **Checks.**
 
-- `genusOne_complex`: over `ℂ`, `τ ∈ ℍ` maps to `(ℂ/(ℤ + ℤτ), 1/n, τ/n)` with `e_n = e^{2π√−1/n}` in the
-  chosen orientation.
-- `genusOne_sign`: replacing `(P, Q)` by `(Q, P)` replaces `ν_n` by `ν_n⁻¹`; the comparison with `Y(n, ζ)`
-  is for `e_n(P, Q) = ζ`, not `e_n(Q, P) = ζ`.
+- `genusOne_complex`: over `ℂ`, `τ ∈ ℍ` maps to `(ℂ/(ℤ + ℤτ), 1/n, τ/n)` with
+  `e_n^pol = ζ_n` and `e_n^MC = ζ_n⁻¹`. For `n = 3`, `τ = i`, `P = 1/3`, `Q = i/3`,
+  `e_3^MC(P, Q) = ζ₃⁻¹ ≠ ζ₃`, so this PEL fibre maps to `Y(3, ζ₃⁻¹)`.
+- `genusOne_sign`: replacing `(P, Q)` by `(Q, P)` inverts both pairings and replaces
+  `ν_n` by `ν_n⁻¹`; the original fibre `ν_n(1) = ζ` maps to `Y(n, ζ⁻¹)` and the swapped
+  fibre maps to `Y(n, ζ)`.
 - `genusOne_universal`: the universal object of M2.9 is the universal elliptic curve over `Y(n)`.
 
 ### M5.4 The principal Hilbert datum

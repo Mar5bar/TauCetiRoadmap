@@ -35,6 +35,8 @@ Design choices made explicit here:
 * The analytic period map goes from the analytified moduli space to the arithmetic quotient;
   its inverse gives uniformization after the Kodaira–Spencer tangent comparison (M3.5, M3.7).
 * The analytic-family Riemann input is `E = −ε(h′) q_g ψ`, so `E(Jx, x) > 0` (M3.5).
+* The ordered elliptic frame retains `e_n^MC = (e_n^pol)⁻¹`; a PEL multiplier `ζ` gives
+  the ModularCurves fibre `Y(n,ζ⁻¹)` (M3.5, M5.3).
 -/
 
 namespace TauCetiRoadmap.PELModuli
@@ -680,10 +682,13 @@ the full `PositiveInvolution`, `IntegralPELDatum`, `RationalPELDatum`, and `PInt
 `tauField`, `diamondField`, `psiField`, `tauPart`, `tauSubmodule`, `frobeniusOnEmbeddings`;
 the Albert classification `albertTypes`; `StarOrder.orderEquiv`; `Order.disc` and its
 reduced-trace maximality criterion; the similitude group
-scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1`, `ker1`, the
-characteristic-zero identification `galoisH1_smoothAffineEquiv` with ReductiveGroups Layer 1's
-continuous-cocycle target, the inverse lower comparison `galoisH1_equiv_torsorClasses` to common
-torsor classes, and the PEL all-place finiteness and Hasse statements (M0.9); `hodgeStructureOfDatum`;
+scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1` over any field
+with discrete `G(k^sep)`, `ker1`, the comparison `smoothAffineTorsor_galoisH1` constructed here
+for smooth affine finite-type groups, including disconnected groups, and its inverse
+`galoisH1_equiv_torsorClasses` to common fppf torsor classes; finite separable trivialization,
+affine Galois descent, inverse laws, base points, field extension and group-homomorphism
+compatibility, and the characteristic-zero twisting and PEL all-place Hasse statements (M0.9);
+`hodgeStructureOfDatum`;
 the Shimura datum `toShimuraDatum`;
 signatures; `detPoly_classifies`; the reflex field and `reflexField_eq_shimura`;
 `detCondition_splitting`;
@@ -733,6 +738,12 @@ The following APIs and discriminating Checks are also specified in the README:
 * M0.4: `SymplecticOLattice.le_dual` and double duality using the Tau Ceti supplier
   recorded in the README; `polarizationType` exposes A5.4(1)
   `alternating_elementaryDivisors` on the underlying integral lattice.
+* M0.9: `smoothAffineTorsor_galoisH1` uses right torsors with `σ(s) = s·c_σ` and
+  gauge change `g⁻¹c_σ σ(g)`; descent on the trivial right torsor is `x ↦ c_σ σ(x)`.
+  `ker1_disconnected` uses `Spec ℚ(√2)` and its quadratic cocycle. Over `𝔽_q` the
+  smooth constant group `C₂` has two torsor classes, including in characteristic two.
+  Smoothness excludes `α_p/𝔽_p(t)`, whose fppf torsor `x^p = t` has no separable point
+  although its continuous Galois cohomology is trivial.
 * M0.10: `PELDatum.IsGoodPrime.not_dvd_dualIndex`,
   `PELDatum.IsGoodPrime.not_two_of_typeD`.
 * M0.11: `hodgeStructureOfDatum` uses the scalar alternating `ψ : V × V → ℚ`, with
@@ -822,6 +833,8 @@ The following APIs and discriminating Checks are also specified in the README:
   the maps and their structure-sheaf pullbacks. M3.4 gives bijectivity and M2.10 identifies its
   differential with an isomorphism, so the analytic inverse theorem gives `uniformization`.
   M3.7 extends this construction using its full-group point classification in type D.
+  In `uniformization_g1`, the frame `(1/n,aτ/n)` has PEL pairing `ζ_n^a` and equation
+  pairing `ζ_n^(−a)`; at `n = 3`, `a = 2`, `τ = i`, these are `ζ₃²` and `ζ₃`.
 * M4.3: `canonicalModel` includes semisimple type-A/C data with a common multiplier. It uses
   `cmReciprocity` on each inner datum, dense Hecke orbits and disjoint special reflex fields for
   descent, and canonical-model uniqueness. `twist` and `adelicTwist` give the additional
@@ -840,6 +853,11 @@ The following APIs and discriminating Checks are also specified in the README:
   fibre is a quasi-projective fine scheme; at every `n ≥ 1` the characteristic-zero coarse space
   is a quasi-projective scheme with the ordinary Siegel analytic quotient. Universal families
   live on the stack and on fine spaces.
+* M5.3: `genusOneComparison` keeps `(P,Q) = (α_n(e₁),α_n(f₁))` and uses
+  `e_n^MC(P,Q) = (e_n^pol(P,Q))⁻¹ = ν_n(1)⁻¹`. The fibre `ν_n(1) = ζ` is
+  `Y(n,ζ⁻¹)`; determinant basis changes act on both pairings by the same exponent.
+  `genusOne_complex` at `n = 3`, `τ = i` gives equation pairing `ζ₃⁻¹` on `(1/3,i/3)`;
+  `genusOne_sign` inverts both pairings upon swapping the frame.
 * M5.4: `hilbertRationalDatum`, `hilbertTraceEmbedding`,
   `hilbertTraceEmbedding_injective`, `hilbertTraceEmbedding_multiplier`,
   `hilbertTraceEmbedding_h`.
