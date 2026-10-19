@@ -257,6 +257,24 @@ structure Iso (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N) where
   /-- Equivariance. -/
   comm : ∀ (g : Γ) (m : M), toLinearEquiv (ρ g m) = σ g (toLinearEquiv m)
 
+/-- Identity is an equivariant linear equivalence. -/
+example (ρ : ContinuousRep Γ A M) :
+    ∃ e : Iso ρ ρ, e.toLinearEquiv = LinearEquiv.refl A M := by
+  exact ⟨⟨LinearEquiv.refl A M, fun _ _ => rfl⟩, rfl⟩
+
+/-- Inverting an equivariant linear equivalence preserves equivariance. -/
+example {ρ : ContinuousRep Γ A M} {σ : ContinuousRep Γ A N} (e : Iso ρ σ) :
+    ∃ e' : Iso σ ρ, e'.toLinearEquiv = e.toLinearEquiv.symm := by
+  sorry
+
+/-- Composing equivariant linear equivalences preserves equivariance. -/
+example {P : Type*} [AddCommGroup P] [Module A P] [Module.Finite A P]
+    [Module.Projective A P] [TopologicalSpace P] [IsModuleTopology A P]
+    {ρ : ContinuousRep Γ A M} {σ : ContinuousRep Γ A N} {τ : ContinuousRep Γ A P}
+    (e : Iso ρ σ) (f : Iso σ τ) :
+    ∃ h : Iso ρ τ, h.toLinearEquiv = e.toLinearEquiv.trans f.toLinearEquiv := by
+  sorry
+
 /-- The rank-one representation `A(χ)` of a continuous character `χ`. -/
 def ofCharacter [IsTopologicalRing A] (χ : Γ →ₜ* Aˣ) : ContinuousRep Γ A A where
   toRepresentation :=
@@ -270,6 +288,11 @@ example [IsTopologicalRing A] (g : Γ) :
     (ofCharacter (1 : Γ →ₜ* Aˣ)).toRepresentation g = LinearMap.id := by
   change ((1 : Γ →ₜ* Aˣ) g : A) • (LinearMap.id : A →ₗ[A] A) = LinearMap.id
   simp
+
+/-- Character lines over a commutative ring are isomorphic exactly for equal characters. -/
+example [IsTopologicalRing A] (χ χ' : Γ →ₜ* Aˣ) :
+    Nonempty (Iso (ofCharacter χ) (ofCharacter χ')) ↔ χ = χ' := by
+  sorry
 
 end Basic
 
@@ -295,6 +318,40 @@ example (χ : Γ →ₜ* Aˣ) (_hχ : χ ≠ 1)
     (g : Γ) (b : B) (a : A) :
     ((ofCharacter χ).baseChange B).toRepresentation g (b ⊗ₜ[A] a) =
       (algebraMap A B (χ g : A)) • (b ⊗ₜ[A] a) := by
+  sorry
+
+/-- Identity coefficient extension has the canonical tensor-unit equivariant isomorphism. -/
+example (ρ : ContinuousRep Γ A M) [ContinuousSMul A A]
+    [TopologicalSpace (A ⊗[A] M)] [IsModuleTopology A (A ⊗[A] M)] :
+    ∃ e : Iso (ρ.baseChange A) ρ, e.toLinearEquiv = TensorProduct.lid A M := by
+  sorry
+
+/-- Successive coefficient extensions agree with extension along the composite. -/
+example (ρ : ContinuousRep Γ A M)
+    (B C : Type v') [CommRing B] [CommRing C]
+    [TopologicalSpace B] [IsTopologicalRing B] [TopologicalSpace C] [IsTopologicalRing C]
+    [Algebra A B] [Algebra B C] [Algebra A C] [IsScalarTower A B C]
+    [ContinuousSMul A B] [ContinuousSMul B C] [ContinuousSMul A C]
+    [TopologicalSpace (B ⊗[A] M)] [IsModuleTopology B (B ⊗[A] M)]
+    [TopologicalSpace (C ⊗[B] (B ⊗[A] M))] [IsModuleTopology C (C ⊗[B] (B ⊗[A] M))]
+    [TopologicalSpace (C ⊗[A] M)] [IsModuleTopology C (C ⊗[A] M)] :
+    ∃ e : Iso ((ρ.baseChange B).baseChange C) (ρ.baseChange C),
+      ∀ (c : C) (b : B) (m : M),
+        e.toLinearEquiv (c ⊗ₜ[B] (b ⊗ₜ[A] m)) = (c * algebraMap B C b) ⊗ₜ[A] m := by
+  sorry
+
+/-- A unipotent matrix retains its entries under any continuous coefficient-field extension. -/
+example (ℓ : ℕ) [Fact ℓ.Prime]
+    (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
+    (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
+      !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
+    (B : Type*) [Field B] [TopologicalSpace B] [IsTopologicalRing B]
+    [Algebra ℚ_[ℓ] B] [ContinuousSMul ℚ_[ℓ] B]
+    [TopologicalSpace (B ⊗[ℚ_[ℓ]] (Fin 2 → ℚ_[ℓ]))]
+    [IsModuleTopology B (B ⊗[ℚ_[ℓ]] (Fin 2 → ℚ_[ℓ]))] (a : Multiplicative ℤ_[ℓ]) :
+    let b := (Pi.basisFun ℚ_[ℓ] (Fin 2)).baseChange B
+    LinearMap.toMatrix b b ((ρ.baseChange B) a) =
+      !![1, algebraMap ℚ_[ℓ] B ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1] := by
   sorry
 
 end BaseChange
@@ -367,12 +424,15 @@ variable {Γ : Type u} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   [TopologicalSpace V] [IsModuleTopology E V] [Module O V] [IsScalarTower O E V]
   {ρ : ContinuousRep Γ E V}
 
-/-- The lattice `(Λ, ρ|_Λ)` as a continuous representation over `O`. -/
+/-- The restricted action is jointly continuous in the inherited subspace topology,
+assumed to be the `O`-module topology. -/
 def toContinuousRep (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] :
     ContinuousRep Γ O Λ.lattice :=
   ⟨{ toFun g := ((ρ g).restrictScalars O).restrict (fun x hx => Λ.stable g x hx)
      map_one' := sorry
-     map_mul' := sorry }, sorry⟩
+     map_mul' := sorry }, by
+    exact (ρ.continuous_action.comp
+      (continuous_fst.prodMk (continuous_subtype_val.comp continuous_snd))).subtype_mk _⟩
 
 /-- The generic fibre: `E ⊗_O Λ ≅ V` as continuous representations. -/
 theorem nonempty_iso_genericFibre [IsTopologicalRing O] [IsTopologicalRing E] [ContinuousSMul O E]
@@ -388,6 +448,24 @@ def smul (c : Eˣ) (Λ : IntegralModel O ρ) : IntegralModel O ρ where
   stable := sorry
   fg := Submodule.IsLattice.fg (A := E) (M := c • Λ.lattice)
   span_eq_top := Submodule.IsLattice.span_eq_top (A := E) (M := c • Λ.lattice)
+
+/-- Unit scaling is the identity homothety. -/
+example (Λ : IntegralModel O ρ) : (smul 1 Λ).lattice = Λ.lattice := by
+  exact one_smul _ _
+
+/-- Successive homotheties multiply their scalars. -/
+example (c d : Eˣ) (Λ : IntegralModel O ρ) :
+    (smul c (smul d Λ)).lattice = (smul (c * d) Λ).lattice := by
+  exact (mul_smul c d Λ.lattice).symm
+
+/-- Inclusion of a restricted representation intertwines its action with the ambient one. -/
+example (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] (g : Γ) (x : Λ.lattice) :
+    (Λ.toContinuousRep g x : V) = ρ g (x : V) := rfl
+
+/-- The zero model has the unique restricted action on its zero module. -/
+example [Subsingleton V] (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
+    (g : Γ) (x : Λ.lattice) : Λ.toContinuousRep g x = 0 := by
+  exact Subsingleton.elim _ _
 
 /-- Existence of integral models for compact `Γ` and `O` compact open in the local field `E`. -/
 theorem nonempty [CompactSpace Γ] [CompactSpace O] [IsTopologicalRing E]
@@ -425,15 +503,53 @@ example (Γ : Type u) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
       Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k}) := by
   sorry
 
+/-- Uniformizer homothety increases the exponent of a character-line lattice by one. -/
+example (Γ : Type u) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
+    (ℓ : ℕ) [Fact ℓ.Prime] (ψ : Γ →ₜ* ℚ_[ℓ]ˣ)
+    (Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ))
+    (k : ℤ) (hk : Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k})
+    (π : ℚ_[ℓ]ˣ) (hπ : (π : ℚ_[ℓ]) = ℓ) :
+    (smul π Λ).lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ (k + 1)} := by
+  sorry
+
+/-- The standard unipotent lattice retains the integral matrix of the ambient action. -/
+example (ℓ : ℕ) [Fact ℓ.Prime]
+    (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
+    (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
+      !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
+    (Λ : IntegralModel ℤ_[ℓ] ρ)
+    (hΛ : Λ.lattice = Submodule.span ℤ_[ℓ] {Pi.single 0 1, Pi.single 1 1})
+    [IsModuleTopology ℤ_[ℓ] Λ.lattice]
+    (a : Multiplicative ℤ_[ℓ]) (x : Λ.lattice) :
+    (Λ.toContinuousRep a x : Fin 2 → ℚ_[ℓ]) =
+      ![(x : Fin 2 → ℚ_[ℓ]) 0 + ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]) *
+        (x : Fin 2 → ℚ_[ℓ]) 1, (x : Fin 2 → ℚ_[ℓ]) 1] := by
+  sorry
+
+/-- Discrete coefficients cannot give the module topology on the usual p-adic lattice. -/
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    letI : TopologicalSpace ℚ_[ℓ] := inferInstance
+    letI : TopologicalSpace ℤ_[ℓ] := ⊥
+    ¬ IsModuleTopology ℤ_[ℓ]
+      (Submodule.span ℤ_[ℓ] ({1} : Set ℚ_[ℓ])) := by
+  sorry
+
+/-- Giving the lattice a separate discrete topology destroys continuity of the unit action. -/
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    letI : TopologicalSpace (ℤ_[ℓ]ˣ) := inferInstance
+    letI : TopologicalSpace ℤ_[ℓ] := ⊥
+    ¬ Continuous (fun p : ℤ_[ℓ]ˣ × ℤ_[ℓ] => (p.1 : ℤ_[ℓ]) * p.2) := by
+  sorry
+
 end GaloisLattice.IntegralModel
 
 /-! ## F.10.1 Finite-field descent and rational-point fixed points -/
 
 namespace VanishingCycles
 
-/-- Arithmetic Frobenius on an algebraic extension of a finite field, acting on coordinates
-by the cardinality power. README F.10.1, `frobeniusFixedPoints`. -/
-noncomputable def arithmeticFrobenius (k L : Type u) [Field k] [Fintype k]
+/-- An abbreviation of Mathlib's `FiniteField.frobeniusAlgEquivOfAlgebraic`, fixing the
+arithmetic/geometric naming. README F.10.1, `frobeniusFixedPoints`. -/
+noncomputable abbrev arithmeticFrobenius (k L : Type u) [Field k] [Fintype k]
     [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
   FiniteField.frobeniusAlgEquivOfAlgebraic k L
 
@@ -441,12 +557,6 @@ noncomputable def arithmeticFrobenius (k L : Type u) [Field k] [Fintype k]
 noncomputable def geometricFrobenius (k L : Type u) [Field k] [Fintype k]
     [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
   (arithmeticFrobenius k L).symm
-
-/-- Every Frobenius power acts by the corresponding cardinality power. README F.10.1. -/
-theorem arithmeticFrobenius_pow_apply (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] (r : ℕ) (x : L) :
-    (arithmeticFrobenius k L ^ r) x = x ^ (Fintype.card k ^ r) := by
-  sorry
 
 /-- Over an algebraic closure the fixed field of the r-th Frobenius has q^r elements.
 README F.10.1, `frobeniusFixedPoints`; positivity excludes the infinite zeroth fixed field. -/
@@ -477,14 +587,6 @@ theorem frobeniusFixedPoints (k L : Type u) [Field k] [Fintype k]
         x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
         Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x}) := by
   sorry
-
-/-- Arithmetic and geometric Frobenius are inverse in both orders. -/
-example (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] (x : L) :
-    arithmeticFrobenius k L (geometricFrobenius k L x) = x ∧
-      geometricFrobenius k L (arithmeticFrobenius k L x) = x := by
-  exact ⟨(arithmeticFrobenius k L).apply_symm_apply x,
-    (arithmeticFrobenius k L).symm_apply_apply x⟩
 
 /-- A degree-m finite field extension has m rational points over k_r exactly when m divides r. -/
 example (k L k_m : Type u) [Field k] [Fintype k]
@@ -606,8 +708,8 @@ The README's Exact supplier contracts table specifies the prerequisites. In part
 F.10.3 consumes the projective trace of AdicSpacesPartIII R3.8, the enhancement of
 EnhancedDerivedSheaves §§0.1–0.4, module-derived tensor and perfectness from
 DerivedModuleAlgebra §§0.2/1.E.0, and the DGAInfinity and PadicMeasuresIwasawaAlgebras
-interfaces listed below. PerfectoidSpaces P7 supplies the site-continuity and finite-cover
-detection hypotheses for §0.5's conditional analytic instantiation.
+interfaces listed below. PerfectoidSpaces P5.10–P5.12 (qcqs étale 2-colimit and finite-stage
+detection) and P7.15 (étale-topos comparison for tilde-limits) supply the hypotheses for §0.5's conditional analytic instantiation.
 
 DerivedModuleAlgebra §§0.2, 1.1–1.5 and 1.T.1 supply module tensor, towers, ML/Milnor
 and completion comparisons, with bounded power-torsion for principal quotient-tower completion.
@@ -672,8 +774,8 @@ VanishingCycles.inertia_puiseux, VanishingCycles.inertia_eq_valuation_inertia,
 VanishingCycles.wild_inertia_ne_bot, VanishingCycles.tameCharacter_kummer,
 VanishingCycles.tameCharacter_surjective, VanishingCycles.tameCharacter_conj,
 VanishingCycles.tameCharacter_restrict, VanishingCycles.tameCharacter_eq_inertiaTameCharacter,
-tameCharacter_puiseux,
-tameCharacter_restrict_quadratic, tameCharacter_wild.
+VanishingCycles.tameCharacter_puiseux,
+VanishingCycles.tameCharacter_restrict_quadratic, VanishingCycles.tameCharacter_wild.
 
 F.4.1–F.4.6: VanishingCycles.adicRealization, VanishingCycles.normalizedAdicSystems,
 VanishingCycles.classicalAdicRealization, VanishingCycles.etaleProetaleAdicComparison,

@@ -4,11 +4,11 @@
 
 ## Scope and ownership
 
-This roadmap owns scheme compactification objects, Nagata existence and coherent common refinements; constructible étale module sheaves, finite étale Galois categories and the étale fundamental groupoid; finite Tate twists and topological invariance; coefficient and bounded-complex descent; étale extension by zero, localization, `D⁺` torsion lower shriek, finite traces and finite cycle classes; proper and smooth base change, local acyclicity, finite-coefficient Künneth, cohomological dimension and constructible finiteness; henselian-trait inertia and tame characters; stable lattices for compact groups over finite extensions of `ℚ_ℓ`; normalized integral and rational adic realization; exceptional inverse image, duality, smooth Gysin maps, projective and blow-up formulas, weak Lefschetz and field perverse `t`-structures; finite-field descent, scheme/descent Frobenius comparison, perfect-complex trace algebra and free-torsor coefficient descent.
+This roadmap owns scheme compactification objects, Nagata existence and coherent common refinements; constructible étale module sheaves, finite étale Galois categories and the étale fundamental groupoid; finite Tate twists and topological invariance; coefficient and bounded-complex descent; étale extension by zero, localization, `D⁺` torsion lower shriek, finite traces and finite cycle classes; proper and smooth base change, local acyclicity, finite-coefficient Künneth, cohomological dimension and constructible finiteness; henselian-trait inertia and tame characters; stable lattices for compact groups over nonarchimedean local fields; normalized integral and rational adic realization; exceptional inverse image, duality, smooth Gysin maps, projective and blow-up formulas, weak Lefschetz and field perverse `t`-structures; finite-field descent, scheme/descent Frobenius comparison, perfect-complex trace algebra and free-torsor coefficient descent.
 
 The generic derived enhancement, `K`-injective/`K`-flat replacements, coherent tensor–Hom and sheaf-level limits belong to EnhancedDerivedSheaves. Module-level derived tensor, towers, limits and completion belong to DerivedModuleAlgebra. Scheme sites, their universal-homeomorphism equivalences, scheme Frobenius and intersection geometry belong to SchemeAndStackFoundations; §F.0.4 supplies sheaf and cohomology transport along those equivalences.
 
-Nearby and vanishing cycles, absolute purity and Lefschetz pencils belong to LefschetzPencilsAndVanishingCycles; analytic support geometry and analytic cohomology belong to ClassicalAdicEtaleCohomology; Betti and analytic comparison belong to ComplexComparisonPartII. Hilbert irreducibility, tame specialization and the arithmetic trace formulas belong to InverseGaloisAndArithmeticFundamentalGroups. The stable-lattice scope is finite `E/ℚ_ℓ`; coefficient-field descent in `ℚ̄_ℓ` and building comparisons are arithmetic representation theory.
+Nearby and vanishing cycles, absolute purity and Lefschetz pencils belong to LefschetzPencilsAndVanishingCycles; analytic support geometry and analytic cohomology belong to ClassicalAdicEtaleCohomology; Betti and analytic comparison belong to ComplexComparisonPartII. Hilbert irreducibility, tame specialization and the arithmetic trace formulas belong to InverseGaloisAndArithmeticFundamentalGroups. The stable-lattice theorem covers nonarchimedean local fields, with finite `E/ℚ_ℓ` used by the adic consumers; coefficient-field descent in `ℚ̄_ℓ` and building comparisons are arithmetic representation theory.
 
 The consumer roadmaps include LefschetzPencilsAndVanishingCycles, ClassicalAdicEtaleCohomology, ComplexComparisonPartII, InverseGaloisAndArithmeticFundamentalGroups, AbelianSchemesAndArithmeticModuli, NeronModelsAndSemistableAbelianVarieties, NeronModelsAndSemistableAbelianVarietiesPartII, ArithmeticGaloisRepresentations, ArithmeticGaloisDuality, DeligneWeightsAndPurity, AlgebraicModuliForArithmeticGeometry, FiniteFlatGroupsAndIntegralPadicHodgeTheory, ArithmeticLocallySymmetricSpaces, ModularCurvesPartII, DiamondEtaleCohomology, DiamondSixOperations, AutomorphicLFunctionsAndLocalFactors, GL2AutomorphicRepresentationsAndTransfer and ShimuraVarieties. Consumers use each interface on its stated coefficient and geometric domain. Scheme targets ClassicalCoefficients and ClassicalAlgebraic in §§0.5–0.11 are the common algebraic interfaces; analytic instantiations use these interfaces. Sections F.0–F.8, F.3a and F.10 supply the finite/adic coefficient, trait and trace inputs to nearby-cycle and pencil constructions. Sections F.0.A0–F.0.A2 supply the field, multiplicative-group, arithmetic-sequence and SchemeInertia inputs to arithmetic fundamental-group applications. Section F.4.0 supplies `ContinuousRep`, its `Iso`, `ofCharacter` and `baseChange`, `ContinuousRep.exists_stable_lattice_iff`, and `GaloisLattice.IntegralModel` with its generic-fibre, homothety and commensurability API to arithmetic representation applications; coefficient-field descent and building comparisons belong to those applications. Section F.3a supplies `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`, including the henselian inertia/residue-Tate identifications and positive Kummer direction, to arithmetic representation and Néron-model applications.
 
@@ -30,27 +30,27 @@ This table specifies the prerequisites of the roadmap. In particular, §F.10.3 d
 AdicSpacesPartIII §R3.8 for commutative finite-projective trace, EnhancedDerivedSheaves
 §§0.1–0.4 for the enhancement, DerivedModuleAlgebra §§0.2/1.E.0 for module-derived tensor
 and perfectness, DGAInfinity Layer 5 for perfect/compact comparison, and
-PadicMeasuresIwasawaAlgebras §5.1 for finite-projective determinants. PerfectoidSpaces P7
-is an additional prerequisite for §0.5's conditional analytic instantiation.
+PadicMeasuresIwasawaAlgebras §5.1 for finite-projective determinants. PerfectoidSpaces P5.10–P5.12 and P7.15
+are additional prerequisites for §0.5's conditional analytic instantiation.
 
 | Supplier | Exact interface consumed |
 | --- | --- |
 | Mathlib, pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` | `AlgebraicGeometry.Scheme`, `Over`, pullbacks, `IsOpenImmersion`, `QuasiCompact`, `IsProper`, `IsSeparated`, `LocallyOfFiniteType`, `IsSchemeTheoreticallyDominant` and its flat-pullback API; schematic images; `Scheme.smallEtaleTopology`, `Scheme.AffineEtale.sheafEquiv`, `ModuleCat`, `SheafOfModules`, `DerivedCategory`, sheaf cohomology and derived functors; `CategoryTheory.GaloisCategory` and `CategoryTheory.FiberFunctor`; finite fields and `FiniteField.frobeniusAlgEquivOfAlgebraic`; finite projectives, matrices, trace and tensor products; henselian DVRs, valuation decomposition and inertia, ideal residue-action groups; nonarchimedean local fields and compact balls. |
 | Tau Ceti finite étale schemes ([`FiniteEtale/Basic.lean` at `9b58aa7`](https://github.com/TauCetiProject/TauCeti/blob/9b58aa766a76235fda88e5b492731a0933188081/TauCeti/AlgebraicGeometry/FiniteEtale/Basic.lean)) | `TauCeti.FiniteEtaleScheme X`, its affine finite-étale-algebra anti-equivalence and its separably closed field comparison. This module is separate from the pinned interfaces in the next row; §F.0.2 uses its carrier and comparisons. |
 | Tau Ceti, pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` | `TauCeti.AlgebraicGeometry.Fibers` supplies `TauCeti.genericFiber` and `TauCeti.specialFiber`; function-field place groups supply `TauCeti.Place.stabilizer_eq_decompositionSubgroup`, `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup`; `TauCeti.RepresentationTheory.BaseChange` supplies `Representation.baseChange`; existing affine blow-up charts and henselian roots of unity are used on their stated domains. |
-| SchemeAndStackFoundations | Layer 0: §0.3 relative Proj, §0.8 smooth coordinates, §0.9 limits/approximation, §§0.12–0.14 henselization, §0.21 excellence, §§0.23–0.23a universal homeomorphisms and their cover-preserving étale-site equivalences; §0.29 scheme Frobenius and its twists, iterates and base-change laws; Layer 1 effective descent; §§2.1–2.2 underlying abelian `D⁺` cohomology and Leray, §§2.5/2.7 derived and support foundations, §§2.9–2.11 module sheaves, finite étale sites, Hilbert 90 and Kummer, §2.15 étale descent/continuity, §2.16 Picard theory, §2.17 pro-étale comparison and completeness; §4.11 schematic strict transforms; Layer 5, especially §§5.3–5.5 projective bundles, Chern classes, normal bundles and deformation to the normal cone. |
-| EnhancedDerivedSheaves | §§0.1–0.4: `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`, `ClassicalDerived.derivedCompletion`, `ClassicalDerived.functorCoherence` and coefficient-forgetting comparisons; E0–E1 supply enhancement foundations and comparisons, E4 replete-topos completion. All geometric equivalences require their proved geometric hypotheses. |
+| SchemeAndStackFoundations | Layer 0: §0.3 relative Proj, §0.8 étale coordinates, §0.9 limits/approximation, §§0.12–0.14 henselization, §0.21 excellence, §§0.23–0.23a universal homeomorphisms and their cover-preserving étale-site equivalences; §0.29 scheme Frobenius and its twists, iterates and base-change laws; Layer 1 effective descent; §§2.1–2.2 underlying abelian `D⁺` cohomology and Leray, §§2.5/2.7 derived and support foundations, §§2.9–2.11 module sheaves, finite étale sites, Hilbert 90 and Kummer, §2.15 étale descent/continuity, §2.16 Picard theory, §2.17 pro-étale comparison and completeness; §4.11 schematic strict transforms; Layer 5, especially §§5.3–5.5 projective bundles, Chern classes, normal bundles and deformation to the normal cone. |
+| EnhancedDerivedSheaves | §§0.1–0.4: `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`, `ClassicalDerived.derivedCompletion`, `ClassicalDerived.functorCoherence` and coefficient-forgetting comparisons; E0–E1 supply enhancement foundations and comparisons, E2 replete-topos inverse limits, E4 derived completion. All geometric equivalences require their proved geometric hypotheses. |
 | DerivedModuleAlgebra | §0.I.1 module replacements, §0.2 derived tensor, §1.1 coherent module limits, §§1.2–1.5 completeness, reflector, unit and Koszul/quotient-tower comparison, and §1.T.1 tower `lim`/`lim¹`, ML and Milnor sequences. Quotient-tower completion retains bounded power-torsion or Noetherian hypotheses. EnhancedDerivedSheaves compares its sheaf constructions with these module inputs on the point site. |
 | AdicSpacesPartIII | §R3.8 / `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange` and `LinearMap.projectiveTrace_cyclic` on commutative finite projective modules. |
 | DGAInfinity | Layer 5 perfect/compact equivalence and finite semi-free retract description, specialized to the one-object DG category `R` in degree zero. |
 | PadicMeasuresIwasawaAlgebras | §5.1 / `projectiveDeterminant`, `projectiveDeterminantMap` and their arbitrary-base-change API, including varying local rank. |
-| StableReduction | Layer 4 Rees-algebra blowups and admissible blowup geometry; compactification extension, separation and gluing are targets of §G.2 here. |
+| StableReduction | Layer 4 Rees-algebra blowups (the admissible-blowup results are targets of §G.2 here); compactification extension, separation and gluing are targets of §G.2 here. |
 | ModularCurves | Layer 0d finite étale field algebras and finite Galois sets; Layer 4D strict henselizations and their completions. |
 | AlgebraicCurves | Layers 8 and 12 normalization and the curve/place dictionary for decomposition and inertia groups. |
 | BelyiMaps | Layers 12–13, including §§12.5–12.6, punctured-line finite covers used in §F.0.A0. |
-| ProfiniteArithmetic | Layer 0 profinite integers, their units and continuous exponentiation. |
+| ProfiniteArithmetic | Layers 0–1 profinite integers, their units and continuous exponentiation. |
 | JacobianChallenge | Layer D pointed smooth proper field-curve Jacobian input for the algebraic smooth-curve trace and duality construction in §0.11. |
-| PerfectoidSpaces | P7 site-continuity and finite-cover detection only when instantiating §0.5's conditional analytic statement. The scheme descent theorem uses SchemeAndStackFoundations §0.9/§2.15. |
+| PerfectoidSpaces | P5.10–P5.12 (qcqs étale 2-colimit and finite-stage detection) and P7.15 (étale-topos comparison for tilde-limits) only when instantiating §0.5's conditional analytic statement. The scheme descent theorem uses SchemeAndStackFoundations §0.9/§2.15. |
 
 The scheme Frobenius contract is supplied by SchemeAndStackFoundations §0.29: `SchemeFrobenius.absoluteFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`, `SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.iteratedSchemeFrobenius` and `SchemeFrobenius.qPowerFrobenius`. A `p`-power map need not be `k`-linear; over finite `k` of cardinality `q` the `q`-power map is over `k`. Sections F.10.1–F.10.2b own its separate field-descent and cohomological comparison.
 
@@ -401,7 +401,7 @@ schemes and the geometric fibre-functor groupoid.
 
 ## 0.5 Finite-presentation geometry and coefficient descent
 
-**Finite diagrams with coefficients.** Provide `ClassicalCoefficients.finitePresentationDescent`: for `X=lim X_i` with `X_i` qcqs schemes and affine transition maps, finite diagrams of finitely presented `X`-spaces, their maps, finite covering families and finitely presented coefficient modules descend to a common stage; equalities are detected after enlargement. For geometric descent and noetherian approximation use `SchemeAndStackFoundations`, §0.9, `finite_presentation_limits` and `noetherian_approximation`. For a noetherian coefficient ring `Λ`, descend constructible `Λ`-sheaves by a finite constructible stratification, finite étale trivializations on each stratum and the finite gluing diagram. This includes infinite finite-type `Λ`-modules, not just finite sets. For analytic spaces use finite qcqs étale trivialization and gluing data; the coefficient descent assertion is conditional on a qcqs étale-site 2-colimit with finite covering detection, assumed as a proved site-continuity hypothesis (for example the domain supplied by PerfectoidSpaces P7); no arbitrary analytic tilde-limit is asserted to have it. (Stacks, Limits of Schemes, Lemma 32.10.1, tag 01ZM; Étale Cohomology, §§59.51 and 59.73; SGA 4, Exposé VI, §8.)
+**Finite diagrams with coefficients.** Provide `ClassicalCoefficients.finitePresentationDescent`: for `X=lim X_i` with `X_i` qcqs schemes and affine transition maps, finite diagrams of finitely presented `X`-spaces, their maps, finite covering families and finitely presented coefficient modules descend to a common stage; equalities are detected after enlargement. For geometric descent and noetherian approximation use `SchemeAndStackFoundations`, §0.9, `finite_presentation_limits` and `noetherian_approximation`. For a noetherian coefficient ring `Λ`, descend constructible `Λ`-sheaves by a finite constructible stratification, finite étale trivializations on each stratum and the finite gluing diagram. This includes infinite finite-type `Λ`-modules, not just finite sets. For analytic spaces use finite qcqs étale trivialization and gluing data; the coefficient descent assertion is conditional on a qcqs étale-site 2-colimit with finite covering detection, assumed as a proved site-continuity hypothesis (for example the domains supplied by PerfectoidSpaces P5.10–P5.12 (qcqs étale 2-colimit and finite-stage detection) and P7.15 (étale-topos comparison for tilde-limits)); no arbitrary analytic tilde-limit is asserted to have it. (Stacks, Limits of Schemes, Lemma 32.10.1, tag 01ZM; Étale Cohomology, §§59.51 and 59.73; SGA 4, Exposé VI, §8.)
 
 **Checks.**
 
@@ -835,18 +835,18 @@ Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; F.0 and F.2–F.3; for 
 
 **Checks.**
 
-- `tameCharacter_puiseux`: for `R` the henselization of `k[t]` at `(t)` with `k` algebraically
+- `VanishingCycles.tameCharacter_puiseux`: for `R` the henselization of `k[t]` at `(t)` with `k` algebraically
   closed of characteristic 0, `I = Gal(η̄/η)` and `t_ℓ` is the `ℓ`-component of the isomorphism
   `I ≅ Ẑ(1)` given by the action on the roots `t^{1/n}`.
-- `tameCharacter_restrict_quadratic`: for `R' = R[π^{1/2}]` with `p ≠ 2`, `e = 2` and `t_ℓ` restricted
+- `VanishingCycles.tameCharacter_restrict_quadratic`: for `R' = R[π^{1/2}]` with `p ≠ 2`, `e = 2` and `t_ℓ` restricted
   to `I'` is twice the new character; a definition that ignored `e` would fail this.
 - Over a local field, the comparison sends every `ℓⁿ`-level Kummer ratio to the pinned character with the same positive direction; changing the uniformizer by a unit leaves it unchanged.
-- `tameCharacter_wild`: for `R` the henselization of `𝔽̄_p[t]` at `(t)`, every element of `P`
+- `VanishingCycles.tameCharacter_wild`: for `R` the henselization of `𝔽̄_p[t]` at `(t)`, every element of `P`
   has `t_ℓ = 0`, while `P` is nonzero (Artin–Schreier extensions).
 
-## F.4.0 Stable lattices over finite extensions of `ℚℓ`
+## F.4.0 Stable lattices and integral models
 
-Throughout, `E` is a finite extension of `ℚ_ℓ`, `O_E` its valuation ring, and `V` a finite-dimensional `E`-vector space with the module topology. A lattice is a finitely generated `O_E`-submodule spanning `V` over `E`, expressed by the pinned Mathlib predicate `Submodule.IsLattice E Λ`.
+The stable-lattice theorem is stated for every nonarchimedean local field `E`, with valuation ring `O_E = 𝒪[E]`; integral-model operations are stated for a DVR `O` with fraction field `E`, on their explicit topological hypotheses. Finite `E/ℚ_ℓ` with `O = O_E` is the case used by adic consumers. In the local-field statements, `V` is a finite-dimensional `E`-vector space with the module topology. A lattice is a finitely generated `O`-submodule spanning `V` over `E`, expressed by the pinned Mathlib predicate `Submodule.IsLattice E Λ`.
 
 **Continuous representation carrier.** Construct `ContinuousRep Γ A M` for a topological group `Γ`, a commutative topological ring `A` and a finite projective `A`-module `M` with its module topology: a Mathlib `Representation A Γ M` whose action `Γ×M→M` is jointly continuous. Build equivariant `ContinuousRep.Iso`, identity/composition/inverse, rank-one `ContinuousRep.ofCharacter` for a continuous character `Γ→Aˣ`, and `ContinuousRep.baseChange` using the pinned `Representation.baseChange` along a continuous coefficient map, with module topology on `B⊗_A M`. Prove continuity, identity/composition of base change, equivariance and agreement with the underlying linear representation. These are the carrier and elementary operations needed by integral models.
 
@@ -858,17 +858,25 @@ Throughout, `E` is a finite extension of `ℚ_ℓ`, `O_E` its valuation ring, an
 - The continuous trivial character gives the identity action on `A`.
 - Joint continuity implies each operator is continuous. For the multiplication action of `ℤ_ℓ^×` on discrete `ℚ_ℓ`, each operator is continuous but the action is not jointly continuous: the orbit map at 1 is not locally constant.
 - Base change of a rank-one character sends `χ(g)` to its image in `Bˣ`; the generic-fibre comparison of an integral model preserves its action.
+- `ContinuousRep.Iso` has identity, inverse and composition with the corresponding
+  linear equivalences; two character lines are isomorphic exactly when their characters agree.
+- Identity scalar extension is equivariantly identified with the original representation
+  through `TensorProduct.lid`. For `A → B → C`, the comparison sends
+  `c⊗(b⊗m)` to `(c·b)⊗m`; composing three scalar extensions gives the same identification.
+- The unipotent action `a ↦ [[1,a],[0,1]]` on `ℚ_ℓ²` retains that matrix after
+  any continuous coefficient-field extension, including `ℚ_ℓ(√ℓ)`.
 
 **Stable lattices.** `ContinuousRep.exists_stable_lattice_iff` (also written `exists_stable_lattice_iff`). Prove that every lattice is compact and open, with compact open stabilizer `GL(Λ)≤GL(V)`, equal to `GL_n(O_E)` in a lattice basis. A subgroup `K≤GL(V)` stabilizes a lattice if and only if its closure is compact: the sum of the `K`-translates of a lattice is a finite sum and is `K`-stable. Every jointly continuous action of a compact group `Γ` on `V` therefore has a stable lattice and in a lattice basis is a continuous `Γ→GL_n(O_E)`. (DDT, §2.1, p. 53, paragraph after Proposition 2.6; Ribet 1976, §2, p. 154; BHKT, Theorem 4.8(ii), p. 16.)
 *Needs:* Mathlib nonarchimedean local fields, `IsNonarchimedeanLocalField.isCompact_closedBall`, finite-dimensional module topology and finite-module algebra.
 
 **Checks.**
 
+- Over `E = 𝔽_q((t))`, the standard lattice `𝔽_q[[t]]ⁿ` has compact open stabilizer `GL_n(𝔽_q[[t]])`, including the equal-characteristic case.
 - In dimension zero the zero lattice is the unique lattice.
 - A nonzero `E`-vector space is not a lattice over `O_E`: it is not finitely generated over `O_E`.
 - The cyclic subgroup generated by multiplication by a uniformizer on `E` has noncompact closure in `GL_1(E)` and stabilizes no lattice.
 
-**Integral models.** `GaloisLattice.IntegralModel O ρ` is a `Γ`-stable lattice `Λ`. Expose `Submodule.IsLattice E Λ.lattice` through `GaloisLattice.IntegralModel.isLattice`. Reuse Mathlib's finite/free instances, unit scaling, sums, intersections, basis extension and rank comparison on their stated ring and fraction-field domains. In particular it is free of rank `dim_E V`; its restricted action `GaloisLattice.IntegralModel.toContinuousRep` is jointly continuous, and its uniformizer-adic topology is the subspace topology. The equivariant generic-fibre isomorphism is `E⊗_(O_E)Λ≅V` (`nonempty_iso_genericFibre`). Supply homothety `GaloisLattice.IntegralModel.smul`, with `(cd)Λ=c(dΛ)` and `1Λ=Λ`; sums and intersections of models; existence `GaloisLattice.IntegralModel.nonempty` for compact `Γ`; saturation `W∩Λ` in a stable subspace, whose quotient models `V/W`; and the dual lattice `Λ^∨={λ∈V^∨ : λ(Λ)⊂O_E}` with biduality. Any two models are commensurable: `𝔪^aΛ⊂Λ′` and `𝔪^aΛ′⊂Λ` for some `a≥0` (`exists_pow_le`). (DDT, §2.1, paragraph after Proposition 2.6, for existence; Mathlib's [Algebra/Module/Lattice.lean](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Module/Lattice.lean), `Submodule.IsLattice` and its algebra; elementary DVR arguments using lattice bases, saturation and clearing denominators for the equivariant and topological comparisons. Adopt Mathlib's full-span predicate vocabulary as it develops, including [Mathlib #44365](https://github.com/leanprover-community/mathlib4/pull/44365).)
+**Integral models.** `GaloisLattice.IntegralModel O ρ` is a `Γ`-stable lattice `Λ`. Expose `Submodule.IsLattice E Λ.lattice` through `GaloisLattice.IntegralModel.isLattice`. Reuse Mathlib's finite/free instances, unit scaling, sums, intersections, basis extension and rank comparison on their stated ring and fraction-field domains. In particular it is free of rank `dim_E V`; its restricted action `GaloisLattice.IntegralModel.toContinuousRep` uses the inherited subspace topology on `Λ.lattice` and is jointly continuous by restriction. Its `ContinuousRep` carrier requires that this inherited topology be the `O`-module topology. For the valuation ring of a nonarchimedean local field this is also the uniformizer-adic topology. For topological rings `O` and `E` with continuous scalar action and the indicated module topologies, the equivariant generic-fibre isomorphism is `E⊗_OΛ≅V` (`nonempty_iso_genericFibre`). Supply homothety `GaloisLattice.IntegralModel.smul`, with `(cd)Λ=c(dΛ)` and `1Λ=Λ`; sums and intersections of models; existence `GaloisLattice.IntegralModel.nonempty` for compact `Γ`, compact `O` embedded openly in `E` with its topological-ring structure; saturation `W∩Λ` in a stable subspace, whose quotient models `V/W`; and the dual lattice `Λ^∨={λ∈V^∨ : λ(Λ)⊂O}` with biduality. Any two models are commensurable: `𝔪^aΛ⊂Λ′` and `𝔪^aΛ′⊂Λ` for some `a≥0` (`exists_pow_le`). (DDT, §2.1, paragraph after Proposition 2.6, for existence; Mathlib's [Algebra/Module/Lattice.lean](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Module/Lattice.lean), `Submodule.IsLattice` and its algebra; elementary DVR arguments using lattice bases, saturation and clearing denominators for the equivariant and topological comparisons. Adopt Mathlib's full-span predicate vocabulary as it develops, including [Mathlib #44365](https://github.com/leanprover-community/mathlib4/pull/44365).)
 *Needs:* the stable-lattice theorem above; Mathlib's lattice API, DVRs, finite free modules, tensor products, dual modules and fraction fields. The prototype `ContinuousRep` packages a `Representation` with its joint-continuity proof; coefficient extension uses Tau Ceti's `Representation.baseChange`.
 
 **Checks.**
@@ -878,6 +886,17 @@ Throughout, `E` is a finite extension of `ℚ_ℓ`, `O_E` its valuation ring, an
   Mathlib lattice instance and rank zero. Finite/free instances apply in this case too.
 - The additive group `ℤ_ℓ` acts on `ℚ_ℓ²` by `a↦[[1,a],[0,1]]`. It preserves `ℤ_ℓ²` and `ℤ_ℓe₁⊕ℓℤ_ℓe₂`, which are not homothetic. Allowing `a=ℓ⁻¹` would fail to preserve `ℤ_ℓ²`.
 - Scalar extension of a model recovers the given action on `V`, not just its dimension.
+- Homothety satisfies `(smul 1 Λ).lattice = Λ.lattice` and
+  `(smul c (smul d Λ)).lattice = (smul (c*d) Λ).lattice`.
+  On a character line, scaling `ℓ^kℤ_ℓ` by `ℓ` gives `ℓ^(k+1)ℤ_ℓ`.
+- The restricted action on the standard unipotent lattice `ℤ_ℓ²` has matrix
+  `[[1,a],[0,1]]` over `ℤ_ℓ`; its inclusion in `ℚ_ℓ²` intertwines the actions.
+- On the zero model, the restricted action is the unique action on the zero module.
+- With discrete coefficient ring `O = ℤ_ℓ` and the usual topology on `E = ℚ_ℓ`,
+  the inherited topology on the lattice `ℤ_ℓ ⊂ E` is nondiscrete and fails
+  `IsModuleTopology O Λ.lattice`. Replacing that lattice topology by the discrete
+  topology makes the unit-group action discontinuous at 1; it is no longer the
+  inherited topology used by `toContinuousRep`.
 
 ## F.10.1 Finite-field descent and rational-point fixed points
 
@@ -893,8 +912,9 @@ geometric inverse-power formulation. Coordinate action is `x↦x^q`; preserve ma
 coproducts and changes of algebraic closure. Use the over-`Spec k` morphism type for points,
 building its adapter to the existing scheme API. Define `VanishingCycles.numberOfRationalPoints`
 as `Nat.card` of that type, with no finiteness hypothesis on the definition. For finite-type
-`X` prove point finiteness by a finite affine cover. Representative field signatures are
-`VanishingCycles.arithmeticFrobenius_pow_apply` and `VanishingCycles.frobeniusFixedField_card`.
+`X` prove point finiteness by a finite affine cover. The power formula is Mathlib's
+`FiniteField.coe_frobeniusAlgEquivOfAlgebraic_iterate` with `AlgEquiv.coe_pow`; the
+representative new signature is `VanishingCycles.frobeniusFixedField_card`.
 (Mathlib FieldTheory/Finite/Basic.lean, frobeniusAlgEquivOfAlgebraic and its iterate theorem;
 SGA 1 I §8, finite-field descent.)
 *Needs:* Mathlib finite fields, algebraic closures, `Nat.card`, scheme spectra and affine
