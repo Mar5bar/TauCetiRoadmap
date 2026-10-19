@@ -50,24 +50,34 @@ theorem classifyingSpace_finitePosetDetection (C : Type u) [Category.{u} C] [Non
       (classifyingSpaceMap F).Nullhomotopic) :
     ContractibleSpace (classifyingSpace C) := sorry
 
-example : ContractibleSpace (classifyingSpace (Discrete PUnit)) := sorry
-example : ¬ ContractibleSpace (classifyingSpace (Discrete Bool)) := sorry
-example : ¬ ContractibleSpace (classifyingSpace (Discrete PEmpty)) := sorry
+/-- The discrete one-object category has contractible realization (§1.1). -/
+theorem classifyingSpace_point : ContractibleSpace (classifyingSpace (Discrete PUnit)) := sorry
+
+/-- Two discrete objects retain distinct components after realization (§1.1). -/
+theorem classifyingSpace_discreteTwo_not_contractible :
+    ¬ ContractibleSpace (classifyingSpace (Discrete Bool)) := sorry
+
+/-- The empty realization is not contractible (§1.1). -/
+theorem classifyingSpace_empty_not_contractible :
+    ¬ ContractibleSpace (classifyingSpace (Discrete PEmpty)) := sorry
 
 /-- The initial endpoint of the interval category realizes as a homotopy equivalence (§1.1). -/
-example : ∃ e : classifyingSpace (Discrete PUnit) ≃ₕ classifyingSpace (Fin 2),
+theorem classifyingSpace_initialEndpoint :
+    ∃ e : classifyingSpace (Discrete PUnit) ≃ₕ classifyingSpace (Fin 2),
     e.toFun = classifyingSpaceMap ((Functor.const (Discrete PUnit)).obj (0 : Fin 2)) := sorry
 
 /-- The terminal endpoint of the interval category realizes as a homotopy equivalence (§1.1). -/
-example : ∃ e : classifyingSpace (Discrete PUnit) ≃ₕ classifyingSpace (Fin 2),
+theorem classifyingSpace_terminalEndpoint :
+    ∃ e : classifyingSpace (Discrete PUnit) ≃ₕ classifyingSpace (Fin 2),
     e.toFun = classifyingSpaceMap ((Functor.const (Discrete PUnit)).obj (1 : Fin 2)) := sorry
 
 /-- Realization preserves identity maps (§1.1). -/
-example (C : Type u) [Category.{u} C] :
+theorem classifyingSpaceMap_id (C : Type u) [Category.{u} C] :
     classifyingSpaceMap (𝟭 C) = ContinuousMap.id (classifyingSpace C) := sorry
 
 /-- Realization preserves composition of functors (§1.1). -/
-example {C D E : Type u} [Category.{u} C] [Category.{u} D] [Category.{u} E]
+theorem classifyingSpaceMap_comp {C D E : Type u}
+    [Category.{u} C] [Category.{u} D] [Category.{u} E]
     (F : C ⥤ D) (G : D ⥤ E) :
     classifyingSpaceMap (F ⋙ G) =
       (classifyingSpaceMap G).comp (classifyingSpaceMap F) := sorry
@@ -77,10 +87,9 @@ example {C D E : Type u} [Category.{u} C] [Category.{u} D] [Category.{u} E]
 /-- Interchanging spheres in integer degrees contributes this unit (§1.8). -/
 def sphereInterchangeSign (i j : ℤ) : ℤˣ := (-1) ^ (i * j)
 
-example : sphereInterchangeSign 1 1 = -1 := by decide
-example : sphereInterchangeSign 1 2 = 1 := by decide
+example : sphereInterchangeSign 1 1 = -1 ∧
+    ((sphereInterchangeSign 1 1 : ℤ) : ZMod 2) = 1 := by decide
 example : sphereInterchangeSign (-1) 1 = -1 := by decide
-example : (-1 : ZMod 2) = 1 := by decide
 
 /- ## Layer 3: Finite elementary matrices and the unit class -/
 
@@ -107,7 +116,6 @@ def relativeDifference {A : Type*} [AddCommGroup A] (source target : A) : A :=
 
 example : relativeDifference (2 : ℤ) 1 = 1 := rfl
 example : relativeDifference (1 : ℤ) 2 = -1 := rfl
-example : relativeDifference (1 : ℤ) 1 = 0 := rfl
 
 /- ## Layer 8: Boundary and clutching conventions -/
 
@@ -116,7 +124,6 @@ def indexClass {A : Type*} [AddCommGroup A] (ker coker : A) : A := coker - ker
 
 example : indexClass (0 : ℤ) 1 = 1 := rfl
 example : indexClass (1 : ℤ) 0 = -1 := rfl
-example : indexClass (1 : ℤ) 1 = 0 := rfl
 
 /-- Second-to-first clutching uses x = αy; the inverse shear gives a different x (§8.4). -/
 example : (!![1,1;0,1] : Matrix (Fin 2) (Fin 2) ℤ).mulVec ![0,1] = ![1,1] := by
@@ -132,7 +139,6 @@ def uniformizerLastSign (n : ℕ) : ℤˣ := (-1) ^ (n - 1)
 
 example : uniformizerLastSign 1 = 1 := by decide
 example : uniformizerLastSign 2 = -1 := by decide
-example : uniformizerLastSign 3 = 1 := by decide
 
 /- ## Layer 9: Two-chart formulas -/
 
@@ -140,7 +146,6 @@ example : uniformizerLastSign 3 = 1 := by decide
 def twistExponent (i n : ℤ) : ℤ := i - n
 
 example : twistExponent 0 1 = -1 := rfl
-example : twistExponent 1 1 = 0 := rfl
 example : twistExponent 2 (-1) = 3 := rfl
 
 /-- Plus-chart first Koszul map, x ↦ (tx,−x), for the pair (X₁,−X₀) (§9.2). -/
@@ -151,11 +156,11 @@ def koszulRight {R : Type*} [Ring R] (t : R) (xy : R × R) : R := xy.1 + t * xy.
 
 example : koszulLeft (2 : ℤ) 1 = (2, -1) := rfl
 example : koszulLeft (0 : ℤ) 1 = (0, -1) := rfl
-example : koszulLeft (2 : ℤ) 0 = (0, 0) := rfl
 example : koszulRight (2 : ℤ) (2, 1) = 4 := rfl
 example : koszulRight (0 : ℤ) (2, 3) = 2 := rfl
-example : koszulRight (2 : ℤ) (0, 1) = 2 := rfl
-example {R : Type*} [Ring R] (t x : R) : koszulRight t (koszulLeft t x) = 0 := by
+/-- The specified two-chart Koszul maps compose to zero over any ring (§9.2). -/
+theorem koszulRight_left {R : Type*} [Ring R] (t x : R) :
+    koszulRight t (koszulLeft t x) = 0 := by
   simp [koszulRight, koszulLeft]
 
 /- ## Layer 10: Diagonal and chart difference -/
@@ -167,7 +172,6 @@ def chartDifference {A : Type*} [AddCommGroup A] : (A × A) →+ A where
   map_add' x y := by simp only [Prod.fst_add, Prod.snd_add]; abel
 
 example : chartDifference ((1 : ℤ), 1) = 0 := rfl
-example : chartDifference ((1 : ℤ), 0) = 1 := rfl
 example : chartDifference ((0 : ℤ), 1) = -1 := rfl
 
 /- ## Layer 12: Completion and finite Euler conventions -/
@@ -178,14 +182,12 @@ def topProjector {R : Type*} [Ring R] (n : ℕ) (p : R) : R :=
 
 example : topProjector 0 (1 : ℤ) = 1 := by norm_num [topProjector]
 example : topProjector 1 (1 : ℤ) = 0 := by norm_num [topProjector]
-example : topProjector 2 (0 : ℤ) = 0 := by norm_num [topProjector]
 
 /-- Degree zero is positive in the two-term Euler convention (§12.6). -/
 def twoTermEuler {A : Type*} [AddCommGroup A] (degreeZero degreeOne : A) : A :=
   degreeZero - degreeOne
 
 example : twoTermEuler (2 : ℤ) 3 = -1 := rfl
-example : twoTermEuler (0 : ℤ) 1 = -1 := rfl
 example : twoTermEuler (1 : ℤ) 0 = 1 := rfl
 
 /-- Finite free modules over k × k give diagonal ranks; completion adds (1,0) (§12.2). -/
@@ -201,7 +203,6 @@ example : ¬ ∃ n : ℤ, (n, n) = ((1 : ℤ), 0) := by
 /-- In unitization product coordinates the second component is diag(c,z), for R=ℤ (§13.3). -/
 def cornerUnitizationSecond (z c : ℤ) : Matrix (Fin 2) (Fin 2) ℤ := !![c,0;0,z]
 
-example : cornerUnitizationSecond 1 1 = (1 : Matrix (Fin 2) (Fin 2) ℤ) := by decide
 example : cornerUnitizationSecond 1 0 = !![0,0;0,1] := rfl
 example : cornerUnitizationSecond 0 1 = !![1,0;0,0] := rfl
 
@@ -212,9 +213,9 @@ example : ∀ x : ZMod 5 × ZMod 5, 5 • x = 0 := by decide
 
 /-
 Full interfaces specified in README.md, using constructions developed there:
-Layer 1: classifyingSpaceMap_id, classifyingSpaceMap_comp,
-classifyingSpace_product, classifyingSpace_op, classifyingSpace_filteredColimit_pi;
-HomotopyFibre/map/boundary/exact, bisimplicialRealization,
+Layer 1: classifyingSpace_product, classifyingSpace_op, classifyingSpace_filteredColimit_pi;
+HomotopyFibre as a supplied-carrier alias, with pathReversal/map/boundary/exact adapters;
+bisimplicialRealization,
 edgewiseSubdivision/homeomorph, isomorphismDoubleNerve, QuillenA/B,
 PlusConstruction/pi1/localHomology/map, MonoidalLocalization/action/pi0/cofinality,
 MonoidalLocalization.actionFibration with its chosen object and pointed-action naturality,
@@ -246,7 +247,8 @@ laurentTSection, NilCat/forget/zero,
 nilGroup, torsion comparison and the positive Fundamental Theorem.
 Layer 10: IsFlasqueRing, IsInfiniteSumRing, coneRing, contraction, IsAcyclic,
 IsContracted, negativeK, NegativeKTheory, bassTheory, deloop, bassSpectrum;
-noetherianRing_G0_polynomial and regularRing_K0_polynomial with iterated regularity.
+noetherianRing_G0_polynomial, regularRing_K0_polynomial,
+noetherianRing_G0_laurent and regularRing_K0_laurent with mixed-extension regularity.
 Layer 11: FrobeniusPair/derived/map/ofExact/waldhausen, DenseClasses,
 countableEnvelope, enlarge/suspension/setup/IK, IsExactSequence,
 NegativeKSetup, IK0/negativeIK, FrobeniusReplacement and spectrum localization.

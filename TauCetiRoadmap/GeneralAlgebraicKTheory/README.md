@@ -4,11 +4,11 @@
 
 ## Scope and ownership
 
-This roadmap owns ordinary Q/S K-theory, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. It includes the categorical homotopy tools, K-theory adapters to the supplied spectrum category, stable general linear group, elementary subgroup and projective patching used in its proofs. These are shared foundations: consumers use these constructions with their stated hypotheses. GeometryOfNumbersAndQuadraticArithmetic retains its hermitian and shared-spectrum adapters and finite-field hermitian applications: its §§6.1.1–6.1.5 consume §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 here; its §6.1.7 consumes §§3.1–3.5, §§10.10–10.11 and §12.10; its §6.10.3 plus/Q adapter consumes §3.12, and its finite-field applications consume §§13.8a–13.8c. Its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, with the same ordered charts.
+This roadmap owns ordinary Q/S K-theory, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. It includes the categorical homotopy tools, K-theory adapters to the supplied spectrum category, stable general linear group, elementary subgroup and projective patching used in its proofs. These are shared foundations: consumers use these constructions with their stated hypotheses. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
 
 Exact structures, conflations, admissible maps, exact functors, projective and injective objects, and Frobenius exact categories belong to Tau Ceti. Its exact Grothendieck groups, finite-projective exact categories and Cartan map are inputs here. The new conflation-category target equips the supplied category of conflations with its componentwise exact structure; it does not construct that underlying category again. GrothendieckEulerForms Layers 2–3 supply the algebraic degree-zero Euler and finite-resolution comparisons; the resolution theorem here adds the homotopy equivalence and all higher groups.
 
-AlgebraicTopology Stages 2, 4 and 8 supply local coefficient complexes, CW attachment and the homotopy/Hurewicz/Whitehead tools. GeneralizedCohomology G2.3–G2.7 and G3 supply the stable category, sequential/symmetric comparison, integer homotopy, derived fibres/cofibres and telescopes. The new statements in Layer 1 concern categorical realizations, acyclic plus maps and K-theoretic adapters to those spectra. Mathlib supplies simplicial sets, nerves, their realization and ordinary homotopy groups. Serre quotient categories and their abelian universal properties are supplied by Mathlib; Layer 4 proves their K-theory localization sequence.
+AlgebraicTopology Stages 2, 4 and 8 supply local coefficient complexes, CW attachment and the homotopy/Hurewicz/Whitehead tools. GeneralizedCohomology G2.10 supplies generic mapping-path fibres and their homotopy exact sequence; G2.3–G2.7 and G3 supply the stable category, sequential/symmetric comparison, integer homotopy, derived fibres/cofibres and telescopes. The new statements in Layer 1 concern categorical realizations, acyclic plus maps and K-theoretic adapters to those spectra. Mathlib supplies simplicial sets, nerves, their realization and ordinary homotopy groups. Serre quotient categories and their abelian universal properties are supplied by Mathlib; Layer 4 proves their K-theory localization sequence.
 
 DGAInfinity Layers 5–7 own perfect differential graded models, pretriangulated hulls, derived Morita theory and differential graded quotients. Layer 13 uses these carriers only to compare K-theory under an actual map of enhanced models. Triangulated structures, Verdier localization and idempotent completion are supplied category theory. The K-theoretic dense-class and completion criteria here add their Euler-class and boundary conclusions.
 
@@ -62,7 +62,7 @@ From `TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`, use `CategoryTheory.
 
 [GrothendieckEulerForms Layer 2](../GrothendieckEulerForms/README.md#layer-2-split-exact-abelian-and-triangulated-grothendieck-groups) supplies degree-zero exact Euler relations and [Layer 3](../GrothendieckEulerForms/README.md#layer-3-finite-resolutions-and-the-resolution-theorem) the resolving-subcategory Euler comparison. [DGAInfinity Layer 5](../DGAInfinity/README.md#layer-5-derived-modules-twisted-complexes-and-perfect-envelopes) supplies perfect/pretriangulated differential graded models, [Layer 6](../DGAInfinity/README.md#layer-6-quasi-equivalence-derived-morita-theory-and-compact-generators) their derived Morita comparison and [Layer 7](../DGAInfinity/README.md#layer-7-dg-and-a-quotients-verdier-comparison-and-k₀-localization) the differential graded quotient. The higher and nonconnective K-comparison requires an enhanced functor satisfying approximation or the Frobenius-pair derived-equivalence theorem; it does not follow from these suppliers’ bare triangulated equivalences.
 
-[GeneralizedCohomology G2](../GeneralizedCohomology/README.md#g2-a-concrete-spectral-model-and-represented-theories), items 3–7, supplies stable model structures, the derived symmetric monoidal category, sequential/symmetric comparison and true integer-graded homotopy; item 7 supplies `Hℤ`. Its G3.4 and G3.7 supply telescopes and homotopy-group continuity. Layer 1 constructs the adapters for the sequential K-theory diagrams in this supplied category. Its G2.4 derived smash and sphere symmetry supply the stable interchange used by K-products.
+[GeneralizedCohomology G2](../GeneralizedCohomology/README.md#g2-a-concrete-spectral-model-and-represented-theories), items 3–7, supplies stable model structures, the derived symmetric monoidal category, sequential/symmetric comparison and true integer-graded homotopy; item 7 supplies `Hℤ`. Its G3.4 and G3.7 supply telescopes and homotopy-group continuity. Layer 1 constructs the adapters for the sequential K-theory diagrams in this supplied category. Its G2.4 derived smash and sphere symmetry supply the stable interchange used by K-products. Its G2.10 supplies `MappingPathFiber`, its raw product/subspace topology, projection, basepoint, homotopy-square transport and homotopy-choice comparisons, and the homotopy exact sequence through its DGFloer1.2 comparison. Section 1.2 supplies only the incoming-path coordinate adapter, path-reversal comparisons and the group compatibility of K-theory maps.
 
 ## How to read the build
 
@@ -88,34 +88,35 @@ Use:
 
 **Checks.**
 
-- A one-object category with only its identity realizes to a point.
-- The discrete category on two objects has two components and is not contractible.
-- The empty category realizes to the empty space, which is not contractible; the nonempty hypothesis cannot be discarded from the finite-poset criterion by interpreting nullhomotopy as a statement only about positive homotopy groups.
-- For `[1]`, either endpoint inclusion is a homotopy equivalence; a category with a zero object is therefore contractible even if it has many morphisms.
-- Realizing an identity functor gives the identity continuous map, and realizing a composite gives the composite continuous map; Suggested.lean checks these map laws and both endpoint inclusions.
+- `classifyingSpace_point`: the discrete category on one object realizes to a contractible space.
+- `classifyingSpace_discreteTwo_not_contractible`: the discrete category on two objects has two components and is not contractible.
+- `classifyingSpace_empty_not_contractible`: the empty category realizes to the empty space, which is not contractible; the nonempty hypothesis cannot be discarded from the finite-poset criterion by interpreting nullhomotopy as a statement only about positive homotopy groups.
+- `classifyingSpace_initialEndpoint` and `classifyingSpace_terminalEndpoint`: for `[1]`, either endpoint inclusion is a homotopy equivalence; a category with a zero object is therefore contractible even if it has many morphisms.
+- Realizing an identity functor gives the identity continuous map, and realizing a composite gives the composite continuous map; Suggested.lean states these map laws and both endpoint inclusions as named theorem targets.
 
 *Needs:* Mathlib nerve, realization, paths and homotopy groups; the space-level suppliers in Scope and ownership.
 
 ### 1.2 Based homotopy fibres
 
-For based `f:X→Y`, define its fibre by `(x,γ)`, `γ:y₀⇝f(x)`, with topology induced from `X×C([0,1],Y)` and point (`x₀,const y₀`). Construct projection, strict-square maps and transport for homotopy squares with specified homotopy. Prove homotopy exact sequence, retaining pointed sets at degree zero; grouplike H-space maps supply group laws there. A fibre sequence includes its composite nullhomotopy.
+For based `f:X→Y`, use GeneralizedCohomology G2.10's `MappingPathFiber f y₀`, including its raw product/subspace topology, basepoint, projection, homotopy-square transport and homotopy exact sequence comparison. `HomotopyFibre` is a consumer alias for that supplied carrier. Express its points in incoming-path coordinates `(x,γ)`, `γ:y₀⇝f(x)`, by reversing the supplied outgoing paths. Prove this coordinate homeomorphism, its naturality and its basepoint/projection compatibility. Transport the specified square homotopies and localization nullhomotopies through it. Compare the supplied connecting maps under reversal, retaining loop inversion (negation in additive homotopy degrees), and keep the pointed-set ending. Only the group structures and their compatibility arising from K-theory maps are added here.
 
 (Weibel IV, Homotopy Fiber 1.2, pp.IV.3–4.)
 
 Use:
 
-- `HomotopyFibre`: path-pair subspace and its distinguished point.
-- `HomotopyFibre.map`: commuting based square induces the path-pair map.
-- `HomotopyFibre.boundary`: connecting map with the path direction specified above.
-- `HomotopyFibre.exact`: exact sequence, group-valued only in the stated degrees.
+- `HomotopyFibre`: consumer alias for the supplied based mapping-path fibre.
+- `HomotopyFibre.pathReversal`: incoming/outgoing coordinate homeomorphism, with naturality and basepoint/projection comparisons.
+- `HomotopyFibre.map`: transport of the supplied homotopy-square map, retaining its specified homotopy.
+- `HomotopyFibre.boundary`: transport and reversal comparison of the supplied connecting map.
+- `HomotopyFibre.exact`: transported exact sequence and K-theory group compatibility, retaining pointed sets where required.
 
 **Checks.**
 
-- The fibre of `id_X` is contractible, even when X is disconnected.
-- The fibre of `point→Y` is `ΩY` at `y₀`.
-- For `X→point` the fibre is homotopy equivalent to X; for the inclusion of one point into a discrete two-point space it is a point, not all of the target.
+- For `id_X`, the incoming/outgoing homeomorphism carries the constant-path basepoint to itself and transports the supplied contraction, even when X is disconnected.
+- For `point→Y`, both coordinate fibres identify with `ΩY` at `y₀`; the coordinate comparison is loop reversal, so its action on `π₁Y` is inversion and on higher additive homotopy groups is negation.
+- For `X→point`, reversal is the identity on the constant-path coordinate and the projection identifies the fibre with X. For the inclusion of one point into a discrete two-point space the adapter retains a point as the fibre, rather than all of the target.
 
-*Needs:* Mathlib nerve, realization, paths and homotopy groups; the space-level suppliers in Scope and ownership.
+*Needs:* GeneralizedCohomology G2.10 (`MappingPathFiber` and its DGFloer1.2 homotopy exact sequence comparison); Mathlib paths, path reversal and homotopy groups.
 
 ### 1.3 Bisimplicial realization and subdivision
 
@@ -211,6 +212,9 @@ Use:
 
 **Checks.**
 
+- For finite-dimensional k-spaces, `kTheorySequentialComparison` carries the iterated-S class of k to +1 in `π₀`, fixing both the rank normalization and its sign (§§2.4, 5.11).
+- Under `kTheorySequentialComparison` and the matrix Morita normalization, scalar extension `k→M₂(k)` sends 1 to 2 (§3.1).
+- The DVR localization diagram transported by `kTheorySequentialComparison` sends the uniformizer's `K₁` class to `+[k]` under its boundary, with the chosen composite nullhomotopy (§8.12).
 - The zero prespectrum has zero groups in every integer degree.
 - For the Eilenberg–Mac Lane spectrum `Hℤ` only `π₀` is `ℤ`; for its desuspension `Σ⁻¹Hℤ`, `π₋₁` is `ℤ`, so a negative degree cannot be replaced by degree zero.
 - For a map `E→0` the fibre is E and the cofibre is `ΣE`, fixing the shift direction.
@@ -231,6 +235,9 @@ Use:
 
 **Checks.**
 
+- Through `kTheoryPairingComparison`, the tensor product of k-spaces of ranks 2 and 3 has rank 6 in `K₀(k)` (§§7.4, 7.6).
+- Through `kTheoryPairingComparison`, the degree-zero unit `[R]` for a commutative ring R acts as the identity on its K-groups (§7.4).
+- The transported external product `{[t],[R]}` has Laurent boundary `+[R]`; replacing t by `t⁻¹` gives `−[R]` (§9.17).
 - Exchanging two one-spheres acts by `−1` on their two-sphere smash.
 - Exchanging a one-sphere and a two-sphere acts by +1.
 - `sphereInterchangeSign (−1) 1=−1`, so the formula uses integer degrees and not truncated natural subtraction.
@@ -2456,26 +2463,33 @@ The square is Milnor with `S→S/J` onto. No Tor-unitality is needed; classical 
 
 *Needs:* §10.11; §10.10; §10.5; §10.4; §10.2; §10.9; §8.10; §8.1; §8.3; §8.6; Layer 1; §8.9; §8.7.
 
-### 10.12a Polynomial invariance in degree zero
+### 10.12a Polynomial and Laurent invariance in degree zero
 
 Prove `noetherianRing_G0_polynomial`: for a left noetherian associative ring R and a central variable t, extension of scalars induces `G₀(R)≃G₀(R[t])`. Construct its inverse by `[M]↦[M/tM]−[ker(t:M→M)]`, proving additivity by the kernel–cokernel exact sequence. Evaluation on modules alone is not exact. Prove noetherianness of central polynomial rings and the noncommutative surjectivity argument, using finite filtrations and polynomial-module presentations.
 
 Prove `regularRing_K0_polynomial`: for left noetherian R of finite left global dimension, `R→R[t]` induces `K₀(R)≃K₀(R[t])`, inverse to evaluation at zero. Supply finite-projective resolution comparisons with G₀ for both rings and their scalar-extension compatibility. Prove that an iterated central polynomial ring remains left noetherian with finite left global dimension (at most the old dimension plus the number of variables), so the comparison iterates with evaluation and either chart variable.
 
-(Weibel II, T 6.5 and proof, pp.122–123, with E 6.13 for the noncommutative case; T 7.8, p.137, and the resolution comparison §7.7.)
+Prove `noetherianRing_G0_laurent`: for a left noetherian associative ring R, central localization induces `G₀(R[t])≃G₀(R[t,t⁻¹])`. Identify the Serre kernel with the finitely generated modules killed by a power of t. Filter them by powers of t; each successive R-module M has characteristic resolution `0→M[t] --t→ M[t]→M→0`, so its image in `G₀(R[t])` is zero. Serre localization then gives the isomorphism.
+
+Prove central localization preserves left noetherianness and does not increase finite left global dimension. Together with the polynomial bound, this covers every mixed iterated central polynomial/Laurent extension of R. For left noetherian R of finite left global dimension, construct `regularRing_K0_laurent`: `K₀(R)≃K₀(R[t,t⁻¹])` induced by scalar extension, using the resolution comparisons for R, R[t] and R[t,t⁻¹]. Prove compatibility with `regularRing_K0_polynomial` and the localization map.
+
+(Weibel II, T 6.5 and proof, pp.122–123, with E 6.13 for the noncommutative case; T 7.8, p.137, and the resolution comparison §7.7; III, D 4.1 and the following vanishing argument, p.210.)
 
 **Checks.**
 
 - For a field k, the polynomial comparison identifies both `K₀` groups with `ℤ` and sends `[k]` to `[k[t]]`.
 - For `R=ℤ`, the module `R[t]/(t)` has G₀ class zero over R[t]. The inverse formula is `[R]−[R]=0`; ordinary evaluation alone would give the incorrect class `[R]`.
 - For `R=k×k`, both primitive projective classes are retained separately by extension and evaluation, including after two polynomial variables.
+- The Laurent comparison sends `[k]` to `[k[t,t⁻¹]]` and identifies both `K₀` groups with `ℤ`; the positive-chart map is onto, so `LK₀(k)=0`.
+- For a finitely generated R-module M killed by t, its characteristic resolution gives zero in `G₀(R[t])`; a finite t-power filtration gives the same result for every module in the Serre kernel.
+- For `R=k×k`, `regularRing_K0_laurent` retains both primitive projective classes after adjoining `t`, `t⁻¹` and another polynomial variable; the next Bass contraction also vanishes.
 - The zero ring has zero groups throughout. The dual numbers over k do not have finite global dimension, so the regular-ring theorem does not apply to them.
 
-*Needs:* §4.6; GrothendieckEulerForms Layers 2–3 and `moduleResolutionEquiv`; Mathlib polynomial rings and module homological algebra.
+*Needs:* §4.6; §4.14; GrothendieckEulerForms Layers 2–3 and `moduleResolutionEquiv`; Mathlib polynomial rings, central localization and module homological algebra.
 
 ### 10.13 Vanishing of the negative K-groups for a regular noetherian ring
 
-For a left noetherian ring of finite left global dimension, prove `K_{−n}(R)=0` for every n>0. Apply `regularRing_K0_polynomial` to R and its iterated central polynomial rings: polynomial invariance and the Laurent degree-zero decomposition kill the first Bass contraction, and the same argument iterates. The analogous right-module formulation is transported through opposite-ring duality. This supplies a sufficient regular noetherian scope without defining regularity by a claim about arbitrary infinite modules. The absence of negative homotopy in the connective spectrum is not evidence for this vanishing theorem.
+For a left noetherian ring of finite left global dimension, prove `K_{−n}(R)=0` for every n>0. Use `regularRing_K0_laurent` and `regularRing_K0_polynomial` to make the positive-chart map `K₀(R[t])→K₀(R[t,t⁻¹])` onto, so `LK₀(R)=0`. Apply the same comparisons to all mixed iterated central polynomial/Laurent extensions; their noetherianness and finite left global dimension allow the contraction argument to iterate. The analogous right-module formulation is transported through opposite-ring duality. This supplies a sufficient regular noetherian scope without defining regularity by a claim about arbitrary infinite modules. The absence of negative homotopy in the connective spectrum is not evidence for this vanishing theorem.
 
 The named targets are `negativeK_regular_vanishing` with the hypotheses and conclusions above.
 
@@ -2483,7 +2497,7 @@ Use the stated finite-global-dimension noetherian scope and Bass negative groups
 
 (Weibel, III.4.1, after D 4.1, p.210;V.8, opening, p.430;I.3.7.1, p.23.)
 
-*Needs:* §10.5; §10.10; §10.9; §10.12a (`regularRing_K0_polynomial`).
+*Needs:* §10.5; §10.10; §10.9; §4.14; §10.12a (`noetherianRing_G0_laurent`, `regularRing_K0_polynomial`, `regularRing_K0_laurent` and mixed-extension regularity).
 
 ### Examples
 
@@ -3223,7 +3237,7 @@ Layers 3, 7–8 and 10–12; the DGAInfinity perfect-model and enhanced Morita s
 
 ## Downstream consumers
 
-GeometryOfNumbersAndQuadraticArithmetic uses the ordinary Q/S, ring plus/Q and Bass/Schlichting interfaces and `finiteFieldKGroups` through the ownership contracts above, retaining its hermitian adapters and applications. Scheme and arithmetic K-theory use resolution, localization, transfers and the Fundamental Theorem. Consumers of perfect complexes use enhanced derived invariance with a model map. Stable homotopy and homological invariants can consume the spectrum pairing and exactness interface without identifying a bare triangulated category with its K-theory.
+The consumer contract for GeometryOfNumbersAndQuadraticArithmetic supplies the ordinary Q/S, ring plus/Q and Bass/Schlichting interfaces and `finiteFieldKGroups`; its local ordinary aliases retain these contracts, while its hermitian adapters and applications have separate scope. Scheme and arithmetic K-theory use resolution, localization, transfers and the Fundamental Theorem. Consumers of perfect complexes use enhanced derived invariance with a model map. Stable homotopy and homological invariants can consume the spectrum pairing and exactness interface without identifying a bare triangulated category with its K-theory.
 
 ## References
 
