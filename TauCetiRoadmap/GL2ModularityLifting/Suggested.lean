@@ -29,6 +29,8 @@ Design choices.
   `{0, k − 1}` with `k = b − a + 1` (`normalizedWeight`).
 * The avoidance variant (§3.4a) patches modules over the fixed ambient rings A and A′
   without a domain hypothesis; component geometry is used there, before any action quotient.
+  The dyadic variant (§6.7a) retains the ambient finite-level Hecke modules, diamond freeness,
+  augmentations and twists, and obtains support on a union of ambient components.
 * `RankTwoFamily` is the Hodge-forgetting rank-two view of the supplied
   `AutomorphicSystemData`, with a common-good-Frobenius predicate and separate de Rham and
   Weil–Deligne conditions.
@@ -132,7 +134,7 @@ example (n : ℤ) : normalizedWeight (3 + n) (7 + n) = 5 := by
   rw [normalizedWeight_shift]
   norm_num [normalizedWeight]
 example : normalizedWeight 0 1 = 2 := by norm_num [normalizedWeight]
-/-- The crystalline twist with weights `{6,7}` in §8.6 normalizes to weight two;
+/-- The crystalline twist with weights `{6,7}` in §§8.6 and 10.5 normalizes to weight two;
 its unnormalized weights do not give an exact classical newform attachment. -/
 example : normalizedWeight 6 7 = 2 := by norm_num [normalizedWeight]
 /-- Equal weights (a weight-one form) give `k = 1`, outside the lifting theorems. -/
@@ -332,8 +334,15 @@ their intended signatures.
   augmentations, without using the domain-case ring-module criterion.
 * Layers 5–6: `StronglyResiduallyModular`, `bcdtHeckeModule`, `DyadicPatchingDatum`,
   `dyadicPatchedRing`, `dyadicPatchedModule`, `dyadicTorusAction`; the Khare–Wintenberger,
-  Kisin, Fontaine–Laffaille, BCDT and crystalline lifting theorems, KW I Theorem 4.1 and
-  Hypothesis (H). Section 5.9 uses the restricted overlap of
+  Kisin, Fontaine–Laffaille and BCDT lifting theorems, KW I Theorem 4.1 and
+  Hypothesis (H). Section 5.16 imports ClassicalSerreModularity §I.2,
+  `I.2/same-weight-crystalline-lifting`, including its crystalline-domain comparison;
+  §5.17 supplies the matching-weight endpoint seed. Sections 5.2 and 5.12 use the spherical
+  comparison level U′_S GL₂(ℤ_ℓ) and induction to return to U₀(ℓ), before the extended-type
+  projection. The case division in §5.18 uses the finite-order twist before asserting type (C).
+  Section 6.7a constructs ambient dyadic module patching and union-of-components support;
+  §6.8 uses that support and the local same-component criteria. Sections 6.11–6.14 retain
+  their domain-base hypotheses. Section 5.9 uses the restricted overlap of
   OrdinaryAutomorphicFormsAndModularityLifting §5.6; any use of its full-scope §5.8
   carries its `CMComponentSupport` hypothesis.
 * Layers 7–9: `OddPrimeLifting`, `DyadicLifting`, `ResiduallyReducibleLifting`,
@@ -344,7 +353,10 @@ their intended signatures.
   normalized weights `{0,k−1}` over ℚ give exact weight-k modularity through §§7.9 and 7.11.
 * Layers 10–12: `PanNicePrime`, `PanPotentiallyNicePrime` (with `panGoodComponent` and
   `panExtensionComponents` above), Pan's residually reducible theorem, the ordinary `3`-adic
-  completion and the transfer statements along congruences. Sections 12.2–12.3 use normalized
+  completion and the transfer statements along congruences. Section 10.5 retains residual
+  modularity, local absolute irreducibility and the p = 3 exclusions, and concludes modularity
+  up to a geometric global character twist. Its normalized-weight corollary uses §§7.11 and 7.9.
+  Sections 12.2–12.3 use normalized
   weights `{0,k−1}` with `k≥2` for exact modularity. The Pan branch carries the
   twist-two rational dual vanishing hypothesis LC and CC1–CC5. The odd irreducible branch
   carries LL1–LL3 and CC4–CC5, the dyadic branch CC1 and CC4–CC5, and the ordinary branch
