@@ -63,9 +63,10 @@ Suggested home: `TauCeti/Algebra/Lie/HighestWeight/` (the representation theory)
 `Algebra/Lie/`.
 
 This roadmap **shares vocabulary with, and depends on,** the root-systems roadmap
-([../RootSystems/README.md](../RootSystems/README.md)), which is the home of abstract root systems,
-bases and positive systems, Weyl groups, and the root/weight lattices; we consume its objects and
-Mathlib's `RootPairing`/`RootSystem` API rather than reintroducing them. It **feeds** the classical
+([../RootSystems/README.md](../RootSystems/README.md)), which owns abstract root systems, bases and
+positive systems, Weyl groups, chambers, and finite-type classification. This roadmap constructs the
+integral weight lattice and its representation-theoretic API on those actual carriers; it does not
+reintroduce the root-system or Weyl-group engine. It **feeds** the classical
 groups roadmap ([../ClassicalGroups/README.md](../ClassicalGroups/README.md)), whose representations
 of `SLₙ`, `SOₙ`, `Sp₂ₙ` are governed by exactly the highest-weight classification built here, and it
 shares its `FDRep`-flavoured vocabulary with the finite-group
@@ -121,8 +122,8 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   **integral weight lattice** `X` is therefore a `ℤ`-submodule of `Module.Dual K H`, **not** a
   `K`-subspace; a named milestone constructs it as such, proves the roots lie in it, exhibits `ρ` (the
   half-sum of positive roots) as an element of it, and shows the coroot pairings land in `ℤ`. The
-  `ℤ`-module structure of `X` and the Weyl action on it are shared with `../RootSystems/README.md`; we
-  reuse the abstract lattice and do not rebuild it.
+  `ℤ`-module structure of `X` and its Weyl action are built here from the actual root-system
+  carrier and coroot pairing; RootSystems supplies the finite root geometry, not a second lattice owner.
 - **Modules are `LieModule`s; the categorical `FDRep` is a mirror.** Develop the theory on the
   Mathlib-native module core: `M` with `[LieRingModule L M] [LieModule K L M]`, irreducibility as
   `LieModule.IsIrreducible K L M` (`= IsSimpleOrder (LieSubmodule K L M)`), and the enveloping algebra
@@ -169,10 +170,11 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
 
 Three sources must be kept apart. **Mathlib now** supplies the objects listed here: `RootPairing`,
 bases, Weyl groups, Cartan matrices, the crystallographic/reduced instances, `genWeightSpace`, the
-enveloping algebra, the Killing form, and the Serre construction. The **root/weight lattices,
-fundamental weights, `ρ`, the dominance API, and the Weyl action on the weight lattice** are **not** in
-Mathlib as such; they are the province of `../RootSystems/README.md`, and we consume them from there.
-Everything else, the representation-theoretic use of all of the above, is **built here**. The bullets
+enveloping algebra, the Killing form, and the Serre construction. The **integral weight lattice, fundamental weights, `ρ`, dominance API, and Weyl action on integral
+weights** are not supplied by Mathlib as such; they are constructed in this roadmap from the actual
+root-system and coroot-pairing carriers. RootSystems supplies the abstract roots, bases, and Weyl
+group, and this roadmap consumes those objects rather than duplicating them. Everything else, the
+representation-theoretic use of all of the above, is built here. The bullets
 below are the Mathlib-now column.
 
 - **`sl₂` triples and the primitive-vector argument:** `Mathlib/Algebra/Lie/Sl2.lean`,
@@ -206,8 +208,8 @@ below are the Mathlib-now column.
 - **Abstract root systems, bases, Weyl groups:** `Mathlib/LinearAlgebra/RootSystem/*`,
   `RootPairing`, `RootSystem`, `RootPairing.Base` with `RootPairing.nonempty_base` and `Base.IsPos`,
   `Base.height`, `RootPairing.Base.cartanMatrix`, and `RootPairing.weylGroup`,
-  `RootPairing.Equiv.reflection`. These, and the root/weight lattices, are the province of
-  [../RootSystems/README.md](../RootSystems/README.md).
+  `RootPairing.Equiv.reflection`. The integral weight lattice and its dominance/Weyl-action API are
+  constructed in this roadmap from these finite root-system objects.
 - **The universal enveloping algebra:** `Mathlib/Algebra/Lie/UniversalEnveloping.lean`,
   `UniversalEnvelopingAlgebra K L`, `UniversalEnvelopingAlgebra.ι` (the Lie map `L →ₗ⁅K⁆ U(L)`),
   `UniversalEnvelopingAlgebra.lift` (the universal property, an equiv `(L →ₗ⁅K⁆ A) ≃ (U(L) →ₐ[K] A)`),
@@ -358,10 +360,9 @@ Mostly an assembly of Mathlib, made into the working vocabulary for the module t
 - **The root system and a choice of positive system.** Consume `LieAlgebra.IsKilling.rootSystem H` and
   fix a base `base : (rootSystem H).Base` (existence: `RootPairing.nonempty_base`); its simple roots
   `base.support`, positive roots (`Base.IsPos`), Weyl group `(rootSystem H).weylGroup`, and Cartan
-  matrix `Base.cartanMatrix` are the combinatorial input. The **root/weight lattices** and the **Weyl
-  group's action** are the province of [../RootSystems/README.md](../RootSystems/README.md); this layer
-  only fixes the notation `ρ` for the half-sum of positive roots and states dominance and integrality of
-  weights in `Module.Dual K H` against coroots.
+  matrix `Base.cartanMatrix` are the combinatorial input. This roadmap constructs the integral weight lattice and Weyl action from the finite root geometry;
+  this layer fixes the notation `ρ` for the half-sum of positive roots and states dominance and
+  integrality of weights in `Module.Dual K H` against coroots.
 - **The `sl₂` attached to a root.** For a root `α`, `exists_isSl2Triple_of_weight_isNonZero` gives the
   triple `⟨eₐ, hₐ, fₐ⟩` with `hₐ` a coroot; record `hₐ = α^∨` under `IsKilling.coroot` and that
   `sl2SubmoduleOfRoot` is a copy of `sl₂`. This is the object Layer 2 restricts modules to.
@@ -394,7 +395,7 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   `HasPrimitiveVectorWith.exists_nat`). This is the load-bearing use of the engine and the reason `sl₂`
   is a node: there is no route to integrality that does not pass through the rank-one subalgebra.
 - **Weyl-invariance of multiplicities, directly from `sl₂`.** Weights of finite-dimensional modules are
-  integral, so they lie in the weight lattice `X` of `../RootSystems/README.md`, and `μ ↦ dim Mμ` is
+  integral, so they lie in this roadmap's weight lattice `X`, and `μ ↦ dim Mμ` is
   invariant under the Weyl group. Prove this **directly**, by restricting `M` to the `sl₂` of each root
   `α` and using **Layer 0's complete reducibility for `sl₂`** to pair up the `μ`- and `s_α(μ)`-weight
   spaces along each string. This must **not** be routed through Weyl's complete reducibility (Layer 5),
@@ -1338,6 +1339,140 @@ system). It is independent of Layer 8.
   (`2^{N²} / 2^{N(N-1)/2}`). Fock spaces themselves are never named in this roadmap's general
   statements; the layer must make that external computation expressible with no new general lemmas.
 
+### Layer 10: affine Weyl geometry and the compact coweight quotient
+
+This layer consumes the finite root geometry and classification of
+[RootSystems](../RootSystems/README.md), and the integral weight lattice and Weyl action constructed
+in this roadmap's Layer 1–2 lattice work. It builds the coweight and coroot lattice comparison from
+those actual carriers. It does not consume a compact Lie group, a compact torus, or a period
+theorem; the compact-group application is a later consumer in [LieGroups](../LieGroups/README.md).
+
+Before this layer, expose the representation-theoretic integral weights as an actual `ℤ`-submodule
+`P` of `Module.Dual K H`, with its Weyl action; do not use the ambient `K`-dual as though every
+element were integral. Construct the based root-datum comparison from this `P` to the actual
+character lattice, preserving roots, coroot pairings, and the Weyl action. For the simply connected
+finite-type datum this identifies `P` with its character lattice `X_sc`. For another semisimple
+isogeny form retain its actual intermediate lattice `Q ⊆ X ⊆ P`; do not assert `X ≃ P` (for example,
+adjoint type A₁ has `X=2ℤω`). These are construction targets of Layers 1–2 and the boundary adapter
+consumed here, not equivalences inferred from the type classification alone.
+
+For the affine construction retain an actual integral root datum `D : RootDatum ι X Y` with
+`Module.Finite ℤ X`, `Module.Free ℤ X`, and the corresponding properties on `Y`. Form its rational
+scalar extension on `ℚ ⊗[ℤ] X` and `ℚ ⊗[ℤ] Y`, carrying each actual indexed root and coroot
+by `x ↦ 1⊗x`. Native `TensorProduct.leftModule` supplies the extension-scalar actions.
+The tensor flip compares this with the right-factor models `X ⊗[ℤ] ℚ` and `Y ⊗[ℤ] ℚ`;
+transport the scalar actions along that flip when using those models. Prove the induced rational pairing is perfect, crystallographic, reduced, irreducible, and
+spans both rational spaces. Root-system irreducibility and spanning are hypotheses on this rational
+pairing: the integral `IsRootSystem`/`IsIrreducible` mixins are too strong for a non-unimodular root
+datum and do not express the intended semisimple condition. Keep the integral root datum, its maps,
+and its actual lattice data as the source of the construction. The prototype stores the actual
+`Module.Finite`/`Module.Free` witnesses for both lattices and the `Fintype`/`DecidableEq`
+witnesses for root indices inside `RationalizedAffineDatum`, rather than relying on unused section-instance capture.
+Install these native witnesses locally when a proof needs them. Every admitted affine data operation
+is a whole function of this record and its chosen rational base, including the fundamental alcove.
+Use the actual finite root index set of the datum (for the native `DynkinType` datum, `Fin t.numRoots`, not `Fin t.rank`).
+
+For a finite irreducible reduced crystallographic rationalized root system with chosen base `Δ`,
+take the root lattice `Q = ℤΦ` inside the actual integral character lattice `X` and define the
+coweight lattice as `P∨ = Hom_ℤ(Q, ℤ)`. Use the original integral root–coroot pairing to embed the
+actual coroot lattice `Q∨ = ℤΦ∨` in `P∨`; prove this embedding is injective and that `P∨/Q∨` is
+finite from rational spanning and the finite-free lattice comparison. The real affine space is
+`V = Hom_ℤ(Q, ℝ)`, with the explicit comparison from `ℝ ⊗[ℤ] Hom_ℤ(Q,ℤ)`
+given by `a⊗f ↦ (q ↦ a*(f(q):ℝ))`. Construct its inverse from a finite integral basis
+of the actual root lattice and compare the right-factor model by the tensor flip. The long-root convention is
+the one determined by the rationalized root datum's Cartan integers and its finite-type
+symmetrizer, transported from `DynkinType.IsLongSimpleRoot` along Weyl orbits; build the unique
+highest long positive root `θ` from the chosen positive system, including its coefficients in `Δ`.
+
+Set the open fundamental alcove to
+
+`A = {x ∈ V | αᵢ(x) > 0 for every αᵢ ∈ Δ, and θ(x) < 1}`.
+
+Its affine walls have functions `αᵢ` and `α₀ = 1 − θ`. Build the affine reflections and prove that
+the affine Weyl group `W_aff = Q∨ ⋊ W` acts simply transitively on alcoves. Build the extended
+affine Weyl group `W_ext = P∨ ⋊ W`, with its actual action on `V`, and define `Ω = Stab_{W_ext}(A)`.
+Prove the quotient map gives an isomorphism `Ω ≃ P∨/Q∨`, construct a representative in `Ω` for each
+coweight class, and prove the induced action on the affine simple walls preserves their Cartan
+integers. This is the length-zero subgroup and its action, not an assertion that every element of
+`W_ext` stabilizes `A`.
+
+Let `Γ_root` be the automorphism group of the finite based root system: it preserves `Δ`, the root
+lengths, and every oriented Cartan integer, without imposing a choice of isogeny lattice. Extend each
+element to the affine node by fixing `0`. Prove the conjugation action of `Γ_root` on `Ω`, and
+construct the concrete isomorphism
+
+`Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`.
+
+Here an affine Cartan automorphism is a permutation of the finite simple nodes together with node
+`0` that preserves the full untwisted affine Cartan matrix, including multiple-edge orientation. A
+special node is one with coefficient `1` in the affine null-root relation; node `0` is special.
+Prove injectivity by the action on the alcove walls. For surjectivity, prove every affine-diagram
+automorphism sends special nodes to special nodes, use the simply transitive `Ω`-action on special
+nodes to move it back to `0`, then identify the stabilizer of `0` with `Γ_root`. Keep this proof
+separate from the compact-group period calculation.
+
+For a reducible finite root system, do the construction on each irreducible component and include
+the permutations of isomorphic components in the resulting based/affine diagram automorphism group.
+Treat rank zero directly: its affine diagram has no nodes and its Weyl and translation groups are
+trivial. For a reductive compact group, the central torus belongs to the finite central covering product
+with the simply connected derived group; it is not generally a direct factor of the group itself.
+It contributes a vector summand to the Lie algebra, but the full integral period lattice may be
+glued across the central and derived directions. Carry that lattice through the actual finite central
+cover and its kernel; do not assert an integral direct-product decomposition. The central torus has
+no root, coroot, or affine-Dynkin nodes.
+
+The lattice quotients have different meanings and must remain distinct. For a semisimple group with
+cocharacter lattice `Y`, the extended affine stabilizer built from translations by `Y` is `Y/Q∨`,
+whereas its center is `P∨/Y`. Prove `Q∨ ⊆ Y` from the rank-one coroot-circle maps. For the
+simply connected compact group, prove the reverse inclusion rather than assuming it: integrate the
+finite-dimensional fundamental highest-weight modules supplied by this roadmap to `G_sc` using
+LieGroups Layer 4's Lie-homomorphism integration, restrict them to `T`,
+and compare the differentials of their torus characters with the Layer 6–7 compact-period
+normalization. Each fundamental weight therefore pairs integrally with every `y ∈ Y`; since the
+fundamental weights are a basis of `P`, their integral dual lattice is `Q∨`, giving `Y ⊆ Q∨`.
+Thus `Y = Q∨` in the simply connected case. For an intermediate isogeny form retain its actual
+character lattice `Q ⊆ X ⊆ P` and cocharacter lattice `Q∨ ⊆ Y ⊆ P∨`; these are dual data, not
+lattices to replace by the simply connected ones. Consequently the group-theoretic extended affine
+stabilizer is trivial for `G_sc`, while its center is `P∨/Q∨`. Never identify these two quotients. Check the constructions and actions in types `A₁`, `A_r`, `D₄`, and `E₆`:
+respectively `Ω ≅ C₂`; `Ω ≅ C_{r+1}` with the nontrivial finite diagram involution acting by
+inversion for `r ≥ 2`; `Ω ≅ C₂ × C₂` and the `S₃` triality action permuting its three nonzero
+elements; and `Ω ≅ C₃` with the diagram involution acting by inversion. These checks fix the affine
+node, orientation, and semidirect-product convention. For an actual isogeny form, define
+`Γ_Y ≤ Γ_root` to be the subgroup preserving its cocharacter lattice `Y`; its group-level center
+quotient is equivariant under `Γ_Y`. Do not claim that an arbitrary isogeny lattice is preserved by
+every root-system diagram automorphism.
+
+#### Late compact-center application in LieGroups
+
+After LieGroups Layer 7 has constructed the actual compact torus period quotient, consume this
+layer's lattice calculation for a compact connected semisimple simply connected group `G_sc` and
+maximal torus `T`. Let `Y` be the actual cocharacter lattice of `T`, with the compact-period
+normalization supplied by LieGroups Layer 6–7. Construct the comparison from the dimensionless
+root-datum coweight coordinate to the compact Lie algebra coordinate and prove its root characters
+satisfy
+
+`dχ_α(X) = i α_comp(X)`, `α_comp(α∨_comp) = 2`, and the coroot circle has period `2π`.
+
+In this comparison, a dimensionless coroot `α∨` maps to `2π α∨_comp`; it is the period lattice `Q∨`
+that is killed by the compact exponential. Do not identify the symbol `2πi` in an algebraic
+cocharacter differential with the real compact Lie algebra coordinate. Reconcile the two using Layer
+6's actual rank-one calibration (`dφ(diag(i,−i)) = α∨_comp`, `dχ_α = iα_comp`, and the algebraic
+cocharacter differential recorded there), and prove the square relating algebraic cocharacters,
+compact circle homomorphisms, and root characters commutes.
+
+For `t ∈ T`, centrality is equivalent to `α(t)=1` for every root. Lift through the actual universal
+cover of `T`: this condition says its coordinate is in `P∨`, and two lifts represent the same point
+exactly when they differ by `Y`. Thus prove, equivariantly for based root-datum automorphisms, `Z(G)
+≃ P∨/Y`. The rank-one coroot maps give `Q∨ ⊆ Y`. In the simply connected case, integrate the
+fundamental highest-weight modules to `G_sc` by Layer 4 and restrict to `T`. Their character
+differentials, compared with the Layer 6–7 period normalization, show that every `y ∈ Y` pairs
+integrally with every fundamental weight. Those weights form a basis of `P`, whose integral dual is
+`Q∨`; hence `Y ⊆ Q∨` and `Y=Q∨`. For an intermediate semisimple isogeny form retain its actual
+character lattice `Q ⊆ X ⊆ P` and cocharacter lattice `Q∨ ⊆ Y ⊆ P∨`, and give its center and
+affine-stabilizer quotients separately. Do not assert the center is finite for a reductive group
+with a positive-dimensional central torus; this finite quotient theorem is for the semisimple
+factor, with the central torus carried separately.
+
 ## Ordering
 
 Layer 0 (`sl₂`) is built first and in full, because Layers 2, 4, and 5 call it. Layer 1 (Cartan,
@@ -1386,6 +1521,8 @@ The polynomial group-side input uses its native torus/transvection and independe
 Schur-character route; the stable-subspace and intertwiner comparison is proved here.
 The full abstract ClassicalGroups classification is not an input to this comparison,
 so no dependency backedge is introduced.
+
+Layer 10 consumes the Layer 1–2 integral-lattice carrier and comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only after that output exists does LieGroups' late compact-center application consume it together with LieGroups Layers 6–7 compact roots and actual torus periods; there is no dependency from this layer back into RootSystems or LieGroups.
 
 ## References
 

@@ -621,7 +621,7 @@ theorem formalCharacter_tensor {M N : Type*} [AddCommGroup M] [Module K M] [LieR
 `weight_apply_coroot_isInt`); indexed by the roots `H.root`. Total on `Module.Dual K H` for
 signature convenience, but **meaningful only on the integral weight lattice** (junk elsewhere); its
 uses below are at `λ + ρ` and `ρ` with `λ` dominant integral, and any new consumer must carry the
-integrality hypothesis or take the lattice from `../RootSystems` as its domain. -/
+integrality hypothesis or take the actual integral-weight submodule constructed in Layers 1–2 of this roadmap as its domain. -/
 noncomputable abbrev coweightPairing (lam : Module.Dual K H) (i : H.root) : ℤ := TauCeti.coweightPairing lam i
 
 /-- **The Weyl denominator**, stated in the *integral* group algebra where it actually lives:
@@ -2051,6 +2051,135 @@ theorem glCasimir_smul_of_isGlHighestWeightVector {n : ℕ} {M : Type u} [AddCom
       = (∑ i : Fin n, mu i * (mu i + (n : K) - 1 - 2 * ((i : ℕ) : K))) • m := sorry
 
 end Reductive
+
+/-! ## Layer 10: affine alcoves and affine diagram automorphisms
+
+These targets consume RootSystems' finite root geometry and the integral-weight lattice built in
+Layers 1–2. The compact-period comparison is a later LieGroups consumer. -/
+
+namespace AffineCenter
+
+open scoped TensorProduct
+
+/-- The integral-weight carrier is the actual `ℤ`-submodule of the ambient Cartan dual cut out by
+integer evaluation on every coroot. It is not the whole `K`-dual. -/
+def integralWeightLattice {K H ι : Type*} [Field K] [CharZero K]
+    [AddCommGroup H] [Module K H] (coroot : ι → H) :
+    Submodule ℤ (Module.Dual K H) where
+  carrier := {weight | ∀ i, ∃ n : ℤ, weight (coroot i) = (n : K)}
+  zero_mem' := by intro i; exact ⟨0, by simp⟩
+  add_mem' := by
+    intro weight μ hweight hμ i
+    obtain ⟨m, hm⟩ := hweight i
+    obtain ⟨n, hn⟩ := hμ i
+    exact ⟨m + n, by simp [hm, hn]⟩
+  smul_mem' := by
+    intro z weight hweight i
+    obtain ⟨n, hn⟩ := hweight i
+    exact ⟨z * n, by simp [hn]⟩
+
+@[simp] theorem mem_integralWeightLattice_iff {K H ι : Type*} [Field K] [CharZero K]
+    [AddCommGroup H] [Module K H] (coroot : ι → H) (weight : Module.Dual K H) :
+    weight ∈ integralWeightLattice coroot ↔ ∀ i, ∃ n : ℤ, weight (coroot i) = (n : K) := Iff.rfl
+
+variable {ι X Y : Type*}
+  [AddCommGroup X] [AddCommGroup Y]
+  (D : RootDatum ι X Y)
+
+/-- The finite-free integral root datum together with its actual rational scalar extension.
+The root and coroot equations keep the native index set and both lattice maps visible. The
+root-system hypotheses live over ℚ: integral `IsRootSystem` would assert integral spanning and
+would collapse nontrivial root/coroot lattice quotients. -/
+structure RationalizedAffineDatum where
+  /-- Actual finite root-index and lattice witnesses, not implicitly captured section variables.
+  Install the needed projections locally with `letI := A.finiteCharacter`, etc. -/
+  rootIndexFintype : Fintype ι
+  rootIndexDecidableEq : DecidableEq ι
+  finiteCharacter : Module.Finite ℤ X
+  freeCharacter : Module.Free ℤ X
+  finiteCocharacter : Module.Finite ℤ Y
+  freeCocharacter : Module.Free ℤ Y
+  rationalPairing : RootPairing ι ℚ (ℚ ⊗[ℤ] X) (ℚ ⊗[ℤ] Y)
+  root_eq : ∀ i, rationalPairing.root i = (1 : ℚ) ⊗ₜ[ℤ] D.root i
+  coroot_eq : ∀ i, rationalPairing.coroot i = (1 : ℚ) ⊗ₜ[ℤ] D.coroot i
+  pairing_eq : ∀ i j,
+    rationalPairing.toLinearMap ((1 : ℚ) ⊗ₜ[ℤ] D.root i)
+      ((1 : ℚ) ⊗ₜ[ℤ] D.coroot j) = (D.toLinearMap (D.root i) (D.coroot j) : ℚ)
+  rootSpanQ : Submodule.span ℚ (Set.range rationalPairing.root) = ⊤
+  corootSpanQ : Submodule.span ℚ (Set.range rationalPairing.coroot) = ⊤
+  isRootSystemQ : rationalPairing.IsRootSystem
+  isCrystallographicQ : rationalPairing.IsCrystallographic
+  isReducedQ : rationalPairing.IsReduced
+  isIrreducibleQ : rationalPairing.IsIrreducible
+
+attribute [instance] RationalizedAffineDatum.isRootSystemQ
+attribute [instance] RationalizedAffineDatum.isCrystallographicQ
+attribute [instance] RationalizedAffineDatum.isReducedQ
+attribute [instance] RationalizedAffineDatum.isIrreducibleQ
+
+/-- The actual root lattice inside the character lattice of the supplied integral root datum. -/
+noncomputable def rootLattice : Submodule ℤ X :=
+  Submodule.span ℤ (Set.range D.root)
+
+/-- The coweight lattice is the integral dual of the actual root lattice. -/
+noncomputable abbrev coweightLattice := Module.Dual ℤ (rootLattice D)
+
+/-- Restrict the actual integral root-datum pairing to the actual root lattice. -/
+noncomputable def cocharacterToCoweight : Y →ₗ[ℤ] coweightLattice D where
+  toFun y := (D.toLinearMap.flip y).comp (rootLattice D).subtype
+  map_add' y z := by ext q; simp
+  map_smul' n y := by ext q; simp
+
+/-- A root coroot, restricted from the supplied integral root datum. -/
+noncomputable def corootFunctional (i : ι) : coweightLattice D :=
+  cocharacterToCoweight D (D.coroot i)
+
+/-- The coroot lattice is the span of the actual restricted coroot functionals. -/
+noncomputable def corootLattice : Submodule ℤ (coweightLattice D) :=
+  Submodule.span ℤ (Set.range (corootFunctional D))
+
+/-- Semisimple rational spanning makes restriction injective after rationalization; finite-freeness
+then reflects zero back to the original cocharacter lattice. No integral root-span equality is
+assumed. -/
+theorem cocharacterToCoweight_injective (A : RationalizedAffineDatum D) :
+    Function.Injective (cocharacterToCoweight D) := sorry
+
+/-- Finite rational coroot index transfers to the actual finite-free integral lattices. -/
+theorem corootLattice_finite_index (A : RationalizedAffineDatum D) :
+    Finite (coweightLattice D ⧸ corootLattice D) := sorry
+
+/-- The real affine space is compared with `Hom_ℤ(Q, ℝ)` by scalar extension from the actual
+integral dual `Hom_ℤ(Q, ℤ)`. -/
+noncomputable abbrev affineSpace := ℝ ⊗[ℤ] coweightLattice D
+
+/-- The selected highest long positive root, using the rationalized finite root system and the
+actual indexed roots. The native finite-type datum indexes all roots by `Fin t.numRoots`. -/
+noncomputable def highestLongRoot :
+    (A : RationalizedAffineDatum D) → (b : A.rationalPairing.Base) →
+      {i : ι // b.IsPos i} := sorry
+
+/-- The open fundamental alcove defined by positive simple-root evaluations and highest-long-root
+value below one. -/
+noncomputable def fundamentalAlcove :
+    (A : RationalizedAffineDatum D) → (b : A.rationalPairing.Base) →
+      Set (affineSpace D) := sorry
+
+/-- The untwisted affine Cartan matrix on one affine node and the finite simple nodes. -/
+noncomputable def affineCartanMatrix :
+    (A : RationalizedAffineDatum D) → (b : A.rationalPairing.Base) →
+      Matrix (Option b.support) (Option b.support) ℤ := sorry
+
+/-- The actual affine-diagram automorphisms preserve every oriented Cartan integer. -/
+noncomputable def affineDiagramAutomorphisms :
+    (A : RationalizedAffineDatum D) → (b : A.rationalPairing.Base) →
+      Subgroup (Equiv.Perm (Option b.support)) := sorry
+
+/-! The README's remaining named targets define `W_aff = Q∨ ⋊ W`, `W_ext = P∨ ⋊ W`, the actual
+alcove stabilizer `Ω`, and the based automorphism group `Γ`, then construct the actual action maps
+and prove `Ω ≃* P∨/Q∨` and `Ω ⋊ Γ ≃* affineDiagramAutomorphisms`. These carriers use the integral
+root datum, its actual lattices and the rationalized finite root pairing above; they consume the
+supplied finite Weyl group rather than adding a second root-system API. -/
+end AffineCenter
 
 end TauCetiRoadmap.RepresentationTheory.LieHighestWeight
 
