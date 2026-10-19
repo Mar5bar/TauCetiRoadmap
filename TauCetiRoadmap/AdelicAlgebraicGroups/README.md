@@ -768,7 +768,8 @@ handles the non-unit local volumes needed for Tamagawa measure.
   `T ⊃ S`, its box mass is `(∏_{i∈T} μ_i(C_i)) · ∏_{i∉T} a_i` (derived from the definition of the restricted-product measure in AA.0.2, using [Platonov–Rapinchuk–Rapinchuk], Lemma 3.63 and the measure construction following it, pp. 188–189;
   Mathlib summable series and logarithms supply the convergence). *Needs:* AA.0.2; AA.0.3; Mathlib
   summable series and logarithms.
-  *Lean:* none; specified in the README only.
+  *Lean:* `RestrictedHaar.exists_unique_convergentHaarProduct` (existence, uniqueness and the
+  box formula for the convergent Haar product).
 
   **Checks.**
   - When every tail mass `a_i = 1`, the measure equals the restricted product `∏ʳ μ_i`.
@@ -1053,7 +1054,10 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   `WithConv (H →ₐ[F] R₁ × R₂) ≃* WithConv (H →ₐ[F] R₁) × WithConv (H →ₐ[F] R₂)`, naturally and as
   topological groups for the affine-points topology ([Conrad], Proposition 2.1, proof, p. 2).
   *Needs:* AA.1.1; Mathlib `AlgHom.prod`.
-  *Lean:* none; specified in the README only.
+  *Lean:* `AdelicPoints.exists_infiniteFiniteEquiv` (the archimedean/finite product).
+
+  **Checks.** The projections of a pair recover its two point coordinates; the rational diagonal
+  maps to the pair of rational diagonals; a finite embedded point has archimedean coordinate `1`.
 - **Finite adeles as a directed union of `S`-adeles.** For finite sets `S` of finite places, prove
   that the `S`-adeles `𝔸_{F,S} = ∏_{v∈S} F_v × ∏_{v∉S} 𝒪_v` are open subrings of `𝔸_{F,f}`
   forming a directed union, and that every `F`-algebra map `H → 𝔸_{F,f}` from a finitely
@@ -1082,7 +1086,8 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   the finitely many finite `v ∈ S`, and that `G(𝔸_F) ≃ₜ* G(F_∞) × G(𝔸_{F,f})` ([Conrad],
   Theorem 3.6, p. 6; [Borel], §1.2, p. 7). *Needs:* AA.1.1; Mathlib
   `RestrictedProduct.topologicalSpace_eq_iSup`; AA.0.3; ReductiveGroupsPartII, RG2.0; AA.1.2.
-  *Lean:* `IntegralModel.exists_restrictedProductEquiv` (the isomorphism `G(𝔸_{F,f}) ≃ₜ* Πʳ v, [G(F_v), B_v]` exists and is given by the coordinates).
+  *Lean:* `IntegralModel.exists_restrictedProductEquiv` (the finite restricted product, given by
+  coordinates), `AdelicPoints.exists_infiniteFiniteEquiv` (the archimedean/finite product).
 - **Independence of the model and of the exceptional set.** For finitely generated `H`, prove
   that the topological group structure on `Πʳ v, [G(F_v), 𝓗(𝒪_v)]` obtained from
   *restricted-product-comparison* does not depend on the integral model `𝓗` or on `S`: for two
@@ -1103,7 +1108,10 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   places, prove `G(𝔸_F) ≃ₜ* G(F_S) × G(𝔸_F^S)`, with `G(F_S) = ∏_{v∈S} G(F_v)` and `G(𝔸_F^S)` the
   adelic points away from `S`; in particular `G(𝔸_F) ≃ₜ* G(F_∞) × G(𝔸_{F,f})`. The diagonal
   `G(F)` maps to the pair of diagonals ([Borel], §1.2, p. 7). *Needs:* AA.1.2; AA.0.3.
-  *Lean:* none; specified in the README only.
+  *Lean:* `AdelicPoints.exists_infiniteFiniteEquiv` (splitting off all infinite places).
+
+  **Checks.** Splitting no places retains the original group; splitting all infinite places
+  gives the archimedean/finite pair; the rational diagonal projects to each local diagonal.
 
 ### 1.3 Rational points and functoriality
 
@@ -1414,7 +1422,8 @@ restriction of scalars.
   that `logHeight` vanishes on every compact subgroup ([Arthur], §3,
   p. 16). *Needs:* AA.2.1; AA.1.3; AA.1.4; GlobalNumberFields, layer 6; Tau Ceti
   `TauCeti.GlobalNumberFields.normalizedAbsValue`.
-  *Lean:* `AdelicPoints.logHeight`, `AdelicPoints.logHeight_diagonal`.
+  *Lean:* `AdelicPoints.logHeight`, `AdelicPoints.continuous_logHeight_apply`,
+  `AdelicPoints.logHeight_diagonal`.
 
   **Checks.**
   - For `G = G_m`, `logHeight` is the logarithm of the idele norm.
@@ -3005,7 +3014,7 @@ in the standard integral level.
   general not the whole quotient ([Milne], Lemma 5.13, p. 57; [Arthur], §2, p. 13). *Needs:*
   AA.3.4; AA.1.2. The right-action equation holds
   through the two induced quotient maps.
-  *Lean:* none; specified in the README only.
+  *Lean:* `LevelMaps.exists_componentHomeomorph`, with trivial archimedean level.
   **Checks:** the finite representative is retained at the base point;
   different class indices stay separate; points within a component are identified
   exactly by the arithmetic left action.
@@ -4024,7 +4033,24 @@ quaternion norms and compact abelian Fourier limits.
   `U ⊂ G(𝔸_F^S)`; in particular `G(F)\G(𝔸_f)/U` is a single point when `S` is the set of
   archimedean places ([Arthur], Theorem 2.1(a), p. 12). *Needs:* AA.4.2; AA.1.4; ReductiveGroups,
   layer 6.
-  *Lean:* none; specified in the README only.
+  The factorwise noncompactness condition is equivalently noncompactness of `Q(F_S)` for every
+  nontrivial connected semisimple quotient `Q` of `G`. In coordinates these quotients are
+  injective Hopf maps `O(Q) → O(G)`; nontriviality is failure of surjectivity of the scalar map
+  `F → O(Q)`. A nontrivial semisimple quotient has a simple factor, while each simple factor
+  of `G` occurs as a quotient up to a central isogeny. Central isogenies preserve compactness
+  of local point groups, so the two conditions agree.
+  *Lean:* `Approximation.hasStrongApproximation_of_simplyConnected` (every number field,
+  semisimple group and finite `S = ∞ ∪ S_f`, with the quotient form of the noncompactness
+  hypothesis).
+
+  **Checks.**
+  - `SL_n` for `n ≥ 2` has noncompact archimedean points and satisfies strong approximation
+    away from infinity; ranks zero and one give the trivial group, with no nontrivial quotient.
+  - For a definite quaternion algebra over `ℚ`, its norm-one group is compact at infinity;
+    omitting this noncompactness hypothesis would falsely give strong approximation there.
+  - For a product of `SL₂` and that definite norm-one group, the full real point group is
+    noncompact but the second quotient is compact. Noncompactness of the whole group alone
+    does not imply strong approximation.
 
 ### 4.3 Neat elements and levels
 
@@ -4319,7 +4345,13 @@ quaternion norms and compact abelian Fourier limits.
   compact modulo it, prove that the level quotient `X_U` is Hausdorff and locally compact, and
   that `G(F)` acts properly discontinuously on `G(𝔸)/K_∞U` ([Milne], Lemma 5.13, p. 57). *Needs:*
   AA.4.4; AA.2.2; Mathlib `ProperlyDiscontinuousSMul`, `isOpenMap_quotient_mk'_mul`.
-  *Lean:* none; specified in the README only.
+  *Lean:* `LevelMaps.t2Space_locallyCompactSpace_levelQuotient`, with the explicit compact
+  height-kernel and surjective height-image hypotheses of *Covering maps between neat levels*.
+
+  **Checks.** For `SL₂/ℚ` and compact `K∞` the height conditions are automatic; for `G_m/ℚ`
+  the positive real subgroup has trivial height kernel and full height image; the real quadratic
+  lattice in the covering-map Checks has compact height kernel but insufficient height image,
+  and its fine level quotient is not Hausdorff.
 - **Free action of finite level groups at neat level.** For neat compact open `U`, normal open
   `U′ ⊂ U`, and `K∞` containing `A_G(ℝ)^0` and compact modulo it, prove that the full group
   `U/U′` acts freely and properly discontinuously on `X_{U′}`. Rational stabilizers are finite,
