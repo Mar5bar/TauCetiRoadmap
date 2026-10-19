@@ -28,6 +28,154 @@ allows inseparable coefficient extensions and does not prescribe a lifted vector
 open scoped TensorProduct
 open IsLocalRing
 
+/-! ## Headline theorems -/
+namespace TauCeti.ClassicalModularGalois
+
+/-- A holomorphic good-prime eigenform of weight at least two has a continuous
+semisimple attachment over every completion of its coefficient number field,
+unramified outside the level and coefficient prime, with the prescribed arithmetic
+Frobenius polynomials, including Eisenstein forms and coefficient primes dividing
+the level. -/
+theorem higherWeight_attachment {N : ℕ} [NeZero N] (k : ℤ) (hk : 2 ≤ k)
+    (K : Type*) [Field K] [NumberField K] (ι : K →+* ℂ)
+    (χ : (ZMod N)ˣ →* Kˣ)
+    (f : modFormCharSpace k ((Units.map ι.toMonoidHom).comp χ))
+    (hf : f ≠ 0) (a : ℕ → K)
+    (heig : ∀ (q : ℕ) (hq : q.Prime) (_hqN : Nat.Coprime q N),
+      HeckeRing.GL2.heckeTNat k q (_hn := ⟨hq.ne_zero⟩) f.val = ι (a q) • f.val)
+    (ℓ : ℕ) [Fact ℓ.Prime]
+    (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K))
+    (hv : (ℓ : NumberField.RingOfIntegers K) ∈ v.asIdeal) :
+    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
+      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
+    ∃ ρ : Representation (v.adicCompletion K) (Field.absoluteGaloisGroup ℚ)
+        (Fin 2 → v.adicCompletion K),
+      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → v.adicCompletion K) =>
+        ρ z.1 z.2) ∧ ρ.IsSemisimpleRepresentation ∧
+      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N), q ≠ ℓ →
+        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
+          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
+          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
+          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
+            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 -
+              Polynomial.C (NumberField.FinitePlace.embedding v (a q)) * Polynomial.X +
+              Polynomial.C (NumberField.FinitePlace.embedding v
+                ((χ (ZMod.unitOfCoprime q hqN) : K) * (q : K) ^ (k - 1))) := by
+  sorry
+
+/-- A holomorphic weight-one good-prime eigenform with odd character has a
+continuous finite-image semisimple complex attachment, unramified outside its
+level, whose arithmetic Frobenius traces are the Hecke eigenvalues. Its
+irreducibility is equivalent to cuspidality of the form. -/
+theorem weightOne_attachment {N : ℕ} [NeZero N]
+    (χ : (ZMod N)ˣ →* ℂˣ) (hodd : (χ (-1) : ℂ) = -1)
+    (f : modFormCharSpace 1 χ) (hf : f ≠ 0) (a : ℕ → ℂ)
+    (heig : ∀ (q : ℕ) (hq : q.Prime) (_hqN : Nat.Coprime q N),
+      HeckeRing.GL2.heckeTNat 1 q (_hn := ⟨hq.ne_zero⟩) f.val = a q • f.val) :
+    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
+      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
+    ∃ ρ : Representation ℂ (Field.absoluteGaloisGroup ℚ) (Fin 2 → ℂ),
+      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → ℂ) => ρ z.1 z.2) ∧
+      (Set.range ρ).Finite ∧ ρ.IsSemisimpleRepresentation ∧
+      (ρ.IsIrreducible ↔ ModularForm.IsCuspForm f.val) ∧
+      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N),
+        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
+          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
+          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
+          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
+            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 - Polynomial.C (a q) * Polynomial.X +
+              Polynomial.C (χ (ZMod.unitOfCoprime q hqN) : ℂ) := by
+  sorry
+
+end TauCeti.ClassicalModularGalois
+
+namespace TauCeti.ResidualModularity
+
+/-- A nonzero reduction of an integral holomorphic form of positive weight
+with a good-prime Hecke eigenvalue system has a continuous semisimple residual
+attachment over the chosen finite residue field. It is unramified outside the
+level and residue characteristic and has the prescribed Frobenius polynomials.
+The DVR, its coefficient embedding and its residue map specify the place. -/
+theorem residual_attachment
+    {N : ℕ} [NeZero N] (k : ℕ) (hk : 1 ≤ k)
+    (O K κ : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [Field K] [NumberField K] [Algebra O K] [IsFractionRing O K]
+    [Field κ] [Finite κ] [TopologicalSpace κ] [DiscreteTopology κ]
+    (p : ℕ) [Fact p.Prime] [CharP κ p]
+    (ι : K →+* ℂ) (red : O →+* κ)
+    (hred : RingHom.ker red = maximalIdeal O)
+    (χ : (ZMod N)ˣ →* Oˣ)
+    (f : modFormCharSpace (k : ℤ)
+      ((Units.map (ι.comp (algebraMap O K)).toMonoidHom).comp χ))
+    (b : ℕ → O)
+    (hb : ∀ n, (UpperHalfPlane.qExpansion 1 f.val).coeff n = ι (algebraMap O K (b n)))
+    (hne : ∃ n, red (b n) ≠ 0) (a : ℕ → κ)
+    (heig : ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N), q ≠ p →
+      ∀ n, red (b (q * n)) +
+        (if q ∣ n then red ((q : O) ^ (k - 1) *
+          (χ (ZMod.unitOfCoprime q hqN) : O) * b (n / q)) else 0) =
+        a q * red (b n)) :
+    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
+      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
+    ∃ ρ : Representation κ (Field.absoluteGaloisGroup ℚ) (Fin 2 → κ),
+      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → κ) => ρ z.1 z.2) ∧
+      ρ.IsSemisimpleRepresentation ∧
+      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N), q ≠ p →
+        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
+          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
+          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
+          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
+            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 - Polynomial.C (a q) * Polynomial.X +
+              Polynomial.C (red (χ (ZMod.unitOfCoprime q hqN) : O) * (q : κ) ^ (k - 1)) := by
+  sorry
+
+end TauCeti.ResidualModularity
+
+namespace TauCeti.EigenvalueLifting
+
+section DeligneSerre
+variable (O K : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+  [Field K] [Algebra O K] [IsFractionRing O K]
+variable {M ι : Type*} [AddCommGroup M] [Module O M]
+  [Module.Finite O M] [Module.Free O M]
+
+/-- A common residual eigenvalue system for commuting operators on a finite
+free module over any DVR lifts to an integral eigenvector over a dominating DVR
+with finite fraction-field extension and the specified residue-field embedding. -/
+theorem deligneSerreEigenvalueLifting
+    (T : ι → Module.End O M) (hcomm : ∀ i j, Commute (T i) (T j))
+    (a : ι → ResidueField O) (f : ResidueField O ⊗[O] M) (hf : f ≠ 0)
+    (heig : ∀ i, (T i).baseChange (ResidueField O) f = a i • f) :
+    ∃ (L : IntermediateField K (AlgebraicClosure K)) (V : ValuationSubring L)
+      (i : O →+* V) (j : ResidueField O →+* ResidueField V),
+      letI : Algebra O V := i.toAlgebra
+      Module.Finite K L ∧ IsDiscreteValuationRing V ∧
+      Function.Injective i ∧ Function.Injective j ∧
+      (∀ x : O, (i x : L) = algebraMap K L (algebraMap O K x)) ∧
+      (residue V).comp i = j.comp (residue O) ∧
+      Ideal.comap i (maximalIdeal V) = maximalIdeal O ∧
+      ∃ (b : ι → V) (f' : V ⊗[O] M), f' ≠ 0 ∧
+        ∀ t, (T t).baseChange V f' = b t • f' ∧ residue V (b t) = j (a t) := by
+  sorry
+end DeligneSerre
+
+end TauCeti.EigenvalueLifting
+
+namespace TauCeti.KatzModularForms
+
+/-- A holomorphic congruence modular form with rational expansion has one
+integer clearing all denominators, including primes dividing its level. -/
+theorem boundedDenominators
+    (N : ℕ) [NeZero N] (k : ℤ)
+    (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ))
+    (hlevel : CongruenceSubgroup.Gamma N ≤ Γ)
+    (f : ModularForm (Γ.map (Matrix.SpecialLinearGroup.mapGL ℝ)) k)
+    (a : ℕ → ℚ)
+    (ha : ∀ n, (UpperHalfPlane.qExpansion (N : ℝ) f).coeff n = (a n : ℂ)) :
+    ∃ D : ℕ, 0 < D ∧ ∀ n, ∃ b : ℤ, (D : ℚ) * a n = b := by
+  sorry
+end TauCeti.KatzModularForms
+
 namespace TauCeti.KatzModularForms
 
 /-! ## Layer R15.2: integral q-expansion and coherent Hecke theory -/
@@ -54,17 +202,6 @@ theorem seriesHecke_map {B : Type*} [CommRing B] (u : A →+* B)
 
 end QHecke
 
-/-- A holomorphic congruence modular form with rational expansion has one
-integer clearing all denominators, including primes dividing its level. -/
-theorem boundedDenominators
-    (N : ℕ) [NeZero N] (k : ℤ)
-    (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ))
-    (hlevel : CongruenceSubgroup.Gamma N ≤ Γ)
-    (f : ModularForm (Γ.map (Matrix.SpecialLinearGroup.mapGL ℝ)) k)
-    (a : ℕ → ℚ)
-    (ha : ∀ n, (UpperHalfPlane.qExpansion (N : ℝ) f).coeff n = (a n : ℂ)) :
-    ∃ D : ℕ, 0 < D ∧ ∀ n, ∃ b : ℤ, (D : ℚ) * a n = b := by
-  sorry
 end TauCeti.KatzModularForms
 
 /-! ## Layer R15.3: Hasse, seriesTheta and weight operations -/
@@ -455,31 +592,6 @@ theorem integral_eigenvector (T : ι → Module.End O M) (a : ι → O)
   sorry
 end Denominators
 
-section DeligneSerre
-variable (O K : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-  [Field K] [Algebra O K] [IsFractionRing O K]
-variable {M ι : Type*} [AddCommGroup M] [Module O M]
-  [Module.Finite O M] [Module.Free O M]
-
-/-- Deligne–Serre 6.11. This retains the complete mathematical
-content, with explicit scalar and residue maps. No prescribed reduction of `f′`
-appears, no separability is assumed, and `V` need not be finite over `O`. -/
-theorem deligneSerreEigenvalueLifting
-    (T : ι → Module.End O M) (hcomm : ∀ i j, Commute (T i) (T j))
-    (a : ι → ResidueField O) (f : ResidueField O ⊗[O] M) (hf : f ≠ 0)
-    (heig : ∀ i, (T i).baseChange (ResidueField O) f = a i • f) :
-    ∃ (L : IntermediateField K (AlgebraicClosure K)) (V : ValuationSubring L)
-      (i : O →+* V) (j : ResidueField O →+* ResidueField V),
-      letI : Algebra O V := i.toAlgebra
-      Module.Finite K L ∧ IsDiscreteValuationRing V ∧
-      Function.Injective i ∧ Function.Injective j ∧
-      (∀ x : O, (i x : L) = algebraMap K L (algebraMap O K x)) ∧
-      (residue V).comp i = j.comp (residue O) ∧
-      Ideal.comap i (maximalIdeal V) = maximalIdeal O ∧
-      ∃ (b : ι → V) (f' : V ⊗[O] M), f' ≠ 0 ∧
-        ∀ t, (T t).baseChange V f' = b t • f' ∧ residue V (b t) = j (a t) := by
-  sorry
-end DeligneSerre
 
 section RegressionExamples
 variable {D : Type*} [CommRing D] [IsDomain D]
@@ -526,60 +638,6 @@ end TauCeti.EigenvalueLifting
 
 /-! ## Layer R15.5A: Frobenius polynomials and classical weight-one prime moments -/
 namespace TauCeti.ClassicalModularGalois
-
-/-- A holomorphic good-prime eigenform of weight at least two has a continuous
-semisimple attachment over every completion of its coefficient number field,
-unramified outside the level and coefficient prime, with the prescribed arithmetic
-Frobenius polynomials, including Eisenstein forms and coefficient primes dividing
-the level. -/
-theorem higherWeight_attachment {N : ℕ} [NeZero N] (k : ℤ) (hk : 2 ≤ k)
-    (K : Type*) [Field K] [NumberField K] (ι : K →+* ℂ)
-    (χ : (ZMod N)ˣ →* Kˣ)
-    (f : modFormCharSpace k ((Units.map ι.toMonoidHom).comp χ))
-    (hf : f ≠ 0) (a : ℕ → K)
-    (heig : ∀ (q : ℕ) (hq : q.Prime) (_hqN : Nat.Coprime q N),
-      HeckeRing.GL2.heckeTNat k q (_hn := ⟨hq.ne_zero⟩) f.val = ι (a q) • f.val)
-    (ℓ : ℕ) [Fact ℓ.Prime]
-    (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K))
-    (hv : (ℓ : NumberField.RingOfIntegers K) ∈ v.asIdeal) :
-    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
-      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
-    ∃ ρ : Representation (v.adicCompletion K) (Field.absoluteGaloisGroup ℚ)
-        (Fin 2 → v.adicCompletion K),
-      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → v.adicCompletion K) =>
-        ρ z.1 z.2) ∧ ρ.IsSemisimpleRepresentation ∧
-      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N), q ≠ ℓ →
-        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
-          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
-          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
-          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
-            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 -
-              Polynomial.C (NumberField.FinitePlace.embedding v (a q)) * Polynomial.X +
-              Polynomial.C (NumberField.FinitePlace.embedding v
-                ((χ (ZMod.unitOfCoprime q hqN) : K) * (q : K) ^ (k - 1))) := by
-  sorry
-
-/-- A holomorphic weight-one good-prime eigenform with odd character has a
-continuous finite-image semisimple complex attachment, unramified outside its
-level, whose arithmetic Frobenius traces are the Hecke eigenvalues. -/
-theorem weightOne_attachment {N : ℕ} [NeZero N]
-    (χ : (ZMod N)ˣ →* ℂˣ) (hodd : (χ (-1) : ℂ) = -1)
-    (f : modFormCharSpace 1 χ) (hf : f ≠ 0) (a : ℕ → ℂ)
-    (heig : ∀ (q : ℕ) (hq : q.Prime) (_hqN : Nat.Coprime q N),
-      HeckeRing.GL2.heckeTNat 1 q (_hn := ⟨hq.ne_zero⟩) f.val = a q • f.val) :
-    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
-      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
-    ∃ ρ : Representation ℂ (Field.absoluteGaloisGroup ℚ) (Fin 2 → ℂ),
-      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → ℂ) => ρ z.1 z.2) ∧
-      (Set.range ρ).Finite ∧ ρ.IsSemisimpleRepresentation ∧
-      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N),
-        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
-          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
-          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
-          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
-            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 - Polynomial.C (a q) * Polynomial.X +
-              Polynomial.C (χ (ZMod.unitOfCoprime q hqN) : ℂ) := by
-  sorry
 
 /-- The alternating pairing and transpose identity determine rank-two Frobenius
 trace, determinant and characteristic polynomial, including scalar Frobenius.
