@@ -703,6 +703,7 @@ change; the underlying scalar determinant commutes with arbitrary ring base chan
 the exterior-power comparison above and §F.4.0's coefficient extension.
 The bundled determinant-line construction is specified here; on free carriers the scalar-action
 statements of `Suggested.lean` use `LinearMap.det (ρ g)` directly.
+*Lean:* `ContinuousRep.exists_detCharacter` (the continuous character on a finite free carrier).
 
 **Checks.**
 - For `A = ℚ × ℚ`, `M = (1,0)A` and `u` multiplication by `2` on `M`, the supplied scalar,
@@ -754,7 +755,7 @@ prove `Hom_Γ(V, W) ⊗_E E' ≅ Hom_Γ(V_{E'}, W_{E'})` and `V^Γ ⊗ E' = (V_{
 statements hold for any monoid (BHKT, §2, p. 5; NT, §1.2, p. 7).
 *Needs:* EtaleCohomologyFoundations §F.4.0; Tau Ceti
 `Representation.finrank_intertwiningMap_baseChange`. *Lean:* `charpoly_baseChange`,
-`invariants_baseChange`.
+`invariants_baseChange`, `ContinuousRep.intertwining_baseChange`.
 
 **Checks.**
 - `ℤ_ℓ(1)` along `ℤ_ℓ → ℚ_ℓ` is `ofCharacter χ_ℓ` over `ℚ_ℓ`; a definition that twisted the
@@ -969,7 +970,8 @@ equality of characteristic polynomials and determinants of `V` and `V^ss`, and
 `(V ⊗ k')^ss ≅ (V^ss ⊗ k')^ss` (DDT, §2.1, p. 54; DS, 6.12, p. 523). *Needs:* Mathlib
 `CompositionSeries.jordan_holder`; Tau Ceti `jordanHolderMultiplicity`,
 `compositionMultiplicity_eq_of_head_eq_of_last_eq`, `jordanHolderMultiplicity_eq_add_of_exact`.
-*Lean:* `ContinuousRep.subrep`, `ContinuousRep.quotientRep`.
+*Lean:* `ContinuousRep.subrep`, `ContinuousRep.quotientRep`,
+`ContinuousRep.exists_semisimple_same_charpoly` (existence and characterization on a fixed carrier).
 
 **Checks.**
 - `ℤ_p` on `F_p²` by `(1 a; 0 1)` has the characteristic polynomials of the trivial representation
@@ -1079,7 +1081,7 @@ that the residual representation is continuous, semisimple, of finite image, def
 field, that its characteristic polynomial at each `g` is the reduction of `V`'s, and that its class
 is determined by these (DS, 6.12, p. 523; DDT, §2.1, p. 54; Ribet 1976, §2, p. 154; NT, §1.2, p. 7;
 Serre 1987, 1.1, p. 180). *Needs:* Tau Ceti `jordanHolderMultiplicity_eq_add_of_exact`. *Lean:*
-`charpoly_reduction_eq`.
+`charpoly_reduction_eq`, `GaloisLattice.IntegralModel.residual_semisimple_iso`.
 
 ### 1.10 Coefficient twists and Teichmüller lifts
 
@@ -1704,7 +1706,9 @@ with nonzero monodromy;
 *Needs:* §2.4's arithmetic adapter; SmoothRepresentationsOfLocalGroups SR.5.2
 `wd-parameter-operations` and `full-wd-construction`. *Lean:*
 `WeilDeligneRep.kerMonodromyInvariants`, `WeilDeligneRep.localFactor`, `localFactor_indep`
-(lift independence), `GaloisRep.localEulerFactor`, `GaloisRep.localEulerFactor_unramified`.
+(lift independence), `WeilDeligneRep.localFactor_directSum`,
+`WeilDeligneRep.localFactor_baseChange`, `GaloisRep.localEulerFactor`,
+`GaloisRep.localEulerFactor_unramified`.
 The Weil–Deligne signatures here take the canonical fields `deg`, `r`, `N` and the conjugation
 relation directly; they introduce no carrier.
 
@@ -1759,7 +1763,9 @@ these identifications. This is the finite-image specialization of Marzec–Neuru
 5.11, p. 62, and Deligne 1973, 3.5.1, p. 528, and 8.12, p. 572.
 *Needs:* §§1.1–1.2 (continuous representations, coefficient extension and duals), §2.5 (local
 polynomials and exact inertia invariants); AdelicAlgebraicGroups AA.2.4, *convergence-factors*.
-The comparison is specified in this document only.
+*Lean:* `GaloisRep.localEulerFactor_dual_eq_arithmetic` (the dual-invariant determinant
+comparison over one characteristic-zero field), `WeilDeligneRep.localFactor_baseChange`
+(coefficient extension of the local polynomial).
 
 **Checks.**
 - Zero inertia invariants give `P_v = 1` and Artin factor one; the rank-one trivial
@@ -1809,7 +1815,7 @@ image description and the elementary API are linear algebra; uniqueness and the 
 decomposition use Jordan strings of `N`; the explicit `sl₂` construction and tensor-string
 decomposition above give tensor compatibility. *Needs:* Mathlib kernels, images and quotients
 of submodules; the Jordan strings and tensor monodromy target above. *Lean:* `WeilDeligneRep.monodromyFiltration`,
-`monodromyFiltration_basic`.
+`monodromyFiltration_basic`, `WeilDeligneRep.monodromyFiltration_tensor`.
 
 **Checks.**
 - On `Sp(n)` the graded pieces `gr_a` are one-dimensional for `a = −n + 1, −n + 3, …, n − 1`.
@@ -3520,7 +3526,9 @@ commutative ring, which contains `2x` for every `x` (from `2x = (x + cx) + (x �
 everything when `2` is a unit. The intersection of the eigenmodules is killed by `2`, so absence
 of `2`-torsion suffices for directness; invertibility of `2` guarantees a direct-sum decomposition
 of the whole module. *Needs:* §4.1;
-Mathlib `Matrix.J`. *Lean:* `Involution.eigensum`, `Involution.two_smul_mem_eigensum`.
+Mathlib `Matrix.J`. *Lean:* `TateModule.det_eq_multiplier_pow`,
+`TateModule.antisymplectic_involution_eigenspaces`, `Involution.eigensum`,
+`Involution.two_smul_mem_eigensum`.
 
 **Checks.**
 - On `ℤ²`, `c = diag(1, −1)` has eigensum `ℤ²`, strictly larger than `2ℤ²`; likewise on `ℤ_2²`.
@@ -3604,7 +3612,8 @@ subgroup `M`; then `J Φ(P) ⊆ M`, contradicting surjectivity. Thus the implica
 `J Φ(P) = P ⇒ J = P` holds even without openness; openness makes the detecting quotient finite
 (Masser–Zannier 2020, proof of Lemma 5.1, p. 659).
 *Needs:* ProfiniteProPGroups Layers 0 and 3 (closed and open subgroups, Frattini theory);
-Mathlib `frattini`.
+Mathlib `frattini`. *Lean:* `TateModule.frattini_closed_subgroup_eq_top`, with the
+profinite Frattini subgroup expressed as the intersection of maximal proper open subgroups.
 
 **Checks.**
 - For `P = ℤ/4`, `Φ(P) = {0, 2}`, and the proper subgroup `{0, 2}` does not surject onto `P/Φ(P)`.
@@ -3622,6 +3631,7 @@ Combine this with §6.4a's full-image detection in `P/Φ(P)`
 (Masser–Zannier 2020, proof of Lemma 5.1, p. 659; Schneider, §27, Theorem 27.1).
 *Needs:* §5.8 compact subgroup charts; ProfiniteProPGroups Layer 3 (Frattini and Burnside basis);
 §6.4a, *Frattini detection of full profinite image*.
+*Lean:* `TateModule.compact_matrix_frattini_isOpen`.
 
 **Checks.**
 - For `P = ℤ_ℓ`, `Φ(P) = ℓℤ_ℓ`; surjectivity modulo `ℓ` detects a full closed subgroup.
@@ -3694,7 +3704,8 @@ determinant, the tensor-square decomposition, the exterior pairing and agreement
 representations with Tau Ceti's (BCG, proof of Thm 2.1, p. 513; NT26, Lemma 2.2, p. 10). *Needs:* Tau
 Ceti `Representation.symmetricPower`, `Representation.exteriorPower`, `Representation.tensorPower`,
 `SymmetricPower.finrank_eq`; §1.1. *Lean:* `ContinuousRep.symPower`, `ContinuousRep.extPower`,
-`ContinuousRep.powers_finite_projective`, `ContinuousRep.exists_tensorSquareEquiv`.
+`ContinuousRep.powers_finite_projective`, `ContinuousRep.tensorPower_continuous`,
+`ContinuousRep.exists_tensorSquareEquiv`.
 
 **Checks.**
 - `Sym⁰ ρ` is trivial of rank one; a basis of a free rank-`n` carrier identifies `∧^n ρ`
@@ -4378,7 +4389,7 @@ dimension `n ≥ 1`, `p ∤ n` (BLGG, Rem. A.1.2, p. 29). *Needs:* Mathlib
 over `F₂` for `r = 2` (§7.1). Prove that for `a ≥ b` and `(a + b)!` invertible,
 `Sym^a V ⊗ Sym^b V ≅ ⊕_{i ≤ b} det^i ⊗ Sym^{a+b−2i}V`, so
 `End(Sym^{n−1}V) ≅ ⊕_{i<n} Sym^{2i}V ⊗ det^{−i}` when `(2n − 2)!` is invertible, for every group (CHT,
-proof of Lemma 2.5.2, p. 56).
+proof of Lemma 2.5.2, p. 56). *Lean:* `ContinuousRep.clebschGordan`.
 
 **Modulo `p`.** For `V` two-dimensional over `k ⊇ F_p` perfect and `0 < r < p`, construct the
 natural exact sequence
@@ -4543,7 +4554,8 @@ the identity component of its Zariski closure (or its derived group) is absolute
 contains regular semisimple elements. The splitting hypothesis makes the regular witnesses split
 over `E`; geometric regular semisimplicity alone does not supply eigenvalues in `E`
 (NT23, Def. 2.23, Rem. 2.24, Lemmas 2.25 and 2.28, pp. 20–23;
-NT26, Lemma 4.7, p. 33). *Lean:* `ResidualImage.IsEnormousCharZero`.
+NT26, Lemma 4.7, p. 33). *Lean:* `ResidualImage.IsEnormousCharZero`,
+`ResidualImage.IsEnormousCharZero.span_eq_top`.
 
 **Checks.**
 - `SL₂` with `h = diag(a, a⁻¹)`, `a² ≠ 1`, is enormous.

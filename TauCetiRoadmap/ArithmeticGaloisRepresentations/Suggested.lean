@@ -65,7 +65,7 @@ Design choices made explicit here.
 
 noncomputable section
 
-open scoped TensorProduct
+open scoped TensorProduct DirectSum
 
 namespace TauCetiRoadmap.ArithmeticGaloisRepresentations
 
@@ -187,6 +187,13 @@ theorem continuous_iff_orbit [IsTopologicalRing A] (ρ : Representation A Γ M) 
     (Continuous fun p : Γ × M => ρ p.1 p.2) ↔ ∀ m : M, Continuous fun g : Γ => ρ g m := by
   sorry
 
+/-- On a finite free carrier the determinant operators form a unique continuous unit-valued
+character, the free-carrier realization of the determinant character of §1.1. -/
+theorem exists_detCharacter [IsTopologicalRing A] [Module.Free A M]
+    (ρ : ContinuousRep Γ A M) :
+    ∃! χ : Γ →ₜ* Aˣ, ∀ g : Γ, (χ g : A) = LinearMap.det (ρ g) := by
+  sorry
+
 -- Over a field with the discrete topology a faithful representation of `ℤ_ℓ` (for instance
 -- `a ↦ (1 + ℓ)^a` on `ℚ_ℓ` made discrete) has every operator continuous but is not a
 -- `ContinuousRep`: its kernel `{0}` is not open in `ℤ_ℓ`.
@@ -295,6 +302,17 @@ theorem invariants_baseChange {K : Type v} [Field K] [TopologicalSpace K] [IsTop
     [ContinuousSMul K K'] [TopologicalSpace (K' ⊗[K] V)] [IsModuleTopology K' (K' ⊗[K] V)] :
     Nonempty ((ρ.baseChange K').toRepresentation.invariants ≃ₗ[K']
       K' ⊗[K] ρ.toRepresentation.invariants) := by
+  sorry
+
+/-- Scalar extension preserves the entire intertwiner space of finite-dimensional
+representations, for an arbitrary acting monoid (§1.2). -/
+theorem intertwining_baseChange {G : Type*} [Monoid G] {K : Type*} [Field K]
+    {V W : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    [AddCommGroup W] [Module K W] [FiniteDimensional K W]
+    (ρ : Representation K G V) (σ : Representation K G W)
+    (K' : Type*) [Field K'] [Algebra K K'] :
+    Nonempty ((K' ⊗[K] (ρ.IntertwiningMap σ)) ≃ₗ[K']
+      (ρ.baseChange K').IntertwiningMap (σ.baseChange K')) := by
   sorry
 
 -- Base change along the identity changes nothing; along a discontinuous map to a discrete field
@@ -762,6 +780,17 @@ def quotientRep (ρ : ContinuousRep Γ K V) (W : Submodule K V)
     (hW : ∀ g : Γ, W ≤ W.comap (ρ g)) : ContinuousRep Γ K (V ⧸ W) :=
   ⟨ρ.toRepresentation.quotient W hW, sorry⟩
 
+/-- Semisimplification has a continuous realization on the original finite-dimensional carrier,
+with the same characteristic polynomials; its isomorphism class is uniquely characterized by
+these polynomials among semisimple representations (§§1.7–1.8). -/
+theorem exists_semisimple_same_charpoly (ρ : ContinuousRep Γ K V) :
+    ∃ σ : ContinuousRep Γ K V, σ.toRepresentation.IsSemisimpleRepresentation ∧
+      (∀ g : Γ, σ.charpoly g = ρ.charpoly g) ∧
+      (Nonempty (Iso ρ σ) ↔ ρ.toRepresentation.IsSemisimpleRepresentation) ∧
+      ∀ τ : ContinuousRep Γ K W, τ.toRepresentation.IsSemisimpleRepresentation →
+        (∀ g : Γ, τ.charpoly g = ρ.charpoly g) → Nonempty (Iso σ τ) := by
+  sorry
+
 /-- Absolute irreducibility over a field of coefficients, in Burnside's form: the carrier is
 nonzero and the operators `ρ(g)` span `End_K(V)`; equivalent to irreducibility after every field
 extension (§1.7). -/
@@ -931,6 +960,22 @@ theorem charpoly_reduction_eq (Λ' : IntegralModel O ρ) [IsModuleTopology O Λ'
     [TopologicalSpace (IsLocalRing.ResidueField O ⊗[O] Λ'.lattice)]
     [IsModuleTopology (IsLocalRing.ResidueField O) (IsLocalRing.ResidueField O ⊗[O] Λ'.lattice)]
     (g : Γ) : Λ.reduction.charpoly g = Λ'.reduction.charpoly g := by
+  sorry
+
+/-- Two lattices in the same representation have continuous semisimple reductions with
+isomorphic underlying representations, over the residue field itself (§1.9). -/
+theorem residual_semisimple_iso (Λ' : IntegralModel O ρ) [IsModuleTopology O Λ'.lattice]
+    [TopologicalSpace (IsLocalRing.ResidueField O ⊗[O] Λ'.lattice)]
+    [IsModuleTopology (IsLocalRing.ResidueField O) (IsLocalRing.ResidueField O ⊗[O] Λ'.lattice)] :
+    ∃ (σ : ContinuousRep Γ (IsLocalRing.ResidueField O)
+        (IsLocalRing.ResidueField O ⊗[O] Λ.lattice))
+      (τ : ContinuousRep Γ (IsLocalRing.ResidueField O)
+        (IsLocalRing.ResidueField O ⊗[O] Λ'.lattice)),
+      σ.toRepresentation.IsSemisimpleRepresentation ∧
+      τ.toRepresentation.IsSemisimpleRepresentation ∧
+      (∀ g : Γ, σ.charpoly g = Λ.reduction.charpoly g) ∧
+      (∀ g : Γ, τ.charpoly g = Λ'.reduction.charpoly g) ∧
+      Nonempty (ContinuousRep.Iso σ τ) := by
   sorry
 
 /-- For a finite residue field the reduction has open kernel and finite image. -/
@@ -1592,6 +1637,31 @@ theorem localFactor_indep (r : Representation Ω W V) (N : Module.End Ω V)
     localFactor r N hrel F = localFactor r N hrel F' := by
   sorry
 
+/-- Local factors multiply on direct sums, including pairs with nonzero monodromy (§2.5). -/
+theorem localFactor_directSum {V' : Type*} [AddCommGroup V'] [Module Ω V']
+    [FiniteDimensional Ω V'] (r : Representation Ω W V) (r' : Representation Ω W V')
+    (N : Module.End Ω V) (N' : Module.End Ω V')
+    (hrel : ∀ w, r w ∘ₗ N = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N ∘ₗ r w))
+    (hrel' : ∀ w, r' w ∘ₗ N' = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N' ∘ₗ r' w))
+    (F : W) :
+    ∃ hsum : ∀ w, (r.prod r') w ∘ₗ N.prodMap N' =
+      ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N.prodMap N' ∘ₗ (r.prod r') w),
+      localFactor (r.prod r') (N.prodMap N') hsum F =
+        localFactor r N hrel F * localFactor r' N' hrel' F := by
+  sorry
+
+/-- Local polynomials commute with every extension of coefficient fields, through scalar
+extension of the monodromy kernel and inertia invariants (§§2.5–2.5a). -/
+theorem localFactor_baseChange (r : Representation Ω W V) (N : Module.End Ω V)
+    (hrel : ∀ w, r w ∘ₗ N = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N ∘ₗ r w))
+    (Ω' : Type*) [Field Ω'] [Algebra Ω Ω'] (F : W) :
+    ∃ hbase : ∀ w, (r.baseChange Ω') w ∘ₗ N.baseChange Ω' =
+      ((q : Ω') ^ Multiplicative.toAdd (deg w)) •
+        (N.baseChange Ω' ∘ₗ (r.baseChange Ω') w),
+      localFactor (r.baseChange Ω') (N.baseChange Ω') hbase F =
+        (localFactor r N hrel F).map (algebraMap Ω Ω') := by
+  sorry
+
 -- The fields of `Sp(2)` have geometric Frobenius `diag(1, q⁻¹)` and `N e₀ = e₁`.
 -- Its factor is computed on `ker N`, and differs from the factor of the same action with `N = 0`.
 /-- The special pair of rank two has local factor computed on the monodromy kernel. -/
@@ -1687,6 +1757,19 @@ theorem monodromyFiltration_basic (N : Module.End k V) (d : ℕ) (hN : N ^ (d + 
         (monodromyFiltration N a).map g.toLinearMap := by
   sorry
 
+/-- In characteristic zero, the monodromy filtration of tensor monodromy is the convolution
+of the two monodromy filtrations (Deligne 1980, Proposition 1.6.9(i), §2.6). -/
+theorem monodromyFiltration_tensor [CharZero k] [FiniteDimensional k V]
+    {V' : Type*} [AddCommGroup V'] [Module k V'] [FiniteDimensional k V']
+    (N : Module.End k V) (N' : Module.End k V') (hN : IsNilpotent N)
+    (hN' : IsNilpotent N') (c : ℤ) :
+    monodromyFiltration
+      (TensorProduct.map N LinearMap.id + TensorProduct.map LinearMap.id N') c =
+      ⨆ (a : ℤ) (b : ℤ) (_ : a + b = c),
+        LinearMap.range (TensorProduct.map (monodromyFiltration N a).subtype
+          (monodromyFiltration N' b).subtype) := by
+  sorry
+
 -- On a two-step Jordan string the graded degrees are `−1` and `1`; for `N = 0` everything sits in
 -- degree `0`: the filtration is centred, and is not the kernel filtration.
 /-- The monodromy filtration of a two-step Jordan string has graded degrees minus one and one. -/
@@ -1769,6 +1852,22 @@ theorem localEulerFactor_unramified {W : Type*} [Group W] [TopologicalSpace W] [
     [TopologicalSpace V] [IsModuleTopology E V] (ρ : ContinuousRep W E V) (F : W)
     (hF : deg F = Multiplicative.ofAdd (-1)) (hρ : ∀ σ ∈ deg.ker, ρ σ = LinearMap.id) :
     localEulerFactor deg ρ F = (ρ F).charpoly.reverse := by
+  sorry
+
+/-- For finite inertia image in characteristic zero, geometric Frobenius on the dual has the
+arithmetic Frobenius polynomial of the original inertia invariants (§2.5a). -/
+theorem localEulerFactor_dual_eq_arithmetic {W : Type*} [Group W] [TopologicalSpace W]
+    [IsTopologicalGroup W] (deg : W →* Multiplicative ℤ)
+    {E V : Type*} [Field E] [CharZero E] [TopologicalSpace E] [IsTopologicalRing E]
+    [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+    [TopologicalSpace V] [IsModuleTopology E V]
+    [TopologicalSpace (Module.Dual E V)] [IsModuleTopology E (Module.Dual E V)]
+    (ρ : ContinuousRep W E V) (F : W) (hF : deg F = Multiplicative.ofAdd 1)
+    (hI : (Set.range fun σ : deg.ker => ρ (σ : W)).Finite) :
+    localEulerFactor deg ρ.dual F⁻¹ =
+      (LinearMap.restrict (ρ F)
+        (p := ⨅ σ ∈ deg.ker, LinearMap.ker (ρ σ - LinearMap.id))
+        (q := ⨅ σ ∈ deg.ker, LinearMap.ker (ρ σ - LinearMap.id)) (by sorry)).charpoly.reverse := by
   sorry
 
 end GaloisRep
@@ -2730,6 +2829,53 @@ the supplier's separable-closure carrier, compatibly with transitions and
 `(W⁄(AlgebraicClosure K)).tateModuleWeilPairing`, including its cyclotomic target (§6.1).
 The linear algebra of the oddness comparison is stated here. -/
 
+namespace TateModule
+
+/-- A similitude of a nondegenerate alternating space of dimension `2g` has determinant
+equal to the `g`-th power of its multiplier, in every characteristic (§6.2). -/
+theorem det_eq_multiplier_pow {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+    [FiniteDimensional K V] (g : ℕ) (hdim : Module.finrank K V = 2 * g)
+    (B : LinearMap.BilinForm K V) (hB : B.Nondegenerate) (hAlt : B.IsAlt)
+    (h : V ≃ₗ[K] V) (μ : Kˣ) (hμ : ∀ x y, B (h x) (h y) = (μ : K) * B x y) :
+    LinearMap.det h.toLinearMap = (μ : K) ^ g := by
+  sorry
+
+/-- An anti-symplectic involution in characteristic different from two has complementary
+isotropic eigenspaces of half the dimension, the linear algebra of Tate-module oddness (§6.2). -/
+theorem antisymplectic_involution_eigenspaces {K V : Type*} [Field K] (h2 : (2 : K) ≠ 0)
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    (g : ℕ) (hdim : Module.finrank K V = 2 * g)
+    (B : LinearMap.BilinForm K V) (hB : B.Nondegenerate) (hAlt : B.IsAlt)
+    (c : Module.End K V) (hc : c * c = 1) (hanti : ∀ x y, B (c x) (c y) = -B x y) :
+    Module.finrank K (LinearMap.ker (c - 1)) = g ∧
+      Module.finrank K (LinearMap.ker (c + 1)) = g ∧
+      Disjoint (LinearMap.ker (c - 1)) (LinearMap.ker (c + 1)) ∧
+      LinearMap.ker (c - 1) ⊔ LinearMap.ker (c + 1) = ⊤ ∧
+      (∀ x ∈ LinearMap.ker (c - 1), ∀ y ∈ LinearMap.ker (c - 1), B x y = 0) ∧
+      (∀ x ∈ LinearMap.ker (c + 1), ∀ y ∈ LinearMap.ker (c + 1), B x y = 0) := by
+  sorry
+
+/-- The intersection of maximal proper open subgroups detects equality of closed subgroups
+of a profinite group, even when this intersection is not open (§6.4a). -/
+theorem frattini_closed_subgroup_eq_top {P : Type*} [Group P] [TopologicalSpace P]
+    [IsTopologicalGroup P] [CompactSpace P] [T2Space P] [TotallyDisconnectedSpace P]
+    (J : Subgroup P) (hJ : IsClosed (J : Set P))
+    (hgen : J ⊔ (⨅ (M : OpenSubgroup P) (_ : IsCoatom M), M.toSubgroup) = ⊤) :
+    J = ⊤ := by
+  sorry
+
+/-- A compact matrix group over a finite extension of `ℚ_ℓ` has open profinite Frattini
+subgroup and hence a finite quotient detecting full closed image (§6.4a). -/
+theorem compact_matrix_frattini_isOpen (ℓ : ℕ) [Fact ℓ.Prime]
+    {E : Type*} [Field E] [Algebra ℚ_[ℓ] E] [FiniteDimensional ℚ_[ℓ] E]
+    [TopologicalSpace E] [IsTopologicalRing E] [IsModuleTopology ℚ_[ℓ] E] {n : ℕ}
+    (P : Subgroup (Matrix.GeneralLinearGroup (Fin n) E))
+    (hP : IsCompact (P : Set (Matrix.GeneralLinearGroup (Fin n) E))) :
+    IsOpen ((⨅ (M : OpenSubgroup P) (_ : IsCoatom M), M.toSubgroup) : Set P) := by
+  sorry
+
+end TateModule
+
 namespace Involution
 
 variable {A T : Type*} [CommRing A] [AddCommGroup T] [Module A T]
@@ -2798,6 +2944,17 @@ theorem powers_finite_projective (d : ℕ) :
       ([Module.Free A M] → [Nontrivial A] →
         Module.finrank A (Sym[A]^d M) = Nat.choose (Module.finrank A M + d - 1) d ∧
         Module.finrank A (⋀[A]^d M) = Nat.choose (Module.finrank A M) d) := by
+  sorry
+
+/-- The tensor-power action is jointly continuous in the module topology on its finite
+projective carrier, of rank `(rank M)^d` for a finite free input (§7.1). -/
+theorem tensorPower_continuous (ρ : ContinuousRep Γ A M) (d : ℕ)
+    [TopologicalSpace (⨂[A] _ : Fin d, M)] [IsModuleTopology A (⨂[A] _ : Fin d, M)] :
+    Module.Finite A (⨂[A] _ : Fin d, M) ∧ Module.Projective A (⨂[A] _ : Fin d, M) ∧
+      (Continuous fun p : Γ × (⨂[A] _ : Fin d, M) =>
+        ρ.toRepresentation.tensorPower d p.1 p.2) ∧
+      ([Module.Free A M] → [Nontrivial A] →
+        Module.finrank A (⨂[A] _ : Fin d, M) = Module.finrank A M ^ d) := by
   sorry
 
 /-- If `det(X − ρ(g)) = ∏ (X − αᵢ)` the roots of `Sym^d ρ(g)` and `∧^d ρ(g)` are the `d`-fold products
@@ -3557,6 +3714,28 @@ theorem span_eq_top_and_centralizer_of_residually_absIrred {A : Type*} [CommRing
 
 end GaloisRep
 
+/-! ### Clebsch–Gordan -/
+
+namespace ContinuousRep
+
+/-- Clebsch–Gordan for a plane: the tensor product of its symmetric powers splits into
+determinant twists when `(a+b)!` is invertible, for any acting group (§7.8). -/
+theorem clebschGordan {k : Type} [Field k] {G V : Type*} [Group G]
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (ρ : Representation k G V) (hdim : Module.finrank k V = 2)
+    (δ : G →* kˣ) (hδ : ∀ g : G, (δ g : k) = LinearMap.det (ρ g))
+    (a b : ℕ) (hba : b ≤ a) (hfact : IsUnit ((a + b).factorial : k)) :
+    ∃ e : ((Sym[k]^a V) ⊗[k] (Sym[k]^b V)) ≃ₗ[k]
+        (⨁ i : Fin (b + 1), Sym[k]^(a + b - 2 * (i : ℕ)) V),
+      ∀ (g : G) (x : (Sym[k]^a V) ⊗[k] (Sym[k]^b V)),
+        e ((ρ.symmetricPower a).tprod (ρ.symmetricPower b) g x) =
+          Representation.directSum (fun i : Fin (b + 1) =>
+            Representation.charTwist (δ ^ (i : ℕ))
+              (ρ.symmetricPower (a + b - 2 * (i : ℕ)))) g (e x) := by
+  sorry
+
+end ContinuousRep
+
 /-! ### Adequate and enormous subgroups -/
 
 namespace ResidualImage
@@ -3762,6 +3941,15 @@ def IsEnormousCharZero {O : Type*} [CommRing O] {E : Type*} [Field E] [Algebra O
         Matrix.charpoly ((h : Matrix n n O).map (algebraMap O E)) = (s.map fun a => X - C a).prod) ∧
       ∃ α : E, ∃ e, IsEigenProjection (matrixRep (Matrix.GeneralLinearGroup.map (algebraMap O E)) h) e α ∧
         ∃ w ∈ W, LinearMap.trace E (n → E) (e * w) ≠ 0
+
+/-- Characteristic-zero enormity forces absolute irreducibility: the scalar-extended image
+spans the full matrix algebra (Newton–Thorne 2023, Lemma 2.25, §7.10). -/
+theorem IsEnormousCharZero.span_eq_top {O : Type*} [CommRing O]
+    {E : Type*} [Field E] [CharZero E] [Algebra O E]
+    (H : Subgroup (GL n O)) (hH : IsEnormousCharZero (E := E) H) :
+    Submodule.span E (Set.range fun h : H =>
+      ((h : GL n O) : Matrix n n O).map (algebraMap O E)) = ⊤ := by
+  sorry
 
 /-- The fixing subgroup `G_{F(μ_m)}` of the `m`-th roots of unity. -/
 def cyclotomicSubgroup (F : Type*) [Field F] (m : ℕ) : Subgroup (Field.absoluteGaloisGroup F) :=
