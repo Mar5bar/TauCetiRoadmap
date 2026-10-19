@@ -20,6 +20,10 @@ Its §2.6 supplies the real/complex unitary block classification used by README 
 Its §3.2 supplies the minimal cuspidal Eisenstein family, meromorphic continuation,
 finite-block denominators and constant terms. README §§1.2–1.5 identify that family
 with the chamber construction; §§2.4–2.4a extend it to discrete and smooth inducing data.
+README §§1.15a–1.15c provide the general reductive Fredholm continuation route,
+the GL₂ scattering ratio and the all-unitary Hecke functional equation. The last
+uses ArithmeticGaloisRepresentations §2.7's finite-sum root-number product and
+AutomorphicLFunctionsAndLocalFactors AL.1's rank-one local functional equation.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -602,6 +606,28 @@ induced_family, eisenstein_series, convergent_intertwiner, euclidean_paley_wiene
 cuspidal_datum_space, unramified_character_torus, induced_spherical_section,
 induction_normalization_transport, bessel_kloosterman_coefficient, poincare_family,
 poincare_one_form, character_eisenstein, genus_eisenstein.
+
+README §§1.15a–1.15c specify three intended theorem interfaces:
+eisensteinSeries_meromorphicContinuation_fredholm continues E and the unnormalised M
+for a number-field connected reductive group and a smooth, finite-level, K-finite,
+moderate-growth automorphic inducing form finite under the Levi infinitesimal centre,
+with Weyl functional and
+composition equations and affine-root singularities. The proof uses the §0.16 Fredholm
+input and Bernstein's locally finite analytic systems; smooth operator bounds and
+finite spectral-strip order have the separate hypotheses and targets listed there.
+borelIntertwining_constant_eq_heckeRatio identifies the GL₂ Borel intertwiner for a
+unitary character pair with L^S(s, χ) / L^S(s + 1, χ) times the actual local operators
+at S, in the normalized induction with exponents s/2 and -s/2. Scalar extraction uses
+a nonzero local matrix-coefficient germ, with a nonzero holomorphic value in Re s > 0.
+Its Whittaker comparison uses AL.1's
+rank-one local functional equation with the arithmetic Tate constant.
+unitaryHeckeFunctionalEquation continues the primitive conductor-balanced completion
+for every unitary idele-class character of every number field and proves its
+inverse-character equation with the Gauss-sum root number. The completion is entire
+except for pure imaginary norm characters, whose simple poles are -i r and 1 - i r.
+The character parameter uses TauCeti.GlobalNumberFields.HeckeCharacter with the
+explicit unitary hypothesis. The adelic inducing, intertwining and completed
+Hecke-function carriers are specified in the README.
 
 The cuspidal restrictions of eisenstein_series, convergent_intertwiner and
 cuspidal_constant_term identify the minimal analytic family supplied by
