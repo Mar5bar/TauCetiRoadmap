@@ -284,7 +284,9 @@ end Quaternion
 section WeilPolynomials
 
 /-- Finitely many monic integer polynomials of degree `n` have all complex roots of absolute
-value `r` (R28.5.1); with `r = q ^ (w / 2)` these are the Weil `q`-polynomials of weight `w`. -/
+value `r` (R28.5.1), a specialization of `Polynomial.finite_mahlerMeasure_le` to fixed root radius
+through `Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots` with bound `(max 1 r) ^ n`.
+With `r = q ^ (w / 2)` these are the Weil `q`-polynomials of weight `w`. -/
 theorem finite_weilPolynomials (r : ℝ) (n : ℕ) :
     {P : ℤ[X] | P.Monic ∧ P.natDegree = n ∧
       ∀ z ∈ (P.map (Int.castRingHom ℂ)).roots, ‖z‖ = r}.Finite := by
@@ -558,7 +560,8 @@ representations of number fields with Frobenius elements) are not at the pins. B
   `StablePicard.lie_iso_firstDirectImage`, `StableCurve.relativeSerreDuality`,
   `modular_hodge_commensurable`, `metrizedDegree`, `modularHeight`, `HermitianMetric.HasLogSingularities`,
   `hodgeMetric_hasLogSingularities`, `northcott_logSingular` (the fixed-field specialization of
-  ArakelovGeometryAndAbelianHeights §5.2, using the positive maximum of section norms),
+  ArakelovGeometryAndAbelianHeights §5.2, using the positive maximum of section norms and
+  comparing normalized degree with `Projectivization.logHeight x / [K : ℚ]`),
   `hermiteMinkowski` (the fixed-degree, fixed-algebraic-closure adapter to
   ArithmeticGaloisDuality R02.3.1 `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`;
   its ramification-support library interface is

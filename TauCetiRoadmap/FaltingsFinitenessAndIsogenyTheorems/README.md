@@ -63,7 +63,8 @@ This roadmap owns:
 4. **The Tate conjecture** (Layer R28.4): Zarhin's quaternion construction, `−1` as a sum of four squares
    in `ℤ_l`, Zarhin's idempotent lemma, Satz 3 and Satz 4, Korollar 1 (Hom form), Korollar 2 (the
    isogeny criterion) and Korollar 3.
-5. **Finiteness** (Layer R28.5): finiteness of Weil polynomials, the Frobenius test set, Satz 5, the
+5. **Finiteness** (Layer R28.5): the specialization of Mathlib's polynomial finiteness to a fixed
+   root radius, the Frobenius test set, Satz 5, the
    auxiliary polynomials `P_h` and the bound `N`, the twisted determinant character and its
    unramifiedness, mod `l` characters of `Gal(ℚ̄/ℚ)` unramified outside `l`, Raynaud's determinant
    computation in this setting, heights along isogenies of large prime-power degree, the finiteness
@@ -77,8 +78,9 @@ This roadmap owns:
    integral commutant at almost all primes (Bemerkung 2).
 
 Several general statements are stated here because none of the roadmaps this one builds on
-states them: the finiteness of Weil polynomials and the finite Frobenius test set (in the generality the roadmaps
-building on this one use them), the descent of polarizations along isotropic subgroups, the
+states them: the specialization of Mathlib's polynomial finiteness theorem to a fixed root radius and
+the finite Frobenius test set (in the generality the roadmaps building on this one use them), the
+descent of polarizations along isotropic subgroups, the
 finiteness of direct factors and its integral-order orbit input, the finiteness of stable lattices in a semisimple `l`-adic
 representation, the rational Torelli theorem as used here, and the bridge from Weierstrass curves to
 abelian varieties of dimension one. The arithmetic degree and height here are the explicit
@@ -252,7 +254,9 @@ supplier states, the additional statement is part of that target here.
 - Algebra: `IsSemisimpleModule`, `IsSemisimpleRing` with `IsSemisimpleRing.ideal_eq_span_idempotent`,
   `Algebra.traceForm`, `LinearMap.BilinForm.IsAlt`, `LinearMap.BilinForm.orthogonal`,
   `LinearMap.BilinForm.finrank_add_finrank_orthogonal`, `LinearMap.det`, `LinearMap.trace`, `Matrix`,
-  `Polynomial` (with `Polynomial.roots` and Vieta's formulas), `Submodule.IsLattice`, Nakayama's lemma.
+  `Polynomial` (with `Polynomial.roots` and Vieta's formulas), `Polynomial.finite_mahlerMeasure_le`
+  (bounded degree and Mahler measure over `ℤ`),
+  `Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots`, `Submodule.IsLattice`, Nakayama's lemma.
 - Galois theory and representations: `Field.absoluteGaloisGroup`, `cyclotomicCharacter`,
   `modularCyclotomicCharacter`, `Representation.ind`, the transfer `MonoidHom.transfer` with
   `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`.
@@ -802,8 +806,9 @@ corresponding point of `X(ℂ) − Y(ℂ)`. Then for every `c` only finitely man
 *Proof route.* To apply the proper flat supplier, replace `X` by the schematic closure of
 `X_ℚ − Y_ℚ` in `X`. Its structure sheaf is torsion-free over `ℤ`, hence flat; it contains
 every point under consideration and its integral extension, and `O(1)` stays ample.
-The empty open locus gives the empty set of points. Choose a continuous hermitian metric `‖·‖_1` on `O(1)` over `X(ℂ)`, with height `h_1`; then
-`h_1 = logHeight + O(1)` on `X(K)` (changing the metric changes the height by a bounded amount). Choose
+The empty open locus gives the empty set of points. Choose a continuous hermitian metric `‖·‖_1` on `O(1)` over `X(ℂ)`, with normalized height `h_1`; then
+`h_1(x) = Projectivization.logHeight(x) / [K : ℚ] + O(1)` on `X(K)` by the supplied
+sup-metric degree formula and bounded change of continuous metric. Choose
 `s > 0` and integral sections `f_1, …, f_t ∈ Γ(X/ℤ, O(s))` with common zero set exactly `Y`.
 Rescale the continuous metric by one positive constant so that `‖f_i‖_1 ≤ e^{−1}` on `X(ℂ)`;
 this changes `h_1` by a constant and preserves the integral sections. Put
@@ -819,7 +824,8 @@ For `x ∈ X(K) − Y(K)` choose `i` with `ρ_x^*(f_i) ≠ 0`; its evaluation is
 infinite place, so the same index can be used throughout. Then
 `s·[K : ℚ]·h_1(x) ≥ −Σ_v ε_v log ‖f_i(x_v)‖_1 ≥ ε_v·|log ‖f_i(x_v)‖_1|` for each infinite `v`, and summing the
 estimate over the infinite places gives `|h(x) − h_1(x)| ≤ c_3 + c_4·log h_1(x)` for `h_1(x) ≥ 1`. So `h(x) ≤ c`
-bounds `h_1(x)` and hence the projective height, and Northcott on `ℙ^n(K)` (normalise a coordinate to `1`
+bounds `h_1(x)` and, since `K` is fixed, the relative `Projectivization.logHeight(x)`.
+Northcott on `ℙ^n(K)` (normalise a coordinate to `1`
 and bound each coordinate's height) leaves finitely many `x`.
 
 *Needs:* R28.1.6; ArakelovGeometryAndAbelianHeights §§5.1–5.2, 1.3–1.6, 1.12–1.14 (comparison of the degree of `ρ_x^*O(1)` with a
@@ -829,6 +835,12 @@ DiophantineApproximationAndTranscendence §§0.2–0.3 (absolute normalization a
 `Height.mulHeight₁_div_eq_mulHeight`.
 
 **Checks.**
+- On `X = ℙ¹_ℤ`, `Y = ∅`, `K = ℚ(i)` and `x_N = (N : 1)` for positive integers `N`, the
+  Fubini–Study metric gives `h_1(x_N) = ½ log(N² + 1)`, while
+  `Projectivization.logHeight(x_N) = 2 log N`: the coordinate ideal is the unit ideal and
+  the complex place has multiplicity two. Thus
+  `h_1(x_N) − Projectivization.logHeight(x_N)/2 = ½ log(1 + N⁻²)` is bounded, whereas
+  `h_1(x_N) − Projectivization.logHeight(x_N) → −∞`.
 - The common zero locus of the `f_i` must be exactly `Y`; a larger zero locus destroys the comparison.
 - On `ℙ¹(ℂ)` with `M = O(1)`, let `f_1` vanish at `0` and `f_2 = 0`.
   For a metric ratio `|log|t||` near `0`, the left side grows like `log|log|t||`.
@@ -1938,11 +1950,16 @@ finiteness of Weil `q`-polynomials of weight `w` (Faltings 1983, §6, proof of S
 *Abelian varieties*, IV proof of Theorem 3.10, p. 144).
 
 *Proof route.* If `r < 0` and `n > 0`, no polynomial satisfies the root condition; for `n = 0` the only
-monic polynomial is `1`. For `r ≥ 0`, the coefficient of `X^{n−j}` is `±` the `j`-th elementary symmetric function of the roots, of
-absolute value at most `binom(n, j)·r^j`; there are finitely many integers in each such interval.
+monic polynomial is `1`. For `r ≥ 0`, use
+`Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots`: monicity and the `n` complex roots,
+counted with multiplicity, give `(P.map (Int.castRingHom ℂ)).mahlerMeasure = max(1, r)^n`.
+Package this nonnegative bound as `B : ℝ≥0` and apply `Polynomial.finite_mahlerMeasure_le n B`.
+The desired set is a subset of that finite set. The generic finiteness theorem for bounded degree
+and Mahler measure is supplied by Mathlib.
 
-*Needs:* Mathlib `Polynomial.Monic`, `Polynomial.roots`, `Polynomial.coeff_eq_esymm_roots_of_card`
-(Vieta), `IsAlgClosed.splits_domain`.
+*Needs:* Mathlib `Polynomial.Monic`, `Polynomial.roots`,
+`Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots`, `Polynomial.finite_mahlerMeasure_le`,
+`IsAlgClosed.splits_domain`.
 
 **Checks.**
 - `n = 2`, `r = √2`: the monic integer quadratics with both roots of absolute value `√2` and real coefficients
