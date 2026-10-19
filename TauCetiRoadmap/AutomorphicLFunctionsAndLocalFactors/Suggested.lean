@@ -48,12 +48,12 @@ the finite-order/algebraic standard-integral normalization and Hecke equation. I
 `root-number-product-formula` is a finite-sum identity for the product of those constants.
 AL.2 proves global matrix-integral continuation and functional equations by Poisson
 summation for every n ≥ 1, including all unitary idele-class characters at n = 1.
-AL.1 gives its rank-one distribution and Hecke normalization comparisons, and specializes
+AL.1 gives its scalar Hecke corollary and normalization comparisons, and specializes
 the local matrix equation through `rank-one-local-functional-equation`.
 The local equation for arbitrary Schwartz functions and eigendistribution uniqueness
 are targets here. The standard-function evaluations and `tateLocalConstant` belong to that
 supplier. The equality of the norm-one idele-class volume with Mathlib's Dedekind residue κ
-is a corollary of AL.2 at n = 1 and the standard Hecke comparison.
+is recorded in the Hecke corollary by comparing AL.2 at n = 1 with the standard Hecke residue.
 `LocalAdditiveSelfDuality` compares the supplied isomorphism with the bilinear annihilator;
 `SelfDualHaar` records the local measure adapter. The README specifies the additional
 local-factor, vector-space and distribution refinements, representation spaces, shtukas and
@@ -449,7 +449,7 @@ theorem gaussian_periodization_compact_scaled (K : Set ℝ) (hK : IsCompact K)
 
 end TauCeti.AutomorphicLFunctions.AL0
 
-/-! ## Layer AL.1: Tate distributions and archimedean factors -/
+/-! ## Layer AL.1: Local eigendistributions and Hecke factors -/
 
 namespace TauCeti.TateZeta.SuggestedTest
 
@@ -490,21 +490,6 @@ example (a : ℝ) (ha : 0 < a) :
     ∑' n : ℤ, Real.exp (-Real.pi * a * (n : ℝ) ^ 2) =
       1 / a ^ (1 / 2 : ℝ) * ∑' n : ℤ, Real.exp (-Real.pi / a * (n : ℝ) ^ 2) :=
   Real.tsum_exp_neg_mul_int_sq ha
-
-/-- The n = 1 specialisation of AL.2's global Godement–Jacquet equation, compared with
-Hecke's completion, gives the polar bracket and reflection over ℚ. For the standard
-function, κ = f(0) = f̂(0) = 1, so the bracket is `1/(s - 1) - 1/s`. -/
-example (s : ℂ) :
-    completedRiemannZeta s = completedRiemannZeta₀ s - 1 / s - 1 / (1 - s) ∧
-      completedRiemannZeta (1 - s) = completedRiemannZeta s :=
-  ⟨completedRiemannZeta_eq s, completedRiemannZeta_one_sub s⟩
-
-/-- Mathlib's Dedekind residue κ specializes to 1 over ℚ. The n = 1
-Godement–Jacquet residue and the standard Hecke comparison identify it with the norm-one
-idele-class volume in `AL.1/idele-class-volume`:
-`r₁ = 1`, `r₂ = 0`, `h = R = 1`, `w = 2`, `|d| = 1`. -/
-example : (2 : ℝ) ^ 1 * (2 * Real.pi) ^ 0 * 1 * 1 / (2 * Real.sqrt 1) = 1 := by
-  norm_num
 
 /-- `AL.1/local-gauss-sum`, `c = 1`, `ν = 0` over `ℚ_p`: `𝔤 = p^{-1/2} g` and `|g|² = p` give
 `|𝔤|² = 1`. -/
@@ -612,11 +597,6 @@ def localGaussSum {F : Type*} [Field F] [MeasurableSpace F]
   (q : ℂ)^(((ν : ℂ)+(c : ℂ))/2) *
     ∫ y in U, (ω y)⁻¹ * (ψ (((ϖ : F)^(-ν-(c : ℤ)))*y) : ℂ) ∂μ
 
--- TauCeti.TateZeta.globalZetaIntegral_zero
-example {G : Type*} [MeasurableSpace G] (μ : Measure G)
-    (a : G → ℝ) (ω : G → ℂ) (s : ℂ) :
-    zetaIntegral μ a ω s (fun _ => 0) = 0 := by sorry
-
 example {F : Type*} [Field F] [MeasurableSpace F]
     (μ : Measure F) (q : ℝ) (ν : ℤ) (c : ℕ) (ϖ : Fˣ)
     (ω : F → ℂ) (ψ : AddChar F Circle) :
@@ -644,12 +624,15 @@ supplied primitive LFunctions completion; the conductor A is positive in applica
 def balancedHeckeL (A : ℝ) (L : ℂ → ℂ) (s : ℂ) : ℂ :=
   (A : ℂ) ^ (s / 2) * L s
 
-/-- Balancing transports the conductor-power epsilon equation to its constant-root-number
-form at a point where the unbalanced equation holds. -/
+/-- Conductor balancing transports the unbalanced meromorphic germ equation to
+Hecke's constant Gauss-sum-root-number equation. In the rank-one application the
+input germ equation is the n = 1 Godement–Jacquet equation with its epsilon
+product identified by ArithmeticGaloisRepresentations §2.7. -/
 theorem balancedHeckeL_functionalEquation (A : ℝ) (hA : 0 < A)
-    (L Ldual : ℂ → ℂ) (W s : ℂ)
-    (h : L s = W * (A : ℂ) ^ (1/2 - s) * Ldual (1 - s)) :
-    balancedHeckeL A L s = W * balancedHeckeL A Ldual (1 - s) := by sorry
+    (L Ldual : ℂ → ℂ) (W s₀ : ℂ)
+    (h : L =ᶠ[𝓝[≠] s₀] fun s => W * (A : ℂ) ^ (1/2 - s) * Ldual (1 - s)) :
+    (fun s => balancedHeckeL A L s) =ᶠ[𝓝[≠] s₀]
+      (fun s => W * balancedHeckeL A Ldual (1 - s)) := by sorry
 
 /-- Conductor one introduces no balancing factor. -/
 example (L : ℂ → ℂ) (s : ℂ) : balancedHeckeL 1 L s = L s := by sorry
