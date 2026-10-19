@@ -255,21 +255,16 @@ theorem cycleBoundary_finsupp [Fintype V] [Fintype E] (O : Set E) (c : O → ZMo
           Finsupp.single (Γ.src e) (1 : ZMod 2))
         ((Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) O).symm c) := by sorry
 
-/-- The boundary comparison restricts to the supplied binary kernel on edge type `O` (§2.2a).
-The explicit codomain is `DualGraph.modTwoCycleSpace` from
-NeronModelsAndSemistableAbelianVarieties §4.2. -/
-noncomputable def cycleSpace_finsuppEquiv [Fintype V] [Fintype E] (O : Set E) :
-    Γ.cycleSpace O ≃ₗ[ZMod 2]
+/-- The boundary comparison restricts to a coordinate-preserving linear equivalence with the
+supplied binary kernel on edge type `O` (§2.2a). -/
+theorem exists_cycleSpace_finsuppEquiv [Fintype V] [Fintype E] (O : Set E) :
+    ∃ e : Γ.cycleSpace O ≃ₗ[ZMod 2]
       LinearMap.ker (Finsupp.linearCombination (ZMod 2)
         (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
-          Finsupp.single (Γ.src e) (1 : ZMod 2))) := by sorry
+          Finsupp.single (Γ.src e) (1 : ZMod 2))),
+      ∀ (c : Γ.cycleSpace O) (i : O), (e c).val i = c.val i := by sorry
 
-/-- The supplied-kernel comparison preserves each edge coordinate (§2.2a). -/
-theorem cycleSpace_finsuppEquiv_apply [Fintype V] [Fintype E] (O : Set E)
-    (c : Γ.cycleSpace O) (e : O) :
-    (Γ.cycleSpace_finsuppEquiv O c).val e = c.val e := by sorry
-
-/-- Transport of the supplied binary forest basis along `cycleSpace_finsuppEquiv` and the
+/-- Transport of the supplied binary forest basis along the coordinate-preserving equivalence and the
 chord-index bijection gives the Serre tree-loop basis (§2.2a). -/
 theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.SpanningTree)
     (O : Set E) (hO : Γ.IsOrientation O) :
@@ -624,7 +619,7 @@ end layer5
 
 section layer6
 
-/-- Finite polygonal incidence uses actual closed Serre face traversals (§6.0a).
+/-- Polygonal incidence records actual closed Serre face traversals (§6.0a).
 Repeated edge and vertex occurrences remain distinct corners. -/
 structure PolygonalComplex (V E F : Type*) where
   graph : SerreGraph V E
@@ -655,13 +650,14 @@ def vertexLink (v : V) : SerreGraph {e : E // C.graph.src e = v}
   rev_rev := by sorry
   rev_ne := by sorry
 
-/-- The local degree counts link darts; a link loop contributes two. -/
-noncomputable def linkDegree (e : E) : ℕ :=
+/-- For a finite face type, the local degree counts link darts; a link loop contributes two. -/
+noncomputable def linkDegree [Finite F] (e : E) : ℕ :=
   Nat.card {p : C.Corner × Bool //
     (if p.2 then (C.cornerEnds p.1).2 else (C.cornerEnds p.1).1) = e}
 
-/-- A surface link is a nonempty connected circle or a nondegenerate interval. -/
-def HasSurfaceLink (v : V) : Prop :=
+/-- With finitely many faces, a surface link is a nonempty connected circle or a nondegenerate
+interval. -/
+def HasSurfaceLink [Finite F] (v : V) : Prop :=
   (C.vertexLink v).Connected ∧
   ((∀ e : {e : E // C.graph.src e = v}, C.linkDegree e = 2) ∨
     ∃ a b : {e : E // C.graph.src e = v}, a ≠ b ∧
