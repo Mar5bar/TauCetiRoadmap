@@ -698,7 +698,7 @@ downstream application actually invokes.
   the weight `-ω` of `L(ω)` satisfies the weight condition while `L(0) ⊗ L(ω) = L(ω)`). For `gl_n`
   this specializes to the classical Pieri rules for the standard module and its dual (Layer 9).
   The type-A polynomial Littlewood–Richardson counts come from
-  [SchurWeyl Layer 7](../SchurWeyl/README.md); ClassicalGroups Layer 4 identifies them
+  [SchurWeyl Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk), specifically its shared skew-tableau, ballot-count and tableau-product contracts; ClassicalGroups Layer 4 identifies them
   with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
 
 ### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
@@ -1151,10 +1151,14 @@ the stated scalar extension; “formally real” is never asserted over algebrai
 
 The layers above fix a Killing-semisimple `L`. `gl_n` is **reductive, not semisimple**: its Killing
 form is degenerate and its centre is the scalar matrices, so none of the `IsKilling` machinery
-applies to it directly, and the group-level classification of
-[../ClassicalGroups/README.md](../ClassicalGroups/README.md) has its own native
-torus/transvection proof. This layer supplies the Lie-algebra-level `gl_n` theory
-and, after that group classification, the comparison between the two. This layer is that theory, under the
+applies to it directly. This layer supplies the Lie-algebra-level `gl_n` theory.
+For its polynomial comparison consume the concrete Schur modules of
+[ClassicalGroups Layers 2–4](../ClassicalGroups/README.md), their group-level irreducibility,
+highest weights and Schur characters, and the native torus/transvection tools those
+constructions use. These tools do not already prove the full abstract rational-group
+classification or highest-weight uniqueness; those remain ClassicalGroups targets.
+The comparison here constructs the needed differentiation, stable-subspace and
+intertwiner dictionaries without assuming that entire classification. This layer is that theory, under the
 conventions of the reductive standing-conventions bullet (Mathlib's `HasCentralRadical` as the
 unbundled reductivity hypothesis, the trace form as the invariant form, the matrix-unit positive
 system). It is independent of Layer 8.
@@ -1212,8 +1216,9 @@ system). It is independent of Layer 8.
   such a tuple by `m · (1, …, 1)`, `m∈ℤ`, is the visible determinant twist.
   The Lie condition also permits shifts by arbitrary `c∈K`; such weights need
   not integrate to rational group representations.
-  Over ℂ, build the differentiation bridge for the polynomial GL_n representations of
-  ClassicalGroups after its Layers 2–4. State the native `TauCeti.IsRationalRep` and `TauCeti.IsPolynomialRep`
+  Over ℂ, build the differentiation bridge for the concrete polynomial Schur GL_n modules
+  supplied by ClassicalGroups Layers 2–4, using their irreducibility, highest weights and
+  characters rather than the full abstract group classification. State the native `TauCeti.IsRationalRep` and `TauCeti.IsPolynomialRep`
   hypotheses explicitly. Differentiate those
   coefficients to a gl_n action and prove preservation of tensor products and
   intertwiners. Prove that every gl_n-stable subspace of a rational GL_n-module
@@ -1224,9 +1229,23 @@ system). It is independent of Layer 8.
   vectors satisfy the corresponding Lie highest-weight conditions. Then identify the differentiated
   shape-λ Schur module with `glIrreducible n λ` by its highest weight and irreducibility.
   For λ, μ with at most n rows, identify the multiplicity of `glIrreducible n ν` in their
-  tensor product with the LR count from SchurWeyl Layer 7 for every ν with at most n rows.
-  This comparison is owned here; the finite alphabet truncation and the central
-  identity-matrix weight |ν|=|λ|+|μ| are explicit in the statement.
+  tensor product with the actual finite tableau count
+  `Nat.card (LRTableau λ ν μ)` for every ν with at most n rows. Consume
+  [SchurWeyl Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk),
+  whose skew carrier requires λ≤ν, has weak rows and strict columns, and fixes content
+  μ.rowLen and the top-to-bottom, right-to-left reading word with zero-indexed prefix
+  condition `#(k+1)≤#k`. Its insertion/rectification/dual-equivalence tableau-product
+  bijection preserves weight and proves the finite-alphabet polynomial identity
+  `s_λ s_μ = ∑_ν Nat.card (LRTableau λ ν μ) s_ν`. This count is not defined to be a
+  tensor multiplicity or an unspecified Schur structure constant. Use the Schur-character
+  identity and basis independence to identify the group coefficients, then the owned
+  differentiation/intertwiner comparison to identify the Lie coefficients. Prove zero
+  count when λ is not contained in ν or sizes do not add; restrict the sum to
+  |ν|=|λ|+|μ| and at most n rows, with taller Schur shapes vanishing in n variables.
+  Retain the central identity-matrix weight |ν|=|λ|+|μ|. Verify the empty shapes and
+  n=0 empty alphabet separately; for n=1 the `(1,1)` term of
+  `s_(1)^2=s_(2)+s_(1,1)` vanishes. The generic tableau/count/product theorem has
+  one owner, SchurWeyl; this layer owns its application to the actual Lie modules.
 
 ---
 
@@ -1359,10 +1378,14 @@ self-contained units: the reductive structure theory (`HasCentralRadical` throug
 (`diagonalCartan` through `glCasimir_smul_of_isGlHighestWeightVector`) consumes Layers 0, 2, 4, and
 5 through the pinned `sl ↔ gl` transfer, plus the Layer 6 minuscule Pieri rule for
 `gl_dual_standard_pieri`. The polynomial differentiation/LR comparison is a third
-unit, sequenced after this core gl_n theory and ClassicalGroups Layers 2–4;
-it consumes SchurWeyl Layer 7. The GL_n classification in ClassicalGroups Layer 3 uses its native group-level
-torus/transvection route independently of differentiation, so this comparison
-does not introduce a dependency cycle.
+unit, sequenced after this core gl_n theory and the concrete polynomial Schur-module
+irreducibility/highest-weight/character contracts in ClassicalGroups Layers 2–4.
+It consumes [SchurWeyl Layer 7's explicit LR tableau-count/product construction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk).
+The generic combinatorial proof is independent of group or Lie tensor multiplicities.
+The polynomial group-side input uses its native torus/transvection and independent
+Schur-character route; the stable-subspace and intertwiner comparison is proved here.
+The full abstract ClassicalGroups classification is not an input to this comparison,
+so no dependency backedge is introduced.
 
 ## References
 
