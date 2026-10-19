@@ -36,8 +36,8 @@ The exact contracts below refer to
 Its P0 supplies almost modules and their adjoints; the ordinary cotangent
 complex is supplied by DerivedModuleAlgebra §§0.4, 0.8–0.11, 0.13 and 0.25,
 with the contract also recorded in PerfectoidSpaces P0.19;
-P2 supplies rational localization and approximation; P3 supplies analytic
-tilting; P5 supplies completed colimits of perfectoid pairs.
+P2 supplies rational localization and approximation; P2.1–P2.2 supply the
+tilting homeomorphism; P5 supplies completed colimits of perfectoid pairs.
 The early targets in §0.0 own perfectoid Tor-independence, Fontaine
 Tor-independent base change, and complete étale δ-extension with its
 algebraization input. They use only the lower-tier contracts specified below.
@@ -50,8 +50,8 @@ for the modulo-`p` refinement.
 General perfectoidization of arbitrary animated rings, arc descent and
 `J`-almost purity belong to `PerfectoidQuotientsPartIIIntegralPerfectoidization`.
 General fibre-product and valuation methods, including the stronger ordinary
-ind-syntomic André theorem of Česnavičius–Scholze Proposition 2.3.4, belong to
-`IntegralPerfectoidPartII`. Frobenius-approximating towers remain with
+ind-syntomic André theorem of Česnavičius–Scholze Theorem 2.3.4, pp.24–25, belong to
+`IntegralPerfectoidPartII`. Frobenius-controlled towers remain with
 PerfectoidSpaces P7. None is an input here. In particular, Bhatt–Scholze
 Proposition 8.5 cannot prove their Theorem 7.4: it already uses that theorem.
 
@@ -265,7 +265,7 @@ Its extension by simplicial resolutions has conjugate graded pieces
 initial prism. These are the precise carriers used in the relative cover.
 Sources: Bhatt–Scholze Lemma 3.9 and Theorem 3.10, pp.31–32; Lemma 4.8,
 pp.38–39; Theorems 6.3–6.4, pp.52–54; Construction 7.6, pp.56–58, and
-Proposition 7.10, p.60.
+Proposition 7.10, p.59.
 
 P4.15.4 supplies the lifting theorem for a quasisyntomic algebra over the
 reduction of a bounded prism, preserving complete flatness and faithful
@@ -389,9 +389,14 @@ mapping property follows from derived tensor and completion against derived
 p-complete targets. The ordinary completed tensor comparison is recorded in §0.6. Do not assert that an arbitrary
 uncompleted derived tensor is discrete.
 
-*Proof route.* Transport the diagram through P4.15.2's equivalence to perfect
+*Proof route.* If `S` or `T` is zero, the completed derived pushout is zero.
+Assume both are nonzero. Transport the diagram through P4.15.2's equivalence to perfect
 prisms `(B,IB) ← (A,I) → (C,IC)`. Form the derived `(p,I)`-completed tensor
-`D = (B ⊗^L_A C)^∧_(p,I)`. Reduction modulo `p`, E1's Tor-independence of
+`D = (B ⊗^L_A C)^∧_(p,I)`. The reductions `A/p`, `B/p` and `C/p` are nonzero:
+if `p` were a unit in any prism ring, its `(p,I)`-completeness would force
+that ring and its perfectoid quotient to be zero. Thus these perfect
+reductions have exact characteristic `p`, as E1's `CharP _ p` hypotheses require.
+Reduction modulo `p`, E1's Tor-independence of
 perfect `𝔽_p`-algebras and the supplied completion comparisons show that D is
 discrete with invertible Frobenius. A distinguished generator of I stays
 distinguished in D, so P4.15.2's regularity criterion makes `ID` Cartier.
@@ -612,8 +617,11 @@ of the target. For the second, compare maps into `S/p^(n+1)`, where `p` is
 nilpotent, using equality on Teichmüller representatives; separation then
 identifies the maps into `S`. The pinned theorem
 `WittVector.eq_of_apply_teichmuller_eq` is applied only to these nilpotent
-quotient targets. The result applies to arbitrary complete rings with nonunit `p`,
-whereas P1.17's analytic Fontaine comparison concerns Tate-plus rings.
+quotient targets. The result applies to arbitrary `p`-complete rings with nonunit
+`p` on Mathlib's `PreTilt`. PerfectoidSpaces P1.7's `uniformTilt.map`, with
+`sharp (map g x) = g (sharp x)`, and `uniformTilt.theta_natural` concern
+complete uniform Tate rings and their plus rings; the two `theta_natural`
+names live in different namespaces.
 
 For a `p`-complete ring `R` with nonunit `p`, construct
 `finiteFontaineTheta p R r : A_inf(R) → W_r(R)` by the inverse-limit
@@ -797,7 +805,7 @@ image of `ker(F^n : R/p → R/p)`. The power map identifies
 `perfectoid_compatible_roots_iterated_frobenius`; they add normalized roots
 and quotient calculations to the existing multiplicative comparison.
 
-Sources: Česnavičius–Scholze §§2.1.2–2.1.3, pp.11–12, including equations
+Sources: Česnavičius–Scholze §§2.1.2–2.1.3, pp.10–12, including equations
 (2.1.3.1)–(2.1.3.2), for reducedness, annihilators and the decomposition;
 Česnavičius Remark 4.3 and Remarks 4.4–4.5, p.8, for reducedness and the
 normalized root calculations. Prerequisites are the integral predicate,
@@ -813,9 +821,11 @@ intermediate subring closed under `p`th roots inside the fixed ambient ring
 generated subring and repeat; the union of these stages is root closed.
 The definition may use the infimum of the root-closed subrings containing `A`.
 The ambient ring is essential: this construction does not adjoin roots in a
-new algebra. Its infimum definition works for any natural exponent; the source application fixes a prime, and the
-integral-closure containment explicitly requires that prime hypothesis. It is contained in ordinary integral closure, since each root
-satisfies a monic polynomial, but it need not equal that closure.
+new algebra. Its infimum definition works for any natural exponent; the source
+application fixes a prime. The integral-closure containment needs only a
+positive exponent, since each root then satisfies a monic polynomial; the
+prime hypothesis suffices. Exponent `0` makes the closure the whole ring.
+For positive exponents the root closure need not equal ordinary integral closure.
 
 The API consists of the following named statements.
 
@@ -824,12 +834,14 @@ The API consists of the following named statements.
 - `pIntegralClosure.minimal` — The closure is contained in every p-integrally closed intermediate subring containing `A`.
 - `pIntegralClosure.idempotent` — Taking p-integral closure twice gives the same subring.
 - `pIntegralClosure.mono` — An inclusion of source subrings induces an inclusion of their closures.
-- `pIntegralClosure.le_integralClosure` — The p-integral closure is contained in the baseline integral closure.
+- `pIntegralClosure.le_integralClosure` — For a positive exponent, the p-integral closure is contained in the baseline integral closure.
 
 **Checks.**
 
 - `pClosureIdentity` — A p-integrally closed subring is its own p-integral closure.
 - `pClosureZero` — In the zero ambient ring the closure is the unique subring.
+- `pClosureExponentZero` — At exponent `0`, every ambient element has power
+  `b^0=1` in every subring, so `pIntegralClosure 0 B A = ⊤` for every `A ⊆ B`.
 - `polynomialAmbient` — The subring generated by `T¹` in `F₂[T]` is all of `F₂[T]`.
 - `pClosureRoot` — In `F₂[T]`, the 2-integral closure of `F₂[T²]` is all of `F₂[T]`.
 - `pClosureNotOrdinary` — In `F₂[T]`, `F₂[T³]` is 2-integrally closed, while its ordinary
@@ -849,8 +861,9 @@ representative formula independent of the choice of lift.
 
 - `quotientPowerUnit` — At `p=2`, `A=ℤ` and `ϖ=1`, both quotients are
   zero and the map is bijective.
-- `quotientPowerZero` — At `p=2`, `A=F₂` and `ϖ=0`, both quotients are
-  `F₂` and the map is the identity.
+- `quotientPowerZero` — At `p=2`, `A=F₄` and `ϖ=0`, both quotients are
+  `F₄` and the map is Frobenius: for `ω²+ω+1=0`, it sends
+  `ω ↦ ω² = ω+1 ≠ ω`. A `p²`-power map would be the identity here.
 - `quotientPowerDirection` — At `p=2`, `A=F₂[T]` and `ϖ=T`, the source
   is modulo `T` and the target modulo `T²`. The map is injective with
   image the constants, while the nonzero class `[T]` has no preimage.
@@ -864,7 +877,9 @@ Let `ϖ` be a nonzerodivisor in `A` with `ϖ^p | p`. The map
 an integral perfectoid ring to obtain `p`-root closedness of its image in the
 localization even when the original ring has `ϖ`-torsion. Suggested.lean states the equivalent representative criterion
 `∀ x ∈ A, ϖ^p | x^p → ϖ | x`, which is the injectivity condition without
-constructing a new quotient map. The torsion-removal application and
+constructing a new quotient map. Its equivalence with ambient root closedness
+holds for every nonzerodivisor `ϖ` without `ϖ^p | p`; that divisibility
+makes the quotient power map well defined. The torsion-removal application and
 completion criterion below are separate conclusions. The nonzerodivisor
 criterion is first proved before this torsion-removal application.
 
@@ -1075,7 +1090,7 @@ variables satisfying `g_i^p=0`; their regular-sequence and nilpotent
 thickening calculations give ordinary syntomic stages modulo `p`.
 Pass through these stages and their limits to obtain ind-syntomicity.
 This refinement is separate from the stronger ordinary ind-syntomic
-extension of Česnavičius–Scholze Proposition 2.3.4.
+extension of Česnavičius–Scholze Theorem 2.3.4, pp.24–25.
 
 Source: Bhatt–Scholze Remark 7.15 and its proof, p.62, refining Theorem
 7.14, pp.61–62. Prerequisites are the P4.15.4 cover, P4.15.1's
@@ -1209,7 +1224,7 @@ root (`functorial_almost_aic_extension`). At a successor stage use a
 polynomial-indexed family of covers and their perfectoid coproduct,
 preserving maps of models; independent nonfunctorial choices of extensions
 do not yield this functor. Iterate to `ω₁`. A Cauchy sequence uses only
-countably many stages, so at the final countably filtered stage the raw
+countably many stages, so at the final countably filtered (`ω₁`-filtered) stage the raw
 plus-ring colimit is already complete. Every finite list of polynomial
 coefficients comes from one earlier stage, and its successor supplies the
 root. Verify naturality, preservation of the integral-model conditions,
@@ -1247,8 +1262,8 @@ Functorial iteration uses Layer 0's completed tensor products,
 `P0/almost-hom-and-adjoints`, `almost-tensor-and-internal-hom`,
 `almost-zero-limits-and-colimits`,
 `PerfectoidSpaces:P5/completed-colimit-of-perfectoid-pairs`,
-`P5/completed-colimit-is-perfectoid` and P4.15.1's countably filtered
-completion exchange.
+`P5/completed-colimit-is-perfectoid` and P4.15.1's `ω₁`-filtered
+completion exchange (`semiperfectoidCompletionTransfinite`).
 
 ### Examples
 

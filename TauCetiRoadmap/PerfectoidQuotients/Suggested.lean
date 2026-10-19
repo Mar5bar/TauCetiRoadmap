@@ -228,6 +228,8 @@ theorem pIntegralClosure.minimal (C : Subring B) (hAC : A ≤ C)
 example (h : ∀ b : B, b ^ p ∈ A → b ∈ A) : pIntegralClosure p B A = A := by sorry
 -- pClosureZero
 example : pIntegralClosure p (ZMod 1) ⊥ = ⊤ := by sorry
+-- pClosureExponentZero
+example : pIntegralClosure 0 B A = ⊤ := by sorry
 
 /-- The actual polynomial subring F₂[T^n] inside F₂[T]. -/
 private def powerPolynomialSubring (n : ℕ) : Subring (Polynomial (ZMod 2)) :=
@@ -251,9 +253,8 @@ end ClosureAndOperations
 section RootClosure
 variable (p : ℕ) [Fact p.Prime] (R : Type u) [CommRing R]
 
-/-- For regular π, the kernel condition for R/(π) → R/(π^p) is ambient p-root closedness in R[1/π]. -/
+/-- For regular π, the representative divisibility criterion is ambient p-root closedness in R[1/π]. -/
 theorem perfectoid_p_integral_closedness (π : R)
-    (hπ : ∃ a : R, π ^ p * a = (p : R))
     (hreg : ∀ x : R, π * x = 0 → x = 0) :
     (∀ x : R, π ^ p ∣ x ^ p → π ∣ x) ↔
       ∀ b : Localization.Away π,
@@ -281,10 +282,11 @@ example :
 end RootClosure
 
 -- rootQuotientUnitGenerator
-/-- A root of X²+X+1 in characteristic two is a unit and is not fixed by squaring. -/
+-- quotientPowerZero
+/-- A root of X²+X+1 in characteristic two is a unit whose square is ω+1, distinct from ω. -/
 example {k : Type*} [Field k] [CharP k 2] (ω : k)
     (hω : ω ^ 2 + ω + 1 = 0) :
-    IsUnit ω ∧ ω ^ 2 ≠ ω := by sorry
+    IsUnit ω ∧ ω ^ 2 = ω + 1 ∧ ω ^ 2 ≠ ω := by sorry
 
 /-- In cohomological notation M[1] has M in degree −1 and zero in degree 0. -/
 example :
