@@ -73,8 +73,8 @@ universe u u' v v' w w'
 
 namespace LinearMap
 
-/-- Concrete scalar realization of AdicSpacesPartIII §R3.8 projective-module-trace.
-Provides the contraction trace for the §7.2 consumer alias and its symmetric-duality comparison. -/
+/-- Consumer realization of AdicSpacesPartIII §R3.8 projective-trace-realization.
+Provides the contraction trace used by the §7.2 alias; the supplier owns its categorical comparison. -/
 def projectiveTrace (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] : Module.End R N →ₗ[R] R :=
   contractLeft R N ∘ₗ (dualTensorHomEquiv R N N).symm.toLinearMap
@@ -3058,8 +3058,9 @@ theorem tensorInd_rank_one_transfer (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
 -- Over `F₂`, every rank-one character is trivial, so twisting the rank-one Asai representation
 -- by the quadratic character gives the same extension.
 omit [IsTopologicalGroup Γ] in
-/-- In characteristic two the Asai swap is a nontrivial unipotent involution. -/
-theorem asai_swap_char_two [TopologicalSpace (ZMod 2)] [IsTopologicalRing (ZMod 2)]
+/-- Rank-one characters over `F₂` and their quadratic twists are trivial; twisting preserves
+the associated representation (§7.1). -/
+theorem rank_one_f2_twist_trivial [TopologicalSpace (ZMod 2)] [IsTopologicalRing (ZMod 2)]
     (ψ η : Γ →ₜ* (ZMod 2)ˣ) :
     ψ = 1 ∧ η = 1 ∧ ofCharacter (ψ * η) = ofCharacter ψ := by
   have hu : ∀ u : (ZMod 2)ˣ, u = 1 := by decide
@@ -3136,8 +3137,8 @@ variable {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   {M : Type*} [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M]
   [TopologicalSpace M] [IsModuleTopology A M]
 
-/-- Local consumer alias for AdicSpacesPartIII R3.8 `LinearMap.projectiveTrace`, realizing the
-PivotalSpherical Layer 2 duality trace in the standard symmetric module duality.
+/-- Local consumer alias for AdicSpacesPartIII §R3.8 `LinearMap.projectiveTrace`, whose agreement
+with the categorical trace is supplied by `LinearMap.projectiveTrace_eq_categoricalTrace` there.
 Provides the scalar trace used by `adZero`, `tracePairing_perfect` and `adZero_to_adQuot` (§7.2). -/
 def endTrace (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] : Module.End R N →ₗ[R] R :=
