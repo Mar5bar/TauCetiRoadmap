@@ -328,7 +328,7 @@ interfaces retain their separate closed-fibre contract.
 
 #### ArithmeticGaloisRepresentations §§1.1–1.6, `6.1`–`6.2` (finite coefficient models, lattices and Tate realizations)
 
-ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius `π_A`. Section `1.5` supplies descent to finite coefficient fields; §1.6 / `exists_stable_lattice_iff` and `GaloisLattice.IntegralModel.nonempty` supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies `H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ)`, compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through EtaleCohomologyFoundations §§F.10.2–F.10.2b. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
+ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius `π_A`. Section `1.5` supplies descent to finite coefficient fields; EtaleCohomologyFoundations §F.4.0 (`exists_stable_lattice_iff`, `GaloisLattice.IntegralModel.nonempty`), realized in §1.6, supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies `H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ)`, compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through EtaleCohomologyFoundations §§F.10.2–F.10.2b. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
 
 <a id="input-agr-purity"></a>
 
@@ -1940,7 +1940,7 @@ in §5.7's étale-descent comparison.
 *Needs:* ReductiveGroups Layers 2, 3, 6; ReductiveGroupsPartII §RG2.0.2
 (local charts); Mathlib `ℓ`-adic power-series convergence;
 ArithmeticGaloisRepresentations §§1.1–1.6
-(§1.5 finite coefficient descent; §1.6 stable lattices for compact image).
+(§1.5 finite coefficient descent; §1.6 realizing the compact-image stable lattices of EtaleCohomologyFoundations §F.4.0).
 (Source: [WII](#ref-wii), Lemma (1.3.15) and proof, pp. 161–162.)
 
 **Checks.**
@@ -2167,7 +2167,7 @@ single curve surjects onto every geometric cover at once. Section `5.5`'s
 assertion about the entire geometric abelianization uses the separate
 prime-to-`p` construction below. *Needs:* SchemeAndStackFoundations
 §§0.9, `0.21`; LefschetzPencilsAndVanishingCycles §5.1; ArithmeticGaloisRepresentations
-§§1.1–1.6 (finite coefficient descent and compact-image stable lattices); ProfiniteProPGroups, Layer `3` (Frattini detection of closed images);
+§§1.1–1.6 (finite coefficient descent; compact-image stable lattices from EtaleCohomologyFoundations §F.4.0); ProfiniteProPGroups, Layer `3` (Frattini detection of closed images);
 §5.15's specialization statement. (Source: [WII](#ref-wii),
 §1.11 (1.11.4)–(1.11.5), pp. `185`–`186`.)
 
