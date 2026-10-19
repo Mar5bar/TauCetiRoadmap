@@ -715,7 +715,7 @@ A perfect `𝔽_p`-algebra is a commutative ring of characteristic p on which Fr
 
 *Needs:* Mathlib `IsRegularRing`, `IsRegularLocalRing`, `frobenius`, `RingHom.Flat`, `RingTheory.Sequence.IsRegular`; `TauCetiRoadmap.SchemeAndStackFoundations` §0.17 (depth and Cohen–Macaulay modules) and §4.13 (`IsRegular.isCohenMacaulay`).
 
-**Frobenius-root ideals** (`frobeniusRootIdeal`). Let R be a perfect `𝔽_p`-algebra and `f ∈ R`. Put `J_f = ⋃_n (f^{1/p^n}) = √(f)`. The sequential colimit of copies of R, with transition `n → n+1` multiplication by `f^{1/p^n − 1/p^{n+1}}`, maps isomorphically onto `J_f` by sending a at stage n to `f^{1/p^n}` a. Hence `J_f` is flat and `J_f² = J_f`, also when R has zero divisors. (BS17, proof of Lemma 3.16, p. 14.)
+**Frobenius-root ideals** (`frobeniusRootIdeal`). Let R be a perfect `𝔽_p`-algebra and `f ∈ R`. Put `J_f = ⋃_n (f^{1/p^n})`; then `J_f = √(f)` (`frobeniusRootIdeal_radical`). The sequential colimit of copies of R, with transition `n → n+1` multiplication by `f^{1/p^n − 1/p^{n+1}}`, maps isomorphically onto `J_f` by sending a at stage n to `f^{1/p^n}` a. Hence `J_f` is flat and `J_f² = J_f`, also when R has zero divisors. (BS17, proof of Lemma 3.16, p. 14.)
 
 Provide `frobeniusRootIdeal`, `frobeniusRootIdeal_radical` `(J_f = √(f))`, `frobeniusRootIdeal_root_mem` (every `f^{1/p^n}` lies in `J_f`), `frobeniusRootIdeal_colimit` (the colimit presentation) and `frobeniusRootIdeal_flat` (flatness and idempotence).
 
@@ -725,7 +725,7 @@ Provide `frobeniusRootIdeal`, `frobeniusRootIdeal_radical` `(J_f = √(f))`, `fr
 - `J₁ = R`.
 - In `𝔽_p[t^{1/p^∞}], t^{1/p} ∈ J_t` but `t^{1/p} ∉ (t)`, so `J_t` is not the principal ideal (t).
 
-*Proof route.* Perfectness gives unique roots; the stage maps are compatible; if `f^{1/p^n}` `a = 0` then taking a p-th root and using reducedness shows that a dies at a later stage, so the map is injective. A filtered colimit of free modules is flat.
+*Proof route.* Each root of f lies in `√(f)`. Conversely, if `x ∈ √(f)`, choose n large enough that `x^{p^n} = af`; taking the unique `p^n`-th root puts x in `(f^{1/p^n})`. The stage maps are compatible; if `f^{1/p^n}` `a = 0` then taking a p-th root and using reducedness shows that a dies at a later stage, so the map is injective. A filtered colimit of free modules is flat.
 
 *Needs:* Mathlib `PerfectRing`, `frobeniusEquiv`, `Module.Flat`, `CategoryTheory.Limits.HasFilteredColimits`; PerfectoidSpaces P0.2 supplies the compatible-root setup and its idempotence; this target identifies its ideal with the radical and proves flatness also with zero divisors.
 
@@ -2273,6 +2273,7 @@ Provide `IsLocallyWeaklyContractible`, `IsLocallyWeaklyContractible.cover` and `
 - `Set` is locally weakly contractible, through covers by points.
 - For a finite group G, G-sets are covered by free transitive G-sets, which are coherent and weakly contractible.
 - `Sh(ℝ)` is not locally weakly contractible: a nonempty quasicompact étale space over `ℝ` would have nonempty quasicompact open image, which `ℝ` has none. Thus there are no nonempty coherent projective generators.
+- Let C have objects `a, b, cₙ (n ∈ ℕ)`, arrows `f, g : a ⇉ b` and `hₙ : cₙ → a`, with `fhₙ = ghₙ` and no other nonidentity arrows except these composites. In its presheaf topos, `y(a) ×_{y(b)} y(a)`, formed using f and g, is `⨿ₙ y(cₙ)`, which is not quasicompact. Thus `y(b)` is not quasiseparated. A cover of the connected projective `y(b)` by coherent projectives would split through one summand, making `y(b)` a retract of a coherent object, a contradiction. This presheaf topos is replete but not locally weakly contractible (BS-proet Example 3.1.4, p. 16).
 
 *Needs:* `CategoryTheory.Projective`; `AdicSpacesPartII` §R0.19.10 (quasicompact and quasiseparated objects of a topos).
 
@@ -2553,7 +2554,7 @@ quasicoherent cohomology); finite affine Čech cohomology.
 
 ### Examples
 
-- The pro-étale topos of a scheme and the topos of condensed sets are locally weakly contractible, hence replete; their consuming roadmaps verify this. `Set` and presheaf topoi are the elementary examples, and BG for a nontrivial finite group G shows that the terminal object need not be weakly contractible.
+- The pro-étale topos of a scheme and the topos of condensed sets are locally weakly contractible, hence replete; their consuming roadmaps verify this. `Set` is locally weakly contractible through covers by points. Every presheaf topos is replete; it is locally weakly contractible if its representables are quasiseparated, since they are always quasicompact and projective. The parallel-arrow example in E2.5 gives a replete presheaf topos without coherent projective covers. For a nontrivial finite group G, BG shows that the terminal object need not be weakly contractible.
 - On the point, the tower `ℤ ←p ℤ ←p ⋯` has `lim = 0` and `Rlim = (ℤ_p/ℤ)[−1]`, the Milnor sequence in degree 1; the tower `(ℤ/p^n)` has epimorphic transitions and `Rlim = ℤ_p[0]`.
 - The blow-up of `𝔸²_k` at the origin has inductive level 1; its perfection is an h-cover, so `O → Rf_∗O` is descendable after perfection.
 
@@ -2569,7 +2570,7 @@ This layer defines derived I-complete complexes of sheaves on a replete topos an
 
 **Derived complete sheaves** (`DerivedCompleteSheaves`). `Dcomp(X, R, I)` is the full subcategory of `D(X, R)` on those K such that `T(K|_U, x) = 0` for every object U of X and every `x ∈ I(U)`. The condition is imposed on every slice and every local section of the ideal. On the point topos this is derived I-completeness of complexes of R-modules. (BS-proet Definition 3.4.1 and the paragraph after it, p. 21.)
 
-The point-site predicate `IsDerivedComplete` expresses the supplied module criterion from DerivedModuleAlgebra §1.2: for every `f ∈ I, (x_n) ↦ (x_n − f x_{n+1})` is bijective on `M^ℕ`. Provide `DerivedCompleteSheaves` with its fully faithful inclusion, `derivedCompleteSheaf_iff` (membership is the vanishing of all local telescopes), `derivedCompleteSheaf_restrict` (stable under restriction to slices, coherently) and `derivedCompleteSheaf_zero`.
+The point-site predicate `IsDerivedComplete` is the elementary telescope criterion on modules: for every `f ∈ I`, the map `(x_n) ↦ (x_n − f x_{n+1})` is bijective on `M^ℕ`; its kernel and cokernel are `lim` and `lim¹` of `M ←f M ←f ⋯`. For a commutative ring R, a finitely generated ideal I and any R-module M, prove `isDerivedComplete_iff_derivedCompleteness`: `IsDerivedComplete I M` agrees with `DerivedDeRham.derivedCompleteness R I (M[0])` of DerivedModuleAlgebra §1.2, equivalently every morphism `R[1/f][n] → M[0]` vanishes for all `f ∈ I` and `n ∈ ℤ` (BS-proet Lemma 3.4.7, p. 21; Stacks Lemma 15.93.1, tag 091P). Provide `DerivedCompleteSheaves` with its fully faithful inclusion, `derivedCompleteSheaf_iff` (membership is the vanishing of all local telescopes), `isDerivedComplete_iff_derivedCompleteness`, `derivedCompleteSheaf_restrict` (stable under restriction to slices, coherently) and `derivedCompleteSheaf_zero`.
 
 **Checks.**
 
@@ -2578,7 +2579,7 @@ The point-site predicate `IsDerivedComplete` expresses the supplied module crite
 - For `X = Set` and a module M in degree zero, the condition agrees with the elementary one: for every `f ∈ I` the map `M^ℕ → M^ℕ, (x_n) ↦ (x_n − f x_{n+1})`, is bijective.
 - `ℤ_p[0]` is (p)-complete over `ℤ`, and so is every module killed by a power of p.
 
-*Needs:* `IsReplete.over`; `enhancedDerived`; `derivedTensor`; `derivedTowerLimit`; `fullEnhancedSubcategory`; `TauCetiRoadmap.SchemeAndStackFoundations` §2.17 (`IsReplete`).
+*Needs:* `IsReplete.over`; `enhancedDerived`; `derivedTensor`; `derivedTowerLimit`; `fullEnhancedSubcategory`; `TauCetiRoadmap.SchemeAndStackFoundations` §2.17 (`IsReplete`); DerivedModuleAlgebra §1.2 (`DerivedDeRham.derivedCompleteness`).
 
 **The local generator criterion** (`derivedComplete_iff_generators`). If `{U_a → 1}` covers X and `I|_{U_a}` is generated by `f_{a,1}, …, f_{a,r(a)}`, then K is derived I-complete if and only if `T(K|_{U_a}, f_{a,j}) = 0` for all a and j. In particular different finite generating families define the same subcategory. (BS-proet Lemmas 3.4.6–3.4.8, pp. 21–22; Lemma 3.4.12, pp. 22–23.)
 
@@ -2693,6 +2694,7 @@ where the transition from m to `n (m ≥ n)` is the identity in degree zero and 
 - For `X = Set, ℤ_p` is classically and derived p-complete.
 - A module M with `pM = 0` is derived p-complete and separated, and `M → lim M/p^n M` is the identity.
 - `ℤ[0]` over `ℤ` is p-adically separated but not derived p-complete, and `ℤ → ℤ_p` is not an isomorphism; both conditions on the right are needed.
+- Over `ℤ_p`, let N be the p-adic completion of `⊕_{n≥0} ℤ_p e_n`; its elements are sequences tending to zero. The linear map `ψ : N → N`, `ψ(b) = −(Σ_{n≥1} b_n)e₀ + Σ_{n≥1} pⁿb_n e_n`, is well defined by p-adic convergence. Its cokernel M is derived p-complete by `derivedCompleteModules_weakSerre`, since N is classically complete. But `ē₀ ≠ 0`: the positive coordinates of `ψ(b) = e₀` force every `b_n = 0` for `n ≥ 1`, contradicting its zeroth coordinate. For every `k ≥ 1`, `e₀ − pᵏe_k = −ψ(e_k)`, so `ē₀ ∈ pᵏM`. Thus M is not separated, and the separatedness hypothesis is necessary (BS-proet Remark 3.4.3).
 
 *Proof route.* Classical completeness presents M as the limit of its epimorphic quotient tower, which repleteness identifies with the derived limit; nilpotent quotients are complete. Conversely use `koszulCompletionTower` locally and the Milnor sequence in degree zero to see that M maps onto its classical completion; separatedness gives injectivity.
 
@@ -2773,7 +2775,7 @@ Provide `reconstructCoefficientSystem`, `reconstructCoefficientSystem_projection
 
 *Needs:* `CompatibleCoefficientSystems`; `derivedComplete_limits`; `derivedTowerLimit`; `ringedSystemComparison`; `enhancedDerived`.
 
-**Pro-Tor coefficient comparison** (`coefficientProTorComparison`). For a system `(K_n)` of complexes of `R_n`-modules, possibly unbounded, the change-of-rings maps `{K_n ⊗ᴸ_R R/I} → {K_n ⊗ᴸ_{R_n} R/I}` have a cone whose cohomology towers are pro-zero in every degree, and hence induce an equivalence of derived limits. The uniform finite Tor amplitude of the `R/J_n` (`regularIdeal_quotients`), not a boundedness hypothesis on `K_n`, is what allows tensoring with varying unbounded complexes. (BS-proet Lemma 3.5.4 and the regular-ideal paragraph, p. 25; ECD proof of Proposition 26.2, p. 162.)
+**Pro-Tor coefficient comparison** (`coefficientProTorComparison`). For a system `(K_n)` of complexes of `R_n`-modules, possibly unbounded, the change-of-rings maps `{K_n ⊗ᴸ_R R/I} → {K_n ⊗ᴸ_{R_n} R/I}` have a cone whose cohomology towers are pro-zero in every degree, and hence induce an equivalence of derived limits. For the regular generators `I = (f₁, …, f_r)`, put `J_n = (f₁ⁿ, …, f_rⁿ)` for `n ≥ 1`, with `J_n = 0` for the empty sequence. The inclusions `I^{r(n−1)+1} ⊆ J_n ⊆ Iⁿ` make the quotient towers cofinal. The Koszul equivalence `R/J_n ≃ K_R(f₁ⁿ, …, f_rⁿ)` gives Tor amplitude in [`−r, 0`] uniformly in n. The uniform finite Tor amplitude of `R/J_n` and `R/Iⁿ` (`regularIdeal_quotients`) allows tensoring with varying unbounded complexes. (BS-proet Lemma 3.5.4 and the regular-ideal paragraph, p. 25; ECD proof of Proposition 26.2, p. 162.)
 
 **Checks.**
 
