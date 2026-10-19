@@ -118,7 +118,8 @@ theorem ordinaryFlatnessFromCompleteFlatness (A B : Type) [CommRing A] [CommRing
 
 /-- A quotient `N/gN` of a derived `f`-complete module is derived `f`-complete; the classical
 statement is `quotientClassicalCompleteness`. README 1.11; DerivedModuleAlgebra §1.2 supplies
-`derivedCompleteness`. Its localization-vanishing condition is written directly in this signature. -/
+`derivedCompleteness`. Stacks, Lemma 15.93.1 (091P), applies to the cone of multiplication by `g`
+and its degree-zero cohomology. The localization-vanishing condition is written directly here. -/
 theorem quotientCompleteness (A : Type) [CommRing A] (N : ModuleCat.{0} A) (f g : A)
     (h : ∀ x ∈ Ideal.span {f}, ∀ n : ℤ,
       Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away x)))⟦n⟧ ⟶ mod0 A N)) :
@@ -129,7 +130,7 @@ theorem quotientCompleteness (A : Type) [CommRing A] (N : ModuleCat.{0} A) (f g 
 
 /-- If `N` is classically `f`-adically complete and `f` is a nonzerodivisor on `N/gN`, then `N/gN`
 is classically `f`-adically complete (Bhatt–Ma–Patakfalvi–Schwede–Tucker–Waldron–Witaszek,
-Lemmas 2.7–2.8). Without the injectivity hypothesis the quotient need not be separated. -/
+Lemma 2.8). Without the injectivity hypothesis the quotient need not be separated. -/
 theorem quotientClassicalCompleteness (A : Type) [CommRing A] (N : Type) [AddCommGroup N]
     [Module A N] (f g : A) (hN : IsAdicComplete (Ideal.span {f}) N)
     (hreg : IsSMulRegular (N ⧸ LinearMap.range (g • (LinearMap.id : N →ₗ[A] N))) f) :
@@ -245,14 +246,6 @@ theorem exists_dividedPowers_sup_iff {I J : Ideal A} (γ : DividedPowers I)
     (∃ θ : DividedPowers (I ⊔ J), (∀ n, ∀ x ∈ I, θ.dpow n x = γ.dpow n x) ∧
       ∀ n, ∀ x ∈ J, θ.dpow n x = ε.dpow n x) ↔
       ∀ n, ∀ x ∈ I ⊓ J, γ.dpow n x = ε.dpow n x := by
-  sorry
-
-/-- The glued structure on `I ⊔ J` is unique. -/
-theorem dividedPowers_sup_unique {I J : Ideal A} (γ : DividedPowers I) (ε : DividedPowers J)
-    (θ θ' : DividedPowers (I ⊔ J))
-    (hθ : (∀ n, ∀ x ∈ I, θ.dpow n x = γ.dpow n x) ∧ ∀ n, ∀ x ∈ J, θ.dpow n x = ε.dpow n x)
-    (hθ' : (∀ n, ∀ x ∈ I, θ'.dpow n x = γ.dpow n x) ∧ ∀ n, ∀ x ∈ J, θ'.dpow n x = ε.dpow n x) :
-    θ = θ' := by
   sorry
 
 /-- Flat extension of divided powers (Stacks, Lemma 23.4.2): along a flat ring map `A → B`, a
@@ -438,6 +431,18 @@ example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) γ γ := by
 example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) (dividedPowersBot A) γ := by
   sorry
 
+open scoped Classical in
+/-- On `(2) ⊂ ZMod 4`, square-zero powers are incompatible with the canonical powers along
+the identity: their degree-two values at `2` differ (test_isCompatibleWith_Z4). -/
+example (γ : DividedPowers (Ideal.span {(2 : ZMod 4)}))
+    (hγ : ∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
+      canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n)
+    (hJ : (Ideal.span {(2 : ZMod 4)}) ^ 2 = 0) :
+    ¬ IsCompatibleWith (RingHom.id (ZMod 4)) γ
+      (DividedPowers.OfSquareZero.dividedPowers hJ) := by
+  classical
+  sorry
+
 /-- `(D, J', δ)` with `ι : B → D` is a divided power envelope of `J ⊆ B` relative to `(A, I, γ)`:
 `ι(J) ⊆ J'`, `A → D` is a divided power morphism, and every `A`-algebra map `B → C` sending `J` into
 a divided power ideal `K` with a specified divided power morphism `(A, I, γ) → (C, K, ε)`
@@ -462,6 +467,13 @@ theorem exists_isPDEnvelope {B : Type u} [CommRing B] [Algebra A B] (γ : Divide
 /-- The identity PD envelope has the original ring and ideal. -/
 example (A : Type u) [CommRing A] (I : Ideal A) (γ : DividedPowers I) :
     IsPDEnvelope γ I γ (AlgHom.id A A) := by
+  sorry
+
+/-- Over a zero PD base, the envelope of the zero ideal in any algebra is that algebra
+with its zero PD ideal (test_envelope_zero). -/
+example (A B : Type u) [CommRing A] [CommRing B] [Algebra A B] :
+    IsPDEnvelope (dividedPowersBot A) (⊥ : Ideal B) (dividedPowersBot B)
+      (AlgHom.id A B) := by
   sorry
 
 /-- A compatible-base envelope keeps the quotient `B/J`: its PD ideal may exclude the
@@ -496,6 +508,41 @@ example (γ : DividedPowers (Ideal.span {(2 : ZMod 4)}))
       (AlgHom.id (ZMod 4) (ZMod 4)) ∧
       ¬ Ideal.span {(2 : ZMod 4)} ≤ (⊥ : Ideal (ZMod 4)) ∧
       ¬ DividedPowers.IsDPMorphism γ (dividedPowersBot (ZMod 4)) (RingHom.id (ZMod 4)) := by
+  sorry
+
+/-- Over `ZMod p` with zero base ideal, the compatible envelope of `(t)` in the polynomial
+ring is the rank-one divided power algebra with its canonical augmentation powers
+(compatible_zero_base). -/
+example (p : ℕ) [Fact p.Prime] :
+    let R := ZMod p
+    let D := DividedPowerAlgebra R R
+    let K : Ideal D := RingHom.ker (DividedPowerAlgebra.lift (dividedPowersBot R)
+      (0 : R →ₗ[R] R) (fun _ ↦ by simp))
+    ∃ δ : DividedPowers K,
+      (∀ (n : ℕ) (a : R), δ.dpow n (DividedPowerAlgebra.dp R 1 a) =
+        DividedPowerAlgebra.dp R n a) ∧
+      IsCompatiblePDEnvelope (dividedPowersBot R) (Ideal.span {(Polynomial.X : Polynomial R)})
+        δ (Polynomial.aeval (DividedPowerAlgebra.dp R 1 (1 : R))) := by
+  sorry
+
+open scoped Classical in
+/-- The truncated powers on `(t) ⊂ F_p[t]/(t^p)` make a proper quotient of the universal
+envelope `F_p⟨t⟩`: the identity is neither envelope over the zero PD base
+(test_envelope_truncated, compatible_truncated). -/
+example (p : ℕ) [Fact p.Prime] :
+    let B := Polynomial (ZMod p) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod p)) ^ p}
+    let t : B := Ideal.Quotient.mk _ Polynomial.X
+    let J : Ideal B := Ideal.span {t}
+    let hpB : IsNilpotent (p : B) := by
+      have hp : (p : B) = 0 := by
+        simpa only [map_natCast, map_zero] using
+          congrArg (algebraMap (ZMod p) B) (CharP.cast_eq_zero (ZMod p) p)
+      exact hp ▸ IsNilpotent.zero
+    ∃ hJ : J ^ p = 0,
+      ¬ IsPDEnvelope (dividedPowersBot (ZMod p)) J (DividedPowers.IsNilpotent.dividedPowers hpB hJ)
+        (AlgHom.id (ZMod p) B) ∧
+      ¬ IsCompatiblePDEnvelope (dividedPowersBot (ZMod p)) J
+        (DividedPowers.IsNilpotent.dividedPowers hpB hJ) (AlgHom.id (ZMod p) B) := by
   sorry
 
 end PD
@@ -598,6 +645,28 @@ abbrev wedge {m n : ℕ} (x : Forms A B m) (y : Forms A B n) : Forms A B (m + n)
 /-- A coefficient viewed as a degree-zero form through `Ω⁰ ≃ B`. -/
 abbrev zeroForm (b : B) : Forms A B 0 :=
   (exteriorPower.zeroEquiv B (KaehlerDifferential A B)).symm b
+
+/-- A degree-zero wedge factor acts by scalar multiplication (test_wedge_scalar). -/
+example {n : ℕ} (b : B) (y : Forms A B n) :
+    (wedge A B (zeroForm A B b) y).val = b • y.val := by
+  sorry
+
+/-- The oriented two-form on `ℤ[X,Y]` is nonzero and changes sign under swapping its
+one-form factors (test_wedge_orientation). -/
+example :
+    let B := MvPolynomial (Fin 2) ℤ
+    let dx := elementary ℤ B 1 1 (fun _ => MvPolynomial.X 0)
+    let dy := elementary ℤ B 1 1 (fun _ => MvPolynomial.X 1)
+    (wedge ℤ B dx dy).val = -(wedge ℤ B dy dx).val ∧ wedge ℤ B dx dy ≠ 0 := by
+  sorry
+
+/-- A repeated one-form has zero wedge square also in characteristic two
+(test_wedge_char_two). -/
+example :
+    let B := Polynomial (ZMod 2)
+    let dx := elementary (ZMod 2) B 1 1 (fun _ => Polynomial.X)
+    wedge (ZMod 2) B dx dx = 0 := by
+  sorry
 
 /-- The six relation families: coefficient additivity, base scalars, slot additivity, slot Leibniz,
 base constants in a slot, and strict alternation. Only additive and `A`-scalar closure in the
@@ -1006,6 +1075,34 @@ theorem teichmuller_sub_one_mem_ker_fontaineTheta (O : Type) [CommRing O] (p : �
 -- The identity system lies in `Z_p(1)`.
 example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
     [IsAdicComplete (Ideal.span {(p : O)}) O] : (1 : PreTilt O p) ∈ compatibleRootsOfUnity O p := by
+  sorry
+
+/-- An untilt different from `1` excludes membership in the compatible root systems
+(test_period_roots_kernel). -/
+example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
+    [IsAdicComplete (Ideal.span {(p : O)}) O] (x : PreTilt O p) (hx : PreTilt.untilt x ≠ 1) :
+    x ∉ compatibleRootsOfUnity O p := by
+  sorry
+
+/-- Compatible root systems are closed under natural powers (test_period_roots_closure). -/
+example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
+    [IsAdicComplete (Ideal.span {(p : O)}) O] (ε : PreTilt O p)
+    (hε : ε ∈ compatibleRootsOfUnity O p) (n : ℕ) :
+    ε ^ n ∈ compatibleRootsOfUnity O p := by
+  sorry
+
+/-- Compatible root systems are closed under multiplication (test_period_roots_closure). -/
+example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
+    [IsAdicComplete (Ideal.span {(p : O)}) O] (ε η : PreTilt O p)
+    (hε : ε ∈ compatibleRootsOfUnity O p) (hη : η ∈ compatibleRootsOfUnity O p) :
+    ε * η ∈ compatibleRootsOfUnity O p := by
+  sorry
+
+/-- The inverse of a unit root system is again compatible (test_period_roots_closure). -/
+example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
+    [IsAdicComplete (Ideal.span {(p : O)}) O] (ε : (PreTilt O p)ˣ)
+    (hε : (ε : PreTilt O p) ∈ compatibleRootsOfUnity O p) :
+    (↑(ε⁻¹) : PreTilt O p) ∈ compatibleRootsOfUnity O p := by
   sorry
 
 -- An element with untilt different from `1` gives `[x] − 1 ∉ ker θ`.
