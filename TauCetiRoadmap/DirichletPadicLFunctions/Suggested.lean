@@ -363,6 +363,23 @@ theorem tameSeries_spec {R : Type*} [CommRing R] {D : ℕ} [NeZero D]
     smoothingDenominator R D * tameSeries η hD = tameNumerator η := by
   sorry
 
+/-- Prime level raising of a nonprincipal finite tame kernel gives its Euler substitution. -/
+theorem tameSeries_raiseLevel_prime {K : Type*} [Field K] {D ℓ : ℕ}
+    [NeZero D] [NeZero ℓ] (η : DirichletCharacter K D) (hη : η ≠ 1)
+    (hℓ : ℓ.Prime) (hD : IsUnit (D : K)) (hDℓ : IsUnit ((D * ℓ : ℕ) : K)) :
+    tameSeries (DirichletCharacter.changeLevel (Nat.dvd_mul_right D ℓ) η) hDℓ =
+      tameSeries η hD - PowerSeries.C (η ℓ) *
+        PowerSeries.subst ((1 + PowerSeries.X) ^ ℓ - 1) (tameSeries η hD) := by
+  sorry
+
+/-- Raising a nonprincipal character's level without adding primes preserves its finite kernel. -/
+theorem tameSeries_same_prime_support {K : Type*} [Field K] {D N : ℕ}
+    [NeZero D] [NeZero N] (η : DirichletCharacter K D) (hη : η ≠ 1)
+    (hDN : D ∣ N) (hprimes : D.primeFactors = N.primeFactors)
+    (hD : IsUnit (D : K)) (hN : IsUnit (N : K)) :
+    tameSeries (DirichletCharacter.changeLevel hDN η) hN = tameSeries η hD := by
+  sorry
+
 example : tameNumerator (1 : DirichletCharacter ℚ 1) = 0 := by
   sorry
 example : tameNumerator (1 : DirichletCharacter ℚ 3) = -3 - PowerSeries.X := by
@@ -371,6 +388,21 @@ example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
     tameNumerator η = 1 + PowerSeries.X := by
   sorry
 example : tameSeries (1 : DirichletCharacter ℚ 1) (by norm_num) = 0 := by
+  sorry
+example : tameSeries (1 : DirichletCharacter ℚ_[2] 1) (by norm_num) = 0 := by
+  sorry
+example : IsUnit (3 : ℤ_[2]) := by
+  sorry
+example : smoothingDenominator ℚ_[2] 3 =
+    3 + 3 * PowerSeries.X + PowerSeries.X ^ 2 := by
+  sorry
+example : (tameSeries (1 : DirichletCharacter ℚ_[2] 3) (by norm_num)).coeff 0 = -1 := by
+  sorry
+example : (tameSeries (1 : DirichletCharacter ℚ_[2] 9) (by norm_num)).coeff 0 = -3 := by
+  sorry
+example (η : DirichletCharacter ℚ_[2] 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    tameSeries (DirichletCharacter.changeLevel (show 3 ∣ 9 by norm_num) η) (by norm_num) =
+      tameSeries η (by norm_num) := by
   sorry
 example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
     (tameSeries η (by norm_num)).coeff 0 = 1 / 3 := by
@@ -822,6 +854,10 @@ smoothedSeries_unique.
 §1.7: clearingMoment_kummer.
 §2.3: tameNumerator_coeff, tameNumerator_map, tameSeries_map, tameSeries_unique.
 §2.7: tameSeries_descend.
+§2.8: tameZetaMeasure_raiseLevel_prime, tameZetaMeasure_raiseLevel,
+tameZetaMeasure_same_prime_support and tameZetaMeasure_map carry the nonprincipal
+hypothesis on the tame character; the principal arithmetic Euler operators act instead
+on kubotaLeopoldtPseudomeasure and principalTameEisensteinSeries.
 §4.2: moritaFiniteMean_add, moritaFiniteMean_smul, moritaFiniteMean_map,
 moritaFiniteMean_raiseLevel, moritaFiniteMean_block, moritaFiniteMean_tendsto.
 §4.4: grossKoblitzDigitSum_zero, grossKoblitzDigitSum_step, grossKoblitzDigitSum_rotate.
