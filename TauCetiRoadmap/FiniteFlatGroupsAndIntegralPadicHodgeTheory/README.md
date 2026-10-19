@@ -121,7 +121,7 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   and agreement theorem.
 - TauCetiRoadmap.EllipticCurves Layer 4 (the Tate curve), TauCetiRoadmap.ProfiniteCohomology Layer 9
   (Hilbert `90` and Kummer theory) and TauCetiRoadmap.ClassFieldTheory Layers 5, `7` and `11` (local Tate
-  duality and the local and global Artin maps); ClassFieldTheory Layer 13 and GlobalNumberFields
+  duality and the local and global Artin maps); ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
   Layers 9–10 supply the global character and Hecke infinity-type inputs of §R07.P7.3.
 
 **Imported from the arithmetic-geometry and representation-theory roadmaps.**
@@ -172,9 +172,9 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   (`VanishingCycles.finiteEtaleGaloisCategory`) (finite étale covers of a connected nonempty
   scheme, their Galois-category structure and geometric fibre functors),
   SchemeAndStackFoundations §0.14 `henselian_smooth_lifting` (smooth sections along henselian
-  pairs), and CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*
-  (purity of the branch locus, SGA 1 `X` 3.1, for finite normal covers with dominant components over
-  regular bases),
+  pairs), and PurityOfBranchLocus §2.1
+  (purity of the branch locus, SGA 1 `X` 3.1, Stacks Tag 0BMB) and §2.2
+  (the global corollary for finite normal covers with dominant components over regular bases),
   ArithmeticGaloisRepresentations §2.3 (finite-residue fundamental characters and residual tame
   inertia) and Layer 6 (Tate modules of elliptic curves), and the smooth and
   compact induction of SmoothRepresentationsOfLocalGroups Layer SR.2.
@@ -219,6 +219,10 @@ the Colmez–Fontaine theorem from here.
   Raynaud's theorems need neither completeness nor a finite residue field; for the ring of integers
   of a finite extension `K/ℚ_p` it equals Tau Ceti's `TauCeti.absoluteRamificationIndex K p`, which
   is defined only for such `K` (`TauCeti.absoluteRamificationIndex_eq_natCastValuation`).
+  The extension of this definition has value `0` when `p` is a unit and also in equal
+  characteristic `p`, where `v(0) = ⊤` is sent to `0` by `ENat.toNat`; the latter is a junk
+  value, not a mixed-characteristic ramification index. In particular it does not remove
+  the characteristic-zero hypothesis of Raynaud's generic-fibre statements.
 - **Oort–Tate.** Pairs `(a, b)` satisfy `ab = w_p`, where `w_p` is the Oort–Tate constant (`p` times
   a unit of `Λ_p = ℤ[ζ_{p−1}, 1/(p(p−1))] ∩ ℤ_p`), and `G_{a,b} = Spec R[X]/(X^p − aX)`; Cartier
   duality swaps `a` and `b`.
@@ -381,7 +385,7 @@ laws) with `FormalGroup.IsComm`.
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
 - **ClassFieldTheory.** Layer 5 (local Tate duality, its target `tateDualityPairing_perfect_mixed`),
   Layer 7 (the local Artin map) and Layer 11 (global Artin reciprocity), used in §R07.1.35 and
-  §R07.5.14; Layer 13 supplies the global character input of §R07.P7.3.
+  §R07.5.14; Layer 11 (global Artin reciprocity) supplies the global character input of §R07.P7.3.
 - **GlobalNumberFields.** Layers 9–10 supply Hecke characters, algebraic infinity types and
   unit relations for §R07.P7.3.
 
@@ -404,14 +408,15 @@ laws) with `FormalGroup.IsComm`.
   thickening on which `p` is locally nilpotent correspond to lifts of the Hodge filtration).
 - **CrystallineCohomology.** §CR.4.7 *Slope decomposition on the existing isocrystal carrier*
   supplies standard cyclic blocks, algebraically closed Dieudonné–Manin classification,
-  different-slope `Hom` vanishing and perfect-field slope descent. §CR.5:log-algebra.4
-  *The classical Abhyankar lemma* includes purity of the branch locus (SGA 1 `X` 3.1):
-  for an excellent regular local ring `A`, its finite normalization in a finite
-  separable generic-fibre algebra, if unramified above every height-one point, is étale. The source
-  normality hypothesis is essential (Stacks Tag 0BMB). DerivedDeRhamCohomology §§PD.1–PD.7 (divided powers, envelopes,
-  universal thickenings); §CR.7.1
-  (the Tate twist of coefficients with Frobenius and filtration); §CR.7.3 (relative
-  crystalline direct images and base change).
+  different-slope `Hom` vanishing and perfect-field slope descent. §CR.7.1 supplies
+  the Tate twist of coefficients with Frobenius and filtration; §CR.7.3 supplies relative
+  crystalline direct images and base change. DerivedDeRhamCohomology §§PD.1–PD.7 supplies
+  divided powers, envelopes and universal thickenings.
+- **PurityOfBranchLocus.** §2.1 supplies purity of the branch locus (SGA 1 `X` 3.1,
+  Stacks Tag 0BMB), and §2.2 supplies the global corollary: for an excellent regular local
+  ring `A`, its finite normalization in a finite separable generic-fibre algebra,
+  if unramified above every height-one point, is étale. The source normality hypothesis
+  is essential (Stacks Tag 0BMB).
 - **PadicPeriodRings.** §§1–4 supply `C_p`, `A_inf`, `θ`,
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
   `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
@@ -579,6 +584,9 @@ Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Tau Ceti
 
 **Checks.**
 
+- `frobeniusTwist_primeField`: over `F_p`, the Frobenius of the base is the identity, so
+  `G^{(p)} ≅ G` for every finite flat commutative `G`.
+- `frobeniusTwist_constantGroup`: a finite constant group `Γ_k` has `Γ_k^{(p)} ≅ Γ_k`.
 - `frobenius_constZModP_iso`: For `G = ℤ/pℤ, F_G` is an isomorphism and `V_G = 0`.
 - `verschiebung_muP_iso`: For `G = μ_p, F_G = 0` and `V_G` is an isomorphism.
 - `frobenius_alphaP_zero`: For `G = α_p, F_G = V_G = 0` although `α_p ≠ 0`.
@@ -1463,7 +1471,7 @@ of GlobalNumberFields Layers 9–10 (`HeckeCharacter`, `AlgebraicInfinityType`, 
 prove the local-to-global identification of labels and infinity exponents here. For `x ∈ ℤ`,
 `d ≥ 1`, construct a character with every Sen weight `x/d` by ArithmeticGaloisRepresentations §7.6 (Roots of characters);
 it is Hodge–Tate iff `d | x` (Patrikis 2019, Theorem 2.3.13, Remark 2.3.14 and Lemmas 2.3.15, 2.3.17, pp. 30–32;
-Brinon–Conrad, Example 6.3.9, pp. 81–82, for the zero-weight character case). *Needs:* §R07.P7.2; ArithmeticGaloisRepresentations §7.6 (Roots of characters); ClassFieldTheory Layers 7 and `13`;
+Brinon–Conrad, Example 6.3.9, pp. 81–82, for the zero-weight character case). *Needs:* §R07.P7.2; ArithmeticGaloisRepresentations §7.6 (Roots of characters); ClassFieldTheory Layers 7 and 11 (global Artin reciprocity);
 GlobalNumberFields Layers 9–10 (Hecke-character infinity types and unit relations).
 
 **Checks.**
@@ -1480,7 +1488,7 @@ Prove that for `F` a number field,
 `ρ, ρ' : G_F → GL₂(ℚ̄_p)` continuous and strongly irreducible, and `τ : F → ℚ̄_p` at `v | p` with both
 restrictions Hodge–Tate, `HT_τ(ρ) = {a, b}`, `HT_τ(ρ') = {a', b'}` and `a − b ≠ ±(a' − b')`, the image
 of `Proj ρ × Proj ρ'` is Zariski dense in `PGL₂ × PGL₂`, and
-`(Sym^m ρ ⊗ Sym^{m'} ρ')|_{G_{F(ζ_{p^∞})}}` is strongly irreducible for all `m, m' ≥ 1` (Newton–Thorne, Lemma
+`(Sym^m ρ ⊗ Sym^{m'} ρ')|_{G_{F(ζ_{p^∞})}}` is strongly irreducible for all `m, m' ≥ 1` (Newton–Thorne 2026, Lemma
 2.2, p. 10).
 
 *Needs:* §§R07.P7.1–R07.P7.2; ArithmeticGaloisRepresentations §7.6
@@ -1638,7 +1646,7 @@ so its kernel is `Γ_v: Γ` is `p`-divisible, and `p^{i_0}` gives `Γ → E ⊆ 
 of Proposition 12). Serre's example uses an elliptic curve mapped to the product of two quotients
 whose kernels are distinct generically but have the same nonzero reduction, as in the check below.
 (Tate 1967, (4.2), Proposition 12, p. 181: the statement; proof of Proposition 12, p. 182:
-the closure and the shift; p. 183, immediately after that proof: Serre's counterexample.)
+the closure and the shift; pp. 182–183, immediately after that proof: Serre's counterexample.)
 
 *Needs:* §R07.1.20; §R07.1.8; §R07.1.5; §R07.1.9; §R07.1.16; §R07.1.19;
 TauCetiRoadmap.ModularCurves Layers 2B and `7E` (elliptic quotients and torsion towers).
@@ -2006,6 +2014,12 @@ its generic splitting extend. (Raynaud 1974, §3.3, Théorème 3.3.3, p. 268: pa
 
 **Checks.**
 
+- `absRamificationIndex_padic`: `absRamificationIndex ℤ_[p] p = 1`. For the unit
+  `2 ∈ ℤ₃`, the same definition gives `absRamificationIndex ℤ_[3] 2 = 0`; on
+  `F_p⟦t⟧` it also gives `0`, because `(p : F_p⟦t⟧) = 0` and `⊤.toNat = 0`.
+  The equal-characteristic value is outside the characteristic-zero hypotheses here.
+  `absRamificationIndex_dyadicSqrtTwo`: on Tau Ceti's `𝒪[TauCeti.DyadicSqrtTwo]` it is `2`,
+  since the uniformizer `√2` squares to `2` (pinned `DyadicSqrtTwo.irreducible_integerSqrtTwo`).
 - `prolongation_unique_Zp`: `e = 1 < p − 1` for `p ≥ 3`: over `ℤ_p` (`p` odd), generic-fibre functor is
   fully faithful on finite flat `p`-group schemes.
 - `prolongation_unique_boundary`: the strict inequality is essential: at `e = p − 1` (for instance
@@ -2143,12 +2157,12 @@ the action of `𝔽_p^× ⊂ Λ` into eigensheaves `I_j = I_1^{⊗j}` (Oort–Ta
 `a ⊗ a′ = w_p` (Theorem 2 and its proof), the group law being recovered from the Cartier pairing;
 every triple arises, by the universal construction over `Λ[A, B]/(AB − w_p)`. Over a local ring (Stix
 Theorem 60): `L` is free, giving `(a, b)` with `ab = w_p` up to `(u^{p−1}a, u^{1−p}b)`; duality swaps `a` and
-`b`. (Oort–Tate 1970, §2, Theorem 2, p. 12: the theorem; Stix 2012, §8.4, Theorem 60, p. 53: the local
+`b`. (Oort–Tate 1970, §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Stix 2012, §8.4, Theorem 60, p. 53: the local
 form, with duality in part `(4)`; Schröer 2023, §5, the paragraph after Proposition 5.3, p. 14 (arXiv
 `v3`): the rank-two groups `G^L_{a,b}` with `a ⊗ b = 2`, the special cases `ℤ/2` and `µ₂`, and Cartier duality
 `(L, a, b) ↦ (L^{⊗−1}, b, a)`; the printed group law has a sign misprint; Pilloni 2020, proof of Lemma
 14.1.2, p. 92: the proof of Lemma 14.1.2 is an easy computation with Oort–Tate theory; the formulas
-`G_{a,b}` and `G_{a,b}^D = G_{b,a}` are Oort–Tate's (Theorem 2), not printed in Pilloni.)
+`G_{a,b}` and `G_{a,b}^D = G_{b,a}` are Oort–Tate's (Theorem 2, p. 12, and Remark 2, p. 15), not printed in Pilloni.)
 
 *Needs:* §R07.1.28; §R07.1.27.
 
@@ -2166,7 +2180,7 @@ form, with duality in part `(4)`; Schröer 2023, §5, the paragraph after Propos
   with the plus sign `f = g = 1` would give `4`, not idempotent.
 - `oortTate_two_mu`: `p = 2, (ℤ, 2, 1): u = 1 − f` satisfies `u² = 1` and `(1 − f)(1 − g) = 1 − f ⋆ g`, so
   the group is `µ₂`; its dual `(ℤ, 1, 2)` is `ℤ/2`.
-- `oortTate_dual`: over `O_K, G_{a,b}^D = G_{b,a}` (Oort–Tate Theorem 2; Pilloni's proof of Lemma
+- `oortTate_dual`: over `O_K, G_{a,b}^D = G_{b,a}` (Oort–Tate §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Pilloni's proof of Lemma
   14.1.2 is a computation with it).
 
 ### R07.1.35 Group schemes of order `p` over rings of integers: Oort–Tate Theorem 3
@@ -2798,6 +2812,8 @@ Example `2`, p. 2: the rank-two models.)
 - `standardDieudonneModules_FV`: on `M2`, `FV e₁ = F e₂ = p e₁` and
   `VF e₂ = V(p e₁) = p e₂`, so `FV = VF = p`. Changing only `Fe₂ = p e₁` to
   `Fe₂ = e₁` gives `(FV)e₁ = e₁ ≠ p e₁`, with `FV = diag(1,p)`, and is not a Dieudonné module.
+- `DieudonneModule.dual_qpZp` and `DieudonneModule.dual_muPInfty`: Witt duality
+  exchanges the standard étale and multiplicative modules, including both `F` and `V`.
 - The rank-one modules `(i)` and `(ii)` are the light definitions `DieudonneModule.qpZp` and
   `DieudonneModule.muPInfty` on `W(k)`, with `V = pσ^{−1}` and `V = σ^{−1}` respectively.
   `qpZp_F_bijective`: on `M(ℚ_p/ℤ_p)` the Frobenius is bijective (slope `0`).
@@ -3012,7 +3028,7 @@ Dieudonné module; the `ℤ_p`-integrality of the characteristic polynomial is d
 
 - `charpolyDescent_rankOne`: `n = 1, T = (t)` with `t = bσ(t)b^{−1} = σ(t): t ∈ ℤ_p`
   and `charpoly(T) = X − t`, the image of its `p`-adic polynomial.
-- The empty matrix has characteristic polynomial `1`, which descends as `1`.
+- `charpolyDescent_zero`: the empty matrix has characteristic polynomial `1`, which descends as `1`.
 - `charpolyDescent_needs_conjugation`: without the conjugation hypothesis, `T = (ζ)` with `ζ ∈ W(F_{p²})` a primitive `(p² − 1)`-th root of unity has `charpoly X − ζ ∉ ℤ_p[X]`.
 - For the constant group `ℚ_p/ℤ_p` over `F_{p²}`, `F = σ` is not Witt-linear,
   while `F² = 1` is Witt-linear and has characteristic polynomial `X − 1`.
@@ -3074,9 +3090,12 @@ The API:
   and the `σ_k`-semilinear `Ψ_G` above, with their naturality and perfect-field base-change squares.
   The algebraic prototypes use `DieudonneModule.dual`, `DieudonneModule.imageV` and
   `DieudonneModule.frobeniusCokernelDual` for `M^t, V^tM^t` and `H_G`;
-  `DieudonneModule.lieScalarComparison`, `DieudonneModule.lieScalarComparison_apply`,
-  `DieudonneModule.lieScalarComparison_smul` and `DieudonneModule.lieScalarComparison_naturality`
-  specify `Ψ`, its value, scalar transport and the square.
+  `DieudonneModule.lieScalarMap` is the explicit additive map
+  `[f] ↦ (x ↦ constantCoeff (σ(f(Vx))))`, defined on every Dieudonné module.
+  `DieudonneModule.lieScalarMap_bijective` gives bijectivity for finite free modules;
+  `DieudonneModule.lieScalarMap_apply`, `DieudonneModule.lieScalarMap_smul` and
+  `DieudonneModule.lieScalarMap_naturality` give its value, scalar transport and the square
+  without a freeness hypothesis.
 - `covariantModule_rank`: `rank_W M_cov(G) =` height `G`.
 - `covariantModule_slope`: Covariant slope `= 1 −` contravariant slope; with `φ = p^{−1}F` the slopes
   lie in `[−1, 0]`.
@@ -3787,7 +3806,7 @@ Mathlib `WittVector`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `WittVector.I
   would give `φ = p^{−1}σ` with the jump in degree `1`, so `t_N = −1 ≠ 1 = t_H`, which is not weakly
   admissible (§R07.3.2).
 - `FilteredPhiNModule.zero`: the zero space is an object, with every structure zero; it is the zero
-  object of the additive category.
+  object of the additive category, is effective, and has `tH = 0` because all its graded pieces vanish.
 - `FilteredPhiNModule.not_abelian`: the identity of `K₀` from (`φ = σ`, jump in degree `0`) to (`φ = σ`, jump in degree `1`) is a bijective morphism that is not an isomorphism.
 - `FilteredPhiNModule.N_nonzero`: `D = K₀e₀ ⊕ K₀e₁` with `φ(e₀) = e₀`, `φ(e₁) = p e₁`, `N(e₁) = e₀`,
   `N(e₀) = 0` satisfies `Nφ = pφN`; with `N(e₀) = e₁` instead the relation fails (`N φ e₀ = e₁` but
@@ -3969,19 +3988,20 @@ The named operations and identities are:
 
 **Checks.**
 
-- The zero module with zero filtration is an object in every allowed interval.
-- The rank-one weight-zero object has `Fil⁰=M, Fil¹=0` and unit Frobenius; omitting generation would admit `φ₀=0`.
-- For interval support, a weight-zero line lies in `[0,0]` and `[−1,1]`, but not `[1,2]`. A nonzero object cannot lie in a reversed interval `a>b`; the zero object can.
-- The free rank-one filtered object with jump `−1` and `φ_{−1}=σ` has `T_cov=ℤ_p(1)`
+- `Tests.zero_interval`: the zero module with zero filtration is free with split steps in every interval.
+- `Tests.unit_and_generation`: the free rank-one weight-zero object has split steps, `Fil⁰=M, Fil¹=0` and unit Frobenius; omitting generation would admit `φ₀=0`.
+- For interval support, a weight-zero line lies in `[0,0]` and `[−1,1]`, but not `[1,2]`. `Tests.not_reversed_interval`: a nonzero object cannot lie in a reversed interval `a>b`; the zero object can.
+- `Tests.jump_neg_one` and `Tests.jump_pos_one`: the free rank-one filtered object with jump `−1` and `φ_{−1}=σ` has `T_cov=ℤ_p(1)`
   and `U_[−1,−1]=ℤ_p(−1)`; the object with jump `+1` and `φ_1=σ` has `T_cov=ℤ_p(−1)`
   and `U_[1,1]=ℤ_p(1)`. Their reductions modulo `p^m` have the same realization formulas.
   Their filtration intervals are `[−1,−1]` and `[1,1]`, respectively.
-- The identity and zero maps are Fontaine–Laffaille morphisms. Between weight-zero rank-one objects over `ℤ₃` with `φ₀` multiplication by `1` and by `2`, the underlying identity preserves the filtration but does not commute with Frobenius, so it is not a morphism.
+- `Tests.identity_and_zero`: the identity and zero maps are Fontaine–Laffaille morphisms.
+  `Tests.identity_not_frobenius`: between weight-zero rank-one objects over `ℤ₃` with `φ₀` multiplication by `1` and by `2`, the underlying identity preserves the filtration but does not commute with Frobenius, so it is not a morphism.
 - At `p=5`, the jump-`−1` line `𝔽₅e` with `φ_{−1}(e)=e` has raw `U_S=0`:
   in the enlarged cokernel `S₁`, degree `−1` has identity inclusion and divided Frobenius
   `pΦ=0`, forcing every morphism to vanish. Its translated realization is `𝔽₅(−1)`.
 - A tensor product with combined width `>p−2` is not covered by the small-weight comparison theorem.
-- In the free rank-one `W`-module, the proper filtration step `pW` (`p` nonunit) is not a direct summand. A free filtered object admitting that step fails IsFreeFontaineLaffaille, even if its underlying module is free.
+- `Tests.free_step_ne_three` over `ℤ` at `p=3`: in the free rank-one `W`-module, the proper filtration step `pW` (`p` nonunit) is not a direct summand. A free filtered object admitting that step fails IsFreeFontaineLaffaille, even if its underlying module is free.
 
 *Needs:* §R07.P2 (Crystalline period ring and its structures).
 
@@ -5674,8 +5694,10 @@ attributes the deduction to Breuil [Bre02, Theorem 3.4.3].)
 - `finiteFlatRestriction_muP`: `H = H′ = μ_p: Hom_{G_{K∞}}(μ_p, μ_p) = Hom_{G_K}(μ_p, μ_p) = 𝔽_p`.
 - `finiteFlatRestriction_needs_flat`: the finite flat hypothesis is needed: let `μ_p ⊂ K` and `V` the
   extension `0 → μ_p → V → ℤ/p → 0` given by the Kummer class of `π`. On `G_{K∞}` the class dies `(π₁ ∈ K_∞)`, so `V ≅ μ_p ⊕ ℤ/p` there but not over `G_K`; consistently `V` is not finite flat: its splitting
-  field `K(π^{1/p})` has its ramification break at `u = pe/(p − 1)` in Fontaine's numbering, which
-  Fontaine's bound excludes (§R07.6.5; the model with sub `μ_p` and quotient `ℤ/p` is excluded more
+  field `K(π^{1/p})` has Serre upper ramification break `pe/(p − 1)`, hence
+  `u_{L/K} = pe/(p − 1) + 1` in Fontaine's numbering, exceeding Fontaine's bound
+  `e(1 + 1/(p − 1))` (§R07.6.5; for `K = ℚ₂`, the Serre break of `ℚ₂(√2)` is `2`
+  and its Fontaine break is `3`, exceeding the bound `2`; the model with sub `μ_p` and quotient `ℤ/p` is excluded more
   simply, since `H¹_fppf(𝒪_K, μ_p) = 𝒪_K^×/(𝒪_K^×)^p` does not contain the class of `π`, but for `e ≥ p − 1` other models of the two factors exist).
 
 ### R07.4.25 Integral comparisons of the Breuil–Kisin module of a `p`-divisible group with its Dieudonné crystal
@@ -6100,7 +6122,7 @@ restriction of dual functionals gives the transition in `T_st,k(M)`. The `Hom` r
 
 The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31. Savitt's exposition
 follows Breuil–Mézard §3.2; the lemmas of [BM02] and [Bre99] it invokes (BM02 Lemmes 3.2.2.1–3.2.2.2
-and 3.2.3.1, Prop. 3.2.3.2; Bre99 Lemmes 2.3.1.1–2.3.1.3) are steps of this target.
+and 3.2.3.1, Prop. 3.2.3.2; Breuil 1999b, Lemmes 2.3.1.1–2.3.1.3) are steps of this target.
 
 *Construction.* `IS_R ∩ Fil^{k−1}S_R = I Fil^{k−1}S_R`, using the unique expansion `Σ r_j(u)E(u)^j/j!`
 with deg `r_j < e` (Savitt, §4). Reduction: for `I ⊇ m_R^n, M/IM` with the image filtration is an object
@@ -7093,7 +7115,8 @@ The API:
   of `ϖ`. At the pins: the labels `(r, s)` of the Serre weights `Sym^r ⊗ det^s` of `GL₂(F_p)` form
   `SerreWeights.Label p`, with `SerreWeights.card_label` (`p(p − 1)` labels) and
   `SerreWeights.finrank_sym` (homogeneous polynomials of degree `r` in two variables over `F_p` have
-  dimension `r + 1`).
+  dimension `r + 1`). At `p=2` there are two labels (the determinant label is unique);
+  at `p=3` there are six (three symmetric powers and two determinant twists).
 - `trivial_length_two`: For `σ` trivial and `λ = 1, I(σ)/(T − 1)` has length `2` (trivial character and
   Steinberg).
 - `not_finite_dim`: `I(σ)` is infinite-dimensional, and so is `I(σ)/(T)`: a definition with ordinary
@@ -7540,8 +7563,8 @@ is ordinary at the generic point (Cartier's typical curves); so `𝒳` is ordina
 of the special fibre of `S`, of dimension `d`. At the strict henselisation at `x, 𝒳` is an extension of
 `(ℚ_p/ℤ_p)^{h−d}` by `μ_{p^∞}^d`, so `Λ^h T(𝒳) ⊗ T(μ_{p^∞})^{⊗(−d)}` is unramified at `x`; it is unramified
 in characteristic `0` points, hence at all codimension-one points, hence everywhere by the purity
-contract of CrystallineCohomology
-§CR.5:log-algebra.4, *The classical Abhyankar lemma* (SGA 1 `X` 3.1; Stacks Tag 0BMB).
+contract of PurityOfBranchLocus §2.1 (SGA 1 `X` 3.1; Stacks Tag 0BMB) and §2.2
+(the global corollary).
 After completion, `R` is an excellent regular DVR and `𝒪 = R⟦T₁,…,T_m⟧` is excellent,
 regular and strictly henselian. For each finite quotient of the determinant character,
 use the normalization of `Spec 𝒪` in its generically étale cover: excellence makes it
@@ -7550,9 +7573,9 @@ unramifiedness, and strict henselianity makes the resulting finite étale cover 
 `R`-section through `X` to get the claim (Raynaud, Théorème 4.2.1, proof).
 (Raynaud 1974, §4.2, Théorème 4.2.1, Remarque 4.2.2, Lemme 4.2.3 and the proofs, pp. 272–274: `det T(X) = χ^d` by deformation to the ordinary case and purity.)
 
-*Needs:* CrystallineCohomology §CR.5:log-algebra.4 (*The classical Abhyankar lemma*,
-purity of the branch locus for finite normal covers with dominant components over excellent regular
-local bases); §R07.1.8; §R07.1.14; §R07.1.9; §R07.2.23; §R07.1.19.
+*Needs:* PurityOfBranchLocus §2.1 (purity of the branch locus, SGA 1 `X` 3.1,
+Stacks Tag 0BMB) and §2.2 (the global corollary for finite normal covers with dominant components
+over excellent regular local bases); §R07.1.8; §R07.1.14; §R07.1.9; §R07.2.23; §R07.1.19.
 
 **Checks.**
 
@@ -7604,14 +7627,12 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 
 Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
 PadicPeriodRings §2 (mixed-characteristic perfect-residue ramification);
+PurityOfBranchLocus §§2.1–2.2 (purity for finite normal covers of regular bases);
 TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
 
 ## Downstream consumers
 
-- **AbelianSchemesAndArithmeticModuliPartII**, **NeronModelsAndSemistableAbelianVarietiesPartII**
-  and the abelian-variety roadmaps use the `p`-divisible groups, Tate's theorems and Dieudonné
-  modules of abelian varieties over perfect fields (R07.1, R07.2).
 - **FaltingsFinitenessAndIsogenyTheorems** uses `ℓ`-divisible groups over the valuation ring of a
   finite extension of `ℚ_ℓ`, their Tate modules, formal groups, dimension, invariant differentials
   and Raynaud's absolute different (§R07.1.8, §R07.1.12, §R07.1.14, §R07.1.17), Tate's generic-fibre
@@ -7620,11 +7641,11 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   rings of integers, étale groups over `ℤ[1/N]`, gluing and the Mayer–Vietoris sequence (R07.1) for
   its classifications over `ℤ` and `ℤ[1/ℓ]`.
 - **HodgeTateAndCanonicalSubgroups**, **IgusaVarietiesAndTorsionConcentration**,
-  **HeckeStacksAndLocalShtukas**, **ShimuraCompactifications**,
+  **ShimuraCompactifications**,
   **HilbertModularVarietiesAndShimuraCurves** and **AlgebraicModularFormsAndSerreWeights** use the
   Hasse invariant of a `BT₁` (§R07.2.21), Illusie's obstruction class (§R07.6.6), universal covers
   (§R07.2.25), slopes and the covariant module (§R07.2.16, §R07.2.20).
-- **LocalGaloisDeformationRings** and **GlobalGaloisDeformations** use Fontaine–Laffaille modules
+- **LocalGaloisDeformationRings** uses Fontaine–Laffaille modules
   (R07.3), Kisin modules with coefficients, finite-height lattices and Kisin's full faithfulness
   (R07.4), and the flat deformation condition and its tangent space (§R07.6.7).
 - **AlgebraicModularFormsAndSerreWeights** imports `IsFiniteFlatResidual` and
@@ -7647,8 +7668,11 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   **GL2ModularityLifting** and **PotentialModularityAndCompatibleSystems** use the residual types of
   R07.5 (inertia on `E[p]`, Serre's finite-flat criterion, Savitt's residual types, residual
   weights) and Fontaine's conjecture for weights `{0, 1}` (§R07.4.20).
-- **AInfCohomology**, **CohomologyComparisons** and **PrismaticCohomology** use Breuil–Kisin modules
-  with torsion and the all-weight Kisin functor (§R07.4.15, §R07.4.16).
+- **AInfCohomology** uses Breuil–Kisin modules with torsion and the all-weight Kisin functor
+  (§R07.4.15, §R07.4.16).
+- **CohomologyComparisons** uses the Fontaine–Laffaille lattice correspondence and full faithfulness
+  (§§R07.3.15–R07.3.17), the all-weight Kisin functor and its lattice comparisons (R07.4), and
+  Illusie's obstruction class (§R07.6.6).
 
 ## References
 
@@ -7656,7 +7680,6 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **Fontaine 1994, Le corps des périodes.** *Le corps des périodes p-adiques*, Astérisque 223, 59–111. <https://www.numdam.org/item/AST_1994__223__59_0.pdf>
 - **Fontaine 1994, Représentations semi-stables.** *Représentations p-adiques semi-stables*, Astérisque 223, 113–184. <https://www.numdam.org/item/AST_1994__223__113_0.pdf>
 - **Liu–Tian–Xiao–Zhang–Zhu 2022.** *On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives*, Invent. Math. 228, 107–375. <https://doi.org/10.1007/s00222-021-01088-4>
-- **Newton–Thorne.** James Newton and Jack A. Thorne, *Symmetric power functoriality for Hilbert modular forms*, arXiv:2212.03595v2; locators use the preprint pagination. <https://arxiv.org/abs/2212.03595v2>
 - **Conrad, Kisin survey.** Brian Conrad, *Survey of Kisin’s paper Crystalline representations
   and F-crystals*, Definitions 2.4.4–2.4.5 and equation (2.4.6).
   <https://math.stanford.edu/~conrad/papers/luminy.pdf>
@@ -7751,7 +7774,7 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   holomorphic modular forms, II*, Publ. Math. IHÉS 134 (2021).
   <https://pmihes.centre-mersenne.org/volume/PMIHES_2021__134_/>
 - **Newton–Thorne 2026.** James Newton, Jack A. Thorne, *Symmetric power functoriality for Hilbert
-  modular forms*, Ann. of Math. 203 (2026), no. 1. <https://arxiv.org/abs/2212.03595v2>
+  modular forms*, Ann. of Math. 203 (2026), no. 1; locators use arXiv:2212.03595v2 preprint pagination. <https://arxiv.org/abs/2212.03595v2>
 - **Oort–Tate 1970.** Frans Oort and John Tate, *Group schemes of prime order*, Ann. Sci. École
   Norm. Sup. (4) 3 (1970), 1–21. <https://www.numdam.org/item/ASENS_1970_4_3_1_1_0/>
 - **Pilloni 2020.** Vincent Pilloni, *Higher coherent cohomology and p-adic modular forms of

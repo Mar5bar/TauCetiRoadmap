@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.FiniteLocallyFree
 import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.BaseChange
 import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.Constant
+import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.Two
 
 /-!
 # Finite flat group schemes and integral p-adic Hodge theory: representative target signatures
@@ -93,12 +94,6 @@ def IsMultiplicative (G : FLF R) : Prop :=
 connectedness of `G`; over a local base that is not henselian a connected `G` can have a non-local
 coordinate algebra. -/
 def IsConnectedLocal (G : FLF R) : Prop := IsLocalRing (coord G)
-
-/-- Cartier biduality (Tau Ceti, at the pin). -/
-example (G : FLF R) :
-    FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R
-      (FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G) ≅ G :=
-  (FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualDualIso R G).symm
 
 /-- `G` is multiplicative exactly when its Cartier dual is étale, and étale exactly when its dual
 is multiplicative (biduality). -/
@@ -226,8 +221,33 @@ def absRamificationIndex (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValua
   (IsDiscreteValuationRing.addVal R (p : R)).toNat
 
 /-- `e(ℤ_p) = 1`, matching Tau Ceti's `TauCeti.absoluteRamificationIndex_padic`. -/
-example (p : ℕ) [Fact p.Prime] : absRamificationIndex ℤ_[p] p = 1 := by
+theorem absRamificationIndex_padic (p : ℕ) [Fact p.Prime] :
+    absRamificationIndex ℤ_[p] p = 1 := by
   simp [absRamificationIndex, IsDiscreteValuationRing.addVal_uniformizer PadicInt.irreducible_p]
+
+/-- At residue characteristic different from `p`, the integer `p` is a unit and its index is zero. -/
+example : absRamificationIndex ℤ_[3] 2 = 0 := by
+  have h : IsUnit (2 : ℤ_[3]) :=
+    PadicInt.isUnit_iff.mpr (PadicInt.norm_natCast_eq_one_iff.mpr (by decide : Nat.Coprime 3 2))
+  simp [absRamificationIndex, IsDiscreteValuationRing.addVal_eq_zero_iff.mpr h]
+
+/-- The equal-characteristic junk value is zero: `v(p) = v(0) = ⊤` and `⊤.toNat = 0`. -/
+example (p : ℕ) [Fact p.Prime] : absRamificationIndex (PowerSeries (ZMod p)) p = 0 := by
+  have hp : (p : PowerSeries (ZMod p)) = 0 := by
+    rw [← map_natCast (PowerSeries.C : ZMod p →+* PowerSeries (ZMod p)),
+      CharP.cast_eq_zero (ZMod p) p, map_zero]
+  simp [absRamificationIndex, hp]
+
+open ValuativeRel in
+/-- In the ramified quadratic extension `ℚ₂(√2)`, the index is two since `√2` is a uniformizer. -/
+theorem absRamificationIndex_dyadicSqrtTwo :
+    absRamificationIndex 𝒪[TauCeti.DyadicSqrtTwo] 2 = 2 := by
+  have hs : TauCeti.DyadicSqrtTwo.integerSqrtTwo ^ 2 = (2 : 𝒪[TauCeti.DyadicSqrtTwo]) := by
+    apply Subtype.ext
+    simp
+  change (IsDiscreteValuationRing.addVal 𝒪[TauCeti.DyadicSqrtTwo] 2).toNat = 2
+  rw [← hs, TauCeti.DyadicSqrtTwo.irreducible_integerSqrtTwo.addVal_pow]
+  rfl
 
 /-- Raynaud's uniqueness theorem (Théorème 3.3.3): if `e < p − 1`, a finite commutative `K`-group
 of `p`-power order has at most one finite flat model up to unique isomorphism: any model dominates
@@ -445,32 +465,53 @@ def frobeniusCokernelDual (M : DieudonneModule p k) :
   add_mem' := by intro f g hf hg x; simp [hf x, hg x]
   smul_mem' := by intro c f hf x; simp [hf x]
 
-/-- The additive comparison from the covariant Hodge quotient to the ordinary Frobenius-cokernel
- dual; its scalar transport is Witt Frobenius. -/
-def lieScalarComparison (M : DieudonneModule p k)
+/-- The additive scalar map sends `[f]` to `x ↦ constantCoeff (σ(f(Vx)))`;
+its scalar transport is Witt Frobenius. -/
+def lieScalarMap (M : DieudonneModule p k) :
+    (dual M).M ⧸ imageV (dual M) →+ frobeniusCokernelDual M :=
+  let φ : Module.Dual (WittVector p k) M.M →+ frobeniusCokernelDual M :=
+    { toFun := fun f => ⟨{
+        toFun := fun x => WittVector.constantCoeff (WittVector.frobenius (f (M.V x)))
+        map_add' := by intro x y; simp only [map_add]
+        map_smul' := sorry }, sorry⟩
+      map_zero' := by ext x; simp
+      map_add' := by
+        intro f g
+        ext x
+        change WittVector.constantCoeff (WittVector.frobenius ((f + g) (M.V x))) =
+          WittVector.constantCoeff (WittVector.frobenius (f (M.V x))) +
+            WittVector.constantCoeff (WittVector.frobenius (g (M.V x)))
+        simp only [LinearMap.add_apply, map_add] }
+  QuotientAddGroup.lift (imageV (dual M)).toAddSubgroup φ (by sorry)
+
+/-- For finite free Dieudonné modules, the scalar map is an additive bijection. -/
+theorem lieScalarMap_bijective (M : DieudonneModule p k)
     [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M] :
-    (dual M).M ⧸ imageV (dual M) ≃+ frobeniusCokernelDual M := sorry
+    Function.Bijective (lieScalarMap M) := sorry
 
-/-- The scalar comparison evaluates a dual class on Verschiebung and then applies Frobenius. -/
-theorem lieScalarComparison_apply (M : DieudonneModule p k)
-    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M]
+/-- The scalar map evaluates a dual class on Verschiebung and then applies Frobenius. -/
+theorem lieScalarMap_apply (M : DieudonneModule p k)
     (f : Module.Dual (WittVector p k) M.M) (x : M.M) :
-    (lieScalarComparison M ((imageV (dual M)).mkQ f)).val x =
-      WittVector.constantCoeff (WittVector.frobenius (f (M.V x))) := sorry
+    (lieScalarMap M ((imageV (dual M)).mkQ f)).val x =
+      WittVector.constantCoeff (WittVector.frobenius (f (M.V x))) := rfl
 
-/-- The comparison is Frobenius-semilinear, giving `σ_k^*(M^t/V^tM^t) ≅ Hom_k(M/FM,k)`. -/
-theorem lieScalarComparison_smul (M : DieudonneModule p k)
-    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M]
+/-- The map is Frobenius-semilinear, giving `σ_k^*(M^t/V^tM^t) ≅ Hom_k(M/FM,k)`
+when `M` is finite free. -/
+theorem lieScalarMap_smul (M : DieudonneModule p k)
     (c : WittVector p k) (q : (dual M).M ⧸ imageV (dual M)) :
-    lieScalarComparison M (c • q) = WittVector.frobenius c • lieScalarComparison M q := sorry
+    lieScalarMap M (c • q) = WittVector.frobenius c • lieScalarMap M q := sorry
 
-/-- Precomposition with a Dieudonné morphism commutes with the semilinear comparison. -/
-theorem lieScalarComparison_naturality (M N : DieudonneModule p k)
-    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M]
-    [Module.Free (WittVector p k) N.M] [Module.Finite (WittVector p k) N.M]
+/-- Precomposition with a Dieudonné morphism commutes with the semilinear scalar map. -/
+theorem lieScalarMap_naturality (M N : DieudonneModule p k)
     (T : M ⟶ N) (f : Module.Dual (WittVector p k) N.M) (x : M.M) :
-    (lieScalarComparison M ((imageV (dual M)).mkQ (f.comp T.toLinearMap))).val x =
-      (lieScalarComparison N ((imageV (dual N)).mkQ f)).val (T.toLinearMap x) := sorry
+    (lieScalarMap M ((imageV (dual M)).mkQ (f.comp T.toLinearMap))).val x =
+      (lieScalarMap N ((imageV (dual N)).mkQ f)).val (T.toLinearMap x) := sorry
+
+/-- Witt duality exchanges the standard étale module with the multiplicative module. -/
+theorem dual_qpZp : Nonempty (dual (qpZp p k) ≅ muPInfty p k) := sorry
+
+/-- Witt duality exchanges the standard multiplicative module with the étale module. -/
+theorem dual_muPInfty : Nonempty (dual (muPInfty p k) ≅ qpZp p k) := sorry
 
 /-- The two one-dimensional automorphism actions of the rank-two supersingular model admit no
 ordinary linear intertwiner when `a` is not fixed by Frobenius. -/
@@ -493,6 +534,15 @@ adapter with the scheme pullback, including its projections and base-change maps
 def frobeniusTwist (G : FLF k) : FLF k :=
   letI : Algebra k k := (frobenius k p).toAlgebra
   (FiniteLocallyFreeCommAffineGroupSchemeCat.baseChangeFunctor k k).obj G
+
+/-- Over the prime field the Frobenius twist is isomorphic to the original group. -/
+theorem frobeniusTwist_primeField (G : FLF (ZMod p)) :
+    Nonempty (frobeniusTwist p (ZMod p) G ≅ G) := sorry
+
+/-- A finite constant group is unchanged by Frobenius twisting over a perfect field. -/
+theorem frobeniusTwist_constantGroup (Γ : Type u) [CommGroup Γ] [Finite Γ] :
+    Nonempty (frobeniusTwist p k (ConstantGroup.finiteLocallyFreeGroupScheme k Γ) ≅
+      ConstantGroup.finiteLocallyFreeGroupScheme k Γ) := sorry
 
 /-- Finite commutative group schemes of `p`-power order over `k`. -/
 abbrev PGroup := ObjectProperty.FullSubcategory (fun G : FLF k => ∃ n, rank G = p ^ n)
@@ -530,7 +580,7 @@ theorem frobenius_eq_self_iff (x : WittVector p k) :
 
 /-- Test: over `k = F_p` every Witt vector is fixed by Frobenius (Mathlib's
 `WittVector.frobenius_zmodp`), as the characterisation predicts. -/
-example (x : WittVector p (ZMod p)) : WittVector.frobenius x = x :=
+theorem wittFrobeniusFixed_Fp (x : WittVector p (ZMod p)) : WittVector.frobenius x = x :=
   WittVector.frobenius_zmodp p x
 
 /-- If `T` is `σ`-conjugate to itself over `Frac W(k)`, its characteristic polynomial has
@@ -559,7 +609,7 @@ theorem wittFrobeniusFixed_Fp2 :
     ∃ x : WittVector p (GaloisField p 2), WittVector.frobenius x ≠ x := sorry
 
 /-- Test: the empty matrix has characteristic polynomial `1`, which descends as `1`. -/
-example [PerfectRing k p] (T : Matrix (Fin 0) (Fin 0) (WittVector p k)) :
+theorem charpolyDescent_zero [PerfectRing k p] (T : Matrix (Fin 0) (Fin 0) (WittVector p k)) :
     T.charpoly = (1 : Polynomial ℤ_[p]).map (padicConstants p k) := by
   simp [Matrix.charpoly, Matrix.det_fin_zero]
 
@@ -625,7 +675,7 @@ def FilteredPhiNModule.zero : FilteredPhiNModule p k K where
   D := PUnit
   phi := 0
   phi_smul _ _ := Subsingleton.elim _ _
-  phi_bijective := sorry
+  phi_bijective := ⟨fun _ _ _ => Subsingleton.elim _ _, fun y => ⟨y, Subsingleton.elim _ _⟩⟩
   N := 0
   N_phi _ := Subsingleton.elim _ _
   fil _ := ⊥
@@ -633,11 +683,20 @@ def FilteredPhiNModule.zero : FilteredPhiNModule p k K where
   fil_exhaustive := ⟨0, Subsingleton.elim _ _⟩
   fil_separated := ⟨0, rfl⟩
 
-/-- The zero object's underlying vector space has dimension zero. -/
-example : Module.finrank (FractionRing (WittVector p k))
-    (FilteredPhiNModule.zero (p := p) (k := k) (K := K)).D = 0 := by
-  change Module.finrank (FractionRing (WittVector p k)) PUnit.{u + 1} = 0
-  exact Module.finrank_zero_of_subsingleton
+/-- The zero filtered module is effective, since its degree-zero filtration is the whole space. -/
+example : (FilteredPhiNModule.zero (p := p) (k := k) (K := K)).IsEffective := by
+  change (⊥ : Submodule K (TensorProduct (FractionRing (WittVector p k)) K PUnit.{u + 1})) = ⊤
+  exact Subsingleton.elim _ _
+
+/-- Every graded piece of the zero filtered module is zero, so its Hodge number is zero. -/
+example : (FilteredPhiNModule.zero (p := p) (k := k) (K := K)).tH = 0 := by
+  classical
+  have hfil (i : ℤ) :
+      Module.finrank K ((FilteredPhiNModule.zero (p := p) (k := k) (K := K)).fil i) = 0 := by
+    change Module.finrank K
+      (⊥ : Submodule K (TensorProduct (FractionRing (WittVector p k)) K PUnit.{u + 1})) = 0
+    exact Module.finrank_zero_of_subsingleton
+  simp [FilteredPhiNModule.tH, hfil]
 
 /-- The monodromy is nilpotent: `N φ = p φ N` moves every slope of the isocrystal `(D, φ)` down by
 `1` (Brinon–Conrad, Lemma 8.2.8). -/
@@ -694,46 +753,46 @@ end FontaineLaffaille
 
 namespace Tests
 
-/-- The zero module admits the zero filtration in every interval. -/
-example (a b : ℤ) : ∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) (Fin 0 → ℤ),
-    fontaineLaffaille_interval D a b := sorry
+/-- The zero module is free with split zero filtration in every interval. -/
+theorem zero_interval (a b : ℤ) : ∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) (Fin 0 → ℤ),
+    IsFreeFontaineLaffaille D ∧ fontaineLaffaille_interval D a b := sorry
 
 /-- The proper step `3ℤ` cannot occur in a free split-filtration object. -/
-example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ)
+theorem free_step_ne_three (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ)
     (hD : IsFreeFontaineLaffaille D) : D.F 1 ≠ Ideal.span {(3 : ℤ)} := sorry
 
-/-- The unit weight-zero object; generation excludes `φ₀ = 0` on a nonzero module. -/
-example : (∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ,
-    fontaineLaffaille_interval D 0 0 ∧ ∀ x : D.F 0, D.φ 0 x = x) ∧
+/-- The free weight-zero unit has split filtration; generation excludes zero Frobenius on a nonzero module. -/
+theorem unit_and_generation : (∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ,
+    IsFreeFontaineLaffaille D ∧ fontaineLaffaille_interval D 0 0 ∧ ∀ x : D.F 0, D.φ 0 x = x) ∧
     ∀ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ, ¬ (∀ i (x : D.F i), D.φ i x = 0) :=
   sorry
 
 /-- A nonzero object has no support in a reversed interval. -/
-example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ) :
+theorem not_reversed_interval (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ) :
     ¬ fontaineLaffaille_interval D 1 0 := sorry
 
 /-- The jump-minus-one line has covariant Hodge–Tate weight `+1` via the dual of
 `U_[-1,-1](M) = U_S(M(1))(-1)`; its filtration support
 distinguishes it from the jump-plus-one line. -/
-example : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
-    fontaineLaffaille_interval D (-1) (-1) ∧ ¬ fontaineLaffaille_interval D 1 1 ∧
+theorem jump_neg_one : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
+    IsFreeFontaineLaffaille D ∧ fontaineLaffaille_interval D (-1) (-1) ∧ ¬ fontaineLaffaille_interval D 1 1 ∧
       ∀ x : D.F (-1), D.φ (-1) x = x := sorry
 
 /-- The jump-plus-one line has covariant Hodge–Tate weight `-1` and translated contravariant
 Hodge–Tate weight `+1`, with divided Frobenius the identity over `ℤ₃`. -/
-example : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
-    fontaineLaffaille_interval D 1 1 ∧ ¬ fontaineLaffaille_interval D (-1) (-1) ∧
+theorem jump_pos_one : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
+    IsFreeFontaineLaffaille D ∧ fontaineLaffaille_interval D 1 1 ∧ ¬ fontaineLaffaille_interval D (-1) (-1) ∧
       ∀ x : D.F 1, D.φ 1 x = x := sorry
 
 /-- The same filtration with Frobenius `1` and `2` over `ℤ₃`: the underlying identity is not a
 morphism. -/
-example : ∃ D D' : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
+theorem identity_not_frobenius : ∃ D D' : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
     fontaineLaffaille_interval D 0 0 ∧ fontaineLaffaille_interval D' 0 0 ∧
     (∀ x : D.F 0, D.φ 0 x = x) ∧ (∀ x : D'.F 0, D'.φ 0 x = 2 * (x : ℤ_[3])) ∧
     ¬ (∃ f : FontaineLaffailleHom D D', f.map = LinearMap.id) := sorry
 
 /-- Identity and zero maps are morphisms on every object. -/
-example {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
+theorem identity_and_zero {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
     [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) :
     (∃ f : FontaineLaffailleHom D D, f.map = LinearMap.id) ∧
       ∃ f : FontaineLaffailleHom D D, f.map = 0 := sorry
@@ -1101,6 +1160,12 @@ abbrev Label (p : ℕ) := Fin p × Fin (p - 1)
 theorem card_label (p : ℕ) : Fintype.card (Label p) = p * (p - 1) := by
   simp [Label]
 
+/-- In characteristic two the determinant label is unique, leaving the two symmetric powers. -/
+example : Fintype.card (Label 2) = 2 := by simp [Label]
+
+/-- In characteristic three the three symmetric powers each have two determinant labels. -/
+example : Fintype.card (Label 3) = 6 := by simp [Label]
+
 /-- The symmetric power `Sym^r F_p²` has dimension `r + 1`. The labels `(r,s)`
 specify `Sym^r ⊗ det^s`; dimension and determinant need not distinguish these weights. -/
 theorem finrank_sym (p : ℕ) [Fact p.Prime] (r : ℕ) :
@@ -1218,7 +1283,7 @@ further instances of the statements above.
   so the modified module fails FV=p;
   `ellipticDieudonne`; `dieudonneManinClassification` (integral slope consequences and endomorphism algebras); `standardDieudonne`,
   `slopeSequence`, `aNumber`; `isogenyClassification`; `covariantModule` with `covariantModule_lie` (the ordinary
-  k-linear Hodge quotient and the semilinear comparison prototyped by `lieScalarComparison`);
+  k-linear Hodge quotient and the semilinear comparison prototyped by `lieScalarMap` and `lieScalarMap_bijective`);
   `covariantCrystalEvaluation`: over a semiperfect F_p-algebra, the covariant crystal is
   D_contra(G^D), with its Cartier pairing into the line of Frobenius pσ and integral finite
   projective A_cris evaluation M_A with F:σ* M_A→M_A and V:M_A→σ* M_A, FV=VF=p.
