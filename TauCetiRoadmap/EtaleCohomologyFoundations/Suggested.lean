@@ -22,7 +22,7 @@ noncomputable section
 namespace TauCetiRoadmap.EtaleCohomologyFoundations
 
 open CategoryTheory AlgebraicGeometry
-open scoped TensorProduct
+open scoped TensorProduct Pointwise
 
 universe u u' v v' w w'
 
@@ -307,12 +307,13 @@ example (ℓ : ℕ) [Fact ℓ.Prime] :
   sorry
 
 open ValuativeRel in
-/-- A subgroup of `GL_n(E)` stabilises an `O_E`-lattice iff its closure is compact (DDT, §2.1). -/
+/-- A subgroup of `GL_n(E)` stabilises an `O_E`-lattice iff its closure is compact (DDT, §2.1).
+The full-span lattice condition is Mathlib's `Submodule.IsLattice`. -/
 theorem exists_stable_lattice_iff {E : Type v} [Field E] [ValuativeRel E] [TopologicalSpace E]
     [IsNonarchimedeanLocalField E] (n : ℕ)
     (K : Subgroup (Matrix.GeneralLinearGroup (Fin n) E)) :
     IsCompact (closure (K : Set (Matrix.GeneralLinearGroup (Fin n) E))) ↔
-      ∃ L : Submodule 𝒪[E] (Fin n → E), L.FG ∧ Submodule.span E (L : Set (Fin n → E)) = ⊤ ∧
+      ∃ L : Submodule 𝒪[E] (Fin n → E), Submodule.IsLattice E L ∧
         ∀ k ∈ K, ∀ x ∈ L, (k : Matrix (Fin n) (Fin n) E).mulVec x ∈ L := by
   sorry
 
@@ -325,14 +326,15 @@ example (ℓ : ℕ) [Fact ℓ.Prime] :
 example (ℓ : ℕ) [Fact ℓ.Prime] (π : ℚ_[ℓ]ˣ) (hπ : (π : ℚ_[ℓ]) = ℓ) :
     let K := Subgroup.zpowers (Matrix.GeneralLinearGroup.scalar (Fin 1) π)
     ¬ ∃ L : Submodule ℤ_[ℓ] (Fin 1 → ℚ_[ℓ]),
-      L.FG ∧ Submodule.span ℚ_[ℓ] (L : Set (Fin 1 → ℚ_[ℓ])) = ⊤ ∧
+      Submodule.IsLattice ℚ_[ℓ] L ∧
         ∀ k ∈ K, ∀ x ∈ L, (k : Matrix (Fin 1) (Fin 1) ℚ_[ℓ]).mulVec x ∈ L := by
   sorry
 
 end ContinuousRep
 
 /-- A `Γ`-stable lattice in a representation `V` over a field `E` with ring of integers `O`: a
-finitely generated `O`-submodule, stable under `Γ`, spanning `V` over `E` (README F.4.0). -/
+finitely generated `O`-submodule, stable under `Γ`, spanning `V` over `E`.
+Its underlying submodule carries Mathlib's `Submodule.IsLattice` instance (README F.4.0). -/
 structure GaloisLattice.IntegralModel {Γ : Type u} [Group Γ] [TopologicalSpace Γ]
     (O : Type v) [CommRing O] {E : Type v} [Field E] [TopologicalSpace E] [Algebra O E]
     {V : Type w} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
@@ -349,21 +351,21 @@ structure GaloisLattice.IntegralModel {Γ : Type u} [Group Γ] [TopologicalSpace
 
 namespace GaloisLattice.IntegralModel
 
+/-- The underlying submodule of an integral model is a lattice in Mathlib's sense. -/
+instance isLattice {Γ : Type u} [Group Γ] [TopologicalSpace Γ]
+    {O : Type v} [CommRing O] {E : Type v} [Field E] [TopologicalSpace E] [Algebra O E]
+    {V : Type w} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
+    [TopologicalSpace V] [IsModuleTopology E V] [Module O V] [IsScalarTower O E V]
+    {ρ : ContinuousRep Γ E V} (Λ : IntegralModel O ρ) : Submodule.IsLattice E Λ.lattice where
+  fg := Λ.fg
+  span_eq_top := Λ.span_eq_top
+
 variable {Γ : Type u} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   {O : Type v} [CommRing O] [TopologicalSpace O] [IsDomain O] [IsDiscreteValuationRing O]
   {E : Type v} [Field E] [TopologicalSpace E] [Algebra O E] [IsFractionRing O E]
   {V : Type w} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
   [TopologicalSpace V] [IsModuleTopology E V] [Module O V] [IsScalarTower O E V]
   {ρ : ContinuousRep Γ E V}
-
-instance (Λ : IntegralModel O ρ) : Module.Finite O Λ.lattice :=
-  Module.Finite.iff_fg.mpr Λ.fg
-
-instance (Λ : IntegralModel O ρ) : Module.Free O Λ.lattice := by
-  sorry
-
-instance (Λ : IntegralModel O ρ) : Module.Projective O Λ.lattice :=
-  Module.Projective.of_free
 
 /-- The lattice `(Λ, ρ|_Λ)` as a continuous representation over `O`. -/
 def toContinuousRep (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] :
@@ -380,12 +382,12 @@ theorem nonempty_iso_genericFibre [IsTopologicalRing O] [IsTopologicalRing E] [C
     Nonempty (ContinuousRep.Iso (Λ.toContinuousRep.baseChange E) ρ) := by
   sorry
 
-/-- Homothety `c Λ` for `c ∈ E^×`. -/
+/-- Homothety `c Λ` for `c ∈ E^×`, using Mathlib's action on lattices. -/
 def smul (c : Eˣ) (Λ : IntegralModel O ρ) : IntegralModel O ρ where
-  lattice := Λ.lattice.map (((c : E) • LinearMap.id : V →ₗ[E] V).restrictScalars O)
+  lattice := c • Λ.lattice
   stable := sorry
-  fg := sorry
-  span_eq_top := sorry
+  fg := Submodule.IsLattice.fg (A := E) (M := c • Λ.lattice)
+  span_eq_top := Submodule.IsLattice.span_eq_top (A := E) (M := c • Λ.lattice)
 
 /-- Existence of integral models for compact `Γ` and `O` compact open in the local field `E`. -/
 theorem nonempty [CompactSpace Γ] [CompactSpace O] [IsTopologicalRing E]
@@ -629,7 +631,9 @@ VanishingCycles.filteredColimit_cohomology.
 F.0.A1: SchemeInertia.decomposition, SchemeInertia.inertia, SchemeInertia.conjugate,
 SchemeInertia.intermediateOrbits. F.0.A0–F.0.A2 give the intrinsic field and multiplicative-group
 identifications and the arithmetic exact sequence, with section/path choices retained.
-The based finite-cover construction applies to every connected nonempty scheme.
+The finite-cover carrier is TauCeti.FiniteEtaleScheme from
+TauCeti.AlgebraicGeometry.FiniteEtale.Basic, with its affine algebra anti-equivalence and
+separably closed field comparison. The based construction applies to every connected nonempty scheme.
 SchemeInertia.intermediateOrbits identifies points by decomposition orbits; its ramification
 indices require defectless discrete valuations with separable residue extensions.
 
@@ -651,6 +655,8 @@ VanishingCycles.etaleKunneth, VanishingCycles.etaleKunnethCompactSupport,
 VanishingCycles.etaleCohomologicalDimension, VanishingCycles.affineArtinVanishing,
 VanishingCycles.etaleFiniteness, VanishingCycles.lisseDirectImageTransport,
 VanishingCycles.compactSupportFiniteness, VanishingCycles.genericLocalAcyclicity.
+F.3.0 establishes VanishingCycles.etaleCohomologicalDimension before F.2.6 uses its
+coefficient-specific finite bound for the global-sections projection formula in etaleKunneth.
 VanishingCycles.localAcyclicity includes tensor stability for ULA K and a locally constant
 perfect Λ-complex L on X with global Tor amplitude [c,d]. Cohomological or Tor amplitude
 [a,b] for K gives the corresponding bound [a+c,b+d] for the tensor.
