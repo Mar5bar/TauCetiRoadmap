@@ -44,7 +44,7 @@ What it builds on, and does not plan again:
 ## Conventions
 
 - **Words.** A word over `α` is a `List (α × Bool)`, the letter `(a, true)` standing for `a` and `(a, false)` for `a⁻¹` (Mathlib's convention). Elements of `FreeGroup α` are represented by their reduced words `toWord`. Finite bases are `Fin n` or a `Fintype` with an explicit enumeration.
-- **Commutators and conjugation.** `[x, y] = x⁻¹ y⁻¹ x y` in the sources' formulas; Lean uses the real-bodied function `comm x y = x⁻¹ * y⁻¹ * x * y`, which equals Mathlib's `⁅x⁻¹, y⁻¹⁆`; thus `comm a b` reduces to `a⁻¹ b⁻¹ a b` for distinct basis letters (the surface relators of Layer 6 are stated with the source convention and checked by the tests). Conjugation `g⁻¹ x g` is written `x^g`.
+- **Commutators and conjugation.** `[x, y] = x⁻¹ y⁻¹ x y` in the sources' formulas; Lean uses the real-bodied function `comm x y = x⁻¹ * y⁻¹ * x * y`, which equals Mathlib's `⁅x⁻¹, y⁻¹⁆`; thus `comm a b` reduces to `a⁻¹ b⁻¹ a b` for distinct basis letters (the surface relators of Layer 6 are stated with the source convention). Conjugation `g⁻¹ x g` is written `x^g`.
 - **Malnormality.** A subgroup `M ≤ G` is malnormal when `g M g⁻¹ ∩ M = 1` for every `g ∉ M`. This is Tau Ceti's `TauCeti.IsTISubgroup M`, and the word ‘malnormal’ always refers to it.
 - **Coefficients.** For a coefficient group `G`, `G[X] := Monoid.Coprod G (FreeGroup X)`; a `G`-group has a specified embedding of `G`; the evaluation constructions also make sense for an arbitrary coefficient homomorphism, with injectivity stated separately where it is used; equations over `G` are elements of `G[X]`. For `G = F(A)` the identification `G[X] ≅ FreeGroup (X ⊕ A)` is used for computations.
 - **Graphs and graphs of groups.** Graphs are Serre graphs (edge reversal without fixed points; loops and multiple edges allowed). In a graph of groups the boundary monomorphisms satisfy `α_e = ω_{ē}`, and the fundamental group uses the relation `e ω_e(c) e⁻¹ = α_e(c)`.
@@ -136,6 +136,10 @@ Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8
 
 
 ## How to read the build
+
+The representative Lean boundary targets are `rad_sq` (§5.2),
+`trivial_coefficients_closure_boundary` (§5.6), `centralizerExt_proper_power` (§8.5),
+and `compatible_no_lift` (§11.1).
 
 Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply normalized tower discrimination and embeddings in §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
 

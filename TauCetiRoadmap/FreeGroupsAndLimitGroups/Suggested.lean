@@ -1,7 +1,5 @@
 import Mathlib
 import TauCeti.GroupTheory.TrivialIntersection
-import TauCeti.GroupTheory.FreeGroup.ResiduallyP
-import TauCeti.GroupTheory.Schreier
 
 /-!
 # FreeGroupsAndLimitGroups: representative target signatures
@@ -9,7 +7,8 @@ import TauCeti.GroupTheory.Schreier
 This file is not the roadmap. The roadmap is `README.md`,
 which is definitive; this file is not exhaustive. It records light definitions with real bodies
 over carriers that exist in Mathlib, and theorem signatures statable against the pinned APIs, so
-that the conventions and signatures are explicit. Every proof is `sorry`.
+that the conventions and signatures are explicit. Theorem targets use `sorry`; the examples
+record proved boundary cases of the local definitions.
 
 Design choices made explicit here:
 * word and conjugacy statements use Mathlib's words `List (α × Bool)` and `FreeGroup α`;
@@ -40,10 +39,6 @@ rotations of each other. -/
 theorem isConj_iff_isRotated (x y : FreeGroup α) :
     IsConj x y ↔ (FreeGroup.reduceCyclically x.toWord).IsRotated
       (FreeGroup.reduceCyclically y.toWord) := by
-  sorry
-
-example (a b : α) (h : a ≠ b) :
-    ¬ IsConj (FreeGroup.of a * FreeGroup.of b) (FreeGroup.of a * FreeGroup.of b)⁻¹ := by
   sorry
 
 end layer1
@@ -78,44 +73,9 @@ def IsCommTransitive (G : Type*) [Group G] : Prop :=
 theorem IsCSA.isCommTransitive {G : Type*} [Group G] (hG : IsCSA G) : IsCommTransitive G := by
   sorry
 
-example : IsCSA (Multiplicative ℤ) := by
-  sorry
-
-example : ¬ IsCommTransitive (FreeGroup (Fin 2) × Multiplicative ℤ) := by
-  sorry
-
-example {α : Type u} (a : α) : IsPrimitive (FreeGroup.of a) := by
-  sorry
-
-example (a : Fin 2) : ¬ TauCeti.IsTISubgroup (Subgroup.zpowers (FreeGroup.of a ^ 2)) := by
-  sorry
-
-example : TauCeti.IsTISubgroup (⊥ : Subgroup (FreeGroup (Fin 2))) := by
-  sorry
-
-example : ¬ IsCSA (FreeGroup (Fin 2) × Multiplicative ℤ) := by
-  sorry
-
-example : IsCommTransitive (FreeGroup (Fin 2)) := by
-  sorry
-
 section roots
 
 variable {α : Type*} [DecidableEq α]
-
-example (a : α) : IsProperPower (FreeGroup.of a ^ 2) := by
-  sorry
-
-example (a : α) : ¬ IsProperPower (FreeGroup.of a) := by
-  sorry
-
-example (a b : α) (h : a ≠ b) :
-    ¬ IsProperPower (FreeGroup.of a * FreeGroup.of b * (FreeGroup.of a)⁻¹ * (FreeGroup.of b)⁻¹) := by
-  sorry
-
-example (a b : α) (h : a ≠ b) :
-    ¬ IsPrimitive (FreeGroup.of a * FreeGroup.of b * (FreeGroup.of a)⁻¹ * (FreeGroup.of b)⁻¹) := by
-  sorry
 
 /-- Every nontrivial element has a unique non-proper-power root with positive exponent;
 all its positive-exponent roots are powers of that root. -/
@@ -157,7 +117,9 @@ end roots
 /-- Serre graphs: an origin map and a fixed-point-free involution on edges; loops and multiple
 edges are allowed (§2.1). The README's `SerreGraph.toQuiver_reverse` identifies reversal
 with that of the associated quiver, and `SerreGraph.IsTree.unique_reduced_path` fixes the
-path characterization of trees. -/
+path characterization of trees. The boundary targets `SerreGraph.single_vertex_isTree`,
+`SerreGraph.segment_isTree` and `SerreGraph.double_edge_not_tree` distinguish an isolated
+vertex, a segment and parallel edges. -/
 structure SerreGraph (V : Type*) (E : Type*) where
   /-- The origin of an edge. -/
   src : E → V
@@ -206,16 +168,13 @@ theorem connected_ofSimpleGraph {W : Type*} (G : SimpleGraph W) :
 
 /-- The empty Serre graph is preconnected but neither connected nor a tree (§2.1). -/
 example :
-    let Γ : SerreGraph Empty Empty := ⟨Empty.elim, Empty.elim, by sorry, by sorry⟩
-    Γ.Preconnected ∧ ¬ Γ.Connected ∧ ¬ Γ.IsTree := by sorry
-
-/-- One isolated vertex is connected and a tree (§2.1). -/
-example : (ofSimpleGraph (⊥ : SimpleGraph Unit)).Connected ∧
-    (ofSimpleGraph (⊥ : SimpleGraph Unit)).IsTree := by sorry
-
-/-- Two isolated vertices are neither preconnected nor connected (§2.1). -/
-example : ¬ (ofSimpleGraph (⊥ : SimpleGraph (Fin 2))).Preconnected ∧
-    ¬ (ofSimpleGraph (⊥ : SimpleGraph (Fin 2))).Connected := by sorry
+    let Γ : SerreGraph Empty Empty :=
+      { src := Empty.elim
+        rev := Empty.elim
+        rev_rev := by intro e; cases e
+        rev_ne := by intro e; cases e }
+    Γ.Preconnected ∧ ¬ Γ.Connected ∧ ¬ Γ.IsTree := by
+  simp [Preconnected, Connected, IsTree]
 
 /-- A reversal-closed edge subset with all the original vertices. -/
 def restrict (T : Set E) (hT : ∀ e ∈ T, Γ.rev e ∈ T) : SerreGraph V T where
@@ -351,48 +310,13 @@ def parallelTree (n : ℕ) (hn : 0 < n) : (parallelGraph n).SpanningTree where
   rev_mem := by sorry
   isTree := by sorry
 
-example : Subsingleton ((parallelGraph 1).GraphPresentation (parallelTree 1 (by decide))) :=
-  by sorry
-example : Module.finrank (ZMod 2) ((parallelGraph 2).cycleSpace {e | e.2 = true}) = 1 :=
-  by sorry
-example : Module.finrank (ZMod 2) ((parallelGraph 3).cycleSpace {e | e.2 = true}) = 2 :=
-  by sorry
-example : Module.finrank (ZMod 2) ((parallelGraph 1).cycleSpace {e | e.2 = true}) = 0 :=
-  by sorry
-
-example : Nonempty ((rose 1).GraphPresentation (roseTree 1) ≃* Multiplicative ℤ) := by sorry
-example : Module.finrank (ZMod 2) ((rose 1).cycleSpace {e | e.2 = true}) = 1 := by sorry
-example : Module.finrank (ZMod 2) ((rose 2).cycleSpace {e | e.2 = true}) = 2 := by sorry
-example : Subsingleton ((rose 0).GraphPresentation (roseTree 0)) := by sorry
-
-example (e : E) : Γ.tgt (Γ.rev e) = Γ.src e := by
-  sorry
-
-example (v : V) : Γ.IsPath v [] v := by
-  sorry
-
-example (e : E) : Γ.IsPath (Γ.src e) [e] (Γ.tgt e) := by
-  sorry
-
-example (e : E) : Γ.IsReducedPath [e] := by
-  sorry
-
-example (e : E) : ¬ Γ.IsReducedPath [e, Γ.rev e] := by
-  sorry
-
 -- README `SerreGraph.rose_one_not_tree`: a loop is a reduced closed path.
 example (e : E) (he : Γ.tgt e = Γ.src e) : ¬ Γ.IsTree := by
-  sorry
+  intro hT
+  have h := hT.2.2 (Γ.src e) [e] (by simp [IsPath, he])
+    (by simp [IsReducedPath])
+  simp at h
 
-example : ¬ Nonempty (SerreGraph Unit Unit) := by
-  sorry
-
--- README `SerreGraph.single_vertex_isTree`: nonempty trees may have no edges.
-example : ∃ T : SerreGraph Unit Empty, T.IsTree := by
-  sorry
-
--- README `SerreGraph.segment_isTree` and `SerreGraph.double_edge_not_tree` distinguish
--- a segment from parallel edge pairs: the latter give the closed path [e, rev f].
 end SerreGraph
 
 /-- `α`-labelled graphs with labels compatible with reversal: the README's `StallingsGraph`
@@ -429,20 +353,6 @@ theorem mem_accepted_iff_of_isFolded (hΓ : Γ.IsFolded) (v : V) (w : List (α �
     FreeGroup.mk w ∈ Γ.accepted v ↔
       ∃ es : List E, Γ.toSerreGraph.IsPath v es v ∧ Γ.toSerreGraph.IsReducedPath es ∧
         es.map Γ.label = w := by
-  sorry
-
-example (v : V) : (1 : FreeGroup α) ∈ Γ.accepted v := by
-  sorry
-
-example (e : E) (he : Γ.tgt e = Γ.src e) :
-    FreeGroup.mk [Γ.label e] ∈ Γ.accepted (Γ.src e) := by
-  sorry
-
-example (e f : E) (hsrc : Γ.src e = Γ.src f) (hlab : Γ.label e = Γ.label f)
-    (hne : e ≠ f) : ¬ Γ.IsFolded := by
-  sorry
-
-example (e : E) : Γ.label (Γ.rev e) = ((Γ.label e).1, !(Γ.label e).2) := by
   sorry
 
 /-- The labelled-graph product over the rose (§2.9). -/
@@ -482,10 +392,6 @@ theorem rank_sub_one_eq_index_mul (n : ℕ) (H : Subgroup (FreeGroup (Fin n)))
     (Group.rank H : ℤ) - 1 = H.index * ((n : ℤ) - 1) := by
   sorry
 
-example (a b : α) (h : a ≠ b) :
-    FreeGroup.of b ∉ Subgroup.closure {FreeGroup.of a, FreeGroup.of b * FreeGroup.of a * (FreeGroup.of b)⁻¹} := by
-  sorry
-
 end layer2
 
 /-! ## Layer 3: first-order group syntax and solution statements -/
@@ -513,17 +419,6 @@ instance groupStructure (G : Type*) [Group G] : groupLang.Structure G where
   funMap f x := GroupFunc.eval f x
   RelMap r _ := Empty.elim r
 
-example : groupLang.Relations 2 = Empty := by
-  sorry
-
-example {G : Type*} [Group G] (x : Fin 2 → G) : GroupFunc.eval .mul x = x 0 * x 1 := by
-  sorry
-
-example {G : Type*} [Group G] :
-    (FirstOrder.Language.Term.func (L := groupLang) GroupFunc.one
-      (fun i => Fin.elim0 i) : groupLang.Term Empty).realize (fun i => Empty.elim i) = (1 : G) := by
-  sorry
-
 /-- The three universally quantified group axioms (§3.1). -/
 noncomputable def groupTheory : groupLang.Theory :=
   let x : groupLang.Term (Empty ⊕ Fin 3) := .var (.inr 0)
@@ -542,14 +437,6 @@ noncomputable def groupTheory : groupLang.Theory :=
 word of a term is its value in the free group. -/
 def termToWord {X : Type*} (t : groupLang.Term X) : FreeGroup X :=
   t.realize FreeGroup.of
-
-example {X : Type*} (x : X) : termToWord (FirstOrder.Language.Term.var x) = FreeGroup.of x := by
-  sorry
-
-example {X : Type*} :
-    termToWord (FirstOrder.Language.Term.func GroupFunc.one (fun i => Fin.elim0 i) :
-      groupLang.Term X) = 1 := by
-  sorry
 
 /-- A reduced word gives a left-nested product term (§3.2). -/
 noncomputable def wordToTerm {X : Type*} (w : FreeGroup X) : groupLang.Term X := by
@@ -575,35 +462,23 @@ structure EqIneqSystem (X A : Type*) where
   /-- Inequations `w ≠ 1`. -/
   ineqs : List (FreeGroup (X ⊕ A))
 
-/-- Solutions of a system in a group `G` with coefficient map `c` (§3.3). -/
+/-- Solutions of a system in a group `G` with coefficient map `c` (§3.3).
+`FreeGroup.EqIneqSystem.ineq_not_eq` distinguishes an inequation from an equation;
+`FreeGroup.EqIneqSystem.solution_commuting` combines both kinds of constraint. -/
 def EqIneqSystem.IsSolution {X A G : Type*} [Group G] (s : EqIneqSystem X A) (c : A → G)
     (v : X → G) : Prop :=
   (∀ w ∈ s.eqs, FreeGroup.lift (Sum.elim v c) w = 1) ∧
     ∀ w ∈ s.ineqs, FreeGroup.lift (Sum.elim v c) w ≠ 1
 
--- README `FreeGroup.EqIneqSystem.ineq_not_eq`: a nontrivial generator satisfies x ≠ 1.
-example {A : Type*} (a : A) :
-    (⟨[], [FreeGroup.of (Sum.inl ())]⟩ : EqIneqSystem Unit A).IsSolution FreeGroup.of
-      (fun _ => FreeGroup.of a) := by
-  sorry
-
 example {A : Type*} :
     ¬ (⟨[], [FreeGroup.of (Sum.inl ())]⟩ : EqIneqSystem Unit A).IsSolution FreeGroup.of
       (fun _ => 1) := by
-  sorry
+  simp [EqIneqSystem.IsSolution]
 
 -- README `FreeGroup.EqIneqSystem.empty_system`: all assignments solve no constraints.
 example {X A G : Type*} [Group G] (c : A → G) (v : X → G) :
     (⟨[], []⟩ : EqIneqSystem X A).IsSolution c v := by
-  sorry
-
--- README `FreeGroup.EqIneqSystem.solution_commuting`: equations and inequations coexist.
-example (a : Fin 2) :
-    (⟨[FreeGroup.of (Sum.inl false) * FreeGroup.of (Sum.inl true) *
-      (FreeGroup.of (Sum.inl false))⁻¹ * (FreeGroup.of (Sum.inl true))⁻¹],
-      [FreeGroup.of (Sum.inl false)]⟩ : EqIneqSystem Bool (Fin 2)).IsSolution FreeGroup.of
-        (fun b => if b then FreeGroup.of a ^ 2 else FreeGroup.of a) := by
-  sorry
+  simp [EqIneqSystem.IsSolution]
 
 /-! ## Layer 4: Bass–Serre theory and relative splittings -/
 
@@ -625,16 +500,6 @@ theorem dehnTwistHNN_eq_refl_iff {G : Type*} [Group G] (A B : Subgroup G) (φ : 
     (hbase : ∀ g : G, τ (HNNExtension.of g) = HNNExtension.of g)
     (ht : τ HNNExtension.t = HNNExtension.t * HNNExtension.of z) :
     τ = MulEquiv.refl _ ↔ z = 1 := by
-  sorry
-
-/-- The identity HNN extension of `ℤ` has a nonidentity twist with a central parameter. -/
-example :
-    let A : Subgroup (Multiplicative ℤ) := ⊤
-    let K := HNNExtension (Multiplicative ℤ) A A (MulEquiv.refl A)
-    ∃ τ : K ≃* K,
-      (∀ g : Multiplicative ℤ, τ (HNNExtension.of g) = HNNExtension.of g) ∧
-      τ HNNExtension.t = HNNExtension.t * HNNExtension.of (Multiplicative.ofAdd 1) ∧
-      τ ≠ MulEquiv.refl K := by
   sorry
 
 /-- Grushko–Neumann theorem (§4.11). -/
@@ -727,46 +592,6 @@ theorem radical_eq_normalClosure_iff_separated {X H : Type*} [Group H]
         ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) ι := by
   sorry
 
-example {X H : Type*} [Group H] (ι : G →* H) (v : X → H) (g : G) :
-    evalAt ι v (Monoid.Coprod.inl g) = ι g := by
-  sorry
-
-example {X H : Type*} [Group H] (ι : G →* H) (v : X → H) (x : X) :
-    evalAt ι v (Monoid.Coprod.inr (FreeGroup.of x)) = v x := by
-  sorry
-
-example {X : Type*} : algSet (MonoidHom.id G) (∅ : Set (GX G X)) = Set.univ := by
-  sorry
-
-example {X : Type*} :
-    idealOf (MonoidHom.id G) (∅ : Set (X → G)) = ⊤ := by
-  sorry
-
-example {X : Type*} (x : X) :
-    radical (MonoidHom.id (FreeGroup (Fin 2))) {Monoid.Coprod.inr (FreeGroup.of x)} =
-      Subgroup.normalClosure {(Monoid.Coprod.inr (FreeGroup.of x) : GX (FreeGroup (Fin 2)) X)} := by
-  sorry
-
-example : Nonempty (CoordGroup (MonoidHom.id G)
-    (∅ : Set (GX G Empty)) ≃* G) := by
-  sorry
-
-example : IsSeparatedBy G G (MonoidHom.id G) (MonoidHom.id G) := by
-  sorry
-
-example : IsDiscriminatedBy G G (MonoidHom.id G) (MonoidHom.id G) := by
-  sorry
-
-example {X : Type*} (v : X → G) : @IsClosed _ (zariski (MonoidHom.id G)) {v} := by
-  sorry
-
-example : IsEquationallyNoetherian (Multiplicative ℤ) := by
-  sorry
-
-example : ¬ IsGDomain (Multiplicative ℤ)
-    (1 : FreeGroup (Fin 2) →* Multiplicative ℤ) := by
-  sorry
-
 /-- Free groups of rank two are linear over `ℤ` (§5.8). -/
 theorem exists_injective_freeGroup_SL :
     ∃ f : FreeGroup (Fin 2) →* Matrix.SpecialLinearGroup (Fin 2) ℤ, Function.Injective f := by
@@ -788,15 +613,9 @@ theorem isIrreducible_iff_discriminated {X : Type*} [Finite X]
   sorry
 
 /-- The radical of `x²` over a free group is the normal closure of `x`, not of `x²` (§5.2). -/
-example :
+theorem rad_sq :
     radical (MonoidHom.id (FreeGroup (Fin 2))) {Monoid.Coprod.inr (FreeGroup.of ()) ^ 2} =
       Subgroup.normalClosure {(Monoid.Coprod.inr (FreeGroup.of ()) : GX (FreeGroup (Fin 2)) Unit)} := by
-  sorry
-
-example : IsGDomain (FreeGroup (Fin 2)) (MonoidHom.id _) := by
-  sorry
-
-example : ¬ IsGDomain (Multiplicative (Fin 2 → ℤ)) (MonoidHom.id _) := by
   sorry
 
 end layer5
@@ -951,7 +770,6 @@ theorem boundary_incidence (M : SurfaceModel) (e : (Fin M.edgeCount × Bool)) :
     (M.complex.linkDegree e = 1 ∨ M.complex.linkDegree e = 2) ∧
       (M.complex.graph.rev e ∈ M.boundaryDarts ↔ e ∈ M.boundaryDarts) := by sorry
 
-
 /-- The boundary graph retains exactly the boundary sides and their actual endpoints (§6.0a). -/
 def boundary (M : SurfaceModel) :
     SerreGraph M.BoundaryVertex {e : Fin M.edgeCount × Bool // e ∈ M.boundaryDarts} where
@@ -1028,18 +846,6 @@ def projectivePlane : SurfaceModel where
   connected := by sorry
   surface_links := by sorry
 
-example : disc.eulerChar = 1 ∧ Nat.card disc.BoundaryComponent = 1 ∧
-    disc.IsOrientable := by sorry
-example : torus.eulerChar = 0 ∧ IsEmpty torus.BoundaryComponent ∧
-    torus.IsOrientable := by sorry
-example : projectivePlane.eulerChar = 1 ∧ IsEmpty projectivePlane.BoundaryComponent ∧
-    ¬ projectivePlane.IsOrientable := by sorry
-example (T : disc.complex.graph.SpanningTree) : Subsingleton (disc.faceGroup T) := by sorry
-example (T : torus.complex.graph.SpanningTree) :
-    Nonempty (torus.faceGroup T ≃* Multiplicative (Fin 2 → ℤ)) := by sorry
-example (T : projectivePlane.complex.graph.SpanningTree) :
-    Nat.card (projectivePlane.faceGroup T) = 2 := by sorry
-
 end SurfaceModel
 
 /-- The source commutator `x⁻¹ y⁻¹ x y`, equal to Mathlib's `⁅x⁻¹, y⁻¹⁆`. -/
@@ -1085,18 +891,6 @@ theorem SurfaceModel.presentation_normalForm (M : SurfaceModel)
           NonorientableSurfaceGroup g (Nat.card M.BoundaryComponent),
         M.MarksBoundary T e.toMonoidHom (fun j => PresentedGroup.of (Sum.inr j))) := by sorry
 
-example {G : Type*} [Group G] (x y : G) : comm x y = ⁅x⁻¹, y⁻¹⁆ := by
-  sorry
-
-example : orientableRelator 0 1 = FreeGroup.of (Sum.inr (0 : Fin 1)) := by
-  sorry
-
-example : nonorientableRelator 1 0 = FreeGroup.of (Sum.inl (0 : Fin 1)) ^ 2 := by
-  sorry
-
-example : Subsingleton (OrientableSurfaceGroup 0 1) := by
-  sorry
-
 /-- Surface groups with boundary are free (§6.2). -/
 theorem isFreeGroup_orientable (g m : ℕ) (hm : 1 ≤ m) :
     IsFreeGroup (OrientableSurfaceGroup g m) := by
@@ -1107,31 +901,6 @@ theorem not_isFreeGroup_orientable_closed (g : ℕ) (hg : 1 ≤ g) :
     ¬ IsFreeGroup (OrientableSurfaceGroup g 0) := by
   sorry
 
-example : Nonempty (OrientableSurfaceGroup 1 0 ≃* Multiplicative (Fin 2 → ℤ)) := by
-  sorry
-
-example : Nat.card (NonorientableSurfaceGroup 1 0) = 2 := by
-  sorry
-
-example : orientableEulerChar 2 0 = -2 := by
-  sorry
-
-/-- The zero-square regular example has noncommuting adjacent atoms and an orientable
-four-boundary model (§§6.5, 6.9, 11.3). Its `Standard` branch is orientable type (2),
-with the conjugacy-only basic sequence of length two. -/
-example :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    let b : FreeGroup (Fin 2) := FreeGroup.of 1
-    let c : Fin 3 → FreeGroup (Fin 2) := ![a, b, a]
-    let z : Fin 3 → GX (FreeGroup (Fin 2)) (Fin 3) :=
-      fun i => Monoid.Coprod.inr (FreeGroup.of i)
-    let S : GX (FreeGroup (Fin 2)) (Fin 3) :=
-      (List.ofFn (fun i => (z i)⁻¹ * Monoid.Coprod.inl (c i) * z i)).prod *
-        Monoid.Coprod.inl (a * b * a)⁻¹
-    evalAt (MonoidHom.id _) (fun _ => 1) S = 1 ∧
-      comm a b ≠ 1 ∧ comm b a ≠ 1 ∧ orientableEulerChar 0 4 = -2 := by
-  sorry
-
 /-- A conjugate of a nonidentity coefficient has no solutions (§6.5, the README's
 `GroupAlgGeom.Quadratic.strict_conjugate_inconsistent`); its quadratic normalization is the
 coefficient-only branch of `GroupAlgGeom.Quadratic.exists_standardForm`. -/
@@ -1139,23 +908,6 @@ theorem conjugate_coeff_algSet_eq_empty {G : Type*} [Group G] (c : G) (hc : c �
     algSet (MonoidHom.id G)
       {(Monoid.Coprod.inr (FreeGroup.of ()) : GX G Unit)⁻¹ * Monoid.Coprod.inl c *
         Monoid.Coprod.inr (FreeGroup.of ())} = ∅ := by
-  sorry
-
-example :
-    radical (MonoidHom.id (FreeGroup (Fin 2)))
-      {Monoid.Coprod.inr (FreeGroup.of false ^ 2 * FreeGroup.of true ^ 2)} =
-    Subgroup.normalClosure
-      {(Monoid.Coprod.inr (FreeGroup.of false * FreeGroup.of true) : GX (FreeGroup (Fin 2)) Bool)} := by
-  sorry
-
-/-- The nonabelian coefficient hypothesis in the quadratic radical theorem is necessary. -/
-example :
-    let r : GX (Multiplicative ℤ) (Fin 4) :=
-      Monoid.Coprod.inr (comm (FreeGroup.of 0) (FreeGroup.of 1) *
-        comm (FreeGroup.of 2) (FreeGroup.of 3))
-    let w : GX (Multiplicative ℤ) (Fin 4) :=
-      Monoid.Coprod.inr (comm (FreeGroup.of 0) (FreeGroup.of 1))
-    w ∈ radical (MonoidHom.id _) {r} ∧ w ∉ Subgroup.normalClosure {r} := by
   sorry
 
 end layer6
@@ -1225,15 +977,6 @@ theorem IsFullyResiduallyFree.isBP {G : Type*} [Group G]
     (hG : IsFullyResiduallyFree G) : IsBP G := by
   sorry
 
-example : IsResiduallyFree (FreeGroup (Fin 2) × Multiplicative ℤ) := by
-  sorry
-
-example : ¬ IsFullyResiduallyFree (FreeGroup (Fin 2) × Multiplicative ℤ) := by
-  sorry
-
-example : IsFullyResiduallyFree (Multiplicative (Fin 3 → ℤ)) := by
-  sorry
-
 /-- The point of the Cantor space `FreeGroup (Fin n) → Bool` given by a subgroup. -/
 noncomputable def markedPoint {n : ℕ} (N : Subgroup (FreeGroup (Fin n))) :
     FreeGroup (Fin n) → Bool := by
@@ -1247,19 +990,6 @@ def IsLimitGroup (G : Type*) [Group G] : Prop :=
   ∃ (n : ℕ) (f : FreeGroup (Fin n) →* G), Function.Surjective f ∧
     markedPoint f.ker ∈
       closure (Set.range fun ψ : FreeGroup (Fin n) →* FreeGroup (Fin 2) => markedPoint ψ.ker)
-
-example : IsLimitGroup (Multiplicative (Fin 2 → ℤ)) := by
-  sorry
-
-example : ¬ IsLimitGroup (Multiplicative (ZMod 2)) := by
-  sorry
-
-example (w : FreeGroup (Fin 2)) : markedPoint (⊤ : Subgroup (FreeGroup (Fin 2))) w = true := by
-  sorry
-
-example (w : FreeGroup (Fin 2)) (hw : w ≠ 1) :
-    markedPoint (⊥ : Subgroup (FreeGroup (Fin 2))) w = false := by
-  sorry
 
 /-- Limit groups are the finitely generated fully residually free groups (§8.4). -/
 theorem isLimitGroup_iff (G : Type) [Group G] [Group.FG G] :
@@ -1289,50 +1019,12 @@ def IsAdmissibleCentralizerLevel {G : Type*} [Group G] (u : G) (U : Finset G) (n
     Subgroup.closure (U : Set G) = Subgroup.centralizer {u} ∧
     IsMulCommutative (Subgroup.centralizer {u})
 
-example : Nonempty
-    (CentralizerExt (Multiplicative ℤ) (Multiplicative.ofAdd 1) ≃*
-      Multiplicative (Fin 2 → ℤ)) := by
-  sorry
-
 /-- An admissible rank-one centralizer extension of a nonabelian fully residually free group
 is fully residually free (§8.6). -/
 theorem isFullyResiduallyFree_centralizerExt {G : Type} [Group G] (hG : IsFullyResiduallyFree G)
     (hnonabelian : ∃ a b : G, ¬ Commute a b) (u : G)
     (hadmissible : IsAdmissibleCentralizerStep u 1) :
     IsFullyResiduallyFree (CentralizerExt G u) := by
-  sorry
-
-example {G : Type*} [Group G] (n : ℕ) : ¬ IsAdmissibleCentralizerStep (1 : G) n := by
-  sorry
-
-example {G : Type*} [Group G] (u : G) : ¬ IsAdmissibleCentralizerStep u 0 := by
-  sorry
-
-example (a : Fin 2) : IsAdmissibleCentralizerStep (FreeGroup.of a) 1 := by
-  sorry
-
-/-- The unrestricted identity-centralizer extension is the direct product rejected by ICE. -/
-example : Nonempty
-    (CentralizerExt (FreeGroup (Fin 2)) 1 ≃* (FreeGroup (Fin 2) × Multiplicative ℤ)) := by
-  sorry
-
-example : ¬ IsFullyResiduallyFree (CentralizerExt (FreeGroup (Fin 2)) 1) := by
-  sorry
-
-/-- The consistent equations centralizing both basis letters fail NTQ admissibility. -/
-example :
-    ¬ IsAdmissibleCentralizerLevel (1 : FreeGroup (Fin 2))
-      {FreeGroup.of 0, FreeGroup.of 1} 1 := by
-  sorry
-
-/-- For the inadmissible level, the variable belongs to the radical but not the relator
-normal closure (§8.8). -/
-example :
-    let x : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    let a : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 0)
-    let b : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 1)
-    let S : Set (GX (FreeGroup (Fin 2)) Unit) := {comm x a, comm x b}
-    x ∈ radical (MonoidHom.id (FreeGroup (Fin 2))) S ∧ x ∉ Subgroup.normalClosure S := by
   sorry
 
 /-- A raw two-level quadratic system has two surviving elements that cannot be preserved
@@ -1361,20 +1053,6 @@ theorem quadratic_specialization_reducible :
     let B := algSet (MonoidHom.id F) {comm u v, comm u x, comm v x}
     V = A ∪ B ∧ A ⊂ V ∧ B ⊂ V ∧
       ¬ @IsIrreducible _ (zariski (MonoidHom.id F)) V := by
-  sorry
-
-/-- The fixed-lower-group conjugacy radical contains the missing commutator (§8.9).
-Together with `quadratic_specialization_radical_gap`, this distinguishes that radical from
-the raw full-system radical over `F`. -/
-example :
-    let F := FreeGroup (Fin 2)
-    let u : GX F (Fin 2) := Monoid.Coprod.inr (FreeGroup.of 0)
-    let v : GX F (Fin 2) := Monoid.Coprod.inr (FreeGroup.of 1)
-    let H := CoordGroup (MonoidHom.id F) ({comm u v} : Set (GX F (Fin 2)))
-    let q : GX F (Fin 2) →* H := QuotientGroup.mk' _
-    let z : GX H Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    comm z (Monoid.Coprod.inl (q v)) ∈ radical (MonoidHom.id H)
-      {z⁻¹ * Monoid.Coprod.inl (q u) * z * Monoid.Coprod.inl (q u)⁻¹} := by
   sorry
 
 /-- Finitely generated fully residually free groups are finitely presented (§8.7). -/
@@ -1418,20 +1096,10 @@ def IsRegular (L : LyndonLength G Λ) : Prop :=
   ∀ g f : G, ∃ u g₁ f₁ : G, g = u * g₁ ∧ f = u * f₁ ∧ L.l g = L.l u + L.l g₁ ∧
     L.l f = L.l u + L.l f₁ ∧ 2 • L.l u = L.l g + L.l f - L.l (g⁻¹ * f)
 
-example (L : LyndonLength G Λ) (hG : Subsingleton G) : L.IsFree := by
-  sorry
-
-example (L : LyndonLength G Λ) (hz : ∀ g, L.l g = 0) : L.IsRegular := by
-  sorry
-
-example (L : LyndonLength G Λ) (hz : ∀ g, L.l g = 0) (hg : ∃ g : G, g ≠ 1) :
-    ¬ L.IsFree := by
-  sorry
-
 end LyndonLength
 
--- README `LyndonLength.freeGroup_norm`: the word-length normalization.
-/-- The word length of a free group is a free regular Lyndon length function (§9.1). -/
+/-- The word length of a free group is a free regular Lyndon length function
+(§9.1; `LyndonLength.freeGroup_norm`). -/
 theorem exists_lyndonLength_norm (α : Type*) [DecidableEq α] :
     ∃ L : LyndonLength (FreeGroup α) ℤ, (∀ g, L.l g = (FreeGroup.norm g : ℤ)) ∧
       L.IsFree ∧ L.IsRegular := by
@@ -1442,10 +1110,6 @@ the lexicographic order (§9.5). -/
 theorem exists_free_lyndonLength (G : Type) [Group G] [Group.FG G]
     (hG : IsFullyResiduallyFree G) :
     ∃ (n : ℕ) (L : LyndonLength G (Lex (Fin n → ℤ))), L.IsFree := by
-  sorry
-
-example : ∃ L : LyndonLength (Multiplicative ℤ) ℤ,
-    (∀ g, L.l g = 0) ∧ ¬ L.IsFree := by
   sorry
 
 end layer9
@@ -1572,287 +1236,18 @@ theorem hasLift_genusTwo {Y : Type*} [Finite Y]
     (hT : IsCompatible {genusTwoEquation} T) : HasLift {genusTwoEquation} T := by
   sorry
 
-example : IsCompatible (∅ : Set (GX (FreeGroup (Fin 2)) Unit))
-    {Monoid.Coprod.inr (FreeGroup.of (Sum.inr ()) * (FreeGroup.of (Sum.inl ()))⁻¹)} := by
-  sorry
-
-example : HasLift (∅ : Set (GX (FreeGroup (Fin 2)) Unit))
-    {Monoid.Coprod.inr (FreeGroup.of (Sum.inr ()) * (FreeGroup.of (Sum.inl ()))⁻¹)} := by
-  sorry
-
-example : ¬ IsCompatible (∅ : Set (GX (FreeGroup (Fin 2)) Unit))
-    {Monoid.Coprod.inr (FreeGroup.of (Sum.inr ()) ^ 2 * (FreeGroup.of (Sum.inl ()))⁻¹)} := by
-  sorry
-
-example : genusTwoEquation ∈ radical (MonoidHom.id (FreeGroup (Fin 2)))
-    {genusTwoEquation} := by
-  sorry
-
-example : ∃ v : Fin 4 → FreeGroup (Fin 2),
-    evalAt (MonoidHom.id _) v genusTwoEquation = 1 ∧ v 0 ≠ 1 := by
-  sorry
-
 end layer11
 
 /-! ## Boundary examples on the existing carriers -/
 
 section checks
 
-example : IsProperPower (1 : FreeGroup (Fin 2)) := by sorry
-example : IsPrimitive (FreeGroup.of (0 : Fin 2) * FreeGroup.of 1) := by sorry
-example : ¬ IsPrimitive (1 : FreeGroup (Fin 2)) := by sorry
-example (a : Fin 2) : ¬ IsPrimitive (FreeGroup.of a ^ 2) := by sorry
-example : IsCSA Unit := by sorry
-example {G : Type*} [Group G] (hG : IsCSA G) (h : ∃ a b : G, ¬ Commute a b) :
-    Subgroup.center G = ⊥ := by sorry
+example : IsProperPower (1 : FreeGroup (Fin 2)) := by
+  exact ⟨1, 2, by decide, by simp⟩
 
--- Maximal-root pairs and the identity boundary (§1.4).
-example :
-    let r : FreeGroup (Fin 2) := FreeGroup.of 0 * FreeGroup.of 1
-    r ^ 2 ≠ 1 ∧ ¬ IsProperPower r ∧
-      ∀ s : FreeGroup (Fin 2), ∀ k : ℕ, 1 ≤ k → s ^ k = r ^ 2 →
-        ¬ IsProperPower s → s = r ∧ k = 2 := by sorry
-example :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    let b : FreeGroup (Fin 2) := FreeGroup.of 1
-    ¬ IsProperPower (b * a * b⁻¹) ∧ (b * a * b⁻¹) ^ 2 = b * a ^ 2 * b⁻¹ := by sorry
-example :
-    let r : FreeGroup (Fin 2) := comm (FreeGroup.of 0) (FreeGroup.of 1)
-    r ≠ 1 ∧ ¬ IsProperPower r ∧
-      ∀ s : FreeGroup (Fin 2), ∀ k : ℕ, 1 ≤ k → s ^ k = r →
-        ¬ IsProperPower s → s = r ∧ k = 1 := by sorry
-example (y : FreeGroup (Fin 2)) (n : ℕ) (hn : 1 ≤ n) :
-    let r : FreeGroup (Fin 2) := FreeGroup.of 0 * FreeGroup.of 1
-    y ^ n = r ^ 6 ↔ n ∣ 6 ∧ y = r ^ (6 / n) := by sorry
-example : ¬ ∃ r : FreeGroup (Fin 2), ∃ k : ℕ,
-    1 ≤ k ∧ r ^ k = 1 ∧ ¬ IsProperPower r := by sorry
-
--- Actual finite Serre graphs (§2.1).
-example :
-    let Γ : SerreGraph Bool Bool :=
-      { src := id, rev := Bool.not, rev_rev := by sorry, rev_ne := by sorry }
-    Γ.IsTree := by sorry
-example :
-    let Γ : SerreGraph Bool (Bool × Bool) :=
-      { src := fun e => e.2, rev := fun e => (e.1, !e.2),
-        rev_rev := by sorry, rev_ne := by sorry }
-    ¬ Γ.IsTree := by sorry
-example :
-    let Γ : SerreGraph Empty Empty :=
-      { src := id, rev := id, rev_rev := by sorry, rev_ne := by sorry }
-    ¬ Γ.IsTree := by sorry
-
--- Labelled roses, trees, unfolded paths and distinct cycle basepoints (§2.3).
-example :
-    let Γ : LabelledGraph (Fin 2) Unit (Fin 2 × Bool) :=
-      { src := fun _ => (), rev := fun e => (e.1, !e.2),
-        rev_rev := by sorry, rev_ne := by sorry, label := id, label_rev := by sorry }
-    Γ.IsFolded ∧ Γ.accepted () = ⊤ := by sorry
-example :
-    let Γ : LabelledGraph (Fin 2) Bool Bool :=
-      { src := id, rev := Bool.not, rev_rev := by sorry, rev_ne := by sorry,
-        label := fun e => (0, e), label_rev := by sorry }
-    Γ.accepted false = ⊥ ∧ Γ.accepted true = ⊥ := by sorry
-example :
-    let Γ : LabelledGraph (Fin 2) Unit (Bool × Bool) :=
-      { src := fun _ => (), rev := fun e => (e.1, !e.2),
-        rev_rev := by sorry, rev_ne := by sorry,
-        label := fun e => (0, e.2), label_rev := by sorry }
-    Γ.toSerreGraph.IsPath () [(false, true), (true, false)] () ∧
-      Γ.toSerreGraph.IsReducedPath [(false, true), (true, false)] ∧
-      ¬ FreeGroup.IsReduced ([(false, true), (true, false)].map Γ.label) := by sorry
-example :
-    let Γ : LabelledGraph (Fin 2) Bool (Bool × Bool) :=
-      { src := fun e => if e.2 then e.1 else !e.1,
-        rev := fun e => (e.1, !e.2), rev_rev := by sorry, rev_ne := by sorry,
-        label := fun e => (if e.1 then 1 else 0, e.2), label_rev := by sorry }
-    Γ.accepted false = Subgroup.zpowers (FreeGroup.of 0 * FreeGroup.of 1) ∧
-      Γ.accepted true = Subgroup.zpowers (FreeGroup.of 1 * FreeGroup.of 0) ∧
-      Γ.accepted false ≠ Γ.accepted true := by sorry
-
--- The unfolded product fails the equality of §2.9.
-example :
-    let Γ : LabelledGraph (Fin 2) Unit Bool :=
-      { src := fun _ => (), rev := Bool.not, rev_rev := by sorry, rev_ne := by sorry,
-        label := fun e => (0, e), label_rev := by sorry }
-    let Δ : LabelledGraph (Fin 2) (Fin 3) (Fin 3 × Bool) :=
-      { src := fun e => if e.2 then e.1 else e.1 + 1,
-        rev := fun e => (e.1, !e.2), rev_rev := by sorry, rev_ne := by sorry,
-        label := fun e => (if e.1 = 0 then 0 else 1, if e.1 = 2 then !e.2 else e.2),
-        label_rev := by sorry }
-    Γ.accepted () = Subgroup.zpowers (FreeGroup.of 0) ∧
-      Δ.accepted 0 = Subgroup.zpowers (FreeGroup.of 0) ∧
-      (Γ.prod Δ).accepted ((), 0) = ⊥ ∧ ¬ Δ.IsFolded := by sorry
-
--- Subgroup ranks, membership, intersection and index (§§2.8–2.9).
-example :
-    let a : FreeGroup (Fin 3) := FreeGroup.of 0
-    let b : FreeGroup (Fin 3) := FreeGroup.of 1
-    let c : FreeGroup (Fin 3) := FreeGroup.of 2
-    let generators : Finset (FreeGroup (Fin 3)) := {a * b, a * c}
-    let H := Subgroup.closure (generators : Set (FreeGroup (Fin 3)))
-    letI : Group.FG H := Group.closure_finset_fg generators
-    Group.rank H = 2 := by sorry
-example :
-    let H := Subgroup.closure (↑(∅ : Finset (FreeGroup (Fin 2))) : Set (FreeGroup (Fin 2)))
-    letI : Group.FG H := Group.closure_finset_fg ∅
-    H = ⊥ ∧ Group.rank H = 0 := by sorry
-example :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    let generators : Finset (FreeGroup (Fin 2)) := {a ^ 2, a ^ 3}
-    let H := Subgroup.closure (generators : Set (FreeGroup (Fin 2)))
-    letI : Group.FG H := Group.closure_finset_fg generators
-    Group.rank H = 1 := by sorry
-example :
-    let a : FreeGroup (Fin 3) := FreeGroup.of 0
-    let b : FreeGroup (Fin 3) := FreeGroup.of 1
-    let c : FreeGroup (Fin 3) := FreeGroup.of 2
-    b⁻¹ * c ∈ Subgroup.closure {a * b, a * c} := by sorry
-example {α : Type*} (a b : α) (hab : a ≠ b) :
-    FreeGroup.of b * FreeGroup.of a ∉ Subgroup.zpowers (FreeGroup.of a * FreeGroup.of b) := by sorry
-example :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    Subgroup.zpowers (a ^ 2) ⊓ Subgroup.zpowers (a ^ 3) = Subgroup.zpowers (a ^ 6) := by sorry
-example :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    let b : FreeGroup (Fin 2) := FreeGroup.of 1
-    let H := Subgroup.closure {a, b * a * b⁻¹}
-    ¬ H.FiniteIndex ∧ H.index = 0 := by sorry
-
--- Formula semantics and term syntax (§§3.1–3.2).
-example :
-    let t : groupLang.Term (Fin 2) := .func .mul ![.var 0, .var 1]
-    let u : groupLang.Term (Fin 2) := .func .mul ![.var 1, .var 0]
-    ¬ (t.equal u).Realize (FreeGroup.of : Fin 2 → FreeGroup (Fin 2)) := by sorry
-example :
-    let t : groupLang.Term (Fin 2) := .func .mul ![.var 0, .var 1]
-    let u : groupLang.Term (Fin 2) := .func .mul ![.var 1, .var 0]
-    (t.equal u).Realize (fun i => Multiplicative.ofAdd (Pi.single i (1 : ℤ))) := by sorry
-example (t u : groupLang.Term Empty) :
-    (t.equal u).Realize (fun e => (Empty.elim e : Unit)) := by sorry
-example {G : Type*} [Group G] (x y z : G) :
-    GroupFunc.eval .mul ![GroupFunc.eval .mul ![x,y],z] =
-      GroupFunc.eval .mul ![x,GroupFunc.eval .mul ![y,z]] ∧
-    GroupFunc.eval .mul ![GroupFunc.eval .one ![],x] = x ∧
-    GroupFunc.eval .mul ![x,GroupFunc.eval .one ![]] = x ∧
-    GroupFunc.eval .mul ![GroupFunc.eval .inv ![x],x] = GroupFunc.eval .one ![] := by sorry
-example :
-    let t : groupLang.Term (Unit ⊕ Unit) :=
-      .func .mul ![.func .inv ![.var (.inr ())],
-        .func .mul ![.var (.inl ()), .var (.inr ())]]
-    termToWord t = (FreeGroup.of (Sum.inr ()))⁻¹ * FreeGroup.of (Sum.inl ()) *
-      FreeGroup.of (Sum.inr ()) := by sorry
-example :
-    let t : groupLang.Term Unit := .func .mul ![.var (), .func .inv ![.var ()]]
-    let one : groupLang.Term Unit := .func .one ![]
-    termToWord t = termToWord one ∧ t ≠ one := by sorry
-
-example {G : Type*} [Group G] : FirstOrder.Language.Theory.Model G groupTheory := by sorry
-example :
-    let t : groupLang.Term Unit := .func .mul ![.var (), .func .inv ![.var ()]]
-    let one : groupLang.Term Unit := .func .one ![]
-    wordToTerm (termToWord t) = one ∧ one ≠ t := by sorry
-example :
-    letI := FirstOrder.Language.constantsOn.structure
-      (FreeGroup.of : Fin 2 → FreeGroup (Fin 2))
-    let a : (groupLang.withConstants (Fin 2)).Term Empty := (groupLang.con (0 : Fin 2)).term
-    let b : (groupLang.withConstants (Fin 2)).Term Empty := (groupLang.con (1 : Fin 2)).term
-    let t := FirstOrder.Language.Term.func (Sum.inl GroupFunc.mul) ![a,b]
-    let u := FirstOrder.Language.Term.func (Sum.inl GroupFunc.mul) ![b,a]
-    ¬ FirstOrder.Language.Sentence.Realize (FreeGroup (Fin 2)) (t.equal u) := by sorry
-example :
-    letI := FirstOrder.Language.constantsOn.structure
-      (fun i : Fin 2 => Multiplicative.ofAdd (Pi.single i (1 : ℤ)))
-    let a : (groupLang.withConstants (Fin 2)).Term Empty := (groupLang.con (0 : Fin 2)).term
-    let b : (groupLang.withConstants (Fin 2)).Term Empty := (groupLang.con (1 : Fin 2)).term
-    let t := FirstOrder.Language.Term.func (Sum.inl GroupFunc.mul) ![a,b]
-    let u := FirstOrder.Language.Term.func (Sum.inl GroupFunc.mul) ![b,a]
-    FirstOrder.Language.Sentence.Realize (Multiplicative (Fin 2 → ℤ)) (t.equal u) := by sorry
-
--- Evaluation, coefficient-free products, radicals and changes of target (§§5.1–5.2).
-example :
-    let x : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    let a : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 0)
-    let b : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 1)
-    evalAt (MonoidHom.id _) (fun _ => FreeGroup.of 0 ^ 2) (comm x a) = 1 ∧
-      evalAt (MonoidHom.id _) (fun _ => FreeGroup.of 0 ^ 2) (comm x b) ≠ 1 := by sorry
-example : Nonempty (GX Unit (Fin 2) ≃* FreeGroup (Fin 2)) := by sorry
-example :
-    ¬ Commute (Monoid.Coprod.inl (FreeGroup.of (0 : Fin 2)) : GX (FreeGroup (Fin 2)) Unit)
-      (Monoid.Coprod.inr (FreeGroup.of ())) := by sorry
-example : radical (MonoidHom.id (FreeGroup (Fin 2)))
-    (∅ : Set (GX (FreeGroup (Fin 2)) Unit)) = ⊥ := by sorry
-example :
-    let x : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    let a : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 0)
-    algSet (MonoidHom.id _) {comm x a} =
-      {v | v () ∈ Subgroup.zpowers (FreeGroup.of 0)} := by sorry
-example : radical (MonoidHom.id (Multiplicative ℤ))
-    {(Monoid.Coprod.inr (FreeGroup.of ()) : GX (Multiplicative ℤ) Unit) ^ 2} =
-      Subgroup.normalClosure {(Monoid.Coprod.inr (FreeGroup.of ()) : GX (Multiplicative ℤ) Unit)} := by sorry
-example :
-    let x : GX (Multiplicative (ZMod 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    algSet (MonoidHom.id _) {x ^ 2} = Set.univ ∧
-      radical (MonoidHom.id _) {x ^ 2} = idealOf (MonoidHom.id _) Set.univ := by sorry
-example :
-    let ι : FreeGroup (Fin 2) →* FreeGroup (Fin 2) × Multiplicative (ZMod 2) :=
-      (MonoidHom.id _).prod (1 : FreeGroup (Fin 2) →* Multiplicative (ZMod 2))
-    let x : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    x ∉ radical ι {x ^ 2} ∧ x ∈ radical (MonoidHom.id _) {x ^ 2} := by sorry
-
--- Reducible kernel radicals acquire mixed relations on adjoining a free item (§7.4).
-example :
-    let F := FreeGroup (Fin 2)
-    let a : GX F (Fin 3) := Monoid.Coprod.inl (FreeGroup.of 0)
-    let b : GX F (Fin 3) := Monoid.Coprod.inl (FreeGroup.of 1)
-    let x : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 0)
-    let y : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 1)
-    let z : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 2)
-    let S : Set (GX F (Fin 3)) := {comm x a, comm y b, comm x y}
-    comm x (z * y * z⁻¹) ∈ radical (MonoidHom.id F) S ∧
-      comm x (z * y * z⁻¹) ∉ Subgroup.normalClosure S := by sorry
-example :
-    let F := FreeGroup (Fin 2)
-    let a : GX F Bool := Monoid.Coprod.inl (FreeGroup.of 0)
-    let b : GX F Bool := Monoid.Coprod.inl (FreeGroup.of 1)
-    let x : GX F Bool := Monoid.Coprod.inr (FreeGroup.of false)
-    let y : GX F Bool := Monoid.Coprod.inr (FreeGroup.of true)
-    let S : Set (GX F Bool) := {comm x a, comm y b, comm x y}
-    let K := CoordGroup (MonoidHom.id F) S
-    let q : GX F Bool →* K := QuotientGroup.mk' _
-    let xK : Monoid.Coprod K (FreeGroup Unit) := Monoid.Coprod.inl (q x)
-    let yK : Monoid.Coprod K (FreeGroup Unit) := Monoid.Coprod.inl (q y)
-    let z : Monoid.Coprod K (FreeGroup Unit) := Monoid.Coprod.inr (FreeGroup.of ())
-    q x ≠ 1 ∧ q y ≠ 1 ∧ comm xK (z * yK * z⁻¹) ≠ 1 := by sorry
-
--- Separation differs from discrimination (§5.3).
-example : IsSeparatedBy (FreeGroup (Fin 2) × FreeGroup (Fin 2)) (FreeGroup (Fin 2))
-    (1 : Unit →* _) (1 : Unit →* _) ∧
-    ¬ IsDiscriminatedBy (FreeGroup (Fin 2) × FreeGroup (Fin 2)) (FreeGroup (Fin 2))
-      (1 : Unit →* _) (1 : Unit →* _) := by sorry
-example : ¬ IsSeparatedBy (Multiplicative (ZMod 2)) (Multiplicative ℤ)
-    (1 : Unit →* _) (1 : Unit →* _) := by sorry
-example {G : Type} [Group G] : IsFullyResiduallyFree G ↔
-    IsDiscriminatedBy G (FreeGroup (Fin 2)) (1 : Unit →* _) (1 : Unit →* _) := by sorry
-example : IsGDomain (Multiplicative (Fin 0 → ℤ)) (MonoidHom.id _) := by sorry
-example : ¬ IsGDomain (FreeGroup (Fin 2) × FreeGroup (Fin 2)) (MonoidHom.id _) := by sorry
-
--- Zariski boundaries and zero-variable systems (§§5.6–5.7).
-example :
-    let Y : Set (Unit → FreeGroup (Fin 2)) :=
-      {v | v () ∈ Subgroup.zpowers (FreeGroup.of 0) ∨
-        v () ∈ Subgroup.zpowers (FreeGroup.of 1)}
-    ∃ S : Set (GX (FreeGroup (Fin 2)) Unit), algSet (MonoidHom.id _) S = Y := by sorry
-example : @DiscreteTopology (Unit → Multiplicative (ZMod 2))
-    (zariski (MonoidHom.id (Multiplicative (ZMod 2)))) := by sorry
-example :
-    let Y : Set (Unit → Multiplicative ℤ) := {fun _ => Multiplicative.ofAdd 0,
-      fun _ => Multiplicative.ofAdd 1}
-    @IsClosed _ (zariski (MonoidHom.id (Multiplicative ℤ))) Y ∧
-      ¬ ∃ S : Set (GX (Multiplicative ℤ) Unit), algSet (MonoidHom.id _) S = Y := by sorry
-example : @closure _ (zariski (1 : Unit →* FreeGroup (Fin 2)))
-    {fun _ : Unit => FreeGroup.of (0 : Fin 2)} = Set.univ := by sorry
-example :
+/-- Trivial coefficients give a domain whose empty closed set is not algebraic (§5.6),
+so closure cannot always be recovered from the vanishing ideal. -/
+theorem trivial_coefficients_closure_boundary :
     IsGDomain Unit (MonoidHom.id Unit) ∧
       (∀ S : Set (GX Unit Unit), algSet (MonoidHom.id Unit) S = Set.univ) ∧
       @closure _ (zariski (MonoidHom.id Unit)) (∅ : Set (Unit → Unit)) = ∅ ∧
@@ -1861,82 +1256,15 @@ example :
       @closure _ (zariski (MonoidHom.id Unit)) (∅ : Set (Unit → Unit)) ≠
         algSet (MonoidHom.id Unit)
           (idealOf (MonoidHom.id Unit) (∅ : Set (Unit → Unit)) : Set (GX Unit Unit)) := by sorry
-example :
-    let a : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 0)
-    let b : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 1)
-    let x : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    let S : Set (GX (FreeGroup (Fin 2)) Unit) := {a, b, x}
-    algSet (MonoidHom.id _) S = ∅ ∧ radical (MonoidHom.id _) S = ⊤ ∧
-      Subgroup.normalClosure S = ⊤ ∧
-      ¬ Function.Injective ((QuotientGroup.mk' (Subgroup.normalClosure S)).comp
-        (Monoid.Coprod.inl : FreeGroup (Fin 2) →* GX (FreeGroup (Fin 2)) Unit)) := by sorry
 
-example : IsEquationallyNoetherian (Multiplicative (ZMod 2)) := by sorry
-example {G : Type*} [Group G] (S : Set (GX G Empty))
-    (hS : (algSet (MonoidHom.id G) S).Nonempty) :
-    algSet (MonoidHom.id G) S = algSet (MonoidHom.id G) (∅ : Set (GX G Empty)) := by sorry
-example {G : Type*} [Group G] (S : Set (GX G Empty))
-    (hS : algSet (MonoidHom.id G) S = ∅) :
-    ∃ s ∈ S, algSet (MonoidHom.id G) {s} = ∅ := by sorry
-example :
-    let R : Subgroup (ℕ → FreeGroup (Fin 2)) :=
-      { carrier := {f | {n | f n ≠ 1}.Finite}, one_mem' := by sorry,
-        mul_mem' := by sorry, inv_mem' := by sorry }
-    let a : ℕ → R := fun n => ⟨fun k => if k = n then FreeGroup.of 0 else 1, by sorry⟩
-    let S : Set (GX R Unit) := Set.range fun n =>
-      comm (Monoid.Coprod.inr (FreeGroup.of ())) (Monoid.Coprod.inl (a n))
-    ¬ IsEquationallyNoetherian R ∧ ∀ S₀ ⊆ S, S₀.Finite →
-      algSet (MonoidHom.id R) S₀ ≠ algSet (MonoidHom.id R) S := by sorry
-
--- Surface presentations and fully residual freeness (§§6.1,8.1).
-example : Subsingleton (OrientableSurfaceGroup 0 0) := by sorry
-example : Nonempty (OrientableSurfaceGroup 0 3 ≃* FreeGroup (Fin 2)) := by sorry
-example : Nonempty (Abelianization (NonorientableSurfaceGroup 2 0) ≃*
-    (Multiplicative ℤ × Multiplicative (ZMod 2))) ∧
-    ¬ Nonempty (NonorientableSurfaceGroup 2 0 ≃* OrientableSurfaceGroup 1 0) := by sorry
-example : IsFullyResiduallyFree (Multiplicative (Fin 0 → ℤ)) := by sorry
-example : ¬ IsResiduallyFree (Multiplicative (ZMod 2)) := by sorry
-example : IsFullyResiduallyFree (OrientableSurfaceGroup 2 0) := by sorry
-example : ¬ IsResiduallyFree (NonorientableSurfaceGroup 3 0) := by sorry
-example (n : ℕ) : IsLimitGroup (FreeGroup (Fin n)) := by sorry
-
--- Actual cyclic markings converge to the abelian rank-two marking (§8.3).
-example :
-    let ψ : ℕ → FreeGroup (Fin 2) →* Multiplicative ℤ := fun k =>
-      FreeGroup.lift (fun i => Multiplicative.ofAdd (if i = 0 then 1 else (k : ℤ)))
-    let π : FreeGroup (Fin 2) →* Multiplicative (Fin 2 → ℤ) :=
-      FreeGroup.lift (fun i => Multiplicative.ofAdd (Pi.single i 1))
-    Filter.Tendsto (fun k => markedPoint (ψ k).ker) Filter.atTop
-      (nhds (markedPoint π.ker)) := by sorry
-
--- Big-power premises and their boundary cases (§8.5a).
-example : IsBP Unit := by sorry
-example : ¬ IsBP (Multiplicative (ZMod 2)) := by sorry
-example (p q : ℕ) (hp : 1 ≤ p) (hq : 1 ≤ q) :
-    FreeGroup.of (0 : Fin 2) ^ p * FreeGroup.of 1 ^ q ≠ 1 := by sorry
-example :
-    let u : Fin 2 → FreeGroup (Fin 2) := fun i => FreeGroup.of i
-    (∀ i, u i ≠ 1) ∧
-      (∀ i j : Fin 2, i.val + 1 = j.val → ¬ Commute (u i) (u j)) := by sorry
-example (p : ℕ) :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    let u : Fin 2 → FreeGroup (Fin 2) := ![a, a⁻¹]
-    (∀ i, u i ≠ 1) ∧
-      (∀ i j : Fin 2, i.val + 1 = j.val → Commute (u i) (u j)) ∧
-      ((List.finRange 2).map fun i => u i ^ p).prod = 1 := by sorry
-example :
-    let u : Fin 1 → FreeGroup (Fin 2) := fun _ => 1
-    ¬ (∀ i, u i ≠ 1) := by sorry
-
--- The proper-power subgroup extension is not the full-centralizer extension (§§1.7,8.5).
-example :
+/-- Extending only the proper-power subgroup makes the stable letter commute with `a²`
+but not `a`, violating CSA (§8.5); full-centralizer extensions avoid this boundary. -/
+theorem centralizerExt_proper_power :
     let a : FreeGroup (Fin 2) := FreeGroup.of 0
     let A := Subgroup.zpowers (a ^ 2)
     let K := HNNExtension (FreeGroup (Fin 2)) A A (MulEquiv.refl A)
     Commute (HNNExtension.of (a ^ 2) : K) HNNExtension.t ∧
       ¬ Commute (HNNExtension.of a : K) HNNExtension.t ∧ ¬ IsCSA K := by sorry
-example : Nonempty (CentralizerExt (FreeGroup (Fin 2)) (FreeGroup.of 0) ≃*
-    PresentedGroup {comm (FreeGroup.of (0 : Fin 3)) (FreeGroup.of 2)}) := by sorry
 
 /-- The conjugacy radical over the fixed coefficient group `G` uses its entire coefficient
 centralizer (§6.8); coefficients remain fixed under every evaluation. -/
@@ -1947,35 +1275,10 @@ theorem radical_conjugacy_eq {G : Type} [Group G] (hG : IsFullyResiduallyFree G)
     radical (MonoidHom.id G) {z⁻¹ * Monoid.Coprod.inl c * z * Monoid.Coprod.inl d} =
       Subgroup.normalClosure {w | ∃ h : G, h ∈ Subgroup.centralizer {c} ∧
         w = comm (z * Monoid.Coprod.inl b⁻¹) (Monoid.Coprod.inl h)} := by sorry
-example :
-    let z : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    let a : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 0)
-    comm z a ∈ radical (MonoidHom.id _) {z⁻¹ * a ^ 2 * z * a ^ (-2 : ℤ)} ∧
-      comm z a ∉ Subgroup.normalClosure {comm z (a ^ 2)} := by sorry
 
--- Actual length fields distinguish torsion and ordered abelian examples (§9.1).
-example :
-    let L : LyndonLength (Multiplicative (ZMod 2)) ℤ :=
-      { l := fun g => if g = 1 then 0 else 1,
-        l_nonneg := by sorry, l_one := by sorry, l_inv := by sorry, gromov := by sorry }
-    ¬ L.IsFree := by sorry
-example :
-    let L : LyndonLength (Multiplicative (Lex (Fin 2 → ℤ))) (Lex (Fin 2 → ℤ)) :=
-      { l := fun g => |g.toAdd|,
-        l_nonneg := by sorry, l_one := by sorry, l_inv := by sorry, gromov := by sorry }
-    L.IsFree ∧ L.IsRegular := by sorry
-example :
-    let L : LyndonLength (Multiplicative ℤ) (Lex (Fin 3 → ℤ)) :=
-      { l := fun g => toLex ![0, 0, |g.toAdd|],
-        l_nonneg := by sorry, l_one := by sorry, l_inv := by sorry, gromov := by sorry }
-    L.IsFree ∧ L.IsRegular := by sorry
-
--- The square lift and the compatible disjunction without a lift (§11.1).
-example : IsCompatible (∅ : Set (GX (FreeGroup (Fin 2)) Unit))
-    {Monoid.Coprod.inr (FreeGroup.of (Sum.inr ()) ^ 2 * (FreeGroup.of (Sum.inl ())) ^ (-2 : ℤ))} := by sorry
-example : HasLift (∅ : Set (GX (FreeGroup (Fin 2)) Unit))
-    {Monoid.Coprod.inr (FreeGroup.of (Sum.inr ()) ^ 2 * (FreeGroup.of (Sum.inl ())) ^ (-2 : ℤ))} := by sorry
-example :
+/-- The square disjunction on commuting pairs has witnesses at every free-group point
+but none at the generic point (§11.1), separating compatibility from lifting. -/
+theorem compatible_no_lift :
     let F := FreeGroup (Fin 2)
     let x : GX F Bool := Monoid.Coprod.inr (FreeGroup.of false)
     let y : GX F Bool := Monoid.Coprod.inr (FreeGroup.of true)
