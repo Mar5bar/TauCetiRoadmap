@@ -1,10 +1,10 @@
 # Roadmap: resolution of singularities in characteristic zero
 
-**Summary.** This roadmap constructs `qeResolution` for reduced noetherian quasi-excellent ℚ-schemes: a projective birational modification with regular source, preserving the entire regular locus, and a choice of resolving blowup sequence functorial for every regular morphism after empty steps are omitted. It builds the full characteristic-zero field algorithm of Bierstone–Milman—marked ideals, controlled transforms, maximal contact, Samuel presentations, exceptional history and the terminating invariant—then supplies Temkin’s local/formal reduction, algebraization and independence arguments. Embedded resolution, principalization, preservation of resolved pairs, strict-SNC compactifications, residual companions and relative boundary cleanup retain their precise source-supported hypotheses. The field case and the spectra of reduced affinoid algebras are named specializations.
+**Summary.** This roadmap constructs `qeResolution` for reduced noetherian quasi-excellent ℚ-schemes: a projective birational modification with regular source, preserving the entire regular locus, and a choice of resolving blowup sequence functorial for every regular morphism after empty steps are omitted. It develops the characteristic-zero field theory of Bierstone–Milman—marked ideals, controlled transforms, maximal contact, Samuel presentations, exceptional history and invariant transformation identities—then supplies Temkin’s local/formal reduction, algebraization and independence arguments. Embedded resolution, principalization, preservation of resolved pairs, strict-SNC compactifications, residual companions and relative boundary cleanup retain their precise source-supported hypotheses. The field case and the spectra of reduced affinoid algebras are named specializations.
 
 ## Scope and ownership
 
-This roadmap owns the resolution algorithms and their comparison theorems. SchemeAndStackFoundations owns étale coordinates, ideal sheaves, excellence, regular morphisms, Néron–Popescu approximation, modifications, regular schemes and the underlying SNC predicates. StableReduction owns general blowups, their universal property and charts. RigidAnalyticGeometry owns affinoid excellence. The enrichment of SNC component labels by birth order, all marked-ideal and presentation operations, and the local/formal machinery specific to resolution belong here. There is one SNC predicate and one blowup construction throughout.
+This roadmap owns finite resolving-sequence existence, resolution functors and their comparison theorems. It specifies invariant and transformation identities, and existence and functoriality of finite resolving blowup sequences. Executable procedures, algorithm implementations, certificates and termination proofs are outside its scope. SchemeAndStackFoundations owns étale coordinates, ideal sheaves, excellence, regular morphisms, Néron–Popescu approximation, modifications, regular schemes and the underlying SNC predicates. StableReduction owns general blowups, their universal property and charts. RigidAnalyticGeometry owns affinoid excellence. The enrichment of SNC component labels by birth order, all marked-ideal and presentation operations, and the local/formal machinery specific to resolution belong here. There is one SNC predicate and one blowup construction throughout.
 
 Layers 1–6 treat finite-type schemes over an arbitrary characteristic-zero field, including reduced schemes with several components and non-rational closed points. Layer 7 treats reduced noetherian quasi-excellent ℚ-schemes without a finite-type, separatedness, equidimensionality or universal-catenarity assumption. Smoothness over a field and regularity of a scheme are distinguished. The non-embedded theorem is intrinsic: a general quasi-excellent scheme need not admit local closed embeddings in regular schemes. The general principalization theorem in §7.7 has the semi-strict preservation and projective modification conclusions of its source; the stronger regular-centre and resolved-pair field assertions remain in Layers 3–6.
 
@@ -45,7 +45,7 @@ Layer 4 supplies the blowup of a finite-type quasi-coherent ideal as relative Pr
 
 ## How to read the build
 
-Layer 1 develops orders, marked ideals and test transforms. Layer 2 constructs contact and Samuel presentations. Layer 3 constructs the history-sensitive invariant and proves finite termination. Layer 4 gives residual companions and the distinct homogenization route. Layer 5 proves principalization, embedded and relative resolution and preservation of resolved points. Layer 6 gives projective SNC compactifications and Cartier separation. Layer 7 supplies the extra local/formal, algebraization, approximation and gluing arguments for quasi-excellent schemes and states the general theorems and their specializations. The worked examples retain the local computations distinguishing the constructions. `Suggested.lean` records only suggested forms statable against the pinned APIs; the README specifies every target, including the formal and functorial constructions.
+Layer 1 develops orders, marked ideals and test transforms. Layer 2 constructs contact and Samuel presentations. Layer 3 constructs the history-sensitive invariant, its transformation identities and finite resolving-sequence existence theorems. Layer 4 gives residual companions and the distinct homogenization route. Layer 5 proves principalization, embedded and relative resolution and preservation of resolved points. Layer 6 gives projective SNC compactifications and Cartier separation. Layer 7 supplies the extra local/formal, algebraization, approximation and gluing arguments for quasi-excellent schemes and states the general theorems and their specializations. The worked examples retain the local computations distinguishing the constructions. `Suggested.lean` records only suggested forms statable against the pinned APIs; the README specifies every target, including the formal and functorial constructions.
 
 ## Layer 1: marked ideals, transforms and test equivalence
 
@@ -208,7 +208,7 @@ The cusp, rescaling, exceptional pure pullback, dual-number and opposite-mark su
 
 *Needs:* SchemeAndStackFoundations §§0.8, 0.28, 4.17; StableReduction Layer 4; Mathlib local algebra and power series.
 
-*Lean:* `ResolutionOfSingularities.idealOrderAt`, `ResolutionOfSingularities.MarkedIdeal`, `ResolutionOfSingularities.MarkedIdeal.cosupport`, `ResolutionOfSingularities.MarkedIdeal.cosupport_pow`, `ResolutionOfSingularities.MarkedIdeal.markedSum`, `ResolutionOfSingularities.MarkedIdeal.markedSum_mark`, `ResolutionOfSingularities.MarkedIdeal.markedSum_ideal`, `ResolutionOfSingularities.MarkedIdeal.markedSum_cosupport`, `ResolutionOfSingularities.MarkedIdeal.isClosed_cosupport` and their examples. Global marked sheaves, boundaries and test towers are README targets.
+*Lean:* `ResolutionOfSingularities.idealOrderAt`, `ResolutionOfSingularities.MarkedIdeal`, `ResolutionOfSingularities.MarkedIdeal.cosupport`, `ResolutionOfSingularities.MarkedIdeal.cosupport_pow`, `ResolutionOfSingularities.MarkedIdeal.markedSum`, `ResolutionOfSingularities.MarkedIdeal.markedSum_mark`, `ResolutionOfSingularities.MarkedIdeal.markedSum_ideal`, `ResolutionOfSingularities.MarkedIdeal.markedSum_cosupport`, `ResolutionOfSingularities.MarkedIdeal.isClosed_cosupport` and their examples, including the strict-containment residual cosupport and the degree-two prime order calculation. The polynomial controlled-transform identities and the localized Cartier-centre computation are also mirrored. Global marked sheaves, boundaries and test towers are README targets.
 
 ## Layer 2: contact, coefficients and Samuel presentations
 
@@ -348,7 +348,7 @@ The API gives `samuelJetIdeal_vanishing`: At a point its vanishing is equivalent
 
 - `jet_zero_ideal`: For the zero ideal `B_k=0` and`I_S`,`k=0`, giving the entire smooth ambient locus.
 - `jet_unit_ideal`: For the unit ideal the quotient jet dimension is 0 at every point; the rank bound adds no false singular stratum.
-- `jet_double_origin`: For `f=x²` at 0 in `A¹`, `k=1` gives Samuel ideal (x) in characteristic zero; a 0-jet-only test would miss the order 2 condition.
+- `jet_double_origin`: For `f=x²(x−1)` at 0 in `A¹_ℚ`, the zero-jet ideal `(f)` also vanishes at 1, where f has order only one. The first-jet ideal `(f,f′)=(x)` excludes 1 and cuts out the order-two locus. For `f=x²` alone, `(x²)` and `(x)` have the same zero locus but different scheme structures.
 
 ### 2.11 samuelPresentationIdentity
 
@@ -416,6 +416,7 @@ For the proof, use regular finite-jet determinantal equations and Noetherian sta
 - `DerivativeIdealChecks.cubic`: over Q, the derivative ideal of `(x³)` is `(x²)`.
 - `MaxContactTests.characteristicTwoCusp`: differentiating `x²+y³` with respect to y in characteristic two gives `y²`.
 - `MaxContactTests.characteristicTwoPower`: the derivative ideal of `(x²)` in characteristic two stays `(x²)`, so it supplies no order-one equation.
+- `DerivTests.charP`: for every prime p over `𝔽_p`, the derivative ideal of `(x^p)` is `(x^p)`, including `(x³)` over `𝔽₃`. The product rule preserves this ideal when differentiating any of its elements.
 
 ### Examples
 
@@ -425,9 +426,9 @@ The pure-power, mixed-coefficient, abstract-diagram and non-rational-residue-fie
 
 *Needs:* Layer 1; SchemeAndStackFoundations §§0.8, 0.28; Mathlib formal power series, finite length and determinants.
 
-*Lean:* `ResolutionOfSingularities.derivativeIdeal`, `ResolutionOfSingularities.exists_maximalContact` and the zero, unit, cubic, characteristic-two, cusp homogenization and restricted-coefficient examples. Samuel presentations and their invariants are README targets.
+*Lean:* `ResolutionOfSingularities.derivativeIdeal`, `ResolutionOfSingularities.exists_maximalContact` and the zero, unit, cubic, prime-characteristic, cusp homogenization, restricted-coefficient and generic-fibre differential-comparison examples. The jet Check is mirrored by a polynomial derivative-ideal calculation. Samuel presentations and their invariants are README targets.
 
-## Layer 3: exceptional history, invariants and termination
+## Layer 3: exceptional history, invariant transformations and finite sequences
 
 ### 3.1 exceptionalHistory
 
@@ -505,7 +506,7 @@ The API gives `monomialCentre_minimal`: Minimality is equivalent to removing any
 
 ### 3.6 monomialDecrease
 
-Prove `monomialDecrease`. Blowing up a minimal monomial stratum component gives inv′≤inv; if inv′=inv then`µ′<µ`, because the pivot weight`Σ_IΩ−1` is less than every removed pivot weight by minimality. Fixed denominators imply only finitely many such equal-word steps. At a selected unresolved terminal `∞` stratum, blowing up the smooth full invariant stratum strictly lowers the complete word at every point over it. Thus the augmented pair (inv,`µ`), not bare multiplicity, strictly decreases over the selected centre.
+Prove `monomialDecrease`. Blowing up a minimal monomial stratum component gives inv′≤inv; if inv′=inv then`µ′<µ`, because the pivot weight`Σ_IΩ−1` is less than every removed pivot weight by minimality. At a selected unresolved terminal `∞` stratum, blowing up the smooth full invariant stratum strictly lowers the complete word at every point over it. Thus the augmented pair (inv,`µ`), not bare multiplicity, strictly decreases over the selected centre.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 1.14(4), p. 220; proof in §6, pp. 259–260).
 
@@ -519,7 +520,7 @@ Prove `finitePermissibleResolutionExists`. Let k have characteristic zero and M 
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 1.10, pp. 216–217; Theorem 11.14, pp. 290–291; Theorem 13.2, pp. 297–298).
 
-For the proof, use the semicoherent invariant strata and augmented decrease to obtain finite ideal and embedded towers, tracking total, weak and strict transforms separately. Abstract open gluing, including comparison under closed smooth ambient enlargements, is proved in §5.5.
+The conclusion is existence of finite ideal and embedded towers as in the cited theorems, with total, weak and strict transforms tracked separately. Abstract open gluing, including comparison under closed smooth ambient enlargements, is proved in §5.5.
 
 *Needs:* `permissibleCentre`, `controlledTransform`, `invariantProperties`, `monomialDecrease`, `hsSemicoherence`, StableReduction Layer 4, SchemeAndStackFoundations §§0.8, 0.28.
 
@@ -582,7 +583,7 @@ Define `exceptionalBirthBlocks` from the actual tower and the ancestors `a_i` of
 
 The intrinsic `recursiveInvariant` of §3 retains the Hilbert–Samuel function, all old-boundary counters and terminal value 0 or `∞`. Its normalized word is independent of the chosen smooth embedding. In `invariantProperties`, fixed-prefix denominator bounds come from the presentation marks: if `e₁` bounds the initial positive integer weights, each finite residual value satisfies `e_{r−1}`!`ν_r∈N`, with `e_r`=max{`e_{r−1}`!,`e_{r−1}`!`ν_r`}. These inequalities supply discreteness for the intrinsic stabilization theorem. (Bierstone–Milman, Remarks 1.3, pp. 213–214; Theorem 1.14(2), p. 220; proof, pp. 259–260; Remark 9.15, pp. 282–283.)
 
-At terminal zero put `Ω_H=μ_H` and define `monomialComponents` to be the **minimal** boundary subsets I with `Σ_{H∈I}Ω_H≥1`. Equivalently, `0≤Σ_{H∈I}Ω_H−1<Ω_H` for every `H∈I`. Their coordinate intersections are precisely the irreducible stratum components. Define `monomialMultiplicity` as the sum of the incident `Ω_H`, with denominator bounded by the terminal common mark. On a chart pivoting at `H∈I`, the new pivot exponent is `Σ_{K∈I}Ω_K−1<Ω_H`; every other exponent is unchanged. If the recursive invariant stays fixed, this strictly lowers the auxiliary multiplicity. At a selected unresolved terminal infinity stratum blow up the whole smooth equality stratum; its strict transform is empty, so the recursive invariant itself drops. These are `zeroTerminal_decrease` and `infiniteTerminal_decrease`. A claim that the recursive invariant drops after every monomial blowup would be false. (Bierstone–Milman, Theorem 1.14(3)–(4), p. 220, Remarks 1.15–1.16, pp. 220–221, and proof and Remark 6.17, pp. 260–261.)
+At terminal zero put `Ω_H=μ_H` and define `monomialComponents` to be the **minimal** boundary subsets I with `Σ_{H∈I}Ω_H≥1`. Equivalently, `0≤Σ_{H∈I}Ω_H−1<Ω_H` for every `H∈I`. Their coordinate intersections are precisely the irreducible stratum components. Define `monomialMultiplicity` as the sum of the incident `Ω_H`, with denominator bounded by the terminal common mark. On a chart pivoting at `H∈I`, the new pivot exponent is `Σ_{K∈I}Ω_K−1<Ω_H`; every other exponent is unchanged. If the recursive invariant stays fixed, this strictly lowers the auxiliary multiplicity. For a blowup of an unresolved terminal infinity stratum along its whole smooth equality stratum, that stratum has empty strict transform and the recursive invariant drops above the centre. These are `zeroTerminal_decrease` and `infiniteTerminal_decrease`. A claim that the recursive invariant drops after every monomial blowup would be false. (Bierstone–Milman, Theorem 1.14(3)–(4), p. 220, Remarks 1.15–1.16, pp. 220–221, and proof and Remark 6.17, pp. 260–261.)
 
 The minimal-component API is `monomialComponents.mem_iff` (the threshold and every one-component removal inequality), `monomialComponents.stratumComponents` (the corresponding coordinate intersections are exactly the irreducible stratum components) and `monomialComponents.restrict` (discard labels missing the restricted chart). The auxiliary-mass API is `monomialMultiplicity.nonnegative`, `monomialMultiplicity.denominator` (the terminal common mark clears all masses), and `monomialMultiplicity.chartDecrease` (strict decrease when the full invariant stays equal). These use the same terminal presentation and birth labels as §3.5; they are not a second terminal invariant. The following singleton, empty and minimal-pair checks apply to both the component family and its mass.
 
@@ -772,7 +773,7 @@ The affine-line and torus compactifications, equal Cartier divisors and unequal 
 
 Prove `fieldResolution_regularPullback`: the Bierstone–Milman desingularization functor on characteristic-zero varieties, including varieties over different fields, commutes with every regular morphism after omission of empty blowups. Here a variety is a reduced finite-type scheme over a field, with no irreducibility assumption; apply affine open gluing for nonseparated schemes. The centres are smooth over their field, lie above the original singular locus, and the final scheme is smooth. The invariant and centre comparison must also handle passage to a generic fibre, extension of the ground field, and localization. Local-isomorphism compatibility from §5.5 alone does not imply this assertion. (Bierstone–Milman–Temkin, *ℚ-universal desingularization*, Theorem 1.1, Theorem 1.2 and Corollary 4.6; Temkin 2011, §§1.3.1–1.3.2 and §2.3.6.)
 
-For the proof, compare the marked-ideal algorithm with its pullback to a generic fibre, retaining the distinction between closed points in each fibre and their images. Factor a regular morphism of connected affine varieties as a smooth morphism, a generic-fibre embedding and a ground-field extension, as in Bierstone–Milman–Temkin Theorem 1.2. Differential and coefficient presentations agree through this factorization, so their maximal loci, birth labels and centres agree. Their §7 approximation argument also extends a smooth-functorial ℚ-variety algorithm to the field inputs required by Temkin. This theorem upgrades the field input; it does not replace any field target in Layers 1–6.
+For the proof, compare the marked-ideal algorithm with its pullback to a generic fibre, retaining the distinction between closed points in each fibre and their images. Factor a regular morphism of connected affine varieties as a smooth morphism, a generic-fibre embedding and a ground-field extension, as in Bierstone–Milman–Temkin Theorem 1.2. For a generic-fibre embedding between smooth ambient varieties, prove pullback test equivalence of coefficient marked ideals using Bierstone–Milman–Temkin Lemmas 5.2 and 5.6. Proposition 5.3 and Theorem 1.3 then identify selected centres and their labelled histories. This comparison uses equivalence classes; absolute differential ideals need not equal the relative differential ideals on the generic fibre (Remark 1.4). The coefficient construction using only normal-direction Taylor derivatives has the separate pullback equality of Remark 5.7. Their §7 approximation argument also extends a smooth-functorial ℚ-variety algorithm to the field inputs required by Temkin. This theorem upgrades the field input; it does not replace any field target in Layers 1–6.
 
 *Needs:* Layers 1–5; SchemeAndStackFoundations §§0.8, 0.15, 0.21; StableReduction Layer 4; Mathlib localization and filtered categories.
 
@@ -780,6 +781,7 @@ For the proof, compare the marked-ideal algorithm with its pullback to a generic
 
 - An extension `k→L` of characteristic-zero fields gives the pulled-back tower, even when L is not finite over k.
 - For a family over an integral base, a centre disjoint from the generic fibre disappears from the generic-fibre tower; the other centres have the same pullbacks and order.
+- For `f=x⁴+y⁴+t x²y²` on `Spec ℚ[t,x,y]`, the absolute derivative ideal contains `x²y²=∂ₜf`. Over `ℚ(t)`, the relative ideal `(f,∂ₓf,∂ᵧf)` does not contain `x²y²`: Euler’s identity removes f, and the degree-four multiples of the two cubic derivatives cannot produce it. Equivalent coefficient marked ideals, rather than equal differential ideals, give the centre comparison.
 - The normalization of a cusp is not a regular morphism: it is finite birational but not flat at the singular point. There is no assertion that pulling back the cusp’s centres to its normalization gives the normalization’s empty tower.
 
 ### 7.2 Local and formal reduction
@@ -959,7 +961,19 @@ Over ℂ use the holomorphic coordinates of §6.4 for these chart checks. `Chart
 
 ## Downstream consumers
 
-The resolution interfaces exported for AlgebraicModuliForArithmeticGeometry’s Layers 5, 8 and 9 are `resolution_field`, `relativeEmbeddedResolution`, `sncCompactification` and `cartierSeparation`, together with the marked-ideal and invariant APIs of Layers 1–4. Their affine signatures use namespace `ResolutionOfSingularities` as listed in the Lean lines of each layer. The export for DiamondsAndVStacks D6.9 is `resolution_affinoid`: for reduced characteristic-zero affinoid A, a projective birational regular-source modification of `Spec A` preserving its entire regular locus; relative analytification and proper-surjective comparison belong to that application. The exports for ComplexComparisonPartII C−1.4 are `sncCoordinates` and `sncCompactification`: labelled local boundary equations `t₁⋯t_b=0`, globally smooth components and the prescribed smooth open unchanged. The proofs of these exports use only the suppliers listed above and earlier targets here.
+The resolution interfaces exported for AlgebraicModuliForArithmeticGeometry’s Layers 5, 8 and 9 are `resolution_field`, `relativeEmbeddedResolution`, `sncCompactification` and `cartierSeparation`, together with the marked-ideal and invariant APIs of Layers 1–4. Their affine signatures use namespace `ResolutionOfSingularities` as listed in the Lean lines of each layer. The export for DiamondsAndVStacks D6.9 is `resolution_affinoid`: for reduced characteristic-zero affinoid A, a projective birational regular-source modification of `Spec A` preserving its entire regular locus; relative analytification and proper-surjective comparison belong to that application. The exports for ComplexComparisonPartII C−1.4 are `sncCoordinates` and `sncCompactification`: labelled local boundary equations `t₁⋯t_b=0`, globally smooth components and the prescribed smooth open unchanged. The proofs of these exports use only the suppliers listed above and earlier targets here. The interfaces for InverseGaloisAndArithmeticFundamentalGroups’s characteristic-zero fundamental-group comparison are `localIsomorphismResolution` (§5.5) and `sncCompactification` (§6.2). The supplier locations for the shared field interfaces are fixed below.
+
+| Interface supplied here | Supplier section | Applications |
+| --- | --- | --- |
+| `localIsomorphismResolution` | §5.5 | AlgebraicModuliForArithmeticGeometry; InverseGaloisAndArithmeticFundamentalGroups |
+| `relativeEmbeddedResolution` | §5.6 | AlgebraicModuliForArithmeticGeometry |
+| `sncCompactification` | §6.2 | AlgebraicModuliForArithmeticGeometry; ComplexComparisonPartII; InverseGaloisAndArithmeticFundamentalGroups |
+| `cartierSeparation` | §6.3 | AlgebraicModuliForArithmeticGeometry |
+| `sncBoundary`, `sncCoordinates` | §§1.3, 6.4 | AlgebraicModuliForArithmeticGeometry; ComplexComparisonPartII |
+| `resolution_field` | §7.8 | AlgebraicModuliForArithmeticGeometry |
+| `resolution_affinoid` | §7.8 | DiamondsAndVStacks |
+
+These interface names retain the field targets’ spellings. Their affine Lean namespace is `ResolutionOfSingularities`; the sibling namespace `TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry.Resolution` corresponds by the same suffixes for the thirteen representative declarations. `exists_resolution` here includes reduced schemes and preservation of the entire smooth locus; its dense-open conclusion also supplies the integral field specialization.
 
 ## References
 

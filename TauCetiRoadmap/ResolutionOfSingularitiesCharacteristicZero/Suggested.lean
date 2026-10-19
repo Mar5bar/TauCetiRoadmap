@@ -182,6 +182,80 @@ example :
     (J.markedSum K).mark = 6 ∧
       (J.markedSum K).ideal = Ideal.span {x ^ 6, y ^ 6} := sorry
 
+/-- `ResidualChecks.strictContainment`: the original mark-two cosupport of `(x³y)` is
+`V(x)`, while the guarded residual marked sum has cosupport only the origin. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let p : PrimeSpectrum (MvPolynomial (Fin 2) ℚ) :=
+      PrimeSpectrum.comap (MvPolynomial.eval (fun _ => (0 : ℚ))) ⟨⊥, inferInstance⟩
+    let J := MarkedIdeal.mk (Ideal.span {x ^ 3 * y}) 2 (by decide)
+    let A := MarkedIdeal.mk (Ideal.span {y}) 1 (by decide)
+    let B := MarkedIdeal.mk (Ideal.span {x ^ 3}) 1 (by decide)
+    J.cosupport = PrimeSpectrum.zeroLocus ({x} : Set (MvPolynomial (Fin 2) ℚ)) ∧
+      (A.markedSum B).cosupport = {p} ∧
+      (A.markedSum B).cosupport ⊂ J.cosupport := sorry
+
+/-- `semicoherent_nonrational`: `(x²+1)³` has order three at the degree-two prime
+`(x²+1)`, and this prime is its entire mark-two cosupport. -/
+example :
+    let q : Polynomial ℚ := Polynomial.X ^ 2 + 1
+    let J := MarkedIdeal.mk (Ideal.span {q ^ 3}) 2 (by decide)
+    ∃ p : PrimeSpectrum (Polynomial ℚ), p.asIdeal = Ideal.span {q} ∧
+      idealOrderAt (Ideal.span {q}) p = 1 ∧ idealOrderAt J.ideal p = 3 ∧
+      J.cosupport = {p} := sorry
+
+/-- `cusp_controlled_chart`, `TransformTests.cuspChart` and `semicoherent_hypersurface`:
+the cusp total equation factors by the square of the exceptional coordinate, and the
+remaining equation has empty mark-two cosupport. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let w : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let ρ := MvPolynomial.eval₂Hom (MvPolynomial.C : ℚ →+* MvPolynomial (Fin 2) ℚ)
+      (fun i : Fin 2 => if i = 0 then x else x * w)
+    ρ (w ^ 2 - x ^ 3) = x ^ 2 * (w ^ 2 - x) ∧
+      (MarkedIdeal.mk (Ideal.span {w ^ 2 - x}) 2 (by decide)).cosupport = ∅ := sorry
+
+/-- `different_from_strict` and `cartier_identity_not_trivial`: division of `x³` by
+the mark-two exceptional factor leaves `x`, whose mark-two cosupport is empty. -/
+example :
+    let x : Polynomial ℚ := Polynomial.X
+    x ^ 3 = x ^ 2 * x ∧
+      (MarkedIdeal.mk (Ideal.span {x}) 2 (by decide)).cosupport = ∅ := sorry
+
+/-- `MonomialTests.exponent`: in the x-chart, `(x³y³,4)` has total equation
+`x⁴(x²v³)`, so the controlled equation is `x²v³`. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let v : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let ρ := MvPolynomial.eval₂Hom (MvPolynomial.C : ℚ →+* MvPolynomial (Fin 2) ℚ)
+      (fun i : Fin 2 => if i = 0 then x else x * v)
+    ρ (x ^ 3 * v ^ 3) = x ^ 4 * (x ^ 2 * v ^ 3) := sorry
+
+/-- `MaxContactTests.notAnyContaining`: the higher cusp has controlled equation
+`v²−x³` in the x-chart, and its mark-two cosupport still contains the origin. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let v : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let ρ := MvPolynomial.eval₂Hom (MvPolynomial.C : ℚ →+* MvPolynomial (Fin 2) ℚ)
+      (fun i : Fin 2 => if i = 0 then x else x * v)
+    let p : PrimeSpectrum (MvPolynomial (Fin 2) ℚ) :=
+      PrimeSpectrum.comap (MvPolynomial.eval (fun _ => (0 : ℚ))) ⟨⊥, inferInstance⟩
+    ρ (v ^ 2 - x ^ 5) = x ^ 2 * (v ^ 2 - x ^ 3) ∧
+      idealOrderAt (Ideal.span {v ^ 2 - x ^ 3}) p = 2 := sorry
+
+/-- `semicoherent_common_open`: on `D(1−x)`, the reciprocal of `1−x` is a unit.
+The pair `(x²/(1−x),2)` has cosupport `V(x)` and its Cartier-centre controlled
+factor has empty cosupport. -/
+example :
+    let S := Localization.Away (1 - (Polynomial.X : Polynomial ℚ))
+    let x : S := algebraMap (Polynomial ℚ) S Polynomial.X
+    let v : S := IsLocalization.Away.invSelf (1 - (Polynomial.X : Polynomial ℚ))
+    (1 - x) * v = 1 ∧ IsUnit v ∧
+      (MarkedIdeal.mk (Ideal.span {x ^ 2 * v}) 2 (by decide)).cosupport =
+        PrimeSpectrum.zeroLocus ({x} : Set S) ∧
+      (MarkedIdeal.mk (Ideal.span {v}) 2 (by decide)).cosupport = ∅ := sorry
+
 /-- Upper semicontinuity of the order on a regular ring of finite type over a field of
 characteristic zero (an affine chart of a smooth variety): the cosupport of a marked ideal is
 closed. -/
@@ -206,6 +280,49 @@ example : derivativeIdeal (⊥ : Ideal (MvPolynomial σ k)) = ⊥ := sorry
 
 /-- `DerivativeIdealChecks.unit`: the derivative ideal of the unit ideal is the unit ideal. -/
 example : derivativeIdeal (⊤ : Ideal (MvPolynomial σ k)) = ⊤ := sorry
+
+/-- `DerivTests.charP`: over a field of prime characteristic p, the derivative ideal
+of `(x^p)` stays `(x^p)`. -/
+example (p : ℕ) [Fact p.Prime] :
+    let x : MvPolynomial Unit (ZMod p) := MvPolynomial.X ()
+    derivativeIdeal (Ideal.span {x ^ p}) = Ideal.span {x ^ p} := sorry
+
+/-- `DerivTests.charP` at p = 3: the derivative ideal of `(x³)` over `𝔽₃`
+stays `(x³)`. -/
+example :
+    let x : MvPolynomial Unit (ZMod 3) := MvPolynomial.X ()
+    derivativeIdeal (Ideal.span {x ^ 3}) = Ideal.span {x ^ 3} := sorry
+
+/-- `jet_double_origin`: for `f=x²(x−1)` the first-jet equations generate `(x)`.
+The zero-jet equation vanishes at 1 although f has order one there and order two at 0. -/
+example :
+    let x : Polynomial ℚ := Polynomial.X
+    let f := x ^ 2 * (x - 1)
+    let p₀ : PrimeSpectrum (Polynomial ℚ) :=
+      PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ℚ)) ⟨⊥, inferInstance⟩
+    let p₁ : PrimeSpectrum (Polynomial ℚ) :=
+      PrimeSpectrum.comap (Polynomial.evalRingHom (1 : ℚ)) ⟨⊥, inferInstance⟩
+    Ideal.span {f, Polynomial.derivative f} = Ideal.span {x} ∧
+      Polynomial.eval 1 f = 0 ∧ Polynomial.eval 1 (Polynomial.derivative f) = 1 ∧
+      idealOrderAt (Ideal.span {f}) p₀ = 2 ∧
+      idealOrderAt (Ideal.span {f}) p₁ = 1 := sorry
+
+/-- Under the generic-fibre embedding of §7.1, the absolute derivative ideal pulls
+back to an ideal containing `x²y²`, while the relative derivative ideal does not. -/
+example :
+    let t : MvPolynomial (Fin 3) ℚ := MvPolynomial.X 0
+    let x : MvPolynomial (Fin 3) ℚ := MvPolynomial.X 1
+    let y : MvPolynomial (Fin 3) ℚ := MvPolynomial.X 2
+    let f := x ^ 4 + y ^ 4 + t * x ^ 2 * y ^ 2
+    let K := FractionRing (Polynomial ℚ)
+    let ρ := MvPolynomial.eval₂Hom
+      (MvPolynomial.C.comp (algebraMap ℚ K))
+      (fun i : Fin 3 => if i = 0 then
+        MvPolynomial.C (algebraMap (Polynomial ℚ) K Polynomial.X)
+        else if i = 1 then (MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) K)
+        else MvPolynomial.X 1)
+    ρ (x ^ 2 * y ^ 2) ∈ (derivativeIdeal (Ideal.span {f})).map ρ ∧
+      ρ (x ^ 2 * y ^ 2) ∉ derivativeIdeal (Ideal.span {ρ f}) := sorry
 
 /-- `MaxContactTests.characteristicTwoCusp`: over `𝔽₂`, the derivative ideal of
 `(x²+y³)` is `(x²,y²)`. -/
