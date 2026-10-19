@@ -894,6 +894,49 @@ For the EIII projective/spinor and E8 Lie-algebra constructions use
 The central kernels, normalizers, metric comparisons and full-isometry proof targets
 above require their explicit maps and arguments; the model descriptions alone do not supply them.
 
+### Layer 7F: compact centers from the actual coweight quotient
+
+Consume the abstract affine/coweight construction of
+[LieHighestWeight Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c6ff879b0c301bec739ff485a5cffb082cec0239/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-10-affine-weyl-geometry-and-the-compact-coweight-quotient) only after LieGroups Layers 6–7 have constructed the compact root
+comparison and actual torus period quotient. Work first with compact connected semisimple groups.
+For compact connected reductive `G`, use the actual finite central covering homomorphism
+`Z(G)^0 × G_der,sc → G` and carry its finite central kernel: the torus and simply connected derived
+group are factors of the covering product, not in general direct factors of `G`. For an actual compact torus `T`, let `Y =
+ker(exp_T)` in the dimensionless root-datum coordinates and retain the full character and
+cocharacter maps. Prove `Q∨ ⊆ Y ⊆ P∨` for the corresponding semisimple isogeny form.
+
+The coordinate comparison is a theorem, not notation: if `α_comp` is the real compact root
+functional from Layer 6 (`dχ_α = i α_comp`) and `α∨_comp` is the compact coroot calibrated there
+(`α_comp(α∨_comp)=2`), map a dimensionless coroot to `2π α∨_comp`. Prove this sends the root-datum
+period lattice `Q∨` into the actual exponential kernel and reconciles the algebraic cocharacter
+differential and the compact circle homomorphism in the commutative comparison square. The rank-one
+calibration in Layer 6 is `dφ(diag(i,−i)) = α∨_comp`,
+`dν_alg(1) = −iα∨_comp`, and `d(ν_alg|S¹)(i) = α∨_comp`; together with `dχ_α = iα_comp`, these fix
+the sign and factor. The algebraic cocharacter differential and the real compact Lie-algebra
+coordinate are different carriers.
+
+First prove every central element lies in this fixed `T`: every element of a compact connected group
+lies in a maximal torus, maximal tori are conjugate, and conjugation fixes a central element. For
+`t ∈ T`, identify its adjoint action on the actual root-space decomposition and use connectedness to
+prove `t ∈ Z(G)` exactly when every root character takes value `1`. Lift through the actual torus
+universal cover to identify these points with `P∨/Y`, naturally for the pinned root
+datum. Establish the simply connected case `Y=Q∨` by a separate period argument: rank-one maps give
+`Q∨⊆Y`; integrate every finite-dimensional module of a fundamental Lie weight to the simply connected
+compact group, compare its actual torus character differential using the Layer 6–7 `2π` calibration,
+and apply each actual period in `Y` to obtain integral evaluation on the fundamental-weight basis.
+The dual-lattice comparison gives `Y⊆Q∨`. This construction is required before specializing the
+center formula; do not infer it from the rank-one inclusion or from the center classification. Thus
+`Z(G_sc) ≃ P∨/Q∨`;
+an intermediate isogeny form has center `P∨/Y` and extended affine alcove stabilizer `Y/Q∨`. State
+both quotients: for the simply connected form the latter stabilizer is trivial while the former need
+not be. The abstract `P∨/Q∨` alcove stabilizer formed using all coweight translations is not the
+extended affine stabilizer of the actual simply connected group.
+
+This finite-center statement does not include a positive-dimensional central torus. For compact
+connected reductive `G`, first split its actual Lie algebra into center and semisimple derived ideal
+using Layer 5A; apply the finite quotient statement to the simply connected semisimple cover and
+carry the central torus and finite central gluing through the existing Layer 7 period-quotient data.
+
 ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
 - **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
