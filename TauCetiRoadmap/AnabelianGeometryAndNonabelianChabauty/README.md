@@ -516,7 +516,7 @@ Use [Restriction of continuous nonabelian cocycles](#nc-3-cocycle-restriction); 
 ### 0.8 Twisting by a cocycle
 <a id="nc-3-twisting"></a>
 
-**Twisting by a cocycle.** Let `c ∈ Z¹(G, U)`. The twisted group ₍c₎U is U with the action `g ⋆ u := c(g)·(g•u)·c(g)⁻¹`, again a continuous action by automorphisms. The map `τ_c : Z¹(G, ₍c₎U) → Z¹(G, U)`, `c′ ↦ (g ↦ c′(g)·c(g))`, is a bijection carrying the trivial cocycle to c and the twisted-conjugation action of U on the left to that on the right; it induces a bijection of underlying sets `H¹(G, ₍c₎U) ≅ H¹(G, U)` sending the source base point to [c]; it becomes a pointed equivalence only when the target is repointed at [c]. Twisting is compatible with G-stable subgroups (for cocycles with values in them) and with quotients by normal ones, so that fibres of the maps in [Kernel of inclusion in nonabelian cohomology](#nc-3-exact-sequence) over [c] become fibres over the base point after twisting.
+**Twisting by a cocycle.** Let `c ∈ Z¹(G, U)`. The twisted group ₍c₎U is U with the action `g ⋆ u := c(g)·(g•u)·c(g)⁻¹`, again a continuous action by automorphisms. The map `τ_c : Z¹(G, ₍c₎U) → Z¹(G, U)`, `c′ ↦ (g ↦ c′(g)·c(g))`, is a bijection carrying the trivial cocycle to c and the twisted-conjugation action of U on the left to that on the right; it induces a bijection of underlying sets `H¹(G, ₍c₎U) ≅ H¹(G, U)` sending the source base point to [c]; it becomes a pointed equivalence only when the target is repointed at [c]. Twisting is compatible with G-stable subgroups (for cocycles with values in them) and with quotients by normal ones, so that fibres of the maps in [Kernel of inclusion in nonabelian cohomology](#nc-3-exact-sequence) over [c] become fibres over the base point after twisting. The equation-level specialization `Nonabelian.twisted_cocycle_iff` identifies the twisted cocycle equation for d with the original equation for `g↦d(g)c(g)`, without constructing a second cocycle carrier.
 
 G is a topological group and U a topological group with an action of G by group automorphisms (MulDistribMulAction G U) such that the action map `G × U → U` is continuous (ContinuousSMul G U). c a continuous cocycle.
 
@@ -1428,7 +1428,7 @@ Use [Canonical additive comparison](#nc-3-canonical-comparison-naturality); [Rev
 
 G,B topological groups continuous automorphism action on B b continuous when asserting continuity.
 
-Form the displayed product using multiplication, inverse, action and group multiplication. Apply q, the cocycle law and cancellation to prove the kernel assertion. For cocycle tests use `D=1` iff the multiplicative cocycle law.
+Form the displayed product using multiplication, inverse, action and group multiplication. Apply q, the cocycle law and cancellation to prove the kernel assertion. For cocycle tests use `D=1` iff the multiplicative cocycle law. The equation-level signatures are `Nonabelian.positiveDefect_eq_one_iff` and `Nonabelian.positiveDefect_mem_ker`.
 
 The interface consists of the following named results.
 
@@ -1451,7 +1451,7 @@ Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-co
 
 <a id="nc-3-continuous-central-obstruction"></a>
 
-**Continuous central H2 bridge.** Let `i:Multiplicative M→B` be injective, equivariant and central. If a continuous `f:G×G→M` satisfies `i(ofAdd(f(g,h)))=D_b(g,h)`, then f lies in ContCohomology.Z2 G M. Replacing b by i(ofAdd(a(g)))b(g), for a continuous `a:G→M`, changes f by d1(a). Therefore its continuous H2 class is unchanged.
+**Continuous central H2 bridge.** Let `i:Multiplicative M→B` be injective, equivariant and central. If a continuous `f:G×G→M` satisfies `i(ofAdd(f(g,h)))=D_b(g,h)`, then f lies in ContCohomology.Z2 G M. Replacing b by i(ofAdd(a(g)))b(g), for a continuous `a:G→M`, changes f by d1(a). Therefore its continuous H2 class is unchanged. The group-coordinate identity is `Nonabelian.positiveDefect_central_cocycle`; `Nonabelian.central_defect_mem_Z2` transports a continuous defect to the native continuous degree-two cocycles through the injective central equivariant map. The cochain identity `Nonabelian.central_defect_change_lift` gives the change by `d¹(a)` on the native complex.
 
 G,B topological groups M topological additive abelian G-module i injective central equivariant f continuous a continuous.
 
@@ -1459,6 +1459,8 @@ Expand the associative triple product `b(g)g(b(h))gh(b(k))` in the two parenthes
 
 **Checks.**
 
+- A constant lift with nonidentity value has a possibly nonnormalized central defect; the two-cocycle identity still holds.
+- A continuous central correction changes the defect by the positive additive differential, with no reversal of the factors.
 - A discontinuous primitive does not prove equality in this H2; positive and source inverse defects have opposite additive classes.
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2005), Section 1, obstruction cochains and Proposition 2 induction, printed pp. 5, 7–9.
@@ -1467,7 +1469,7 @@ Use [Positive central defect](#nc-3-positive-defect); `TauCeti.ContCohomology.d1
 
 <a id="nc-3-central-lift-exactness"></a>
 
-**Continuous lift exactness.** In the preceding central situation, `[f]=0` in continuous H2 iff there is a continuous `a:G→M` such that i(ofAdd(a(g)))b(g) is a cocycle. If `q∘b=c` and `q∘i=1`, that corrected cocycle is a continuous lift of c. Conversely every continuous lift differs from b by a continuous M-valued cochain provided i is a homeomorphism onto `ker(q)`.
+**Continuous lift exactness.** In the preceding central situation, `[f]=0` in continuous H2 iff there is a continuous `a:G→M` such that i(ofAdd(a(g)))b(g) is a cocycle. If `q∘b=c` and `q∘i=1`, that corrected cocycle is a continuous lift of c. Conversely every continuous lift differs from b by a continuous M-valued cochain provided i is a homeomorphism onto `ker(q)`. The specialization `Nonabelian.central_defect_lift_iff` states vanishing as membership in the native continuous coboundary subgroup `B2`; the coefficient map is continuous, and the corrected lift is continuous.
 
 The hypotheses of [Continuous central H2 bridge](#nc-3-continuous-central-obstruction); b and i continuous for the corrected lift; a homeomorphism onto `ker(q)` for the converse concerning arbitrary lifts.
 
@@ -1475,6 +1477,8 @@ Use `H2pi_eq_zero_iff` and `mem_B2_iff` to write `f=d1(t)` with continuous t. Ch
 
 **Checks.**
 
+- A zero defect permits the zero correcting cochain.
+- A continuous primitive for the positive defect is negated when multiplying the lift by a central correction.
 - The correction has sign −t; its quotient cocycle is unchanged.
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2005), Section 1, Proposition 2 obstruction induction, printed pp. 7–9.
@@ -2612,7 +2616,7 @@ Use [Coefficient naturality on the `H¹` orbit quotient](#nc-3-twist-coefficient
 ### 0.37 Gauge stabilizers, gauge witnesses and kernel injectivity
 <a id="nc-3-gauge-stabilizer-fixed"></a>
 
-**Gauge stabilizers are twisted invariants.** For a continuous cocycle c and `x∈U`, x belongs to the gauge stabilizer `Stab_U(c)` exactly when its underlying element in `Twist(c)` is G-fixed. No topology on the space of cocycles is required.
+**Gauge stabilizers are twisted invariants.** For a continuous cocycle c and `x∈U`, x belongs to the gauge stabilizer `Stab_U(c)` exactly when its underlying element in `Twist(c)` is G-fixed. No topology on the space of cocycles is required. Its equation-level form is `Nonabelian.gauge_eq_self_iff`; the pointwise algebraic equivalence also holds for arbitrary functions c.
 
 Standing hypotheses (H28).
 
@@ -2620,6 +2624,8 @@ Expand the ordered gauge equation `x c(g)(g•x)⁻¹=c(g)`. Multiply on the rig
 
 **Checks.**
 
+- For the neutral cocycle the stabilizer is the invariant subgroup of the original action.
+- With trivial action, the stabilizer is the centralizer of the image of c; it need not be trivial.
 - For the neutral cocycle and trivial action on `S₃`, both (01) and (12) fix the cocycle; the stabilizer is all `S₃`, while their two product orders differ.
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1 continuous cocycle/gauge conventions, pp. 5–6; Proposition 2 freeness claim and complete proof, pp. 8–9.
@@ -2810,7 +2816,7 @@ Use [Arithmetic path torsor](#nc-0-arithmetic-geometric-paths); `CategoryTheory.
 
 <a id="nc-0-arithmetic-path-cocycle"></a>
 
-**Cocycle of a geometric arithmetic path.** For p in `P(b,x)` set `c_p(sigma)=p^(-1)sigma(p)` in `N_b`. Then `c_p(sigma*tau)=c_p(sigma) alpha_b(sigma)(c_p(tau))` and `c_p·h(sigma)=h^(-1)c_p(sigma) alpha_b(sigma)(h)`. It is continuous. Hence its class in the nonabelian `H¹(Γ_k, N_b)` of Layer 0 depends only on the equivariant path torsor. In coordinates for any continuous q:E→Gamma and two continuous sections s0,s1, pathAction(sigma,h)=s1(sigma) `h s0(sigma)^(-1)`, and `pathCocycle_h=h^(-1)pathAction(sigma,h)`. For geometry s1 is the transferred endpoint section at a chosen reference path; the kernel model is not a substitute geometric path type.
+**Cocycle of a geometric arithmetic path.** For p in `P(b,x)` set `c_p(sigma)=p^(-1)sigma(p)` in `N_b`. Then `c_p(sigma*tau)=c_p(sigma) alpha_b(sigma)(c_p(tau))` and `c_p·h(sigma)=h^(-1)c_p(sigma) alpha_b(sigma)(h)`. It is continuous. Hence its class in the nonabelian `H¹(Γ_k, N_b)` of Layer 0 depends only on the equivariant path torsor. In coordinates for any continuous q:E→Gamma and two continuous sections s0,s1, pathAction(sigma,h)=s1(sigma) `h s0(sigma)^(-1)`, and `pathCocycle_h=h^(-1)pathAction(sigma,h)`. For geometry s1 is the transferred endpoint section at a chosen reference path; the kernel model is not a substitute geometric path type. In the common group frame, `ArithmeticPath.pathCocycle_changePoint` gives the displayed inverse-parameter gauge formula.
 
 Arithmetic-path carrier and jointly continuous action as above. `H¹` is the pointed gauge-orbit set of [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1).
 
@@ -2836,7 +2842,7 @@ Use [Arithmetic path torsor](#nc-0-arithmetic-geometric-paths); [Path transport 
 
 <a id="nc-0-path-section-comparison"></a>
 
-**Neutral path classes and conjugate sections.** For p in `P(b,x)`, `t_x,p(sigma)=c_p(sigma)s_b(sigma)`. The path class is neutral iff there exists a `Gamma_k`-fixed geometric path `b→x`, iff `t_x,p` is conjugate to `s_b` by an element of `N_b`. In coordinate form a fixed h satisfies s1(sigma)=h s0(sigma) h inverse for every sigma. Neutrality means `c_h(sigma)=k alpha_b(sigma)(k)` inverse for some k; the fixed path is `h·k`. These are existence statements, not uniqueness of the fixed path or surjectivity of rational points onto section classes.
+**Neutral path classes and conjugate sections.** For p in `P(b,x)`, `t_x,p(sigma)=c_p(sigma)s_b(sigma)`. The path class is neutral iff there exists a `Gamma_k`-fixed geometric path `b→x`, iff `t_x,p` is conjugate to `s_b` by an element of `N_b`. In coordinate form a fixed h satisfies s1(sigma)=h s0(sigma) h inverse for every sigma. Neutrality means `c_h(sigma)=k alpha_b(sigma)(k)` inverse for some k; the fixed path is `h·k`. These are existence statements, not uniqueness of the fixed path or surjectivity of rational points onto section classes. The representative-level criterion is `ArithmeticPath.pathCocycle_neutral_iff`: the cocycle at p is identically one exactly when p conjugates the endpoint section to the reference section.
 
 Same endpoints; all conjugating elements lie in `N_b`.
 
@@ -2844,6 +2850,7 @@ Use sigma(p)=p `c_p(sigma)` to factor the transported section. Neutrality of the
 
 **Checks.**
 
+- At the identity path, pointwise neutrality is equivalent to equality of the two sections.
 - The tests with equal sections give a neutral class even when a chosen representative has nontrivial values.
 - A nonneutral finite quotient, such as a nontrivial Kummer projection, obstructs section conjugacy.
 
@@ -3905,7 +3912,7 @@ Use [PadicDifferentialEquationsAndRigidCohomology](../PadicDifferentialEquations
 
 <a id="nc-2-unipotent-length"></a>
 
-**Unipotent length.** In a neutral Tannakian category C over a characteristic-zero field k, with unit 1, let `C_n` be the full subcategory of objects admitting a filtration `E=E_0 ⊇ E_1 ⊇ … ⊇ E_(n+1)=0` with each `E_i/E_(i+1)` a finite direct sum of 1. Zero summands are allowed. Write IsUnipotentLength(n,E) for this property, and Un(C) for the full subcategory of objects satisfying it for some n. Thus `C_0` consists of trivial objects, including zero. Filtrations witness a property; they are not extra data on the objects or extra restrictions on the full subcategory morphisms. Tensor products of lengths n and m have length at most `n+m`; `C_n` need not be tensor closed.
+**Unipotent length.** In a neutral Tannakian category C over a characteristic-zero field k, with unit 1, let `C_n` be the full subcategory of objects admitting a filtration `E=E_0 ⊇ E_1 ⊇ … ⊇ E_(n+1)=0` with each `E_i/E_(i+1)` a finite direct sum of 1. Zero summands are allowed. Write IsUnipotentLength(n,E) for this property, and Un(C) for the full subcategory of objects satisfying it for some n. Thus `C_0` consists of trivial objects, including zero. Filtrations witness a property; they are not extra data on the objects or extra restrictions on the full subcategory morphisms. Tensor products of lengths n and m have length at most `n+m`; `C_n` need not be tensor closed. For finite-dimensional linear representations over any field, `Unipotent.length_mono` gives monotonicity in the allowed length, and `Unipotent.length_tensor` gives the sum bound for the diagonal tensor action.
 
 C is k-linear, abelian, rigid symmetric monoidal, with `End(1)=k` and an exact faithful k-linear tensor fibre functor to finite-dimensional vector spaces.
 
@@ -3933,7 +3940,7 @@ Use [Neutral tensor category and Hopf reconstruction](#neutral-tensor-reconstruc
 
 <a id="nc-2-invariant-vector-criterion"></a>
 
-**Invariant vectors and unipotence.** For a neutral Tannakian category C over a characteristic-zero field k, the following are equivalent: every object is a successive extension of units; its reconstructed affine group is pro-unipotent; every nonzero object E has a nonzero morphism `1→E`. The zero object is excluded from the last quantifier. In each finite-dimensional representation, an invariant line and induction on dimension produce a full unipotent flag.
+**Invariant vectors and unipotence.** For a neutral Tannakian category C over a characteristic-zero field k, the following are equivalent: every object is a successive extension of units; its reconstructed affine group is pro-unipotent; every nonzero object E has a nonzero morphism `1→E`. The zero object is excluded from the last quantifier. In each finite-dimensional representation, an invariant line and induction on dimension produce a full unipotent flag. The finite-dimensional representation implication is `Unipotent.exists_fixed_of_unipotent`, over any field with an explicit nonzero-space hypothesis.
 
 Neutral Tannakian hypotheses of [Unipotent length](#nc-2-unipotent-length).
 
@@ -3941,6 +3948,7 @@ Apply neutral reconstruction, imported from neutral tensor reconstruction, to pa
 
 **Checks.**
 
+- A one-dimensional representation with a nontrivial character has no nonzero invariant vector and cannot be unipotent.
 - In finite-dimensional vector spaces with their usual tensor product the reconstructed group is trivial and every nonzero object has a nonzero vector.
 - The assertion with zero included fails, since `Hom(1,0)=0`.
 
@@ -6343,7 +6351,7 @@ The API consists of the transported adapters `colemanDilogarithm_series`, `colem
 
 <a id="nc-4-admissible-period"></a>
 
-**The period of an admissible path torsor.** Let K be a characteristic-zero p-adic field and `U_n` the finite-depth de Rham unipotent group of Layer 2. Write `H_n=F⁰U_n`, a closed split unipotent subgroup, not assumed normal, and `Q_n=U_n/H_n` for the represented quotient by right multiplication. On a commutative K-algebra R, an admissible right `U_n`-torsor T has the Layer 2 finite coordinate filtration, a compatible Frobenius with a unique fixed point `p_φ`, and a Hodge reduction `F⁰T` with an R-point `p_H`. Define admissiblePeriod(T)=[u] in `Q_n(R)`, where `p_φ·u=p_H`. Changing `p_H` to `p_H·h` changes u to uh for `h∈H_n(R)`, hence preserves its class. Quotient representability and triviality of split-unipotent torsors over affine bases are imported inputs. Point reduction: for a Torsor `U_nᵒᵖ T`, u is the underlying `U_n` element of `p_H` divided by `p_φ` in the opposite group; the point quotient is Mathlib's left-coset carrier `U_n/H_n` with relation `u⁻¹v∈H_n`.
+**The period of an admissible path torsor.** Let K be a characteristic-zero p-adic field and `U_n` the finite-depth de Rham unipotent group of Layer 2. Write `H_n=F⁰U_n`, a closed split unipotent subgroup, not assumed normal, and `Q_n=U_n/H_n` for the represented quotient by right multiplication. On a commutative K-algebra R, an admissible right `U_n`-torsor T has the Layer 2 finite coordinate filtration, a compatible Frobenius with a unique fixed point `p_φ`, and a Hodge reduction `F⁰T` with an R-point `p_H`. Define admissiblePeriod(T)=[u] in `Q_n(R)`, where `p_φ·u=p_H`. Changing `p_H` to `p_H·h` changes u to uh for `h∈H_n(R)`, hence preserves its class. Quotient representability and triviality of split-unipotent torsors over affine bases are imported inputs. Point reduction: for a Torsor `U_nᵒᵖ T`, u is the underlying `U_n` element of `p_H` divided by `p_φ` in the opposite group; the point quotient is Mathlib's left-coset carrier `U_n/H_n` with relation `u⁻¹v∈H_n`. The group-coordinate criterion `Period.periodRatio_coset_eq_iff` identifies equality of period cosets with membership of `p_H⁻¹p′_H` in the Hodge subgroup, for any subgroup without a normality hypothesis.
 
 `U_n` and its filtered/Frobenius path structure come from Layer 2; Frobenius Lang invertibility uses the positive-weight hypotheses there, not an arbitrary automorphism of an arbitrary unipotent group. All R are commutative K-algebras, including nonreduced ones; `H_n` is smooth split unipotent and the Hodge torsor is trivial over Spec R.
 
@@ -7632,7 +7640,7 @@ Use [Quadratic Chabauty pair](#nc-5-quadratic-chabauty-pair); Layer 5, albanese 
 
 <a id="nc-5-height-determinant"></a>
 
-**Corrected height determinant.** Let psi(x) in `k^m` be the coordinate vector of the height feature `AJ_b(x)⊗(E AJ_b(x)+c)`, in a selected tensor-feature space, and anchors P1,…,Pm with known residuals `alpha_i`. For a candidate residual alpha form the `(m+1)×(m+1)` matrix whose first row is (theta(x)−alpha,psi(x)) and ith anchor row is `(theta(P_i)−alpha_i,psi(P_i))`. HeightDeterminant is its Matrix.det. Candidate and anchor residuals are subtracted separately. To use its vanishing as a height equation, the anchor feature matrix must have nonzero determinant.
+**Corrected height determinant.** Let psi(x) in `k^m` be the coordinate vector of the height feature `AJ_b(x)⊗(E AJ_b(x)+c)`, in a selected tensor-feature space, and anchors P1,…,Pm with known residuals `alpha_i`. For a candidate residual alpha form the `(m+1)×(m+1)` matrix whose first row is (theta(x)−alpha,psi(x)) and ith anchor row is `(theta(P_i)−alpha_i,psi(P_i))`. HeightDeterminant is its Matrix.det. Candidate and anchor residuals are subtracted separately. To use its vanishing as a height equation, the anchor feature matrix must have nonzero determinant. The coordinate theorem `Heights.determinant_duplicate_row` gives vanishing at an anchor with its own residual correction.
 
 k is a field; the geometric application uses Qp. For arithmetic use alpha and all `alpha_i` belong to the complete signed correction set. X may index pairs (correspondence, point): candidate and anchor features may come from different correspondences if their corrected heights are evaluations of the same global functional on the same balanced feature space. This is the cross-class anchor convention in the `X_s(13)` application.
 
@@ -8301,7 +8309,7 @@ The interface consists of the following named results.
 - `kimLocus_indep_basepoint`: Twisting by the path torsor `P(b, c)` identifies the Selmer schemes for integral base points b and c compatibly with `loc_p` and the Kummer maps, so `X(ℤ_p)_n` does not depend on b.
 - `kimConjectureS`: The S-integral proposition: `X(ℤ_p)_{S,n} = 𝒳(Z[1/S])` for n large, with `KimConjectureS ∅ = KimConjecture`.
 - `EventualEquality`: The form on families of sets: `L n = G` for all large n; KimConjecture is the instance `L n = X(ℤ_p)_n`, `G = 𝒳(Z)`.
-- `eventualEquality_iff_exists_subset`: For an antitone family L with `G ⊆ L n` for all n, eventual equality holds if and only if `L n ⊆ G` for some n.
+- `eventualEquality_iff_exists_subset` (the set-level signature `Frontier.eventualEquality_iff_exists_subset`): For an antitone family L with `G ⊆ L n` for all n, eventual equality holds if and only if `L n ⊆ G` for some n.
 - `eventualEquality_iInter`: For an antitone family, eventual equality with G implies `⋂_n L n = G`; the converse fails `(kimConjecture_not_intersection)`.
 
 **Checks.**
@@ -8309,7 +8317,7 @@ The interface consists of the following named results.
 - For `𝒳=Spec ℤ[z,1/z,1/(1−z)]`, `𝒳(ℤ₂)=∅` because modulo 2 one of z and 1−z is zero. Hence `Im j₂=∅`, whereas the imposed good-place condition is `{1}`. The literal-image variant is empty at every depth, including p=7; it cannot have the two primitive sixth roots as its depth-one locus.
 - `kimConjecture_thrice_punctured_p5`: For `𝒳 = P¹ ∖ {0, 1, ∞}` over Z with the tangential base point at 0 and `p = 5`, `X(Z_5)_1 = ∅ = 𝒳(Z)`, so the conjecture holds from depth 1 (BDCKW §6.1).
 - `kimLocus_thrice_punctured_p7`: For the same 𝒳 and `p = 7`, `X(Z_7)_1 = {ζ_6, ζ_6⁵} ≠ 𝒳(Z) = ∅`: equality is eventual, not at depth 1 (BDCKW §6.2).
-- `kimConjecture_not_intersection`: Eventual equality is stronger than `⋂_n X(ℤ_p)_n = 𝒳(Z)`: for the decreasing family `L_n = G ∪ {m ∈ ℕ : m ≥ n}` with G finite, the intersection is G but no `L_n` equals G, so a definition by the intersection would accept it.
+- `kimConjecture_not_intersection` (the set-level boundary theorem `Frontier.intersection_not_eventual_equality`): Eventual equality is stronger than `⋂_n X(ℤ_p)_n = 𝒳(Z)`: for the decreasing family `L_n = G ∪ {m ∈ ℕ : m ≥ n}` with G finite, the intersection is G but no `L_n` equals G, so a definition by the intersection would accept it.
 - `kimConjectureS_empty`: For `S = ∅` the S-integral Selmer scheme is `Sel_n(𝒳)` and KimConjectureS reduces to KimConjecture.
 - `kimLocusS_half_contains`: For `P¹ ∖ {0, 1, ∞}` over `Z[1/2]` and an odd prime p, the three points 2, −1 and `1/2` lie in `X(ℤ_p)_{{2},2}`, the zero set of `2Li_2(z) + log(z)log(1 − z)` (BDCKW §8.2).
 - For `P¹ ∖ {0, 1, ∞}` over Z and `p = 5`, `X(Z_5)_1 = ∅ = 𝒳(Z)` ([Kim's conjecture at depth one for the thrice-punctured line](#nc-6-thrice-punctured-depth-one)).

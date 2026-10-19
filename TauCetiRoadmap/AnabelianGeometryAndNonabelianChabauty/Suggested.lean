@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree
 
 /-!
 # AnabelianGeometryAndNonabelianChabauty: representative target signatures
@@ -58,50 +59,81 @@ theorem positiveDefect_eq_one (ρ : G →* MulAut U) {c : G → U}
     (hc : IsCocycle ρ c) (g h : G) : positiveDefect ρ c g h = 1 := by
   sorry
 
-/-- The actual identity homomorphism is a cocycle for the trivial action. -/
-example : IsCocycle (1 : Equiv.Perm (Fin 3) →* MulAut (Equiv.Perm (Fin 3))) id := by
+/-- Vanishing of every positive defect characterizes the ordered cocycle law. -/
+theorem positiveDefect_eq_one_iff (ρ : G →* MulAut U) (b : G → U) :
+    (∀ g h, positiveDefect ρ b g h = 1) ↔ IsCocycle ρ b := by
   sorry
 
-/-- The reverse factor order fails on two transpositions. -/
-example :
-    let g : Equiv.Perm (Fin 3) := Equiv.swap 0 1
-    let h : Equiv.Perm (Fin 3) := Equiv.swap 1 2
-    g * h ≠ h * g := by
+/-- An equivariant quotient sends a lift's defect to the identity when its projection is a cocycle. -/
+theorem positiveDefect_mem_ker {Q : Type w} [Group Q]
+    (ρ : G →* MulAut U) (σ : G →* MulAut Q) (q : U →* Q)
+    (hequiv : ∀ g u, q (ρ g u) = σ g (q u)) (b : G → U)
+    (hb : IsCocycle σ (fun g => q (b g))) (g h : G) :
+    positiveDefect ρ b g h ∈ q.ker := by
   sorry
 
-/-- The reversed gauge display fails for the inverse cocycle under the inner S₃ action. -/
-example :
-    let a : Equiv.Perm (Fin 3) := Equiv.swap 0 1
-    ¬ IsCocycle (MulAut.conj : Equiv.Perm (Fin 3) →* MulAut (Equiv.Perm (Fin 3)))
-      (fun g => g * a⁻¹ * g⁻¹ * g⁻¹ * a) := by
+/-- Translation by a cocycle identifies the twisted ordered cocycle equation with the
+original equation, with the translating cocycle on the right. -/
+theorem twisted_cocycle_iff (ρ : G →* MulAut U) {c : G → U}
+    (hc : IsCocycle ρ c) (d : G → U) :
+    (∀ g h, d (g * h) = d g * (c g * ρ g (d h) * (c g)⁻¹)) ↔
+      IsCocycle ρ (fun g => d g * c g) := by
   sorry
 
-/-- A constant unit function is a cocycle for every automorphism action. -/
-example (ρ : G →* MulAut U) : IsCocycle ρ (fun _ => 1) := by
+/-- Central defects obey the multiplicative two-cocycle identity without normalizing the lift. -/
+theorem positiveDefect_central_cocycle (ρ : G →* MulAut U) (b : G → U)
+    (hcentral : ∀ g h, positiveDefect ρ b g h ∈ Subgroup.center U) (g h k : G) :
+    ρ g (positiveDefect ρ b h k) * positiveDefect ρ b g (h * k) =
+      positiveDefect ρ b g h * positiveDefect ρ b (g * h) k := by
   sorry
 
-/-- Gauging the neutral representative gives the stated coboundary convention. -/
-example (ρ : G →* MulAut U) (a : U) (g : G) :
-    gauge ρ a (fun _ => 1) g = a * (ρ g a)⁻¹ := by
+/-- The stabilizers of a cocycle under gauge translation are the invariants of its inner twist. -/
+theorem gauge_eq_self_iff (ρ : G →* MulAut U) (c : G → U) (a : U) :
+    gauge ρ a c = c ↔ ∀ g, c g * ρ g a * (c g)⁻¹ = a := by
   sorry
 
-/-- At the identity source element, gauging the neutral representative gives the identity. -/
-example (ρ : G →* MulAut U) (a : U) : gauge ρ a (fun _ => 1) 1 = 1 := by
+section CentralObstruction
+
+variable [TopologicalSpace G] [IsTopologicalGroup G]
+variable [TopologicalSpace U] [IsTopologicalGroup U]
+variable {M : Type w} [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M]
+variable [DistribMulAction G M] [ContinuousSMul G M]
+
+/-- A continuous central defect, transported through an injective equivariant coefficient map,
+is a cocycle on the native continuous degree-two carrier. -/
+theorem central_defect_mem_Z2 (ρ : G →* MulAut U) (i : Multiplicative M →* U)
+    (hi : Function.Injective i) (hcentral : ∀ m, i m ∈ Subgroup.center U)
+    (hequiv : ∀ g m, i (Multiplicative.ofAdd (g • m)) = ρ g (i (Multiplicative.ofAdd m)))
+    (b : C(G, U)) (f : C(G × G, M))
+    (hdefect : ∀ g h, i (Multiplicative.ofAdd (f (g, h))) = positiveDefect ρ b g h) :
+    (f : G × G → M) ∈ TauCeti.ContCohomology.Z2 G M := by
   sorry
 
-/-- The least-residue C₉→C₃ lift has positive defect 3 at (2,1). -/
-example :
-    (positiveDefect (1 : Multiplicative (ZMod 3) →* MulAut (Multiplicative (ZMod 9)))
-      (fun g => Multiplicative.ofAdd (g.toAdd.val : ZMod 9))
-      (Multiplicative.ofAdd 2) (Multiplicative.ofAdd 1)).toAdd = 3 := by
+/-- Multiplying a lift by a continuous central cochain adds its positive differential
+on the native continuous cochain complex. -/
+theorem central_defect_change_lift (ρ : G →* MulAut U) (i : Multiplicative M →* U)
+    (hi : Function.Injective i) (hcentral : ∀ m, i m ∈ Subgroup.center U)
+    (hequiv : ∀ g m, i (Multiplicative.ofAdd (g • m)) = ρ g (i (Multiplicative.ofAdd m)))
+    (b : C(G, U)) (a : C(G, M)) (f f' : C(G × G, M))
+    (hdefect : ∀ g h, i (Multiplicative.ofAdd (f (g, h))) = positiveDefect ρ b g h)
+    (hdefect' : ∀ g h, i (Multiplicative.ofAdd (f' (g, h))) =
+      positiveDefect ρ (fun g => i (Multiplicative.ofAdd (a g)) * b g) g h) :
+    (f' : G × G → M) = (f : G × G → M) + TauCeti.ContCohomology.d1 G M a := by
   sorry
 
-/-- Inverting that same defect changes its C₉ value to 6. -/
-example :
-    ((positiveDefect (1 : Multiplicative (ZMod 3) →* MulAut (Multiplicative (ZMod 9)))
-      (fun g => Multiplicative.ofAdd (g.toAdd.val : ZMod 9))
-      (Multiplicative.ofAdd 2) (Multiplicative.ofAdd 1))⁻¹).toAdd = 6 := by
+/-- The central obstruction is a continuous coboundary exactly when a continuous central
+correction turns the chosen lift into an ordered cocycle. -/
+theorem central_defect_lift_iff (ρ : G →* MulAut U) (i : Multiplicative M →* U)
+    (hi_cont : Continuous i) (hi : Function.Injective i) (hcentral : ∀ m, i m ∈ Subgroup.center U)
+    (hequiv : ∀ g m, i (Multiplicative.ofAdd (g • m)) = ρ g (i (Multiplicative.ofAdd m)))
+    (b : C(G, U)) (f : C(G × G, M))
+    (hdefect : ∀ g h, i (Multiplicative.ofAdd (f (g, h))) = positiveDefect ρ b g h) :
+    (f : G × G → M) ∈ TauCeti.ContCohomology.B2 G M ↔
+      ∃ a : C(G, M), IsCocycle ρ (fun g => i (Multiplicative.ofAdd (a g)) * b g) ∧
+        Continuous (fun g => i (Multiplicative.ofAdd (a g)) * b g) := by
   sorry
+
+end CentralObstruction
 
 end Nonabelian
 
@@ -128,30 +160,34 @@ theorem pathCocycle_mem_ker (q : E →* G) (sb sx : G →* E)
     {p : E} (hp : p ∈ q.ker) (g : G) : pathCocycle sb sx p g ∈ q.ker := by
   sorry
 
-/-- Equal endpoint and reference sections with the constant path give the neutral cocycle. -/
-example (sb : G →* E) : pathCocycle sb sb 1 = fun _ => 1 := by
+/-- Changing a path by right translation gives gauge translation with the inverse parameter. -/
+theorem pathCocycle_changePoint (sb sx : G →* E) (p a : E) (g : G) :
+    pathCocycle sb sx (p * a) g =
+      a⁻¹ * pathCocycle sb sx p g * (sb g * a * (sb g)⁻¹) := by
   sorry
 
-/-- A neutral path cocycle says exactly that p transfers the endpoint section to the reference. -/
-example (sb sx : G →* E) (p : E) :
+/-- A neutral representative identifies the endpoint section with the conjugated reference. -/
+theorem pathCocycle_neutral_iff (sb sx : G →* E) (p : E) :
     (∀ g, pathCocycle sb sx p g = 1) ↔ (∀ g, p⁻¹ * sx g * p = sb g) := by
   sorry
 
-/-- A path moved by the reference action gives a nonneutral representative. -/
-example (sb : G →* E) (p : E) (g : G)
-    (h : sb g * p * (sb g)⁻¹ ≠ p) : pathCocycle sb sb p g ≠ 1 := by
-  sorry
+/-- Equal sections with the identity path give the neutral representative. -/
+example (sb : G →* E) : pathCocycle sb sb 1 = fun _ => 1 := by
+  funext g
+  simp [pathCocycle]
 
-/-- Distinct section values give a nonneutral cocycle value at the identity path. -/
+/-- Distinct section values give a nonneutral representative at the identity path. -/
 example (sb sx : G →* E) (g : G) (h : sx g ≠ sb g) :
     pathCocycle sb sx 1 g ≠ 1 := by
-  sorry
+  simpa [pathCocycle, mul_inv_eq_one] using h
 
 end ArithmeticPath
 
 /-! ## Layer 2: Unipotent fundamental groups and their realizations -/
 
 namespace Unipotent
+
+open scoped TensorProduct
 
 variable {K : Type u} [Field K] {G : Type v} [Group G]
 variable {V : Type w} [AddCommGroup V] [Module K V] [Module.Finite K V]
@@ -168,17 +204,23 @@ theorem length_zero_iff (ρ : G →* (V ≃ₗ[K] V)) :
     UnipotentLength ρ 0 ↔ ∀ g v, ρ g v = v := by
   sorry
 
-/-- A trivial representation has extension length zero. -/
-example : UnipotentLength (1 : G →* (V ≃ₗ[K] V)) 0 := by
+/-- Inserting zero graded layers preserves a bound on unipotent extension length. -/
+theorem length_mono (ρ : G →* (V ≃ₗ[K] V)) {n m : ℕ}
+    (hρ : UnipotentLength ρ n) (hnm : n ≤ m) : UnipotentLength ρ m := by
   sorry
 
-/-- The zero representation has length zero. -/
-example [Subsingleton V] (ρ : G →* (V ≃ₗ[K] V)) : UnipotentLength ρ 0 := by
+/-- The diagonal tensor action has unipotent length at most the sum of the two lengths. -/
+theorem length_tensor {W : Type*} [AddCommGroup W] [Module K W] [Module.Finite K W]
+    (ρ : G →* (V ≃ₗ[K] V)) (σ : G →* (W ≃ₗ[K] W))
+    (τ : G →* ((V ⊗[K] W) ≃ₗ[K] (V ⊗[K] W)))
+    (hτ : ∀ g v w, τ g (v ⊗ₜ[K] w) = ρ g v ⊗ₜ[K] σ g w)
+    {n m : ℕ} (hρ : UnipotentLength ρ n) (hσ : UnipotentLength σ m) :
+    UnipotentLength τ (n + m) := by
   sorry
 
-/-- One vector moved by the action rejects extension length zero. -/
-example (ρ : G →* (V ≃ₗ[K] V)) (g : G) (v : V) (h : ρ g v ≠ v) :
-    ¬ UnipotentLength ρ 0 := by
+/-- A nonzero unipotent representation contains a nonzero invariant vector. -/
+theorem exists_fixed_of_unipotent [Nontrivial V] (ρ : G →* (V ≃ₗ[K] V))
+    {n : ℕ} (hρ : UnipotentLength ρ n) : ∃ v : V, v ≠ 0 ∧ ∀ g, ρ g v = v := by
   sorry
 
 end Unipotent
@@ -201,16 +243,6 @@ structure RelativeOpenHom (qE : E →ₜ* G) (qF : F →ₜ* G) where
 /-- For the identity quotient, a map over the quotient has its forced value. -/
 theorem over_identity (q : E →ₜ* G)
     (f : RelativeOpenHom q (ContinuousMonoidHom.id G)) : f.hom = q := by
-  sorry
-
-/-- An identity quotient admits exactly one relative open map to itself. -/
-example : Subsingleton (RelativeOpenHom (ContinuousMonoidHom.id G)
-    (ContinuousMonoidHom.id G)) := by
-  sorry
-
-/-- The identity relative map has open full image. -/
-example : Nonempty (RelativeOpenHom (ContinuousMonoidHom.id G)
-    (ContinuousMonoidHom.id G)) := by
   sorry
 
 end RelativeMaps
@@ -250,46 +282,7 @@ theorem finite_points_of_refined_locus {P : Type v} {X : Type*}
     (hinj : Function.Injective embed) (hfinite : locus.Finite) : Finite P := by
   sorry
 
-/-- With no places the condition is vacuous. -/
-example [IsEmpty I] (localization : ∀ i, C → L i) (A : ∀ i, Set (L i)) :
-    SelmerSet localization A = Set.univ := by
-  sorry
-
-/-- An empty condition at a specified place makes the intersection empty. -/
-example (localization : ∀ i, C → L i)
-    (A : ∀ i, Set (L i)) (i : I) (hi : A i = ∅) : SelmerSet localization A = ∅ := by
-  sorry
-
-/-- Universal local conditions accept every global class for arbitrary local indices. -/
-example (localization : ∀ i, C → L i) :
-    SelmerSet localization (fun _ => Set.univ) = Set.univ := by
-  sorry
-
-/-- A single failed local condition excludes a class from the Selmer set. -/
-example (localization : ∀ i, C → L i)
-    (A : ∀ i, Set (L i)) (x : C) (i : I)
-    (h : localization i x ∉ A i) : x ∉ SelmerSet localization A := by
-  sorry
-
-/-- Finiteness of an empty refinement does not bound an excluded infinite global domain. -/
-example :
-    (SelmerSet (fun _ : Unit => id : Unit → ℕ → ℕ) (fun _ => (∅ : Set ℕ))).Finite ∧
-      ¬ (∀ n : ℕ, n ∈ SelmerSet (fun _ : Unit => id) (fun _ => (∅ : Set ℕ))) := by
-  sorry
-
 end Selmer
-
-/-- Continuous additive homomorphisms retain the dual-number direction and its augmentation.
-For trivial additive coefficients their distinctness is also distinctness of native H¹ classes. -/
-example (p : ℕ) [Fact p.Prime] :
-    ∃ cε c₁ c₀ : ℤ_[p] →+ DualNumber ℚ_[p],
-      Continuous cε ∧ Continuous c₁ ∧ Continuous c₀ ∧
-      (∀ g, cε g = (g : ℚ_[p]) • (DualNumber.eps : DualNumber ℚ_[p])) ∧
-      (∀ g, c₁ g = algebraMap ℚ_[p] (DualNumber ℚ_[p]) (g : ℚ_[p])) ∧
-      c₀ = 0 ∧ cε ≠ c₀ ∧ c₁ ≠ c₀ ∧ c₁ ≠ cε ∧
-      (∀ g, TrivSqZeroExt.fst (cε g) = 0) ∧
-      (∀ g, TrivSqZeroExt.fst (c₁ g) = (g : ℚ_[p])) := by
-  sorry
 
 /-! ## Layer 5: Albanese maps and Chabauty–Kim finiteness -/
 
@@ -305,26 +298,22 @@ def periodRatio (frobeniusPath hodgePath : U) : U := frobeniusPath⁻¹ * hodgeP
 theorem translate_periodRatio (I γ : U) : I * periodRatio I γ = γ := by
   sorry
 
-/-- A coincident Frobenius and Hodge path has neutral period. -/
-example (I : U) : periodRatio I I = 1 := by
+/-- Equality in the right homogeneous quotient uses the right Hodge difference;
+no normality of the Hodge subgroup is required. -/
+theorem periodRatio_coset_eq_iff (H : Subgroup U) (I γ γ' : U) :
+    QuotientGroup.leftRel H (periodRatio I γ) (periodRatio I γ') ↔ γ⁻¹ * γ' ∈ H := by
   sorry
 
-/-- In a noncommutative frame, the reversed ratio generally differs. -/
+/-- Coincident Frobenius and Hodge paths give the neutral period. -/
+example (I : U) : periodRatio I I = 1 := by
+  simp [periodRatio]
+
+/-- Reversing the ratio changes the period for noncommuting paths. -/
 example :
     let I : Equiv.Perm (Fin 3) := Equiv.swap 0 1
     let γ : Equiv.Perm (Fin 3) := Equiv.swap 1 2
     periodRatio I γ ≠ γ * I⁻¹ := by
-  sorry
-
-/-- An identity Frobenius path leaves the Hodge path as its period. -/
-example (g : U) : periodRatio 1 g = g := by
-  sorry
-
-/-- Fixing the identity Hodge path inverts a nontrivial additive rational path. -/
-example :
-    let g : Multiplicative ℚ := Multiplicative.ofAdd 1
-    periodRatio g 1 = g⁻¹ ∧ periodRatio g 1 ≠ g := by
-  sorry
+  decide
 
 end Period
 
@@ -346,28 +335,6 @@ This is the trace-equals-cup convention of the divisor correspondence target. -/
 def symplecticTensorAction (u v : ℚ × ℚ) : (ℚ × ℚ) →ₗ[ℚ] ℚ × ℚ :=
   (u.1 • LinearMap.snd ℚ ℚ ℚ - u.2 • LinearMap.fst ℚ ℚ ℚ).smulRight v
 
-/-- The diagonal middle tensor b ⊗ a − a ⊗ b acts as negative identity. -/
-example (w : ℚ × ℚ) :
-    symplecticTensorAction (0, 1) (1, 0) w -
-      symplecticTensorAction (1, 0) (0, 1) w = -w := by
-  sorry
-
-/-- The simple tensor a ⊗ b acts by diag(0,1), so its trace and cup are 1. -/
-example (w : ℚ × ℚ) : symplecticTensorAction (1, 0) (0, 1) w = (0, w.2) := by
-  sorry
-
-/-- A zero first tensor factor gives the zero correspondence action. -/
-example (v : ℚ × ℚ) : symplecticTensorAction 0 v = 0 := by
-  sorry
-
-/-- A zero second tensor factor gives the zero correspondence action. -/
-example (u : ℚ × ℚ) : symplecticTensorAction u 0 = 0 := by
-  sorry
-
-/-- Swapping the symplectic basis inputs gives diag(−1,0). -/
-example (w : ℚ × ℚ) : symplecticTensorAction (0, 1) (1, 0) w = (-w.1, 0) := by
-  sorry
-
 variable {K : Type u} [Field K]
 variable {C : Type v} [AddCommGroup C] [Module K C]
 variable {N : Type w} [AddCommGroup N] [Module K N]
@@ -387,24 +354,6 @@ theorem nice_add_pullback (P : Submodule K C) (swap : C →ₗ[K] C)
     IsNiceCorrespondence P swap trace cl (Z + d) := by
   sorry
 
-/-- A nonzero primitive class with zero trace is accepted. -/
-example : IsNiceCorrespondence (⊥ : Submodule ℚ (ℚ × ℚ))
-    (LinearMap.id : (ℚ × ℚ) →ₗ[ℚ] ℚ × ℚ)
-    (LinearMap.fst ℚ ℚ ℚ) (LinearMap.snd ℚ ℚ ℚ) (0, 1) := by
-  sorry
-
-/-- The zero primitive class fails even when its trace is zero. -/
-example : ¬ IsNiceCorrespondence (⊥ : Submodule ℚ (ℚ × ℚ))
-    (LinearMap.id : (ℚ × ℚ) →ₗ[ℚ] ℚ × ℚ)
-    (0 : (ℚ × ℚ) →ₗ[ℚ] ℚ) (LinearMap.snd ℚ ℚ ℚ) (1, 0) := by
-  sorry
-
-/-- A nonzero trace excludes a class with nonzero primitive component. -/
-example : ¬ IsNiceCorrespondence (⊥ : Submodule ℚ (ℚ × ℚ))
-    (LinearMap.id : (ℚ × ℚ) →ₗ[ℚ] ℚ × ℚ)
-    (LinearMap.fst ℚ ℚ ℚ) (LinearMap.snd ℚ ℚ ℚ) (1, 1) := by
-  sorry
-
 variable {V : Type v} [AddCommGroup V] [Module K V]
 
 /-- The preheight has both negative splitting corrections. The geometric projections are
@@ -418,38 +367,6 @@ theorem preheight_central_variation (s1 s2 : V →ₗ[K] V) (α : V)
     (βφ βFil : Module.Dual K V) (γφ γFil t : K) :
     HeightPrevalue s1 s2 α βφ βFil (γφ + t) γFil =
       HeightPrevalue s1 s2 α βφ βFil γφ γFil + t := by
-  sorry
-
-/-- The complementary projections onto the two coordinates give 7−1−2−6=−2. -/
-example : HeightPrevalue
-    ((LinearMap.inl ℚ ℚ ℚ).comp (LinearMap.fst ℚ ℚ ℚ))
-    ((LinearMap.inr ℚ ℚ ℚ).comp (LinearMap.snd ℚ ℚ ℚ)) (1, 2)
-    (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 7 1 = -2 := by
-  sorry
-
-/-- Reversing those projections incorrectly changes that same value to 6. -/
-example : HeightPrevalue
-    ((LinearMap.inr ℚ ℚ ℚ).comp (LinearMap.snd ℚ ℚ ℚ))
-    ((LinearMap.inl ℚ ℚ ℚ).comp (LinearMap.fst ℚ ℚ ℚ)) (1, 2)
-    (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 7 1 = 6 := by
-  sorry
-
-/-- With zero adjacent vector, the preheight is the central difference 7−1=6. -/
-example : HeightPrevalue
-    ((LinearMap.inl ℚ ℚ ℚ).comp (LinearMap.fst ℚ ℚ ℚ))
-    ((LinearMap.inr ℚ ℚ ℚ).comp (LinearMap.snd ℚ ℚ ℚ)) (0, 0)
-    (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 7 1 = 6 := by
-  sorry
-
-/-- Raising the central Frobenius coordinate by one raises this preheight from −2 to −1. -/
-example : HeightPrevalue
-    ((LinearMap.inl ℚ ℚ ℚ).comp (LinearMap.fst ℚ ℚ ℚ))
-    ((LinearMap.inr ℚ ℚ ℚ).comp (LinearMap.snd ℚ ℚ ℚ)) (1, 2)
-    (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 8 1 = -1 := by
-  sorry
-
-/-- A linear local character respects scalar multiplication of the height coordinate. -/
-example (χ : K →ₗ[K] K) (a z : K) : χ (a * z) = a * χ z := by
   sorry
 
 variable {I : Type w} [Fintype I]
@@ -469,32 +386,6 @@ theorem height_sum_correction (Γ : I → Set K) (t : I → K) (ht : ∀ i, t i 
     hp - globalHeight ∈ AwayHeightConstants Γ := by
   sorry
 
-/-- With no away places, the correction set is exactly zero. -/
-example : AwayHeightConstants (fun _ : Fin 0 => (∅ : Set ℚ)) = {0} := by
-  sorry
-
-/-- An away-place height of 3 contributes −3, not 3. -/
-example : AwayHeightConstants (fun _ : Fin 1 => ({3} : Set ℚ)) = {-3} := by
-  sorry
-
-/-- Two singleton local values 1 and 2 give correction −3. -/
-example : AwayHeightConstants
-    (fun i : Fin 2 => if i = 0 then ({1} : Set ℚ) else {2}) = {-3} := by
-  sorry
-
-/-- A singleton local value 2 gives correction −2. -/
-example : AwayHeightConstants (fun _ : Fin 1 => ({2} : Set ℚ)) = {-2} := by
-  sorry
-
-/-- The positive value and zero are both excluded by a singleton local value 3. -/
-example : (3 : ℚ) ∉ AwayHeightConstants (fun _ : Fin 1 => ({3} : Set ℚ)) ∧
-    (0 : ℚ) ∉ AwayHeightConstants (fun _ : Fin 1 => ({3} : Set ℚ)) := by
-  sorry
-
-/-- Singleton-zero local sets give exactly the zero correction. -/
-example : AwayHeightConstants (fun _ : I => ({0} : Set K)) = {0} := by
-  sorry
-
 variable {X : Type v} {m : ℕ}
 
 /-- Candidate and anchor height corrections occupy separate entries of the first column. -/
@@ -512,7 +403,7 @@ noncomputable def HeightDeterminant (ψ : X → Fin m → K) (θ : X → K)
   (HeightDeterminantMatrix ψ θ anchors α anchorα x).det
 
 /-- A basis hypothesis for the anchor features makes determinant vanishing equivalent to
-the residual height equation. Without the certificate, zero determinants need not cut points. -/
+the residual height equation. A singular anchor matrix can give an identically zero determinant. -/
 theorem determinant_equation (ψ : X → Fin m → K) (θ : X → K)
     (anchors : Fin m → X) (α : K) (anchorα : Fin m → K)
     (L : (Fin m → K) →ₗ[K] K)
@@ -521,43 +412,9 @@ theorem determinant_equation (ψ : X → Fin m → K) (θ : X → K)
     HeightDeterminant ψ θ anchors α anchorα x = 0 ↔ θ x - L (ψ x) = α := by
   sorry
 
-/-- The candidate residual is subtracted only from the candidate height. -/
-example (ψ : X → Fin m → K) (θ : X → K) (anchors : Fin m → X)
-    (α : K) (anchorα : Fin m → K) (x : X) :
-    HeightDeterminantMatrix ψ θ anchors α anchorα x none none = θ x - α := by
-  sorry
-
-/-- An anchor row uses that anchor's own correction. -/
-example (ψ : X → Fin m → K) (θ : X → K) (anchors : Fin m → X)
-    (α : K) (anchorα : Fin m → K) (x : X) (i : Fin m) :
-    HeightDeterminantMatrix ψ θ anchors α anchorα x (some i) none =
-      θ (anchors i) - anchorα i := by
-  sorry
-
-/-- With no features, the determinant is the single corrected height entry 7−2=5. -/
-example : HeightDeterminant (fun _ : ℚ => (0 : Fin 0 → ℚ)) (fun x => x)
-    (fun i : Fin 0 => Fin.elim0 i) 2 0 7 = 5 := by
-  sorry
-
-/-- A zero feature matrix makes this determinant zero for every height value. -/
-example : HeightDeterminant (fun _ : ℚ => (0 : Fin 1 → ℚ)) (fun x => x)
-    (fun _ : Fin 1 => 0) 0 0 7 = 0 := by
-  sorry
-
-/-- Candidate and anchor corrections give the matrix ((5,2),(10,4)) of determinant zero. -/
-example : HeightDeterminant (fun x : ℚ => fun _ : Fin 1 => x)
-    (fun x => x + 5) (fun _ : Fin 1 => 4) 2
-    (fun _ : Fin 1 => -1) 2 = 0 := by
-  sorry
-
-/-- Dropping both corrections changes the same determinant to 10. -/
-example : HeightDeterminant (fun x : ℚ => fun _ : Fin 1 => x)
-    (fun x => x + 5) (fun _ : Fin 1 => 4) 0 0 2 = 10 := by
-  sorry
-
-/-- An anchor with its own correction repeats a row and makes the determinant zero. -/
-example (ψ : X → Fin m → K) (θ : X → K) (anchors : Fin m → X)
-    (anchorα : Fin m → K) (i : Fin m) :
+/-- Evaluating the corrected determinant at an anchor repeats its row and gives zero. -/
+theorem determinant_duplicate_row (ψ : X → Fin m → K) (θ : X → K)
+    (anchors : Fin m → X) (anchorα : Fin m → K) (i : Fin m) :
     HeightDeterminant ψ θ anchors (anchorα i) anchorα (anchors i) = 0 := by
   sorry
 
@@ -575,14 +432,6 @@ The conjugacy relation of README.md uses only the geometric kernel. -/
 structure GaloisSection (q : E →ₜ* G) where
   hom : G →ₜ* E
   splits : q.comp hom = ContinuousMonoidHom.id G
-
-/-- The identity quotient admits only its identity section. -/
-example : Subsingleton (GaloisSection (ContinuousMonoidHom.id G)) := by
-  sorry
-
-/-- Its identity section exists, independently of any curve conjecture. -/
-example : Nonempty (GaloisSection (ContinuousMonoidHom.id G)) := by
-  sorry
 
 /-- Bijectivity of a supplied map from rational points to section classes.
 The geometric instance uses classes modulo conjugation by the geometric kernel. -/
@@ -621,22 +470,6 @@ theorem cuspidalSectionConjecture_empty_boundary {P : Type u} {D : Type v} {S : 
     CuspidalSectionConjecture κ packet ↔ SectionConjectureFor κ := by
   sorry
 
-/-- A model decomposition with three cusps retains an integer-indexed family at each cusp. -/
-example {P : Type u} :
-    CuspidalSectionConjecture (S := P ⊕ (Fin 3 × ℤ)) Sum.inl
-      (fun y : Fin 3 => {s | ∃ n : ℤ, s = Sum.inr (y, n)}) := by
-  sorry
-
-/-- Overlapping packets at distinct cusp indices prevent a decomposition. -/
-example : ¬ CuspidalSectionConjecture (S := Unit) (Empty.elim : Empty → Unit)
-    (fun _ : Bool => Set.univ) := by
-  sorry
-
-/-- An interior class lying in a packet also prevents a decomposition. -/
-example : ¬ CuspidalSectionConjecture (id : Unit → Unit)
-    (fun _ : Unit => Set.univ) := by
-  sorry
-
 /-- The numeric part of Kim's dimension condition asserts a strict inequality at some positive
 depth. In its geometric application the two functions are dimensions of the stated schemes. -/
 def KimDimensionCondition (selmerDimension deRhamDimension : ℕ → ℕ) : Prop :=
@@ -654,32 +487,6 @@ theorem sum_h1_le_with_initial_h2 (h1 h2 negative error : ℕ → ℕ)
         ∑ k ∈ Finset.Icc k₀ n, error k := by
   sorry
 
-/-- A degree-one H² term of two remains in every positive-depth sum when the tail is zero. -/
-example (n : ℕ) (hn : 1 ≤ n) :
-    (∑ k ∈ Finset.Icc 1 n, if k = 1 then 2 else 0) = 2 := by
-  sorry
-
-/-- A threshold of one has no initial H² terms. -/
-example (h2 : ℕ → ℕ) : (∑ k ∈ Finset.Ico 1 1, h2 k) = 0 := by
-  sorry
-
-/-- Before the threshold, the estimated tail sum is empty. -/
-example (error : ℕ → ℕ) (n k₀ : ℕ) (h : n < k₀) :
-    (∑ k ∈ Finset.Icc k₀ n, error k) = 0 := by
-  sorry
-
-/-- Equality of dimensions at all depths does not satisfy the condition. -/
-example (d : ℕ → ℕ) : ¬ KimDimensionCondition d d := by
-  sorry
-
-/-- A strict inequality at depth one is sufficient for the numeric condition. -/
-example : KimDimensionCondition (fun _ => 1) (fun _ => 2) := by
-  sorry
-
-/-- The mod-two boundary excludes simultaneous integral units z and 1 − z. -/
-example : ¬ ∃ z : ZMod 2, z ≠ 0 ∧ 1 - z ≠ 0 := by
-  decide
-
 /-- Eventual equality keeps its tail quantifier; an intersection equality is weaker. -/
 def EventualEquality {X : Type*} (loci : ℕ → Set X) (points : Set X) : Prop :=
   ∃ N, ∀ n, N ≤ n → loci n = points
@@ -690,14 +497,17 @@ theorem intersection_of_eventual_equality {X : Type*} (loci : ℕ → Set X) (po
     (heventual : EventualEquality loci points) : (⋂ n, loci n) = points := by
   sorry
 
-/-- A constant family has eventual equality immediately. -/
-example {X : Type*} (points : Set X) : EventualEquality (fun _ => points) points := by
+/-- For decreasing loci containing the global points, one reverse inclusion gives eventual equality. -/
+theorem eventualEquality_iff_exists_subset {X : Type*} (loci : ℕ → Set X) (points : Set X)
+    (hmono : Antitone loci) (hcontain : ∀ n, points ⊆ loci n) :
+    EventualEquality loci points ↔ ∃ n, loci n ⊆ points := by
   sorry
 
-/-- A decreasing family can have the required intersection without ever stabilizing. -/
-example :
+/-- Decreasing loci can have exactly the global-point intersection without attaining equality. -/
+theorem intersection_not_eventual_equality :
     let loci : ℕ → Set ℕ := fun n => {x | x = 0 ∨ n ≤ x}
-    (⋂ n, loci n) = {0} ∧ ¬ EventualEquality loci {0} := by
+    Antitone loci ∧ (∀ n, ({0} : Set ℕ) ⊆ loci n) ∧
+      (⋂ n, loci n) = {0} ∧ ¬ EventualEquality loci {0} := by
   sorry
 
 end Frontier
@@ -723,7 +533,6 @@ action of divisor correspondences on H¹ ⊗ H¹.
 Their sites, comparison functors, completions and representing schemes are constructions of
 the corresponding layers of README.md.
 -/
-
 
 /-!
 The README specifies the following further API and Checks on its stated carriers.
