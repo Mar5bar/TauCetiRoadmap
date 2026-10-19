@@ -316,7 +316,7 @@ Proof: Cyclic cubic fields have `Disc=f²`, and total ramification at `p` forces
 
 <a id="squarefree-integers-in-residue-classes-modulo-four"></a>
 
-**Squarefree integers in residue classes modulo four.** For `a ∈ {1, 2, 3}` and `x ≥ 1, #{1 ≤ n ≤ x : n squarefree, n ≡ a (mod 4)} = (2/π²) x + O(√x)`, with an absolute implied constant.
+**Squarefree integers in residue classes modulo four.** `FieldStatistics.squarefree_mod_four_count` states this estimate on finite subsets of `ℕ`. For `a ∈ {1, 2, 3}` and `x ≥ 1, #{1 ≤ n ≤ x : n squarefree, n ≡ a (mod 4)} = (2/π²) x + O(√x)`, with an absolute implied constant.
 
 The residue class `a = 0` contains no squarefree integers The error `O(√x)` is not optimised
 
@@ -330,11 +330,13 @@ Proof: Squarefree detection: for `n ≥ 1`, write `n = b² m` with `m` squarefre
 
 - Sum over `a = 1, 2, 3: (6/π²) x + O(√x)`, the classical density of squarefree integers.
 
+- Class zero contains no squarefree integers: divisibility by four forces a square factor.
+
 - Numerical check: there are 608 squarefree `n ≤ 1000` (200, 204 and 204 in the classes 1, 2 and `3 mod 4`), and `6000/π² ≈ 607.9, 2000/π² ≈ 202.6`.
 
 <a id="count-of-quadratic-fields"></a>
 
-**Count of quadratic fields.** `N₂(⊤; 0, X) = (3/π²) X + O(√X)` and `N₂(⊤; −X, 0) = (3/π²) X + O(√X)`. Equivalently, the number of fundamental discriminants `D ≠ 1` (`Int.IsFundamentalDiscr`) with `0 < D < X`, respectively `−X < D < 0`, is `(3/π²) X + O(√X)`.
+**Count of quadratic fields.** `FieldStatistics.quadratic_discriminant_count` states the signed fundamental-discriminant count with the strict cutoff and exclusion of one. `N₂(⊤; 0, X) = (3/π²) X + O(√X)` and `N₂(⊤; −X, 0) = (3/π²) X + O(√X)`. Equivalently, the number of fundamental discriminants `D ≠ 1` (`Int.IsFundamentalDiscr`) with `0 < D < X`, respectively `−X < D < 0`, is `(3/π²) X + O(√X)`.
 
 Quadratic fields are counted up to isomorphism (each has one subfield of `ℚ̄` and `#Aut = 2`); the weighted count of BSW is half of this `D = 1` (the discriminant of `ℚ`) is excluded
 
@@ -345,6 +347,10 @@ Proof: Quadratic fields up to isomorphism correspond bijectively to fundamental 
 ([[5]](#ref-5), Section 8.5, (60), p. 26; [[21]](#ref-21), Section 8, p. 13.)
 
 **Checks.**
+
+- At `X=1` both strict sublevels are empty; the error bound remains meaningful.
+
+- Discriminant one satisfies `Int.IsFundamentalDiscr` but is excluded, since it represents `ℚ`.
 
 - Small values: the negative fundamental discriminants in `(−25, 0)` are `−3`, `−4`, `−7`, `−8`, `−11`, `−15`, `−19`, `−20`, `−23`, `−24`, i.e. `N₂(⊤; −25, 0) = 10`, against `3·25/π² ≈ 7.6`.
 
@@ -666,7 +672,7 @@ Proof: Use the embedding-action predicate, keeping its numbering rather than exi
 
 `L/K` is finite; `ℓ` is prime and `ℓ∤[L:K]`.
 
-The required API is `FieldStatistics.relativeNarrowClassGroup`, the kernel of the narrow norm; `relativeNarrowClassGroup_mem`, its norm-one membership criterion; `narrowNorm_extended`, the degree-power identity; and `relativeTorsionEquiv` and `relativeNarrowTorsionEquiv`, the product isomorphisms on `ℓ`-torsion. Their cardinality consequences are `torsionCount_relative_mul` and `narrowTorsionCount_relative_mul`. The section is extension followed by exponentiation by the inverse of `d` modulo `ℓ`, so its composite with norm is the identity on `ℓ`-torsion; extension by itself is generally not that section.
+The required API is `FieldStatistics.relativeNarrowClassGroup`, the kernel of the narrow norm; `relativeNarrowClassGroup_mem`, its norm-one membership criterion; `narrowNorm_extended`, the degree-power identity; and `relativeTorsionEquiv` and `relativeNarrowTorsionEquiv`, the product isomorphisms on `ℓ`-torsion. Their cardinality consequences are `FieldStatistics.torsionCount_relative_mul` and `narrowTorsionCount_relative_mul`. The ordinary cardinality signature applies to module-finite torsion-free extensions of Dedekind domains with finite class groups, with degree `Module.finrank R S`; integer rings give the number-field specialization. The section is extension followed by exponentiation by the inverse of `d` modulo `ℓ`, so its composite with norm is the identity on `ℓ`-torsion; extension by itself is generally not that section.
 
 Proof: Use `norm∘extension=power d` on the native class group. Invert `d` on its `ℓ`-torsion by Bézout and construct a section of norm. Split the finite abelian group by kernel and section, and take cardinalities. For the narrow version first descend norm and extension through totally positive principal ideals. At a real base place, norms of totally positive elements are positive, including the positive contributions of complex conjugate pairs. Then repeat the same finite-group splitting.
 
@@ -937,7 +943,7 @@ Proof: Use the narrow-to-ordinary exact sequence and the genus criterion to loca
 
 <a id="rank-moments-determine-rank-law"></a>
 
-**Rank moments determine rank law.** Let `p` be prime, `u≥0` an integer and `μ_X` a probability measure on `N`. Suppose every moment `Σ_r p^{kr} μ_X(r)` tends to `Σ_{j=0}^k #{j-dimensional subspaces of 𝔽_p^k} p^{-uj}`. Then for every `r≥0, μ_X(r)` tends to `p^{-r(r+u)} η_∞(p)/(η_r(p)η_{r+u}(p))`, with `η_t=∏_{i=1}^t(1−p^{-i})`. The conclusion applies to the empirical `4-rank` by putting `p=2` and `u=0` or1; it does not deduce an arithmetic moment hypothesis from the heuristic.
+**Rank moments determine rank law.** `FieldStatistics.rank_moments_determine_rank_law` states the implication for real-indexed probability mass functions, with nonnegativity, total mass one and summability of every exponential moment. Let `p` be prime, `u≥0` an integer and `μ_X` a probability measure on `N`. Suppose every moment `Σ_r p^{kr} μ_X(r)` tends to `Σ_{j=0}^k #{j-dimensional subspaces of 𝔽_p^k} p^{-uj}`. Then for every `r≥0, μ_X(r)` tends to `p^{-r(r+u)} η_∞(p)/(η_r(p)η_{r+u}(p))`, with `η_t=∏_{i=1}^t(1−p^{-i})`. The conclusion applies to the empirical `4-rank` by putting `p=2` and `u=0` or1; it does not deduce an arithmetic moment hypothesis from the heuristic.
 
 `p` is prime; `u∈ℕ`; all displayed moments exist; the probability measures may be empirical measures of a height-ordered family.
 
@@ -1548,7 +1554,7 @@ The API is:
 
 - `FieldStatistics.transportType`: Diagonal automorphisms transport `F`; identity/composition and admissibility/goodness laws hold.
 
-- `FieldStatistics.outsideClassCount`: The number of `F`-conjugacy classes in the outside-involution set.
+- `FieldStatistics.outsideClassCount`: The number of `F`-conjugacy classes in the outside-involution set. Its native finite-group interface takes a homomorphism `π:F→Multiplicative(ZMod 2)`; for an embedded type use the restriction of the wreath projection.
 
 - `FieldStatistics.goodType_iff_classCount_one`: For admissible `F`, goodness is equivalent to outsideClassCount `=1`.
 
@@ -1747,6 +1753,8 @@ The API is:
 - `FieldStatistics.a4RigidCount_eq_24_mul`: The total rigid count is24 times the number of eligible kernels.
 
 - `FieldStatistics.a4RigidCount_eq_48_mul_orbits`: Equivalently it is48 times the number of eligible `S₃` orbits.
+
+- `FieldStatistics.a4SampleEstimator_unbiased`: The average over all `N^m` ordered samples equals the list total when `N,m>0`.
 
 - `FieldStatistics.a4SampleEstimator`: For a nonempty supplied exact list of `N` rigid counts and `m≥1` independent uniform draws with replacement, the estimator is `(N/m)` times the sum of the sampled counts. Its expectation is the total of that list. On the finite rational interface, the list is `counts : Fin N → ℚ` and the ordered sample is `draws : Fin m → Fin N`.
 
@@ -2253,9 +2261,9 @@ Proof: construct the quotient-algebra basis and its embedding Gram matrix, count
 
 - For `IsMinkowskiReducedGram`, `diag(1,2)` is reduced; `diag(2,1)` fails the first minimum because the second vector is shorter; `[[1,−1],[−1,3]]` fails the second minimum because adding the first vector shortens the second. The boundary `diag(1,1)` is reduced.
 
-- For `IsStrongReducedGram`, `diag(1,2)` is strong; `diag(1,1)` is not strong because the swap is another reduced basis outside independent signs; `diag(2,1)` is not strong because its displayed basis is not reduced. This tests both requirements separately.
+- `FieldStatistics.strongReducedGram_tied_minima` states the tied-minima boundary `diag(1,1)`: it is reduced but not strong. For `IsStrongReducedGram`, `diag(1,2)` is strong; `diag(1,1)` is not strong because the swap is another reduced basis outside independent signs; `diag(2,1)` is not strong because its displayed basis is not reduced. This tests both requirements separately.
 
-- For `IsMonicQuasiReduced` and its Gram adapter, `X²+2` is quasi-reduced with strong Gram matrix `diag(1,2)`; `X²+1` is quasi-reduced but not strong; `X²+1/4` is not quasi-reduced because `θ` has norm `1/2`, shorter than the fixed first vector1. Its Gram matrix `diag(1,1/4)` becomes reduced after swapping columns, but that swap is not upper unitriangular. An arbitrary unimodular reduction cannot establish monic quasi-reduction.
+- `FieldStatistics.monicQuasiReducedGram_fixed_unit` states the fixed-first-vector obstruction for `diag(1,1/4)` and its reduced swapped matrix. For `IsMonicQuasiReduced` and its Gram adapter, `X²+2` is quasi-reduced with strong Gram matrix `diag(1,2)`; `X²+1` is quasi-reduced but not strong; `X²+1/4` is not quasi-reduced because `θ` has norm `1/2`, shorter than the fixed first vector1. Its Gram matrix `diag(1,1/4)` becomes reduced after swapping columns, but that swap is not upper unitriangular. An arbitrary unimodular reduction cannot establish monic quasi-reduction.
 
 - For `IsBinaryQuasiReduced`, `x²+2y²` is quasi-reduced with strong displayed Gram matrix. The nonreduced displayed basis for `x²+2xy+3y²` has Gram matrix `[[1,−1],[−1,3]]`, but the allowed substitution `(x,y)↦(x−y,y)` has determinant one and gives `x²+2y²`. The form `x²+(1/4)y²` is not quasi-reduced: every induced order isomorphism fixes1, while its lattice contains an element of norm `1/2`. A lattice swap reduces `diag(1,1/4)` but cannot be induced by a permitted binary substitution. Finally `x²+y²` is quasi-reduced but its Gram basis is not strong.
 
@@ -2612,7 +2620,7 @@ Proof: Compute the index and `ℚ`-cyclotomic conjugacy orbit of the two minimum
 
 The API is:
 
-- `FieldStatistics.tameOutsideLocalMass`: The normalized finite sum with tame relation and the quadratic discriminant weight.
+- `FieldStatistics.tameOutsideLocalMass`: The normalized finite sum with tame relation and the quadratic discriminant weight, on a finite group with the distinguished homomorphism `π:F→Multiplicative(ZMod 2)`. The finite identities require only odd `p`; primality and `p∤|F|` enter the local-field interpretation.
 
 - `FieldStatistics.tameOutsideLocalMass_eq`: For odd `p`, the finite mass is `1+ outsideClassCount(F)p^{-s}`.
 
@@ -2663,7 +2671,7 @@ For the classical and low-degree arithmetic counts use the proof contracts at th
 The polynomial-to-field lower bounds use the quantified replacements in [regular monic region](#regular-monic-region) through [monogenic field lower bound](#monogenic-field-lower-bound-target), and [regular binary region sieve](#regular-binary-region-sieve) through [binary form field lower bound](#binary-form-field-lower-bound-target). The full monic region has `O(Y)` field fibres; the binary region has uniformly bounded fibres by the invariant-order theorem and compact transporters. Neither route uses the trace-zero quadratic sieve or asymptotic uniqueness of strongly reduced bases. The binary bounds in even degree retain the stated uniform tail hypothesis. The [squarefree alternating extension transfer](#squarefree-alternating-extension-transfer) supplies the normal-closure, finite inertia, infinity and bounded-multiplicity comparisons directly. The monogenic asymptotic remains conjectural and needs its separate volume, cusp and uniqueness inputs. Sources: BSW `I` §5 pp.24–27; BSW II Theorems 3–4 p.3; Bérczes–Evertse–Győry Theorem 2.1 and Corollary 2.1 pp.5–6.
 ### Examples
 
-The imported PartII quartic residue values have finite regression mirrors in `Suggested.lean`: among coefficient tuples modulo9, `42768/59049=176/243` have discriminant nonzero modulo9; modulo4, `384/1024=3/8` have discriminant nonzero modulo4. These test the fixed-degree binary discriminant, including zero leading coefficient.
+The imported PartII quartic residue values give finite Checks: among coefficient tuples modulo9, `42768/59049=176/243` have discriminant nonzero modulo9; modulo4, `384/1024=3/8` have discriminant nonzero modulo4. These test the fixed-degree binary discriminant, including zero leading coefficient.
 
 For a real quadratic field, ordinary and narrow four-ranks need not agree individually; the comparison above is averaged. The fundamental discriminant one is excluded from quadratic fields. At the prime three the order-conductor rank bound includes one possible wild extra dimension, so `3∤f` is essential to the sharper factor.
 

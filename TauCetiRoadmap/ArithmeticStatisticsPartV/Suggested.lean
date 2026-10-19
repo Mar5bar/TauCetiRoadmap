@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.ClassGroup.RelNorm
 
 /-!
 # Arithmetic statistics, Part V: representative target signatures
@@ -12,6 +13,7 @@ moduli, covering and arithmetic probability constructions remain README targets.
 noncomputable section
 open scoped BigOperators Topology
 open Polynomial Filter
+open scoped NumberField
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartV
 
@@ -26,6 +28,22 @@ def weightedDilation {n : ℕ} (Y : ℝ) (a : Fin n → ℝ) : Fin n → ℝ :=
 /-- The same separation constants are used for every normalized root tuple in the region. -/
 def separatedRoots {n : ℕ} (c C : ℝ) (z : Fin n → ℂ) : Prop :=
   (∀ i, ‖z i‖ ≤ C) ∧ ∀ i j, i ≠ j → c ≤ ‖z i - z j‖
+
+/-- Positive separation excludes a repeated root, regardless of the upper norm bound. -/
+example (c C : ℝ) (hc : 0 < c) :
+    ¬ separatedRoots c C (0 : Fin 2 → ℂ) := by
+  intro h
+  have h01 := h.2 0 1 (by decide)
+  simp only [Pi.zero_apply, sub_self, norm_zero] at h01
+  exact (not_le_of_gt hc) h01
+
+/-- Zero separation admits a repeated triple root and cannot ensure Vandermonde invertibility. -/
+example : separatedRoots 0 0 (0 : Fin 3 → ℂ) := by
+  constructor
+  · intro i
+    simp
+  · intro i j hij
+    simp
 
 /-- Weighted coefficient dilations compose multiplicatively. -/
 theorem weightedDilation_mul {n : ℕ} (U Y : ℝ) (a : Fin n → ℝ) :
@@ -77,83 +95,22 @@ def IsMonicQuasiReducedGram {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ) : Prop :=
     IsMinkowskiReducedGram ((U.map (Int.castRingHom ℝ)).transpose * A *
       U.map (Int.castRingHom ℝ))
 
-example : IsMinkowskiReducedGram (!![1,0;0,2] : Matrix (Fin 2) (Fin 2) ℝ) ∧
-    IsStrongReducedGram (!![1,0;0,2] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+/-- Every positive-definite real Gram matrix admits a reduced unimodular integral basis. -/
+theorem IsMinkowskiReducedGram_exists {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ)
+    (hA : A.PosDef) :
+    ∃ U : Matrix (Fin n) (Fin n) ℤ, IsUnit U.det ∧
+      IsMinkowskiReducedGram ((U.map (Int.castRingHom ℝ)).transpose * A *
+        U.map (Int.castRingHom ℝ)) := by sorry
 
-example : ¬ IsMinkowskiReducedGram (!![2,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) ∧
-    ¬ IsStrongReducedGram (!![2,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
+/-- Equal successive minima allow a basis swap, so reducedness need not be strong. -/
+theorem strongReducedGram_tied_minima :
+    IsMinkowskiReducedGram (1 : Matrix (Fin 2) (Fin 2) ℝ) ∧
+      ¬ IsStrongReducedGram (1 : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
 
-example : IsMinkowskiReducedGram (!![1,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) ∧
-    ¬ IsStrongReducedGram (!![1,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
-
-/-- Prefix minimization detects shortening of the second vector, even with a shortest first vector. -/
-example : ¬ IsMinkowskiReducedGram (!![1,-1;-1,3] : Matrix (Fin 2) (Fin 2) ℝ) ∧
-    IsMonicQuasiReducedGram (!![1,-1;-1,3] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
-
-example : IsMonicQuasiReducedGram (!![1,0;0,2] : Matrix (Fin 2) (Fin 2) ℝ) ∧
-    IsMonicQuasiReducedGram (!![1,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
-
-/-- A full lattice swap reduces this matrix but cannot preserve the fixed first vector. -/
-example : ¬ IsMonicQuasiReducedGram (!![1,0;0,1/4] : Matrix (Fin 2) (Fin 2) ℝ) ∧
-    IsMinkowskiReducedGram (!![1/4,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
-
-example : Matrix.det (!![0,1;1,0] : Matrix (Fin 2) (Fin 2) ℤ) = -1 ∧
-    Matrix.det (!![1,-1;0,1] : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by norm_num
-
-/-- The determinant-one binary shear gives a reduced representative of the same binary order. -/
-example (x y : ℝ) : (x-y)^2 + 2*(x-y)*y + 3*y^2 = x^2 + 2*y^2 := by ring
-
-example : weightedDilation 2 (![1,2] : Fin 2 → ℝ) = ![2,8] := by sorry
-example : weightedDilation 3 (weightedDilation 2 (![1,2] : Fin 2 → ℝ)) =
-    ![6,72] := by sorry
-example (a : Fin 2 → ℝ) : weightedDilation 1 a = a ∧
-    weightedDilation 0 a = 0 := by sorry
-example : separatedRoots 2 1 (![-1,1] : Fin 2 → ℂ) := by sorry
-example : separatedRoots 2 1 (![-Complex.I,Complex.I] : Fin 2 → ℂ) := by sorry
-example (c : ℝ) (hc : 0 < c) :
-    ¬ separatedRoots c 1 (0 : Fin 2 → ℂ) := by sorry
-example : weightedDilation 2 (0 : Fin 0 → ℝ) = 0 ∧
-    separatedRoots 1 (-1) (0 : Fin 0 → ℂ) := by sorry
-example : separatedRoots 1 0 (0 : Fin 1 → ℂ) ∧
-    ¬ separatedRoots 1 (-1) (0 : Fin 1 → ℂ) := by sorry
-
-/-- Zero separation permits a singular evaluation matrix and nonzero invisible coefficients. -/
-example : separatedRoots 0 0 (0 : Fin 3 → ℂ) ∧
-    ∃ m : Fin 3 → ℤ, m ≠ 0 ∧
-      ∀ j : Fin 3, ∑ i : Fin 3, (m i : ℂ) *
-        ((0 : Fin 3 → ℂ) j) ^ i.val = 0 := by sorry
-
-/-- Field-count and discriminant exponents include the loss of one translation parameter. -/
-example : ((3 * (3 + 1) / 2 : ℚ) - 1) / (3 * (3 - 1)) = 5/6 ∧
-    ((4 + 1 : ℚ) / (2 * 4 - 2)) = 5/6 ∧
-    (1/2 + 1/4 : ℚ) = 3/4 := by sorry
-
-/-- Signature and squarefreeness controls for the alternating-extension transfer. -/
-example : (X ^ 3 - X - 1 : ℤ[X]).discr = -23 := by sorry
-example : (X ^ 3 - 4 * X + 1 : ℤ[X]).discr = 229 := by sorry
-example : (X ^ 3 - 2 : ℤ[X]).discr = -108 := by sorry
-
-/-- The fixed-degree quartic discriminant uses the same sign as the binary-form convention. -/
-example : (X ^ 4 - 1 : ℤ[X]).discr = -256 := by sorry
-
-/-- In degree two on three-torsion, extension must be normalized by the inverse degree. -/
-example (x : ZMod 3) : 2 * (2 * x) = x := by sorry
-
-/-- This irreducible cubic reduction gives nontrivial decomposition with trivial inertia at 2. -/
-example : ∀ x : ZMod 2, (X ^ 3 + X + 1 : (ZMod 2)[X]).eval x ≠ 0 := by sorry
-
-/-- The subgroup-size input needs nonabelian simplicity; its smallest positive case is A₅. -/
-example : (1 : ℕ) ^ 2 < 2 ∧ (60 : ℕ) < 12 ^ 2 := by sorry
-
-/-- Quadratic generator reflection fixes a trace-zero model, so dividing its orbit size by 2 fails. -/
-example (a : ℤ) : (X ^ 2 + C a : ℤ[X]).comp (-X) = X ^ 2 + C a := by sorry
-
-/-- The degree-two real transporter obstruction: xy is fixed by the split diagonal torus. -/
-example (u : ℝ) (hu : u ≠ 0) :
-    (MvPolynomial.C u * MvPolynomial.X (0 : Fin 2)) *
-      (MvPolynomial.C u⁻¹ * MvPolynomial.X (1 : Fin 2)) =
-        MvPolynomial.X (0 : Fin 2) * MvPolynomial.X (1 : Fin 2) := by sorry
-
+/-- A shorter second vector prevents quasi-reduction by changes fixing the first vector. -/
+theorem monicQuasiReducedGram_fixed_unit :
+    ¬ IsMonicQuasiReducedGram (!![1,0;0,1/4] : Matrix (Fin 2) (Fin 2) ℝ) ∧
+      IsMinkowskiReducedGram (!![1/4,0;0,1] : Matrix (Fin 2) (Fin 2) ℝ) := by sorry
 
 /-- A nonzero Jacobian gives a finite geometric fibre off a target hypersurface,
 with the affine isolated-intersection Bézout bound. -/
@@ -170,245 +127,137 @@ theorem polynomialMap_finiteFibres {k : Type*} [Field k] [CharZero k]
           MvPolynomial.eval₂Hom (algebraMap k Ω) x (f i) = y i} : Set _).ncard ≤
         ∏ i, (f i).totalDegree := by sorry
 
-/-- The joining line squared causes the ternary-quadric interpolation exception. -/
-example : Matrix.rank
-    (!![2,0,0,0,0,0; 0,0,0,1,0,0; 0,0,0,0,1,0;
-        0,0,0,1,0,0; 0,2,0,0,0,0; 0,0,0,0,0,1] : Matrix (Fin 6) (Fin 6) ℚ) = 5 := by sorry
-
-/-- The strict mixed-trace dimension inequality first holds at degree five here. -/
-example : Nat.choose 6 2 = 15 ∧ Nat.choose 7 2 = 21 ∧ 15 ≤ 3 * 6 ∧
-    3 * 6 < 21 := by decide
-
-/-- A nonzero Jacobian polynomial need not give finite fibres everywhere. -/
-example : {x : ℚ × ℚ | (x.1, x.1 * x.2) = (0,0)} =
-    {x : ℚ × ℚ | x.1 = 0} := by sorry
-
-example (a b : ℚ) (ha : a ≠ 0) :
-    {x : ℚ × ℚ | (x.1, x.1 * x.2) = (a,b)} = {(a,b/a)} := by sorry
-
-/-- In positive characteristic the Frobenius has zero derivative. -/
-example : (X ^ 2 : (ZMod 2)[X]).derivative = 0 := by sorry
-
-/-- An embedded order orbit has mass orbit-size divided by the generic automorphism order. -/
-example : (2 / 2 : ℚ) = 1 ∧ (1 / 2 : ℚ) ≠ 1 ∧
-    (1 + 1 / 2 : ℚ) = 3 / 2 ∧ (1 / 2 + 1 / 2 : ℚ) = 1 := by norm_num
-
-/-- The split and inert local numerators match the quadratic Euler-factor expansion. -/
-example (u : ℚ) :
-    (1 + u) ^ 2 * (1 - u) = (1 - u ^ 2) * (1 + u) ∧
-    (1 - u + u ^ 2) * (1 + u) = 1 + u ^ 3 := by
-  constructor <;> ring
-
-/-- The wild-three local denominator includes its residue-field cardinality. -/
-example : (((1 - 1/9) * (1 - 3 * (1/9)^3)) : ℚ)⁻¹ = 2187/1936 ∧
-    ((1 + 1/9)^2 / ((1 - 1/9) * (1 - 3 * (1/9)^3)) : ℚ) = 675/484 := by norm_num
-
-/-- Cancelling the quadratic Euler denominator requires its nonvanishing. -/
-example (z u : ℚ) (h : 1 - z * u ≠ 0) :
-    (1 - z ^ 2 * u ^ 2) / (1 - z * u) = 1 + z * u := by
-  apply (div_eq_iff h).2
-  ring
-
-/-- This wild-three cubic has quadratic resolvent discriminant -3 and conductor 9. -/
-example : (X ^ 3 - 3 : ℤ[X]).discr = -243 ∧ (-3 : ℤ) * 9 ^ 2 = -243 := by sorry
-
-/-- The least positive norm-one units at discriminants 5 and 20 are different. -/
-example : ((3 + Real.sqrt 5) / 2) ^ 3 = 9 + 4 * Real.sqrt 5 ∧
-    3 ^ 2 - (5 : ℤ) * 1 ^ 2 = 4 ∧ 18 ^ 2 - (20 : ℤ) * 4 ^ 2 = 4 := by sorry
-
-/-- The primitive D=5 form and its scalar multiple have the same stabilizer. -/
-example (x y : ℤ) : (x + y)^2 + (x + y)*(x + 2*y) - (x + 2*y)^2 =
-    x^2 + x*y - y^2 := by ring
-
-/-- Residues of a simple counting-series pole are divided by the pole position. -/
-example : (1 / (1 / 2) : ℚ) = 2 ∧ (2 / 2 : ℚ) = 1 := by norm_num
-
-/-- Cyclic-cubic and biquadratic pole orders depend on the base cyclotomic degree. -/
-example : (2 / 2 : ℕ) = 1 ∧ (2 / 1 : ℕ) = 2 ∧ (3 / 1 : ℕ) = 3 := by norm_num
-
-/-- The positive odd-prime factors and the two dyadic signs stay distinct. -/
-example : (1 + 2 / 3 : ℚ) * (1 - 1 / 3) ^ 2 = 20 / 27 ∧
-    (1 - 2 / 3 : ℚ) * (1 + 1 / 3) ^ 2 = 16 / 27 ∧
-    ((2 - 1) / 4 : ℚ) = 1 / 4 ∧ ((2 + 1) / 4 : ℚ) = 3 / 4 ∧ (1 - 3 / 2^2 - 2 / 2^3 : ℚ) = 0 := by norm_num
-
-/-- The factorization gain beats the uniform ramified-prime loss. -/
-example : (2 : ℝ) * Real.sqrt (3 / 5) > 1 := by sorry
-
-/-- The eight-degree defining polynomial for the rank-governing field is irreducible. -/
-example :
-    Irreducible (X ^ 8 + 6 * X ^ 4 + 1 : ℚ[X]) := by sorry
-
-/-- The explicit zeta-eight element has fourth power -1 in the defining quotient. -/
-example : (((X ^ 6 - X ^ 4 + 7 * X ^ 2 - 3) ^ 4 + 256) %
-    (X ^ 8 + 6 * X ^ 4 + 1) : ℚ[X]) = 0 := by sorry
-
-/-- The explicit beta has square 1 + zeta-eight squared in the same quotient. -/
-example : (((3 * X ^ 7 - X ^ 5 + 17 * X ^ 3 - 3 * X) ^ 2 -
-      (X ^ 6 - X ^ 4 + 7 * X ^ 2 - 3) ^ 2 - 16) %
-    (X ^ 8 + 6 * X ^ 4 + 1) : ℚ[X]) = 0 := by sorry
-
-/-- The integral-basis index, field discriminant and norm-two generator use consistent signs. -/
-example : (2 ^ 36 : ℕ) = 128 ^ 2 * 2 ^ 22 ∧
-    (X ^ 8 - 4 * X ^ 7 + 4 * X ^ 6 + 2 * X ^ 4 - 8 * X ^ 3 +
-      12 * X ^ 2 - 8 * X + 2 : ℤ[X]).coeff 0 = 2 := by sorry
-
-/-- Odd-prime factorization rules out small prime ideals in the Minkowski range. -/
-example : (X ^ 8 + 6 * X ^ 4 + 1 : (ZMod 3)[X]) =
-    (X ^ 4 + X ^ 2 + 2) * (X ^ 4 + 2 * X ^ 2 + 2) := by sorry
-
-example : (X ^ 8 + 6 * X ^ 4 + 1 : (ZMod 5)[X]) =
-    (X ^ 2 + X + 1) * (X ^ 2 + 2 * X + 4) *
-      (X ^ 2 + 3 * X + 4) * (X ^ 2 + 4 * X + 1) := by sorry
-
-example : (4 / Real.pi) ^ 4 * (Nat.factorial 8 : ℝ) / 8 ^ 8 * 2 ^ 11 < 13 ∧
-    (12 : ℕ) < 3 ^ 4 ∧ 12 < 5 ^ 2 ∧ 12 < 7 ^ 2 ∧ 12 < 11 ^ 4 := by sorry
-
-/-- The small-group arithmetic refinement stays strictly below three eighths. -/
-example : (3 / 16 + 1 / 6 : ℚ) = 17 / 48 ∧ (17 / 48 : ℚ) < 3 / 8 := by norm_num
-
-/-- The nonabelian induction starts at the smallest simple-group order, sixty. -/
-example : (1 / 4 + 1 / (2 * Real.sqrt 60) + 1 / 60 : ℝ) < 3 / 8 := by sorry
-
-/-- Complete periods cancel for the nonprincipal quadratic character modulo three. -/
-example : (jacobiSym 1 3 : ℤ) + jacobiSym 2 3 = 0 ∧ jacobiSym 1 3 = 1 := by norm_num
-
-/-- The two possible two-vertex Laplacians have different ranks in characteristic two. -/
-example : Matrix.rank (0 : Matrix (Fin 2) (Fin 2) (ZMod 2)) = 0 ∧
-    Matrix.rank (!![1,1; 1,1] : Matrix (Fin 2) (Fin 2) (ZMod 2)) = 1 := by sorry
-
-/-- A negative edge supplies the rank criterion; a positive edge does not. -/
-example : jacobiSym 5 13 = -1 ∧ jacobiSym 5 41 = 1 ∧
-    (8 ^ 2 - 65 * 1 ^ 2 : ℤ) = -1 := by norm_num
-
-/-- Squarefree ideal subsets of residue-degree sum two: the three unramified types. -/
-example : ((Finset.univ : Finset (Fin 3)).powerset.filter
-    (fun S => (∑ i ∈ S, (![1,1,1] : Fin 3 → ℕ) i) = 2)).card = 3 := by decide
-
-example : ((Finset.univ : Finset (Fin 2)).powerset.filter
-    (fun S => (∑ i ∈ S, (![1,2] : Fin 2 → ℕ) i) = 2)).card = 1 := by decide
-
-example : ((Finset.univ : Finset (Fin 1)).powerset.filter
-    (fun S => (∑ i ∈ S, (![3] : Fin 1 → ℕ) i) = 2)).card = 0 := by decide
-
-/-- The ramified types have one and zero even-degree subsets, despite degree-one primes. -/
-example : ((Finset.univ : Finset (Fin 2)).powerset.filter
-    (fun S => (∑ i ∈ S, (![1,1] : Fin 2 → ℕ) i) = 2)).card = 1 ∧
-    ((Finset.univ : Finset (Fin 1)).powerset.filter
-    (fun S => (∑ i ∈ S, (![1] : Fin 1 → ℕ) i) = 2)).card = 0 := by decide
-
-/-- The graph-product controls are numerical and do not assert an arithmetic density theorem. -/
-example : (∏ j ∈ Finset.Icc 1 0, (1 - (2 : ℚ) ^ (1 - 2 * (j : ℤ)))) = 1 ∧
-    (1 - (2 : ℚ) ^ (-1 : ℤ)) = 1 / 2 ∧
-    (1 - (2 : ℚ) ^ (-1 : ℤ)) * (1 - (2 : ℚ) ^ (-3 : ℤ)) = 7 / 16 := by sorry
-
-/-- Ten transpositions among the 120 permutations give the quintic sieve density. -/
-example : (10 / 120 : ℚ) = 1 / 12 ∧ (1 - 1 / 12 : ℚ) = 11 / 12 := by norm_num
-
-/-- The five nonzero binary-cubic splitting counts at two and three retain the zero exclusion. -/
-example : (1/6 * (2-1)^2 * 2 * (2+1) : ℚ) = 1 ∧
-    (1/2 * (2-1)^2 * 2 * (2+1) : ℚ) = 3 ∧
-    (1/3 * (2-1)^2 * 2 * (2+1) : ℚ) = 2 ∧
-    ((2-1)*2*(2+1) : ℚ) = 6 ∧ ((2-1)*(2+1) : ℚ) = 3 ∧
-    (8+24+16+24+8 : ℕ) = 3^4-1 := by norm_num
-
-example : ((1-1/2^2)*(1-1/2^3) : ℚ) = 21/32 ∧
-    ((1-1/2^2)^2 : ℚ) = 9/16 ∧ (21/32 - 9/16 : ℚ) = 3/32 := by norm_num
-
-example : (((2-1)^2*(2+1))/2^4 : ℚ) = 3/16 ∧
-    (((2-1)^2*(2+1))/2^5 : ℚ) = 3/32 := by norm_num
-
-example : ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n)).card = 608 ∧
-    ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 1)).card = 200 ∧
-    ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 2)).card = 204 ∧
-    ((Finset.Icc 1 1000).filter (fun n : ℕ => Squarefree n ∧ n % 4 = 3)).card = 204 := by sorry
-
-open scoped Classical in
-/-- The open negative-discriminant interval contains exactly ten quadratic fields. -/
-example : ((Finset.Ioo (-25 : ℤ) 0).filter Int.IsFundamentalDiscr).card = 10 := by sorry
-
-/-- All subspaces, including zero and the whole space, enter the four-rank coefficient. -/
-example : Nat.card (Submodule (ZMod 2) (Fin 1 → ZMod 2)) = 2 := by sorry
-
-example : Nat.card (Submodule (ZMod 2) (Fin 2 → ZMod 2)) = 5 := by sorry
-
-/-- The real quartic and quintic masses count permutations whose square is the identity. -/
-example : (Finset.univ.filter (fun σ : Equiv.Perm (Fin 4) => σ ^ 2 = 1)).card = 10 := by sorry
-
-example : (Finset.univ.filter (fun σ : Equiv.Perm (Fin 5) => σ ^ 2 = 1)).card = 26 := by sorry
-
-example : (1/48 + 1/8 + 1/16 : ℚ) = 5/24 ∧
-    (1/240 + 1/24 + 1/16 : ℚ) = 13/120 ∧
-    (1 + 1/2^2 - 1/2^4 - 1/2^5 : ℚ) = 37/32 := by norm_num
-
-example : (2 * Real.pi) / (4 * 2) = Real.pi / 4 := by ring
-
-example : (X^8 + 6*X^4 + 1 : (ZMod 7)[X]) =
-    (X^2+X+4)*(X^2+2*X+2)*(X^2+5*X+2)*(X^2+6*X+4) := by sorry
-
-example : (X^8 + 6*X^4 + 1 : (ZMod 11)[X]) =
-    (X^4+5*X^2+10)*(X^4+6*X^2+10) := by sorry
-
-/-- The cubic interpolation exception is witnessed by the full derivative matrix at seven points. -/
-example :
-    let E := {e : Fin 5 → Fin 4 // (∑ i : Fin 5, (e i).val) = 3}
-    let pts : Fin 7 → Fin 5 → ℚ :=
-      ![![1,0,0,0,0], ![0,1,0,0,0], ![0,0,1,0,0], ![0,0,0,1,0],
-        ![0,0,0,0,1], ![1,1,1,1,1], ![1,2,3,4,5]]
-    let A : Matrix (Fin 7 × Fin 5) E ℚ := fun q e =>
-      ((e.1 q.2).val : ℚ) * ∏ i : Fin 5,
-        (pts q.1 i) ^ ((e.1 i).val - (if i = q.2 then 1 else 0))
-    Matrix.rank A = 34 := by sorry
-
-example (Y : ℝ) : Matrix.det (!![Y,0;0,Y^2] : Matrix (Fin 2) (Fin 2) ℝ) = Y^3 ∧
-    Matrix.det (!![Y,0,0;0,Y^2,0;0,0,Y^3] : Matrix (Fin 3) (Fin 3) ℝ) = Y^6 := by sorry
-
-/-- The imported quartic residue count uses the fixed-degree binary discriminant. -/
-example :
-    let Δ : (Fin 5 → ZMod 4) → ZMod 4 := fun v =>
-      let a := v 0; let b := v 1; let c := v 2; let d := v 3; let e := v 4
-      256*a^3*e^3 - 192*a^2*b*d*e^2 - 128*a^2*c^2*e^2 +
-      144*a^2*c*d^2*e - 27*a^2*d^4 + 144*a*b^2*c*e^2 -
-      6*a*b^2*d^2*e - 80*a*b*c^2*d*e + 18*a*b*c*d^3 +
-      16*a*c^4*e - 4*a*c^3*d^2 - 27*b^4*e^2 + 18*b^3*c*d*e -
-      4*b^3*d^3 - 4*b^2*c^3*e + b^2*c^2*d^2
-    (Finset.univ.filter (fun v : Fin 5 → ZMod 4 => Δ v ≠ 0)).card = 384 := by sorry
-
-/-- The imported quartic residue count uses the fixed-degree binary discriminant. -/
-example :
-    let Δ : (Fin 5 → ZMod 9) → ZMod 9 := fun v =>
-      let a := v 0; let b := v 1; let c := v 2; let d := v 3; let e := v 4
-      256*a^3*e^3 - 192*a^2*b*d*e^2 - 128*a^2*c^2*e^2 +
-      144*a^2*c*d^2*e - 27*a^2*d^4 + 144*a*b^2*c*e^2 -
-      6*a*b^2*d^2*e - 80*a*b*c^2*d*e + 18*a*b*c*d^3 +
-      16*a*c^4*e - 4*a*c^3*d^2 - 27*b^4*e^2 + 18*b^3*c*d*e -
-      4*b^3*d^3 - 4*b^2*c^3*e + b^2*c^2*d^2
-    (Finset.univ.filter (fun v : Fin 5 → ZMod 9 => Δ v ≠ 0)).card = 42768 := by sorry
-
 /-- A finite list total is estimated by N/m times its ordered sample sum. -/
 def a4SampleEstimator {N m : ℕ} (counts : Fin N → ℚ) (draws : Fin m → Fin N) : ℚ :=
   (N : ℚ) / m * ∑ i, counts (draws i)
 
-/-- Independent uniform draws with replacement give an unbiased total for a nonempty list. -/
-example {N m : ℕ} (hN : 0 < N) (hm : 0 < m) (counts : Fin N → ℚ) :
+/-- Uniform independent sampling with replacement has expectation equal to the list total. -/
+theorem a4SampleEstimator_unbiased {N m : ℕ} (hN : 0 < N) (hm : 0 < m)
+    (counts : Fin N → ℚ) :
     (∑ draws : Fin m → Fin N, a4SampleEstimator counts draws) / (N : ℚ) ^ m =
       ∑ j, counts j := by sorry
 
-/-- Every positive-size sample from the singleton list estimates its sole value. -/
-example (m : ℕ) (hm : 0 < m) (draws : Fin m → Fin 1) :
-    a4SampleEstimator (![48] : Fin 1 → ℚ) draws = 48 := by sorry
+/-- Squarefree integers have equal density in the three nonzero residue classes modulo four. -/
+theorem squarefree_mod_four_count :
+    ∃ C : ℝ, 0 < C ∧ ∀ (a : ℕ), a ∈ ({1, 2, 3} : Finset ℕ) → ∀ X : ℝ, 1 ≤ X →
+      |(Set.ncard {n : ℕ | 1 ≤ n ∧ (n : ℝ) ≤ X ∧ Squarefree n ∧ n % 4 = a} : ℝ) -
+        (2 / Real.pi ^ 2) * X| ≤ C * Real.sqrt X := by sorry
 
-/-- A single uniform draw gives the two estimates with equal probability. -/
-example :
-    let counts : Fin 2 → ℚ := ![0,48]
-    let estimates : Fin 2 → ℚ := fun j => a4SampleEstimator counts (fun _ : Fin 1 => j)
-    estimates = ![0,96] ∧ (∑ j, estimates j) / 2 = 48 := by sorry
+/-- Each sign of quadratic fundamental discriminants has density three over pi squared. -/
+theorem quadratic_discriminant_count :
+    ∃ C : ℝ, 0 < C ∧ ∀ (ε : ℤ), ε = 1 ∨ ε = -1 → ∀ X : ℝ, 1 ≤ X →
+      |(Set.ncard {D : ℤ | D.IsFundamentalDiscr ∧ D ≠ 1 ∧
+          0 < ε * D ∧ ((ε * D : ℤ) : ℝ) < X} : ℝ) -
+        (3 / Real.pi ^ 2) * X| ≤ C * Real.sqrt X := by sorry
 
-/-- The four ordered two-draw samples include both repeated draws. -/
-example :
-    let counts : Fin 2 → ℚ := ![0,48]
-    let draws : Fin 4 → Fin 2 → Fin 2 := ![![0,0], ![0,1], ![1,0], ![1,1]]
-    let estimates : Fin 4 → ℚ := fun j => a4SampleEstimator counts (draws j)
-    estimates = ![0,48,48,96] ∧ (∑ j, estimates j) / 4 = 48 := by sorry
+/-- Prime-to-degree norm and extension split the ordinary class-group torsion cardinality. -/
+theorem torsionCount_relative_mul (R S : Type*) [CommRing R] [CommRing S]
+    [IsDedekindDomain R] [IsDedekindDomain S] [Algebra R S]
+    [Module.Finite R S] [Module.IsTorsionFree R S]
+    [Finite (ClassGroup R)] [Finite (ClassGroup S)]
+    (ℓ : ℕ) (hℓ : ℓ.Prime) (hd : ¬ ℓ ∣ Module.finrank R S) :
+    Nat.card {c : ClassGroup S // c ^ ℓ = 1} =
+      Nat.card {c : ClassGroup S // ClassGroup.relNorm (R := R) c = 1 ∧ c ^ ℓ = 1} *
+        Nat.card {c : ClassGroup R // c ^ ℓ = 1} := by sorry
+
+/-- A degree-uniform discriminant saving bounds two-torsion in every field of fixed degree. -/
+theorem classGroupTwoTorsion_powerSaving (n : ℕ) (hn : 3 ≤ n) (ε : ℝ) (hε : 0 < ε) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (K : Type*) [Field K] [NumberField K],
+      Module.finrank ℚ K = n →
+      (Nat.card {c : ClassGroup (𝓞 K) // c ^ 2 = 1} : ℝ) ≤
+        C * |(NumberField.discr K : ℝ)| ^ (1 / 2 - 1 / (2 * (n : ℝ)) + ε) := by sorry
+
+/-- The elliptic-curve feedback bound improves two-torsion estimates for all cubic fields. -/
+theorem cubicClassGroupTwoTorsion_bound (ε : ℝ) (hε : 0 < ε) :
+    let α := Real.sqrt 3 / 2
+    let β := ((1 + α) / (2 * α)) * Real.log ((1 + α) / (2 * α)) -
+      ((1 - α) / (2 * α)) * Real.log ((1 - α) / (2 * α))
+    ∃ C : ℝ, 0 < C ∧ ∀ (K : Type*) [Field K] [NumberField K],
+      Module.finrank ℚ K = 3 →
+      (Nat.card {c : ClassGroup (𝓞 K) // c ^ 2 = 1} : ℝ) ≤
+        C * |(NumberField.discr K : ℝ)| ^ (1 / (6 * (1 - β / Real.log 2)) + ε) := by sorry
+
+/-- The integer ring has a full integral basis of uniformly bounded archimedean size. -/
+theorem integerLattice_largestMinimum (n : ℕ) (hn : 2 ≤ n) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (K : Type*) [Field K] [NumberField K],
+      Module.finrank ℚ K = n → ∃ b : Module.Basis (Fin n) ℤ (𝓞 K),
+        ∀ (i : Fin n) (σ : K →+* ℂ),
+          ‖σ (b i : K)‖ ≤ C * |(NumberField.discr K : ℝ)| ^ (1 / (n : ℝ)) := by sorry
+
+/-- Integral Weierstrass points satisfy the uniform discriminant and Mordell–Weil rank bound. -/
+theorem elliptic_integralPoints_rankBound (ε : ℝ) (hε : 0 < ε) :
+    let α := Real.sqrt 3 / 2
+    let β := ((1 + α) / (2 * α)) * Real.log ((1 + α) / (2 * α)) -
+      ((1 - α) / (2 * α)) * Real.log ((1 - α) / (2 * α))
+    ∃ C : ℝ, 0 < C ∧ ∀ W : WeierstrassCurve ℤ, W.Δ ≠ 0 →
+      {xy : ℤ × ℤ | W.toAffine.Equation xy.1 xy.2}.Finite ∧
+      (Set.ncard {xy : ℤ × ℤ | W.toAffine.Equation xy.1 xy.2} : ℝ) ≤
+        C * |(W.Δ : ℝ)| ^ ε *
+          Real.exp ((β + ε) * Module.finrank ℤ
+            (W.map (Int.castRingHom ℚ)).toAffine.Point) := by sorry
+
+/-- Cubic ideal counts have an absolute bound uniform in the field and the norm cutoff. -/
+theorem cubicIdealCount_uniform :
+    ∃ C : ℝ, 0 < C ∧ ∀ (K : Type*) [Field K] [NumberField K],
+      Module.finrank ℚ K = 3 → ∀ T : ℝ, 1 ≤ T →
+      (Set.ncard {I : Ideal (𝓞 K) | I ≠ ⊥ ∧ (Ideal.absNorm I : ℝ) ≤ T} : ℝ) ≤
+        C * T * (Real.log (2 * |(NumberField.discr K : ℝ)|)) ^ 2 := by sorry
+
+/-- Every finite nonabelian simple group has a proper subgroup larger than its square-root order. -/
+theorem simpleGroup_largeProperSubgroup (S : Type*) [Group S] [Finite S] [IsSimpleGroup S]
+    (hS : ∃ x y : S, x * y ≠ y * x) :
+    ∃ H : Subgroup S, H ≠ ⊤ ∧ Nat.card S < (Nat.card H) ^ 2 := by sorry
+
+namespace RankGrid
+
+/-- Gaussian coefficient decay and geometric zeros force vanishing above the strict order threshold. -/
+theorem geometricZero (a α C : ℝ) (ha : 1 < a) (hC : 0 < C)
+    (w : ℕ → ℂ) (g : ℂ → ℂ)
+    (hseries : ∀ z : ℂ, HasSum (fun r : ℕ => w r * z ^ r) (g z))
+    (hbound : ∀ r : ℕ, ‖w r‖ ≤ C * a ^ (-((r : ℝ) ^ 2) / 2 + α * r))
+    (hzeros : ∀ m : ℕ, g ((a : ℂ) ^ m) = 0)
+    (ω : ℕ) (horder : ∀ r < ω, w r = 0) (hω : α - 1 / 2 < (ω : ℝ)) :
+    ∀ z : ℂ, g z = 0 := by sorry
+
+end RankGrid
+
+/-- Convergence of all exponential rank moments determines each limiting rank probability. -/
+theorem rank_moments_determine_rank_law (p : ℕ) [Fact p.Prime] (u : ℕ)
+    (μ : ℝ → ℕ → ℝ) (hμ : ∀ X r, 0 ≤ μ X r)
+    (hmass : ∀ X, HasSum (μ X) 1)
+    (hsum : ∀ X k, Summable (fun r : ℕ => (p : ℝ) ^ (k * r) * μ X r))
+    (hmom : ∀ k : ℕ, Tendsto (fun X => ∑' r : ℕ, (p : ℝ) ^ (k * r) * μ X r)
+      atTop (𝓝 (∑ j ∈ Finset.range (k + 1),
+        (Nat.card {W : Submodule (ZMod p) (Fin k → ZMod p) //
+          Module.finrank (ZMod p) W = j} : ℝ) / (p : ℝ) ^ (u * j)))) :
+    ∀ r : ℕ, Tendsto (fun X => μ X r) atTop
+      (𝓝 (((p : ℝ) ^ (r * (r + u)))⁻¹ *
+        (∏' i : ℕ, (1 - ((p : ℝ) ^ (i + 1))⁻¹)) /
+        ((∏ i ∈ Finset.Icc 1 r, (1 - ((p : ℝ) ^ i)⁻¹)) *
+          ∏ i ∈ Finset.Icc 1 (r + u), (1 - ((p : ℝ) ^ i)⁻¹)))) := by sorry
+
+/-- Conjugacy classes of involutions mapping nontrivially to the distinguished quadratic quotient. -/
+def outsideClassCount {F : Type*} [Group F] [Finite F] (π : F →* Multiplicative (ZMod 2)) : ℕ :=
+  Nat.card {q : ConjClasses F //
+    ∃ y : F, y ^ 2 = 1 ∧ π y ≠ 1 ∧ ConjClasses.mk y = q}
+
+/-- The finite tame mass weights identity inertia by one and outside involutions by p to minus s. -/
+def tameOutsideLocalMass {F : Type*} [Group F] [Fintype F]
+    (π : F →* Multiplicative (ZMod 2)) (p : ℕ) (s : ℝ) : ℝ := by
+  classical
+  exact (∑ x : F, ∑ y : F,
+    if x * y * x⁻¹ = y ^ p ∧ (y = 1 ∨ (y ^ 2 = 1 ∧ π y ≠ 1)) then
+      (if y = 1 then 1 else (p : ℝ) ^ (-s)) else 0) / Fintype.card F
+
+/-- For odd residue cardinality each outside conjugacy class contributes one ramified mass term. -/
+theorem tameOutsideLocalMass_eq {F : Type*} [Group F] [Fintype F]
+    (π : F →* Multiplicative (ZMod 2)) (p : ℕ) (hp : Odd p) (s : ℝ) :
+    tameOutsideLocalMass π p s = 1 + (outsideClassCount π : ℝ) * (p : ℝ) ^ (-s) := by sorry
+
+/-- At exponent zero the tame mass counts the identity class and all outside involution classes. -/
+theorem tameOutsideLocalMass_at_zero {F : Type*} [Group F] [Fintype F]
+    (π : F →* Multiplicative (ZMod 2)) (p : ℕ) (hp : Odd p) :
+    tameOutsideLocalMass π p 0 = 1 + (outsideClassCount π : ℝ) := by sorry
 
 /-
 README-only targets, with their intended carriers, hypotheses and APIs in the indicated
@@ -428,12 +277,8 @@ sections. These need the arithmetic, orbit or geometric interfaces specified the
   FieldStatistics.rigidFieldCount_mono
 
 Arithmetic lattice and torsion inputs:
-  FieldStatistics.integerLattice_largestMinimum
   FieldStatistics.squareIdeal_smallGenerator
   FieldStatistics.squareNorm_count
-  FieldStatistics.classGroupTwoTorsion_powerSaving
-  FieldStatistics.elliptic_integralPoints_rankBound
-  FieldStatistics.cubicClassGroupTwoTorsion_bound
 
 §3.25:
   FieldStatistics.cubicConductor_choices
@@ -456,7 +301,6 @@ Arithmetic lattice and torsion inputs:
   FieldStatistics.enumeratedTypes_transport
   FieldStatistics.goodType_iff_classCount_one
   FieldStatistics.liftingInvariant_generator_change
-  FieldStatistics.outsideClassCount
   FieldStatistics.quadraticOddRestricted_L1Mean
   FieldStatistics.quaternion_fixedFactor_residue
   FieldStatistics.quotientGraphType
@@ -478,11 +322,9 @@ Before the first cyclotomic counterexample (§3.9):
   FieldStatistics.abelianDiscriminantSeries
 
 §3.29:
-  FieldStatistics.cubicIdealCount_uniform
   FieldStatistics.galois_count_threeEighths
   FieldStatistics.galois_count_threeEighths_of_largeSubgroups
   FieldStatistics.quartic_fixedResolvent_upper
-  FieldStatistics.simpleGroup_largeProperSubgroup
 
 §3.30:
   FieldStatistics.jointSpin_primeBound
@@ -504,7 +346,6 @@ Before the first cyclotomic counterexample (§3.9):
 
 §3.32:
   FieldStatistics.IsBinaryQuasiReduced
-  FieldStatistics.IsMinkowskiReducedGram_exists
   FieldStatistics.IsMonicQuasiReduced
   FieldStatistics.binaryOrderGram
   FieldStatistics.binaryOrderGram_ring
@@ -520,9 +361,6 @@ prediction take an admissible type, whose outside class count is positive):
   FieldStatistics.LogarithmicMomentPrediction
   FieldStatistics.localModelLogExponent
   FieldStatistics.localModelLogExponent_good
-  FieldStatistics.tameOutsideLocalMass
-  FieldStatistics.tameOutsideLocalMass_at_zero
-  FieldStatistics.tameOutsideLocalMass_eq
 -/
 
 end FieldStatistics
