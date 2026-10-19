@@ -449,7 +449,7 @@ variable {C : Type*} [Category C] [Preadditive C] [CategoryTheory.Linear R C] [M
 section variables: the data-valued `lift`, its `Monoidal` instance and `liftObjIso` mention
 neither, so as section variables they would drop out of those signatures. They are needed,
 since an `R`-linear strong monoidal functor out of `TL(R, δ)` forces
-`(δ • 𝟙 (𝟙_ C)) ▷ V = δ • 𝟙 V`. -/
+`(λ_ V).inv ≫ ((δ • 𝟙 (𝟙_ C)) ▷ V) ≫ (λ_ V).hom = δ • 𝟙 V`. -/
 
 /-- The self-duality of the generating object `1` of `TL(R, δ)`: `η_` is the cup and `ε_` the cap,
 so `η_ ≫ ε_ = δ • 𝟙 (𝟙_ _)`. -/
