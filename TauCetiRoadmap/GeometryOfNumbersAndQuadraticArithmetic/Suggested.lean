@@ -83,6 +83,125 @@ open MeasureTheory Module
 
 namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
+/-! ## Conventions for the headline statements -/
+
+/-- The nonnegative dilation threshold where the real span has dimension greater than `i`
+for an arbitrary set and natural index (1.2.1). -/
+noncomputable def _root_.MeasureTheory.successiveMin {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (L : Submodule ℤ E) (s : Set E) (i : ℕ) : ℝ≥0 :=
+  sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ (L : Set E))}
+
+section MinimaConvention
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+/-- The real-valued, zero-based `Fin` adapter of the foundational successive minima (1.2.1).
+Its geometric laws need `L` discrete and full and `0 ∈ interior K`. -/
+def successiveMin (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) : ℝ :=
+  (MeasureTheory.successiveMin L (K : Set E) i.val : ℝ)
+
+end MinimaConvention
+
+section ReductionConvention
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+
+/-- The Gram–Schmidt coefficient `μ_{ij} = ⟨b_i, b*_j⟩/‖b*_j‖²` (5.1.1). -/
+def lllCoefficient (b : Fin n → E) (i j : Fin n) : ℝ :=
+  inner ℝ (b i) (InnerProductSpace.gramSchmidt ℝ b j) /
+    ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2
+
+/-- LLL-reduced at `δ = 3/4` (5.1.2): independent, size-reduced, and Lovász. -/
+def IsLLLReduced (b : Fin n → E) : Prop :=
+  LinearIndependent ℝ b ∧
+  (∀ i j, j < i → |lllCoefficient b i j| ≤ 1/2) ∧
+  (∀ i j, j.val + 1 = i.val →
+    (3/4 - (lllCoefficient b i j) ^ 2) * ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 ≤
+      ‖InnerProductSpace.gramSchmidt ℝ b i‖ ^ 2)
+
+end ReductionConvention
+
+/-- The integer points of the sphere `x² + y² + z² = n`. -/
+def ternaryShell (n : ℕ) : Set (Fin 3 → ℤ) := {v | ∑ i, v i ^ 2 = (n : ℤ)}
+
+/-! ## Headline theorems -/
+
+section MinkowskiSecond
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+
+/-- **Minkowski's second theorem, lower half** (1.3.4):
+`(2^d/d!) covol L ≤ (∏ λ_i) μ(K)` for any additive Haar measure and a symmetric convex body
+with `0` in its interior in a finite-dimensional real normed space, including dimension zero. -/
+theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
+    [IsZLattice ℝ L] (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
+    [Measure.IsAddHaarMeasure μ] :
+    ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L μ ≤
+      (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) := by sorry
+
+/-- **Minkowski's second theorem, upper half** (1.5.21, Henk's proof):
+`(∏ λ_i) μ(K) ≤ 2^d covol L` for any additive Haar measure on a finite-dimensional real
+normed space and a symmetric convex body with `0` in its interior, including dimension zero. -/
+theorem minkowski_second_upper
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
+    [Measure.IsAddHaarMeasure μ] :
+    (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) ≤
+      2 ^ finrank ℝ E * ZLattice.covolume L μ := by sorry
+
+end MinkowskiSecond
+
+section HenkProduct
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- **Henk's Theorem 1.5** (4.1.12): `|L ∩ K| < 2^{d-1} ∏ (⌊2/λ_i⌋ + 1)` for `d ≥ 2`. -/
+theorem lattice_count_lt_successive_minima
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
+    (hsym : ∀ x ∈ K, -x ∈ K) (hd : 2 ≤ finrank ℝ E) :
+    {x : E | x ∈ L ∧ x ∈ K}.ncard <
+      2 ^ (finrank ℝ E - 1) *
+        ∏ i : Fin (finrank ℝ E), (Nat.floor (2 / successiveMin L K i) + 1) := by sorry
+
+end HenkProduct
+
+section Oppenheim
+
+/-- **Margulis's theorem** (Oppenheim conjecture, 4.3.1): a nondegenerate indefinite form in at
+least three variables that is not proportional to a rational form has dense values on `ℤⁿ`. -/
+theorem oppenheim_values {n : ℕ} (hn : 3 ≤ n) (q : QuadraticForm ℝ (Fin n → ℝ))
+    (hnd : ∀ x : Fin n → ℝ, x ≠ 0 → ∃ y, q (x + y) - q x - q y ≠ 0)
+    (hind : (∃ x, q x > 0) ∧ (∃ x, q x < 0))
+    (hirr : ¬ ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin n → ℤ,
+      ∃ r : ℚ, q (fun i => (z i : ℝ)) = c * (r : ℝ)) :
+    Dense (Set.range (fun z : Fin n → ℤ => q (fun i => (z i : ℝ)))) := by sorry
+
+end Oppenheim
+
+/-- **Duke's equidistribution theorem** (4.3.2): normalized shell averages converge to the
+normalized rotation-invariant surface integral along admissible squarefree radii. -/
+theorem duke_sphere_equidistribution
+    (f : EuclideanSpace ℝ (Fin 3) → ℝ) (hf : ContinuousOn f (Metric.sphere 0 1)) :
+    Filter.Tendsto
+      (fun n : ℕ => (∑' v : ternaryShell n,
+        f ((Real.sqrt n)⁻¹ • WithLp.toLp 2 (fun i => (v.1 i : ℝ)))) /
+          (Nat.card (ternaryShell n) : ℝ))
+      (Filter.atTop ⊓ Filter.principal {n : ℕ | 0 < n ∧ Squarefree n ∧ n % 8 ≠ 7})
+      (nhds ((∫ x : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1,
+        f x ∂(volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere) /
+          (volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere.real Set.univ)) := by sorry
+
+section LLLApproximation
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+
+/-- **The LLL approximation factor** (5.1.4): `‖b₀‖² ≤ 2^{n-1} ‖x‖²` for nonzero `x` in the
+integer span. -/
+theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 < n)
+    (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
+    ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
+
+end LLLApproximation
+
 /-! ## Layer 0: Lattices, Gram determinants and covolumes -/
 
 section Gram
@@ -199,21 +318,10 @@ theorem IsPosSemidef.exists_linearIndependent_integralNorm_eq_successiveMinimum
 
 end TauCeti.IntegralLattice
 
-/-- The nonnegative dilation threshold where the real span has dimension greater than `i`
-for an arbitrary set and natural index (1.2.1). -/
-noncomputable def _root_.MeasureTheory.successiveMin {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    (L : Submodule ℤ E) (s : Set E) (i : ℕ) : ℝ≥0 :=
-  sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ (L : Set E))}
-
 namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
 section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-
-/-- The real-valued, zero-based `Fin` adapter of the foundational successive minima (1.2.1).
-Its geometric laws need `L` discrete and full and `0 ∈ interior K`. -/
-def successiveMin (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) : ℝ :=
-  (MeasureTheory.successiveMin L (K : Set E) i.val : ℝ)
 
 /-- In finite dimension the rank-threshold adapter equals the positive-dilation infimum of
 independent families, without geometric hypotheses on the lattice or body (1.2.1). -/
@@ -315,33 +423,6 @@ theorem successiveMin_first_le_iff (hd : 0 < finrank ℝ E) (r : ℝ) (hr : 0 �
       ∃ x : E, x ∈ L ∧ x ≠ 0 ∧ x ∈ r • (K : Set E) := by sorry
 
 end SuccessiveMinima
-
-section MinkowskiSecond
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
-
-/-- **Minkowski's second theorem, lower half** (1.3.4):
-`(2^d/d!) covol L ≤ (∏ λ_i) μ(K)` for any additive Haar measure and a symmetric convex body
-with `0` in its interior in a finite-dimensional real normed space, including dimension zero. -/
-theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
-    [IsZLattice ℝ L] (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
-    [Measure.IsAddHaarMeasure μ] :
-    ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L μ ≤
-      (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) := by sorry
-
-/-- **Minkowski's second theorem, upper half** (1.5.21, Henk's proof):
-`(∏ λ_i) μ(K) ≤ 2^d covol L` for any additive Haar measure on a finite-dimensional real
-normed space and a symmetric convex body with `0` in its interior, including dimension zero. -/
-theorem minkowski_second_upper
-    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
-    [Measure.IsAddHaarMeasure μ] :
-    (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) ≤
-      2 ^ finrank ℝ E * ZLattice.covolume L μ := by sorry
-
-end MinkowskiSecond
 
 section PrescribedMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
@@ -1101,20 +1182,6 @@ theorem lattice_count_le_first_minimum
 
 end LatticePointCounting
 
-section HenkProduct
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-
-/-- **Henk's Theorem 1.5** (4.1.12): `|L ∩ K| < 2^{d-1} ∏ (⌊2/λ_i⌋ + 1)` for `d ≥ 2`. -/
-theorem lattice_count_lt_successive_minima
-    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (hd : 2 ≤ finrank ℝ E) :
-    {x : E | x ∈ L ∧ x ∈ K}.ncard <
-      2 ^ (finrank ℝ E - 1) *
-        ∏ i : Fin (finrank ℝ E), (Nat.floor (2 / successiveMin L K i) + 1) := by sorry
-
-end HenkProduct
-
 /-- **Davenport's estimate** (4.1.13): a compact set whose coordinate-projection fibers are
 unions of at most `H` intervals or points has lattice-count error bounded by the weighted
 sum of its proper coordinate-projection volumes. The empty projection contributes one. -/
@@ -1850,9 +1917,6 @@ end WeightedGaussianFourier
 section HarmonicTheta
 open MvPolynomial
 
-/-- The integer points of the sphere `x² + y² + z² = n`. -/
-def ternaryShell (n : ℕ) : Set (Fin 3 → ℤ) := {v | ∑ i, v i ^ 2 = (n : ℤ)}
-
 /-- The signed finite expression for `r₃(n)` from Mortenson's Kronecker-type identity. -/
 def signedThreeSquareCount (n : ℕ) : ℤ :=
   6 * (-1 : ℤ) ^ (n + 1) *
@@ -1950,19 +2014,6 @@ sequence excluding `7 mod 8` (4.3), including the small discriminants with extra
 theorem siegel_three_square_lower_bound (ε : ℝ) (hε : 0 < ε) :
     ∃ c : ℝ, 0 < c ∧ ∀ n : ℕ, 0 < n → Squarefree n → n % 8 ≠ 7 →
       c * Real.rpow (n : ℝ) (1 / 2 - ε) ≤ (Nat.card (ternaryShell n) : ℝ) := by sorry
-
-/-- **Duke's equidistribution theorem** (4.3.2): normalized shell averages converge to the
-normalized rotation-invariant surface integral along admissible squarefree radii. -/
-theorem duke_sphere_equidistribution
-    (f : EuclideanSpace ℝ (Fin 3) → ℝ) (hf : ContinuousOn f (Metric.sphere 0 1)) :
-    Filter.Tendsto
-      (fun n : ℕ => (∑' v : ternaryShell n,
-        f ((Real.sqrt n)⁻¹ • WithLp.toLp 2 (fun i => (v.1 i : ℝ)))) /
-          (Nat.card (ternaryShell n) : ℝ))
-      (Filter.atTop ⊓ Filter.principal {n : ℕ | 0 < n ∧ Squarefree n ∧ n % 8 ≠ 7})
-      (nhds ((∫ x : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1,
-        f x ∂(volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere) /
-          (volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere.real Set.univ)) := by sorry
 
 end HarmonicTheta
 
@@ -2409,28 +2460,10 @@ theorem covering_dual_transference (L : Submodule ℤ E)
 
 end Transference
 
-section Oppenheim
-
-/-- **Margulis's theorem** (Oppenheim conjecture, 4.3.1): a nondegenerate indefinite form in at
-least three variables that is not proportional to a rational form has dense values on `ℤⁿ`. -/
-theorem oppenheim_values {n : ℕ} (hn : 3 ≤ n) (q : QuadraticForm ℝ (Fin n → ℝ))
-    (hnd : ∀ x : Fin n → ℝ, x ≠ 0 → ∃ y, q (x + y) - q x - q y ≠ 0)
-    (hind : (∃ x, q x > 0) ∧ (∃ x, q x < 0))
-    (hirr : ¬ ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin n → ℤ,
-      ∃ r : ℚ, q (fun i => (z i : ℝ)) = c * (r : ℝ)) :
-    Dense (Set.range (fun z : Fin n → ℤ => q (fun i => (z i : ℝ)))) := by sorry
-
-end Oppenheim
-
 /-! ## Layer 5: LLL-reduced bases -/
 
 section LLL
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
-
-/-- The Gram–Schmidt coefficient `μ_{ij} = ⟨b_i, b*_j⟩/‖b*_j‖²` (5.1.1). -/
-def lllCoefficient (b : Fin n → E) (i j : Fin n) : ℝ :=
-  inner ℝ (b i) (InnerProductSpace.gramSchmidt ℝ b j) /
-    ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2
 
 /-- The defining ratio. -/
 theorem lllCoefficient_eq (b : Fin n → E) (i j : Fin n) :
@@ -2446,14 +2479,6 @@ theorem lllCoefficient_orthogonal (b : Fin n → E)
 theorem lllCoefficient_denominator_pos (b : Fin n → E)
     (hb : LinearIndependent ℝ b) (j : Fin n) :
     0 < ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 := by sorry
-
-/-- LLL-reduced at `δ = 3/4` (5.1.2): independent, size-reduced, and Lovász. -/
-def IsLLLReduced (b : Fin n → E) : Prop :=
-  LinearIndependent ℝ b ∧
-  (∀ i j, j < i → |lllCoefficient b i j| ≤ 1/2) ∧
-  (∀ i j, j.val + 1 = i.val →
-    (3/4 - (lllCoefficient b i j) ^ 2) * ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 ≤
-      ‖InnerProductSpace.gramSchmidt ℝ b i‖ ^ 2)
 
 /-- A reduced family is independent. -/
 theorem IsLLLReduced.linearIndependent {b : Fin n → E} (h : IsLLLReduced b) :
@@ -2475,12 +2500,6 @@ theorem lll_gramSchmidt_bound (b : Fin n → E) (h : IsLLLReduced b)
     (i j : Fin n) (hji : j < i) :
     ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 ≤
       (2 : ℝ) ^ (i.val - j.val) * ‖InnerProductSpace.gramSchmidt ℝ b i‖ ^ 2 := by sorry
-
-/-- **The LLL approximation factor** (5.1.4): `‖b₀‖² ≤ 2^{n-1} ‖x‖²` for nonzero `x` in the
-integer span. -/
-theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 < n)
-    (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
-    ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
 
 end LLL
 

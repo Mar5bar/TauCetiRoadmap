@@ -50,6 +50,22 @@ Already in Mathlib or Tau Ceti, used without restatement: Blichfeldt's theorem (
 
 **Exact categories and dualities.** An exact category is a Tau Ceti `ExactStructure` on a preadditive category with a zero object and biproducts. A strong duality is Tau Ceti's `IsInvolutiveDual` together with exactness of the duality functor. Symmetric spaces have a pairing isomorphism; a Lagrangian is an admissible inflation whose quotient is the dual of the subobject; hyperbolic spaces and the diagonal Lagrangian use biproducts and never divide by two. Invertibility of `2` is a hypothesis of the individual targets that need it and nothing else.
 
+## Headline signatures
+
+The opening theorem block of `Suggested.lean` states `minkowski_second_lower` (§1.3.4),
+`minkowski_second_upper` (§1.5.21), `lattice_count_lt_successive_minima` (§4.1.12),
+`oppenheim_values` (§4.3.1), `duke_sphere_equidistribution` (§4.3.2), and
+`lll_short_vector_factor` (§5.1.4). Their conventions are the real-valued adapter
+`successiveMin`, the Gram–Schmidt predicate `IsLLLReduced`, and the integer shell `ternaryShell`.
+The source locators and Checks for these signatures are in their numbered targets below.
+
+The Cho–Yamauchi formula (§3.2.6) uses the local-field density and integral-overlattice
+constructions of §§2.7 and 3.2. The proper mass identity (§3.3.4) uses the adelic genus and
+compatible quotient measures. Hermitian delooping (§6.7.19) uses the Grothendieck–Witt space
+of §6.5 and the exact suspension of §6.7.17. These constructions are specified by their
+README targets; finite matrix counts, a list of stabilizer orders, or a bare topological
+space do not identify them.
+
 ## Exact supplier contracts
 
 ### From Mathlib
@@ -2265,7 +2281,7 @@ Prove `siegelQuadraticLowerBound`: for every ε>0 there is `c_ε>0` such that `L
 Prove `indefinite_quadratic_surjective`: an indefinite real quadratic form assumes every real value by scaling a positive or negative witness, including zero at the origin. Apply 4.2.4 to the H-orbit of the standard lattice. The maximal-subgroup theorem leaves a closed H-orbit or a dense SL₃-orbit; the arithmetic obstruction excludes the closed branch for irrational q. The dense lattice orbit makes HZ³ dense in R³ (approximate a chosen nonzero vector by first columns of determinant-one frames). Since q is H-invariant, continuity and the preceding surjectivity give dense integer values. The rational ternary restriction then proves the statement for n>3.
 (Source: Morris, Corollary 20.2.5, pp.410–411, for the Ratner reduction; the explicit rational-restriction, matrix-module and rational-descent arguments above supply the auxiliary calculations that reduction requires. Their library inputs are RepresentationTheory/LieGroups Layers 2 and 4, RepresentationTheory/LieHighestWeight Layer 0, AdelicAlgebraicGroups AA.3 arithmetic finite volume, `borel_density_zariski` and rational Gaussian elimination.)
 
-4.3.1. Prove that for n≥3, a real nondegenerate indefinite quadratic form q on `R^n` that is not proportional to a form with rational coefficients has `q(Z^n)` dense in R.
+4.3.1. Prove `oppenheim_values`: for n≥3, a real nondegenerate indefinite quadratic form q on `R^n` that is not proportional to a form with rational coefficients has `q(Z^n)` dense in R.
 Nondegeneracy, indefiniteness, dimension≥3 and irrationality up to scalar are all retained.
 (Source: Morris2015v6, Corollary 20.2.5 and three-variable proof, printed pp.410–411.)
 *Needs:* 4.2.4, `irrational_indefinite_ternary_restriction`, `ternary_orthogonal_maximal_in_sl3`, `lattice_orthogonal_rational_form` and `indefinite_quadratic_surjective`.
