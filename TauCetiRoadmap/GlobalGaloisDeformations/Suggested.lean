@@ -399,9 +399,17 @@ example : ¬ Function.Injective (fun x : Fin 2 → ZMod 3 ↦ (x 0, x 0)) := by
 example (h S : ℤ) : h + (4 * S - 1) - 3 * S = h + S - 1 := by
   ring
 
-/-- `p = 2`: with `t = 2 − |S| + h`, `h + j + t − d = 2h + 1`. -/
+/-- `dyadic_count_identity`: with `p = 2` and `t = 2 − |S| + h`, the integer count is
+`h + j + t − d = 2h + 1` (README 5.4). -/
 example (h S : ℤ) : h + (4 * S - 1) + (2 - S + h) - 3 * S = 2 * h + 1 := by
   ring
+
+/-- `dyadic_count_identity`: natural-number subtraction fails at `|S| = 3`, `|Q_n| = 0`,
+where `t = 2 − 3 + 0` truncates to `0` (README 5.4). -/
+example : ¬ ∀ h S : ℕ, h + (4 * S - 1) + (2 - S + h) - 3 * S = 2 * h + 1 := by
+  intro H
+  have := H 0 3
+  omega
 
 /-- `R04.6/kw-deformation-data`: `3|S_f| + [F : ℚ] + 2[F : ℚ] = 3(|S_f| + [F : ℚ])`. -/
 example (Sf d : ℕ) : 3 * Sf + d + 2 * d = 3 * (Sf + d) := by
@@ -428,10 +436,23 @@ example : Matrix.trace (1 : Matrix (Fin 3) (Fin 3) (ZMod 3)) = 0 := by
 example (q n f : ℤ) : -(n ^ 2 * f) + q * n = q * n - n ^ 2 * f := by
   ring
 
-/-- `bigImage_GL2_F5`: the full general linear group contains the determinant-one subgroup
+/-- `bigImage_SL2_index`: the determinant-one subgroup has order `120` and index `4` in `GL₂(𝔽₅)`
 (README 5.2). -/
-example : (Matrix.GeneralLinearGroup.det : GL (Fin 2) (ZMod 5) →* (ZMod 5)ˣ).ker ≤
-    (⊤ : Subgroup (GL (Fin 2) (ZMod 5))) := le_top
+example :
+    Nat.card (Matrix.GeneralLinearGroup.det : GL (Fin 2) (ZMod 5) →* (ZMod 5)ˣ).ker = 120 ∧
+    (Matrix.GeneralLinearGroup.det : GL (Fin 2) (ZMod 5) →* (ZMod 5)ˣ).ker.index = 4 := by
+  let : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have hi : (Matrix.GeneralLinearGroup.det : GL (Fin 2) (ZMod 5) →* (ZMod 5)ˣ).ker.index = 4 := by
+    rw [Subgroup.index_ker,
+      MonoidHom.range_eq_top.mpr Matrix.GeneralLinearGroup.det_surjective, Subgroup.card_top]
+    norm_num [Nat.card_units, Nat.card_eq_fintype_card,
+      Nat.totient_prime (by decide : Nat.Prime 5)]
+  have hg : Nat.card (GL (Fin 2) (ZMod 5)) = 480 := by
+    rw [Matrix.card_GL_field (𝔽 := ZMod 5) 2]
+    norm_num [Fin.prod_univ_succ, ZMod.card]
+  have hc := (Matrix.GeneralLinearGroup.det : GL (Fin 2) (ZMod 5) →* (ZMod 5)ˣ).ker.card_mul_index
+  rw [hi, hg] at hc
+  exact ⟨by omega, hi⟩
 
 /-- `bigImage_Borel_fails`: a lower transvection of determinant one witnesses failure of
 containment in the upper triangular subgroup (README 5.2). -/
