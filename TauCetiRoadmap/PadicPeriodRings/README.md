@@ -22,7 +22,7 @@ Names in this README are target names relative to TauCetiRoadmap.PadicPeriodRing
 
 | Supplier | Exact interface consumed |
 | --- | --- |
-| Mathlib, pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` | PadicAlgCl, PadicComplex, PadicComplexInt, spectralNorm, completion maps, algebraic closures and the Krull topology, cyclotomicCharacter and continuousCohomology; PreTilt, WittVector and Fontaine's `θ`; BDeRhamPlus and BDeRham as defined in [Mathlib/RingTheory/Perfectoid/BDeRham.lean](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/BDeRham.lean); localization, AdicCompletion, divided powers and DividedPowerAlgebra. The period topology, discrete valuation structure and comparisons are targets here. |
+| Mathlib, pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` | PadicAlgCl, PadicComplex, PadicComplexInt, spectralNorm, `spectralNorm_eq_of_equiv` (`Mathlib/Analysis/Normed/Unbundled/SpectralNorm.lean`), the isometry of `ℚ_p`-automorphisms for the spectral norm, completion maps, algebraic closures and the Krull topology, cyclotomicCharacter and continuousCohomology; PreTilt, WittVector and Fontaine's `θ`; BDeRhamPlus and BDeRham as defined in [Mathlib/RingTheory/Perfectoid/BDeRham.lean](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/BDeRham.lean); localization, AdicCompletion, divided powers and DividedPowerAlgebra. The period topology, discrete valuation structure and comparisons are targets here. |
 | Tau Ceti, pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` | TauCeti.ContCohomology's explicit continuous cocycles, principal cocycles, invariants, restriction and inflation; its `explicitInfRes_exact` and `explicitInfl1_injective` in TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic. Consume these with their topological coefficient and quotient-action hypotheses. |
 | ProfiniteCohomology | Layers 3 and 5: canonical continuous-cohomology comparison and the low-degree restriction/inflation API. These supply the continuous cocycle vocabulary of §0. |
 | ProfiniteArithmetic | Layers 0 and 1: profinite integers and units (Layer 0), and continuous profinite and `ℤ_p` powers (Layer 1), for the procyclic group and the cyclotomic character. |
@@ -73,7 +73,7 @@ Throughout, `ℂ_p` is Mathlib's `PadicComplex p`, the completion of `PadicAlgCl
 
 ### 1.1 The Galois action on `ℂ_p`
 
-**The Galois action on `ℂ_p`.** Prove `PadicAlgCl.norm_algEquiv_apply`: every `ℚ_p`-automorphism `σ` of `PadicAlgCl p` is an isometry, because the spectral norm of `x` depends only on the minimal polynomial of `x` over `ℚ_p` and `σ(x)` has the same minimal polynomial. Define `padicComplexGaloisAction` by `UniformSpace.Completion.map σ` and prove `padicComplexGaloisAction_spec`: it is the unique continuous extension of `σ` to `ℂ_p`, it is an isometric `ℚ_p`-algebra automorphism, `σ ↦ padicComplexGaloisAction σ` is a group homomorphism, and the action map `G_K × ℂ_p → ℂ_p` is continuous for the Krull topology. Hypotheses: `K/ℚ_p` finite inside `PadicAlgCl p`; nothing else.
+**The Galois action on `ℂ_p`.** Every `ℚ_p`-automorphism `σ` of `PadicAlgCl p` is an isometry by Mathlib's `spectralNorm_eq_of_equiv` with `PadicAlgCl.spectralNorm_eq`. Define `padicComplexGaloisAction` by `UniformSpace.Completion.map σ` and prove `padicComplexGaloisAction_spec`: it is the unique continuous extension of `σ` to `ℂ_p`, it is an isometric, hence uniformly continuous, `ℚ_p`-algebra automorphism, `σ ↦ padicComplexGaloisAction σ` is a group homomorphism, and the action map `G_K × ℂ_p → ℂ_p` is continuous for the Krull topology. Hypotheses: `K/ℚ_p` finite inside `PadicAlgCl p`; nothing else.
 
 (Brinon–Conrad, *CMI summer school notes on `p`-adic Hodge theory*, §2.1, p. 12; Fontaine–Ouyang, *Theory of `p`-adic Galois representations*, §4.1.2, p. 91, paragraph before Question 4.8.)
 
@@ -87,7 +87,7 @@ Throughout, `ℂ_p` is Mathlib's `PadicComplex p`, the completion of `PadicAlgCl
 
 ### 1.2 Ax–Sen–Tate fixed points
 
-**Ax–Sen–Tate.** Prove `padicComplex_fixed_eq`: for a closed subgroup `H ⊆ G_{ℚ_p}` with fixed field `L = PadicAlgCl p^H`, the `H`-fixed points of `ℂ_p` are the closure of `L` in `ℂ_p`, which is the completion `L̂`; in particular, for `K/ℚ_p` finite, `ℂ_p^{G_K} = K`. Prove this as follows. Approximate `x ∈ ℂ_p^H` by algebraic `x_n` with `v(x − x_n) ≥ n`; every `H`-conjugate of `x_n` is then close to `x_n`, and the Ax–Sen lemma gives `y_n ∈ L` with `v(x_n − y_n)` bounded below by `n` minus a constant depending only on `p`; the `y_n` converge to `x`.
+**Ax–Sen–Tate.** Prove `padicComplex_fixed_eq`: for `K/ℚ_p` finite inside `PadicAlgCl p`, `ℂ_p^{G_K} = K`. Prove `padicComplex_fixed_closure_eq`: for a closed subgroup `H ⊆ G_{ℚ_p}` with fixed field `L = PadicAlgCl p^H`, the `H`-fixed points of `ℂ_p` are the closure of `L` in `ℂ_p`, which is the completion `L̂`. Prove this as follows. Approximate `x ∈ ℂ_p^H` by algebraic `x_n` with `v(x − x_n) ≥ n`; every `H`-conjugate of `x_n` is then close to `x_n`, and the Ax–Sen lemma gives `y_n ∈ L` with `v(x_n − y_n)` bounded below by `n` minus a constant depending only on `p`; the `y_n` converge to `x`.
 
 (Fontaine–Ouyang, §4.1.2, Proposition 4.3 (Ax–Sen lemma), p. 88, and Proposition 4.9, p. 91; Brinon–Conrad, Proposition 2.1.2, p. 12; Ax, *Zeros of polynomials over local fields — the Galois action*, J. Algebra 15 (1970).)
 
@@ -187,7 +187,7 @@ Construct residuals `r_j=f−d(Σ_{k<j}u_k)` with `v_∞(r_j)≥v_∞(f)+j` and 
 - `K = ℚ₃`, `i = 1`: on the `ℤ₃`-subextension `H_K` still acts through the order-two part of `χ`, so `ℂ₃(1)^{H_K}` cannot be identified with that completed field with a descended `χ`. For `K_∞ = ℚ₃(μ_{3^∞})`, `χ|_{H_K} = 1`, and the remaining finite `Γ_K`-character is retained.
 - `i = 0`, degree zero: `H⁰(G_K, ℂ_p) = K`, which is Ax–Sen–Tate.
 - `i = 1`, degree zero: no nonzero `x ∈ ℂ_p` satisfies `g(x) = χ(g)^{−1}x` for all `g`; in particular the period `t` of `B_dR` (with `g(t) = χ(g)t`) does not lie in `ℂ_p`.
-- `i = 0`, degree one: `log χ` is a nonzero class, so the extension of `ℂ_p` by `ℂ_p` it defines does not split, while every extension of `ℂ_p` by `ℂ_p(1)` splits since `H¹(G_K, ℂ_p(1)) = 0`. The calculation uses continuous cochains for the norm topology; with the discrete topology on `ℂ_p` the cohomology groups are different (the `ℂ_p`-valued homomorphisms of `G_K` would have to be locally constant).
+- `i = 0`, degree one: `log χ` is a nonzero class, so the `ℂ_p`-semilinear extension of `ℂ_p` by `ℂ_p` it defines does not split, while every `ℂ_p`-semilinear extension of `ℂ_p` by `ℂ_p(1)` splits since `H¹(G_K, ℂ_p(1)) = 0`. The calculation uses continuous cochains for the norm topology; with the discrete topology on `ℂ_p` the cohomology groups are different (the `ℂ_p`-valued homomorphisms of `G_K` would have to be locally constant).
 
 *Needs:* §§0.1–0.2, 1.1–1.3; §1.4 `tate_finiteCochainControl` and `tate_cocycleLimit`; PerfectoidTowers P9.0 (canonical continuous-cochain comparison); Mathlib cyclotomicCharacter and continuousCohomology; LocalGaloisGroups Layer 5.
 
@@ -243,7 +243,7 @@ Mathlib `PadicComplex` through the chosen embedding of `K̄`.
 
 - `K=Frac W(𝔽_p(s)^perf)` is allowed; passing to the completed maximal unramified extension preserves `ord_K(p)` and the totally ramified tower's upper breaks.
 - For the cyclotomic `ℤ₂`-tower over `ℚ₂(ζ₄)`, eventual spacing is `ord_K(2)=2`. Neither `p=2` nor a ramified finite base changes the increment to 1.
-- An unramified `ℤ_p`-extension has trivial positive ramification groups, so `y_m` does not tend to infinity. Total ramification is essential.
+- An unramified `ℤ_p`-extension has `Γ^y = 1` for all `y ≥ 0`, so the set defining `y_m` is empty and no break exists. Total ramification is essential.
 
 **General-base tower estimates.** Extend `periodTraceIdeal` and `senTowerEstimates` of §1.3 to finite extensions of every `K` in this section, with arbitrary perfect residue field. Construct their different and ramification-filtration inputs on this domain, using `senUpperBreaks` for eventual jump spacing. The trace-ideal formula uses integer-normalized valuations and its floor; the Sen formula uses `v(p)=1` and a totally ramified `ℤ_p`-tower indexed after a finite base stage. Include every infinitely ramified splitting tower of a character `η` with finite or virtually `ℤ_p` image, and the compatible estimates after finite base extensions. These give the normalized-trace splittings, the almost trace assertion for finite `M/K_∞`, and the uniform inverse to `γ_n−1` by induction over all finite stages as in §1.3. Also prove that `γ−λ` has a bounded inverse on `K̂_∞` whenever `γ` generates the totally ramified `ℤ_p`-group and `λ∈1+𝔪_K` is not a `p`-power root of unity; the geometric-series argument first treats `λ` close to 1 and then passes to a power of `γ`. This supplies the twisted-generator calculation for the infinite-inertia branch of `tateSen_character`.
 
@@ -255,7 +255,7 @@ Mathlib `PadicComplex` through the chosen embedding of `K̄`.
 
 - `K=Frac W(𝔽_p(s)^perf)` satisfies these hypotheses; its cyclotomic tower uses the same trace-ideal formula and Sen bounds, without local compactness or a finite residue field.
 - Over this `K`, an unramified `ℤ_p`-tower still has surjective integral trace and unbounded normalized traces; it does not satisfy the infinite-ramification hypothesis.
-- `λ=1` makes `γ−λ` vanish on `K⊂K̂_∞`. Thus the exclusion of `p`-power roots of unity is necessary, including at `p=2`.
+- `λ=1` makes `γ−λ` vanish on `K⊂K̂_∞`. If a primitive `pⁿ`-th root `ζ_{pⁿ}` lies in `K`, with `n≥1`, the degree-`pⁿ` stage has `K_n ≅ K[Γ/pⁿΓ]` by the normal basis theorem. Thus `γ−ζ_{pⁿ}` has a nonzero kernel in `K_n`. In particular this holds for `ζ_p ∈ K` on `K_1`, including `λ=−1` at `p=2`; the exclusion of every `p`-power root of unity in `K` is necessary.
 
 **Completed unramified descent — `completedUnramifiedDescent`.** Construct `K^un` inside `K̄` and its valuation completion `K̂^un`, with valuation ring `R′=completion of O_{K^un}`, residue field `k^s` and canonical continuous `G_k`-action. Write `R=O_K`. For every finitely generated `R′`-module `M` with a continuous semilinear `G_k`-action for its natural valuation topology, prove that `M^{G_k}` is finitely generated over `R` and the natural map `R′⊗_R M^{G_k}→M` is an isomorphism. It preserves rank and invariant factors, and taking invariants is exact on these modules. Prove descent modulo each uniformizer power by finite Galois descent and induction on torsion length, then pass to the complete modules and use faithful flatness. Apply the rank-one case to `R′(η)` for unramified `η`, invert `p`, and use finite Galois descent when `η` becomes unramified over a finite extension.
 
@@ -395,7 +395,7 @@ The tensor coefficients are topological additive `ℚ_p`-modules with jointly co
 
 Construct the functors on equivariant linear maps, with identity, composition, zero, finite direct sums, scalar maps and Tate twists. Supply the natural tensor and dual comparison maps as maps of the actual invariant modules; no tensor equivalence is asserted for arbitrary representations. Carry finite coefficient fields `E/ℚ_p` by scalar restriction and the commuting `E`-action on invariants, not by an unspecified Frobenius action on `E`. Prove `D_cris(V)=D_st(V)^{N_p=0}` as structured `K₀`-modules, and hence also for the nonzero scalar multiple `N=eN_p`.
 
-*Source:* Brinon–Conrad, §9.1, pp. 128–135 and §9.2, pp. 135–146, crystalline and semistable invariant functors and regularity; Fontaine, Représentations `p`-adiques semi-stables, §§5.1.1–5.1.7, pp. 155–157, invariant modules and the `N=0` comparison. These are general-base carrier functors; the consumer's finite-`K` realization comparisons are separate targets.
+*Source:* Brinon–Conrad, §9.1, pp. 128–135 and §9.2, pp. 135–146, crystalline and semistable invariant functors and regularity; Fontaine, Représentations `p`-adiques semi-stables, §5.1 (5.1.2–5.1.7), pp. 155–157, invariant modules and the `N=0` comparison. These are general-base carrier functors; the consumer's finite-`K` realization comparisons are separate targets.
 
 *Needs:* §4.1; Mathlib finite-dimensional representations, tensor products, duals, invariants, semilinear maps and filtrations; PerfectoidTowers P9.0 for the canonical continuous-cochain interpretation whenever a cohomological invariant is used.
 

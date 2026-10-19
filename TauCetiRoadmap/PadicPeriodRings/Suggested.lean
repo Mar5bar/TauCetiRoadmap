@@ -165,16 +165,13 @@ section PadicComplex
 
 variable (p : ℕ) [Fact p.Prime]
 
-/-- §1.1: every `ℚ_p`-automorphism of `PadicAlgCl p` is an isometry for the spectral norm. -/
-theorem PadicAlgCl.norm_algEquiv_apply (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p)
-    (x : PadicAlgCl p) : ‖σ x‖ = ‖x‖ := sorry
-
 /-- §1.1: the action of a Galois automorphism on `ℂ_p`, by continuous extension from
 `PadicAlgCl p`. -/
 def padicComplexGaloisAction (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) : ℂ_[p] → ℂ_[p] :=
   UniformSpace.Completion.map σ
 
-/-- §1.1: the extension is an isometric `ℚ_p`-algebra automorphism of `ℂ_p` extending `σ`. -/
+/-- §1.1: the extension is an isometric, hence uniformly continuous, `ℚ_p`-algebra
+automorphism of `ℂ_p` extending `σ`. -/
 theorem padicComplexGaloisAction_spec (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
     ∃ τ : ℂ_[p] ≃ₐ[ℚ_[p]] ℂ_[p], ⇑τ = padicComplexGaloisAction p σ ∧ Isometry τ ∧
       ∀ x : PadicAlgCl p, τ x = σ x := sorry
@@ -245,11 +242,11 @@ example {B : Type*} [Field B] [TopologicalSpace B] [T2Space B]
     ¬ Continuous (fun x : B × B => x.1 * x.2) := sorry
 
 /-
-The remaining targets are specified in the README, without stand-in declarations:
+The remaining targets are specified in the README:
 §0.1 procyclic_H1_equiv_coinvariants; §0.2 continuous inflation–restriction and finite descent
 (the boundary examples above use the supplied explicit H1, explicitInfl1 and explicitRes1);
 §1.1 joint continuity, uniqueness and multiplicativity of padicComplexGaloisAction;
-§1.2 fixed points for every closed subgroup;
+§1.2 padicComplex_fixed_closure_eq, fixed points for every closed subgroup;
 §1.3 periodTraceIdeal, senTowerEstimates, tate_algebraicTraceDescent (finite-stage
 degree and trace compatibility, exact integral preimages and trace-one valuation bounds),
 tate_normalizedTrace and tate_almostEtale;
