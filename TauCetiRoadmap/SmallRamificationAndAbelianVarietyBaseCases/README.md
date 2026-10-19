@@ -113,7 +113,7 @@ owner of the general result and the part used here.
 | Owner | Required interface and use |
 | --- | --- |
 | `ArithmeticGaloisRepresentations Layer 1` | Finite coefficient descent and absolute irreducibility under scalar extension; used in Layer 2 |
-| `ArithmeticGaloisRepresentations`, §2.7, Global inputs | Trivial-character Tate meromorphic extension, completed functional equation and poles of Dedekind zeta; §1.0 identifies the Euler product and proves the explicit formula |
+| `ArithmeticGaloisRepresentations`, §2.7, `finite-order-hecke-functional-equation` / LFunctions Layer 5 | Trivial-character meromorphic continuation, completed functional equation and poles of Dedekind zeta; §1.0 identifies the Euler product and proves the explicit formula |
 | `ArithmeticGaloisRepresentations Layer 2` | Decomposition groups, inertia, kernel fields and their ramification; used to connect representations to completions |
 | `ArithmeticGaloisRepresentations Layer 4` | Dickson classification, normal p-subgroup fixed vectors, and the cyclotomic restriction criterion; used in Layer 1, Layer 2 and Layer 5 |
 | `ArithmeticGaloisRepresentations`, §§6.1, 6.4 / `TateModule.lambdaTateModule` | Rational Tate modules and `λ`-factors with continuous Galois action, coefficient extension and dimension; specialized in §5.1 |
@@ -216,7 +216,8 @@ larger auxiliary fields in Schoof's argument.
 ### 1.0 The Dedekind-zeta explicit formula
 
 For every number field K of degree n and signature `(r₁,r₂)`, use
-ArithmeticGaloisRepresentations §2.7, Global inputs, specialized to the trivial idele-class character,
+ArithmeticGaloisRepresentations §2.7, `finite-order-hecke-functional-equation`, supplied by
+LFunctions Layer 5 and specialized to the trivial idele-class character,
 for Dedekind-zeta meromorphic extension, its completed functional equation and poles. Identify its Euler
 product `∏𝔭 (1 − N𝔭⁻ˢ)⁻¹` on `Re(s)>1` with the ArithmeticDirichletSeries presentation.
 Use the completion
@@ -250,7 +251,7 @@ This is a target here; it uses Mathlib's gamma functions, integrals and number-f
 ArithmeticDirichletSeries (completed), Layers 1–3, for Dirichlet-series convergence and
 Euler-product operations. Source: Odlyzko's survey, §2, (2.1)–(2.3), pp. 121–122;
 meromorphic extension, the completed equation and poles are supplied by the trivial-character specialization
-of ArithmeticGaloisRepresentations §2.7.
+of ArithmeticGaloisRepresentations §2.7, `finite-order-hecke-functional-equation` (LFunctions Layer 5).
 
 **Checks.**
 
@@ -290,15 +291,15 @@ the single contribution is `1−1/e`, providing an immediate convention check. J
 
 **Checks.**
 
-- `localRootDiscrExp_two_adic_i`: `δ(ℚ₂(i)) = 1`.
-- `localRootDiscrExp_two_adic_sqrt_two`: `δ(ℚ₂(√2)) = 3/2`, separating the
+- `δ(ℚ₂(i)) = 1`.
+- `δ(ℚ₂(√2)) = 3/2`, separating the
   normalised exponent from the integer different exponent three.
-- `localRootDiscrExp_two_adic_zeta_twelve`: `e = f = 2`, `d = 2`, discriminant exponent four, and
+- For `ℚ₂(ζ₁₂)`, `e = f = 2`, `d = 2`, discriminant exponent four, and
   `δ = 1`. Dividing d by the degree gives the wrong value `1/2`; dividing the discriminant
   exponent by e gives two.
-- `localRootDiscrExp_three_adic_pure_cubic`: the splitting field of `X³−3` over `ℚ₃` has
+- The splitting field of `X³−3` over `ℚ₃` has
   degree six and different exponent eleven, giving `11/6`.
-- `localRootDiscrExp_self`: the base field and its unramified quadratic extension both give zero; a
+- The base field and its unramified quadratic extension both give zero; a
   formula with an added tame constant fails here.
 
 The local-to-global theorem, `rootDiscr_eq_prod_rpow_localRootDiscrExp`, proves that a Galois number
@@ -451,10 +452,10 @@ explicit formula. They use `Real.cos`, `Real.sin`, `MeasureTheory.convolution` a
 **Checks.**
 
 - `odlyzkoKernel_zero`: `g(0) = 1` fixes the normalisation.
-- `odlyzkoKernel_half`: `g(1/2) = 1/π` detects the coefficient of the sine term.
-- `odlyzkoKernel_neg_half`: `g(−1/2) = 1/π` rejects a signed sine argument without absolute value.
-- `odlyzkoKernel_one`: `g(1) = g(2) = 0` checks the boundary and the exterior support.
-- `odlyzkoKernel_three_quarters_pos`: `g(3/4)>0` rejects the truncated cosine without its sine
+- `g(1/2) = 1/π` detects the coefficient of the sine term.
+- `g(−1/2) = 1/π` rejects a signed sine argument without absolute value.
+- `g(1) = g(2) = 0` checks the boundary and the exterior support.
+- `g(3/4)>0` rejects the truncated cosine without its sine
   correction.
 - `integral_odlyzkoKernel_Ioi`: the positive-half-line integral is `4/π²`, rejecting omission of
   the `1/π` factor.
@@ -511,7 +512,9 @@ For `b>0`, set `F_b(x) = g(x/b)/cosh(x/2)` and define
 
 The auxiliary definition `poitouTestFunction` has API lemmas for evenness, normalization at zero,
 vanishing for `|x| ≥ b` when `b>0`, nonnegativity, and continuous differentiability. Its integral and
-transform properties are those used in this section. Source: the kernel of §1.5 and Odlyzko, §2,
+transform properties are those used in this section. The theorem `poitouTestFunction_properties`
+collects these normalization, support, positivity and regularity properties. Source: the kernel of
+§1.5 and Odlyzko, §2,
 (2.3)–(2.5), p. 122.
 
 **Checks.**
@@ -530,7 +533,7 @@ exponentially. Since g has support in `[−1,1]`, the tail of `I₁` is `−log 
 `I₂` is `π−2 arctan(e^{b/2})`. The pole contribution is `−4∫₀^∞F_b(x) cosh(x/2) dx = −16b/π²`. In particular, its sign is negative. This is the right side of
 Odlyzko, §2, (2.3), p. 122, after removing the zero and prime contributions.
 
-The API names `poitouLowerBound`, `integrableOn_poitouIntegrand_sinh` (and its cosh counterpart),
+The API names `poitouLowerBound`, `integrableOn_poitouIntegrand_sinh` and `integrableOn_poitouIntegrand_cosh`,
 `poitouLowerBound_eq_explicit`, `poitouIntegral_sinh_eq` and `poitouLowerBound_div_mono`. The last
 theorem assumes `b>0` and `0<n ≤ m`, and states `P(n,0,b)/n ≤ P(m,0,b)/m`. Indeed only the
 negative pole term depends on n after division. The explicit and tail equalities are what make the
@@ -539,15 +542,15 @@ definition usable for exact integral estimates. Library inputs include
 
 **Checks.**
 
-- `poitouLowerBound_rat_nonpos`: `P(1,1,b) ≤ 0` for `b = 1/2,1,2`, as the rational field has
+- `P(1,1,b) ≤ 0` for `b = 1/2,1,2`, as the rational field has
   discriminant one.
-- `poitouLowerBound_sqrt_neg_three`: `P(2,0,1) ≤ log 3` checks the totally complex quadratic
+- `P(2,0,1) ≤ log 3` checks the totally complex quadratic
   signature.
-- `poitouLowerBound_sqrt_five`: `P(2,2,3/2) ≤ log 5` checks the real quadratic signature.
+- `P(2,2,3/2) ≤ log 5` checks the real quadratic signature.
 - `poitouLowerBound_div_mono`: for `b>0` and positive degrees the normalised bound increases with
   degree, with limit `γ+log(8π)−I₁(b)<log(4πe^γ)`. The negative pole term has the
   direction required for this inequality; degree zero is excluded.
-- `poitouLowerBound_one_one_one_bounds`: `−0.09<P(1,1,1)<−0.08`. This two-sided value detects
+- `−0.09<P(1,1,1)<−0.08`. This two-sided value detects
   `log(4π)` in place of `log(8π)`, a missing real-place contribution or a wrong pole sign.
 
 `poitouIntegral_sinh_lt` is a separate bound lemma:
@@ -739,17 +742,19 @@ arithmetic vanishing targets (Schoof, §4, pp. 851–853).
 
 - `Ext1Vanishes μ₂ (ℤ/2ℤ)` over `ℤ` holds by §3.3.
 - The reversed pair fails over `ℤ`: the Katz–Mazur extension attached to `−1` has constant quotient and
-  multiplicative subobject and is nonsplit.
+  multiplicative subobject and is nonsplit; `ext_zModTwo_muTwo_nonzero` states this boundary.
 - An extension with either endpoint trivial splits; this must not require positive rank greater than
   one at both endpoints.
 
 For a base R equipped with its map to `ℚ`, `points G` is the convolution group of R-algebra maps from
 the coordinate Hopf algebra to `ℚ̄`, and `galoisAct G σ x` postcomposes such a map by `σ`. The action
-API is the identity and composition laws, compatibility with group multiplication, morphisms,
+API is the identity and composition laws, with `galoisAct_mul` giving the composition law,
+compatibility with group multiplication, morphisms,
 Cartier duality and base change. `torsionField G` is the intermediate field generated by all values
-of all these coordinate maps. Its API includes `numberField_torsionField`, Galois normality in
-characteristic zero, equality of its fixing subgroup with the kernel of the point action, and
-invariance under isomorphism. These are the point-action specialization used in §1.8, supplied
+of all these coordinate maps. Its API includes `numberField_torsionField`, `isGalois_torsionField`
+for Galois normality in
+characteristic zero, `torsionField_fixingSubgroup` for equality of its fixing subgroup with the
+kernel of the point action, and invariance under isomorphism. These are the point-action specialization used in §1.8, supplied
 geometrically by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.2 and its generic-fibre
 comparisons. Source: Schoof, Proposition 5.1 and proof, pp. 853–854. Number-field structures used in
 root-discriminant statements are supplied by this finiteness theorem, not by a data axiom.
@@ -815,6 +820,7 @@ of irreducibility with absence of a stable line in dimension two. ArithmeticGalo
 - The trivial rank-two representation fails.
 - The cyclic matrix `cubicOrderThreeMatrix = (0,1;1,1)` is irreducible over `𝔽₂` but splits over `𝔽₄`;
   its order is three and its polynomial is `X²+X+1`. It fails absolute irreducibility.
+  The theorem `cubicOrderThreeMatrix_irreducible_not_absolute` states the eigenline distinction.
 - The natural `S₃` image on the two-torsion of `x0Eleven` is absolutely irreducible: its two distinct
   transvections have different fixed lines.
 
@@ -1646,7 +1652,8 @@ p. 847, and Dieulefait–Pacetti, Theorem 1.2, §1.1, p. 3.
 
 The statement excludes neither arbitrary additive reduction nor the prime eleven. For example
 `y² = x³−x` has additive reduction at two, so “good away from two” alone is insufficient. The
-nonzero Jacobian `J₀(11)` is semistable and good away from eleven. More generally, `J₀(ℓ)`
+nonzero Jacobian `J₀(11)` is semistable and good away from eleven. Its simple order-four
+two-torsion forces `not_fieldCriterion_eleven_two`, the failure of `FieldCriterion 11 2`. More generally, `J₀(ℓ)`
 explains the sharp prime set. The geometric statement concerns every dimension; `GL₂`-type is not a
 hypothesis here. The Schoof theorem and the semistable category are the layer's landmarks, with five
 independently justified field criteria as its arithmetic conclusions.
@@ -1698,7 +1705,8 @@ Snowden, §3.1, p. 6; Khare, Lemma 5.1, pp. 20–21.
 **Checks.**
 
 - A reducible diagonal representation fails the condition.
-- At `p = 2` the cyclotomic subfield is `ℚ`, so the condition is ordinary absolute irreducibility.
+- At `p = 2` the cyclotomic subfield is `ℚ`, so the condition is ordinary absolute irreducibility,
+  as stated by `satisfiesA1Residual_two_iff`.
 - For the natural representation of `GL₂(𝔽₃)`, restriction to `SL₂(𝔽₃)` is still absolutely
   irreducible: the two elementary unipotent matrices have different fixed lines. Thus a
   determinant-kernel restriction need not destroy irreducibility.
@@ -1977,9 +1985,15 @@ uses the input action, with no fresh choice from `IsGL2Type`. The API is:
 
 `endZeroAlgebra A` denotes `ℚ ⊗[ℤ] A.End`, with the endomorphism-ring structure and scalar extension
 from AbelianSchemesAndArithmeticModuli A6.8 and A6.10–A6.12. Its API includes the natural map from
-integral endomorphisms and scalar compatibility. The transport maps are `endZeroIsogeny`, the
+integral endomorphisms and scalar compatibility. The theorem `endZeroIsogeny_exists` supplies a
+positive integer n and an integral quasi-inverse g
+with `f g = [n]` and `g f = [n]`; it characterizes conjugation on `1 ⊗ x` by
+`(1/n) ⊗ (f x g)`. The choice `endZeroIsogeny` satisfies this formula by
+`endZeroIsogeny_characterization`. The transport maps are `endZeroIsogeny`, the
 unital ring isomorphism given by conjugation with an F-isogeny, and `endZeroBaseChange`, the
-unital ring map induced by base change to a finite extension. Their identity and composition laws
+unital ring map induced by base change to a finite extension. The theorem `endZeroBaseChange_tmul`
+states that it sends `q ⊗ x` to `q ⊗ x_F′`, using the native integral endomorphism base change.
+Their identity and composition laws
 agree with conjugation and base change of endomorphisms. For a non-CM elliptic
 curve its value is `ℚ`; for a CM elliptic curve with all endomorphisms defined over the base it is the
 imaginary quadratic CM field; for `E×E` with E non-CM it is `M₂(ℚ)`. These three checks distinguish
@@ -2004,7 +2018,7 @@ is `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
   two-dimensional Tate module.
 - `isGL2Type_J0_23`: the actual dimension-two modular Jacobian with its Hecke embedding of `ℚ(√5)`
   satisfies the predicate and has a two-dimensional `λ`-factor.
-- `not_isGL2Type_prod_rat`: a dimension-two surface such as `E×E` fails the predicate with `K = ℚ`. This
+- A dimension-two surface such as `E×E` fails the predicate with `K = ℚ`. This
   tests the dimension equality, not a prohibition on `GL₂`-type: a quadratic field can embed in
   `M₂(ℚ)`.
 - For such a product `E×E`, a quadratic embedding and its conjugate by a rational invertible
@@ -2199,8 +2213,9 @@ conclusion: the modular-form space has rank one and its Eisenstein quotient has 
 Equivalently, dividing a cusp form by Δ would give a weight-two modular form, which is zero.
 
 The proposed declaration is `no_levelOne_crystalline_of_reducible_terminal`. Its inputs are §5.0e,
-the character calculation from Layer 2 and the stated modular-form dimensions. The test
-declarations in Suggested.lean include vanishing below weight twelve and at weight fourteen. See
+the character calculation from Layer 2 and the stated modular-form dimensions. The theorem
+`terminal_cuspForm_rank_eq_zero` states vanishing at exactly the terminal
+weights `2,4,6,8,14` on the pinned cusp-form spaces. See
 Dieulefait–Pacetti, Paso 6, p. 14, for the 3-adic cases, and Khare–Wintenberger, the proof of
 Theorem 4.3, pp. 20–21 of the arXiv version, for the three `p+1` cases. This argument is independent
 of residual irreducible modularity.

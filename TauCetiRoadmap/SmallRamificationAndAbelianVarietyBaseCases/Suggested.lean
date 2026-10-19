@@ -5,13 +5,17 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 import TauCeti.Analysis.PositiveDefinite.AddGroup
 import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.FiniteLocallyFree
-import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.BaseChange
 import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
 import TauCeti.Algebra.AlgebraicGroup.ConstantGroup.Scheme
 import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.Constant
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Quotient.Kernel.Exact
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
-import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
+import TauCeti.AlgebraicGeometry.AbelianVariety.End.BaseChange
+import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
+import TauCeti.NumberTheory.LocalField.Different.Tower
+import TauCeti.NumberTheory.LocalField.Discriminant.Basic
+import TauCeti.NumberTheory.LocalField.Herbrand.Basic
+import TauCeti.RingTheory.DedekindDomain.AdicValuation.ValuativeRel
 
 /-!
 # SmallRamificationAndAbelianVarietyBaseCases: representative target signatures
@@ -20,8 +24,9 @@ The roadmap is `README.md`. This file records definitions and theorem signatures
 against the pinned APIs and is not exhaustive. It uses finite discrete coefficient fields,
 absolute irreducibility, the different normalised by the ramification index, and the
 subobject-first convention for extensions. The integral finite-flat category and abelian
-varieties are Tau Ceti's objects. The examples distinguish the native constant and multiplicative models, the cubic matrix,
-and the analytic normalisations. Representation constructions are specified in the README.
+varieties are Tau Ceti's objects. Named boundary theorems distinguish absolute irreducibility,
+the Ext direction and the excluded prime eleven. Representation constructions are specified
+in the README.
 Signatures needing unavailable supplier interfaces are named in the closing comment.
 -/
 
@@ -39,6 +44,94 @@ abbrev galAut (σ : Field.absoluteGaloisGroup ℚ) : AlgebraicClosure ℚ ≃ₐ
 
 /-! ## Layer 1: local and global discriminant bounds -/
 
+section LocalDifferent
+
+variable (p : ℕ) [Fact p.Prime] (E : Type*) [Field E] [ValuativeRel E]
+  [TopologicalSpace E] [IsNonarchimedeanLocalField E] [TauCeti.FinitePadicExtension E p]
+
+/-- The different exponent divided by the ramification index over `ℚ_p`. -/
+def localRootDiscrExp : ℚ :=
+  (TauCeti.differentExponent (Padic p) E : ℚ) / TauCeti.ramificationIndex (Padic p) E
+
+/-- The normalized different vanishes exactly for an unramified extension. -/
+theorem localRootDiscrExp_eq_zero_iff :
+    localRootDiscrExp p E = 0 ↔ TauCeti.IsUnramified (Padic p) E := sorry
+
+/-- In a tame extension the normalized different is `1 − 1/e`. -/
+theorem localRootDiscrExp_of_tame (ht : TauCeti.IsTamelyRamified (Padic p) E) :
+    localRootDiscrExp p E = 1 - 1 / (TauCeti.ramificationIndex (Padic p) E : ℚ) := sorry
+
+/-- The residue-degree factor converts the local discriminant exponent into the normalized different. -/
+theorem localRootDiscrExp_eq_discriminantExponent_div [Algebra.IsSeparable (Padic p) E] :
+    localRootDiscrExp p E =
+      (TauCeti.discriminantExponent (Padic p) E : ℚ) / finrank (Padic p) E := sorry
+
+/-- The upper-jump expression includes the tame jump at zero and uses right-limit groups. -/
+theorem localRootDiscrExp_eq_sum_upper [IsGalois (Padic p) E] :
+    let G : NNReal → Subgroup (E ≃ₐ[Padic p] E) := fun u =>
+      TauCeti.LocalFieldsRamification.upperRamificationGroup (Padic p) E
+        ⟨u, le_trans (by norm_num) u.property⟩
+    (localRootDiscrExp p E : ℝ) = ∑ᶠ u : NNReal,
+      (1 / (Nat.card (⨆ v : {v : NNReal // u < v}, G v.val : Subgroup (E ≃ₐ[Padic p] E)) : ℝ) -
+        1 / (Nat.card (G u) : ℝ)) * ((u : ℝ) + 1) := sorry
+
+/-- The normalized different in a tower adds the relative different with absolute denominator. -/
+theorem localRootDiscrExp_tower (E' : Type*) [Field E'] [ValuativeRel E']
+    [TopologicalSpace E'] [IsNonarchimedeanLocalField E'] [TauCeti.FinitePadicExtension E' p]
+    [Algebra E E'] [ValuativeExtension E E'] [IsScalarTower (Padic p) E E'] :
+    localRootDiscrExp p E' = localRootDiscrExp p E +
+      (TauCeti.differentExponent E E' : ℚ) / TauCeti.ramificationIndex (Padic p) E' := sorry
+
+/-- An unramified extension of the top field preserves the normalized different over `ℚ_p`. -/
+theorem localRootDiscrExp_of_isUnramified (E' : Type*) [Field E'] [ValuativeRel E']
+    [TopologicalSpace E'] [IsNonarchimedeanLocalField E'] [TauCeti.FinitePadicExtension E' p]
+    [Algebra E E'] [ValuativeExtension E E'] [IsScalarTower (Padic p) E E']
+    (hu : TauCeti.IsUnramified E E') :
+    localRootDiscrExp p E' = localRootDiscrExp p E := sorry
+
+/-- A base-preserving local field isomorphism preserves the normalized different. -/
+theorem localRootDiscrExp_congr (E' : Type*) [Field E'] [ValuativeRel E']
+    [TopologicalSpace E'] [IsNonarchimedeanLocalField E'] [TauCeti.FinitePadicExtension E' p]
+    (e : E ≃ₐ[Padic p] E') : localRootDiscrExp p E = localRootDiscrExp p E' := sorry
+
+end LocalDifferent
+
+/-- A faithful rank-two characteristic-two local image has normalized different at most two,
+and at most `3/2` when wild inertia has order at most two. -/
+theorem localRootDiscrExp_le_two_of_char_two (E : Type*) [Field E] [ValuativeRel E]
+    [TopologicalSpace E] [IsNonarchimedeanLocalField E] [TauCeti.FinitePadicExtension E 2]
+    [IsGalois (Padic 2) E]
+    (ρ : (E ≃ₐ[Padic 2] E) →* GL (Fin 2) (AlgebraicClosure (ZMod 2)))
+    (hρ : Function.Injective ρ) :
+    localRootDiscrExp 2 E ≤ 2 ∧
+      (Nat.card (TauCeti.LocalFieldsRamification.lowerRamificationGroup (Padic 2) E 1) ≤ 2 →
+        localRootDiscrExp 2 E ≤ 3 / 2) := sorry
+
+/-- A faithful rank-two characteristic-three local image with nontrivial wild inertia
+has normalized different at most `13/6 − 1/|P|`. -/
+theorem localRootDiscrExp_le_of_char_three (E : Type*) [Field E] [ValuativeRel E]
+    [TopologicalSpace E] [IsNonarchimedeanLocalField E] [TauCeti.FinitePadicExtension E 3]
+    [IsGalois (Padic 3) E]
+    (ρ : (E ≃ₐ[Padic 3] E) →* GL (Fin 2) (AlgebraicClosure (ZMod 3)))
+    (hρ : Function.Injective ρ)
+    (hw : 1 < Nat.card (TauCeti.LocalFieldsRamification.lowerRamificationGroup (Padic 3) E 1)) :
+    localRootDiscrExp 3 E ≤ 13 / 6 -
+      1 / (Nat.card (TauCeti.LocalFieldsRamification.lowerRamificationGroup (Padic 3) E 1) : ℚ) :=
+  sorry
+
+/-- For a Galois number field, any chosen completion at each ramified rational prime gives
+the local exponent in the product formula for the root discriminant. -/
+theorem rootDiscr_eq_prod_rpow_localRootDiscrExp (K : Type*) [Field K] [NumberField K]
+    [IsGalois ℚ K]
+    (w : (p : ℕ) → p.Prime → IsDedekindDomain.HeightOneSpectrum (𝓞 K))
+    (hw : ∀ (p : ℕ) (hp : p.Prime), (p : 𝓞 K) ∈ (w p hp).asIdeal)
+    (hlocal : ∀ (p : ℕ) (hp : p.Prime), letI : Fact p.Prime := ⟨hp⟩
+      TauCeti.FinitePadicExtension ((w p hp).adicCompletion K) p) :
+    rootDiscr K = ∏ p : ↥((discr K).natAbs.primeFactors),
+      let hp := Nat.prime_of_mem_primeFactors p.property
+      letI : Fact p.val.Prime := ⟨hp⟩
+      letI := hlocal p.val hp
+      (p.val : ℝ) ^ (localRootDiscrExp p.val ((w p.val hp).adicCompletion K) : ℝ) := sorry
 
 section Minkowski
 
@@ -59,6 +152,28 @@ end Minkowski
 def odlyzkoKernel (x : ℝ) : ℝ :=
   if |x| ≤ 1 then (1 - |x|) * Real.cos (π * x) + Real.sin (π * |x|) / π else 0
 
+/-- The kernel is twice the convolution square of the truncated nonnegative cosine. -/
+theorem odlyzkoKernel_eq_two_mul_convolution (x : ℝ) :
+    odlyzkoKernel x = 2 * ∫ t : ℝ,
+      (if |t| ≤ 1 / 2 then Real.cos (π * t) else 0) *
+      (if |x - t| ≤ 1 / 2 then Real.cos (π * (x - t)) else 0) := sorry
+
+/-- The kernel is nonnegative, as required to drop the prime terms of the explicit formula. -/
+theorem odlyzkoKernel_nonneg (x : ℝ) : 0 ≤ odlyzkoKernel x := sorry
+
+/-- The kernel has the normalization required by the explicit formula. -/
+theorem odlyzkoKernel_zero : odlyzkoKernel 0 = 1 := sorry
+
+/-- The kernel is even. -/
+theorem odlyzkoKernel_neg (x : ℝ) : odlyzkoKernel (-x) = odlyzkoKernel x := sorry
+
+/-- The kernel vanishes at and beyond both endpoints of its support. -/
+theorem odlyzkoKernel_eq_zero_of_one_le_abs {x : ℝ} (hx : 1 ≤ |x|) :
+    odlyzkoKernel x = 0 := sorry
+
+/-- The kernel is continuously differentiable across zero and the support endpoints. -/
+theorem contDiff_odlyzkoKernel : ContDiff ℝ 1 odlyzkoKernel := sorry
+
 /-- The convolution-square kernel is positive definite. -/
 theorem isPositiveDefiniteSub_odlyzkoKernel :
     TauCeti.IsPositiveDefiniteSub fun x : ℝ => (odlyzkoKernel x : ℂ) := sorry
@@ -66,49 +181,10 @@ theorem isPositiveDefiniteSub_odlyzkoKernel :
 /-- The positive-half-line integral is `4 / π²`. -/
 theorem integral_odlyzkoKernel_Ioi : (∫ x in Ioi (0 : ℝ), odlyzkoKernel x) = 4 / π ^ 2 := sorry
 
-/-- `odlyzkoKernel_zero` (computation): `g(0) = 1`, the normalisation `F(0) = 1`. -/
-example : odlyzkoKernel 0 = 1 := sorry
-
-/-- `odlyzkoKernel_half` (computation): `g(1/2) = 1/π`. -/
-example : odlyzkoKernel (1 / 2) = 1 / π := sorry
-
-/-- `odlyzkoKernel_three_quarters_pos` (non-example): `g(3/4) > 0`; the variant without the
-sine term is negative there. -/
-example : 0 < odlyzkoKernel (3 / 4) := sorry
-
-/-- `odlyzkoKernel_one` (degenerate): the support is `[−1, 1]`. -/
-example : odlyzkoKernel 1 = 0 ∧ odlyzkoKernel 2 = 0 := sorry
-
-/-- `integral_odlyzkoKernel_Ioi` (computation): `∫₀^∞ g = 4/π²`; the variant with `sin π|x|` in
-place of `sin π|x| / π` integrates to `2/π² + 2/π`. -/
-example : (∫ x in Ioi (0 : ℝ), odlyzkoKernel x) = 4 / π ^ 2 := sorry
-
-/-- `odlyzkoKernel_neg_half` (non-example): `g(−1/2) = 1/π`; the variant with `sin πx / π` is
-not even and gives `−1/π`. -/
-example : odlyzkoKernel (-(1 / 2)) = 1 / π := sorry
-
 /-- `x ↦ cosh(ax)/cosh(x/2)` is positive definite for `|a| ≤ 1/2`. -/
 theorem isPositiveDefiniteSub_cosh_div_cosh {a : ℝ} (ha : |a| ≤ 1 / 2) :
     TauCeti.IsPositiveDefiniteSub fun x : ℝ =>
       ((Real.cosh (a * x) / Real.cosh (x / 2) : ℝ) : ℂ) := sorry
-
-/-- The Fourier-normalized exponential density has total mass one. -/
-example {c : ℝ} (hc : 0 < c) :
-    (∫ t : ℝ, π * c * Real.exp (-(2 * π * c * |t|))) = 1 := sorry
-
-/-- Its Fourier integral at zero is one. -/
-example {c : ℝ} (hc : 0 < c) :
-    (∫ t : ℝ, Complex.exp (-2 * (π : ℂ) * Complex.I * t * 0) *
-      ((π * c * Real.exp (-(2 * π * c * |t|)) : ℝ) : ℂ)) = 1 := sorry
-
-/-- At frequency `c` the normalized Fourier integral is one half. -/
-example {c : ℝ} (hc : 0 < c) :
-    (∫ t : ℝ, Complex.exp (-2 * (π : ℂ) * Complex.I * t * c) *
-      ((π * c * Real.exp (-(2 * π * c * |t|)) : ℝ) : ℂ)) = 1 / 2 := sorry
-
-/-- Both endpoint cosh quotients are the constant one. -/
-example (x : ℝ) : Real.cosh ((1 / 2) * x) / Real.cosh (x / 2) = 1 ∧
-    Real.cosh ((-(1 / 2)) * x) / Real.cosh (x / 2) = 1 := sorry
 
 /-- Positivity of `F = f/cosh(x/2)` on the critical strip. -/
 theorem re_poitouTransform_nonneg (f : ℝ → ℝ) (hf_even : ∀ x, f (-x) = f x)
@@ -121,17 +197,14 @@ theorem re_poitouTransform_nonneg (f : ℝ → ℝ) (hf_even : ∀ x, f (-x) = f
 /-- The test function `F_b(x) = g(x/b)/cosh(x/2)`. -/
 def poitouTestFunction (b x : ℝ) : ℝ := odlyzkoKernel (x / b) / Real.cosh (x / 2)
 
-/-- For positive scale the test function is one at zero. -/
-example {b : ℝ} (hb : 0 < b) : poitouTestFunction b 0 = 1 := sorry
-
-/-- The scaled endpoint and exterior point both vanish. -/
-example {b : ℝ} (hb : 0 < b) : poitouTestFunction b b = 0 ∧
-    poitouTestFunction b (2 * b) = 0 := sorry
-
-/-- The half-scale value fixes the denominator and sine normalisation. -/
-example {b : ℝ} (hb : 0 < b) :
-    poitouTestFunction b (b / 2) = 1 / (π * Real.cosh (b / 4)) := sorry
-
+/-- Positive scaling gives an even, normalized, nonnegative `C¹` test function
+supported in `[-b,b]`. -/
+theorem poitouTestFunction_properties {b : ℝ} (hb : 0 < b) :
+    (∀ x, poitouTestFunction b (-x) = poitouTestFunction b x) ∧
+      poitouTestFunction b 0 = 1 ∧
+      (∀ x, 0 ≤ poitouTestFunction b x) ∧
+      (∀ x, b ≤ |x| → poitouTestFunction b x = 0) ∧
+      ContDiff ℝ 1 (poitouTestFunction b) := sorry
 
 /-- `P(n, r₁, b) = r₁π/2 + n(γ + log 8π) − n·I₁(b) − r₁·I₂(b) − 16b/π²`: the explicit-formula
 lower bound with the zero and prime sums removed. Every integral is parenthesised. -/
@@ -141,38 +214,41 @@ def poitouLowerBound (n r₁ : ℕ) (b : ℝ) : ℝ :=
     - r₁ * (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction b x) / (2 * Real.cosh (x / 2)))
     - 16 * b / π ^ 2
 
+/-- The apparent sinh singularity at zero and the infinite tail are integrable. -/
+theorem integrableOn_poitouIntegrand_sinh {b : ℝ} (hb : 0 < b) :
+    IntegrableOn (fun x => (1 - poitouTestFunction b x) / (2 * Real.sinh (x / 2)))
+      (Ioi (0 : ℝ)) := sorry
+
+/-- The cosh archimedean term is integrable on the positive half-line. -/
+theorem integrableOn_poitouIntegrand_cosh {b : ℝ} (hb : 0 < b) :
+    IntegrableOn (fun x => (1 - poitouTestFunction b x) / (2 * Real.cosh (x / 2)))
+      (Ioi (0 : ℝ)) := sorry
+
+/-- The pole contribution in the explicit formula equals the negative term in the bound. -/
+theorem poitouLowerBound_eq_explicit (n r₁ : ℕ) {b : ℝ} (hb : 0 < b) :
+    poitouLowerBound n r₁ b =
+      r₁ * π / 2 + n * (Real.eulerMascheroniConstant + Real.log (8 * π))
+        - n * (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction b x) / (2 * Real.sinh (x / 2)))
+        - r₁ * (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction b x) / (2 * Real.cosh (x / 2)))
+        - 4 * (∫ x in Ioi (0 : ℝ), poitouTestFunction b x * Real.cosh (x / 2)) := sorry
+
+/-- The sinh integral splits into a compact integral and its exact hyperbolic tail. -/
+theorem poitouIntegral_sinh_eq {b : ℝ} (hb : 0 < b) :
+    (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction b x) / (2 * Real.sinh (x / 2))) =
+      (∫ x in Ioc (0 : ℝ) b, (1 - poitouTestFunction b x) / (2 * Real.sinh (x / 2)))
+        - Real.log (Real.tanh (b / 4)) := sorry
+
+/-- At fixed positive scale the totally complex bound divided by degree increases with degree. -/
+theorem poitouLowerBound_div_mono {b : ℝ} (hb : 0 < b) {n m : ℕ}
+    (hn : 0 < n) (hnm : n ≤ m) :
+    poitouLowerBound n 0 b / n ≤ poitouLowerBound m 0 b / m := sorry
+
 /-- Explicit upper bounds `I₁(13/2) < 1.04` and `I₁(8) < 0.94`. -/
 theorem poitouIntegral_sinh_lt :
     (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction (13 / 2) x) / (2 * Real.sinh (x / 2))) <
         1.04 ∧
       (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction 8 x) / (2 * Real.sinh (x / 2))) < 0.94 :=
   sorry
-
-/-- `poitouLowerBound_rat_nonpos` (computation): for `ℚ` the bound is nonpositive at
-`b ∈ {1/2, 1, 2}` (numerically `−0.051`, `−0.083`, `−0.883`). -/
-example : ∀ b ∈ ({1 / 2, 1, 2} : Set ℝ), poitouLowerBound 1 1 b ≤ 0 := sorry
-
-/-- `poitouLowerBound_sqrt_neg_three` (computation): `ℚ(√−3)` has `|d| = 3`; the reversed pole
-sign would violate this. -/
-example : poitouLowerBound 2 0 1 ≤ Real.log 3 := sorry
-
-/-- `poitouLowerBound_sqrt_five` (computation): `ℚ(√5)` has `|d| = 5`; this checks the `r₁`
-terms. -/
-example : poitouLowerBound 2 2 (3 / 2) ≤ Real.log 5 := sorry
-
-/-- `poitouLowerBound_div_mono` (degenerate): at fixed `b > 0` the normalised bound tends to
-`γ + log 8π − I₁(b)`, which lies below `log(4πe^γ)`. -/
-example {b : ℝ} (hb : 0 < b) :
-    Tendsto (fun n : ℕ => poitouLowerBound n 0 b / n) atTop
-      (𝓝 (Real.eulerMascheroniConstant + Real.log (8 * π) -
-        (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction b x) / (2 * Real.sinh (x / 2))))) ∧
-    Real.eulerMascheroniConstant + Real.log (8 * π) -
-        (∫ x in Ioi (0 : ℝ), (1 - poitouTestFunction b x) / (2 * Real.sinh (x / 2))) <
-      Real.log (4 * π * Real.exp Real.eulerMascheroniConstant) := sorry
-
-/-- `poitouLowerBound_one_one_one_bounds` (computation): `−0.09 < P(1, 1, 1) < −0.08`; the
-variants with `log 4π` or without `r₁π/2` fail the lower bound. -/
-example : -0.09 < poitouLowerBound 1 1 1 ∧ poitouLowerBound 1 1 1 < -0.08 := sorry
 
 /-- The Odlyzko–Poitou unconditional bound. -/
 theorem poitouLowerBound_le_log_abs_discr (K : Type*) [Field K] [NumberField K] {b : ℝ}
@@ -222,6 +298,26 @@ variable {R : Type} [CommRing R] [IsDomain R]
 def order (G : FFGroupSchemeOver R) : ℕ :=
   Module.finrank R (TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.coordinateHopfAlgebra R G)
 
+/-- Isomorphic finite flat group schemes have the same rank. -/
+theorem order_congr {G H : FFGroupSchemeOver R} (e : G ≅ H) : order G = order H := sorry
+
+/-- The rank of a constant finite group scheme is the cardinality of its group. -/
+theorem order_constant (Γ : Type) [CommGroup Γ] [Finite Γ] :
+    order (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme R Γ) = Nat.card Γ := sorry
+
+/-- The rank of `μ_n` is `n`, including when the residue characteristic divides `n`. -/
+theorem order_mu (n : ℕ) [NeZero n] :
+    order (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme R
+      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod n)))) = n := sorry
+
+/-- Ranks multiply in a native finite flat short exact sequence. -/
+theorem order_exact {H G Q : FFGroupSchemeOver R} (i : H ⟶ G) (q : G ⟶ Q)
+    (h : TauCeti.CommHopfAlgCat.IsShortExact
+      (((TauCeti.finiteLocallyFreeBicommutativeHopfAlgCatOpEquivFiniteLocallyFreeCommAffineGroupSchemeCat
+        R).inverse.map q).unop.hom)
+      (((TauCeti.finiteLocallyFreeBicommutativeHopfAlgCatOpEquivFiniteLocallyFreeCommAffineGroupSchemeCat
+        R).inverse.map i).unop.hom)) : order G = order H * order Q := sorry
+
 /-- `G` is killed by `n`: the `n`-th convolution power of the identity of the coordinate Hopf
 algebra is the counit. -/
 def IsKilledBy (G : FFGroupSchemeOver R) (n : ℕ) : Prop :=
@@ -265,10 +361,22 @@ abbrev points (G : FFGroupSchemeOver R) :=
     (TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.coordinateHopfAlgebra R G →ₐ[R]
       AlgebraicClosure ℚ)
 
+/-- Over a characteristic-zero arithmetic base, annihilation can be tested on geometric points. -/
+theorem isKilledBy_iff_mul_zero [IsFractionRing R ℚ] (G : FFGroupSchemeOver R) (n : ℕ) :
+    IsKilledBy G n ↔ ∀ x : points G, x ^ n = 1 := sorry
+
+/-- Every multiple of an annihilator also annihilates the group scheme. -/
+theorem isKilledBy_mul (G : FFGroupSchemeOver R) {n : ℕ} (hn : IsKilledBy G n) (m : ℕ) :
+    IsKilledBy G (m * n) := sorry
+
 /-- The action of `G_ℚ` on `G(ℚ̄)`. -/
 def galoisAct (G : FFGroupSchemeOver R) (σ : Field.absoluteGaloisGroup ℚ) (x : points G) :
     points G :=
   WithConv.toConv (((galAut σ).toAlgHom.restrictScalars R).comp x.ofConv)
+
+/-- The coordinate point action respects composition in the absolute Galois group. -/
+theorem galoisAct_mul (G : FFGroupSchemeOver R) (σ τ : Field.absoluteGaloisGroup ℚ)
+    (x : points G) : galoisAct G (σ * τ) x = galoisAct G σ (galoisAct G τ x) := sorry
 
 omit [IsDomain R] in
 /-- Over a Dedekind domain with fraction field `ℚ`, integral simplicity agrees with the
@@ -290,107 +398,16 @@ def torsionField (G : FFGroupSchemeOver R) : IntermediateField ℚ (AlgebraicClo
 theorem numberField_torsionField (G : FFGroupSchemeOver R) :
     NumberField (torsionField G) := sorry
 
-/-- The trivial group scheme is excluded by the nonzero simple-object convention. -/
-example : ¬ IsSimpleGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ (Multiplicative (ZMod 1))) := sorry
+/-- The coordinate field is normal and separable over `ℚ`. -/
+theorem isGalois_torsionField (G : FFGroupSchemeOver R) : IsGalois ℚ (torsionField G) := sorry
 
-/-- The two order-two group schemes over `ℤ` are nonzero simple objects. -/
-example : IsSimpleGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ (Multiplicative (ZMod 2))) ∧ IsSimpleGroupScheme (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) := sorry
-
-/-- Rank is distinct from the number of characteristic-two geometric points. -/
-example : order (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) = 2 := sorry
-
-/-- The identity group has rank one, and the constant Klein four group has rank four. -/
-example : order (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 1))) = 1 ∧
-    order (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 2) × Multiplicative (ZMod 2))) = 4 := sorry
-
-/-- The constant Klein four group has a proper nontrivial closed flat subgroup. -/
-example : ¬ IsSimpleGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 2) × Multiplicative (ZMod 2))) := sorry
-
-/-- Multiplication by two kills both integral order-two models. -/
-example : IsKilledBy (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) 2 ∧
-    IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 2))) 2 := sorry
-
-/-- Multiplication by zero kills every finite flat commutative group scheme. -/
-example (G : FFGroupSchemeOver R) : IsKilledBy G 0 := by
-  simp [IsKilledBy]
-
-/-- The identity group is killed by every natural number. -/
-example (n : ℕ) : IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 1))) n := sorry
-
-/-- Prime-square constant torsion is killed by the square, but not by the prime. -/
-example : IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 4))) 4 ∧
-    ¬ IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 4))) 2 := sorry
-
-/-- The constant and multiplicative integral order-two models are different. -/
-example : IsConstantGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 2))) ∧
-    ¬ IsConstantGroupScheme (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) := sorry
-
-/-- Cartier duality reverses the two models in the diagonalizable predicate. -/
-example : IsDiagonalizableGroupScheme (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) ∧
-    ¬ IsDiagonalizableGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 2))) := sorry
-
-/-- The identity group is diagonalizable with trivial character group. -/
-example : IsDiagonalizableGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 1))) := sorry
-
-/-- Inverting two makes the multiplicative order-two model constant. -/
-example : IsConstantGroupScheme (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme
-    (Localization.Away (2 : ℤ)) (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) := sorry
-
-/-- An extension with either endpoint the identity group splits. -/
-example (G : FFGroupSchemeOver R) :
-    Ext1Vanishes (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme R
-      (Multiplicative (ZMod 1))) G ∧
-    Ext1Vanishes G (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme R
-      (Multiplicative (ZMod 1))) := sorry
-
-/-- Over characteristic zero, μ₂ has two geometric points and the identity group has one. -/
-example : Nat.card (points (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2))))) = 2 ∧
-    Nat.card (points (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 1)))) = 1 := sorry
-
-/-- Constant geometric points retain their cardinality and have trivial Galois action. -/
-example (σ : Field.absoluteGaloisGroup ℚ) :
-    Nat.card (points (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 3)))) = 3 ∧
-    ∀ x : points (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-      (Multiplicative (ZMod 3))),
-      galoisAct _ σ x = x := sorry
-
-/-- Complex conjugation inverts μ₃ and exchanges its two nonidentity geometric points. -/
-example (j : AlgebraicClosure ℚ →+* ℂ) (c : Field.absoluteGaloisGroup ℚ)
-    (hc : ∀ z, j (galAut c z) = starRingEnd ℂ (j z))
-    (x : points (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 3))))) :
-    galoisAct _ c x = x⁻¹ ∧ (x ≠ 1 → galoisAct _ c x ≠ x) := sorry
-
-/-- Complex conjugation fixes every geometric point of μ₂. -/
-example (j : AlgebraicClosure ℚ →+* ℂ) (c : Field.absoluteGaloisGroup ℚ)
-    (hc : ∀ z, j (galAut c z) = starRingEnd ℂ (j z))
-    (x : points (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2))))) :
-    galoisAct _ c x = x := sorry
-
-/-- The constant order-three model has rational torsion field. -/
-example : torsionField (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
-    (Multiplicative (ZMod 3))) = ⊥ := sorry
+/-- Fixing the coordinate field is equivalent to fixing every geometric point. -/
+theorem torsionField_fixingSubgroup (G : FFGroupSchemeOver R)
+    (σ : Field.absoluteGaloisGroup ℚ) :
+    galAut σ ∈ (torsionField G).fixingSubgroup ↔ ∀ x : points G, galoisAct G σ x = x := sorry
 
 /-- The reversed integral Ext direction has a nonsplit Katz–Mazur extension. -/
-example : ¬ Ext1Vanishes
+theorem ext_zModTwo_muTwo_nonzero : ¬ Ext1Vanishes
     (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ (Multiplicative (ZMod 2)))
     (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
       (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) := sorry
@@ -404,7 +421,6 @@ points of a finite flat group scheme killed by `p`. -/
 theorem rootDiscr_torsionField_lt (p : ℕ) [Fact p.Prime] (G : FFGroupScheme)
     [NumberField (torsionField G)] (hG : IsKilledBy G p) :
     rootDiscr (torsionField G) < (p : ℝ) ^ ((1 : ℝ) + 1 / ((p : ℝ) - 1)) := sorry
-
 
 /-! ## Layer 2: residual representations and the Tate–Serre base case -/
 
@@ -438,14 +454,6 @@ theorem numberField_adjoin_roots {n : ℕ} (hn : 0 < n) (a : AlgebraicClosure �
 instance numberField_cyclotomicSubfield (n : ℕ) [NeZero n] :
     NumberField (cyclotomicSubfield n) :=
   numberField_adjoin_roots (Nat.pos_of_ne_zero (NeZero.ne n)) 1
-
-/-- The third and fourth roots generate their respective cyclotomic torsion fields. -/
-example : torsionField (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 3)))) = cyclotomicSubfield 3 ∧
-    torsionField (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 4)))) = cyclotomicSubfield 4 ∧
-    torsionField (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
-      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) = ⊥ := sorry
 
 /-- the union of the inertia groups of the primes of `ℚ̄` above `ℓ`; `σ` is in
 the inertia group of `P` when `σ x − x ∈ P` for every algebraic integer `x`. -/
@@ -509,38 +517,6 @@ theorem x0ElevenTwoTorsionRep_equivariant
     (((Matrix.GeneralLinearGroup.toLin' b) (x0ElevenTwoTorsionRep b σ)).toLinearEquiv P).val =
       WeierstrassCurve.Affine.Point.map (W' := x0Eleven.toAffine) (galAut σ).toAlgHom P.val := sorry
 
-/-- Two-torsion has four geometric points, and multiplication by two annihilates it. -/
-example : Nat.card X0ElevenTwoTorsion = 4 ∧
-    ∀ P : X0ElevenTwoTorsion, (2 : ℕ) • P = 0 := sorry
-
-/-- The first two cyclotomic fields are rational, whereas the third is quadratic. -/
-example : cyclotomicSubfield 1 = ⊥ ∧ cyclotomicSubfield 2 = ⊥ ∧
-    finrank ℚ (cyclotomicSubfield 3) = 2 := sorry
-
-/-- The real ninth cyclotomic field has degree three, not six. -/
-example : finrank ℚ (realCyclotomicSubfield 9) = 3 ∧
-    finrank ℚ (cyclotomicSubfield 9) = 6 := sorry
-
-/-- The fourth cyclotomic field is generated by square roots of −1; the twelfth has degree four. -/
-example : cyclotomicSubfield 4 =
-    IntermediateField.adjoin ℚ {x : AlgebraicClosure ℚ | x ^ 2 = -1} ∧
-    finrank ℚ (cyclotomicSubfield 4) = 2 ∧
-    finrank ℚ (cyclotomicSubfield 12) = 4 ∧ discr (cyclotomicSubfield 12) = 144 := sorry
-
-/-- The first four real cyclotomic subfields are rational, and the fifth is quadratic. -/
-example : realCyclotomicSubfield 1 = ⊥ ∧ realCyclotomicSubfield 2 = ⊥ ∧
-    realCyclotomicSubfield 3 = ⊥ ∧ realCyclotomicSubfield 4 = ⊥ ∧
-    realCyclotomicSubfield 5 =
-      IntermediateField.adjoin ℚ {x : AlgebraicClosure ℚ | x ^ 2 = 5} ∧
-    finrank ℚ (realCyclotomicSubfield 5) = 2 := sorry
-
-/-- The displayed coefficients determine `b₂` and the cubic two-torsion polynomial. -/
-example : x0Eleven.b₂ = -4 ∧
-    x0Eleven.twoTorsionPolynomial.toPoly = 4 * X ^ 3 - 4 * X ^ 2 - 40 * X - 79 := sorry
-
-/-- The displayed conductor-eleven equation has the signed discriminant `-11^5`. -/
-example : x0Eleven.Δ = -(11 : ℚ) ^ 5 := sorry
-
 section Residual
 
 variable {F : Type*} [Field F] [Fintype F] [TopologicalSpace F] [DiscreteTopology F]
@@ -565,16 +541,6 @@ def IsOdd (ρ : ResidualRep F) : Prop :=
 /-- the kernel field `ℚ̄^{ker ρ}`. -/
 def kernelField (ρ : ResidualRep F) : IntermediateField ℚ (AlgebraicClosure ℚ) :=
   IntermediateField.fixedField ρ.toMonoidHom.ker
-
-/-- Restriction to the trivial subgroup has trivial scalar-extended image. -/
-example (ρ : ResidualRep F) : imageOver ρ ⊥ = ⊥ := sorry
-
-/-- A trivial rank-two action is reducible, including in characteristic two. -/
-example : ¬ IsAbsolutelyIrreducible (F := ZMod 2) (1 : ResidualRep (ZMod 2)) ∧
-    ¬ IsIrreducibleSubgroup (⊥ : Subgroup (GL (Fin 2) (ZMod 2))) := sorry
-
-/-- The kernel field of the trivial action is rational. -/
-example : kernelField (F := ZMod 2) (1 : ResidualRep (ZMod 2)) = ⊥ := sorry
 
 /-- The fixed field of the open finite-image kernel is a number field. -/
 theorem numberField_kernelField (ρ : ResidualRep F) : NumberField (kernelField ρ) := sorry
@@ -607,12 +573,6 @@ theorem isLevelOneResidual_iff_kernelField (p : ℕ) (ρ : ResidualRep F)
         (ℓ : 𝓞 (kernelField ρ)) ∈ P → P.ramificationIdx ℤ = 1) ∧
       IsAbsolutelyIrreducible ρ ∧ IsOdd ρ := sorry
 
-/-- The trivial representation is unramified and tame, but fails level one. -/
-example (p : ℕ) (hp : p.Prime) :
-    (∀ l, IsUnramifiedAt (F := ZMod 2) l (1 : ResidualRep (ZMod 2))) ∧
-    IsTameAt (F := ZMod 2) p (1 : ResidualRep (ZMod 2)) ∧
-    ¬ IsLevelOneResidual (F := ZMod 2) p (1 : ResidualRep (ZMod 2)) := sorry
-
 /-- The level-one predicate is invariant under finite discrete coefficient-field extension. -/
 theorem IsLevelOneResidual.map {F' : Type*} [Field F'] [Fintype F'] [TopologicalSpace F']
     [DiscreteTopology F'] (f : F →+* F') {p : ℕ} (ρ : ResidualRep F) (ρ' : ResidualRep F')
@@ -624,20 +584,13 @@ theorem IsLevelOneResidual.conj {p : ℕ} {ρ ρ' : ResidualRep F} (g : GL (Fin 
     (hconj : ∀ σ, ρ' σ = g * ρ σ * g⁻¹) (hρ : IsLevelOneResidual p ρ) :
     IsLevelOneResidual p ρ' := sorry
 
-/-- The `𝔽₂` to `𝔽₄` specialization of the coefficient-invariance API for level one. -/
-example {F' : Type*} [Field F'] [Fintype F'] [TopologicalSpace F'] [DiscreteTopology F']
-    (_hF : Fintype.card F = 2) (_hF' : Fintype.card F' = 4) (f : F →+* F')
-    (ρ : ResidualRep F) (ρ' : ResidualRep F')
-    (hmap : ∀ σ, ρ' σ = Matrix.GeneralLinearGroup.map f (ρ σ)) :
-    IsLevelOneResidual 2 ρ' ↔ IsLevelOneResidual 2 ρ := sorry
-
-/-- The conductor-eleven S₃ action stays absolutely irreducible over `𝔽₄` and keeps its field. -/
-example (b : Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion)
-    {F' : Type*} [Field F'] [Fintype F'] [TopologicalSpace F'] [DiscreteTopology F']
-    (_hF' : Fintype.card F' = 4) (f : ZMod 2 →+* F') (ρ' : ResidualRep F')
-    (hmap : ∀ σ, ρ' σ = Matrix.GeneralLinearGroup.map f (x0ElevenTwoTorsionRep b σ)) :
-    IsAbsolutelyIrreducible (x0ElevenTwoTorsionRep b) ∧ IsAbsolutelyIrreducible ρ' ∧
-      kernelField ρ' = kernelField (x0ElevenTwoTorsionRep b) := sorry
+/-- The conductor-eleven two-torsion is absolutely irreducible but ramified at eleven,
+so it fails the level-one condition at two in every chosen basis. -/
+theorem not_isLevelOneResidual_X0_eleven_two_torsion
+    (b : Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion) :
+    IsAbsolutelyIrreducible (x0ElevenTwoTorsionRep b) ∧
+      ¬ IsUnramifiedAt 11 (x0ElevenTwoTorsionRep b) ∧
+      ¬ IsLevelOneResidual 2 (x0ElevenTwoTorsionRep b) := sorry
 
 /-- The determinant oddness condition is automatic in characteristic two. -/
 theorem isOdd_of_ringChar_two (h : ringChar F = 2) (ρ : ResidualRep F) : IsOdd ρ := sorry
@@ -647,22 +600,16 @@ theorem IsLevelOneResidual.isTotallyComplex {p : ℕ} (hp : p.Prime) (hp2 : p �
     {ρ : ResidualRep F} (hρ : IsLevelOneResidual p ρ) : IsTotallyComplex (kernelField ρ) :=
   sorry
 
-/-- `isOdd_of_ringChar_two` (degenerate): in characteristic `2` every `ρ̄` is odd. -/
+/-- Every characteristic-two representation satisfies determinant oddness. -/
 example [CharP F 2] (ρ : ResidualRep F) : IsOdd ρ := isOdd_of_ringChar_two (ringChar.eq F 2) ρ
 
 /-- The cyclic cubic matrix has no eigenline over `𝔽₂`, but has one over its algebraic closure. -/
-example : cubicOrderThreeMatrix ^ 3 = 1 ∧
+theorem cubicOrderThreeMatrix_irreducible_not_absolute : cubicOrderThreeMatrix ^ 3 = 1 ∧
     (∀ v : Fin 2 → ZMod 2, v ≠ 0 → ∀ c : ZMod 2,
       (cubicOrderThreeMatrix : Matrix (Fin 2) (Fin 2) (ZMod 2)).mulVec v ≠ c • v) ∧
     (∃ (v : Fin 2 → AlgebraicClosure (ZMod 2)) (c : AlgebraicClosure (ZMod 2)),
       v ≠ 0 ∧ ((cubicOrderThreeMatrix : Matrix (Fin 2) (Fin 2) (ZMod 2)).map
         (algebraMap (ZMod 2) (AlgebraicClosure (ZMod 2)))).mulVec v = c • v) := sorry
-
-/-- The trivial action in odd characteristic fails determinant oddness. -/
-example : ¬ IsOdd (F := ZMod 3) (1 : ResidualRep (ZMod 3)) := sorry
-
-/-- The inertia set contains the identity at an actual rational prime. -/
-example : (1 : Field.absoluteGaloisGroup ℚ) ∈ inertiaAbove 2 := sorry
 
 /-- The determinant character of a characteristic-two representation unramified outside two is trivial. -/
 theorem det_eq_one_of_char_two [CharP F 2] (ρ : ResidualRep F)
@@ -686,16 +633,6 @@ theorem serre_no_levelOne_char_three [CharP F 3] (ρ : ResidualRep F) :
 /-- The Tate–Serre base case (DP23, Theorem 1.1). -/
 theorem not_isLevelOneResidual_of_le_three {p : ℕ} (hp : p = 2 ∨ p = 3) [CharP F p]
     (ρ : ResidualRep F) : ¬ IsLevelOneResidual p ρ := sorry
-
-/-- At three, `diag(1,-1)` is odd, and scalar `-1` has nonzero inertia square. -/
-example : Matrix.det (!![(1 : ZMod 3), 0; 0, -1]) = -1 ∧
-    ((-1 : ZMod 3) - 1) ^ 2 = 1 := by decide
-
-/-- A characteristic-two complex conjugation has determinant `1 = -1`. -/
-example (c : Field.absoluteGaloisGroup ℚ) (hc : c ^ 2 = 1)
-    (ρ : ResidualRep (ZMod 2)) :
-    ((ρ c : GL (Fin 2) (ZMod 2)) : Matrix (Fin 2) (Fin 2) (ZMod 2)).det = 1 ∧
-      (1 : ZMod 2) = -1 := sorry
 
 end Residual
 
@@ -723,10 +660,6 @@ theorem twentyFour_dvd_card_of_irreducible_char_three
     (hG : IsIrreducibleSubgroup G) (h3 : 3 ∣ Nat.card G) :
     (-1 : GL (Fin 2) (AlgebraicClosure (ZMod 3))) ∈ G ∧ 24 ∣ Nat.card G ∧
       (padicValNat 3 (Nat.card G) = 1 ∨ 720 ≤ Nat.card G) := sorry
-
-/-- The diagonal-ratio convention sends the unipotent entry `1` to `-1` under `diag(-1,1)`. -/
-example : (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) *
-    !![1, 1; 0, 1] * !![-1, 0; 0, 1] = !![1, -1; 0, 1] := by decide
 
 /-! ## Layer 3: Fontaine's theorem -/
 
@@ -774,23 +707,9 @@ theorem exists_diagonalizable_constant_filtration (G : FFGroupScheme)
 def numPoints {k : Type} [Field k] (A : AbelianVariety k) : ℕ :=
   Nat.card (Over.mk (𝟙 (Spec (.of k))) ⟶ A.toOver)
 
-/-- The trivial abelian variety contributes its single identity point. -/
-example {k : Type} [Field k] [Fintype k] (A : AbelianVariety k) (hA : A.dim = 0) :
-    numPoints A = 1 := sorry
-
 /-- Isogenous abelian varieties over a finite field have the same number of rational points. -/
 theorem card_points_eq_of_isogeny {k : Type} [Field k] [Fintype k] {A B : AbelianVariety k}
     (f : A ⟶ B) (hf : AbelianVariety.IsIsogeny f) : numPoints A = numPoints B := sorry
-
-/-- The dimension-zero variety has a trivial smooth proper integral model. -/
-example (A : AbelianVariety ℚ) (hA : A.dim = 0) : HasGoodReductionEverywhere A := sorry
-
-/-- The two geometrically isomorphic curves over 𝔽₅ have different rational point counts. -/
-example :
-    Nat.card (WeierstrassCurve.toAffine
-      (⟨0, 0, 0, -1, 0⟩ : WeierstrassCurve (ZMod 5))).Point = 8 ∧
-    Nat.card (WeierstrassCurve.toAffine
-      (⟨0, 0, 0, 1, 0⟩ : WeierstrassCurve (ZMod 5))).Point = 4 := sorry
 
 /-- Fontaine's theorem. -/
 theorem dim_eq_zero_of_goodReduction_everywhere (A : AbelianVariety ℚ)
@@ -849,28 +768,9 @@ theorem SemistableCategory.of_extension {G₂ G G₁ : FFGroupSchemeAway l} (i :
     (h₂ : ∀ σ ∈ inertiaAbove l, ∀ x : points G₂, galoisAct G₂ σ x = x) :
     SemistableCategory p l G := sorry
 
-/-- `zModP_mem_semistableCategory` (degenerate): `ℤ/pℤ` and `μ_p` are objects of `D(p, l)`. -/
-example (hpl : p ≠ l) :
-    SemistableCategory p l (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme _ (Multiplicative (ZMod p))) ∧ SemistableCategory p l (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme _ (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod p)))) :=
-  sorry
-
-/-- `katzMazur_mem_semistableCategory` (computation): every extension of `ℤ/pℤ` by `μ_p` over
-`ℤ[1/l]`, in particular the Katz–Mazur `G_ε`, is in `D`: inertia acts by `(1 x; 0 1)`. -/
-example (hpl : p ≠ l) (G : FFGroupSchemeAway l) (i : TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme _ (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod p))) ⟶ G)
-    (q : G ⟶ TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme _ (Multiplicative (ZMod p)))
-    (h : TauCeti.CommHopfAlgCat.IsShortExact
-      (((TauCeti.finiteLocallyFreeBicommutativeHopfAlgCatOpEquivFiniteLocallyFreeCommAffineGroupSchemeCat
-        (Localization.Away (l : ℤ))).inverse.map q).unop.hom)
-      (((TauCeti.finiteLocallyFreeBicommutativeHopfAlgCatOpEquivFiniteLocallyFreeCommAffineGroupSchemeCat
-        (Localization.Away (l : ℤ))).inverse.map i).unop.hom)) : SemistableCategory p l G := sorry
-
 /- The two concrete integral examples `not_mem_semistableCategory_quadratic_twist` and
 `X0_eleven_two_torsion_mem` are specified, with their absent construction interfaces, in the
 closing comment. -/
-
-/-- A length-three unipotent extension fails inertia square zero, so trivial endpoints matter. -/
-example : ((!![1, 1, 0; 0, 1, 1; 0, 0, 1] : Matrix (Fin 3) (Fin 3) (ZMod 3)) - 1) ^ 2 ≠ 0 :=
-  by decide
 
 /-- `Ext¹_{ℤ[1/l]}(μ_p, ℤ/pℤ) = 0` for `p ∈ {2, 3}`, `l ≠ p`, unless `l ≡ ±1 (mod 8)` when
 `p = 2`, or `l ≡ ±1 (mod 9)` when `p = 3`; in particular for `(l, p) = (2, 3), (3, 2), (5, 2),
@@ -993,38 +893,7 @@ theorem fieldCriterion_seven_three : FieldCriterion 7 3 := sorry
 theorem fieldCriterion_thirteen_two : FieldCriterion 13 2 := sorry
 
 /-- The simple order-four torsion of J₀(11) rules out the field criterion at eleven. -/
-example : ¬ FieldCriterion 11 2 := sorry
-
-/-- The radical-cyclotomic auxiliary field is Galois of degree six. -/
-example : finrank ℚ schoofFieldTwoThree = 6 ∧ cyclotomicSubfield 3 ≤ schoofFieldTwoThree := sorry
-
-/-- The twelfth cyclotomic auxiliary field has degree four and contains the fourth roots. -/
-example : finrank ℚ schoofFieldThreeTwo = 4 ∧ cyclotomicSubfield 4 ≤ schoofFieldThreeTwo := sorry
-
-/-- The fifth-prime auxiliary field has degree four and contains the fourth roots. -/
-example : finrank ℚ schoofFieldFiveTwo = 4 ∧ cyclotomicSubfield 4 ≤ schoofFieldFiveTwo := sorry
-
-/-- The three auxiliary discriminants are absolute field discriminants. -/
-example : discr schoofFieldTwoThree = -(2 : ℤ) ^ 4 * 3 ^ 7 ∧
-    discr schoofFieldThreeTwo = 144 ∧ discr schoofFieldFiveTwo = 400 := sorry
-
-/-- The radical-cyclotomic field contains all cubic roots and has residue field `𝔽₃` at three. -/
-example (P : Ideal (𝓞 schoofFieldTwoThree)) [P.IsMaximal]
-    (hP : (3 : 𝓞 schoofFieldTwoThree) ∈ P) :
-    (∀ x : AlgebraicClosure ℚ, x ^ 3 = 2 → x ∈ schoofFieldTwoThree) ∧
-    Nat.card (𝓞 schoofFieldTwoThree ⧸ P) = 3 := sorry
-
-/-- The twelfth cyclotomic field has ramification index two at three. -/
-example (P : Ideal (𝓞 schoofFieldThreeTwo)) [P.IsMaximal]
-    (hP : (3 : 𝓞 schoofFieldThreeTwo) ∈ P) : P.ramificationIdx ℤ = 2 := sorry
-
-/-- At two the biquadratic field has four residue elements, and its golden-ratio unit has order three. -/
-example (P : Ideal (𝓞 schoofFieldFiveTwo)) [P.IsMaximal]
-    (hP : (2 : 𝓞 schoofFieldFiveTwo) ∈ P) :
-    Nat.card (𝓞 schoofFieldFiveTwo ⧸ P) = 4 ∧
-    ∃ u : 𝓞 schoofFieldFiveTwo, u ^ 2 = u + 1 ∧
-      orderOf (Ideal.Quotient.mk P u) = 3 ∧
-      (Ideal.Quotient.mk P u) ^ 2 = Ideal.Quotient.mk P u + 1 := sorry
+theorem not_fieldCriterion_eleven_two : ¬ FieldCriterion 11 2 := sorry
 
 /-! ## Layer 5: GL₂-type abelian varieties and the terminal weights -/
 
@@ -1046,15 +915,45 @@ structure GL2TypeAction {F : Type} [Field F] [NumberField F] (A : AbelianVariety
 def IsGL2Type {F : Type} [Field F] [NumberField F] (A : AbelianVariety F) (K : Type) [Field K]
     [NumberField K] : Prop := Nonempty (GL2TypeAction A K)
 
+/-- An isogeny has a rational conjugation isomorphism, characterized by an integral
+quasi-inverse whose two composites are multiplication by the same positive integer. -/
+theorem endZeroIsogeny_exists {F : Type} [Field F] [NumberField F] {A B : AbelianVariety F}
+    (f : A ⟶ B) (hf : AbelianVariety.IsIsogeny f) :
+    ∃ e : endZeroAlgebra A ≃+* endZeroAlgebra B,
+      ∃ (n : ℕ) (g : B ⟶ A), 0 < n ∧
+        f ≫ g = AbelianVariety.mulBy A (n : ℤ) ∧
+        g ≫ f = AbelianVariety.mulBy B (n : ℤ) ∧
+        ∀ x : A.End, e (1 ⊗ₜ[ℤ] x) =
+          (1 / (n : ℚ)) ⊗ₜ[ℤ] AbelianVariety.End.ofHom (g ≫ x.toHom ≫ f) := sorry
+
 /-- Conjugation by an F-isogeny on rational endomorphism algebras. -/
 def endZeroIsogeny {F : Type} [Field F] [NumberField F] {A B : AbelianVariety F}
     (f : A ⟶ B) (hf : AbelianVariety.IsIsogeny f) :
-    endZeroAlgebra A ≃+* endZeroAlgebra B := sorry
+    endZeroAlgebra A ≃+* endZeroAlgebra B :=
+  (endZeroIsogeny_exists f hf).choose
+
+/-- The chosen conjugation map satisfies the quasi-inverse characterization. -/
+theorem endZeroIsogeny_characterization {F : Type} [Field F] [NumberField F]
+    {A B : AbelianVariety F} (f : A ⟶ B) (hf : AbelianVariety.IsIsogeny f) :
+    ∃ (n : ℕ) (g : B ⟶ A), 0 < n ∧
+      f ≫ g = AbelianVariety.mulBy A (n : ℤ) ∧
+      g ≫ f = AbelianVariety.mulBy B (n : ℤ) ∧
+      ∀ x : A.End, endZeroIsogeny f hf (1 ⊗ₜ[ℤ] x) =
+        (1 / (n : ℚ)) ⊗ₜ[ℤ] AbelianVariety.End.ofHom (g ≫ x.toHom ≫ f) :=
+  (endZeroIsogeny_exists f hf).choose_spec
 
 /-- Base change of rational endomorphisms to a finite extension. -/
 def endZeroBaseChange {F : Type} [Field F] [NumberField F] (A : AbelianVariety F)
     (F' : Type) [Field F'] [NumberField F'] [Algebra F F'] :
-    endZeroAlgebra A →+* endZeroAlgebra (A.baseChange F') := sorry
+    endZeroAlgebra A →+* endZeroAlgebra (A.baseChange F') :=
+  (Algebra.TensorProduct.map (AlgHom.id ℤ ℚ)
+    (AbelianVariety.End.baseChange A F').toIntAlgHom).toRingHom
+
+/-- Rational base change sends a pure tensor to the tensor of its base-changed endomorphism. -/
+theorem endZeroBaseChange_tmul {F : Type} [Field F] [NumberField F] (A : AbelianVariety F)
+    (F' : Type) [Field F'] [NumberField F'] [Algebra F F'] (q : ℚ) (x : A.End) :
+    endZeroBaseChange A F' (q ⊗ₜ[ℤ] x) =
+      q ⊗ₜ[ℤ] AbelianVariety.End.baseChange A F' x := sorry
 
 /-- The marked coefficient action transported by isogeny conjugation. -/
 def GL2TypeAction.isogeny {F : Type} [Field F] [NumberField F] {A B : AbelianVariety F}
@@ -1082,17 +981,14 @@ theorem IsGL2Type.baseChange {F : Type} [Field F] [NumberField F] {A : AbelianVa
     [NumberField F'] [Algebra F F'] : IsGL2Type (A.baseChange F') K :=
   ⟨h.some.baseChange F'⟩
 
-/-- `isGL2Type_ellipticCurve` (computation): an elliptic curve over `ℚ` is of GL₂(ℚ)-type. -/
-example (A : AbelianVariety ℚ) (hA : A.dim = 1) : IsGL2Type A ℚ := sorry
+/-- A dimension-one abelian variety over `ℚ` admits a GL₂(ℚ)-type action. -/
+theorem isGL2Type_ellipticCurve (A : AbelianVariety ℚ) (hA : A.dim = 1) : IsGL2Type A ℚ := sorry
 
 /- `isGL2Type_J0_23` needs the actual modular Jacobian and its Hecke action, as specified in
 the closing comment.  -/
 
-/-- `not_isGL2Type_prod_rat` (non-example): a surface such as `E × E` is not of GL₂(ℚ)-type. -/
-example (A : AbelianVariety ℚ) (hA : A.dim = 2) : ¬ IsGL2Type A ℚ := sorry
-
-/-- `isGL2Type_zero` (degenerate): the zero abelian variety is of GL₂-type for no number field. -/
-example (A : AbelianVariety ℚ) (hA : A.dim = 0) (K : Type) [Field K] [NumberField K] :
+/-- A dimension-zero abelian variety admits no GL₂-type action by a number field. -/
+theorem isGL2Type_zero (A : AbelianVariety ℚ) (hA : A.dim = 0) (K : Type) [Field K] [NumberField K] :
     ¬ IsGL2Type A K := sorry
 
 /-- Class number one for the six non-cyclotomic quadratic cases `p ∈ {7,11,19,43,67,163}`. -/
@@ -1106,27 +1002,14 @@ variable {F : Type*} [Field F] [Fintype F] [TopologicalSpace F] [DiscreteTopolog
 def SatisfiesA1Residual (p : ℕ) (ρ : ResidualRep F) : Prop :=
   IsIrreducibleSubgroup (imageOver ρ (cyclotomicSubfield p).fixingSubgroup)
 
-/-- A trivial rank-two representation fails (A1) at every cyclotomic index. -/
-example (p : ℕ) : ¬ SatisfiesA1Residual (F := ZMod 2) p (1 : ResidualRep (ZMod 2)) := sorry
-
-/-- Restriction to the second cyclotomic field imposes no new condition. -/
-example (ρ : ResidualRep F) : SatisfiesA1Residual 2 ρ ↔ IsAbsolutelyIrreducible ρ := sorry
-
-/-- The natural SL₂(𝔽₃) image remains irreducible over the algebraic closure. -/
-example : IsIrreducibleSubgroup
-    (((Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) →*
-      GL (Fin 2) (ZMod 3)).range).map
-        (Matrix.GeneralLinearGroup.map (algebraMap (ZMod 3) (AlgebraicClosure (ZMod 3))))) :=
-  sorry
+/-- Restriction to `ℚ(ζ₂) = ℚ` makes (A1) ordinary absolute irreducibility. -/
+theorem satisfiesA1Residual_two_iff (ρ : ResidualRep F) :
+    SatisfiesA1Residual 2 ρ ↔ IsAbsolutelyIrreducible ρ := sorry
 
 open scoped MatrixGroups in
-/-- Check: the terminal weights `2, 4, 6, 8` carry no level-one cusp forms (Mathlib). -/
-example (k : ℤ) (hk : k < 12) : Module.rank ℂ (CuspForm 𝒮ℒ k) = 0 :=
-  CuspForm.rank_eq_zero_of_weight_lt_twelve hk
-
-open scoped MatrixGroups in
-/-- Check: `S₁₄(SL₂(ℤ)) = 0`, through `S₁₄ ≅ M₂ = 0`. -/
-example : Module.rank ℂ (CuspForm 𝒮ℒ 14) = 0 := sorry
+/-- The terminal weights have zero-dimensional level-one cusp spaces. -/
+theorem terminal_cuspForm_rank_eq_zero (k : ℤ) (hk : k ∈ ({2, 4, 6, 8, 14} : Finset ℤ)) :
+    Module.rank ℂ (CuspForm 𝒮ℒ k) = 0 := sorry
 
 end Terminal
 
@@ -1137,14 +1020,8 @@ Additional mathematical targets specified in the README:
 * §1.0: dedekindZeta_explicitFormula, including zero location and grouped convergence for
   the trivial-character Dedekind-zeta function supplied by ArithmeticGaloisRepresentations §2.7;
   identify its Euler product with the ArithmeticDirichletSeries presentation.
-* §§1.1–1.3: localRootDiscrExp and its normalized different API, local-to-global root
-  discriminants, wild Borel normal form and the two sharp small-characteristic bounds.
-* §§1.5–1.7: the analytic API odlyzkoKernel_eq_two_mul_convolution, odlyzkoKernel_nonneg,
-  odlyzkoKernel_zero, odlyzkoKernel_neg, odlyzkoKernel_eq_zero_of_one_le_abs,
-  contDiff_odlyzkoKernel, integrableOn_poitouIntegrand_sinh, poitouLowerBound_eq_explicit,
-  poitouIntegral_sinh_eq and poitouLowerBound_div_mono, and the cosh integrability counterpart.
-* §1.10: order_congr, order_constant, order_mu, order_exact; isKilledBy_iff_mul_zero,
-  isKilledBy_mul; ext1Vanishes_iff_all_split and the functoriality of the finite-flat predicates.
+* §§1.2–1.3: wild Borel normal form and the cubic power maps on local units.
+* §1.10: ext1Vanishes_iff_all_split and the functoriality of the finite-flat predicates.
 * §§2.0–2.1: the continuous cyclotomic characters, oneAddCyclotomic, realCubicModTwo,
   its coordinate action,
   and coefficient/twist specializations of ArithmeticGaloisRepresentations. The coefficient-invariance
