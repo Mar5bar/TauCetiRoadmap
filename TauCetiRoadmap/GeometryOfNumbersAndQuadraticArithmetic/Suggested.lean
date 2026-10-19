@@ -36,8 +36,8 @@ Design choices made explicit here:
 
 * lattices are Mathlib's `IsZLattice` submodules and covolumes are `ZLattice.covolume`;
 * successive minima are real numbers indexed by `Fin (finrank ℝ E)` on a `ConvexBody` with `0` in
-  its interior, defined as the infimum of the dilations of the body that contain enough
-  independent lattice vectors;
+  its interior, obtained by coercion and reindexing from `MeasureTheory.successiveMin`;
+  the latter uses nonnegative dilation rank thresholds for arbitrary sets and natural indices;
 * integral quadratic lattices over a Dedekind domain are `Submodule.IsLattice` submodules with a
   quadratic form whose values on the lattice are integral, and no stored basis;
 * hermitian pairings are conjugate-linear in the first argument; primitive matrices have unit
@@ -77,7 +77,7 @@ Design choices made explicit here:
 -/
 
 noncomputable section
-open scoped BigOperators ZeroObject Pointwise Topology
+open scoped BigOperators ZeroObject Pointwise Topology NNReal
 open MeasureTheory Module
 
 namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
@@ -255,22 +255,28 @@ example :
 
 end TauCeti.IntegralLattice
 
+/-- The nonnegative dilation threshold where the real span has dimension greater than `i`
+for an arbitrary set and natural index (1.2.1). -/
+noncomputable def _root_.MeasureTheory.successiveMin {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (L : Submodule ℤ E) (s : Set E) (i : ℕ) : ℝ≥0 :=
+  sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ (L : Set E))}
+
 namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
 section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
-/-- The `i`-th successive minimum `λ_i(L, K)`, `i : Fin d` zero-based (1.2.1): the infimum of the
-`t > 0` for which `t • K` contains `i + 1` real-linearly independent lattice vectors. Its geometric
-laws need `L` discrete and full and `0 ∈ interior K`. -/
+/-- The real-valued, zero-based `Fin` adapter of the foundational successive minima (1.2.1).
+Its geometric laws need `L` discrete and full and `0 ∈ interior K`. -/
 def successiveMin (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) : ℝ :=
-  sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
-    (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v}
+  (MeasureTheory.successiveMin L (K : Set E) i.val : ℝ)
 
-/-- The defining dilation infimum of `successiveMin`. -/
-theorem successiveMin_def (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) :
+/-- In finite dimension the rank-threshold adapter equals the positive-dilation infimum of
+independent families, without geometric hypotheses on the lattice or body (1.2.1). -/
+theorem successiveMin_def [FiniteDimensional ℝ E]
+    (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) :
     successiveMin L K i = sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
-      (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v} := rfl
+      (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v} := by sorry
 
 /-- The zero-based natural-index extension of the successive minima, with value zero at and
 beyond the ambient dimension (1.2.1a). -/
@@ -305,6 +311,12 @@ example (L : Submodule ℤ E) (K : ConvexBody E) (hdim : finrank ℝ E = 0) (i :
   successiveMinNat_of_le L K i (by omega)
 
 variable [FiniteDimensional ℝ E]
+
+/-- The natural-index adapter equals the foundational minimum, including the zero values at
+and beyond the ambient dimension (1.2.1a). -/
+theorem successiveMinNat_eq (L : Submodule ℤ E) (K : ConvexBody E) (i : ℕ) :
+    successiveMinNat L K i = (MeasureTheory.successiveMin L (K : Set E) i : ℝ) := by sorry
+
 variable (L : Submodule ℤ E) [hLdis : DiscreteTopology L] [hLfull : IsZLattice ℝ L]
   (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
 
@@ -1172,8 +1184,9 @@ example : finiteEvenOrthogonalOrder 2 2 true = 36 ∧ finiteEvenOrthogonalOrder 
 -- `|SO₃(𝔽₂)| = 6`.
 example : finiteOddOrthogonalOrder 2 1 = 6 := by sorry
 
--- The anisotropic rank-three quotient at `q = 3` against the good one has ratio `2`.
-example : orthogonalLocalVolumeRatio 3 1 0 24 4 = 2 := by norm_num [orthogonalLocalVolumeRatio]
+-- For `x² + y² + 3z²` over `ℚ₃`, the full quotient `O₂⁻(𝔽₃)` has order `8`.
+-- Both the ratio against the good quotient and its reciprocal stabilizer volume are `1`.
+example : orthogonalLocalVolumeRatio 3 1 0 24 8 = 1 := by norm_num [orthogonalLocalVolumeRatio]
 
 -- Negative control: a zero denominator order returns `0`, outside the positivity hypotheses.
 example : orthogonalLocalVolumeRatio 2 1 1 6 0 = 0 := by norm_num [orthogonalLocalVolumeRatio]
@@ -2490,9 +2503,31 @@ example : Nat.card (ternaryShell 4) = 6 ∧ Nat.card (primitiveTernaryShell 4) =
 example : Nat.card (ternaryShell 12) = 8 ∧ Nat.card (primitiveTernaryShell 12) = 0 := by sorry
 example : Nat.card (ternaryShell 9) = 30 ∧ Nat.card (primitiveTernaryShell 9) = 24 := by sorry
 
-/-- The polynomial Laplacian `Σ ∂_i² P`. -/
-def polynomialLaplacian (P : MvPolynomial (Fin 3) ℝ) : MvPolynomial (Fin 3) ℝ :=
-  ∑ i : Fin 3, pderiv i (pderiv i P)
+/-- The polynomial Laplacian `Σ ∂_i² P` in any finite coordinate dimension (§4.3). -/
+def polynomialLaplacian {n : ℕ} (P : MvPolynomial (Fin n) ℝ) : MvPolynomial (Fin n) ℝ :=
+  ∑ i : Fin n, pderiv i (pderiv i P)
+
+/-- A homogeneous real polynomial has a unique finite Fischer decomposition into powers of
+the squared radius times homogeneous harmonic polynomials (§4.3). -/
+theorem polynomial_fischer_decomposition {n m : ℕ} (hn : 0 < n)
+    (P : MvPolynomial (Fin n) ℝ) (hP : P.IsHomogeneous m) :
+    ∃! H : Fin (m / 2 + 1) → MvPolynomial (Fin n) ℝ,
+      (∀ j, (H j).IsHomogeneous (m - 2 * j.val) ∧ polynomialLaplacian (H j) = 0) ∧
+      P = ∑ j, (∑ i : Fin n, X i ^ 2) ^ j.val * H j := by sorry
+
+/-- Every polynomial restricts on the unit sphere to a finite sum of homogeneous harmonics,
+including constants (§4.3). -/
+theorem polynomial_sphere_harmonic_span {n : ℕ} (hn : 0 < n)
+    (P : MvPolynomial (Fin n) ℝ) :
+    ∃ H : Fin (P.totalDegree + 1) → MvPolynomial (Fin n) ℝ,
+      (∀ ℓ, (H ℓ).IsHomogeneous ℓ.val ∧ polynomialLaplacian (H ℓ) = 0) ∧
+      ∀ x : EuclideanSpace ℝ (Fin n), ‖x‖ = 1 →
+        eval (fun i => x i) P = ∑ ℓ, eval (fun i => x i) (H ℓ) := by sorry
+
+-- The product of two degree-one harmonics need not be harmonic.
+-- Its sphere restriction includes the constant term `1/3` in dimension three.
+example : polynomialLaplacian ((X (0 : Fin 3)) ^ 2 -
+    (1 / 3 : ℝ) • (∑ i : Fin 3, X i ^ 2) : MvPolynomial (Fin 3) ℝ) = 0 := by sorry
 
 /-- The shell coefficient `Σ_{v ∈ S_n} P(v)`. -/
 def ternaryWeightedCoefficient (P : MvPolynomial (Fin 3) ℝ) (n : ℕ) : ℝ :=
