@@ -318,8 +318,9 @@ formalLogarithm. Native finite-module Selmer constructors and finite-subgroup qu
 are supplier interfaces, not replacements for these geometric inputs.
 
 Layer 2: adelicPoints_nonempty_iff; integral models/points and GlobalFunctionFieldIntegralModel; TwistedModule and the
-native projective-K-zero support-filtration adapter; geometric adelic points and the model
-direct limit; Brauer pairing, brauerSet, brauerManinSet and HasObstruction; brauerZero,
+native projective-K-zero tensor/rank and support-filtration adapters, extending
+ClassicalArithmeticCompletion §§7.23–7.24, 7.42's stable equality and additive scalar extension;
+geometric adelic points and the model direct limit; Brauer pairing, brauerSet, brauerManinSet and HasObstruction; brauerZero,
 brauerOne, supported cohomology, unramifiedBrauer, algebraicUnramifiedBrauer and brauerOmega;
 finite-flat Brauer corestriction and zero-cycle evaluation; cyclic-algebra classes and local
 invariant matrices. Affine Azumaya and scheme Brauer evaluation are imported interfaces.
@@ -332,7 +333,16 @@ torusCompactification_splitField and
 torusCompactification_galoisDescent; UniversalTorsor, relativeBrauerOne and residual Sha
 functional; CasselsTate.biextension_comparison (torsor/divisor and Poincaré realizations
 of the supplied cohomological pairing), BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
-oriented ideals, the isogeny Q invariant and realEffectiveFraction.
+chart comparisons binaryForm_orientedIdeal, pencilFano_doubleClass and
+pencilOrbit_integralRepresentative on the pencil, oriented-ideal and Fano carriers supplied by
+ArithmeticStatisticsPartI §0.22 and ArithmeticStatisticsPartII §1.12;
+pencilOrbit_congruenceCount and pencilOrbit_cuspBound compare ordinary and reciprocal-stabilizer
+counts using ArithmeticStatisticsPartIII §2.17. Its weighted upper bound and geometric
+sieve supply pencilOrbit_sieveUpperBound and codimensionTwo_congruenceTail; this roadmap's
+pencilOrbit_localMass supplies the particular mass comparison. The common isogeny Q invariant
+and Selmer_isogenyEulerCharacteristic retain the full Sha carrier and use only finite reduced
+p-primary groups for primes dividing the isogeny degree, with Q([p]) for every prime p;
+biquadratic_SelmerParity and realEffectiveFraction are its applications.
 
 SelmerIwasawaCohomology §2.12a supplies the number-field interfaces for the native
 AbelianVariety.Points and AbelianVariety.torsion specializations above, together with abelianKummer,
@@ -361,12 +371,18 @@ and heights to their absolute versions with the same epsilon and projectivizes t
 Layer 5: HasFiniteRank.of_fg; IsCoset, IsTorsionCoset and IsTorsionSubvariety; scheme stabilizer,
 generatedByDifferences, uenoLocus, cosetFreeOpen and orthogonalComplement;
 ConnectedDieudonneModule on the supplied DieudonneModule carrier, its covector/crystalline
-scalar and cotangent comparisons, and formalWeight; uniform torsion closure;
+scalar and cotangent comparisons, and formalWeight with beta>0, gamma>=0 and the lattice
+sum of phi^i F^j N over integers i,j satisfying i r + j s >= 0, for r>=0, s>0 and r/s=gamma/beta;
+invariant_finiteStabilizer_bijective provides geometric bijectivity of psi on X and of phi on
+the difference-generated abelian subvariety when psi=phi+a preserves integral X and its full
+stabilizer is finite; uniform torsion closure;
 blockIndex, blockIndexLocus, projectiveCycleHeight, bounded projection presentations,
 weightedGap_smallSection, weightedGap_jetLowerBound and multiblock admissible jets;
 geometric difference maps, with generic birationality on geometrically integral X;
-torsionEnvelope and torsionDimension on geometric finite unions, its single-coset criterion
-on geometrically integral X, and essentialMinimum on geometrically integral X with
+torsionEnvelope and torsionDimension on reduced geometric closed subvarieties, with inputs
+over the base field geometrically reduced and extended to its algebraic closure; intersections,
+finite unions and the fixed-point equalities use reduced geometric carriers, and the single-coset
+criterion requires geometric integrality; essentialMinimum on geometrically integral X with
 finite-extension scaling as for point heights (invariant for absolute number-field heights); ArithmeticRealForms, ArithmeticRealCurrents,
 ArithmeticCycleClass with conjugation parity (-1)^(p-1) for Green currents, metrized divisor
 action, arithmeticDegree and arithmeticIntersection; AdelicMetrizedLineBundle, SemipositiveAdelic, IntegrableAdelic,
@@ -378,7 +394,10 @@ BombieriLangConjecture, VojtaConjecture, BrauerManinOnlyObstructionConjecture an
 ShaFinitenessConjecture. The genus-classification and small-point measure theorems need the
 geometric hypotheses stated in the README; Bogomolov uses geometrically integral X, and
 constant sequences are generic on a geometric singleton. The curve gap argument uses
-L = O(Theta + [-1]*Theta), with b_L/2 equal to the unhalved theta pairing. Class
+L = O(Theta + [-1]*Theta), with b_L/2 equal to the unhalved theta pairing. Its auxiliary divisor
+V=d1 F1+d2 F2+d Delta' requires positive integers d1,d2,d with d1*d2>g*d^2;
+sections are asserted at every sufficiently large common divisible scale after fixing the
+ratios. The balancing choice retains these positivity and scale hypotheses. Class
 pushforward requires proper maps with smooth generic fibre between equidimensional
 arithmetic varieties, with codimension shifted by their dimension difference. The
 finite-cover strong-approximation obstruction requires proper X in positive characteristic. No bare point-group signature asserts these geometric results.
