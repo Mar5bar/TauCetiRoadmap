@@ -2098,8 +2098,9 @@ their specialisations, and `Stack.twoFibreProduct` and `Stack.quotient` below na
 §1.21's exports at `(Perf, v)`, not local declarations. They are consumed here and not rebuilt; this
 subsection records the contract that the v-site specialisation must satisfy, with the suggested
 names used in its Checks. For maps of stacks `G₁ → G₃` and `G₂ → G₃`, the 2-fibre product sends `X`
-to the groupoid of triples `(a, b, φ)` with `a` in `G₁(X)`, `b` in `G₂(X)` and `φ` an isomorphism of
-their images in `G₃(X)`, morphisms between triples respecting `φ`. It uses Mathlib's
+to the category of triples `(a, b, φ)` with `a` in `G₁(X)`, `b` in `G₂(X)` and `φ` an isomorphism of
+their images in `G₃(X)`, morphisms between triples respecting `φ`. This category is a groupoid
+when the inputs are groupoid-valued. It uses Mathlib's
 `CategoryTheory.Limits.CategoricalPullback`, written `(f.app X).toFunctor ⊡ (g.app X).toFunctor`,
 with its supplied category structure. Restriction along `a : X ⟶ Y` applies
 `CatCommSqOver.transform` to the canonical projection square and the `CatCospanTransform` with
@@ -2174,6 +2175,11 @@ Mathlib `CategoryTheory.Pseudofunctor.IsStack`, `CategoryTheory.Pseudofunctor.De
   2-fibre product already for two points mapping to the same object of a groupoid with a nontrivial
   automorphism.
 - `s0_26_product_over_point` — The 2-fibre product of two constant discrete Boolean prestacks over the terminal prestack has exactly four objects in its fibre.
+- `s0_26_interval_not_groupoid` — On the point site with only identity covers, take
+  `G₁ = [1]`, the category `0 → 1`, and `G₂ = G₃ = 1`. The 2-fibre product is equivalent
+  to `[1]` and retains its noninvertible arrow. The Lean target
+  `categoricalPullback_interval_noninvertible` states this obstruction using `Fin 2` as a
+  preorder category and Mathlib's `CategoricalPullback` ([Stacks stackification] Tag 02X9).
 - `s0_26_trivial_groupoid` (degenerate case) — for `R = X` with `s = t = id` the quotient stack is `X`
   itself, all stabilizers being trivial.
 - `s0_26_pair_groupoid` — for `R = X × X` with the two projections, the stabilizers are trivial and
@@ -2405,7 +2411,8 @@ site and any `SheafGroupoid J` (Stacks Tag 044O, proof of Lemma 78.20.2).
 
 - `classifyingGroupoid_automorphisms` — For a group G, the automorphisms of the unique object of its one-object groupoid are in bijection with G.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: `categoricalPullback_interval_noninvertible` states the category-valued boundary Check;
+the stack constructions and their v-site specialisations are specified in the README only.
 
 ### Examples
 
@@ -3297,10 +3304,17 @@ perfectoid spaces are separated); PerfectoidSpaces layer P6 (`prodProfinite`); M
 
 - `s1_10_identity` (degenerate case) — the identity of `X` is quasicompact and separated, every fibre
   `Y_x = x` is `x × S_x` with `S_x` a point, and the identity is affinoid pro-étale.
-- `s1_10_disc_is_not_pro_etale` (non-example) — for `X = Spa(C, O_C)` and `Y = X × 𝔹` the closed unit disc
-  over `C`, with `𝔹 = Spa(C⟨T^{1/p^∞}⟩, O_C⟨T^{1/p^∞}⟩)`, `Y → X` is quasicompact and separated, and
+- `s1_10_disc_is_not_pro_etale` (non-example) — for an algebraically closed perfectoid field `C`,
+  put `X = Spa(C, O_C)` and `Y = 𝔹 = Spa(C⟨T^{1/p^∞}⟩, O_C⟨T^{1/p^∞}⟩)`.
+  The structural morphism `Y → X` is quasicompact and separated, and
   the fibre over the unique point is the disc, which is connected with more than one point and so is
   not `x × S` for any profinite `S`; the map is not pro-étale, as the criterion predicts.
+- `s1_10_absolute_product_not_quasicompact` — If `C` has characteristic `p`, the absolute
+  product `X × 𝔹` has an increasing open cover
+  `U_N = {|ϖ₁|^N ≤ |ϖ₂|, |ϖ₂|^N ≤ |ϖ₁|}`, `N ≥ 1`, for a pseudouniformiser `ϖ`.
+  The coefficient maps `id` and `c ↦ c^{p^k}`, with every disc coordinate sent to zero,
+  give a point outside `U_N` whenever `p^k > N`. Thus this absolute product is not
+  quasicompact (PerfectoidSpaces P2.18; [ECD] proof of Proposition 11.4, p. 55).
 - `s1_10_profinite_fibre` — for `Y = X × S` with `S` profinite and `X = Spa(C, O_C)` the fibre is `x × S`
   and the map is affinoid pro-étale, the base case of [ECD] after Def. 7.8.
 - `s1_10_infinite_disjoint_union` (non-example for the hypothesis) — `Y = ⊔_ℕ X → X = Spa(C, O_C)` is
@@ -9715,16 +9729,100 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 The closing targets are the seminormal structure-sheaf comparison and the one full-faithfulness
 statement of the roadmap, over a fixed base field and with a seminormal source.
 
-**Characteristic-zero resolution prerequisite.** The generic theorem contract is assigned to
-SchemeAndStackFoundations §0.21 (quasi-excellence) and Layer 4 (projective modifications): every
-reduced noetherian quasi-excellent `ℚ`-scheme `S` admits a projective birational morphism
-`f₀ : Y₀ → S`, with `Y₀` regular and `f₀` an isomorphism over the regular locus of `S`
-([Temkin-resolution] Theorem 1.2.1, pp. 2–3). For `S = Spec A` with `A` a reduced `K`-affinoid
-algebra and
-`K ⊇ ℚ_p` complete, affinoid excellence permits its application. D6.9 establishes that the relative
+**Variety resolution with regular-morphism compatibility.** D6.9 owns the non-embedded
+resolution core for reduced schemes that are finite disjoint unions of finite-type schemes over
+characteristic-zero fields. Prove the existence of finite blowup towers `S_n → ⋯ → S_0 = S`
+with regular centres disjoint from the inverse image of the original regular locus, and
+regular final source.
+Require compatibility with every regular morphism between these schemes: pull back the tower
+and remove the steps with empty centre. A regular morphism is flat with geometrically regular
+fibres; it need not be of finite type or preserve a chosen ground field
+([Temkin-resolution] Theorem 2.3.5, p. 14; [BMT-resolution] Theorem 1.1, pp. 1–2).
+
+The mathematical inputs are targets here: marked ideals on smooth local embeddings with their
+controlled transforms and coefficient presentations; the Hilbert–Samuel resolution invariant
+with exceptional-divisor history; invariance under equivalent presentations; regularity of its
+maximum loci and existence of a finite resolving tower; and compatibility of those towers on
+overlapping embeddings and under smooth morphisms. These are the non-embedded core of
+[BM-resolution] Theorems 1.6 and 1.14, §§3–6 and §12.1. Prove also compatibility under
+ground-field extension and generic-fibre embeddings, and the regular-morphism factorization and
+approximation that extend this compatibility to all regular morphisms
+([BMT-resolution] Theorems 1.2 and 6.1, Addendum 6.1 and §7). The finite disjoint-union
+comparison synchronizes the blowup order on overlapping charts, as in
+[Temkin-resolution] Lemma 2.3.3 and §2.3.6, pp. 12–13. Prove that the ordered set of
+resolution invariants is countable by comparison with varieties over `ℚ`
+([Temkin-resolution] Theorem 2.3.5 and Remark 2.3.6, p. 14).
+*Needs:* SchemeAndStackFoundations §§0.21 and 4.13 (regular maps and regular loci),
+Layer 4 (blowups and strict transforms); Mathlib schemes, coherent ideals and local rings.
+
+**Checks.**
+
+- `s6_9_variety_regular` — A regular variety, including the empty scheme, has an empty tower.
+- `s6_9_variety_node` — Resolving `Spec ℚ[u,v]/(uv)` separates the two branches; resolving
+  its disjoint union with a smooth component leaves that component unchanged.
+- `s6_9_variety_generic_fibre` — Pullback from `Spec ℚ[s,u,v]/(uv)` to
+  `Spec ℚ(s)[u,v]/(uv)` gives the same branch separation. This generic-fibre embedding
+  is regular and is not of finite type.
+
+**Formal comparison for resolution.** On AdicSpacesPartIII F0's noetherian formal schemes,
+define a formal variety to have closed fibre of finite type over a characteristic-zero field,
+and glue the reduced singularity ideals of `Spec A` on its affine formal charts `Spf A`
+([Temkin-resolution] §2.4.9, p. 15). Call it rig-regular when this ideal is open, meaning
+that it contains a power of an ideal of definition.
+For such a formal variety with invertible ideal of definition `I`,
+and finite disjoint unions of these pairs, prove local algebraizability by finite-type schemes
+and that completion of the variety resolution above gives a resolution independent of the
+algebraization. Require compatibility with regular morphisms of pairs satisfying
+`I' = I O_{X'}`
+([Temkin-resolution] §3.1.3 and Theorem 3.1.5, p. 18, proved in §3.4.1, p. 25).
+Here regularity of a formal morphism means regularity on affine adic charts.
+
+Include the proof inputs: quasi-excellence of completions of quasi-excellent `ℚ`-algebras,
+comparison of regular morphisms with their completions, and algebraization of blowup towers
+whose centres are supported on the closed fibre ([Temkin-resolution] Theorem 2.1.6,
+Lemmas 2.4.3–2.4.4 and Corollary 2.4.5, pp. 9, 15–16). Define formal blowups by the completed
+ordinary blowup charts and prove their gluing and compatibility with completion
+([Temkin-resolution] §§2.4.4–2.4.6, p. 15). Prove the Elkik algebraization and thick-fibre
+comparison for principal affine pairs `(V, I)` with `V` of finite type over a characteristic-zero field,
+`I` invertible and `Sing(V) ⊆ V(I)`. In particular, prove the compatibility of restrictions of
+resolution towers under regular maps between sufficiently thick fibres, with the loss of
+thickness under blowup specified in [Temkin-resolution] Proposition 3.3.5 and Lemma 3.3.3,
+pp. 23–24. This is a comparison of restricted towers, not uniqueness of a lift of an arbitrary
+truncated morphism. Finally, for a reduced noetherian quasi-excellent `S` and a Cartier divisor
+`Z` containing `Sing(S)` that is a finite disjoint union of characteristic-zero varieties,
+prove the regular-functorial resolution of the pair `(S,Z)` by completion and algebraization;
+pair morphisms require `Z' = S' ×_S Z` ([Temkin-resolution] Theorem 3.4.1, p. 26).
+*Needs:* the variety resolution above; SchemeAndStackFoundations §0.21 and Layer 4
+(regular maps and scheme blowups); AdicSpacesPartIII F0.1–F0.5 (adic rings, formal schemes
+and completions).
+
+**Checks.**
+
+- `s6_9_formal_regular` — The regular formal disc `Spf k[[t]]` has an empty tower.
+- `s6_9_formal_cusp` — For `char(k) = 0`, the principal formal cusp
+  `Spf k[[t,u]]/(u² − t³)`, with ideal of definition `(t)`, is rig-regular and its
+  resolution is `Spf k[[s]]`, with `t = s²` and `u = s³`.
+- `s6_9_formal_not_rig_regular` — In `Spf k[[t]]⟨u,v⟩/(uv)` the singularity persists
+  after inverting `t`; its singular locus is not supported on the closed fibre, so the
+  formal-variety comparison does not apply to it.
+
+**Characteristic-zero resolution prerequisite.** D6.9 owns the generic theorem: every
+reduced noetherian quasi-excellent `ℚ`-scheme `S` admits a finite blowup tower with regular
+centres avoiding the inverse image of `Reg(S)`, regular final source `Y₀`, and projective
+birational composite `f₀ : Y₀ → S` that is an isomorphism over `Reg(S)`. The towers are
+compatible with all regular morphisms, after removing empty steps
+([Temkin-resolution] Theorem 1.2.1, pp. 2–3). Prove this from the two preceding targets,
+including extension and merging of blowup towers and their flat-base-change compatibility,
+and the compatible codimension filtration with its stabilization on each noetherian scheme
+([Temkin-resolution] Lemmas 4.1.3 and 4.2.1–4.2.5, §§4.1–4.3, pp. 26–30).
+No finite-type or finite-dimensional hypothesis on `S` is imposed.
+
+For `S = Spec A` with `A` a reduced `K`-affinoid algebra and
+`K ⊇ ℚ_p` complete, affinoid excellence permits its application. Prove that the relative
 analytification `Y = Y₀^an` is smooth over `K`, using regularity and characteristic zero, and that
 `f : Y → Spa(A, A°)` is proper and surjective ([KL16] Remark 8.1.2, p. 159).
-*Needs:* SchemeAndStackFoundations §0.21 and Layer 4; RigidAnalyticGeometry §1.2
+*Needs:* the variety and formal resolution targets above; SchemeAndStackFoundations §0.21
+and Layer 4 (excellence and modifications); RigidAnalyticGeometry §1.2
 (affinoid excellence, on main); AdicSpacesPartII R1 (relative analytification);
 AdicSpacesPartIII R3.7, *proper-gaga*.
 
@@ -9735,6 +9833,15 @@ AdicSpacesPartIII R3.7, *proper-gaga*.
   smooth branches and is an isomorphism away from the node.
 - `s6_9_resolution_cusp` — the normalization of `K⟨t²,t³⟩` is the smooth disc; existence of a
   smooth modification alone imposes no seminormality on the target.
+- `s6_9_resolution_complete_node` — `Spec ℚ[[u,v]]/(uv)` is quasi-excellent and its
+  normalization is `Spec(ℚ[[u]] × ℚ[[v]])`, a regular projective modification. The base
+  is not of finite type over `ℚ`, so finite-type resolution alone does not supply it.
+- `s6_9_resolution_higher_dimension` — For every `d ≥ 0`, resolving
+  `Spec K⟨u,v,z₁,…,z_d⟩/(uv)` gives two regular branches. Their analytifications are smooth
+  `(d + 1)`-dimensional polydiscs; the affinoid application is not restricted to curves.
+- `s6_9_resolution_nonreduced` — `Spec ℚ[ε]/(ε²)` has no regular scheme birational to it
+  through a morphism that is an isomorphism over a dense open; reducedness cannot be omitted
+  from this projective birational conclusion.
 
 **Smooth completed-function recovery.** For a smooth rigid space `X` over a complete
 nonarchimedean field `K ⊇ ℚ_p`, prove `O_X ≅ ν_*Ô_X`, with the natural topologies on affinoid
@@ -10336,9 +10443,11 @@ equivalence), layer P3 (étale-site tilting and étale almost acyclicity) and la
 limits of affinoid perfectoid spaces), with P2.12, P5.6, P6.2 and P6.4 in D6.6; PerfectoidSpaces
 P7.16 (D6.9, the affinoid perfectoid basis over a locally noetherian rigid base);
 D6.9 owns smooth completed-function recovery, its toric invariant and completed scalar Čech
-calculations, and seminormal analytic compatible-section descent. Its generic resolution theorem
-contract is assigned to SchemeAndStackFoundations §0.21 and Layer 4 as stated in D6.9; §4.9 supplies
-the finite Stein factor and proper coherent direct images. AdicSpacesPartIII R3.3 and R3.7 supply
+calculations, and seminormal analytic compatible-section descent. It also owns the quasi-excellent
+characteristic-zero resolution theorem and its variety and formal comparison inputs stated in
+D6.9. SchemeAndStackFoundations §0.21 supplies excellence and regular maps, Layer 4 supplies
+modifications, and §4.9 supplies the finite Stein factor and proper coherent direct images.
+AdicSpacesPartIII R3.3 and R3.7 supply
 coherent kernels and relative proper GAGA. RigidAnalyticGeometry §§1.1–1.2 on main supplies
 affinoid excellence, Jacobson and residue-field properties; AdicSpacesPartII R1 supplies
 analytification and the proper valuative criterion. AdicEtaleGeometry layer A1 (the generalised étale site, the finite étale site, Yoneda and adic fibre products, with
@@ -10396,7 +10505,14 @@ instead of pages.
   https://arxiv.org/pdf/1602.06899. arXiv:1602.06899, author manuscript.
 - [Temkin-resolution] Michael Temkin, Functorial desingularization of quasi-excellent schemes in
   characteristic zero: the non-embedded case. https://arxiv.org/pdf/0904.1592v2.
-  Theorem 1.2.1, pp. 2–3.
+  Theorems 1.2.1, 2.3.5, 3.1.5 and 3.4.1; §§2–4.
+- [BM-resolution] Edward Bierstone and Pierre D. Milman, Canonical desingularization in
+  characteristic zero by blowing up the maximum strata of a local invariant.
+  https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf.
+  Inventiones Mathematicae 128 (1997), 207–302; Theorems 1.6 and 1.14, §§3–6 and §12.1.
+- [BMT-resolution] Edward Bierstone, Pierre D. Milman and Michael Temkin, Q-universal
+  desingularization. https://arxiv.org/pdf/0905.3580v1.
+  Theorems 1.1–1.2 and 6.1, Addendum 6.1 and §7.
 - [Heuer] Ben Heuer, A p-adic Simpson correspondence for smooth proper rigid varieties.
   https://arxiv.org/pdf/2307.01303. arXiv:2307.01303v3; used for the site conventions and
   attribution of the vector-bundle comparison.

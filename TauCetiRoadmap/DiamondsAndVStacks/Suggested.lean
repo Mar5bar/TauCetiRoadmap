@@ -35,6 +35,14 @@ universe u
 
 /-! ## Layer D0: spectral, categorical and size foundations -/
 
+/-- The categorical pullback of the interval category over a point retains a noninvertible
+arrow (Stacks 02X9 and 003R; README D0.26). Thus a 2-fibre product of category-valued stacks
+need not be groupoid-valued, even when its comparison arrows are isomorphisms. -/
+theorem categoricalPullback_interval_noninvertible :
+    let F : Fin 2 ⥤ Discrete PUnit := (Functor.const (Fin 2)).obj (Discrete.mk PUnit.unit)
+    let P := Limits.CategoricalPullback F (𝟭 (Discrete PUnit))
+    ∃ (a b : P) (f : a ⟶ b), ¬ IsIso f := sorry
+
 /-- **The spectral quotient criterion** (ECD Lemma 2.9, pp. 12–13). For a spectral space `X` and an
 equivalence relation whose graph is pro-constructible in `X × X` and whose two projections are
 generalizing, if the quotient topology has a basis of opens with quasicompact preimages then the
