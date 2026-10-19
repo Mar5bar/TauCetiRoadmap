@@ -589,14 +589,19 @@ stacks and stable categories that do not exist at the pins. -/
 `IntegralCocycleScheme`, `DerivedParameterStack`, `WeilDeligneParameter`, `ParameterSingularities`,
 `QCoh` and `Perf` of animated quotient stacks, `cotangentToHochschild`,
 `hochschildSelfExtAction`, `dualNilpotentCone`, `NilpotentSingularSupport`, `ParameterCoarseQuotient`,
-`IsGCompletelyReducible`, `IsGIrreducible`, `IsStronglyReductive`,
-`IsAbsolutelyGCompletelyReducible`, `IsStronglyGIrreducible`, `IsSemisimpleParameter`,
+`IsGIrreducible`, `IsStronglyReductive`, `IsStronglyGIrreducible`, `IsSemisimpleParameter`,
 `coordinateDiagram`, `ExcursionAlgebra`, `CategoricalHeckeDatum`, `ExcursionDatum`,
 `excursionMatrixCoefficient`, `ProjectedPseudocharacter`, `GroupTraceAdapter`,
 the induced modules `∇_λ` and Weyl modules `Δ_λ`, `HasGoodFiltration`, good filtration dimension, `goodFiltrationTStructure`, `InducedPerfectComplexes`,
 `IndProPerf`, equivariant ideal-adic completion, `IndCoh` of the derived unit self-intersection,
 `ParameterMappingApproximation`, `restrictEnhancedParameter`, and `UniversalRepresentationBundle`.
-Their enhanced, topological or algebraic-group carriers and constructions remain in the README. -/
+Their enhanced, topological or algebraic-group carriers and constructions remain in the README.
+The connected predicates `IsGCompletelyReducible` and `IsAbsolutelyGCompletelyReducible`, their
+conjugacy invariance and `GL(V)` comparison, connected closed tuples and Levi semisimplification
+are supplied by ArithmeticGaloisRepresentations §1.11, `Complete reducibility and closed tuples`.
+Its `Reductive quotients over fields and DVRs` target supplies the connected integral quotient
+package. LP2e.2–LP2e.4 supply the additional quotient, strong-reductivity, irreducibility and
+nonconnected results. -/
 
 end
 
