@@ -396,6 +396,8 @@ Global minimizing and absence of conjugacy remain distinct. R6 supplies the
 submanifold-endpoint and focal versions on its mixed-endpoint subspace of the
 same ambient interval-section module, with the bulk form restricted there.
 
+### R3.1. H¹ paths and the speed topology
+
 Define the H¹ path carrier using continuous curves whose readings on a finite
 coordinate subdivision have weak first derivatives in L². Pin its topology by
 local exponential charts along reference smooth paths, with section norm
@@ -410,6 +412,23 @@ curve on [a,b], prove Cauchy–Schwarz
 `Length(γ)²≤2(b−a)Energy(γ)` and its restriction to each subinterval.
 For b>a prove equality exactly when the speed is constant almost everywhere,
 including the zero-speed case.
+
+For the interval path carrier compare the H¹ topology with the course's
+speed metric
+`d_s(γ,η)=sup_t dist(γ(t),η(t))+‖|γ′|−|η′|‖_L²`.
+Prove that convergence to an existing H¹ path in this metric is equivalent
+to convergence in the preceding H¹ charts. In a common finite coordinate
+subdivision, uniform convergence and bounded energy give weak convergence
+of coordinate derivatives; convergence of the speed L² norms and uniform
+metric coefficients then give strong convergence in the fixed weighted
+Hilbert derivative space. Prove the converse using the one-dimensional
+Sobolev embedding and the reverse triangle inequality for speeds. This
+metric induces that topology but need not be complete: on an interval,
+fixed-endpoint triangular waves of amplitude tending to zero and speed one
+almost everywhere form a d_s-Cauchy sequence with no d_s limit. Do not use
+completeness of this particular metric in constructing the Hilbert charts.
+
+### R3.2. Finite broken geodesics and path CW models
 
 For a connected complete manifold with its given smooth Riemannian metric, fixed endpoints
 p,q, a positive energy bound c and subdivision t₀<⋯<t_r, put T=t_r−t₀>0.
@@ -504,21 +523,39 @@ equivalence between loops at p and paths p→q by concatenation with η and
 its reversal, with explicit reparametrization/retracing homotopies and topology
 comparisons; the equivalence depends on η.
 
-For nonantipodal distinct endpoints on Sⁿ, n≥2, compute geodesic indices
-j(n−1), j≥0. For n≥3 obtain the integral homology from the lacunary CW
-complex. For n=2 use SBC B1's Hopf bundle S¹→S³→CP¹ and R1's
-CP¹≃S² comparison. Construct `j:S¹→ΩS²` adjoint to the identity of S²
-through AT4.4's normalized raw `reducedSuspensionSphereHomeomorph`.
-Prove the map `S¹×ΩS³→ΩS²`, `(z,γ)↦j(z)⋆ΩHopf(γ)`, is a weak
-equivalence: the Hopf long exact sequence gives the higher homotopy
-isomorphisms, and j gives the π₁ generator. Prove the induced homotopy-group
-map is (x,y)↦j_*x+(ΩHopf)_*y, using the loop unit homotopies and product
-homotopy groups. Apply DGFloer Layer 1 item 2's homology invariance under
-weak equivalence, AlgebraicTopology Stage 5 item 1's integral Künneth
-and the n=3 calculation
-to obtain H_i(ΩS²;ℤ)=ℤ for every i≥0, with the endpoint-change and cellular
-generators compared. For S¹
-identify winding components and their contractibility. For antipodal endpoints
+### R3.3. Nonconjugate round-sphere paths, in three independent branches
+
+Keep the ordinary path carrier, chosen endpoints and endpoint-change maps fixed throughout these calculations. The full result uses the three constructions below; the n=2 argument is not a premise of the n>=3 producer or of circle winding.
+
+#### R3.3a. Lacunary cells in dimensions n>=3
+
+For the unit round S^n, n>=3, fix p,q with q neither p nor -p and angle theta∈(0,pi). The two oriented great-circle arcs and their extra full turns have lengths theta+2*pi*k and 2*pi-theta+2*pi*k. The Jacobi/index comparison gives indices 2*k*(n-1) and (2*k+1)*(n-1), and no nullity at these nonconjugate endpoints. The actual finite broken-geodesic critical-band theorem and coherent exhaustion therefore give exactly one cell in every dimension j*(n-1), j>=0, on the ordinary path CW-type model. Since n-1>=2, no cells have adjacent dimensions and every cellular boundary is0. Hence integral H_i is Z in multiples of n-1 and0 otherwise. Use the genuine CW/homology colimit for the unbounded exhaustion. There is no1-cell, so the based path model is simply connected by the relative-cell connectivity theorem. Endpoint change by a chosen reference path transports this to Omega S^n. In particular Omega S3 has free integral homology Z in even degrees and is simply connected. The n2 Hopf bridge and n1 winding are distinct consumers/branches, never premises here.
+
+#### R3.3b. Winding components for the circle
+
+Use the native real covering of Circle with period2*pi, after the designated round-S1 homeomorphism. For fixed endpoint angle theta, lift every path starting at the fixed real lift; its endpoint lies at theta+2*pi*k for a unique integer k. General parameter covering homotopy lifting makes the endpoint label locally constant. In each k fibre, straight interpolation between two real lifted paths fixes both endpoints and contracts it to the linear path; descent gives the contraction of that ordinary path component. Thus the path carrier has the homotopy type of the discrete integers, H0 is the direct sum of one Z per winding and all higher homology vanishes. The label is the actual native winding/fundamental-group generator, with concatenation convention compared. This does not import a higher-sphere or n2 Hopf calculation.
+
+#### R3.3c. The n=2 Hopf comparison
+
+Use the designated native complex projective line and the unit sphere of C², compared to the actual real S3 by the real-linear isometry (Re z0,Im z0,Re z1,Im z1). The map z↦C*z is the principal Circle Hopf bundle. On the projective chart z0≠0, w=z1/z0, use the section (1,w)/sqrt(1+|w|²) and fibre coordinate z0/|z0|; on z1≠0 use the analogous section. Prove the inverse and transition formulas, joint continuity/smoothness and fibrewise free transitive right action. These local trivializations construct the actual fibre-bundle projection, hence the native Serre lifting predicate; no final projective cohomology or circle Chern classification is a prerequisite.
+
+The CP1-to-unit-S2 map descends
+h(z)=(2 Re(conj(z0)*z1),2 Im(conj(z0)*z1),|z0|²−|z1|²).
+Compute its squared norm as (|z0|²+|z1|²)²=1 and its exact Circle fibres. The two affine chart/stereographic inverse formulas prove bijectivity, continuity and smoothness of both directions. Alternatively compact-to-Hausdorff gives the homeomorphism before the chart smooth comparison. Pin [1:0] to the north pole; the displayed chart has positive complex orientation at that pole. A different conjugation convention reverses its orientation and must be compared explicitly. This is a pointed homeomorphism/diffeomorphism needed by homotopy; no unproved equality of FS and round metric normalizations is imported.
+
+Apply the ACTUAL early Hopf homotopy LES. For Omega S3 the independent n>=3 Riemannian lacunary CW argument gives a cell in each nonnegative even dimension and none in odd dimensions, so its integral homology is Z in even degrees and0 in odd degrees, and pi1(Omega S3)=0. Its CW model also has exactly one0-cell, hence is connected; the actual native zero-loop comparison then identifies pi1(S3) as trivial, without using the n2 result. Do not use the n=2 calculation here. The Hopf LES supplies the connecting homomorphism pi2(S2)→pi1(S1), computed by disc lifting; combine it with the native loop shift pi1(Omega S2)≃pi2(S2). No globally chosen continuous path-lifting function Omega S2→S1 is assumed. The adjoint of the normalized raw suspension homeomorphism Sigma S1→S2 gives a based continuous map s:S1→Omega S2. Compute the connecting homomorphism on its adjoint sphere by the explicit Hopf clutching function: its winding is±1 (pin the sign from the preceding charts), so the induced map on the pi1 groups is an isomorphism. This computation is the missing degree/winding step; it is not implied by numerical cell counts.
+
+Multiply s with the loop of the Hopf projection to define S1×Omega S3→Omega S2. The Hopf LES and the native higher asphericity of S1 give isomorphisms in every higher homotopy group, while the winding calculation gives pi1 and connectedness gives pi0. The map is a weak equivalence on the actual CW-type/compact-generation models, so the independent DGF weak-equivalence homology comparison applies. Integral Kunneth has no Tor here because H*(S1;Z) and the already computed H*(Omega S3;Z) are free. It yields H_j(Omega S2;Z)=Z for every j>=0, not a general assertion that all fibration homologies split. Native circle winding/fundamental-group and the actual raw-suspension and product/Tor floors precede this step. Preserve n=1's separate integer winding components and n>=3's original lacunary proof, and retain all antipodal Bott, geometric suspension, and later James/EHP programmes independently.
+
+Every map above has the specified basepoints, ordinary-loop/concatenation comparison and naturality to the owned path CW/H1 models. Its exact generic Hopf-bundle and CP1 chart inputs remain existing SB/CK/native owners; the R3 application adds the source n=2 homology argument, not another general projective-space or classifying-space theory. 
+
+The n=2 construction consumes the preceding independent n>=3 lacunary branch and the circle winding/higher-asphericity interfaces. It does not consume an all-dimensional sphere-path homology theorem containing its own conclusion. Only after all three constructions are complete assemble the all-dimensional nonconjugate path result, with endpoint-change and cellular generators compared. R1 retains the separate metric-normalization comparison for its CP1 example; no Fubini–Study/round metric equality is a premise of this pointed topological Hopf bridge.
+
+On the equator w=e^(i*theta), the displayed chart sections satisfy s_1=s_0*w^(-1). Compute the boundary winding using that transition together with the actual oriented disc-boundary convention in DGF's connecting map; record its sign against AT's interval-last suspension homeomorphism. If the chosen generator requires the opposite sign, apply the explicit inversion on S1 rather than suppressing the sign. The magnitude-one winding supplies the required pi1 isomorphism. Construct the ordinary-loop product map with the constant loop at every designated basepoint, and compare its induced product homomorphism with (x,y)↦s_*x+(Omega Hopf)_*y using the actual loop unit/reparametrization homotopies.
+
+### R3.4. Antipodal Morse–Bott attachments and suspension
+
+For antipodal endpoints
 on Sⁿ, n≥2, construct the critical S^(n−1) family for each length (2k+1)π,
 prove index 2k(n−1), nullity n−1 and negative normal bundle
 `(TS^(n−1))^(⊕2k)`, and apply MorseTheory M5's finite-dimensional
@@ -593,10 +630,29 @@ stable homotopy calculations remain with
    the radial density inequalities before integrating. Supply radial-Jacobian,
    polar-integration bridges, consuming R4.6’s cut-locus carrier and
    volume-nullity theorem.
+   **Ricci lower bounds and relative volume, after the radial and cut-locus constructions.**
+
+   Let M be connected complete n-dimensional smooth Riemannian, n>=2, and Ric>=(n−1)κg. For model volume Vκ(r), prove Vol(B(p,r))/Vκ(r) is nonincreasing for positive radii before the positive-curvature model pole, with the usual constant-curvature model domain. In particular for κ=0 it is nonincreasing for all r>0 and at most one after normalizing by ω_n r^n. Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut locus, arbitrary center, density/metric pullback and scaling comparisons. State positive-curvature maximal radii explicitly. Do not substitute a sectional Rauch hypothesis for Ricci lower bounds.
+
+   Proof programme: on the star domain before first cut, let J(t,θ) be the positive normal exponential Jacobian, A its shape/Riccati endomorphism and h=tr A. From the Jacobi equation derive h'+tr(A²)+Ric(γ',γ')=0, hence h'+h²/(n−1)+(n−1)κ<=0 by trace Cauchy–Schwarz. Use the actual small-t asymptotic J/t^(n−1)→1 to prove J/sκ^(n−1) nonincreasing. Set J=0 beyond the cut time; this adds only downward jumps. Prove measurability and the native density/polar change-of-variables on the cut-truncated domain. Integrate over the SAME angular unit sphere and then radially; the elementary ratio-of-integrals lemma yields the ball ratio. Prove the n=1 interval/circle cases separately; no vacuous Ricci plane condition gives Euclidean rigidity there.
+
+   Construct the following equality API, also consumed by PositiveMass P2.3. Equality of the flat volume ratio on all positive radii forces equality of the radial densities a.e.; smoothness on the star domain upgrades it there. The Riccati inequality has equality, so A=(1/t)Id and the radial metric is Euclidean before cut. Prove absence of a finite cut obstruction from the equality of density and the actual cut/conjugate/loop alternative, and construct the complete local-isometry covering from the exponential model. Show any nontrivial covering identification strictly reduces the full ball volume, so equality yields a global Euclidean isometry. For equality only up to a radius, retain the actual normal-domain/radius hypotheses and ball conclusion; do not infer global flatness. PositiveMass P2.3 supplies its separate asymptotically Euclidean large-ball lower limit and combines it with this comparison and the small-ball limit; neither positive-mass theory nor a zero-mass hypothesis is an input to the present comparison.
+
 2. On a connected complete noncompact manifold, prove a ray exists from every
    point by compactness of initial unit directions and a limit of minimizing
-   segments. On a complete manifold the distance to a nonempty closed embedded
-   submanifold is attained; a minimizing segment to it meets it orthogonally.
+   segments. For p∈M let M_p be its connected component, carrying the restricted smooth
+   Riemannian structure and its finite intrinsic length metric. Assume that
+   metric is complete. If N is a nonempty closed embedded submanifold of M
+   and N∩M_p is nonempty, prove the intrinsic distance from p to N∩M_p is
+   attained, and every minimizing segment to that intersection meets N
+   orthogonally. Prove the usual statement when M is connected and complete
+   as a specialization. Points of N in other components are not competitors
+   for this finite intrinsic distance. In particular R disjoint-union R, with
+   p in one component and N the other component, has no such minimizing
+   segment; closedness/nonemptiness alone is insufficient. Construct the
+   component's open smooth restriction and metric comparison explicitly,
+   rather than assuming a globally finite Riemannian length distance between
+   disconnected components.
    Include first variation with a moving endpoint, consuming R3's corner formula.
 3. Prove a local Riemannian isometry from a nonempty complete manifold to a
    connected manifold is a surjective covering. Use finite-length path lifting
@@ -605,6 +661,18 @@ stable homotopy calculations remain with
    for a local diffeomorphism with `|df(v)|≥|v|` and complete domain.
    A surjective local isometry with an incomplete domain need not be a covering;
    compute the punctured-line→circle example.
+   **Complete pullback metrics and the universal covering manifold.**
+
+   Let p:E→M be a surjective topological covering of connected finite-dimensional Hausdorff second-countable boundaryless smooth real manifolds, with E carrying the smooth atlas pulled back from M, so p is a local diffeomorphism. For a smooth positive Riemannian g on M, define g_E(v,w)=g(dp(v),dp(w)). In each covering chart dp is invertible; hence this is smooth and positive. Prove the projection is a local Riemannian isometry, lengths/energy and Levi–Civita connection/Jacobi/curvature tensors are preserved in each sheet, and local curvature/Ricci inequalities pull back with their exact constants and dimension.
+
+   If M is complete, prove E is complete without assuming it. A base geodesic extends for every real time by Hopf–Rinow. Lift its restrictions on compact intervals from a given sheet point; covering uniqueness makes these lifts compatible on overlaps, and the native smooth-lift/local-isometry comparison makes the glued lift a geodesic with the chosen initial velocity. Thus E is geodesically complete. On each connected component the converse Hopf–Rinow gives completeness for the induced finite length metric. For connected E this is the required metric, with unchanged manifold topology. A disconnected cover is treated componentwise; no finite cross-component distance is installed.
+
+   For the based-path universal cover, consume the actual installed TauCeti UniversalCover carrier/projection, local path-connected and semilocally simply-connected covering theorem, simple connectivity and path connectivity. The native covering theorem permits empty fibres outside the based component; connected manifolds are path connected, giving surjectivity here. Small coordinate balls provide the local hypotheses. Construct its smooth atlas by the actual native chartedSpaceComap/IsLocalDiffeomorph result, never an alternative total-space topology.
+
+   The fibre over the basepoint is in bijection with endpoint-fixed based loop homotopy classes by the explicit UniversalCover endpoint/class structure; prove the maps and casts are inverse. Only a cardinal bijection is needed here; no convention-incorrect group isomorphism is asserted. The independently owned LieGroupoidsPoisson G0.0 countable-coordinate/overlap-components argument makes pi1 countable. Over a countable evenly covered basis, there are countably many sheets (each fibre is in bijection with the basepoint fibre by path lifting); their chart bases give second countability of the universal cover. Prove Hausdorffness using either distinct base neighborhoods or disjoint sheets over the same point. This establishes the actual standing manifold hypotheses before applying Riemannian results upstairs.
+
+   Export the conditional conclusion: IF the connected universal-cover manifold constructed above is compact, its fibre is closed by continuity and T1 of the base, and discrete by the covering theorem; compactness of that closed fibre then implies finiteness. The fibre/loop-class bijection proves pi1 finite. The Myers CALLER supplies the compactness hypothesis only AFTER applying its sine-index diameter bound upstairs. The cover producer neither invokes Myers to construct/complete the cover nor assumes finite pi1; this separates the early construction from the caller conclusion. This argument does not use cover classification, K(G,1), higher homotopy or a finite-pi1 hypothesis in constructing the cover. Pullback metrics along cover morphisms and base isometries have the expected functoriality.
+
 4. Cartan–Hadamard: on connected M, K≤0 and completeness imply exp_p is a covering from T_pM.
    Establish its nonsingular/expanding differential by R2/comparison and apply
    the preceding covering criterion. The simply connected specialization gives
@@ -692,6 +760,16 @@ stable homotopy calculations remain with
    space. For real projective space consume AlgebraicTopology Stage 4.6's
    native projectivization, coordinate-atlas and CW comparison; identify the
    generic isometric quotient with that carrier and descend the round metric.
+   **The round real-projective quotient, with low-dimensional and orientation branches.**
+
+   For every n>=0 use the native unit sphere in EuclideanSpace R (Fin(n+1)) with its antipodal integer-unit action and the actual installed TauCeti.RealProjectiveSpace n orbit quotient. The native projection is continuous, surjective, a quotient covering map and has equality exactly x=y or x=-y; its compactness/path-connectedness/unique-zero-dimensional carrier are existing declarations. Construct its comparison with AT4.6's native Projectivization R (Fin(n+1)→R), after the WithLp linear homeomorphism. Send a unit vector to its one-dimensional span. Surjectivity chooses a nonzero vector on the line and normalizes it; if two unit vectors span the same line the real scalar has absolute value1, hence is±1. The induced quotient bijection is continuous, and compact-to-Hausdorff gives the homeomorphism. Pin representative, inverse, topology and basepoint equations. This comparison is an owned construction, not supplied by the mere generic quotient theorem.
+
+   In the projective chart with coordinate i nonzero choose its unit representative with positive i-th coordinate. The affine ratio vector gives the explicit smooth section, with normalizing denominator sqrt(1+sum ratios²)>0. Compare it with the lifted smooth antipodal-cover atlas and AT's designated projective atlas by these coordinate maps; the identity is a diffeomorphism and no second projective manifold/topology is installed. The antipodal action is a smooth round isometry, free even on S0. The generic Riemannian quotient/pullback metric then descends the round metric, and in each local sheet sectional curvature equals1 for n>=2. In dimensions0/1 the sectional statement has no two-plane test and is vacuous; no positive Ricci Myers hypothesis is inferred there. Compactness is from the actual sphere quotient, before any classification of complete space forms.
+
+   For n>=1 the connected sphere is oriented by outward-normal-first orientation. The antipodal map on ambient R^(n+1) has determinant (-1)^(n+1); its boundary-sphere degree is the same sign. Prove the normal/tangent orientation comparison, not determinant(-Id on a fixed abstract n-plane), which would give the wrong exponent. A quotient orientation pulls back to an invariant sphere orientation; conversely an invariant orientation descends in the covering charts. On connected S^n every orientation differs by one global sign, so an orientation-reversing deck transformation obstructs every descent. Thus RP^n is orientable exactly for odd n when n>=1. RP0 is a single point and is orientable separately. This is a concrete quotient/parity comparison, not a full Stiefel–Whitney or Killing–Hopf classification input.
+
+   For n>=2 consume the ACTUAL native RealProjectiveSpace.fundamentalGroupMulEquivAt n hn x to integer units, with hn:2<=n, and transport by the preceding homeomorphism. The source's unqualified pi1=Z2 must keep that guard. RP1 is the circle with fundamental group Multiplicative Z via the native Line comparison (or the explicit double-angle circle quotient and native winding theorem); RP0 is the unique point with trivial pi1. Compare chosen lifts/monodromy and antipodal deck labels, with the opposite harmless only because the two-element deck group is commutative. Do not confuse Nat.card=0 in the n1 cardinality trichotomy with an empty fundamental group. All three dimension branches remain required.
+
    Complete connected dimension 1 manifolds are a line or a circle with
    its circumference parameter; dimension 0 is a point, independently of κ.
 8. For every pair of distinct points on a connected closed positive-dimensional
@@ -1214,6 +1292,16 @@ from R2–R4.
 
 ## R7. Rough Laplacians, Weitzenböck and curvature vanishing
 
+### R7.0. Scalar Bochner identity and the first positive eigenvalue
+
+For a smooth real function f on a smooth finite-dimensional Riemannian manifold with Levi-Civita connection, prove in the positive-Laplacian convention
+`Delta^+ |df|^2 + 2|Hess f|^2 + 2 Ric(grad f,grad f) = 2 <df,d Delta^+ f>`.
+The statement is local and needs no compactness, Hodge theorem, cohomology or Spin structure. Derive it in a normal frame from the product/metric connection rule, symmetry of Hess f and curvature commutation of its third derivatives; compare its sign with `Delta^+=−div grad` and the native curvature convention. Prove frame/coordinate and isometry/pullback invariance. Give the finite-regularity version only with the actual derivative regularity needed for every term. On a closed connected manifold of real dimension n>=2 integrate using DG Green to obtain the Hessian/Ricci identity and, for Ric>=(n−1)k g with k>0, combine trace Cauchy-Schwarz and the actual eigen-equation with the energy identity to prove lambda1>=nk. Equality forces Hess f=−k f g for a mean-zero first eigenfunction; [Yamabe Y9](../Yamabe/README.md#y9-existence-uniqueness-and-rigidity) supplies the separate complete Obata radial-rigidity theorem. Boundary/noncompact versions retain the actual boundary or compact-support terms. This refines the scalar consequence of R7's Weitzenbock calculus without consuming its later harmonic-form vanishing theorem.
+
+The local identity includes dimensions0 and1. The positive first-eigenvalue and equality statements require n>=2, a nonzero mean-zero eigenfunction, and the actual positive first eigenvalue supplied by the compact scalar spectral construction. In dimension1 the Ricci bound Ric>=(n−1)k g is vacuous and yields no bound depending on an arbitrary k: a circle of circumference L has first eigenvalue(2*pi/L)^2. A connected dimension0 manifold is a point and has no first positive scalar eigenspace. Boundary and noncompact statements keep the boundary or compact-support terms instead of applying the closed integral argument.
+
+### R7.1–R7.8. Bundle identities and geometric consequences
+
 1. On actual finite-rank metric bundles with compatible connections, consume
    PDO P1’s rough-Laplacian definition, invariant negative covariant trace,
    formal L² identification with ∇*∇ and nonnegative energy identity.
@@ -1315,13 +1403,27 @@ from R2–R4.
 
 ## R8. Spherical harmonics and minimal eigenmaps
 
-For the unit sphere S^m (m≥1), construct restriction of homogeneous degree-d
-harmonic polynomials in m+1 variables and prove it identifies them with the
-`Δ⁺` eigenspace for λ_d=d(d+m−1). Prove the harmonic homogeneous decomposition
-of polynomials, restriction injectivity, dimension
-`binomial(m+d,d)−binomial(m+d−2,d−2)` (the second term zero for d<2), completeness
-and orthogonality with K5a's spectral decomposition. Include the m=1 Fourier
-pair, constants d=0, and O(m+1)-equivariance. Construct the harmonic-polynomial representation and compare its
+### R8.1. Finite harmonic-polynomial construction
+
+Let m>=1, n=m+1 and d>=0. On Euclidean R^n use its actual standard quadratic norm r^2=sum x_i^2 and ordinary Euclidean differential Laplacian sum partial_i^2; on the unit round S^m use the geometric nonnegative Laplacian Delta_S^+=-div grad. Use native homogeneous MvPolynomial carriers, their ordinary derivative/evaluation maps and the actual round metric from R4.7. All assertions below are finite polynomial/differential constructions; no analytic completeness or classification of every spherical eigenfunction is an input or an output.
+
+The round polar metric away from0 is dr^2+r^2 g_S and its density is r^m dr dV_S. The coordinate divergence formula therefore gives Delta_R=partial_r^2+(m/r)partial_r-r^(-2)Delta_S^+. For p homogeneous of degree d and h=p restricted to the unit sphere, p(r theta)=r^d h(theta). Substitution yields Delta_R p=r^(d-2)[d(d+m-1)h-Delta_S^+h]. Hence a harmonic homogeneous p restricts to a smooth spherical eigenfunction with eigenvalue d(d+m-1). This is a one-way inclusion, not surjectivity onto the whole eigenspace. Its O(n)-equivariance follows from the norm and Euclidean Laplacian invariance and the action (g.p)(x)=p(g^(-1)x). Restriction is injective: if h=0, homogeneity gives p=0 away from0; continuity gives the origin too, and the real polynomial evaluation map is injective. For complex coefficients apply this to real and imaginary parts.
+
+Write P_d for homogeneous degree-d polynomials, with P_e=0 for negative e, and H_d=ker(Delta_R:P_d->P_(d-2)). For harmonic homogeneous h_l, Euler's degree equation and the product rule give
+Delta_R(r^(2k) h_l)=2k(2l+n+2k-2) r^(2k-2) h_l.
+For k>=1 this coefficient is strictly positive because n>=2. Induct on d, starting d=0,1 where every homogeneous polynomial is harmonic. The inductive decomposition of P_(d-2) into the summands r^(2k) H_(d-2-2k) diagonalizes the map q->Delta_R(r^2 q): each summand is multiplied by the nonzero coefficient 2(k+1)(2(d-2-2k)+n+2k). It is therefore a linear isomorphism of P_(d-2). For p in P_d choose its unique q with Delta_R(r^2 q)=Delta_R p; then h=p-r^2q is harmonic. The same invertibility proves uniqueness, giving P_d=H_d directsum r^2 P_(d-2), and iterating gives the harmonic homogeneous decomposition.
+
+The native monomial basis gives dim P_d=binomial(n+d-1,d). Thus dim H_d=binomial(m+d,d)-binomial(m+d-2,d-2), with the second term zero for d<2. This proves the dimension of the constructed harmonic-polynomial subspace and its injective spherical restriction. It does not identify every smooth/L2 eigenfunction, construct the global spectral Hilbert basis or prove highest-weight irreducibility. Those remain the separate full R8/CK spectrum/representation phases, with their actual mandatory suppliers.
+
+The proof programme must transport the Euclidean derivative identities to the actual round native metric/volume and use the stated m,d/degree and coefficient conventions, including d=0,1 and m=1.
+
+### R8.2. Spectral completeness and eigenspace identification
+
+After the finite polynomial construction, consume K5a's compact scalar spectral decomposition to prove that restriction identifies the constructed harmonic degree-d space with the ENTIRE smooth and L2 eigenspace for lambda_d=d(d+m−1). Establish orthogonality, completeness and the comparison of the polynomial and Hilbert spectral bases, with the actual smooth-domain/elliptic-regularity interface. Retain the dimension formula binomial(m+d,d)−binomial(m+d−2,d−2), the second term zero for d<2; constants d=0 and the m=1 Fourier pair are explicit. These surjectivity and completeness outputs are later than the one-way finite polynomial calculation and are not inputs to it. Preserve O(m+1)-equivariance throughout.
+
+### R8.3. Orthogonal highest weights and low ranks
+
+Construct the harmonic-polynomial representation and compare its
 complexification on SO(m+1) with highest weight dε₁ (d times the vector highest weight), consuming ClassicalGroups Layers 3/5's highest-weight classification targets
 and its existing numerical Weyl-dimension APIs (including
 `ClassicalGroups/WeylDimension/OddOrthogonal.lean` and
@@ -1335,6 +1437,8 @@ Prove `(x₁−ix₂)^d` is a highest-weight vector with character dε₁.
 Use the supplied classification to establish irreducibility; the numerical
 Weyl formulas alone are not a supplied highest-weight module.
 
+### R8.4. Full eigenspace eigenmaps and Takahashi
+
 For an L²-orthonormal basis f_1,…,f_N of a positive eigenspace, prove
 `Σf_i²=N/Vol(S^m)` by orthogonal-group transitivity and
 `Σdf_i⊗df_i=(λN/(m Vol(S^m)))g` by isotropy invariance and trace.
@@ -1344,6 +1448,8 @@ It is an isometric immersion into S^(N−1)(√(m/λ)) and is minimal there.
 For any isometric immersion into a round sphere prove Takahashi's converse:
 minimality iff its Euclidean coordinate functions satisfy Δ⁺f_i=(m/r²)f_i.
 An arbitrary list of eigenfunctions need not be an immersion or isometric.
+
+### R8.5. The five-coordinate degree-two example
 
 Compute degree 2 on S²: N=5, not 6. The three diagonal trace-free quadratics
 are linearly dependent; pin a five-dimensional traceless-symmetric-matrix model
@@ -1380,6 +1486,8 @@ TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's marked
 triangulation and AT's early §3A.1 mapping-CW targets precede R3. Spin
 G1.2/G2.2/G3.4 precede R7's Clifford/de Rham calculations, while the later
 Spin Dirac/index consumers follow R7.8.
+The speed metric in R3.1 gives the H1 topology but is not assumed complete; H1 charts are constructed independently. R3.3a's n>=3 lacunary proof and R3.3b's n=1 lifting proof precede R3.3c's Hopf homology calculation. Only their conjunction supplies the all-dimensional path result. R4.3 constructs the smooth universal-cover manifold, its second countability and complete pullback metric before R4.5 applies the sine-test bound upstairs; finite pi1 is a conclusion after compactness, not a hypothesis of that construction. R4.1's Ricci-volume comparison uses R4.6's cut-truncated polar/nullity interface, and its global equality conclusion has its own complete-cover/no-identification argument. R7.0's local scalar Bochner identity precedes Hodge/Spin/cohomology; its integrated Lichnerowicz/equality consequence requires n>=2. R8.1's finite harmonic-polynomial restriction, Fischer decomposition and dimension require no K5a spectral completeness or highest-weight classification; R8.2–R8.4 retain all those later actual suppliers. The round RP example in R4.7 consumes the actual antipodal quotient/projectivization atlas and native pi1 branches without a global space-form classification premise.
+
 Give every object identity/linearity/regularity/naturality and local-to-global
   comparison lemmas before its headline theorem. Compile prototypes against the
 real Tau Ceti imports; remove supplier mirrors when the actual API is available.
