@@ -42,9 +42,9 @@ The mathematical assertions below are targets for formalisation; the existing li
 named in the `*Needs:*` annotations. Each definition and construction states its API and its Checks.
 The companion [Suggested.lean](Suggested.lean), in the namespace
 `TauCetiRoadmap.ModularSymbolsPadicLFunctions`, prototypes the light definitions whose carriers exist
-at the pinned libraries and the milestone theorems that can be stated against them, with Checks as `example`s. A target that ends with a `*Lean:*` line is carried by the declarations
-listed there. Every Check expressible against the supplied carriers has a Lean example; Checks
-requiring new carriers are specified with their target.
+at the pinned libraries and the milestone theorems that can be stated against them. A target that
+ends with a `*Lean:*` line is carried by the declarations listed there. Proved `example`s test selected
+definitions; the Checks below also specify cases without a Lean counterpart.
 
 ## Scope and ownership
 
@@ -432,7 +432,7 @@ multiply. It contains `Γ₀(N)`, every `(1 a; 0 ℓ)` with `ℓ ≥ 1`, and `(�
 `N = p` it is Pollack–Stevens' `S₀(p)` ([PS] §2.1, p. 7). API: `Sigma0` (the submonoid of
 `Matrix (Fin 2) (Fin 2) ℤ`), `Gamma0_le_Sigma0` `(Γ₀(N) ⊆ Σ₀(N))`, `intMatrixToGL` `(Σ₀(N) → GL₂(ℚ))`.
 *Needs:* Mathlib `Submonoid`, `CongruenceSubgroup.Gamma0`. *Lean:* `Sigma0`, `Gamma0_le_Sigma0`,
-`intMatrixToGL`.
+`intMatrixToGL`, `intMatrixToGL_mul`.
 
 **Checks.**
 
@@ -489,7 +489,7 @@ statement is attributed to Manin). This presentation is the input of every prese
 - The paths `0→1` and `1→∞` sum to `0→∞`; the coefficient at the intermediate cusp 1 is zero.
 
 *Needs:* Tau Ceti `TauCeti.ModularSymbols.degreeZero`, `degreeZeroGLRep` and
-`single_sub_single_mem_degreeZero`. *Lean:* `divisor`.
+`single_sub_single_mem_degreeZero`. *Lean:* `divisor`, `divisor_self`, `divisor_swap`, `divisor_add`.
 
 **Modular symbols** (definition). For `Γ ≤ SL₂(ℤ)` of finite index and a right `ℤ[Γ]`-module `V`, the
 module of `V`-valued modular symbols is `Symb_Γ(V) = Hom_{ℤ[Γ]}(Δ₀, V)`: the additive maps `φ : Δ₀ → V` with
@@ -594,7 +594,7 @@ preserve `Symb_{Γ₀(N)}(V)`), `heckeT_comm` (`T_ℓT_m = T_mT_ℓ` on symbols)
 *Needs:* §0.1 (The Hecke monoid `Σ₀(N)`); §0.2 (Modular symbols); Tau Ceti
 `HeckeRing.GL2.commSemiringHeckeRingGamma0`; ModularForms Layer 8 (`Δ₀` as a `GL₂⁺(ℚ)`-module).
 *Lean:* `slashSymbol`, `heckeT`, `heckeU`, `IsSigma0Action`, `heckeT_mem_symbols`,
-`heckeU_mem_symbols`, `heckeT_comm`.
+`heckeU_mem_symbols`, `heckeT_comm`, `heckeU_comm_heckeT`.
 
 **Checks.**
 
@@ -734,7 +734,7 @@ p. 63, for the base-point cocycle; Lemma 5.2, p. 55, for the sequence). For `V =
 cusp `x`), `toH1_eis` `(δ ∘ res = 0)`, `toH1_hecke` (`δ(φ|T) = δ(φ)|T` for the double-coset Hecke operators
 on `H¹`, with the preceding adapter's convention). *Needs:* §0.4 (Cohomological Hecke adapter);
 §0.2 (Modular symbols); Mathlib `groupCohomology`,
-`groupCohomology.H1`. *Lean:* `symbolCocycle`, `symbolCocycle_mul`.
+`groupCohomology.H1`. *Lean:* `symbolCocycle`, `symbolCocycle_mul`, `symbolCocycle_baseCusp`.
 
 **Checks.**
 
@@ -757,7 +757,8 @@ shows the restriction of `δ(φ)` to `Γ_r` vanishes; conversely, for a cocycle 
 topological comparison of [PS] §2.1, p. 7, is ModularCurvesPartII §§14.1–14.4a, 14.8 and 14.11–14.12). The cusp stabilisers are
 `Γ_r = Γ ∩ g⟨±T⟩g⁻¹` for `r = g∞` with `g ∈ SL₂(ℤ)`. *Needs:* §0.4 (Boundary symbols; The map from modular symbols to group
 cohomology); Mathlib `groupCohomology.resNatTrans`; ModularForms Layer 8. *Lean:*
-`symbolCocycle_isCoboundary_iff`, `symbolCocycle_isParabolic`, `exists_symbol_of_isParabolic`
+`restrictBoundary_eq_zero_iff`, `symbolCocycle_isCoboundary_iff`, `symbolCocycle_isParabolic`,
+`exists_symbol_of_isParabolic`
 (stated with explicit cocycles and coboundaries).
 
 **Checks.**
@@ -1006,7 +1007,8 @@ for `M = ℤ` and visible for `M = ℚ/ℤ`. *Needs:* §0.2 (Modular symbols); �
 symbols); §0.5 (Hecke operators on `Γ₁(N)`-symbols); Mathlib `Rep.coinvariantsTensor`,
 `Rep.coinvariantsAdjunction`, `Representation.linHom`, `Representation.Coinvariants`; ModularForms
 Layer 8 (pinned Tau Ceti `TauCeti.ModularSymbols`, `heckeSymbol`, `heckeTSymbol`,
-`symbolIntRep_tmul`, `binaryFormAdjugateRep`).
+`symbolIntRep_tmul`, `binaryFormAdjugateRep`). *Lean:* `symbols_dual_homology`
+(the general tensor–Hom evaluation comparison).
 
 **Checks.**
 
@@ -1301,7 +1303,7 @@ statements invariant under this rescaling are basis-free; no canonical `K_f`-bas
 over `K_f`), `period` (`Ω_f^±(φ)` for nonzero `φ ∈ L_f^±`), `period_smul` `(Ω_f^±(λφ) = λ⁻¹Ω_f^±(φ))`,
 `psi_eq_period_smul` `(ψ_f^± = Ω_f^±(φ)·φ in L_f^± ⊗ ℂ)`. *Needs:* §0.7 (Newform eigenspaces are
 one-dimensional; The period symbol); §0.3 (The plus/minus decomposition); §0.5 (Modular symbols commute
-with flat base change). *Lean:* `periodScalar`, `periodScalar_smul`.
+with flat base change). *Lean:* `periodScalar`, `periodScalar_spec`, `periodScalar_smul`.
 
 **Checks.**
 
@@ -1491,7 +1493,7 @@ character modulo `N`), and the slope is `k/2` (ModularForms Layer 4, bad-prime e
 (a newform with a chosen `U_p`-eigenvalue `α`: a root of the Hecke polynomial at `p ∤ N`, or `a_p ≠ 0` at `p | N`),
 `Refinement.slope` `(h = v_p(α))`, `Refinement.slope_le` (`0 ≤ h ≤ k + 1` when `p ∤ N`). *Needs:* §1.3
 (`p`-stabilisations of a newform); §0.5 (Hecke operators on `Γ₁(N)`-symbols); ModularForms Layer 4.
-*Lean:* `IsGoodRefinementRoot`, `goodRoot_mul`, `IsBadRefinement`.
+*Lean:* `IsGoodRefinementRoot`, `goodRoot_mul`, `goodRoot_ne_zero`, `IsBadRefinement`, `not_isBadRefinement_zero`.
 
 **Checks.**
 
@@ -1560,7 +1562,7 @@ smaller radius). API: `distWeight` (`D_k(ℤ_p), D_k` and `D†_k` with the righ
 §§0.0–0.1 (`discAnalytic`, `LA_h`, locally analytic distributions, `naInductiveLimit`,
 `naProjectiveLimit`), §0.3 (Compact restriction to a smaller radius) and §4.15
 (Universal-character coefficient action; Cocycle law and handedness); §0.1 (The Hecke monoid `Σ₀(N)`). *Lean:* `daggerMoments`,
-`mem_daggerMoments_of_isBounded_range`, `Sigma0p`. The monoid `Sigma0p` uses the actual
+`mem_daggerMoments_of_isBounded_range`, `daggerMoments_unbounded`, `Sigma0p`. The monoid `Sigma0p` uses the actual
 p-adic unit, lower-left divisibility and nonzero-determinant conditions. Its API includes the
 entrywise integral inclusion `Σ₀(p) →` `Sigma0p p` and compatibility of the coefficient actions.
 
@@ -1592,7 +1594,8 @@ Explicitly `ρ_k(μ) = Σ_{j=0}^{k} C(k, j)(−1)^jμ(z^j)X^jY^{k−j}`, so `ker
 `(ρ_k)`, `specialise_smul` (`ρ_k(μ|γ) = ρ_k(μ)|γ` for `γ ∈ Σ₀(p)`), `specialiseSymb` (`ρ*_k`, Hecke-equivariant),
 `specialise_eq_zero_iff` (`ρ_k(μ) = 0` iff `μ(z^j) = 0` for all `j ≤ k`). *Needs:* §2.2 (Distribution modules); §0.1
 (The coefficient modules `V_k`); §0.2 (Modular symbols); §0.5 (Hecke operators on `Γ₁(N)`-symbols); §0.3 (The
-involution at infinity). *Lean:* `specialiseMoments`, `specialiseMoments_coeff_Yk`.
+involution at infinity). *Lean:* `specialiseMoments`, `specialiseMoments_coeff_Yk`, `specialiseMoments_eq_iff`
+(the moment-kernel characterisation over characteristic-zero fields).
 
 **Checks.**
 
@@ -2312,7 +2315,7 @@ roadmap's method; `p² | N` does not justify choosing a root of the good-prime H
 the unique bad-prime refinement has `α = a_p` and uses the bad-prime interpolation normalisation (no second
 Euler factor). Proof: unfold the definition of a refinement at `p | N` with the actual bad-prime
 `U_p`-eigenform relation ([PS] §6, opening, pp. 26–27). *Needs:* §2.1 (Refinements); §2.5 (The p-adic
-L-function). *Lean:* `IsBadRefinement`.
+L-function). *Lean:* `IsBadRefinement`, `not_isBadRefinement_zero`.
 
 **Checks.**
 
@@ -2394,8 +2397,7 @@ radial comparison used for division), `halfLog_inv` (the inversion formula with 
 *Needs:* §2.5 (The p-adic L-function); Mathlib `PowerSeries.binomialSeries`, `Polynomial.cyclotomic`;
 LocallyAnalyticDistributions Layer 1 (series on the open disc). The cyclotomic factors are supplied directly by Mathlib
 `Polynomial.cyclotomic`, `Polynomial.cyclotomic_prime_pow_eq_geom_sum` and
-`Polynomial.eval_one_cyclotomic_prime_pow`; the latter two are pinned by `#check` in
-`Suggested.lean`.
+`Polynomial.eval_one_cyclotomic_prime_pow`.
 
 **Checks.**
 
