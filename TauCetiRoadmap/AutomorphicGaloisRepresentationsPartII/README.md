@@ -6,8 +6,10 @@ The polarized route includes conjugate-self-dual cuspidal representations over C
 
 The general-rank construction is independent of the classical and Hilbert `GL₂` constructions.
 Their representations are identified on the regular-weight overlap in AG2.6 and AG2.7.
-`Suggested.lean` records suggested forms for the weight, eigenvalue and matrix statements;
-the geometric and automorphic targets are specified here with all their hypotheses.
+`Suggested.lean` starts with `hlttFactorSeparation`, the general-rank construction from the
+boundary family, and `goodPolynomial_unique`, its dense-polynomial uniqueness interface.
+It also records weight, eigenvalue and matrix milestones. The automorphic specialization,
+local period comparisons and compatible-system assembly use the supplier carriers specified here.
 
 ## Scope and ownership
 
@@ -791,6 +793,10 @@ The required API is:
 
 - `IsAttached`: `r.IsAttached ι π :⇔ ∃ S` finite, `∀ v ∉ S, r` unramified at `v ∧ ι det(X − r(Frob_v)) = P_v(π_v)`.
 - `IsAttached.unique`: `r, r′` semisimple and both attached to `π ⇒ r ≅ r′`.
+  Its matrix form `goodPolynomial_unique` applies over an algebraically closed Hausdorff
+  topological field of characteristic zero to continuous semisimple representations of a
+  topological group with equal characteristic polynomials on a dense set. For Galois
+  attachment, use the dense union of conjugacy classes of good geometric Frobenius lifts.
 - `IsAttached.twist`: `r.IsAttached π → (r ⊗ r_{l,ι}(ψ)).IsAttached (π ⊗ ψ∘det)`.
 - `IsAttached.dual`: `r.IsAttached π → (r^∨ ⊗ ε_l^{1−n}).IsAttached π^∨`.
 - `IsAttached.conj`: `r.IsAttached π → r^c.IsAttached π^c`.
@@ -802,6 +808,11 @@ The required API is:
 - `isAttached_classical` — `ρ_f^∨` is attached to `π_f ⊗ ‖det‖^{1−k/2}`; for `Δ` the polynomial at 2 is `X² +` 24X `+ 2^{11}`
 
 - `not_isAttached_classical_rho` — `ρ_f` is not attached to `π_f ⊗ ‖det‖^{1−k/2}` (for `Δ` its geometric polynomial at 2 is `X² + 24·2^{−11}X + 2^{−11}`)
+
+- Equal characteristic polynomials alone do not give uniqueness without semisimplicity:
+  the trivial rank-two representation of `ℤ` and the unipotent representation
+  `m↦[[1,m],[0,1]]` over a characteristic-zero field have polynomial `(X−1)²`
+  at every element and are not isomorphic. Give `ℤ` the discrete topology.
 
 - `isAttached_dual_twist` — The two rules compose consistently: `(r^∨ε^{1−n})^∨ε^{1−n} = r`, matching `π^∨∨ = π`.
 
@@ -1844,6 +1855,26 @@ Throughout this target, `n>1`; exact Levi arithmetic quotient, coefficient repre
 The representations `R(π,N)` for all sufficiently large `N` satisfy HLTT Proposition 7.12 with `Γ=G_{F,S}`, dense good Frobenius set, `µ=ε_p^−2` and two `n`-element root multisets `E₁,E₂` independent of `N`, the constant `ε_p^{1−2n}` correction absorbed into `E₂`. Each `µ(Frob_v)` has infinite order. The generic factor-separation theorem therefore gives continuous semisimple rank-`n` representations for each multiset. The first is the good-place attached `r(π)`, uniquely determined by Frobenius polynomials.
 
 Throughout this target, one finite `S` for all `N; Γ` topological, algebraically closed characteristic-zero coefficient field; all `R(π,N)` continuous semisimple; infinitely many exponents and infinite-order `µ` on the determining dense set.
+
+The general matrix statement `hlttFactorSeparation` takes a topological group `Γ`, an
+algebraically closed Hausdorff topological field `k` of characteristic zero, `n>0`, a dense
+set `D⊆Γ`, a continuous character `µ:Γ→kˣ` of infinite order at every point of `D`, and
+lists `α_f,β_f:Fin n→kˣ`. For an infinite `M⊆ℤ`, suppose continuous semisimple `R_m`
+of rank `2n` have polynomial `∏ᵢ(X−α_{f,i}) ∏ᵢ(X−β_{f,i}µ(f)^m)` at each `f∈D`.
+It constructs continuous semisimple `r₁,r₂` of rank `n` with the respective polynomials
+`∏ᵢ(X−α_{f,i})` and `∏ᵢ(X−β_{f,i})` on `D`. The automorphic boundary construction
+supplies the family and the two lists; no automorphic carrier is part of this matrix statement.
+
+**Checks.**
+
+- For two rank-`n` semisimple representations `r₁,r₂`, the family `r₁⊕(r₂⊗µ^m)`
+  has exactly the required product polynomial, including repeated roots.
+- In the HLTT application, `µ=ε_p^−2` has value `q_v²` at good geometric Frobenius,
+  hence infinite order; the constant `ε_p^{1−2n}` twist belongs in the second root list.
+- If `µ=1`, the two lists can be exchanged independently at different points of `D` without
+  changing any family polynomial. Arbitrary such lists need not be characters even in rank one,
+  so the infinite-order hypothesis cannot be removed. A finite exponent set likewise supplies
+  no infinite-family separation theorem.
 
 *Needs:* [AG2.4: boundary Levi realization](#boundary-levi-cohomology-realization); [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); IntegralHeckeAndGaloisDeterminants §4.2.
 
@@ -3410,6 +3441,10 @@ The required API is:
 - `residualExport_compareLattice`: Different chosen lattices give isomorphic semisimple residual members, not necessarily isomorphic reductions.
 - `residualExport_maxIdeal`: Retrieve `m_{π,λ}` with Galois-type evidence.
 - `residualExport_charpoly`: The integral/residual Frobenius square commutes by `Matrix.charpoly_map`.
+  On an integral matrix realization `r`, the characteristic polynomial of
+  `Matrix.GeneralLinearGroup.map(red)(r(g))` is the coefficientwise reduction of the
+  characteristic polynomial of `r(g)`. This matrix identity holds for every ring map `red`;
+  the stable lattice and residual semisimplification belong to the preceding targets.
 
 **Checks.**
 
@@ -3534,7 +3569,9 @@ and eventual vanishing. The three explicit matrices are fixed test data:
 `pureChainFixture` has arrows `0→1→3→5` and `2→4`;
 `impureChainFixture` has arrows `0→1→3` and `2→4→5`.
 Their API is the stated matrix entries, the relation `FN = (1/4)NF`, nilpotence and the ranks
-of all powers. (Source: [TY](#source-ty), Lemma 1.4(4) and its proof, pp.6–7;
+of all powers. The matrix milestone `Fixtures.monodromyFirstRankDoesNotDetermineStrings`
+asserts the common Weil relation, equal first ranks, different third ranks and the stated
+nilpotence bounds. (Source: [TY](#source-ty), Lemma 1.4(4) and its proof, pp.6–7;
 [Varma](#source-varma), §9, pp.20–21.)
 
 **Checks.**

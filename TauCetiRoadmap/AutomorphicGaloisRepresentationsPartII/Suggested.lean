@@ -38,6 +38,55 @@ namespace TauCeti.AutomorphicGalois
 open Polynomial
 open scoped BigOperators Classical
 
+/-! ## Rank-`n` construction from the HLTT boundary family -/
+
+/-- HLTT factor separation constructs both rank-`n` semisimple representations with the
+prescribed dense-set Frobenius polynomials from the rank-`2n` boundary family. -/
+theorem hlttFactorSeparation
+    {G K : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [Field K] [CharZero K] [IsAlgClosed K] [TopologicalSpace K]
+    [IsTopologicalDivisionRing K] [T2Space K]
+    (n : ℕ) (hn : 0 < n) (D : Set G) (hD : Dense D)
+    (μ : G →* Kˣ) (hμ : Continuous μ)
+    (horder : ∀ g : D, ¬ IsOfFinOrder (μ g))
+    (α β : D → Fin n → Kˣ) (M : Set ℤ) (hM : M.Infinite)
+    (R : M → G →* Matrix.GeneralLinearGroup (Fin (2 * n)) K)
+    (hR : ∀ m, Continuous (R m))
+    (hss : ∀ m, Representation.IsSemisimpleRepresentation
+      (((Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp (R m))) :
+        Representation K G (Fin (2 * n) → K)))
+    (hpoly : ∀ (m : M) (g : D), ((R m g).val).charpoly =
+      (∏ i, (X - C (α g i : K))) *
+        ∏ i, (X - C ((β g i * μ g ^ (m : ℤ) : Kˣ) : K))) :
+    ∃ r₁ r₂ : G →* Matrix.GeneralLinearGroup (Fin n) K,
+      Continuous r₁ ∧ Continuous r₂ ∧
+      Representation.IsSemisimpleRepresentation
+        (((Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp r₁)) :
+          Representation K G (Fin n → K)) ∧
+      Representation.IsSemisimpleRepresentation
+        (((Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp r₂)) :
+          Representation K G (Fin n → K)) ∧
+      ∀ g : D, ((r₁ g).val).charpoly = ∏ i, (X - C (α g i : K)) ∧
+        ((r₂ g).val).charpoly = ∏ i, (X - C (β g i : K)) := sorry
+
+/-- Continuous semisimple representations with the same characteristic polynomials on a
+dense set are isomorphic; this gives uniqueness of good-place attachment. -/
+theorem goodPolynomial_unique
+    {G K : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [Field K] [CharZero K] [IsAlgClosed K] [TopologicalSpace K]
+    [IsTopologicalDivisionRing K] [T2Space K] {n : ℕ}
+    (D : Set G) (hD : Dense D)
+    (r s : G →* Matrix.GeneralLinearGroup (Fin n) K)
+    (hr : Continuous r) (hs : Continuous s)
+    (hrss : Representation.IsSemisimpleRepresentation
+      (((Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp r)) :
+        Representation K G (Fin n → K)))
+    (hsss : Representation.IsSemisimpleRepresentation
+      (((Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp s)) :
+        Representation K G (Fin n → K)))
+    (hpoly : ∀ g ∈ D, ((r g).val).charpoly = ((s g).val).charpoly) :
+    ∃ u : Matrix.GeneralLinearGroup (Fin n) K, ∀ g, s g = u * r g * u⁻¹ := sorry
+
 #check NumberField.IsCMField.complexEmbedding_complexConj
 #check Multiset.prod_X_sub_C_coeff
 #check Matrix.charpoly_map
@@ -291,6 +340,15 @@ def impureChainFixture : Matrix (Fin 6) (Fin 6) ℚ :=
   fun i j => if (i.val, j.val) ∈ ([(1, 0), (3, 1), (4, 2), (5, 4)] : List (ℕ × ℕ))
     then 1 else 0
 
+/-- Equal first monodromy ranks and the same Weil relation do not determine the
+nilpotent strings: the third powers distinguish the two six-dimensional parameters. -/
+theorem monodromyFirstRankDoesNotDetermineStrings :
+    frobeniusFixture * pureChainFixture = (1 / 4 : ℚ) • (pureChainFixture * frobeniusFixture) ∧
+    frobeniusFixture * impureChainFixture = (1 / 4 : ℚ) • (impureChainFixture * frobeniusFixture) ∧
+    pureChainFixture.rank = 4 ∧ impureChainFixture.rank = 4 ∧
+    (pureChainFixture ^ 3).rank = 1 ∧ (impureChainFixture ^ 3).rank = 0 ∧
+    pureChainFixture ^ 4 = 0 ∧ impureChainFixture ^ 3 = 0 := sorry
+
 end Fixtures
 
 /-! ## Layer AG2.6: Hodge sums and projected comparison -/
@@ -309,6 +367,14 @@ theorem geometricCoefficientPrimeComparison {K V W : Type*} [Field K]
     Nonempty (LinearMap.range e ≃ₗ[K] LinearMap.range f) := sorry
 
 /-! ## Layer AG2.7: local residual eigenvalue conditions -/
+
+/-- Characteristic polynomials of an integral matrix representation reduce coefficientwise
+along a residue map, as the matrix form of the residual Frobenius comparison. -/
+theorem residualExport_charpoly {G O k : Type*} [Group G] [CommRing O] [CommRing k]
+    {n : ℕ} (red : O →+* k) (r : G →* Matrix.GeneralLinearGroup (Fin n) O) (g : G) :
+    ((((Matrix.GeneralLinearGroup.map red).comp r) g).val).charpoly =
+      (((r g).val).charpoly).map red := sorry
+
 
 /-- Every ordered ratio of different occurrences avoids `q`. -/
 def IsGenericEigenvalues {K : Type*} [Field K] {n : ℕ}
