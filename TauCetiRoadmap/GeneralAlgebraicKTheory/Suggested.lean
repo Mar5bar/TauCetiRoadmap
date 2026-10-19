@@ -54,6 +54,24 @@ example : ContractibleSpace (classifyingSpace (Discrete PUnit)) := sorry
 example : ¬ ContractibleSpace (classifyingSpace (Discrete Bool)) := sorry
 example : ¬ ContractibleSpace (classifyingSpace (Discrete PEmpty)) := sorry
 
+/-- The initial endpoint of the interval category realizes as a homotopy equivalence (§1.1). -/
+example : ∃ e : classifyingSpace (Discrete PUnit) ≃ₕ classifyingSpace (Fin 2),
+    e.toFun = classifyingSpaceMap ((Functor.const (Discrete PUnit)).obj (0 : Fin 2)) := sorry
+
+/-- The terminal endpoint of the interval category realizes as a homotopy equivalence (§1.1). -/
+example : ∃ e : classifyingSpace (Discrete PUnit) ≃ₕ classifyingSpace (Fin 2),
+    e.toFun = classifyingSpaceMap ((Functor.const (Discrete PUnit)).obj (1 : Fin 2)) := sorry
+
+/-- Realization preserves identity maps (§1.1). -/
+example (C : Type u) [Category.{u} C] :
+    classifyingSpaceMap (𝟭 C) = ContinuousMap.id (classifyingSpace C) := sorry
+
+/-- Realization preserves composition of functors (§1.1). -/
+example {C D E : Type u} [Category.{u} C] [Category.{u} D] [Category.{u} E]
+    (F : C ⥤ D) (G : D ⥤ E) :
+    classifyingSpaceMap (F ⋙ G) =
+      (classifyingSpaceMap G).comp (classifyingSpaceMap F) := sorry
+
 /- ## Layer 1: The sphere interchange convention -/
 
 /-- Interchanging spheres in integer degrees contributes this unit (§1.8). -/
@@ -65,6 +83,10 @@ example : sphereInterchangeSign (-1) 1 = -1 := by decide
 example : (-1 : ZMod 2) = 1 := by decide
 
 /- ## Layer 3: Finite elementary matrices and the unit class -/
+
+/-- The two choices of representative for the first block give distinct stable matrices (§3.3). -/
+example : (!![1,0,0;0,-1,0;0,0,1] : Matrix (Fin 3) (Fin 3) ℤ) ≠
+    !![1,0,0;0,1,0;0,0,-1] := by decide
 
 /-- The inverse elementary parameter is negative (§3.3). -/
 example : (!![1,1;0,1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1,-1;0,1] = 1 := by decide
@@ -183,9 +205,10 @@ example : cornerUnitizationSecond 1 1 = (1 : Matrix (Fin 2) (Fin 2) ℤ) := by d
 example : cornerUnitizationSecond 1 0 = !![0,0;0,1] := rfl
 example : cornerUnitizationSecond 0 1 = !![1,0;0,0] := rfl
 
-/-- The two order-nine groups have different exponents (§13.10, p=3). -/
-example : ∃ x : ZMod 9, 3 • x ≠ 0 := by exact ⟨1, by decide⟩
-example : ∀ x : ZMod 3 × ZMod 3, 3 • x = 0 := by decide
+/-- The cyclic order-25 group has an element not killed by five (§13.10, p=5). -/
+example : ∃ x : ZMod 25, 5 • x ≠ 0 := by exact ⟨1, by decide⟩
+/-- The elementary abelian order-25 group is killed by five (§13.10, p=5). -/
+example : ∀ x : ZMod 5 × ZMod 5, 5 • x = 0 := by decide
 
 /-
 Full interfaces specified in README.md, using constructions developed there:
@@ -194,12 +217,12 @@ classifyingSpace_product, classifyingSpace_op, classifyingSpace_filteredColimit_
 HomotopyFibre/map/boundary/exact, bisimplicialRealization,
 edgewiseSubdivision/homeomorph, isomorphismDoubleNerve, QuillenA/B,
 PlusConstruction/pi1/localHomology/map, MonoidalLocalization/action/pi0/cofinality,
-Prespectrum/stableGroup/spectrify, Spectrum/fibre/cofibre/telescope,
-PrespectrumPairing and its integer-graded interchange.
+MonoidalLocalization.actionFibration with its chosen object and pointed-action naturality,
+kTheorySequentialComparison and kTheoryPairingComparison in the supplied stable category.
 Layer 2: QSpan, qSpanSetoid, QCat/lift/op, qCategory, SmallExactModel,
 qConstruction, kSpace, kGroup, kGroupAddCommGroup, twoEdgeLoop, pi1QEquivExactK0.
 Layer 3: projBaseChange/idIso/compIso, RingKSpace/ringKMap, ringKGroup/map,
-StableGL/stabilizeMatrix/stableElementaryMatrix/blockSum/map, stableE,
+StableGL/stabilizeMatrix/stableElementaryMatrix/map, finiteGLBlockSum, stableE,
 idempotentBaseChange, ExtQ/ExtCat/ExtFibre with actions and cartesian lifts,
 plusEqualsQ, cofinalFreeComparison, k0Equiv/k1Equiv.
 Layer 4: conflationExactStructure and its evaluation exactness,
@@ -209,7 +232,9 @@ ClassicalAdditiveK1/map/quillenEquiv/boundary, the relative five-term sequence.
 Layers 5–6: WaldhausenCategory/ofExact, SConstruction/restrict/simplicial,
 standardTwoStepFlag, KSpace/KGroup, iteratedS, AdditivityFibre, edgewiseQ,
 relative S, CylinderFunctor, CofibrantPosetDiagram, IteratedCylinder,
-classWeak and the approximation/fibration/cofinality comparisons.
+classWeak and the approximation/fibration/cofinality comparisons;
+ExactStructure.yonedaExactEmbedding, ExactStructure.k0CofinalCompletion,
+gilletWaldhausen_general with intrinsic homotopy-acyclic weak maps and both cofibration classes.
 Layer 7: BiexactSGrid, stable biexact pairings and coherence,
 transfer and its Artin base-change formula.
 Layer 8: relativeK/group/les/ofPair/waldhausen, nonunitalK/map/compare,
@@ -220,15 +245,19 @@ ProjectiveLine.IsRegular, P1.T0/Z0/T1/canonicalResolution/localisationModels/bun
 laurentTSection, NilCat/forget/zero,
 nilGroup, torsion comparison and the positive Fundamental Theorem.
 Layer 10: IsFlasqueRing, IsInfiniteSumRing, coneRing, contraction, IsAcyclic,
-IsContracted, negativeK, NegativeKTheory, bassTheory, deloop, bassSpectrum.
+IsContracted, negativeK, NegativeKTheory, bassTheory, deloop, bassSpectrum;
+noetherianRing_G0_polynomial and regularRing_K0_polynomial with iterated regularity.
 Layer 11: FrobeniusPair/derived/map/ofExact/waldhausen, DenseClasses,
 countableEnvelope, enlarge/suspension/setup/IK, IsExactSequence,
 NegativeKSetup, IK0/negativeIK, FrobeniusReplacement and spectrum localization.
 Layer 12: KaroubiFiltration/finiteIdeal/quotient, KaroubiCone/Suspension/Negative,
 FiniteChainDomination, FiniteDomination.idempotent/finiteModel/modelEquivalence/euler,
-restricted completion and cone–Frobenius comparison.
-Layer 13: NonunitalBass/map/unitalEquiv, ArtinStableModel and its K-fibration,
-enhanced derived invariance and integer-graded relative/transfer products.
+restricted completion and cone–Frobenius comparison;
+ExactStructure.unboundedDerivedCategory with its boundedness and Frobenius comparisons.
+Layer 13: NonunitalBass/map/unitalEquiv, ArtinStableModel and its Cartan K-fibration,
+enhanced derived invariance and integer-graded relative/transfer products;
+finiteField_adamsInput, finiteGroup_KU_completion, finiteField_brauerLift,
+finiteFieldKGroups, finiteField_K4_vanishing, ArtinStableModel.k3_pPrimary (p > 3).
 -/
 
 end TauCetiRoadmap.GeneralAlgebraicKTheory
