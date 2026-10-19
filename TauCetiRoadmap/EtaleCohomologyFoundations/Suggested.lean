@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.Fibers
 import TauCeti.RepresentationTheory.BaseChange
 
 /-!
@@ -111,42 +110,15 @@ def Compactification.denseReplacementMap {X S : Scheme.{u}} {f : X ⟶ S}
   comm_j := by exact Scheme.Hom.toImage_imageι C.j
   comm_p := rfl
 
-/-- The identity construction retains the original scheme and factorization as data. -/
-example {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] :
-    (Compactification.identity f).Xbar = X ∧
-      (Compactification.identity f).j = 𝟙 X ∧ (Compactification.identity f).p = f :=
-  ⟨rfl, rfl, rfl⟩
-
-/-- Base change uses the pullback of the proper factor. -/
-example {X S S' : Scheme.{u}} {f : X ⟶ S}
-    (C : Compactification f) (g : S' ⟶ S) :
-    (C.baseChange g).Xbar = Limits.pullback C.p g := rfl
-
-/-- Dense replacement uses the schematic image, including the interior's nilpotents. -/
-example {X S : Scheme.{u}} {f : X ⟶ S} (C : Compactification f) :
-    C.denseReplacement.obj.Xbar = C.j.image := rfl
-
 /-- The canonical dense-replacement map is the schematic image's closed immersion. -/
 example {X S : Scheme.{u}} {f : X ⟶ S} (C : Compactification f) :
     IsClosedImmersion C.denseReplacementMap.hom := by
   change IsClosedImmersion C.j.imageι
   infer_instance
 
-/-- The standard affine-line chart in the projective line has exactly one boundary point. -/
-example (k : Type u) [Field k] :
-    let A := Spec (CommRingCat.of (Polynomial k))
-    let f : A ⟶ Spec (CommRingCat.of k) :=
-      Spec.map (CommRingCat.ofHom (Polynomial.C : k →+* Polynomial k))
-    let grading := MvPolynomial.homogeneousSubmodule (Fin 2) k
-    letI : GradedAlgebra grading := MvPolynomial.gradedAlgebra
-    ∃ C : DenseCompactification f, ∃ e : C.obj.Xbar ≅ Proj grading,
-      Set.range (C.obj.j ≫ e.hom) =
-        (Proj.basicOpen grading (MvPolynomial.X (0 : Fin 2)) : Set (Proj grading)) ∧
-      ∃! x : Proj grading, x ∉ Set.range (C.obj.j ≫ e.hom) := by
-  sorry
-
-/-- Schematic closure of the affine line over dual numbers retains its nonzero square-zero section. -/
-example (k : Type u) [Field k]
+/-- **G.1**, `Compactification.denseReplacement_dualNumber_section`. Schematic closure
+of the affine line over dual numbers retains its nonzero square-zero section. -/
+theorem Compactification.denseReplacement_dualNumber_section (k : Type u) [Field k]
     (C : Compactification
       (Spec.map (CommRingCat.ofHom
         (Polynomial.C : DualNumber k →+* Polynomial (DualNumber k))))) :
@@ -155,8 +127,9 @@ example (k : Type u) [Field k]
         (C.denseReplacement.obj.j.appTop e) = Polynomial.C (DualNumber.eps : DualNumber k) := by
   sorry
 
-/-- The dense open D(t) becomes empty at t=0; its new dense replacement is empty inside a point. -/
-example (k : Type u) [Field k] :
+/-- **G.1**, `Compactification.denseReplacement_specialFiber_empty`. The dense open D(t)
+becomes empty at t=0; its new dense replacement is empty inside a point. -/
+theorem Compactification.denseReplacement_specialFiber_empty (k : Type u) [Field k] :
     let A := Spec (CommRingCat.of (Polynomial k))
     let U : A.Opens := PrimeSpectrum.basicOpen (Polynomial.X : Polynomial k)
     let C : Compactification U.ι :=
@@ -202,22 +175,6 @@ theorem denseCompactification_cofiltered {X S : Scheme.{u}}
     [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
     IsCofiltered (DenseCompactification f) := sorry
 
-/-! ## F.0.A0 Tate-module coordinates -/
-
-/- The characteristic-zero Tate-module parametrization is `e_ζ : ẑ → T`,
-`a ↦ (ζ_n^a)_n`, and the coordinate map is its inverse `c_ζ : T → ẑ`.
-For a profinite unit `u`, `e_(ζ^u) = e_ζ ∘ [u]` and `c_(ζ^u) = [u⁻¹] ∘ c_ζ`,
-where `[u]` denotes multiplication by `u`. The scheme fundamental-group identification
-is a README target. -/
-
--- A unit reducing to `2 mod 5` changes the coordinate of `ζ₅` to `3 mod 5`.
-example {M : Type*} [CommMonoid M] {ζ : M} (hζ : IsPrimitiveRoot ζ 5) :
-    (ζ ^ 2) ^ 3 = ζ := by
-  calc
-    (ζ ^ 2) ^ 3 = ζ ^ 6 := (pow_mul ζ 2 3).symm
-    _ = ζ := by rw [show 6 = 5 + 1 from rfl, pow_succ, hζ.pow_eq_one, one_mul]
-
-
 /-! ## F.4.0 Stable lattices and integral models
 
 `ContinuousRep` is only the representation with its joint-continuity proof needed by these
@@ -257,24 +214,6 @@ structure Iso (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N) where
   /-- Equivariance. -/
   comm : ∀ (g : Γ) (m : M), toLinearEquiv (ρ g m) = σ g (toLinearEquiv m)
 
-/-- Identity is an equivariant linear equivalence. -/
-example (ρ : ContinuousRep Γ A M) :
-    ∃ e : Iso ρ ρ, e.toLinearEquiv = LinearEquiv.refl A M := by
-  exact ⟨⟨LinearEquiv.refl A M, fun _ _ => rfl⟩, rfl⟩
-
-/-- Inverting an equivariant linear equivalence preserves equivariance. -/
-example {ρ : ContinuousRep Γ A M} {σ : ContinuousRep Γ A N} (e : Iso ρ σ) :
-    ∃ e' : Iso σ ρ, e'.toLinearEquiv = e.toLinearEquiv.symm := by
-  sorry
-
-/-- Composing equivariant linear equivalences preserves equivariance. -/
-example {P : Type*} [AddCommGroup P] [Module A P] [Module.Finite A P]
-    [Module.Projective A P] [TopologicalSpace P] [IsModuleTopology A P]
-    {ρ : ContinuousRep Γ A M} {σ : ContinuousRep Γ A N} {τ : ContinuousRep Γ A P}
-    (e : Iso ρ σ) (f : Iso σ τ) :
-    ∃ h : Iso ρ τ, h.toLinearEquiv = e.toLinearEquiv.trans f.toLinearEquiv := by
-  sorry
-
 /-- The rank-one representation `A(χ)` of a continuous character `χ`. -/
 def ofCharacter [IsTopologicalRing A] (χ : Γ →ₜ* Aˣ) : ContinuousRep Γ A A where
   toRepresentation :=
@@ -283,14 +222,9 @@ def ofCharacter [IsTopologicalRing A] (χ : Γ →ₜ* Aˣ) : ContinuousRep Γ A
       map_mul' := sorry }
   continuous_action := sorry
 
-/-- The continuous trivial character gives the identity operator at every group element. -/
-example [IsTopologicalRing A] (g : Γ) :
-    (ofCharacter (1 : Γ →ₜ* Aˣ)).toRepresentation g = LinearMap.id := by
-  change ((1 : Γ →ₜ* Aˣ) g : A) • (LinearMap.id : A →ₗ[A] A) = LinearMap.id
-  simp
-
-/-- Character lines over a commutative ring are isomorphic exactly for equal characters. -/
-example [IsTopologicalRing A] (χ χ' : Γ →ₜ* Aˣ) :
+/-- **F.4.0**, `ContinuousRep.ofCharacter_iso_iff`. Character lines over a commutative
+ring are isomorphic exactly for equal characters. -/
+theorem ofCharacter_iso_iff [IsTopologicalRing A] (χ χ' : Γ →ₜ* Aˣ) :
     Nonempty (Iso (ofCharacter χ) (ofCharacter χ')) ↔ χ = χ' := by
   sorry
 
@@ -311,23 +245,16 @@ def baseChange (ρ : ContinuousRep Γ A M)
     ContinuousRep Γ B (B ⊗[A] M) :=
   ⟨Representation.baseChange B ρ.toRepresentation, sorry⟩
 
-/-- A nontrivial rank-one character acts after scalar extension by its image in the new ring. -/
-example (χ : Γ →ₜ* Aˣ) (_hχ : χ ≠ 1)
-    (B : Type v') [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [Algebra A B]
-    [ContinuousSMul A B] [TopologicalSpace (B ⊗[A] A)] [IsModuleTopology B (B ⊗[A] A)]
-    (g : Γ) (b : B) (a : A) :
-    ((ofCharacter χ).baseChange B).toRepresentation g (b ⊗ₜ[A] a) =
-      (algebraMap A B (χ g : A)) • (b ⊗ₜ[A] a) := by
-  sorry
-
-/-- Identity coefficient extension has the canonical tensor-unit equivariant isomorphism. -/
-example (ρ : ContinuousRep Γ A M) [ContinuousSMul A A]
+/-- **F.4.0**, `ContinuousRep.baseChange_self_iso`. Identity coefficient extension has
+the canonical tensor-unit equivariant isomorphism. -/
+theorem baseChange_self_iso (ρ : ContinuousRep Γ A M) [ContinuousSMul A A]
     [TopologicalSpace (A ⊗[A] M)] [IsModuleTopology A (A ⊗[A] M)] :
     ∃ e : Iso (ρ.baseChange A) ρ, e.toLinearEquiv = TensorProduct.lid A M := by
   sorry
 
-/-- Successive coefficient extensions agree with extension along the composite. -/
-example (ρ : ContinuousRep Γ A M)
+/-- **F.4.0**, `ContinuousRep.baseChange_trans_iso`. Successive coefficient extensions
+agree with extension along the composite. -/
+theorem baseChange_trans_iso (ρ : ContinuousRep Γ A M)
     (B C : Type v') [CommRing B] [CommRing C]
     [TopologicalSpace B] [IsTopologicalRing B] [TopologicalSpace C] [IsTopologicalRing C]
     [Algebra A B] [Algebra B C] [Algebra A C] [IsScalarTower A B C]
@@ -340,28 +267,7 @@ example (ρ : ContinuousRep Γ A M)
         e.toLinearEquiv (c ⊗ₜ[B] (b ⊗ₜ[A] m)) = (c * algebraMap B C b) ⊗ₜ[A] m := by
   sorry
 
-/-- A unipotent matrix retains its entries under any continuous coefficient-field extension. -/
-example (ℓ : ℕ) [Fact ℓ.Prime]
-    (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
-    (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
-      !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
-    (B : Type*) [Field B] [TopologicalSpace B] [IsTopologicalRing B]
-    [Algebra ℚ_[ℓ] B] [ContinuousSMul ℚ_[ℓ] B]
-    [TopologicalSpace (B ⊗[ℚ_[ℓ]] (Fin 2 → ℚ_[ℓ]))]
-    [IsModuleTopology B (B ⊗[ℚ_[ℓ]] (Fin 2 → ℚ_[ℓ]))] (a : Multiplicative ℤ_[ℓ]) :
-    let b := (Pi.basisFun ℚ_[ℓ] (Fin 2)).baseChange B
-    LinearMap.toMatrix b b ((ρ.baseChange B) a) =
-      !![1, algebraMap ℚ_[ℓ] B ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1] := by
-  sorry
-
 end BaseChange
-
-/-- Multiplication by p-adic units on the discrete field has continuous operators and a discontinuous action. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    letI : TopologicalSpace ℚ_[ℓ] := ⊥
-    (∀ g : ℤ_[ℓ]ˣ, Continuous fun x : ℚ_[ℓ] => ((g : ℤ_[ℓ]) : ℚ_[ℓ]) * x) ∧
-      ¬ Continuous (fun p : ℤ_[ℓ]ˣ × ℚ_[ℓ] => ((p.1 : ℤ_[ℓ]) : ℚ_[ℓ]) * p.2) := by
-  sorry
 
 open ValuativeRel in
 /-- A subgroup of `GL_n(E)` stabilises an `O_E`-lattice iff its closure is compact (DDT, §2.1).
@@ -374,13 +280,10 @@ theorem exists_stable_lattice_iff {E : Type v} [Field E] [ValuativeRel E] [Topol
         ∀ k ∈ K, ∀ x ∈ L, (k : Matrix (Fin n) (Fin n) E).mulVec x ∈ L := by
   sorry
 
-/-- The full p-adic field is not a finitely generated module over its ring of integers. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    ¬ (⊤ : Submodule ℤ_[ℓ] ℚ_[ℓ]).FG := by
-  sorry
-
-/-- The cyclic subgroup generated by a uniformizer scalar preserves no full lattice. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] (π : ℚ_[ℓ]ˣ) (hπ : (π : ℚ_[ℓ]) = ℓ) :
+/-- **F.4.0**, `ContinuousRep.uniformizer_zpowers_no_stable_lattice`. The cyclic subgroup
+generated by a uniformizer scalar preserves no full lattice. -/
+theorem uniformizer_zpowers_no_stable_lattice (ℓ : ℕ) [Fact ℓ.Prime]
+    (π : ℚ_[ℓ]ˣ) (hπ : (π : ℚ_[ℓ]) = ℓ) :
     let K := Subgroup.zpowers (Matrix.GeneralLinearGroup.scalar (Fin 1) π)
     ¬ ∃ L : Submodule ℤ_[ℓ] (Fin 1 → ℚ_[ℓ]),
       Submodule.IsLattice ℚ_[ℓ] L ∧
@@ -449,23 +352,9 @@ def smul (c : Eˣ) (Λ : IntegralModel O ρ) : IntegralModel O ρ where
   fg := Submodule.IsLattice.fg (A := E) (M := c • Λ.lattice)
   span_eq_top := Submodule.IsLattice.span_eq_top (A := E) (M := c • Λ.lattice)
 
-/-- Unit scaling is the identity homothety. -/
-example (Λ : IntegralModel O ρ) : (smul 1 Λ).lattice = Λ.lattice := by
-  exact one_smul _ _
-
-/-- Successive homotheties multiply their scalars. -/
-example (c d : Eˣ) (Λ : IntegralModel O ρ) :
-    (smul c (smul d Λ)).lattice = (smul (c * d) Λ).lattice := by
-  exact (mul_smul c d Λ.lattice).symm
-
 /-- Inclusion of a restricted representation intertwines its action with the ambient one. -/
 example (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] (g : Γ) (x : Λ.lattice) :
     (Λ.toContinuousRep g x : V) = ρ g (x : V) := rfl
-
-/-- The zero model has the unique restricted action on its zero module. -/
-example [Subsingleton V] (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
-    (g : Γ) (x : Λ.lattice) : Λ.toContinuousRep g x = 0 := by
-  exact Subsingleton.elim _ _
 
 /-- Existence of integral models for compact `Γ` and `O` compact open in the local field `E`. -/
 theorem nonempty [CompactSpace Γ] [CompactSpace O] [IsTopologicalRing E]
@@ -476,69 +365,6 @@ theorem nonempty [CompactSpace Γ] [CompactSpace O] [IsTopologicalRing E]
 theorem exists_pow_le (Λ Λ' : IntegralModel O ρ) :
     ∃ a : ℕ, (IsLocalRing.maximalIdeal O ^ a) • Λ.lattice ≤ Λ'.lattice ∧
       (IsLocalRing.maximalIdeal O ^ a) • Λ'.lattice ≤ Λ.lattice := by
-  sorry
-
--- The zero representation has only the zero lattice.
-example [Subsingleton V] (Λ : IntegralModel O ρ) : Λ.lattice = ⊥ := by
-  sorry
-
-/-- The additive group of p-adic integers has two non-homothetic stable unipotent lattices. -/
-example (ℓ : ℕ) [Fact ℓ.Prime]
-    (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
-    (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
-      !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
-    (Λ₁ Λ₂ : IntegralModel ℤ_[ℓ] ρ)
-    (h₁ : Λ₁.lattice = Submodule.span ℤ_[ℓ] {Pi.single 0 1, Pi.single 1 1})
-    (h₂ : Λ₂.lattice = Submodule.span ℤ_[ℓ] {Pi.single 0 1, Pi.single 1 (ℓ : ℚ_[ℓ])}) :
-    ∀ c : ℚ_[ℓ]ˣ, (IntegralModel.smul c Λ₁).lattice ≠ Λ₂.lattice := by
-  sorry
-
-/-- For a unit-valued character every uniformizer-power lattice is stable, and these are all models. -/
-example (Γ : Type u) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
-    (ℓ : ℕ) [Fact ℓ.Prime] (χ : Γ →ₜ* ℤ_[ℓ]ˣ) (ψ : Γ →ₜ* ℚ_[ℓ]ˣ)
-    (_hψ : ∀ g, (ψ g : ℚ_[ℓ]) = ((χ g : ℤ_[ℓ]) : ℚ_[ℓ])) :
-    (∀ Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ),
-      ∃! k : ℤ, Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k}) ∧
-    (∀ k : ℤ, ∃ Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ),
-      Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k}) := by
-  sorry
-
-/-- Uniformizer homothety increases the exponent of a character-line lattice by one. -/
-example (Γ : Type u) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
-    (ℓ : ℕ) [Fact ℓ.Prime] (ψ : Γ →ₜ* ℚ_[ℓ]ˣ)
-    (Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ))
-    (k : ℤ) (hk : Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k})
-    (π : ℚ_[ℓ]ˣ) (hπ : (π : ℚ_[ℓ]) = ℓ) :
-    (smul π Λ).lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ (k + 1)} := by
-  sorry
-
-/-- The standard unipotent lattice retains the integral matrix of the ambient action. -/
-example (ℓ : ℕ) [Fact ℓ.Prime]
-    (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
-    (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
-      !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
-    (Λ : IntegralModel ℤ_[ℓ] ρ)
-    (hΛ : Λ.lattice = Submodule.span ℤ_[ℓ] {Pi.single 0 1, Pi.single 1 1})
-    [IsModuleTopology ℤ_[ℓ] Λ.lattice]
-    (a : Multiplicative ℤ_[ℓ]) (x : Λ.lattice) :
-    (Λ.toContinuousRep a x : Fin 2 → ℚ_[ℓ]) =
-      ![(x : Fin 2 → ℚ_[ℓ]) 0 + ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]) *
-        (x : Fin 2 → ℚ_[ℓ]) 1, (x : Fin 2 → ℚ_[ℓ]) 1] := by
-  sorry
-
-/-- Discrete coefficients cannot give the module topology on the usual p-adic lattice. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    letI : TopologicalSpace ℚ_[ℓ] := inferInstance
-    letI : TopologicalSpace ℤ_[ℓ] := ⊥
-    ¬ IsModuleTopology ℤ_[ℓ]
-      (Submodule.span ℤ_[ℓ] ({1} : Set ℚ_[ℓ])) := by
-  sorry
-
-/-- Giving the lattice a separate discrete topology destroys continuity of the unit action. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    letI : TopologicalSpace (ℤ_[ℓ]ˣ) := inferInstance
-    letI : TopologicalSpace ℤ_[ℓ] := ⊥
-    ¬ Continuous (fun p : ℤ_[ℓ]ˣ × ℤ_[ℓ] => (p.1 : ℤ_[ℓ]) * p.2) := by
   sorry
 
 end GaloisLattice.IntegralModel
@@ -575,6 +401,16 @@ noncomputable def numberOfRationalPoints (k L : Type u) [Field k] [Field L] [Alg
   Nat.card {x : Spec (CommRingCat.of L) ⟶ X //
     x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))}
 
+/-- **F.10.1**, `VanishingCycles.rationalPoints_finite`. A finite-type scheme over a finite
+field has finitely many points valued in any finite extension field. -/
+theorem rationalPoints_finite (k L : Type u) [Field k] [Fintype k]
+    [Field L] [Fintype L] [Algebra k L]
+    (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k))
+    [LocallyOfFiniteType a] [QuasiCompact a] :
+    Finite {x : Spec (CommRingCat.of L) ⟶ X //
+      x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))} := by
+  sorry
+
 /-- Rational points over the fixed subfield are exactly fixed geometric points, without a
 finite-type hypothesis on the scheme. README F.10.1. -/
 theorem frobeniusFixedPoints (k L : Type u) [Field k] [Fintype k]
@@ -588,46 +424,13 @@ theorem frobeniusFixedPoints (k L : Type u) [Field k] [Fintype k]
         Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x}) := by
   sorry
 
-/-- A degree-m finite field extension has m rational points over k_r exactly when m divides r. -/
-example (k L k_m : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
-    [Field k_m] [Fintype k_m] [Algebra k k_m] (r : ℕ) (hr : 0 < r) :
-    let k_r := IntermediateField.fixedField (Subgroup.zpowers (arithmeticFrobenius k L ^ r))
-    numberOfRationalPoints k k_r (Spec (CommRingCat.of k_m))
-      (Spec.map (CommRingCat.ofHom (algebraMap k k_m))) =
-        if Module.finrank k k_m ∣ r then Module.finrank k k_m else 0 := by
-  sorry
-
-/-- The affine line has q^r fixed geometric points, using morphisms over Spec k. -/
-example (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
-    (r : ℕ) (hr : 0 < r) :
-    Nat.card {x : Spec (CommRingCat.of L) ⟶ Spec (CommRingCat.of (Polynomial k)) //
-      x ≫ Spec.map (CommRingCat.ofHom (Polynomial.C : k →+* Polynomial k)) =
-        Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
-      Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x} =
-        Fintype.card k ^ r := by
-  sorry
-
-/-- Rational-point counts preserve fibre products over the ground field. -/
-example (k L : Type u) [Field k] [Field L] [Algebra k L]
+/-- **F.10.1**, `VanishingCycles.numberOfRationalPoints_pullback`. Rational-point counts
+preserve fibre products over the ground field. -/
+theorem numberOfRationalPoints_pullback (k L : Type u) [Field k] [Field L] [Algebra k L]
     (X Y : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k))
     (b : Y ⟶ Spec (CommRingCat.of k)) :
     numberOfRationalPoints k L (Limits.pullback a b) (Limits.pullback.fst a b ≫ a) =
       numberOfRationalPoints k L X a * numberOfRationalPoints k L Y b := by
-  sorry
-
-/-- Fixed geometric points of a fibre product are pairs of fixed geometric points. -/
-example (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L]
-    (r : ℕ) (X Y : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k))
-    (b : Y ⟶ Spec (CommRingCat.of k)) :
-    let F := Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom)
-    let c := Spec.map (CommRingCat.ofHom (algebraMap k L))
-    Nonempty ({z : Spec (CommRingCat.of L) ⟶ Limits.pullback a b //
-      z ≫ (Limits.pullback.fst a b ≫ a) = c ∧ F ≫ z = z} ≃
-      ({x : Spec (CommRingCat.of L) ⟶ X // x ≫ a = c ∧ F ≫ x = x} ×
-       {y : Spec (CommRingCat.of L) ⟶ Y // y ≫ b = c ∧ F ≫ y = y})) := by
   sorry
 
 end VanishingCycles
@@ -661,41 +464,6 @@ theorem projectiveTrace_independent {R P : Type*} [CommRing R] [AddCommGroup P]
     (j : P →ₗ[R] (κ → R)) (s : (κ → R) →ₗ[R] P)
     (hi : r ∘ₗ i = LinearMap.id) (hj : s ∘ₗ j = LinearMap.id) (u : Module.End R P) :
     projectiveTraceOfRetract i r hi u = projectiveTraceOfRetract j s hj u := by
-  sorry
-
-/-- Zero endomorphisms have trace zero through every split retract. -/
-example {R P : Type*} [CommRing R] [AddCommGroup P] [Module R P]
-    {ι : Type*} [Fintype ι] (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
-    (hi : r ∘ₗ i = LinearMap.id) :
-    projectiveTraceOfRetract i r hi 0 = 0 := by
-  simp [projectiveTraceOfRetract]
-
-/-- Zero inclusion with identity retraction cannot supply splitting data on the integers. -/
-example : ¬ (LinearMap.id : ℤ →ₗ[ℤ] ℤ) ∘ₗ (0 : ℤ →ₗ[ℤ] ℤ) = LinearMap.id := by
-  intro h
-  have hz := LinearMap.congr_fun h (1 : ℤ)
-  norm_num at hz
-
-/-- The standard rank-n free retract has identity trace n, including rank zero. -/
-example {R : Type*} [CommRing R] (n : ℕ) :
-    projectiveTraceOfRetract (LinearMap.id : (Fin n → R) →ₗ[R] (Fin n → R))
-      LinearMap.id (by simp) LinearMap.id = (n : R) := by
-  sorry
-
-/-- A diagonal rank-two endomorphism has the sum of its diagonal entries as trace. -/
-example {R : Type*} [CommRing R] (a b : R) :
-    projectiveTraceOfRetract (LinearMap.id : (Fin 2 → R) →ₗ[R] (Fin 2 → R))
-      LinearMap.id (by simp) (LinearMap.mulLeft (R := R) ![a, b]) = a + b := by
-  sorry
-
-/-- Adjoining a zero third coordinate to the split retract preserves diagonal trace. -/
-example {R : Type*} [CommRing R] (a b : R) :
-    let i : (Fin 2 → R) →ₗ[R] (Fin 3 → R) :=
-      LinearMap.pi ![LinearMap.proj 0, LinearMap.proj 1, 0]
-    let r : (Fin 3 → R) →ₗ[R] (Fin 2 → R) :=
-      LinearMap.pi ![LinearMap.proj 0, LinearMap.proj 1]
-    ∃ hi : r ∘ₗ i = LinearMap.id,
-      projectiveTraceOfRetract i r hi (LinearMap.mulLeft (R := R) ![a, b]) = a + b := by
   sorry
 
 end PerfectComplex
