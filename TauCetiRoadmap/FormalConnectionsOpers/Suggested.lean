@@ -66,13 +66,18 @@ section Connections
 variable (k A M : Type u) [CommRing k] [CommRing A] [Algebra k A]
   [AddCommGroup M] [Module k M] [Module A M] [IsScalarTower k A M]
 
-/-- Operators are k-linear; connection linearity in vector fields is over A. -/
+/-- The vector-field / Lie–Rinehart presentation: operators are k-linear and
+connection linearity in vector fields is over A. README F2 compares this with
+CR.1.3's ordinary form carrier only when Ω¹_A/k is finite projective. -/
 structure Connection where
   along : Derivation k A A →ₗ[A] (M →ₗ[k] M)
   leibniz : ∀ (ξ : Derivation k A A) (a : A) (m : M),
     along ξ (a • m) = a • along ξ m + ξ a • m
 
-/-- Honest flatness equations, with the native commutator Lie structure. -/
+/-- Flatness of this vector-field / Lie–Rinehart presentation, using the native
+commutator. For ordinary form connections integrability means zero curvature;
+the equivalence with this bracket criterion requires finite-projective Ω¹_A/k,
+as specified in README F2.1–F2.3. -/
 def Connection.IsFlat (conn : Connection k A M) : Prop :=
   ∀ ξ η, conn.along ⁅ξ, η⁆ = ⁅conn.along ξ, conn.along η⁆
 
