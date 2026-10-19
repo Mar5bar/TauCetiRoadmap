@@ -1,6 +1,6 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.Curves.StableReduction.Picard.Basic
-import TauCeti.RepresentationTheory.PGroupInvariants
+import TauCeti.AlgebraicGeometry.AbelianVariety.Basic
+import TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.ProjModel
 
 /-!
 # Néron models and semistable abelian varieties: representative target signatures
@@ -37,6 +37,39 @@ open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
 
 universe u
 
+attribute [local instance] Over.cartesianMonoidalCategory
+
+/-! ## Headline theorems -/
+
+/-- Every abelian variety over the fraction field of any DVR has a marked smooth separated
+finite-type model with unique extension from every smooth test scheme
+(Bosch–Lütkebohmert–Raynaud, §1.3 Corollary 2, p. 17). -/
+theorem LocalExistence (R K : Type u) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
+    (A : TauCeti.AlgebraicGeometry.AbelianVariety K) :
+    ∃ X : Over (Spec (.of R)),
+      Nonempty ((Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj X ≅
+        A.toOver) ∧
+      Smooth X.hom ∧ IsSeparated X.hom ∧ QuasiCompact X.hom ∧
+      ∀ Y : Over (Spec (.of R)), Smooth Y.hom →
+        Function.Bijective (fun f : Y ⟶ X =>
+          (Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map f) := by
+  sorry
+
+/-- A minimal elliptic equation has good reduction exactly when its projective integral model
+is smooth, and exactly when its generic fibre admits an abelian-scheme model over the DVR
+(Bosch–Lütkebohmert–Raynaud, §1.5, pp. 20–23). -/
+theorem EquationGoodComparison (R K : Type u) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
+    (W : WeierstrassCurve K) [W.IsElliptic] [WeierstrassCurve.IsMinimal R W] :
+    (W.HasGoodReduction R ↔ Smooth (W.integralModel R).projModelOver) ∧
+    (W.HasGoodReduction R ↔ ∃ X : Over (Spec (.of R)),
+      Smooth X.hom ∧ IsProper X.hom ∧ GeometricallyConnected X.hom ∧
+      Nonempty (GrpObj X) ∧
+      Nonempty ((Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj X ≅
+        Over.mk W.projModelOver)) := by
+  sorry
+
 /-! ## Layer 1: Néron models and their uniqueness -/
 
 section Models
@@ -64,16 +97,6 @@ theorem iff_existsUnique : NeronMappingProperty j X ↔
     ∀ Y : Over S, Smooth Y.hom →
       ∀ f : (Over.pullback j).obj Y ⟶ (Over.pullback j).obj X,
         ∃! g : Y ⟶ X, (Over.pullback j).map g = f := by sorry
-
-/-- One non-extendible map from a smooth test object refutes the mapping property. -/
-example (hY : Smooth Y.hom)
-    (f : (Over.pullback j).obj Y ⟶ (Over.pullback j).obj X)
-    (h : ∀ g : Y ⟶ X, (Over.pullback j).map g ≠ f) :
-    ¬ NeronMappingProperty j X := by sorry
-
-/-- For `j = 𝟙 S` every object has the mapping property: the degenerate case carries no
-arithmetic content. -/
-example (X : Over S) : NeronMappingProperty (𝟙 S) X := by sorry
 
 end NeronMappingProperty
 
@@ -105,19 +128,20 @@ theorem extension_existsUnique (Y : Over S) (hY : Smooth Y.hom)
     (f : (Over.pullback j).obj Y ⟶ A) :
     ∃! g : Y ⟶ M.model, (Over.pullback j).map g ≫ M.genericIso.hom = f := by sorry
 
-/-- The model is smooth, separated and quasi-compact at once. -/
-example : Smooth M.model.hom ∧ IsSeparated M.model.hom ∧
-    QuasiCompact M.model.hom := by sorry
-
-/-- Two endomorphisms of the model with equal generic restrictions are equal. -/
-example (f g : M.model ⟶ M.model)
-    (e : (Over.pullback j).map f = (Over.pullback j).map g) : f = g := by sorry
-
 /-- Uniqueness of marked Néron models: between two marked models of the same `A` there is exactly
 one isomorphism compatible with the markings (Bosch–Lütkebohmert–Raynaud, §1.2 Proposition 2(a)). -/
 theorem unique_iso (N : NeronModel j A) :
     ∃! e : M.model ≅ N.model,
       (Over.pullback j).map e.hom ≫ N.genericIso.hom = M.genericIso.hom := by sorry
+
+/-- A marked model of a commutative generic group carries exactly one commutative group
+structure for which its marking is a homomorphism
+(Bosch–Lütkebohmert–Raynaud, §1.2 Proposition 6, p. 14). -/
+theorem GroupLaw [GrpObj A] [IsCommMonObj A] :
+    ∃! g : GrpObj M.model,
+      letI := g
+      letI : GrpObj ((Over.pullback j).obj M.model) := Functor.grpObjObj
+      IsCommMonObj M.model ∧ IsMonHom M.genericIso.hom := by sorry
 
 end NeronModel
 
@@ -153,22 +177,13 @@ noncomputable def ofNeronModel (M : NeronModel j A) : WeakNeronModel j A where
     have : Etale Y.hom := hY
     exact M.mapping Y inferInstance
 
-/-- The weak specialisation keeps the entire model, including all components. -/
-example (M : NeronModel j A) : (ofNeronModel M).model = M.model := rfl
-
-/-- The weak specialisation preserves the chosen marking, rather than normalising it. -/
-example (M : NeronModel j A) : (ofNeronModel M).genericIso = M.genericIso := rfl
-
-/-- A map from an étale generic test object has exactly one marked extension. -/
-example (Y : Over S) (hY : Etale Y.hom) (f : (Over.pullback j).obj Y ⟶ A) :
-    ∃! g : Y ⟶ W.model, (Over.pullback j).map g ≫ W.genericIso.hom = f := by sorry
-
-/-- For `j = 𝟙 S` every smooth separated quasi-compact object is its own weak model; the degenerate
-case says nothing about arithmetic existence. -/
-example (X : Over S) (hX : Smooth X.hom) (hsep : IsSeparated X.hom)
-    (hqc : QuasiCompact X.hom) : Nonempty (WeakNeronModel (𝟙 S) X) := by sorry
-
 end WeakNeronModel
+
+/-- The full smooth-test mapping property is preserved by étale base change
+(Bosch–Lütkebohmert–Raynaud, §1.2 Proposition 2(c), p. 13). -/
+theorem EtaleBasechange {S' : Scheme.{u}} (f : S' ⟶ S) (hf : Etale f)
+    (X : Over S) (hX : NeronMappingProperty j X) :
+    NeronMappingProperty (pullback.snd j f) ((Over.pullback f).obj X) := by sorry
 
 end Models
 
@@ -182,20 +197,6 @@ order `1` for odd `n`, which differs from `n` exactly when `n ≥ 3` (Tate, §6)
 group-theoretic core of that computation. -/
 theorem card_fixedPoints_neg (n : ℕ) (hn : 0 < n) :
     Nat.card {x : ZMod n // -x = x} = if Even n then 2 else 1 := by sorry
-
-/-- The fixed subgroup of negation on `ℤ/4` has order `2`. -/
-example : Nat.card {x : ZMod 4 // -x = x} = 2 := by sorry
-
-/-- The fixed subgroup of negation on `ℤ/5` is trivial. -/
-example : Nat.card {x : ZMod 5 // -x = x} = 1 := by sorry
-
-/-- Negative control for `0 < n`: `ℤ/0 = ℤ` has one fixed point of negation, while the formula
-would give `2` since `0` is even. -/
-example : Nat.card {x : ZMod 0 // -x = x} = 1 ∧
-    Nat.card {x : ZMod 0 // -x = x} ≠ if Even 0 then 2 else 1 := by sorry
-
-/-- At modulus one the negation-fixed component group is trivial. -/
-example : Nat.card {x : ZMod 1 // -x = x} = 1 := by sorry
 
 end ComponentGroup
 
@@ -218,20 +219,10 @@ theorem componentMap_apply (n e : ℕ) (r : ℤ) :
 theorem componentMap_injective (n e : ℕ) (he : 0 < e) :
     Function.Injective (componentMap n e) := by sorry
 
-/-- For `n = 1` and `e = 2` the component group grows from the trivial group to `ℤ/2` while the
-identity torus is unchanged: full Néron models do not commute with ramified base change. -/
-example : Nat.card (ZMod 1) = 1 ∧ Nat.card (ZMod (2 * 1)) = 2 := by sorry
-
-/-- The component map is never surjective for `e > 1` and `n > 0`. -/
-example (n e : ℕ) (hn : 0 < n) (he : 1 < e) : ¬ Function.Surjective (componentMap n e) := by sorry
-
-/-- Negative control for `0 < e`: for `e = 0` the map `ℤ/2 → ℤ/0 = ℤ` is zero, not injective. -/
-example : ¬ Function.Injective (componentMap 2 0) := by sorry
-
-/-- Ramification index one preserves every component representative. -/
-example (n : ℕ) (r : ℤ) :
-    componentMap n 1 (r : ZMod n) = (r : ZMod (1 * n)) := by
-  simpa using componentMap_apply n 1 r
+/-- Nontrivial ramification strictly enlarges the split Tate component group
+(Conrad, Example 4.6; README §3.4). -/
+theorem componentMap_not_surjective (n e : ℕ) (hn : 0 < n) (he : 1 < e) :
+    ¬ Function.Surjective (componentMap n e) := by sorry
 
 end RamifiedTate
 
@@ -254,12 +245,6 @@ def operator (n : ℕ) : (ℤ × ℤ) →ₗ[ℤ] (ℤ × ℤ) where
 
 /-- The image is toric and the operator kills the toric term. -/
 theorem operator_square_zero (n : ℕ) : (operator n).comp (operator n) = 0 := by sorry
-
-/-- At valuation `5`, the period vector has positive toric image. -/
-example : operator 5 (0, 1) = (5, 0) ∧ operator 5 (1, 0) = 0 := by sorry
-
-/-- The valuation-`5` operator is nonzero but square zero. -/
-example : operator 5 ≠ 0 ∧ (operator 5).comp (operator 5) = 0 := by sorry
 
 /-- The positive period projection in the ordered toric/period basis of a Tate motive
 (Raynaud 1994, §3.1, p. 299). -/
@@ -284,42 +269,6 @@ theorem weilQuotient_eq_neg_periodProjection : weilQuotient = -periodProjection 
 /-- In Weil coordinates the same positive Kummer operator has coefficient `-n`. -/
 theorem operator_eq_weil_coordinates (n : ℕ) (v : ℤ × ℤ) :
     operator n v = (-(n : ℤ) * weilQuotient v, 0) := by sorry
-
-/-- The period and toric generators distinguish the two quotient orientations. -/
-example : periodProjection (0, 1) = 1 ∧ weilQuotient (0, 1) = -1 ∧
-    periodProjection (1, 0) = 0 ∧ weilQuotient (1, 0) = 0 := by
-  norm_num [periodProjection, weilQuotient, weilForm]
-
-/-- Nonbasis and zero inputs distinguish the quotient maps from either coordinate or a constant. -/
-example : periodProjection (2, 3) = 3 ∧ weilQuotient (2, 3) = -3 ∧
-    periodProjection 0 = 0 ∧ weilQuotient 0 = 0 := by
-  norm_num [periodProjection, weilQuotient, weilForm]
-
-/-- Swapping the two generators reverses the Weil value. -/
-example : weilForm (1, 0) (0, 1) = 1 ∧ weilForm (0, 1) (1, 0) = -1 := by
-  norm_num [weilForm]
-
-/-- A two-term evaluation also distinguishes the determinant direction away from basis vectors. -/
-example : weilForm (2, 3) (5, -7) = -29 ∧ weilForm (5, -7) (2, 3) = 29 := by
-  norm_num [weilForm]
-
-/-- At the residue prime two, level four distinguishes the signed valuation classes;
-level two alone cannot. These are arithmetic classes, not geometric points of `μ₄`. -/
-example : (5 : ZMod 4) = 1 ∧ (-5 : ZMod 4) = 3 ∧
-    (5 : ZMod 2) = 1 ∧ (-5 : ZMod 2) = 1 := by decide
-
-/-- Level one has no obstruction class. -/
-example : (5 : ZMod 1) = 0 ∧ (-5 : ZMod 1) = 0 := by decide
-
-/-- Valuation zero gives the zero arithmetic operator. -/
-example : operator 0 = 0 := by
-  apply LinearMap.ext
-  intro v
-  simp [operator]
-
-/-- The alternating Weil form vanishes on equal vectors and on either zero input. -/
-example (v : ℤ × ℤ) : weilForm v v = 0 ∧ weilForm 0 v = 0 ∧ weilForm v 0 = 0 := by
-  simp [weilForm, mul_comm]
 
 end TateMonodromy
 
@@ -353,11 +302,12 @@ noncomputable def boundary (src tgt : E → V) : (E →₀ ℤ) →ₗ[ℤ] (V �
 
 /-- A loop has zero transported boundary, testing the endpoint-indexed/Finsupp adapter. -/
 example : boundary (fun _ : Unit => ()) (fun _ : Unit => ()) (Finsupp.single () 1) = 0 := by
-  sorry
+  simp [boundary]
 
 /-- The transported incidence has sign `target - source` on a directed edge. -/
 example : boundary (fun _ : Unit => (0 : Fin 2)) (fun _ => 1) (Finsupp.single () 1) =
-    Finsupp.single 1 1 - Finsupp.single 0 1 := by sorry
+    Finsupp.single 1 1 - Finsupp.single 0 1 := by
+  simp [boundary]
 
 /-- Coordinate adapter for GraphConnectivityAndFlows §8.1, `signedCirculations Q ℤ`; use its
 carrier through the specified additive equivalence. ℤ satisfies the ordered-group prototype
@@ -390,25 +340,23 @@ theorem spanningForest_card (src tgt : E → V) (F : Finset E)
 /-- The fundamental integral cycles form a basis indexed by edges outside the chosen forest.
 Each cycle traverses its chord forward and returns along the unique forest path
 (Hatcher, §1.A, pp. 84–85 and Chapter 3, p. 187; README 4.2). -/
+theorem exists_fundamentalCycleBasis (src tgt : E → V) (F : Finset E)
+    (hF : IsSpanningForest src tgt F) :
+    ∃ b : Module.Basis {e : E // e ∉ F} ℤ (cycleLattice src tgt),
+      ∀ e f : {e : E // e ∉ F}, (b e).val f.val = if e = f then 1 else 0 := by sorry
+
+/-- The integral forest basis normalized by coefficient one on its own chord and zero on the
+other chords (Hatcher, §1.A, pp. 84–85 and Chapter 3, p. 187). -/
 noncomputable def fundamentalCycleBasis (src tgt : E → V) (F : Finset E)
     (hF : IsSpanningForest src tgt F) :
-    Module.Basis {e : E // e ∉ F} ℤ (cycleLattice src tgt) := by sorry
+    Module.Basis {e : E // e ∉ F} ℤ (cycleLattice src tgt) :=
+  (exists_fundamentalCycleBasis src tgt F hF).choose
 
 /-- The coefficient of a chord in its own basis cycle is one, and all other chord
 coefficients vanish; these coordinates uniquely determine an integral cycle. -/
 theorem fundamentalCycleBasis_chord (src tgt : E → V) (F : Finset E)
     (hF : IsSpanningForest src tgt F) (e f : {e : E // e ∉ F}) :
     (fundamentalCycleBasis src tgt F hF e).val f.val = if e = f then 1 else 0 := by sorry
-
-/-- A loop cannot lie in a spanning forest, even though its simple support has no edges. -/
-example : ¬ IsSpanningForest (fun _ : Unit => ()) (fun _ => ()) {()} := by sorry
-
-/-- Both parallel edges cannot lie in a forest, even though their simple support is a tree. -/
-example : ¬ IsSpanningForest (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1) Finset.univ := by
-  sorry
-
-/-- Two isolated vertices have the empty spanning forest; no connectivity assumption is needed. -/
-example : IsSpanningForest (fun _ : Fin 0 => (0 : Fin 2)) (fun _ => 0) ∅ := by sorry
 
 /-- The binary cycle space is the kernel of incidence over `ZMod 2` on the same edge identities.
 Its coefficients count endpoint parity, so reversing any edge does not change it
@@ -422,8 +370,16 @@ open scoped TensorProduct
 /-- Coefficient reduction identifies integral cycles tensored with `ZMod 2` with binary cycles.
 The forest chord coordinates give bases before and after reduction
 (Hatcher, §2.2, pp. 153–154 and Chapter 3, p. 187; README label: integral-graph-adapter). -/
+theorem exists_cycleLattice_modTwoEquiv (src tgt : E → V) :
+    ∃ f : (ZMod 2) ⊗[ℤ] (cycleLattice src tgt) ≃ₗ[ZMod 2] modTwoCycleSpace src tgt,
+      ∀ (c : cycleLattice src tgt) (e : E),
+        (f ((1 : ZMod 2) ⊗ₜ[ℤ] c)).val e = (c.val e : ZMod 2) := by sorry
+
+/-- Coefficient reduction from integral graph homology to the binary cycle space, characterized
+on pure tensors (Hatcher, §2.2, pp. 153–154 and Chapter 3, p. 187). -/
 noncomputable def cycleLattice_modTwoEquiv (src tgt : E → V) :
-    (ZMod 2) ⊗[ℤ] (cycleLattice src tgt) ≃ₗ[ZMod 2] modTwoCycleSpace src tgt := by sorry
+    (ZMod 2) ⊗[ℤ] (cycleLattice src tgt) ≃ₗ[ZMod 2] modTwoCycleSpace src tgt :=
+  (exists_cycleLattice_modTwoEquiv src tgt).choose
 
 /-- The coefficient comparison sends a pure tensor of an integral cycle to its edgewise reduction. -/
 theorem cycleLattice_modTwoEquiv_tmul (src tgt : E → V) (c : cycleLattice src tgt) (e : E) :
@@ -452,22 +408,6 @@ theorem finrank_cycleLattice_of_connected (src tgt : E → V)
     (hΓ : (supportGraph src tgt).Connected) :
     Module.finrank ℤ (cycleLattice src tgt) + Fintype.card V = Fintype.card E + 1 := by sorry
 
-/-- Reversing every edge preserves the binary cycle space. -/
-example (src tgt : E → V) : modTwoCycleSpace src tgt = modTwoCycleSpace tgt src := by sorry
-
-/-- The single-loop binary cycle space has dimension one. -/
-example : Module.finrank (ZMod 2)
-    (modTwoCycleSpace (fun _ : Unit => ()) (fun _ => ())) = 1 := by sorry
-
-/-- A single edge between distinct vertices has no nonzero binary cycle. -/
-example : Module.finrank (ZMod 2)
-    (modTwoCycleSpace (fun _ : Unit => (0 : Fin 2)) (fun _ => 1)) = 0 := by sorry
-
-/-- The empty graph satisfies the component-count formula but not its connected specialization. -/
-example : Module.finrank ℤ (cycleLattice (fun e : Fin 0 => e) (fun e => e)) = 0 ∧
-    Nat.card (supportGraph (fun e : Fin 0 => e) (fun e => e)).ConnectedComponent = 0 ∧
-    ¬ (supportGraph (fun e : Fin 0 => e) (fun e => e)).Connected := by sorry
-
 /-- The edge-length form `(c, d) ↦ ∑_e ℓ(e) c_e d_e` on `ℤ^E`; with all lengths `1` it is the
 monodromy pairing of the Jacobian of a regular semistable curve (SGA 7 I, Exposé IX, 12.5). -/
 noncomputable def edgeForm (len : E → ℕ) : (E →₀ ℤ) →ₗ[ℤ] (E →₀ ℤ) →ₗ[ℤ] ℤ :=
@@ -486,56 +426,6 @@ form: the cycle lattice and the pairing do not depend on the chosen orientation.
 theorem edgeForm_neg_coord (len : E → ℕ) (e₀ : E) (c d : E →₀ ℤ) :
     edgeForm len (c - 2 • Finsupp.single e₀ (c e₀)) (d - 2 • Finsupp.single e₀ (d e₀)) =
       edgeForm len c d := by sorry
-
-/-- The coefficient bridge transports the single-loop binary dimension to integral rank one. -/
-example : Module.finrank ℤ (cycleLattice (fun _ : Unit => ()) (fun _ : Unit => ())) = 1 := by
-  rw [cycleLattice_rank_eq_cycleSpace_finrank]
-  sorry
-
-/-- The coefficient bridge transports the two-vertex tree's binary dimension to integral rank zero. -/
-example : Module.finrank ℤ (cycleLattice (fun _ : Unit => (0 : Fin 2)) (fun _ => 1)) = 0 := by
-  rw [cycleLattice_rank_eq_cycleSpace_finrank]
-  sorry
-
-/-- A cycle with coefficients `1,-1` belongs to the rank-one parallel-edge lattice. -/
-example :
-    (Finsupp.single (0 : Fin 2) 1 - Finsupp.single 1 1) ∈
-      cycleLattice (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1) ∧
-    Module.finrank ℤ
-      (cycleLattice (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1)) = 1 := by sorry
-
-/-- The same parallel-edge cycle has self-pairing equal to the sum of the two edge lengths. -/
-example (a b : ℕ) :
-    edgeForm ![a, b]
-      (Finsupp.single (0 : Fin 2) 1 - Finsupp.single 1 1)
-      (Finsupp.single (0 : Fin 2) 1 - Finsupp.single 1 1) = (a : ℤ) + b := by sorry
-
-/-- A loop of length `5` gives `5` on its unit cycle and `10` on coefficients `1,2`. -/
-example : edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () 1) = 5 ∧
-    edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () 2) = 10 := by sorry
-
-/-- A length-five coordinate gives `−5` on coefficients `1,−1`; reversing both preserves
-the value, while reversing only the first gives `5`. -/
-example : edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () (-1)) = -5 ∧
-    edgeForm (fun _ : Unit => 5) (Finsupp.single () (-1)) (Finsupp.single () 1) = -5 ∧
-    edgeForm (fun _ : Unit => 5) (Finsupp.single () (-1)) (Finsupp.single () (-1)) = 5 := by
-  norm_num [edgeForm]
-
-/-- A zero edge length makes the form zero, even on a nonzero cycle. -/
-example : edgeForm (fun _ : Unit => 0) (Finsupp.single () 1) (Finsupp.single () 1) = 0 := by
-  sorry
-
-/-- Negative control for connectedness: two vertices and no edge have cycle lattice `0`, and
-`0 + 2 ≠ 0 + 1`. The local rank formula uses the supplied component count two. -/
-example : Module.finrank ℤ (cycleLattice (fun _ : Fin 0 => (0 : Fin 2)) (fun _ => 0)) +
-    Fintype.card (Fin 2) ≠ Fintype.card (Fin 0) + 1 := by
-  rw [cycleLattice_rank_eq_cycleSpace_finrank]
-  sorry
-
-/-- The two parallel edges form a binary cycle: both endpoints occur twice. -/
-example :
-    (Finsupp.single (0 : Fin 2) 1 + Finsupp.single 1 1) ∈
-      modTwoCycleSpace (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1) := by sorry
 
 end DualGraph
 
@@ -557,48 +447,44 @@ variable [Module.Free ℤ X] [Module.Finite ℤ X] [Module.Free ℤ Y] [Module.F
 /-- The rank-one pairing `(y, x) ↦ n·x·y` on `ℤ × ℤ`. -/
 noncomputable def rankOne (n : ℕ) : ℤ →ₗ[ℤ] ℤ →ₗ[ℤ] ℤ := (n : ℤ) • LinearMap.mul ℤ ℤ
 
-/-- Rank-one evaluation specifies the adjoint: at `n = 5`, `y = 1`, `x = 2` its value is `10`. -/
-example : adjoint (rankOne 5) 1 2 = 10 := by sorry
+/-- An injective integral pairing with finite cokernel induces a perfect pairing of its two
+cokernels; its value is the positive rational inverse pairing modulo integers
+(SGA 7 I, Exposé IX, §11.4 and Theorem 11.5, pp. 454–455). -/
+theorem exists_discriminantPairing (u : Y →ₗ[ℤ] X →ₗ[ℤ] ℤ)
+    (hinj : Function.Injective (adjoint u)) (hfin : Finite (componentGroup u)) :
+    ∃ p : componentGroup u →+ (componentGroup u.flip →+ AddCircle (1 : ℚ)),
+      (∀ (a : Module.Dual ℤ X) (b : Module.Dual ℤ Y) (y : Y) (m : ℤ),
+        m ≠ 0 → adjoint u y = m • a →
+        p (Submodule.Quotient.mk a) (Submodule.Quotient.mk b) =
+          ((b y : ℚ) / m : ℚ)) ∧
+      Function.Bijective p ∧ Function.Bijective (AddMonoidHom.flip p) := by sorry
 
-/-- A nonsymmetric two-lattice form distinguishes its adjoint from the transposed adjoint. -/
-example :
-    let u : (Fin 2 → ℤ) →ₗ[ℤ] (Fin 2 → ℤ) →ₗ[ℤ] ℤ :=
-      LinearMap.mk₂ ℤ (fun y x => y 0 * x 0 + 2 * y 0 * x 1 + 3 * y 1 * x 1)
-        (by intros; simp only [Pi.add_apply]; ring)
-        (by intros; simp only [Pi.smul_apply, smul_eq_mul]; ring)
-        (by intros; simp only [Pi.add_apply]; ring)
-        (by intros; simp only [Pi.smul_apply, smul_eq_mul]; ring)
-    adjoint u ![1, 0] ![0, 1] = 2 ∧ adjoint u.flip ![1, 0] ![0, 1] = 0 := by sorry
+/-- The perfect positive inverse pairing between the two integral cokernels, without a symmetry
+assumption on the original pairing (SGA 7 I, Exposé IX, §11.4). -/
+noncomputable def discriminantPairing (u : Y →ₗ[ℤ] X →ₗ[ℤ] ℤ)
+    (hinj : Function.Injective (adjoint u)) (hfin : Finite (componentGroup u)) :
+    componentGroup u →+ (componentGroup u.flip →+ AddCircle (1 : ℚ)) :=
+  (exists_discriminantPairing u hinj hfin).choose
 
-/-- At modulus `1` the adjoint is the identity functional; at modulus `0` it is zero. -/
-example (y x : ℤ) : adjoint (rankOne 1) y x = y * x ∧
-    adjoint (rankOne 0) y x = 0 := by sorry
+/-- Evaluation on functional classes computes the inverse pairing using any nonzero multiple
+that lifts through the adjoint. -/
+theorem discriminantPairing_mk (u : Y →ₗ[ℤ] X →ₗ[ℤ] ℤ)
+    (hinj : Function.Injective (adjoint u)) (hfin : Finite (componentGroup u))
+    (a : Module.Dual ℤ X) (b : Module.Dual ℤ Y) (y : Y) (m : ℤ)
+    (hm : m ≠ 0) (hy : adjoint u y = m • a) :
+    discriminantPairing u hinj hfin (Submodule.Quotient.mk a) (Submodule.Quotient.mk b) =
+      ((b y : ℚ) / m : ℚ) := by sorry
 
-/-- For the split Tate curve with `ord(q) = n` the pairing is multiplication by `n` and the
-component group is `ℤ/n`. -/
-example (n : ℕ) : Nonempty (componentGroup (rankOne n) ≃+ ZMod n) := by sorry
+/-- The inverse pairing identifies each cokernel with the additive character group of the other. -/
+theorem discriminantPairing_perfect (u : Y →ₗ[ℤ] X →ₗ[ℤ] ℤ)
+    (hinj : Function.Injective (adjoint u)) (hfin : Finite (componentGroup u)) :
+    Function.Bijective (discriminantPairing u hinj hfin) ∧
+      Function.Bijective (AddMonoidHom.flip (discriminantPairing u hinj hfin)) := by sorry
 
-/-- The positive rank-two form `2 I₂` has index four and cokernel `(ℤ/2)²`.
-Its exponent two excludes a cyclic cokernel of order four (README 4.5). -/
-example :
-    let u := DualGraph.edgeForm (fun _ : Fin 2 => 2)
-    Nonempty (componentGroup u ≃+ (ZMod 2 × ZMod 2)) ∧
-      Nat.card (componentGroup u) = 4 ∧
-      (∀ z : componentGroup u, (2 : ℕ) • z = 0) ∧
-      ¬ Nonempty (componentGroup u ≃+ ZMod 4) := by sorry
-
-/-- The positive form `diag(1,4)` has the same index four, with cyclic cokernel `ℤ/4`.
-The order alone does not determine the group structure (README 4.5). -/
-example :
-    let u := DualGraph.edgeForm ![1, 4]
-    Nonempty (componentGroup u ≃+ ZMod 4) ∧ Nat.card (componentGroup u) = 4 := by sorry
-
-/-- Zero lattices (good reduction) give a zero component group, not a group of positive rank. -/
-example : Subsingleton (componentGroup (0 : PUnit →ₗ[ℤ] PUnit →ₗ[ℤ] ℤ)) := by sorry
-
-/-- Negative control for nondegeneracy: the zero pairing on `ℤ × ℤ` has cokernel `ℤ`, which is
-infinite, so the discriminant pairing needs the finiteness hypothesis. -/
-example : ¬ Finite (componentGroup (rankOne 0)) := by sorry
+/-- The Tate valuation pairing of coefficient `n` has component group `ℤ/n`, including the
+infinite cokernel `ℤ` at coefficient zero (README §4.5). -/
+theorem rankOne_componentGroup (n : ℕ) :
+    Nonempty (componentGroup (rankOne n) ≃+ ZMod n) := by sorry
 
 /-- The class of the dual functional `x ↦ r*x` in the first rank-one cokernel. -/
 noncomputable def rankOneClass (n : ℕ) (r : ℤ) : componentGroup (rankOne n) :=
@@ -608,40 +494,19 @@ noncomputable def rankOneClass (n : ℕ) (r : ℤ) : componentGroup (rankOne n) 
 noncomputable def rankOneDualClass (n : ℕ) (s : ℤ) : componentGroup (rankOne n).flip :=
   Submodule.Quotient.mk (s • (LinearMap.id : Module.Dual ℤ ℤ))
 
-/-- The classes are the zero classes at residue `0`. -/
-example (n : ℕ) : rankOneClass n 0 = 0 ∧ rankOneDualClass n 0 = 0 := by sorry
+/-- On the specified rank-one quotient classes, the discriminant pairing is `rs/n` modulo
+integers (SGA 7 I, Exposé IX, §11.4; README §4.6). -/
+theorem discriminantPairing_rankOne (n : ℕ) (hn : 0 < n)
+    (hinj : Function.Injective (adjoint (rankOne n))) (hfin : Finite (componentGroup (rankOne n)))
+    (r s : ℤ) :
+    discriminantPairing (rankOne n) hinj hfin (rankOneClass n r) (rankOneDualClass n s) =
+      ((r * s : ℚ) / n : ℚ) := by sorry
 
-/-- The unit functional gives a nonzero class in each cokernel of the modulus-five pairing. -/
-example : rankOneClass 5 1 ≠ 0 ∧ rankOneDualClass 5 1 ≠ 0 := by sorry
-
-/-- Adding the modulus to a representative preserves each class. -/
-example (n : ℕ) (r : ℤ) : rankOneClass n (r + n) = rankOneClass n r ∧
-    rankOneDualClass n (r + n) = rankOneDualClass n r := by sorry
-
-/-- Replacing `r` by `r + n` changes `r·s/n` by the integer `s`, so the value in `ℚ/ℤ` is
-unchanged. -/
-example (n : ℕ) (hn : 0 < n) (r s : ℤ) :
-    ((((r + n) * s : ℚ) / n : ℚ) : AddCircle (1 : ℚ)) = (((r * s : ℚ) / n : ℚ) : AddCircle (1 : ℚ)) := by
-  sorry
+/-- The zero pairing has an infinite cokernel, so the finite-cokernel hypothesis of the
+perfect discriminant pairing cannot be omitted (README §§4.5–4.6). -/
+theorem rankOne_zero_infinite : ¬ Finite (componentGroup (rankOne 0)) := by sorry
 
 end LatticePairing
-
--- Tau Ceti's numerical Picard group of a numerical type (components with multiplicities, weights
--- and intersection matrix) and its degree map; the roadmap compares the component group of the
--- Jacobian with the kernel of this degree map and does not redefine the numerical side.
-#check @TauCeti.NumericalType.Pic
-#check @TauCeti.NumericalType.degree
-
-/-! ## Layer 5: Tate modules, conductors and local factors -/
-
-/-- At ramification index `2`, the monodromy for `ord(π)=1` is twice the
-monodromy for `ord(p)=1` (Fontaine, Exposé III, §5.2.1, p. 158). -/
-example : (2 : ℚ) * (5 / 2) = 5 ∧ (5 / 2 : ℚ) ≠ 5 := by sorry
-
-/-- The unit `2` is not a cube modulo `7`, hence not a cube in `ℚ₇`; the Tate curve with
-`q = 2·7³` nevertheless has unramified `3`-torsion, because `X³ − 2` has its roots in the
-unramified cubic extension (README 5.1). -/
-example : ∀ x : ZMod 7, x ^ 3 ≠ 2 := by decide
 
 /-! ## Layer 6: interfaces for modularity and finiteness -/
 
@@ -668,42 +533,13 @@ theorem frobenius_monodromy_relation (q delta n : ℚ) (d : ℕ) :
     (!![0, n; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) * toricFrobenius q delta d =
       q ^ d • (toricFrobenius q delta d * !![0, n; 0, 0]) := by sorry
 
-/-- At residue size two the geometric monodromy factor is one half;
-reversing multiplication gives ten instead of five. -/
-example :
-    ((!![0, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) * toricFrobenius 2 1 1) 0 1 = 10 ∧
-    (toricFrobenius 2 1 1 * (!![0, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ)) 0 1 = 5 := by
-  norm_num [toricFrobenius, Matrix.mul_apply, Fin.sum_univ_two]
-
-/-- A nonsplit lattice action changes both signs and preserves the geometric factor. -/
-example :
-    ((!![0, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) * toricFrobenius 2 (-1) 1) 0 1 = -10 ∧
-    (toricFrobenius 2 (-1) 1 * (!![0, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ)) 0 1 = -5 := by
-  norm_num [toricFrobenius, Matrix.mul_apply, Fin.sum_univ_two]
-
-/-- Split multiplicative reduction over a residue field of size two has full trace
-three and determinant two, rather than invariant trace one. -/
-example : Matrix.trace (toricFrobenius 2 1 1) = 3 ∧
-    Matrix.det (toricFrobenius 2 1 1) = 2 ∧
-    Matrix.trace (toricFrobenius 2 1 1) ≠ 1 := by
-  norm_num [toricFrobenius, Matrix.trace, Matrix.det_fin_two, Fin.sum_univ_two]
-
-/-- The nonsplit action reverses both trace contributions but preserves the determinant. -/
-example : Matrix.trace (toricFrobenius 2 (-1) 1) = -3 ∧
-    Matrix.det (toricFrobenius 2 (-1) 1) = 2 ∧
-    Matrix.trace (toricFrobenius 2 (-1) 1) ≠ -1 := by
-  norm_num [toricFrobenius, Matrix.trace, Matrix.det_fin_two, Fin.sum_univ_two]
-
-/-- A degree-two geometric Frobenius has trivial nonsplit lattice sign and full trace five. -/
-example : Matrix.trace (toricFrobenius 2 1 2) = 5 := by sorry
-
 /-- At degree zero the arithmetic Frobenius matrix is scalar. -/
-example (q delta : ℚ) : toricFrobenius q delta 0 = delta • (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
+theorem degree_zero (q delta : ℚ) : toricFrobenius q delta 0 = delta • (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [toricFrobenius]
 
 /-- Zero lattice action gives the zero matrix at every arithmetic degree. -/
-example (q : ℚ) (d : ℕ) : toricFrobenius q 0 d = 0 := by
+theorem zero_action (q : ℚ) (d : ℕ) : toricFrobenius q 0 d = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [toricFrobenius]
 
@@ -711,58 +547,11 @@ end SemistableTrace
 
 namespace Interfaces
 
-/-- The pinned invariant-vector theorem gives the residual-point group-theoretic step
-at characteristic two, using the power identities of the finite `2`-group. -/
-example {G : Type*} [Group G] [Finite G]
-    (hG : ∃ k : ℕ, Nat.card G = 2 ^ k) {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
-    [Nontrivial M] (ρ : Representation (ZMod 2) G M) :
-    ∃ v : M, v ≠ 0 ∧ ∀ g, ρ g v = v := by
-  obtain ⟨k, hk⟩ := hG
-  apply Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one 2 ρ
-  intro g
-  obtain ⟨n, hn⟩ := (IsPGroup.of_card hk).exists_pow_pow_eq_one g
-  exact ⟨n, by rw [← map_pow, hn, map_one]⟩
-
-/-- Negative control for the `2`-group hypothesis: a group of order `3` can permute the three
-nonzero vectors of `𝔽₂²` cyclically and fix none of them. -/
-example : ∃ ρ : Multiplicative (ZMod 3) →* ((Fin 2 → ZMod 2) →ₗ[ZMod 2] (Fin 2 → ZMod 2)),
-    ∀ v : Fin 2 → ZMod 2, v ≠ 0 → ∃ g, ρ g v ≠ v := by sorry
-
 /-- The image of `Gal(K(J[N])/K)` in `GSp_{2g}(ℤ/N)` has order less than `N^{4g²}`: the crude bound
 used for the degree of a full-level extension (Yuan, Lemma 4.9). -/
 theorem card_lt_of_subgroup_matrix (N g : ℕ) (hN : 1 < N) (hg : 0 < g)
     (H : Subgroup (Matrix (Fin (2 * g)) (Fin (2 * g)) (ZMod N))ˣ) :
     Nat.card H < N ^ (4 * g ^ 2) := by sorry
-
-/-- Dimension zero refutes the strict bound: the group of units of `0×0` matrices has
-order `1`, and `N^0 = 1`. -/
-example : Nat.card (Matrix (Fin 0) (Fin 0) (ZMod 3))ˣ = 1 ∧
-    ¬ Nat.card (Matrix (Fin 0) (Fin 0) (ZMod 3))ˣ < 3 ^ (4 * 0 ^ 2) := by sorry
-
-/-- The finite-group intersection used in the ordinary residual-point theorem: the
-centraliser of three disjoint transpositions has order `48`, while its point stabiliser
-has order `8` (BCGP 2025, Lemma 9.1.8). -/
-example (τ : Equiv.Perm (Fin 6))
-    (hτ : τ = Equiv.swap 0 1 * Equiv.swap 2 3 * Equiv.swap 4 5) :
-    Nat.card {σ : Equiv.Perm (Fin 6) // σ * τ = τ * σ} = 48 ∧
-    Nat.card {σ : Equiv.Perm (Fin 6) // σ * τ = τ * σ ∧ σ 0 = 0} = 8 := by sorry
-
-/-- Coordinate scaling `x = u²x'`, `y = u³y'` multiplies `dx/(2y)` by `u⁻¹`. -/
-example (u : ℚ) (hu : u ≠ 0) : u ^ 2 / u ^ 3 = u⁻¹ := by sorry
-
-/-- The two directions at `u = 5` have reciprocal factors, not the same factor. -/
-example : (5 : ℚ) ^ 2 / 5 ^ 3 = 1 / 5 ∧ (5 : ℚ) ^ 3 / 5 ^ 2 = 5 := by sorry
-
-/-- The split nodal tangent polynomial in characteristic `2` has two rational roots. -/
-example : (Polynomial.X ^ 2 + Polynomial.X : Polynomial (ZMod 2)).Splits := by sorry
-
-/-- The nonsplit nodal tangent polynomial in characteristic `2` is irreducible. -/
-example : ¬ (Polynomial.X ^ 2 + Polynomial.X + 1 : Polynomial (ZMod 2)).Splits := by sorry
-
-/-- Square discriminants do not detect this distinction in characteristic `2`:
-the nonsplit polynomial takes the value `1` at each element of `𝔽₂`. -/
-example (a : ZMod 2) :
-    (Polynomial.X ^ 2 + Polynomial.X + 1 : Polynomial (ZMod 2)).eval a = 1 := by sorry
 
 end Interfaces
 
@@ -892,28 +681,24 @@ README 1.1, 1.2 and 1.6 specify the projection and restriction APIs, including
 `genericIso_isIso` and `identity_unique`, and `WeakNeronModel.smooth_model`.
 README 4.3 specifies `operator_apply`, `periodProjection_apply`, `weilForm_add_left`,
 `weilForm_add_right` and `weilForm_skew`; README 6.10 specifies `degree_zero` and `zero_action`.
-The two-lattice construction in README 4.6 has intended signature
-`LatticePairing.discriminantPairing (u : Y →ₗ[ℤ] X →ₗ[ℤ] ℤ)
-  (hinj : Function.Injective (LatticePairing.adjoint u))
-  (hfin : Finite (LatticePairing.componentGroup u)) :
-  LatticePairing.componentGroup u →+ (LatticePairing.componentGroup u.flip →+ AddCircle (1 : ℚ))`.
-Its API targets are `discriminantPairing_zero_left`, `discriminantPairing_mk` and
-`discriminantPairing_rankOne` in README 4.6. These are mathematical targets, not Lean declarations.
+The two-lattice construction and its perfectness are stated above on the quotient modules.
+README 4.6 also specifies `discriminantPairing_zero_left` and `zero_right`.
 
 README 5.0a–5.0c specifies finite-étale torsion specialization and the good-reduction
 Frobenius and Euler-factor comparisons; 5.1a specifies potential good reduction.
 README 5.3a–5.3e, 5.3g–5.3i specifies the elliptic conductor, special fibre, étale Euler
 characteristics, determinant/discriminant, Ogg/Saito formula, bounds, residual conductors
 and comparison with Mathlib's local polynomial. README 6.0 specifies independence and
-closed-point specialization. These geometric targets have no typed signatures here.
+closed-point specialization. Their general abelian Tate-system and cohomological carriers
+are supplied by the cited roadmaps.
 AbelianSchemesAndArithmeticModuli A1.8 supplies Weil extension for the consequence
 `AbelianSchemeModel` in README 1.8.
 
-The corresponding untyped theorems include `GroupLaw`, `Smoothening`, `LocalExistence`,
-`KodairaConfiguration`, `AbelianSchemeModel`, `SpreadAbelian`, `DedekindGluing`, `EtaleBasechange`,
-`JacobianIsogenyFactor`, `FiniteSeparableSemistableExtension`, `MonodromyCriterion`,
+The corresponding untyped theorems include `Smoothening`,
+`KodairaConfiguration`, `AbelianSchemeModel`, `SpreadAbelian`, `DedekindGluing`,
+`JacobianIsogenyFactor`, `FiniteSeparableSemistableExtension`,
 `GraphMonodromy`, `ComponentCokernel`, `IntersectionComponentQuotient`, the Picard–Néron
-comparison, Néron–Ogg–Shafarevich, `PadicComparison`, conductor and local-factor comparisons,
+comparison, `MonodromyCriterion`, Néron–Ogg–Shafarevich, `PadicComparison`, conductor and local-factor comparisons,
 and the geometric exports of Layer 6. `Smoothening` uses an excellent DVR;
 `LocalExistence` provides a finite-type model over every DVR by construction over its
 completion and existence descent (BLR §7.2, Theorem 1(i), p. 176).

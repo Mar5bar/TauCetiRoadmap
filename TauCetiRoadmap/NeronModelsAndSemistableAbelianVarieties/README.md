@@ -352,7 +352,7 @@ and `Connected/ComponentGroup/{FiniteEtale,Representable}.lean`, all under
 For a symmetric nondegenerate integral lattice, use
 `TauCeti.IntegralLattice.discriminantPairing` and `discriminantPairing_mk` in
 `TauCeti/LinearAlgebra/IntegralLattice/Discriminant/Bilinear.lean`;
-`TauCeti.IntegralLattice.rankOneClass` and `discriminantPairing_zsmul_rankOneClass`
+`TauCeti.IntegralLattice.rankOneClass` and `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`
 in `TauCeti/LinearAlgebra/IntegralLattice/RankOne.lean` pin the positive rank-one
 value `kl/(2m)` modulo integers for `m : ℤ` with `m ≠ 0`: its lattice is `⟨2m⟩`,
 not `⟨m⟩`. Thus at `m = 2` its generator has self-pairing `1/4`, whereas the scalar
@@ -735,7 +735,9 @@ Néron model of `A` carries a unique structure of commutative group scheme over 
 on `model` in the cartesian monoidal category `Over S`, Mathlib `CategoryTheory.Monoidal.Grp`)
 extending the group law of `A`, and that every `K`-homomorphism `A → B` of abelian varieties
 extends uniquely to an `S`-homomorphism of Néron models (Bosch–Lütkebohmert–Raynaud, §1.2,
-Proposition 6, p. 14). Products of smooth `S`-schemes are smooth, so multiplication, inverse and
+Proposition 6, p. 14). `NeronModel.GroupLaw` states existence and uniqueness of the commutative
+group structure with a homomorphic marking, for any `j` and marked model of a commutative generic
+group. Products of smooth `S`-schemes are smooth, so multiplication, inverse and
 identity are extensions in the sense of 1.3, and the group axioms and the compatibility of
 homomorphisms follow from `hom_ext`. A generic isogeny extends to a homomorphism of models; it is
 not asserted to extend to a finite flat morphism. *Needs:* 1.3, 1.4;
@@ -804,7 +806,10 @@ on `R`-points alone does not give the mapping property.
 
 Prove `LocalExistence` for every discrete valuation ring `R`: every abelian variety over its
 fraction field has a finite-type Néron model over `R` (Bosch–Lütkebohmert–Raynaud, §1.3,
-Corollary 2, p. 17). Construct the model over the complete, hence excellent, ring `R̂` by
+Corollary 2, p. 17). `Suggested.lean` states `LocalExistence` on the pinned
+`AbelianVariety` and `Over` carriers, including the generic marking, smoothness, separatedness,
+quasi-compactness and bijective restriction for all smooth test schemes. Construct the model
+over the complete, hence excellent, ring `R̂` by
 `Smoothening`, then descend existence along `R ⊂ R̂` by §7.2, Theorem 1(i), p. 176.
 The boundedness comparison of §1.1, Proposition 5, p. 10, is part of this descent; it does
 not require excellence of `R`. No existence is asserted for an arbitrary smooth group
@@ -889,7 +894,9 @@ Proposition 2(c), p. 13). A smooth `S'`-scheme is smooth over `S`, its generic m
 the mapping property over `S`, and the structure morphism to `S'` is forced by the extension;
 separatedness and finite type survive base change. Arbitrary ramified base change of the full
 model is false and is not asserted; 3.3 and 3.4 give the identity-component statement that does
-hold. *Needs:* 1.2, 1.4; Mathlib `AlgebraicGeometry.Etale`, `Smooth` (composition and base change
+hold. The `EtaleBasechange` signature states the full mapping-property comparison for arbitrary
+`j`; smoothness, separatedness and quasi-compactness are preserved by the same base change.
+*Needs:* 1.2, 1.4; Mathlib `AlgebraicGeometry.Etale`, `Smooth` (composition and base change
 instances).
 
 **Checks.**
@@ -1360,7 +1367,8 @@ bundles over a field. The component of `[z]` is `ord(z) mod n`, with `[π]` fixi
 positive generator. This split comparison applies without the perfect-residue-field
 hypothesis of `EllipticFiltration` in 2.6. In particular the full Néron model does not
 commute with ramified base change. In Lean the map is `RamifiedTate.componentMap n e`, with
-`componentMap_apply` and `componentMap_injective` for `e > 0`. *Needs:* 2.2, 2.7, 3.3;
+`componentMap_apply`, `componentMap_injective` for `e > 0` and
+`RamifiedTate.componentMap_not_surjective` for `n > 0`, `e > 1`. *Needs:* 2.2, 2.7, 3.3;
 EllipticCurves Layer 4 (the Tate curve and its point uniformisation);
 StableReduction Layer 5 (the split multiplicative minimal regular model).
 
@@ -1928,7 +1936,8 @@ relation equals that of the full support graph on all of `V`. Prove
 of its edges; reuse Mathlib's `SimpleGraph.exists_isAcyclic_reachable_eq_le` and
 `SimpleGraph.IsTree.card_edgeFinset` for its existence and componentwise count.
 
-For every such `F`, construct `DualGraph.fundamentalCycleBasis`, a
+For every such `F`, prove `DualGraph.exists_fundamentalCycleBasis`, existence of a basis with
+the specified chord coordinates, and choose `DualGraph.fundamentalCycleBasis`, a
 `Module.Basis {e : E // e ∉ F} ℤ (DualGraph.cycleLattice src tgt)`.
 The cycle for a chord `e` traverses `e` forward and returns from `tgt e` to `src e` along
 the unique forest path, with signed edge coefficients. Prove
@@ -1967,7 +1976,9 @@ Chapter 3, p. 187).
 **Integral graph adapter and character lattice.** (*integral-graph-adapter*) Prove the
 endpoint-indexed assignment/Finsupp equivalences in the GraphConnectivityAndFlows §1.3 and
 §8.1 contracts above, including ℤ-linearity, and realize the integral module on the supplied
-circulation group. Construct `DualGraph.cycleLattice_modTwoEquiv`, the coefficient-reduction
+circulation group. Prove `DualGraph.exists_cycleLattice_modTwoEquiv`, existence of an
+isomorphism with the specified pure-tensor formula, and choose
+`DualGraph.cycleLattice_modTwoEquiv`, the coefficient-reduction
 isomorphism `𝔽₂ ⊗_ℤ H₁(Γ, ℤ) ≅ DualGraph.modTwoCycleSpace src tgt`.
 Prove `DualGraph.cycleLattice_modTwoEquiv_tmul`: `1 ⊗ c` maps to the edgewise reduction of `c`.
 The forest path cycles and their reductions give bases indexed by the same chords; over
@@ -2086,7 +2097,7 @@ choice of generator of `ℤ_ℓ(1)` is `[[0,n],[0,0]]`; at `n = 5` it sends `(0,
 It is zero for `n = 0` algebraically, although that parameter has no multiplicative Tate
 curve. `TateMonodromy.operator` records this integral arithmetic witness. Its API is
 `operator_apply`, `operator_square_zero`, and the zero, basis-image and nonzero/square-zero
-Checks stated below; the sign and square-zero witnesses are in `Suggested.lean`.
+Checks stated below; `Suggested.lean` states the sign and square-zero identities.
 
 Prove the signed comparison `prime_adic` in two parts. Write the Weil pairing additively
 as `e_A : T_ℓ(A) × T_ℓ(A^∨) → ℤ_ℓ(1)`, with biduality convention
@@ -2224,8 +2235,9 @@ integral statement is the target; a rational isomorphism of lattices says nothin
 
 **Checks.**
 
-- For the Tate pairing `[n]` the cokernel is `ℤ/n` (`LatticePairing.componentGroup (rankOne n)`);
-  for `n = 0` the cokernel is `ℤ`, infinite, so nondegeneracy is a genuine hypothesis.
+- For the Tate pairing `[n]` the cokernel is `ℤ/n` (`LatticePairing.rankOne_componentGroup`);
+  for `n = 0` the cokernel is `ℤ`, infinite (`LatticePairing.rankOne_zero_infinite`), so
+  nondegeneracy is a genuine hypothesis.
 - For `n = 1` the cokernel is trivial.
 - An integral adjoint of index `n > 0` has cokernel of order `n`; the index alone does not
   determine its group structure. In rank one the cokernel is `ℤ/n`.
@@ -2261,6 +2273,9 @@ at representative zero, equality after adding `n`, and nonvanishing of the class
 `1` for `n > 1`, using Mathlib's quotient operations. In particular,
 `discriminantPairing_rankOne` gives `rs/n` for `n > 0`;
 `discriminantPairing_zero_left` and `zero_right` state vanishing on either zero class.
+`LatticePairing.exists_discriminantPairing` states existence of the biadditive pairing with
+this evaluation formula and bijective adjoint maps in both directions.
+`LatticePairing.discriminantPairing_perfect` states perfectness of the chosen pairing.
 These statements use the same injectivity and finite-cokernel hypotheses. *Needs:* 4.3, 4.5.
 
 The sign is fixed by Werner’s comparison, not by Theorem 11.5 alone. In Werner’s
@@ -3393,7 +3408,11 @@ scheme of `W` over `R` (ModularCurves Layer 1 and `AbelianSchemesAndArithmeticMo
 abelian scheme, if and only if `E` has good reduction in the sense of 1.8; the scheme-level
 property is independent of the chosen minimal model (Bosch–Lütkebohmert–Raynaud, §1.5,
 pp. 20–23). The smooth-locus comparison 2.7 is stated over an arbitrary discrete valuation
-ring, so it is applied over `R` itself, with no passage to a larger residue field. *Needs:* 1.8, 2.7; Mathlib `WeierstrassCurve.HasGoodReduction`,
+ring, so it is applied over `R` itself, with no passage to a larger residue field.
+The `EquationGoodComparison` signature expresses the abelian-scheme model as an object of
+`Over (Spec R)` with a group structure, smooth proper geometrically connected structure morphism
+and marked generic fibre, and also states smoothness of the projective integral equation.
+*Needs:* 1.8, 2.7; Mathlib `WeierstrassCurve.HasGoodReduction`,
 `hasGoodReduction_iff_isElliptic_reduction`; EllipticCurves Layer 4; ModularCurves Layer 1.
 
 **Checks.**
@@ -3627,8 +3646,8 @@ supply the linear algebra.
 The rank-one calculation is `SemistableTrace.toricFrobenius q delta d`, the diagonal
 matrix `diag(delta,q^d delta)` on the period/torus graded pieces; in the geometric
 elliptic instances `delta = 1` or `-1` is the action of the **chosen element** `g` on
-both lattices. Its API is `toricFrobenius_trace`, `toricFrobenius_det`, `degree_zero`
-and `zero_action`, together with `frobenius_monodromy_relation` for
+both lattices. Its API is `toricFrobenius_trace`, `toricFrobenius_det`,
+`SemistableTrace.degree_zero` and `SemistableTrace.zero_action`, together with `frobenius_monodromy_relation` for
 `N_n = [[0,n],[0,0]]`, namely `N_n F = q^d (F N_n)`; it is an arithmetic witness for the full trace formula.
 For all rational `q,delta` and natural `d`, the trace is `delta + q^d*delta`
 and the determinant is `q^d*delta²`; `degree_zero` gives `F(q,delta,0) = delta·I₂`,
