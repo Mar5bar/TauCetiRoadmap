@@ -328,7 +328,7 @@ EnhancedDerivedSheaves §§0.1–0.4 for the enhanced derived functors.
 ### 0.1 Local-field specialization of the tame character
 
 For a henselian trait whose valuation ring is that of a nonarchimedean local field,
-use `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`, supplied by
+use `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`, supplied by EtaleCohomologyFoundations §F.3a and transported by
 ArithmeticGaloisRepresentations §2.1a: under the valuation-inertia and residue-Tate
 identifications, the general-trait `t_ℓ` is the ℓ-component of Tau Ceti's
 prime-to-residue-characteristic tame character `TauCeti.inertiaTameCharacter`.
