@@ -758,9 +758,13 @@ Prove `boundary_supremum`: For a sufficiently small affinoid neighborhood `U_n={
 
 *Needs:* F4, `root_annulus_tilt`; PerfectoidSpaces, Layer P1 (spectral norm under sharp); PerfectoidSpaces, Layer P2 (tilting homeomorphism and rational subsets).
 
-Reduce rank-one points to complete algebraically closed residue-field fibers. After root extension pass to the perfect disc tilt; approximate functions and affinoid domains by finite root levels with compatible spectral norms. P1 uses `|ϖ|=1/2`; raise both tilt and untilt gauges to `log(p)/log(2)` to obtain the present `|ϖ|=1/p` normalization. Apply the classical boundary theorem and identify the boundary via specializations leaving `U_n`. Prove the classical boundary theorem for these affinoid domains and the finite-level norm passage as part of this target. Principality of the `θ` kernel does not establish either input.
+Reduce rank-one points to complete algebraically closed residue-field fibers. After root extension pass to the perfect disc tilt; approximate functions and affinoid domains by finite root levels with compatible spectral norms. Apply P1.3 to `π=v₁` and its tilt parameter `π♭=ϖ^{1/p}`. The supplied gauges give `g_π(π)=g_{π♭}(π♭)=1/2`; power-multiplicativity gives `g_π([ϖ])=g_{π♭}(ϖ)=2^−p`. Take the `1/p` power of both gauges to obtain `|[ϖ]|=|ϖ|=1/2`, then raise both to `log(p)/log(2)` to obtain `|[ϖ]|=|ϖ|=1/p`. Equivalently, raise the supplied gauges directly to `log(p)/(p log(2))`. These simultaneous positive powers preserve P1.7's sharp compatibility. Apply the classical boundary theorem and identify the boundary via specializations leaving `U_n`. Prove the classical boundary theorem for these affinoid domains and the finite-level norm passage as part of this target. Principality of the `θ` kernel does not establish either input.
 
-Checks: For the perfected closed disc, the Gauss boundary detects the norm of its coordinate. The statement applies to all functions, not just `ξ`.
+**Checks.**
+
+- For the perfected closed disc, the Gauss boundary detects the norm of its coordinate.
+- The statement applies to all functions, not just `ξ`.
+- For `p=2`, the supplied gauges give `[ϖ]` and `ϖ` value `1/4`. Their square roots give value `1/2`, and the subsequent exponent `log(2)/log(2)=1` preserves that value. Applying only that last exponent to the supplied gauges would leave value `1/4`.
 
 (FS Proof of II.1.4, p.50.)
 
