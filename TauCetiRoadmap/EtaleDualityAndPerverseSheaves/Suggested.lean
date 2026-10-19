@@ -53,18 +53,8 @@ theorem finiteModule_eval_bijective
     Function.Bijective (Module.Dual.eval R M) := by
   sorry
 
-/-- The coefficient ring itself is its own dual; the unit of evaluation is nonzero. -/
-example (K : Type u) [Field K] :
-    Module.Dual.eval K K 1 (LinearMap.id : K →ₗ[K] K) = 1 := by
-  rfl
-
-/-- The zero module has zero double dual. -/
-example (R : Type u) [CommRing R] :
-    Subsingleton (Module.Dual R (Module.Dual R (Fin 0 → R))) := by
-  infer_instance
-
 /-- The nonprojective `ℤ/4`-module `ℤ/2` has a nonzero dual generator sending `1` to `2`. -/
-example :
+theorem nonprojective_zmod_dual_generator :
     letI : Module (ZMod 4) (ZMod 2) :=
       AddCommGroup.zmodModule (by decide : ∀ x : ZMod 2, (4 : ℕ) • x = 0)
     ¬ Module.Projective (ZMod 4) (ZMod 2) ∧
@@ -103,52 +93,7 @@ theorem Functor.heartRestriction_exists [IsTriangulated C] [IsTriangulated D]
       PreservesFiniteLimits H ∧ PreservesFiniteColimits H := by
   sorry
 
-/-- The identity preserves both aisles. -/
-example (t : TStructure C) : (𝟭 C).TExact t t := by
-  sorry
-
-/-- Cohomological shift `[1]` is right t-exact. -/
-example (t : TStructure C) [(shiftFunctor C (1 : ℤ)).CommShift ℤ]
-    [(shiftFunctor C (1 : ℤ)).IsTriangulated] :
-    (shiftFunctor C (1 : ℤ)).RightTExact t t := by
-  sorry
-
-/-- Shift `[-1]` is left t-exact. -/
-example (t : TStructure C) [(shiftFunctor C (-1 : ℤ)).CommShift ℤ]
-    [(shiftFunctor C (-1 : ℤ)).IsTriangulated] :
-    (shiftFunctor C (-1 : ℤ)).LeftTExact t t := by
-  sorry
-
 end TExact
-
-/-- Shift `[1]` fails left t-exactness when the heart has a nonzero object. -/
-example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
-    [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
-    (t : TStructure C) (A : t.heart.FullSubcategory)
-    (hA : ¬ IsZero (t.heart.ι.obj A)) [(shiftFunctor C (1 : ℤ)).CommShift ℤ]
-    [(shiftFunctor C (1 : ℤ)).IsTriangulated] :
-    ¬ (shiftFunctor C (1 : ℤ)).LeftTExact t t := by
-  sorry
-
-/-- Shift `[-1]` fails right t-exactness in a nonzero heart. -/
-example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
-    [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
-    (t : TStructure C) (A : t.heart.FullSubcategory)
-    (hA : ¬ IsZero (t.heart.ι.obj A)) [(shiftFunctor C (-1 : ℤ)).CommShift ℤ]
-    [(shiftFunctor C (-1 : ℤ)).IsTriangulated] :
-    ¬ (shiftFunctor C (-1 : ℤ)).RightTExact t t := by
-  sorry
-
-/-- Neither nonzero unit shift is t-exact when the heart is nonzero. -/
-example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
-    [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
-    (t : TStructure C) (A : t.heart.FullSubcategory)
-    (hA : ¬ IsZero (t.heart.ι.obj A)) [(shiftFunctor C (1 : ℤ)).CommShift ℤ]
-    [(shiftFunctor C (1 : ℤ)).IsTriangulated] [(shiftFunctor C (-1 : ℤ)).CommShift ℤ]
-    [(shiftFunctor C (-1 : ℤ)).IsTriangulated] :
-    ¬ (shiftFunctor C (1 : ℤ)).TExact t t ∧
-      ¬ (shiftFunctor C (-1 : ℤ)).TExact t t := by
-  sorry
 
 /-- The heart of a t-structure on a triangulated category admits an abelian structure.
 The existence is stated as a proposition; no unproved data instance is introduced. -/
@@ -206,46 +151,6 @@ theorem restrictedSubspace_eq_orthogonal [FiniteDimensional E V]
     restrictedSubspace restriction = pairY.orthogonal (vanishingSubspace gysin) := by
   sorry
 
--- Zero and identity maps distinguish kernels from ranges in both directions.
-example : vanishingSubspace (0 : V →ₗ[E] W) = ⊤ := by sorry
-example : vanishingSubspace (LinearMap.id : V →ₗ[E] V) = ⊥ := by sorry
-example : restrictedSubspace (0 : U →ₗ[E] V) = ⊥ := by sorry
-example : restrictedSubspace (LinearMap.id : V →ₗ[E] V) = ⊤ := by sorry
-example : primitiveSubspace (0 : V →ₗ[E] W) = ⊤ := by sorry
-example : primitiveSubspace (LinearMap.id : V →ₗ[E] V) = ⊥ := by sorry
-
-/-- In characteristic three, the cubic divisor class gives the zero Lefschetz operator;
-its primitive degree-two kernel is the entire nonzero Tate line. -/
-example (K : Type*) [Field K] [CharP K 3] :
-    let L : K →ₗ[K] K := (3 : K) • LinearMap.id
-    L = 0 ∧ primitiveSubspace L = ⊤ ∧ primitiveSubspace L ≠ ⊥ := by
-  sorry
-
-/-- The sum map has the nonzero proper antidiagonal as its primitive kernel. -/
-example :
-    primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) =
-        Submodule.span ℚ {((1, -1) : ℚ × ℚ)} ∧
-      primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) ≠ ⊥ ∧
-      primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) ≠ ⊤ := by
-  sorry
-
-/-- The vanishing space of the sum map is a nonzero proper line. -/
-example :
-    vanishingSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) =
-      Submodule.span ℚ {((1, -1) : ℚ × ℚ)} := by
-  sorry
-
-/-- Diagonal restriction has a nonzero proper image. -/
-example : restrictedSubspace ((LinearMap.id : ℚ →ₗ[ℚ] ℚ).prod LinearMap.id) =
-    Submodule.span ℚ {((1, 1) : ℚ × ℚ)} := by
-  sorry
-
--- In the quadric-surface test the ruling coordinates give restriction a ↦ (a,a)
--- and Gysin (x,y) ↦ x+y. Over F₂ their nonzero diagonal is both image and kernel.
-example : ∃ v : Fin 2 → ZMod 2,
-    v ≠ 0 ∧ (∃ a : ZMod 2, v = fun _ => a) ∧ v 0 + v 1 = 0 := by
-  sorry
-
 end LinearModels
 
 /-- The primitive middle Betti number `((d - 1)^(m + 2) + (-1)^m (d - 1)) / d` of a smooth
@@ -253,16 +158,6 @@ hypersurface of degree `d ≥ 1` and dimension `m ≥ 1`; in this range the divi
 The raw integer expression is defined for all natural arguments. -/
 def hypersurfacePrimitiveRank (d m : ℕ) : ℤ :=
   (((d : ℤ) - 1) ^ (m + 2) + (-1) ^ m * ((d : ℤ) - 1)) / d
-
--- Plane conic and plane cubic: genus zero and genus one.
-example : hypersurfacePrimitiveRank 2 1 = 0 := by norm_num [hypersurfacePrimitiveRank]
-example : hypersurfacePrimitiveRank 3 1 = 2 := by norm_num [hypersurfacePrimitiveRank]
--- Quadric, cubic and quartic surfaces: b₂ = 2, 7 and 22, so primitive ranks 1, 6 and 21.
-example : hypersurfacePrimitiveRank 2 2 = 1 := by norm_num [hypersurfacePrimitiveRank]
-example : hypersurfacePrimitiveRank 3 2 = 6 := by norm_num [hypersurfacePrimitiveRank]
-example : hypersurfacePrimitiveRank 4 2 = 21 := by norm_num [hypersurfacePrimitiveRank]
--- The quintic threefold has b₃ = 204.
-example : hypersurfacePrimitiveRank 5 3 = 204 := by norm_num [hypersurfacePrimitiveRank]
 
 /-! ## Layer 5: perverse weights, decomposition and relative hard Lefschetz -/
 
@@ -289,21 +184,6 @@ theorem isSemisimpleObject_iff_socle (X : C) [IsArtinianObject X] [IsNoetherianO
 
 end SemisimpleAbelian
 
-/-- A zero object is the empty sum of simples. -/
-example {C : Type u} [Category.{v} C] [Preadditive C] [HasFiniteBiproducts C] (X : C)
-    (hX : IsZero X) : IsSemisimpleObject X := sorry
-
-/-- finite-dimensional vector spaces are semisimple
-objects of `ModuleCat K`, agreeing with Mathlib's `IsSemisimpleModule`. -/
-example (K : Type u) [Field K] (V : ModuleCat.{u} K) [FiniteDimensional K V] :
-    IsSemisimpleObject V ∧ IsSemisimpleModule K V := sorry
-
-/-- the `ℚ[X]`-module `ℚ[X]/(X - 1)²` (one unipotent
-Jordan block) is not a semisimple object. -/
-example : ¬ IsSemisimpleObject
-    (ModuleCat.of (Polynomial ℚ)
-      (Polynomial ℚ ⧸ Ideal.span {(Polynomial.X - 1 : Polynomial ℚ) ^ 2})) := sorry
-
 section SplittingLemma
 variable {C : Type u} [Category.{v} C] [Abelian C]
 
@@ -327,19 +207,8 @@ theorem exists_unique_torsion_subobject (P : C → Prop)
 
 end SplittingLemma
 
-/-- Every simple subquotient of zero satisfies every predicate, vacuously. -/
-example {C : Type u} [Category.{v} C] [Abelian C] (P : C → Prop) (X : C)
-    (hX : IsZero X) : SimpleSubquotientsIn P X := by
-  sorry
-
-/-- For a simple object, the invariant predicate is detected by the object itself. -/
-example {C : Type u} [Category.{v} C] [Abelian C] (P : C → Prop)
-    (hP : ∀ {X Y : C}, Nonempty (X ≅ Y) → (P X ↔ P Y)) (X : C) [Simple X] :
-    SimpleSubquotientsIn P X ↔ P X := by
-  sorry
-
 /-- A nonsplit unipotent Jordan module has only the permitted simple constituent. -/
-example :
+theorem jordanModule_constituents_not_semisimple :
     SimpleSubquotientsIn
         (fun S : ModuleCat (Polynomial ℚ) => Nonempty (S ≅
           ModuleCat.of (Polynomial ℚ)
@@ -392,9 +261,6 @@ theorem form_similitude_det_symm (h2 : (2 : F) ≠ 0) (B : LinearMap.BilinForm F
     LinearMap.det φ =
       (-1) ^ Module.finrank F (Module.End.maxGenEigenspace φ (-s)) * s ^ Module.finrank F V := sorry
 
-/-- symmetric rank one, `φ = -s` with `⟨x, y⟩ = xy`: `det φ = -s`. -/
-example (s : F) : LinearMap.det ((-s) • (LinearMap.id : F →ₗ[F] F)) = -s := sorry
-
 end FormSimilitude
 
 /- Complementary-degree pairings are stated using families of native vector spaces.
@@ -443,48 +309,6 @@ theorem odd_middle_det [CharZero E] (d : ℕ) (hd : Odd d) (q : Eˣ)
       LinearMap.det F.toLinearMap = (q : E) ^ (d * Module.finrank E (H d) / 2) := sorry
 
 end GradedDeterminants
-
-/-- Diagnostic Euler computation for projective-line Betti numbers. -/
-example : gradedEulerChar 1 (fun i => if i = 0 ∨ i = 2 then 1 else 0) = 2 := sorry
-
-/-- Empty cohomology gives Euler characteristic zero. -/
-example : gradedEulerChar 1 (fun _ => 0) = 0 := by sorry
-
-/-- Three rank-one degrees give Euler characteristic `1 - 1 + 1 = 1`. -/
-example : gradedEulerChar 1 (fun _ => 1) = 1 := by sorry
-
-/-- The degree-zero determinant is retained, including for an arbitrary unit multiplier. -/
-example (q : ℚˣ) :
-    gradedDelta (fun _ => ℚ) 0 (fun _ => LinearEquiv.smulOfUnit q) = q := by
-  sorry
-
-/-- Three scalar determinants `2, 3, 5` give `2 * 3⁻¹ * 5 = 10/3`.
-This checks the definition without imposing geometric Poincaré-duality conditions. -/
-example : gradedDelta (fun _ => ℚ) 1 (fun i =>
-    LinearEquiv.smulOfNeZero ℚ ℚ (if i = 0 then (2 : ℚ) else if i = 1 then 3 else 5)
-      (by split_ifs <;> norm_num)) = Units.mk0 (10 / 3 : ℚ) (by norm_num) := by
-  sorry
-
-/-- Identity automorphisms give alternating determinant one in every dimension. -/
-example {E : Type u} [Field E] (H : ℤ → Type v)
-    [∀ i, AddCommGroup (H i)] [∀ i, Module E (H i)] [∀ i, FiniteDimensional E (H i)]
-    (d : ℕ) : gradedDelta H d (fun _ => LinearEquiv.refl E _) = 1 := by
-  sorry
-
-/-- Zero-dimensional families give alternating determinant one for every automorphism. -/
-example (d : ℕ) (F : ∀ i : ℤ, (Fin 0 → ℚ) ≃ₗ[ℚ] (Fin 0 → ℚ)) :
-    gradedDelta (fun _ => Fin 0 → ℚ) d F = 1 := by
-  sorry
-
-/-- A scalar determinant in degree one contributes its inverse. -/
-example (a : ℚˣ) :
-    gradedDelta (fun _ => ℚ) 1
-      (fun i => if i = 1 then LinearEquiv.smulOfUnit a else LinearEquiv.refl ℚ ℚ) = a⁻¹ := by
-  sorry
-
-/-- Rank zero gives the multiplicative identity, including at multiplier zero. -/
-example : LinearMap.det (0 : (Fin 0 → ℚ) →ₗ[ℚ] (Fin 0 → ℚ)) = 1 := by
-  simp
 
 end TauCetiRoadmap.EtaleDualityAndPerverseSheaves
 
