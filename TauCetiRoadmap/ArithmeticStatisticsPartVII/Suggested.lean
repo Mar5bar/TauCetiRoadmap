@@ -19,6 +19,191 @@ namespace TauCetiRoadmap.ArithmeticStatisticsPartVII
 
 namespace Distributions
 
+/-- The dyadic zero-cokernel probability of §5.3 is the finite general-linear proportion. -/
+theorem dyadic_zero_cokernel_probability (g : ℕ) :
+    (Nat.card {F : Matrix (Fin g) (Fin g) (ZMod 2) // IsUnit (1 - F ^ 2).det} : ℝ) /
+      (2 : ℝ) ^ (g * g) =
+        ∏ i ∈ Finset.range g, (1 - (2 : ℝ) ^ (-((i + 1 : ℕ) : ℤ))) := by sorry
+
+/-- The odd-prime zero-cokernel bound of §5.3 is uniform in the matrix size. -/
+theorem odd_zero_cokernel_probability_lower_bound (p : ℕ) [Fact p.Prime]
+    (hp : p ≠ 2) (g : ℕ) :
+    let c := 2 * (∏' i : ℕ, (1 - (3 : ℝ) ^ (-((i + 1 : ℕ) : ℤ)))) - 1
+    0 < c ∧ c ≤
+      (Nat.card {F : Matrix (Fin g) (Fin g) (ZMod p) // IsUnit (1 - F ^ 2).det} : ℝ) /
+        (p : ℝ) ^ (g * g) := by sorry
+
+/-- The quadratic-isotropic, polar-self-orthogonal subspaces of §5.4. -/
+def IsMaxIsotropic {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+    (Q : QuadraticForm K V) (W : Submodule K V) : Prop :=
+  (∀ v ∈ W, Q v = 0) ∧ LinearMap.BilinForm.orthogonal Q.polarBilin W = W
+
+/-- The parameter set of maximal quadratic-isotropic subspaces in §5.4. -/
+def maxIsotropicSubspaces {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+    (Q : QuadraticForm K V) : Set (Submodule K V) :=
+  {W | IsMaxIsotropic Q W}
+
+/-- Weak metabolicity in §5.4 combines polar nondegeneracy with a maximal isotropic. -/
+def IsWeaklyMetabolic {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+    (Q : QuadraticForm K V) : Prop :=
+  Q.polarBilin.Nondegenerate ∧ (maxIsotropicSubspaces Q).Nonempty
+
+/-- Maximal isotropics have half the ambient dimension (§5.4). -/
+theorem IsMaxIsotropic.finrank_eq {K V : Type*} [Field K] [AddCommGroup V]
+    [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.polarBilin.Nondegenerate) (W : Submodule K V) (hW : IsMaxIsotropic Q W)
+    (n : ℕ) (hdim : Module.finrank K V = 2 * n) : Module.finrank K W = n := by sorry
+
+/-- Half-dimensional quadratic-isotropic subspaces are maximal (§5.4). -/
+theorem isMaxIsotropic_iff_finrank {K V : Type*} [Field K] [AddCommGroup V]
+    [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V)
+    (hQ : Q.polarBilin.Nondegenerate) (W : Submodule K V) (n : ℕ)
+    (hdim : Module.finrank K V = 2 * n) :
+    IsMaxIsotropic Q W ↔ (∀ w ∈ W, Q w = 0) ∧ Module.finrank K W = n := by sorry
+
+/-- A quadratic isometry transports maximal isotropic subspaces (§5.4). -/
+theorem IsMaxIsotropic.map_isometryEquiv {K V V' : Type*} [Field K]
+    [AddCommGroup V] [Module K V] [AddCommGroup V'] [Module K V']
+    (Q : QuadraticForm K V) (Q' : QuadraticForm K V') (f : Q.IsometryEquiv Q')
+    (W : Submodule K V) (hW : IsMaxIsotropic Q W) :
+    IsMaxIsotropic Q' (W.map f.toLinearEquiv.toLinearMap) := by sorry
+
+/-- The hyperbolic plane has precisely its two coordinate axes as maximal isotropics (§5.4). -/
+theorem maxIsotropicSubspaces_hyperbolicPlane (K : Type*) [Field K] :
+    maxIsotropicSubspaces (QuadraticMap.proj 0 1 : QuadraticForm K (Fin 2 → K)) =
+      {Submodule.span K {Pi.single (0 : Fin 2) (1 : K)},
+       Submodule.span K {Pi.single (1 : Fin 2) (1 : K)}} := by sorry
+
+/-- The number of maximal isotropic subspaces (§5.4), including characteristic two. -/
+theorem card_maxIsotropicSubspaces {K V : Type*} [Field K] [Fintype K]
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    (Q : QuadraticForm K V) (hQ : IsWeaklyMetabolic Q) (n : ℕ)
+    (hdim : Module.finrank K V = 2 * n) :
+    Nat.card {W : Submodule K V // W ∈ maxIsotropicSubspaces Q} =
+      ∏ i ∈ Finset.range n, (Fintype.card K ^ i + 1) := by sorry
+
+/-- The intersection dimension generating function of §5.4 counts actual isotropic subspaces. -/
+theorem maxIsotropic_intersection_generating_function {K V : Type*}
+    [Field K] [Fintype K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    (Q : QuadraticForm K V) (hQ : IsWeaklyMetabolic Q) (n : ℕ)
+    (hdim : Module.finrank K V = 2 * n) (W : Submodule K V)
+    (hW : IsMaxIsotropic Q W) (z : ℝ) :
+    (∑' Z : {Z : Submodule K V // Z ∈ maxIsotropicSubspaces Q},
+      z ^ Module.finrank K ↥(Z.val ⊓ W)) =
+      ∏ i ∈ Finset.range n, (z + (Fintype.card K : ℝ) ^ i) := by sorry
+
+/-- The normalizing infinite product in the Poonen–Rains distribution (§5.5). -/
+def poonenRainsConstant (p : ℕ) : ℝ :=
+  ∏' i : ℕ, (1 + (p : ℝ) ^ (-(i : ℤ)))⁻¹
+
+/-- The dimension weights of the Poonen–Rains distribution (§5.5). -/
+def poonenRainsWeight (p d : ℕ) : ℝ :=
+  poonenRainsConstant p * ∏ i ∈ Finset.range d, (p : ℝ) / ((p : ℝ) ^ (i + 1) - 1)
+
+/-- The alternate product for the Poonen–Rains normalizing constant (§5.5). -/
+theorem poonenRainsConstant_eq_half_prod (p : ℕ) (hp : p.Prime) :
+    poonenRainsConstant p = (1 / 2 : ℝ) *
+      ∏' i : ℕ, (1 - (p : ℝ) ^ (-(2 * (i : ℤ) + 1))) := by sorry
+
+/-- Consecutive Poonen–Rains weights have the specified ratio (§5.5). -/
+theorem poonenRainsWeight_succ (p d : ℕ) :
+    poonenRainsWeight p (d + 1) = poonenRainsWeight p d *
+      ((p : ℝ) / ((p : ℝ) ^ (d + 1) - 1)) := by sorry
+
+/-- Every nonnegative dimension has positive Poonen–Rains weight (§5.5). -/
+theorem poonenRainsWeight_pos (p : ℕ) (hp : p.Prime) (d : ℕ) :
+    0 < poonenRainsWeight p d := by sorry
+
+/-- The limiting weights in “Intersection law converges to Poonen Rains” have total mass one. -/
+theorem poonenRainsWeight_total (p : ℕ) (hp : p.Prime) :
+    Summable (poonenRainsWeight p) ∧ ∑' d, poonenRainsWeight p d = 1 := by sorry
+
+/-- Poonen–Rains moments (§5.5) give every cardinality moment with its summability. -/
+theorem poonenRainsWeight_moments (p : ℕ) (hp : p.Prime) (m : ℕ) :
+    Summable (fun d => poonenRainsWeight p d * (p : ℝ) ^ (m * d)) ∧
+      (∑' d, poonenRainsWeight p d * (p : ℝ) ^ (m * d)) =
+        ∏ i ∈ Finset.range m, ((p : ℝ) ^ (i + 1) + 1) := by sorry
+
+/-- Poonen–Rains parity (§5.5) assigns mass one half to each parity. -/
+theorem poonenRainsWeight_parity (p : ℕ) (hp : p.Prime) (ε : ℕ) (hε : ε < 2) :
+    (∑' d, poonenRainsWeight p (2 * d + ε)) = 1 / 2 := by sorry
+
+/-- The corrected Delaunay law of §5.5 assigns this weight to Sha dimension `2n`. -/
+def delaunayWeight (p r n : ℕ) : ℝ :=
+  (p : ℝ) ^ (-((n * (2 * r + 2 * n - 1) : ℕ) : ℤ)) *
+    (∏' i : ℕ, (1 - (p : ℝ) ^ (-(2 * ((r + n + i : ℕ) : ℤ) + 1)))) /
+    ∏ i ∈ Finset.range n, (1 - (p : ℝ) ^ (-(2 * ((i + 1 : ℕ) : ℤ))))
+
+/-- The zero-dimensional mass of the Delaunay law (§5.5). -/
+theorem delaunayWeight_zero (p r : ℕ) :
+    delaunayWeight p r 0 =
+      ∏' i : ℕ, (1 - (p : ℝ) ^ (-(2 * ((r + i : ℕ) : ℤ) + 1))) := by sorry
+
+/-- Every even Sha dimension has positive Delaunay weight (§5.5). -/
+theorem delaunayWeight_pos (p : ℕ) (hp : p.Prime) (r n : ℕ) :
+    0 < delaunayWeight p r n := by sorry
+
+/-- Delaunay weights at every fixed rank form a probability law (§5.5). -/
+theorem hasSum_delaunayWeight (p : ℕ) (hp : p.Prime) (r : ℕ) :
+    HasSum (delaunayWeight p r) 1 := by sorry
+
+/-- Delaunay compatibility of the Selmer model (§5.5) uniquely recovers the half-rank prior. -/
+theorem delaunay_compatibility (p : ℕ) (hp : p.Prime) (ν : ℕ → ℝ)
+    (hν : ∀ r, 0 ≤ ν r) (hsum : HasSum ν 1) :
+    (∀ d, (∑ r ∈ Finset.range (d + 1),
+      if (d - r) % 2 = 0 then ν r * delaunayWeight p r ((d - r) / 2) else 0) =
+        poonenRainsWeight p d) ↔
+      ∀ r, ν r = if r ≤ 1 then 1 / 2 else 0 := by sorry
+
+/-- The rational finite alternating-kernel law of §5.6 retains zero diagonal at two. -/
+def alternatingKernelLaw (p j n : ℕ) [Fact p.Prime] : ℚ :=
+  (Nat.card {A : Matrix (Fin n) (Fin n) (ZMod p) //
+    (∀ i, A i i = 0) ∧ A.transpose = -A ∧
+      Module.finrank (ZMod p) (LinearMap.ker (Matrix.toLin' A)) = j} : ℚ) /
+    (p : ℚ) ^ (n * (n - 1) / 2)
+
+/-- The nondegenerate alternating matrix count of §5.6 applies in every characteristic. -/
+theorem alternating_nondegenerate_proportion (p : ℕ) [Fact p.Prime] (m : ℕ)
+    (hm : Even m) :
+    (Nat.card {A : Matrix (Fin m) (Fin m) (ZMod p) //
+      (∀ i, A i i = 0) ∧ A.transpose = -A ∧ IsUnit A.det} : ℚ) /
+        (p : ℚ) ^ (m * (m - 1) / 2) =
+      ∏ i ∈ Finset.range (m / 2), (1 - (p : ℚ) ^ (-(2 * (i : ℤ) + 1))) := by sorry
+
+/-- Alternating kernel laws (§5.6) are supported on the parity of the matrix size. -/
+theorem alternatingKernelLaw_eq_zero_of_parity (p : ℕ) [Fact p.Prime] (j n : ℕ)
+    (h : j % 2 ≠ n % 2) : alternatingKernelLaw p j n = 0 := by sorry
+
+/-- The finite alternating-kernel probabilities in §5.6 sum to one. -/
+theorem sum_alternatingKernelLaw (p : ℕ) [Fact p.Prime] (n : ℕ) :
+    ∑ j ∈ Finset.range (n + 1), alternatingKernelLaw p j n = 1 := by sorry
+
+/-- Only the zero alternating matrix has full nullity (§5.6). -/
+theorem alternatingKernelLaw_self (p : ℕ) [Fact p.Prime] (n : ℕ) :
+    alternatingKernelLaw p n n = ((p : ℚ) ^ (n * (n - 1) / 2))⁻¹ := by sorry
+
+/-- The closed alternating-kernel formula of §5.6 counts by the prescribed kernel. -/
+theorem alternatingKernelLaw_eq_formula (p : ℕ) [Fact p.Prime] (j n : ℕ)
+    (hjn : j ≤ n) (hparity : n % 2 = j % 2) :
+    alternatingKernelLaw p j n =
+      (p : ℚ) ^ (-((j * (j - 1) / 2 : ℕ) : ℤ)) *
+      (∏ k ∈ Finset.range j,
+        (1 - (p : ℚ) ^ (-((n - j + k + 1 : ℕ) : ℤ))) /
+          (1 - (p : ℚ) ^ (-((k + 1 : ℕ) : ℤ)))) *
+      ∏ k ∈ Finset.range ((n - j) / 2),
+        (1 - (p : ℚ) ^ (-(2 * (k : ℤ) + 1))) := by sorry
+
+/-- The parity-averaged alternating kernel law converges to Poonen–Rains (§5.6). -/
+theorem alternatingKernelLimit_eq_poonenRains (p : ℕ) [Fact p.Prime] (j : ℕ) :
+    Tendsto (fun n => ((alternatingKernelLaw p j (2 * n) : ℝ) +
+      (alternatingKernelLaw p j (2 * n + 1) : ℝ)) / 2) atTop
+      (𝓝 (poonenRainsWeight p j)) := by sorry
+
+/-- The rank-zero Delaunay law is the even-size alternating kernel limit (§5.5). -/
+theorem delaunayWeight_eq_alternatingCokernel (p : ℕ) [Fact p.Prime] (n : ℕ) :
+    Tendsto (fun m => (alternatingKernelLaw p (2 * n) (2 * m) : ℝ)) atTop
+      (𝓝 (delaunayWeight p 0 n)) := by sorry
+
 /-- A continuous quadratic form whose polar adjoint is a topological group isomorphism. -/
 structure LCQuadraticData (V : Type*) [AddCommGroup V] [TopologicalSpace V]
     [IsTopologicalAddGroup V] [T2Space V] [LocallyCompactSpace V] where
@@ -36,12 +221,6 @@ variable {V : Type*} [AddCommGroup V] [TopologicalSpace V]
 theorem polar_self (D : LCQuadraticData V) (x : V) :
     D.adjoint x x = (2 : ℤ) • D.quadratic x := by sorry
 
-example (D : LCQuadraticData V) (h : D.quadratic = 0) : Subsingleton V := by sorry
-example (D : LCQuadraticData V) (χ : V →ₜ+ AddCircle (1 : ℝ)) :
-    ∃ x, D.adjoint x = χ := by sorry
-example (D : LCQuadraticData V) (x y : V) (h : D.adjoint x = D.adjoint y) :
-    x = y := by sorry
-
 end LCQuadraticData
 
 /-- Prime Selmer laws share one parity; the empty prime set has weight one. -/
@@ -58,48 +237,6 @@ theorem parityCoupledWeight_total {k : ℕ} (w : Fin k → ℕ → ℝ)
     (ho : ∀ i, (∑' n : ℕ, w i (2 * n + 1)) = 1 / 2) :
     Summable (parityCoupledWeight k w) ∧ ∑' d, parityCoupledWeight k w d = 1 := by sorry
 
--- the coupling factor for two primes is two.
-example (w : Fin 2 → ℕ → ℝ) :
-    parityCoupledWeight 2 w (fun _ => 0) = 2 * w 0 0 * w 1 0 := by sorry
--- independent prime laws give the wrong support.
-example (w : Fin 2 → ℕ → ℝ) :
-    parityCoupledWeight 2 w (fun i => i.val) = 0 := by sorry
-
-example : parityCoupledWeight 0 (fun i => Fin.elim0 i) (fun i => Fin.elim0 i) = 1 := by sorry
-example (w : Fin 1 → ℕ → ℝ) (d : Fin 1 → ℕ) :
-    parityCoupledWeight 1 w d = w 0 (d 0) := by sorry
-
-/-- Concentration in even degree violates the half-parity hypothesis. -/
-example : parityCoupledWeight 2 (fun _ n => if n = 0 then 1 else 0)
-    (fun _ => 0) = 2 := by sorry
-
-/-- The two-point half-even, half-odd laws have total coupled mass one. -/
-example : (∑ d : Fin 2 → Fin 2,
-    parityCoupledWeight 2 (fun _ n => if n ≤ 1 then 1 / 2 else 0)
-      (fun i => (d i).val)) = 1 := by sorry
-
-/-- In characteristic two the sign action fixes both elements. -/
-example : (Nat.card {x : ZMod 2 // -x = x} : ℝ)⁻¹ = 1 / 2 := by sorry
-
-/-- At an odd prime the sign action has only its zero fixed point. -/
-example : (Nat.card {x : ZMod 3 // -x = x} : ℝ)⁻¹ = 1 := by sorry
-
-/-- One dyadic scalar has invertible one minus its square. -/
-example : Nat.card {F : Matrix (Fin 1) (Fin 1) (ZMod 2) //
-    IsUnit (1 - F ^ 2).det} = 1 := by sorry
-
-/-- Six dyadic size-two matrices have invertible one minus their square. -/
-example : Nat.card {F : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-    IsUnit (1 - F ^ 2).det} = 6 := by sorry
-
-/-- Over the field with three elements only the zero scalar avoids both eigenvalues. -/
-example : Nat.card {F : Matrix (Fin 1) (Fin 1) (ZMod 3) //
-    IsUnit (1 - F ^ 2).det} = 1 := by sorry
-
-/-- Over the field with five elements 365 size-two matrices avoid both eigenvalues. -/
-example : Nat.card {F : Matrix (Fin 2) (Fin 2) (ZMod 5) //
-    IsUnit (1 - F ^ 2).det} = 365 := by sorry
-
 /-- The split binary quadratic form retains quadratic vanishing in characteristic two. -/
 def binaryHyperbolic : QuadraticForm (ZMod 2) (Fin 2 → ZMod 2) :=
   QuadraticMap.proj 0 1
@@ -112,90 +249,14 @@ def binaryAnisotropic : QuadraticForm (ZMod 2) (Fin 2 → ZMod 2) :=
 def quaternaryHyperbolic : QuadraticForm (ZMod 2) (Fin 4 → ZMod 2) :=
   QuadraticMap.proj 0 1 + QuadraticMap.proj 2 3
 
-/-- The first coordinate pair contributes its product. -/
-example : quaternaryHyperbolic ![1, 1, 0, 0] = 1 := by sorry
-
-/-- The second coordinate pair contributes its product. -/
-example : quaternaryHyperbolic ![0, 0, 1, 1] = 1 := by sorry
-
-/-- Coordinates from different pairs have zero quadratic value. -/
-example : quaternaryHyperbolic ![1, 0, 1, 0] = 0 := by sorry
-
-/-- The split dyadic plane has exactly two quadratic-isotropic lines. -/
-example : Nat.card {W : Submodule (ZMod 2) (Fin 2 → ZMod 2) //
-    Module.finrank (ZMod 2) W = 1 ∧ ∀ v ∈ W, binaryHyperbolic v = 0} = 2 := by sorry
-
-/-- The diagonal is polar-self-orthogonal but has a nonzero quadratic value. -/
-example :
-    let L := Submodule.span (ZMod 2) ({fun _ : Fin 2 => (1 : ZMod 2)} :
-      Set (Fin 2 → ZMod 2))
-    (∀ v, (∀ w ∈ L, QuadraticMap.polar binaryHyperbolic v w = 0) ↔ v ∈ L) ∧
-      binaryHyperbolic (fun _ => 1) = 1 := by sorry
-
-/-- The anisotropic form has no nonzero quadratic-isotropic vector. -/
-example (v : Fin 2 → ZMod 2) : binaryAnisotropic v = 0 ↔ v = 0 := by sorry
-
-/-- The split four-dimensional dyadic space has six maximal quadratic-isotropic planes. -/
-example : Nat.card {W : Submodule (ZMod 2) (Fin 4 → ZMod 2) //
-    Module.finrank (ZMod 2) W = 2 ∧ ∀ v ∈ W, quaternaryHyperbolic v = 0} = 6 := by sorry
-
-/-- The six freely chosen upper-diagonal bits give 64 alternating size-four matrices. -/
-example : Nat.card {A : Matrix (Fin 4) (Fin 4) (ZMod 2) //
-    (∀ i, A i i = 0) ∧ A.transpose = -A} = 64 := by sorry
-
-/-- Exactly 28 of the 64 zero-diagonal alternating matrices of size four are invertible. -/
-example : Nat.card {A : Matrix (Fin 4) (Fin 4) (ZMod 2) //
-    (∀ i, A i i = 0) ∧ A.transpose = -A ∧ IsUnit A.det} = 28 := by sorry
-
-/-- Exactly 35 dyadic alternating size-four matrices have nullity two. -/
-example : Nat.card {A : Matrix (Fin 4) (Fin 4) (ZMod 2) //
-    (∀ i, A i i = 0) ∧ A.transpose = -A ∧
-      Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = 2} = 35 := by sorry
-
-/-- Exactly seven dyadic alternating size-three matrices have nullity one. -/
-example : Nat.card {A : Matrix (Fin 3) (Fin 3) (ZMod 2) //
-    (∀ i, A i i = 0) ∧ A.transpose = -A ∧
-      Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = 1} = 7 := by sorry
-
-/-- Without alternation the dyadic size-three nullity-one count is 294. -/
-example : Nat.card {A : Matrix (Fin 3) (Fin 3) (ZMod 2) //
-    Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = 1} = 294 := by sorry
-
-/-- Only the zero symmetric size-two matrix over the field with three elements has rank zero. -/
-example : Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 3) //
-    A.transpose = A ∧
-      Module.finrank (ZMod 3) (LinearMap.range (Matrix.toLin' A)) = 0} = 1 := by sorry
-
-/-- Eight symmetric size-two matrices over the field with three elements have rank one. -/
-example : Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 3) //
-    A.transpose = A ∧
-      Module.finrank (ZMod 3) (LinearMap.range (Matrix.toLin' A)) = 1} = 8 := by sorry
-
-/-- Eighteen symmetric size-two matrices over the field with three elements have rank two. -/
-example : Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 3) //
-    A.transpose = A ∧
-      Module.finrank (ZMod 3) (LinearMap.range (Matrix.toLin' A)) = 2} = 18 := by sorry
-
-/-- Nullities zero and two each have probability one half for dyadic size-two alternation. -/
-example (j : ℕ) (hj : j = 0 ∨ j = 2) :
-    (Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-      (∀ i, A i i = 0) ∧ A.transpose = -A ∧
-        Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = j} : ℚ) /
-    (Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-      (∀ i, A i i = 0) ∧ A.transpose = -A} : ℚ) = 1 / 2 := by sorry
-
-/-- The two generators of the cyclic group of order four give its two injective endomorphisms. -/
-example : Nat.card {f : ZMod 4 →+ ZMod 4 // Function.Injective f} = 2 := by sorry
-
-/-- A group killed by two admits no injection from the cyclic group of order four. -/
-example : Nat.card {f : ZMod 4 →+ (Fin 2 → ZMod 2) // Function.Injective f} = 0 := by sorry
-
-/-- Exponent two allows quadratic values of order four, even with a metabolic diagonal. -/
-example : ∃ Q : QuadraticMap ℤ (Fin 2 → ZMod 2) (AddCircle (1 : ℝ)),
-    (∀ v, Q v = (((((v 0).val : ℝ) ^ 2 - ((v 1).val : ℝ) ^ 2) / 4 : ℝ) :
-      AddCircle (1 : ℝ))) ∧
-    (∀ v, Q v = 0 ↔ v 0 = v 1) ∧
-    (∃ v, (2 : ℤ) • Q v ≠ 0) := by sorry
+/-- The dyadic value-group boundary of §5.26: exponent two need not force quadratic values
+of order at most two, even when the diagonal is quadratic-isotropic. -/
+theorem dyadic_quadratic_value_boundary :
+    ∃ Q : QuadraticMap ℤ (Fin 2 → ZMod 2) (AddCircle (1 : ℝ)),
+      (∀ v, Q v = (((((v 0).val : ℝ) ^ 2 - ((v 1).val : ℝ) ^ 2) / 4 : ℝ) :
+        AddCircle (1 : ℝ))) ∧
+      (∀ v, Q v = 0 ↔ v 0 = v 1) ∧
+      (∃ v, (2 : ℤ) • Q v ≠ 0) := by sorry
 
 /-- Uniform cardinality moments and parity recover every reduced dimension frequency. -/
 theorem parity_sensitive_twist_moment_determinacy (ν : ℕ → ℕ → ℝ)
@@ -220,14 +281,8 @@ theorem finite_set_twist_density_zero {α : Type*} [DecidableEq α]
     (hF : Tendsto (fun X => ((F X).card : ℝ)) atTop atTop) :
     Tendsto (fun X => (((F X) ∩ B).card : ℝ) / (F X).card) atTop (𝓝 0) := by sorry
 
-/-- The subgroup of order two in a cyclic group of order four has no retraction. -/
-example : ¬ ∃ r : ZMod 4 →+ ZMod 4, r 2 = 2 ∧ ∀ x, r x = 0 ∨ r x = 2 := by sorry
-
 universe u
 open scoped DirectSum
-
-/-- Infinite direct sums occur in the bounded-exponent structure theorem. -/
-example : Infinite (⨁ _ : ℕ, ZMod 4) := by sorry
 
 /-- A bounded abelian group is a possibly infinite direct sum of finite cyclic groups. -/
 theorem bounded_exponent_decomposition (n : ℕ) (hn : 0 < n)
@@ -247,9 +302,8 @@ theorem bounded_exponent_splitting (n : ℕ) (hn : 0 < n)
 The README also specifies CohenLenstraHeuristic, CohenLenstraMomentConjecture,
 cohenMartinetPredictedMoment, CohenLenstraMartinetAverage,
 CohenMartinetMomentConjecture, enhancedCokernelLaw,
-EnhancedCohenLenstraConjecture, IsMaxIsotropic, isotropicQuotientForm,
-poonenRainsConstant and its probability law, delaunayWeight,
-alternatingKernelLaw, IsSymplecticClass, alternatingCokernelLaw, bklprModel,
+EnhancedCohenLenstraConjecture, isotropicQuotientForm,
+poonenRainsDistribution, IsSymplecticClass, alternatingCokernelLaw, bklprModel,
 PoonenRainsSelmerConjecture, SelmerAverageConjecture, BKLPRSelmerConjecture,
 signedTwistCorankCount, SmithTwistHypothesis, localSelmerRatio and its global
 and twist variants, LCQuadraticData.orthogonal, weaklyMetabolic,
@@ -265,7 +319,7 @@ LCQuadraticData.weaklyMetabolic_intersection_open, LCQuadraticData.maximalIsotro
 LCQuadraticData.maximalIsotropics_closed, LCQuadraticData.maximalIsotropics_isotropic,
 LCQuadraticData.maximalIsotropics_self_orthogonal. The remaining elementary API of §5.25 is
 parityCoupledWeight_empty, parityCoupledWeight_single, parityCoupledWeight_mixed and
-parityCoupledWeight_nonneg; its discriminating values are given by the examples above.
+parityCoupledWeight_nonneg.
 -/
 
 end TauCetiRoadmap.ArithmeticStatisticsPartVII

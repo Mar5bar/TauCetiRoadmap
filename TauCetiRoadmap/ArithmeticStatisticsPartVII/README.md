@@ -311,7 +311,7 @@ For the proof, Define the finite-`g` law as the Haar measure of the set of `F` w
 
 <a id="zero-cokernel-probability-at-two"></a>
 
-**Zero cokernel probability at two.** For `F` uniform in `M_g(𝔽₂)`, `P(1 − F² ∈ GL_g(𝔽₂)) = |GL_g(𝔽₂)|/2^{g²} = ∏_{j=1}^{g}(1 − 2^{−j})`; it decreases to `∏_{j≥1}(1 − 2^{−j}) = c_{2,0} ≈ 0.2888 > 0`. Hence `CL^{(g)}_{(1,2),2}(0, 0) = ∏_{j=1}^{g}(1 − 2^{−j})`.
+**Zero cokernel probability at two.** `Distributions.dyadic_zero_cokernel_probability` states the finite matrix probability. For `F` uniform in `M_g(𝔽₂)`, `P(1 − F² ∈ GL_g(𝔽₂)) = |GL_g(𝔽₂)|/2^{g²} = ∏_{j=1}^{g}(1 − 2^{−j})`; it decreases to `∏_{j≥1}(1 − 2^{−j}) = c_{2,0} ≈ 0.2888 > 0`. Hence `CL^{(g)}_{(1,2),2}(0, 0) = ∏_{j=1}^{g}(1 − 2^{−j})`.
 
 `g ∈ ℕ`
 
@@ -329,7 +329,7 @@ For the proof, In characteristic 2, `1 − F² = (1 − F)²`, which is invertib
 
 <a id="zero-cokernel-probability-lower-bound-at-odd-primes"></a>
 
-**Zero cokernel probability lower bound at odd primes.** For an odd prime `ℓ` and every `g`, `F` uniform in `M_g(𝔽_ℓ): P(1 − F² ∈ GL_g(𝔽_ℓ)) ≥ 2c_{3,0} − 1 = 2∏_{k≥1}(1 − 3^{−k}) − 1 ≈ 0.1202 > 0`. This proves a positive lim inf of `CL^{(g)}_{(1,2),ℓ}(0, 0)`, not the existence of the limit.
+**Zero cokernel probability lower bound at odd primes.** `Distributions.odd_zero_cokernel_probability_lower_bound` states the positive uniform bound. For an odd prime `ℓ` and every `g`, `F` uniform in `M_g(𝔽_ℓ): P(1 − F² ∈ GL_g(𝔽_ℓ)) ≥ 2c_{3,0} − 1 = 2∏_{k≥1}(1 − 3^{−k}) − 1 ≈ 0.1202 > 0`. This proves a positive lim inf of `CL^{(g)}_{(1,2),ℓ}(0, 0)`, not the existence of the limit.
 
 `ℓ` odd prime `g ∈ ℕ`
 
@@ -454,36 +454,38 @@ For the proof, Reduce to `dim X = 1` by choosing a full flag `0 = X_0 ⊂ X_1 �
 
 <a id="number-of-maximal-isotropic-subspaces"></a>
 
-**Number of maximal isotropic subspaces.** If `(V, Q)` is a weakly metabolic quadratic space of dimension `2n` over `𝔽_p`, then `#I_V = ∏_{j=0}^{n−1} (p^{j} + 1)`.
+**Number of maximal isotropic subspaces.** If `(V, Q)` is a weakly metabolic quadratic space of dimension `2n` over a finite field `𝔽_q`, then `#I_V = ∏_{j=0}^{n−1} (q^j + 1)`. The signature is `Distributions.card_maxIsotropicSubspaces`, using the actual submodule parameter set.
 
-`(V, Q)` weakly metabolic over `𝔽_p`, `dim V = 2n`
+`(V, Q)` weakly metabolic over a finite field `𝔽_q`, `dim V = 2n`
 
-For the proof, Apply [fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map) with `X` a maximal isotropic subspace `(dim X = n): X^⊥/X = 0` has exactly one maximal isotropic subspace, so `#I_V = ∏_{i=1}^{n}(p^{n−i} + 1) = ∏_{j=0}^{n−1}(p^j + 1)`.
+For the proof, Apply [fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map) with `X` a maximal isotropic subspace `(dim X = n): X^⊥/X = 0` has exactly one maximal isotropic subspace, so `#I_V = ∏_{i=1}^n(q^(n−i)+1) = ∏_{j=0}^{n−1}(q^j+1)`. The same flag and hyperplane count works over every finite field.
 
 *Needs:* [fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map).
 
-([[28]](#ref-28), Proposition 2.6(b) and proof, pp. 5–6.)
+([[28]](#ref-28), Proposition 2.6(b) and proof, pp. 5–6; Remark 2.7, p. 7, for arbitrary finite fields.)
 
 **Checks.**
 
 - `n = 1: #I_V = 2` (the hyperbolic plane).
 - `p = 2`, `n = 2: #I_V = (1 + 1)(2 + 1) = 6`.
+- At `n=0` the parameter set is a singleton and the empty product is one.
 
 <a id="intersection-dimension-generating-function"></a>
 
-**Intersection dimension generating function.** Let `(V, Q)` be weakly metabolic of dimension `2n` over `𝔽_p` and fix `W ∈ I_V`. For `Z` uniform on `I_V` let `X_n := dim(Z ∩ W)` and `a_{d,n} := Prob(X_n = d)`. Then `X_n` is distributed as a sum of independent Bernoulli variables `B_1`, …, `B_n` with `Prob(B_i = 1) = 1/(p^{i−1} + 1)`; equivalently `Σ_{d≥0} a_{d,n} z^{d} = ∏_{i=0}^{n−1} (z + p^{i})/(1 + p^{i})`, `i`.e. `Σ_{Z ∈ I_V} z^{dim(Z ∩ W)} = ∏_{i=0}^{n−1} (z + p^{i})` as polynomials in `z`.
+**Intersection dimension generating function.** Let `(V, Q)` be weakly metabolic of dimension `2n` over a finite field `𝔽_q` and fix `W ∈ I_V`. For `Z` uniform on `I_V` let `X_n := dim(Z ∩ W)` and `a_{d,n} := Prob(X_n = d)`. Then `X_n` is distributed as a sum of independent Bernoulli variables `B_1`, …, `B_n` with `Prob(B_i = 1) = 1/(q^{i−1} + 1)`; equivalently `Σ_{d≥0} a_{d,n} z^d = ∏_{i=0}^{n−1} (z + q^i)/(1 + q^i)`, `i`.e. `Σ_{Z ∈ I_V} z^{dim(Z ∩ W)} = ∏_{i=0}^{n−1} (z + q^i)` as polynomials in `z`. `Distributions.maxIsotropic_intersection_generating_function` states its evaluation at every real `z`.
 
-`(V, Q)` weakly metabolic over `𝔽_p`, `dim V = 2n`; `W ∈ I_V` fixed; `Z` uniformly distributed on the finite set `I_V`
+`(V, Q)` weakly metabolic over `𝔽_q`, `dim V = 2n`; `W ∈ I_V` fixed; `Z` uniformly distributed on the finite set `I_V`
 
-For the proof, Induction on `n; n = 0` is trivial. For `n > 0` fix `0 ≠ v ∈ W` and `X = 𝔽_p v`, and write `Z̄ := π_X(Z)` ([isotropic reduction map](#isotropic-reduction-map)). `dim(Z ∩ W) = dim(Z̄ ∩ W̄) + [v ∈ Z]`, where `W̄ = W/X ∈ I_{X^⊥/X} (dim 2n − 2)`. `Z̄` is uniform on `I_{X^⊥/X}` because every fibre of `π_X` has the same size `p^{n−1} + 1` ([fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map)); so `dim(Z̄ ∩ W̄)` has the law of `X_{n−1}`. Conditionally on `Z̄`, exactly one of the `p^{n−1} + 1` elements of the fibre contains `v` (the preimage of `Z̄` in `X^⊥`), so `[v ∈ Z]` is Bernoulli with parameter `1/(p^{n−1} + 1)`, independent of `Z̄`. Multiply generating functions: `(z + p^{n−1})/(1 + p^{n−1})` times the generating function of `X_{n−1}`; the count form follows from [number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces).
+For the proof, Induction on `n; n = 0` is trivial. For `n > 0` fix `0 ≠ v ∈ W` and `X = 𝔽_q v`, and write `Z̄ := π_X(Z)` ([isotropic reduction map](#isotropic-reduction-map)). `dim(Z ∩ W) = dim(Z̄ ∩ W̄) + [v ∈ Z]`, where `W̄ = W/X ∈ I_{X^⊥/X} (dim 2n − 2)`. `Z̄` is uniform on `I_{X^⊥/X}` because every fibre of `π_X` has the same size `q^{n−1} + 1` ([fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map)); so `dim(Z̄ ∩ W̄)` has the law of `X_{n−1}`. Conditionally on `Z̄`, exactly one of the `q^{n−1} + 1` elements of the fibre contains `v` (the preimage of `Z̄` in `X^⊥`), so `[v ∈ Z]` is Bernoulli with parameter `1/(q^{n−1} + 1)`, independent of `Z̄`. Multiply generating functions: `(z + q^{n−1})/(1 + q^{n−1})` times the generating function of `X_{n−1}`; the count form follows from [number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces).
 
 *Needs:* [isotropic reduction map](#isotropic-reduction-map), [fibres of the isotropic reduction map](#fibres-of-the-isotropic-reduction-map), [number of maximal isotropic subspaces](#number-of-maximal-isotropic-subspaces).
 
-([[28]](#ref-28), Proposition 2.6(c),(d), pp. 6–7; [[28]](#ref-28), Proposition 2.6(d), p. 6.)
+([[28]](#ref-28), Proposition 2.6(c),(d), pp. 6–7; Remark 2.7, p. 7.)
 
 **Checks.**
 
 - `n = 1: X_1` is 0 or 1 with probability 1/2 each.
+- At `n=0` the generating polynomial is one, so half-parity does not apply.
 - `z = 1` gives total mass `1; z = −1` gives `Prob(X_n even) − Prob(X_n odd) = 0` for `n ≥ 1` (the `i = 0` factor vanishes).
 
 <a id="intersection-dimension-law-closed-form"></a>
@@ -540,7 +542,7 @@ For the proof, Define `c_p` as the convergent infinite product `∏_{j≥0}(1 + 
 
 <a id="intersection-law-converges-to-poonen-rains"></a>
 
-**Intersection law converges to poonen rains.** For every `d ≥ 0`, `a_{d,n} → a_d` as `n → ∞; Σ_{d≥0} a_d = 1; Σ_d a_d z^d = ∏_{i≥0}(1 + p^{−i}z)/(1 + p^{−i})` for every complex `z` (both sides converge absolutely); and the laws of `X_n` converge in total variation to the Poonen–Rains distribution.
+**Intersection law converges to poonen rains.** `Distributions.poonenRainsWeight_total` states summability and total mass one for the limiting weights. For every `d ≥ 0`, `a_{d,n} → a_d` as `n → ∞; Σ_{d≥0} a_d = 1; Σ_d a_d z^d = ∏_{i≥0}(1 + p^{−i}z)/(1 + p^{−i})` for every complex `z` (both sides converge absolutely); and the laws of `X_n` converge in total variation to the Poonen–Rains distribution.
 
 `p` prime
 
@@ -554,10 +556,11 @@ For the proof, Termwise limit: in the closed formula ([intersection dimension la
 
 - `Σ_d a_d = 1` for `p = 2` and `p = 3` numerically to 10 digits.
 - `a_{d,n} = 0` for `d > n`, while `a_d > 0`: the convergence is not uniform in `d` in ratio.
+- The finite zero-dimensional law has mass one at zero; the limiting law has positive mass at every dimension.
 
 <a id="poonen-rains-moments"></a>
 
-**Poonen rains moments.** For `m ≥ 0: E[p^{m X_n}] = ∏_{i=1}^{m} (p^{i} + 1)/(1 + p^{−(n−i)})` for `n ≥ m`, and `E[p^{m X_{Sel_p}}] = ∏_{i=1}^{m} (p^{i} + 1)`. In particular `E[p^{X_{Sel_p}}] = p + 1` and `E[p^{2X_{Sel_p}}] = (p + 1)(p² + 1)` (`= 15` for `p = 2`).
+**Poonen rains moments.** `Distributions.poonenRainsWeight_moments` states summability and the limiting moment identity. For `m ≥ 0: E[p^{m X_n}] = ∏_{i=1}^{m} (p^{i} + 1)/(1 + p^{−(n−i)})` for `n ≥ m`, and `E[p^{m X_{Sel_p}}] = ∏_{i=1}^{m} (p^{i} + 1)`. In particular `E[p^{X_{Sel_p}}] = p + 1` and `E[p^{2X_{Sel_p}}] = (p + 1)(p² + 1)` (`= 15` for `p = 2`).
 
 `p` prime `m ≥ 0`
 
@@ -571,10 +574,11 @@ For the proof, Substitute `z = p^m` in the generating function of [intersection 
 
 - `m = 1`, `p = 2: E[2^{X}] = 3`, the Bhargava–Shankar average of `#Sel_2`.
 - `m = 2`, `p = 2: 15`, the bound of Bhargava–Shankar–Swaminathan Theorem 1.1.
+- At `m=0` both the finite and limiting moments are one.
 
 <a id="poonen-rains-parity"></a>
 
-**Poonen rains parity.** `Prob(X_n even) = 1/2` for every `n > 0` and `Prob(X_{Sel_p} even) = 1/2`. Conditioning on either parity leaves the moments `E[p^{m X_{Sel_p}}]` unchanged, and the same holds for `E[p^{m X_n}]` when `m < n`.
+**Poonen rains parity.** `Distributions.poonenRainsWeight_parity` gives each parity-restricted sum. `Prob(X_n even) = 1/2` for every `n > 0` and `Prob(X_{Sel_p} even) = 1/2`. Conditioning on either parity leaves the moments `E[p^{m X_{Sel_p}}]` unchanged, and the same holds for `E[p^{m X_n}]` when `m < n`.
 
 `p` prime `n > 0`
 
@@ -587,6 +591,8 @@ For the proof, Substitute `z = −1` in the generating function ([intersection d
 **Checks.**
 
 - `Σ_{d even} a_d = Σ_{d odd} a_d = 1/2`.
+- At `n=0` the finite law is entirely even, so the positive-dimension hypothesis is necessary.
+- At `m=n` the finite parity-conditioned moments need not agree: for `n=m=1`, they are 1 and `p`.
 
 <a id="delaunay-sha-p-rank-law"></a>
 
@@ -619,7 +625,7 @@ For the proof, Define the weights by the convergent product (`mathlib:tprod`); t
 
 <a id="delaunay-compatibility-of-the-selmer-model"></a>
 
-**Delaunay compatibility of the selmer model.** For each prime `p`, the unique `ℤ_{≥0}`-valued random variable `R` such that `X_{Sel_p}` and `R + X_{Ш[p],R}` have the same distribution is the variable taking the values 0 and 1 with probability 1/2 each. (Here `X_{Ш[p],R}` is drawn from Delaunay's law with parameter `r = R.`)
+**Delaunay compatibility of the selmer model.** `Distributions.delaunay_compatibility` states the equivalence between the finite convolution identities and the half-rank prior. For each prime `p`, the unique `ℤ_{≥0}`-valued random variable `R` such that `X_{Sel_p}` and `R + X_{Ш[p],R}` have the same distribution is the variable taking the values 0 and 1 with probability 1/2 each. (Here `X_{Ш[p],R}` is drawn from Delaunay's law with parameter `r = R.`)
 
 `p` prime `R` is a nonnegative-integer-valued prior; conditionally on `R=r`, draw the Sha-dimension from the Delaunay law with that parameter. No unconditional independence of `R` and the resulting dimension is assumed.
 
@@ -632,12 +638,14 @@ For the proof, Existence: the identities `Prob(X_{Sel_p} = 2n) = (1/2)Prob(X_{Ш
 **Checks.**
 
 - `p = 2: a_0 = (1/2)Prob(X_{Ш[2],0} = 0) = (1/2)∏_{i≥1}(1 − 2^{1−2i}) ≈ 0.2097`.
+- An even-dimension mixture of ranks 0 and 2 cannot reproduce the positive odd Poonen–Rains masses.
+- With half-mass at ranks 0 and 1, dimension `2n` receives only the rank-zero contribution and dimension `2n+1` only the rank-one contribution.
 
 ### 5.6 Alternating matrices and symplectic cokernels
 
 <a id="count-of-nondegenerate-alternating-matrices"></a>
 
-**Count of nondegenerate alternating matrices.** Let `M_m(𝔽_p)^alt` be the set of alternating `m × m` matrices over `𝔽_p` (zero diagonal, `Aᵗ = −A`), of cardinality `p^{m(m−1)/2}`, and `GL_m(𝔽_p)^alt` its subset of invertible ones. If `m` is odd, `GL_m(𝔽_p)^alt = ∅`. If `m` is even, `#GL_m(𝔽_p)^alt / #M_m(𝔽_p)^alt = ∏_{i=1}^{m/2} (1 − p^{1−2i})`.
+**Count of nondegenerate alternating matrices.** `Distributions.alternating_nondegenerate_proportion` states the even-size proportion. Let `M_m(𝔽_p)^alt` be the set of alternating `m × m` matrices over `𝔽_p` (zero diagonal, `Aᵗ = −A`), of cardinality `p^{m(m−1)/2}`, and `GL_m(𝔽_p)^alt` its subset of invertible ones. If `m` is odd, `GL_m(𝔽_p)^alt = ∅`. If `m` is even, `#GL_m(𝔽_p)^alt / #M_m(𝔽_p)^alt = ∏_{i=1}^{m/2} (1 − p^{1−2i})`.
 
 `p` prime `m ≥ 0`
 
@@ -651,6 +659,7 @@ For the proof, `#M_m(𝔽_p)^alt = p^{m(m−1)/2}`: an alternating matrix is det
 
 - `m = 2`: the invertible alternating `2 × 2` matrices are `[[0, a], [−a, 0]]` with `a ≠ 0`: ratio `(p − 1)/p = 1 − p^{−1}`.
 - `p = 2`, `m = 4: 28` of the 64 alternating matrices are invertible, and `(1 − 2^{−1})(1 − 2^{−3}) = 7/16 = 28/64`.
+- At `m=0` the empty matrix is invertible and the proportion is one.
 
 <a id="alternating-matrix-kernel-law"></a>
 
@@ -705,7 +714,7 @@ For the proof, Count by kernels: for each `j`-dimensional subspace `K ⊆ 𝔽_p
 
 <a id="alternating-kernel-law-limit-is-poonen-rains"></a>
 
-**Alternating kernel law limit is poonen rains.** For every `j ≥ 0: lim_{n→∞, n ≡ j (mod 2)} P_p(j | n) = 2 a_j`, where `a_j = c_p ∏_{i=1}^{j} p/(p^{i} − 1)` is the Poonen–Rains weight. Consequently `P_p(j | ∞) = a_j`, and for `p = 2` Smith's starting law `P^Alt(j | ∞)` is the Poonen–Rains distribution `X_{Sel_2}`; the laws `(1/2)(P_p(· | 2n) + P_p(· | 2n+1))` converge to it in total variation.
+**Alternating kernel law limit is poonen rains.** `Distributions.alternatingKernelLimit_eq_poonenRains` states the parity-averaged convergence. For every `j ≥ 0: lim_{n→∞, n ≡ j (mod 2)} P_p(j | n) = 2 a_j`, where `a_j = c_p ∏_{i=1}^{j} p/(p^{i} − 1)` is the Poonen–Rains weight. Consequently `P_p(j | ∞) = a_j`, and for `p = 2` Smith's starting law `P^Alt(j | ∞)` is the Poonen–Rains distribution `X_{Sel_2}`; the laws `(1/2)(P_p(· | 2n) + P_p(· | 2n+1))` converge to it in total variation.
 
 `p` prime
 
@@ -719,6 +728,7 @@ For the proof, From [alternating kernel law formula](#alternating-kernel-law-for
 
 - `j = 0`, `p = 2`: `lim_{n even} P_2(0 | n) = ∏_{k≥1}(1 − 2^{1−2k}) ≈ 0.4194 = 2 a_0`.
 - Smith I, Figure 1.1: the Markov chain starts at an even state with probability 1/2 and an odd state with probability 1/2.
+- Along odd matrix sizes the nullity-zero mass is zero; the two size parities cannot be replaced by a single subsequence.
 
 <a id="symplectic-finite-abelian-p-groups"></a>
 
@@ -1782,7 +1792,7 @@ For the proof, Choose an exhaustion of the countable discrete dual `W*` and its 
 **Checks.**
 
 - A finite hyperbolic plane has only intersection dimensions zero and one; do not assign its law the positive tail of the infinite-dimensional distribution.
-- On `V=(ℤ/2)²`, `q(x,y)=(x²−y²)/4 mod ℤ` has nondegenerate polar matrix `diag(1/2,1/2)`, but its only maximal quadratic-isotropic subgroup is the diagonal. Its intersection dimension is always one. It fails `2q=0`, although `2V=0`; the half-zero/half-one law does not apply.
+- `Distributions.dyadic_quadratic_value_boundary` supplies the quadratic map `q(x,y)=(x²−y²)/4 mod ℤ` on `V=(ℤ/2)²`, its diagonal zero locus and a value not killed by two. It has nondegenerate polar matrix `diag(1/2,1/2)`, but its only maximal quadratic-isotropic subgroup is the diagonal. Its intersection dimension is always one. It fails `2q=0`, although `2V=0`; the half-zero/half-one law does not apply.
 - For `V=0`, intersection dimension is identically zero, with no half-parity conclusion.
 
 <a id="refinement-lc-restricted-product"></a>
@@ -2519,17 +2529,15 @@ The symmetric two-by-two matrices over `𝔽₃` have rank counts `1,8,18`, tota
 
 For a prime law with half even and half odd mass, the `k`-prime common-parity weight is `2^(k-1)∏w_i` for `k≥1`. At `k=0` the carrier is a singleton of mass one; substituting `k=0` into the scalar factor would incorrectly give one half. A symplectic rank-zero all-prime model is infinite almost surely, whereas restricting to primes with convergent `Σ1/p` yields a finite group almost surely.
 
-The finite Lean controls use `binaryHyperbolic=QuadraticMap.proj 0 1`, `binaryAnisotropic=QuadraticMap.proj 0 0+QuadraticMap.proj 0 1+QuadraticMap.proj 1 1`, and `quaternaryHyperbolic=QuadraticMap.proj 0 1+QuadraticMap.proj 2 3` on the indicated `ZMod 2` coordinate spaces. They test the diagonal's polar self-orthogonality and nonzero quadratic value, the absence of nonzero isotropic vectors for the anisotropic binary form, the six quadratic-isotropic planes in dimension four, the alternating matrix count 28 in size four, and half-probability nullities zero and two in size two. A `QuadraticMap ℤ` witness with values `(x²−y²)/4 mod ℤ` records the additional dyadic value-group boundary.
+The light quadratic definitions in `Suggested.lean` are `binaryHyperbolic=QuadraticMap.proj 0 1`, `binaryAnisotropic=QuadraticMap.proj 0 0+QuadraticMap.proj 0 1+QuadraticMap.proj 1 1`, and `quaternaryHyperbolic=QuadraticMap.proj 0 1+QuadraticMap.proj 2 3` on the indicated `ZMod 2` coordinate spaces. They give the split plane, anisotropic plane and split four-dimensional space in the Checks of §5.4. The characteristic-two value-group boundary is the named target `Distributions.dyadic_quadratic_value_boundary` in §5.26.
 
 **Checks.**
 
-- `quaternaryHyperbolic (1,1,0,0)=1`, fixing the first coordinate pairing.
-- `quaternaryHyperbolic (0,0,1,1)=1`, fixing the second coordinate pairing.
-- `quaternaryHyperbolic (1,0,1,0)=0`, separating coordinates in different pairs.
+- The diagonal in `binaryHyperbolic` equals its polar orthogonal but contains a vector of nonzero quadratic value.
+- Every nonzero vector of `binaryAnisotropic` has nonzero quadratic value, so polar isotropy cannot replace quadratic isotropy.
+- `quaternaryHyperbolic` has six maximal quadratic-isotropic planes, as counted by `Distributions.card_maxIsotropicSubspaces`.
 
-The Lean controls also count the two quadratic-isotropic lines of `binaryHyperbolic`, 35 alternating size-four matrices over `𝔽₂` of nullity two, seven alternating size-three matrices of nullity one, and 294 unrestricted size-three matrices of nullity one. They mirror the symmetric `𝔽₃` rank counts `1,8,18`, the four finite `1−F²` counts in §5.3, and the injection counts 2 and 0 for `ℤ/4` into `ℤ/4` and `(ℤ/2)²` in §5.31.
-
-The locally compact quadratic data carry an actual continuous quadratic map and its polar topological self-duality. The Lean controls test surjectivity of that self-duality, injectivity, and the fact that zero quadratic form forces a trivial carrier. For the parity-coupled law the empty prime set has weight one, one prime has its original weight, two equal even dimensions have weight `2 w₀(0)w₁(0)`, and dimensions zero and one have weight zero. The normalization theorem assumes summability and exactly half-mass in each parity.
+The locally compact quadratic data carry a continuous quadratic map and a polar topological self-duality. For the parity-coupled law the empty prime set has weight one and mixed-parity rank vectors have weight zero. The normalization theorem assumes summability and exactly half-mass in each parity.
 
 ### Dependencies
 
