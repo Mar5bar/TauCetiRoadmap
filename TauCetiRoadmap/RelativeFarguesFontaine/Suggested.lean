@@ -129,10 +129,10 @@ section Twist
 
 variable {K : Type u} [Field K]
 
-/-- The descent multiplier is π^(-n), not π^n. -/
+/-- The descent multiplier is `π^(−n)`, not `π^n`. -/
 def twistMultiplier (π : Kˣ) (n : ℤ) : K := (π : K) ^ (-n)
 
-/-- Scalar eigenvector condition for sections of O(n). -/
+/-- Scalar eigenvector condition for sections of `O(n)`. -/
 def IsTwistSection (φ : K →+* K) (π : Kˣ) (n : ℤ) (x : K) : Prop :=
   φ x = (π : K) ^ n * x
 
