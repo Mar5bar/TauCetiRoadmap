@@ -1,4 +1,5 @@
 import Mathlib
+import Mathlib.RingTheory.TensorProduct.Basic
 import TauCeti.Algebra.Lie.HighestWeight.CentralCharacter.DotOrbit
 import TauCeti.LinearAlgebra.SymmetricAlgebra.AdjointAction
 import TauCeti.LinearAlgebra.SymmetricAlgebra.Homogeneous
@@ -12,6 +13,8 @@ import TauCeti.Algebra.Lie.Sl2.Weyl.Automorphism
 import TauCeti.Algebra.Lie.GeneralLinear.Radical
 import TauCeti.Algebra.Lie.Presentation.Serre.Killing
 import TauCeti.Algebra.Lie.Derivation.Basic
+import TauCeti.Algebra.Octonion.Basic
+import TauCeti.Algebra.Octonion.Derivation
 import TauCeti.LinearAlgebra.SymmetricAlgebra.Functoriality
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Basis
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Functoriality
@@ -1796,6 +1799,268 @@ theorem finrank_e6_e7 :
       Module.finrank K (LieAlgebra.e₇ (R := K)) = 133 := sorry
 
 end Exceptional
+
+/-! ## Compact division-octonion input for late compact `G₂`
+
+This is a new concrete carrier, distinct from the split Zorn algebra `Octonion ℝ` above.
+The generic pair carrier uses the native `WithLp 2` coordinate transport, so the additive,
+module, and Euclidean norm structures all come from the ordered pair model. -/
+/-- A distinct ordered-pair Cayley--Dickson carrier. It is a wrapper, not an abbreviation
+of the associative product on `Quaternion ℝ × Quaternion ℝ`; its only underlying comparison is
+the Euclidean `WithLp 2` pair equivalence below. -/
+structure _root_.TauCeti.CayleyDickson (A : Type*) [NormedAddCommGroup A]
+    [NormedSpace ℝ A] where
+  fst : A
+  snd : A
+
+abbrev _root_.TauCeti.DivisionOctonionReal :=
+  _root_.TauCeti.CayleyDickson (Quaternion ℝ)
+
+namespace CompactDivisionOctonion
+
+/-- Local name for the concrete root-namespace Cayley carrier, not an autoimplicit type. -/
+abbrev DivisionOctonionReal := _root_.TauCeti.DivisionOctonionReal
+
+open scoped TensorProduct
+
+/-- The explicit coordinate bijection to the Euclidean pair model. -/
+def euclideanEquiv : DivisionOctonionReal ≃ WithLp 2 (Quaternion ℝ × Quaternion ℝ) where
+  toFun x := WithLp.toLp 2 (x.fst, x.snd)
+  invFun x := ⟨(WithLp.ofLp x).1, (WithLp.ofLp x).2⟩
+  left_inv x := by cases x; rfl
+  right_inv x := rfl
+
+/-- The Euclidean normed additive group is transported from precisely the pair model. -/
+noncomputable instance : NormedAddCommGroup DivisionOctonionReal :=
+  euclideanEquiv.normedAddCommGroup
+
+def euclideanAddEquiv : DivisionOctonionReal ≃+
+    WithLp 2 (Quaternion ℝ × Quaternion ℝ) := euclideanEquiv.addEquiv
+
+/-- Real scalar multiplication is the additive-equivalence transport, and the normed-space
+instance is induced from the same coordinate equivalence. -/
+noncomputable instance : Module ℝ DivisionOctonionReal := euclideanAddEquiv.module ℝ
+noncomputable instance : NormedSpace ℝ DivisionOctonionReal :=
+  euclideanAddEquiv.normedSpace ℝ
+
+noncomputable def euclideanLinearEquiv : DivisionOctonionReal ≃ₗ[ℝ]
+    WithLp 2 (Quaternion ℝ × Quaternion ℝ) := euclideanAddEquiv.linearEquiv ℝ
+
+noncomputable instance : FiniteDimensional ℝ DivisionOctonionReal :=
+  FiniteDimensional.of_injective euclideanLinearEquiv.toLinearMap
+    euclideanLinearEquiv.injective
+
+/-- The linear coordinates used by every operation below. -/
+noncomputable def pairCoordinates : DivisionOctonionReal ≃ₗ[ℝ]
+    (Quaternion ℝ × Quaternion ℝ) :=
+  euclideanLinearEquiv.trans (WithLp.linearEquiv 2 ℝ (Quaternion ℝ × Quaternion ℝ))
+
+/-- The pinned Cayley-Dickson multiplication on the distinct pair carrier. -/
+noncomputable def mulPair (x y : DivisionOctonionReal) : DivisionOctonionReal :=
+  ⟨x.fst * y.fst - Star.star y.snd * x.snd,
+   y.snd * x.fst + x.snd * Star.star y.fst⟩
+
+/-- One explicit nonassociative-ring structure. Its additive parent is exactly the transferred
+Euclidean `AddCommGroup`, and its unit, multiplication and casts are the displayed coordinate
+operations; only their algebraic law proofs are admitted. -/
+noncomputable instance : NonAssocRing DivisionOctonionReal where
+  __ := (inferInstance : AddCommGroup DivisionOctonionReal)
+  one := ⟨1, 0⟩
+  mul := mulPair
+  natCast n := ⟨(n : Quaternion ℝ), 0⟩
+  intCast n := ⟨(n : Quaternion ℝ), 0⟩
+  natCast_zero := by sorry
+  natCast_succ := by sorry
+  intCast_ofNat := by sorry
+  intCast_negSucc := by sorry
+  left_distrib := by sorry
+  right_distrib := by sorry
+  zero_mul := by sorry
+  mul_zero := by sorry
+  one_mul := by sorry
+  mul_one := by sorry
+
+/-- The two compatibility laws which make the actual Cayley product real-bilinear for the
+native derivation and tensor-product APIs. -/
+noncomputable instance : SMulCommClass ℝ DivisionOctonionReal DivisionOctonionReal where
+  smul_comm := by sorry
+noncomputable instance : IsScalarTower ℝ DivisionOctonionReal DivisionOctonionReal where
+  smul_assoc := by sorry
+
+/-- Cayley conjugation is the intended positive-real involution. It is installed as the actual
+`Star` operation; it is not an automatically inherited pointwise star on the coordinate pair. -/
+noncomputable def positiveConjugation (x : DivisionOctonionReal) : DivisionOctonionReal :=
+  ⟨Star.star x.fst, -x.snd⟩
+noncomputable instance : Star DivisionOctonionReal := ⟨positiveConjugation⟩
+
+/-- Ordered pair coordinates are genuinely the displayed ℍ×ℍ coordinates. -/
+theorem pairCoordinates_fst_snd (x : DivisionOctonionReal) :
+    pairCoordinates x = (x.fst, x.snd) := rfl
+
+theorem pairCoordinates_add (x y : DivisionOctonionReal) :
+    pairCoordinates (x + y) = pairCoordinates x + pairCoordinates y := rfl
+
+theorem pairCoordinates_smul (r : ℝ) (x : DivisionOctonionReal) :
+    pairCoordinates (r • x) = r • pairCoordinates x := rfl
+
+theorem pairCoordinates_one : pairCoordinates (1 : DivisionOctonionReal) = (1, 0) := rfl
+
+theorem pairCoordinates_mul (x y : DivisionOctonionReal) :
+    pairCoordinates (x * y) =
+      ((pairCoordinates x).1 * (pairCoordinates y).1 -
+          Star.star (pairCoordinates y).2 * (pairCoordinates x).2,
+       (pairCoordinates y).2 * (pairCoordinates x).1 +
+          (pairCoordinates x).2 * Star.star (pairCoordinates y).1) := rfl
+
+theorem pairCoordinates_conjugation (x : DivisionOctonionReal) :
+    pairCoordinates (Star.star x) =
+      (Star.star (pairCoordinates x).1, -(pairCoordinates x).2) := rfl
+
+/-- Quaternion-doubling conjugation and the explicitly installed positive `Star.star`. -/
+noncomputable def star (x : DivisionOctonionReal) : DivisionOctonionReal := Star.star x
+
+/-- Scalar trace, with the convention `T(x)=x+x̄`. -/
+noncomputable def trace : DivisionOctonionReal →ₗ[ℝ] ℝ :=
+  (2 : ℝ) • ((QuaternionAlgebra.reₗ (-1 : ℝ) 0 (-1)).comp
+    ((LinearMap.fst ℝ (Quaternion ℝ) (Quaternion ℝ)).comp pairCoordinates.toLinearMap))
+
+/-- Positive composition norm square on the actual real carrier. -/
+noncomputable def normSq (x : DivisionOctonionReal) : ℝ :=
+  Quaternion.normSq x.fst + Quaternion.normSq x.snd
+
+theorem normSq_eq_norm_sq (x : DivisionOctonionReal) : normSq x = ‖x‖ ^ 2 := sorry
+
+theorem trace_star (x : DivisionOctonionReal) :
+    x + Star.star x = trace x • (1 : DivisionOctonionReal) := sorry
+theorem normSq_pos {x : DivisionOctonionReal} (hx : x ≠ 0) : 0 < normSq x := sorry
+theorem normSq_mul (x y : DivisionOctonionReal) : normSq (x * y) = normSq x * normSq y := sorry
+theorem left_alternative (x y : DivisionOctonionReal) : x * x * y = x * (x * y) := sorry
+theorem right_alternative (x y : DivisionOctonionReal) : y * x * x = (y * x) * x := sorry
+theorem flexible (x y : DivisionOctonionReal) : x * (y * x) = (x * y) * x := sorry
+theorem moufang_left (x y z : DivisionOctonionReal) : x * (y * (x * z)) = ((x * y) * x) * z := sorry
+theorem moufang_middle (x y z : DivisionOctonionReal) : (x * y) * (z * x) = x * ((y * z) * x) := sorry
+theorem star_involutive (x : DivisionOctonionReal) : Star.star (Star.star x) = x := sorry
+theorem star_mul (x y : DivisionOctonionReal) : Star.star (x * y) = Star.star y * Star.star x := sorry
+theorem mul_star (x : DivisionOctonionReal) : x * Star.star x = normSq x • (1 : DivisionOctonionReal) := sorry
+theorem star_mul_cancel (x : DivisionOctonionReal) (hx : x ≠ 0) :
+    ((normSq x)⁻¹ • Star.star x) * x = 1 := sorry
+
+theorem derivation_apply_one (D : TauCeti.derivationLieAlgebra ℝ DivisionOctonionReal) :
+    (D : Module.End ℝ DivisionOctonionReal) 1 = 0 := sorry
+
+/-- Candidate subspaces closed under the actual Cayley product and conjugation, containing the
+unit and both generators. Their intersection is the concrete algebra generated by `a,b`. -/
+def generatedSubspaceFamily (a b : DivisionOctonionReal) : Set (Submodule ℝ DivisionOctonionReal) :=
+  {S | (1 : DivisionOctonionReal) ∈ S ∧ a ∈ S ∧ b ∈ S ∧
+    (∀ x ∈ S, ∀ y ∈ S, x * y ∈ S) ∧ (∀ x ∈ S, Star.star x ∈ S)}
+
+noncomputable def twoGeneratedSubalgebra (a b : DivisionOctonionReal) :
+    Submodule ℝ DivisionOctonionReal := sInf (generatedSubspaceFamily a b)
+
+theorem twoGeneratedSubalgebra_associative (a b : DivisionOctonionReal)
+    {x y z : DivisionOctonionReal}
+    (hx : x ∈ twoGeneratedSubalgebra a b)
+    (hy : y ∈ twoGeneratedSubalgebra a b)
+    (hz : z ∈ twoGeneratedSubalgebra a b) :
+    (x * y) * z = x * (y * z) := sorry
+
+/-- A smaller coordinate lemma, separate from the full generated-subalgebra Artin target. -/
+theorem span_three_vectors_associative (a b : DivisionOctonionReal)
+    {x y z : DivisionOctonionReal}
+    (hx : x ∈ Submodule.span ℝ ({1, a, b} : Set DivisionOctonionReal))
+    (hy : y ∈ Submodule.span ℝ ({1, a, b} : Set DivisionOctonionReal))
+    (hz : z ∈ Submodule.span ℝ ({1, a, b} : Set DivisionOctonionReal)) :
+    (x * y) * z = x * (y * z) := sorry
+
+theorem smooth_mul : ContDiff ℝ ⊤ (fun p : DivisionOctonionReal × DivisionOctonionReal => p.1 * p.2) := sorry
+theorem smooth_star : ContDiff ℝ ⊤ (fun x : DivisionOctonionReal => Star.star x) := sorry
+theorem smooth_inverse_on_nonzero :
+    ContDiffOn ℝ ⊤ (fun x : DivisionOctonionReal => (normSq x)⁻¹ • Star.star x)
+      {x | x ≠ 0} := sorry
+
+/-- The trace-zero imaginary subspace. -/
+noncomputable def imaginary : Submodule ℝ DivisionOctonionReal := trace.ker
+
+/-- The induced inner product on imaginary octonions. This definition retains both arguments. -/
+noncomputable def inner (v w : imaginary) : ℝ :=
+  -((pairCoordinates (v.1 * w.1)).1.re)
+
+/-- The seven-dimensional cross product, defined by the commutator. The trace-zero proof is
+separate, but the value itself depends on both input vectors. -/
+noncomputable def cross (v w : imaginary) : imaginary :=
+  ⟨(1 / 2 : ℝ) • (v.1 * w.1 - w.1 * v.1), by sorry⟩
+
+/-- The imaginary part of the algebra associator `(uv)w-u(vw)`. -/
+noncomputable def associator (u v w : imaginary) : imaginary :=
+  ⟨(u.1 * v.1) * w.1 - u.1 * (v.1 * w.1), by sorry⟩
+
+theorem finrank_imaginary : Module.finrank ℝ imaginary = 7 := sorry
+theorem imaginary_product (v w : imaginary) :
+    v.1 * w.1 = -(inner v w) • (1 : DivisionOctonionReal) + (cross v w).1 := sorry
+/-- The valid repeated-variable cross identity in dimension seven. The unrestricted three-vector
+identity is the associator formula below, not the three-dimensional vector triple product. -/
+theorem cross_repeated (u v : imaginary) :
+    cross u (cross u v) = inner u v • u - inner u u • v := sorry
+/-- The sign convention is `associator u v w = (uv)w-u(vw)`. -/
+theorem cross_associator_identity (u v w : imaginary) :
+    cross (cross u v) w - cross u (cross v w) =
+      associator u v w + inner u v • w - inner v w • u := sorry
+
+/-- The complex-linear extension of the positive real conjugation. Its scalar coefficients are
+fixed: on a pure tensor it sends `z ⊗ x` to `z ⊗ Star.star x`. This differs from the default
+`Star.star` on a tensor product, which conjugates the complex scalar. -/
+noncomputable def complexifiedConjugation :
+    ℂ ⊗[ℝ] DivisionOctonionReal →ₗ[ℂ] ℂ ⊗[ℝ] DivisionOctonionReal := sorry
+
+theorem complexifiedConjugation_tmul (z : ℂ) (x : DivisionOctonionReal) :
+    complexifiedConjugation (z ⊗ₜ[ℝ] x) = z ⊗ₜ[ℝ] Star.star x := sorry
+
+/-- Complex-linear extension of the real Cayley product to the native tensor-product carrier.
+`Mathlib.RingTheory.TensorProduct.Basic` supplies its multiplication and `1 = 1 ⊗ₜ 1`; do not
+replace those instances by arbitrary binders. -/
+noncomputable def complexificationMap : ℂ ⊗[ℝ] DivisionOctonionReal →ₗ[ℂ]
+    TauCeti.Octonion ℂ := sorry
+
+theorem tensor_tmul_mul (z : ℂ) (x y : DivisionOctonionReal) :
+    (z ⊗ₜ[ℝ] x) * ((1 : ℂ) ⊗ₜ[ℝ] y) = z ⊗ₜ[ℝ] (x * y) := by
+  simp [Algebra.TensorProduct.tmul_mul_tmul]
+
+theorem complexificationMap_one : complexificationMap (1 : ℂ ⊗[ℝ] DivisionOctonionReal) = 1 := sorry
+theorem complexificationMap_mul
+    (x y : ℂ ⊗[ℝ] DivisionOctonionReal) :
+    complexificationMap (x * y) = complexificationMap x * complexificationMap y := sorry
+
+theorem complexificationMap_bijective : Function.Bijective complexificationMap := sorry
+
+/-- Apply the native multiplicative-linear-equivalence congruence to the preceding actual
+complexified product map. -/
+noncomputable def splitDerivationTransport :
+    TauCeti.derivationLieAlgebra ℂ (ℂ ⊗[ℝ] DivisionOctonionReal) ≃ₗ⁅ℂ⁆
+      TauCeti.derivationLieAlgebra ℂ (TauCeti.Octonion ℂ) :=
+  TauCeti.derivationLieAlgebraCongr
+    (LinearEquiv.ofBijective complexificationMap complexificationMap_bijective)
+    complexificationMap_mul
+
+/-- The actual complexified derivation Lie algebra is transported by the native
+multiplicative-linear-equivalence congruence, after proving the Leibniz-kernel base-change map. -/
+theorem complexified_derivations_equiv_split :
+    Nonempty ((ℂ ⊗[ℝ] TauCeti.derivationLieAlgebra ℝ DivisionOctonionReal) ≃ₗ⁅ℂ⁆
+      TauCeti.derivationLieAlgebra ℂ (TauCeti.Octonion ℂ)) := sorry
+
+/-- Native Leibniz derivations of the constructed nonassociative algebra. -/
+noncomputable abbrev derivations := TauCeti.derivationLieAlgebra ℝ DivisionOctonionReal
+
+/-- Exponentiating any native derivation gives a smooth multiplicative curve by uniqueness
+for the linear ODE in the associative endomorphism algebra. -/
+theorem derivation_integrates_to_aut_curve (D : derivations) :
+    ∃ c : ℝ → (DivisionOctonionReal →L[ℝ] DivisionOctonionReal),
+      ContDiff ℝ ⊤ c ∧ c 0 = 1 ∧
+      (∀ t, Function.Bijective (c t)) ∧
+      (∀ t x y, c t (x * y) = c t x * c t y) ∧ (∀ t, c t 1 = 1) ∧
+      HasDerivAt c
+        (LinearMap.toContinuousLinearMap (D : Module.End ℝ DivisionOctonionReal)) 0 := sorry
+
+end CompactDivisionOctonion
 
 /-! ## Layer 9: reductive Lie algebras and `gl_n`
 

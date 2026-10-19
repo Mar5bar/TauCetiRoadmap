@@ -1030,26 +1030,79 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   independent of Layers 0–7's representation/classification results and of projective
   geometry. Follow the proposed global `CayleyDickson A` and
   `_root_.Octonion R := CayleyDickson (Quaternion R)` design of [Mathlib PR41919](https://github.com/leanprover-community/mathlib4/pull/41919).
-  Build the unavailable doubling APIs in Tau Ceti as `TauCeti.CayleyDickson`
-  and name the real division carrier
+  Build the unavailable doubling APIs in Tau Ceti as a distinct ordered-pair structure
+  `TauCeti.CayleyDickson A` with fields `(fst,snd) : A×A`, and name the real division carrier
   `TauCeti.DivisionOctonionReal := TauCeti.CayleyDickson (Quaternion ℝ)`.
+  Transport its normed additive group through the explicit equivalence to
+  `WithLp 2 (A×A)`, and its module and normed-space structures through the induced additive
+  equivalence. Do not abbreviate the type to a pair carrier or inherit a pointwise pair `Star`.
   Give its ordered pair-coordinate comparison and retain the proposed global
   `_root_.Octonion ℝ` naming/coordinate convention as an interoperability target. Preserve the distinct split `TauCeti.Octonion` name. For the
   division real form use pairs `(a,b) : ℍ × ℍ`, multiplication
-  `(a,b)(c,d)=(ac−star(d)b, da+b star(c))`, conjugation `(star(a),−b)` and
-  `N(a,b)=‖a‖²+‖b‖²`. Define its scalar trace T(a,b)=2*re(a),
-  and prove x+star(x)=T(x)*1, with linearity and T(1)=2.
+  `(a,b)(c,d)=(ac−Star.star(d)b, da+b Star.star(c))`, positive conjugation
+  `Star.star(a,b)=(Star.star(a),−b)` and `N(a,b)=‖a‖²+‖b‖²`. Define its scalar trace T(a,b)=2*re(a),
+  and prove `x+Star.star x=T(x)•1`, with linearity and T(1)=2.
   Give component/extensionality and linear-coordinate APIs,
   conjugation and real scalars, the alternative/flexible/Moufang identities, multiplicative
-  positive-definite quadratic norm, its polarization and `‖x‖²=N(x)`, nonzero inverse `star(x)/N(x)`
+  positive-definite quadratic norm, its polarization and `‖x‖²=N(x)`, nonzero inverse `Star.star(x)/N(x)`
   and both inverse/cancellation laws. Prove that each two-generated subalgebra is
   associative, including its closure under conjugation, and give the smooth real
   multiplication/conjugation/inverse-on-nonzero maps under the ordered eight-coordinate
-  Euclidean model. Give `NonAssocRing`, `Module ℝ`, `SMulCommClass ℝ A A`
-  and `IsScalarTower ℝ A A` on this carrier A, together with its normed real
-  vector-space structure; associativity, `DivisionRing` and `NormedRing`
-  instances are not asserted.
+  Euclidean model. Give one explicit `NonAssocRing` record: reuse exactly the
+  transferred `AddCommGroup` parent and fix its unit, multiplication and casts to the
+  displayed coordinate operations; only the true algebra-law proofs are admitted.
+  Install this positive conjugation as the actual `Star` operation on the distinct pair-record
+  carrier; do not use an independently inferred pointwise `Star` on `ℍ × ℍ`. Prove the real
+  scalar `SMulCommClass` and `IsScalarTower` laws for this multiplication, together
+  with the normed real vector-space structure. Associativity, `DivisionRing` and
+  `NormedRing` instances are not asserted.
   The existing `TauCeti.Octonion ℝ` Zorn algebra is **split** and is not this carrier.
+
+**The positive division-octonion algebra and its invariant tensors.** This is a concrete
+real-form construction, independent of the split `TauCeti.Octonion ℝ` carrier and of the
+split Serre comparison above. On the ordered carrier `ℍ × ℍ`, use
+`(a,b)(c,d)=(ac−Star.star(d)b, da+b Star.star(c))`,
+`Star.star (a,b)=(Star.star(a),−b)` for the installed positive real `Star` (not a default
+pointwise pair `Star`),
+`N(a,b)=‖a‖²+‖b‖²`, and `T(a,b)=2 Re(a)`. Pin this exact coordinate order by a
+real-linear product-preserving comparison with the chosen Cayley–Dickson convention.
+The cross terms in the norm expansion cancel by cyclicity of the quaternion real trace;
+the four-square norm on each quaternion factor proves positivity. Prove the alternative,
+flexible and Moufang laws, two-generated associativity, conjugation closure, inverse and
+cancellation laws on this particular double. No associative `Ring`, `DivisionRing`,
+`NormedRing`, or associative `AlgEquiv` instance is asserted. Export the real bilinear
+unit/product, trace, norm, polarization, smooth coordinate maps, and the actual
+`TauCeti.derivationLieAlgebra ℝ A` carrier; do not replace it with a private derivation type.
+
+Put `Im(A)=ker T` and `g(v,w)=−Re(vw)` there. Define
+`v×w=(vw−wv)/2`, `φ(v,w,z)=g(v×w,z)`, and prove
+`vw=−g(v,w)1+v×w`, positive definiteness, the norm identities, and
+`u×(u×v)=g(u,v)u−g(u,u)v`, with `dim Im(A)=7`. In dimension seven, do not assert the
+three-dimensional vector triple-product formula for three unrelated vectors. Define
+`associator(u,v,w)=(uv)w−u(vw)` and prove the full trilinear identity with this exact
+sign convention
+`(u×v)×w−u×(v×w)=associator(u,v,w)+g(u,v)w−g(v,w)u`. The finite Cayley-frame table is an explicit comparison input, not a
+claim deduced from dimension. For a derivation D, use the actual positive `Star.star` operation in the conjugation and involution API. First prove D(1)=0 and prove
+`exp(tD)` preserves multiplication by uniqueness for the linear ODE in the associative
+endomorphism algebra. Only after this integration may norm preservation be differentiated. This order supplies
+both inclusions between the native derivation Lie algebra and the infinitesimal automorphisms
+without presupposing norm preservation for an arbitrary Leibniz map. A trace shortcut would
+need an additional trace-to-norm argument: taking traces in `[D,L_x]=L_(Dx)` gives
+`tr(L_(Dx))=0`, not `tr(D L_x)=0`.
+
+**Complex scalar-extension boundary.** Compare this real algebra with the split
+Zorn carrier only after explicit scalar extension to ℂ, through a complex-linear,
+unital, product-preserving equivalence on the same multiplication convention. Transport
+conjugation complex-linearly (it is not complex conjugation) and transport derivations by
+the actual `TauCeti.derivationLieAlgebraCongr` interface. Prove the finite-dimensional
+Leibniz-kernel base-change statement needed for the derivation comparison. The existing
+split Serre map is only known as a surjection in its stated source; prove the required
+isomorphism independently. Complexification does not identify the two real forms.
+
+This algebra sublane is a prerequisite of the late compact `G₂` application in
+LieGroups Layer 7, not a conclusion of it. In particular, the positive norm and cross
+product are constructed before any compact group, root system, or representation
+classification is used.
 - **The formally real Albert supplier.** On the division octonions just specified,
   construct `compactAlbertAlgebra` with scalar diagonal `Fin 3 → ℝ` and cyclic
   off-diagonal `Fin 3 → TauCeti.DivisionOctonionReal` in the same Hermitian positions as native
@@ -1081,7 +1134,10 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   complexification/type identification follows this algebraic sublane and
   Layer7's split-F4 theorem. Construct the real tensor products
   `ℂ ⊗[ℝ] TauCeti.DivisionOctonionReal` and
-  `ℂ ⊗[ℝ] compactAlbertAlgebra`. Consume native
+  `ℂ ⊗[ℝ] compactAlbertAlgebra`. The complex-linear extension of positive real
+  conjugation sends `z⊗x` to `z⊗Star.star x`, fixing the complex coefficient;
+  this is distinct from tensor `Star.star`, which conjugates the coefficient.
+  Consume native
   `Algebra.TensorProduct.instNonAssocRing` and
   `instNonUnitalNonAssocSemiring`, `tmul_mul_tmul`,
   `isScalarTower_right` and `sMulCommClass_right` for their existing
@@ -1092,8 +1148,7 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   `((trace A)³−3*trace(A)*trace(A²)+2*trace(A³))/6` on the native
   tensor-product Jordan algebra. Prove its scalar-extension and polarized
   comparisons; no undeclared cubic-form base-change API is presumed.
-  Extend octonion conjugation complex-linearly; this is
-  not scalar complex conjugation. Construct
+  Extend octonion conjugation complex-linearly on `ℂ ⊗[ℝ] A`: on a pure tensor the map is `z ⊗ x ↦ z ⊗ Star.star x`, so it fixes the complex coefficient. This is not the default tensor-product `Star.star`, which conjugates that coefficient, and it is not scalar complex conjugation. Construct
   `divisionOctonionComplexificationIso` and
   `compactAlbertComplexificationIso` as complex-linear, unital,
   product-preserving equivalences to native `TauCeti.Octonion ℂ` and
@@ -1564,3 +1619,8 @@ Layer 10 consumes the Layer 1–2 integral-lattice carrier and comparison, plus 
   (2007), Ch. 1-2, `gl_n` highest weight modules with arbitrary entries and integral differences,
   and the Gelfand-Tsetlin bases; the source for the "entries in `K`, differences in `ℕ`"
   formulation of `gl_n` dominance.
+
+
+**Prototype carrier and chart boundary.** The LHW prototype uses a distinct pair-record carrier whose Euclidean normed additive group is transported through `euclideanEquiv` from `WithLp 2 (Quaternion ℝ × Quaternion ℝ)`. Its real module and normed-space structures are transported through the same additive equivalence. Its single `NonAssocRing` record reuses that exact additive parent and fixes the coordinate unit, multiplication and casts; only the law fields are admitted. The positive real conjugation is installed as `Star.star`. The tensor `ℂ ⊗[ℝ] A` retains the native tensor multiplication, and the positive conjugation extension fixes complex coefficients, unlike tensor `Star.star`.
+
+The LG prototype imports the actual `TauCeti.Algebra.Octonion.Basic`, `TauCeti.Algebra.Octonion.Derivation`, and `TauCeti.Algebra.Lie.Derivation.Basic` modules. Its product-automorphism closedness and faithfulness statements carry the real scalar compatibility instances required to interpret the displayed bilinear product equations. Every helper converting a linear automorphism to a bounded operator binds finite dimensionality. Ambient forward/inverse chart domains contain the exact orbit/product coordinate values, and smoothness is all-orders `ContDiffOn` on those open ambient domains. The split-complexification comparison is an explicit generic datum over `PositivePairCoordinates A`, with actual unit, product, trace and conjugation maps to the native split carrier; it does not refer to an unimported lower-owner namespace.
