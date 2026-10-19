@@ -632,9 +632,9 @@ quotient-system forms of SchemeAndStackFoundations' formal functions and Grothen
 §4.10) on schemes proper over
 an adic noetherian ring, algebras topologically of finite presentation, Frobenius lifts,
 fractional valuation bounds, glueing squares and Kiehl's theorem, exactness of dense Banach inverse sequences, finite-module acyclicity on
-Laurent covers, uniform Banach rings, the Gel'fand spectrum, projective traces and the affine
-normalisation of pull–identify–trace. Formal schemes, coherent sheaves on adic spaces and
-everything built on them are stated in this README only. A target with a Lean carrier ends its
+Laurent covers, uniform Banach rings, the Gel'fand spectrum and projective traces, including
+the categorical realization, algebraic base change and geometric-point formula. Formal schemes,
+coherent sheaves on adic spaces and everything built on them are stated in this README only. A target with a Lean carrier ends its
 statement with a `Lean:` sentence naming the declarations; a target without one is specified in
 this README only, and the API names and Check labels it gives (Convention 13) are the names to use
 when it is formalised, not declarations of the current file. A supplier contract used
@@ -649,16 +649,17 @@ The section headings of `Suggested.lean` name the target labels they carry:
 | --- | --- | --- |
 | F0.1 Constructions on adic rings | *completed-localization*, *restricted-power-series-adic*, *completed-tensor-product-adic* | `IsAdicRing.isNoetherianRing_restrictedMvPowerSeriesCompletion`; `AdicRing.CompletedAway` with `CompletedAway.isAdicRing`, `CompletedAway.isNoetherianRing_flat`, `CompletedAway.existsUnique_lift`; `AdicRing.CompletedTensorProduct` with `CompletedTensorProduct.tensorIdeal`, `inl`, `inr`, `CompletedTensorProduct.isAdicRing`, `CompletedTensorProduct.existsUnique_lift`, `CompletedTensorProduct.isNoetherianRing`. |
 | F0.1 Finite modules over an adic noetherian ring | *finite-module-inverse-limit* | `IsAdicRing.finite_limit`. |
-| F0.3 The first-order ideal of a square-zero tower | *formal-scheme-carrier-comparison* | Two ring-level Checks on `RingHom.ker (TrivSqZeroExt.fstHom k k V)`. |
+| F0.3 The first-order ideal of a square-zero tower | *formal-scheme-carrier-comparison* | `firstOrderIdeal_not_fg`, the infinite-dimensional first-order ideal boundary Check. |
 | F0.7 Formal functions and Grothendieck's existence theorem | *pow-quotient-formal-module-comparison*, *theorem-on-formal-functions*, *grothendieck-existence* | `IsPowQuotient`, `formalFunctions`, `grothendieckExistence`, `grothendieckExistence_hom`. |
 | R2.1 Algebras topologically of finite presentation | *topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent*, *formal-localization-flatness* | `Huber.IsCompleteRankOneBase`, `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`, `IsTopologicallyFinitePresentation.iff_of_surjective`, `isTopologicallyFinitePresentation_of_flat`, `isAdmissibleAlgebra_iff_flat`, `IsTopologicallyFinitePresentation.finitePresentation_of_fg`, `IsTopologicallyFinitePresentation.isAdicComplete`, `IsTopologicallyFinitePresentation.completedAway_quotient`, `IsTopologicallyFinitePresentation.completedAway_flat`. |
+| R2.6 Generic and special fibres | *formal-model-fibre-comparison* | `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_le`, `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq`, `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`, `Huber.formalModelFibre_torsion`. |
 | R2.9 Frobenius lifts | *frobenius-lift-etale-over-torus* | `exists_unique_frobeniusLift_of_etale`. |
 | R2.10 Fractional valuation bounds | *fractional-valuation-bound* | `ValuationSpectrum.fracPowLE`, `ValuationSpectrum.fracPowGE`, `ValuationSpectrum.mem_fracPowLE_iff`, `ValuationSpectrum.fracPow_inter_spa`. |
 | R3.1–R3.2 Rational completions, glueing squares and Kiehl's theorem | *tate-acyclicity-finite-modules*, *noetherian-rod-acyclicity-finite-modules*, *glueing-square*, *glueing-square-finite-projective-descent*, *simple-laurent-glueing-square*, *strongly-noetherian-laurent-gluing* | `Huber.IsRationalCompletion`, `Huber.laurent_exact_of_finite`, `Huber.GlueingSquare`, `Huber.GlueingDatum`, `GlueingDatum.sections`, `GlueingDatum.ofModule`, `GlueingDatum.projective_sections`, `GlueingSquare.of_simpleLaurent`, `GlueingDatum.finite_sections_of_simpleLaurent`. |
 | R3.4 Dense inverse sequences | *dense-banach-inverse-system-exactness* | `Huber.denseBanach_inverseSystem_exact`. |
 | R3.5 Uniform Banach rings | *uniform-iff-power-bound* | `Huber.isUniform_tfae`. |
-| R3.9 The Gel'fand spectrum of a Banach ring | *gelfand-spectrum-banach-ring* | `Huber.GelfandSpectrum`, its topology, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`. |
-| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace*, *projective-trace-cyclicity*, *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *pull-identify-trace* | `LinearMap.projectiveTrace` (compatibility with the pinned trace API), `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, and the affine Checks of pull–identify–trace; the categorical/scalar comparison is a README target. |
+| R3.9 The Gel'fand spectrum of a Banach ring | *gelfand-spectrum-banach-ring* | `Huber.GelfandSpectrum`, its topology, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`, `GelfandSpectrum.test_dualNumbers`. |
+| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace*, *projective-trace-cyclicity*, *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *trace-geometric-point-formula* | `LinearMap.projectiveTrace` (compatibility with the pinned trace API), `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, `LinearMap.projectiveTrace_eq_categoricalTrace`, `Algebra.projectiveTrace_baseChange`, `Algebra.projectiveTrace_eq_sum_geometricPoints`, and `LinearMap.projectiveTrace_nonfree`. |
 
 The heading `R3/<label>` of a target names its block when it is formalised; the labels below
 group the declarations of the larger R3 targets:
@@ -777,9 +778,8 @@ AdicSpacesPartII R0.1b *adic-completion-noetherian*; Mathlib `AdicCompletion`, `
 `IsLinearTopology`; Tau Ceti `TauCeti.Huber.PairOfDefinition.adic`, `locTopology`,
 `toCompletionLoc`, `existsUnique_continuous_ringHom_locTopology`, `toCompletionLocEquivDenomOne`.
 Lean: `AdicRing.CompletedAway` with `CompletedAway.isAdicRing`,
-`CompletedAway.isNoetherianRing_flat` and `CompletedAway.existsUnique_lift`, and the second Check
-below and the discrete clause of the `I = 0` Check as examples; the other clauses and Checks are
-specified in this README only.
+`CompletedAway.isNoetherianRing_flat` and `CompletedAway.existsUnique_lift`; the other clauses
+and Checks are specified in this README only.
 
 **Checks.**
 
@@ -800,7 +800,7 @@ specified in this README only.
   exists (it is `ℤ_[p] → 0`); `1 ∉ (Ideal.span {p} ⊔ I).radical = (p)`, and there is no ring
   homomorphism `CompletedAway A p = 0 → CompletedAway A 1 = ℤ_[p]` at all. A restriction map in the
   direction `A_{g} → A_{f}` under the same hypothesis would be false.
-- (degenerate, `I = 0`; Lean example for the discrete clause) — for `A` with the discrete
+- (degenerate, `I = 0`) — for `A` with the discrete
   topology, `CompletedAway A f ≃ Localization.Away f` through the completion map, with the discrete
   topology (the chosen ideal of definition is nilpotent, and `AdicCompletion J M ≅ M` for nilpotent
   `J`), and `CompletedAway A 0 = 0` for every adic `A` (`0` is nilpotent modulo `I`).
@@ -937,9 +937,8 @@ formed in *formal-fibre-product* as the limit of the thickenings instead. *Needs
 `IsAdicComplete.liftRingHom`, `TensorProduct`, `Algebra.TensorProduct.lift`, `IsLinearTopology`.
 Lean: `AdicRing.CompletedTensorProduct` with `CompletedTensorProduct.tensorIdeal`,
 `CompletedTensorProduct.inl`, `CompletedTensorProduct.inr`, `CompletedTensorProduct.isAdicRing`,
-`CompletedTensorProduct.existsUnique_lift` and `CompletedTensorProduct.isNoetherianRing`, with the
-discrete tensor-ideal Check as an example; the quotient, functoriality and restricted-series
-clauses and the other Checks are specified in this README only.
+`CompletedTensorProduct.existsUnique_lift` and `CompletedTensorProduct.isNoetherianRing`; the
+quotient, functoriality and restricted-series clauses and the Checks are specified in this README only.
 
 **Checks.**
 
@@ -995,13 +994,13 @@ DerivedModuleAlgebra §§1.T.1 and 1.1; Tau Ceti `TauCeti.IsAdicComplete.of_fini
 All completed tensor products below have adic structure maps from the base. The chosen
 factor ideals are used in `tensorIdeal`; their individual exponents are not canonical.
 
-- (tensor ideal, discrete; Lean example) — for a discrete field `k`, `tensorIdeal k k k = 0`.
+- (tensor ideal, discrete) — for a discrete field `k`, `tensorIdeal k k k = 0`.
 - (tensor ideal, radical) — under `ℤ_p ⊗[ℤ_p] ℤ_p ≅ ℤ_p`, the tensor ideal has radical `(p)`.
 - (tensor ideal, zero factor) — when the left factor is zero, the tensor ideal is the unit ideal
   of the zero tensor ring.
-- `completedTensor_inl_self` (Lean example) — the left inclusion into `B ⊗̂_A A` is bijective.
+- `completedTensor_inl_self` — the left inclusion into `B ⊗̂_A A` is bijective.
 - `completedTensor_inl_zero_factor` — when the right factor is zero, the left inclusion is zero.
-- `completedTensor_inr_self` (Lean example) — the right inclusion into `A ⊗̂_A C` is bijective.
+- `completedTensor_inr_self` — the right inclusion into `A ⊗̂_A C` is bijective.
 - `completedTensor_inr_zero_factor` — when the left factor is zero, the right inclusion is zero.
 - `completedTensor_inclusions_distinct` — over a discrete field, the two polynomial
   generators in `k[X] ⊗̂_k k[X]` have distinct images under `inl` and `inr`.
@@ -2017,9 +2016,9 @@ from `S`: `(X ×_S Y)_n ≅ X_n ×_{S_n} Y_n`),
 SchemeAndStackFoundations Layer 4 (§4.7, §4.8; `Formal.AdicThickeningSystem`,
 `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`); Mathlib
 `AlgebraicGeometry.IsClosedImmersion`,
-`CategoryTheory.Limits.pullback`, `TrivSqZeroExt.fstHom`. Lean: the two ring-level Checks on the
-first-order ideal `RingHom.ker (TrivSqZeroExt.fstHom k k V)` for `V = ⊕_{i∈ℕ} k` and `V = k^m`; the
-comparison itself is specified in this README only.
+`CategoryTheory.Limits.pullback`, `TrivSqZeroExt.fstHom`. Lean: `firstOrderIdeal_not_fg` states
+the infinite-dimensional first-order ideal boundary Check; the comparison and finite-dimensional
+Check are specified in this README only.
 
 **Checks.**
 
@@ -2036,7 +2035,7 @@ comparison itself is specified in this README only.
   At `n = 0` these ideals agree; at `n = 1`, `pT` survives the first quotient but vanishes
   modulo `(p,T)^2`. The Check `thickeningSystem_two_stage` computes this for `p = 2`.
   Thus a formal limit need not recover an arbitrary thickening system term by term.
-- (boundary of the essential image) — for a field `k` and `V = ⊕_{i∈ℕ} k`, the tower
+- `firstOrderIdeal_not_fg` (boundary of the essential image) — for a field `k` and `V = ⊕_{i∈ℕ} k`, the tower
   `X_0 = Spec k`, `X_n = Spec(k ⊕ V)` (`V² = 0`, `n ≥ 1`), with first transition from
   `k ⊕ V → k` and identities after it, is an object of `Formal.AdicThickeningSystem` (the
   condition on consecutive levels reads `V = V` at level `0` and `0 = V^{n+1}` above) with
@@ -2952,8 +2951,7 @@ Lem. 30.2.4), compatibly with the transitions; so the cohomology towers built fr
 `Formal.Scheme.completionFunctor`, `Scheme.Modules.Cohomology.formalFunctionsIso`,
 `Formal.grothendieck_existence`); Tau Ceti `Scheme.Modules.globalSectionsSmul`,
 `Scheme.Modules.baseRingToGlobalSections`, `Scheme.Modules.cohomologyMapBaseLinear`. Lean:
-`IsPowQuotient` with the Checks for `J = 0`, `J = A` and uniqueness under `F` as examples; the
-comparison itself is specified in this README only.
+`IsPowQuotient`; the comparison and Checks are specified in this README only.
 
 **Checks.**
 
@@ -2961,7 +2959,7 @@ comparison itself is specified in this README only.
   quotient: `IsPowQuotient A 0 n (𝟙 F)`.
 - (degenerate, unit ideal) — `J = A` gives empty levels, and `F → 0` is the quotient:
   `IsPowQuotient A A n (0 : F → 0)`.
-- (characterisation, uniqueness; Lean example) — two quotients `q : F → G` and `q' : F → G'` for
+- (characterisation, uniqueness) — two quotients `q : F → G` and `q' : F → G'` for
   the same `J` and `n` differ by an isomorphism under `F`: there is `e : G ≅ G'` with
   `q ≫ e.hom = q'`.
 - (computation) — for `X = Spec A` and `F = M~`, the quotient is `Q_n = (M/J^{n+1}M)~`.
@@ -4198,9 +4196,8 @@ general complete pair of finite ideal type). *Needs:* AdicSpacesPartII R0.1a *ad
 `Algebra.FinitePresentation`. Lean: `Huber.IsCompleteRankOneBase`,
 `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`,
 `IsTopologicallyFinitePresentation.iff_of_surjective`,
-`IsTopologicallyFinitePresentation.isAdicComplete` and `isAdmissibleAlgebra_iff_flat`, with the
-second Check below (`O_K⟨T⟩/(ϖT)`) and the `ℤ_p` and `ϖ = 0` Checks for the base as examples; the
-other clauses are specified in this README only.
+`IsTopologicallyFinitePresentation.isAdicComplete` and `isAdmissibleAlgebra_iff_flat`; the
+other clauses and Checks are specified in this README only.
 
 **Checks.**
 
@@ -4230,8 +4227,8 @@ other clauses are specified in this README only.
 
 **Checks for the base and generic-fibre topology.**
 
-- `rankOneBase_test_padic` (Lean example) — `ℤ_p` with `ϖ = p` satisfies the base predicate.
-- `rankOneBase_test_zero` (Lean example) — `ϖ = 0` fails its nonzero condition.
+- `rankOneBase_test_padic` — `ℤ_p` with `ϖ = p` satisfies the base predicate.
+- `rankOneBase_test_zero` — `ϖ = 0` fails its nonzero condition.
 - `rankOneBase_test_unit` — a unit fails its nonunit condition, even over a field.
 - `genericFibre_test_base_nondiscrete` — the generic fibre of `O_K` is nondiscrete.
 - `genericFibre_test_torsion_discrete` — for `O_K/ϖ`, the generic-fibre ring is zero and discrete.
@@ -5856,13 +5853,14 @@ The affine clauses (i)–(iii) are `IsTopologicallyFinitePresentation.ringKrullD
 `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq` and
 `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`. They take `A_K` to be
 `Localization.Away (algebraMap O A ϖ)`, the ring of the generic affinoid, and `A_k` to be the
-quotient by the extension of the maximal ideal of `O`. The relative clauses are
+quotient by the extension of the maximal ideal of `O`. Lean: `Huber.formalModelFibre_torsion`
+states the strict-dimension boundary Check below. The relative clauses are
 `FormalScheme.genericFibre_pointLift` and `FormalScheme.genericFibre_fibreModel` for (iv), and
 `FormalScheme.genericFibre_fibreDimension` and `FormalScheme.genericFibre_fibreReducedPure` for (v).
 
 **Checks.**
 
-- `formalModelFibre_torsion` (non-example, flatness) — `A = O_K⟨T⟩/(ϖT)` is topologically of
+- `Huber.formalModelFibre_torsion` (non-example, flatness) — `A = O_K⟨T⟩/(ϖT)` is topologically of
   finite presentation but not flat. Here `A_k = k[T]` is reduced of pure dimension `1`, while
   `A_K = K` has dimension `0`. The bound (i) is strict, and (ii) and (iii) fail without flatness.
 - `formalModelFibre_zero` (degenerate) — for `A = 0` both fibres are zero rings of dimension `⊥`
@@ -7827,7 +7825,7 @@ Example 5.2.5, pp. 50–51, for the rigid open residue disc).
   `Sp(ℚ_p) → Spf(ℤ_p)` and prove that `rigOfFSC.homEquiv` sends the identity to it.
   Its integral evaluation is `ℤ_p → ℤ_p`, local with centre `(p)`; its analytic
   stalk map is `ℤ_p → ℚ_p`, which is not local, since `p` is a nonunit in the
-  source and a unit in the target. The Lean example states this failure of locality.
+  source and a unit in the target.
 
 **Smooth and étale morphisms of formal schemes locally of tf presentation; continuous
 differentials.** (*smooth-formal-scheme*) Let `f : X → Y` be a morphism of formal `O_K`-schemes
@@ -8039,9 +8037,8 @@ are supplied by SchemeAndStackFoundations §0.29.
 Mathlib `WittVector.frobenius`,
 `Algebra.FormallyEtale.iff_comp_bijective`, `Algebra.FormallyUnramified.lift_unique`,
 `IsAdicComplete`. Lean: `exists_unique_frobeniusLift_of_etale`, the general form for `A → R`
-étale modulo every `p^{m+1}` between `p`-adically complete rings, with the characteristic-`p`
-statement (the only Frobenius lift is the absolute Frobenius) as an example; the torus statement
-and the Checks are specified in this README only.
+étale modulo every `p^{m+1}` between `p`-adically complete rings; the torus statement and the
+Checks are specified in this README only.
 
 On the formal-scheme carrier, `IsSmoothOfRelativeDimension ϖ fY f d` uses the
 structural maps to `Spf O_K` and affine neighbourhoods of each source point. The ring map
@@ -8209,9 +8206,7 @@ Conrad-MR §4.1, Thm 4.1.1(1), p. 26, thresholds in the divisible hull of the va
 `TauCeti.ValuationSpectrum.rationalSubset_image_mul_right`,
 `TauCeti.FarguesFontaine.IsRadiusLowerBound`; Mathlib `ValuativeRel`. Lean:
 `ValuationSpectrum.fracPowLE`, `ValuationSpectrum.fracPowGE`, `ValuationSpectrum.mem_fracPowLE_iff`
-and `ValuationSpectrum.fracPow_inter_spa`, with the membership for `q = 1/2` (`v(f²) ≤ v(g)`, not
-`v(f) ≤ v(g²)`), the `q = 0` bound for `fracPowGE`, the `g = 0` bound for `fracPowLE`, and the
-positive-exponent `GE` support and classical-specialization Checks as examples; the other lemmas and Checks are specified in this README only.
+and `ValuationSpectrum.fracPow_inter_spa`; the other lemmas and Checks are specified in this README only.
 
 **Checks.**
 
@@ -8226,13 +8221,13 @@ positive-exponent `GE` support and classical-specialization Checks as examples; 
   |p|}`.
 - (compatibility, root) — for `L = ℚ_p(√p)` with `c = √p` (`c² = p`): the preimage
   of `fracPowLE T p (1/2)` in `Spa(L⟨T⟩, O_L⟨T⟩)` equals `{v : v(T) ≤ v(c)}`.
-- (degenerate, `q = 0`; Lean example for `fracPowGE`) — `fracPowLE f g 0 = {v : v(f) ≤ 1}` and `fracPowGE f g 0 = {v
+- (degenerate, `q = 0`) — `fracPowLE f g 0 = {v : v(f) ≤ 1}` and `fracPowGE f g 0 = {v
   : v(f) ≥ 1}`.
-- (degenerate, `g = 0`; Lean example for `fracPowLE`) — for `q > 0`: `fracPowLE f 0 q = {v : v(f) = 0}` (the
+- (degenerate, `g = 0`) — for `q > 0`: `fracPowLE f 0 q = {v : v(f) = 0}` (the
   support of `f`) and `fracPowGE f 0 q = Spv A`.
-- (characterisation, direction of `GE`; Lean examples) — for `g` a unit and `q > 0`, every `v ∈ fracPowGE f g q` has `v(f) ≠ 0`; in `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` the classical point `T = 1` lies in `fracPowGE T p (1/2)` and the classical point `T = p` does not (`|p| = p⁻¹ < p^{−1/2}`), which pins the
-  direction of `GE`. The Lean examples construct these points by evaluation at `1` and `p`
-  on the supplied restricted-series carrier and pull back the `p`-adic valuative relation.
+- (characterisation, direction of `GE`) — for `g` a unit and `q > 0`, every `v ∈ fracPowGE f g q` has `v(f) ≠ 0`; in `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` the classical point `T = 1` lies in `fracPowGE T p (1/2)` and the classical point `T = p` does not (`|p| = p⁻¹ < p^{−1/2}`), which pins the
+  direction of `GE`. Evaluation at `1` and `p` on the restricted-series carrier pulls back
+  the `p`-adic valuative relation to these points.
 
 **The domain `{|s| ≥ |ϖ|^q}` cut out by a section of an invertible sheaf on a formal model.**
 (*section-valuation-domain*) Let `𝔛` be an admissible formal `O_K`-scheme, `ℒ` an invertible `O_𝔛`-module, `s ∈ Γ(𝔛, ℒ)` and `q ∈ ℚ_{≥0}`, interpreted by *fractional-valuation-bound*. Choose an open cover `𝔛 = ⋃ U_j`
@@ -9366,7 +9361,7 @@ with `algebraMap A B`. Thus the function in the Laurent hypothesis has type `B`.
 The spectral identification is supplied by `spaCompletedLocalizationHomeomorph`
 (Wedhorn, Proposition 8.2(2)); its construction is already in Tau Ceti.
 
-**Checks for rational completion models.** All three are Lean examples.
+**Checks for rational completion models.**
 
 - (zero denominator) — `A⟨1/0⟩` is the zero ring.
 - (identity) — `A⟨1/1⟩` is the original complete
@@ -9467,7 +9462,7 @@ base case. The empty cover is handled separately by `F(∅) = 0`.
   `0 → F(U') → F(U') ⊕ F(U') → F(U') → 0`, with diagonal and difference maps.
   Every finite rational cover refines `(U, U)`; exactness for those other covers
   is a conclusion of the reduction, while this base case only concerns the
-  duplicated cover. The Lean example states its split exactness for any abelian group.
+  duplicated cover; the diagonal–difference sequence is split exact for any abelian group.
 - For `f = 0`, the covering and its pullbacks are `(U, ∅)` and `(U', ∅)`.
   With `F(∅) = 0` the augmentation is the identity of `F(U')`.
 - For a localized function `f ∈ 𝒪_X(U)` and rational `U' ⊆ U`, the pullback
@@ -9629,11 +9624,9 @@ Kedlaya–Liu use Def. 2.7.3(c) only to obtain condition (c)). *Needs:* *tate-ri
 Tau Ceti `Huber.IsTateRing`, `Huber.IsTateRing.isOpenMap`. Lean: `Huber.GlueingSquare` (fields
 for continuity, `injective`, `exact_sub`, `surjective_sub`, `isInducing`, `isStrictMap_sub`,
 `denseRange`, `exists_prime_comap_eq`), `Huber.GlueingDatum` (fields `ψ₁`, `ψ₂`, with the
-isomorphisms written `R₁₂ ⊗_{R_i} M_i ≅ M₁₂`), `GlueingDatum.sections` and `GlueingDatum.ofModule`,
-with the identity square, the diagonal non-example and the section criterion for the trivial
-square (first, second and section Checks below) as examples; the symmetry clause and the
-isomorphism `N ≅ sections` are specified in this README only (the latter is part of
-*glueing-square-finite-projective-descent*).
+isomorphisms written `R₁₂ ⊗_{R_i} M_i ≅ M₁₂`), `GlueingDatum.sections` and `GlueingDatum.ofModule`.
+The Checks, symmetry clause and isomorphism `N ≅ sections` are specified in this README only
+(the latter is part of *glueing-square-finite-projective-descent*).
 
 **Checks.**
 
@@ -9666,10 +9659,10 @@ isomorphism `N ≅ sections` are specified in this README only (the latter is pa
 
 **Checks for `GlueingDatum`, `GlueingDatum.sections` and `GlueingDatum.ofModule`.**
 
-- (zero; Lean example) — base-changing the zero module gives a zero section module.
-- (sections of the trivial square, a Lean example) — for the identity square over a commutative
+- (zero) — base-changing the zero module gives a zero section module.
+- (sections of the trivial square) — for the identity square over a commutative
   ring `R`, `(1 ⊗ x, 1 ⊗ y)` is a section of the datum of `R` exactly when `x = y`.
-- (rank two; Lean example) — for the identity square over a nonzero commutative ring, the pair of vectors
+- (rank two) — for the identity square over a nonzero commutative ring, the pair of vectors
   `((1,2),(1,2))` glues and `((1,2),(2,1))` does not. Thus the condition is equality of the
   two restrictions, with difference `ψ₁ − ψ₂`, not their sum or a coordinate permutation.
 
@@ -10100,9 +10093,8 @@ Lean: `Huber.denseBanach_inverseSystem_exact`.
 
 **Checks.**
 
-- For a constant Banach space with identity transitions, finite recursive sums solve `Δ(x) = y`
-  (Lean example on scalar sequences).
-- For the sequence of zero spaces, `Δ` is the unique bijection of the zero product (Lean example).
+- For a constant Banach space with identity transitions, finite recursive sums solve `Δ(x) = y`.
+- For the sequence of zero spaces, `Δ` is the unique bijection of the zero product.
 - For restriction from a closed disc to a strictly smaller closed disc, polynomial density
   supplies the hypothesis even though restriction is not surjective: series converging only
   on the smaller disc do not extend. Applied to a countable increasing disc exhaustion,
@@ -11892,7 +11884,7 @@ the pinned `_root_.LinearMap.trace_comp_comm'` is its free-module specialization
 *Needs:* PivotalSpherical Layer 2; *projective-trace-realization*; finite-projective duality.
 Lean: `LinearMap.projectiveTrace_cyclic`.
 
-Checks (Lean examples): with `M = N = R`, this is `ab = ba`; with `M = 0`, both traces vanish;
+Checks: with `M = N = R`, this is `ab = ba`; with `M = 0`, both traces vanish;
 with `M = R`, `N = R²`, `f(x) = (ax,bx)` and `g(y,z) = cy+dz`, both traces are `ca+db`.
 
 **Finite-projective trace realization and scalar extension.** (*projective-trace-realization*)
@@ -11935,12 +11927,13 @@ AlgebraicVectorBundles L0B for the affine comparison with finite locally free sh
 Mathlib `dualTensorHomEquiv`, `contractLeft`, `LinearMap.trace`,
 `_root_.LinearMap.trace_eq_contract`, `Module.Projective`, `Module.rankAtStalk`. Lean:
 `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace`,
-`LinearMap.projectiveTrace_baseChange`, with the nonfree, matrix, zero-module and scalar-module Checks below as examples; the other
-clauses are specified in this README only.
+`LinearMap.projectiveTrace_baseChange`, `LinearMap.projectiveTrace_eq_categoricalTrace` and
+`LinearMap.projectiveTrace_nonfree`; the latter states the nonfree Check below. The other clauses
+and Checks are specified in this README only.
 
 **Checks.**
 
-- (non-example) — for `R = ℚ × ℚ` and `M = ℚ × 0`,
+- `LinearMap.projectiveTrace_nonfree` (non-example) — for `R = ℚ × ℚ` and `M = ℚ × 0`,
   `projectiveTrace R M id = (1, 0)`, while Mathlib's `LinearMap.trace R M id = 0` because `M` has
   no finite basis; the Mathlib trace is not the trace of a finite projective module.
 - (computation) — for `M = R²` and `f` with matrix
@@ -11981,9 +11974,8 @@ trace form is PerfectoidSpaces layer P0 (P0.12), the almost-ring version of this
 *Needs:* *projective-trace-realization*;
 Mathlib `Algebra.trace`, `Algebra.traceForm`,
 `Module.Projective`, `_root_.Algebra.trace_prod`, `_root_.Algebra.trace_localization`. Lean:
-`Algebra.projectiveTrace` and `Algebra.projectiveTraceForm`, with the quadratic Check below and the
-nonconstant-rank algebra Check and the self, product and zero-algebra Checks for the form as examples; the other clauses are specified in this
-README only.
+`Algebra.projectiveTrace` and `Algebra.projectiveTraceForm`; the other clauses and Checks are
+specified in this README only.
 
 **Checks.**
 
@@ -12002,13 +11994,13 @@ README only.
 
 **Checks for `Algebra.projectiveTraceForm`.**
 
-- (self; Lean example) — on `R` over itself the form is multiplication,
+- (self) — on `R` over itself the form is multiplication,
   `projectiveTraceForm R R = LinearMap.mul R R`.
-- (product; Lean example) — on `R × R`, the form is
+- (product) — on `R × R`, the form is
   `x₁y₁ + x₂y₂`, with no division by `2`.
-- (zero algebra; Lean example for the form) — on the zero algebra the form is zero and perfect;
+- (zero algebra) — on the zero algebra the form is zero and perfect;
   the zero algebra is étale of rank zero.
-- (characteristic two, a Lean example) — over a field of characteristic `2`, the form on
+- (characteristic two) — over a field of characteristic `2`, the form on
   `k[x]/(x² − 1)` is not perfect (it vanishes) and the algebra is not étale.
 
 Prove the base change of the finite projective trace (*algebra-trace-base-change*): let `R → R'`
@@ -12022,7 +12014,7 @@ of the algebra trace. For `M` free and finite the module statement is Mathlib's
 `_root_.LinearMap.trace_baseChange`; the projective case is new. *Needs:* *projective-trace-realization*;
 *finite-locally-free-algebra-trace*; Mathlib `dualTensorHomEquiv`, `contractLeft`,
 `_root_.LinearMap.trace_baseChange`. Lean: the module statement is
-`LinearMap.projectiveTrace_baseChange`; the algebra statement is specified in this README only.
+`LinearMap.projectiveTrace_baseChange`; the algebra statement is `Algebra.projectiveTrace_baseChange`.
 
 Prove the transitivity of the finite projective trace in towers (*algebra-trace-transitivity*):
 let `R → B → C` be homomorphisms of commutative rings with `B` finite projective over `R` and `C`
@@ -12053,8 +12045,8 @@ almost version is PerfectoidSpaces layer P0 (P0.15).
 *finite-locally-free-algebra-trace*; *algebra-trace-base-change*; Mathlib `Algebra.Etale`,
 `Algebra.Etale.iff_exists_algEquiv_prod`, `traceForm_nondegenerate`,
 `traceForm_nondegenerate_tfae`. Lean: `Algebra.etale_iff_projectiveTraceForm_bijective` (`S` is
-étale iff `projectiveTraceForm`, read as the map `S → Hom_R(S, R)`, is bijective), with the
-characteristic-two Check of `Algebra.projectiveTraceForm` above as an example.
+étale iff `projectiveTraceForm`, read as the map `S → Hom_R(S, R)`, is bijective); the
+characteristic-two Check of `Algebra.projectiveTraceForm` is specified in this README only.
 
 Prove that the trace of a finite étale algebra over a field is the sum over geometric points
 (*trace-geometric-point-formula*): let `k` be a field, `Ω` an algebraically closed field
@@ -12068,6 +12060,7 @@ Tag 0BIL, Lem. 9.20.7, separability is exactly what makes the trace nondegenerat
 embedding count equal the degree). For `B = ℚ × ℚ(i)` and `Ω = ℚ̄`:
 `Tr(1, i) = 1 + (i + (−i)) = 1`. *Needs:* *finite-locally-free-algebra-trace*; Mathlib
 `Algebra.Etale.iff_exists_algEquiv_prod`, `_root_.Algebra.trace_prod`, `trace_eq_sum_embeddings`.
+Lean: `Algebra.projectiveTrace_eq_sum_geometricPoints`.
 
 **The trace of a finite locally free morphism of schemes.** (*scheme-trace-finite-locally-free*)
 Let `π : X → Y` be a finite locally free morphism of schemes (Mathlib
@@ -12401,9 +12394,8 @@ radius) (BHW §10.1, Def. 10.2, p. 1789, the `T_a`-operator: pull back along `π
 (*pull-identify-trace-hecke-normalisation*). *Needs:*
 *analytic-trace-finite-locally-free*; *finite-locally-free-projection-formula*;
 *coherent-sheaf-operations*; *trace-base-change-composition*; *tate-acyclicity-finite-modules*;
-*finite-projective-module-acyclicity*; Mathlib `SheafOfModules.pullback`. Lean: the affine forms
-of the coefficient Checks below, `T(1) = Tr_{B/R}(φ(1))` computed with `Algebra.projectiveTrace` for
-`B = R` and `B = R × R`; the operator itself is specified in this README only.
+*finite-projective-module-acyclicity*; Mathlib `SheafOfModules.pullback`. The operator and its
+coefficient Checks are specified in this README only.
 
 `finiteTraceWithCoefficients` is fixed on local generators by
 `finiteTraceWithCoefficients_sections`: `s ⊗ e ↦ Tr(s)e`.
@@ -12502,9 +12494,10 @@ Thm 1.2.1, the nonempty compact spectrum; Berkovich Thm 1.3.1, the spectral-semi
 KL15 §2.3, Def. 2.3.2 and Thm 2.3.4, p. 34;
 Thm 2.3.10, p. 35; Rem. 2.3.11(b), p. 36). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4);
 *spectral-seminorm* (AdicSpacesPartII layer R0). Lean: `Huber.GelfandSpectrum` with its topology,
-`GelfandSpectrum.compactSpace_nonempty` and `GelfandSpectrum.smoothingFun_eq_sSup`, with the
-`ℚ_p` Check, the zero-ring Check, the Gauss-point Check and the dual-number Check as Lean
-examples; functoriality and the other Checks are specified in this README only.
+`GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`,
+`GelfandSpectrum.test_padic`, `GelfandSpectrum.test_zero_ring` and `GelfandSpectrum.test_dualNumbers`.
+The nilpotent-value Check is a proved Lean example; functoriality and the other Checks are
+specified in this README only.
 
 **Checks.**
 
@@ -12514,8 +12507,8 @@ examples; functoriality and the other Checks are specified in this README only.
   `K` with nontrivial valuation, the Gauss norm on
   `MvPowerSeries.IsRestricted.subring (fun _ : Fin n ↦ 1)` is a point of `M(K⟨X₁,…,Xₙ⟩)` at which the maximum `max_{α ∈ M(K⟨X⟩)} α(f)` is
   attained for every `f`. Use the pinned Gauss norm, multiplicativity and completeness in
-  `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean` for this Lean example.
-- (non-example, nilpotent) — the spectral seminorm of a nilpotent element
+  `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean` for this Check.
+- `Huber.GelfandSpectrum.test_dualNumbers` (non-example, nilpotent) — the spectral seminorm of a nilpotent element
   is `0` while its norm need not be, so the norm of `A` is not in general a point of `M(A)` and
   the spectral seminorm is not the norm: for `A = K[ε]/(ε²)` with the supplied
   `TrivSqZeroExt` norm `‖a + bε‖ = |a| + |b|` (equivalent to the maximum norm),

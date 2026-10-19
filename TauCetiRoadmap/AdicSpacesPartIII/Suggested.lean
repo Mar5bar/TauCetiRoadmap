@@ -9,7 +9,6 @@ import TauCeti.RingTheory.Huber.Adic
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
-import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
 import TauCeti.Topology.PureDimension
 import TauCetiRoadmap.AdicSpacesPartII.Suggested
 
@@ -37,7 +36,8 @@ file states the parts that are a few lines over the pinned carriers:
 * R3: glueing squares and Kiehl's glueing theorem for finite projective modules, descent of
   finite modules along strongly noetherian Laurent covers, acyclicity of finite modules on
   Laurent covers of rings of noetherian type, exactness of dense Banach inverse sequences,
-  the trace of a finite projective module and of a finite locally free algebra with affine checks of the pull–identify–trace normalisation, and
+  the trace of a finite projective module and of a finite locally free algebra, its
+  base change and geometric-point formula, and
   the Gel'fand spectrum of a Banach ring.
 
 The R3.6 Banach targets (*completely-continuous-map*,
@@ -104,10 +104,6 @@ The general-Tate small-perturbation theorem
 
 Completeness includes the Hausdorff property.
 -/
-
-
-local instance (n : ℕ) : ∀ i : Fin n, Fact (0 < (fun _ : Fin n ↦ (1 : ℝ)) i) :=
-  fun _ ↦ ⟨zero_lt_one⟩
 
 namespace TauCetiRoadmap.AdicSpacesPartIII
 
@@ -177,21 +173,6 @@ theorem existsUnique_lift {B : Type*} [CommRing B] [UniformSpace B] [IsUniformAd
 
 end CompletedAway
 
-/-- Localisation at `1` followed by completion recovers the original adic ring. -/
-example : Function.Bijective (algebraMap A (CompletedAway A 1)) := sorry
-
-/-- `A_{f}` vanishes exactly when `f` is nilpotent modulo the ideal of definition. -/
-example (f : A) :
-    Subsingleton (CompletedAway A f) ↔ IsNilpotent (Ideal.Quotient.mk (IsAdicRing.ideal A) f) :=
-  sorry
-
-/-- For discrete `A` the chosen ideal of definition is nilpotent, so `A_{f}` is the localisation
-`A_f`. -/
-example [DiscreteTopology A] (f : A) :
-    Function.Bijective (AdicCompletion.of ((IsAdicRing.ideal A).map
-      (algebraMap A (Localization.Away f))) (Localization.Away f) :
-        Localization.Away f → CompletedAway A f) := sorry
-
 section CompletedTensorProduct
 
 variable (A B C : Type*) [CommRing A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
@@ -202,10 +183,6 @@ variable (A B C : Type*) [CommRing A] [CommRing B] [TopologicalSpace B] [IsTopol
 def CompletedTensorProduct.tensorIdeal : Ideal (B ⊗[A] C) :=
   (IsAdicRing.ideal B).map Algebra.TensorProduct.includeLeftRingHom ⊔
     (IsAdicRing.ideal C).map (Algebra.TensorProduct.includeRight : C →ₐ[A] B ⊗[A] C).toRingHom
-
-/-- Over a discrete field the tensor ideal is `0`. -/
-example (k : Type*) [Field k] [TopologicalSpace k] [IsTopologicalRing k] [DiscreteTopology k]
-    [IsAdicRing k] : CompletedTensorProduct.tensorIdeal k k k = ⊥ := sorry
 
 variable [TopologicalSpace A] [IsTopologicalRing A]
 
@@ -263,14 +240,6 @@ theorem isNoetherianRing [IsNoetherianRing A] [IsNoetherianRing C]
 
 end CompletedTensorProduct
 
-/-- Tensoring an adic algebra with its base on the right recovers that algebra. -/
-example [Huber.IsAdicHom (algebraMap A A)] :
-    Function.Bijective (CompletedTensorProduct.inl A B A) := sorry
-
-/-- Tensoring an adic algebra with its base on the left recovers that algebra. -/
-example [Huber.IsAdicHom (algebraMap A A)] :
-    Function.Bijective (CompletedTensorProduct.inr A A C) := sorry
-
 end CompletedTensorProduct
 
 end AdicRing
@@ -301,16 +270,11 @@ A marked formal scheme `(X, 𝒥)` with `𝒥` of finite type has first-order id
 `ker(O_{X_1} → O_{X_0}) = 𝒥/𝒥²` of finite type. For the square-zero tower
 `Spec k → Spec(k ⊕ V) = Spec(k ⊕ V) = ⋯` this ideal is `V`, the kernel of `k ⊕ V → k`. -/
 
-/-- For `V = ⊕_{i ∈ ℕ} k` the first-order ideal `V` of `k ⊕ V` is not finitely generated, so the
-square-zero tower with this `V` is not the tower of a formal scheme marked by an ideal of
-definition of finite type. -/
-example (k : Type*) [Field k] :
+/-- The boundary Check of *formal-scheme-carrier-comparison*: for `V = ⊕_{i ∈ ℕ} k`, the
+first-order ideal `V` of `k ⊕ V` is not finitely generated. Its square-zero tower cannot come
+from a formal scheme marked by an ideal of definition of finite type. -/
+theorem firstOrderIdeal_not_fg (k : Type*) [Field k] :
     ¬ (RingHom.ker (TrivSqZeroExt.fstHom k k (ℕ →₀ k))).FG := sorry
-
-/-- For `V = k^m` the first-order ideal is finitely generated: the tower is that of the discrete
-`Spec(k ⊕ k^m)` marked by its square-zero ideal of definition `k^m`. -/
-example (k : Type*) [Field k] (m : ℕ) :
-    (RingHom.ker (TrivSqZeroExt.fstHom k k (Fin m → k))).FG := sorry
 
 /-! ### F0.7 Formal functions and Grothendieck's existence theorem
 (*pow-quotient-formal-module-comparison*, *theorem-on-formal-functions*, *grothendieck-existence*)
@@ -342,17 +306,6 @@ def IsPowQuotient (J : Ideal A) (n : ℕ) {F G : X.Modules} (q : F ⟶ G) : Prop
       (∀ a ∈ J ^ (n + 1), Scheme.Modules.globalSectionsSmul F
         (Scheme.Modules.baseRingToGlobalSections A X a) ≫ g = 0) →
       ∃! h : G ⟶ H, q ≫ h = g
-
-/-- For `J = 0` the identity is the quotient. -/
-example (n : ℕ) (F : X.Modules) : IsPowQuotient A ⊥ n (𝟙 F) := sorry
-
-/-- For `J = A` the quotient is `0`. -/
-example (n : ℕ) (F : X.Modules) : IsPowQuotient A ⊤ n (0 : F ⟶ 0) := sorry
-
-/-- The quotient is unique up to isomorphism under `F`. -/
-example (J : Ideal A) (n : ℕ) {F G G' : X.Modules} (q : F ⟶ G) (q' : F ⟶ G')
-    (hq : IsPowQuotient A J n q) (hq' : IsPowQuotient A J n q') :
-    ∃ e : G ≅ G', q ≫ e.hom = q' := sorry
 
 /-- The theorem on formal functions: for `X` proper over a noetherian ring `A`, a coherent
 `𝒪_X`-module `F` and an ideal `J`, `Hⁱ(X, F)` is finite and its `J`-adic completion is the
@@ -435,17 +388,6 @@ class IsCompleteRankOneBase (O : Type*) [CommRing O] [TopologicalSpace O] (ϖ : 
   isAdic : IsAdic (Ideal.span {ϖ})
   isAdicComplete : IsAdicComplete (Ideal.span {ϖ}) O
 
-/-- `ℤ_p` with `ϖ = p` is a complete rank-one base. -/
-example (p : ℕ) [Fact p.Prime] : IsCompleteRankOneBase ℤ_[p] (p : ℤ_[p]) := sorry
-
-/-- `ϖ = 0` is excluded. -/
-example {O : Type*} [CommRing O] [TopologicalSpace O] : ¬ IsCompleteRankOneBase O (0 : O) :=
-  sorry
-
-/-- A unit cannot be a pseudouniformiser of a complete rank-one base. -/
-example {O : Type*} [CommRing O] [TopologicalSpace O] {u : O} (hu : IsUnit u) :
-    ¬ IsCompleteRankOneBase O u := sorry
-
 /-- `A` is *topologically of finite presentation* over `O`: a quotient of some `O⟨ξ₁, …, ξₙ⟩` by a
 finitely generated ideal (Bosch–Lütkebohmert I, §1). -/
 def IsTopologicallyFinitePresentation (O : Type*) [CommRing O] [TopologicalSpace O]
@@ -522,16 +464,6 @@ theorem IsTopologicallyFinitePresentation.completedAway_flat
 
 end TFP
 
-/-- `O⟨T⟩ ⧸ (ϖT)` is topologically of finite presentation but not admissible: `T` is
-`ϖ`-torsion. -/
-example {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpace O]
-    [NonarchimedeanRing O] (ϖ : O) [IsCompleteRankOneBase O ϖ] :
-    let P := restrictedMvPowerSeriesCompletion 1 O
-    let T : P := ((weightedX (fun _ : Fin 1 ↦ ({1} : Set O)) isWeightFamily_one_weight 0 :
-      weightedRestrictedSubring _ _) : P)
-    IsTopologicallyFinitePresentation O (P ⧸ Ideal.span {algebraMap O P ϖ * T}) ∧
-      ¬ IsAdmissibleAlgebra ϖ (P ⧸ Ideal.span {algebraMap O P ϖ * T}) := sorry
-
 /-! ### R2.6 Generic and special fibres of algebras topologically of finite presentation
 (*formal-model-fibre-comparison*) -/
 
@@ -572,9 +504,11 @@ theorem IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFib
 
 end FibreComparison
 
-/-- `O⟨T⟩ ⧸ (ϖT)` is not flat; its generic fibre `K` has Krull dimension `0` and its special
-fibre `k[T]` has Krull dimension `1`, so the bound `ringKrullDim_genericFibre_le` is strict. -/
-example {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpace O]
+/-- The flatness boundary Check of *formal-model-fibre-comparison*: `O⟨T⟩ ⧸ (ϖT)` is not flat.
+Its generic fibre `K` has Krull dimension `0` and its special fibre `k[T]` has Krull dimension `1`,
+so the bound `ringKrullDim_genericFibre_le` is strict. -/
+theorem formalModelFibre_torsion {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O]
+    [TopologicalSpace O]
     [NonarchimedeanRing O] (ϖ : O) [IsCompleteRankOneBase O ϖ] :
     let P := restrictedMvPowerSeriesCompletion 1 O
     let T : P := ((weightedX (fun _ : Fin 1 ↦ ({1} : Set O)) isWeightFamily_one_weight 0 :
@@ -585,15 +519,7 @@ example {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpac
 
 end Huber
 
-/-! ### R2.9 Integral specialization and Frobenius lifts
-(*berthelot-type-rig-functor-nonnoetherian-base*, *frobenius-lift-etale-over-torus*) -/
-
-/-- The analytic stalk map of the unique integral specialization
-`Sp(ℚ_p) → Spf(ℤ_p)` is not local: it inverts the formal nonunit `p`.
-Its integral evaluation map is the identity of `ℤ_p`. -/
-example (p : ℕ) [Fact p.Prime] :
-    ¬ IsUnit (p : ℤ_[p]) ∧ IsUnit (p : ℚ_[p]) ∧
-      ¬ IsLocalHom (algebraMap ℤ_[p] ℚ_[p]) := sorry
+/-! ### R2.9 Frobenius lifts (*frobenius-lift-etale-over-torus*) -/
 
 /-- If `A → R` is a map of `p`-adically complete rings that is étale modulo every `p^{m+1}`, a
 Frobenius lift of `A` extends uniquely to a Frobenius lift of `R`; for `A` the formal torus over
@@ -608,10 +534,6 @@ theorem exists_unique_frobeniusLift_of_etale (p : ℕ) [Fact p.Prime] {A R : Typ
     ∃! φR : R →+* R, φR.comp (algebraMap A R) = (algebraMap A R).comp φA ∧
       ∀ r, φR r - r ^ p ∈ Ideal.span {(p : R)} := sorry
 
-/-- In characteristic `p` the only Frobenius lift is the absolute Frobenius. -/
-example (p : ℕ) [Fact p.Prime] {R : Type*} [CommRing R] [CharP R p]
-    (φ : R →+* R) (hφ : ∀ r, φ r - r ^ p ∈ Ideal.span {(p : R)}) : φ = frobenius R p := sorry
-
 /-! ### R2.10 Fractional valuation bounds (*fractional-valuation-bound*) -/
 
 namespace ValuationSpectrum
@@ -625,41 +547,9 @@ of `g` is used. -/
 def fracPowLE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
   {v | v.toValuativeRel.vle (f ^ q.den) (g ^ q.num)}
 
-/-- For `g = 0` and `q > 0` the bound is `v(f) = 0`. -/
-example (f : A) (q : ℚ≥0) (hq : 0 < q) (v : Spv A) :
-    v ∈ fracPowLE f 0 q ↔ v.toValuativeRel.vle (f ^ q.den) 0 := sorry
-
 /-- `{|f| ≥ |g|^q}`: the valuations with `v(g^a) ≤ v(f^b)` for `q = a/b` in lowest terms. -/
 def fracPowGE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
   {v | v.toValuativeRel.vle (g ^ q.num) (f ^ q.den)}
-
-/-- For `q = 0` the bound is `v(f) ≥ 1`. -/
-example (f g : A) (v : Spv A) : v ∈ fracPowGE f g 0 ↔ v.toValuativeRel.vle (g ^ 0) f := sorry
-
-/-- A positive-exponent lower bound by a unit excludes the support of `f`. -/
-example (f g : A) (hg : IsUnit g) (q : ℚ≥0) (hq : 0 < q) (v : Spv A)
-    (hv : v ∈ fracPowGE f g q) : ¬ v.toValuativeRel.vle f 0 := sorry
-
-section ClassicalGE
-
-variable (p : ℕ) [Fact p.Prime]
-
-local notation "P" => MvPowerSeries.IsRestricted.subring (R := ℚ_[p]) (fun _ : Fin 1 ↦ 1)
-local notation "T" => (Subtype.mk
-  (MvPowerSeries.monomial (Finsupp.single (0 : Fin 1) 1) (1 : ℚ_[p]))
-  (MvPowerSeries.isRestricted_monomial _ _ _) : P)
-
-/-- The classical specialization `T = 1` satisfies the lower bound `|T| ≥ |p|^(1/2)`. -/
-example : ∃ ev : P →ₐ[ℚ_[p]] ℚ_[p], ev T = 1 ∧
-    let v := comap ev.toRingHom (⟨inferInstance⟩ : Spv ℚ_[p])
-    v ∈ fracPowGE T (algebraMap ℚ_[p] P p) (1 / 2) ∧ v.toValuativeRel.vle 1 T := sorry
-
-/-- The classical specialization `T = p` fails `|T| ≥ |p|^(1/2)` and the unit threshold. -/
-example : ∃ ev : P →ₐ[ℚ_[p]] ℚ_[p], ev T = p ∧
-    let v := comap ev.toRingHom (⟨inferInstance⟩ : Spv ℚ_[p])
-    v ∉ fracPowGE T (algebraMap ℚ_[p] P p) (1 / 2) ∧ ¬ v.toValuativeRel.vle 1 T := sorry
-
-end ClassicalGE
 
 /-- Any representative `q = a/b`, `b > 0`, may be used. -/
 theorem mem_fracPowLE_iff {f g : A} {q : ℚ≥0} {a b : ℕ} (hb : 0 < b) (hq : q = a / b)
@@ -674,25 +564,11 @@ theorem fracPow_inter_spa [TopologicalSpace A] [DecidableEq A] (Aplus : Subring 
       fracPowGE f g q ∩ spa Aplus =
         rationalSubset Aplus {g ^ q.num, f ^ q.den} (f ^ q.den) := sorry
 
-/-- `|f| ≤ |g|^{1/2}` means `v(f²) ≤ v(g)`, not `v(f) ≤ v(g²)`. -/
-example (f g : A) (v : Spv A) :
-    v ∈ fracPowLE f g (1 / 2) ↔ v.toValuativeRel.vle (f ^ 2) g := sorry
-
 end ValuationSpectrum
 
 end
 
 /-! ## Layer R3: coherent sheaves and finite traces -/
-
-/-! ### R3.1 The duplicated Laurent cover
-(*cech-acyclicity-simple-laurent-reduction*) -/
-
-/-- The Laurent cover for `f = 1`, and each of its rational pullbacks, has the
-split exact diagonal–difference sequence for the sections of any abelian presheaf. -/
-example (G : Type*) [AddCommGroup G] :
-    Function.Injective (fun x : G ↦ (x, x)) ∧
-      Function.Exact (fun x : G ↦ (x, x)) (fun x : G × G ↦ x.1 - x.2) ∧
-      Function.Surjective (fun x : G × G ↦ x.1 - x.2) := sorry
 
 noncomputable section
 
@@ -720,19 +596,6 @@ def IsRationalCompletion (P : PairOfDefinition A) (T : Finset A) (s : A)
   letI := P.isTopologicalRing_locUniformSpace T s S hden
   ∃ e : UniformSpace.Completion S ≃+* B, Continuous e ∧ Continuous e.symm ∧
     e.toRingHom.comp (P.toCompletionLoc T s S hden) = algebraMap A B
-
-/-- `A⟨1/1⟩ = A` for complete `A`. -/
-example [CompleteSpace A] [T2Space A] [DecidableEq A] (P : PairOfDefinition A) :
-    IsRationalCompletion P {1} 1 (by simp) A := sorry
-
-/-- `A⟨1/0⟩ = 0`. -/
-example [DecidableEq A] (P : PairOfDefinition A) (B : Type*) [CommRing B] [TopologicalSpace B]
-    [Algebra A B] (h : IsRationalCompletion P {1} 0 (by simp) B) : Subsingleton B := sorry
-
-/-- The diagonal structure map prevents `A × A` from modelling `A⟨1/1⟩`. -/
-example [CompleteSpace A] [T2Space A] [Nontrivial A] [DecidableEq A]
-    (P : PairOfDefinition A) :
-    ¬ IsRationalCompletion P {1} 1 (by simp) (A × A) := sorry
 
 /-- Huber's acyclicity for finite modules on a Laurent cover: for a complete ring of noetherian
 type, the cover `{|f| ≤ 1}`, `{|f| ≥ 1}` with intersection `{|f| = 1}` and a finite module `M`,
@@ -794,14 +657,7 @@ structure GlueingSquare : Prop where
   exists_prime_comap_eq : ∀ m : Ideal R, m.IsMaximal → ∃ p : Ideal (R₁ × R₂), p.IsPrime ∧
     p.comap ((algebraMap R R₁).prod (algebraMap R R₂)) = m
 
-/-- The identity square is a glueing square. -/
-example : GlueingSquare R R R R := sorry
-
-/-- `R₁ = R₂ = R` with `R₁₂ = R × R` and diagonal maps is not one: `r₁ − r₂` is diagonal. -/
-example [Nontrivial R] : ¬ GlueingSquare R R R (R × R) := sorry
-
 end GlueingSquare
-
 
 section GlueingDatum
 
@@ -846,24 +702,6 @@ def GlueingDatum.ofModule (R : Type*) [CommRing R] [Algebra R R₁] [Algebra R R
     GlueingDatum R₁ R₂ R₁₂ (R₁ ⊗[R] N) (R₂ ⊗[R] N) (R₁₂ ⊗[R] N) where
   ψ₁ := AlgebraTensorModule.cancelBaseChange R R₁ R₁₂ R₁₂ N
   ψ₂ := AlgebraTensorModule.cancelBaseChange R R₂ R₁₂ R₁₂ N
-
-/-- For the trivial square on `R`, a pair `(1 ⊗ x, 1 ⊗ y)` is a section exactly when `x = y`. -/
-example (R : Type*) [CommRing R] (x y : R) :
-    ((1 : R) ⊗ₜ[R] x, (1 : R) ⊗ₜ[R] y) ∈ (GlueingDatum.ofModule R R R R R).sections R ↔
-      x = y := sorry
-
-/-- Base-changing a zero module gives a zero section module on every compatible square. -/
-example (R : Type*) [CommRing R] [Algebra R R₁] [Algebra R R₂] [Algebra R R₁₂]
-    [IsScalarTower R R₁ R₁₂] [IsScalarTower R R₂ R₁₂]
-    (Z : Type*) [AddCommGroup Z] [Module R Z] [Subsingleton Z] :
-    Subsingleton ((GlueingDatum.ofModule R₁ R₂ R₁₂ R Z).sections R) := sorry
-
-/-- On the identity square, equal rank-two vectors glue and interchanging coordinates fails. -/
-example (R : Type*) [CommRing R] [Nontrivial R] :
-    ((1 : R) ⊗ₜ[R] ((1, 2) : R × R), (1 : R) ⊗ₜ[R] ((1, 2) : R × R)) ∈
-        (GlueingDatum.ofModule R R R R (R × R)).sections R ∧
-      ((1 : R) ⊗ₜ[R] ((1, 2) : R × R), (1 : R) ⊗ₜ[R] ((2, 1) : R × R)) ∉
-        (GlueingDatum.ofModule R R R R (R × R)).sections R := sorry
 
 end GlueingDatum
 
@@ -939,16 +777,6 @@ theorem denseBanach_inverseSystem_exact (K : Type*) [NontriviallyNormedField K]
     (t : ∀ n, V (n + 1) →L[K] V n) (ht : ∀ n, DenseRange (t n)) :
     Function.Surjective (fun x : ∀ n, V n ↦ fun n ↦ x n - t n (x (n + 1))) := sorry
 
-/-- Identity transitions give a surjective difference map on scalar sequences. -/
-example (K : Type*) [Field K] :
-    Function.Surjective (fun x : ℕ → K ↦ fun n ↦ x n - x (n + 1)) := sorry
-
-/-- On zero spaces the difference map is bijective. -/
-example (K : Type*) [NontriviallyNormedField K] (V : ℕ → Type*)
-    [∀ n, NormedAddCommGroup (V n)] [∀ n, NormedSpace K (V n)] [∀ n, Subsingleton (V n)]
-    (t : ∀ n, V (n + 1) →L[K] V n) :
-    Function.Bijective (fun x : ∀ n, V n ↦ fun n ↦ x n - t n (x (n + 1))) := sorry
-
 /-! ### R3.5 Uniform Banach rings (*uniform-iff-power-bound*) -/
 
 /-- For a complete Tate ring with a submultiplicative norm, the norm is equivalent to a
@@ -997,27 +825,20 @@ theorem test_padic (p : ℕ) [Fact p.Prime] (α : GelfandSpectrum ℚ_[p]) (x : 
 /-- The zero ring has empty spectrum, since `α(1) = 1 ≠ 0 = α(0)`. -/
 theorem test_zero_ring [Subsingleton A] : IsEmpty (GelfandSpectrum A) := sorry
 
-/-- The Gauss point realizes the spectral maximum simultaneously on every restricted series. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-    (n : ℕ) :
-    ∃ α : GelfandSpectrum (MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ 1)),
-      ∀ f : MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ 1),
-        α.val f = MvPowerSeries.gaussNorm norm (fun _ : Fin n ↦ 1)
-            (f : MvPowerSeries (Fin n) K) ∧
-        α.val f = smoothingFun (normRingSeminorm _) f ∧
-        α.val f = sSup (Set.range fun β : GelfandSpectrum
-          (MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ 1)) ↦ β.val f) := sorry
-
-/-- The dual-number nilpotent has norm one and spectral value zero; its norm is not multiplicative. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
+/-- The dual-number Check of *gelfand-spectrum-banach-ring*: the nilpotent has norm one and
+spectral value zero, and the ambient norm is not multiplicative. -/
+theorem test_dualNumbers (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K]
+    [CompleteSpace K] :
     let ε : TrivSqZeroExt K K := TrivSqZeroExt.inr 1
     ‖ε‖ = 1 ∧ smoothingFun (normRingSeminorm (TrivSqZeroExt K K)) ε = 0 ∧
       sSup (Set.range fun α : GelfandSpectrum (TrivSqZeroExt K K) ↦ α.val ε) = 0 ∧
       ‖ε * ε‖ ≠ ‖ε‖ * ‖ε‖ ∧
       ¬ ∃ α : GelfandSpectrum (TrivSqZeroExt K K), ∀ x, α.val x = ‖x‖ := sorry
 
-/-- Points of the spectrum vanish on nilpotents. -/
-example (α : GelfandSpectrum A) (x : A) (hx : x ^ 2 = 0) : α.val x = 0 := sorry
+/-- Points of the spectrum annihilate square-zero elements. -/
+example (α : GelfandSpectrum A) (x : A) (hx : x ^ 2 = 0) : α.val x = 0 := by
+  have h : (α.val x) ^ 2 = 0 := by rw [← map_pow, hx, map_zero]
+  exact (pow_eq_zero_iff (by decide : (2 : ℕ) ≠ 0)).mp h
 
 end GelfandSpectrum
 
@@ -1039,6 +860,18 @@ def projectiveTrace : (M →ₗ[R] M) →ₗ[R] R :=
 
 variable {R M}
 
+open CategoryTheory MonoidalCategory in
+/-- *projective-trace-realization*: the symmetric categorical trace on a finite projective
+module, evaluated at `1` in the unit module, is its scalar contraction trace
+(Stacks, Tag 02DU; Mathlib's exact-pairing evaluation and coevaluation). -/
+theorem projectiveTrace_eq_categoricalTrace (R : Type u) [CommRing R]
+    (M : (TauCeti.finiteProjectiveModules R).FullSubcategory) (f : M.obj ⟶ M.obj) :
+    (ExactPairing.coevaluation M.obj (HasRightDual.rightDual (X := M.obj)) ≫
+      f ▷ (HasRightDual.rightDual (X := M.obj)) ≫
+      (β_ M.obj (HasRightDual.rightDual (X := M.obj))).hom ≫
+      ExactPairing.evaluation M.obj (HasRightDual.rightDual (X := M.obj))).hom 1 =
+        projectiveTrace R M.obj f.hom := sorry
+
 /-- On free modules the projective trace is Mathlib's trace. -/
 theorem projectiveTrace_eq_trace [Module.Free R M] :
     projectiveTrace R M = LinearMap.trace R M := sorry
@@ -1054,43 +887,12 @@ theorem projectiveTrace_cyclic {N : Type*} [AddCommMonoid N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
     projectiveTrace R M (g.comp f) = projectiveTrace R N (f.comp g) := sorry
 
-/-- On two scalar modules, cyclicity is commutativity of scalar multiplication. -/
-example (R : Type*) [CommSemiring R] (a b : R) :
-    projectiveTrace R R ((b • LinearMap.id).comp (a • LinearMap.id)) = b * a ∧
-      projectiveTrace R R ((a • LinearMap.id).comp (b • LinearMap.id)) = a * b ∧
-      b * a = a * b := sorry
-
-/-- A zero source makes both cross-object traces zero. -/
-example (R Z N : Type*) [CommSemiring R] [AddCommMonoid Z] [Module R Z] [Subsingleton Z]
-    [Module.Finite R Z] [Module.Projective R Z] [AddCommMonoid N] [Module R N]
-    [Module.Finite R N] [Module.Projective R N] (f : Z →ₗ[R] N) (g : N →ₗ[R] Z) :
-    projectiveTrace R Z (g.comp f) = 0 ∧ projectiveTrace R N (f.comp g) = 0 := sorry
-
-/-- The rank-one/rank-two cyclicity formula has the common value `ca + db`. -/
-example (R : Type*) [CommSemiring R] (a b c d : R) :
-    let f : R →ₗ[R] R × R := (a • LinearMap.id).prod (b • LinearMap.id)
-    let g : R × R →ₗ[R] R := c • LinearMap.fst R R R + d • LinearMap.snd R R R
-    projectiveTrace R R (g.comp f) = c * a + d * b ∧
-      projectiveTrace R (R × R) (f.comp g) = c * a + d * b := sorry
-
-/-- `ℚ × 0 ⊆ ℚ × ℚ` is projective and not free: the trace of its identity is the rank function
-`(1, 0)`, while Mathlib's trace gives `0`. -/
-example [Module.Finite (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})]
+/-- The nonfree Check of *projective-trace-realization*: `ℚ × 0 ⊆ ℚ × ℚ` is projective and
+not free. Its identity has trace `(1, 0)`, while the pinned Mathlib trace gives `0`. -/
+theorem projectiveTrace_nonfree [Module.Finite (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})]
     [Module.Projective (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})] :
     projectiveTrace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = (1, 0) ∧
       LinearMap.trace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = 0 := sorry
-
-/-- Every endomorphism of the zero module has trace zero. -/
-example (R Z : Type*) [CommSemiring R] [AddCommMonoid Z] [Module R Z] [Subsingleton Z]
-    [Module.Finite R Z] [Module.Projective R Z] (f : Z →ₗ[R] Z) :
-    projectiveTrace R Z f = 0 := sorry
-
-/-- An endomorphism of the scalar module has trace its value at `1`. -/
-example (R : Type*) [CommSemiring R] (f : R →ₗ[R] R) : projectiveTrace R R f = f 1 := sorry
-
-/-- On `R²` the trace of `!![a, b; c, d]` is `a + d`. -/
-example {R : Type*} [CommSemiring R] (a b c d : R) :
-    projectiveTrace R (Fin 2 → R) (Matrix.toLin' !![a, b; c, d]) = a + d := sorry
 
 end LinearMap
 
@@ -1107,28 +909,22 @@ def projectiveTrace : B →ₗ[R] R :=
 def projectiveTraceForm : LinearMap.BilinForm R B :=
   (Algebra.lmul R B).toLinearMap.compr₂ (projectiveTrace R B)
 
-/-- On `R` over itself the trace form is multiplication. -/
-example (R : Type*) [CommRing R] : projectiveTraceForm R R = LinearMap.mul R R := sorry
-
-/-- The trace form on the product algebra is the dot product. -/
-example (R : Type*) [CommRing R] (x₁ x₂ y₁ y₂ : R) :
-    projectiveTraceForm R (R × R) (x₁, x₂) (y₁, y₂) = x₁ * y₁ + x₂ * y₂ := sorry
-
-/-- The algebra with diagonal action on its second factor has rank `(1,2)` and trace `(1,2)`. -/
-example :
-    letI : Algebra (ℚ × ℚ) (ℚ × (ℚ × ℚ)) :=
-      ((RingHom.fst ℚ ℚ).prod ((RingHom.snd ℚ ℚ).prod (RingHom.snd ℚ ℚ))).toAlgebra
-    ∃ (_ : Module.Finite (ℚ × ℚ) (ℚ × (ℚ × ℚ)))
-      (_ : Module.Projective (ℚ × ℚ) (ℚ × (ℚ × ℚ))),
-      projectiveTrace (ℚ × ℚ) (ℚ × (ℚ × ℚ)) 1 = (1, 2) ∧
-        _root_.Algebra.trace (ℚ × ℚ) (ℚ × (ℚ × ℚ)) 1 = 0 := sorry
-
-/-- On the zero algebra the trace form is zero and perfect. -/
-example (R B : Type*) [CommRing R] [CommRing B] [Algebra R B] [Module.Finite R B]
-    [Module.Projective R B] [Subsingleton B] :
-    projectiveTraceForm R B = 0 ∧ Function.Bijective (projectiveTraceForm R B) := sorry
-
 variable {R B}
+
+/-- *algebra-trace-base-change*: extension of scalars carries the trace of `b` to the trace
+of `1 ⊗ b` for every finite projective algebra (Stacks, Tags 02DU and 0BJF). -/
+theorem projectiveTrace_baseChange (R' : Type*) [CommRing R'] [Algebra R R'] (b : B) :
+    projectiveTrace R' (R' ⊗[R] B) (1 ⊗ₜ[R] b) =
+      algebraMap R R' (projectiveTrace R B b) := sorry
+
+/-- *trace-geometric-point-formula*: a finite étale algebra over a field has as many geometric
+points as its dimension, and its scalar trace is the sum of their values
+(Stacks, Tags 03SH and 0BIL; Mathlib's `Algebra.trace_eq_sum_embeddings` for field factors). -/
+theorem projectiveTrace_eq_sum_geometricPoints (k B Ω : Type*) [Field k] [CommRing B]
+    [Algebra k B] [Module.Finite k B] [Algebra.Etale k B] [Field Ω] [IsAlgClosed Ω]
+    [Algebra k Ω] [Fintype (B →ₐ[k] Ω)] (b : B) :
+    Fintype.card (B →ₐ[k] Ω) = Module.finrank k B ∧
+      algebraMap k Ω (projectiveTrace k B b) = ∑ σ : B →ₐ[k] Ω, σ b := sorry
 
 /-- Transitivity in a tower `R → B → C` of finite projective algebras:
 `Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}` (the free case is Mathlib's `Algebra.trace_trace`; the finite
@@ -1143,36 +939,6 @@ theorem projectiveTrace_trans {C : Type*} [CommRing C] [Algebra B C] [Algebra R 
 (KL15, §1.2, p. 13; Stacks, Tag 0BJF, Lemma 49.3.1). -/
 theorem etale_iff_projectiveTraceForm_bijective :
     Algebra.Etale R B ↔ Function.Bijective (projectiveTraceForm R B) := sorry
-
-/-- For `d` with `B = R[x]/(x² − d)`: `Tr(a + bx) = 2a` and `Tr(x²) = 2d`. -/
-example {R : Type*} [CommRing R] (d a b : R)
-    [Module.Finite R (AdjoinRoot (Polynomial.X ^ 2 - Polynomial.C d))]
-    [Module.Projective R (AdjoinRoot (Polynomial.X ^ 2 - Polynomial.C d))] :
-    projectiveTrace R (AdjoinRoot (Polynomial.X ^ 2 - Polynomial.C d))
-        (algebraMap R _ a + algebraMap R _ b * AdjoinRoot.root _) = 2 * a ∧
-      projectiveTrace R (AdjoinRoot (Polynomial.X ^ 2 - Polynomial.C d))
-        (AdjoinRoot.root _ ^ 2) = 2 * d := sorry
-
-/-- In characteristic `2`, `k[x]/(x² − 1) = k[x]/((x − 1)²)` is not étale and its trace pairing
-vanishes. -/
-example (k : Type*) [Field k] [CharP k 2]
-    [Module.Finite k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k))]
-    [Module.Projective k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k))] :
-    projectiveTraceForm k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k)) = 0 ∧
-      ¬ Algebra.Etale k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k)) := sorry
-
-/-! Pull–identify–trace with structure-sheaf coefficients on an affine correspondence
-`Spec R' ← Spec B → Spec R`, `B` finite projective over `R` (*pull-identify-trace*): the
-coefficient map is multiplication by `c = φ(1) ∈ B` and `T(1) = Tr_{B/R}(c)`, unnormalised. -/
-
-/-- The identity correspondence (`B = R`, both maps the identity) with coefficient map `1`, `0`,
-`2` gives `T(1) = 1, 0, 2`: the value is `Tr(φ(1))`, not the degree. -/
-example (R : Type*) [CommRing R] :
-    projectiveTrace R R 1 = 1 ∧ projectiveTrace R R 0 = 0 ∧ projectiveTrace R R 2 = 2 := sorry
-
-/-- The canonical coefficient map on the degree-two cover `Spec(R × R) → Spec R` gives
-`T(1) = Tr(1) = 2`. -/
-example (R : Type*) [CommRing R] : projectiveTrace R (R × R) 1 = 2 := sorry
 
 end Algebra
 
