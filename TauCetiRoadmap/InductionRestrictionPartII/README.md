@@ -12,8 +12,8 @@ proves an exterior-square formula for odd abelian bases. It records all thirty-o
 Wood's Table 2 as explicit input data for fixed-fiber applications; nineteen abelian entries
 are also worked Checks of that formula.
 
-The end results are `all_fixed_fibers`, `two_adic_survival`, `surviving_parities` and
-`rank_parity_count` in Layer RS.4, and `antidiagonal_reduced_multiplier`,
+The end results are the fixed-fiber count, `two_adic_survival`, the affine-coset description of
+surviving parities and `rank_parity_count` in Layer RS.4, and the reduced-multiplier formula,
 `antidiagonal_multiplier` and the conditional finite-model applications in Layer RS.6.
 Layers RS.0, RS.1 and RS.3 supply
 the homological comparisons, local normalization and degree restrictions they need. The
@@ -283,19 +283,19 @@ exterior-square formula
 for odd abelian bases, and applies the fixed-fiber theorems to finite marked models under explicit
 multiplier hypotheses. Each layer ends with examples and dependencies.
 
-The headline inventory at the start of `Suggested.lean` is:
+Representative milestones in `Suggested.lean` include:
 
 | Lean theorem | Roadmap statement on pinned carriers |
 | --- | --- |
-| `all_fixed_fibers` | RS.4.5: count the actual central-extension fiber with its degree compatibility and lift-square correction. |
+| `all_fixed_fibers_power_count` | RS.4.5: count the solutions of the finite abelian power equation by its square-times-torsion obstruction. |
 | `two_adic_survival` | RS.4.10: the finite abelian power equation is solvable exactly at the obstruction threshold. |
-| `surviving_parities` | RS.4.16: the power-equation fibers survive on an affine joint-kernel coset, with torsion and rank counts. |
+| `surviving_parities_linear` | RS.4.16: simultaneous linear compatibility and square-class constraints form an affine joint-kernel coset. |
 | `rank_parity_count` | RS.4.17: count any affine kernel coset over `𝔽₂`. |
 | `antidiagonal_multiplier` | RS.6.8: compare ordinary integral second homology of the anti-diagonal model and its base. |
-| `antidiagonal_reduced_multiplier` | RS.6.8: the oriented-cycle relation subgroup vanishes, and its quotient is the exterior square of the base. |
 
-The native coordinate statements also apply to the conditional finite-model applications of
-RS.6.5, RS.6.7 and RS.6.10 after identifying the specified reduced kernel and lift-square columns.
+The fixed-fiber and surviving-parity theorems for the marked unit action, and the reduced-multiplier
+comparison, use the supplied marked-extension and reduced-multiplier objects. Their full statements
+are the targets in RS.4.5, RS.4.16 and RS.6.8.
 
 ## Layer RS.0: Exactness and Hall-coinvariant homology comparisons
 
@@ -887,7 +887,7 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 
 ### RS.4.5 All fixed fibers and their torsion count
 
-Prove `all_fixed_fibers`: For odd `q≥1` prime to |G|, the fiber over (g,m) has `|A[q−1]|` fixed points
+Prove the fixed-fiber count: For odd `q≥1` prime to |G|, the fiber over (g,m) has `|A[q−1]|` fixed points
 if `δ(m)=[g]` and `b(g,m)^r∈A^{2r}`, and zero otherwise. The q and `q⁻¹` actions have the same fixed
 points. No nonnegativity of `m` is needed for this group-theoretic statement.
 
@@ -895,21 +895,6 @@ points. No nonnegativity of `m` is needed for this group-theoretic statement.
 its inverse have the same fixed set. For an arbitrary finite central marked model, retain the
 finite-kernel hypothesis and count the fixed subset of the actual (g,m) fiber. Its cardinality is
 zero when degree compatibility or power-image membership fails.
-
-The native headline `all_fixed_fibers` uses `S : GroupExtension A E G` with finite abelian
-central kernel and a finite index set `D`. Choose lifts `X_i`, kernel elements `a_i` with
-`S.inl(a_i)=X_i²`, and `Y,y₂` with `S.inl(y₂)=Y²`. For `m : D → ℤ`, compatibility is
-`∏ᵢ [π(X_i)]^{m_i}=[π(Y)]` and `b=y₂∏ᵢ a_i^{−m_i}`. For `q=2r+1`, the actual fixed fiber is
-
-```text
-{Z ∈ E : compatibility, π(Z)=π(Y), Z^(2r+1)·inl(∏ᵢ a_i^(−r m_i))=Z}.
-```
-
-It is nonempty exactly when compatibility holds and `b∈A²·A[r]`; its cardinality is then
-`|A[2r]|`, and otherwise zero. Only finiteness of the kernel is needed for this coordinate
-statement, including `r=0`. In the supplied marked model the chosen lifts represent their
-indexed classes, and the coprimality hypotheses identify this coordinate expression with the
-unit action. The statement counts fixed points in the actual extension fiber.
 
 The native theorem `all_fixed_fibers_power_count` states the power-equation count for any finite
 abelian `A`, `b∈A` and natural `r`, including zero: the solutions of `h^{2r}=b^{−r}` number
@@ -926,7 +911,7 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 - Take `A = C₄` (written additively), `b = 1` and `q=3` (`r=1`): `b` is not in `2A + A[1] = 2A`, so the
   fiber has no fixed point, although `|A[q−1]| = |A[2]| = 2`.
 - A degree incompatible with `[g]` has an empty fixed fiber even when its square obstruction
-  vanishes; the compatibility condition is part of the native fiber subtype.
+  vanishes; compatibility is necessary for the marked-extension fiber to be nonempty.
 - At `q=1` the action is the identity, so every compatible fiber has |A| fixed points and
   every incompatible fiber is empty. The positive-valuation criterion below requires `q>1`.
 
@@ -1198,7 +1183,8 @@ developed here, rather than separately numbered results in that paper.
 
 ### RS.4.16 Surviving parities form an affine kernel coset
 
-Prove `surviving_parities`: If `v₂(q−1)=t+1`, the parities giving nonempty fixed fibers are
+Prove the affine-coset description of surviving parities: if `v₂(q−1)=t+1`, the parities giving
+nonempty fixed fibers are
 `C_t^g=v_g+kerL_t`. Each corresponding compatible integer-degree fiber has `|A[q−1]|` fixed points.
 
 *Proof sketch.* Membership combines a compatibility equation and the quotient obstruction equation.
@@ -1210,16 +1196,6 @@ nonempty exactly when `ε(m)+v_g∈ker L_t`. The fixed subset then has cardinali
 specializes to the reduced-cover model, where `A` is the reduced multiplier; it also holds for any
 finite central marked model. The conditions are `q>1`, q odd, and q coprime to a positive common
 exponent `n` of the cover and `G`. No upper bound `q<n` is required.
-
-The native headline `surviving_parities` takes a finite abelian group `A`, a finite binary
-module `V`, a compatibility
-map `a : V →ₗ[ZMod 2] U`, a square-column map `s : V →ₗ[ZMod 2] ElementaryTwoQuotient A`,
-and actual obstruction representatives `b : V → A` satisfying
-`class(b(v))=s(v−v_g)`. For odd `q>1`, it identifies the parities with compatible nonempty
-power-equation fibers `h^{q−1}=b(v)^{−(q−1)/2}` with
-`v_g+ker(jointParityMap a s B_{v₂(q−1)−1})`, gives each nonempty fiber's torsion count and
-counts the surviving parities by rank-nullity. This uses the native representatives and their
-square-class identity; the actual extension supplies that identity by RS.4.14.
 
 The native linear-algebra statement `surviving_parities_linear` identifies
 `{v : a(v)=a(v_g), s(v−v_g)∈W}` with `v_g+ker(jointParityMap a s W)` for arbitrary binary
@@ -1662,18 +1638,13 @@ odd order, `c(G)` is a single conjugacy class: conjugating `((a,a⁻¹),t)` by `
 is bijective on `G`. For `G = C₂` the one-class statement fails: `F(C₂) ≅ C₂ × C₂` is abelian and `c(C₂)`
 consists of two classes.
 
-Prove `antidiagonal_reduced_multiplier`: for finite abelian `G` of odd order,
+Prove the reduced-multiplier formula for the anti-diagonal model: for finite abelian `G` of odd order,
 
 ```text
 M(F(G), c(G)) = M(F(G)) ≅ M(G) ≅ Λ²G,
 ```
 
-The native headline `antidiagonal_reduced_multiplier` forms the additive subgroup generated
-by the classes of the cycles `[x|y]−[y|x]` with `x∈c(G)` and `xy=yx`, using
-`groupHomology.cycles₂` and `groupHomology.H2π` directly. It states that this subgroup is zero
-and that its native quotient is isomorphic to `M(F(G))`, to `M(G)` and to `Λ²G`. This quotient
-is precisely IG.3.4's reduced multiplier. The native
-ordinary-homology comparison is `antidiagonal_multiplier`: `M(F(G)) ≅ M(G)`. Here `Λ²G`
+The native ordinary-homology comparison is `antidiagonal_multiplier`: `M(F(G)) ≅ M(G)`. Here `Λ²G`
 is the exterior square of the `ℤ`-module `G`. Concretely, for `G = ⊕ᵢ C_{nᵢ}` the multiplier is
 `⊕_{i<j} C_{gcd(nᵢ,nⱼ)}`.
 
