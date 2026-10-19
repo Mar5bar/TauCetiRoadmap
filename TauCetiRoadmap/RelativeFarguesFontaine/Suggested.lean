@@ -52,6 +52,16 @@ theorem ramifiedGhost_natural (π : O) (q : ℕ) (A B : Type u)
     ramifiedGhost π q B n (f ∘ x) = f (ramifiedGhost π q A n x) := by
   sorry
 
+example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
+    (x : ℕ → A) : ramifiedGhost π q A 0 x = x 0 := by
+  sorry
+
+example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
+    (n : ℕ) (x : ℕ → A) :
+    MvPolynomial.eval₂ (algebraMap O A) x (ramifiedWittPolynomials π q n) =
+      ramifiedGhost π q A n x := by
+  sorry
+
 example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A] (x : ℕ → A) :
     ramifiedGhost π q A 1 x = x 0 ^ q + algebraMap O A π * x 1 := by
   sorry
@@ -82,6 +92,10 @@ def twistedGhost (π : O) (_q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
 example (π : O) (q : ℕ) : WittTwistAdmissible π q (Polynomial.X ^ q) := by
   sorry
 
+example (π : O) (q : ℕ) (Q : Polynomial O) (hπ : IsUnit π) :
+    WittTwistAdmissible π q Q := by
+  sorry
+
 example : ¬ WittTwistAdmissible (2 : ℤ) 2 (Polynomial.X ^ 2 + 1) := by
   sorry
 
@@ -106,6 +120,9 @@ def periodRadiusValue (πval teichval : ℝ) : ℝ :=
 theorem periodRadiusValue_frobenius (πval teichval : ℝ) (q : ℕ)
     (hπ : 0 < πval) (hπ1 : πval < 1) (ht : 0 < teichval) :
     periodRadiusValue πval (teichval ^ q) = q * periodRadiusValue πval teichval := by
+  sorry
+
+example (t : ℝ) : periodRadiusValue 1 t = 0 := by
   sorry
 
 example : periodRadiusValue (1 / 2) (1 / 4) = 2 := by
@@ -139,6 +156,15 @@ def IsTwistSection (φ : K →+* K) (π : Kˣ) (n : ℤ) (x : K) : Prop :=
 /-- The scalar section equation agrees with invariance under the descent multiplier. -/
 theorem twist_invariance_iff (φ : K →+* K) (π : Kˣ) (n : ℤ) (x : K) :
     twistMultiplier π n * φ x = x ↔ IsTwistSection φ π n x := by
+  sorry
+
+example (π : Kˣ) : twistMultiplier π 0 = 1 := by
+  sorry
+
+example (n : ℤ) : twistMultiplier (1 : Kˣ) n = 1 := by
+  sorry
+
+example (φ : K →+* K) (π : Kˣ) (n : ℤ) : IsTwistSection φ π n 0 := by
   sorry
 
 example (π : Kˣ) : twistMultiplier π 1 = (π : K)⁻¹ := by
@@ -210,7 +236,36 @@ example (A : Type u) [CommRing A] (x : A × A) :
       x.1 - x.2 = 0 := by
   sorry
 
+example : ¬ (⟨TensorProduct.lid ℤ ℤ, TensorProduct.lid ℤ ℤ⟩ :
+    GlueingDatum ℤ ℤ ℤ ℤ ℤ ℤ).IsSection (1, 0) := by
+  sorry
+
 end GlueingDatum
+
+/-- Rank-one overlap datum with the second identification multiplied by a specified unit. -/
+def GlueingDatum.unitTransition (R₁ R₂ R₁₂ : Type u)
+    [CommRing R₁] [CommRing R₂] [CommRing R₁₂]
+    [Algebra R₁ R₁₂] [Algebra R₂ R₁₂] (a : R₁₂ˣ) :
+    GlueingDatum R₁ R₂ R₁₂ R₁ R₂ R₁₂ where
+  ψ₁ := TensorProduct.AlgebraTensorModule.rid R₁ R₁₂ R₁₂
+  ψ₂ := (TensorProduct.AlgebraTensorModule.rid R₂ R₁₂ R₁₂).trans
+    (LinearEquiv.smulOfUnit a)
+
+example :
+    let D := GlueingDatum.unitTransition ℚ ℚ ℚ (Units.mk0 (3 : ℚ) (by norm_num))
+    D.IsSection (1, 1 / 3) ∧ ¬ D.IsSection (1, 1) := by
+  sorry
+
+example (S₂ S₃ S₆ : Type u) [CommRing S₂] [CommRing S₃] [CommRing S₆]
+    [Algebra ℤ S₂] [Algebra ℤ S₃] [Algebra ℤ S₆]
+    [IsLocalization.Away (2 : ℤ) S₂] [IsLocalization.Away (3 : ℤ) S₃]
+    [IsLocalization.Away (6 : ℤ) S₆]
+    [Algebra S₂ S₆] [Algebra S₃ S₆]
+    [IsScalarTower ℤ S₂ S₆] [IsScalarTower ℤ S₃ S₆] (h₃ : IsUnit (3 : S₆)) :
+    let D := GlueingDatum.unitTransition S₂ S₃ S₆ h₃.unit
+    D.IsSection (1, IsLocalization.Away.invSelf (S := S₃) (3 : ℤ)) ∧
+      ¬ D.IsSection (1, 1) := by
+  sorry
 
 section GlueingPair
 
@@ -241,6 +296,11 @@ example (M : Type u) [AddCommGroup M] [Module R M] :
 
 example (M : Type u) [AddCommGroup M] [Module R M] :
     Submodule.torsion' R M (Submonoid.powers (1 : R)) = ⊥ := by
+  sorry
+
+example : (2 : ZMod 4) ^ 2 • (1 : ZMod 4) = 0 ∧
+    (2 : ZMod 4) ^ 0 • (1 : ZMod 4) ≠ 0 ∧
+    (2 : ZMod 4) ^ 1 • (1 : ZMod 4) ≠ 0 := by
   sorry
 
 example (p : ℕ) [Fact p.Prime] :
@@ -305,6 +365,11 @@ example (ξ : A) (hξ : ξ ∈ nonZeroDivisors A) (hnu : ¬ IsUnit ξ) :
       localModificationsBoundedBy ξ A 0 := by
   sorry
 
+example (ξ : A) (hξ : IsUnit ξ) (M' : Type u) [AddCommGroup M']
+    [Module A M'] [Module.Finite A M'] [Module.Projective A M'] (k : ℕ) :
+    localModificationsBoundedBy ξ M' k = {⊤} := by
+  sorry
+
 example (ξ : A) : localModificationsBoundedBy ξ (Fin 0 → A) 0 = {⊥} := by
   sorry
 
@@ -316,22 +381,20 @@ These need G-bundles on the relative curve, which have no carrier at the pins; s
 /-
 README-only definitions and constructions (with their APIs and Checks there):
 Layer 0: the full ghost API ramifiedGhost_zero, ramifiedGhost_one;
-cohenCoefficientLifts; ramifiedWittArbitraryAlgebras, ramifiedWittUniformizerChange,
-ramifiedTeichFrobeniusVerschiebung, ramifiedWittUniversalProperty,
-ramifiedCoefficientComparison, ramifiedWittDiagonal, qTwistedWittFunctor,
+cohenCoefficientLifts; qTwistedWittFunctor,
 qTeichmullerLift, lubinTateTeichmullerLift, integralRationalChartRings,
-rootExtensionChartModel, curlyYAffinoidDefinition, wholeAnalyticAinfLocus.
-Layer 1: annularGlobalSectionGeneration; genericPeriodDomain, radiusFunctionAndRationalAnnuli,
+rootExtensionChartModel, wholeAnalyticAinfLocus, wholeAnalyticAinf.
+Layer 1: annularGlobalSectionGeneration; radiusFunctionAndRationalAnnuli,
 wittSeminormLambdaMu, relativeExtendedRobbaRings, relativePeriodPresheaves,
 intervalAdicPairAndBaseProjection, berkovichPeriodDeformation.
-Layer 2: frobeniusQuotientAndPresentation, globalPeriodSheavesAndEtaleFunctoriality.
+Layer 2: globalPeriodSheavesAndEtaleFunctoriality and the diamond presentations of the supplied curve.
 Layer 3: divDModuliVSheaf, completedRingsBPlusAndB, additionAndDisjointDivisorLoci,
-completedDivisorGeometricStalk.
+completedDivisorGeometricStalk, divisorCompletionFiniteProjectives.
 Layer 4: classicalPointsOfIntegralPeriodDisc, tiltingMapOfPeriodDisc, div1Moduli
 and the marked geometric untilt/de Rham comparisons.
-Layer 5: isocrystalLineBundlesAndSign and gradedAlgebraAndAlgebraicCurveMap;
-sectionCoveredProjChartMap and lubinTateDivisorSection are geometric milestones.
-Layer 6: noLegShtuka, noLegShtukaComparison, normalizedTailComparison;
+Layer 5: lubinTateDivisorSection compares the supplied period section with integral charts and completions.
+The geometric twists, section algebra and partial Proj maps are supplier inputs.
+Layer 6: normalizedTailComparison; the geometric no-leg equivalence is supplied;
 ExactSquare.zariski_sections_can, ExactSquare.not_exact_double_localization;
 GlueingDatum.can_sections_adjunction, GlueingDatum.sections_can_of_flat,
 GlueingDatum.baseChange_can, GlueingDatum.sections_ext,
@@ -342,7 +405,8 @@ GlueingPair.of_isUnit, GlueingPair.noetherian_compat, GlueingPair.not_stacks_exa
 Glueable.iff_torsion, Glueable.of_flat, Glueable.not_smooth_germs;
 GlueingDatum.sections, GlueingDatum.sectionsCompare, GlueingDatum.can,
 GlueingDatum.Hom, Modification,
-RelativeBe, RelativeBdRPlus, RelativeBdR and meromorphic bundles on the complement of a divisor.
+relativeBPairPeriodComparison, relativeBPairModificationCompatibility and meromorphic bundles
+on the complement of a divisor; the unramified relative B-pair rings/equivalence are supplied.
 Layer 7: torsorTensorDictionary; GModification and GBundleModification, with geometric tensor gluing,
 faithful-representation meromorphy and ordinary torsor descent.
 -/
