@@ -703,7 +703,7 @@ pro-`p` quotient.
     - the two worked `ℚ_2(√5)/ℚ_2` cases of the examples section, one solvable and one not.
   - *Source:* Serre LF V §2. The proof is surjectivity on each graded piece, plus completeness.
     *False generalization:* for a ramified extension the norm of a unit is a unit, but the image
-    is a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
+    can be a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
     sufficiency half of the norm-equation criterion is false there. Here `f = 1`, so `f ∣ v_K(x)`
     holds for every `x` while not every unit is a norm. Necessity survives in every extension:
     `x = N_{L/K}(y)` gives `v_K(x) = f · v_L(y)`.
