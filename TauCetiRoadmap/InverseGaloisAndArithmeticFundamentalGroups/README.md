@@ -1658,7 +1658,7 @@ function stays distinct from the ring map `eₜ` on `Rₜ`. Source: [Mathlib `Ra
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* Mathlib `Polynomial.sum`, `RatFunc.eval`,
 `RatFunc.eval_zero`, `Polynomial.coeff_monomial`, `Polynomial.map`, `Polynomial.evalRingHom`.
-*Lean:* `RationalSpecialization.specialize`.
+*Lean:* `RationalSpecialization.specialize`, `RationalSpecialization.specialize_not_multiplicative`.
 
 **Checks.**
 
@@ -1927,7 +1927,7 @@ specialization*; Supplied by EtaleCohomologyFoundations §F.0 /
 SchemeAndStackFoundations Layer 0 (scheme points, residue fields, fibre products).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-*Lean:* `IsHilbertian` (the polynomial form on the affine line).
+*Lean:* `IsHilbertian` (the polynomial form on the affine line), `not_isHilbertian_complex`.
 
 **Checks.**
 
@@ -2141,6 +2141,9 @@ full degree `|G|`, so the fibre is connected; a connected `G`-torsor over `K` is
 fields. *Needs:* *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number
 fields* (number-field case), *Thin sets for specialization*, Layer IG.0 *Finite Galois algebras and
 torsors*, EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; SchemeAndStackFoundations Layer 0.
+*Lean:* `IsHilbertian.infinite_full_group` is the polynomial form: for a separable polynomial over
+`K(T)`, infinitely many parameters retain regular coefficients, degree, separability and the full
+Galois group. This polynomial assertion also allows a nontrivial constant subextension.
 
 **Checks.**
 
@@ -2168,6 +2171,8 @@ previous parameters and the compositum of the previous fields into the avoidance
 §3.3 Proposition 3.3.3 and Corollary 3.3.4, printed p.24; §3.4 Theorem 3.4.1, p.25. *Needs:*
 *Full-group specialization of regular covers*, *Hilbert irreducibility over number fields*, Layer
 IG.0 *Finite Galois algebras and torsors*.
+*Lean:* `HasRegularRealization.exists_disjoint_realization` states the existence of a realization
+linearly disjoint from the prescribed finite extension, using that their tensor product is a domain.
 
 **Checks.**
 
@@ -2431,6 +2436,8 @@ Fried–Jarden, Theorem 13.9.1(b). *Needs:* *Rational function fields are Hilber
 *Weissauer's Hilbertian extension theorem*,
 *Independent quadratic characters of Hilbertian fields*; Mathlib infinite Galois correspondence;
 ProfiniteProPGroups Layers 0 and 3, with the pinned open-subgroup theorem above.
+*Lean:* `normal_subgroup_absoluteGaloisGroup_eq_bot`, with `Algebra.EssFiniteType ℚ K`
+expressing finite generation of the field extension.
 
 **Checks.**
 
@@ -2706,7 +2713,10 @@ the presentation of `B_r`; match the chosen oriented path in configuration space
 Sources: [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 §3, pp. 4–5; [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §§2.1–2.2, pp. 738–740. *Needs:* *Branch tuples and Nielsen classes*; Tau Ceti `TauCeti.BraidGroup`.
-*Lean:* `HurwitzMove.apply`, `HurwitzMove.inverse`.
+*Lean:* `HurwitzMove.apply`, `HurwitzMove.inverse`, `HurwitzMove.inverse_apply`,
+`HurwitzMove.apply_inverse`, `HurwitzMove.equiv`, `HurwitzMove.far_commute`, `HurwitzMove.braid`,
+`HurwitzAction.action`, `HurwitzAction.action_sigma`, `HurwitzAction.product_action`,
+`HurwitzAction.generated_action`, `HurwitzAction.classes_action`.
 
 **Checks.**
 
@@ -2765,7 +2775,8 @@ compute precomposition by inner automorphisms. Source: [Chen, *Nonabelian level
 structures*](https://arxiv.org/pdf/2011.12940v2), §1.1, p. 5, and §1.6, p. 12. *Needs:* *Branch
 tuples and Nielsen classes*; Mathlib `FreeGroup`, `FreeGroup.lift`, `MulAut`, `Group.rank`.
 *Lean:* `SurjectiveFreeHom`, `ExteriorEpi.relation`, `ExteriorEpi`,
-`TSystem.relation`, `TSystem`, `TSystem.quotient`, `nonempty_surjectiveFreeHom_iff`.
+`TSystem.relation`, `TSystem`, `TSystem.quotient`, `nonempty_surjectiveFreeHom_iff`,
+`ExteriorEpi.exists_tuple_equiv` (the tuple–surjection equivalence with its generator formula).
 
 **Checks.**
 
@@ -3004,6 +3015,7 @@ formula gives zero when `xy = yx`; compute `τ_E` on this cycle from a set-theor
 §2.1, p. 2, and the proof of Theorem 2.5, p. 4 (universal coefficients). *Needs:* Mathlib
 `GroupExtension`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `Rep.trivial`,
 `groupHomology.map`; RepresentationTheory/InductionRestriction Layer 7.
+*Lean:* `ReducedSchur.exists_commutingCycle`, `ReducedSchur.lift_commutator_independent`.
 
 **Checks.**
 
@@ -3135,7 +3147,8 @@ invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §2
 Theorem 2.5, pp. 2–4. *Needs:* *Marked central extensions*; Mathlib `PresentedGroup`,
 `PresentedGroup.toGroup`.
 *Lean:* `ReducedSchur.universalRelations`, `ReducedSchur.universalMarked`, `ReducedSchur.universalProjection`,
-`ReducedSchur.universalProjection_surjective`, `ReducedSchur.universalKernel_le_center`.
+`ReducedSchur.universalProjection_surjective`, `ReducedSchur.universalKernel_le_center`,
+`ReducedSchur.universal_marked_property`.
 
 **Checks.**
 
@@ -3160,7 +3173,8 @@ module; each relator has degree zero, so the degree on the free group descends. 
 algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §2,
 Lemmas 2.1–2.4, pp. 2–4. *Needs:* *The universal marked extension*; Mathlib `Finsupp`,
 `Abelianization.of`.
-*Lean:* `ReducedSchur.classSet`, `ReducedSchur.classAbelianization`, `ReducedSchur.classDegree`.
+*Lean:* `ReducedSchur.classSet`, `ReducedSchur.classAbelianization`, `ReducedSchur.classDegree`,
+`ReducedSchur.exists_degree` (existence and uniqueness of the degree homomorphism on generators).
 
 **Checks.**
 
@@ -3428,7 +3442,8 @@ a Hurwitz move; compute the projections on generators. Source: [Wood, *An algebr
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §3 and Theorem 3.1,
 pp. 4–6. *Needs:* *The braid-orbit monoid*, *The universal marked extension*, *The class degree map*,
 *The kernel of the universal marked extension*.
-*Lean:* `LiftingInvariant.tuple`.
+*Lean:* `LiftingInvariant.tuple`, `LiftingInvariant.braid`, `LiftingInvariant.projection`,
+`LiftingInvariant.identity_mark_nontrivial`.
 
 **Checks.**
 
@@ -3436,6 +3451,8 @@ pp. 4–6. *Needs:* *The braid-orbit monoid*, *The universal marked extension*, 
 - The tuples `(a, b)` and `(a b a⁻¹, a)` have the same invariant.
 - Adjoining `ord(a)` copies of `a ∈ c` leaves the `G`-product unchanged and raises the degree of the
   class of `a` by `ord(a)`; the invariant changes, so the reduced multiplier alone cannot record it.
+- For `G = 1` with `c = {1}`, a one-entry tuple has product one and a nonidentity marked lift in
+  `U(1, {1}) ≅ ℤ`; marking the identity does not impose an order relation.
 
 **Stable classification of generating braid orbits.** For a finite group `G` and a conjugacy-invariant
 generating subset `c`, there is `M = M(G, c)` such that for every degree vector `m ∈ ℕ^D` with all
@@ -3450,6 +3467,8 @@ order blocks gives the group `U(G, c)`; insert a generating core for surjectivit
 algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 Theorem 3.1 and its proof, pp. 5–6, and Remark 5.4, pp. 11–12. *Needs:* *The braid lifting
 invariant*, *Extracting an element of a single class*.
+*Lean:* `LiftingInvariant.stable_classification`, with the degree homomorphism and its generator
+formula as explicit inputs.
 
 **Checks.**
 
@@ -3457,6 +3476,8 @@ invariant*, *Extracting an element of a single class*.
   multiplicity is not enough.
 - For `G = C₂` and `c = {nontrivial}`, braid orbits of tuples of length `n` are single points and
   `U = ℤ` has one element of degree `n`, so the bijection holds for all `n ≥ 1`.
+- For `G = S₃` and `c` the transpositions, arbitrarily many repetitions of `(12)` remain inside
+  a proper `C₂`; the generation hypothesis is needed even when the only class multiplicity is large.
 
 **Tate-twisted arithmetic lifting invariants.** Let `G` be finite and `c` a union of rational classes
 that generates `G`, over a base field whose characteristic does not divide `|G|`. For a tame marked
@@ -4096,6 +4117,8 @@ PDF pp. 20–32 (the complete constructive input for solvable realization).
 *Needs:* *Free operator-group shrinking*, *Induced abelian proper solutions*, *Cyclic ramification
 correction*, *Auxiliary cokernel comparison*, *Restricted-ramification localization adapter*,
 *Finite abelian-kernel obstruction and pullback*, ArithmeticGaloisDuality §R02.4.5a *Finite-coefficient Poitou–Tate input*.
+*Lean:* `exists_proper_solution_of_split_nilpotent`, on `TauCeti.FiniteEmbeddingProblem` with a
+splitting section, nilpotent kernel and an explicitly surjective solution.
 
 **Checks.**
 
@@ -5240,8 +5263,9 @@ the functor of `R`-points and descended, and the complex comparison is checked a
 ([Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §2.1 and §§7.1, 7.3, 7.5, published pp. 738–739, 765–767). *Needs:*
 SchemeAndStackFoundations Layer 0, SchemeAndStackFoundations Layer 1.
-*Lean:* `OrderedConfiguration`, `UnorderedConfiguration`, `OrderedConfiguration.forget` (configurations of
-a type, without topology).
+*Lean:* `OrderedConfiguration`, `UnorderedConfiguration`, `OrderedConfiguration.forget`,
+`OrderedConfiguration.forget_surjective`, `OrderedConfiguration.forget_eq_iff` (configurations of
+a type, without topology, with the quotient fibres characterised by unique relabellings).
 
 **Checks.**
 
@@ -6300,7 +6324,8 @@ of
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §8.8, published pp. 778–779; its description is proved here. *Needs:*
 *Double covers and trace-zero normal forms*; SchemeAndStackFoundations Layer 0.
-*Lean:* `LiftedAffineGroup`, `LiftedAffineGroup.mul`, `LiftedAffineGroup.nonempty_equiv_of_odd`.
+*Lean:* `LiftedAffineGroup`, `LiftedAffineGroup.mul`, `LiftedAffineGroup.nonempty_equiv_of_odd`,
+`LiftedAffineGroup.odd_coordinates` (the unique unit with `a = u²` and `d = u^n`).
 
 **Checks.**
 
@@ -6960,7 +6985,8 @@ group, not a polynomial of a given degree
 §1.1, pp. 1–2; §3.3, pp. 23–25). *Needs:* Mathlib `IsGalois`, `Polynomial.SplittingField`,
 `Polynomial.Gal`, `IsGalois.card_aut_eq_finrank`, `IsGalois.of_separable_splitting_field`.
 *Lean:* `FieldRealization`, `PolynomialRealization`, `FieldRealization.degree`,
-`PolynomialRealization.toField`.
+`PolynomialRealization.toField`, `FieldRealization.nonempty_transport`,
+`PolynomialRealization.zero_isEmpty`.
 
 **Checks.**
 
@@ -7011,6 +7037,8 @@ Layer IG.2 *Hilbert subsets and Hilbertian fields*,
 Layer IG.2 *A polynomial guard for regular specialization*,
 Layer IG.2 *Infinitely many linearly disjoint full-group fibers*,
 Layer IG.2 *Hilbert specialization with local conditions*.
+*Lean:* `HasRegularRealization.exists_realization` states the existence of a field realization over
+a characteristic-zero Hilbertian field from a regular realization.
 
 **Checks.**
 
@@ -7078,7 +7106,7 @@ and `s`, the isomorphism with Mathlib's `DihedralGroup 4` and the realization in
 `IntermediateField.adjoin`, `DihedralGroup`; PolynomialGaloisGroups Layer 2,
 PolynomialGaloisGroups Layer 3; Tau Ceti `TauCeti.hasGaloisLabel_X_pow_four_sub_two`,
 `TauCeti.natCard_gal_X_pow_four_sub_two`.
-*Lean:* `dihedralEightField`, `dihedral_realization`.
+*Lean:* `dihedralEightField`, `dihedral_realization`, `dihedralEightField_degree`.
 
 **Checks.**
 
