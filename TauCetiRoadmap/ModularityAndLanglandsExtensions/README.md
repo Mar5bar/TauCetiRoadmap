@@ -10,7 +10,7 @@ TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layers0–1 owns standard/te
 
 ClassicalSerreModularity/EllipticCurveModularity own rational modularity;GL2AutomorphicRepresentationsAndTransfer rank-two LLC,soluble Artin/base change;PotentialModularityAndCompatibleSystems systems/operations/L-functions;AutomorphicGaloisRepresentationsPartII Galois/WD/HT realization;AutomorphicFormsOnReductiveGroups infinity,weights,purity/real cohomological packets;EndoscopicTransferAndUnitaryTraceComparison local factors,cyclic base change/weak induction;AutomorphicLFunctionsAndLocalFactors standard/Rankin–Selberg theorems and Langlands–Shahidi definitions. Own stronger induction,analytic/trace comparisons here;separate weak/all-place,isobaric/cuspidal.
 
-Layer4 owns symmetric-power propagation,level raising,tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity/open-image prescriptions. Own polarized-lifting, theta, singular-support and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; §§5.7–5.9 compare and extend those same objects. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
+Layer4 owns symmetric-power propagation,level raising,tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity and ordinary-prime density/progression arguments. EllipticCurveModularityImaginaryQuadratic §§0.3, 5.1 and 5.3 owns the typed elliptic seed, general non-CM large-prime theorem and geometric prime switch; §§2.18 and 2.29 here give specialization and normalization comparisons on its outputs. Own polarized-lifting, theta, singular-support and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; §§5.7–5.9 compare and extend those same objects. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
 
 PadicFunctionalAnalysis/CompactOperators own Banach modules,orthonormalizability/complete continuity;LocallyAnalyticDistributions locally convex limits,strictness,completed tensors,compact duality/distribution-character spaces;RigidAnalyticGeometry quasi-Stein sheaves. §4.3 adds relative compactness,Fréchet–Stein/coadmissibility,contracting Jacquet/automorphic comparisons.
 
@@ -188,6 +188,10 @@ Import general-type `GSp₄` transfer, the rank-four twisted-square pole alterna
 #### From ArithmeticGaloisRepresentations, §7.10
 
 Import `ResidualImage.IsEnormousCharZero`, its eigenprojection and trace-detection API and its absolute-irreducibility theorem. Section 4.1 adapts the compact Galois image to this predicate and constructs the polarized adjoint and arithmetic Selmer comparison.
+
+#### From EllipticCurveModularityImaginaryQuadratic, §§0.3, 5.1 and 5.3
+
+Import §0.3 `switch_five`, `switch_three`, `auxiliary_local_types` and `modular_elliptic_all_coefficients`, retaining the fixed symplectic pairing, arbitrary finite Galois avoidance field, every place above the prescribed reduction partition, decomposed genericity and the non-CM witness from the retained Tate places. Only `switch_three` requires `ζ₅∉F`. Import §5.1 `nonCM_elliptic_large_residual_primes` over any number field, with geometric non-CM and its finite exceptional set, and §5.3 `cm_modularity` with `ζ₅∉F` and the chosen mod-3 or mod-5 representation decomposed generic and absolutely irreducible on the cyclotomic subgroup. Sections 2.18 and 2.29 retain the rational-curve full-image corollary and the cohomological normalization adapter; their ordinary-prime and height-density arguments belong here. CrystallineLocalGlobalCompatibilityCM retains the CN integral local–global and prepared lifting machinery.
 
 #### From PotentialAutomorphyInfrastructure, §§2.12 and 2.26
 
@@ -1174,17 +1178,20 @@ Proof route: symplectic induction and [§2.14], prescribed ordinary lifts [§2.1
 
 For non-CM `E/ℚ`, number field L and `A≥1`, sufficiently large `ℓ` have `r̄_{E,ℓ}(G_L)=GL₂(𝔽_ℓ)`, including determinant `(L∩ℚ(ζ_ℓ)=ℚ)`. Good ordinary primes have density one. Thus infinitely many `ℓ≡1` mod A satisfy both and any finite exclusions.
 
-Proof route: Serre 1972 §4.2 Thm. 2, pp.294–299, applied over L gives eventual full image, including determinant. Serre 1981 §8.2 Thm. 20/Cor. 2, pp.188–190, gives density-zero `a_ℓ=0`; for good `ℓ>3` Hasse makes supersingularity equivalent to this condition. Delete that set and finitely many primes from the positive-density progression.
+The full-image assertion is a corollary of EllipticCurveModularityImaginaryQuadratic §5.1 `nonCM_elliptic_large_residual_primes`, applied to the base change E/L, which remains geometrically non-CM. Outside its finite exceptional set the image contains `SL₂(𝔽_ℓ)`. For ℓ unramified in L, total ramification of `ℚ(ζ_ℓ)/ℚ` at ℓ gives `L∩ℚ(ζ_ℓ)=ℚ`, so the cyclotomic determinant is surjective and the image is all `GL₂(𝔽_ℓ)`. The cohomological dual has the same full image, with determinant `ε̄_ℓ⁻¹`.
+
+For ordinary-prime density, Serre 1981 §8.2 Thm. 20/Cor. 2, pp.188–190, gives density-zero `a_ℓ=0`; for good `ℓ>3` Hasse makes supersingularity equivalent to this condition. Delete that set and finitely many primes from the positive-density progression.
 
 **Checks.**
 
 - A CM curve is excluded: inert primes can be supersingular with positive density and its residual image lies in a Cartan normalizer.
 - For `ℓ=7` and `u=2`, `det(uI₂)=4≠1`; full image over L supplies a scalar outside `G_{L(ζ_ℓ)}`.
 - A congruence progression of positive density survives deletion of a density-zero set, whereas two arbitrary infinite prime sets need not intersect.
+- At `ℓ=7` over `L=ℚ(ζ₇)`, the cyclotomic determinant is trivial, so `SL₂` containment alone cannot give full `GL₂` image. The finite ramified-prime exclusion depends on L.
 
 ([Serre 1972](#ref-serre-1972), §4.2 Thm. 2 and proof, pp.294–299; §4.4 Thm. 3 and Cor. 1, pp.299–300; [Serre 1981](#ref-serre-1981), §8.2, pp.188–190; [Qian], §4, proof of Prop. 4.1, pp.20–21.)
 
-*Needs:* Chebotarev, density and finite exclusions; elliptic Tate representations and determinant `ε`; the semistable inertia and compatible abelian-character arguments of Serre §§1–3; Chebotarev Layers 13–14, coprime rational progressions. The full-image and ordinary-prime combination is owned here.
+*Needs:* EllipticCurveModularityImaginaryQuadratic §5.1 `nonCM_elliptic_large_residual_primes`; elliptic Tate representations and determinant `ε`; GlobalNumberFields Layer 10, cyclotomic ramification; Chebotarev, density and finite exclusions, Layers 13–14, coprime rational progressions. The determinant comparison and ordinary-density/progression combination are targets here.
 
 <a id="qian-auxiliary-prime"></a>
 ### 2.19 Choice of the auxiliary elliptic curve, N, `F^avoid` and an ordinary auxiliary prime l′ (Qian §4, Proposition 4.1)
@@ -1349,25 +1356,24 @@ For coefficient characteristic equal to that of `v₀` use `v₁` for off-coeffi
 <a id="cm-three-five-switch"></a>
 ### 2.29 Residual modularity with prescribed p-adic elliptic types
 
-For imaginary CM F,`p=3` or 5,decomposed-generic `r̄:G_F→GL₂(𝔽_p)`,`det=ε̄_p` (`ζ₅∉F` if `p=3`),partition p-places as `T_st`,`T_ord`,`T_ss`. For any finite avoidance extension obtain disjoint **soluble CM** L/F and modular elliptic A/L with symplectic A[p]≅`r̄|G_L`,split multiplicative/good ordinary/good supersingular reduction above the three sets; retain decomposed genericity. `H¹(A)=V_A∨` instead has reduction `r̄∨`,`det ε̄_p⁻¹`: dualize input for inverse-cyclotomic seeds.
+For imaginary CM F, `p=3` or 5, continuous decomposed-generic `r̄:G_F→GL₂(𝔽_p)` with `det=ε̄_p` (`ζ₅∉F` if `p=3`), partition all p-places as `T_st`, `T_ord`, `T_ss`. The comparison **`CMResidual.modular_curve_with_types`** consumes EllipticCurveModularityImaginaryQuadratic §0.3 `switch_five` or `switch_three`, respectively: for any finite avoidance extension it gives a linearly disjoint soluble CM L/F and a non-CM modular elliptic A/L with symplectic `A[p]≅r̄|G_L`, split multiplicative/good ordinary/good supersingular reduction at every place above the corresponding part, and retained decomposed genericity. Apply the supplied construction to the Galois closure of the avoidance field. The symplectic identification uses the owner's fixed-pairing twist and its Weil-pairing convention.
 
-This roadmap owns the residual switching and typed auxiliary-elliptic construction in this section.
+This comparison transports the same A and its modular realization to the conventions here: `H¹(A)=V_A∨` has residual representation `r̄∨` and determinant `ε̄_p⁻¹`; for an inverse-cyclotomic input apply the construction to its dual. Use the owner's `modular_elliptic_all_coefficients` and `auxiliary_local_types` for the same weight-zero cuspidal π, with `r_{π,ι}≅H¹(A)`, ordinary at the multiplicative places and unramified at both good-reduction types. At the coefficient prime the good-reduction representations are crystalline with `N=0`; the supersingular branch remains nonordinary. ([AKT](#ref-akt), Lemma 9.7 pp.75–76 and Props. 9.12–9.13 pp.79–80; [Caraiani–Newton], Props. 6.1.5–6.1.6 and Lemma 6.1.7 pp.88–90.)
 
-API: `CMResidual.modular_curve_with_types`. Route: Weil-pairing twisted genus-zero curve, AKT 9.7 approximation with independent full-`SL₂`/decomposed-generic data, AKT 9.12 and CN 6.1.5–7. At 2 use Tate over the unramified extension adjoining i,`v(Δ)≡3` mod6,locally square `Δ/Δc`; at 3 use `v(Δ)≡2/4` mod6,locally cubic ratio. Independent mod-3 image/genericity gives modularity over `F(ζ₁₂,(Δ/Δc)^{1/6})`, independently of prescribed p-type.
-
-With §2.6, CN 6.1 gives modularity when `ζ₅∉F` and E`[3]` or E`[5]` is cyclotomically irreducible/decomposed generic. Over imaginary quadratic F, cyclotomic irreducibility implies genericity (6.2.2 Goursat/Chebotarev). For CM Galois `F/ℚ`,`ζ₅∉F`,full mod-5 image has density one among integral Weierstrass equations in CN’s height ordering: IG §IG.2.5 quantitative HIT (ArithmeticStatisticsPartI, Exact supplier contracts) plus CN’s conjugate-constituent argument gives 6.1.2. This is equation density, not a measure on isomorphism classes.
+The elliptic residual criterion is consumed from EllipticCurveModularityImaginaryQuadratic §5.3 `cm_modularity`: when `ζ₅∉F`, an elliptic E/F is modular if E[3] or E[5] is decomposed generic and absolutely irreducible on the corresponding cyclotomic subgroup. Duality preserves both residual properties and gives the cohomological realization for non-CM E; CM E retains the character branch. Over imaginary quadratic F, cyclotomic absolute irreducibility implies genericity (CN 6.2.2 Goursat/Chebotarev). For CM Galois `F/ℚ`, `ζ₅∉F`, mod-5 image containing `SL₂(𝔽₅)` has density one among integral Weierstrass equations in CN's height ordering: IG §IG.2.5 quantitative HIT (ArithmeticStatisticsPartI, Exact supplier contracts) plus CN's conjugate-constituent argument gives 6.1.2. This height-density argument is a target here and concerns equations, not a measure on isomorphism classes.
 
 **Checks.**
 
 - At a supersingular p-place the seed must be nonordinary, so an all-ordinary auxiliary curve does not serve.
+- Prescribing supersingular reduction at every p-place retains the owner's Tate places above 2 and 3 for `p=5`, and above 5 for `p=3`; these force the auxiliary curve to be non-CM.
 - The determinant of A[p] is `ε̄_p`, while that of its cohomological dual is `ε̄_p⁻¹`.
-- A soluble extension disjoint from the residual kernel preserves the needed image; a field killing the residual representation would destroy irreducibility.
+- Include the residual fixed field in the avoidance datum to preserve the residual image by disjointness; a field killing the residual representation would destroy irreducibility.
 - For `p=3` the `ζ₅` exclusion remains.
 - Equality of j-invariants identifies quadratic twists, not necessarily the curves themselves.
 
 ([AKT](#ref-akt), Lemma 9.7 pp.75–76 and Props. 9.12–9.13 pp.79–80; [Caraiani–Newton], Thm. 6.1 and Cors. 6.1.1–6.1.3 pp.87–88, Lemmas 6.1.4–6.1.7 pp.88–90 and Lemma 6.2.2 pp.90–91.)
 
-*Needs:* ModularCurvesPartII, twisted full-level moduli and Weil pairing; PMCS, Moret–Bailly; PAI Layer 2, soluble descent of the same representation; IG §IG.2.5, quantitative Hilbert irreducibility; ArithmeticStatisticsPartI §0.1, relative density in the specified height ordering; Chebotarev.
+*Needs:* EllipticCurveModularityImaginaryQuadratic §0.3 `switch_five`, `switch_three`, `modular_elliptic_all_coefficients`, `auxiliary_local_types`, fixed-pairing point and base-change contract, and §5.3 `cm_modularity`; IG §IG.2.5, quantitative Hilbert irreducibility; ArithmeticStatisticsPartI §0.1, relative density in the specified height ordering; Chebotarev.
 
 <a id="exceptional-modular-curves"></a>
 ### 2.30 Exceptional modular-curve data and conditional modularity

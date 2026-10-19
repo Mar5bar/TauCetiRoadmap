@@ -482,7 +482,13 @@ example : (([1, 2, 2, 3, 3, 4, 4, 5, 6] : List ℕ).map (fun d => d^2)).sum = 12
 /-!
 The README also specifies the automorphic realization, accessible refinements,
 Artin/functorial/symmetric-power predicates, integral Hecke and Dwork objects, ordinary flags,
-Conjecture B, twisted modular curves and exceptional-curve arithmetic hypotheses; oscillator/theta and
+ordinary-prime density/progression and height-density arguments, and the §§2.18/2.29 adapters to
+EllipticCurveModularityImaginaryQuadratic's `nonCM_elliptic_large_residual_primes`, `switch_five`,
+`switch_three`, `modular_elliptic_all_coefficients`, `auxiliary_local_types` and `cm_modularity`.
+The adapters preserve the supplied residual, avoidance and local-type hypotheses and transport
+Tate-module realizations to their cohomological duals, with inverse-cyclotomic determinant.
+The README also specifies Conjecture B, twisted modular curves and exceptional-curve arithmetic
+hypotheses; oscillator/theta and
 metaplectic descent, Arthur parameters/packets, Adams–Johnson induction, unitary eigenvarieties
 and trianguline deformation families; Bianchi Fourier/cohomology and Sato–Tate data; general
 functoriality/reciprocity, comparisons with AutomorphicGaloisRepresentationsPartII AG2.6's
