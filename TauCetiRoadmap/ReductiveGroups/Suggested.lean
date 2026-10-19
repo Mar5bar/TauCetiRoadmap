@@ -71,3 +71,7 @@ are in SignedADETargets.lean, which imports IntegralRationalTargets.lean. -/
 
 /- Fixed-Lie, signed-orbit, folded Serre and full-Y kernel target forms are in
 FoldingADETargets.lean, which imports SignedADETargets.lean. This pointer adds no import. -/
+
+/- Lie-algebra spectral quotients, finite Weyl arrangements and based monodromy
+are prototyped in SpectralWeylTargets.lean. That companion imports this file;
+this comment adds no reverse import or dependency on Layer11. -/
