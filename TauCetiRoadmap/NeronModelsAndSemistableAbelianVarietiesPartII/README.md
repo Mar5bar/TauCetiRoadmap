@@ -373,7 +373,10 @@ The construction needs the following maps and laws.
 
 - c(B,B)=B.
 
-- The conductor of k[t²,t³]⊂k[t] is t²k[t].
+- `AffinePinching.conductor_cusp`: the conductor of k[t²,t³]⊂k[t] is t²k[t].
+
+- `AffinePinching.conductor_nonreduced_diagonal`: the diagonal ℤ/4⊂ℤ/4×ℤ/4 has conductor zero,
+  although its ambient ring contains the nonzero square-zero element (2,2).
 
 - For char k≠2 the conductor of k+(t²−1)k[t] is (t²−1)k[t].
 
@@ -870,8 +873,8 @@ The construction needs the following maps and laws.
   b−f(a)∈J. The image-ideal condition supplies i∈I with f(i)=b−f(a). Then a+i maps to (b,α); replacing a by
   a+i does not alter its class modulo I. No finiteness or injectivity of f is used.
 
-- `conductorRing_isPullback`: For an arbitrary subring A⊂B of a commutative ring B, let J=c(A,B) be the
-  general conductor and I=J∩A. Then A→B, A→A/I, B→B/J, A/I→B/J is cartesian in commutative rings. Finiteness,
+- `AffinePinching.conductorRing_isPullback`: For an arbitrary subring A⊂B of a commutative ring B,
+  let J=c(A,B) be the general conductor and I=J∩A. Then A→B, A→A/I, B→B/J, A/I→B/J is cartesian in commutative rings. Finiteness,
   birationality, reducedness and Noetherianity are unnecessary for this affine identity. Uses §1.2, §1.12,
   `Ideal.map_comap_le`, `Ideal.quotientMap`, §1.22. The conductor is an ideal of B contained in A. For the
   inclusion f:A→B every element of J is the image of its subtype in I; hence f(I)=J and `map_f(I)=J`. Use the
@@ -4443,8 +4446,10 @@ preceding paragraph.)
 
 **Checks.**
 
-- Δ=1 is essential: the singular all-zero tuple and smooth model2 both have projective count3 but cannot be
-  related by an invertible admissible change.
+- `F2Model.singular_count_collision`: the singular equation y²=x³ over F₂ has Δ=0 and the same
+  three-point count as E₃. Smoothness is necessary in the classifier.
+
+- Translating x on E₃ by one gives another smooth equation with the same three-point count.
 
 - This does not claim that isogeny and isomorphism coincide over arbitrary finite fields.
 
@@ -9659,8 +9664,8 @@ and their individual invariants below are Checks of this single list target; com
 
 The plain list `modelEquations : Fin 14→WeierstrassCurve F₂[t]` carries the displayed equations, with model i
 at index i−1. Its basic laws `modelEquations_bounded` and `modelEquations_injective` give the five coefficient
-bounds and distinctness of the coefficient tuples. The per-model invariant statements in Suggested.lean are
-examples attached to this list. Geometric equivalence is the relation of §7.2.
+bounds and distinctness of the coefficient tuples. The per-model invariants are Checks of this list.
+Geometric equivalence is the relation of §7.2.
 
 Models 1–8 are the nonzero-j equations in Schröer's Theorem 10.4 (p. 29), and models 9–11 are the zero-j
 equations in Theorem 10.5 (p. 31). Models 12–14 complete the twisted semistable case in the proof of Theorem
@@ -9785,10 +9790,10 @@ Define `coefficientPolynomial n c=Σ_(j:Fin(n+1))cⱼtʲ` over any commutative r
 `NormalizedCoefficients=(Fin 2→F₂)×(Fin 4→F₂)×(Fin 5→F₂)×(Fin 7→F₂)`, and `normalizedEquation` with a₂=0.
 Define `normalizeA2` by the expanded x-translation. Their API has coefficient evaluation,
 `coefficientPolynomial_injective`, `coefficientPolynomial_range` for the bounded-polynomial range,
-`normalizedEquation_injective`, the weight bounds, `normalizeA2_variableChange`, `normalizeA2_bounded`,
-vanishing a₂, idempotence and discriminant invariance. Coefficient-vector injectivity follows by taking coeff j;
-the range comparison uses the first n+1 coefficients. The geometric interpretation uses nonzero Δ and local
-minimality.
+`normalizedEquation_injective` and `normalizedEquation_range` for the bounded a₂=0 slice, the weight bounds,
+`normalizeA2_variableChange`, `normalizeA2_bounded`, vanishing a₂, idempotence and discriminant invariance
+(`normalizeA2_discriminant`). Coefficient-vector injectivity follows by taking coeff j; the range comparison
+uses the first n+1 coefficients. The geometric interpretation uses nonzero Δ and local minimality.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32.)
 
@@ -9822,7 +9827,8 @@ transports fibre schemes and functional j, with j composed with the base automor
 Define `AdmissibleParameters=(Fin 2→F₂)×(Fin 3→F₂)×(Fin 4→F₂)`, ordered (s,r,q), and `admissibleChange` with
 u=1, r=coefficientPolynomial 2 r, s=coefficientPolynomial 1 s and t=coefficientPolynomial 3 q. The final native
 field is the y-translation q. Its basic laws give coefficient bounds, injectivity into native changes,
-identity, composition, inverse and preservation of the global weights. The geometric API is
+identity, composition, inverse and preservation of the global weights; `admissibleChange_injective` and
+`admissibleChange_bounded` state the coefficient-level injectivity and weight preservation. The geometric API is
 `FibrationEquivalence.refl`, `symm`, `trans`, `equation_iff`, `preserves_j` and `transports_fibers`, with the
 smooth relatively minimal Jacobian hypotheses on both surfaces for the equation comparison.
 

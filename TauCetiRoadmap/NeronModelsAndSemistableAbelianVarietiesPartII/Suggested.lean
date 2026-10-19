@@ -12,14 +12,14 @@ Weierstrass carriers are the native ones. Conductors retain nilpotents, quadrati
 pinching allows inseparability, reversal uses a specified weight, and coefficient
 bounds carry no minimality or rationality assertion. The geometric constructions and
 the resolved-surface classification are specified in the README. The fourteen-equation
-list and its invariant examples supply Checks for the single classification-list target;
+list supplies equation data for the single classification-list target;
 the classification theorem uses admissible changes and normal-form case analysis.
 -/
 
 namespace TauCetiRoadmap.NeronModelsAndSemistableAbelianVarietiesPartII
 
 open CategoryTheory CategoryTheory.Limits Polynomial
-open scoped Polynomial
+open scoped Polynomial TensorProduct
 
 universe u v w
 noncomputable section
@@ -48,16 +48,13 @@ theorem conductor_mem {B : Type u} [CommRing B] (A : Subring B) (b : B) :
 theorem conductor_greatest {B : Type u} [CommRing B] (A : Subring B) (I : Ideal B) :
     I ≤ conductor A ↔ (I : Set B) ⊆ A := by sorry
 
-/-- The identity inclusion has the whole conductor, also for the zero ring. -/
-example {B : Type u} [CommRing B] : conductor (⊤ : Subring B) = ⊤ := by sorry
-
 /-- The cusp conductor remembers the double point in its normalization. -/
-example (k : Type u) [Field k] :
+theorem conductor_cusp (k : Type u) [Field k] :
     conductor (Algebra.adjoin k ({X ^ 2, X ^ 3} : Set k[X])).toSubring =
       Ideal.span ({X ^ 2} : Set k[X]) := by sorry
 
 /-- A nonreduced diagonal has conductor zero, rather than its radical. -/
-example :
+theorem conductor_nonreduced_diagonal :
     conductor ((RingHom.id (ZMod 4)).prod (RingHom.id (ZMod 4))).range = ⊥ ∧
     (2 : ZMod 4 × ZMod 4) ≠ 0 ∧ (2 : ZMod 4 × ZMod 4) ^ 2 = 0 := by sorry
 
@@ -91,15 +88,6 @@ theorem commonIdeal_isPullback_iff {A B : Type u} [CommRing A] [CommRing B]
       (CommRingCat.ofHom (Ideal.quotientMap (I.map f) f Ideal.le_comap_map)) ↔
       RingHom.ker f ⊓ I = ⊥ := by sorry
 
-/-- With I zero, even a noninjective original map is reconstructed. -/
-example {A B : Type u} [CommRing A] [CommRing B] (f : A →+* B) :
-    Function.Bijective (commonIdealComparison f ⊥).hom := by sorry
-
-/-- An injective diagonal need not satisfy the image-ideal hypothesis. -/
-example :
-    let f := (RingHom.id (ZMod 2)).prod (RingHom.id (ZMod 2))
-    ¬ Function.Surjective (commonIdealComparison f ⊤).hom := by sorry
-
 /-- The additive difference has the sign b minus the image of the residue. -/
 def commonIdealDifference {A B : Type u} [CommRing A] [CommRing B]
     (f : A →+* B) (I : Ideal A) : B × (A ⧸ I) →+ B ⧸ I.map f :=
@@ -113,18 +101,39 @@ theorem commonIdeal_exact_iff {A B : Type u} [CommRing A] [CommRing B]
     Function.Exact (fun a : A => (f a, Ideal.Quotient.mk I a))
       (commonIdealDifference f I) ↔ (I.map f : Set B) = f '' (I : Set A) := by sorry
 
-/-- A two-term witness fixes the difference sign over the integers. -/
-example : commonIdealDifference (RingHom.id ℤ) ⊥ (0, Ideal.Quotient.mk ⊥ 1) =
-    -Ideal.Quotient.mk ((⊥ : Ideal ℤ).map (RingHom.id ℤ)) (1 : ℤ) := by sorry
+/-- The comparison is bijective exactly when its kernel intersection vanishes, provided
+that the set image of the ideal is already an ideal. -/
+theorem commonIdealComparison_bijective_iff {A B : Type u} [CommRing A] [CommRing B]
+    (f : A →+* B) (I : Ideal A)
+    (himage : (I.map f : Set B) = f '' (I : Set A)) :
+    Function.Bijective (commonIdealComparison f I).hom ↔ RingHom.ker f ⊓ I = ⊥ := by sorry
 
-/-- Surjectivity of the difference alone does not imply middle exactness. -/
-example :
-    let f := (RingHom.id (ZMod 2)).prod (RingHom.id (ZMod 2))
-    Function.Surjective (commonIdealDifference f ⊤) ∧
-    ¬ Function.Exact (fun a : ZMod 2 => (f a, Ideal.Quotient.mk ⊤ a))
-      (commonIdealDifference f ⊤) := by sorry
+/-- The full conductor reconstructs an arbitrary subring by the actual quotient square. -/
+theorem conductorRing_isPullback {B : Type u} [CommRing B] (A : Subring B) :
+    let J := conductor A
+    let I := J.comap A.subtype
+    IsPullback (CommRingCat.ofHom A.subtype) (CommRingCat.ofHom (Ideal.Quotient.mk I))
+      (CommRingCat.ofHom (Ideal.Quotient.mk J))
+      (CommRingCat.ofHom (Ideal.quotientMap J A.subtype le_rfl)) := by sorry
 
 end AffinePinching
+
+/-- The contracted full conductor is the annihilator of the quotient by the scalar image,
+even when the coefficient map has a kernel. -/
+theorem conductor_eq_annihilator {A : Type u} {B : Type v}
+    [CommRing A] [CommRing B] [Algebra A B] :
+    (AffinePinching.conductor (algebraMap A B).range).comap (algebraMap A B) =
+      Module.annihilator A (B ⧸ Submodule.span A ({1} : Set B)) := by sorry
+
+/-- Flat scalar extension of a finite inclusion preserves the actual inclusion and
+identifies its recomputed contracted conductor with the extended original ideal. -/
+theorem conductor_flat_baseChange {A : Type u} {B : Type v} {F : Type w}
+    [CommRing A] [CommRing B] [CommRing F] [Algebra A B] [Algebra A F]
+    [Module.Finite A B] [Module.Flat A F] (hinj : Function.Injective (algebraMap A B)) :
+    let f := (Algebra.TensorProduct.includeRight : F →ₐ[A] B ⊗[A] F).toRingHom
+    Function.Injective f ∧
+      ((AffinePinching.conductor (algebraMap A B).range).comap (algebraMap A B)).map
+          (algebraMap A F) = (AffinePinching.conductor f.range).comap f := by sorry
 
 namespace FerrandPushout
 
@@ -141,26 +150,30 @@ def conductorCokernelMap {A : Type u} {B : Type v} {D : Type w}
     rw [map_one]
     exact Submodule.subset_span (Set.mem_singleton (1 : D)))
 
-/-- Swapping the factors negates the nonzero diagonal-quotient class outside characteristic two. -/
-example (k : Type*) [Field k] (h : (2 : k) ≠ 0) :
-    let Q := Submodule.span k ({1} : Set (k × k))
-    let c := Q.mkQ (1, 0)
-    c ≠ 0 ∧ conductorCokernelMap ((AlgHom.snd k k k).prod (AlgHom.fst k k k)) c = -c ∧
-      -c ≠ c := by sorry
+/-- The conductor cokernel map sends the class of b to the class of h(b). -/
+theorem conductorCokernelMap_mk {A : Type u} {B : Type v} {D : Type w}
+    [CommRing A] [CommRing B] [CommRing D] [Algebra A B] [Algebra A D]
+    (h : B →ₐ[A] D) (b : B) :
+    conductorCokernelMap h ((Submodule.span A ({1} : Set B)).mkQ b) =
+      (Submodule.span A ({1} : Set D)).mkQ (h b) := by sorry
 
-/-- Evaluation at zero kills the nonconstant polynomial's nonzero quotient class. -/
-example (k : Type*) [Field k] :
-    let Q := Submodule.span k ({1} : Set k[X])
-    Q.mkQ X ≠ 0 ∧ conductorCokernelMap (Polynomial.aeval (0 : k)) (Q.mkQ X) = 0 := by sorry
+/-- The identity algebra morphism induces the identity on its conductor cokernel. -/
+theorem conductorCokernelMap_id {A : Type u} {B : Type v}
+    [CommRing A] [CommRing B] [Algebra A B] :
+    conductorCokernelMap (AlgHom.id A B) = LinearMap.id := by sorry
 
-/-- The polynomial inclusion preserves the X class and misses the independent Y class. -/
-example (k : Type*) [Field k] :
-    let Q := Submodule.span k ({1} : Set k[X])
-    let P := Submodule.span k ({1} : Set (MvPolynomial (Fin 2) k))
-    let h := Polynomial.aeval (MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) k)
-    conductorCokernelMap h (Q.mkQ X) = P.mkQ (MvPolynomial.X 0) ∧
-      P.mkQ (MvPolynomial.X 0) ≠ 0 ∧
-      ¬ ∃ c, conductorCokernelMap h c = P.mkQ (MvPolynomial.X 1) := by sorry
+/-- Conductor cokernel maps preserve composition of actual algebra morphisms. -/
+theorem conductorCokernelMap_comp {A : Type u} {B : Type v} {D : Type w} {E : Type*}
+    [CommRing A] [CommRing B] [CommRing D] [CommRing E]
+    [Algebra A B] [Algebra A D] [Algebra A E] (h : B →ₐ[A] D) (g : D →ₐ[A] E) :
+    conductorCokernelMap (g.comp h) =
+      (conductorCokernelMap g).comp (conductorCokernelMap h) := by sorry
+
+/-- A surjective algebra morphism induces a surjective conductor cokernel map. -/
+theorem conductorCokernelMap_surjective {A : Type u} {B : Type v} {D : Type w}
+    [CommRing A] [CommRing B] [CommRing D] [Algebra A B] [Algebra A D]
+    (h : B →ₐ[A] D) (hh : Function.Surjective h) :
+    Function.Surjective (conductorCokernelMap h) := by sorry
 
 end FerrandPushout
 
@@ -178,19 +191,6 @@ theorem canonicalFiber_affineMatrixClassification {ι : Type*}
     ∃ t : TauCeti.AffineDynkinType, t.Valid ∧ ∃ e : ι ≃ Fin t.nodes,
       (∀ i j, M i j = -t.cartanMatrix (e i) (e j)) ∧
       (∀ i, m i = t.marks (e i)) := by sorry
-
-/-- The two-vertex case retains the double edge in the matrix. -/
-example : (TauCeti.AffineDynkinType.A 1).cartanMatrix = !![2, -2; -2, 2] ∧
-    (TauCeti.AffineDynkinType.A 1).marks = ![1, 1] := by sorry
-
-/-- The triangle has three primitive coefficients equal to one. -/
-example : (TauCeti.AffineDynkinType.A 2).cartanMatrix = !![2, -1, -1; -1, 2, -1; -1, -1, 2] ∧
-    (TauCeti.AffineDynkinType.A 2).marks = ![1, 1, 1] := by sorry
-
-/-- The four-leaf star has one mark two and four marks one. -/
-example : ∃ i : Fin (TauCeti.AffineDynkinType.D 4).nodes,
-    (TauCeti.AffineDynkinType.D 4).marks i = 2 ∧
-      ∀ j, j ≠ i → (TauCeti.AffineDynkinType.D 4).marks j = 1 := by sorry
 
 namespace QuadraticPinch
 
@@ -216,44 +216,49 @@ theorem curve_param (a b t : k) :
     (curve a b).toAffine.Equation (t ^ 2 + a * t + b)
       (t * (t ^ 2 + a * t + b)) := by sorry
 
-/-- At q=t² the pinch contains t³ and excludes t. -/
-example : X ^ 3 ∈ algebra (X ^ 2 : k[X]) ∧ X ∉ algebra (X ^ 2 : k[X]) := by sorry
-
-/-- The split node condition requires distinct roots. -/
-example (h : (2 : k) ≠ 0) (f : k[X]) :
-    f ∈ algebra (X ^ 2 - 1) ↔ f.eval 1 = f.eval (-1) := by sorry
-
-/-- The binary nonsplit pinch excludes its normalization parameter. -/
-example : X ∉ algebra (X ^ 2 + X + 1 : (ZMod 2)[X]) := by sorry
-
-/-- The binary split node has one affine rational point and its point at infinity. -/
-example : (curve (1 : ZMod 2) 0).pointCount = 2 := by sorry
-
-/-- The binary nonsplit node has three affine rational points. -/
-example : (curve (1 : ZMod 2) 1).pointCount = 4 := by sorry
-
-/-- A cusp is singular even though its equation has rational solutions. -/
-example : (curve (0 : ZMod 2) 0).Δ = 0 ∧
-    (curve (0 : ZMod 2) 0).pointCount = 3 := by sorry
-
-/-- The binary split node, nonsplit node and cusp have the three signed count defects. -/
-example : (curve (1 : ZMod 2) 0).frobeniusTrace = 1 ∧
-    (curve (1 : ZMod 2) 1).frobeniusTrace = -1 ∧
-    (curve (0 : ZMod 2) 0).frobeniusTrace = 0 := by sorry
-
-/-- Two distinct rational conductor roots give the split count in odd characteristic. -/
-example : (curve (0 : ZMod 3) (-1)).pointCount = 3 := by sorry
-
-/-- A quadratic conductor with no rational root gives the nonsplit count defect. -/
-example : (curve (0 : ZMod 3) 1).frobeniusTrace = -1 := by sorry
-
-/-- A repeated conductor root gives count defect zero in characteristic three. -/
-example : (curve (1 : ZMod 3) 1).frobeniusTrace = 0 := by sorry
-
 /-- The rank-two polynomial normal form uses q as the new parameter. -/
 theorem exists_normal_form (a b : k) (h : k[X]) :
     let q := X ^ 2 + C a * X + C b
     ∃ P Q : k[X], h = P.comp q + X * Q.comp q := by sorry
+
+/-- A degree-two substitution gives unique even and odd polynomial coordinates. -/
+theorem normal_form_injective (q : k[X]) (hq : q.natDegree = 2) :
+    Function.Injective (fun PQ : k[X] × k[X] => PQ.1.comp q + X * PQ.2.comp q) := by sorry
+
+/-- The two normalization generators give a finite module over every monic quadratic pinch. -/
+theorem normalization_module_finite (q : k[X]) (hmonic : q.Monic) (hq : q.natDegree = 2) :
+    Module.Finite (algebra q) k[X] := by sorry
+
+/-- Substituting U=q and V=Xq has exactly the cubic relation as its kernel. -/
+theorem substitution_ker (a b : k) :
+    let q := X ^ 2 + C a * X + C b
+    let ψ := MvPolynomial.aeval (![q, X * q] : Fin 2 → k[X])
+    let U : MvPolynomial (Fin 2) k := MvPolynomial.X 0
+    let V : MvPolynomial (Fin 2) k := MvPolynomial.X 1
+    RingHom.ker ψ.toRingHom = Ideal.span
+      {V ^ 2 + MvPolynomial.C a * U * V + MvPolynomial.C b * U ^ 2 - U ^ 3} := by sorry
+
+/-- Substitution by the normalization parameters has image exactly the quadratic pinch algebra. -/
+theorem substitution_range (a b : k) :
+    let q := X ^ 2 + C a * X + C b
+    (MvPolynomial.aeval (![q, X * q] : Fin 2 → k[X])).range = algebra q := by sorry
+
+/-- Every nonzero pinch polynomial gives the same fraction field as its normalization. -/
+theorem fraction_ring (q : k[X]) (hq : q ≠ 0)
+    (K : Type v) [Field K] [Algebra k[X] K] [IsFractionRing k[X] K] :
+    IsFractionRing (algebra q) K := by sorry
+
+/-- The polynomial ring is the integral closure of a monic quadratic pinch in its
+specified polynomial fraction field, with the canonical restricted coefficient action. -/
+theorem integral_closure (q : k[X]) (hmonic : q.Monic) (hq : q.natDegree = 2)
+    (K : Type v) [Field K] [Algebra k[X] K] [IsFractionRing k[X] K] :
+    IsIntegralClosure k[X] (algebra q) K := by sorry
+
+/-- An element of the shared fraction field is integral over a monic quadratic pinch
+exactly when it is the image of a polynomial. -/
+theorem integral_iff_polynomial (q : k[X]) (hmonic : q.Monic) (hq : q.natDegree = 2)
+    (K : Type v) [Field K] [Algebra k[X] K] [IsFractionRing k[X] K] (z : K) :
+    IsIntegral (algebra q) z ↔ ∃ p : k[X], algebraMap k[X] K p = z := by sorry
 
 /-- The field-extension count alternates according to the quadratic branch action. -/
 theorem nonsplit_pointCount {K : Type v} [Field K] [Fintype K] [Algebra (ZMod 2) K]
@@ -266,17 +271,17 @@ namespace InfinityChart
 /-- The reciprocal monic-quadratic denominator retains both parameters over any commutative ring. -/
 def denominator {R : Type*} [CommRing R] (a b : R) : R[X] := 1 + C a * X + C b * X ^ 2
 
-/-- A nonzero linear parameter changes the binary denominator. -/
-example : denominator (1 : ZMod 2) 0 = 1 + X := by sorry
+/-- The reciprocal denominator has a Bézout identity with the cube of the chart coordinate. -/
+theorem bezout {R : Type*} [CommRing R] (a b : R) :
+    denominator a b * (1 - C a * X + C (a ^ 2 - b) * X ^ 2) =
+      1 + X ^ 3 * (C (a ^ 3 - 2 * a * b) + C (b * (a ^ 2 - b)) * X) := by sorry
 
-/-- The binary quadratic parameter gives a nonconstant square. -/
-example : denominator (0 : ZMod 2) 1 = (1 + X) ^ 2 ∧
-    denominator (0 : ZMod 2) 1 ≠ 1 := by sorry
-
-/-- A nonzero nilpotent parameter survives as the linear coefficient. -/
-example : denominator (2 : ZMod 4) 1 = 1 + C 2 * X + X ^ 2 ∧
-    (denominator (2 : ZMod 4) 1).coeff 1 = 2 ∧
-    (2 : ZMod 4) ≠ 0 ∧ (2 : ZMod 4) ^ 2 = 0 := by sorry
+/-- The denominator is a unit in the actual reciprocal cubic chart, including over
+nonreduced coefficient rings. -/
+theorem denominator_isUnit {R : Type*} [CommRing R] (a b : R) :
+    let Q := denominator a b
+    let L : R[X][X] := C Q * X - C (X ^ 3)
+    IsUnit (algebraMap R[X] (AdjoinRoot L) Q) := by sorry
 
 end InfinityChart
 
@@ -307,18 +312,8 @@ theorem F2Model.count_classifier (W : WeierstrassCurve (ZMod 2)) (hW : W.Δ = 1)
     ∃! i : Fin 5, W.pointCount = i.val + 1 ∧
       ∃ V : WeierstrassCurve.VariableChange (ZMod 2), V • W = F2Model i := by sorry
 
-/-- The one-point curve has no affine rational solution. -/
-example : (¬ ∃ x y : ZMod 2, (F2Model 0).toAffine.Equation x y) ∧
-    (F2Model 0).pointCount = 1 := by sorry
-
-/-- The middle binary representative has equation y² + y = x³. -/
-example : F2Model 2 = ⟨0, 0, 1, 0, 0⟩ := by sorry
-
-/-- Equal j does not identify the three supersingular binary classes. -/
-example : (F2Model 0).c₄ = 0 ∧ (F2Model 4).c₄ = 0 ∧ F2Model 0 ≠ F2Model 4 := by sorry
-
 /-- Smoothness cannot be omitted from the point-count classifier. -/
-example :
+theorem F2Model.singular_count_collision :
     (⟨0, 0, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)).Δ = 0 ∧
     (⟨0, 0, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)).pointCount = (F2Model 2).pointCount :=
   by sorry
@@ -359,43 +354,13 @@ theorem reverseWeight_eq_reflect {k : Type u} [CommRing k]
     (i : ℕ) (p : k[X]) (hp : p.natDegree ≤ i) :
     reverseWeight i p = Polynomial.reflect i p := by sorry
 
-/-- The two reversals differ above the weight: `reflect` keeps `X ^ 7` at weight six. -/
-example : reverseWeight 6 (X ^ 7 : ℤ[X]) ≠ Polynomial.reflect 6 (X ^ 7 : ℤ[X]) := by sorry
-
-/-- Weight-six reversal drops the entire monomial of degree seven. -/
-example : reverseWeight 6 (X ^ 7 : ℤ[X]) = 0 := by sorry
-
 /-- The global discriminant transforms with weight twelve. -/
 theorem inverseChart_discriminant {k : Type u} [CommRing k] (W : BoundedWeierstrass k) :
     (inverseChart W.toCurve).Δ = reverseWeight 12 W.toCurve.Δ := by sorry
 
-/-- A bounded tuple may be singular. -/
-example {k : Type u} [CommRing k] : ∃ W : BoundedWeierstrass k,
-    W.toCurve = ⟨0, 0, 0, 0, 0⟩ ∧ W.toCurve.Δ = 0 := by sorry
-
-/-- Zero has natDegree zero and obeys every nonnegative weight bound. -/
-example {k : Type u} [CommRing k] : (0 : k[X]).natDegree ≤ 1 := by sorry
-
-/-- Weight six retains the missing top coefficients of a constant. -/
-example {k : Type u} [CommRing k] : reverseWeight 6 (1 : k[X]) = X ^ 6 := by sorry
-
-/-- The highest-weight monomial becomes constant. -/
-example {k : Type u} [CommRing k] : reverseWeight 6 (X ^ 6 : k[X]) = 1 := by sorry
-
-/-- The highest-weight coefficient is the constant on the inverse chart. -/
-example {k : Type u} [CommRing k] :
-    (inverseChart (⟨X, 0, 0, 0, X ^ 6⟩ : WeierstrassCurve k[X])).a₆ = 1 := by sorry
-
-/-- A constant coefficient of weight one becomes the reciprocal chart coordinate. -/
-example : (inverseChart (⟨1, 0, 0, 0, 0⟩ : WeierstrassCurve ℤ[X])).a₁ = X := by sorry
-
-/-- Weight reversal loses terms above its bound. -/
-example : inverseChart (inverseChart (⟨0, 0, 0, 0, X ^ 7⟩ :
-    WeierstrassCurve ℤ[X])) ≠ ⟨0, 0, 0, 0, X ^ 7⟩ := by sorry
-
-/-- The zero tuple stays zero on the reciprocal chart, including in characteristic two. -/
-example : inverseChart (⟨0, 0, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
-    ⟨0, 0, 0, 0, 0⟩ := by sorry
+/-- Applying the reciprocal chart twice recovers every bounded equation. -/
+theorem inverseChart_inverseChart {k : Type u} [CommRing k] (W : BoundedWeierstrass k) :
+    inverseChart (inverseChart W.toCurve) = W.toCurve := by sorry
 
 /-- Fiber and zero-section intersections determine an integral unimodular plane. -/
 def fiberSectionGram : Matrix (Fin 2) (Fin 2) ℤ := !![0, 1; 1, -1]
@@ -403,30 +368,10 @@ def fiberSectionGram : Matrix (Fin 2) (Fin 2) ℤ := !![0, 1; 1, -1]
 /-- Its determinant has the sign fixed by the section square minus one. -/
 theorem fiberSectionGram_det : fiberSectionGram.det = -1 := by sorry
 
-/-- A two-term vector witnesses the odd plane. -/
-example : fiberSectionGram 1 1 = -1 := by sorry
-
-/-- The fiber pairs positively with its section. -/
-example : fiberSectionGram 0 1 = 1 ∧ fiberSectionGram 0 0 = 0 := by sorry
-
-/-- The sum of the fiber and section has square one in the odd plane. -/
-example :
-    let v : Fin 2 → ℤ := ![1, 1]
-    (∑ i : Fin 2, ∑ j : Fin 2, v i * fiberSectionGram i j * v j) = 1 := by sorry
-
 /-! ## Layer 5: Frobenius, graphs and Picard constancy -/
 
 /-- The resolved rank-ten surface's maximal point-count expression. -/
 def rationalSurfaceCount (q : ℕ) : ℕ := 1 + 10 * q + q ^ 2
-
-/-- The binary point-count threshold is twenty-five. -/
-example : rationalSurfaceCount 2 = 25 := by sorry
-
-/-- The formula is only a numerical expression at zero, not a field-size assertion. -/
-example : rationalSurfaceCount 0 = 1 := by sorry
-
-/-- The numerical threshold is forty at three and twelve at one. -/
-example : rationalSurfaceCount 3 = 40 ∧ rationalSurfaceCount 1 = 12 := by sorry
 
 /-- Three small fibers cannot achieve the binary threshold. -/
 theorem small_fiber_bound : 10 + 7 + 7 < rationalSurfaceCount 2 := by sorry
@@ -459,25 +404,6 @@ theorem modelEquations_bounded (i : Fin 14) :
 /-- The fourteen equations have pairwise distinct coefficient tuples. -/
 theorem modelEquations_injective : Function.Injective modelEquations := by sorry
 
-/-- Model twelve has the displayed coefficients and discriminant t10. -/
-example : modelEquations 11 = ⟨X, 1, X ^ 3, 0, 0⟩ ∧
-    (modelEquations 11).Δ = X ^ 10 := by sorry
-
-/-- The I₃* example has discriminant exponent eleven. -/
-example : (modelEquations 12).Δ = X ^ 11 := by sorry
-
-/-- The remaining IV* example also has a nonrational discriminant factor. -/
-example : (modelEquations 13).Δ = X ^ 8 * (X ^ 2 + X + 1) := by sorry
-
-/-- The first model's binary invariant has c4=t4 and discriminant t8. -/
-example : (modelEquations 0).c₄ = X ^ 4 ∧
-    (modelEquations 0).Δ = X ^ 8 := by sorry
-
-/-- The three zero-j tuples have c4 zero and nonzero discriminant t8. -/
-example (i : Fin 3) :
-    let W := modelEquations ⟨i.val + 8, by omega⟩
-    W.c₄ = 0 ∧ W.Δ = X ^ 8 := by sorry
-
 /-! ## Layer 7: admissible equivalence and classification -/
 
 /-- A coefficient polynomial of prescribed weight, built from its complete vector. -/
@@ -492,19 +418,6 @@ theorem coefficientPolynomial_injective {k : Type u} [CommRing k] (n : ℕ) :
 theorem coefficientPolynomial_range {k : Type u} [CommRing k] (n : ℕ) (p : k[X]) :
     (∃ c, coefficientPolynomial n c = p) ↔ p.natDegree ≤ n := by sorry
 
-/-- The zero vector gives the zero polynomial at every weight. -/
-example (n : ℕ) : coefficientPolynomial (k := ZMod 2) n (fun _ => 0) = 0 := by sorry
-
-/-- The vector (1,0) is constant; its weight-one reversal is t. -/
-example : coefficientPolynomial 1 (![1, 0] : Fin 2 → ZMod 2) = 1 ∧
-    reverseWeight 1 (coefficientPolynomial 1 (![1, 0] : Fin 2 → ZMod 2)) = X := by sorry
-
-/-- A middle weight-two coordinate produces the linear monomial. -/
-example : coefficientPolynomial 2 (![0, 1, 0] : Fin 3 → ZMod 2) = X := by sorry
-
-/-- A weight-zero vector retains its nonzero nilpotent coefficient. -/
-example : coefficientPolynomial 0 (![2] : Fin 1 → ZMod 4) = C 2 := by sorry
-
 /-- The normalized binary coefficient space has a2 zero by construction. -/
 abbrev NormalizedCoefficients :=
   (Fin 2 → ZMod 2) × (Fin 4 → ZMod 2) × (Fin 5 → ZMod 2) × (Fin 7 → ZMod 2)
@@ -514,23 +427,15 @@ def normalizedEquation (c : NormalizedCoefficients) : WeierstrassCurve (ZMod 2)[
   ⟨coefficientPolynomial 1 c.1, 0, coefficientPolynomial 3 c.2.1,
     coefficientPolynomial 4 c.2.2.1, coefficientPolynomial 6 c.2.2.2⟩
 
+/-- Normalized coefficient vectors determine distinct native equations. -/
+theorem normalizedEquation_injective : Function.Injective normalizedEquation := by sorry
+
+/-- The normalized vectors parametrize every bounded binary equation with vanishing a2. -/
+theorem normalizedEquation_range (W : BoundedWeierstrass (ZMod 2)) :
+    (∃ c : NormalizedCoefficients, normalizedEquation c = W.toCurve) ↔ W.toCurve.a₂ = 0 := by sorry
+
 /-- The normalized coefficient space has cardinality 2^18. -/
 theorem normalizedCoefficients_card : Fintype.card NormalizedCoefficients = 2 ^ 18 := by sorry
-
-/-- The zero coefficient vector has discriminant zero. -/
-example : (normalizedEquation (0, 0, 0, 0)).Δ = 0 := by sorry
-
-/-- Every normalized equation has the prescribed absent coefficient. -/
-example (c : NormalizedCoefficients) : (normalizedEquation c).a₂ = 0 := by sorry
-
-/-- The vector count factors as 4 times 16 times 32 times 128. -/
-example : Fintype.card NormalizedCoefficients = 4 * 16 * 32 * 128 := by sorry
-
-/-- The top sixth-coefficient coordinate produces the highest allowed monomial. -/
-example : (normalizedEquation (0, 0, 0, ![0, 0, 0, 0, 0, 0, 1])).a₆ = X ^ 6 := by sorry
-
-/-- Changing the first coordinate alone changes the slope coefficient. -/
-example : (normalizedEquation (![0, 1], 0, 0, 0)).a₁ = X := by sorry
 
 /-- Translate x by a2 in characteristic two; no inverse or division is needed. -/
 def normalizeA2 (W : WeierstrassCurve (ZMod 2)[X]) : WeierstrassCurve (ZMod 2)[X] :=
@@ -550,21 +455,9 @@ theorem normalizeA2_bounded (W : BoundedWeierstrass (ZMod 2)) :
     (normalizeA2 W.toCurve).a₄.natDegree ≤ 4 ∧
     (normalizeA2 W.toCurve).a₆.natDegree ≤ 6 := by sorry
 
-/-- A2 vanishes after normalization and normalizing twice changes nothing. -/
-example (W : WeierstrassCurve (ZMod 2)[X]) :
-    (normalizeA2 W).a₂ = 0 ∧ normalizeA2 (normalizeA2 W) = normalizeA2 W := by sorry
-
-/-- Normalization fixes every tuple whose second coefficient already vanishes. -/
-example (W : WeierstrassCurve (ZMod 2)[X]) (h : W.a₂ = 0) :
-    normalizeA2 W = W := by sorry
-
-/-- Nonzero a2 changes the other coefficients; dropping it alone is incorrect. -/
-example : normalizeA2 (⟨X, X, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
-    ⟨X, 0, X ^ 2, X ^ 2, 0⟩ := by sorry
-
-/-- Normalizing a constant a2 changes a4 even when the other coefficients vanish. -/
-example : normalizeA2 (⟨0, 1, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
-    ⟨0, 0, 0, 1, 0⟩ := by sorry
+/-- Normalizing the second coefficient preserves the native discriminant. -/
+theorem normalizeA2_discriminant (W : WeierstrassCurve (ZMod 2)[X]) :
+    (normalizeA2 W).Δ = W.Δ := by sorry
 
 /-- Global translation parameters have weights 1,2,3. -/
 abbrev AdmissibleParameters :=
@@ -576,20 +469,19 @@ def admissibleChange (c : AdmissibleParameters) :
   ⟨1, coefficientPolynomial 2 c.2.1,
     coefficientPolynomial 1 c.1, coefficientPolynomial 3 c.2.2⟩
 
+/-- Distinct bounded translation triples give distinct native coordinate changes. -/
+theorem admissibleChange_injective : Function.Injective admissibleChange := by sorry
+
+/-- Every bounded translation preserves all five global coefficient weights. -/
+theorem admissibleChange_bounded (c : AdmissibleParameters) (W : BoundedWeierstrass (ZMod 2)) :
+    ((admissibleChange c) • W.toCurve).a₁.natDegree ≤ 1 ∧
+    ((admissibleChange c) • W.toCurve).a₂.natDegree ≤ 2 ∧
+    ((admissibleChange c) • W.toCurve).a₃.natDegree ≤ 3 ∧
+    ((admissibleChange c) • W.toCurve).a₄.natDegree ≤ 4 ∧
+    ((admissibleChange c) • W.toCurve).a₆.natDegree ≤ 6 := by sorry
+
 /-- There are 512 translation triples, before six base automorphisms. -/
 theorem admissibleParameters_card : Fintype.card AdmissibleParameters = 512 := by sorry
-
-/-- Zero parameters give the identity native change. -/
-example : admissibleChange (0, 0, 0) = 1 := by sorry
-
-/-- The middle parameter is r, rather than the y-slope s. -/
-example : (admissibleChange (0, (![0, 1, 0] : Fin 3 → ZMod 2), 0)).r = X ∧
-    (admissibleChange (0, (![0, 1, 0] : Fin 3 → ZMod 2), 0)).s = 0 := by sorry
-
-/-- The first parameter supplies the y-slope, independently of the x-translation. -/
-example :
-    (admissibleChange ((![0, 1] : Fin 2 → ZMod 2), 0, 0)).s = X ∧
-    (admissibleChange ((![0, 1] : Fin 2 → ZMod 2), 0, 0)).r = 0 := by sorry
 
 /-
 The Layer 3 targets (multiple-fiber isogenies and the local LLR comparison) have no
@@ -652,10 +544,6 @@ AffinePinching.conductor_mono.
 §1.12:
 AffinePinching.commonIdealComparison_bijective_iff, commonIdealComparison_fst, commonIdealComparison_snd,
 commonIdealComparison_surjective, commonIdealComparison_unique.
-§1.13:
-conductor_eq_annihilator.
-§1.14:
-conductor_flat_baseChange.
 §1.15:
 conductor_localization.
 §1.17:
@@ -682,7 +570,7 @@ F2Model.point_group.
 §2.26:
 QuadraticPinch.finite_normalization, QuadraticPinch.moduleCoefficients_fst,
 QuadraticPinch.moduleCoefficients_reconstruct, QuadraticPinch.moduleCoefficients_snd,
-QuadraticPinch.module_generator_map_not_injective, QuadraticPinch.normalization_module_finite,
+QuadraticPinch.module_generator_map_not_injective,
 QuadraticPinch.normalization_remainder, QuadraticPinch.normalization_span,
 QuadraticPinch.normalization_spec_finite, QuadraticPinch.pinch_spanning, QuadraticPinch.relation_eval,
 QuadraticPinch.relation_origin, QuadraticPinch.relation_quadratic, QuadraticPinch.remainder_scalar,
@@ -717,7 +605,7 @@ QuadraticPinch.presentationEquiv_generators, QuadraticPinch.presentationEquiv_mk
 QuadraticPinch.presentationEquiv_symm_substitution, QuadraticPinch.substitutionToAlgebra_coe,
 QuadraticPinch.substitutionToAlgebra_ker, QuadraticPinch.substitutionToAlgebra_surjective,
 QuadraticPinch.substitution_eq_zero_iff_dvd, QuadraticPinch.substitution_inV,
-QuadraticPinch.substitution_ker, QuadraticPinch.substitution_range, QuadraticPinch.substitution_relation.
+QuadraticPinch.substitution_relation.
 §2.35:
 QuadraticPinch.affineParamEquiv_nonzero, QuadraticPinch.affineParamEquiv_origin,
 QuadraticPinch.affineParamEquiv_symm_none, QuadraticPinch.affineParamEquiv_symm_some,
@@ -762,10 +650,6 @@ QuadraticPinch.polynomialLift_basis, QuadraticPinch.polynomialLift_unique.
 QuadraticPinch.quadratic_normalization_inclusion_not_surjective.
 §3.11:
 curve_picardRanks_euler.
-§4.10:
-inverseChart_inverseChart.
-§7.1:
-normalizedEquation_injective.
 -/
 
 /-
