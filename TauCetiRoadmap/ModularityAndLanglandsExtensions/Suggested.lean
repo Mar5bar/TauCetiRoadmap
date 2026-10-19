@@ -485,9 +485,11 @@ Artin/functorial/symmetric-power predicates, integral Hecke and Dwork objects, o
 Conjecture B, twisted modular curves and exceptional-curve arithmetic hypotheses; oscillator/theta and
 metaplectic descent, Arthur parameters/packets, Adams–Johnson induction, unitary eigenvarieties
 and trianguline deformation families; Bianchi Fourier/cohomology and Sato–Tate data; general
-functoriality/reciprocity, Bun_G/lisse categories, Weil-cocycle stacks, singular support and the
-canonical spectral-action adjunction. Their carriers and comparisons remain mathematical targets
-there.
+functoriality/reciprocity, comparisons with AutomorphicGaloisRepresentationsPartII AG2.6's
+relative curves, Bun_G/lisse categories, parameter stack and geometric spectral action, and the
+singular-support and canonical Whittaker-adjunction extensions on those supplied objects.
+The shared objects retain the supplier's general-local-field, reductive-group and coefficient
+hypotheses; §§5.7–5.9 specify their comparisons and the extensions as mathematical targets there.
 -/
 
 end TauCetiRoadmap.ModularityAndLanglandsExtensions

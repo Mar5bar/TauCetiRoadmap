@@ -10,7 +10,7 @@ TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layers0–1 owns standard/te
 
 ClassicalSerreModularity/EllipticCurveModularity own rational modularity;GL2AutomorphicRepresentationsAndTransfer rank-two LLC,soluble Artin/base change;PotentialModularityAndCompatibleSystems systems/operations/L-functions;AutomorphicGaloisRepresentationsPartII Galois/WD/HT realization;AutomorphicFormsOnReductiveGroups infinity,weights,purity/real cohomological packets;EndoscopicTransferAndUnitaryTraceComparison local factors,cyclic base change/weak induction;AutomorphicLFunctionsAndLocalFactors standard/Rankin–Selberg theorems and Langlands–Shahidi definitions. Own stronger induction,analytic/trace comparisons here;separate weak/all-place,isobaric/cuspidal.
 
-Layer4 owns symmetric-power propagation,level raising,tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity/open-image prescriptions. Own polarized-lifting,theta/spectral-action extensions over lower inputs. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
+Layer4 owns symmetric-power propagation,level raising,tensor lifting/auxiliary curves;Layer2 Dwork projectors,coefficient-prime ordinarity/open-image prescriptions. Own polarized-lifting, theta, singular-support and Whittaker extensions over lower inputs. AutomorphicGaloisRepresentationsPartII AG2.6 owns the shared relative curves, bundle/Hecke categories, parameter stack and geometric spectral action; §§5.7–5.9 compare and extend those same objects. PadicHodgeTheory§3.6 owns labelled ordinary flags,crystalline characters,consecutive-weight/maximal-monodromy criteria/finite-extension descent;CrystallineCohomology§§CR.6.1–3 log boundary/Hyodo–Kato/one-parameter comparisons;here add `H₀`-equivariant Dwork specialization. Extend PotentialModularityAndCompatibleSystems§8.6’s rank-two ordinary lifting/finiteness to higher polarized rank.
 
 PadicFunctionalAnalysis/CompactOperators own Banach modules,orthonormalizability/complete continuity;LocallyAnalyticDistributions locally convex limits,strictness,completed tensors,compact duality/distribution-character spaces;RigidAnalyticGeometry quasi-Stein sheaves. §4.3 adds relative compactness,Fréchet–Stein/coadmissibility,contracting Jacquet/automorphic comparisons.
 
@@ -56,7 +56,7 @@ Every assertion below is of one of three kinds. A known result is a theorem. A c
 
 Import `Polynomial.reverse`, `Polynomial.eval₂_reverse_mul_pow` at the natural degree with invertible evaluation argument. For commutative rings,`Matrix.charpolyRev = det(1 − X • M.map C)`; `Matrix.reverse_charpoly` gives reversal,`Matrix.eval_charpolyRev` constant1,including singular/empty matrices (`0₂:charpoly=X²,charpolyRev=1`). Import `Matrix.trace`, `Matrix.ProjGenLinGroup`, `Matrix.ProjGenLinGroup.mk`, `Matrix.ProjGenLinGroup.map`,injective `Matrix.ProjectiveSpecialLinearGroup.toPGL`,surjective scalar quotient. Scalar extension induces a map on central quotients. Sign kernels use `AddSubgroup`, `AddMonoidHom.ker`, finite sums and `ZMod 2`. These give no topology/Galois/closure structure. `H_E` is always the cohomological dual of that same imported Tate action/determinant.
 
-Import `WeierstrassCurve.tateModuleGaloisRepresentation`, `WeierstrassCurve.continuous_tateModuleGaloisRepresentation_apply`, `TauCeti.det_tateModuleGaloisRepresentation` (separably closed/characteristic hypotheses) via cohomological duality. `HeckeRing.GL2.Newform.satakeParameters`, `satakeParameters_eq_pair_iff`, `satakeAngle`, `satakeParameters_eq_exp_satakeAngle` in `TauCeti.NumberTheory.ModularForms.Newforms.Satake` give rational classical comparisons;the last assumes prime p,trivial local nebentypus/Ramanujan bound. It proves neither that bound nor CM Sato–Tate. §3.1 uses `TauCeti.HeisenbergGroup` from `TauCeti.GroupTheory.SpecificGroups.Heisenberg` and `TauCeti.hermiteFunction`, `TauCeti.hermiteFunction_oscillator` from `TauCeti.Analysis.SpecialFunctions.Hermite.Function.Oscillator`. SR.6 owns integral finite-wild cocycles/`ℓ`-adic extension/excursions;§§5.8–5.9 add stack,support,spectral action. LocalGaloisGroups/ProfiniteArithmetic own foundations.
+Import `WeierstrassCurve.tateModuleGaloisRepresentation`, `WeierstrassCurve.continuous_tateModuleGaloisRepresentation_apply`, `TauCeti.det_tateModuleGaloisRepresentation` (separably closed/characteristic hypotheses) via cohomological duality. `HeckeRing.GL2.Newform.satakeParameters`, `satakeParameters_eq_pair_iff`, `satakeAngle`, `satakeParameters_eq_exp_satakeAngle` in `TauCeti.NumberTheory.ModularForms.Newforms.Satake` give rational classical comparisons;the last assumes prime p,trivial local nebentypus/Ramanujan bound. It proves neither that bound nor CM Sato–Tate. §3.1 uses `TauCeti.HeisenbergGroup` from `TauCeti.GroupTheory.SpecificGroups.Heisenberg` and `TauCeti.hermiteFunction`, `TauCeti.hermiteFunction_oscillator` from `TauCeti.Analysis.SpecialFunctions.Hermite.Function.Oscillator`. SR.6 owns integral finite-wild cocycles/`ℓ`-adic extension/excursions; AutomorphicGaloisRepresentationsPartII AG2.6 supplies their parameter stack and geometric spectral action; §§5.8–5.9 add singular support and the Whittaker adjunction. LocalGaloisGroups/ProfiniteArithmetic own foundations.
 
 ### From the nonarchimedean analytic roadmaps
 
@@ -117,7 +117,7 @@ Import characters, Haar probability, `SU₂` powers and class-function completen
 <a id="contract-c-categorical"></a>
 #### C-CATEGORICAL: the geometric categories
 
-§§5.7–5.9 own `Bun_G` coefficient categories, parameter stack, support and spectral action for FS I.10.2 over EnhancedDerivedSheaves’ stable categories and SR.6’s integral finite-wild cocycles/excursions. Its semisimple parameter specialization supplies neither those carriers nor the conjectural equivalence. Tori retain condensed homology and the character gerbe.
+AutomorphicGaloisRepresentationsPartII AG2.6 supplies `relativePeriodChart`, `relativeFarguesFontaineCurve`, `relativeDegreeOneDivisor`, `BunG`, `newtonStratum`, `DLisBunG`, `HeckeModification`, `HeckeFunctor`, `parameterStack`, `geometricSpectralAction`, `excursionOperator` and `semisimpleParameter`. Use its general-local-field, reductive-group carriers, integral Satake normalization and coefficient restrictions. §§5.7–5.9 retain comparison statements on these objects and own the singular-support extension and canonical Whittaker adjunction used in FS I.10.2. The categorical equivalence remains conjectural. Tori retain condensed homology and the character gerbe.
 
 ### Required exports from neighbouring theories
 
@@ -146,6 +146,10 @@ RACP pairs `(π,χ)` over CM/totally real fields, dominant weights `a∈(ℤⁿ)
 #### From AutomorphicGaloisRepresentationsPartII, AG2.2–AG2.7
 
 BLGGT v4 2.1.1 gives semisimple `r_{ℓ,ι}(π)` with totally odd multiplier `ε_ℓ^{1−n}r_{ℓ,ι}(χ)`, `HT_τ={a_{ιτ,i}+n−i}`, pure weight `w_alg+n−1` and `recᵀ` LGC away from `ℓ` (Caraiani), also at `ℓ` with Iwahori vectors; retain Geraghty’s ordinary comparisons (6)–(7). Also import all-finite-place LGC for RAESDC/RAECSDC used by NT 2026 §1.2/Lemma 2.1, and ACC+ §7.1’s CM RAC systems (HLTT, Scholze, Varma). [C-GALOIS] fixes the actual realization.
+
+#### From AutomorphicGaloisRepresentationsPartII, Layer AG2.6 (shared Fargues–Scholze foundations)
+
+Use **Relative Fargues–Fontaine curves and degree-one divisors** (`relativePeriodChart`, `relativeFarguesFontaineCurve`, `relativeDegreeOneDivisor`), **Bundle strata, lisse categories and the geometric Hecke action** (`BunG`, `newtonStratum`, `DLisBunG`, `HeckeModification`, `HeckeFunctor`) and **The parameter stack and geometric spectral action** (`parameterStack`, `geometricSpectralAction`, `excursionOperator`, `semisimpleParameter`). These targets include the integral Satake, perfect-generation and universal-action comparisons. §§5.7–5.9 use these objects over arbitrary nonarchimedean local fields, with their finite-leg coherence, coefficient naturality and integral prime restrictions; singular support and the Whittaker adjunction are owned here.
 
 #### From AutomorphicGaloisRepresentationsPartII, Layer AG2.3
 
@@ -3500,9 +3504,9 @@ Def. of the frontier proposition; Layer 1 supplies the stated finite-image known
 <a id="fs-bundles-and-lisse-category"></a>
 ### 5.7 Bundles on the relative curve and their lisse categories
 
-**Relative curves.** For every nonarchimedean local field E with residue field `𝔽_q` of characteristic p, uniformizer π and every `S∈Perf_{𝔽_q}`, construct `relativePeriodChart / relativeFarguesFontaineCurve / relativeDegreeOneDivisor`. For affinoid `S=Spa(R,R⁺)` with pseudouniformizer ϖ, use `W_{O_E}(R⁺)` in mixed characteristic and `R⁺[[π]]` in equal characteristic, with the `(π,[ϖ])`-adic topology. The generic period domain removes both `π=0` and `[ϖ]=0`; its q-power Frobenius quotient is `X_{E,S}`. Prove independence of ϖ, sheafiness, gluing over arbitrary S, functoriality in S and compatibility of chart maps with finite coefficient extensions and their residue-field maps, retaining the corresponding Frobenius powers. Construct the untilt/closed-Cartier-divisor comparison, `Div¹_E=Spd(E)/φ^ℤ`, and the degree-one modification interfaces used by Hecke correspondences. No morphism of adic spaces `X_{E,S}→S` is presumed.
+**Relative curves.** For every nonarchimedean local field E with residue field `𝔽_q` of characteristic p, uniformizer π and every `S∈Perf_{𝔽_q}`, use AutomorphicGaloisRepresentationsPartII AG2.6, **Relative Fargues–Fontaine curves and degree-one divisors**. Here `relativePeriodChart / relativeFarguesFontaineCurve / relativeDegreeOneDivisor` are comparison statements identifying the charts, curve `X_{E,S}` and marked divisors used in the categorical targets with that supplier's objects. The identifications respect change of pseudouniformizer, gluing, pullback in S and finite local-field extension with its residue-field map and Frobenius powers. They carry the untilt correspondence, `Div¹_E=Spd(E)/φ^ℤ` and degree-one modification interface to the supplied ones.
 
-Use FarguesFontaineDiamonds F0–F3 only for its fixed-field diamond comparison, `E=ℚ_p` and `S=Spa(F,O_F)`; the general relative construction is owned here.
+For affinoid `S=Spa(R,R⁺)`, the comparisons retain ramified Witt coefficients `W_{O_E}(R⁺)` in mixed characteristic and `R⁺[[π]]` in equal characteristic, the two deleted zero loci and the q-power Frobenius quotient. At `E=ℚ_p` and field-valued S they agree with the supplier's fixed-field comparison to FarguesFontaineDiamonds. No adic morphism `X_{E,S}→S` is assumed.
 
 **Checks.**
 
@@ -3514,27 +3518,19 @@ Use FarguesFontaineDiamonds F0–F3 only for its fixed-field diamond comparison,
 
 ([Fargues–Scholze], §II.1, Propositions II.1.1–II.1.3 pp.47–49, Definition II.1.15 and Propositions II.1.16–II.1.18 pp.54–56, Definition II.1.19 p.56.)
 
-For such E and connected reductive `G/E`,construct v-stack `Bun_G:S↦G`-torsors on `X_{E,S}`, for `S∈Perf_{𝔽_q}`,with descent,Hecke correspondences,Newton `B(G)`-strata/inclusions,and `Bun_G¹=[*/G(E)]`. For `ℓ≠p` and FS VII coefficients,construct stable lisse-solid `D_lis(Bun_G,Λ)`,pullback,extension by zero/compact objects. Its neutral restriction is SR.0d’s derived smooth `G(E)`-category;retain all other strata. Use the relative curves just constructed and the lower diamond theory;own the torsor stack/category.
+For such E and any connected reductive `G/E`, use AutomorphicGaloisRepresentationsPartII AG2.6, **Bundle strata, lisse categories and the geometric Hecke action**. Its `BunG`, `newtonStratum`, `DLisBunG`, `HeckeModification` and `HeckeFunctor` supply the torsor stack, all Newton strata, stable lisse-solid category and finite-leg Hecke action. Use its stratum restriction/extension functors, compact generators and finite-Newton-support criterion, integral Satake equivalence, normalized ULA kernels, both Hecke adjoints and coherent fusion/coalescence/Weil actions. Retain `ℓ≠p`, the chosen `√q` and coefficients over `ℤ_ℓ[√q]`, and the supplier's integral pinning restrictions. The neutral category is SR.0d's derived smooth `G(E)`-category; the other strata remain present.
 
-Construct finite-leg local Hecke stacks,convolution/fusion/Satake sheaves,and exact commuting transforms with coherent Weil action/coalescence. Import EnhancedDerivedSheaves E0/E5 stable/Ind/adjoint foundations;own their `Bun_G` realization.
-
-`D_lis` is the localizing subcategory generated by f♮`Λ` for separated representable cohomologically smooth f,f♮⊣f*,with base change/projection formula. Stratum b gives derived smooth `G_b(E)`-modules. Compactness means finite Newton support/compact restrictions;generators `f_{b,K}`♮`Λ` use open pro-p `K⊂G_b(E)`.
-
-Satake target: bounded-support,coefficient-flat perverse ULA sheaves,fusion of distinct-leg exterior products,parity-corrected symmetry/continuous-Weil fibre functor. Relative Tannaka/rank-one `PGL₂` identifies cyclotomically pinned Ĝ,without `√q` twist. For general reductive G/finite legs,`T_V(A)=p₂`♮`(p₁*A⊗S′_V)`;dualizability gives both adjoints/compact preservation,leg descent the Weil action.
-
-Satake route: hyperbolic localization/collision codimension→full faithfulness,proper convolution→fusion. Highest-cell cohomology/stabilized torsion annihilators give finite-free fibre adjoints,Peter–Weyl objects/multi-leg Hopf algebra;constant terms/rank-one `ℙ¹` fix roots/Tate twists. VI.11’s integral closure criterion requires adjoint reduction/excludes odd-orthogonal prime2;then recover pinning/Weil descent.
-
-Hecke route: relative Verdier duality/VII.5.1–2 compare solid ♮ and torsion-étale ! **on ULA kernels**,tested on étale generators. Demazure resolutions preserve `D_lis`,normalized dual Satake kernels give both adjoints,divisor-leg descent to `BW_E` the coherent Weil action.
+The targets below identify the geometric inputs to the singular-support and Whittaker constructions with these supplied objects. On the same relative curves, transport torsors and modifications by the preceding identifications; the induced category equivalences intertwine restriction, extension, Satake kernels and Hecke transforms, with their coefficient and finite-leg coherence.
 
 **API.**
 
-- `BunG / newtonStratum / trivialStratum`: torsors,v-descent,Newton type,[*/G(E)].
-- `DLisBunG / compactObjects`: category,restriction/extension,compact subcategory.
-- `HeckeModification / satakeSheaf / HeckeFunctor`: correspondence,sheaf,compact-preserving transform.
-- `SatakeFlatULA / satakeFusion / collisionRestriction_fullyFaithful`: flatness,collision bound,parity-corrected symmetry.
-- `satakeFibre / boundedPeterWeyl / satakeTannakaGroup / pinnedDualComparison`: fibre,adjoints,integral pinning with the prime2 reduction.
-- `relativeULADual / normalizedSatakeKernel / heckeTransform_preservesDLis`: relative duality/normalized transform.
-- `HeckeFunctor_coalescence / _fusion / _weilAction`: coherent leg/composition/Weil identities,neutral smooth comparison and compact preservation in the stated coefficients.
+- `BunG / newtonStratum / trivialStratum`: identify the torsor stack and Newton inclusions with the supplied stack and strata, including `[*/G(E)]`.
+- `DLisBunG / compactObjects`: identify the lisse category, restriction/extension and compact subcategory with the supplied ones.
+- `HeckeModification / satakeSheaf / HeckeFunctor`: identify the modification correspondence, Satake sheaf and transform with the supplied ones.
+- `SatakeFlatULA / satakeFusion / collisionRestriction_fullyFaithful`: transport the supplier's coefficient-flat ULA subcategory, fusion and collision full faithfulness.
+- `satakeFibre / boundedPeterWeyl / satakeTannakaGroup / pinnedDualComparison`: identify the supplied fibre, its adjoints and integral tensor reconstruction, preserving the pinning, Tate twists and prime2 restriction.
+- `relativeULADual / normalizedSatakeKernel / heckeTransform_preservesDLis`: compare the supplied ULA duals and normalized kernels; identify their solid `♮` and torsion-étale `!` transforms on ULA kernels and their lisse restrictions.
+- `HeckeFunctor_coalescence / _fusion / _weilAction`: intertwine the supplied coherent leg/composition/Weil identities and neutral smooth comparison, retaining compact preservation.
 
 **Checks.**
 
@@ -3551,27 +3547,29 @@ Hecke route: relative Verdier duality/VII.5.1–2 compare solid ♮ and torsion-
 
 ([Fargues–Scholze], Def. III.1.2 and Prop. III.1.3 pp.88–89, Thm. III.2.4 pp.91–92 and Thm. IV.1.19 pp.112–113; Def. VI.9.1 and Prop. VI.9.4 pp.226–230, Props. VI.10.1–VI.10.3 pp.230–234, Thm. VI.11.1 and proof pp.235–239; Prop. VII.3.1 pp.257–258, Def. VII.6.1 pp.268–269, Props. VII.7.1–VII.7.4 pp.271–274; Prop. IX.2.1, Thm. IX.2.2 and Cors. IX.2.3–IX.2.4 pp.321–324.)
 
-*Needs:* FarguesFontaineDiamonds F0–F3, fixed-field comparison only; PerfectoidSpaces P1–P2, untilts and gluing; AdicSpaces Layers 0–6, adic chart and Witt-vector foundations; DiamondsAndVStacks D2–D4, v-descent; DiamondEtaleCohomology C2–C5, étale operations; DiamondSixOperations S1–S4 and AdicCoefficientsAndComparisons L0, coefficient operations; EnhancedDerivedSheaves E0 and E5, stable `∞`-categories and Ind-completion; ReductiveGroups Layers 0–3, G-torsors; ReductiveGroupsPartII RG2.5, dual groups. The relative curve and divisor interfaces precede `Bun_G`, Satake and Hecke constructions; all these extensions are targets here.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.6, **Relative Fargues–Fontaine curves and degree-one divisors** and **Bundle strata, lisse categories and the geometric Hecke action**, with the target names above; EnhancedDerivedSheaves E0 and E5, equivalences of stable categories and their Ind-completions; SR.0d, the neutral derived smooth comparison.
 
 <a id="fs-parameter-stack"></a>
 ### 5.8 The Weil cocycle stack and its coherent support
 
-Fix finite-quotient Q pinned `W_E`-action on `Ĝ`. Import SR.6.1–2’s crossed cocycles/gauge action,finite-wild discretization,integral scheme over `ℤ[1/p]` (finite presentation/flatness/fibre dimension),`ℓ`-adic extension/wild strata. Base change to `Λ` gives `Z¹(W_E,Ĝ)_Λ` with FS relatively discrete condensed continuity (=SR.6.1 relative-discrete `ℓ`-adic continuity),open-closed affine levels `Z¹(W_E/P,Ĝ)`,P open wild inertia. **Add** each level’s LCI over `ℤ_ℓ`,quotient `Par_G=Z¹/Ĝ`,`Perf(Par_G)`,quasicompact-support `Perf_qc`/bounded coherent categories,cotangent/obstruction theory,and nilpotent singular support defining `D_coh,Nilp^{b,qc}`. Nilpotent support is automatic in characteristic-zero coefficients/banal `ℓ`,but retained at integral bad primes.
+Fix finite-quotient Q pinned `W_E`-action on `Ĝ`, `ℓ≠p` and FS VIII coefficients Λ. Use AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**, for `parameterStack=Z¹(W_E,Ĝ)_Λ/Ĝ`, its universal torsor, finite-wild open-and-closed levels and perfect categories. Its cocycle carrier and continuity are those of SR.6.1–2, including coefficient base change and the continuous extension. Write `Par_G` for this same quotient. The target `parameterStack` here identifies the stack used for coherent support with that supplied quotient, including stabilizers; the perfect-generation comparisons below use the supplier's integral generation theorem.
+
+On this same stack, construct the cotangent/obstruction and singular-support theory: compare each level's LCI structure over `ℤ_ℓ` with the supplied flat cocycle scheme; form quasicompact-support `Perf_qc`, bounded coherent categories and nilpotent singular support defining `D_coh,Nilp^{b,qc}`. Identify `Perf_qc` with the quasicompact-support subcategory of the supplied perfect category. Nilpotent support is automatic in characteristic-zero coefficients/banal `ℓ`, but retained at integral bad primes.
 
 At `φ`,tangent/cotangent are `RΓ(W_E,ĝ_φ)[1]/RΓ(W_E,ĝ*_φ(1))[1]`. Sing uses `H¹` of dual cotangent;Hochschild self-Ext support on syntomic charts over regular noetherian bases must be coherent,smooth-descending,and zero-section iff perfect. Nilpotence:coadjoint orbit closure contains0;`ĝ≅ĝ*` needs a hypothesis. Integral route:`B=R`/(regular `f₁`,…,`f_c`),R smooth regular noetherian;commuting degree2 CI operators make `Ext*_B(M,N)` finite over `B[u₁,…,u_c]` when `Ext*_R(M,N)` is totally finite ([Gulliksen](#ref-gulliksen-1974)3.1(ii)pp.174–175,3.2/proof pp.175–180). Localize/truncate/compare Hochschild-cotangent actions. [Arinkin–Gaitsgory](#ref-arinkin-gaitsgory) Appendix D Thm. D pp.135–136(v3) alone covers char-zero fields. [Jorgensen](#ref-jorgensen)1.2 p.2 gives `pd_B(M)<n` iff `Ext^i_B(M,M)=0` for `n≤i≤n+c`,`n≥1`. FS VIII.2.9 reduces complexes modulo perfect cones to modules;CI Gorenstein duality transfers eventual self-Ext vanishing,not arbitrary Gorenstein duality.
 
 LCI proof route: use the imported finite-wild relation `σ⁻¹τσ=τ^q`, continuous Weil `cd=2` and Euler characteristic zero. Fix prime-to-`ℓ` inertial type, pass to its reductive centralizer and stratify the tame unipotent part; orbit plus centralizer dimension is dim Ĝ. The expected-dimension bound gives LCI and agrees with imported flatness/fibre dimension; unobstructedness is not assumed.
 
-For `ℓ∤|π₁(Ĝ)_tor|`,construct perfect generation using good filtrations by ∇`(λ)`,criterion `H^i(Ĝ,V⊗∇(λ))=0`,`i>0`. Route:Kempf vanishing,tensor/good-filtration t-structure;prime-to-`ℓ` simply connected cover/trace splitting,flag-divisor/diagonal resolutions give twisted powers/relation fibres. Induct cyclic wild p-quotients via reductive identity centralizers/prime-to-`ℓ` components preserving filtrations;norm-root averaging contracts fixed-locus bar complexes. Animated free groups/descent place cocycle algebras in Ind Perf(BĜ) (VIII.5.1,5.2–21).
+For `ℓ∤|π₁(Ĝ)_tor|`, use the supplier's integral perfect-generation comparison. Identify its good-filtration and prime-to-`ℓ` central-cover models with the models on the syntomic charts used for singular support. Compare the twisted-power, relation-fibre and finite-wild-level generators inside the same `Ind Perf(BĜ)`, retaining derived relation fibres and coefficient reduction. Dual root data identify this prime restriction with `ℓ∤|π₀Z(G)|`. The good-filtration and animated presentations use the supplied generators/relations description.
 
 **API.**
 
-- `GoodFiltration / goodFiltration_cohomologyCriterion / goodFiltration_tensor / goodFiltration_centralizerRestriction`: modular filtration/acyclicity/tensor/prime-to-`ℓ` comparisons.
-- `identitySection_perfGenerated / twistedPower_perfGenerated / relationFibre_perfGenerated / wildLevel_perfGenerated`: prime-restricted tame/wild generation,derived fibres.
-- `weilCocycleScheme`: imported scheme’s `Λ`-base change/continuous extension; `parameterStack / levelOpenClosed / level_lci`: quotient,levels,base change,LCI.
-- `universalParameterTorsor`: `Ĝ⋊Q`-torsor/`W_E`-equivariance,retaining stabilizers.
+- `GoodFiltration / goodFiltration_cohomologyCriterion / goodFiltration_tensor / goodFiltration_centralizerRestriction`: identify the filtration models with those in the supplier’s generation comparison, transporting acyclicity, tensor products and centralizer restriction under the supplier's solvable finite prime-to-`ℓ` action hypotheses.
+- `identitySection_perfGenerated / twistedPower_perfGenerated / relationFibre_perfGenerated / wildLevel_perfGenerated`: compare the supplied prime-restricted tame/wild generators with the chart models, including derived relation fibres.
+- `weilCocycleScheme / parameterStack / levelOpenClosed`: identify the supplied cocycle scheme, quotient and finite-wild levels, including `Λ`-base change and continuity; `level_lci`: the LCI chart structure on those same levels used for cotangent and support theory.
+- `universalParameterTorsor`: identify the supplied `Ĝ⋊Q`-torsor and its `W_E`-equivariance on these charts, retaining stabilizers.
 - `perfectQC / coherentBoundedQC / nilpotentSingularSupport`: categories/support,level restriction/extension bounds.
-- `parameter_invariantBaseChange / parameter_perfGeneration`: FS I.8.2 with prime restriction;coarse semisimple classes cannot replace the torsor/categories.
+- `parameter_invariantBaseChange / parameter_perfGeneration`: transport the supplier’s FS I.8.2 comparison to the chart categories, with its prime restriction; coarse semisimple classes cannot replace the torsor/categories.
 
 **Checks.**
 
@@ -3588,25 +3586,25 @@ For `ℓ∤|π₁(Ĝ)_tor|`,construct perfect generation using good filtrations 
 
 ([Fargues–Scholze], Thms. VIII.1.3 and VIII.5.1 with proofs, pp.278–281 and 293–315; Prop. VIII.2.1–Cor. VIII.2.3 pp.281–282, Defs. VIII.2.6/VIII.2.8 and Thms. VIII.2.7/VIII.2.9 pp.283–284, Prop. VIII.2.11 pp.284–285; §I.10 pp.37–38 for the conjectural support convention.)
 
-*Needs:* SR §§SR.6.1–SR.6.2, crossed cocycles, the integral finite-wild cocycle scheme, its `ℓ`-adic extension and wild strata; SchemeAndStackFoundations, quotient stacks; EnhancedDerivedSheaves E5, stable categories and Ind-completion; ReductiveGroupsPartII RG2.5, dual root data; ClassFieldTheory Layer 9, Weil groups. The parameter-stack cotangent calculation is owned here, rather than asserted to be an export of a general enhanced-category target. The complete-intersection operators, finite generation, perfectness criterion and smooth descent just specified construct the singular-support specialization on these syntomic parameter-stack charts.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**, `parameterStack` and its torsor/perfect-generation comparisons; SR §§SR.6.1–SR.6.2, the common cocycle carrier; SchemeAndStackFoundations, quotient-stack charts; EnhancedDerivedSheaves E5, stable categories and Ind-completion; ReductiveGroupsPartII RG2.5, dual root data; ClassFieldTheory Layer 9, Weil groups. The LCI/cotangent comparison, complete-intersection operators, finite generation, perfectness criterion and smooth descent specified here supply singular support on the supplied parameter stack.
 
 <a id="categorical-llc-construction"></a>
 ### 5.9 The spectral action and canonical Whittaker adjunction
 
-For `Λ=O_L`,`L/ℚ_ℓ(√q)` finite,`ℓ≠p`,`ℓ∤|π₀Z(G)|`,and small idempotent-complete `Λ`-linear stable C,construct equivalence between compactly supported `Perf(Par_G)`-actions and finite-I-functorial,coalescence-compatible exact `Rep_Λ(Q^I)`-linear monoidal functors
+For `Λ=O_L`, `L/ℚ_ℓ(√q)` finite, `ℓ≠p` and `ℓ∤|π₀Z(G)|`, use AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**. It supplies the equivalence between compactly supported `Perf(Par_G)`-actions on a small idempotent-complete `Λ`-linear stable C and finite-I-functorial, coalescence-compatible exact `Rep_Λ(Q^I)`-linear monoidal functors
 `Rep_Λ((Ĝ⋊Q)^I) → End_Λ(C)^{B W_E^I}`.
-Compact support:each `X∈C` factors through some `Z¹(W_E/P,Ĝ)/Ĝ`,with X-dependent level. Universal torsor gives one direction;generators/relations/invariant base change give the reverse. Over fields containing `ℚ_ℓ`,only `ℓ≠p` is needed (FS I.10.1).
+Use its universal torsor and integral generators/relations comparison on §5.8's identified stack. Compact support retains an X-dependent finite wild level for each `X∈C`. Over characteristic-zero coefficient fields, only `ℓ≠p` is required.
 
-Proof route: rational coefficients use parameter anima over BQ, semisimplicity, finite-set Yoneda and tensor products (X.1.1–3). Integrally use the animated category of finite Q-torsor sets and highest-weight tensor products; the circle pushout handles free groups, sifted colimits arbitrary groups, and VIII.5.1 identifies it with `Perf(Par_G)` (X.3.1–4). Retain idempotent completion, the integral prime restriction and the finite-wild-level bound for each object.
+The comparisons `spectralActionEquiv` and `compactlySupportedAction` identify these descriptions with the supplied universal equivalence, preserving the finite-leg coherences and per-object level bounds. Its rational and integral animated presentations are transported by the §5.8 comparisons. Use the supplied `geometricSpectralAction` on `D_lis(Bun_G,Λ)`, its `excursionOperator` and `semisimpleParameter`. Intertwine them with §5.7's category equivalence and §5.8's stack equivalence, retaining coefficient/restriction naturality and the common SR.6.3 excursion algebra.
 
-Apply to geometric Hecke action on `D_lis(Bun_G,Λ)^ω`,extend by colimits,and construct central excursion action/semisimple parameters. Import Exc(W,Ĝ)/invariant-function comparison (FS VIII.3.6) from SR.6.3;own its spectral action. For quasi-split G and chosen generic character `ψ`, extend coefficients to an algebraic `L′/L` containing every value of ψ, and put `Λ′=O_{L′}[1/d]`, `d=|π₀Z(G)|`. Base change the spectral action to Λ′; let `W_ψ` be extension by zero of c-`Ind_{U(E)}^{G(E)}ψ` from `Bun_G¹`. Define `Φ(M)=Act_M(W_ψ)` on `Ind Perf_qc` over Λ′ and its presentability right adjoint R over the same coefficients. The coherent equivalence is the **next conjectural target**.
+For quasi-split G and chosen generic character `ψ`, extend coefficients to an algebraic `L′/L` containing every value of ψ, and put `Λ′=O_{L′}[1/d]`, `d=|π₀Z(G)|`. On the supplied stack and lisse category, base change the spectral action to Λ′ and construct `W_ψ` as extension by zero of c-`Ind_{U(E)}^{G(E)}ψ` from `Bun_G¹`. Construct `Φ(M)=Act_M(W_ψ)` on `Ind Perf_qc` over Λ′ and its presentability right adjoint R over the same coefficients. These Whittaker targets extend the supplied action; the coherent equivalence is the **next conjectural target**.
 
 **API.**
 
-- `animatedParameterCategory / freeGroupParameterModule / animatedToContinuousPerf`: integral universal category/actual perfect-complex comparison.
-- `spectralActionEquiv / compactlySupportedAction`: coalescent Weil systems/actions,with per-object level bounds.
-- `geometricSpectralAction / excursionOperator / semisimpleParameter`: actual Hecke action/operators/parameters;algebra imported from SR.6.3.
-- `whittakerSheaf / whittakerActionFunctor / whittakerRightAdjoint`: compact-induction extension/canonical adjunction,unit,counit,Perf-linearity. This specified adjunction fixes the conjecture’s functors.
+- `animatedParameterCategory / freeGroupParameterModule / animatedToContinuousPerf`: identify the animated, free-group and continuous perfect-complex models with those in the supplier's universal-action comparison, respecting the derived relation fibres of §5.8.
+- `spectralActionEquiv / compactlySupportedAction`: identify the universal coalescent Weil-system/action equivalence and its per-object level bounds with the supplied ones.
+- `geometricSpectralAction / excursionOperator / semisimpleParameter`: intertwine the supplied Hecke action, operators and parameters with the category/stack comparisons of §§5.7–5.8. Semisimple parameters of Schur-irreducibles over algebraically closed coefficient fields retain the supplier's scope without the integral prime restriction.
+- `whittakerSheaf / whittakerActionFunctor / whittakerRightAdjoint`: construct the compact-induction extension and canonical adjunction from the supplied action over Λ′, with unit, counit and Perf-linearity. This specified adjunction fixes the conjecture's functors.
 
 **Checks.**
 
@@ -3621,9 +3619,9 @@ Apply to geometric Hecke action on `D_lis(Bun_G,Λ)^ω`,extend by colimits,and c
 - Swapping generators swaps factors;coalescence matches universal monoidal multiplication;group relations match §5.8’s derived fibres.
 - At integral bad primes,nonsplit representation extensions remain extensions;semisimplifying violates the universal property.
 
-([Fargues–Scholze], Thm. I.10.1 pp.37–38 and the construction preceding Conjecture I.10.2 p.38; Thms. X.0.1–X.0.2 pp.339–340, Props. X.1.1–X.1.3 pp.341–344 and Props. X.3.1–X.3.4 pp.348–350. The categorical and geometric constructions are the targets in the two preceding sections.)
+([Fargues–Scholze], Thm. I.10.1 pp.37–38 and the construction preceding Conjecture I.10.2 p.38; Thms. X.0.1–X.0.2 pp.339–340, Props. X.1.1–X.1.3 pp.341–344 and Props. X.3.1–X.3.4 pp.348–350. The geometric carriers and universal action are supplied by AutomorphicGaloisRepresentationsPartII AG2.6; §§5.7–5.8 identify them and add coherent support.)
 
-*Needs:* [§5.7]; [§5.8](#fs-parameter-stack); SR §SR.6.3, the excursion algebra; EnhancedDerivedSheaves E5:presentability and E5:abstract, Ind-completion, exact monoidal actions and adjoints.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**, `geometricSpectralAction`, `excursionOperator`, `semisimpleParameter` and the universal-action comparison; [§5.7]; [§5.8](#fs-parameter-stack); SR §SR.6.3, the common excursion algebra; EnhancedDerivedSheaves E5:presentability and E5:abstract, coefficient extension, Ind-completion and adjoints.
 
 <a id="categorical-local-langlands-conjecture"></a>
 ### 5.10 The categorical local Langlands conjecture of Fargues–Scholze (frontier statement)
