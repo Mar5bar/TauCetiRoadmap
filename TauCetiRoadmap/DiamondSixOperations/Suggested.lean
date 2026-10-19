@@ -1,6 +1,5 @@
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Profinite.Order
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.PadicInt.Basic
 
 /-!
 # DiamondSixOperations: representative target signatures
@@ -67,20 +66,6 @@ theorem formalUpperShriekInternalHom {fUpper : 𝒟 ⥤ 𝒞} {fShriek : 𝒞 �
     Nonempty (ihom A ⋙ fUpperShriek ≅ fUpperShriek ⋙ ihom (fUpper.obj A)) := by
   sorry
 
-/-- For the identity adjunctions and the identity projection formula, the formal duality lemma
-returns an isomorphism of `ihom B` with itself. -/
-example (B : 𝒞) :
-    Nonempty (ihom ((𝟭 𝒞).obj B) ≅ 𝟭 𝒞 ⋙ ihom B ⋙ 𝟭 𝒞) :=
-  formalVerdierDuality (Adjunction.id) (Adjunction.id) B (Iso.refl _)
-
-/-- For `ℤ → ℤ/5`, coinduction of `ℤ` is zero. -/
-example : Subsingleton (Module.Dual ℤ (ZMod 5)) := by
-  sorry
-
-/-- Extension of scalars along the same map sends `ℤ` to a nonzero module. -/
-example : Nontrivial (TensorProduct ℤ (ZMod 5) ℤ) := by
-  sorry
-
 end Formal
 
 namespace ExceptionalBaseChange
@@ -130,7 +115,8 @@ noncomputable def twistedPullbackTransformation {fUpper : 𝒟 ⥤ 𝒞} {fShrie
 
 /-- For the identity, with the identity projection formula, the twisted pullback is an
 isomorphism: the identity map is cohomologically smooth with dualizing object `𝟙`. -/
-example : IsIso (twistedPullbackTransformation (fUpper := 𝟭 𝒟) Adjunction.id (Iso.refl _)) := by
+theorem twistedPullbackTransformation_id :
+    IsIso (twistedPullbackTransformation (fUpper := 𝟭 𝒟) Adjunction.id (Iso.refl _)) := by
   sorry
 
 end Twist
@@ -148,24 +134,34 @@ def finiteTrace : (I → Λ) →ₗ[Λ] Λ :=
 def finiteUnit : Λ →ₗ[Λ] (I → Λ) :=
   LinearMap.pi fun _ => LinearMap.id
 
+/-- The diagonal unit is Mathlib's algebra unit of the finite product. -/
+example : finiteUnit Λ I = Algebra.linearMap Λ (I → Λ) := by
+  apply LinearMap.ext
+  intro a
+  rfl
+
+/-- Summation over the fibre is Mathlib's algebra trace of the finite product. -/
+example : finiteTrace Λ I = Algebra.trace Λ (I → Λ) := by
+  classical
+  apply LinearMap.ext
+  intro f
+  rw [Algebra.trace_eq_matrix_trace (Pi.basisFun Λ I)]
+  simp [finiteTrace, Matrix.trace, Matrix.diag, Algebra.leftMulMatrix_eq_repr_mul,
+    Pi.basisFun_repr, Pi.basisFun_apply]
+
 /-- The normalised trace `|I|⁻¹ · Σ` used for the averaging transformation of a free action of a
 finite group of order prime to `ℓ` (Section S5.3). -/
 noncomputable def normalizedTrace (h : IsUnit (Fintype.card I : Λ)) : (I → Λ) →ₗ[Λ] Λ :=
   (h.unit⁻¹ : Λˣ) • finiteTrace Λ I
 
 /-- Trace after unit is multiplication by the degree. -/
-example : finiteTrace Λ I ∘ₗ finiteUnit Λ I = (Fintype.card I : Λ) • LinearMap.id := by
+theorem finiteTrace_comp_finiteUnit :
+    finiteTrace Λ I ∘ₗ finiteUnit Λ I = (Fintype.card I : Λ) • LinearMap.id := by
   sorry
 
 /-- The normalised trace splits the unit. -/
-example (h : IsUnit (Fintype.card I : Λ)) :
+theorem normalizedTrace_comp_finiteUnit (h : IsUnit (Fintype.card I : Λ)) :
     normalizedTrace Λ I h ∘ₗ finiteUnit Λ I = LinearMap.id := by
-  sorry
-
-/-- Over `𝔽₅` with two points the normalised trace is not the plain trace: the averaging
-transformation is multiplication by `2⁻¹`, not the identification `Rq^! = q^*`. -/
-example (h : IsUnit (Fintype.card (Fin 2) : ZMod 5)) :
-    normalizedTrace (ZMod 5) (Fin 2) h ≠ finiteTrace (ZMod 5) (Fin 2) := by
   sorry
 
 /-- The empty finite fibre has zero trace. -/
@@ -175,28 +171,6 @@ example : finiteTrace Λ (Fin 0) = 0 := by
 /-- The diagonal on a one-point fibre returns the coefficient itself. -/
 example (a : Λ) : finiteUnit Λ (Fin 1) a 0 = a := by
   rfl
-
-/-- An empty fibre cannot be normalised over a nonzero ring: its degree is zero. -/
-example [Nontrivial Λ] : ¬ IsUnit (Fintype.card (Fin 0) : Λ) := by
-  simp
-
-/-- On a two-point fibre over `𝔽₅`, averaging a single basis vector gives `2⁻¹ = 3`. -/
-example (h : IsUnit (Fintype.card (Fin 2) : ZMod 5)) :
-    normalizedTrace (ZMod 5) (Fin 2) h (Pi.single 0 1) = 3 := by
-  sorry
-
-/-- The plain two-point trace sends a basis vector to one. -/
-example : finiteTrace (ZMod 5) (Fin 2) (Pi.single 0 1) = 1 := by
-  sorry
-
-/-- The two-point unit is the diagonal, before any trace normalisation. -/
-example : finiteUnit (ZMod 5) (Fin 2) 1 = fun _ => 1 := by
-  sorry
-
-/-- On a one-point fibre the normalised trace returns the input scalar. -/
-example (h : IsUnit (Fintype.card (Fin 1) : Λ)) (a : Λ) :
-    normalizedTrace Λ (Fin 1) h (fun _ => a) = a := by
-  sorry
 
 end FiniteModel
 
@@ -222,28 +196,24 @@ theorem shift_unitComplex_injective [Nontrivial Λ] {m n : ℤ}
     (e : (unitComplex Λ)⟦m⟧ ≅ (unitComplex Λ)⟦n⟧) : m = n := by
   sorry
 
-/-- The positive shift places the unit in cohomological degree minus one. -/
-example : Nonempty ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-1)).obj
-    ((unitComplex Λ)⟦(1 : ℤ)⟧) ≅ ModuleCat.of Λ Λ) := by
+/-- The unit complex has coefficient module `Λ` in degree zero and zero homology elsewhere. -/
+theorem unitComplex_homology :
+    Nonempty ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) 0).obj
+      (unitComplex Λ) ≅ ModuleCat.of Λ Λ) ∧
+    ∀ i : ℤ, i ≠ 0 → IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) i).obj
+      (unitComplex Λ)) := by
   sorry
 
-/-- Over the zero ring every shift of the unit complex is zero, so no degree is defined. -/
-example : Nonempty ((unitComplex (ZMod 1))⟦(0 : ℤ)⟧ ≅ (unitComplex (ZMod 1))⟦(1 : ℤ)⟧) := by
+/-- The shift `Λ[n]` has coefficient module `Λ` in degree `-n` and zero homology elsewhere. -/
+theorem unitComplex_shift_homology (n : ℤ) :
+    Nonempty ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-n)).obj
+      ((unitComplex Λ)⟦n⟧) ≅ ModuleCat.of Λ Λ) ∧
+    ∀ i : ℤ, i ≠ -n → IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) i).obj
+      ((unitComplex Λ)⟦n⟧)) := by
   sorry
 
-/-- The unshifted integral unit has degree-zero cohomology `ℤ`. -/
-example : Nonempty ((DerivedCategory.homologyFunctor (ModuleCat ℤ) 0).obj
-    (unitComplex ℤ) ≅ ModuleCat.of ℤ ℤ) := by
-  sorry
-
-/-- The unshifted integral unit has no degree-one cohomology. -/
-example : IsZero ((DerivedCategory.homologyFunctor (ModuleCat ℤ) 1).obj
-    (unitComplex ℤ)) := by
-  sorry
-
-/-- The positive shift has zero degree-zero cohomology. -/
-example : IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) 0).obj
-    ((unitComplex Λ)⟦(1 : ℤ)⟧)) := by
+/-- Over the zero ring every shift of the coefficient complex vanishes. -/
+theorem unitComplex_zero_ring (n : ℤ) : IsZero ((unitComplex (ZMod 1))⟦n⟧) := by
   sorry
 
 end PointCoefficients
@@ -260,32 +230,17 @@ theorem LocallyConstant.free_of_profinite (S : Profinite.{u}) (Λ : Type*) [Comm
 
 /-- For an infinite profinite set the module of locally constant functions is not finitely
 generated, which is why `Rq^!` of a profinite projection does not commute with sums. -/
-example (S : Profinite.{u}) [Infinite S] (Λ : Type*) [CommRing Λ] [Nontrivial Λ] :
+theorem LocallyConstant.not_finite_of_infinite (S : Profinite.{u}) [Infinite S]
+    (Λ : Type*) [CommRing Λ] [Nontrivial Λ] :
     ¬ Module.Finite Λ (LocallyConstant S Λ) := by
   sorry
 
 /-- Distributions are not locally constant functions: for `S = ℤ_[r]` and `Λ = 𝔽_ℓ` the dual of
 `C⁰(S, Λ)` (countable dimension) has uncountable dimension, so the distribution sheaf `Rq^! Λ`
 of Section S5.4 is not `q^* Λ`. -/
-example (ℓ r : ℕ) [Fact ℓ.Prime] [Fact r.Prime] :
+theorem dual_locallyConstant_padicInt_not_equiv (ℓ r : ℕ) [Fact ℓ.Prime] [Fact r.Prime] :
     ¬ Nonempty (Module.Dual (ZMod ℓ) (LocallyConstant ℤ_[r] (ZMod ℓ)) ≃ₗ[ZMod ℓ]
       LocallyConstant ℤ_[r] (ZMod ℓ)) := by
-  sorry
-
-/-- Over the zero ring the locally constant function module is zero for every profinite set. -/
-example (S : Profinite.{u}) : Subsingleton (LocallyConstant S (ZMod 1)) := by
-  refine ⟨fun f g => LocallyConstant.ext fun _ => ?_⟩
-  exact Subsingleton.elim _ _
-
-/-- On a finite discrete space every function is locally constant. -/
-example (I : Type*) [Fintype I] [TopologicalSpace I] [DiscreteTopology I]
-    (Λ : Type*) [CommRing Λ] :
-    Nonempty (LocallyConstant I Λ ≃ₗ[Λ] (I → Λ)) := by
-  sorry
-
-/-- A one-point space gives the coefficient module itself. -/
-example (I : Type*) [Unique I] [TopologicalSpace I] (Λ : Type*) [CommRing Λ] :
-    Nonempty (LocallyConstant I Λ ≃ₗ[Λ] Λ) := by
   sorry
 
 end ProfiniteSets
@@ -309,55 +264,9 @@ theorem isUnit_card_quotient_of_profiniteOrder {K : Type u} [Group K] [Topologic
     IsUnit ((Nat.card (K ⧸ U.toSubgroup) : ℕ) : Λ) := by
   sorry
 
-/-- `ℤ_p` has pro-order prime to every `ℓ ≠ p`. -/
-example (p : ℕ) [Fact p.Prime] (ℓ : Nat.Primes) (hℓ : (ℓ : ℕ) ≠ p) :
-    profiniteOrder (Multiplicative ℤ_[p]) ℓ = 0 := by
-  rw [profiniteOrder_multiplicative_padicInt]
-  exact Supernatural.primePower_apply_of_ne (fun e => hℓ (congrArg Subtype.val e)) _
-
-/-- For `K = ℤ_ℓ` the index of `ℓ ℤ_ℓ` is `ℓ`, which is zero in `𝔽_ℓ`: no normalised
-`𝔽_ℓ`-valued Haar measure exists. -/
-example (ℓ : ℕ) [hℓ : Fact ℓ.Prime] :
-    profiniteOrder (Multiplicative ℤ_[ℓ]) (⟨ℓ, hℓ.out⟩ : Nat.Primes) ≠ 0 := by
-  have h := congrArg (fun a : Supernatural => a (⟨ℓ, hℓ.out⟩ : Nat.Primes))
-    (profiniteOrder_multiplicative_padicInt ℓ)
-  exact fun hzero => ENat.top_ne_zero <|
-    (Supernatural.primePower_apply_self (⟨ℓ, hℓ.out⟩ : Nat.Primes) ⊤).symm.trans
-      (h.symm.trans hzero)
-
-/-- Every quotient of the trivial group has order one, a unit even in the zero ring. -/
-example (K : Type*) [Group K] [Subsingleton K] (U : Subgroup K)
-    (Λ : Type*) [CommRing Λ] :
-    Nat.card (K ⧸ U) = 1 ∧ IsUnit ((Nat.card (K ⧸ U) : ℕ) : Λ) := by
-  sorry
-
-/-- The orders of quotients of a finite cyclic group prime to `ℓ` are units in
-an `ℓ`-power-torsion ring. -/
-example (m ℓ : ℕ) [NeZero m] [Fact ℓ.Prime] (hm : ¬ ℓ ∣ m)
-    (Λ : Type*) [CommRing Λ] {n : ℕ} (hΛ : (ℓ : Λ) ^ n = 0)
-    (U : Subgroup (Multiplicative (ZMod m))) :
-    IsUnit ((Nat.card (Multiplicative (ZMod m) ⧸ U) : ℕ) : Λ) := by
-  sorry
-
-/-- The order of the two-element cyclic group has inverse three in `𝔽₅`. -/
-example : (Nat.card (Multiplicative (ZMod 2)) : ZMod 5) * 3 = 1 := by
-  sorry
-
 end Haar
 
 /-! ## Layer S6: Biduality, finiteness and conservativity over a geometric point -/
-
-section
-
-local instance : Fact (Nat.Prime 5) := ⟨by decide⟩
-
-/-- The canonical bidual map of a finite-dimensional `𝔽₅`-vector space is bijective, the
-coefficient case of Verdier biduality over a geometric point (Section S6.1). -/
-example (V : Type u) [AddCommGroup V] [Module (ZMod 5) V]
-    [FiniteDimensional (ZMod 5) V] : Function.Bijective (Module.Dual.eval (ZMod 5) V) :=
-  Module.bijective_dual_eval (ZMod 5) V
-
-end
 
 namespace ClosedPoints
 
@@ -374,18 +283,13 @@ theorem isZero_of_isZero_stalk_closedPoints {X : TopCat.{u}} [JacobsonSpace X]
 /-- The Sierpiński space is not Jacobson: its open point is a nonempty locally closed set with
 no closed point, and the extension by zero from that point is a nonzero sheaf whose stalk at
 the closed point vanishes. -/
-example : ¬ JacobsonSpace Prop := by
-  sorry
-
-/-- On a finite discrete space, vanishing at every stalk forces a module sheaf to vanish. -/
-example (X : Type u) [Fintype X] [TopologicalSpace X] [DiscreteTopology X]
-    (Λ : Type u) [CommRing Λ] (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of X))
-    (hF : ∀ x : X, IsZero (F.presheaf.stalk x)) : IsZero F := by
+theorem not_jacobson_sierpinski : ¬ JacobsonSpace Prop := by
   sorry
 
 /-- On `Spec ℤ`, vanishing of a sheaf of `𝔽₅`-modules at every maximal ideal forces the
 whole sheaf, including its generic stalk, to vanish (Section S6.3). -/
-example (F : TopCat.Sheaf (ModuleCat (ZMod 5)) (TopCat.of (PrimeSpectrum ℤ)))
+theorem isZero_of_isZero_stalk_maximalInt
+    (F : TopCat.Sheaf (ModuleCat (ZMod 5)) (TopCat.of (PrimeSpectrum ℤ)))
     (hF : ∀ x : PrimeSpectrum ℤ, x.asIdeal.IsMaximal → IsZero (F.presheaf.stalk x)) :
     IsZero F := by
   sorry
@@ -406,21 +310,22 @@ theorem exists_closed_valuationSubring_le (A : Subalgebra k K) (hA : A.FG)
       ∀ w ∈ W, ∃ c : k, w - algebraMap k K c ∈ W.nonunits := by
   sorry
 
-/-- A valuation subring with residue field `k` is a closed point of `ZR(K/k)`: every smaller
-valuation subring containing `k` is equal to it. -/
+omit [IsAlgClosed k] in
+/-- Over any field `k`, a valuation subring with residue field `k` is a closed point of
+`ZR(K/k)`: every smaller valuation subring containing `k` is equal to it. -/
 theorem valuationSubring_eq_of_le (W V : ValuationSubring K)
     (hW : ∀ w ∈ W, ∃ c : k, w - algebraMap k K c ∈ W.nonunits)
     (hk : ∀ c : k, algebraMap k K c ∈ V) (hVW : V ≤ W) : V = W := by
   sorry
 
-/-- For `K = k` the only valuation subring is `K` itself, whose residue field is `k`. -/
-example : ∀ w ∈ (⊤ : ValuationSubring k), ∃ c : k, w - algebraMap k k c ∈
+/-- The trivial valuation subring of `k` has residue field `k`. -/
+theorem top_residue_constants : ∀ w ∈ (⊤ : ValuationSubring k), ∃ c : k, w - algebraMap k k c ∈
     (⊤ : ValuationSubring k).nonunits := by
   sorry
 
 /-- The valuation ring of `k(t)` at `t = 0` contains the constants, has uniformiser `t`
 and residue field `k`, and is minimal among valuation subrings containing `k`. -/
-example : ∃ V : ValuationSubring (RatFunc k),
+theorem valuationSubring_ratFunc_at_zero : ∃ V : ValuationSubring (RatFunc k),
     (∀ c : k, RatFunc.C c ∈ V) ∧ RatFunc.X ∈ V.nonunits ∧
     Nonempty (IsLocalRing.ResidueField V ≃+* k) ∧
     ∀ W : ValuationSubring (RatFunc k),
@@ -429,13 +334,14 @@ example : ∃ V : ValuationSubring (RatFunc k),
 
 /-- The trivial valuation of `k(t)` has residue field `k(t)`, whose parameter is not
 represented by a constant. -/
-example : Nonempty (IsLocalRing.ResidueField (⊤ : ValuationSubring (RatFunc k)) ≃+*
-    RatFunc k) ∧ ¬ ∃ c : k, RatFunc.X = RatFunc.C c := by
+theorem top_ratFunc_residue_not_constants :
+    Nonempty (IsLocalRing.ResidueField (⊤ : ValuationSubring (RatFunc k)) ≃+* RatFunc k) ∧
+    ¬ ∃ c : k, RatFunc.X = RatFunc.C c := by
   sorry
 
 /-- The real quadratic point has residue field `ℂ` and is minimal over `ℝ`, despite
 its residue field being strictly larger than the constants. -/
-example : ∃ V : ValuationSubring (RatFunc ℝ),
+theorem valuationSubring_real_quadratic : ∃ V : ValuationSubring (RatFunc ℝ),
     (∀ c : ℝ, RatFunc.C c ∈ V) ∧
     (RatFunc.X ^ 2 + 1 : RatFunc ℝ) ∈ V.nonunits ∧
     Nonempty (IsLocalRing.ResidueField V ≃+* ℂ) ∧
@@ -491,8 +397,8 @@ Layer S3: upperShriek, lowerShriekUpperShriekAdj, upperShriek_restrictScalars, v
 upperShriek_internalHom, upperShriek_comp, upperShriek_etale, upperShriek_pushforward_exchange,
 shriekTrace, upperShriekBaseChangeTransformation, twistedPullbackTransformation_baseChange,
 twistedPullbackTransformation_etale, twistedPullbackTransformation_openImmersion.
-Finite models in Section S3.4: finiteTrace_apply, finiteTrace_comp_finiteUnit, finiteUnit_apply,
-finiteUnit_reindex, normalizedTrace_apply, normalizedTrace_comp_finiteUnit, normalizedTrace_reindex.
+Finite models in Section S3.4: finiteTrace_apply, finiteUnit_apply, finiteUnit_reindex,
+normalizedTrace_apply, normalizedTrace_reindex.
 Layer S4: profiniteProjection_pushforward_pullback, upperShriek_twist_tfae,
 upperShriek_twist_of_ellTorsion, upperShriek_preservesCoproducts_iff, IsInvertibleObject,
 IsCohomologicallySmooth, isCohomologicallySmooth_iff_practical,
@@ -506,8 +412,6 @@ representableInLocallySpatial_of_universallyOpen_cover,
 IsCohomologicallySmooth.of_comp_of_isLocallySplit,
 IsCohomologicallySmooth.pushforward_baseChange, IsCohomologicallySmooth.upperShriek_exchange,
 IsCohomologicallySmooth.pullback_internalHom.
-Point coefficients in Section S4.2: unitComplex_homology, unitComplex_shift_homology,
-unitComplex_zero_ring.
 Layer S5: Ball, tateTwist, Ball.isCohomologicallySmooth, Ball.dualizingComplex_iso,
 quotientByProfiniteAction, averagingTransformation, IsCohomologicallySmooth.quotient_free,
 profiniteProjection_upperShriek_distributions, IsCohomologicallySmooth.quotient_nonfree,
