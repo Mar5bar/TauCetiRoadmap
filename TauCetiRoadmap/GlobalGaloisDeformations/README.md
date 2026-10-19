@@ -204,8 +204,9 @@ ArithmeticGaloisRepresentations §7.2. Cochains and cohomology are continuous, w
 `(d⁰X)(g) = g·X − X` and `(d¹f)(g, h) = g·f(h) − f(gh) + f(g)`. The twist `M(1)` uses the mod `p`
 cyclotomic character, and local dual conditions are annihilators under the local Tate pairing. The
 self-duality of `ad⁰` and the splitting `ad = k ⊕ ad⁰` require `p ∤ n`. Arbitrary-rank
-variable-determinant problems use the full adjoint. In characteristic two the scalars are trace
-zero, and every dyadic statement keeps its own module and dual (ArithmeticGaloisDuality §D8.1,
+variable-determinant problems use the full adjoint. When `p ∣ n`, scalar matrices are trace zero;
+in particular this occurs in the rank-two dyadic branch. Every dyadic statement keeps its own
+module and dual (ArithmeticGaloisDuality §D8.1,
 *Trace-zero adjoint duality without division by n*).
 
 A finite ramification set always contains the residual ramification. In the fixed-determinant
@@ -242,6 +243,13 @@ The library pin is `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. These are library
 contracts; the subsequent roadmap contracts specify the mathematical interfaces consumed from their
 named sections.
 
+- `TauCeti.RepresentationTheory.CharacterTwist` supplies `Representation.charTwist` for a monoid
+  acting on a module over a commutative semiring: `g` acts by `χ(g) • ρ(g)`. Its API includes
+  `Representation.charTwist_one`, `Representation.charTwist_charTwist`,
+  `Representation.tprodEquivCharTwist` and, over a field,
+  `Representation.isIrreducible_charTwist_iff`. ArithmeticGaloisRepresentations §1.2 supplies
+  the continuous-representation packaging. Target 4.4 supplies the comparison with the matrix
+  adapter and its compatibility with deformation problems, determinants and representing rings.
 - `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree` supplies
   `TauCeti.ContCohomology.Z1`, `B1` and `H1`. For a topological monoid acting continuously on a
   topological additive group, `Z1` consists of continuous cocycles, `B1` is the range of the degree-zero
@@ -530,7 +538,8 @@ SelmerIwasawaCohomology §2A.3 (*Selmer and deformation tangent comparison*), §
 (*Determinant tangent fibres*) and Layer 2.
 
 *Lean:* `scalarFrameCokernel`, its three dimension `example`s, and the two-term differential
-`example` over `ZMod 3`, and the `example` separating `2 ∤ 3` from `2 > 2`.
+`example` over `ZMod 3`, and the `example` giving rank-three scalar trace in characteristic two
+and separating `2 ∤ 3` from `2 > 2`.
 
 **Checks.**
 
@@ -546,8 +555,9 @@ SelmerIwasawaCohomology §2A.3 (*Selmer and deformation tangent comparison*), §
 - **relTangent_T_empty.** for `T = ∅` the constant `|T| − 1 = −1` would be wrong; the correct statement
   is `H⁰_rel = k` and, for `p ∤ n`, `H¹_rel = H¹_{L^χ}(G, M₀)`; otherwise retain `im δ_G`.
 - **relTangent_dyadic_odd_rank.** at `p = 2`, `n = 3`, the condition `p ∤ n` holds but the odd-prime
-  arithmetic comparison does not apply. For trivial real action on `M₃(𝔽₂)`, the trace-zero
-  space has dimension eight and positive-degree `C₂` cohomology is nonzero: both maps in the
+  arithmetic comparison does not apply; `tr(I₃) = 1`, so the scalar subspace is not trace zero.
+  For trivial real action on `M₃(𝔽₂)`, the trace-zero space has dimension eight and positive-degree
+  `C₂` cohomology is nonzero: both maps in the
   periodic resolution are zero. Its trace splitting does not remove the real Tate terms.
 
 <a id="local-to-global-presentation"></a>
@@ -773,14 +783,27 @@ obstruction is retained; the existence of roots after a soluble totally real bas
 ArithmeticGaloisDuality R02.6, *Finite-order determinant twists*, and its use belongs to
 GL2ModularityLifting (KW final, Lemma 7.10 and its proof, p. 69; BLGGT, Lemma 1.2.3(2), p. 16).
 
-*Needs:* [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings); [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors);
-[LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); ArithmeticGaloisDuality R02.6.
+On the standard module `Fin n → A`, transport the matrix homomorphism through
+`Matrix.GeneralLinearGroup.toLin` and the inclusion of linear automorphisms into endomorphisms.
+The representation associated to `twist n μ ρ` equals `Representation.charTwist μ` of the
+representation associated to `ρ` (`twist_charTwist`; Tau Ceti
+`Representation.charTwist_apply`, `TauCeti.RepresentationTheory.CharacterTwist`). Generic module
+twisting uses that library API; continuous twists use ArithmeticGaloisRepresentations §1.2.
+The matrix comparison, deformation compatibility, determinant changes and induced maps of
+deformation rings belong here.
 
-*Lean:* `twist`, `twist_apply`, `twist_continuous`, `twist_reduce` and the trivial-character `example`.
+*Needs:* [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings); [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors);
+[LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); ArithmeticGaloisDuality R02.6;
+Tau Ceti `TauCeti.RepresentationTheory.CharacterTwist`; ArithmeticGaloisRepresentations §1.2.
+
+*Lean:* `twist`, `twist_apply`, `twist_charTwist`, `twist_continuous`, `twist_reduce` and the
+trivial-character `example`.
 
 **Checks.**
 
 - **twist_trivial.** twisting by the trivial character is the identity.
+- **twist_standard_action.** for every `v ∈ Aⁿ`, the matrix twist acts as
+  `(μ(g) • ρ(g))v = μ(g) • (ρ(g)v)`, the action of `Representation.charTwist`, in every rank.
 - **twist_det.** for `2 × 2` matrices `det(c • M) = c² det M`, so twisting by `μ` multiplies determinants
   by `μ²` in rank two.
 - **twist_no_root_p2.** at `p = 2`, a square root of a character `μ` of order `2` has order `4`, so it

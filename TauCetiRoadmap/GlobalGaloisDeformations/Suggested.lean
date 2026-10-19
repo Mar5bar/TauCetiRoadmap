@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.CharacterTwist
 
 /-!
 # GlobalGaloisDeformations: representative target signatures
@@ -48,6 +49,21 @@ theorem twist_apply (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) (g : G) :
   show ((Matrix.GeneralLinearGroup.scalar (Fin n) (χ g) * ρ g : GL (Fin n) A) :
     Matrix (Fin n) (Fin n) A) = _
   simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.smul_eq_diagonal_mul]
+
+/-- On the standard module, the matrix twist gives the library character twist (README 4.4). -/
+theorem twist_charTwist (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) :
+    (Units.coeHom (Module.End A (Fin n → A))).comp
+        (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp (twist n χ ρ)) =
+      Representation.charTwist χ
+        ((Units.coeHom (Module.End A (Fin n → A))).comp
+          (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp ρ)) := by
+  apply MonoidHom.ext
+  intro g
+  apply LinearMap.ext
+  intro v
+  change (twist n χ ρ g : Matrix (Fin n) (Fin n) A) *ᵥ v =
+    ((χ g : Aˣ) : A) • ((ρ g : Matrix (Fin n) (Fin n) A) *ᵥ v)
+  rw [twist_apply, Matrix.smul_mulVec]
 
 /-- Continuous characters and representations give a twist with continuous matrix entries. -/
 theorem twist_continuous [TopologicalSpace G] [TopologicalSpace A] [IsTopologicalRing A]
@@ -232,8 +248,9 @@ example :
   decide
 
 /-- Rank three in residue characteristic two is trace split, but is excluded from the odd-prime
-arithmetic comparison (README 3.6). -/
-example : ¬ (2 : ℕ) ∣ 3 ∧ ¬ (2 : ℕ) > 2 := by
+arithmetic comparison; its scalar identity has nonzero trace (README 3.6). -/
+example : (1 : Matrix (Fin 3) (Fin 3) (ZMod 2)).trace = 1 ∧
+    ¬ (2 : ℕ) ∣ 3 ∧ ¬ (2 : ℕ) > 2 := by
   decide
 
 /-- Rank-one framed complex: two frames leave one scalar frame direction, `k²/diag(k)`. -/
