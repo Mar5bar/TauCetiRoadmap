@@ -409,10 +409,10 @@ proposed name that lies in a namespace of `Suggested.lean`, or extends the name 
 top-level declarations, without being declared there is set in italics (for instance
 *Apartment.vadd_def*, in the namespace of `BruhatTits.Apartment`, or *functor_obj*, extending
 `WeilRestriction.functor`), so that every code-font name of that shape is a declaration of the file.
-Each Check carries the name proposed for its Lean `example`. A Check marked "(Lean example)" is
-mirrored in `Suggested.lean` by an `example` after the comment `-- Test` followed by the Check's
-name with its namespace, and "(Lean example, proved)" marks such an example that has a proof; the
-other Checks have no Lean form, and their statement here is their specification. Read each
+Checks specify representative cases and boundaries. A Check marked "(Lean example, proved)"
+has a proved test of a definition in `Suggested.lean`, after a `-- Test` comment carrying its
+name and namespace. Named theorem targets carry the hypotheses displayed in their signatures;
+other Checks are specified here in prose. Read each
 construction with its stated hypotheses and the supplier contracts above. RG2.0 gives the topologies
 on rational points, integral points and congruence subgroups, and the field `Ĕ`. RG2.0a gives Weil
 restriction of affine schemes and groups along finite locally free maps, norm tori and the Deligne
@@ -465,10 +465,10 @@ two for a Hopf algebra of finite type), `PointTopology.isTopologicalGroup`, the 
 points (`PointTopology.isOpenEmbedding_integralPoints`, `compactSpace_integralPoints`) and the
 congruence subgroups `CongruenceSubgroup.subgroup`. Two traps shape the statements. The unit group of
 a topological ring with the subspace topology need not be a topological group, so `G_m(R)` carries
-the hyperbola topology `xy = 1`; over `ℚ_p` it agrees with the subspace topology (`units_hyperbola`),
+the hyperbola topology `xy = 1`; over `ℚ_p` it agrees with the subspace topology (*units_hyperbola*),
 and the failure over the adeles is the AdelicAlgebraicGroups check `AdelicPoints.gm_not_subspace`.
 And `GL_n(O)` is the group of integral matrices with unit determinant, not the integral matrices with
-nonzero determinant (`generalLinear_integral_iff_det`, `diag_uniformizer_not_integral`).
+nonzero determinant (*generalLinear_integral_iff_det*, *diag_uniformizer_not_integral*).
 
 ### RG2.0.1 the point topology
 
@@ -487,17 +487,17 @@ four statements above are immediate from the definition for any `k` and `A`. *Ne
 ReductiveGroups layer 0; Mathlib `MvPolynomial.continuous_eval`.
 *Lean:* `PointTopology.topology`, `PointTopology.instTopologicalSpace`,
 `PointTopology.instTopologicalSpaceWithConv`, `PointTopology.continuous_iff`,
-`PointTopology.isEmbedding_toPi`.
+`PointTopology.isEmbedding_toPi`, `PointTopology.not_discrete_infinite`.
 
 **Checks.**
 
-- `polynomial_homeomorph` (Lean example) — for `A = k[t]`, `f ↦ f(t)` is a homeomorphism `Hom_k(k[t], R) ≅ R`.
-- `pi_compat` (Lean example, proved) — the point topology is the topology induced from Mathlib's
+- *polynomial_homeomorph* — for `A = k[t]`, `f ↦ f(t)` is a homeomorphism `Hom_k(k[t], R) ≅ R`.
+- *pi_compat* — the point topology is the topology induced from Mathlib's
   product topology on `A → R`.
-- `discrete_of_discrete` (Lean example) — for `R` discrete and `A` of finite type, `Hom_k(A, R)` is discrete.
-- `not_discrete_infinite` (non-example; Lean example) — without finite type this fails:
+- *discrete_of_discrete* — for `R` discrete and `A` of finite type, `Hom_k(A, R)` is discrete.
+- `not_discrete_infinite` (non-example) — without finite type this fails:
   `Hom_{𝔽₂}(𝔽₂[x₀, x₁, …], 𝔽₂)` is the product space `𝔽₂^ℕ`, which is not discrete.
-- `units_hyperbola` (Lean example) — `Hom_ℤ(ℤ[t, t⁻¹], ℚ_p) → ℚ_p`, `f ↦ f(t)`, is an embedding: on
+- *units_hyperbola* — `Hom_ℤ(ℤ[t, t⁻¹], ℚ_p) → ℚ_p`, `f ↦ f(t)`, is an embedding: on
   `G_m(ℚ_p) = ℚ_p^×` the hyperbola topology is the subspace topology, because inversion is continuous
   on `ℚ_p^×` ([Conrad], §3, pp. 3–4).
 
@@ -528,7 +528,17 @@ an embedding when `ψ` is (`isEmbedding_map_codomain`), a closed embedding when 
 `A ⊗_k B` ([Conrad], Prop. 2.1 and its proof, pp. 2–3; [Conrad], Ex. 2.2, p. 3, states (2) for `A` of
 finite type, and the same argument with `R^A` in place of `R^n` gives the embedding and closed
 embedding cases for every `A`). *Needs:* *affine-point-topology*; *affine-point-topology-embedding*.
-*Lean:* `PointTopology.isHomeomorph_tensorProduct`.
+*Lean:* `PointTopology.continuous_comap`, `PointTopology.isClosedEmbedding_comap_of_surjective`,
+`PointTopology.continuous_map_codomain`, `PointTopology.isHomeomorph_tensorProduct`.
+
+**Checks.**
+
+- The quotient `k[t] → k`, `t ↦ 0`, induces the closed inclusion of the origin in `R`
+  when `R` is T1.
+- For `A = k[x]` and `B = k[y]`, the tensor-product comparison is the usual homeomorphism
+  between points of the affine plane and `R × R`.
+- The coefficient inclusion `ℝ → ℂ` sends real points of the affine line continuously into
+  its complex points.
 
 **Localizations give open embeddings.** (*affine-point-topology-open-immersion*) Let `R` be a
 topological `k`-algebra such that `R^×` is open in `R` and inversion is continuous on the subspace
@@ -577,7 +587,7 @@ by basic opens of both, uses only `isOpenEmbedding_localization` and so needs no
   of `Spec B` followed by `Spec ψ`.
 - `discrete_of_locallyOfFiniteType` — for a discrete local ring `R` (both hypotheses on units hold)
   and `X` locally of finite type over `k`, `X(R)` is discrete: each `U(R)` is discrete by
-  `discrete_of_discrete` and open; without finite type it fails already for affine `X`
+  *discrete_of_discrete* and open; without finite type it fails already for affine `X`
   (`not_discrete_infinite`).
 
 **Functoriality of the scheme point topology.** (*scheme-point-topology-functoriality*) For `R` as
@@ -613,7 +623,7 @@ inherited from `E^H` and second countability from `E^n`). *Needs:*
 
 **Checks.**
 
-- `real_units_not_totallyDisconnected` (non-example; Lean example) — the local-field hypothesis of
+- *real_units_not_totallyDisconnected* (non-example) — the local-field hypothesis of
   `instTotallyDisconnectedSpaceLocal` is needed: over `ℝ` the points of `G_m` form `ℝ^×`, which
   contains the connected half-line of positive reals.
 - `compactSpace_of_isProper` — for `X` proper over `E`, `X(E)` is compact ([Conrad], proof of
@@ -764,11 +774,11 @@ p. 3; the determinant criterion is Mathlib's `Matrix.isUnit_iff_isUnit_det`). *N
 
 **Checks.**
 
-- `generalLinear_integral_iff_det` (Lean example, proved) — `g ∈ M_n(E)` is the image of a point of `GL_n` over `O` iff
+- *generalLinear_integral_iff_det* — `g ∈ M_n(E)` is the image of a point of `GL_n` over `O` iff
   `g` is the image of some `M ∈ M_n(O)` with `det M ∈ O^×`.
-- `diag_uniformizer_not_integral` (non-example; Lean example, proved) — `diag(ϖ, 1) ∈ M_2(O)` has
+- *diag_uniformizer_not_integral* (non-example) — `diag(ϖ, 1) ∈ M_2(O)` has
   nonzero determinant but is not a point of `GL_2` over `O`, since `ϖ ∉ O^×`.
-- *generalLinearPointsHomeomorph_isOpenEmbedding* (Lean example) — over a nonarchimedean local
+- *generalLinearPointsHomeomorph_isOpenEmbedding* — over a nonarchimedean local
   field `E`, where inversion on `E^×` is continuous,
   `x ↦ generalLinearPointsHomeomorph n x ∈ M_n(E)` is an open embedding: the units
   topology of `GL_n(E)` is the subspace topology of the open subset `GL_n(E) = {det ≠ 0}` of
@@ -802,7 +812,7 @@ p. 126, and §3.3, (3.15), p. 160, for `𝒢 ⊂ GL_n` in characteristic zero). 
 - `multiplicative_eq_unitFiltration` — for `G_m` over `O` and every `n ≥ 0`, `𝒢(O)_n` corresponds
   under `TauCeti.MultiplicativeGroup.pointsMulEquiv` to Tau Ceti's `TauCeti.unitFiltration E n`; for
   `n = 0` both are `O^×`.
-- `iInf_eq_bot` (Lean example) — `⋂_n 𝒢(O)_n = 1`, because `⋂_n m^n = 0`.
+- `iInf_eq_bot` (named theorem) — `⋂_n 𝒢(O)_n = 1`, because `⋂_n m^n = 0`.
 - `diagonal_mem_first_not_second` (non-example) — `diag(1 + ϖ, 1) ∈ 𝒢(O)_1 \ 𝒢(O)_2` for `GL_2`, so
   `𝒢(O)_1 ≠ 𝒢(O)_2`.
 
@@ -820,13 +830,18 @@ such derivations, which is killed by `p`; so each `𝒢(O)_n/𝒢(O)_{n+1}`, `n 
 for `𝒢 ⊂ GL_n` in characteristic zero; [Milne AG], 12.5, pp. 184–185, for the description of the
 kernel of `G(k[ε]) → G(k)` by derivations over a field). *Needs:* *congruence-subgroup*;
 *points-topological-group*; *affine-point-topology-embedding*; Tau Ceti `TauCeti.IsProP`.
-*Lean:* `CongruenceSubgroup.hasBasis_nhds_one`, `CongruenceSubgroup.isProP_one`.
+*Lean:* `CongruenceSubgroup.hasBasis_nhds_one`, `CongruenceSubgroup.isProP_one`,
+`CongruenceSubgroup.iInf_eq_bot`, `CongruenceSubgroup.not_isProP_zero_generalLinear`.
 
 **Checks.**
 
-- `not_isProP_zero_generalLinear` (non-example; Lean example) — the level `1` is needed:
+- `not_isProP_zero_generalLinear` (non-example) — the level `1` is needed:
   `𝒢(O)_0 = GL_2(O)` is not pro-`p`, since its open normal subgroup `𝒢(O)_1` has quotient `GL_2(κ)`,
   of order `q(q − 1)(q² − 1)`, which is not a power of `p`.
+- For `G_a`, the congruence subgroups are `m^n` under addition, giving the usual basis of
+  neighbourhoods of zero in `O`.
+- For the constant group scheme `ℤ/ℓ` with `ℓ ≠ p` prime, reduction is bijective and the first
+  congruence subgroup is trivial; the full group of integral points is not pro-`p`.
 
 **Congruence quotients of smooth models.** (*smooth-model-congruence-quotients*) Let `𝒢 = Spec H` be a
 smooth affine `O`-group, where `O = 𝒪[E]` has residue field `κ` of order `q`, and let `I = ker ε` be
@@ -846,7 +861,7 @@ reducing to `1` lifts to `𝒢(O)` because `𝒢` is smooth and `O` is complete 
 
 **Checks.**
 
-- `natCard_quotient_zero_multiplicative` (non-example; Lean example) — the hypothesis `n ≥ 1` is
+- *natCard_quotient_zero_multiplicative* (non-example) — the hypothesis `n ≥ 1` is
   needed: for `G_m`, where `d = 1`, the quotient `𝒢(O)_0/𝒢(O)_1 ≅ κ^×` has `q − 1` elements, not
   `q`.
 
@@ -980,7 +995,7 @@ definitionally), *functor_map_apply* (`(map f) x = (id ⊗ f) ∘ x`) and *funct
 
 **Checks.**
 
-- *functor_affineLine* (Lean example) — for `A' = k'[t]`, the points over `R` correspond to `k' ⊗_k R` via `x ↦
+- *functor_affineLine* — for `A' = k'[t]`, the points over `R` correspond to `k' ⊗_k R` via `x ↦
   x(t)`.
 - `functor_trivial_extension` (Lean example, proved) — for `k' = k` the points over `R` are
   `Hom_k(A', R)`, through `k ⊗_k R ≅ R`.
@@ -1061,7 +1076,17 @@ being an invertible linear substitution, so `Res 𝔸^n_{k'} ≅ 𝔸^{nd}_k` (`
 Lem. 14.38, p. 238; [Harpaz–Wittenberg], §4, p. 15, for `Res G_m ⊂ Res 𝔸¹ ≅ 𝔸^d`). *Needs:*
 *weil-restriction-representing-algebra*; Mathlib `Algebra.FiniteType`, `Algebra.FinitePresentation`,
 `Algebra.norm_eq_matrix_det`.
-*Lean:* none (README-only).
+*Lean:* `WeilRestriction.finiteType_res`, `WeilRestriction.finitePresentation_res`,
+with an arbitrary representing algebra and its `CorepresentableBy` adjunction.
+
+**Checks.**
+
+- A polynomial algebra in `n` variables over a free extension of rank `d` restricts to a
+  polynomial algebra in `nd` variables.
+- A presentation with `r` relations over that extension gives `rd` coordinate relations
+  after restriction, exhibiting finite presentation.
+- For the identity extension, the representing algebra and both finiteness properties
+  are those of the original algebra.
 
 **Base change, composition and products of Weil restrictions.** (*weil-restriction-base-change*)
 For `k → k'` finite locally free there are isomorphisms respecting the universal maps:
@@ -1155,7 +1180,7 @@ retain `[Module.Finite k k'] [Module.Projective k k']` as parameters. The underl
 - `res_multiplicative_complex_points` — the `ℝ`-points of `Res_{ℂ/ℝ} G_m` form a group isomorphic to
   `ℂ^×`.
 - `res_trivial_group` — `Res_{k'/k}` of the trivial Hopf algebra `k'` is the trivial Hopf algebra `k`.
-- `res_not_commutative_of_commutative_base` (non-example; Lean example for the matrix product) — `Res_{ℂ/ℝ} GL_2` is not commutative: its
+- *res_not_commutative_of_commutative_base* (non-example) — `Res_{ℂ/ℝ} GL_2` is not commutative: its
   `ℝ`-points `GL_2(ℂ)` are nonabelian.
 - `mapHopf_id` — the identity Hopf map induces the identity of `ResHopf`.
 - `mapHopf_points` — on points, composing with `mapHopf φ` is composing with `φ`.
@@ -1186,7 +1211,9 @@ non-example are derived here). *Needs:* *weil-restriction-representing-algebra*;
 *weil-restriction-finiteness*; Mathlib `Algebra.FormallySmooth`, `Algebra.Smooth`, `ringKrullDim`.
 *Needs (dimension):* *weil-restriction-separable-splitting*, built after the smoothness
 and closed-immersion clauses and before `ringKrullDim_res` and the inseparable comparison.
-*Lean:* none (README-only).
+*Lean:* `WeilRestriction.formallySmooth_res`, `WeilRestriction.smooth_res`,
+`WeilRestriction.map_surjective`, using arbitrary representing algebras and their natural
+point bijections; the dimension statements are README-only.
 
 **Checks.**
 
@@ -1279,11 +1306,11 @@ norm-one torus of `ℂ/ℝ`.) *Needs:* *weil-restriction-group-scheme*; Mathlib 
 
 **Checks.**
 
-- `norm_complex` (Lean example) — for `ℂ/ℝ`, `Nm(x + iy) = x² + y²` on `ℝ`-points.
-- `normOne_complex` (Lean example) — for `ℂ/ℝ`, the norm-one subgroup of `ℝ`-points is the unit
+- *norm_complex* — for `ℂ/ℝ`, `Nm(x + iy) = x² + y²` on `ℝ`-points.
+- *normOne_complex* — for `ℂ/ℝ`, the norm-one subgroup of `ℝ`-points is the unit
   circle.
-- *norm_trivial_extension* (Lean example) — for `k' = k`, `Nm` is the identity of `G_m` and `R^1 G_m` is trivial.
-- *norm_not_surjective_points* (non-example) (Lean example) — for `ℂ/ℝ`, `Nm : ℂ^× → ℝ^×` is not surjective (no
+- *norm_trivial_extension* — for `k' = k`, `Nm` is the identity of `G_m` and `R^1 G_m` is trivial.
+- *norm_not_surjective_points* (non-example) — for `ℂ/ℝ`, `Nm : ℂ^× → ℝ^×` is not surjective (no
   negatives), though it is surjective as a map of tori.
 - `resRootsOfUnityQuotient_one` — `μ_1` and its quotient are trivial over every coefficient ring.
 - `resRootsOfUnity_zero` — `μ_0` is the whole unit group, since every unit satisfies `x^0 = 1`.
@@ -1291,12 +1318,12 @@ norm-one torus of `ℂ/ℝ`.) *Needs:* *weil-restriction-group-scheme*; Mathlib 
   two elements: `{±1,±i}/{±1}`.
 - `resRootsOfUnityQuotient_trivial_extension` — for `k' = k` the diagonal `μ_n(R)` is all of
   `μ_n(k ⊗_k R)`, so the quotient is trivial.
-- *normOne_trivial_extension* (Lean example) — for `k' = k` the norm is the identity, so `normOne` is trivial.
-- *normOne_I* (Lean example) — `Nm(i) = i · (−i) = 1`: the real point `i` of `Res_{ℂ/ℝ} G_m` lies in `normOne`.
-- *normOne_split_complex* (Lean example) — over `R = ℂ` the norm-one torus of `ℂ/ℝ` splits: its `ℂ`-points form a
+- *normOne_trivial_extension* — for `k' = k` the norm is the identity, so `normOne` is trivial.
+- *normOne_I* — `Nm(i) = i · (−i) = 1`: the real point `i` of `Res_{ℂ/ℝ} G_m` lies in `normOne`.
+- *normOne_split_complex* — over `R = ℂ` the norm-one torus of `ℂ/ℝ` splits: its `ℂ`-points form a
   group isomorphic to `ℂ^×`.
-- `resRootsOfUnity_complex` (Lean example) — `μ_4(ℂ ⊗_ℝ ℝ) = μ_4(ℂ)` has four elements.
-- `resRootsOfUnity_split` (Lean example) — for the split algebra `ℝ × ℝ`, `μ_2((ℝ × ℝ) ⊗_ℝ ℝ) = {±1}²` has four
+- *resRootsOfUnity_complex* — `μ_4(ℂ ⊗_ℝ ℝ) = μ_4(ℂ)` has four elements.
+- *resRootsOfUnity_split* — for the split algebra `ℝ × ℝ`, `μ_2((ℝ × ℝ) ⊗_ℝ ℝ) = {±1}²` has four
   elements.
 - `diagonalRootsOfUnity_complex` — the diagonal `μ_4(ℝ) = {±1}` in `μ_4(ℂ ⊗_ℝ ℝ)` has two elements.
 - `diagonalRootsOfUnity_split` — the diagonal `{(1, 1), (−1, −1)}` in `μ_2(ℝ × ℝ)` has two elements.
@@ -1528,19 +1555,18 @@ formula, in existence form).
 
 **Checks.**
 
-- `RootDatum.sl2` (Lean example) — `SL_2(K)` carries a generating root datum of type `A_1` (the Lean
-  example asserts existence; the datum of [Bruhat–Tits I], 6.1.3 a), p. 109, is the diagonal torus
-  with the two unipotent subgroups).
-- *RootDatum.rankZero* (Lean example) — for `Φ = ∅` a root datum is just a subgroup `T`, as for `G = T` a torus.
-- *RootDatum.not_of_trivial_U* (non-example) (Lean example) — `U_a = {1}` for some `a` violates (DR1), so this is
+- *RootDatum.sl2* — `SL_2(K)` carries a generating root datum of type `A_1`: the datum of
+  [Bruhat–Tits I], 6.1.3 a), p. 109, is the diagonal torus with the two unipotent subgroups.
+- *RootDatum.rankZero* — for `Φ = ∅` a root datum is just a subgroup `T`, as for `G = T` a torus.
+- *RootDatum.not_of_trivial_U* (non-example) — `U_a = {1}` for some `a` violates (DR1), so this is
   not a root datum.
-- *RootDatum.opposite_ne* (non-example) (Lean example) — no group carries a root datum with `U_a = U_{−a}`; in
+- *RootDatum.opposite_ne* (non-example) — no group carries a root datum with `U_a = U_{−a}`; in
   particular an abelian group with `U_a = U_{−a} = G` violates (DR6).
 - `RootDatum.isGenerating_rankZero` (Lean example, proved) — with no roots, the datum is generating
   iff `T = G`.
-- *RootDatum.weylNormalizer_rankZero* (Lean example) — with no roots, `N = T`.
-- *RootDatum.weylNormalizer_reflection* (Lean example) — every element of `M_a` belongs to `N`.
-- *RootDatum.weylNormalizer_contains_torus* (Lean example) — the inclusion of `T` agrees with the subgroup
+- *RootDatum.weylNormalizer_rankZero* — with no roots, `N = T`.
+- *RootDatum.weylNormalizer_reflection* — every element of `M_a` belongs to `N`.
+- *RootDatum.weylNormalizer_contains_torus* — the inclusion of `T` agrees with the subgroup
   generated by `T` and the reflection cosets.
 - *RootDatum.weylGroupEquiv_reflection* — an element of `M_a` maps to the reflection `s_a`.
 - *RootDatum.weylGroupEquiv_torus* — an element of `T` maps to `1`.
@@ -1617,11 +1643,11 @@ states that the datum is generating and that `weylNormalizer` is `N(K)`; with
 
 **Checks.**
 
-- `AlgebraicRelativeRoots.GL2_zero_weight` (Lean example) — the diagonal torus of `GL₂`
+- *AlgebraicRelativeRoots.GL2_zero_weight* — the diagonal torus of `GL₂`
   fixes exactly the two-dimensional diagonal matrix subspace, including in characteristic two.
-- `AlgebraicRelativeRoots.GL2_nonzero_weights` (Lean example) — its nonzero weights are
+- *AlgebraicRelativeRoots.GL2_nonzero_weights* — its nonzero weights are
   precisely `e₁−e₂` and `e₂−e₁`, with one-dimensional spaces spanned by `E₁₂` and `E₂₁`.
-- `AlgebraicRelativeRoots.root_free_torus` (Lean example) — for `G = GL₁ = G_m`, the diagonal
+- *AlgebraicRelativeRoots.root_free_torus* — for `G = GL₁ = G_m`, the diagonal
   torus has no nontrivial adjoint weights.
 - *AlgebraicRelativeRoots.SU3_full_ray* — for quasi-split `SU₃` with roots `±a, ±2a`,
   `rootRayPoints S a R` contains every point of the doubled-root subgroup `U_{2a}(R)`;
@@ -1651,7 +1677,7 @@ states that the datum is generating and that `weylNormalizer` is `N(K)`; with
 - *LocalRootData.opposite_rootSubgroups* (non-example) — the root subgroups of opposite roots are
   different Hopf ideals.
 - *LocalRootData.centralizer_le_normalizer* — `Z_G(S)(K) ⊆ N_G(S)(K)`.
-- `subgroupPoints_mem_iff` (Lean example, proved) — membership is vanishing on the ideal, as for the
+- *subgroupPoints_mem_iff* — membership is vanishing on the ideal, as for the
   pinned supplier.
 - *subgroupPoints_bot* — the zero ideal cuts out the whole group.
 - *subgroupPoints_augmentation* — the augmentation ideal cuts out the trivial subgroup.
@@ -1760,29 +1786,30 @@ reductive groups, which are cosets of discrete groups); prove *Valuation.filtrat
 p. 117, 6.2.5, p. 120, and Def. 6.2.21, p. 127; [Bruhat–Tits II], 4.2.7–4.2.9, p. 91).
 *Needs:* *root-datum-in-a-group*.
 *Lean:* `BruhatTits.Valuation`, `BruhatTits.Valuation.filtration`, `BruhatTits.Valuation.valueSet`,
+`BruhatTits.Valuation.sl2_standard`,
 `BruhatTits.Valuation.IsDiscrete`, `BruhatTits.Valuation.valueSet_neg`, `BruhatTits.Equipollent`.
 
 **Checks.**
 
-- `Valuation.sl2_standard` (Lean example) — for a nontrivial real valuation `ω` of `K`,
+- `Valuation.sl2_standard` — for a nontrivial real valuation `ω` of `K`,
   `φ_±(x_±(u)) = ω(u)` is a valuation of the root datum of `SL_2(K)` ([Bruhat–Tits I], 6.2.3 a), p.
   117), (V5) coming from `x_−(−u^{-1})x_+(u)x_−(−u^{-1}) ∈ M_a` for the standard matrix root
   coordinates. At `u = 1` this is `[[1,0],[-1,1]] [[1,1],[0,1]] [[1,0],[-1,1]] = [[0,1],[-1,0]]`.
-- *Valuation.one_top* (Lean example) — the identity has value `∞` in every root group.
-- *Valuation.rankZero* (Lean example) — an empty root index admits a valuation.
+- *Valuation.one_top* — the identity has value `∞` in every root group.
+- *Valuation.rankZero* — an empty root index admits a valuation.
 - `Valuation.not_constant` (non-example; Lean example, proved) — a root-value map with at most two
   values violates (V0); in particular the trivial valuation of `K` gives no valuation of the root
   datum of `SL_2(K)`.
-- *Valuation.opposite_depths* (Lean example) — for the two rank-one Bruhat factorizations with positive-root
+- *Valuation.opposite_depths* — for the two rank-one Bruhat factorizations with positive-root
   depths `1` and `2`, the opposite factors have depths `−1` and `−2` by (V5).
 - *Valuation.shift_zero* — `φ + 0 = φ`.
 - *Valuation.smul_one* — the identity of `N` acts trivially.
 - *Valuation.smul_reflection* — the sign of the action on valuations: for `m = u'uu'' ∈ M_a` with
   `φ_a(u) = k`, `m·φ = φ − k a^∨` ([Bruhat–Tits I], 6.2.7, p. 121), so `(m·φ)_a = φ_a − 2k`;
   for `k = 1` the values on `U_a` drop by `2`.
-- *Valuation.isDiscrete_rankZero* (Lean example) — every valuation of an empty root datum is discrete.
+- *Valuation.isDiscrete_rankZero* — every valuation of an empty root datum is discrete.
 - *Valuation.isDiscrete_shift* — discreteness is invariant under equipollence.
-- `Valuation.isDiscrete_sl2_standard` (Lean example) — if `ω(K^×) = ℤ`, the valuation of
+- *Valuation.isDiscrete_sl2_standard* — if `ω(K^×) = ℤ`, the valuation of
   `Valuation.sl2_standard` is discrete, with `Γ_a = ℤ` for both roots.
 - `Valuation.not_isDiscrete_dense` (non-example; Lean example, proved) — if every rational number
   is a value of `ω` (for instance `ω(K^×) = ℚ`), no valuation of a root datum of `SL_2(K)` with
@@ -1790,15 +1817,15 @@ p. 117, 6.2.5, p. 120, and Def. 6.2.21, p. 127; [Bruhat–Tits II], 4.2.7–4.2.
 - *Valuation.not_valuation_wrong_sign* (non-example) — by (V5), if `u'uu'' ∈ M_a` and `φ_a(u) = 1`
   then `φ_{−a}(u') ≠ 1`; so for `SL_2` the family `φ_+(x_+(u)) = ω(u)`, `φ_−(x_−(u)) = −ω(u)` is not
   a valuation (at `u = ϖ` it gives `φ_−(x_−(−ϖ^{-1})) = 1`).
-- `Equipollent.refl` (Lean example, proved) — `φ` is equipollent to itself.
-- *Equipollent.shift* (Lean example) — `φ` is equipollent to `φ + v`.
-- `Equipollent.sl2_shift_one` (Lean example) — for the standard `SL₂(ℚ_p)` valuation,
+- `Equipollent.refl` — `φ` is equipollent to itself.
+- *Equipollent.shift* — `φ` is equipollent to `φ + v`.
+- *Equipollent.sl2_shift_one* — for the standard `SL₂(ℚ_p)` valuation,
   the upper/lower shifts `(1,−1)` are equipollent to the original valuation; at parameters
   `1,p` the shifted upper values are `(1,2)` and lower values `(−1,0)`.
-- `Equipollent.sl2_rescale_two` (non-example; Lean example) — positive rescaling `ψ = 2φ`
+- *Equipollent.sl2_rescale_two* (non-example) — positive rescaling `ψ = 2φ`
   gives a valuation but no equipollence: the upper values at `1,p` become `(0,2)` instead
   of `(0,1)`, so no constant shift gives both values.
-- `Equipollent.sl2_coroot_shift` (Lean example) — displacement `1` in the standard coroot
+- *Equipollent.sl2_coroot_shift* — displacement `1` in the standard coroot
   coordinate changes upper/lower values by `(2,−2)`, pinning `a(a∨) = 2`.
 - *Equipollent.not_same_shift_opposite* (non-example) — raising both `φ_a` and `φ_{−a}` by `1`
   does not give an equipollent valuation, since `a(v) = 1` and `−a(v) = 1` are incompatible.
@@ -1836,7 +1863,7 @@ valuation the torus is anisotropic, so `v = 0` and `ker v = T(ℚ)`, which conta
 - `torusValuationMap_sign_two_terms` — if `χ(z) = ϖ` then `⟨χ, v(z)⟩ = −1` and
   `⟨χ, v(z²)⟩ = −2`; the opposite convention would give `1` and `2`.
 - `normalizedOrder_uniformizer_two_terms` — `ω = 1` at a uniformizer and `2` at its square.
-- `normalizedOrder_units` (Lean example) — units of `O` have `ω = 0`.
+- *normalizedOrder_units* — units of `O` have `ω = 0`.
 - `torusValuationMap_anisotropic` — for `S = 1`, `V = 0`, `v = 0` and `Z(K)^1 = Z(K)`.
 - `torusValuationMap_not_injective_on_units` (non-example) — `v` is not injective, since the units of
   `O` give `v = 0`, so `v` is no faithful coordinate on `Z(K)`.
@@ -1888,7 +1915,7 @@ under `V`, stated as the bijectivity of the displacement).
 - *Apartment.sl2_reflection* — for a rank-one datum (as for `SL_2`), `m = u'uu''` with `φ_a(u) = 0`
   fixes the base point: the Weyl element acts on `A ≅ ℝ` by the reflection fixing the base
   valuation.
-- *Apartment.rankZero_singleton* (Lean example) — for `V = 0` (so `Φ = ∅`), `A` is a single point.
+- *Apartment.rankZero_singleton* — for `V = 0` (so `Φ = ∅`), `A` is a single point.
 - `Apartment.central_displacement` (Lean example, proved) — with no roots, distinct displacements
   give distinct apartment points although all root valuations agree.
 - *Apartment.addTorsor_compat* — `(ψ₁ −ᵥ ψ₂) +ᵥ ψ₂ = ψ₁`.
@@ -2023,9 +2050,9 @@ proof of Lem. 4.6, pp. 13–14). *Needs:* *apartment*; *quasi-split-valuation*.
 - *AffineRoot.rootSubgroup_top* — `U_{a,∞} = ⋂_k U_{a,k} = {1}`.
 - `Valuation.primedValueSet_eq_of_not_multipliable` (Lean example, proved) — for a non-multipliable
   root `Γ'_a = Γ_a`.
-- *AffineRoot.wall_base* (Lean example) — the base point lies on the wall of `a + k` iff `k = 0`.
+- *AffineRoot.wall_base* — the base point lies on the wall of `a + k` iff `k = 0`.
 - *AffineRoot.wall_vadd* — `v + x` lies on the wall of `a + k` iff `a(v) + a(x − φ) + k = 0`.
-- *AffineRoot.wall_ne_univ* (non-example) (Lean example) — a wall is a proper subset, since `a(a^∨) = 2`.
+- *AffineRoot.wall_ne_univ* (non-example) — a wall is a proper subset, since `a(a^∨) = 2`.
 - *AffineRoot.rootSubgroup_ne_bot* (non-example) — `U_α ≠ 1`: the constant `k ∈ Γ'_a` is the value
   of some `u ≠ 1`, which lies in `U_{a,k}`.
 - *AffineRoot.rootSubgroup_le* — `U_α ⊆ U_a` for the gradient `a` of `α`.
@@ -2128,7 +2155,7 @@ unramified `K'/K` is made after the general compatible valuations have been cons
 **Checks.**
 
 - `descent_split_ray` — for a split group each root ray descends to itself with its original cutoff.
-- `descent_SU3_central_root` (Lean example for the split matrix product) — for unramified `SU₃/ℚ₅`, split by `K' = ℚ₅(δ)` with `δ² = 2`,
+- *descent_SU3_central_root* — for unramified `SU₃/ℚ₅`, split by `K' = ℚ₅(δ)` with `δ² = 2`,
   the trace-zero element `x_a(0,5δ)` lies in `U_{2a} ⊂ U_a`. Its two simple-root coordinates
   vanish, so their two-factor product cannot supply it. Its base depth is `1/2` and its
   extension highest-root depth is `1`: membership at cutoff `r` requires `1 ≥ 2r`.
@@ -2181,8 +2208,8 @@ layer 4.
 - `Facet.le_rankZero` — with no roots every two facets are related by the closure order.
 - `Facet.le_refl` — every facet lies in its own closure.
 - `Facet.alcove_not_le` (non-example) — an alcove lies in the closure of no other alcove.
-- *AffineRoot.eval_base* (Lean example) — at the base point `φ` the affine root `a + k` takes the value `k`.
-- *AffineRoot.eval_coroot_two_terms* (Lean example) — moving by `a^∨` and by `2a^∨` raises `α(x)` by `2` and by
+- *AffineRoot.eval_base* — at the base point `φ` the affine root `a + k` takes the value `k`.
+- *AffineRoot.eval_coroot_two_terms* — moving by `a^∨` and by `2a^∨` raises `α(x)` by `2` and by
   `4`: the gradient of `a + k` enters with the sign of `a`, not of `−a`.
 
 **The échelonnage root system.** (*echelonnage-root-system*) Let `φ` be discrete and `Φ` finite,
@@ -3210,12 +3237,12 @@ RG2.0a *tame-fixed-points-of-weil-restriction*. *Needs (building action):* *buil
 
 **Checks.**
 
-- `TameDescent.fixedPoints_not_connected` (non-example; Lean example, proved) — for inversion on
+- *TameDescent.fixedPoints_not_connected* (non-example) — for inversion on
   `G_m` over a field of characteristic `≠ 2`, the fixed points `{x : x⁻¹ = x} = {±1}` of `G_m(k)`
   have two elements.
 
-- `TameDescent.fixedPoints_trivial_action` (Lean example) — a trivial action fixes the whole reductive group.
-- `TameDescent.fixedPoints_swap` (Lean example) — exchanging the factors of `G_m²` in characteristic different
+- *TameDescent.fixedPoints_trivial_action* — a trivial action fixes the whole reductive group.
+- *TameDescent.fixedPoints_swap* — exchanging the factors of `G_m²` in characteristic different
   from two has connected fixed group the diagonal `G_m`.
 
 **Buildings of Weil restrictions.** (*weil-restriction-building*) Let `K'/K` be finite separable,
@@ -3462,14 +3489,14 @@ enlarged central factor). The note of [Bruhat–Tits I] writes the norm of the p
 *Lean:* `GLBuilding.ω` (the normalized valuation `TauCeti.normalizedValuation` extended by `ω(0) =
 ∞`), `GLBuilding.SplittableNorm`, `GLBuilding.GradedLatticeChain`,
 `GLBuilding.exists_normEquivChain` (the norm–chain equivalence with its chain and grading
-identifications, in existence form).
+identifications, in existence form), `GLBuilding.norm_chain_zero_rank`.
 
 **Checks.**
 
-- `omega_two_terms` (Lean example, proved) — `ω(0) = ∞`, `ω(ϖ) = 1` and `ω(ϖ²) = 2` for a
+- *omega_two_terms* — `ω(0) = ∞`, `ω(ϖ) = 1` and `ω(ϖ²) = 2` for a
   uniformizer `ϖ`.
 - *norm_chain_standard_ball* — the chain of the standard norm contains `O^n`.
-- *norm_chain_zero_rank* (Lean example) — the zero-dimensional vector space has no graded periodic lattice chain.
+- *norm_chain_zero_rank* (named theorem) — the zero-dimensional vector space has no graded periodic lattice chain.
 - *norm_chain_grading_two_terms* — for the one-dimensional standard norm, `ϖO` and `ϖ²O`
   have grades `1` and `2`.
 - `scalar_shift_two_terms` — `ϖ·1` lowers every norm by `1` and `ϖ²·1` by `2`.
@@ -3500,7 +3527,7 @@ identifications, in existence form).
 - `zero_module_grading` (non-example) — the zero module has exactly one norm (the constant `∞`) but
   no graded periodic chain, since its only lattice is fixed by a uniformizer and a grading would
   satisfy `c = c + 1`; so `normEquivChain` needs `n ≠ 0`.
-  Its chain obstruction is the Lean example *norm_chain_zero_rank*.
+  Its chain obstruction is the *norm_chain_zero_rank*.
 - `not_grading` (non-example) — `c(ϖΛ) = c(Λ) + 2` is not a grading (a different normalization) and
   defines no point of `B(GL(V),K)`.
 - `scalar_not_stabilizer` (non-example) — `ϖ·1` maps every lattice into itself but fixes no norm
@@ -3613,7 +3640,7 @@ Its apartment formula is `symplecticNormEquiv_apartment`.
   is self-dual and belongs to the symplectic norm model of the building.
 - `dualNorm_generic_interior` — for every `0<a<1/2`, the weights `(a,−a)` give
   a self-dual apartment point, including nonvertices and points other than the barycentre.
-- `dualNorm_zero_dimension` (Lean example) — the sole norm on `V = 0` has value `∞` and is self-dual;
+- *dualNorm_zero_dimension* — the sole norm on `V = 0` has value `∞` and is self-dual;
   its locus is a singleton, while `αᵛ = α − m` holds for every `m`, so it cannot parametrize a line.
 - `dualNorm_dual_lattices` — `Λ₀=Oe+Of` is its own integral dual;
   `(Oe+ϖOf)ᵛ=ϖ⁻¹Oe+Of`. At `a=1/10` their dual-grade sums are respectively
@@ -3643,7 +3670,7 @@ restriction `Res_{K/ℚ_p} GL_m(D)` has the same building (see *weil-restriction
 - `divisionBuilding_split` — for `D = K`, `d = 1`, this is the usual `GL_m` norm model.
 - `divisionBuilding_quaternion_local` — a quaternion division algebra over `ℚ₃` has
   uniformizer value `1/2`, and multiplication by it shifts a chain's grade by `1/2`.
-- *divisionBuilding_zero_rank* (Lean example for `D = K`) — at `m = 0` there is one
+- *divisionBuilding_zero_rank* — at `m = 0` there is one
   splittable norm and a one-point building, but the only lattice is fixed by `ϖ_D`.
   A grading would satisfy `c(0) = c(0) + 1/d`, so no graded periodic chain exists.
 - `divisionBuilding_nonlocal_index` (non-example) — with the `t`-adic valuation on
@@ -3687,11 +3714,11 @@ the scaling action `instMulActionUnitsLattice` of `K^×` on lattices); `type` an
 
 **Checks.**
 
-- `degree_Q2` (Lean example) — for `K = ℚ_2` (residue field `𝔽_2`) every vertex has degree `3`.
-- `degree_residue_card` (Lean example) — every vertex has degree `|κ| + 1`.
+- *degree_Q2* — for `K = ℚ_2` (residue field `𝔽_2`) every vertex has degree `3`.
+- *degree_residue_card* — every vertex has degree `|κ| + 1`.
 - *adj_standard* — `[O²]` and `[O ⊕ ϖO]` are adjacent.
 - *adj_type_ne* — adjacent vertices have different types.
-- `no_leaves` (Lean example) — every vertex has a neighbour.
+- *no_leaves* — every vertex has a neighbour.
 - `pgl2_inversion` (non-example) — `(0 1; ϖ 0) ∈ GL_2(K)` swaps `[O²]` and `[O ⊕ ϖO]`, an
   inversion, so types are not preserved.
 - *adj_distance_two* (non-example) — `[O²]` and `[O ⊕ ϖ²O]` are not adjacent: no rescaling of
@@ -3798,7 +3825,7 @@ valuation ring and a perfect residue field; it is the context of [Bruhat–Tits 
 
 - `ModelField.padic` (Lean example, proved) — `ℚ_p` is a `ModelField` (through the local-field
   instance).
-- `ModelField.isDiscreteValuationRing` (Lean example) — the valuation ring of a `ModelField` is a
+- `ModelField.isDiscreteValuationRing` (named theorem) — the valuation ring of a `ModelField` is a
   discrete valuation ring; a valuation with value group `ℤ × ℤ` ordered lexicographically has a
   largest value below one but is excluded by `IsRankLeOne`.
 - `ModelField.trivial_excluded` (non-example; Lean example, proved) — a trivially valued field is
@@ -3916,9 +3943,10 @@ and for any valuation or Dedekind ring. For `O = ℤ`, `K = ℚ(√2)` and the H
 over `K` (the line `y = √2x`), `I^♮ = (y² − 2x²)` is the ideal of the union of that line and its
 conjugate, which is not a subgroup, so `I^♮` is not a Hopf ideal. In `SchematicClosure`, define
 `closureIdeal` as `I^♮ = A ∩ I`, the preimage of `I` in `A`, and `closure` as `A ⧸ I^♮`, the
-coordinate ring of `Ȳ`; define *closure_genericFibre* as the canonical map
-`K ⊗_O (A ⧸ I^♮) → (K ⊗_O A) ⧸ I`, `k ⊗ (a mod I^♮) ↦ (k ⊗ a) mod I`, and prove that it is
-bijective; prove `closure_flat` (`A ⧸ I^♮` is `O`-flat), `closure_unique` (if `A ⧸ J` is flat and
+coordinate ring of `Ȳ`; construct *closure_genericFibre*, the canonical isomorphism
+`K ⊗_O (A ⧸ I^♮) ≃ (K ⊗_O A) ⧸ I`, `k ⊗ (a mod I^♮) ↦ (k ⊗ a) mod I`;
+`exists_closure_genericFibre` states its existence with this formula on pure tensors;
+prove `closure_flat` (`A ⧸ I^♮` is `O`-flat), `closure_unique` (if `A ⧸ J` is flat and
 `K ⊗ J = I` then `J = I^♮`), `closureIdeal_isHopfIdeal` (for a commutative Hopf `O`-algebra `B` and
 a Hopf ideal `I` of `K ⊗_O B`, `I^♮` is a Hopf ideal of `B`) and `mem_closure_points` (for a flat
 domain `O'`, a point `x` kills `I^♮` iff `K ⊗ x` kills `I`) ([Bruhat–Tits II], 1.2.5–1.2.7, pp.
@@ -3930,21 +3958,22 @@ the flat closure of the whole generic fibre; `closureIdeal` treats the closure o
 closed subscheme of the generic fibre. *Needs:* *smooth-affine-model*; Tau Ceti `TauCeti.HopfIdeal`;
 Mathlib `Ideal.comap`.
 *Lean:* `SchematicClosure.closureIdeal`, `SchematicClosure.closure`,
-`SchematicClosure.closure_flat`, `SchematicClosure.closure_unique`,
-`SchematicClosure.closureIdeal_isHopfIdeal` (the last three over a discrete valuation ring `O` with
+`SchematicClosure.exists_closure_genericFibre`, `SchematicClosure.closure_flat`,
+`SchematicClosure.closure_unique`, `SchematicClosure.closureIdeal_bot_eq_torsion`,
+`SchematicClosure.closureIdeal_isHopfIdeal` (the theorem signatures are over a discrete valuation ring `O` with
 fraction field `K`).
 
 **Checks.**
 
 - *closure_diagonalTorus* — for `GL_n` over `O`, the closure of the diagonal-torus ideal is
   generated by the off-diagonal entries.
-- `closureIdeal_bot` (Lean example) — for flat `A` the closure of the zero ideal is zero, so `𝒳` is
+- *closureIdeal_bot* — for flat `A` the closure of the zero ideal is zero, so `𝒳` is
   the closure of `𝒳_K`.
 - *closure_nonIntegralPoint* (non-example) — for `A = O[x]` and `I = (x − ϖ^{-1})`, `A ⧸ I^♮ =
   O[x]/(ϖx − 1)` has empty special fibre and no section.
 - *closure_genericFibre_tmul* — the identification of the generic fibre sends `k ⊗ (a mod I^♮)` to
   `(k ⊗ a) mod I`.
-- *closureIdeal_bot_eq_torsion* (Lean example) — without flatness, `I^♮` for `I = 0` is the `O`-torsion ideal of
+- *closureIdeal_bot_eq_torsion* (named theorem) — without flatness, `I^♮` for `I = 0` is the `O`-torsion ideal of
   `A` (Mathlib's `Submodule.torsion`): for `A = O × O/(ϖ)` it is `0 × O/(ϖ)`, not `0`.
 
 **The Bruhat–Tits extension principle.** (*extension-principle*) Let `O` be a discrete valuation
@@ -4438,7 +4467,7 @@ normality, `parahoricQuotientEquiv_mk` (the isomorphism is induced by `reduction
   matrices with diagonal entries `≡ 1` and lower-left entry `≡ 0` modulo `m`.
 - `parahoricQuotient_card_gl_n_vertex` — for `κ = 𝔽_q`, the quotient `P°_x/P⁺_x` identified by
   `parahoricQuotientEquiv` has `|GL_n(𝔽_q)|` elements at the standard vertex.
-- `parahoricQuotient_card_iwahori_gl2` (Lean example) — for the Iwahori of `GL_2`, `|I/I⁺| = (q − 1)²`.
+- *parahoricQuotient_card_iwahori_gl2* — for the Iwahori of `GL_2`, `|I/I⁺| = (q − 1)²`.
 - `ramified_torus_reductiveQuotient` (above) — for the ramified norm-one torus, `reduction` and
   `parahoricQuotientEquiv` are trivial and `P⁺_x = P°_x`.
 
@@ -5176,7 +5205,7 @@ ReductiveGroups layer 2 (tangent Lie algebra and adjoint action).
 - `mockExp_zero` — zero maps to the identity in `GL_n`.
 - `mockExp_abelian` — on `G_m`, the formula is the exponential-free identification
   `x ↦ 1+x`, also in positive characteristic; no analytic exponential is required.
-- `mockExp_GL2_cross_term` (Lean example) — the `(0,0)` entry of `e(X)e(Y)−e(X+Y)` is
+- *mockExp_GL2_cross_term* — the `(0,0)` entry of `e(X)e(Y)−e(X+Y)` is
   `X₀₀Y₀₀ + X₀₁Y₁₀`; the quadratic term explains why additivity is a quotient statement.
 
 **Generation of Moy–Prasad subgroups by a torus and the derived group.**
@@ -5225,9 +5254,8 @@ Lem. 5.2.5 and Cor. 5.2.7, arXiv v2 pp. 52–53, are for smooth groups with conn
 
 **Checks.**
 
-- `lang_not_connected` (non-example; Lean example, proved) — on the points `{z : z² = 1}` of `μ₂`
-  over a finite field of odd order `q` the Lang map is `z ↦ z^{−1}z^q = 1`, so it misses `−1`; the
-  Lean example is a computation on the points of `μ₂`.
+- *lang_not_connected* (non-example) — on the points `{z : z² = 1}` of `μ₂`
+  over a finite field of odd order `q` the Lang map is `z ↦ z^{−1}z^q = 1`, so it misses `−1`.
 
 **Lang's theorem for pro-algebraic groups.** (*lang-for-pro-algebraic-groups*) Let
 `H = lim_i H_i` be a directed inverse limit over `F_q` of smooth geometrically connected
@@ -5272,7 +5300,15 @@ necessarily normal, such that every element of `J` is `z^{−1}σ(z)` for some `
 `hJ` with `h^{−1}σ(h) ∈ J` contains a `σ`-fixed element (*Lang.fixedCoset_lift*). When `J`
 is `σ`-stable, so that `σ` acts on `H/J`, this says that `H^σ/J^σ → (H/J)^σ` is surjective;
 injectivity is formal ([He 2018], proof of Lem. 4.5, arXiv v3 p. 13). *Needs:* Mathlib `MulAut`.
-*Lean:* none (README-only).
+*Lean:* `Lang.fixedCoset_lift`.
+
+**Checks.**
+
+- For `J = {1}`, a fixed coset is the singleton of an already fixed element.
+- In `S₄`, take `J = ⟨(123)⟩` and let `σ` be conjugation by `(12)`. The Lang map on `J`
+  is `z ↦ z⁻² = z`, hence bijective, although `J` is not normal in `S₄`.
+- Without the Lang hypothesis, take the additive group `H = ℤ/4`, `σ = −1` and `J = {0,2}`.
+  The coset `{1,3}` is fixed but contains no fixed element; the Lang map on `J` is zero.
 
 **Reduction of smooth models.** (*smooth-model-reduction*) Over a complete DVR `O`, including `O_E` and `O_Ĕ`, a smooth affine model has
 surjective reduction on points (*Lang.completeDVR_reduction_surjective*). There is no
@@ -5281,7 +5317,7 @@ finite-residue-field hypothesis in this lifting theorem. Its specialization
 `Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`, `O` being `m`-adically complete (the
 same lifting is used in [Kisin–Pappas], proof of Prop. 1.4.3, Step 3, arXiv v3 p. 23). *Needs:*
 RG2.0 *smooth-model-congruence-quotients*.
-*Lean:* none (README-only).
+*Lean:* `Lang.completeDVR_reduction_surjective`.
 
 **Checks.**
 
@@ -5423,7 +5459,8 @@ torus case.
 uses the powers of the maximal ideal `𝓂[K]`), `LevelSubgroups` defines
 `integralGL` (`GL_n(O)`: integral entries and integral inverse), `iwahori`
 (`I = {g ∈ GL_n(O) : ḡ upper triangular}`), `proPIwahori` (`I^+ = {g ∈ I : ḡ unipotent}`) and
-`principalCongruence` (`1 + ϖ^m M_n(O)`, all of `GL_n(O)` for `m = 0`). Over a local field these are
+`principalCongruence` (`1 + ϖ^m M_n(O)`, all of `GL_n(O)` for `m = 0`). The radical is normal in `I`; over a local field it is pro-`p` and
+reduction on the diagonal identifies `I/I^+ ≃ (κ^×)^n`. Over a local field these are
 Bruhat–Tits groups of the `GL_n` building: *LevelSubgroups.iwahori_isParahoric* states that, through
 `TauCeti.GeneralLinear.pointsMulEquiv`, `GL_n(O)` is the parahoric subgroup at the standard vertex,
 `I` the parahoric subgroup at the barycentre `v_i = −i/n` of the standard alcove and `I^+` its
@@ -5443,23 +5480,25 @@ congruence of the characteristic polynomial are the computation of the check
 *positive-depth-filtration-basis*; RG2.0 *integral-points-compact-open*; Tau Ceti
 `TauCeti.GeneralLinear.pointsMulEquiv`; Mathlib `Matrix.isUnit_iff_isUnit_det`.
 *Lean:* `LevelSubgroups.integralGL`, `LevelSubgroups.iwahori`, `LevelSubgroups.proPIwahori`,
-`LevelSubgroups.principalCongruence`.
+`LevelSubgroups.principalCongruence`, `LevelSubgroups.integralGL_eq_range`,
+`LevelSubgroups.proPIwahori_normal`, `LevelSubgroups.iwahori_quotient_equiv`,
+`LevelSubgroups.isProP_proPIwahori`.
 
 **Checks.**
 
-- `integralGL_eq_range` (Lean example) — `GL_n(O)` is the image of Mathlib's
+- `integralGL_eq_range` (named theorem) — `GL_n(O)` is the image of Mathlib's
   `Matrix.GeneralLinearGroup.map` along `O → K`.
-- `not_mem_integralGL` (non-example; Lean example) — `diag(ϖ, 1)` has integral entries but is not in
+- *not_mem_integralGL* (non-example) — `diag(ϖ, 1)` has integral entries but is not in
   `GL_2(O)`.
-- *principalCongruence_zero* (degenerate case) (Lean example) — level `0` is `GL_n(O)`.
-- *principalCongruence_diag* (Lean example) — `diag(1 + ϖ, 1)` lies in level `1` but not in level `2`.
-- `iwahori_relIndex_two` (Lean example) — `[GL_2(O) : I] = q + 1`, reduction identifying `GL_2(O)/I`
+- *principalCongruence_zero* (degenerate case) — level `0` is `GL_n(O)`.
+- *principalCongruence_diag* — `diag(1 + ϖ, 1)` lies in level `1` but not in level `2`.
+- *iwahori_relIndex_two* — `[GL_2(O) : I] = q + 1`, reduction identifying `GL_2(O)/I`
   with `GL_2(κ)/B(κ) = ℙ^1(κ)`.
-- *iwahori_one* (degenerate case) (Lean example) — for `n = 1`, `I = GL_1(O)`.
-- `not_mem_iwahori` (non-example) (Lean example) — the lower unipotent matrix with entry `1` lies in `GL_2(O)` but
+- *iwahori_one* (degenerate case) — for `n = 1`, `I = GL_1(O)`.
+- *not_mem_iwahori* (non-example) — the lower unipotent matrix with entry `1` lies in `GL_2(O)` but
   not in `I`.
-- *proPIwahori_normal* (Lean example) — `I^+` is normal in `I`.
-- `proPIwahori_eq_iwahori_of_card_two` (degenerate case; Lean example) — for residue field `𝔽_2`,
+- *proPIwahori_normal* (named theorem) — `I^+` is normal in `I`.
+- *proPIwahori_eq_iwahori_of_card_two* — for residue field `𝔽_2`,
   `I^+ = I`.
 - *proPIwahori_charpoly* — elements of the pro-`p` Iwahori of `GL_4` have characteristic polynomial
   `≡ (X − 1)^4 mod m`.
@@ -5925,7 +5964,7 @@ root datum). *Needs:* RG2.3 *moy-prasad-filtration*; RG2.3 *parahoric-subgroup*;
   `δ_P(z)^{-1} = q`; but `z(I ∩ M)z^{-1} ≠ I ∩ M` and `[I : I ∩ zIz^{-1}] = q²`, since
   `I ∩ zIz^{-1}` is cut out in `I` by `g_{12}, g_{13} ∈ ϖO`, and the Levi entry `g_{12}` gives the
   factor `[I ∩ M : I ∩ M ∩ z(I ∩ M)z^{-1}] = q`.
-- `conjugation_two_terms` (computation) (Lean example) — for `z = diag(2, 1/2)` and `x = [[1,1],[0,1]]`,
+- *conjugation_two_terms* (computation) — for `z = diag(2, 1/2)` and `x = [[1,1],[0,1]]`,
   `zxz^{-1} = [[1,4],[0,1]]` and `z^{-1}xz = [[1,1/4],[0,1]]`; at the 2-adic valuation the first
   contracts and the second expands.
 - `iwahoriFactorization_conjugate_sl2` (non-example) — for `SL_2(E)`, `P = B` upper triangular, `I`
@@ -6265,20 +6304,18 @@ and admitting Iwahori decompositions for every standard parabolic, their support
 Cartan support and lattice inputs to the Hecke spanning argument ([Bernstein], Ch. II §2.1,
 Thm. 13, p. 42). The Hecke algebra and its spanning identity belong to the smooth-representation
 theory.
-*Lean:* the abstract index-two component comparison is the example
-`Decomposition.cartan_ramified_normOne_fullCompact`; the general Cartan statements are README-only.
+*Lean:* none (README-only).
 
 **Checks.**
 
-- `cartan_ramified_normOne_fullCompact` — for `F = ℚ_p`, `p` odd, and
+- *cartan_ramified_normOne_fullCompact* — for `F = ℚ_p`, `p` odd, and
   `T = ker(N : Res_{F(√p)/F} G_m → G_m)`, the enlarged building is a point and `K₀ = T(F)`.
   Inertia acts by `−1` on `X_*(T) = ℤ`, so `T(F)/T(F)₀ ≅ ℤ/2` and its two connected-parahoric
   double cosets are represented by `1` and `−1`. Equivalently, reduction of the smooth norm-one
   model `a² − p b² = 1` has the two components `a = ±1`.
   But `Λ_full = 0` and `K₀·1·K₀ = K₀·(−1)·K₀ = T(F)`, giving one full-compact double coset.
   Its central image is zero, its group section is the identity element, and `D` needs only that
-  element. The Lean example states the component-quotient comparison for a commutative group
-  with an index-two subgroup, applied here with that subgroup equal to `T(F)₀`.
+  element. The component-quotient comparison uses the index-two subgroup `T(F)₀`.
 - `cartan_not_special` (non-example) — at a non-special point `x`, `P°_x Z(K) P°_x ≠ G(K)`; for
   `GL_2` and `x` the barycentre of the standard alcove, `P°_x = P_x = I` is the Iwahori, and the
   element `(0 1; 1 0)` lies in the Iwahori–Bruhat cell of the nontrivial finite Weyl element, which
@@ -6482,16 +6519,18 @@ RG2.0 *points-topological-group*;
 RG2.0 *smooth-group-analytic-charts* (characteristic zero);
 RG2.0 *equal-characteristic-smooth-group-analytic-charts* (positive characteristic).
 *Lean:* `Decomposition.modularCharacter_eq_one`, `LocalIntegration.adjointModulus`,
-`LocalIntegration.modularCharacter_eq_adjointModulus`.
+`LocalIntegration.modularCharacter_eq_adjointModulus`,
+`LocalIntegration.adjointModulus_upperTriangular` (for the upper Borel of `GL_n`, the product
+`∏_{i<j} |b_ii/b_jj|`, for every `n`).
 
 **Checks.**
 
-- *adjointModulus_trivial* and `adjointModulus_gm` (the latter a Lean example) — the zero Lie
+- *adjointModulus_trivial* and *adjointModulus_gm* — the zero Lie
   algebra and the trivial adjoint action give modulus one.
-- `adjointModulus_upperTriangular_two_terms` (Lean example) — over a nonarchimedean local field `E`
+- *adjointModulus_upperTriangular_two_terms* — over a nonarchimedean local field `E`
   with `q = #𝓀[E]`, the upper Borel of `GL₂` has both adjoint modulus and modular character `q⁻¹`
   at `diag(ϖ,1)` and `q⁻²` at `diag(ϖ²,1)`; these values separate `|det Ad|` from its inverse,
-  which the value `1` of `adjointModulus_gm` does not. For `ℚ₃` and `𝔽₃((t))`
+  which the value `1` of *adjointModulus_gm* does not. For `ℚ₃` and `𝔽₃((t))`
   (*adjointModulus_q3_upper*, *adjointModulus_f3Laurent_upper*) they are `1/3` and `1/9`.
 - *adjointModulus_q3_opposite*, *adjointModulus_f3Laurent_opposite* — the lower Borel of
   `GL₂(ℚ₃)` and `GL₂(𝔽₃((t)))` gives `3` at `diag(ϖ,1)`, detecting the root and Haar convention.
@@ -6643,13 +6682,13 @@ matrix; `Suggested.lean` states these three decompositions in this form, for eve
   compact: reduction is a continuous surjection onto the infinite discrete set `ℙ¹(ℂ)`.
   For a simple affine reflection `s`, `IsI/I` is parametrized by `ℂ`, so its cardinality
   is infinite.
-- `cartan_rank_one` (Lean example) — for `n = 1` over a local field `E` the Cartan decomposition is
+- *cartan_rank_one* — for `n = 1` over a local field `E` the Cartan decomposition is
   `E^× = ⊔_m O^× ϖ^m`: every `x ∈ E^×` is `u ϖ^{ω(x)}` with `u ∈ O^×`, `ω` the normalized valuation.
 
-- `witt_characteristic_zero_ghost` (non-example; Lean example) — for `k = ℚ`, `p = 2`,
+- *witt_characteristic_zero_ghost* (non-example) — for `k = ℚ`, `p = 2`,
   Mathlib's `WittVector.ghostEquiv` identifies `W₂(ℚ)` with `ℚ^ℕ`; `2` is a unit and
   every `2^m W₂(ℚ)` is the whole module, so these powers cannot index distinct lattices.
-- `witt_rank_one_positions` (Lean example for `m ≥ 0`) — over a perfect field of characteristic `p`,
+- *witt_rank_one_positions* — over a perfect field of characteristic `p`,
   the lattices `p^m W(k)` in `W(k)[1/p]` are distinct for distinct `m ∈ ℤ`; the nonnegative
   powers give a strictly decreasing chain of ideals.
 
@@ -6769,7 +6808,7 @@ pp. 46–47). *Needs:* ReductiveGroups layer 7; Mathlib `RootPairing.flip`, `Roo
 - `AbsoluteRootData.character_rank_zero` — if the geometric character group of the torus is zero,
   so is `X`.
 - `AbsoluteRootData.cocharacter_rank_zero` — likewise for `Y`.
-- `transpose_antiHom` (non-example; Lean example for permutation matrices) (Lean example) — the transpose without the inverse, `f ↦ (autFlip f)^{-1}`,
+- *transpose_antiHom* (non-example) — the transpose without the inverse, `f ↦ (autFlip f)^{-1}`,
   whose map on `X_*` is `f.coweightEquiv = f_X^t`, satisfies `(fg)^t = g^t f^t`; on two automorphisms
   that do not commute (for instance in the group `S_3` of graph automorphisms of type `D_4`) it is
   not multiplicative.
@@ -6861,7 +6900,7 @@ Mathlib `MulAction.stabilizer`; Tau Ceti `TauCeti.Pinning`.
 
 **Checks.**
 
-- `adjoint_real_point_not_from_sl2` (Lean example) — the class of `diag(−1,1)` in `PGL_2(ℝ)` has no lift to `SL_2(ℝ)`: every scalar representative has determinant `−c²`, never `1` (a matrix computation). This distinguishes adjoint rational points from conjugation by rational points of the original group.
+- *adjoint_real_point_not_from_sl2* — the class of `diag(−1,1)` in `PGL_2(ℝ)` has no lift to `SL_2(ℝ)`: every scalar representative has determinant `−c²`, never `1` (a matrix computation). This distinguishes adjoint rational points from conjugation by rational points of the original group.
 - `basedAutomorphisms_identity` — the identity preserves the base.
 - `basedAutomorphisms_galois` — every `μ̂_G(γ)` lies in the stabilizer, because `μ_G(γ)` preserves
   the base.
@@ -7132,10 +7171,10 @@ with coroots `f_1−f_2` and `f_2`; they are inconsistent, since `⟨e_3−2e_2,
 
 **Checks.**
 
-- `GSp4.duality_matrix_unimodular` (Lean example, proved) — the displayed integer matrix has determinant `−1`.
-- `GSp4.simple_root_images` (Lean example, proved) — it sends `![-1,1,0]` to `![0,−1,0]`
+- *GSp4.duality_matrix_unimodular* — the displayed integer matrix has determinant `−1`.
+- *GSp4.simple_root_images* — it sends `![-1,1,0]` to `![0,−1,0]`
   and `![0,−2,1]` to `![−1,1,0]`.
-- `GSp4.printed_coroot_has_wrong_sign` (Lean example, proved) — the pairing of `e₃−2e₂`
+- *GSp4.printed_coroot_has_wrong_sign* — the pairing of `e₃−2e₂`
   with the printed `f₂` is `−2`.
 
 Alongside these, the checks of RG2.5.1–RG2.5.2 run through `GL_n` (self-dual, direct-product

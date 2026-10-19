@@ -9,7 +9,6 @@ import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.UpperTriangular.Basic
 import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.CharacterLattice.Basic
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
 import TauCeti.Algebra.AlgebraicGroup.Tangent.Representation
-import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Adjoint.Classification
 import TauCeti.Algebra.AlgebraicGroup.Derived.Basic
 import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 import TauCeti.NumberTheory.LocalField.NormalizedValuation
@@ -67,10 +66,9 @@ instance {K : Type u} [Field K] [ValuativeRel K] [TopologicalSpace K]
 -- Test ModelField.padic
 example (p : ℕ) [Fact p.Prime] : ModelField ℚ_[p] := inferInstance
 
--- Test ModelField.isDiscreteValuationRing
-/- The valuation ring of a `ModelField` is a discrete valuation ring. -/
 open ValuativeRel in
-example {K : Type u} [Field K] [ValuativeRel K] [ModelField K] :
+/-- The valuation ring of a henselian discretely valued rank-one model field is a DVR. -/
+theorem ModelField.isDiscreteValuationRing {K : Type u} [Field K] [ValuativeRel K] [ModelField K] :
     IsDiscreteValuationRing 𝒪[K] := sorry
 
 -- Test ModelField.trivial_excluded (non-example)
@@ -124,6 +122,21 @@ theorem isClosedEmbedding_eval_generators [T1Space R] {ι : Type*} [Finite ι] (
 theorem locallyCompactSpace_of_finiteType [T2Space R] [LocallyCompactSpace R]
     [Algebra.FiniteType k A] : LocallyCompactSpace (A →ₐ[k] R) := sorry
 
+/-- A coordinate-algebra map induces a continuous map on affine points. -/
+theorem continuous_comap {B : Type v} [CommRing B] [Algebra k B] (φ : B →ₐ[k] A) :
+    Continuous fun f : A →ₐ[k] R => f.comp φ := sorry
+
+/-- A surjective coordinate map induces a closed embedding on points over a T1 ring. -/
+theorem isClosedEmbedding_comap_of_surjective [T1Space R]
+    {B : Type v} [CommRing B] [Algebra k B] (φ : B →ₐ[k] A)
+    (hφ : Function.Surjective φ) :
+    Topology.IsClosedEmbedding fun f : A →ₐ[k] R => f.comp φ := sorry
+
+/-- A continuous coefficient map induces a continuous map on affine points. -/
+theorem continuous_map_codomain {R' : Type w} [CommRing R'] [Algebra k R']
+    [TopologicalSpace R'] [IsTopologicalRing R'] (ψ : R →ₐ[k] R') (hψ : Continuous ψ) :
+    Continuous fun f : A →ₐ[k] R => ψ.comp f := sorry
+
 /-- Points of a tensor product: `Hom_k(A ⊗_k B, R) ≅ Hom_k(A, R) × Hom_k(B, R)`. -/
 theorem isHomeomorph_tensorProduct {B : Type*} [CommRing B] [Algebra k B] :
     IsHomeomorph fun f : A ⊗[k] B →ₐ[k] R =>
@@ -137,27 +150,8 @@ theorem isOpenEmbedding_localization (f : A) (hU : IsOpen {r : R | IsUnit r})
     Topology.IsOpenEmbedding fun x : Localization.Away f →ₐ[k] R =>
       x.comp (IsScalarTower.toAlgHom k A (Localization.Away f)) := sorry
 
--- Test PointTopology.polynomial_homeomorph
-example : IsHomeomorph (fun f : Polynomial k →ₐ[k] R => f Polynomial.X) := by sorry
-
--- Test PointTopology.discrete_of_discrete
-example [DiscreteTopology R] [Algebra.FiniteType k A] : DiscreteTopology (A →ₐ[k] R) := by sorry
-
--- Test PointTopology.pi_compat
-example : (PointTopology.topology k A R) =
-    TopologicalSpace.induced (fun f : A →ₐ[k] R => (⇑f : A → R)) Pi.topologicalSpace := by
-  rw [induced_to_pi]
-
--- Test PointTopology.not_discrete_infinite
-/- Without finite type, discrete coefficients do not give a discrete space: the points of
-`𝔽₂[x₀, x₁, …]` with values in `𝔽₂` form the product space `𝔽₂^ℕ`. -/
-example : ¬ DiscreteTopology (MvPolynomial ℕ (ZMod 2) →ₐ[ZMod 2] ZMod 2) := sorry
-
--- Test PointTopology.units_hyperbola
-/- On `G_m(ℚ_p)` the hyperbola topology is the subspace topology of `ℚ_p`. -/
-example (p : ℕ) [Fact p.Prime] :
-    Topology.IsEmbedding fun f : LaurentPolynomial ℤ →ₐ[ℤ] ℚ_[p] => f (LaurentPolynomial.T 1) :=
-  sorry
+/-- The point topology of an infinitely generated polynomial algebra over a finite field need not be discrete. -/
+theorem not_discrete_infinite : ¬ DiscreteTopology (MvPolynomial ℕ (ZMod 2) →ₐ[ZMod 2] ZMod 2) := sorry
 
 end Affine
 
@@ -178,14 +172,6 @@ def generalLinearPointsHomeomorph [IsTopologicalRing R] (n : ℕ) :
   toEquiv := (TauCeti.GeneralLinear.pointsMulEquiv (R := k) n (A := R)).toEquiv
   continuous_toFun := sorry
   continuous_invFun := sorry
-
--- Test PointTopology.generalLinearPointsHomeomorph_isOpenEmbedding
-example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
-    [IsNonarchimedeanLocalField E] (n : ℕ) :
-    Topology.IsOpenEmbedding
-      (fun x : WithConv (TauCeti.GeneralLinear.coordinateHopfAlgebra E n →ₐ[E] E) =>
-        ((generalLinearPointsHomeomorph (k := E) (R := E) n x) :
-          Matrix (Fin n) (Fin n) E)) := by sorry
 
 end Group
 
@@ -211,11 +197,6 @@ instance instIsTopologicalGroupLocal [ValuativeRel E] [IsNonarchimedeanLocalFiel
     IsTopologicalGroup (WithConv (H →ₐ[E] E)) :=
   isTopologicalGroup
 
--- Test PointTopology.real_units_not_totallyDisconnected
-/- The local-field hypothesis is needed: the points of `G_m` over `ℝ` form `ℝ^×`, whose half-line
-of positive reals is connected. -/
-example : ¬ TotallyDisconnectedSpace (WithConv (LaurentPolynomial ℝ →ₐ[ℝ] ℝ)) := sorry
-
 end LocalInstances
 
 section Integral
@@ -233,36 +214,6 @@ theorem isOpenEmbedding_integralPoints {A : Type u} [CommRing A] [Algebra 𝒪[E
 /-- Integral points of a finite-type `𝒪[E]`-algebra form a compact space. -/
 theorem compactSpace_integralPoints {A : Type u} [CommRing A] [Algebra 𝒪[E] A]
     [Algebra.FiniteType 𝒪[E] A] : CompactSpace (A →ₐ[𝒪[E]] 𝒪[E]) := sorry
-
--- Test PointTopology.generalLinear_integral_iff_det
-/- An `E`-matrix lifts to a point of `GL_n` over `𝒪[E]` exactly when it lifts to a matrix over
-`𝒪[E]` with unit determinant. -/
-example (n : ℕ) (g : Matrix (Fin n) (Fin n) E) :
-    (∃ x : WithConv (TauCeti.GeneralLinear.coordinateHopfAlgebra 𝒪[E] n →ₐ[𝒪[E]] 𝒪[E]),
-      (TauCeti.GeneralLinear.pointsMulEquiv (R := 𝒪[E]) n (A := 𝒪[E]) x :
-        Matrix (Fin n) (Fin n) 𝒪[E]).map (algebraMap 𝒪[E] E) = g) ↔
-    ∃ M : Matrix (Fin n) (Fin n) 𝒪[E],
-      M.map (algebraMap 𝒪[E] E) = g ∧ IsUnit M.det := by
-  constructor
-  · rintro ⟨x, hx⟩
-    exact ⟨_, hx, (Matrix.isUnit_iff_isUnit_det _).mp (Units.isUnit _)⟩
-  · rintro ⟨M, hM, hdet⟩
-    obtain ⟨u, hu⟩ := (Matrix.isUnit_iff_isUnit_det M).mpr hdet
-    refine ⟨(TauCeti.GeneralLinear.pointsMulEquiv (R := 𝒪[E]) n (A := 𝒪[E])).symm u, ?_⟩
-    simpa only [MulEquiv.apply_symm_apply, hu] using hM
-
--- Test PointTopology.diag_uniformizer_not_integral
-/- `diag(ϖ, 1)` has integral entries and nonzero determinant but is not a point of `GL_2` over
-`𝒪[E]`. -/
-example (ϖ : 𝒪[E]) (hϖ : Irreducible ϖ) :
-    ¬ ∃ x : WithConv (TauCeti.GeneralLinear.coordinateHopfAlgebra 𝒪[E] 2 →ₐ[𝒪[E]] 𝒪[E]),
-      (TauCeti.GeneralLinear.pointsMulEquiv (R := 𝒪[E]) 2 (A := 𝒪[E]) x :
-        Matrix (Fin 2) (Fin 2) 𝒪[E]) = Matrix.diagonal ![ϖ, 1] := by
-  rintro ⟨x, hx⟩
-  apply hϖ.not_isUnit
-  have hM : IsUnit (Matrix.diagonal ![ϖ, 1]) := hx ▸ Units.isUnit _
-  rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_diagonal] at hM
-  simpa [Fin.prod_univ_two] using hM
 
 end Integral
 
@@ -300,22 +251,13 @@ theorem natCard_quotient_succ [Algebra.Smooth 𝒪[E] H] (n : ℕ) (hn : 1 ≤ n
         Module.finrank 𝒪[E] (RingHom.ker (Bialgebra.counitAlgHom 𝒪[E] H : H →+* 𝒪[E])).Cotangent :=
   sorry
 
--- Test CongruenceSubgroup.natCard_quotient_zero_multiplicative
-/- The hypothesis `1 ≤ n` is needed: for `G_m` the quotient `𝒢(𝒪)_0/𝒢(𝒪)_1 ≅ 𝓀^×` has `q − 1`
-elements, not `q`. -/
-example : Nat.card ((subgroup E (LaurentPolynomial 𝒪[E]) 0) ⧸
-    (subgroup E (LaurentPolynomial 𝒪[E]) 1).subgroupOf (subgroup E (LaurentPolynomial 𝒪[E]) 0)) =
-      Nat.card 𝓀[E] - 1 := sorry
-
--- Test CongruenceSubgroup.not_isProP_zero_generalLinear
-/- The level `1` in `isProP_one` is needed: `𝒢(𝒪)_0/𝒢(𝒪)_1 = GL_2(𝓀)` has order
-`q(q − 1)(q² − 1)`, not a power of `p`. -/
 open scoped PointTopology in
-example : ¬ TauCeti.IsProP (ringChar 𝓀[E])
+/-- The full integral group of GL₂ is not pro-p; positive congruence level is necessary. -/
+theorem not_isProP_zero_generalLinear : ¬ TauCeti.IsProP (ringChar 𝓀[E])
     (subgroup E (TauCeti.GeneralLinear.coordinateHopfAlgebra 𝒪[E] 2) 0) := sorry
 
--- Test CongruenceSubgroup.iInf_eq_bot
-example : (⨅ n : ℕ, subgroup E H n) = ⊥ := by sorry
+/-- Congruence subgroups separate integral points: their intersection is the identity subgroup. -/
+theorem iInf_eq_bot : (⨅ n : ℕ, subgroup E H n) = ⊥ := by sorry
 
 end CongruenceSubgroup
 
@@ -342,6 +284,37 @@ def functor : CommAlgCat.{u} k ⥤ Type u where
 theorem functor_isCorepresentable [Module.Finite k k'] [Module.Projective k k'] :
     (functor k k' A').IsCorepresentable := sorry
 
+/-- Finite-type affine schemes have finite-type Weil restrictions along finite locally free maps. -/
+theorem finiteType_res [Module.Finite k k'] [Module.Projective k k']
+    [Algebra.FiniteType k' A'] (B : CommAlgCat.{u} k)
+    (e : (functor k k' A').CorepresentableBy B) : Algebra.FiniteType k B := sorry
+
+/-- Finite presentation is preserved by affine Weil restriction along finite locally free maps. -/
+theorem finitePresentation_res [Module.Finite k k'] [Module.Projective k k']
+    [Algebra.FinitePresentation k' A'] (B : CommAlgCat.{u} k)
+    (e : (functor k k' A').CorepresentableBy B) : Algebra.FinitePresentation k B := sorry
+
+/-- The square-zero lifting property passes to the representing algebra of affine Weil restriction. -/
+theorem formallySmooth_res [Module.Finite k k'] [Module.Projective k k']
+    [Algebra.FormallySmooth k' A'] (B : CommAlgCat.{u} k)
+    (e : (functor k k' A').CorepresentableBy B) : Algebra.FormallySmooth k B := sorry
+
+/-- Smoothness passes to the representing algebra of affine Weil restriction. -/
+theorem smooth_res [Module.Finite k k'] [Module.Projective k k']
+    [Algebra.Smooth k' A'] (B : CommAlgCat.{u} k)
+    (e : (functor k k' A').CorepresentableBy B) : Algebra.Smooth k B := sorry
+
+/-- Affine Weil restriction takes closed immersions to closed immersions, expressed by
+surjectivity of the induced map between representing coordinate algebras. -/
+theorem map_surjective [Module.Finite k k'] [Module.Projective k k']
+    (B' : Type u) [CommRing B'] [Algebra k' B'] (f : B' →ₐ[k'] A')
+    (hf : Function.Surjective f) (A B : CommAlgCat.{u} k)
+    (eA : (functor k k' A').CorepresentableBy A)
+    (eB : (functor k k' B').CorepresentableBy B) (r : B ⟶ A)
+    (hr : ∀ (R : CommAlgCat.{u} k) (g : A ⟶ R),
+      eB.homEquiv (r ≫ g) = (eA.homEquiv g).comp f) :
+    Function.Surjective r.hom := sorry
+
 -- Test WeilRestriction.functor_trivial_extension
 example (R : Type u) [CommRing R] [Algebra k R] (B : Type u) [CommRing B] [Algebra k B] :
     (functor k k B).obj (CommAlgCat.of k R) ≃ (B →ₐ[k] R) :=
@@ -356,15 +329,6 @@ example (R : Type u) [CommRing R] [Algebra k R] [Nontrivial (k' ⊗[k] R)] :
   have h0 : f 0 = 0 := map_zero f
   rw [show (1 : PUnit.{u + 1}) = 0 from Subsingleton.elim _ _, h0] at h1
   exact zero_ne_one h1
-
--- Test WeilRestriction.functor_affineLine
-example (R : Type u) [CommRing R] [Algebra k R] :
-    (functor k k' (Polynomial k')).obj (CommAlgCat.of k R) ≃ (k' ⊗[k] R) := by sorry
-
--- Test WeilRestriction.res_not_commutative_of_commutative_base
-example :
-    ((!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) * !![1, 0; 1, 1]) ≠
-      (!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℂ) * !![1, 1; 0, 1] := by sorry
 
 end WeilRestriction
 
@@ -408,78 +372,9 @@ theorem characterGroup_normOne (K : Type u) [Field K] (K' : Type u) [Field K'] [
     [IsSepClosed Ω] :
     Nonempty (normOne K K' Ω ≃* (Fin (Module.finrank K K' - 1) → Ωˣ)) := sorry
 
--- Test NormTorus.norm_complex
-example (z : ℂˣ) :
-    ((norm ℝ ℂ ℝ (Units.map (Algebra.TensorProduct.rid ℝ ℂ ℂ).symm.toMonoidHom z) : ℝˣ) : ℝ) =
-      (z : ℂ).re ^ 2 + (z : ℂ).im ^ 2 := sorry
-
--- Test NormTorus.normOne_complex
-example (z : ℂˣ) :
-    Units.map (Algebra.TensorProduct.rid ℝ ℂ ℂ).symm.toMonoidHom z ∈ normOne ℝ ℂ ℝ ↔
-      ‖(z : ℂ)‖ = 1 := sorry
-
--- Test NormTorus.norm_trivial_extension
-example (R : Type u) [CommRing R] [Algebra k R] (z : (k ⊗[k] R)ˣ) :
-    norm k k R z = Units.map (Algebra.TensorProduct.lid k R).toMonoidHom z := by sorry
-
--- Test NormTorus.normOne_trivial_extension
-example (R : Type u) [CommRing R] [Algebra k R] : normOne k k R = ⊥ := by sorry
-
--- Test NormTorus.norm_not_surjective_points
-example : ¬ Function.Surjective (norm ℝ ℂ ℝ) := by sorry
-
--- Test NormTorus.normOne_I
-example : Units.map (Algebra.TensorProduct.rid ℝ ℂ ℂ).symm.toMonoidHom
-    (Units.mk0 Complex.I (by simp)) ∈ normOne ℝ ℂ ℝ := by sorry
-
--- Test NormTorus.normOne_split_complex
-example : Nonempty (normOne ℝ ℂ ℂ ≃* ℂˣ) := by sorry
-
--- Test NormTorus.resRootsOfUnity_complex
-example : Nat.card (rootsOfUnity 4 ℂ) = 4 := by sorry
-
--- Test NormTorus.resRootsOfUnity_split
-example : Nat.card (rootsOfUnity 2 (ℝ × ℝ)) = 4 := by sorry
-
 end NormTorus
 
 /-! ## Layer RG2.1: root data, valuations and apartments -/
-
-namespace AlgebraicRelativeRoots
-
-open TauCeti.GeneralLinear
-
-variable (k : Type u) [Field k]
-
--- Test AlgebraicRelativeRoots.GL2_zero_weight
-example :
-    (∀ x : Module.Dual k (TauCeti.Bialgebra.CotangentSpace k (coordinateHopfAlgebra k 2)),
-      x ∈ Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom 1 ↔
-        cotangentDualMatrixEquiv x 0 1 = 0 ∧ cotangentDualMatrixEquiv x 1 0 = 0) ∧
-    Module.finrank k
-      (Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom 1) = 2 :=
-  by sorry
-
--- Test AlgebraicRelativeRoots.GL2_nonzero_weights
-example :
-    (∀ α : Multiplicative (ULift.{u} (Fin 2) →₀ ℤ),
-      α ∈ Derivation.nontrivialAdjointWeights
-        (diagonalTorusCoordinateMap (R := k) (N := 2)).hom ↔
-          α = matrixUnitWeight 0 1 ∨ α = matrixUnitWeight 1 0) ∧
-    Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom
-        (matrixUnitWeight 0 1) = k ∙ matrixUnitTangent (k := k) 0 1 ∧
-    Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom
-        (matrixUnitWeight 1 0) = k ∙ matrixUnitTangent (k := k) 1 0 ∧
-    Module.finrank k (Derivation.adjointWeightSpace
-      (diagonalTorusCoordinateMap (R := k) (N := 2)).hom (matrixUnitWeight 0 1)) = 1 ∧
-    Module.finrank k (Derivation.adjointWeightSpace
-      (diagonalTorusCoordinateMap (R := k) (N := 2)).hom (matrixUnitWeight 1 0)) = 1 := by sorry
-
--- Test AlgebraicRelativeRoots.root_free_torus
-example : Derivation.nontrivialAdjointWeights
-    (diagonalTorusCoordinateMap (R := k) (N := 1)).hom = ∅ := by sorry
-
-end AlgebraicRelativeRoots
 
 namespace BruhatTits
 
@@ -542,32 +437,7 @@ def IsGenerating (D : RootDatum G Φ) : Prop :=
 example [IsEmpty ι] (D : RootDatum G Φ) : D.IsGenerating ↔ D.T = ⊤ := by
   rw [IsGenerating, Set.iUnion_of_empty, Set.union_empty, Subgroup.closure_eq]
 
--- Test BruhatTits.RootDatum.not_of_trivial_U
-example (D : RootDatum G Φ) (i : ι) : D.U i ≠ ⊥ := D.U_ne_bot i
-
--- Test BruhatTits.RootDatum.opposite_ne
-example (D : RootDatum G Φ) (i j : ι) (hij : Φ.root j = -Φ.root i) : D.U i ≠ D.U j := by sorry
-
--- Test BruhatTits.RootDatum.weylNormalizer_rankZero
-example [IsEmpty ι] (D : RootDatum G Φ) : D.weylNormalizer = D.T := by sorry
-
--- Test BruhatTits.RootDatum.weylNormalizer_reflection
-example (D : RootDatum G Φ) (i : ι) (m : G) (hm : m ∈ D.reflectionCoset i) :
-    m ∈ D.weylNormalizer := by sorry
-
--- Test BruhatTits.RootDatum.weylNormalizer_contains_torus
-example (D : RootDatum G Φ) : D.T ≤ D.weylNormalizer := by sorry
-
 end RootDatum
-
--- Test BruhatTits.RootDatum.rankZero
-example {G : Type v} [Group G] (Φ : RootPairing ι ℝ M N) [IsEmpty ι] (T : Subgroup G) :
-    ∃ D : RootDatum G Φ, D.T = T := by sorry
-
--- Test BruhatTits.RootDatum.sl2
-example (K : Type) [Field K] :
-    ∃ (Φ : RootPairing (Fin 2) ℝ ℝ ℝ) (D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) K) Φ),
-      D.IsGenerating := sorry
 
 /-- Bruhat–Tits I, 6.2.1, pp. 116–117: a valuation of a root datum (axioms V0–V5). Real shifts in
 V2 and V5 avoid subtraction involving `∞`. -/
@@ -601,10 +471,6 @@ structure Valuation {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} (D : Ro
       (a : G) * (u : G) * (b : G) ∈ D.reflectionCoset i →
         ∃ r : ℝ, φ i u = (r : WithTop ℝ) ∧ φ j a = ((-r : ℝ) : WithTop ℝ) ∧
           φ j b = ((-r : ℝ) : WithTop ℝ)
-
--- Test BruhatTits.Valuation.rankZero
-example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} [IsEmpty ι]
-    (D : RootDatum G Φ) : Nonempty (Valuation D) := by sorry
 
 namespace Valuation
 
@@ -650,45 +516,16 @@ example (i : ι) (h : ∀ j, Φ.root j ≠ (2 : ℝ) • Φ.root i) : φ.primedV
   rintro r ⟨u, hu, hφ⟩
   exact ⟨u, hu, hφ, fun j hj => absurd hj (h j)⟩
 
--- Test BruhatTits.Valuation.one_top
-example (i : ι) : φ.φ i 1 = ⊤ := (φ.φ_eq_top_iff i 1).mpr rfl
-
--- Test BruhatTits.Valuation.isDiscrete_rankZero
-example [IsEmpty ι] : φ.IsDiscrete := by sorry
-
--- Test BruhatTits.Valuation.opposite_depths
-example (i j : ι) (hij : Φ.root j = -Φ.root i) (u : D.U i) (a b : D.U j)
-    (hf : (a : G) * (u : G) * (b : G) ∈ D.reflectionCoset i)
-    (hu : φ.φ i u = 1 ∨ φ.φ i u = 2) :
-    (φ.φ i u = 1 ∧ φ.φ j a = -1 ∧ φ.φ j b = -1) ∨
-      (φ.φ i u = 2 ∧ φ.φ j a = -2 ∧ φ.φ j b = -2) := by sorry
-
 end Valuation
 
--- Test BruhatTits.Valuation.sl2_standard
-/- For a nontrivial real valuation `ω` of `K`, the diagonal torus and the two unipotent subgroups of
-`SL₂(K)` carry a valuation with `φ_+(x_+(c)) = φ_−(x_−(c)) = ω(c)` (Bruhat–Tits I 6.2.3 a),
-p. 117). -/
-example (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ)) (hω : ∃ x : K, x ≠ 0 ∧ ω x ≠ 0) :
+/-- The standard upper and lower unipotent subgroups of SL₂ carry the valuation induced by any nontrivial real additive valuation. -/
+theorem Valuation.sl2_standard (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ)) (hω : ∃ x : K, x ≠ 0 ∧ ω x ≠ 0) :
     ∃ (Φ : RootPairing (Fin 2) ℝ ℝ ℝ) (D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) K) Φ)
       (φ : Valuation D), ∀ c : K,
         (∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 0,
           φ.φ 0 ⟨_, h⟩ = ω c) ∧
         (∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 1,
           φ.φ 1 ⟨_, h⟩ = ω c) := sorry
-
--- Test BruhatTits.Valuation.isDiscrete_sl2_standard
-/- If `ω(K^×) = ℤ`, the standard valuation of the root datum of `SL₂(K)` is discrete, with
-`Γ_a = ℤ` for both roots. -/
-example (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ))
-    (hω : ∀ x : K, x ≠ 0 → ∃ n : ℤ, ω x = ((n : ℝ) : WithTop ℝ)) (hω₁ : ∃ x : K, ω x = 1) :
-    ∃ (Φ : RootPairing (Fin 2) ℝ ℝ ℝ) (D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) K) Φ)
-      (φ : Valuation D), (∀ c : K,
-        (∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 0,
-          φ.φ 0 ⟨_, h⟩ = ω c) ∧
-        (∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 1,
-          φ.φ 1 ⟨_, h⟩ = ω c)) ∧
-      φ.IsDiscrete ∧ ∀ i, φ.valueSet i = Set.range ((↑) : ℤ → ℝ) := sorry
 
 -- Test BruhatTits.Valuation.not_isDiscrete_dense (non-example)
 /- If every rational number is a value of `ω` (for instance `ω(K^×) = ℚ`), no valuation of a root
@@ -720,11 +557,6 @@ def Equipollent {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDa
     (φ ψ : Valuation D) : Prop :=
   ∃ v : N, ∀ i u, ψ.φ i u = φ.φ i u + ((Φ.toLinearMap (Φ.root i) v : ℝ) : WithTop ℝ)
 
--- Test BruhatTits.Equipollent.refl
-example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
-    (φ : Valuation D) : Equipollent φ φ :=
-  ⟨0, fun i u => by simp⟩
-
 /-- The enlarged apartment relative to a base valuation `φ`: valuations equipollent to `φ`, with
 their displacement in the full coroot space (root valuations alone forget the directions killed by
 every root). -/
@@ -741,12 +573,6 @@ theorem Apartment.displacement_bijective {G : Type v} [Group G] {Φ : RootPairin
     {D : RootDatum G Φ} (φ : Valuation D) :
     Function.Bijective (Apartment.displacement : Apartment φ → N) := sorry
 
--- Test BruhatTits.Equipollent.shift
-example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
-    (φ : Valuation D) (v : N) :
-    ∃ ψ : Valuation D, Equipollent φ ψ ∧
-      ∀ i u, ψ.φ i u = φ.φ i u + ((Φ.toLinearMap (Φ.root i) v : ℝ) : WithTop ℝ) := by sorry
-
 -- Test BruhatTits.Apartment.central_displacement
 /- With no roots, distinct central displacements still give distinct points. -/
 example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ} (φ : Valuation D)
@@ -755,10 +581,6 @@ example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ
       (⟨φ, w, fun i => isEmptyElim i⟩ : Apartment φ) := by
   intro he
   exact h (congrArg Apartment.displacement he)
-
--- Test BruhatTits.Apartment.rankZero_singleton
-example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
-    (φ : Valuation D) [Subsingleton N] : Subsingleton (Apartment φ) := by sorry
 
 /-- An affine root `a + k` with `a ∈ Φ` and `k ∈ Γ'_a` (Bruhat–Tits I, 6.2.6, p. 120). -/
 structure AffineRoot {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
@@ -786,23 +608,6 @@ theorem finite_walls_segment [Finite ι] (hφ : φ.IsDiscrete) (x : Apartment φ
     {α : AffineRoot φ | ∃ t : ℝ, 0 ≤ t ∧ t ≤ 1 ∧
       Φ.toLinearMap (Φ.root α.gradient) (x.displacement + t • v) + α.constant = 0}.Finite :=
   sorry
-
--- Test BruhatTits.AffineRoot.eval_base
-example (α : AffineRoot φ) : α.eval ⟨φ, 0, fun i u => by simp⟩ = α.constant := by
-  simp [eval]
-
--- Test BruhatTits.AffineRoot.wall_base
-example (α : AffineRoot φ) : (⟨φ, 0, fun i u => by simp⟩ : Apartment φ) ∈ α.wall ↔
-    α.constant = 0 := by simp [wall, eval]
-
--- Test BruhatTits.AffineRoot.wall_ne_univ
-example (α : AffineRoot φ) : α.wall ≠ Set.univ := by sorry
-
--- Test BruhatTits.AffineRoot.eval_coroot_two_terms
-example (α : AffineRoot φ) (x y : Apartment φ)
-    (hx : x.displacement = Φ.coroot α.gradient)
-    (hy : y.displacement = (2 : ℝ) • Φ.coroot α.gradient) :
-    α.eval x = α.constant + 2 ∧ α.eval y = α.constant + 4 := by sorry
 
 end AffineRoot
 
@@ -857,12 +662,6 @@ abbrev subgroupPoints {K : Type u} [Field K]
     {H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} K} (I : TauCeti.HopfIdeal K H)
     (R : Type u) [CommRing R] [Algebra K R] : Subgroup (WithConv (H →ₐ[K] R)) :=
   TauCeti.CommHopfAlgCat.quotientPointsSubgroup H.obj I (CommAlgCat.of K R)
-
--- Test BruhatTits.subgroupPoints_mem_iff
-example {K : Type u} [Field K] {H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} K}
-    (I : TauCeti.HopfIdeal K H) (R : Type u) [CommRing R] [Algebra K R]
-    (g : WithConv (H →ₐ[K] R)) : g ∈ subgroupPoints I R ↔ ∀ a ∈ I, g.ofConv a = 0 :=
-  TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_iff H.obj I (CommAlgCat.of K R) g
 
 /-- A connected reductive `K`-group `Spec H` with a chosen maximal split torus, given by its Hopf
 ideal. -/
@@ -942,18 +741,6 @@ def ω (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchim
     (t : K) : WithTop ℝ :=
   if h : t = 0 then ⊤ else ((Multiplicative.toAdd (TauCeti.normalizedValuation K (Units.mk0 t h)) : ℤ) : ℝ)
 
--- Test GLBuilding.omega_two_terms
-example (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) :
-    ω K 0 = ⊤ ∧ ω K ϖ = 1 ∧ ω K ((ϖ : K) ^ 2) = 2 := by
-  have h0 : (ϖ : K) ≠ 0 := fun h => hϖ.ne_zero (Subtype.ext h)
-  have h1 := TauCeti.normalizedValuation_irreducible hϖ
-  have h2 : ((ϖ : K) ^ 2) ≠ 0 := pow_ne_zero 2 h0
-  refine ⟨by simp [ω], ?_, ?_⟩
-  · simp only [ω, h0, h1, toAdd_ofAdd, dite_false]; norm_num
-  · simp only [ω, h2, dite_false]
-    have : Units.mk0 ((ϖ : K) ^ 2) h2 = (Units.mk0 (ϖ : K) h0) ^ 2 := by ext; simp
-    rw [this, map_pow, h1]; norm_num
-
 /-- A splittable additive norm `α : Kⁿ → ℝ ∪ {∞}` (Bruhat–Tits, Bull. SMF 112 (1984), 1.4–1.5,
 pp. 263–264). -/
 structure SplittableNorm (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
@@ -984,14 +771,8 @@ structure GradedLatticeChain (K : Type u) [Field K] [ValuativeRel K] [Topologica
     (grading (Submodule.span 𝒪[K] ((t : K) • (Λ : Set (Fin n → K)))) : WithTop ℝ) =
       grading Λ + ω K t
 
--- Test GLBuilding.norm_chain_zero_rank
-example : IsEmpty (GradedLatticeChain K 0) := by sorry
-
--- Test GLBuilding.divisionBuilding_zero_rank
-/- For the split division algebra `D = K`, rank zero has a unique splittable norm and no
-graded periodic chain. -/
-example : Nonempty (SplittableNorm K 0) ∧ Subsingleton (SplittableNorm K 0) ∧
-    IsEmpty (GradedLatticeChain K 0) := by sorry
+/-- There is no graded periodic lattice chain in dimension zero, so the norm-chain correspondence requires positive rank. -/
+theorem norm_chain_zero_rank : IsEmpty (GradedLatticeChain K 0) := by sorry
 
 /-- Splittable norms correspond to graded periodic lattice chains: `α` goes to its closed balls
 `{α ≥ r}`, each graded by the least value of `α` on it (Bruhat–Tits, Bull. SMF 112 (1984), 1.8,
@@ -1003,62 +784,7 @@ theorem exists_normEquivChain {n : ℕ} [NeZero n] :
       (Λ ∈ (e α).chain →
         ((e α).grading Λ : WithTop ℝ) = sInf (α.toFun '' (Λ : Set (Fin n → K)))) := sorry
 
--- Test GLBuilding.dualNorm_zero_dimension
-example : Subsingleton (SplittableNorm K 0) ∧
-    ∀ (α : SplittableNorm K 0) (x : Fin 0 → K), α.toFun x = ⊤ := by sorry
-
--- Test GLBuilding.normalizedOrder_units
-example (x : 𝒪[K]ˣ) : ω K (x : K) = 0 := by sorry
-
 end GLBuilding
-
-namespace BruhatTits
-
-section NumericalEquipollence
-
-variable (p : ℕ) [Fact p.Prime]
-  {Φ : RootPairing (Fin 2) ℝ ℝ ℝ}
-  {D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) Φ}
-  (φ : Valuation D)
-  (hΦ₀ : Φ.root 0 = 2) (hΦ₁ : Φ.root 1 = -2)
-  (hpair : ∀ x y : ℝ, Φ.toLinearMap x y = x * y)
-  (h₀ : ∀ c : ℚ_[p],
-    ∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0,
-      φ.φ 0 ⟨_, h⟩ = GLBuilding.ω ℚ_[p] c)
-  (h₁ : ∀ c : ℚ_[p],
-    ∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 1,
-      φ.φ 1 ⟨_, h⟩ = GLBuilding.ω ℚ_[p] c)
-
-include hΦ₀ hΦ₁ hpair h₀ h₁
-
--- Test BruhatTits.Equipollent.sl2_shift_one
-example : ∃ ψ : Valuation D, Equipollent φ ψ ∧
-    (∀ u, ψ.φ 0 u = φ.φ 0 u + 1) ∧ (∀ u, ψ.φ 1 u = φ.φ 1 u + (-1)) ∧
-    (∃ (h : (⟨!![1, 1; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0)
-       (hp : (⟨!![1, (p : ℚ_[p]); 0, 1], by simp⟩ :
-         Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0),
-      ψ.φ 0 ⟨_, h⟩ = 1 ∧ ψ.φ 0 ⟨_, hp⟩ = 2) ∧
-    (∃ (h : (⟨!![1, 0; 1, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 1)
-       (hp : (⟨!![1, 0; (p : ℚ_[p]), 1], by simp⟩ :
-         Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 1),
-      ψ.φ 1 ⟨_, h⟩ = -1 ∧ ψ.φ 1 ⟨_, hp⟩ = 0) := by sorry
-
--- Test BruhatTits.Equipollent.sl2_rescale_two
-example : ∃ ψ : Valuation D, (∀ i u, ψ.φ i u = 2 * φ.φ i u) ∧ ¬ Equipollent φ ψ ∧
-    ∃ (h : (⟨!![1, 1; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0)
-       (hp : (⟨!![1, (p : ℚ_[p]); 0, 1], by simp⟩ :
-         Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0),
-      φ.φ 0 ⟨_, h⟩ = 0 ∧ φ.φ 0 ⟨_, hp⟩ = 1 ∧
-      ψ.φ 0 ⟨_, h⟩ = 0 ∧ ψ.φ 0 ⟨_, hp⟩ = 2 := by sorry
-
--- Test BruhatTits.Equipollent.sl2_coroot_shift
-example : ∃ x : Apartment φ, x.displacement = 1 ∧
-    (∀ u, x.val.φ 0 u = φ.φ 0 u + 2) ∧
-    (∀ u, x.val.φ 1 u = φ.φ 1 u + (-2)) := by sorry
-
-end NumericalEquipollence
-
-end BruhatTits
 
 namespace BTTree
 
@@ -1100,15 +826,6 @@ theorem isTree : (tree K).IsTree := sorry
 theorem natCard_neighborSet (x : Vertex K) :
     Nat.card ((tree K).neighborSet x) = Nat.card 𝓀[K] + 1 := sorry
 
--- Test BTTree.degree_Q2
-example (x : BTTree.Vertex ℚ_[2]) : Nat.card ((BTTree.tree ℚ_[2]).neighborSet x) = 3 := by sorry
-
--- Test BTTree.degree_residue_card
-example (x : Vertex K) : Nat.card ((tree K).neighborSet x) = Nat.card 𝓀[K] + 1 := by sorry
-
--- Test BTTree.no_leaves
-example (x : BTTree.Vertex K) : (BTTree.tree K).neighborSet x ≠ ∅ := by sorry
-
 end BTTree
 
 namespace TameDescent
@@ -1126,30 +843,6 @@ theorem smooth_fixedPoints {k : Type u} [Field k] (H : TauCeti.FiniteTypeCommHop
           {g | ∀ θ : Θ,
             TauCeti.AlgHom.mapDomain (A := R) ((ρ θ).hom.hom.hom : (H : Type u) →ₐc[k] H) g = g} :=
   sorry
-
--- Test TameDescent.fixedPoints_not_connected (non-example)
-/- The `k`-points of the fixed points of inversion on `G_m` are `{±1}`: the fixed-point group of a
-tame action need not be connected. -/
-example {k : Type u} [Field k] (h2 : (2 : k) ≠ 0) :
-    ¬ Subsingleton {x : kˣ // x⁻¹ = x} := by
-  intro hs
-  have h := congrArg (fun x : {x : kˣ // x⁻¹ = x} => ((x.val : kˣ) : k))
-    (hs.elim ⟨1, inv_one⟩ ⟨-1, by simp⟩)
-  simp only [Units.val_one, Units.val_neg] at h
-  exact h2 (by linear_combination h)
-
--- Test TameDescent.fixedPoints_trivial_action
-example {k : Type u} [Field k] (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
-    (Θ : Type u) [Group Θ] (ρ : Θ →* _root_.CategoryTheory.Aut H) (hρ : ρ = 1)
-    (R : Type u) [CommRing R] [Algebra k R] :
-    {g : WithConv (H →ₐ[k] R) | ∀ θ : Θ,
-      TauCeti.AlgHom.mapDomain (A := R) ((ρ θ).hom.hom.hom : (H : Type u) →ₐc[k] H) g = g} =
-      Set.univ := by sorry
-
--- Test TameDescent.fixedPoints_swap
-example {k : Type u} [Field k] (h2 : (2 : k) ≠ 0) :
-    Function.Bijective (fun z : kˣ =>
-      (⟨(z, z), rfl⟩ : {g : kˣ × kˣ // Prod.swap g = g})) := by sorry
 
 end TameDescent
 
@@ -1265,6 +958,14 @@ section DVR
 
 variable [IsDomain O] [IsDiscreteValuationRing O] [IsFractionRing O K]
 
+/-- The schematic closure has the prescribed generic fibre, with the canonical formula on
+pure tensors (Bruhat–Tits II, 1.2.6, p. 18). -/
+theorem exists_closure_genericFibre (I : Ideal (K ⊗[O] A)) :
+    ∃ e : K ⊗[O] closure O K A I ≃ₐ[K] (K ⊗[O] A) ⧸ I,
+      ∀ (k : K) (a : A),
+        e (k ⊗ₜ[O] (Ideal.Quotient.mk (closureIdeal O K A I) a)) =
+          Ideal.Quotient.mk I (k ⊗ₜ[O] a) := sorry
+
 /-- The schematic closure in a flat model is flat. -/
 theorem closure_flat [Module.Flat O A] (I : Ideal (K ⊗[O] A)) : Module.Flat O (closure O K A I) :=
   sorry
@@ -1281,12 +982,8 @@ theorem closureIdeal_isHopfIdeal (B : Type u) [CommRing B] [HopfAlgebra O B]
     (I : TauCeti.HopfIdeal K (K ⊗[O] B)) :
     ∃ J : TauCeti.HopfIdeal O B, J.toIdeal = closureIdeal O K B I.toIdeal := sorry
 
--- Test SchematicClosure.closureIdeal_bot
-/- In a flat algebra over a DVR the closure of the whole generic fibre is everything. -/
-example [Module.Flat O A] : closureIdeal O K A ⊥ = ⊥ := sorry
-
--- Test SchematicClosure.closureIdeal_bot_eq_torsion
-example (a : A) : a ∈ closureIdeal O K A (⊥ : Ideal (K ⊗[O] A)) ↔
+/-- The ideal of the closure of the whole generic fibre consists precisely of scalar torsion. -/
+theorem closureIdeal_bot_eq_torsion (a : A) : a ∈ closureIdeal O K A (⊥ : Ideal (K ⊗[O] A)) ↔
     ∃ r : O, r ≠ 0 ∧ r • a = 0 := by sorry
 
 end DVR
@@ -1332,54 +1029,41 @@ def principalCongruence (m : ℕ) : Subgroup (GL (Fin n) K) where
   one_mem' := sorry
   inv_mem' := sorry
 
--- Test LevelSubgroups.integralGL_eq_range
-/- Agreement with the image of Mathlib's `GL_n(𝒪) → GL_n(K)`. -/
-example : integralGL K n = (Matrix.GeneralLinearGroup.map (algebraMap 𝒪[K] K)).range := sorry
+/-- The integral subgroup agrees with the image of GLₙ over the valuation ring. -/
+theorem integralGL_eq_range : integralGL K n = (Matrix.GeneralLinearGroup.map (algebraMap 𝒪[K] K)).range := sorry
 
--- Test LevelSubgroups.not_mem_integralGL
-/- `diag(ϖ, 1)` has integral entries but its inverse has the entry `ϖ⁻¹`. -/
-example (ϖ : K) (hϖ0 : ϖ ≠ 0) (hϖ : valuation K ϖ < 1) (g : GL (Fin 2) K)
-    (hg : (g : Matrix (Fin 2) (Fin 2) K) = Matrix.diagonal ![ϖ, 1]) :
-    g ∉ integralGL K 2 := sorry
+/-- The pro-unipotent Iwahori radical is normal in the Iwahori subgroup. -/
+theorem proPIwahori_normal : ((proPIwahori K n).subgroupOf (iwahori K n)).Normal := by sorry
 
--- Test LevelSubgroups.iwahori_relIndex_two
-/- `[GL₂(𝒪) : I] = q + 1`, the number of points of `ℙ¹(𝓀)`. -/
-example [TopologicalSpace K] [IsNonarchimedeanLocalField K] :
-    (iwahori K 2).relIndex (integralGL K 2) = Nat.card 𝓀[K] + 1 := sorry
+attribute [instance] proPIwahori_normal
 
--- Test LevelSubgroups.proPIwahori_eq_iwahori_of_card_two
-/- Residue field `𝔽₂`: every unit is `≡ 1`, so the two subgroups coincide. -/
-example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (h2 : Nat.card 𝓀[K] = 2) :
-    proPIwahori K n = iwahori K n := sorry
+/-- The reductive quotient of the standard Iwahori is the diagonal residue torus. -/
+theorem iwahori_quotient_equiv [TopologicalSpace K] [IsNonarchimedeanLocalField K] :
+    Nonempty (((iwahori K n) ⧸ (proPIwahori K n).subgroupOf (iwahori K n)) ≃*
+      (Fin n → 𝓀[K]ˣ)) := sorry
 
--- Test LevelSubgroups.principalCongruence_zero
-example : principalCongruence K n 0 = integralGL K n := by sorry
-
--- Test LevelSubgroups.iwahori_one
-example : iwahori K 1 = integralGL K 1 := by sorry
-
--- Test LevelSubgroups.not_mem_iwahori
-example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (g : GL (Fin 2) K)
-    (hg : (g : Matrix (Fin 2) (Fin 2) K) = !![1, 0; 1, 1]) :
-    g ∈ integralGL K 2 ∧ g ∉ iwahori K 2 := by sorry
-
--- Test LevelSubgroups.proPIwahori_normal
-example : ((proPIwahori K n).subgroupOf (iwahori K n)).Normal := by sorry
-
--- Test LevelSubgroups.principalCongruence_diag
-example [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : GL (Fin 2) K)
-    (hg : (g : Matrix (Fin 2) (Fin 2) K) = Matrix.diagonal ![1 + (ϖ : K), 1]) :
-    g ∈ principalCongruence K 2 1 ∧ g ∉ principalCongruence K 2 2 := by sorry
-
--- Test LevelSubgroups.parahoricQuotient_card_iwahori_gl2
-example [TopologicalSpace K] [IsNonarchimedeanLocalField K] :
-    Nat.card ((iwahori K 2) ⧸ (proPIwahori K 2).subgroupOf (iwahori K 2)) =
-      (Nat.card 𝓀[K] - 1) ^ 2 := by sorry
+/-- The standard Iwahori radical is pro-p over a nonarchimedean local field. -/
+theorem isProP_proPIwahori [TopologicalSpace K] [IsNonarchimedeanLocalField K] :
+    TauCeti.IsProP (ringChar 𝓀[K]) (proPIwahori K n) := sorry
 
 end LevelSubgroups
 
 namespace Lang
+
+/-- Surjectivity of the Lang map on a subgroup lifts each fixed right coset to a fixed element;
+the subgroup need not be normal or stable under the automorphism. -/
+theorem fixedCoset_lift {H : Type u} [Group H] (σ : MulAut H) (J : Subgroup H)
+    (hJ : ∀ a : J, ∃ z : J, (z : H)⁻¹ * σ (z : H) = (a : H))
+    (h : H) (hh : h⁻¹ * σ h ∈ J) :
+    ∃ j : J, σ (h * (j : H)) = h * (j : H) := sorry
+
+/-- Reduction of a smooth affine scheme over a complete DVR is surjective, with no restriction
+on its residue field. -/
+theorem completeDVR_reduction_surjective (O : Type u) [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    (A : Type u) [CommRing A] [Algebra O A] [Algebra.Smooth O A] :
+    Function.Surjective fun f : A →ₐ[O] O =>
+      (Ideal.Quotient.mkₐ O (IsLocalRing.maximalIdeal O)).comp f := sorry
 
 /-- Lang's theorem: for a smooth geometrically connected finite-type group over a finite field `F`
 and `σ` the `|F|`-power Frobenius, `g ↦ g⁻¹ σ(g)` is surjective on `H(F̄)` (Milne, *Algebraic
@@ -1392,15 +1076,6 @@ theorem lang_surjective {F : Type u} [Field F] [Fintype F]
     (_hσ : ∀ z, σ z = z ^ Fintype.card F) :
     Function.Surjective fun g : WithConv (H →ₐ[F] AlgebraicClosure F) =>
       g⁻¹ * WithConv.toConv (σ.comp g.ofConv) := sorry
-
--- Test Lang.lang_not_connected
-/- Connectedness cannot be dropped: on `μ₂` over a finite field of odd order `q` the Lang map is
-`z ↦ z⁻¹ z^q = 1`. -/
-example {F : Type u} [Field F] [Fintype F] (hq : Odd (Fintype.card F))
-    (z : (AlgebraicClosure F)ˣ) (hz : z ^ 2 = 1) :
-    z⁻¹ * z ^ Fintype.card F = 1 := by
-  obtain ⟨k, hk⟩ := hq
-  rw [hk, pow_succ, pow_mul, hz, one_pow, one_mul, inv_mul_cancel]
 
 /-- Lang's theorem for a directed inverse system of smooth geometrically connected finite-type
 groups over a finite field, on compatible families of geometric points: the Lang fibres are finite
@@ -1465,35 +1140,6 @@ theorem iwahoriBruhat_generalLinear (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : G
         (p.1.permMatrix K * Matrix.diagonal (fun i => (ϖ : K) ^ p.2 i)) *
           (i₂ : Matrix (Fin n) (Fin n) K) := sorry
 
--- Test Decomposition.witt_rank_one_positions
-example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectRing k p] :
-    StrictAnti (fun m : ℕ => Ideal.span ({(p : WittVector p k) ^ m} : Set (WittVector p k))) := by sorry
-
--- Test Decomposition.witt_characteristic_zero_ghost
-example :
-    letI : Invertible (2 : ℚ) := invertibleOfNonzero (by norm_num)
-    (WittVector.ghostEquiv 2 ℚ) (2 : WittVector 2 ℚ) = (fun _ => 2) ∧
-      IsUnit (2 : WittVector 2 ℚ) ∧
-      ∀ m : ℕ, Ideal.span ({(2 : WittVector 2 ℚ) ^ m} : Set (WittVector 2 ℚ)) = ⊤ := by sorry
-
--- Test Decomposition.cartan_rank_one
-/- For `n = 1` the Cartan decomposition is `K^× = ⊔ 𝒪^× ϖ^m`, with `m` the normalized valuation. -/
-example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ)
-    (x : Kˣ) :
-    ∃ u : 𝒪[K]ˣ, (x : K) = ((u : 𝒪[K]) : K) *
-      (ϖ : K) ^ (Multiplicative.toAdd (TauCeti.normalizedValuation K x)) := sorry
-
--- Test Decomposition.cartan_ramified_normOne_fullCompact
-/- The component comparison for a compact commutative group with connected parahoric of
-index two: its parahoric quotient separates the nonidentity component, while its full-compact
-quotient is a singleton. For the ramified quadratic norm-one torus over an odd-residue local
-field, `T₀` is the connected parahoric and `u = -1` represents its other component. -/
-example {T : Type v} [CommGroup T] (T₀ : Subgroup T) (hindex : T₀.index = 2)
-    (u : T) (hu : u ∉ T₀) :
-    Nat.card (T ⧸ T₀) = 2 ∧ Nat.card (T ⧸ (⊤ : Subgroup T)) = 1 ∧
-      (QuotientGroup.mk u : T ⧸ T₀) ≠ QuotientGroup.mk 1 ∧
-      (QuotientGroup.mk u : T ⧸ (⊤ : Subgroup T)) = QuotientGroup.mk 1 := by sorry
-
 open scoped Pointwise in
 /-- A double coset `C g C'` of open subgroups with `C` compact is a finite disjoint union of
 `[C : C ∩ g C' g⁻¹]` left cosets of `C'`. -/
@@ -1514,52 +1160,6 @@ theorem modularCharacter_eq_one [TopologicalSpace K] [IsNonarchimedeanLocalField
     MeasureTheory.Measure.modularCharacter (G := WithConv (H →ₐ[K] K)) = 1 := sorry
 
 end Decomposition
-
--- Test MoyPrasad.mockExp_GL2_cross_term
-example {k : Type u} [CommRing k] (X Y : Matrix (Fin 2) (Fin 2) k) :
-    ((1 + X) * (1 + Y) - (1 + (X + Y))) 0 0 = X 0 0 * Y 0 0 + X 0 1 * Y 1 0 := by sorry
-
--- Test LanglandsDual.adjoint_real_point_not_from_sl2
-example (c : ℝ) : Matrix.det (c • (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ)) ≠ 1 := by sorry
-
--- Test LanglandsDual.transpose_antiHom
-example :
-    ((!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) ℤ) *
-      !![1, 0, 0; 0, 0, 1; 0, 1, 0]).transpose ≠
-    (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) ℤ).transpose *
-      (!![1, 0, 0; 0, 0, 1; 0, 1, 0]).transpose := by decide
-
--- Test BruhatTits.descent_SU3_central_root
-example {k : Type u} [Field k] (c : k) (hc : c ≠ 0) :
-    ¬ ∃ u v : k,
-      (!![1, u, 0; 0, 1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) k) *
-        !![1, 0, 0; 0, 1, v; 0, 0, 1] = !![1, 0, c; 0, 1, 0; 0, 0, 1] := by sorry
-
--- Test BruhatTits.Decomposition.conjugation_two_terms
-example :
-    (Matrix.diagonal ![2, (1 / 2)] : Matrix (Fin 2) (Fin 2) ℚ_[2]) * !![1, 1; 0, 1] *
-      Matrix.diagonal ![(1 / 2), 2] = !![1, 4; 0, 1] ∧
-    (Matrix.diagonal ![(1 / 2), 2] : Matrix (Fin 2) (Fin 2) ℚ_[2]) * !![1, 1; 0, 1] *
-      Matrix.diagonal ![2, (1 / 2)] = !![1, (1 / 4); 0, 1] ∧
-    GLBuilding.ω ℚ_[2] 4 = 2 ∧ GLBuilding.ω ℚ_[2] (1 / 4) = -2 := by sorry
-
-namespace GSp4
-
--- Test GSp4.duality_matrix_unimodular
-example : Matrix.det (!![1, 1, 1; 1, 0, 1; 1, 1, 2] : Matrix (Fin 3) (Fin 3) ℤ) = -1 := by
-  norm_num [Matrix.det_fin_three]
-
--- Test GSp4.simple_root_images
-example :
-    (!![1, 1, 1; 1, 0, 1; 1, 1, 2] : Matrix (Fin 3) (Fin 3) ℤ).mulVec ![-1, 1, 0] = ![0, -1, 0] ∧
-    (!![1, 1, 1; 1, 0, 1; 1, 1, 2] : Matrix (Fin 3) (Fin 3) ℤ).mulVec ![0, -2, 1] = ![-1, 1, 0] := by
-  constructor <;> ext i <;> fin_cases i <;> norm_num [Matrix.mulVec, dotProduct, Fin.sum_univ_three]
-
--- Test GSp4.printed_coroot_has_wrong_sign
-example : dotProduct (![0, -2, 1] : Fin 3 → ℤ) ![0, 1, 0] = -2 := by
-  norm_num [dotProduct, Fin.sum_univ_three]
-
-end GSp4
 
 namespace LocalIntegration
 
@@ -1584,34 +1184,20 @@ theorem modularCharacter_eq_adjointModulus (E : Type u) [Field E] [ValuativeRel 
     (g : WithConv (H →ₐ[E] E)) :
     MeasureTheory.Measure.modularCharacter g = adjointModulus E H g := sorry
 
--- Test LocalIntegration.adjointModulus_gm
-/- A commutative group has trivial adjoint action, so modulus `1`. -/
-example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
-    [IsNonarchimedeanLocalField E]
-    [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (LaurentPolynomial E))]
-    (g : WithConv (LaurentPolynomial E →ₐ[E] E)) :
-    adjointModulus E (LaurentPolynomial E) g = 1 := sorry
-
--- Test LocalIntegration.adjointModulus_upperTriangular_two_terms
-/- On the upper-triangular subgroup of `GL₂` over `E`, with `q = #𝓀[E]`, the adjoint modulus and the
-modular character are both `q⁻¹` at `diag(ϖ, 1)` and `q⁻²` at `diag(ϖ², 1)`: the adjoint action
-multiplies the root line by `ϖ` and `ϖ²`, so these values separate `|det Ad|` from its inverse. -/
-open ValuativeRel in
-example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
-    [IsNonarchimedeanLocalField E]
+/-- On the upper Borel of GLₙ the adjoint modulus is the product of the absolute values of
+the positive roots, including in positive characteristic. -/
+theorem adjointModulus_upperTriangular (E : Type u) [Field E] [ValuativeRel E]
+    [TopologicalSpace E] [IsNonarchimedeanLocalField E] (n : ℕ)
     [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E
-      (TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra E 2))]
-    (ϖ : 𝒪[E]) (hϖ : Irreducible ϖ)
-    (g₁ g₂ : WithConv
-      (TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra E 2 →ₐ[E] E))
-    (hg₁ : ((TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv (R := E) (n := 2) (A := E) g₁ :
-      GL (Fin 2) E) : Matrix (Fin 2) (Fin 2) E) = Matrix.diagonal ![(ϖ : E), 1])
-    (hg₂ : ((TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv (R := E) (n := 2) (A := E) g₂ :
-      GL (Fin 2) E) : Matrix (Fin 2) (Fin 2) E) = Matrix.diagonal ![(ϖ : E) ^ 2, 1]) :
-    adjointModulus E _ g₁ = (Nat.card 𝓀[E] : ℝ≥0)⁻¹ ∧
-      MeasureTheory.Measure.modularCharacter g₁ = (Nat.card 𝓀[E] : ℝ≥0)⁻¹ ∧
-      adjointModulus E _ g₂ = ((Nat.card 𝓀[E] : ℝ≥0) ^ 2)⁻¹ ∧
-      MeasureTheory.Measure.modularCharacter g₂ = ((Nat.card 𝓀[E] : ℝ≥0) ^ 2)⁻¹ := sorry
+      (TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra E n))]
+    (g : WithConv
+      (TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra E n →ₐ[E] E)) :
+    let b : Matrix (Fin n) (Fin n) E :=
+      (TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv (R := E) (n := n) (A := E) g :
+        GL (Fin n) E)
+    adjointModulus E _ g =
+      ∏ i : Fin n, ∏ j : Fin n,
+        if i < j then (TauCeti.normalizedAbsoluteValue E (b i i / b j j) : ℝ≥0) else 1 := sorry
 
 end LocalIntegration
 
