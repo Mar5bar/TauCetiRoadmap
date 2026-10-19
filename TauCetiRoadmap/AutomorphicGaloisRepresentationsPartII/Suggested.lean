@@ -33,10 +33,24 @@ Clozel finiteness for regular algebraic cuspidal representations in cohomologica
 SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData`, its raw
 operations and convention adapters. AG2.P provides compatibility predicates on that carrier
 and their preservation; AG2.6 provides automorphic systems with the stated branch hypotheses.
-AG2.P's `arithmeticPadicMonodromy` constructs the Galois representation/differential equation
-bridge used by `potentiallySemistableWD`. Its `finiteCoefficientCorrespondenceTrace` and
-`correspondenceTraceCoefficientLimit` extend the rational correspondence trace theorem supplied
-by EndoscopicTransferAndUnitaryTraceComparison §7.10a; AG2.1a provides the PEL specialization.
+AG2.P's `arithmeticPadicMonodromy` specializes PadicHodgeTheory §5.1 on the common Robba
+realization of LocalGaloisDeformationRings §0.4. Its `finiteCoefficientPeriodAPI` and
+`periodBaseChange` retain the supplied filtered comparisons and coefficient embeddings;
+`potentiallySemistableWD` uses NeronModelsAndSemistableAbelianVarieties §5.3's
+`PadicWeilDeligneRealization`, with geometric Frobenius and both monodromy normalizations.
+EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5 supply
+`TauCeti.EtaleDuality.CohCorr.rgammac`, `.comp`, `.pushforward`, `.traceMap`, `.localTerm`
+and `fujiwaraVarshavskyTraceFormula` at finite, integral and rational coefficients.
+AG2.P's `correspondenceTraceCoefficientLimit` identifies the normalized systems used here
+with these objects; AG2.1a provides the PEL/Hecke lifts and projector comparison.
+AG2.6 supplies relative curves, `BunG`, `DLisBunG`, `HeckeFunctor`, `parameterStack` and
+`geometricSpectralAction` before their AHTW specialization. Its
+`globalStablePeriodQuotients` controls actual local restrictions of a globally semisimple
+representation. `BoundedLGC` retains both that global stable Cayley–Hamilton factorization
+and the local type/Bernstein factorization through boundary comparison and degree shifting.
+The algebraic-character target uses the maximal subfield that is imaginary CM or totally real,
+with identity conjugation in the totally real case; Mathlib's `NumberField.IsCMField`
+continues to mean an imaginary CM field.
 -/
 
 namespace TauCeti.AutomorphicGalois

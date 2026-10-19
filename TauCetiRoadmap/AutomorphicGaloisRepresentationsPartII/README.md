@@ -16,8 +16,10 @@ corrected Kuga–Sato realization, extraction of actual Galois constituents, the
 and ordinary-boundary constructions, their local comparisons and the arithmetic exports.
 General representation theory, raw compact-unitary cohomology, determinant interpolation,
 period-ring carriers and residual Hecke predicates are supplied by the roadmaps in the contracts
-below. The arithmetic p-adic monodromy bridge, finite-coefficient period comparisons and
-integral extension of correspondence traces belong to AG2.P. The particular families and
+below. AG2.P supplies the finite-coefficient and normalization adapters for arithmetic
+p-adic Hodge theory and the normalized-system correspondence-trace comparison.
+AG2.6 owns the shared relative Fargues–Fontaine curves, bundle and Hecke categories and
+geometric spectral action, followed by their AHTW applications. The particular families and
 compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
 the arbitrary-rank raw carrier and operations; AG2.P owns the compatibility predicates
 and their preservation under those operations.
@@ -138,21 +140,29 @@ Checks. They are used only after the hypotheses of the named specialization are 
   and continuous actions; §§F.5–F.6 supply duality and cycle classes. Its §F.10.3 supplies
   coherent perfect-complex traces. LefschetzPencilsAndVanishingCycles §F.10 supplies its
   Frobenius trace imports, LPV.0–LPV.1 nearby cycles and monodromy, and LPV.6 perversity.
-  EndoscopicTransferAndUnitaryTraceComparison §7.10a supplies the rational
-  `CohomologicalCorrespondence.operator`, `.compose`, `.trace`, `.localTerm` and
-  `frobeniusTwistedTrace`, including the local-term/stalk-trace comparison for sufficiently
-  large Frobenius twists with proper first leg, quasi-finite second leg and finite-field
-  descent. AG2.P owns its finite-coefficient extension and compatible coefficient limit;
+  EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5 supply the finite, integral and
+  rational coefficient categories, `TauCeti.EtaleDuality.CohCorr.rgammac`, `.comp`,
+  `.pushforward`, `.traceMap`, `.localTerm` and `fujiwaraVarshavskyTraceFormula`, including
+  the local-term/stalk-trace comparison for sufficiently large Frobenius twists with
+  proper first leg, quasi-finite second leg and finite-field descent.
+  EndoscopicTransferAndUnitaryTraceComparison §7.10a supplies their Igusa specialization.
+  AG2.P identifies the compatible normalized systems used here with those supplied objects;
   AG2.1a verifies the compact PEL/Hecke specialization and corrected-projector compatibility.
   AG2.5 constructs the two-chart product comparison and filtration.
 - PadicPeriodRings §§4.1–4.3 supply `B_cris, B_st, B_dR` and their actual invariant functors
   and admissibility predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3
   supply finite-`K` filtered `(φ,N)`-modules, weak admissibility and the semistable realization
-  interface. AG2.P constructs the field-of-norms and overconvergent `(φ,Γ)`-module bridge,
-  the de Rham differential equation and its comparison with semistable periods, consuming
-  PadicDifferentialEquationsAndRigidCohomology §§RD.2.33–RD.2.39 for differential local
-  monodromy. Its `arithmeticPadicMonodromy` precedes finite-coefficient period
-  exactness/base-change, potentially semistable WD descent and geometric applications.
+  interface. LocalGaloisDeformationRings §0.4 owns the common coefficient Robba category,
+  `D_rig`, étale equivalence and overconvergence, including finite coefficient fields.
+  PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1 supply filtered exactness, finite-extension
+  comparison, the cyclotomic realization adapters, `N_dR(V)` and arithmetic p-adic
+  monodromy. Its proof uses PadicDifferentialEquationsAndRigidCohomology
+  §§RD.2.33–RD.2.39 and recovers actual semistable periods from logarithmic solutions.
+  NeronModelsAndSemistableAbelianVarieties §5.3 supplies `PadicWeilDeligneRealization`,
+  `D_pst`, finite descent, extension independence and both `N_p` and `N_K=e_K N_p`,
+  for arbitrary finite-dimensional finite-coefficient representations at every prime.
+  AG2.P retains these carriers and specializes their commuting coefficient actions,
+  labelled embeddings, normalizations and projector comparisons to the PEL/Kuga applications.
 - CrystallineCohomology Layer CR.6 supplies Hyodo–Kato complexes and the semistable
   log-crystalline comparison. WeightsInEtaleCohomology Layer R34.3 supplies the
   stratum/period comparison and the general geometric semistable-period comparison on
@@ -227,35 +237,20 @@ Galois extension `L/K` such that `V|G_L` is semistable. The comparison is the ac
 subfield of `L`, and retains the commuting `E`-action, Frobenius and `N_ℓ`.
 There is no geometric-realization hypothesis or restriction on ramification, rank or `ℓ`.
 
-Construct the following arithmetic bridge on the supplied period-ring and representation
-carriers, first on the underlying `ℚ_ℓ`-representation and functorially for every commuting
-`E`-linear endomorphism.
+This is the finite-coefficient specialization of PadicHodgeTheory §5.1 on
+LocalGaloisDeformationRings §0.4's `D_rig`, identified with `D†_rig` by PadicHodgeTheory
+§4.3. Use its full-rank `N_dR(V)⊂D†_rig(V)[1/t]`, connection `t⁻¹∇_V`, invertible
+Frobenius linearization, localization and twist-independence comparisons. Its monodromy
+proof passes from the supplied differential logarithmic solutions through the field of
+norms, kills the finite residual Gamma action and identifies the full space with
+`D_st(V|G_L)`; quasi-unipotence alone is not the arithmetic conclusion.
 
-- For the cyclotomic tower `K_∞/K`, construct its field of norms and the identification
-  of finite separable extensions with finite extensions of the tower. Construct the
-  étale `(φ,Γ_K)`-module of `V`, its overconvergent model `D†(V)` and its Robba extension
-  `D†_rig(V)`. Prove the full-rank overconvergence and scalar-extension comparisons,
-  identifying the rings with the finite étale Robba extensions of the differential supplier.
-- Differentiate the action of an open torsion-free subgroup of `Γ_K` to obtain `∇_V`.
-  With the cyclotomic period `t`, construct the full-rank differential equation `N_dR(V)`
-  in `D†_rig(V)[1/t]`, stable under `∂_V=t⁻¹∇_V`, `φ` and `Γ_K`, with invertible
-  Frobenius linearization. Use the de Rham localizations and a Tate twist into Berger's
-  weight range, then untwist; prove independence of the twist and of the open subgroup.
-- Apply PadicDifferentialEquationsAndRigidCohomology §§RD.2.33–RD.2.39 to obtain a full
-  logarithmic horizontal solution space after a finite extension. Through the field of
-  norms identify that extension with an arithmetic one. Kill the residual finite `Γ`
-  action by a further finite cyclotomic extension, retaining the commuting `E`-action.
-- Prove the period-recovery comparison
-  `D_st(V|G_L) = (D†_log(V|G_L)[1/t])^{Γ_L}`, where `D†_log` is the logarithmic Robba
-  extension of `D†`. Embed the horizontal solutions in these invariants and prove their
-  dimension is `dim_{ℚ_ℓ} V`. This gives semistability, rather than only quasi-unipotence
-  of a differential equation. Enlarge `L` to a Galois extension and carry the descent
-  action through the comparison.
-
-These constructions preserve morphisms, direct sums, Tate twists, finite coefficient
-extension and the commuting `E`-action. In particular Frobenius acts on the period factor
-and fixes `E`. The geometric comparison in the following target is a separate application
-to cohomology of specified models.
+The adapter retains the action of `E` through every comparison: apply the supplied
+functorial theorem to the underlying `ℚ_ℓ`-representation and its commuting coefficient
+endomorphisms. Over a common finite Galois semistabilizing extension, identify its
+period module as free of rank `dim_E V` over `L₀⊗_{ℚ_ℓ}E`, with the supplied descent
+action. Morphisms, direct sums, Tate twists and finite coefficient extension preserve
+these identifications. Frobenius acts on the period factor and fixes `E`.
 (Source: [Berger](#source-berger), §1.1–§1.3, Theorem 1.3, pp.8–12;
 Theorem 3.6, p.33; Proposition 5.9 and Theorem 5.10, pp.51–52;
 Theorems 5.19–5.20 and the proof of 5.19, pp.56–58.)
@@ -273,10 +268,9 @@ Theorems 5.19–5.20 and the proof of 5.19, pp.56–58.)
   scalar commutes with the comparison. Forgetting `E` during scalar restriction must
   not replace its action by a Frobenius action on `E`.
 
-*Needs:* PadicPeriodRings §§4.1–4.3;
-ArithmeticGaloisRepresentations §§1.1–1.6 and 1.12;
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.0;
-PadicDifferentialEquationsAndRigidCohomology §§RD.0.1–RD.0.17 and RD.2.33–RD.2.39.
+*Needs:* LocalGaloisDeformationRings §0.4; PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1;
+PadicPeriodRings §§4.1–4.3; ArithmeticGaloisRepresentations §§1.1–1.6 and 1.12;
+NeronModelsAndSemistableAbelianVarieties §5.3.
 
 <a id="finite-coefficient-period-api"></a>
 
@@ -284,16 +278,25 @@ PadicDifferentialEquationsAndRigidCohomology §§RD.0.1–RD.0.17 and RD.2.33–
 
 For a finite extension `K/ℚ_ℓ`, a finite coefficient field `E/ℚ_ℓ` and a continuous finite-dimensional
 `E`-representation `V` of `G_K`, use the actual invariant functors and dimension predicates of
-PadicPeriodRings §§4.2–4.3, carrying the commuting `E`-action. Prove `finiteCoefficientPeriodAPI`:
-on the de Rham subcategory, `D_dR` is exact, strict for filtrations and compatible with tensor,
-dual, exterior power, idempotent summands and finite coefficient extension. For finite `L/K`,
-prove `D_dR(V|G_L) = L ⊗_K D_dR(V)` for de Rham `V`; for semistable or crystalline `V` prove the
-corresponding structured unramified-base-field comparison. Apply `arithmeticPadicMonodromy`
-to de Rham `V` to obtain a finite semistabilizing extension `L/K`. Then construct
-`potentiallySemistableWD` by finite descent from `D_st(V|G_L)` and prove independence of
-`L` by comparison over a common finite extension, Frobenius semisimplification,
-coefficient extension and finite restriction. Semistability is equivalent to trivial WD inertia;
-crystallinity is equivalent to trivial inertia and zero `N`. These criteria concern de Rham `V`.
+PadicPeriodRings §§4.2–4.3, carrying the commuting `E`-action.
+The adapter `finiteCoefficientPeriodAPI` expresses PadicHodgeTheory §§3.3–3.5's exact,
+strict filtered tensor/dual comparisons on the labelled `K⊗E` factors in this roadmap's
+`HT(ε)=−1` convention: the label `h` counts `gr^h D_dR`, so it is the negative of the
+supplier's Hodge label, with no implicit dualization of `V`.
+Its `periodBaseChange` is the supplied finite-extension comparison
+`D_dR(V|G_L) ≅ L ⊗_K D_dR(V)` for de Rham `V`, with the structured unramified-base-field
+comparison for semistable or crystalline `V`. Exterior powers and commuting idempotent
+images inherit these comparisons, with the coefficient embeddings fixed.
+
+Apply `arithmeticPadicMonodromy` to de Rham `V` to obtain a finite semistabilizing extension.
+Here `potentiallySemistableWD` denotes NeronModelsAndSemistableAbelianVarieties §5.3's
+`PadicWeilDeligneRealization`, transported to the geometric Frobenius convention and
+the factor selected by the specified embeddings. Use its `D_pst`, finite descent,
+extension independence, Frobenius semisimplification and coefficient/restriction maps.
+Retain the supplied distinction `N_K=e_K N_ℓ`: ramified restriction leaves `N_ℓ`
+unchanged and multiplies the uniformizer-normalized operator by the relative ramification
+index. On de Rham `V`, the supplied criteria give semistability exactly for trivial WD
+inertia and crystallinity exactly for trivial WD inertia with `N=0`.
 
 Consume WeightsInEtaleCohomology R34.3’s geometric semistable-period comparison for a
 proper strictly semistable model over a finite `K`, including its good-reduction crystalline
@@ -327,35 +330,34 @@ in Theorem 2.3 and Theorem 3.2.3, pp.8–12; [AHTW](#source-ahtw), §1.2.3–§1
   summand. An arbitrary noncommuting endomorphism supplies no comparison on its image.
 
 *Needs:* [AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy);
+PadicHodgeTheory §§3.2–3.5 and 5.1; NeronModelsAndSemistableAbelianVarieties §5.3;
 PadicPeriodRings §§4.1–4.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3;
 CrystallineCohomology CR.6; ArithmeticGaloisRepresentations §§1.1–1.6 and 2.4;
 EtaleCohomologyFoundations §§F.4.1–F.4.6; WeightsInEtaleCohomology R34.3, geometric semistable-period comparison.
 
 <a id="finite-coefficient-correspondence-traces"></a>
 
-### Finite-coefficient extension of correspondence traces
+### Normalized-system adapter for correspondence traces
 
-Use EndoscopicTransferAndUnitaryTraceComparison §7.10a's correspondence convention,
-Verdier local terms and rational `frobeniusTwistedTrace`. Construct
-`finiteCoefficientCorrespondenceTrace`, its extension to finite coefficients on the proper
-domain needed here: `X` smooth proper and `C` proper over `𝔽_q`, `c=(c₁,c₂):C→X×X`,
-`c₂` quasi-finite, and `ℓ≠char 𝔽_q`. For a finite `E/ℚ_ℓ` and `a≥1` use
-`Λ_a=O_E/ℓ^a`, including `ℤ/ℓ^a` when `E=ℚ_ℓ`. For `K_a∈Dᵇ_ctf(X_k̄,Λ_a)` with
-Frobenius descent and an actual cohomological lift `u_a:c₂!c₁* K_a→K_a`, extend the
-supplied operator, composition and Verdier-evaluation constructions using the finite
-coefficient six functors. For `q^r>ram(c₂)`, prove the finite-coefficient trace identity
-for `(Frob_q^r∘c₁,c₂)` and its descended coefficient lift. The fixed points are finite
-and the local terms equal the stalk traces. The contraction geometry and bound are
-independent of `a`; traces of perfect complexes are used even when cohomology has torsion.
+Use EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5's finite, integral and rational
+coefficient categories and `TauCeti.EtaleDuality.CohCorr`. Its `.rgammac`, `.comp`,
+`.pushforward`, `.traceMap`, `.localTerm` and `fujiwaraVarshavskyTraceFormula` are the
+generic correspondence and trace constructions at all three coefficient levels.
+On the proper domain used here, `X` smooth proper and `C` proper over `𝔽_q`,
+`c=(c₁,c₂):C→X×X`, `c₂` quasi-finite and `ℓ≠char 𝔽_q`, its `U=X` specialization
+gives a bound `q^r>ram(c₂)` independent of the coefficients.
 
-Prove `correspondenceTraceCoefficientLimit`: for a normalized constructible integral
-system `(K_a,u_a)` with coherent derived reductions and uniform cohomological and Tor
-bounds, operators and trace identities commute with reduction, the derived adic limit
-and rationalization. Use perfect compact-support cohomology and its derived reductions
-to identify the integral trace with its traces modulo `ℓ^a`. After tensoring with `E`,
-identify the operator, local terms and formula with §7.10a's supplied rational theorem.
-The rational correspondence theory and rational Frobenius-twisted trace theorem have
-that single supplier; this target owns their finite-coefficient and coefficient-limit extension.
+Prove `correspondenceTraceCoefficientLimit` as an adapter for the normalized systems
+of PEL/Kuga coefficients: for finite `E/ℚ_ℓ`, take `Λ_a=O_E/ℓ^a` and a constructible
+system `(K_a,u_a)` with coherent derived reductions, uniform cohomological and Tor bounds,
+Frobenius descent and compatible lifts `u_a:c₂!c₁* K_a→K_a`. Identify its derived adic
+limit and rationalization with the supplied integral and rational correspondence objects.
+On perfect compact-support cohomology these identifications carry `.rgammac`, the
+Verdier trace class and local terms to their supplied reductions. Thus the supplied
+trace identities form one compatible system, with the same Frobenius bound at every
+modulus. The trace is a perfect-complex trace even when cohomology has torsion.
+The additional assertion is this identification for the chosen normalized systems;
+the generic finite/integral/rational theorem remains the supplied one.
 (Source: [Varshavsky](#source-varshavsky), coefficient conventions §0.2, p.5;
 §§1.1–1.2; Theorem 2.1.3, p.17; Corollary 2.2.4, p.19;
 Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
@@ -373,7 +375,7 @@ Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
   hypothesis uses derived reduction and perfect-complex traces. Coefficients of
   residue characteristic `char 𝔽_q` are outside this trace theorem.
 
-*Needs:* EndoscopicTransferAndUnitaryTraceComparison §7.10a;
+*Needs:* EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5;
 EtaleCohomologyFoundations §§F.1–F.6 and F.10.2b.
 
 <a id="compatible-data-prelude"></a>
@@ -692,7 +694,7 @@ The required API is:
 
 ### The `l`-adic character `r_{l,ι}(χ)` of an algebraic Hecke character, its Hodge–Tate numbers and its weight
 
-Let `F` be a number field, `l` a prime and `ι: ℚ̄_l ≅ ℂ`, with `Art_F` normalised to send uniformisers to geometric Frobenius elements. Let `χ: 𝔸_F^×/F^× → ℂ^×` be algebraic: `χ|_{(F_∞^×)⁰}(x) = ∏_{τ ∈ Hom(F,ℂ)} τ(x)^{−a_τ}` with `a_τ ∈ ℤ`. There is a unique continuous character `r_{l,ι}(χ): G_F → ℚ̄_l^×` with `ι ∘ r_{l,ι}(χ)|_{W_{F_v}} ∘ Art_{F_v} = χ_v` for all `v ∤ l`; explicitly `ι((r_{l,ι}(χ) ∘ Art_F)(x) ∏_τ (ι^{−1}τ)(x_l)^{a_τ}) = χ(x) ∏_τ (τ x_∞)^{a_τ}`. It is de Rham above `l` with `HT_τ(r_{l,ι}(χ)) = {a_{ι∘τ}}`. The weight `wt(χ)` is the integer with `|χ| = ‖·‖^{−wt(χ)/2}`. Then `a_τ + a_{τ′} = wt(χ)` whenever `τ|_{F₀} = τ′|_{F₀} ∘ c` (`F₀` the maximal CM subfield), `wt(χ)` is even when `F₀` is totally real, `wt(‖·‖_F) = −2, r_{l,ι}(‖·‖) = ε_l`, and `r_{l,ι}(χ)(c_v) = χ_v(−1)(−1)^{wt(χ)/2}` at every real place `v` when `F` is totally real.
+Let `F` be a number field, `l` a prime and `ι: ℚ̄_l ≅ ℂ`, with `Art_F` normalised to send uniformisers to geometric Frobenius elements. Let `χ: 𝔸_F^×/F^× → ℂ^×` be algebraic: `χ|_{(F_∞^×)⁰}(x) = ∏_{τ ∈ Hom(F,ℂ)} τ(x)^{−a_τ}` with `a_τ ∈ ℤ`. There is a unique continuous character `r_{l,ι}(χ): G_F → ℚ̄_l^×` with `ι ∘ r_{l,ι}(χ)|_{W_{F_v}} ∘ Art_{F_v} = χ_v` for all `v ∤ l`; explicitly `ι((r_{l,ι}(χ) ∘ Art_F)(x) ∏_τ (ι^{−1}τ)(x_l)^{a_τ}) = χ(x) ∏_τ (τ x_∞)^{a_τ}`. It is de Rham above `l` with `HT_τ(r_{l,ι}(χ)) = {a_{ι∘τ}}`. The weight `wt(χ)` is the integer with `|χ| = ‖·‖^{−wt(χ)/2}`. Then `a_τ + a_{τ′} = wt(χ)` whenever `τ|_{F₀} = τ′|_{F₀} ∘ c` (`F₀` the maximal subfield of `F` which is imaginary CM or totally real, with `c=id` in the totally real case), `wt(χ)` is even when `F₀` is totally real, `wt(‖·‖_F) = −2, r_{l,ι}(‖·‖) = ε_l`, and `r_{l,ι}(χ)(c_v) = χ_v(−1)(−1)^{wt(χ)/2}` at every real place `v` when `F` is totally real.
 
 Throughout this target, the normalisation of `Art_F` (uniformisers `↦` geometric Frobenius) fixes `r_{l,ι}(‖·‖) = ε_l`. With the arithmetic normalisation it would be `ε_l^{−1}`. `HT_τ(ε_l) = {−1}` in this convention, consistent with `HT_τ(r_{l,ι}(χ)) = {a_{ι∘τ}}` and `a = −1` for `‖·‖` over `ℚ`. The value at complex conjugation is computed at real places only: at a complex place there is no `c_v` in `G_F`.
 
@@ -709,7 +711,7 @@ The required API is:
 
 **Checks.**
 
-- `galoisChar_norm_rat` — `F = ℚ: r_{l,ι}(‖·‖) = ε_l`, with `HT {−1}` and wt `−2`
+- `galoisChar_norm_rat` — `F = ℚ` gives `F₀=ℚ`, `c=id` and `r_{l,ι}(‖·‖) = ε_l`, with `HT {−1}` and wt `−2`. No imaginary CM subfield of `ℚ` is required.
 
 - `galoisChar_trivial` — `r_{l,ι}(1) = 1`, with `a = 0` and wt 0
 
@@ -719,7 +721,7 @@ The required API is:
 
 *Needs:* ClassFieldTheory / layer 11 the global class formation and global artin reciprocity; GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic; ArithmeticGaloisRepresentations Layer 2; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
 
-(Sources: [BLGGT](#source-blggt), §A.2, p. 87; [BLGGT](#source-blggt), §A.2, p. 87; [BLGGT](#source-blggt), Notation, p. 8.)
+(Sources: [BLGGT](#source-blggt), §A.2, p. 87; [BLGGT](#source-blggt), §A.2, p. 87; [BLGGT](#source-blggt), Notation, p. 9.)
 
 <a id="sign-of-the-polarization-multiplier"></a>
 
@@ -1073,8 +1075,9 @@ lifts on the chosen algebraic coefficients. Descend the schemes, correspondence 
 coefficients and lifts to a common `𝔽_q`. Verify smooth properness of the special fibres,
 properness of `c₁`, quasi-finiteness of `c₂` and the coefficient finiteness/Tor bounds.
 For each correspondence obtain its bound `ram(c₂)` and take `q^r` above it.
-Apply EndoscopicTransferAndUnitaryTraceComparison §7.10a's `frobeniusTwistedTrace` to
-identify the rational compact-support trace with the sum of coefficient stalk traces.
+Apply EtaleDualityAndPerverseSheaves §6.5's `fujiwaraVarshavskyTraceFormula` on its
+`TauCeti.EtaleDuality.CohCorr.rgammac` operator to identify the compact-support trace
+with the sum of coefficient stalk traces, at finite, integral and rational coefficients.
 
 For the corrected `a_ξ`, choose the selector integer `N≥2` prime to `p` and express its
 polynomial and Young correspondence as a finite rational combination of the geometric
@@ -1082,8 +1085,8 @@ correspondences on the proper Kuga power. Verify the same hypotheses and a commo
 Frobenius bound for these constituents composed with the Hecke correspondence. Prove
 the actual lifts commute with `T`, `ε_ξ` and hence `a_ξ`, and transport the trace identity
 through the coefficient-cohomology identification, retaining its degree shift, signs
-and Tate twist. For finite coefficients apply AG2.P's finite-coefficient extension and
-coefficient-limit comparison to compatible integral lifts. Clear a common denominator
+and Tate twist. Apply AG2.P's normalized-system comparison to the compatible integral
+lifts and their derived reductions. Clear a common denominator
 of the rational correspondence, prove the integral identity for its numerator and
 divide only after rationalization; integrality of `a_ξ` at `ℓ` is not assumed.
 (Sources: [Shin](#source-shin), §5.2 and Proposition 5.3, pp.31–35;
@@ -1104,8 +1107,8 @@ Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
 *Needs:* [AG2.1a: Shin raw cohomology](#shin-raw-cohomology-adapter);
 [AG2.1a: corrected coefficient projector](#kuga-sato-coefficient-projector);
 [AG2.1a: coefficient-cohomology identity](#coefficient-projector-degree-identity);
-PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §7.10a;
-[AG2.P: finite-coefficient correspondence traces](#finite-coefficient-correspondence-traces);
+PELModuli M4; EtaleDualityAndPerverseSheaves §§6.1–6.5;
+[AG2.P: normalized-system correspondence traces](#finite-coefficient-correspondence-traces);
 EtaleCohomologyFoundations §§F.4–F.6.
 
 <a id="raw-fixed-point-trace-identity"></a>
@@ -1116,10 +1119,10 @@ For a good reduction prime `p≠ℓ` and sufficiently large Frobenius power, the
 
 Throughout this target, use the descended Hecke and coefficient lifts, common Frobenius
 bound and corrected-projector comparison of the preceding PEL specialization. The rational
-trace theorem is EndoscopicTransferAndUnitaryTraceComparison §7.10a's theorem; its
-finite-coefficient and limit extension is AG2.P's target.
+trace theorem and its finite/integral versions are supplied by
+EtaleDualityAndPerverseSheaves §6.5; AG2.P identifies the normalized coefficient systems.
 
-*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); PELModuli M4; [AG2.1a: contracting Hecke trace formula](#contracting-hecke-trace-formula); EndoscopicTransferAndUnitaryTraceComparison §7.10a; [AG2.P: finite-coefficient correspondence traces](#finite-coefficient-correspondence-traces).
+*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); PELModuli M4; [AG2.1a: contracting Hecke trace formula](#contracting-hecke-trace-formula); EtaleDualityAndPerverseSheaves §§6.1–6.5; [AG2.P: normalized-system correspondence traces](#finite-coefficient-correspondence-traces).
 
 (Source: [Varshavsky](#source-varshavsky), Theorem 2.3.2(a)–(c), pp.19–20, with U=X.)
 
@@ -2338,6 +2341,145 @@ For `n≥2`, a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any 
 
 (Sources: [Caraiani-p](#source-caraiani-p), Theorem 1.1, pp.1–2; §§2 and 5.)
 
+<a id="relative-fargues-fontaine-curves"></a>
+
+### Relative Fargues–Fontaine curves and degree-one divisors
+
+For a nonarchimedean local field `K` with residue field `𝔽_q` of characteristic `p`,
+uniformizer `π` and arbitrary `S∈Perf_{𝔽_q}`, construct `relativePeriodChart`,
+`relativeFarguesFontaineCurve` and `relativeDegreeOneDivisor`. These are shared geometric
+interfaces independent of any automorphic Galois realization. For affinoid
+`S=Spa(R,R⁺)` and a pseudouniformizer `ϖ`, use ramified Witt coefficients
+`W_{O_K}(R⁺)` in mixed characteristic and `R⁺[[π]]` in equal characteristic, with
+the `(π,[ϖ])`-adic topology, where `[ϖ]` is the constant lift in equal characteristic.
+The period domain removes both zero loci; its quotient
+by q-power Frobenius is `X_{K,S}`. Prove sheafiness, independence of `ϖ`, gluing over
+arbitrary perfectoid bases, functoriality and finite local-field extension comparison,
+retaining the induced residue-field map and Frobenius powers.
+
+Construct the marked-untilt/closed-Cartier-divisor correspondence, the divisor stack
+`Div¹_K=Spd(K)/φ^ℤ` and its degree-one modification interface. Compare the charts,
+quotient and marked divisor with FarguesFontaineDiamonds F0–F4 on its fixed-field
+`K=ℚ_p` domain. That comparison does not supply a relative construction over general
+`S`, and no adic morphism `X_{K,S}→S` is assumed.
+(Source: [Fargues–Scholze](#source-fargues-scholze), §II.1, Propositions II.1.1–II.1.3,
+pp.47–49, Definition II.1.15 and Propositions II.1.16–II.1.18, pp.54–56,
+Definition II.1.19, p.56.)
+
+**Checks.**
+
+- For `K=ℚ_p` and field-valued `S`, recover the supplied fixed-field curve and marked divisor.
+- For `K=𝔽_q((π))`, use `R⁺[[π]]`; for ramified `K/ℚ_p`, retain ramified Witt
+  coefficients and `π`. Ordinary unramified Witt coefficients do not cover both cases.
+- A disconnected `S` retains all its open-and-closed components under gluing; testing
+  only perfectoid fields does not give this relative functor.
+- An untilt over `K` gives degree one, whereas twice its divisor has degree two.
+
+*Needs:* FarguesFontaineDiamonds F0–F4, fixed-field comparison;
+AdicSpaces Layers 0–6; PerfectoidSpaces P1–P2; DiamondsAndVStacks D2–D4.
+
+<a id="bundle-hecke-categories"></a>
+
+### Bundle strata, lisse categories and the geometric Hecke action
+
+For the preceding local `K` and any connected reductive `G/K`, construct the v-stack
+`BunG` of `G`-torsors on `X_{K,S}`, with v-descent, Newton strata `newtonStratum`
+indexed by `B(G)` and the neutral stratum `[*/G(K)]`. Construct `DLisBunG` as the
+localizing category generated by `f♮Λ` for separated representable cohomologically
+smooth `f`, with `f♮⊣f*`, base change and projection formula. Supply stratum restriction
+and extension functors, the comparison with derived smooth `G_b(K)`-representations,
+compact generators from open pro-`p` subgroups and the compactness criterion using
+finite Newton support. Retain the nonbasic strata and their unipotent geometry.
+
+For `ℓ≠p`, a chosen `√q`, and coefficients `Λ` over `ℤ_ℓ[√q]`, construct the finite-leg
+`HeckeModification` stacks, bounded-support coefficient-flat perverse ULA Satake
+sheaves, their fusion/convolution and the pinned dual-group fibre functor. Prove the
+integral geometric Satake equivalence, with parity-corrected symmetry and its Weil
+normalization. Hyperbolic localization and the collision estimates supply full
+faithfulness; constant terms, the rank-one calculation and integral Peter–Weyl
+generators supply the tensor reconstruction and its pinning.
+
+Construct `HeckeFunctor` on `DLisBunG`, using the normalized ULA Satake kernels and
+the supplied six operations. Prove preservation of compact and ULA objects, duality,
+the two adjunctions, fusion, coalescence and coherent Weil actions for every finite
+set of legs. Compare solid `♮` with torsion étale `!` on these ULA kernels. For a
+minuscule `μ` and algebraically closed complete `C/K`, identify the underlying
+transform `T_{μ,C}` with the modification correspondence, including shift
+`d_μ=⟨2ρ,μ⟩`. All these carriers and geometric transforms are owned here; the
+Igusa/Newton comparison below is their automorphic application.
+(Source: [Fargues–Scholze](#source-fargues-scholze), Definition III.0.1 and
+Theorem III.0.2, pp.87–88; Chapters III–V, especially Proposition V.2.2;
+§§VI.9–VI.12, pp.226–244; §§VII.3, VII.6–VII.7, pp.257–274;
+Theorem IX.0.1 and Corollary IX.2.4, pp.317–318, 324.)
+
+**Checks.**
+
+- For `GL₁`, degrees index the strata and the neutral automorphism group is `K×`;
+  a degree-one modification leaves the neutral stratum.
+- The minuscule `PGL₂` fibre `ℙ¹` has cohomology `Λ⊕Λ(−1)`; omitting the Tate twist
+  changes the Weil normalization of Satake.
+- The tensor unit gives the identity transform. Three-leg fusion is associative,
+  and exchanging odd components retains the parity sign.
+- Infinitely many nonzero Newton restrictions do not give a compact object merely
+  because each individual restriction is compact. Nonbasic strata are retained.
+
+*Needs:* [relative curves and divisors](#relative-fargues-fontaine-curves);
+DiamondEtaleCohomology C2–C5; DiamondSixOperations S1–S4;
+AdicCoefficientsAndComparisons L0; EnhancedDerivedSheaves E0 and E5;
+ReductiveGroups Layers 0–3; ReductiveGroupsPartII RG2.5;
+SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.
+
+<a id="geometric-spectral-action"></a>
+
+### The parameter stack and geometric spectral action
+
+For the same `K,G`, import SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3's crossed
+Weil cocycles, finite-wild schemes, coefficient change and excursion/invariant-function
+comparison. Form `parameterStack=Z¹(W_K,Ĝ)/Ĝ`, retaining its quotient-stack stabilizers
+and universal torsor, with the pinned Weil action through a finite quotient `Q`.
+Its finite-wild levels are open and closed. Construct their perfect-complex categories
+and the integral perfect-generation comparison: prime-to-`ℓ` central covers, good
+filtrations and the finite-wild relations express the level coordinate algebras in
+`Ind Perf(BĜ)`. This is the generation input for the spectral action, with
+`ℓ∤|π₀Z(G)|`; no singular-support or categorical local Langlands equivalence is required.
+
+For `Λ=O_L`, `L/ℚ_ℓ(√q)` finite and `ℓ∤|π₀Z(G)|`, prove the universal equivalence
+between compactly supported `Perf(parameterStack_Λ)`-actions on a small idempotent-complete
+`Λ`-linear stable category and exact `Rep_Λ(Q^I)`-linear monoidal Weil-equivariant
+functors from `Rep_Λ((Ĝ⋊Q)^I)`, coherently in finite `I`. Compact support means a
+finite wild level for each object, not a uniform level for the whole category.
+Use the universal torsor in one direction and the integral generators/relations
+comparison in the other. Over characteristic-zero coefficient fields the integral
+prime restriction is unnecessary.
+
+Apply this equivalence to `HeckeFunctor` on compact objects and extend by colimits
+to construct `geometricSpectralAction`, `excursionOperator` and `semisimpleParameter`.
+Obtain `Z_spec(G,Λ)=O(Z¹(W_K,Ĝ)_Λ)^Ĝ` acting centrally and commuting with Hecke
+transforms, and its restriction `Ψ_G^b` to each derived smooth stratum category.
+Prove coefficient/restriction naturality, including derived reduction to local Artinian
+`O_L`-algebras with `ℓ` nilpotent. Over any algebraically closed coefficient field
+over `ℤ_ℓ[√q]`, construct the semisimple parameter of a Schur-irreducible object
+directly from excursions and prove its characterization, including without the
+integral prime restriction. The algebraic excursion carrier
+remains that of SR.6.3; this target supplies its geometric action.
+(Source: [Fargues–Scholze](#source-fargues-scholze), Theorems VIII.1.3 and VIII.5.1,
+pp.278–281, 293–315; Theorem IX.0.1, Corollary IX.0.3 and Definition IX.0.4,
+pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.341–350.)
+
+**Checks.**
+
+- The tensor unit acts identically, and a scalar excursion acts by that scalar.
+- For `GL₁`, a semisimple parameter is the local reciprocity character. The quotient
+  still has dual-torus stabilizers; its coarse set of points is not the parameter stack.
+- `PGL_ℓ` has `|π₀Z(G)|=1`, whereas `SL_ℓ` has centre `μ_ℓ` and fails the integral
+  prime restriction. Rational coefficients remove that restriction.
+- Distinct compact objects may require different finite wild levels. A comparison
+  only after rationalization does not determine an integral action on torsion objects.
+
+*Needs:* [bundle and Hecke categories](#bundle-hecke-categories);
+SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3; SchemeAndStackFoundations, quotient stacks;
+EnhancedDerivedSheaves E5; ReductiveGroupsPartII RG2.5; ClassFieldTheory Layer 9.
+
 <a id="ahtw-local-shimura-complexes"></a>
 
 ### Local Shimura complexes for the AHTW datum
@@ -2346,10 +2488,9 @@ For AHTW §2.2’s `U(n,n)` datum, auxiliary split `p≠ℓ`, algebraically clos
 choose `p^(1/2)` in the coefficient field and a complete DVR `O` finite over
 `ℤ_ℓ[p^(1/2)]`. For a local Artinian `O`-algebra `Λ` with `ℓ` nilpotent, construct
 for every `b∈B(G,μ⁻¹)` the minuscule local Shimura space of modifications `E_b⇢E₀` and its
-normalized compactly supported complex `RΓ_c(G,b,μ,Λ)`. Construct the required relative
-`G`-bundle stack, Newton strata, their sheaf categories and the minuscule Hecke correspondence
-on this domain, including the equivalence `D(Bun_G^b,Λ)≃D_sm(G_b(ℚ_p),Λ)`, the functors `j_b!`,
-`j₁*` and `T_{μ,C}`, and their base-change and ULA/admissibility properties. Construct the
+normalized compactly supported complex `RΓ_c(G,b,μ,Λ)` on the preceding shared
+`BunG`, Newton strata, `DLisBunG` and `HeckeFunctor` carriers. Use their stratum
+equivalence, `j_b!`, `j₁*`, `T_{μ,C}` and base-change and ULA properties. Construct the
 partial Igusa compactification and `V_b=RΓ_{c−∂}(Ig_b,Λ)`, with cohomology in `[0,d_b]`.
 Prove AHTW Theorem 2.4.2’s prime-to-`p` Hecke-equivariant Newton filtration of `RΓ_c` of the
 infinite `p`-level Shimura variety, with graded pieces
@@ -2371,7 +2512,8 @@ Remark 2.4.3, pp.14–16, 19–21.)
   For `p=3` and `ℓ=2, O=ℤ₂` is outside the coefficient domain: a unit square is 1 modulo 8,
   whereas 3 is not, so `√3` is unavailable.
 
-*Needs:* FarguesFontaineDiamonds Layers F0–F4 for the curve and marked untilt divisors;
+*Needs:* [relative curves](#relative-fargues-fontaine-curves);
+[bundle strata and Hecke action](#bundle-hecke-categories);
 DiamondsAndVStacks; DiamondEtaleCohomology; DiamondSixOperations Layers S1–S2;
 PELModuli M0–M4; SmoothRepresentationsOfLocalGroups SR.0 and SR.0d;
 EndoscopicTransferAndUnitaryTraceComparison Layers 7–8 for finite-level rational Igusa inputs.
@@ -2381,8 +2523,8 @@ EndoscopicTransferAndUnitaryTraceComparison Layers 7–8 for finite-level ration
 ### Spectral and classical local parameters for the split factors
 
 For every inner Levi `G_b` of the split GL factors in the AHTW datum, and every smooth
-irreducible `ℚ̄_ℓ`-representation `σ` of `G_b(ℚ_p)`, construct its Fargues–Scholze semisimple
-Weil parameter and prove AHTW Theorem 2.3.5: it equals `rec(π)^ss` for every
+irreducible `ℚ̄_ℓ`-representation `σ` of `G_b(ℚ_p)`, use `semisimpleParameter` from the
+shared geometric spectral action and prove AHTW Theorem 2.3.5: it equals `rec(π)^ss` for every
 Jordan–Hölder constituent `π` of normalized induction of `JL(σ)` from the corresponding
 split Levi. Use the fixed `p^(1/2)` for normalized induction. Prove the required spectral
 parameter compatibility with normalized parabolic induction and its inner-form
@@ -2401,7 +2543,7 @@ inner factor of the source datum, providing the generic-locus exclusion used bel
   comparison retains only the semisimplification and does not identify monodromy.
 
 *Needs:* [AG2.6: local Shimura complexes and bundle strata](#ahtw-local-shimura-complexes);
-FarguesFontaineDiamonds Layers F0–F4; SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
+[geometric spectral action](#geometric-spectral-action); SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
 EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27, §10.30 and §10.31
 for classical LLC and its inner-form standard-data parameter.
 
@@ -2413,10 +2555,10 @@ for classical LLC and its inner-form standard-data parameter.
 
 Fix the preceding complete DVR `O` finite over `ℤ_ℓ[p^(1/2)]`, with `ℓ≠p` and the chosen
 square root retained, and local Artinian `O`-algebras `Λ` with `ℓ` nilpotent.
-On this datum construct the integral spectral centre `Z_spec(G,O)` of the stack
-of Weil parameters and its action on `D_lis(Bun_G,O)`, commuting with the minuscule Hecke
-operators. Retain the invertibility of `|π₀Z(G)|` in `O` required in AHTW §2.3.3 (it is one
-for this split local datum). Obtain `Ψ_G^b:Z_spec(G,O)→Z(G_b)_O` for every `b`. For each Newton
+Use the shared `parameterStack`, `geometricSpectralAction`, integral centre
+`Z_spec(G,O)` and maps `Ψ_G^b:Z_spec(G,O)→Z(G_b)_O` on this datum. Retain the
+invertibility of `|π₀Z(G)|` in `O` required in AHTW §2.3.3 (it is one
+for this split local datum). For each Newton
 graded piece prove the two centre actions agree: `t₁ᵇ Ψ_G¹(z)=t_bᵇ Ψ_Gᵇ(z)` for all `z`,
 as endomorphisms of `RΓ_{Kᵖ,b}`. Construct `Δ_spec` with `Ψ_G^b(Δ_spec)=0` for `b≠b_μ` and
 hyperspecial Satake image `Ψ_G¹(Δ_spec)=MΔ`. Prove the `μ`-ordinary comparison
@@ -2438,6 +2580,7 @@ Proposition 2.4.7 and Lemmas 2.5.3–2.5.5, pp.16–17, 22–25.)
   operators. Agreement after rationalization alone would not justify a torsion annihilator.
 
 *Needs:* [AG2.6: spectral/classical local compatibility](#ahtw-local-local-compatibility); [AG2.6: local Shimura complexes](#ahtw-local-shimura-complexes);
+[geometric spectral action](#geometric-spectral-action);
 SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
 EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30;
 IntegralHeckeAndGaloisDeterminants §3a.1.
@@ -2510,6 +2653,87 @@ uses the finite invariant algebra proved in §3.3.3, rather than a general forma
 *Needs:* LocalGaloisDeformationRings §F.2.11; IntegralHeckeAndGaloisDeterminants Layers 0–1;
 [AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
 
+<a id="global-stable-period-quotients"></a>
+
+### Global stable period quotients and bounded local–global compatibility
+
+For a number field `F`, a prime `p`, a finite set `S` containing its p-adic places,
+`Σ⊆S_p(F)`, finite extensions `L_v/F_v` for `v∈Σ`, integers `h₁≤h₂`, and a continuous
+n-dimensional residual determinant `D̄` of `G_{F,S}` over a finite field `k`, construct
+`globalStablePeriodQuotients` over a coefficient DVR `O⊂E`, `E/ℚ_p` finite, with residue `k`.
+Use the supplied universal determinant ring `R_D̄` and Cayley–Hamilton algebras.
+For `?∈{pcr,pst}`, construct its quotient `R_D̄^{Σ,?,L,[h₁,h₂]}` characterized on local
+Artinian `O`-algebras `A` with residue `k`: a determinant lift factors through it
+exactly when it has a continuous Cayley–Hamilton realization `(B,ρ,D_B)` whose
+finite `A`-module `B`, with the left action of `G_{F,S}` through `ρ`, satisfies every
+local stable condition. That condition is being a subquotient of an integral lattice
+in a de Rham representation of `G_{F_v}` becoming crystalline, respectively semistable,
+over `L_v`, with all Hodge–Tate labels in `[h₁,h₂]`. Establish stability under finite
+sums and subquotients and construct the universal stable Cayley–Hamilton quotient
+which induces this determinant quotient. Arbitrary residual multiplicities are allowed.
+
+Prove the characteristic-zero point criterion: the globally semisimple realization
+`r_x` of `x:R_D̄→ℚ̄_p` factors through this quotient exactly when the **actual**
+`r_x|G_{L_v}` is crystalline, respectively semistable, with the bounded weights for
+every `v∈Σ`. The statement does not replace these restrictions by their semisimplifications.
+Prove naturality under coefficient extension, extending `D̄` with the residue field,
+and under enlargement of the bounded interval or the local extensions, with identity
+and composition of quotient maps.
+
+After coefficient enlargement sufficient to define highest weights `λ_v`, Bernstein
+blocks `Ω_v` and their types, with their Hodge labels in the chosen interval and
+inertial types killed by `L_v`, construct the maximal reduced p-torsion-free quotient
+of the tensor product of this global quotient with the local type quotients over the
+completed tensor product of the unrestricted local determinant rings.
+Its characteristic-zero points have exactly the specified Hodge and inertial types on the
+actual restrictions. Use exactness of periods on de Rham objects to compare their
+labelled weights and semisimple WD parameters with local semisimplification, after
+the global criterion has established admissibility. Construct the maps from each
+Bernstein centre to the generic fibre which interpolate `WD(r_x|G_{F_v})^{F-ss}`.
+Equality with the central character of a smooth irreducible `π_v∈Ω_v` implies
+`WD(r_x|G_{F_v})^{ss}≅rec^T(π_v)^{ss}`; it does not recover `N`.
+
+For the integral locally algebraic types `σ⁰_{Ω,λ}` and an `O`-integral Ω-system `L`,
+construct the bounded integral Hecke/centre models of AHTW §4.3 on the supplied
+Bernstein carriers. Intersect with the inverse image of the integral local type
+quotient to obtain `Z⁰_D̄_v` and `η⁰:Z⁰_D̄_v→R_D̄_v^{λ_v,Ω_v}`.
+Define `BoundedLGC` on an Artinian Hecke `T_v`-algebra `A` of Galois type, whose
+spherical image is local, by both of the following factorizations, with residual
+determinant `D̄` and determinant lift `D_A`:
+
+- The global map `R_D̄→A` factors through `R_D̄^{{v},pst,L_v,[h₁,h₂]}`, with `L_v`
+  and `[h₁,h₂]` depending only on `v,λ,Ω`.
+- The local map `R_D̄_v→A` factors through `R_D̄_v^{λ_v,Ω_v}`, and the resulting
+  composite with `η⁰` equals the given Hecke map `Z⁰_D̄_v→T_v→A`.
+
+Prove compatibility of these two conditions with coefficient maps and the quotients
+used in degree shifting. Their characteristic-zero criterion combines actual local
+de Rhamness with the full labelled Hodge type and semisimplified local compatibility.
+(Source: [AHTW](#source-ahtw), Remark 3.3.14 and Theorem 3.3.17, pp.38–39;
+§§3.3.18–3.3.22, pp.40–41; §4.3, pp.54–60; Definition 5.2.4,
+equations (5.2.1)–(5.2.2), pp.72–73.)
+
+**Checks.**
+
+- The weight `−8` specialization of the 11-adic Hida family through `Δ` in
+  Remark 3.3.14 has absolutely irreducible global residual representation and de Rham
+  local semisimplification, but its actual local extension is not de Rham. It passes
+  the naive local-type condition and fails the global stable condition.
+- Repeated scalar residual constituents are allowed. Neither a chosen residual
+  representation nor multiplicity-free or absolutely irreducible residual data is required.
+- Once the actual local representation is de Rham, its labelled weights and semisimple
+  WD parameter agree with those of its semisimplification; without admissibility this
+  reasoning does not establish de Rhamness.
+- With `Σ=∅` the global quotient is unrestricted. The crystalline condition excludes
+  a Tate-curve representation with nonzero monodromy, while the semistable condition
+  with a suitable interval admits it.
+
+*Needs:* [local bounded pseudodeformations](#bounded-pseudodeformation-quotients);
+LocalGaloisDeformationRings §§F.2.2 and F.2.11;
+IntegralHeckeAndGaloisDeterminants Layers 0–1;
+SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
+[AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
+
 <a id="bounded-boundary-degree-shifting"></a>
 
 ### Bounded boundary comparison and degree shifting
@@ -2523,7 +2747,10 @@ For every dominant weight `λ` and integral Bernstein coefficient system `L`, pr
 `boundedBoundaryDegreeShifting`: there are `N₁≥1`, depending only on `n` and `F`, and `N₂≥0`,
 depending additionally on a, `λ` and `L`, such that for all degrees, levels, moduli `m` and supported
 maximal ideals there are Hecke ideals `J_m` with `(T_n² p^N₂ J_m)^N₁ = 0`, and the quotient
-determinant satisfies the bounded local–global condition at a. Use ordinary/compact-support
+determinant satisfies `BoundedLGC` at a: retain both the global stable Cayley–Hamilton
+factorization and the local type/Bernstein factorization, with their fixed bounds.
+Carry both through the boundary comparison, degree shift, quotient maps and passage
+through all moduli. Use ordinary/compact-support
 and Borel–Serre boundary cohomology with their specified coefficient modules; the interior
 part alone does not establish the boundary assertion. For a spherical cuspidal eigensystem,
 a finite-order character twist makes `T_n` nonzero, so the characteristic-zero point satisfies
@@ -2543,6 +2770,7 @@ pp.74–77.)
 
 *Needs:* [quantitative annihilators](#quantitative-shimura-annihilators);
 [bounded pseudodeformations](#bounded-pseudodeformation-quotients);
+[global stable period quotients and both LGC factorizations](#global-stable-period-quotients);
 ArithmeticLocallySymmetricSpaces ALS.4–ALS.5b;
 IntegralHeckeAndGaloisDeterminants §4.2; the base-change and patching targets of AG2.3.
 
@@ -2554,9 +2782,17 @@ The target `allCMCoefficientPrimeComparison` has the following hypotheses and co
 
 A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed. This is the July 2026 preprint theorem, with its precise input chain recorded below.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); AutomorphicGaloisRepresentationsPartII AG2.4; [AG2.4: HLTT existence](#hltt-construction-of-nonselfdual-systems).
+*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); AutomorphicGaloisRepresentationsPartII AG2.4; [AG2.4: HLTT existence](#hltt-construction-of-nonselfdual-systems); [AG2.6: global stable period quotients](#global-stable-period-quotients); [AG2.6: bounded boundary comparison and degree shifting](#bounded-boundary-degree-shifting).
 
 (Sources: [AHTW](#source-ahtw), Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9.)
+
+**Checks.**
+
+- Rank one recovers the algebraic Hecke-character Hodge labels and local reciprocity.
+- A nonselfdual cuspidal input retains actual local de Rhamness; no residual
+  irreducibility or decomposed genericity is used to discard its local extensions.
+- Equality of semisimple WD parameters permits different monodromy operators. Full
+  ramified monodromy equality is not a conclusion of this theorem.
 
 <a id="generic-weil-deligne-orbits"></a>
 
@@ -3382,7 +3618,7 @@ Ila Varma, [Local-global compatibility for regular algebraic cuspidal automorphi
 
 ### Caraiani-away
 
-Ana Caraiani, [Local-global compatibility and the action of monodromy on nearby cycles](https://arxiv.org/pdf/1010.2188v1). arXiv:1010.2188v1 (2010), published Duke Math. J. 161 (2012), 2331–2413. The full tensor-square purity argument uses the [published author copy](https://www.ma.imperial.ac.uk/~acaraian/papers/lgc1.pdf), pp.2410–2411; other locators specify arXiv pages.
+Ana Caraiani, [Local-global compatibility and the action of monodromy on nearby cycles](https://arxiv.org/pdf/1010.2188v1). arXiv:1010.2188v1 (2010), published Duke Math. J. 161 (2012), 2311–2413. The full tensor-square purity argument uses the [published author copy](https://www.ma.imperial.ac.uk/~acaraian/papers/lgc1.pdf), pp.2410–2411; other locators specify arXiv pages.
 
 <a id="source-caraiani-p"></a>
 
@@ -3476,6 +3712,13 @@ Michael Harris, Nicholas Shepherd-Barron and Richard Taylor, [A family of Calabi
 ### CT
 
 Laurent Clozel and Jack A. Thorne, [Level-raising and symmetric power functoriality, III](https://www.repository.cam.ac.uk/bitstreams/dc59bf8c-174b-4034-9f2f-070974d101af/download). accepted Cambridge repository copy (2017); author-copy pages.
+
+<a id="source-fargues-scholze"></a>
+
+### Fargues–Scholze
+
+Laurent Fargues and Peter Scholze, [Geometrization of the local Langlands correspondence](https://arxiv.org/pdf/2102.13459v4).
+arXiv:2102.13459v4 (27 November 2024); locators use printed chapter pages.
 
 <a id="source-ahtw"></a>
 
