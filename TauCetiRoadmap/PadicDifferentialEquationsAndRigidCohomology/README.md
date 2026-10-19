@@ -2009,7 +2009,7 @@ The API:
 
 This is the algebraic-basis form of PadicFunctionalAnalysis §2.2: each vector has finite coordinates, and no completeness or topological-basis hypothesis is imposed. Prove agreement with its orthogonal-family condition on the underlying basis family.
 
-`Suggested.lean` declares `RD0.IsValuationBasis`, `RD0.IsValuationBasis.coordinate_le`, `RD0.IsValuationBasis.reindex_iff`, `RD0.IsValuationBasis.rescale_iff`.
+`Suggested.lean` declares `RD0.IsValuationBasis`, `RD0.IsValuationBasis.coordinate_le`, `RD0.IsValuationBasis.reindex_iff`, `RD0.IsValuationBasis.rescale_iff`, `RD0.valuationBasis_bad_change`.
 
 *Hypotheses.*
 
@@ -2037,7 +2037,7 @@ The API:
 
 - `valuationBasis_zero`: The zero coordinate family reconstructs zero and its empty weighted maximum is zero.
 - `valuationBasis_singleton`: The singleton basis (1) of `F` over `F` is a valuation basis and its sole coordinate equals `x`.
-- `valuationBasis_bad_change`: In `F²` with the sup norm and `0<|π|<1`, the basis (1,0),`(1,π)` is not a valuation basis: their difference has norm `|π|` while both summands have norm 1.
+- `RD0.valuationBasis_bad_change`: In `F²` with the sup norm and `0<|π|<1`, the basis (1,0),`(1,π)` is not a valuation basis: their difference has norm `|π|` while both summands have norm 1.
 - `valuationBasis_archimedean`: The standard basis of Euclidean `R²` fails the condition at coefficients (1,1), since sqrt(2)`≠1`.
 <a id="rd-0-48"></a>
 
@@ -6145,7 +6145,7 @@ The API:
 
 **Lemma.** Let `X = Spec A_0` be a smooth affine `k`-scheme, `A` a smooth `O`-algebra lifting `A_0` with a presentation `A = O[t_1`..`t_n]/I, 𝔛 = Spec A ⊂ A^n_O ⊂ P^n_O, 𝔛̄` the projective closure of `𝔛` in `P^n_O`, `P` its formal completion, and `Y=𝔛̄_k` its entire special fibre, with `Z=Y∖X`. Then for `λ < 1, U_λ = 𝔛_K^an ∩` {closed ball of radius 1/`λ`}, and `Γ(]Y[_P, j†O) = lim_{λ→1} Γ(U_λ, O) = A† ⊗ K`, the weak completion of A tensored with `K` (the Monsky-Washnitzer dagger algebra). More generally the direct limit of `Γ(V, O_V)` over strict neighbourhoods `V` of `]X[` is a dagger algebra of MW type with reduction `A_0`.
 
-`Suggested.lean` declares `RD3.IsConvergentCoeffs`, `RD3.IsOverconvergentCoeffs`, `RD3.IsOverconvergentCoeffs.isConvergentCoeffs`.
+`Suggested.lean` declares `RD3.IsConvergentCoeffs`, `RD3.IsOverconvergentCoeffs`, `RD3.IsOverconvergentCoeffs.isConvergentCoeffs`, `RD3.subgeometric_not_overconvergent`.
 
 *Hypotheses.* The frame `(X, Y, P)` has `P` smooth near `X` but possibly singular along `Y ∖ X` (Berthelot 2.3 remark).
 
@@ -6160,6 +6160,8 @@ The API:
 *Needs:* [§RD.3.4](#rd-3-4) *Berthelot's functor `j†` of overconvergent sections*; [§RD.3.7](#rd-3-7) *Exactness of `j†` on coherent sheaves and the acyclicity of `j_{λ*}`*; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; AdicSpacesPartIII §R2.3 *For formal `O_K`-schemes locally of tf presentation, `d(X)` is the adic space of Raynaud's rigid generic fibre*; AdicSpacesPartIII §R2.3 *The generic fibre commutes with fibre products and with completed extension of the base field*; AdicSpacesPartIII §R2.4 *Tubes `]T[` of locally closed subsets of the special fibre, adic and rigid*.
 
 **Checks.**
+
+- `RD3.subgeometric_not_overconvergent`: For every prime `p`, the coefficients `p^⌊√n⌋` tend to zero but `‖p^⌊√n⌋‖ ρ^n` fails to tend to zero for every `ρ > 1`; thus closed-disc convergence does not imply overconvergence.
 
 - For `A=ℤ_p[t,u]/((pt−1)u−1)`, the projective lift `(pT−Z)U−Z²=0` has special fibre `Y=V(Z(U+Z))`. The closure of `X≅𝔸¹_k` is only `V(U+Z)`. The point `[p+1:1:p]` reduces outside that line. Under `r↦[r+p:r²:pr]` its tube is `|r|<1`, which has no finite subcover from `|r|≤|p|^(1/n)`. Using all of `Y` gives the proper, quasi-compact tube `P_K`.
 
@@ -6842,7 +6844,7 @@ The API:
 
 **Definition.** Let `X` be a `k`-scheme of finite type. The category `Isoc(X/K)` of convergent isocrystals is the case `Y = X` of `Isoc(X, Y/K)` ([§RD.3.22](#rd-3-22)): when `X` is a closed subscheme of a formal `O`-scheme `P` smooth near `X`, its objects are coherent `O_{]X[_P}`-modules `E` with an integrable connection `∇` that is convergent, i.e. the Taylor isomorphisms extend to an isomorphism `ε: p_2^*E ≅ p_1^*E` on the whole tube `]X[_{P×P}`; in general it is obtained by gluing. Equivalently ([§RD.3.17](#rd-3-17) with `Z = ∅`), for `P` affine with coordinates `t_1`, …, `t_m` near `X, ‖∂^{[k]} e‖ λ^{|k|} → 0` for every `λ < 1` and every section `e` over the closed tube `[X]_λ`. For `X` smooth affine with a smooth formal lift `𝔛 = Spf R` over `O` (so `]X[_𝔛 = 𝔛_K`), the objects are vector bundles on `𝔛_K` with integrable connection such that `lim_{|α|→∞} ‖θ^α(e)/α!‖ η^{|α|} = 0` for all `0 ≤ η < 1` and all sections `e, θ_i` being the components of `∇` in a framing. The category does not depend on `P` up to canonical equivalence, its objects are locally free, and for `X` proper over `k` it coincides with `Isoc†(X/K)`.
 
-`Suggested.lean` declares `RD3.IsConvergentOperator`.
+`Suggested.lean` declares `RD3.IsConvergentOperator`, `RD3.exponential_not_convergent`.
 
 *Hypotheses.*
 
@@ -6869,7 +6871,7 @@ The API:
 **Checks.**
 
 - `ConvIsoc.dwork_convergent`: On `A^1_k` with `P = Spf O⟨t⟩` and `K = ℚ_p(π), π^{p−1} = −p: (K⟨t⟩, ∇(1) = −π dt)` is convergent, since `|π^k/k!| = p^{−s_p(k)/(p−1)} ≤ 1`.
-- `ConvIsoc.exp_not_convergent`: `(K⟨t⟩, ∇(1) = −dt)` is an integrable connection on the closed disc that is not convergent: |1/`k!| λ^k → ∞` for `λ > p^{−1/(p−1)}`.
+- `RD3.exponential_not_convergent` (the operator test for `ConvIsoc.exp_not_convergent`): `(K⟨t⟩, ∇(1) = −dt)` is an integrable connection on the closed disc that is not convergent: |1/`k!| λ^k → ∞` for `λ > p^{−1/(p−1)}`.
 - `ConvIsoc.point`: For `X = Spec k, Isoc(X/K)` is the category of finite-dimensional K-vector spaces (the tube is a point and connections are zero).
 - `ConvIsoc.proper_overconvergent`: For `X` proper over `k, Isoc(X/K) = Isoc†(X/K) = Isoc(X, X/K)`.
 - `ConvIsoc.criterion`: On an affine frame with coordinates, `∇` is convergent iff `‖∂^{[k]} e‖ λ^{|k|} → 0` for all `λ < 1` and `e` over `[X]_λ`.
@@ -7315,7 +7317,7 @@ The API:
 
 **Definition.** Let `E` be a convergent or overconvergent `F^a`-isocrystal on `X`. `E` is unit-root if for every geometric point `x̄` of `X` all Frobenius slopes of the fibre `x̄^*E` are zero, i.e. the fibre has a basis `e_1`, …, `e_r` with `Φ(e_i ⊗ 1) = e_i` (Étesse §5.1); equivalently the fibre at every perfect point is isoclinic of slope 0. Unit-root objects form a full subcategory `F^a`-`Isoc(X/K)^0` (respectively `F^a-Isoc†(X/K)^0`) stable under ⊗, duals, subquotients and extensions, with no non-zero morphisms to or from isoclinic objects of non-zero slope. At a perfect point with `a = 1` and `K = W(k)[1/p]`, unit-root means that the Mathlib isocrystal has a `W`-lattice `L` with `Φ(L) = L`, equivalently a basis in which the matrix of `Φ` lies in `GL_r(W)`.
 
-`Suggested.lean` declares `RD3.IsUnitRootIsocrystal`, `RD3.isUnitRootIsocrystal_iff_of_finrank_eq_one`.
+`Suggested.lean` declares `RD3.IsUnitRootIsocrystal`, `RD3.isUnitRootIsocrystal_iff_of_finrank_eq_one`, `RD3.slopeOne_not_unitRoot`.
 
 *Hypotheses.*
 
@@ -7339,7 +7341,7 @@ The API:
 **Checks.**
 
 - `FIsoc.isUnitRoot_slopeZero_point`: At a perfect point, Mathlib's StandardOneDimIsocrystal `p k` 0 `(Φ = σ)` is unit-root: the lattice `W(k)` is `Φ`-stable with `Φ` bijective.
-- `FIsoc.not_isUnitRoot_slopeOne`: StandardOneDimIsocrystal `p k` 1 `(Φ = pσ)` is not unit-root: every lattice `L` satisfies `Φ(L) = pL ≠ L`.
+- `RD3.slopeOne_not_unitRoot` (the point case of `FIsoc.not_isUnitRoot_slopeOne`): StandardOneDimIsocrystal `p k` 1 `(Φ = pσ)` is not unit-root: every lattice `L` satisfies `Φ(L) = pL ≠ L`.
 - `FIsoc.isUnitRoot_unit`: The unit object `(Φ = id)` is unit-root, and so is the zero object.
 - `FIsoc.dwork_isUnitRoot`: The dual Dwork F-isocrystal `L_π^∨=L_(−π)` on `A^1` is unit-root: it has rank one and its Frobenius at the point 0 is `θ(0) = 1`. At the point 1 its Frobenius is `θ(1) = ζ_p`, a primitive p-th root of unity and so a unit but not 1; a test asserting `Φ = 1` at every Teichmüller point would be wrong.
 - `FIsoc.tate_not_unitRoot`: `O(1)` is isoclinic of slope `−1` and not unit-root, although it has rank one.
@@ -9802,7 +9804,7 @@ The API:
 
 - `NearIsomorphism.of_finiteDimensional`: Every linear map between finite-dimensional spaces is a near-isomorphism.
 - `NearIsomorphism.gm_derivative`: The map `(a_n) ↦ (n a_n)` on overconvergent Laurent coefficient sequences (the derivative `x d/dx` on `K⟨x,x^{-1}⟩†`) is a near-isomorphism with kernel and cokernel of dimension one.
-- `NearInjective.zero_nonexample`: The zero map on an infinite-dimensional space is not a near-injection. In `Suggested.lean`, the zero endomorphism of Polynomial `K` fails `RD5.NearIsomorphism`; the zero map `K²→K` satisfies it and has index 1.
+- `NearInjective.zero_nonexample`: The zero map on an infinite-dimensional space is not a near-injection. In `Suggested.lean`, the zero endomorphism of Polynomial `K` fails `RD5.NearIsomorphism`. The zero map `K²→K` satisfies it and has index 1.
 - `NearIsomorphism.linearEquiv_compat`: A linear equivalence is a near-isomorphism; its index is zero.
 - The derivative `d: K⟨x,x^{-1}⟩† → K⟨x,x^{-1}⟩†·dx/x` is a near-isomorphism with kernel and cokernel both of dimension 1.
 
@@ -13502,7 +13504,7 @@ The API:
 **Checks.**
 
 - `kummerIsocrystal_zero`: `K_0 ≅ O_{G_m}`.
-- `kummerIsocrystal_quadratic_trace`: The `Suggested.lean` example uses Mathlib's quadratic character on ZMod 3. For `q = 3` and `a = 1`/2, `F_{x_0} = −1` at `x_0 = 2 ∈ 𝔽_3^×` and `F_{x_0} = 1` at `x_0 = 1`.
+- `kummerIsocrystal_quadratic_trace`: For the quadratic character on `ZMod 3`, `q = 3` and `a = 1`/2, `F_{x_0} = −1` at `x_0 = 2 ∈ 𝔽_3^×` and `F_{x_0} = 1` at `x_0 = 1`.
 - `kummerIsocrystal_order`: `K_a^{⊗(q−1)} ≅ O` for every `a ∈ (q − 1)^{-1}Z`.
 - `kummerIsocrystal_euler`: `χ(G_m, K_a) = 0 = χ(G_m, O)·1 − Irr_0 − Irr_∞`, as predicted by [§RD.6.54](#rd-6-54).
 - `kummerIsocrystal_printed_pair`: The pair `∇e = −a e dt/t` with `F(σ^*e) = t^{(q−1)a}e` is not horizontal for `a ∉ Z`: horizontality would force `b − a = −q a`, i.e. `b = −(q − 1)`a.
@@ -14920,7 +14922,7 @@ The API:
 
 - `Z(P^1_{𝔽_q}, t) = 1/((1 − t)(1 − qt)): A = 1, B = (1 − t)(1 − qt) ∈ 1 + tZ[t]`.
 - Integrality cannot be dropped: `f = 1/(1 − t/2) ∈ 1 + tQ[[t]]` is rational with denominator `1 − t/2 ∉ Z[t]`.
-- Coprimality cannot be dropped in (b): `G = H = 1 − t/ℓ` with `f = 1` satisfies Hf`=G`, but the linear coefficient has `ℓ`-adic norm `ℓ>1`, as in the `Suggested.lean` example.
+- Coprimality cannot be dropped in (b): `G = H = 1 − t/ℓ` with `f = 1` satisfies Hf`=G`, but the linear coefficient has `ℓ`-adic norm `ℓ>1`.
 - Boundary case: `f = 1/(1 − t) ∈ 1 + tZ_ℓ[[t]]` has a reciprocal root of absolute value exactly 1, so the bound in (b) is `≤ 1`, not `< 1`.
 - The rational function `t⁻¹` lies in `k(t)` but not in `k[[t]]`; the power-series intersection in (a) retains regularity at zero. The Laurent-series version is `k((t))∩L(t)=k(t)`. The Lean interface `RD6.rational_descent` normalizes its denominator to constant coefficient 1.
 
@@ -14951,9 +14953,9 @@ The API:
 
 **Checks.**
 
-- `X = P^1_{𝔽_q}: R = 1/((1 − t)(1 − qt)), P_0 = 1 − t` (weight 0), `P_1 = 1, P_2 = 1 − qt` (weight 2). The `Suggested.lean` example supplies the purity hypotheses to `RD7.weightSeparated_factor_extraction` and identifies the returned integer factors by injectivity of coefficient extension.
+- `X = P^1_{𝔽_q}: R = 1/((1 − t)(1 − qt)), P_0 = 1 − t` (weight 0), `P_1 = 1, P_2 = 1 − qt` (weight 2). These purity hypotheses give the three integer factors under `RD7.weightSeparated_factor_extraction`, identified uniquely by injectivity of coefficient extension.
 - Elliptic curve `E/𝔽_7, y^2 = x^3 + x + 1: R = (1 − 3t + 7t^2)/((1 − t)(1 − 7t))` and `Π_1 = 1 − 3t + 7t^2`, whose roots have absolute value `7^{−1/2}`.
-- Purity is needed: `P_0 = 1, P_1 = P_2 = 1 − 2t` give the alternating product `R = 1`, as do `P_0 = P_1 = P_2 = 1`, so `R` does not determine the factors; the hypothesis excludes this because 2 cannot be a Weil `q`-number of weight 1 and of weight 2. The arithmetic example in `Suggested.lean` takes `q=4` and rejects weight 2 for the reciprocal root 2.
+- Purity is needed: `P_0 = 1, P_1 = P_2 = 1 − 2t` give the alternating product `R = 1`, as do `P_0 = P_1 = P_2 = 1`, so `R` does not determine the factors; the hypothesis excludes this because 2 cannot be a Weil `q`-number of weight 1 and of weight 2. For `q=4`, the reciprocal root 2 fails weight 2.
 - Genus-two curve `y^2 = x^5 + x + 3` over `𝔽_7: Π_1 = 1 + 3t + 7t^2 + 21t^3 + 49t^4` (by direct computation), with all roots of absolute value `7^{−1/2}`.
 - For the factor family of `P¹` viewed over a characteristic-zero field with no chosen ℚ_ℓ embedding, the rational root partition first gives `1−t,1,1−qt`. Their companion matrices over any one ℚ_ℓ satisfy the actual supplier interface, independently of that field.
 

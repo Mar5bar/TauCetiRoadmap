@@ -1,5 +1,4 @@
 import Mathlib
-import Mathlib.Topology.Algebra.Module.Spaces.ContinuousLinearMap
 import TauCeti.Algebra.AlgebraicGroup.Representation.Tannaka.GroupFunctor
 import TauCeti.Algebra.Coalgebra.Comodule.Finite.Rigid
 import TauCeti.Algebra.Coalgebra.Comodule.Finite.Symmetric
@@ -16,8 +15,8 @@ Robba rings, dagger algebras, differential and Frobenius modules, tubes, isocrys
 rigid cohomology are README targets: their carriers do not exist at the pins, and formalising
 them is the work this roadmap plans.
 
-What is here are the finite-dimensional, algebraic and numerical shadows of the targets, with real
-bodies: the equivariance, monodromy and Tate-twist conditions on linear Frobenius operators;
+The statements on existing carriers include Katz’s cyclic-vector theorem, Kloosterman bounds
+and weight-separated factor extraction. The definitions describe: the equivariance, monodromy and Tate-twist conditions on linear Frobenius operators;
 valuation bases; Katz's cyclic-vector candidate; growth conditions separating convergent from
 overconvergent coefficients; the Taylor convergence condition on an operator; indices of linear
 maps; ι-weights of complex numbers and matrices; Kummer trace functions and Kloosterman sums;
@@ -70,20 +69,11 @@ theorem IsValuationBasis.rescale_iff (b : Module.Basis ι K V) (w : ι → Kˣ) 
     IsValuationBasis (b.unitsSMul w) ↔ IsValuationBasis b := by
   sorry
 
-example (b : Module.Basis ι K V) :
-    ‖b.repr.symm (0 : ι →₀ K)‖₊ =
-      (0 : ι →₀ K).support.sup (fun i => ‖(0 : ι →₀ K) i • b i‖₊) := by
-  simp
-
-example : IsValuationBasis (Module.Basis.singleton PUnit K) := by
-  sorry
-
-example (π : K) (hπ0 : 0 < ‖π‖) (hπ1 : ‖π‖ < 1)
+/-- A sheared basis of the sup-norm plane fails the valuation-basis equality
+when the shear parameter has norm strictly between zero and one (README RD.0.47). -/
+theorem valuationBasis_bad_change (π : K) (hπ0 : 0 < ‖π‖) (hπ1 : ‖π‖ < 1)
     (b : Module.Basis (Fin 2) K (Fin 2 → K)) (h0 : b 0 = ![1, 0]) (h1 : b 1 = ![1, π]) :
     ¬ IsValuationBasis b := by
-  sorry
-
-example : ¬ IsValuationBasis (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis := by
   sorry
 
 end ValuationBasis
@@ -101,16 +91,6 @@ theorem polynomial_endpoints_surjective (x y : R) :
     ∃ f : Polynomial R, f.eval 0 = x ∧ f.eval 1 = y :=
   ⟨Polynomial.C x + (Polynomial.C y - Polynomial.C x) * Polynomial.X, by simp, by simp⟩
 
-example (g : Polynomial R) :
-    ((Polynomial.X * (Polynomial.X - 1)) * g).eval 0 = 0 ∧
-      ((Polynomial.X * (Polynomial.X - 1)) * g).eval 1 = 0 := by
-  simp
-
-example : (Polynomial.X : Polynomial ℚ)^2 ≠ Polynomial.X := by
-  intro h
-  have := congrArg (Polynomial.eval (2 : ℚ)) h
-  norm_num at this
-
 end Endpoints
 
 section Denominators
@@ -118,10 +98,6 @@ section Denominators
 theorem padic_integral_denominator_bound (p : ℕ) [Fact p.Prime] (n : ℕ) :
     ‖((n + 1 : ℚ_[p])⁻¹)‖ ≤ (n + 1 : ℝ) := by
   sorry
-
-example (p : ℕ) [Fact p.Prime] : ‖((p : ℚ_[p])⁻¹)‖ > 1 := by
-  rw [norm_inv, Padic.norm_p, inv_inv]
-  exact_mod_cast (Fact.out : p.Prime).one_lt
 
 end Denominators
 
@@ -147,12 +123,6 @@ def FrobeniusEquivariant (φ : V →ₛₗ[σ] V) (ψ : W →ₛₗ[σ] W)
 example (φ : V →ₛₗ[σ] V) : FrobeniusEquivariant φ φ LinearMap.id := by
   intro v
   rfl
-
-/-- Zero is an equivariant morphism, including in rank zero. -/
-example (φ : V →ₛₗ[σ] V) (ψ : W →ₛₗ[σ] W) :
-    FrobeniusEquivariant φ ψ (0 : V →ₗ[K] W) := by
-  intro v
-  simp
 
 /-- Multiplication by a coefficient fixed by σ respects equivariance. -/
 theorem frobeniusEquivariant_smul (φ : V →ₛₗ[σ] V) (ψ : W →ₛₗ[σ] W)
@@ -182,12 +152,6 @@ is division by the product of the absolute ramification index and the exponent i
 theorem slope_uniformiser_to_q (s e a : ℚ) : s / e / a = s / (e * a) := by
   rw [div_div]
 
-/-- A π-eigenline over π² = p has q-slope one half when q = p. -/
-example : (1 : ℚ) / (2 * 1) = 1 / 2 := by norm_num
-
-/-- The same eigenline has q-slope one quarter when q = p². -/
-example : (1 : ℚ) / (2 * 2) = 1 / 4 := by norm_num
-
 noncomputable section
 
 open scoped BigOperators
@@ -216,22 +180,6 @@ example : CyclicFor (K := ℚ) (V := Fin 0 → ℚ) (fun _ => 0) 0 0 := by
   refine ⟨Pi.basisFun ℚ (Fin 0), ?_⟩
   intro i
   exact Fin.elim0 i
-
-/-- The empty candidate tests the finite-sum convention. -/
-example (D : V → V) (e : ℕ → V) (x : K) :
-    katzCandidate D e 0 x = 0 := by
-  simp [katzCandidate]
-
-/-- Rank one does not require a condition on x. -/
-example (D : V → V) (e : ℕ → V) (x : K) :
-    katzCandidate D e 1 x = e 0 := by
-  simp [katzCandidate]
-
-/-- A horizontal rank-two basis fixes the sign of the Taylor correction. -/
-example (D : V → V) (e : ℕ → V) (x : K)
-    (h₀ : D (e 0) = 0) :
-    katzCandidate D e 2 x = e 0 + x • e 1 := by
-  simp [katzCandidate, Finset.sum_range_succ, h₀]
 
 /-- Naturality of Katz's candidate under linear maps intertwining the operators. -/
 theorem katzCandidate_naturality {W : Type*} [AddCommGroup W] [Module K W]
@@ -275,10 +223,6 @@ variable {F : Type*} [NormedField F] [IsUltrametricDist F] [CharZero F]
 def IsRationalType (D : Derivation ℚ F F) (u : F) : Prop :=
   D u = 1 ∧ ∀ n : ℕ, 1 ≤ n → ∀ x : F,
     ‖(D^[n] x) / (Nat.factorial n : F)‖ ≤ ‖u‖⁻¹ ^ n * ‖x‖
-
-/-- A rational parameter is nonzero, since a derivation kills `0`. -/
-example (D : Derivation ℚ F F) (u : F) (h : IsRationalType D u) : u ≠ 0 := by
-  sorry
 
 /-- Moving the parameter by a constant of no larger norm keeps rational type
 (Kedlaya–Xiao, Remark 1.4.3). -/
@@ -345,16 +289,6 @@ theorem isAlgClosed_of_denseRange {K L : Type*} [Field K] [NontriviallyNormedFie
     (hi : DenseRange (algebraMap K L)) [IsAlgClosed K] : IsAlgClosed L := by
   sorry
 
-/-- In characteristic zero the statement is Mathlib's. -/
-example {K L : Type*} [Field K] [NontriviallyNormedField L] [CompleteSpace L] [CharZero L]
-    [IsUltrametricDist L] [Algebra K L] (hi : DenseRange (algebraMap K L)) [IsAlgClosed K] :
-    IsAlgClosed L :=
-  IsAlgClosed.of_denseRange hi
-
-/-- Test: `ℂ_[p]`, the completion of an algebraic closure of `ℚ_[p]`. -/
-example (p : ℕ) [Fact p.Prime] : IsAlgClosed ℂ_[p] :=
-  isAlgClosed_of_denseRange (K := PadicAlgCl p) UniformSpace.Completion.denseRange_coe
-
 /-- The tensor-product bound for c-constant Frobenius matrices over an ultrametric ring.
 The entries of B are integral; the bound is written directly on A − 1 and B − 1. -/
 theorem cconstant_kronecker {R : Type*} [NormedRing R] [IsUltrametricDist R]
@@ -384,12 +318,6 @@ theorem exists_conj_eq_smul_of_isNilpotent {K : Type*} [Field K] {n : Type*} [Fi
     ∃ P : GL n K, (P : Matrix n n K) * N * ((P⁻¹ : GL n K) : Matrix n n K) = q • N := by
   sorry
 
-/-- Test: the Jordan block of size two, conjugated by `diag(1, q⁻¹)`. -/
-example {K : Type*} [Field K] (q : K) (hq : q ≠ 0) :
-    ∃ P : GL (Fin 2) K, (P : Matrix (Fin 2) (Fin 2) K) * !![0, 1; 0, 0] *
-      ((P⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = q • !![0, 1; 0, 0] := by
-  sorry
-
 /-- The Kummer module `∇v = (1/m) v dt/t` has a Frobenius structure of order `h` as soon as
 `m ∣ p^h − 1`; such an `h ≥ 1` exists when `p` and `m` are coprime. -/
 theorem exists_dvd_pow_sub_one (p m : ℕ) (hm : 0 < m) (hpm : Nat.Coprime p m) :
@@ -400,10 +328,6 @@ theorem exists_dvd_pow_sub_one (p m : ℕ) (hm : 0 < m) (hpm : Nat.Coprime p m) 
 (Kedlaya, overview, Example 2.1.10): `m` up to `d`, then `d + (m − d)/p`. -/
 def artinSchreierHerbrand (p d m : ℝ) : ℝ :=
   if m ≤ d then m else d + (m - d) / p
-
-/-- Below the break the function is the identity. -/
-example (p d m : ℝ) (h : m ≤ d) : artinSchreierHerbrand p d m = m := by
-  simp [artinSchreierHerbrand, h]
 
 /-- The inverse Herbrand argument at `β ≥ d` is `pβ − (p − 1)d`.
 This numerical identity supplies the bound in RD.2.44(e); equality with a pullback's highest
@@ -459,10 +383,6 @@ global sections of `j†O` on the frame `(A¹, P¹, P̂¹)`. -/
 def IsOverconvergentCoeffs (a : ℕ → K) : Prop :=
   ∃ ρ : ℝ, 1 < ρ ∧ Tendsto (fun n => ‖a n‖ * ρ ^ n) atTop (𝓝 0)
 
-/-- Degenerate case: the zero series is overconvergent. -/
-example : IsOverconvergentCoeffs (fun _ : ℕ => (0 : K)) :=
-  ⟨2, by norm_num, by simp⟩
-
 /-- Overconvergent series converge on the closed unit disc: `K⟨t⟩† ⊆ K⟨t⟩`. -/
 theorem IsOverconvergentCoeffs.isConvergentCoeffs {a : ℕ → K} (h : IsOverconvergentCoeffs a) :
     IsConvergentCoeffs a := by
@@ -477,13 +397,9 @@ section PadicGrowth
 
 variable (p : ℕ) [Fact p.Prime]
 
-/-- Geometric decay: the coefficients `pⁿ` are overconvergent (the series converges for `|t| < p`). -/
-example : IsOverconvergentCoeffs (fun n : ℕ => (p : ℚ_[p]) ^ n) := by
-  sorry
-
-/-- Non-example separating the two rings: the coefficients `p^⌊√n⌋` tend to zero, but not
-geometrically, so `∑ p^⌊√n⌋ tⁿ` lies in `ℚ_p⟨t⟩` and not in `ℚ_p⟨t⟩†`. -/
-example : IsConvergentCoeffs (fun n : ℕ => (p : ℚ_[p]) ^ Nat.sqrt n) ∧
+/-- The coefficients p^⌊√n⌋ converge to zero without any geometric rate, separating
+closed-disc coefficients from dagger coefficients (README RD.3.8). -/
+theorem subgeometric_not_overconvergent : IsConvergentCoeffs (fun n : ℕ => (p : ℚ_[p]) ^ Nat.sqrt n) ∧
     ¬ IsOverconvergentCoeffs (fun n : ℕ => (p : ℚ_[p]) ^ Nat.sqrt n) := by
   sorry
 
@@ -497,15 +413,6 @@ theorem exists_liouville_exponent :
       IsConvergentCoeffs (fun n : ℕ => (p : ℚ_[p]) ^ (n + 1) / (((n + 1 : ℕ) : ℚ_[p]) + a)) ∧
       ¬ IsOverconvergentCoeffs
         (fun n : ℕ => (p : ℚ_[p]) ^ (n + 1) / (((n + 1 : ℕ) : ℚ_[p]) + a)) := by
-  sorry
-
-/-- Contrast: a rational exponent gives overconvergent coefficients. For `p` odd,
-`v_p(n - 1/2) = v_p(2n - 1) ≤ log_p (2n)`, so `‖pⁿ / (n - 1/2)‖ ≤ 2n p⁻ⁿ` decays geometrically.
-The numbers `n - 1/2` are not all units (`p ∣ 2n - 1` for `n = (p + 1)/2`); what matters is that
-`v_p(n + a)` grows only logarithmically, whereas the Liouville exponent has
-`limsup v_p(n + a)/n = 1`. -/
-example (hp : p ≠ 2) :
-    IsOverconvergentCoeffs (fun n : ℕ => (p : ℚ_[p]) ^ n / ((n : ℚ_[p]) - 1 / 2)) := by
   sorry
 
 end PadicGrowth
@@ -536,14 +443,9 @@ section PadicTaylor
 
 variable (p : ℕ) [Fact p.Prime]
 
-/-- Dwork-type bound: `∇(1) = p dt` on the unit disc over `ℚ_p` is convergent, since
-`|pᵏ / k!| ≤ 1`. -/
-example : IsConvergentOperator ((p : ℚ_[p]) • LinearMap.id : ℚ_[p] →ₗ[ℚ_[p]] ℚ_[p]) := by
-  sorry
-
-/-- Non-example: `∇(1) = dt` (the exponential) is not convergent, because `|1 / k!| ηᵏ` is
-unbounded once `η > p^{-1/(p-1)}`; no Frobenius structure can exist on it. -/
-example : ¬ IsConvergentOperator (LinearMap.id : ℚ_[p] →ₗ[ℚ_[p]] ℚ_[p]) := by
+/-- The identity operator over ℚ_p fails the Taylor convergence condition,
+as the exponential has radius p^(−1/(p−1)) < 1 (README RD.3.33). -/
+theorem exponential_not_convergent : ¬ IsConvergentOperator (LinearMap.id : ℚ_[p] →ₗ[ℚ_[p]] ℚ_[p]) := by
   sorry
 
 end PadicTaylor
@@ -566,13 +468,9 @@ def IsUnitRootIsocrystal (V : Type*) [AddCommGroup V] [Isocrystal p k V] : Prop 
       ∀ j, Isocrystal.frobenius p k (V := V) (b j) =
         ∑ i, algebraMap (WittVector p k) (FractionRing (WittVector p k)) (A i j) • b i
 
-/-- The standard isocrystal of slope `0` (Frobenius `x ↦ φ(x)`) is unit-root. -/
-example : IsUnitRootIsocrystal p k (StandardOneDimIsocrystal p k 0) := by
-  sorry
-
-/-- Non-example: the standard isocrystal of slope `1` (Frobenius `x ↦ p φ(x)`) is not unit-root:
-every lattice `L` satisfies `Φ(L) = pL ≠ L`. -/
-example : ¬ IsUnitRootIsocrystal p k (StandardOneDimIsocrystal p k 1) := by
+/-- The standard slope-one Witt isocrystal has no Frobenius-stable lattice
+on which Frobenius is bijective (README RD.3.47). -/
+theorem slopeOne_not_unitRoot : ¬ IsUnitRootIsocrystal p k (StandardOneDimIsocrystal p k 1) := by
   sorry
 
 #check WittVector.isocrystal_classification
@@ -604,14 +502,6 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 to applications. This is only the coefficient-space part of the categorical Tate twist. -/
 def TateTwistedFrobenius (q : K) (n : ℤ) (φ : V →ₗ[K] V) : V →ₗ[K] V :=
   q ^ (-n) • φ
-
-/-- Twisting by zero preserves Frobenius. -/
-example (q : K) (φ : V →ₗ[K] V) : TateTwistedFrobenius q 0 φ = φ := by
-  simp [TateTwistedFrobenius]
-
-/-- A twist by one divides Frobenius by q. -/
-example (q : K) (φ : V →ₗ[K] V) : TateTwistedFrobenius q 1 φ = q⁻¹ • φ := by
-  simp [TateTwistedFrobenius]
 
 /-- Twists add; nonzero q is necessary for negative integral exponents. -/
 theorem tateTwistedFrobenius_add (q : K) (hq : q ≠ 0) (m n : ℤ)
@@ -673,14 +563,6 @@ theorem NearIsomorphism.index_square {X : Type*} [AddCommGroup X] [Module K X]
     a.index + b.index = c.index + d.index := by
   sorry
 
-/-- An isomorphism has index zero. -/
-example (e : V ≃ₗ[K] W) : (e : V →ₗ[K] W).index = 0 := by
-  simp
-
-/-- The zero map `K² → K` has kernel of dimension 2 and cokernel of dimension 1. -/
-example : (0 : (Fin 2 → K) →ₗ[K] K).index = 1 := by
-  simp
-
 /-- A linear equivalence satisfies the near-isomorphism predicate in any dimension. -/
 example (e : V ≃ₗ[K] W) : NearIsomorphism e.toLinearMap := by
   constructor
@@ -688,10 +570,6 @@ example (e : V ≃ₗ[K] W) : NearIsomorphism e.toLinearMap := by
     infer_instance
   · rw [LinearMap.range_eq_top.mpr e.surjective]
     infer_instance
-
-/-- Finite kernel and cokernel do not require the map to be injective or surjective. -/
-example : NearIsomorphism (0 : (Fin 2 → K) →ₗ[K] K) := by
-  constructor <;> infer_instance
 
 /-- The zero endomorphism of the polynomial space has an infinite-dimensional kernel. -/
 example : ¬ NearIsomorphism (0 : Polynomial K →ₗ[K] Polynomial K) := by
@@ -734,15 +612,6 @@ compactification has genus `g` and whose boundary has `d ≥ 1` geometric points
 For geometrically reduced boundary, this count equals its degree over the base field. -/
 def affineCurveH1Dim (g d : ℕ) : ℕ := 2 * g + d - 1
 
-/-- The affine line. -/
-example : affineCurveH1Dim 0 1 = 0 := rfl
-
-/-- The multiplicative group. -/
-example : affineCurveH1Dim 0 2 = 1 := rfl
-
-/-- An elliptic curve minus its origin. -/
-example : affineCurveH1Dim 1 1 = 2 := rfl
-
 /-- The index bookkeeping after a finite residue-field extension making the reduced boundary
 geometrically reduced: `d` counts geometric punctures. The identities `ind ρ = 1 − g`,
 `ind d_loc = −d`, `ind dρ = g − 1` and `H⁰ = K` give `1 − dim H¹ = (1 − g) + (−d) − (g − 1)`. -/
@@ -763,15 +632,6 @@ theorem boundary_residue_trace_constant {K L : Type*} [Field K] [CharZero K]
 /-- The arithmetic residue criterion for a rank-one overconvergent log connection.
 Convergence is a separate condition, which this rational predicate does not give. -/
 def RankOneResidueUnipotent (a : ℚ) : Prop := ∃ n : ℤ, a = n
-
-example : RankOneResidueUnipotent 0 := ⟨0, by simp⟩
-
-/-- The Kummer residue `1/2` is not unipotent. -/
-example : ¬ RankOneResidueUnipotent (1 / 2) := by
-  rintro ⟨n, hn⟩
-  have h : ((2 * n : ℤ) : ℚ) = 1 := by push_cast; linarith
-  have h' : (2 * n : ℤ) = 1 := by exact_mod_cast h
-  omega
 
 /-- Pulling back along `s ↦ s^m` multiplies the residue by `m`; for `a ∈ (1/m)ℤ` the pullback
 is unipotent (semistable reduction of a Kummer isocrystal). -/
@@ -819,15 +679,6 @@ end DividedPowers
 def gradedTensorDim (a b : ℕ → ℕ) (n : ℕ) : ℕ :=
   ∑ i ∈ Finset.range (n + 1), a i * b (n - i)
 
-/-- `H*_rig(G_m) = (1, 1)`, so `H*_rig(G_m × G_m) = (1, 2, 1)`. -/
-example : gradedTensorDim (fun i => if i ≤ 1 then 1 else 0)
-    (fun i => if i ≤ 1 then 1 else 0) 1 = 2 := by
-  decide
-
-example : gradedTensorDim (fun i => if i ≤ 1 then 1 else 0)
-    (fun i => if i ≤ 1 then 1 else 0) 2 = 1 := by
-  decide
-
 end
 
 end RD5
@@ -840,10 +691,6 @@ noncomputable section
 algebraicity, integrality or assumption about other embeddings. -/
 def HasIotaWeight (q w : ℝ) (α : ℂ) : Prop :=
   ‖α‖ = q ^ (w / 2)
-
-/-- The constant coefficient has weight zero. -/
-example (q : ℝ) : HasIotaWeight q 0 (1 : ℂ) := by
-  simp [HasIotaWeight]
 
 /-- Purity at one embedding need not make the trace real. -/
 example (q : ℝ) : HasIotaWeight q 0 Complex.I ∧ Complex.I.im ≠ 0 := by
@@ -877,14 +724,6 @@ def HasPureSpectrum {ι : Type*} [Fintype ι] [DecidableEq ι]
     (q w : ℝ) (F : Matrix ι ι ℂ) : Prop :=
   ∀ α : ℂ, F.charpoly.IsRoot α → HasIotaWeight q w α
 
-/-- A weight spectrum on the zero-dimensional space is empty. -/
-example (q w : ℝ) : HasPureSpectrum q w (1 : Matrix (Fin 0) (Fin 0) ℂ) := by
-  sorry
-
-/-- The scalar one has weight zero in dimension one. -/
-example (q : ℝ) : HasPureSpectrum q 0 (1 : Matrix (Fin 1) (Fin 1) ℂ) := by
-  sorry
-
 end
 
 /-- A zero eigenvalue fails purity even at weight zero. -/
@@ -892,17 +731,6 @@ example : ¬ HasPureSpectrum 2 0 (0 : Matrix (Fin 1) (Fin 1) ℂ) := by
   intro h
   apply zero_not_pure 2 0 (by norm_num)
   exact h 0 (by simp [Polynomial.IsRoot, Matrix.charpoly_zero])
-
-/-- The identity line has weight zero, so it fails weight one over q=2. -/
-example : ¬ HasPureSpectrum 2 1 (1 : Matrix (Fin 1) (Fin 1) ℂ) := by
-  intro h
-  have h1 := h 1 (by simp [Polynomial.IsRoot, Matrix.charpoly_one])
-  have hlt : (1 : ℝ) < 2 ^ (1 / 2 : ℝ) := by
-    calc
-      1 = (2 : ℝ) ^ (0 : ℝ) := by simp
-      _ < _ := Real.rpow_lt_rpow_of_exponent_lt (by norm_num) (by norm_num)
-  simp only [HasIotaWeight, norm_one] at h1
-  linarith
 
 namespace RD6
 
@@ -939,25 +767,6 @@ example (x : Lˣ) : kummerTraceFunction (1 : Fˣ →* Kˣ) x = 1 := by
 example (χ : Fˣ →* Kˣ) (x : Fˣ) : kummerTraceFunction (L := F) χ x = χ x := by
   simp [kummerTraceFunction, Algebra.norm_self]
 
-/-- The nontrivial quadratic character of F₃ gives Kummer traces −1 at 2 and 1 at 1. -/
-example :
-    let χ : (ZMod 3)ˣ →* ℚˣ :=
-      (Units.map (Int.castRingHom ℚ).toMonoidHom).comp (quadraticChar (ZMod 3)).toUnitHom
-    kummerTraceFunction χ (Units.mk0 (2 : ZMod 3) (by decide)) = -1 ∧
-      kummerTraceFunction χ (1 : (ZMod 3)ˣ) = 1 := by
-  have htwo : Units.mk0 (2 : ZMod 3) (by decide) = (-1 : (ZMod 3)ˣ) := by decide
-  rw [htwo]
-  have hχ : quadraticChar (ZMod 3) (-1) = -1 := by
-    change quadraticCharFun (ZMod 3) (-1) = -1
-    simp [quadraticCharFun, show ¬ IsSquare (-1 : ZMod 3) by decide]
-    decide
-  constructor
-  · simp only [kummerTraceFunction, Algebra.norm_self]
-    change ((quadraticChar (ZMod 3) (-1) : ℤ) : ℚ) = -1
-    rw [hχ]
-    norm_num
-  · simp [kummerTraceFunction, Algebra.norm_self]
-
 end Kummer
 
 section Kloosterman
@@ -973,10 +782,6 @@ def kloostermanSum (ψ : AddChar F K) (n : ℕ) (z : Fˣ) : K :=
 /-- Unit test `kloostermanIsocrystal_degenerate`: `Kl_1(z) = ψ(z)`. -/
 example (ψ : AddChar F K) (z : Fˣ) : kloostermanSum ψ 0 z = ψ z := by
   simp [kloostermanSum]
-
-/-- Unit test `kloostermanIsocrystal_rank_two`: the classical Kloosterman sum. -/
-example (ψ : AddChar F K) (z : Fˣ) :
-    kloostermanSum ψ 1 z = ∑ x : Fˣ, ψ ((x : F) + (z : F) * ((x⁻¹ : Fˣ) : F)) := sorry
 
 /-- Weil's bound, the consequence of purity of weight `1` of `Kl_2`. (Over the quadratic extension
 the sums satisfy `Kl_2(z; q^2) = 2q - Kl_2(z; q)^2`, the eigenvalue relation of README
@@ -999,15 +804,6 @@ theorem rational_descent {k L : Type*} [Field k] [Field L] [Algebra k L] (f : Po
       (Q : PowerSeries L) * PowerSeries.map (algebraMap k L) f = (P : PowerSeries L)) :
     ∃ P Q : Polynomial k, Q.coeff 0 = 1 ∧ (Q : PowerSeries k) * f = (P : PowerSeries k) :=
   sorry
-
-/-- Test: the point-count series of `ℙ¹` over `𝔽_q`, `∑_{r ≥ 0} (1 + q^r) t^r`, is rational over `ℚ`
-(README §RD.6.24). -/
-example (q : ℕ) :
-    (((Polynomial.C (1 : ℚ) - Polynomial.X) *
-        (Polynomial.C 1 - Polynomial.C (q : ℚ) * Polynomial.X) : Polynomial ℚ) : PowerSeries ℚ) *
-        PowerSeries.mk (fun r => (1 + (q : ℚ) ^ r)) =
-      ((Polynomial.C 2 - Polynomial.C (1 + (q : ℚ)) * Polynomial.X : Polynomial ℚ) :
-        PowerSeries ℚ) := sorry
 
 /-- The multiplier `θ = exp(π(x^q - x))` satisfies `θ' = π(q x^(q-1) - 1) θ`: this is the
 horizontality of `F(σ^*e) = θ e` for the connection `∇e = π e dx` with `σ(x) = x^q`. The opposite
@@ -1113,26 +909,6 @@ theorem fatou (f : PowerSeries ℤ) (hf : PowerSeries.constantCoeff f = 1) (A B 
         ((A'.map (Int.castRingHom ℚ) : ℚ[X]) : PowerSeries ℚ) := by
   sorry
 
-/-- Unit test `fatou` (non-example: integrality cannot be dropped). The rational series
-`1/(1 − t/2)` has the coprime normalised presentation `1/(1 − t/2)`, whose denominator is not
-integral; its expansion `Σ t^n/2^n` is not in `ℤ⟦t⟧`. -/
-example : ((1 - C (1 / 2 : ℚ) * X : ℚ[X]) : PowerSeries ℚ) *
-    PowerSeries.mk (fun n => (1 / 2 : ℚ) ^ n) = 1 := by
-  sorry
-
-/-- A noncoprime Fatou presentation of the integral series 1 can have nonintegral factors. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    let G : ℚ_[ℓ][X] := 1 - C ((ℓ : ℚ_[ℓ])⁻¹) * X
-    (G : PowerSeries ℚ_[ℓ]) * PowerSeries.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) 1 =
-      (G : PowerSeries ℚ_[ℓ]) ∧ ‖G.coeff 1‖ > 1 := by
-  dsimp
-  constructor
-  · simp
-  · have hcoeff : (1 - C ((ℓ : ℚ_[ℓ])⁻¹) * X).coeff 1 = -((ℓ : ℚ_[ℓ])⁻¹) := by
-      norm_num [Polynomial.coeff_one]
-    rw [hcoeff, norm_neg, norm_inv, Padic.norm_p, inv_inv]
-    exact_mod_cast (Fact.out : ℓ.Prime).one_lt
-
 /-- The complex-coefficient adapter constructs rational root partitions and their invertible
 companion matrices over one `ℚ_ℓ`, then applies the Frobenius-module interface of
 DeligneWeightsAndPurity §4.4 to provide integral factors (README RD.7.5): if
@@ -1207,50 +983,9 @@ theorem p1_factor_purity (q : ℕ) (hq : 1 < q) :
     rw [hconj q β hβ]
     simp
 
-/-- Factor extraction on P¹ supplies the three integer factors, uniquely identified
-by injectivity of extension from Z to C. The purity check includes every conjugate. -/
-example (q : ℕ) (hq : 1 < q) :
-    let P : Fin 3 → ℂ[X] := ![1 - X, 1, 1 - C (q : ℂ) * X]
-    ∃ Fac : Fin 3 → ℤ[X],
-      (∀ i, (Fac i).coeff 0 = 1 ∧ (Fac i).map (Int.castRingHom ℂ) = P i) ∧
-      Fac = ![1 - X, 1, 1 - C (q : ℤ) * X] := by
-  classical
-  dsimp only
-  let P : Fin 3 → ℂ[X] := ![1 - X, 1, 1 - C (q : ℂ) * X]
-  have hpure := p1_factor_purity q hq
-  have hodd : Finset.univ.filter (fun i : Fin 3 => Odd (i : ℕ)) = {1} := by decide
-  have heven : Finset.univ.filter (fun i : Fin 3 => Even (i : ℕ)) = {0, 2} := by decide
-  have hcop : IsCoprime ((1 : ℤ[X]).map (Int.castRingHom ℚ))
-      (((1 - X) * (1 - C (q : ℤ) * X)).map (Int.castRingHom ℚ)) := by
-    rw [Polynomial.map_one]
-    exact isCoprime_one_left
-  obtain ⟨Fac, hFac⟩ := weightSeparated_factor_extraction q hq 2
-    1 ((1 - X) * (1 - C (q : ℤ) * X)) (by simp) (by simp) hcop
-    P (by intro i; fin_cases i <;> simp [P])
-    (by rw [hodd, heven]; simp [P]) hpure
-  refine ⟨Fac, hFac, ?_⟩
-  funext i
-  apply Polynomial.map_injective (f := Int.castRingHom ℂ) Int.cast_injective
-  have hi := (hFac i).2
-  fin_cases i <;> simpa [P] using hi
-
-/-- Without separated weights, equal factors in odd and even degree cancel, hiding a
-nontrivial factor from the alternating product. At q=4 its reciprocal root 2 fails weight 2. -/
-example :
-    (1 - C (2 : ℂ) * X : ℂ[X]) * 1 = 1 * (1 - C (2 : ℂ) * X) ∧
-      (1 - C (2 : ℂ) * X : ℂ[X]) ≠ 1 ∧ ¬ HasIotaWeight 4 2 (2 : ℂ) := by
-  refine ⟨by ring, ?_, ?_⟩
-  · intro h
-    have hc := congrArg (fun f : ℂ[X] => f.coeff 1) h
-    norm_num at hc
-  · norm_num [HasIotaWeight]
-
 end WeightSeparation
 
 section Elliptic
-
-/-- `𝔽₇ = ZMod 7` is a field. -/
-local instance : Fact (Nat.Prime 7) := ⟨by norm_num⟩
 
 variable {F : Type*} [Field F] [Finite F]
 
@@ -1266,17 +1001,6 @@ theorem ellipticWeilFactor_coeff_zero (W : WeierstrassCurve F) :
 
 theorem ellipticWeilFactor_natDegree (W : WeierstrassCurve F) :
     (ellipticWeilFactor W).natDegree = 2 := by
-  sorry
-
-/-- Unit test (computation): `y² = x³ + x + 1` over `𝔽₇` has `5` points, `a = 3`, and Weil
-factor `1 − 3t + 7t²`. -/
-example : ellipticWeilFactor (⟨0, 0, 0, 1, 1⟩ : WeierstrassCurve (ZMod 7)) =
-    1 - 3 * X + 7 * X ^ 2 := by
-  sorry
-
-/-- Unit test (supersingular): `y² = x³ + x` over `𝔽₇` has `8` points, `a = 0`, and Weil
-factor `1 + 7t²`. -/
-example : ellipticWeilFactor (⟨0, 0, 0, 1, 0⟩ : WeierstrassCurve (ZMod 7)) = 1 + 7 * X ^ 2 := by
   sorry
 
 end Elliptic
@@ -1303,90 +1027,6 @@ a basis of the integral image lattice specified in §RD.7.18. -/
 noncomputable def tuitmanReconstructionPrecision (p g n : ℕ) : ℕ :=
   (Finset.Icc 1 g).sup fun i =>
     (⌊Real.logb p ((4 * g).choose i) + ((n * i : ℕ) : ℝ) / 2⌋).toNat + 1
-
-/-- At `p=3`, `m=0`, partial negative-power reduction has multiplier one, while
-`x² dx/y = -(1/3) dx/y + d((2/3)y)` for `y²=x³+x+1` has a nonintegral basis coefficient. -/
-example : kedlayaNegativeExponent 3 0 = 0 ∧
-    (let Q : ℚ[X] := X ^ 3 + X + 1
-     X ^ 2 = -C (1 / 3) + C (1 / 3) * derivative Q) ∧
-    ‖(-(1 / 3) : ℚ_[3])‖ = 3 := by
-  refine ⟨by decide, ?_, ?_⟩
-  · dsimp
-    apply Polynomial.funext
-    intro x
-    norm_num [Polynomial.derivative_add, Polynomial.derivative_pow,
-      Polynomial.derivative_X, Polynomial.derivative_one, Polynomial.eval_add,
-      Polynomial.eval_mul, Polynomial.eval_pow, Polynomial.eval_C, Polynomial.eval_X]
-    ring
-  · rw [norm_neg, norm_div, norm_one]
-    have hn : ‖(3 : ℚ_[3])‖ = (3 : ℝ)⁻¹ := by
-      simpa only [Nat.cast_ofNat] using (Padic.norm_p (p := 3))
-    rw [hn]
-    norm_num
-
-/-- Unit test: for `Q = x³ + x + 1` and `p = 5`, `m = 0`, the corrected exponent is `1`. -/
-example : kedlayaPositiveExponent 5 1 0 = 1 := by
-  decide
-
-/-- The full input degree at `p = 3`, `g = 1`, `m = 0` requires exponent two. -/
-example : kedlayaPositiveExponent 3 1 0 = 2 ∧ Nat.log 3 (3 * 3 - 2) = 1 := by
-  decide
-
-/-- The normalised reduction of `x² y dx` for `Q = x³+x+1` has primitive `F y`. -/
-example :
-    let Q : ℚ[X] := X ^ 3 + X + 1
-    let F : ℚ[X] := C (2 / 9) * X ^ 3 + C (4 / 45) * X + C (2 / 9)
-    let b : ℚ[X] := -C (2 / 15) * X - C (1 / 5)
-    X ^ 2 * Q = b + derivative F * Q + C (1 / 2) * F * derivative Q := by
-  dsimp
-  apply Polynomial.funext
-  intro x
-  norm_num [Polynomial.derivative_add, Polynomial.derivative_mul,
-    Polynomial.derivative_pow, Polynomial.derivative_X, Polynomial.derivative_C,
-    Polynomial.eval_add, Polynomial.eval_sub, Polynomial.eval_mul,
-    Polynomial.eval_pow, Polynomial.eval_C, Polynomial.eval_X]
-  ring
-
-/-- Multiplication by three fails to clear the leading primitive coefficient; nine clears it. -/
-example : ¬ ∃ z : ℤ, (z : ℚ) = 3 * (2 / 9 : ℚ) := by
-  intro ⟨z, hz⟩
-  have h : (3 : ℤ) ∣ 2 := by
-    refine ⟨z, ?_⟩
-    have hq : (2 : ℚ) = 3 * (z : ℚ) := by linarith
-    exact_mod_cast hq
-  norm_num at h
-
-/-- The corrected multiplier clears all coefficients of the primitive and reduced form at three. -/
-example : (9 * (2 / 9 : ℚ) = 2) ∧ (9 * (4 / 45 : ℚ) = 4 / 5) ∧
-    (9 * (-(2 / 15) : ℚ) = -(6 / 5)) ∧ (9 * (-(1 / 5) : ℚ) = -(9 / 5)) := by
-  norm_num
-
-/-- Unit test (non-example for the printed Lemma 3 and the literal errata formula):
-both give the exponent `⌊log_5 1⌋ = 0` here. -/
-example : Nat.log 5 (2 * 0 + 1) = 0 ∧ Nat.log 5 ((2 * 1 + 1) * (0 + 1) - 2) = 0 := by
-  decide
-
-/-- Unit test: the reduction of `y dx = Q dx/y` for `Q = x³ + x + 1` uses
-`d((2/5)xy) = (2/5)(Q + xQ'/2) dx/y` and leaves `(2/5)x + 3/5`, whose denominators are `5`. -/
-example :
-    let Q : ℚ[X] := X ^ 3 + X + 1
-    Q - C (2 / 5) * (Q + C (1 / 2) * (X * derivative Q)) = C (2 / 5) * X + C (3 / 5) := by
-  sorry
-
-/-- Unit test: genus two over `𝔽_3` has lattice defect exponent `1`; genus one has `0`. -/
-example : latticeDefectExponent 3 2 = 1 ∧ latticeDefectExponent 3 1 = 0 := by
-  decide
-
-/-- Unit test: genus two over `𝔽_7` (`n = 1`) needs precision `3`. -/
-example : tuitmanReconstructionPrecision 7 2 1 = 3 := by
-  sorry
-
-/-- Unit test: the Weil factor of `y² = x⁵ + x + 3` over `𝔽₇` is the reverse characteristic
-polynomial convention of Mathlib (`Matrix.charpolyRev`): its reverse is the monic
-`T⁴ + 3T³ + 7T² + 21T + 49`. -/
-example : (1 + 3 * X + 7 * X ^ 2 + 21 * X ^ 3 + 49 * X ^ 4 : ℤ[X]).reverse =
-    X ^ 4 + 3 * X ^ 3 + 7 * X ^ 2 + 21 * X + 49 := by
-  sorry
 
 end DenominatorBounds
 
