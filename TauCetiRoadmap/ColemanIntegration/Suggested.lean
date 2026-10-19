@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
+import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 import TauCetiRoadmap.RestrictedPowerSeries.Suggested
 
 /-!
@@ -34,6 +35,167 @@ open scoped PowerSeries
 noncomputable section
 
 namespace TauCetiRoadmap.ColemanIntegration
+
+/-! ## Headline results: global polylogarithms and noncritical values -/
+
+/-- The interface used by Layers L2 and L3: `L` is multiplicative on `ℂ_p^×`, is the logarithm
+series on `1 + 𝔪`, and sends `p` to `a`. -/
+structure IsLogBranch (p : ℕ) [Fact p.Prime] (a : ℂ_[p]) (L : ℂ_[p] → ℂ_[p]) : Prop where
+  map_mul : ∀ x y : ℂ_[p], x ≠ 0 → y ≠ 0 → L (x * y) = L x + L y
+  map_p : L (p : ℂ_[p]) = a
+  hasSum_one_add : ∀ x : ℂ_[p], ‖x‖ < 1 →
+    HasSum (fun n : ℕ => (-1 : ℂ_[p]) ^ n * x ^ (n + 1) / (n + 1)) (L (1 + x))
+
+/-- For `k ≥ 2`, `Li_k^ℂ(z) = ∑_{n ≥ 1} zⁿ/nᵏ` on the closed unit disc. At weight one use
+`-log (1-z)`: its boundary series converges in the natural order, whereas Mathlib's `tsum`
+requires unconditional convergence and would give zero at `z = -1`. -/
+def complexPolylog (k : ℕ) (z : ℂ) : ℂ :=
+  if k = 1 then -Complex.log (1 - z)
+  else ∑' n : ℕ, z ^ (n + 1) / ((n + 1 : ℕ) : ℂ) ^ k
+
+/-- The whole-disc, logarithmic-end and Frobenius characterization of the Coleman
+polylogarithm sequence (L2.3–L2.5 and L2.16). Each end coefficient is one power series
+on the whole unit disc. The values at one in weights at least two are limits along
+finitely ramified intermediate fields; no continuity at one on all of `ℂ_p` is asserted. -/
+structure IsColemanPolylog (p : ℕ) [Fact p.Prime] (L : ℂ_[p] → ℂ_[p])
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) : Prop where
+  zero_weight : ∀ z, z ≠ 1 → Li 0 z = z / (1 - z)
+  one_weight : ∀ z, z ≠ 1 → Li 1 z = -L (1 - z)
+  at_zero : ∀ k, Li k 0 = 0
+  at_one_low : Li 0 1 = 0 ∧ Li 1 1 = 0
+  series : ∀ k z, ‖z‖ < 1 →
+    HasSum (fun m : ℕ => z ^ (m + 1) / (m + 1 : ℂ_[p]) ^ k) (Li k z)
+  ordinary_disc : ∀ k x, ‖x‖ ≤ 1 → ‖x - 1‖ = 1 →
+    ∃ P : FormalMultilinearSeries ℂ_[p] ℂ_[p] ℂ_[p],
+      HasFPowerSeriesOnBall (Li k) P x 1
+  at_one : ∀ k, 1 ≤ k → ∃ (m : ℕ) (g : ℕ → ℂ_[p] → ℂ_[p]),
+    (∀ j ≤ m, ∃ P : FormalMultilinearSeries ℂ_[p] ℂ_[p] ℂ_[p],
+      HasFPowerSeriesOnBall (g j) P 0 1) ∧
+    ∀ z, 0 < ‖z - 1‖ → ‖z - 1‖ < 1 →
+      Li k z = ∑ j ∈ Finset.range (m + 1), g j (z - 1) * L (z - 1) ^ j
+  at_infty : ∀ k, ∃ (m : ℕ) (g : ℕ → ℂ_[p] → ℂ_[p]),
+    (∀ j ≤ m, ∃ P : FormalMultilinearSeries ℂ_[p] ℂ_[p] ℂ_[p],
+      HasFPowerSeriesOnBall (g j) P 0 1) ∧
+    ∀ z, 1 < ‖z‖ → Li k z = ∑ j ∈ Finset.range (m + 1), g j (z⁻¹) * L (z⁻¹) ^ j
+  derivative : ∀ k z, z ≠ 0 → z ≠ 1 → HasDerivAt (Li (k + 1)) (Li k z / z) z
+  frobenius : ∀ k, ∃ (g : ℂ_[p] → ℂ_[p])
+      (P : FormalMultilinearSeries ℂ_[p] ℂ_[p] ℂ_[p]),
+    HasFPowerSeriesOnBall g P 0 (ENNReal.ofReal ((p : ℝ) ^ (1 / (p - 1 : ℝ)))) ∧
+    ∀ z, (p : ℝ) ^ (-(1 / (p - 1 : ℝ))) < ‖z - 1‖ →
+      Li k z - (p : ℂ_[p]) ^ (-(k : ℤ)) * Li k (z ^ p) = g ((1 - z)⁻¹)
+  limit_at_one : ∀ k, 2 ≤ k → ∀ F : IntermediateField ℚ_[p] ℂ_[p],
+    (∃ e : ℕ, 0 < e ∧ ∀ x : F, x ≠ 0 → ∃ v : ℤ,
+      ‖(x : ℂ_[p])‖ = (p : ℝ) ^ ((v : ℝ) / (e : ℝ))) →
+      Tendsto (fun z : F => Li k z) (𝓝[({1} : Set F)ᶜ] 1) (𝓝 (Li k 1))
+
+/-- L2.3–L2.5 and L2.16: every logarithm branch has exactly one globally normalized
+Coleman polylogarithm sequence with whole-disc and logarithmic-end expansions and
+an overconvergent Frobenius difference. This includes the prime two. -/
+theorem existsUnique_colemanPolylog (p : ℕ) [Fact p.Prime] (a : ℂ_[p])
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p a L) :
+    ∃! Li : ℕ → ℂ_[p] → ℂ_[p], IsColemanPolylog p L Li := by
+  sorry
+
+/-- L3.28 and the dyadic formula of L3.36: Coleman's Gauss-sum formula for
+`L_p(θ ω^(1-k), k)`. Its value is expressed as a limit of the pinned generalized
+Bernoulli numbers, along positive weights congruent to `1-k` modulo the order
+of the Teichmüller character. Pure p-power conductors are included. -/
+theorem coleman_dirichlet_LValue (p : ℕ) [Fact p.Prime]
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p 0 L)
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) (hLi : IsColemanPolylog p L Li)
+    {N : ℕ} [NeZero N] (hN : 2 ≤ N) (θ : DirichletCharacter ℂ_[p] N)
+    (hθ : θ.IsPrimitive) (hne : θ ≠ 1) (ε : ℂ_[p]) (hε : IsPrimitiveRoot ε N)
+    (k : ℕ) (hk : 1 ≤ k) :
+    let m := fun r : ℕ => (if p = 2 then 2 else p - 1) * (k + 1) * p ^ r + 1 - k
+    Tendsto (fun r => -(1 - θ p * (p : ℂ_[p]) ^ (m r - 1)) *
+        θ.generalizedBernoulli (m r) / (m r : ℂ_[p])) atTop
+      (𝓝 ((1 - θ p * (p : ℂ_[p]) ^ (-(k : ℤ))) *
+        (∑ c : (ZMod N)ˣ, θ⁻¹ c * ε ^ (c : ZMod N).val)⁻¹ *
+          ∑ c : (ZMod N)ˣ, θ⁻¹ c * Li k (ε ^ (c : ZMod N).val))) := by
+  sorry
+
+/-- L3.29 and L3.36: the trivial-character value `L_p(ω^(1-k), k)` is
+`(1-p^(-k)) Li_k(1)`, for every prime and every weight at least two. The Bernoulli
+limit avoids a p-adic L-function carrier and excludes the pole at weight one. -/
+theorem coleman_trivial_LValue (p : ℕ) [Fact p.Prime]
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p 0 L)
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) (hLi : IsColemanPolylog p L Li)
+    (k : ℕ) (hk : 2 ≤ k) :
+    let m := fun r : ℕ => (if p = 2 then 2 else p - 1) * (k + 1) * p ^ r + 1 - k
+    Tendsto (fun r => -(1 - (p : ℂ_[p]) ^ (m r - 1)) *
+        (bernoulli (m r) : ℂ_[p]) / (m r : ℂ_[p])) atTop
+      (𝓝 ((1 - (p : ℂ_[p]) ^ (-(k : ℤ))) * Li k 1)) := by
+  sorry
+
+/-- L2.70: Coleman's dilogarithm satisfies the scalar five-term relation for every
+branch, including at the prime two, on the entire admissible locus. -/
+theorem coleman_dilog_fiveTerm (p : ℕ) [Fact p.Prime] (a : ℂ_[p])
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p a L)
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) (hLi : IsColemanPolylog p L Li)
+    (x y : ℂ_[p]) (hx0 : x ≠ 0) (hx1 : x ≠ 1) (hy0 : y ≠ 0)
+    (hy1 : y ≠ 1) (hxy : x ≠ y) :
+    let D := fun z => Li 2 z + L z * L (1 - z) / 2
+    D x - D y + D (y / x) - D ((1 - x⁻¹) / (1 - y⁻¹)) +
+      D ((1 - x) / (1 - y)) = 0 := by
+  sorry
+
+/-- L2.70: the cyclic sum of Coleman's dilogarithm on the cross-ratios of
+five distinct projective points vanishes, with homogeneous determinant conventions. -/
+theorem coleman_dilog_projective_fiveTerm (p : ℕ) [Fact p.Prime] (a : ℂ_[p])
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p a L)
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) (hLi : IsColemanPolylog p L Li)
+    (s : Fin 5 → Projectivization ℂ_[p] (Fin 2 → ℂ_[p])) (hs : Function.Injective s) :
+    let Δ := fun u v : Projectivization ℂ_[p] (Fin 2 → ℂ_[p]) =>
+      u.rep 0 * v.rep 1 - u.rep 1 * v.rep 0
+    let cr := fun u v w t => Δ u v * Δ w t / (Δ u t * Δ w v)
+    let D := fun z => Li 2 z + L z * L (1 - z) / 2
+    ∑ i : Fin 5, D (cr (s i) (s (i + 1)) (s (i + 2)) (s (i + 3))) = 0 := by
+  sorry
+
+/-- L3.15 and L3.36 in scalar form: after inserting the cyclotomic regulator
+expressions, one nonzero rational coefficient gives both the complex and p-adic
+comparisons for every nontrivial primitive Dirichlet character of the required parity.
+The factor `(-1)^n (n-1)!` uses the raw-symbol convention. -/
+theorem dirichlet_beilinson_scalar_comparison (p : ℕ) [Fact p.Prime]
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p 0 L)
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) (hLi : IsColemanPolylog p L Li)
+    {E : Type*} [Field E] [NumberField E] (ιC : E →+* ℂ) (ιp : E →+* ℂ_[p])
+    {N : ℕ} [NeZero N] (hN : 2 ≤ N) (χ : DirichletCharacter E N)
+    (hχ : χ.IsPrimitive) (hne : χ ≠ 1) (ε : E) (hε : IsPrimitiveRoot ε N)
+    (n : ℕ) (hn : 2 ≤ n) (hpar : χ (-1) = (-1 : E) ^ (n - 1)) :
+    let θC : DirichletCharacter ℂ N := χ.ringHomComp ιC
+    let θp : DirichletCharacter ℂ_[p] N := χ.ringHomComp ιp
+    let GC := ∑ c : (ZMod N)ˣ, θC⁻¹ c * ιC ε ^ (c : ZMod N).val
+    let Gp := ∑ c : (ZMod N)ˣ, θp⁻¹ c * ιp ε ^ (c : ZMod N).val
+    let RC := (-1 : ℂ) ^ n * (n - 1).factorial *
+      ∑ c : (ZMod N)ˣ, θC⁻¹ c * complexPolylog n (ιC ε ^ (c : ZMod N).val)
+    let Rp := (-1 : ℂ_[p]) ^ n * (n - 1).factorial *
+      ∑ c : (ZMod N)ˣ, θp⁻¹ c * Li n (ιp ε ^ (c : ZMod N).val)
+    let m := fun r : ℕ => (if p = 2 then 2 else p - 1) * (n + 1) * p ^ r + 1 - n
+    ∃ e : ℚ, e = (-1 : ℚ) ^ n / (n - 1).factorial ∧ e ≠ 0 ∧ RC ≠ 0 ∧
+      DirichletCharacter.LFunction θC n * GC = (e : ℂ) * RC ∧
+      Tendsto (fun r => -(1 - θp p * (p : ℂ_[p]) ^ (m r - 1)) *
+        DirichletCharacter.generalizedBernoulli θp (m r) / (m r : ℂ_[p])) atTop
+        (𝓝 ((e : ℂ_[p]) * (1 - θp p * (p : ℂ_[p]) ^ (-(n : ℤ))) * Rp / Gp)) := by
+  sorry
+
+/-- L3.36 for the trivial Dirichlet motive: the basis represented by `[-1]_n`
+gives the same nonzero rational comparison coefficient in the complex and p-adic
+formulas, for odd weights at least three and every prime. -/
+theorem trivial_beilinson_scalar_comparison (p : ℕ) [Fact p.Prime]
+    (L : ℂ_[p] → ℂ_[p]) (hL : IsLogBranch p 0 L)
+    (Li : ℕ → ℂ_[p] → ℂ_[p]) (hLi : IsColemanPolylog p L Li)
+    (n : ℕ) (hn : 3 ≤ n) (hodd : Odd n) :
+    let m := fun r : ℕ => (if p = 2 then 2 else p - 1) * (n + 1) * p ^ r + 1 - n
+    ∃ e : ℚ, e = (2 : ℚ) ^ (n - 1) /
+        ((2 ^ (n - 1) - 1) * (n - 1).factorial) ∧ e ≠ 0 ∧
+      complexPolylog n (-1) ≠ 0 ∧ riemannZeta n =
+        (e : ℂ) * ((-1 : ℂ) ^ n * (n - 1).factorial * complexPolylog n (-1)) ∧
+      Tendsto (fun r => -(1 - (p : ℂ_[p]) ^ (m r - 1)) *
+        (bernoulli (m r) : ℂ_[p]) / (m r : ℂ_[p])) atTop
+        (𝓝 ((e : ℂ_[p]) * (1 - (p : ℂ_[p]) ^ (-(n : ℤ))) *
+          ((-1 : ℂ_[p]) ^ n * (n - 1).factorial * Li n (-1)))) := by
+  sorry
 
 /-! ## Layer L0: power series, residues and logarithm branches -/
 
@@ -345,14 +507,6 @@ section Branch
 
 variable (p : ℕ) [Fact p.Prime]
 
-/-- The interface used by Layers L2 and L3: `L` is multiplicative on `ℂ_p^×`, is the logarithm
-series on `1 + 𝔪`, and sends `p` to `a`. -/
-structure IsLogBranch (a : ℂ_[p]) (L : ℂ_[p] → ℂ_[p]) : Prop where
-  map_mul : ∀ x y : ℂ_[p], x ≠ 0 → y ≠ 0 → L (x * y) = L x + L y
-  map_p : L (p : ℂ_[p]) = a
-  hasSum_one_add : ∀ x : ℂ_[p], ‖x‖ < 1 →
-    HasSum (fun n : ℕ => (-1 : ℂ_[p]) ^ n * x ^ (n + 1) / (n + 1)) (L (1 + x))
-
 /-- L0.15: the valuation adapter to the Iwasawa logarithm of DirichletPadicLFunctions §0.6
 is the unique branch on `ℂ_p` with parameter `a` and value zero at zero. -/
 theorem existsUnique_logBranch (a : ℂ_[p]) :
@@ -591,13 +745,6 @@ end PolylogSeries
 /-! ### L2.Fa: complex polylogarithms on the closed unit disc -/
 
 section ComplexPolylog
-
-/-- For `k ≥ 2`, `Li_k^ℂ(z) = ∑_{n ≥ 1} zⁿ/nᵏ` on the closed unit disc. At weight one use
-`-log (1-z)`: its boundary series converges in the natural order, whereas Mathlib's `tsum`
-requires unconditional convergence and would give zero at `z = -1`. -/
-def complexPolylog (k : ℕ) (z : ℂ) : ℂ :=
-  if k = 1 then -Complex.log (1 - z)
-  else ∑' n : ℕ, z ^ (n + 1) / ((n + 1 : ℕ) : ℂ) ^ k
 
 /-- L2.Fa: for `k ≥ 2` the series converges absolutely on the closed disc and its sum is
 continuous there. -/
