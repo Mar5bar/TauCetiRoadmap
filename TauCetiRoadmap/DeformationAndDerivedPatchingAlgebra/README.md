@@ -292,7 +292,7 @@ Let `R` be Noetherian, `I⊂R`, and let `S` be any flat `R`-algebra; `S` need no
 M⊗_R Ŝ ≅ lim_n (M⊗_R S/I^nS)
 ```
 
-for every finite `R`-module `M`, and exactness of completion of a short exact sequence of finite `R`-modules after tensoring by `S`. Use Artin–Rees on `M_1⊂M_2`: for sufficiently large `c`, `M_1∩I^nM_2=I^(n-c)(M_1∩I^cM_2)`, so the induced filtration is cofinal with the ordinary one. The comparison is natural in the finite module, the algebra and cofinal filtrations. It proves `Ŝ` flat over `R` and the corresponding `R̂`-flat comparison (André, Lemma 1.1.1 and proof, printed pp. 75–76).
+for every finite `R`-module `M`, and exactness of completion of a short exact sequence of finite `R`-modules after tensoring by `S`. Use Artin–Rees on `M_1⊂M_2`: for sufficiently large `c`, `M_1∩I^nM_2=I^(n-c)(M_1∩I^cM_2)`, so the induced filtration is cofinal with the ordinary one. The comparison is natural in the finite module, the algebra and cofinal filtrations. The consequence `flatCompletion_flat` gives `Ŝ` flat over `R`; the same comparison over `R̂` gives the `R̂`-flat statement (André, Lemma 1.1.1 and proof, printed pp. 75–76).
 
 For faithfulness state the sufficient assumptions explicitly: `S` faithfully flat and `I⊂Jac(R)` suffice. Alternatively one may use faithful flatness with `IS⊂Jac(S)` to ensure the needed residue fibres survive. Completion at an arbitrary ideal is not automatically faithfully flat. The finite-module comparison does not interchange an arbitrary infinite presentation with the limit.
 
@@ -643,7 +643,7 @@ Define `symbolicSquare p`, the **second symbolic power** of a prime `p`, as the 
 
 - For `p=(0)` in a domain, both squares are zero.
 - For the maximal ideal of a local ring, symbolic and ordinary squares agree.
-- In `k[x,y,z]/(xz-y²)`, for `p=(x,y)`, `x` belongs to the symbolic square since `zx=y²`, with `z∉p`, but `x∉p²` by degree. This calculation works in characteristic two.
+- The target `symbolicSquare_quadric_strict` states that in `k[x,y,z]/(xz-y²)`, for `p=(x,y)`, `x` belongs to the symbolic square since `zx=y²`, with `z∉p`, but `x∉p²` by degree. This calculation works in characteristic two.
 
 Source: Iyengar–Khare–Manning, before Lemma 3.4, p. 18, and Lemma 7.5, p. 33; Stacks, Algebra §§10.63, 10.157, tags 05BW–05DZ, 0311, 031T. Needs: native support/associated primes/localization and the SchemeAndStackFoundations normality contract. No duplicate definition of associated primes or Serre conditions is introduced.
 
@@ -786,7 +786,7 @@ For finite residue fields use `A(t)=A[t]_(mA[t])`: its residue is `k(t)`, its ma
 
 - A field has length and multiplicity one, with the empty parameter system. A complete DVR, including `k[[π]]` and ramified mixed characteristic with residue `𝔽₂`, has `H(n)=n+1` and multiplicity one. Adjoining `r=0,1,2` formal variables gives the regular examples of dimensions `1,2,3`.
 - `k[ε]/ε²` is formally unmixed but has length and multiplicity two, so it is not regular. A unit ideal is excluded from the m-primary parameter-reduction input on a nonzero ring.
-- `A=k[[x,y]]/(x²,xy)` has `H(0)=1`, `H(n)=n+2` for `n≥1`, and multiplicity one, but embedding dimension two and dimension one. Its embedded associated prime `m` has zero-dimensional quotient. Equidimensionality of minimal components cannot replace formal unmixedness.
+- The target `formallyUnmixed_embeddedPrime_failure` excludes formal unmixedness for `A=k[[x,y]]/(x²,xy)`. This ring has `H(0)=1`, `H(n)=n+2` for `n≥1`, and multiplicity one, but embedding dimension two and dimension one. Its embedded associated prime `m` has zero-dimensional quotient. Equidimensionality of minimal components cannot replace formal unmixedness.
 - Over a finite residue field the generic residue extension is used before choosing superficial degree-one parameters. Its own residue is infinite; it is not asserted to be an integral finite extension.
 - The rank-one finite birational normalization has extension factor one only after keeping the factor `[k_B:k_A]`. Dropping that factor would falsely identify multiplicities measured over different residue fields.
 
@@ -874,7 +874,7 @@ Layer 1; the depth, CM, Serre and excellence contracts of SchemeAndStackFoundati
 
 ### 4.1 Finiteness from a residual fibre
 
-Let `A` be a maximal-adically complete separated local ring and `B` a Noetherian local `A`-algebra with local coefficient map. If `B/m_A B` is finite dimensional over `k_A`, then `B` is finite over `A`. The target need not initially be complete and the map need not be injective. The finite-module version takes a finite `B`-module `M` with finite-dimensional `M/m_A M`. Choose lifts of residual generators to obtain an `A`-linear map `A^r→M` surjective modulo `m_A`. Since `m_A B⊆m_B`, Krull intersection on the finite `B`-module `M` gives `⋂_n (m_A B)^n M⊆⋂_n m_B^n M=0`. Thus `M` is separated for the source ideal; completeness of `A^r` and native `surjective_of_mkQ_comp_surjective` give surjectivity. Taking `M=B` proves the ring statement. Apply it also to a specified map between completions, using `AdicSpacesPartII` §R0.1b for Noetherianity of the target completion and the actual induced local map.
+Let `A` be a maximal-adically complete separated local ring and `B` a Noetherian local `A`-algebra with local coefficient map. If `B/m_A B` is finite dimensional over `k_A`, then `B` is finite over `A`. The target need not initially be complete and the map need not be injective. The finite-module version `finiteModule_of_finite_residual_fibre` takes a finite `B`-module `M` with finite-dimensional `M/m_A M`. Choose lifts of residual generators to obtain an `A`-linear map `A^r→M` surjective modulo `m_A`. Since `m_A B⊆m_B`, Krull intersection on the finite `B`-module `M` gives `⋂_n (m_A B)^n M⊆⋂_n m_B^n M=0`. Thus `M` is separated for the source ideal; completeness of `A^r` and native `surjective_of_mkQ_comp_surjective` give surjectivity. Taking `M=B` proves the ring statement. Apply it also to a specified map between completions, using `AdicSpacesPartII` §R0.1b for Noetherianity of the target completion and the actual induced local map.
 
 For a complete DVR with finite residue, a Noetherian local `O`-algebra is finite over `O` exactly when `A/πA` has finite cardinality. No flatness is implicit. The dimension-zero finite-ring deduction uses native Artinianity and finite maximal-ideal quotients; if all prime quotients of a Noetherian local ring are finite, the ring itself is finite. The finite faithful-action conclusion of §3.3 is a second route to finiteness, with different hypotheses.
 
@@ -1017,8 +1017,8 @@ for every finite `S`-module. In the long exact sequence for `O --π→ O→k`, t
 **Checks.**
 
 - `M=0` is balanced with the empty square presentation; `S^r` has defect `r`.
-- Over `k[ε]/ε²`, `k` has square presentation by multiplication by `ε`, but infinite projective dimension.
-- Over `k[[x,y]]`, the residue field has `β₀=1, β₁=2` and is not balanced.
+- The target `squarePresentation_dualNumbers_residue` gives the square presentation of `k` over `k[ε]/ε²` by multiplication by `ε`, despite its infinite projective dimension.
+- The target `squarePresentation_twoVariable_residue_failure` excludes a square presentation for the residue field over `k[[x,y]]`: it has `β₀=1, β₁=2` and is not balanced.
 - For the trivial group, `S=O` and a finite free module has zero Tor correction and defect its rank.
 
 Source: Calegari–Geraghty, Definitions 2.1–2.2 and the paragraph following them, PDF p. 11; the group-ring Tor calculation in the proof of Proposition 2.3. Needs: native presentations and Tor, §§3.1, 3.11. The comparison with cohomological Tor uses §7.1, but the square-presentation formulation makes the module patching theorem independent of complex patching.
@@ -1335,9 +1335,9 @@ Source: Stacks §15.66, tags [064Q](https://stacks.math.columbia.edu/tag/064Q), 
 
 ### 7.3 Minimal finite free representatives and residual detection
 
-For a native complex over `(A,m,k)`, define `IsMinimal C` by `range d^i⊆m C^(i+1)` for all `i`. This predicate includes no finiteness, freeness or bound. Its API identifies it with zero residue differentials, with all differential entries in `m` in chosen bases, and gives isomorphism/shift transport. A unit entry in a based finite free differential splits off the identity disk in those two degrees by explicit row and column changes. The chain relation clears the adjacent components. Both ranks fall by one over a nonzero ring. Iterating from the upper bound gives a minimal representative of any bounded-above finite free complex and a homotopy equivalence. The removed disks form a degreewise finite coproduct; only disks starting in degrees `i-1,i` meet degree `i`. A bounded complex retains its original term interval.
+For a native complex over `(A,m,k)`, define `IsMinimal C` by `range d^i⊆m C^(i+1)` for all `i`. This predicate includes no finiteness, freeness or bound. Its API identifies it with zero residue differentials, with all differential entries in `m` in chosen bases, and gives isomorphism/shift transport. A unit entry in a based finite free differential splits off the identity disk in those two degrees by explicit row and column changes. The chain relation clears the adjacent components. Both ranks fall by one over a nonzero ring. The target `minimal_finiteFree_representative` iterates from the upper bound to give a minimal representative of any bounded-above finite free complex and a homotopy equivalence. The removed disks form a degreewise finite coproduct; only disks starting in degrees `i-1,i` meet degree `i`. A bounded complex retains its original term interval.
 
-For minimal complexes, homotopic maps agree after residue reduction. A homotopy equivalence of termwise finite free minimal complexes is a strict chain isomorphism, degree by degree using Nakayama; no bound is needed for this implication. To pass from a derived isomorphism to such a homotopy equivalence, use bounded-above projectivity. Uniqueness means existence of a chain isomorphism, not a unique comparison or a canonical model. Minimal ranks are
+For minimal complexes, homotopic maps agree after residue reduction. The target `minimal_homotopyEquivalence_isIso` makes a homotopy equivalence of termwise finite free minimal complexes a strict chain isomorphism, degree by degree using Nakayama; no bound is needed for this implication. To pass from a derived isomorphism to such a homotopy equivalence, use bounded-above projectivity. Uniqueness means existence of a chain isomorphism, not a unique comparison or a canonical model. Minimal ranks are
 
 `rank_A C^i=dim_k H^i(C⊗ᴸk)`.
 
@@ -1390,12 +1390,12 @@ The API `completeFlatMatrix` identifies continuous linear maps with matrices who
 - The matrix with every column the first basis vector defines the convergent sum of coefficients; its first row has infinite support. Requiring finite row support would exclude this continuous map.
 - Empty `J` gives zero; one generator gives `A`. The nonflat residue module over a DVR is excluded from `completeFlatBasis`.
 
-Over a complete Noetherian local `A`, the predicate `CompleteFlatComplex C` on a native cochain complex means that it is bounded in terms, termwise flat and termwise separated complete for `m`. This is the **complete flat complex** carrier; terms may have infinite rank, and minimality is the same `IsMinimal` as in §7.3. Its API gives chain-isomorphism transport, finite sums, shifts, cones and K-flatness. Using lifted topological residue bases, split a map between complete flat modules into an invertible block and a block reducing to zero. Cancel these disks in a bounded complex. Obtain a chosen minimal complete flat `N`, chain maps `i:N→C`, `s:C→N`, `s i=id_N` and `i s∼id_C`, in the same term interval. Its residue terms identify with `H^j(C⊗k)`. If these spaces are finite-dimensional, `N` is finite free. Residue acyclicity gives a contraction; a residue quasi-isomorphism between complete flat complexes gives a quasi-isomorphism. Transfer of an endomorphism is `s t i`: it respects multiplication **up to homotopy**, and hence in the homotopy/derived category. It need not give a strict chain action.
+Over a complete Noetherian local `A`, the predicate `CompleteFlatComplex C` on a native cochain complex means that it is bounded in terms, termwise flat and termwise separated complete for `m`. This is the **complete flat complex** carrier; terms may have infinite rank, and minimality is the same `IsMinimal` as in §7.3. Its API gives chain-isomorphism transport, finite sums, shifts, cones and K-flatness. Using lifted topological residue bases, split a map between complete flat modules into an invertible block and a block reducing to zero. Cancel these disks in a bounded complex. The target `completeFlat_minimal_retract` gives a chosen minimal complete flat `N`, chain maps `i:N→C`, `s:C→N`, `s i=id_N` and `i s∼id_C`, in the same term interval. Its residue terms identify with `H^j(C⊗k)`. If these spaces are finite-dimensional, `N` is finite free. Residue acyclicity gives a contraction; a residue quasi-isomorphism between complete flat complexes gives a quasi-isomorphism. Transfer of an endomorphism is `s t i`: it respects multiplication **up to homotopy**, and hence in the homotopy/derived category. It need not give a strict chain action.
 
 **Checks.**
 
 - Zero and bounded finite free complexes are complete flat.
-- A fraction field over a complete DVR is flat but not separated for the adic topology.
+- The target `completeFlat_fractionField_failure` excludes a fraction-field stalk over a DVR: it is flat but not separated for the adic topology, even when the DVR is complete.
 - An identity disk contracts to zero; the `π`-disk retains two minimal terms.
 - Two transfers whose products differ by the retract homotopy test that strict multiplication is not silently claimed.
 
@@ -1448,7 +1448,7 @@ Let `(A,m)` be complete Noetherian local and `P,Q` bounded finite free native co
 
 `Hom_D(A)(P,Q) ≃ lim_n Hom_D(A/m^(n+1))(P_n,Q_n)`.
 
-Its API preserves identities, composition and coefficient projections, so the endomorphism case is a ring isomorphism. Unlike the supplied effectivity of perfect systems, this asserts completeness of the **derived Hom module**, rather than effectivity of its objects. Use the finite Hom complex and the supplied Milnor comparison on its cohomology; finite-length images stabilize and kill `lim¹`. Chain maps need not lift uniquely, and the limit is not a limit of sets of chosen chain representatives.
+Its API preserves identities, composition and coefficient projections, so the endomorphism case is a ring isomorphism. Unlike the supplied effectivity of perfect systems, this asserts completeness of the **derived Hom module**, rather than effectivity of its objects. The target `finiteDerivedHom_isAdicComplete` records that completeness on the native derived morphism module. Use the finite Hom complex and the supplied Milnor comparison on its cohomology; finite-length images stabilize and kill `lim¹`. Chain maps need not lift uniquely, and the limit is not a limit of sets of chosen chain representatives.
 
 Also prove `finiteModule_inverseLimit_exact` for arbitrary small cofiltered systems of finite modules over a complete Noetherian local ring. This extends the supplied countable Mittag–Leffler result. Apply the exact contravariant Matlis functor to an objectwise short exact diagram, take the exact filtered colimit, and apply the Matlis functor again. Since Hom into the injective hull converts colimits into limits and finite modules identify naturally with their Matlis biduals, the result is the original inverse-limit sequence. This proof uses the supplied Matlis equivalence and exactness on all modules; no new linearly compact carrier or finite residue field is required.
 
@@ -1657,7 +1657,7 @@ Layers 1, 5 and 7; completed group algebras and formal coefficient evaluation; n
 
 ### 9.1 Complex support and dimension
 
-Define `derivedSupport C`, the **complex support**, as `⋃_i Supp_A H^i(C)` on the native prime spectrum, and `cohomologyAnnihilator C` as `⋂_i ann_A H^i(C)`. Neither definition needs finiteness. The APIs give membership by nonzero localized cohomology, invariance under derived isomorphism and shift, stalk formulas, direct-sum union/intersection, and triangle support containments with their rotations. Empty support detects the zero derived object. For bounded finite cohomology, support is the zero locus of the cohomology annihilator; for Noetherian `A`, full support is equivalent to nilpotence of that ideal. The ideal need not equal the kernel of the scalar derived action, although §7.9 compares their radicals.
+Define `derivedSupport C`, the **complex support**, as `⋃_i Supp_A H^i(C)` on the native prime spectrum, and `cohomologyAnnihilator C` as `⋂_i ann_A H^i(C)`. Neither definition needs finiteness. The APIs give membership by nonzero localized cohomology, invariance under derived isomorphism and shift, stalk formulas, direct-sum union/intersection, and triangle support containments with their rotations. The target `derivedSupport_empty_iff` detects the zero derived object by empty support. For bounded finite cohomology, `derivedSupport_eq_zeroLocus` identifies support with the zero locus of the cohomology annihilator; for Noetherian `A`, full support is equivalent to nilpotence of that ideal. The ideal need not equal the kernel of the scalar derived action, although §7.9 compares their radicals.
 
 **Checks.**
 
@@ -1684,7 +1684,7 @@ Let `S` be regular local of dimension `d`, and `C≠0` perfect of Tor-amplitude 
 
 `dim Supp H^m(C) ≥ d-(m-a)`.
 
-Consequently `dim Supp C≥d-l`. If `dim Supp C≤d-l`, the inequalities force `m=b`: only `H^b(C)=M≠0` remains. Its projective dimension is exactly `l` and `depth_S M=dim Supp_S M=d-l`. In particular a finite algebra action whose cohomological support has dimension at most `d-l` gives this conclusion by finite integral dimension comparison. If `l=0`, `M` is finite free over `S`. A support bound and an ordinary cohomology interval do not replace the Tor-amplitude hypothesis.
+The target `codimension_amplitude_inequality` gives `dim Supp C≥d-l`. The target `balanced_dimension_concentration` states that if `dim Supp C≤d-l`, the inequalities force `m=b`: only `H^b(C)=M≠0` remains. Its projective dimension is exactly `l` and `depth_S M=dim Supp_S M=d-l`. In particular a finite algebra action whose cohomological support has dimension at most `d-l` gives this conclusion by finite integral dimension comparison. If `l=0`, `M` is finite free over `S`. A support bound and an ordinary cohomology interval do not replace the Tor-amplitude hypothesis.
 
 The CM-base extension is also retained. For nonzero perfect `C` over a CM local `S`, prove
 

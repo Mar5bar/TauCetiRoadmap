@@ -18,7 +18,7 @@ Cochains have C[n]^i = C^(i+n); a module in degree b is M[-b].
 noncomputable section
 universe u v w
 open IsLocalRing
-open scoped Pointwise
+open scoped Pointwise TensorProduct
 
 namespace TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
 
@@ -35,6 +35,36 @@ Specializing the coefficient base retains the joint-completion carrier and the
 chosen presentation kernel. Continuous framed representing pairs are compared
 by the unique coefficient isomorphism preserving the actual universal lift.
 -/
+
+/-! ## Layer 1: Formal presentations and flat completion -/
+
+/-- Cotangent generators and a surjective residue map make the chosen series map surjective. -/
+theorem seriesPresentation_surjective
+    [IsLocalRing A] [IsNoetherianRing A] [IsAdicComplete (maximalIdeal A) A]
+    {B : Type u} [CommRing B] [IsLocalRing B] [IsNoetherianRing B]
+    [IsAdicComplete (maximalIdeal B) B]
+    (r : ℕ) (f : MvPowerSeries (Fin r) A →+* B) [IsLocalHom f]
+    (hresidue : ∀ b : B, ∃ a : A, b - f (MvPowerSeries.C a) ∈ maximalIdeal B)
+    (hcotangent : maximalIdeal B ≤
+      (maximalIdeal B) ^ 2 ⊔ (maximalIdeal A).map (f.comp MvPowerSeries.C) ⊔
+        Ideal.span (Set.range (fun i : Fin r => f (MvPowerSeries.X i)))) :
+    Function.Surjective f := by
+  sorry
+
+/-- Flat scalar extension commutes with completion on finite modules over a Noetherian base. -/
+theorem flatCompletion_finiteComparison
+    [IsNoetherianRing A] [Module.Finite A M]
+    {S : Type u} [CommRing S] [Algebra A S] [Module.Flat A S] (I : Ideal A) :
+    ∃ e : (M ⊗[A] AdicCompletion I S) ≃ₗ[A] AdicCompletion I (M ⊗[A] S),
+      ∀ (m : M) (s : S), e (m ⊗ₜ[A] AdicCompletion.of I S s) =
+        AdicCompletion.of I (M ⊗[A] S) (m ⊗ₜ[A] s) := by
+  sorry
+
+/-- Completing a flat algebra at a base ideal preserves flatness over the Noetherian base. -/
+theorem flatCompletion_flat [IsNoetherianRing A]
+    {S : Type u} [CommRing S] [Algebra A S] [Module.Flat A S] (I : Ideal A) :
+    Module.Flat A (AdicCompletion I S) := by
+  sorry
 
 /-! ## Layer 3: Homological dimension, local duality and multiplicity -/
 
@@ -81,17 +111,9 @@ theorem multiplicityOne_regular [IsLocalRing A] [IsNoetherianRing A]
     IsRegularLocalRing A ↔ FormallyUnmixed A ∧ multiplicityCoefficient d P = 1 := by
   sorry
 
-example (K : Type u) [Field K] : FormallyUnmixed K := by
-  sorry
-
-example [IsDomain A] [IsDiscreteValuationRing A] : FormallyUnmixed A := by
-  sorry
-
-example (K : Type u) [Field K] : FormallyUnmixed (TrivSqZeroExt K K) := by
-  sorry
-
 /-- The embedded prime in k[[x,y]]/(x²,xy) obstructs formal unmixedness. -/
-example (K : Type u) [Field K] (R : Type u) [CommRing R] [IsLocalRing R]
+theorem formallyUnmixed_embeddedPrime_failure
+    (K : Type u) [Field K] (R : Type u) [CommRing R] [IsLocalRing R]
     (e : R ≃+* (MvPowerSeries (Fin 2) K ⧸ Ideal.span
       {(MvPowerSeries.X (0 : Fin 2) : MvPowerSeries (Fin 2) K) ^ 2,
         (MvPowerSeries.X (0 : Fin 2) : MvPowerSeries (Fin 2) K) *
@@ -99,47 +121,31 @@ example (K : Type u) [Field K] (R : Type u) [CommRing R] [IsLocalRing R]
     ¬ FormallyUnmixed R := by
   sorry
 
-/-- Degree-zero quotient-induced Ext over a field is nonzero. -/
-example (K : Type u) [Field K] :
-    ∃ x : CategoryTheory.Abelian.Ext (ModuleCat.of K K) (ModuleCat.of K K) 0,
-      x.comp (CategoryTheory.Abelian.Ext.mk₀ (CategoryTheory.CategoryStruct.id
-        (ModuleCat.of K K))) (Nat.add_zero 0) ≠ 0 := by
+/-- A finite projective base module forces finiteness and faithfulness over an equal-dimensional domain. -/
+theorem finiteProjectiveFaithful_of_equalDimensionDomains
+    [IsNoetherianRing A] [IsDomain A]
+    {D : Type u} [CommRing D] [IsNoetherianRing D] [IsDomain D] [Algebra A D]
+    [Module D M] [IsScalarTower A D M] [Nontrivial M]
+    [Module.Finite A M] [Module.Projective A M]
+    (d : ℕ) (hA : ringKrullDim A = d) (hD : ringKrullDim D = d) :
+    Module.Finite A D ∧ FaithfulSMul D M ∧
+      (IsRegularRing A → IsRegularRing D → Module.Projective D M) := by
   sorry
 
-/-- In the two-term parameter dual, the degree-one cokernel is A/(π). -/
-example (π : A) :
-    LinearMap.range (LinearMap.mul A A π) = Ideal.span {π} := by
+/-- Top local cohomology of a nonzero finite module occurs exactly at its support dimension. -/
+theorem localCohomology_top_nonzero
+    (N : Type u) [AddCommGroup N] [Module A N]
+    [IsLocalRing A] [IsNoetherianRing A] [Module.Finite A N] [Nontrivial N]
+    (d : ℕ) (hd : Module.supportDim A N = (d : WithBot ℕ∞)) :
+    (∀ i : ℕ, d < i → CategoryTheory.Limits.IsZero
+      ((localCohomology (maximalIdeal A) i).obj (ModuleCat.of A N))) ∧
+      ¬ CategoryTheory.Limits.IsZero
+        ((localCohomology (maximalIdeal A) d).obj (ModuleCat.of A N)) := by
   sorry
-
-/-- A parameter resolution in cochain degrees -1,0 dualizes with differential -2. -/
-example : (-1 : ℚ) ^ ((0 : ℤ) + 1) * 2 = -2 ∧
-    (-1 : ℚ) ^ ((0 : ℤ) + 1) * 2 ≠ 2 := by
-  norm_num
-
-/-- Nonflat reduction creates a kernel in the two-term multiplication-by-two complex. -/
-example : LinearMap.ker (LinearMap.mul ℤ ℤ 2) = ⊥ ∧
-    LinearMap.ker (LinearMap.mul (ZMod 2) (ZMod 2) 2) = ⊤ := by
-  sorry
-
-/-- The first coefficient copy deforms by +T; the right coefficient copy is fixed. -/
-example (K : Type u) [Field K] (t : K) :
-    (Polynomial.C t + Polynomial.X) - Polynomial.C t = (Polynomial.X : Polynomial K) ∧
-      Polynomial.C t - (Polynomial.C t + Polynomial.X) = -(Polynomial.X : Polynomial K) := by
-  sorry
-
-/-- The inseparable diagonal at p=2 is already a nonreduced local algebra. -/
-example : ∃ e : TrivSqZeroExt (ZMod 2) (ZMod 2), e ≠ 0 ∧ e ^ 2 = 0 := by
-  sorry
-
-/-- Multiplicity one for the DVR polynomial and length two in dimension zero. -/
-example : multiplicityCoefficient 1 (Polynomial.X + (1 : Polynomial ℚ)) = 1 ∧
-    multiplicityCoefficient 0 (Polynomial.C (2 : ℚ)) = 2 := by
-  norm_num [multiplicityCoefficient, Polynomial.coeff_one]
 
 /-- The trace ideal uses all linear functionals, without a projectivity assumption. -/
 def traceIdeal : Ideal A :=
   Ideal.span {a : A | ∃ (f : M →ₗ[A] A) (m : M), f m = a}
-
 
 /-- The symbolic square is localization at a prime followed by contraction. -/
 def symbolicSquare (p : Ideal A) [p.IsPrime] : Ideal A :=
@@ -174,7 +180,6 @@ theorem hilbertSamuel_degree_and_positive_integral_coefficient
     P.natDegree = d ∧ ∃ e : ℕ, 0 < e ∧ multiplicityCoefficient d P = (e : ℚ) := by
   sorry
 
-
 /-- The EnhancedDerivedSheaves §E1.6 bound specializes to finite modules over regular local rings. -/
 theorem regular_local_finite_module_dimension_bound
     [IsRegularLocalRing A] [Module.Finite A M] :
@@ -201,76 +206,8 @@ theorem frobenius_finite_of_complete_noetherian_local
     (frobenius A p).Finite := by
   sorry
 
-
-example : multiplicityCoefficient 0 (Polynomial.C (5 : ℚ)) = 5 := by
-  sorry
-
-example : multiplicityCoefficient 2
-    (Polynomial.C (1 / 2 : ℚ) * Polynomial.X^2 +
-      Polynomial.C (3 / 2 : ℚ) * Polynomial.X + 1) = 1 := by
-  sorry
-
-example : multiplicityCoefficient 2 (Polynomial.X + (1 : Polynomial ℚ)) = 0 := by
-  sorry
-
-example : multiplicityCoefficient 3 (0 : Polynomial ℚ) = 0 := by
-  sorry
-
-example [Subsingleton M] (I : Ideal A) (n : ℕ) :
-    hilbertSamuelFunction A M I n = 0 := by
-  sorry
-
-example (K : Type*) [Field K] (n : ℕ) : hilbertSamuelFunction K K ⊥ n = 1 := by
-  sorry
-
-example (n : ℕ) :
-    hilbertSamuelFunction ℤ ℤ (Ideal.span {(2 : ℤ)}) n = (n + 1 : ℕ∞) := by
-  sorry
-
-/-- Monomials of total degree at most n compute the two-variable cumulative length. -/
-example (K : Type u) [Field K] (n : ℕ) :
-    let R := MvPowerSeries (Fin 2) K
-    hilbertSamuelFunction R R (maximalIdeal R) n = (Nat.choose (n + 2) 2 : ℕ∞) := by
-  sorry
-
-/-- Powers of (2) scale cumulative length, including the zero quotient at exponent zero. -/
-example (r n : ℕ) :
-    hilbertSamuelFunction ℤ ℤ (Ideal.span {(2 : ℤ) ^ r}) n =
-      (r * (n + 1) : ℕ∞) := by
-  sorry
-
-example : traceIdeal A A = ⊤ := by
-  sorry
-
-example [Subsingleton M] : traceIdeal A M = ⊥ := by
-  sorry
-
-example : traceIdeal ℤ (ZMod 2) = ⊥ := by
-  sorry
-
-/-- The two-variable parameter ideal has proper trace, hence no free rank-one summand. -/
-example (K : Type u) [Field K] :
-    let R := MvPowerSeries (Fin 2) K
-    let I : Ideal R := Ideal.span {MvPowerSeries.X (0 : Fin 2),
-      MvPowerSeries.X (1 : Fin 2)}
-    traceIdeal R I = I := by
-  sorry
-
-
-
-
-example [IsDomain A] : symbolicSquare A (⊥ : Ideal A) = ⊥ := by
-  sorry
-
-example (p : Ideal A) [p.IsMaximal] : symbolicSquare A p = p ^ 2 := by
-  sorry
-
-example (p : Ideal A) [p.IsPrime] (a : A) (ha : a ∉ p) :
-    a ∉ symbolicSquare A p := by
-  sorry
-
 /-- The quadric cone has a symbolic-square element outside the ordinary square in every characteristic. -/
-example (K : Type u) [Field K] :
+theorem symbolicSquare_quadric_strict (K : Type u) [Field K] :
     let Q := MvPolynomial (Fin 3) K
     let I : Ideal Q := Ideal.span
       {(MvPolynomial.X (0 : Fin 3) : Q) * MvPolynomial.X (2 : Fin 3) -
@@ -283,19 +220,6 @@ example (K : Type u) [Field K] :
       x ∈ symbolicSquare R p ∧ x ∉ p ^ 2 := by
   sorry
 
--- Total-jet normalization for the nonzero plane equation x^4.
-example : Nat.choose (0 + 2) 2 - Nat.choose (0 + 2 - 4) 2 = 1 := by
-  sorry
-
-example : Nat.choose (1 + 2) 2 - Nat.choose (1 + 2 - 4) 2 = 3 := by
-  sorry
-
-example : Nat.choose (2 + 2) 2 - Nat.choose (2 + 2 - 4) 2 = 6 := by
-  sorry
-
-example : (4 : ℚ) * (0 + 1) - 4 * (4 - 1) / 2 = -2 := by
-  sorry
-
 /-! ## Layer 4: Finiteness and integral points -/
 
 /-- A complete local source and Noetherian local target: a finite closed fibre forces finiteness. -/
@@ -306,6 +230,16 @@ theorem finite_of_finite_residual_fibre
     [Algebra A B] [IsLocalHom (algebraMap A B)]
     [Module.Finite A (B ⧸ (maximalIdeal A).map (algebraMap A B))] :
     Module.Finite A B := by
+  sorry
+
+/-- A finite module over a Noetherian local target is finite over a complete local source when its closed fibre is finite. -/
+theorem finiteModule_of_finite_residual_fibre
+    [IsLocalRing A] [IsAdicComplete (maximalIdeal A) A]
+    {B : Type w} [CommRing B] [IsLocalRing B] [IsNoetherianRing B]
+    [Algebra A B] [IsLocalHom (algebraMap A B)]
+    [Module B M] [IsScalarTower A B M] [Module.Finite B M]
+    [Module.Finite A (M ⧸ (maximalIdeal A • (⊤ : Submodule A M)))] :
+    Module.Finite A M := by
   sorry
 
 /-- A faithful finite module makes the action algebra finite over a Noetherian base. -/
@@ -357,22 +291,13 @@ theorem square_presentation_iff_generator_relation_inequality
             Function.Surjective g ∧ LinearMap.range f = LinearMap.ker g := by
   sorry
 
-example : HasSquarePresentation A A := by
-  sorry
-
-example (a : A) : HasSquarePresentation A (A ⧸ Ideal.span {a}) := by
-  sorry
-
-example [Subsingleton M] : HasSquarePresentation A M := by
-  sorry
-
 /-- The dual-number residue admits a square presentation despite its infinite projective dimension. -/
-example (K : Type u) [Field K] :
+theorem squarePresentation_dualNumbers_residue (K : Type u) [Field K] :
     HasSquarePresentation (TrivSqZeroExt K K) (ResidueField (TrivSqZeroExt K K)) := by
   sorry
 
 /-- The two-variable regular local residue needs two relations and one generator. -/
-example (K : Type u) [Field K] :
+theorem squarePresentation_twoVariable_residue_failure (K : Type u) [Field K] :
     ¬ HasSquarePresentation (MvPowerSeries (Fin 2) K)
       (ResidueField (MvPowerSeries (Fin 2) K)) := by
   sorry
@@ -398,27 +323,16 @@ theorem reduced_quotient_identification
   sorry
 
 example : NearlyFaithful A A := by
-  sorry
+  unfold NearlyFaithful
+  rw [Module.annihilator_eq_bot.mpr inferInstance]
+  exact bot_le
 
 example [Nontrivial A] [Subsingleton M] : ¬ NearlyFaithful A M := by
-  sorry
-
-example : ¬ NearlyFaithful ℤ (ZMod 2) := by
-  sorry
-
-example : NearlyFaithful ℤ (ℚ ⧸ Submodule.span ℤ {(1 : ℚ)}) ∧
-    Module.support ℤ (ℚ ⧸ Submodule.span ℤ {(1 : ℚ)}) ≠ Set.univ := by
-  sorry
-
-example (I : Ideal A) (hI : I ≤ (⊥ : Ideal A).radical) :
-    NearlyFaithful A (A ⧸ I) := by
-  sorry
-
-/-- The dual-number residue has nilpotent annihilator but is not faithful. -/
-example (K : Type u) [Field K] :
-    NearlyFaithful (TrivSqZeroExt K K) (ResidueField (TrivSqZeroExt K K)) ∧
-      ¬ FaithfulSMul (TrivSqZeroExt K K) (ResidueField (TrivSqZeroExt K K)) := by
-  sorry
+  intro h
+  have h1 : (1 : A) ∈ (⊥ : Ideal A).radical :=
+    h (Module.mem_annihilator.mpr (fun _ => Subsingleton.elim _ _))
+  obtain ⟨n, hn⟩ := Ideal.mem_radical_iff.mp h1
+  simp at hn
 
 /-! ## Layer 7: Finite complexes, signed duality and coefficient towers -/
 
@@ -446,20 +360,41 @@ def CompleteFlatComplex {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : 
   (∃ a b : ℤ, ∀ i : ℤ, i < a ∨ b < i → IsZero (P.X i)) ∧
     ∀ i : ℤ, Module.Flat R (P.X i) ∧ IsAdicComplete (maximalIdeal R) (P.X i)
 
-example {R : Type u} [CommRing R] [IsLocalRing R] :
-    CompleteFlatComplex (0 : Cpx R) := by
-  sorry
-
-example {R : Type u} [CommRing R] [IsLocalRing R]
-    [IsAdicComplete (maximalIdeal R) R] (i : ℤ) :
-    CompleteFlatComplex ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) i).obj
-      (ModuleCat.of R R)) := by
-  sorry
-
 /-- A fraction-field stalk is flat but not maximal-adically separated. -/
-example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (i : ℤ) :
+theorem completeFlat_fractionField_failure
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (i : ℤ) :
     ¬ CompleteFlatComplex ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) i).obj
       (ModuleCat.of R (FractionRing R))) := by
+  sorry
+
+/-- A bounded complete flat complex admits a minimal deformation retract in the same term interval. -/
+theorem completeFlat_minimal_retract
+    {R : Type u} [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    [IsAdicComplete (maximalIdeal R) R] (P : Cpx R) (hP : CompleteFlatComplex P)
+    (a b : ℤ) (hbound : ∀ j : ℤ, j < a ∨ b < j → IsZero (P.X j)) :
+    ∃ (Q : Cpx R) (i : Q ⟶ P) (s : P ⟶ Q),
+      CompleteFlatComplex Q ∧ IsMinimal Q ∧
+      (∀ j : ℤ, j < a ∨ b < j → IsZero (Q.X j)) ∧
+      i ≫ s = 𝟙 Q ∧ Nonempty (Homotopy (s ≫ i) (𝟙 P)) := by
+  sorry
+
+/-- A bounded-above finite free complex admits a minimal finite free homotopy representative. -/
+theorem minimal_finiteFree_representative
+    {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R)
+    (hfinite : ∀ i : ℤ, Module.Finite R (P.X i) ∧ Module.Free R (P.X i))
+    (b : ℤ) (hbound : ∀ i : ℤ, b < i → IsZero (P.X i)) :
+    ∃ Q : Cpx R, IsMinimal Q ∧
+      (∀ i : ℤ, Module.Finite R (Q.X i) ∧ Module.Free R (Q.X i)) ∧
+      (∀ i : ℤ, b < i → IsZero (Q.X i)) ∧ Nonempty (HomotopyEquiv P Q) := by
+  sorry
+
+/-- A homotopy equivalence of termwise finite free minimal complexes is a chain isomorphism. -/
+theorem minimal_homotopyEquivalence_isIso
+    {R : Type u} [CommRing R] [IsLocalRing R] (P Q : Cpx R)
+    (hP : IsMinimal P) (hQ : IsMinimal Q)
+    (hfiniteP : ∀ i : ℤ, Module.Finite R (P.X i) ∧ Module.Free R (P.X i))
+    (hfiniteQ : ∀ i : ℤ, Module.Finite R (Q.X i) ∧ Module.Free R (Q.X i))
+    (e : HomotopyEquiv P Q) : IsIso e.hom := by
   sorry
 
 /-- Residual exactness of three finite free terms forces middle exactness, with no endpoint assertion. -/
@@ -481,63 +416,16 @@ theorem minimal_iff_zero_differentials_over_field
     IsMinimal P ↔ ∀ i : ℤ, P.d i (i + 1) = 0 := by
   sorry
 
-example {R : Type u} [CommRing R] [IsLocalRing R] :
-    IsMinimal (0 : Cpx R) := by
-  sorry
-
-example {R : Type u} [CommRing R] [IsLocalRing R] (i : ℤ) :
-    IsMinimal ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) i).obj
-      (ModuleCat.of R R)) := by
-  sorry
-
-example {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) (i : ℤ)
-    (x : P.X i) (hunit : (P.d i (i + 1)).hom x ∉
-      maximalIdeal R • (⊤ : Submodule R (P.X (i + 1)))) : ¬ IsMinimal P := by
-  sorry
-
-/-- The identity disk over a field has a unit differential and is not minimal. -/
-example (K : Type u) [Field K] :
-    let S := (HomologicalComplex.single (ModuleCat K) (ComplexShape.up ℤ) 0)
-    ¬ IsMinimal (CochainComplex.mappingCone (𝟙 (S.obj (ModuleCat.of K K)))) := by
-  sorry
-
-/-- A DVR uniformizer disk is minimal in cochain degrees -1 and zero. -/
-example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
-    (π : R) (hπ : Irreducible π) :
-    let S := (HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0)
-    IsMinimal (CochainComplex.mappingCone
-      (S.map (ModuleCat.ofHom (LinearMap.mul R R π)))) := by
-  sorry
-
--- The differential of the rational 2-disk dual is +2; its bidual is -2.
-example : (-1 : ℚ) ^ ((-1 : ℤ) + 1) * 2 = 2 := by
-  sorry
-
--- Signed bidual evaluation is +1 in degree zero and -1 in degree one.
-example : (-2 : ℚ) * 1 = (-1) * 2 := by
-  sorry
-
--- Unsigned evaluation does not satisfy that chain equation in characteristic zero.
-example : (-2 : ℚ) * 1 ≠ 1 * 2 := by
-  sorry
-
--- The source cross differential is -1, the target is +1, and the signed map is diagonal.
-example :
-    (!![(0 : ℚ), 0; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) * !![-1, 0; 0, 1] =
-      !![-1, 0; 0, 1] * !![(0 : ℚ), 0; -1, 0] := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two]
-
--- An unsigned comparison fails the same chain equation.
-example :
-    (!![(0 : ℚ), 0; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) * (1 : Matrix (Fin 2) (Fin 2) ℚ) ≠
-      (1 : Matrix (Fin 2) (Fin 2) ℚ) * !![(0 : ℚ), 0; -1, 0] := by
-  intro h
-  have hentry := congrArg (fun m : Matrix (Fin 2) (Fin 2) ℚ => m 1 0) h
-  norm_num at hentry
-
--- In characteristic two the same signs agree, so it cannot detect this error.
-example : (-1 : ZMod 2) = 1 := by
+/-- Derived Hom between bounded finite free models is maximal-adically complete. -/
+theorem finiteDerivedHom_isAdicComplete
+    {R : Type u} [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    [IsAdicComplete (maximalIdeal R) R] (P Q : Cpx R)
+    (hfiniteP : ∀ i : ℤ, Module.Finite R (P.X i) ∧ Module.Free R (P.X i))
+    (hfiniteQ : ∀ i : ℤ, Module.Finite R (Q.X i) ∧ Module.Free R (Q.X i))
+    (a b c d : ℤ)
+    (hboundP : ∀ i : ℤ, i < a ∨ b < i → IsZero (P.X i))
+    (hboundQ : ∀ i : ℤ, i < c ∨ d < i → IsZero (Q.X i)) :
+    IsAdicComplete (maximalIdeal R) (DerivedCategory.Q.obj P ⟶ DerivedCategory.Q.obj Q) := by
   sorry
 
 /-! ## Layer 8: Simultaneous finite coefficient selection -/
@@ -547,14 +435,6 @@ The genuine-action variant of §8.4 retains the chosen scalar lift ι and requir
 q_T.comp l = q together with l.comp ι = scalar. Compatible finite derived actions
 satisfy the same scalar equation at every quotient, and system maps intertwine them.
 -/
-
-/-- Multiplication by x + ε on the basis (1, ε) differs from scalar multiplication by x. -/
-example (S : Type*) [CommRing S] [Nontrivial S] (x : S) :
-    (!![x, 0; 1, x] : Matrix (Fin 2) (Fin 2) S) ≠
-      x • (1 : Matrix (Fin 2) (Fin 2) S) := by
-  intro h
-  have hentry := congrArg (fun m : Matrix (Fin 2) (Fin 2) S => m 1 0) h
-  simp at hentry
 
 /-- A finite-ring germ has its unique ultrafilter-large value; principal ultrafilters are allowed. -/
 theorem finite_germ_equivalence (F : Ultrafilter ℕ)
@@ -575,6 +455,20 @@ def derivedSupport {R : Type u} [CommRing R] (C : Der R) : Set (PrimeSpectrum R)
 def cohomologyAnnihilator {R : Type u} [CommRing R] (C : Der R) : Ideal R :=
   ⨅ i : ℤ, Module.annihilator R (H i C)
 
+/-- Empty cohomological support detects the zero object in the native derived category. -/
+theorem derivedSupport_empty_iff
+    {R : Type u} [CommRing R] (C : Der R) :
+    derivedSupport C = ∅ ↔ IsZero C := by
+  sorry
+
+/-- Bounded finite cohomology identifies complex support with the zero locus of its annihilator. -/
+theorem derivedSupport_eq_zeroLocus
+    {R : Type u} [CommRing R] (C : Der R)
+    (hfinite : ∀ i : ℤ, Module.Finite R (H i C))
+    (a b : ℤ) (hbound : ∀ i : ℤ, i < a ∨ b < i → IsZero (H i C)) :
+    derivedSupport C = PrimeSpectrum.zeroLocus (cohomologyAnnihilator C) := by
+  sorry
+
 /-- Over a regular local ring, a nonzero finite-projective interval has support of codimension at most its width. -/
 theorem codimension_amplitude_inequality
     {R : Type u} [CommRing R] [IsRegularLocalRing R]
@@ -588,7 +482,7 @@ theorem codimension_amplitude_inequality
       (n - l : WithBot ℕ∞) ≤ ringKrullDim (R ⧸ p.asIdeal) := by
   sorry
 
-/-- The matching support upper bound forces concentration in the last degree. -/
+/-- The matching support bound forces top-degree concentration with the predicted projective and support dimensions. -/
 theorem balanced_dimension_concentration
     {R : Type u} [CommRing R] [IsRegularLocalRing R]
     (C : Der R) (n l : ℕ) (a : ℤ)
@@ -599,33 +493,9 @@ theorem balanced_dimension_concentration
     (e : DerivedCategory.Q.obj P ≅ C)
     (hsupport : ∀ p ∈ derivedSupport C,
       ringKrullDim (R ⧸ p.asIdeal) ≤ (n - l : WithBot ℕ∞)) :
-    (∀ i : ℤ, i ≠ a + l → IsZero (H i C)) ∧ ¬ IsZero (H (a + l) C) := by
-  sorry
-
-example {R : Type u} [CommRing R] : derivedSupport (0 : Der R) = ∅ := by
-  sorry
-
-example {R : Type u} [CommRing R] (I : Ideal R) (i : ℤ) :
-    derivedSupport ((DerivedCategory.singleFunctor (ModuleCat R) i).obj
-      (ModuleCat.of R (R ⧸ I))) = PrimeSpectrum.zeroLocus I := by
-  sorry
-
-example {R : Type u} [CommRing R] (C D : Der R) :
-    derivedSupport (C ⊞ D) = derivedSupport C ∪ derivedSupport D := by
-  sorry
-
-example {R : Type u} [CommRing R] :
-    cohomologyAnnihilator (0 : Der R) = ⊤ := by
-  sorry
-
-example {R : Type u} [CommRing R] (I : Ideal R) (i : ℤ) :
-    cohomologyAnnihilator ((DerivedCategory.singleFunctor (ModuleCat R) i).obj
-      (ModuleCat.of R (R ⧸ I))) = I := by
-  sorry
-
-example {R : Type u} [CommRing R] (C D : Der R) :
-    cohomologyAnnihilator (C ⊞ D) =
-      cohomologyAnnihilator C ⊓ cohomologyAnnihilator D := by
+    (∀ i : ℤ, i ≠ a + l → IsZero (H i C)) ∧ ¬ IsZero (H (a + l) C) ∧
+      CategoryTheory.projectiveDimension (H (a + l) C) = l ∧
+      Module.supportDim R (H (a + l) C) = (n - l : WithBot ℕ∞) := by
   sorry
 
 /-
