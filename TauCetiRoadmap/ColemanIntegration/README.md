@@ -61,53 +61,6 @@ Tau Ceti supplies the principal-unit logarithm and exponential on local fields (
   - (C11) `K` is a complete nontrivially normed ultrametric field, `b` is a natural number with `|b| = 1`, and `|w − 1| < 1`; in the arithmetic application `K/ℚ_p` is finite and `p ∤ b`.
 - Cones follow `d(a, b) = (da, f(a) − db)` on `A^i ⊕ B^{i−1}`, and the relativity isomorphisms of K-theory and of rigid cohomology are normalized at `t = 0` (L3.Fa.2, L3.Fb.3). With these choices the sign in both regulators of the raw de Jeu symbol `[z]_n` is `(−1)^n`. We retain that raw-symbol convention throughout, including the cyclotomic classes. BBdJR Remark 4.16, p. 21, instead replaces its map `Ψ_n` by `(−1)^n Ψ_n` to remove this sign; formulas imported from that convention acquire `(−1)^n` here. In weight `3, Φ_∞([−1]_3) = −2P_3(−1) = (3/2)ζ(3)`, and `reg_p([−1]_3) = −2Li_3(−1)`.
 
-## Headline signatures on the pinned carriers
-
-The first theorems in `Suggested.lean` state the global polylogarithm and L-value
-milestones. `IsColemanPolylog` is the concrete analytic characterization of L2.16
-on functions `ℕ → ℂ_[p] → ℂ_[p]`: it records the normalized series, whole ordinary
-disc expansions, polynomial logarithmic ends with whole-disc analytic coefficients,
-differential recursion and overconvergent Frobenius difference. Its values at 1 in
-weights at least two are limits along finitely ramified intermediate fields over `ℚ_p`; the values in
-weights zero and one are 0. `existsUnique_colemanPolylog` states existence and
-uniqueness for every branch and every prime (L2.3–L2.5, L2.11, L2.15–L2.16).
-The Frobenius condition is essential: local differential equations alone admit the
-residue-class constants of L2.12.
-
-There is no pinned Kubota–Leopoldt function carrier. The signatures
-`coleman_dirichlet_LValue` and `coleman_trivial_LValue` express its values through
-interpolation limits. Put `t_p = p − 1` for odd `p` and `t_2 = 2`, and
-`m_r = t_p(k + 1)p^r + 1 − k`. These are positive integers tending to `1 − k`
-p-adically and to infinity as ordinary integers. Since `m_r ≡ 1 − k (mod t_p)`,
-interpolation identifies
-`−(1 − θ(p)p^(m_r−1)) B_(m_r,θ)/m_r`
-with `L_p(θω^(1−k), 1 − m_r)`. Its limit is the Gauss-sum expression of
-L3.28; the trivial character uses the ordinary Bernoulli numbers and L3.29.
-The generalized Bernoulli numbers are the existing
-`DirichletCharacter.generalizedBernoulli` from
-`TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli`.
-The dyadic signatures use exactly the order-two character in L3.36(b), and retain
-all primitive conductors. (RJW Definition 5.18 and Theorem 5.20, p. 35;
-BBdJR §2, pp. 5–6, and proof of Proposition 4.17, pp. 22–23.)
-
-`coleman_dilog_fiveTerm` and `coleman_dilog_projective_fiveTerm` state the scalar
-and cyclic projective theorems of L2.70 for the globally characterized sequence,
-every branch and every prime.
-`dirichlet_beilinson_scalar_comparison` and
-`trivial_beilinson_scalar_comparison` state the common nonzero rational coefficient
-in the complex and p-adic comparisons of L3.36, after inserting the explicit
-cyclotomic regulator expressions of L3.15 and L3.Fc.3. The former uses a primitive
-nontrivial character over a number field with embeddings into `ℂ` and `ℂ_p`,
-and the latter uses the trivial motive over `ℚ` and odd weight at least three.
-Their coefficients in the raw-symbol convention are respectively
-`(−1)^n/(n − 1)!` and `2^(n−1)/((2^(n−1) − 1)(n − 1)!)`.
-They also assert that the complex regulator expressions are nonzero; they assert
-no p-adic nonvanishing. The pinned libraries have no scheme higher K-groups or
-syntomic regulator carrier. The K-class, rank and regulator-map statements are
-therefore the precise targets of L3.15 and L3.36; the scalar signatures state their
-explicit value comparisons without introducing substitute K-groups or maps.
-(BBdJR Remark 4.16 and Proposition 4.17, pp. 21–23.)
-
 ## Exact supplier contracts
 
 ### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
@@ -1635,9 +1588,6 @@ Standing hypotheses of this target: `a∈ℂ_p, p` prime, `k≥1`; L1 integratio
 
 *Needs:* L2.1, L0.15, L1.30, L1.31, L1.19, L1.18, L1.22, L0.21, L0.22.
 
-*In `Suggested.lean`:* `existsUnique_colemanPolylog`, with the concrete
-`IsColemanPolylog` characterization of L2.16.
-
 **Checks.**
 
 - On `|z| < 1`, every branch gives `Li_k(z) = Σ_(m≥1) z^m/m^k` and `Li_k(0) = 0`.
@@ -1822,17 +1772,11 @@ Standing hypotheses of this target: `a ∈ ℂ_p`; `k ≥ 0`; the class `𝒞^a`
 
 *Needs:* L2.15, L2.4, L2.5, L2.7, L2.12, L0.21, L0.22, `HasFPowerSeriesOnBall.changeOrigin`, `HasFPowerSeriesAt.eq_zero_of_eventually`, L0.7.
 
-*In `Suggested.lean`:* `IsColemanPolylog`, `existsUnique_colemanPolylog`.
-The logarithmic coefficients in this interface are analytic on whole end discs,
-as supplied by L2.4, and the Frobenius series converges on the full disc
-`|v| < p^(1/(p−1))`. The sequence is unique also at 1 with L2.5's value conventions
-and the finitely ramified limits of L2.11.
-
 **Checks.**
 
 - For `k = 0` the characterized function is `z/(1 − z)` off 1, with value 0 at 1.
 - At `k = 1` the characterized function is `−log_a(1 − z)` off 1; no limit at 1 is required.
-- For `k ≥ 2`, limits along every finitely ramified intermediate field determine the value at 1, without asserting a limit through all of `ℂ_p`. The interface expresses finite ramification by `|Fˣ| ⊆ p^((1/e)ℤ)` for some positive integer `e`.
+- For `k ≥ 2`, limits along every finitely ramified intermediate field determine the value at 1, without asserting a limit through all of `ℂ_p`. Finite ramification means `|Fˣ| ⊆ p^((1/e)ℤ)` for some positive integer `e`.
 
 ### L2.17 Compatibility with automorphisms and embeddings of the coefficients
 
@@ -2446,11 +2390,6 @@ Standing hypotheses of this target: `a ∈ ℂ_p`; `x, y ∉ {0, 1}, x ≠ y`; `
 
 
 *Needs:* L2.18, L2.11, L2.4, L2.9, L1.17, L1.43, L1.18, L2.24, L2.Fb, L2.44, L1.39, L1.40, L2.46, L2.53, L2.62, L2.69.
-
-*In `Suggested.lean`:* `coleman_dilog_fiveTerm` and
-`coleman_dilog_projective_fiveTerm`, with
-`D(z) = Li_2(z) + log_a(z)log_a(1 − z)/2` and the global characterization
-`IsColemanPolylog`.
 
 **Checks.**
 
@@ -3130,11 +3069,6 @@ Standing hypotheses of this target: `n≥2`; `ζ` a root of unity different from
 - For `p = 3` and `ζ = −1`, both `ζ` and `1 − ζ = 2` are units. L3.Fb.5 applies directly, giving `reg_σ([−1]_n) = (−1)^n (n − 1)! Li_n(−1)`.
 - For `p = 3` and `ζ` of order 6, its reduction is `−1`, so it is a special unit although its order is divisible by `p`. Only pure `p`-power order needs the distribution argument. A primitive cube root lies in a ramified extension of `ℚ₃`, so the Gros formula under the unramified hypothesis does not apply to it.
 
-*In `Suggested.lean`:* `dirichlet_beilinson_scalar_comparison` and
-`trivial_beilinson_scalar_comparison` use the explicit raw cyclotomic regulator
-expressions in the value comparisons of L3.36. The regulator map and K-classes
-in the statement above are constructed by L3.Fa–L3.Fb.
-
 ### L3.16 The p-adic Beilinson conjecture for Artin motives over `Q`, as a proposition
 
 **Definition.** For finite Galois `k/Q` with group `G`, number field `E`, idempotent `π∈E[G], n≥2` and `dim_E E[G]π=dim_E πK_(2n−1)(k)_E`, choose embeddings `φ_∞,φ_p` and ordered `E`-bases. Put `M=π(E⊗k)`. `D_*^(1/2)` is the determinant of `(σ,a)↦φ_*(σa)` on `E[G]π×M`; `R_(n,*)` is the determinant of `(σ,α)↦reg_*(φ_*(σα))` on `E[G]π×πK_(2n−1)(k)_E`, using Beilinson and syntomic regulators. Define `PBC` to require `L(n,χ_π⊗id,Q)D_∞^(1/2)=eR_(n,∞)` and `L_p(n,χ_π⊗ω_p^(1−n),Q)D_p^(1/2)=e_p Eul_p(n,χ_π⊗id,Q)R_(n,p)`, for `e,e_p∈E^×`, with `e=e_p` and both the p-adic `L`-value and `R_(n,p)` units in the stated coefficient algebras. This defines a proposition; it does not assert it. (BBdJR Conjecture 3.18, p. 14; BBdJR Def. 3.6, p. 11; BBdJR Prop. 3.12, p. 12.)
@@ -3315,14 +3249,11 @@ Standing hypotheses of this target: `p` odd (RJW's `L_p` is defined for odd `p`)
 
 *Needs:* L3.1, L3.2, L3.4, L3.24, L3.7, L3.27, L3.10, L3.9, L3.11, L3.25, L2.5, L0.18, `PadicComplex`, L2.25, L2.27, L2.26, L2.18.
 
-*In `Suggested.lean`:* `coleman_dirichlet_LValue`; its generalized-Bernoulli
-limit is `L_p(θω^(1−k), k)`, with the dyadic counterpart in L3.36(b).
-
 **Checks.**
 
-- For `p = 5, θ = χ_(−3), k = 2`, the interpolation weights satisfy `m_r ≡ 3 (mod 4)`, so the value has character `θω⁻¹`, retaining the nonzero twisted value in the Summary.
+- For `p = 5, θ = χ_(−3), k = 2`, the formula gives the nonzero twisted value `L_5(θω⁻¹, 2)`; the untwisted `L_5(θ, 2)` vanishes by parity.
 - A primitive character of conductor 9 at `p = 3` has `θ(p) = 0`; the Euler factor is 1, and smoothing supplies the formula.
-- At `k = 1`, the weights are multiples of `p − 1` for odd `p`, so the twist is trivial and the formula recovers Leopoldt's logarithmic expression.
+- At `k = 1`, the twist is `ω⁰ = 1`, and the formula recovers Leopoldt's logarithmic expression.
 
 ### L3.29 Coleman's formula for the trivial character
 
@@ -3332,13 +3263,11 @@ limit is `L_p(θω^(1−k), k)`, with the dyadic counterpart in L3.36(b).
 
 *Needs:* L3.27, L3.25, DirichletPadicLFunctions Layer 1, DirichletPadicLFunctions Layer 3, PadicMeasuresIwasawaAlgebras Layer 3, L2.4, L2.11.
 
-*In `Suggested.lean`:* `coleman_trivial_LValue`; `k ≥ 2` excludes the pole.
-
 **Checks.**
 
 - For even `k ≥ 2`, both the interpolating Bernoulli values and `Li_k(1)` vanish by parity.
 - At `k = 3`, distribution gives `Li_3(−1) = −3Li_3(1)/4`, compatible with L3.36's coefficient `2/3` in the raw-symbol convention.
-- At `p = 2`, the weights use `t_2 = 2`; their congruence is modulo 2 rather than modulo `p − 1 = 1`, as required in L3.36(b).
+- At `p = 2`, L3.36(b) uses the conductor-4 character `ω_2` of order 2 in the twist, including its sign on odd units; the order `p − 1 = 1` would lose this character.
 
 ### L3.30 Coleman's formula for `L_p(θ, k)` itself, in the normalisation of RJW
 
@@ -3418,12 +3347,6 @@ For nontrivial `χ`, reduce first to its primitive character of conductor `f` an
 Standing hypotheses of this target: `N ≥ 2`; `χ(−1) = (−1)^(n−1)`; `E` contains the values of `χ`; `p` odd in (a) and `p = 2` in (b). The unit assertions are part `(4)` of L3.16 and remain separate conjectural conditions; BBdJR Remark 4.19, p. 23, reports numerical verifications of them.
 
 *Needs:* L3.28, L3.29, L3.13, L3.15, L3.16, L3.Fa.5, L3.Fc.1, L3.Fc.3, L3.Fd.1, L3.Fd.2, DirichletPadicLFunctions Layer 0.
-
-*In `Suggested.lean`:* `dirichlet_beilinson_scalar_comparison` and
-`trivial_beilinson_scalar_comparison`, in the scalar form described above;
-`coleman_dirichlet_LValue` and `coleman_trivial_LValue` include the dyadic inputs.
-Primitive conductor fields and the trivial motive over `ℚ` give the components;
-fixed-field and idempotent transport give the general `N` in this target.
 
 **Checks.**
 
