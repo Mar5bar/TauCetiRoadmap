@@ -177,7 +177,7 @@ The native signatures are `analyticAt_smoothedMellinKernel`, `iteratedDeriv_smoo
 
 ### 0.4 Generalized Bernoulli comparison and conductors
 
-Use the existing generalized Bernoulli value for a character over a characteristic-zero field F. For a primitive character χ of conductor N and k≥1, prove the common-value comparison `algebraicDirichletValue χ k = −B_(k,χ)/k`, whose images under `F→ℂ` and `F→K` are respectively `L(χ,1−k)` and the algebraic scalar used by interpolation. Here `algebraicDirichletValue` is just a name for this scalar expression, not a new Bernoulli object. For an imprimitive character, multiply the primitive value by `∏_(ℓ|N, ℓ∤f)(1−χ₀(ℓ)ℓ^(k−1))`, where f is its primitive conductor and each new prime occurs once. Prove coefficient-map naturality, complex embedding independence in the algebraic formulation, parity vanishing for `χ(−1)≠(-1)^k` except the primitive trivial boundary k=1, and compatibility with the existing change-level theorem. (RJW, §2.4.1, pp.113–114, §5.1–5.2, pp.139–146; Bernoulli polynomials and the finite Hurwitz-zeta expression give the comparison.)
+Use the existing generalized Bernoulli value for a character over a characteristic-zero field F. For a primitive character χ of conductor N and k≥1, prove the common-value comparison `algebraicDirichletValue χ k = −B_(k,χ)/k`, whose images under `F→ℂ` and `F→K` are respectively `L(χ,1−k)` and the algebraic scalar used by interpolation. Here `algebraicDirichletValue` is just a name for this scalar expression, not a new Bernoulli object. For an imprimitive character, multiply the primitive value by `∏_(ℓ|N, ℓ∤f)(1−χ₀(ℓ)ℓ^(k−1))`, where f is its primitive conductor and each new prime occurs once. Prove coefficient-map naturality, complex embedding independence in the algebraic formulation, parity vanishing for `χ(−1)≠(-1)^k` except the primitive trivial boundary k=1, and compatibility with the existing change-level theorem. The signature `algebraicDirichletValue_parity` retains the level-one, degree-one exception. (RJW, §2.4.1, pp.113–114, §5.1–5.2, pp.139–146; Bernoulli polynomials and the finite Hurwitz-zeta expression give the comparison.)
 
 Name the comparison statements `algebraicDirichletValue_complex`, `_map`, `_changeLevel` and `_parity`; the scalar expression remains the existing generalized Bernoulli value divided by −k.
 
@@ -224,7 +224,7 @@ For a finite extension K of Q_p with absolute ramification index e and an integr
 
 Transport the product decomposition of PadicFunctionalAnalysis §5.1, consumed through PadicMeasuresIwasawaAlgebras §3a.1, from its generator exp(q) to the chosen γ=1+p or γ=5. If h₀ is its additive coordinate, define `arithmeticAngularCoordinate h` by `h(u)=(q/log_p γ)h₀(u)`. The norm equality just proved shows that q/log_p γ is a unit of Z. Prove continuity, `h(uv)=h(u)+h(v)`, `h(γ)=1`, `h(Ω(u))=0`, and `γ^h(u)=α(u)` using the binomial power, together with uniqueness and the inverse coordinate. This identifies the chart used in §3.1 with the supplier’s chart, including its change-of-generator law in §5.2. (RJW, Remark 3.47, p.135, at odd p; at p=2 use the same transport on 1+4Z₂.)
 
-The light Lean definitions are `HasIwasawaDecomposition` and `IsIwasawaLog`. The functions `iwasawaLog` and `localIwasawaLog`, the norm law, the exponential comparison and `arithmeticAngularCoordinate` are README targets.
+The light Lean definitions are `HasIwasawaDecomposition` and `IsIwasawaLog`. The functions `iwasawaLog`, `localIwasawaLog` and `arithmeticAngularCoordinate` are README targets. The signature `localIwasawaLog_exp` states the exponential comparison on the convergence ball `‖x‖<p^(−1/(p−1))`; the depth condition above places each specified integral ball inside it.
 
 **Checks.**
 
@@ -305,7 +305,7 @@ Define `smoothedNumerator a = ν_a = Jμ_a` on Z, and `intrinsicNumerator a = λ
 
 The formula does not extend to k=0 by interpreting a negative exponent in natural-number arithmetic. The zero-th numerator moment is computed in Layer 3. The light abbreviation `clearingMoment p a k`, for k>0, denotes the displayed rational value. (RJW, Lemma 4.7, Proposition 4.8 and equation (4-3), pp.137–138.)
 
-Use `unitSmoothedMeasure_apply`, `_moment`, `_support`, `smoothedNumerator_coordinate`, `intrinsicNumerator_extend` and `intrinsicNumerator_moment` for the restriction and weighting interfaces.
+Use `unitSmoothedMeasure_apply`, `_moment`, `_support`, `smoothedNumerator_coordinate`, `intrinsicNumerator_extend` and `intrinsicNumerator_moment` for the restriction and weighting interfaces. The signature `existsUnique_intrinsicNumerator` characterizes the intrinsic numerator by its coordinate-weighted pushforward and its positive moments on the native integral measure carrier.
 
 **Checks.**
 
@@ -330,7 +330,7 @@ Prove the cocycles
 
 In the first line the extra scalar u is essential; in the numerator line inverse weighting cancels it. Verify the finite-exponent identity before using continuity. Commutativity of U then gives the cross-relation. These statements include u=1 and u=−1 and involve the actual constructed measures.
 
-Name the parameter identities `padicSmoothedMeasure_mul`, `padicSmoothedNumerator_mul`, `padicIntrinsicNumerator_mul`, `padicIntrinsicNumerator_cross` and `padicSmoothedMeasure_continuous_apply`; the binomial coefficient definitions have `_coeff`, `_natCast` and `_map` equations.
+Name the parameter identities `padicSmoothedMeasure_mul`, `padicSmoothedNumerator_mul`, `padicIntrinsicNumerator_mul`, `padicIntrinsicNumerator_cross` and `padicSmoothedMeasure_continuous_apply`; the binomial coefficient definitions have `_coeff`, `_natCast` and `_map` equations. The signature `existsUnique_padicSmoothedMeasure` gives the unique native integral measure family with the binomial Amice transforms, its all-test cocycle and parameter continuity.
 
 **Checks.**
 
@@ -380,7 +380,7 @@ ev_(x^k)(ζ_p)=(1−p^(k−1))ζ(1−k).
 
 Both sides are the p-adic image of a rational scalar. At k=1 the Euler factor is zero; the possible Bernoulli convention discrepancy is therefore harmless only after proving that boundary separately. For k>1, parity removes the sign from Layer 0. Prove `zeta_reflection : δ_(−1)*ζ_p=ζ_p`, vanishing on odd test characters, and uniqueness from its positive moments. Transport this same object through the canonical measure/completed-algebra equivalence and its localization extension. At odd p it lies in the plus corner with `e⁺=(1+δ_(−1))/2`; the quotient comparison uses that normalized projector. At p=2 retain the integral sign relation without dividing by 2. (RJW, Theorem 4.1 and Definitions 4.9–4.10, Proposition 4.11, pp.136,138–139; Lemma 3.36, Definition 3.37 and Lemma 3.38, pp.130–132.)
 
-Use `kubotaLeopoldtPseudomeasure_clear`, `_unique`, `_evaluate`, `_moment`, `_reflection` and `_plusCorner` for the arithmetic pseudomeasure API; the last theorem is restricted to odd p.
+Use `kubotaLeopoldtPseudomeasure_clear`, `_unique`, `_evaluate`, `_moment`, `_reflection` and `_plusCorner` for the arithmetic pseudomeasure API; the last theorem is restricted to odd p. The signature `kubotaLeopoldtPseudomeasure_clear` constructs the unique element of the supplier’s `Iwasawa.pseudomeasures` submodule from the integral numerator family characterized by its positive moments.
 
 **Checks.**
 
@@ -502,7 +502,7 @@ Eμ_η=μ_η−η(p)φμ_η,
 (Eμ_η)(x^k)=(1−η(p)p^k)L(η,−k).
 ```
 
-For imprimitive nonprincipal η the finite series still exists; its comparison uses the character's actual level Euler factors as in §0.4, not an assertion of primitivity. For principal η the finite adapter still exists, but the removed nonzero character sum changes its kernel; no unsmoothed principal L-value comparison is asserted for that adapter. The principal arithmetic family is §5.8. The integral measure and its O version remain equal after every specified coefficient extension. `tameSeries_coeff_norm_le_one` states the coefficient bound over an ultrametric normed field with unit-norm level and bounded character values. The existence signatures are `existsUnique_tameMeasure` over a complete normed Q_p-field and `existsUnique_integralTameMeasure` for its native Z_p-valued specialization; uniqueness uses the full Amice transform.
+For imprimitive nonprincipal η the finite series still exists; its comparison uses the character's actual level Euler factors as in §0.4, not an assertion of primitivity. For principal η the finite adapter still exists, but the removed nonzero character sum changes its kernel; no unsmoothed principal L-value comparison is asserted for that adapter. The principal arithmetic family is §5.8. The integral measure and its O version remain equal after every specified coefficient extension. `tameSeries_coeff_norm_le_one` states the coefficient bound over an ultrametric normed field with unit-norm level and bounded character values. The signature `tameMeasure_moment` identifies every ordinary moment of the finite tame kernel with its generalized-Bernoulli value, retaining nonprincipality and allowing imprimitive characters. The existence signatures are `existsUnique_tameMeasure` over a complete normed Q_p-field and `existsUnique_integralTameMeasure` for its native Z_p-valued specialization; uniqueness uses the full Amice transform.
 
 Use `tameCoefficientSequence_apply`, `_norm_le_one`, `tameMeasure_transform`, `_moment`, `_psi`, `integralTameSeries_map` and `integralTameMeasure_include_apply`; the integral lift is identified on all continuous O-valued tests.
 
@@ -550,7 +550,7 @@ Only the actual intrinsic object is used for multiplicative convolution and char
 
 with any additional level Euler factors stated when η or χ is intentionally imprimitive. For primitive nonprincipal tame η and primitive p-part χ this is the source's product-character formula, including the trivial p-part. The proof compares the actual Fourier-twisted series, its common algebraic value and the unit projector. (RJW, Theorem 5.7, Lemmas 5.10–5.12 and Definition 5.13, pp.143–146.)
 
-Name the interfaces `tameZetaMeasure_apply`, `_support`, `_coordinate`, `intrinsicTameZetaMeasure_extend`, `_moment`, `integralTameCharacterMeasure_apply`, `_inverse_twist` and `_include_apply`. The twisted intrinsic integral obeys `tameCharacterValue_norm_le_one` and `tameCharacterValue_sub_le`: the latter bounds the difference of two values by the sup norm of the difference of their actual continuous tests.
+Name the interfaces `tameZetaMeasure_apply`, `_support`, `_coordinate`, `intrinsicTameZetaMeasure_extend`, `_moment`, `integralTameCharacterMeasure_apply`, `_inverse_twist` and `_include_apply`. The signature `intrinsicTameZetaMeasure_moment` uses the coordinate-weighted pushforward comparison with the actual tame Amice measure. The twisted intrinsic integral obeys `tameCharacterValue_norm_le_one` and `tameCharacterValue_sub_le`: the latter bounds the difference of two values by the sup norm of the difference of their actual continuous tests.
 
 **Checks.**
 
@@ -832,7 +832,7 @@ Give explicit precision estimates from `((1+p)^w−1)/w→log_p(1+p)` and the mo
 
 The signature `principalNumerator_mass` evaluates the actual smoothing measure on the continuous zero-extended inverse coordinate, with its test equation explicit.
 
-Use `principalNumerator_mass`, `principalSmoothingLog_norm`, `principalBranch_simplePole`, `principalBranch_residue`, `principalBranch_residue_changeCoordinate` and `bernoulliQuotient_tendsto` for the canonical pole and limit API.
+Use `principalNumerator_mass`, `principalSmoothingLog_norm`, `principalBranch_simplePole`, `principalBranch_residue`, `principalBranch_residue_changeCoordinate` and `bernoulliQuotient_tendsto` for the canonical pole and limit API. The residue signature uses a continuous actual numerator with the computed central mass and the denominator `analyticDenominator` with the canonical smoothing logarithm.
 
 **Checks.**
 
@@ -903,7 +903,7 @@ The expansion is used only when `‖N_n‖` lies inside the actual Taylor radius
 
 For convergence use a genuine Taylor expansion on a radius `R>r=‖q‖`, with divided derivatives D_m and a common bound B. Require value bounds `‖D_m(x)‖≤B/R^m` and Lipschitz bounds `‖D_m(x)−D_m(y)‖≤B‖x−y‖/(R^m r)` on `‖x−1‖≤r`, together with the actual Taylor HasSum. Define the useful finite bound `C_f=max(‖b⁻¹‖,‖q⁻¹‖²)`. The block recursion yields uniform mean bounds and a geometric bound on successive differences; in particular `‖M_χ^n(S(D_m))‖≤C_f B/R^m`, convergence to actual coefficients v_m, and the corresponding limit bound. The power-sum factor must remain in the quantitative difference estimate; it is not estimated by an archimedean sum of q unit norms and then discarded. An equivalent theorem with explicit value/Lipschitz constants for each D_m is useful when no analytic carrier is packaged. Completeness supplies the limits, not the finite identities. (Morita, §2, especially the estimates on pp.257–259 and Theorem 2, pp.259–260; the larger-radius hypothesis makes the closed-disc boundary convergence explicit.)
 
-Name the averaging modulus `moritaModulus`, the tower `moritaMeanLevel` and the linear finite sample `moritaFiniteMean`. Use `moritaFiniteMean_add`, `moritaFiniteMean_smul`, `moritaFiniteMean_map`, `moritaFiniteMean_raiseLevel`, `moritaFiniteMean_block` and `moritaFiniteMean_tendsto` for the stated interfaces. The scalar Lean adapter `moritaMeanBound K p f` is the displayed real bound. Name the sample operators `moritaAngularSample` and `moritaShiftedSample`, the twist `moritaDerivativeTwist`, the block sum `moritaBlockPowerSum` and the explicit bound `moritaMeanBound`.
+Name the averaging modulus `moritaModulus`, the tower `moritaMeanLevel` and the linear finite sample `moritaFiniteMean`. Use `moritaFiniteMean_add`, `moritaFiniteMean_smul`, `moritaFiniteMean_map`, `moritaFiniteMean_raiseLevel`, `moritaFiniteMean_block` and `moritaFiniteMean_tendsto` for the stated interfaces. The convergence signature applies to samples analytic near every point of Z_p; the angular and shifted samples satisfy this after their local analytic chart comparisons. The quantitative larger-radius bounds remain the estimates specified above. The scalar Lean adapter `moritaMeanBound K p f` is the displayed real bound. Name the sample operators `moritaAngularSample` and `moritaShiftedSample`, the twist `moritaDerivativeTwist`, the block sum `moritaBlockPowerSum` and the explicit bound `moritaMeanBound`.
 
 **Checks.**
 
@@ -936,7 +936,7 @@ M_χ^n(a↦F(a+z))−M_χ^n(F)
  = N_n⁻¹ Σ_(0≤a<z,p∤a) χ(a)(F(a+N_n)−F(a)).
 ```
 
-Its analytic limit is the finite sum of inverse-torsion-twisted first derivatives at the actual angular centers. Prove also the negative oriented boundary identity by signed reindexing and character periodicity, with no substitution of a nonnegative interval for a negative shift. The resulting formulas for F_v at positive and negative b-multiples are the integer boundary API needed for Gamma. They use χ(a)Ω(a)⁻¹D₁A(α(a)), not an untwisted derivative. (Morita, Theorem 2, pp.259–260.)
+Its analytic limit is the finite sum of inverse-torsion-twisted first derivatives at the actual angular centers. Prove also the negative oriented boundary identity by signed reindexing and character periodicity, with no substitution of a nonnegative interval for a negative shift. The resulting formulas for F_v at positive and negative b-multiples are the integer boundary API needed for Gamma. The signature `moritaFiniteMean_boundary` states the exact finite positive-shift identity before taking limits. They use χ(a)Ω(a)⁻¹D₁A(α(a)), not an untwisted derivative. (Morita, Theorem 2, pp.259–260.)
 
 Specialize to `A(x)=x(log_p x−1)`, χ=θ. On the principal disc,
 
@@ -1003,7 +1003,7 @@ For `f>0`, `M=p^f−1` and `0≤a<M`, define `a_j=p^j a mod M` and `S_p(a)=Σ_(i
 
 For nonzero a all rational representatives a_j/M lie in (0,1). At zero use the actual representative 0 in the digit and Gamma product formulas; the positive-fractional-part convention of a separate source instead chooses 1 and must be translated with Γ_p(1)=−1. Prove parity of S_p(a), the orbit reflection sign, and finite coefficient transport. (Gross–Koblitz, Lemmas 2.4 and 2.11, pp.572 and 575; Robert, Theorem 4, p.168.)
 
-The finite digit sum is `grossKoblitzDigitSum p a f`; `grossKoblitz_fraction_sum` is the rational orbit identity for `f>0` and `a<p^f−1`. Its formula uses exactly f digits. Use `grossKoblitzDigitSum_zero`, `grossKoblitzDigitSum_step`, `grossKoblitzDigitSum_rotate` and `grossKoblitz_carry_sum` for reconstruction and rotation.
+The finite digit sum is `grossKoblitzDigitSum p a f`; `grossKoblitz_fraction_sum` is the rational orbit identity for `f>0` and `a<p^f−1`. Its formula uses exactly f digits. Use `grossKoblitzDigitSum_zero`, `grossKoblitzDigitSum_step`, `grossKoblitzDigitSum_rotate` and `grossKoblitz_carry_sum` for reconstruction and rotation. The signature `moritaGamma_reflection` states the reflection identity on the continuous signed interpolation, including the second binary digit.
 
 **Checks.**
 
@@ -1041,7 +1041,7 @@ For clarity, the splitting-function API must prove: constant coefficient 1; coef
 
 Deduce `‖g_q(a)‖=‖p‖^(S_p(a)/(p−1))`, the leading factorial residue `g_q(a)/π^S≡(∏ digit_i(a)!)⁻¹` modulo the maximal ideal, the finite-field Gauss product and Jacobi quotient comparisons, and algebraicity of `Γ_p(m/n)` when `n>0,n|(p−1)`. Natural translations extend the latter from `0≤m<n` to every integral rational m/n. The original odd-prime source has the positive-fraction convention and omits the trivial character; Robert's version supplies the all-prime zero-inclusive formula above. (Gross–Koblitz, Theorem 1.7, p.571 and Lemma 2.11, p.575; Robert, Theorem 4 and Corollaries 1–2, pp.168–169.)
 
-Use `dworkSplittingSeries`, `robertFactorialQuotient` and `robertCoefficientSeries` for the arithmetic scalar series, and `robert_factorial_limit`, `robert_finiteDifference`, `robert_telescope`, `dworkSplittingSeries_frobenius`, `_traceCharacter`, `grossKoblitz_formula`, `_valuation`, `_leading_residue` and `moritaGamma_rational_algebraic` for its milestones.
+Use `dworkSplittingSeries`, `robertFactorialQuotient` and `robertCoefficientSeries` for the arithmetic scalar series, and `robert_factorial_limit`, `robert_finiteDifference`, `robert_telescope`, `dworkSplittingSeries_frobenius`, `_traceCharacter`, `grossKoblitz_formula`, `_valuation`, `_leading_residue` and `moritaGamma_rational_algebraic` for its milestones. The signature `dworkSplittingSeries_coeff` states the exact formal-exponential coefficient recurrence on native power series; `robert_factorial_limit` identifies the normalized factorial-quotient limit with the continuous Gamma product along every natural approximation. The signature `dworkSplittingSeries_traceCharacter` supplies the convergent evaluation at the native finite-field Teichmüller lifts with the specified additive root.
 
 The signature `grossKoblitz_formula` uses a native finite field, a norm-compatible valuation subring of E, its residue map and the multiplicative Teichmüller section, followed by an embedding E→K. The residue-kernel and section equations tie the lift to the finite-field trace; the denominator unit represents q−1. These data also allow a finite extension E with the same residue field.
 
@@ -1116,7 +1116,7 @@ where `⟨·⟩_+∈(0,1]`. Prove existence of the periods, least-period divisib
 
 Thus Mean is the ordinary distribution. The unnormalized least-period Φ has the displayed period-weighted law, not an unweighted one. The quotient by d(a) is taken in Q_p: it need not lie in pZ even if Φ does. These precise statements replace an invalid inference from a common-period product to a sum of varying least-period logarithms. They also explain why neither a universality assertion for the scalar logarithm image nor integrality of every period average follows just from the multiplication formula. (Gross–Koblitz, §3, equations (3.4)–(3.6), pp.576–577, with periods kept explicit.)
 
-Name the finite product `moritaMultiplicationProduct`, the raw orbit sum `gammaOrbitLogSum`, the least-period function `gammaOrbitPhi` and its normalized value `gammaOrbitMean`. Use `_nat`, `_congruence`, `_orbit`, `_teichmuller`, `_repeat`, `_representative`, `_odd`, `_frobenius`, `_weighted_distribution` and `_distribution` for the indicated identities; the unweighted distribution theorem is for Mean.
+Name the finite product `moritaMultiplicationProduct`, the raw orbit sum `gammaOrbitLogSum`, the least-period function `gammaOrbitPhi` and its normalized value `gammaOrbitMean`. Use `_nat`, `_congruence`, `_orbit`, `_teichmuller`, `_repeat`, `_representative`, `_odd`, `_frobenius`, `_weighted_distribution` and `_distribution` for the indicated identities; the unweighted distribution theorem is for Mean. The signature `moritaMultiplicationProduct_nat` includes the unit-count exponent and the same finite Gamma normalizer.
 
 **Checks.**
 
@@ -1239,7 +1239,7 @@ For k=1 retain `G₁(t)=−Log(1−exp(2πit))` only away from integer classes. 
 
 The injectivity target for the Cartan realization must prove that its primitive-character projections are nonzero. Compute those projections by Gauss sums, the nonzero Dirichlet value and the exact Euler factors at deleted primes, and then use character separation and the primary basis. This is the arithmetic content of the character criterion, not a blanket assertion that every nonzero distribution gives an injective realization. For k>1, state the resulting injective Cartan map for the constructed G_k and its full complex linear span. (Kubert, Theorem 3.10 and proof, pp.192–193.)
 
-Name the scalar functions `periodicBernoulliDistribution`, `positiveFourierDistribution` (k>1) and `regularizedLogDistribution`. Use `_endpoint`, `_parity`, `_weightedLaw`, `_fourier`, `smoothWeightedDistribution_classification_with_bounds`, `l2WeightedDistribution_twoParameters` and `positiveFourierDistribution_cartan_injective` for the analytic and arithmetic APIs, with the k>1 hypothesis on the positive Fourier construction and its injective Cartan map.
+Name the scalar functions `periodicBernoulliDistribution`, `positiveFourierDistribution` (k>1) and `regularizedLogDistribution`. Use `_endpoint`, `_parity`, `_weightedLaw`, `_fourier`, `smoothWeightedDistribution_classification_with_bounds`, `l2WeightedDistribution_twoParameters` and `positiveFourierDistribution_cartan_injective` for the analytic and arithmetic APIs. The signature `periodicBernoulliDistribution_weightedLaw` gives the division law for the right-continuous representative at every real point, including integers, using the native Bernoulli polynomial. Retain the k>1 hypothesis on the positive Fourier construction and its injective Cartan map.
 
 **Checks.**
 
@@ -1300,7 +1300,7 @@ If Q is torsion-free, those kernels are exactly the torsion subgroups of the two
 
 Apply this to the torsion-free ordinary torus quotient. For `N>2`, both rational parity ranks are half the primitive count. At N=1, the even rank is 1 and the odd rank 0. At N=2, every point is fixed by negation, so the even rank is `2^d−1` and the odd rank 0. These are ranks; the odd quotient can still contain 2-torsion. State the GL_d action on the rationalized representation and the finite-level compatibility from the basis theorem, not an integral decomposition by half-idempotents.
 
-Use `distributionNegation`, `distributionParityOperator`, `distributionSignRepresentation`, `distributionTateZeroParityEmbedding`, `distributionTateNegOneParityEmbedding`, `distributionHOneParityTorsionEquiv`, `distributionParityTorsionEquiv` and `ordinaryDistribution_parityRank` for the point involution, embeddings and torsion comparisons. Each map keeps the original point representatives.
+Use `distributionNegation`, `distributionParityOperator`, `distributionSignRepresentation`, `distributionTateZeroParityEmbedding`, `distributionTateNegOneParityEmbedding`, `distributionHOneParityTorsionEquiv`, `distributionParityTorsionEquiv` and `ordinaryDistribution_parityRank` for the point involution, embeddings and torsion comparisons. Each map keeps the original point representatives. The signature `distributionParity_torsion_iff` states the torsion criterion and annihilation by 2 on the native linear-map parity quotients of a torsion-free module.
 
 **Checks.**
 
@@ -1561,7 +1561,7 @@ Define the integral cleared series and its actual series-valued evaluation by
 
 Prove uniqueness, native continuity and Z-linearity of N_u^eval, coefficient inclusion, `N_u^eval(x^e)=PowerSeries.map(f_e)(N_u)` with the integral scalar map before inclusion, and the coefficientwise clearing relation `Δ_u E=N_u` in Q(M)[[q]]. The first positive coefficient after moment specialization is `2(u^(e+1)−1)`. The constant is the actual `(e+1)`st numerator moment and is integral, even when the normalized classical constant is not. The construction works for all u, including u=1; only the subsequent division needs admissibility. Extend the same statements to any integral continuous multiplicative character κ, with admissibility `2uκ(u)−2≠0`, rather than limiting the algebraic localization interface to arithmetic weights.
 
-Use `eisensteinMomentHom`, `eisensteinAwayEvaluation`, `fullEisensteinSeries`, `fullEisensteinAwaySeries`, `clearedEisensteinSeries` and `clearedEisensteinEvaluation`. Their API includes `_dirac`, `_coeff_zero`, `_coeff_pos`, `_clear`, `_include`, `_admissible`, `_map` and `_unique` with each nonvanishing or regularity hypothesis retained.
+Use `eisensteinMomentHom`, `eisensteinAwayEvaluation`, `fullEisensteinSeries`, `fullEisensteinAwaySeries`, `clearedEisensteinSeries` and `clearedEisensteinEvaluation`. Their API includes `_dirac`, `_coeff_zero`, `_coeff_pos`, `_clear`, `_include`, `_admissible`, `_map` and `_unique` with each nonvanishing or regularity hypothesis retained. The signature `fullEisensteinAwaySeries_interpolation` characterizes the full series in the native Away localization and its coefficientwise nonnegative-moment specializations, including the shifted constant.
 
 **Checks.**
 
@@ -1641,7 +1641,7 @@ The first bound follows from the common unit-denominator recurrence; no primitiv
 
 At p=2 and every odd D>1 construct `dyadicTameQuadraticReference`: choose an odd prime ℓ|D and pull back its nonprincipal quadratic character along the native unit reduction. Its values on units are ±1 and its zero extension has the same nonunit zeros as the principal level-D character. An actual nonsquare modulo ℓ lifts to a unit modulo D, proving nonprincipality in characteristic zero. The difference from the principal level-D character has norm at most 1/2 by the bounded Z₂ action. Its API is `_square_one`, `_nonprincipal`, `_principal_distance` and `_changeLevel`. This finite construction and the preceding stability theorem prove `dyadicTame_scalar_integral_iff` for every character at D>1: an integral scalar lift exists exactly when `‖s‖≤1`. This includes principal characters, composite levels and imprimitive characters; the level is never silently replaced by the conductor.
 
-At D=1 the tame kernel vanishes and `G_η=2E⁺`. The exact criterion is instead `‖2s‖≤1`, since the coefficient at q on the constant test 1 is 2; sufficiency is multiplication of E⁺ by the integer element 2s. Name this `levelOneTame_scalar_integral_iff`. It does not require characteristic zero, given the stated coefficient action and constructors. At every odd prime, 2 is a unit in O and has norm 1; the same q coefficient proves the criterion `‖s‖≤1` for every η and D. Combining the cases, in characteristic zero prove `tame_scalar_integral_iff` and `tame_integral_half_iff`:
+At D=1 the tame kernel vanishes and `G_η=2E⁺`. The exact criterion is instead `‖2s‖≤1`, since the coefficient at q on the constant test 1 is 2; sufficiency is multiplication of E⁺ by the integer element 2s. Name this `levelOneTame_scalar_integral_iff`. It does not require characteristic zero, given the stated coefficient action and constructors. At every odd prime, 2 is a unit in O and has norm 1; the same q coefficient proves the criterion `‖s‖≤1` for every η and D. Combining the cases, in characteristic zero prove `tame_scalar_integral_iff` and `tame_integral_half_iff`. The scalar-classification signature expresses integrality as the equivalent contraction bound on every coefficient functional and every continuous K-valued test. It identifies the constant functional with the actual unit restriction of the finite tame measure and the positive functionals with the doubled divisor sums:
 
 ```text
 integral lift of sG_η exists ↔ (if D=1 then ‖2s‖≤1 else ‖s‖≤1),

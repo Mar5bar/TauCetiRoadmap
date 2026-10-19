@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 import TauCeti.NumberTheory.ModularForms.EisensteinSeries.Normalized
+import TauCetiRoadmap.PadicMeasuresIwasawaAlgebras.Suggested
 
 /-!
 # DirichletPadicLFunctions: representative target signatures
@@ -103,6 +104,14 @@ theorem algebraicDirichletValue_complex {F : Type*} [Field F] [Algebra ℚ F]
       ι (-χ.generalizedBernoulli k / (k : F)) := by
   sorry
 
+/-- The algebraic special value vanishes in the incompatible parity, apart from the
+primitive trivial character's degree-one boundary. -/
+theorem algebraicDirichletValue_parity {F : Type*} [Field F] [Algebra ℚ F]
+    {N : ℕ} [NeZero N] (χ : DirichletCharacter F N) (k : ℕ) (hk : 0 < k)
+    (hpar : χ (-1) ≠ (-1 : F) ^ k) (hboundary : N ≠ 1 ∨ k ≠ 1) :
+    -χ.generalizedBernoulli k / (k : F) = 0 := by
+  sorry
+
 /-! ### The Iwasawa logarithm -/
 
 /-- Every nonzero element has a power that is a power of `p` times a principal unit. -/
@@ -136,15 +145,6 @@ theorem existsUnique_isIwasawaLog (p : ℕ) [Fact p.Prime] (K : Type*) [NormedFi
 theorem existsUnique_isIwasawaLog_padicComplex (p : ℕ) [Fact p.Prime] :
     ∃! L : ℂ_[p] → ℂ_[p], IsIwasawaLog p L := by
   sorry
-
-/-- A zero-parameter branch with the same value at zero equals the normalized logarithm. -/
-example (p : ℕ) [Fact p.Prime] {L ℓ : ℂ_[p] → ℂ_[p]} (hL : IsIwasawaLog p L)
-    (hzero : ℓ 0 = 0) (hp : ℓ p = 0)
-    (hmul : ∀ x y : ℂ_[p], x ≠ 0 → y ≠ 0 → ℓ (x * y) = ℓ x + ℓ y)
-    (hseries : ∀ z : ℂ_[p], ‖z‖ < 1 → ℓ (1 + z) = NormedSpace.logOneAdd ℂ_[p] ℂ_[p] z) :
-    ℓ = L := by
-  obtain ⟨_, _, hM⟩ := existsUnique_isIwasawaLog_padicComplex p
-  exact (hM ℓ ⟨hzero, hp, hmul, hseries⟩).trans (hM L hL).symm
 
 /-- The intrinsic Iwasawa logarithm of a finite extension of `ℚ_[p]`. -/
 theorem existsUnique_isIwasawaLog_of_finiteDimensional (p : ℕ) [Fact p.Prime] (K : Type*)
@@ -194,6 +194,14 @@ theorem IsIwasawaLog.map_padicComplex_ringEquiv {p : ℕ} [Fact p.Prime] {L : �
 theorem IsIwasawaLog.mem_intermediateField {p : ℕ} [Fact p.Prime] {L : ℂ_[p] → ℂ_[p]}
     (hL : IsIwasawaLog p L) (F : IntermediateField ℚ_[p] ℂ_[p]) [FiniteDimensional ℚ_[p] F]
     {x : ℂ_[p]} (hx : x ∈ F) : L x ∈ F := by
+  sorry
+
+/-- On the exponential convergence ball the normalized logarithm inverts the exponential. -/
+theorem localIwasawaLog_exp (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K] [CharZero K]
+    (L : K → K) (hL : IsIwasawaLog p L) (x : K)
+    (hx : ‖x‖ < (p : ℝ) ^ (-(1 / ((p : ℝ) - 1)))) :
+    L (NormedSpace.exp x) = x := by
   sorry
 
 /-- A branch with value one at `p` is not the Iwasawa logarithm. -/
@@ -277,11 +285,66 @@ theorem smoothedMeasure_mul (p : ℕ) [Fact p.Prime] (a b : ℕ)
         ⟨fun x => f ((a : ℤ_[p]) * x), by fun_prop⟩ := by
   sorry
 
+/-- The unit-restricted smoothing measure has a unique intrinsic inverse-coordinate
+numerator, characterized on all tests and by its positive moments. -/
+theorem existsUnique_intrinsicNumerator (p : ℕ) [Fact p.Prime]
+    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) :
+    ∃! ν : AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p],
+      (AbstractMeasure.map
+        ⟨fun u : (ℤ_[p])ˣ => (u : ℤ_[p]), by fun_prop⟩
+          (AbstractMeasure.weight ⟨fun u : (ℤ_[p])ˣ => (u : ℤ_[p]), by fun_prop⟩ ν) =
+        smoothedMeasure p a ha - AbstractMeasure.map
+          ⟨fun x : ℤ_[p] => (p : ℤ_[p]) * x, by fun_prop⟩ (smoothedMeasure p a ha)) ∧
+      (∀ k : ℕ, 0 < k →
+        (ν ⟨fun u => (u : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
+          (clearingMoment p a k : ℚ_[p])) := by
+  sorry
+
+/-- Binomial smoothing at every p-adic unit determines a unique family of integral measures;
+the same family satisfies the all-test cocycle and depends continuously on its parameter. -/
+theorem existsUnique_padicSmoothedMeasure (p : ℕ) [Fact p.Prime] :
+    ∃! μ : (ℤ_[p])ˣ → AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p],
+      (∀ u, (μ u).amiceTransform =
+        (PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 2)) *
+          (PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 1)).invOfUnit u) ∧
+      (∀ u v (f : C(ℤ_[p], ℤ_[p])), μ (u * v) f = μ u f +
+        (u : ℤ_[p]) * μ v ⟨fun x => f ((u : ℤ_[p]) * x), by fun_prop⟩) ∧
+      (∀ f : C(ℤ_[p], ℤ_[p]), Continuous fun u => μ u f) := by
+  sorry
+
+/-- The integral numerator family determines exactly one arithmetic pseudomeasure in the
+total quotient of the native convolution algebra, including at the dyadic prime. -/
+theorem kubotaLeopoldtPseudomeasure_clear (p : ℕ) [Fact p.Prime]
+    (ν : (ℤ_[p])ˣ → AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p])
+    (hν : ∀ u (k : ℕ), 0 < k →
+      ((ν u) ⟨fun x => (x : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
+        (1 - (p : ℚ_[p]) ^ (k - 1)) *
+          (1 - ((u : ℤ_[p]) : ℚ_[p]) ^ k) * (bernoulli k : ℚ_[p]) / k) :
+    let M := AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]
+    let Q := Localization (nonZeroDivisors M)
+    ∃! ζ : Iwasawa.pseudomeasures
+      (AbstractMeasure.diracHom (G := (ℤ_[p])ˣ) (R := ℤ_[p])) Q,
+      ∀ u : (ℤ_[p])ˣ, algebraMap M Q (AbstractMeasure.dirac ℤ_[p] u - 1) * (ζ : Q) =
+        algebraMap M Q (ν u) := by
+  sorry
+
 /-- A unit-step cyclic recurrence and total mass determine all finite residue masses. -/
 theorem smoothingResidue_unique {K : Type*} [Field K] [CharZero K]
     (q : ℕ) [NeZero q] (a : (ZMod q)ˣ) (c c' : ZMod q → K)
     (hdiff : ∀ r, c (r - a.val) - c r = c' (r - a.val) - c' r)
     (hsum : ∑ r, c r = ∑ r, c' r) : c = c' := by
+  sorry
+
+/-- The actual smoothing measure has the finite least-residue masses of the carry formula,
+also at the trivial residue level. -/
+theorem smoothingResidueCandidate_eq_mass (p : ℕ) [Fact p.Prime]
+    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) (m : ℕ)
+    (v : (ZMod (p ^ m))ˣ) (hv : (v : ZMod (p ^ m)) = a) (r : ZMod (p ^ m))
+    (f : C(ℤ_[p], ℤ_[p]))
+    (hf : ∀ x, f x = if PadicInt.toZModPow m x = r then 1 else 0) :
+    (smoothedMeasure p a ha f : ℚ_[p]) =
+      (smoothingResidueCandidate a (p ^ m) r.val ((v⁻¹ : (ZMod (p ^ m))ˣ) * r).val :
+        ℚ_[p]) := by
   sorry
 
 /-- Integral numerator moments preserve the sup-norm bound of every finite power combination. -/
@@ -300,6 +363,14 @@ theorem zeta_not_bounded_field_measure (p : ℕ) [Fact p.Prime]
     ¬ ∃ μ : AbstractMeasure (ℤ_[p])ˣ K K, ∀ k : ℕ, 0 < k →
       μ ⟨fun u => (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])) ^ k, by fun_prop⟩ =
         algebraMap ℚ_[p] K ((-(1 - (p : ℚ) ^ (k - 1)) * bernoulli k / k : ℚ) : ℚ_[p]) := by
+  sorry
+
+/-- The even Kubota–Leopoldt moment sequence has unbounded p-adic norm. -/
+theorem zeta_positive_moments_unbounded (p : ℕ) [Fact p.Prime] :
+    Tendsto (fun r : ℕ =>
+      let n := 2 * (p - 1) * p ^ r
+      ‖(-(1 - (p : ℚ_[p]) ^ (n - 1)) * (bernoulli n : ℚ_[p]) / n)‖)
+      atTop atTop := by
   sorry
 
 /-! ## Layer 2: finite character kernels -/
@@ -367,6 +438,70 @@ theorem existsUnique_tameMeasure (p : ℕ) [Fact p.Prime]
     ∃! μ : AbstractMeasure ℤ_[p] K K, μ.amiceTransform = tameSeries η hD := by
   sorry
 
+/-- The finite tame Amice kernel gives the ordinary generalized-Bernoulli moments of the
+actual field-valued measure, with no primitivity assumption. -/
+theorem tameMeasure_moment (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [ContinuousSMul ℤ_[p] K] [Algebra ℚ K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hne : η ≠ 1)
+    (hD : IsUnit (D : K)) (hDnorm : ‖(D : K)‖ = 1)
+    (μ : AbstractMeasure ℤ_[p] K K) (hμ : μ.amiceTransform = tameSeries η hD)
+    (k : ℕ) :
+    μ ⟨fun x => (algebraMap ℤ_[p] K x) ^ k, by fun_prop⟩ =
+      -η.generalizedBernoulli (k + 1) / (k + 1) := by
+  sorry
+
+/-- The tame character-variation bound passes from all Amice coefficients to every
+continuous test of the corresponding measures. -/
+theorem tameMeasure_character_variation (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [ContinuousSMul ℤ_[p] K]
+    {D : ℕ} [NeZero D] (η₀ η₁ : DirichletCharacter K D) (hD : IsUnit (D : K))
+    (hDnorm : ‖(D : K)‖ = 1) (B : ℝ) (hB : 0 ≤ B)
+    (hη : ∀ a, ‖η₀ a - η₁ a‖ ≤ B)
+    (μ₀ μ₁ : AbstractMeasure ℤ_[p] K K)
+    (hμ₀ : μ₀.amiceTransform = tameSeries η₀ hD)
+    (hμ₁ : μ₁.amiceTransform = tameSeries η₁ hD) (f : C(ℤ_[p], K)) :
+    ‖μ₀ f - μ₁ f‖ ≤ B * ‖f‖ := by
+  sorry
+
+/-- A primitive positive-level p-power twist of the actual smoothing measure interpolates
+the common algebraic Dirichlet values after the inverse-coordinate unit weighting. -/
+theorem twistedSmoothedMeasure_interpolation (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    [Algebra ℤ_[p] K] [IsScalarTower ℤ_[p] ℚ_[p] K] [ContinuousSMul ℤ_[p] K]
+    [Algebra ℚ K] [IsScalarTower ℚ ℚ_[p] K]
+    (n : ℕ) (hn : 0 < n) (χ : DirichletCharacter K (p ^ n))
+    (hχ : χ.IsPrimitive) (hne : χ ≠ 1) (a : ℕ) (ha : IsUnit (a : ℤ_[p]))
+    (μ : AbstractMeasure ℤ_[p] K K)
+    (hμ : μ.amiceTransform = PowerSeries.map (algebraMap ℤ_[p] K) (smoothedSeries ℤ_[p] a ha))
+    (k : ℕ) (hk : 0 < k) (f g : C(ℤ_[p], K))
+    (hf : ∀ x : ℤ_[p], (IsUnit x → algebraMap ℤ_[p] K x * f x = 1) ∧
+      (¬IsUnit x → f x = 0))
+    (hg : ∀ x : ℤ_[p], g x = χ (PadicInt.toZModPow n x) * f x *
+      (algebraMap ℤ_[p] K x) ^ k) :
+    μ g = (χ a * (a : K) ^ k - 1) * (-χ.generalizedBernoulli k / k) := by
+  sorry
+
+/-- The coordinate-weighted comparison with the finite tame measure identifies every
+positive moment of its intrinsic zeta measure, including the p Euler factor. -/
+theorem intrinsicTameZetaMeasure_moment (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [ContinuousSMul ℤ_[p] K] [Algebra ℚ K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hne : η ≠ 1)
+    (hD : IsUnit (D : K)) (hDp : D.Coprime p) (hDnorm : ‖(D : K)‖ = 1)
+    (μ : AbstractMeasure ℤ_[p] K K) (hμ : μ.amiceTransform = tameSeries η hD)
+    (ν : AbstractMeasure (ℤ_[p])ˣ K K)
+    (hν : AbstractMeasure.map
+      ⟨fun u : (ℤ_[p])ˣ => (u : ℤ_[p]), by fun_prop⟩
+        (AbstractMeasure.weight
+          ⟨fun u : (ℤ_[p])ˣ => algebraMap ℤ_[p] K (u : ℤ_[p]), by fun_prop⟩ ν) =
+      μ - η p • AbstractMeasure.map ⟨fun x : ℤ_[p] => (p : ℤ_[p]) * x, by fun_prop⟩ μ)
+    (k : ℕ) (hk : 0 < k) :
+    ν ⟨fun u => (algebraMap ℤ_[p] K (u : ℤ_[p])) ^ k, by fun_prop⟩ =
+      -(1 - η p * (p : K) ^ (k - 1)) * η.generalizedBernoulli k / k := by
+  sorry
+
 /-- The complex cyclotomic logarithm sum has the inverse-character Gauss normalization. -/
 def complexGaussLogValue {N : ℕ} [NeZero N] (θ : DirichletCharacter ℂ N) (ε : ℂ) : ℂ :=
   -(∑ a : (ZMod N)ˣ, θ⁻¹ (a : ZMod N) * ε ^ (a : ZMod N).val)⁻¹ *
@@ -394,6 +529,12 @@ theorem complexGaussLogValue_transcendental_of_ne_zero {N : ℕ} [NeZero N]
     (θ : DirichletCharacter ℂ N) (ε : ℂ) (hε : IsPrimitiveRoot ε N) (hN : 1 < N)
     (hne : complexGaussLogValue θ ε ≠ 0) :
     Transcendental ℚ (complexGaussLogValue θ ε) := by
+  sorry
+
+/-- A primitive nontrivial Dirichlet character has a transcendental complex value at one. -/
+theorem complexDirichletValue_one_transcendental {N : ℕ} [NeZero N]
+    (θ : DirichletCharacter ℂ N) (hθ : θ.IsPrimitive) (hne : θ ≠ 1) :
+    Transcendental ℚ (θ.LFunction 1) := by
   sorry
 
 /-! ## Layer 3: analytic branches and the residue -/
@@ -477,6 +618,36 @@ theorem tameZetaMeasure_logarithmic_mass (p : ℕ) [Fact p.Prime]
       μ ⟨fun u => (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])) ^ k, by fun_prop⟩ =
         -(1 - η p * (p : K) ^ (k - 1)) * η.generalizedBernoulli k / k) :
     μ 1 = (1 - η p / (p : K)) * cyclotomicLogConstant η ε L hdom := by
+  sorry
+
+/-- Clearing a nonprincipal character branch identifies its value at one with Leopoldt's
+cyclotomic logarithm sum for tame, mixed and purely wild conductors. -/
+theorem leopoldt_value_one (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    [CharZero K] [Algebra ℚ K] [IsScalarTower ℚ ℚ_[p] K]
+    {N : ℕ} [NeZero N] (θ : DirichletCharacter K N)
+    (hθ : θ.IsPrimitive) (hne : θ ≠ 1) (a : ℕ) (hap : a.Coprime p)
+    (haθ : θ a ≠ 1) (ε : K) (hε : IsPrimitiveRoot ε N)
+    (L : K → K) (hL : IsIwasawaLog p L)
+    (hdom : ∀ b : (ZMod N)ˣ, ε ^ (b : ZMod N).val ≠ 1)
+    (μ : AbstractMeasure (ℤ_[p])ˣ K K)
+    (hμ : ∀ k : ℕ, 0 < k →
+      μ ⟨fun u => (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])) ^ k, by fun_prop⟩ =
+        (θ a * (a : K) ^ k - 1) *
+          (-(1 - θ p * (p : K) ^ (k - 1)) * θ.generalizedBernoulli k / k)) :
+    μ 1 / (θ a - 1) =
+      (1 - θ p / (p : K)) * cyclotomicLogConstant θ ε L hdom := by
+  sorry
+
+/-- The canonical principal branch has residue `1-1/p`, using its computed numerator
+mass and the logarithm of the same smoothing unit in its denominator. -/
+theorem principalBranch_residue (p : ℕ) [Fact p.Prime]
+    (N : ℚ_[p] → ℚ_[p]) (hN : ContinuousAt N 1)
+    (hzero : N 1 = -(1 - (p : ℚ_[p])⁻¹) *
+      NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])) :
+    Tendsto (fun s => (s - 1) * (N s /
+      analyticDenominator 1 (NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])) s))
+      (𝓝[≠] 1) (𝓝 (1 - (p : ℚ_[p])⁻¹)) := by
   sorry
 
 /-- The positive even weight sequence recovers the principal residue from Bernoulli numbers. -/
@@ -580,6 +751,99 @@ theorem moritaGamma_locallyAnalytic (p : ℕ) [Fact p.Prime] (Γ : C(ℤ_[p], (�
       ∀ᶠ y : ℤ_[p] in 𝓝 x, F (y : ℚ_[p]) = ((Γ y : ℤ_[p]) : ℚ_[p]) := by
   sorry
 
+/-- Signed Morita Gamma has the residue-dependent reflection sign, with the second binary
+digit retained at the dyadic prime. -/
+theorem moritaGamma_reflection (p : ℕ) [Fact p.Prime]
+    (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (x : ℤ_[p]) :
+    (Γ x : ℤ_[p]) * (Γ (1 - x) : ℤ_[p]) =
+      (-1 : ℤ_[p]) ^ (if p = 2 then 1 + (PadicInt.toZModPow 2 x).val / 2
+        else if PadicInt.toZMod x = 0 then p else (PadicInt.toZMod x).val) := by
+  sorry
+
+/-- The natural-argument multiplication product has the exact unit-count exponent and
+its Gamma-product normalizer. -/
+theorem moritaMultiplicationProduct_nat (p : ℕ) [Fact p.Prime]
+    (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (m : ℕ) (hm : 0 < m) (u : (ℤ_[p])ˣ) (hu : (u : ℤ_[p]) = m) (n : ℕ) :
+    (∏ h ∈ Finset.range m,
+      (Γ (((n + h : ℕ) : ℤ_[p]) * (u⁻¹ : (ℤ_[p])ˣ)) : ℤ_[p])) *
+        (m : ℤ_[p]) ^ gammaUnitCount p n =
+      (Γ (n : ℤ_[p]) : ℤ_[p]) *
+        ∏ h ∈ Finset.range m, (Γ ((h : ℤ_[p]) * (u⁻¹ : (ℤ_[p])ˣ)) : ℤ_[p]) := by
+  sorry
+
+/-- Character-compatible finite means satisfy the exact positive-shift boundary identity
+before any limiting or analytic argument. -/
+theorem moritaFiniteMean_boundary {K : Type*} [Field K] [CharZero K]
+    (p : ℕ) (hp : p.Prime) {f : ℕ} [NeZero f]
+    (χ : DirichletCharacter K f) (n z : ℕ)
+    (hz : Nat.lcm f (moritaModulus p) ∣ z) (F : ℕ → K) :
+    moritaFiniteMean p χ n (fun a => F (a + z)) - moritaFiniteMean p χ n F =
+      (moritaMeanLevel p f n : K)⁻¹ *
+        ∑ a ∈ (Finset.range z).filter (fun a => ¬p ∣ a),
+          χ a * (F (a + moritaMeanLevel p f n) - F a) := by
+  sorry
+
+/-- The common-level character means of a sample analytic near every p-adic integer
+converge in the complete coefficient field. -/
+theorem moritaFiniteMean_tendsto (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    {f : ℕ} [NeZero f] (χ : DirichletCharacter K f)
+    (F : ℚ_[p] → K) (hF : ∀ x : ℤ_[p], AnalyticAt ℚ_[p] F (x : ℚ_[p])) :
+    ∃ v : K, Tendsto (fun n => moritaFiniteMean p χ n (fun a => F (a : ℚ_[p])))
+      atTop (𝓝 v) := by
+  sorry
+
+/-- The formal Dwork exponential has its constant and the two ranges of its coefficient
+recurrence, including the correction at the first Frobenius degree. -/
+theorem dworkSplittingSeries_coeff {K : Type*} [Field K] [Algebra ℚ K]
+    (q : ℕ) (hq : 1 < q) (π : K) :
+    let F : PowerSeries K := PowerSeries.subst
+      (PowerSeries.C π * (PowerSeries.X - PowerSeries.X ^ q)) (PowerSeries.exp K)
+    F.coeff 0 = 1 ∧
+      (∀ n : ℕ, 0 < n → n < q → (n : K) * F.coeff n = π * F.coeff (n - 1)) ∧
+      (∀ n : ℕ, q ≤ n → (n : K) * F.coeff n =
+        π * (F.coeff (n - 1) - (q : K) * F.coeff (n - q))) := by
+  sorry
+
+/-- The convergent Dwork series evaluates at the finite-field Teichmüller lifts to the
+additive trace character with the root fixed by the linear-term normalization. -/
+theorem dworkSplittingSeries_traceCharacter (p f : ℕ) [Fact p.Prime] (hf : 0 < f)
+    {F : Type*} [Field F] [Fintype F] [Algebra (ZMod p) F] (hcard : Fintype.card F = p ^ f)
+    {E : Type*} [NormedField E] [NormedAlgebra ℚ_[p] E] [FiniteDimensional ℚ_[p] E]
+    (O : ValuationSubring E) (hO : ∀ x : E, x ∈ O ↔ ‖x‖ ≤ 1)
+    (res : O →+* F) (hres : ∀ x : O, res x = 0 ↔ ‖(x : E)‖ < 1)
+    (ω : Fˣ →* Oˣ) (hω : ∀ x : Fˣ, res (ω x : O) = (x : F))
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    [Algebra ℚ K] [IsScalarTower ℚ ℚ_[p] K]
+    (σ : E →ₐ[ℚ_[p]] K) (ζ π : K) (hζ : IsPrimitiveRoot ζ p)
+    (hπ : π ^ (p - 1) = -(p : K)) (hπζ : ‖π - (ζ - 1)‖ ≤ ‖ζ - 1‖ ^ 2)
+    (x : Fˣ) :
+    let Θ : PowerSeries K := PowerSeries.subst
+      (PowerSeries.C π * (PowerSeries.X - PowerSeries.X ^ (p ^ f))) (PowerSeries.exp K)
+    HasSum (fun n : ℕ => Θ.coeff n * (σ ((ω x : O) : E)) ^ n)
+      (ζ ^ (Algebra.trace (ZMod p) F (x : F)).val) := by
+  sorry
+
+/-- Robert's continuous Gamma product is the limit of the normalized factorial quotients
+along every natural sequence approaching its p-adic argument. -/
+theorem robert_factorial_limit (p : ℕ) [Fact p.Prime] (f : ℕ) (hf : 0 < f)
+    (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (a : ℕ) (ha : a < p ^ f) (x : ℤ_[p]) (v : ℕ → ℕ)
+    (hv : Tendsto (fun n => (v n : ℤ_[p])) atTop (𝓝 x)) :
+    Tendsto (fun n =>
+      (- (p : ℚ_[p])) ^ (((p ^ f - 1) / (p - 1)) * v n) * (v n).factorial /
+        (a + p ^ f * v n).factorial) atTop
+      (𝓝 ((-(p : ℚ_[p])) ^ (-(padicValNat p a.factorial : ℤ)) *
+        ∏ i ∈ Finset.range f,
+          ((Γ (-((a / p ^ i : ℕ) : ℤ_[p]) - (p : ℤ_[p]) ^ (f - i) * x) :
+            ℤ_[p]) : ℚ_[p]))) := by
+  sorry
+
 /-- Gamma at an integral rational with denominator dividing p-1 is algebraic over the rationals. -/
 theorem moritaGamma_rational_algebraic (p : ℕ) [Fact p.Prime]
     (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
@@ -644,6 +908,42 @@ theorem ordinaryDistribution_finiteBasis (d N : ℕ) (hd : 0 < d) (hN : 0 < N) :
         (QuotientAddGroup.mk (FreeAbelianGroup.of x.val) : Q))
     Module.Free ℤ V ∧ Module.rank ℤ V =
       (Nat.card {x : Fin d → AddCircle (1 : ℚ) // addOrderOf x = N} : Cardinal) := by
+  sorry
+
+/-- Positive-weight finite torus images are free of the primitive-point rank. -/
+theorem weightedDistribution_rootLiftBasis (d N w : ℕ)
+    (hd : 0 < d) (hN : 0 < N) (hw : 0 < w) :
+    letI : ∀ m : ℕ+, ∀ a : Fin d → AddCircle (1 : ℚ),
+      Finite {b : Fin d → AddCircle (1 : ℚ) // (m : ℕ) • b = a} :=
+        fun m a => rationalTorus_finite_divisionFiber d m a
+    let Q := universalWeightedDistribution (Fin d → AddCircle (1 : ℚ)) Set.univ w
+    let V : AddSubgroup Q := AddSubgroup.closure
+      (Set.range fun x : {x : Fin d → AddCircle (1 : ℚ) // N • x = 0} =>
+        (QuotientAddGroup.mk (FreeAbelianGroup.of x.val) : Q))
+    Module.Free ℤ V ∧ Module.rank ℤ V =
+      (Nat.card {x : Fin d → AddCircle (1 : ℚ) // addOrderOf x = N} : Cardinal) := by
+  sorry
+
+/-- On a torsion-free distribution module, torsion in either parity quotient is precisely
+the kernel of the opposite parity operator and is killed by two. -/
+theorem distributionParity_torsion_iff {Q : Type*} [AddCommGroup Q] [Module ℤ Q]
+    [IsAddTorsionFree Q] (j : Q →ₗ[ℤ] Q) (hj : j.comp j = LinearMap.id) (x : Q) :
+    ((∃ n : ℕ, 0 < n ∧ n • (Submodule.Quotient.mk x : Q ⧸ LinearMap.range (j - 1)) = 0)
+      ↔ j x + x = 0) ∧
+    ((∃ n : ℕ, 0 < n ∧ n • (Submodule.Quotient.mk x : Q ⧸ LinearMap.range (j + 1)) = 0)
+      ↔ j x - x = 0) ∧
+    (j x + x = 0 → (2 : ℕ) • (Submodule.Quotient.mk x : Q ⧸ LinearMap.range (j - 1)) = 0) ∧
+    (j x - x = 0 → (2 : ℕ) • (Submodule.Quotient.mk x : Q ⧸ LinearMap.range (j + 1)) = 0) := by
+  sorry
+
+/-- The right-continuous periodic Bernoulli functions satisfy the full weighted division
+law at every real point, including the integer endpoints. -/
+theorem periodicBernoulliDistribution_weightedLaw (k N : ℕ) (hk : 0 < k) (hN : 0 < N)
+    (t : ℝ) :
+    (N : ℝ) ^ (k - 1) *
+      (∑ j ∈ Finset.range N, Polynomial.eval₂ (algebraMap ℚ ℝ)
+        (Int.fract ((t + j) / N)) (Polynomial.bernoulli k)) =
+      Polynomial.eval₂ (algebraMap ℚ ℝ) (Int.fract t) (Polynomial.bernoulli k) := by
   sorry
 
 /-- Every continuous p-adic function has a unique normalized continuous antidifference with no norm loss. -/
@@ -717,7 +1017,7 @@ theorem not_exists_primePower_moments (p : ℕ) [Fact p.Prime] :
 def shiftedClearingValue {K : Type*} [CommRing K] (u : K) (e : ℕ) : K :=
   2 * (u ^ (e + 1) - 1)
 
-/-- The ordinary difference and shifted denominator have different inverse-character values. -/
+/-- The doubled shifted denominator vanishes at the inverse-coordinate character. -/
 theorem shiftedClearingValue_inverse {K : Type*} [Field K] (u : K) (hu : u ≠ 0) :
     2 * (u * u⁻¹ - 1) = 0 := by
   simp [hu]
@@ -735,12 +1035,6 @@ theorem eisensteinPositiveMoment_euler (p : ℕ) (hp : p.Prime) (n e : ℕ)
         (p : ℤ) ^ e * ∑ d ∈ (n / p).divisors, (d : ℤ) ^ e := by
   sorry
 
-/-- Odd weight five cannot have the asserted normalized positive Eisenstein coefficient. -/
-example : bernoulli 5 = 0 ∧ eisensteinPositiveMoment 2 1 4 = 1 := by
-  constructor
-  · exact bernoulli_eq_zero_of_odd (by decide) (by decide)
-  · decide
-
 /-- Native unit powers converge uniformly along the fixed-component weight sequence. -/
 theorem unitPowerSequence_tendsto (p : ℕ) [Fact p.Prime] (k : ℕ) :
     Tendsto (fun r : ℕ => unitPowerTest p (k + (p - 1) * p ^ r)) atTop
@@ -756,6 +1050,58 @@ theorem existsUnique_eisensteinPositiveMeasure (p : ℕ) [Fact p.Prime]
       (∀ f : C((ℤ_[p])ˣ, R), ‖μ f‖ ≤ ‖f‖) ∧
       ∀ e : ℕ, μ ⟨fun u => (algebraMap ℤ_[p] R (u : ℤ_[p])) ^ e, by fun_prop⟩ =
         (eisensteinPositiveMoment p n e : R) := by
+  sorry
+
+/-- The full Eisenstein series in a native Away localization is characterized by its
+shifted constant and positive divisor measures; every nonnegative moment specializes
+all coefficients, including the constant. -/
+theorem fullEisensteinAwaySeries_interpolation (p : ℕ) [Fact p.Prime]
+    (a : ℕ) (ha : 1 < a) (hap : a.Coprime p)
+    (ν : AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p])
+    (hν : ∀ k : ℕ, 0 < k →
+      (ν ⟨fun u => (u : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
+        (clearingMoment p a k : ℚ_[p]))
+    (u : (ℤ_[p])ˣ) (hu : (u : ℤ_[p]) = a)
+    (A : ℕ → AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p])
+    (hA : ∀ n : ℕ, 0 < n → ∀ e : ℕ,
+      (A n ⟨fun v => (v : ℤ_[p]) ^ e, by fun_prop⟩ : ℚ_[p]) =
+        (eisensteinPositiveMoment p n e : ℚ_[p])) :
+    let M := AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]
+    let Δ : M := 2 * ((a : ℤ_[p]) • AbstractMeasure.dirac ℤ_[p] u - 1)
+    let S := Localization.Away Δ
+    ∃! E : PowerSeries S,
+      (algebraMap M S Δ * E.coeff 0 = algebraMap M S
+        (AbstractMeasure.weight ⟨fun v : (ℤ_[p])ˣ => (v : ℤ_[p]), by fun_prop⟩ ν)) ∧
+      (∀ n : ℕ, 0 < n → E.coeff n = algebraMap M S (A n)) ∧
+      (∀ e : ℕ, ∃ ev : S →+* ℚ_[p],
+        (∀ μ : M, ev (algebraMap M S μ) =
+          (μ ⟨fun v => (v : ℤ_[p]) ^ e, by fun_prop⟩ : ℚ_[p])) ∧
+        PowerSeries.map ev E = PowerSeries.mk (fun n => if n = 0 then
+          -(1 - (p : ℚ_[p]) ^ e) * (bernoulli (e + 1) : ℚ_[p]) / (2 * (e + 1))
+          else (eisensteinPositiveMoment p n e : ℚ_[p]))) := by
+  sorry
+
+/-- The doubled tame family's integral scalar multiples are characterized by all-test
+bounds: level one detects `2s`, and every higher tame level detects `s`, including principal
+and imprimitive characters and the dyadic prime. -/
+theorem tame_scalar_integral_iff (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    [CharZero K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [ContinuousSMul ℤ_[p] K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hD : IsUnit (D : K))
+    (hDp : D.Coprime p) (hDnorm : ‖(D : K)‖ = 1) (hη : ∀ d, ‖η d‖ ≤ 1)
+    (μ : AbstractMeasure ℤ_[p] K K) (hμ : μ.amiceTransform = tameSeries η hD)
+    (units : ∀ d : ℕ, ¬p ∣ d → (ℤ_[p])ˣ)
+    (hunits : ∀ d hd, (units d hd : ℤ_[p]) = d)
+    (G : ℕ → AbstractMeasure (ℤ_[p])ˣ K K)
+    (hGzero : AbstractMeasure.map
+      ⟨fun u : (ℤ_[p])ˣ => (u : ℤ_[p]), by fun_prop⟩ (G 0) =
+        AbstractMeasure.weight (1 - AbstractMeasure.pMultiplesIndicator p K) μ)
+    (hGpos : ∀ n : ℕ, 0 < n → ∀ f : C((ℤ_[p])ˣ, K),
+      G n f = 2 * ∑ d ∈ n.divisors,
+        if hd : ¬p ∣ d then η d * f (units d hd) else 0)
+    (s : K) :
+    (∀ n : ℕ, ∀ f : C((ℤ_[p])ˣ, K), ‖s * G n f‖ ≤ ‖f‖) ↔
+      if D = 1 then ‖2 * s‖ ≤ 1 else ‖s‖ ≤ 1 := by
   sorry
 
 /-- The normalized character Eisenstein form has the arithmetic generalized Bernoulli constant. -/
@@ -789,7 +1135,7 @@ theorem characterEisenstein_stabilized_qExpansion (p : ℕ) [Fact p.Prime]
 The following README constructions require the measure-algebra, locally analytic distribution or unramified-residue
 comparison interfaces and are specified there with their specifications and Checks:
 normalizedMellinContinuation, algebraicDirichletValue, tateTrivial_dedekind_comparison;
-iwasawaLog, localIwasawaLog, localIwasawaLog_exp,
+iwasawaLog, localIwasawaLog,
 arithmeticAngularCoordinate;
 unitSmoothedMeasure, smoothedNumerator, intrinsicNumerator, padicSmoothingDenominator,
 padicSmoothedSeries, padicSmoothedMeasure, padicSmoothedNumerator, padicIntrinsicNumerator,
