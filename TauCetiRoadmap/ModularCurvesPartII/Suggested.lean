@@ -80,6 +80,22 @@ example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
     (PeriodPair.mk 1 Complex.I h).g₃ = 0 := by
   sorry
 
+/-- The square lattice cubic has zero constant coefficient. -/
+example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
+    (latticeWeierstrass (PeriodPair.mk 1 Complex.I h)).a₆ = 0 := by
+  sorry
+
+/-- The square lattice cubic has vanishing weight-six invariant. -/
+example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
+    (latticeWeierstrass (PeriodPair.mk 1 Complex.I h)).c₆ = 0 := by
+  sorry
+
+/-- The square lattice cubic has j-invariant 1728. -/
+example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
+    letI := latticeWeierstrass_isElliptic (PeriodPair.mk 1 Complex.I h)
+    (latticeWeierstrass (PeriodPair.mk 1 Complex.I h)).j = 1728 := by
+  sorry
+
 /-- The periods `1` and `2` are real-linearly dependent, so they do not form a `PeriodPair`. -/
 example : ¬ LinearIndependent ℝ ![(1 : ℂ), 2] := by
   intro h
@@ -107,6 +123,10 @@ example (t : ℤ) :
 example : splitOneGonEquation.Δ = 0 := by
   norm_num [splitOneGonEquation, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+
+/-- The one-gon has b₂=1 and b₈=0 over the integers. -/
+example : splitOneGonEquation.b₂ = 1 ∧ splitOneGonEquation.b₈ = 0 := by
+  norm_num [splitOneGonEquation, WeierstrassCurve.b₂, WeierstrassCurve.b₈]
 
 
 /-- In characteristic two the one-gon tangent cone has two distinct linear factors. -/
@@ -173,23 +193,6 @@ example : -1 / (2 * Complex.I) = Complex.I / 2 ∧
   sorry
 
 /-! ## Layer 5: cyclic modular polynomials -/
-
-/-- The integral cyclic modular polynomial, in V over ℤ[U], with Φ₁(U,V)=V−U. -/
-def modularPolynomial (m : ℕ) : Polynomial (Polynomial ℤ) := by
-  sorry
-
-/-- The modular-polynomial equation detects a cyclic isogeny between the curves after
-base change to an algebraic closure of their characteristic-zero field (README §5.6). -/
-theorem modularPolynomial_cyclic {K : Type*} [Field K] [CharZero K]
-    (E E' : WeierstrassCurve K) [E.IsElliptic] [E'.IsElliptic]
-    (m : ℕ) (hm : 0 < m) :
-    Polynomial.eval₂ (Polynomial.eval₂RingHom (Int.castRingHom K) E.j) E'.j
-      (modularPolynomial m) = 0 ↔
-      letI := Classical.decEq (AlgebraicClosure K)
-      ∃ φ : TauCeti.Isogeny (E.baseChange (AlgebraicClosure K)).toAffine
-          (E'.baseChange (AlgebraicClosure K)).toAffine,
-        φ.degree = m ∧ IsAddCyclic φ.ker := by
-  sorry
 
 /-- At m=1 equal j-invariants give an isomorphism over the algebraic closure. -/
 example {K : Type*} [Field K] [CharZero K]
@@ -393,8 +396,8 @@ section Parabolic
 variable {R C H : Type*} [CommRing R]
     [AddCommGroup C] [Module R C] [AddCommGroup H] [Module R H]
 
-/-- Parabolic image once u is the actual support-forgetting map of the README. -/
-def parabolicH1 (u : C →ₗ[R] H) : Submodule R H := LinearMap.range u
+/-- Notation for Mathlib's image submodule of the actual support-forgetting map. -/
+abbrev parabolicH1 (u : C →ₗ[R] H) : Submodule R H := LinearMap.range u
 
 /-- On a compact space the support map is the identity. -/
 example : parabolicH1 (LinearMap.id : H →ₗ[R] H) = ⊤ := by sorry
@@ -413,6 +416,15 @@ def levelElevenCuspCycle : Module.End (ZMod 5) (ZMod 5 → ZMod 5) where
   toFun v i := v (i - 1)
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
+
+/-- The cusp cycle sends the first basis vector to the next. -/
+example : levelElevenCuspCycle (Pi.single 0 1) = Pi.single 1 1 := by
+  decide
+
+/-- The cusp cycle preserves the sum of residues. -/
+example (v : ZMod 5 → ZMod 5) :
+    (∑ i, levelElevenCuspCycle v i) = ∑ i, v i := by
+  sorry
 
 /-- The cusp cycle is a nonidentity unipotent operator of order five in characteristic
 five; a scalar extension cannot make it diagonalizable (README §14.9). -/
@@ -433,9 +445,9 @@ example :
     (∑ i, v i) = 0 ∧ (levelElevenCuspCycle - 1) v ≠ 0 := by
   sorry
 
-/-- Transport of an ideal through the adjoint ring equivalence. For an involution `ι`,
-this is the ideal of `t` such that `ι t` lies in `m`, as in README §14.11. -/
-def adjointIdeal {T : Type*} [CommRing T] (ι : T ≃+* T) (m : Ideal T) : Ideal T :=
+/-- Notation for Mathlib's ideal comap along the inverse adjoint ring equivalence.
+For an involution `ι`, it consists of `t` such that `ι t` lies in `m` (README §14.11). -/
+abbrev adjointIdeal {T : Type*} [CommRing T] (ι : T ≃+* T) (m : Ideal T) : Ideal T :=
   m.comap ι.symm.toRingHom
 
 /-- Identity adjoint transport preserves every ideal. -/
@@ -480,8 +492,8 @@ section Degeneracy
 variable {R H H' : Type*} [CommRing R]
     [AddCommGroup H] [Module R H] [AddCommGroup H'] [Module R H']
 
-/-- Sum of the two actual geometric pullbacks, once their cohomological maps are supplied. -/
-def degeneracyH1 (a b : H →ₗ[R] H') : H × H →ₗ[R] H' := a.coprod b
+/-- Notation for Mathlib's coprod of the two actual geometric pullbacks. -/
+abbrev degeneracyH1 (a b : H →ₗ[R] H') : H × H →ₗ[R] H' := a.coprod b
 /-- Two zero degeneracy legs induce the zero map. -/
 example : degeneracyH1 (0 : H →ₗ[R] H') 0 = 0 := by
   sorry
@@ -598,8 +610,8 @@ example : (Matrix.toLin' !![(1 : ℚ), 0; 0, 0]) ≠ 0 ∧
 
 end NormPull
 
-/-- Kernel of the eigencharacter on the actual geometric Hecke algebra once it is constructed. -/
-def heckePrime {T K : Type*} [CommRing T] [Field K] (χ : T →+* K) : Ideal T :=
+/-- Notation for Mathlib's kernel ideal of the actual geometric Hecke eigencharacter. -/
+abbrev heckePrime {T K : Type*} [CommRing T] [Field K] (χ : T →+* K) : Ideal T :=
   RingHom.ker χ
 
 /-- The rational inclusion kills no nonzero integer. -/
@@ -664,6 +676,18 @@ theorem taylorWilesMinus_projector_range (ξ : M →ₗ[O] M)
     (hξ : ξ.comp ξ = LinearMap.id) (u : Oˣ) (hu : (u : O) = 2) :
     LinearMap.range (taylorWilesMinus_projector ξ u) = taylorWilesMinus ξ := by sorry
 
+/-- For an involution and the unit two, the minus projector is idempotent. -/
+example (ξ : M →ₗ[O] M) (hξ : ξ.comp ξ = LinearMap.id)
+    (u : Oˣ) (hu : (u : O) = 2) :
+    (taylorWilesMinus_projector ξ u).comp (taylorWilesMinus_projector ξ u) =
+      taylorWilesMinus_projector ξ u := by
+  sorry
+
+/-- When conjugation is negation and two is a unit, the minus projector is the identity. -/
+example (u : Oˣ) (hu : (u : O) = 2) :
+    taylorWilesMinus_projector (-LinearMap.id : M →ₗ[O] M) u = LinearMap.id := by
+  sorry
+
 /-- Negation acts as minus on the whole module. -/
 example : taylorWilesMinus (-LinearMap.id : M →ₗ[O] M) = ⊤ := by sorry
 /-- When two is a unit, identity has zero minus eigenspace. -/
@@ -708,11 +732,11 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * Formal level structures at cusps
 * Twisted Tate charts for Γ₁
 * Integral coarse modular curves
-* The cyclic modular polynomial's degree, duality and normalization interfaces:
-  modularPolynomial_degree, modularPolynomial_dual and modularPolynomial_normalization.
-  modularPolynomial_cyclic quantifies over isogenies of the base-changed curves over
-  an algebraic closure; the criterion over K also retains a K-defined cyclic kernel
-  and a K-isomorphism from its quotient to the prescribed target (README §5.6).
+* The integral cyclic modular polynomial modularPolynomial and its geometric criterion
+  modularPolynomial_cyclic, together with modularPolynomial_degree, modularPolynomial_dual
+  and modularPolynomial_normalization (README §5.6). The geometric criterion uses the
+  base-changed curves over an algebraic closure; the criterion over K retains a K-defined
+  cyclic kernel and a K-isomorphism from its quotient to the prescribed target.
 * Projective scalar level quotients
 * Igusa components of modular fibres
 * Regular resolutions of modular fibres

@@ -114,6 +114,7 @@ The representative signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b4
 - `Representation.symmetricPower` (`TauCeti/RepresentationTheory/SymmetricPower.lean`): Action on `Sym^r` of a representation; includes pure-tensor evaluation and functorial intertwining maps. The abstract symmetric-power representation is not a new target.
 - `TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`): Actual proper geometrically integral group-scheme carrier over a field; not a Jacobian or a quotient construction.
 - `RingHom.ker` (`Mathlib/RingTheory/Ideal/Maps.lean`): Kernel ideal of a ring homomorphism.
+- `Ideal.comap` (`Mathlib/RingTheory/Ideal/Maps.lean`): Inverse image of an ideal along a ring homomorphism.
 - `LinearMap.coprod` (`Mathlib/LinearAlgebra/Prod.lean`): Sum map from a product of two modules, used only after geometric pullbacks have been constructed.
 - `LinearMap.range` (`Mathlib/Algebra/Module/Submodule/Range.lean`): Image submodule, used to define parabolic cohomology from the actual compact-support map.
 - `groupCohomology.H1` (`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`): Group-cohomology carrier for an actual representation. With trivial action, degree one is additive characters, not compact curve cohomology.
@@ -158,6 +159,8 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 ### NeronModelsAndSemistableAbelianVarieties
 
+- **§5.0a** (finite-étale specialization of abelian torsion): For an abelian scheme over the integers of a nonarchimedean local field and `ℓ` different from the residue characteristic, reduction identifies geometric `ℓ`-power torsion equivariantly and compatibly with transition maps (§13.5).
+- **§5.0b** (good reduction and the Frobenius polynomial): The resulting Tate module is unramified; arithmetic Frobenius agrees with the Tate action of the special-fibre Frobenius endomorphism (§13.5).
 - **`R11.1`**: Néron extension of generic Jacobian homomorphisms over a DVR when the modular coarse fibre is singular; do not claim abelian good reduction at level-dividing primes.
 - **`R11.3`**: Semistable integral Tate filtration at `ℓ≠p`: `T_tor⊂T_f=T^{I_p}⊂T`, toric term `Hom(X*(T),Z_ℓ(1))`, finite quotient `T_ℓ` of the abelian reduction; keep saturation hypotheses.
 - **`R11.4`**: Comparison of the Néron identity fibre with `Pic⁰` of a proper regular semistable curve, the thickness-weighted graph monodromy pairing and its component-group discriminant. Import the general theorem; this part supplies the modular component/branch data. Additional consuming contract: Generic graph identification `X*(T)=H₁(dual graph,Z)`, weighted monodromy into its Z-dual and component-group cokernel, retaining all node thicknesses and primary torsion.
@@ -257,10 +260,6 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 - **F0.8** (*grothendieck-algebraization*, `FormalScheme.grothendieck_algebraization`): A proper noetherian formal scheme over Spf A, for A noetherian adic, with a compatible ample invertible sheaf on its thickenings, has a proper algebraization. The carrier comparison is F0.1/F0.7; full faithfulness for maps on proper algebraizations is SchemeAndStackFoundations §4.10. Section 2.9 applies this to polarized polygon families and transports group actions by uniqueness.
 - **R2.11** (*compactified-moduli-generalised-elliptic-curves*): The carriers `EllipticModuli.GroupCurve` with `GroupCurve.Iso`, `GroupCurve.baseChange` and `ofElliptic`; the standard polygons `EllipticModuli.nGon S n` with `nGon_normalization`, `nGon_smoothLocus` and `nGon_smoothPoints`; `GeneralisedEllipticCurve S`; the levels `GeneralisedEllipticCurve.Level` and `LevelStructure` (full level over `ℤ[1/N]`, cyclic level with an invertible factor `d≥5`); the fine moduli scheme `moduli` with `universalCurve`, `universalLevel`, properness and finite presentation; the identity formal group `formalGroup`; and the n-gon Tate family `tateCurve n` over `ℤ[[Q]]`. No second generalized elliptic curve, polygon or Tate family is defined here; Layers 2–4 build the integral theory over `ℤ` on these carriers.
-
-### ArithmeticGaloisRepresentations
-
-- **§§6.1 and 6.3** (finite-étale specialization and good reduction): For an abelian scheme over the integers of a nonarchimedean local field and `ℓ` different from the residue characteristic, reduction identifies `ℓ`-power torsion equivariantly; hence the Tate module is unramified (§13.5).
 
 ### ComplexComparisonPartII
 
@@ -407,7 +406,7 @@ The public interface should expose:
 
 - For `z∉Λ_L`, `(℘′_L(z)/2)²=℘_L(z)³−g₂℘_L(z)/4−g₃/4`.
 - The class of any lattice point maps to O, not the affine pair of totalized native function values.
-- For `Λ=Z+iZ`, `g₃=0` and `j(W_L)=1728`.
+- For `Λ=Z+iZ`, `g₃=0`, `W_L.a₆=W_L.c₆=0` and `j(W_L)=1728`.
 - Periods 1 and 2 do not form a PeriodPair, so no elliptic `W_L` is produced by this construction.
 - Verify the factors `1/2`, `1/4` and `Δ=g₂³−27g₃²` against the native equation.
 - The zero lattice class maps to O; no evaluation of a native junk value is used.
@@ -579,6 +578,7 @@ The public interface should expose:
 
 - For `m=1`, the normalization is one `P¹` and the node has two distinct preimages; `x=t(t+1)`, `y=t²(t+1)` gives the plane equation.
 - The tangent cone at `(0,0)` is `y(y+x)`, so the two branches remain distinct in characteristic two.
+- The integral one-gon equation has `b₂=1`, `b₈=0` and `Δ=0`.
 - `C₃` has three geometric irreducible components and three nodes.
 - The cuspidal cubic `y²z=x³` is excluded because its singularity is not an ordinary double point.
 - The split one-gon has two normalization preimages at its node, in every characteristic.
@@ -1846,7 +1846,7 @@ For the geometric criterion, specialize the cyclic-subgroup polynomial over K̄:
 
 The public interface should expose:
 
-- `modularPolynomial`: The normalized integral polynomial with its distinguished orientation at `m=1`; the Lean polynomial is in V with coefficients in `ℤ[U]`.
+- `modularPolynomial`: The normalized integral polynomial with its distinguished orientation at `m=1`; a README target, represented as a polynomial in V with coefficients in `ℤ[U]`.
 - `modularPolynomial_cyclic`: For a characteristic-zero field K, elliptic curves E,E′ over K and `m≥1`, `Φ_m(j(E),j(E′))=0` if and only if there is a degree-m isogeny `E_K̄→E′_K̄` with cyclic kernel. The isogeny is a morphism over K̄ between the base-changed curves.
 - `modularPolynomial_degree`: For `m≥2` its degree in each variable is `ψ(m)`, with leading coefficient 1.
 - `modularPolynomial_dual`: For `m≥2` dual cyclic isogenies interchange the variables and preserve `Φ_m`.
@@ -2419,7 +2419,7 @@ The theorem is `hodgeLineAutomorphy`.
 - At effective width w, `q=t^w` gives `dq/q=w dt/t`; a scalar rescaling would change the differential dictionary.
 - A cusp form has zero constant term and gives a regular differential; a nonzero constant gives a logarithmic pole.
 
-*Needs:* [§3.13](#s3-13); [§4.8](#s4-8); [§7.1](#s7-1); `ComplexComparisonPartII` C5.2 (`GaussManin`, `relativeHodgeBundles`) and C5.6 (regular-singular canonical extension); MC1C (the invariant-differential line).
+*Needs:* [§3.13](#s3-13); [§4.8](#s4-8); [§7.1](#s7-1); `ComplexComparisonPartII` C5.2 (`GaussManin`), C5.3 (`relativeHodgeBundles`) and C5.6 (regular-singular canonical extension); MC1C (the invariant-differential line).
 
 ([Faltings–Chai, Degeneration of Abelian Varieties](https://doi.org/10.1007/978-3-662-02632-8), III §9, pp.80–86, and IV Proposition 3.1(vi), p.107; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.12, pp.25–26, for the weight-two differential normalization.)
 
@@ -3607,7 +3607,7 @@ The public interface should expose:
 - Composition of finite maps gives the composite Picard norm and the composite adic trace; their degree factors multiply.
 - Reducing the inverse-limit trace at `ℓⁿ` agrees with §9.12’s finite trace on `H¹_et(C,μ_(ℓⁿ))`.
 
-*Needs:* [§9.12](#s9-12); [§13.1](#s13-1); [§13.2](#s13-2); [§13.3](#s13-3); [§13.4](#s13-4); `AbelianSchemesAndArithmeticModuli` A4.1; `AbelianSchemesAndArithmeticModuli` A6.7 (`homFreeFinite`); `ArithmeticGaloisRepresentations` §6.1 (finite-étale specialization of abelian torsion) and §6.3, Good reduction (unramifiedness and Frobenius comparison).
+*Needs:* [§9.12](#s9-12); [§13.1](#s13-1); [§13.2](#s13-2); [§13.3](#s13-3); [§13.4](#s13-4); `AbelianSchemesAndArithmeticModuli` A4.1; `AbelianSchemesAndArithmeticModuli` A6.7 (`homFreeFinite`); `NeronModelsAndSemistableAbelianVarieties` §5.0a (finite-étale specialization of abelian torsion) and §5.0b (good reduction and the Frobenius polynomial).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.67–69; §5.2, pp.72–73.)
 
@@ -3635,7 +3635,7 @@ Establish this as follows. If `β(T,f)=0` for all T, each Fourier coefficient of
 
 ### Dependencies
 
-Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, EnhancedDerivedSheaves, ArithmeticGaloisRepresentations, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, EnhancedDerivedSheaves, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 14: Cohomological realizations and parabolic lattices
 
@@ -3687,7 +3687,7 @@ Establish this as follows. Import absolute and relative twisted cochains and com
 
 The public interface should expose:
 
-- `parabolicH1`: The image submodule of the actual support-forgetting map `u:H¹_c→H¹`.
+- `parabolicH1`: Notation for Mathlib's `LinearMap.range` of the actual support-forgetting map `u:H¹_c→H¹`.
 - `mem_parabolicH1`: x lies in parabolicH1 u exactly when `x=u(y)` for a compact-support class y.
 - `parabolicH1_inclusion`: The canonical injection into ordinary `H¹`.
 - `parabolicH1_map`: For a commuting square `b∘u=v∘a`, b induces a map of the images; identity and composition are respected.
@@ -3882,6 +3882,7 @@ Use exact localization along the composition series to kill every residual bound
 
 - An Eisenstein maximal ideal may retain cusp classes.
 - At `Γ₁(11)` with coefficients `𝔽₅`, the five width-one cusps are indexed by `(ℤ/11)ˣ/{±1}`. The class of 3 has order five, so its diamond acts as a 5-cycle P. The permutation model `levelElevenCuspCycle` sends `e_i` to `e_(i+1)`, and `levelElevenCuspCycle_unipotent` states `P⁵=I`, `P≠I` and `(P−I)⁵=0`. It cannot be diagonalized over any extension of `𝔽₅`, although `5∤11` and the level is fine.
+- On that orbit `Pe₀=e₁`, and `∑_i(Pv)_i=∑_i v_i` for every cusp vector v.
 - On that orbit, `v=(P−I)e₀=e₁−e₀` has residue sum zero, but `(P−I)v=e₂−2e₁+e₀≠0`. Thus even the residue-sum kernel has nontrivial unipotent action; its composition factors have P acting as 1, and exact localization away from its Eisenstein support kills the whole extension.
 - For a connected Y, constants have `T_q=1+q` and trivial diamonds, so their localization vanishes at every non-Eisenstein m.
 - The statement does not demand a Galois representation theorem to define non-Eisenstein localization.
@@ -3934,7 +3935,7 @@ Establish this as follows. Use `modularOpenFiniteGraph` of §14.9a and import tw
 
 The elliptic cup product `L⊗L→A(−1)` induces a coefficient pairing on `V=Sym^r` L with values in `A(−r)`. It is perfect for `A=K=Frac(O)`; for `A=O` or `O/πⁿ` assume r! is a unit. Fix its induced identification `V≃V^∨(−r)`. Ordinary evaluation and the curve trace first pair `H¹_c(Y,V)` with `H¹(Y,V^∨(−r))` into `A(−r−1)`. Their common parabolic image inherits the natural cup pairing B, alternating for even r and symmetric for odd r; over K it is nondegenerate.
 
-Use anemic correspondences away from `Nℓ`, including diamonds and inverse correspondences. On the paired perfect support/ordinary complexes, take their common finite commutative O-Hecke image T, retaining the coefficient dual identification. Reversing the legs and transposing the coefficient map defines an O-algebra involution `†` on T: `B(tx,y)=B(x,t†y)`. This is the specialization of inverse-double-coset duality, with the coefficient map transported through `V≃V^∨(−r)`; it is not defined by declaring every T self-adjoint. In weight two it gives `D_d†=D_d⁻¹` and `T_q†=D_q⁻¹T_q` for `q∤Nℓ`, as in §14.7. Define `m†={t∈T : t†∈m}` for a maximal ideal m. The representative definition `adjointIdeal` is Ideal.comap along the inverse adjoint ring equivalence; for an involution this is the displayed formula. Maximality and `(m†)†=m` follow from the ring equivalence.
+Use anemic correspondences away from `Nℓ`, including diamonds and inverse correspondences. On the paired perfect support/ordinary complexes, take their common finite commutative O-Hecke image T, retaining the coefficient dual identification. Reversing the legs and transposing the coefficient map defines an O-algebra involution `†` on T: `B(tx,y)=B(x,t†y)`. This is the specialization of inverse-double-coset duality, with the coefficient map transported through `V≃V^∨(−r)`; it is not defined by declaring every T self-adjoint. In weight two it gives `D_d†=D_d⁻¹` and `T_q†=D_q⁻¹T_q` for `q∤Nℓ`, as in §14.7. Define `m†={t∈T : t†∈m}` for a maximal ideal m. The abbreviation `adjointIdeal` is notation for Mathlib's `Ideal.comap` along the inverse adjoint ring equivalence; for an involution this is the displayed formula. Maximality and `(m†)†=m` follow from the ring equivalence.
 
 Put `M_A=H¹_par(Y,V_A)`. For integral perfection require the hypotheses of §14.10 on **both** V at m and `V^∨(−r)` at `m†`: `H⁰` modulo `π` vanishes, and the boundary complexes vanish at O and at every `O/πⁿ`. In particular both support maps are isomorphisms after localization, both degree-one lattices are O-free, and both commute with reduction. Then the actual pairing
 
@@ -4065,7 +4066,7 @@ Establish this as follows. Import `δ₁,δ_p` from Layer 9, Layer 10 and their 
 
 The public interface should expose:
 
-- `degeneracyH1`: For the actual pullbacks `a,b:H→H′`, degeneracyH1 a b sends (x,y) to `a(x)+b(y)`.
+- `degeneracyH1`: Notation for Mathlib's `LinearMap.coprod` of the actual pullbacks `a,b:H→H′`, sending (x,y) to `a(x)+b(y)`.
 - `degeneracyH1_apply`: Evaluation on a pair is the sum of its two geometric images.
 - `degeneracyH1_fst`: The first source inclusion composes to a.
 - `degeneracyH1_snd`: The second source inclusion composes to b.
@@ -4151,7 +4152,7 @@ Establish this as follows. Use the cellular chain sequence of the contractible t
 
 *Needs:* [§15.2](#s15-2); Mathlib `groupCohomology.H1`; [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
-([Serre, Trees](https://www.numdam.org/item/AST_1983__46__1_0.pdf), II §2.8, Proposition 13 and example, pp. 168–170; [Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6, pp. 89–90 (author preprint).)
+([Serre, Trees](https://www.numdam.org/item/AST_1983__46__1_0.pdf), II §2.8, Proposition 13 and example, pp. 168–170; [Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6, p. 88 (author preprint).)
 
 <a id="s15-5"></a>
 
@@ -4315,7 +4316,7 @@ Establish this as follows. The eigenvalue map `T₁(N) → ℂ` has image the or
 
 The public interface should expose:
 
-- `heckePrime`: Kernel ideal of the imported geometric eigenvalue character `λ_f`.
+- `heckePrime`: Notation for Mathlib's `RingHom.ker` of the imported geometric eigenvalue character `λ_f`.
 - `mem_heckePrime`: `t∈p_f` iff `λ_f(t)=0`.
 - `heckePrime_isPrime`: The character lands in a field, so `p_f` is prime.
 - `heckePrime_quotient`: The integral quotient is canonically the image eigenvalue order by RingHom.quotientKerEquivRange; after rationalization it is `K_f`. The integral image need not be the maximal order.
@@ -4699,6 +4700,7 @@ The public interface should expose:
 
 - If `ξ=id` and 2 is invertible, the minus module is zero.
 - If `ξ=−id`, the minus module is the whole module.
+- For `ξ²=id` and the unit `u=2`, the projector is idempotent; at `ξ=−id` it is the identity.
 - For `ξ(x,y)=(y,x)` on `O²`, the minus submodule is `{(a,−a):a∈O}`.
 - For Q empty the diamond quotient is trivial and the selected cover is the base cover.
 - In characteristic two the kernel of `ξ+1` need not be a complementary direct summand; the projector statement requires 2 invertible.
