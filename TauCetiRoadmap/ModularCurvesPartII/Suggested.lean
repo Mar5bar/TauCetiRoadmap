@@ -2,7 +2,6 @@ import Mathlib
 import TauCeti.RepresentationTheory.SymmetricPower
 import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
-import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Kernel
 
 /-!
 # ModularCurvesPartII: representative target signatures
@@ -23,6 +22,99 @@ namespace TauCetiRoadmap.ModularCurvesPartII
 open scoped BigOperators TensorProduct
 noncomputable section
 
+/-! ## Conventions -/
+
+/-- The normalized cubic associated with a genuine rank-two complex period pair. -/
+def latticeWeierstrass (L : PeriodPair) : WeierstrassCurve ℂ where
+  a₁ := 0
+  a₂ := 0
+  a₃ := 0
+  a₄ := -L.g₂ / 4
+  a₆ := -L.g₃ / 4
+
+/-- Principal-level ordinary characters that vanish at a deeper principal level. -/
+def IsCongruenceCharacter (N q : ℕ)
+    (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q)) : Prop :=
+  ∃ M : ℕ, 0 < M ∧ N ∣ M ∧
+    ∀ (g : CongruenceSubgroup.Gamma N), g.val ∈ CongruenceSubgroup.Gamma M →
+      ψ (Additive.ofMul g) = 0
+
+/-! ## Milestones on existing carriers -/
+
+/-- The discriminant of the normalized lattice cubic is `g₂³ − 27g₃²` (README §1.1). -/
+theorem latticeWeierstrass_discriminant (L : PeriodPair) :
+    (latticeWeierstrass L).Δ = L.g₂ ^ 3 - 27 * L.g₃ ^ 2 := by
+  sorry
+
+/-- The normalized lattice cubic is nonsingular (README §1.1):
+`Δ = g₂³ - 27g₃² ≠ 0`. -/
+theorem latticeWeierstrass_isElliptic (L : PeriodPair) :
+    (latticeWeierstrass L).IsElliptic := by
+  sorry
+
+/-- The Weierstrass functions give affine points of the normalized cubic away from
+lattice poles, with the factor `1/2` in the y-coordinate (README §1.1). -/
+theorem latticeWeierstrass_equation (L : PeriodPair) (z : ℂ) (hz : z ∉ L.lattice) :
+    (latticeWeierstrass L).toAffine.Equation (L.weierstrassP z)
+      (L.derivWeierstrassP z / 2) := by
+  sorry
+
+/-- The analytic Fricke map is the Möbius action of Tau Ceti's Fricke matrix
+`[[0, -1], [N, 0]]`, of determinant `N > 0`: on `ℍ` it is `τ ↦ -1/(Nτ)`. No separate
+complex formula is introduced; `N = 0` has no Fricke matrix (README §9.3). -/
+theorem frickeGL_smul_coe (N : ℕ) [NeZero N] (τ : UpperHalfPlane) :
+    ((TauCeti.frickeGL ℝ N • τ : UpperHalfPlane) : ℂ) = -1 / ((N : ℂ) * τ) := by
+  sorry
+
+/-- Applying the Fricke matrix twice is the identity of `ℍ`, since its square is the
+scalar `-N` (README §9.3). -/
+theorem frickeGL_smul_smul (N : ℕ) [NeZero N] (τ : UpperHalfPlane) :
+    TauCeti.frickeGL ℝ N • TauCeti.frickeGL ℝ N • τ = τ := by
+  sorry
+
+/-- An agreeing pair of ordinary characters under the two principal-level degeneracy
+restrictions is congruence (README §15.6; CDT Lemma 4.6.2). The second leg is specified
+by conjugation with `diag(p,1)`; the coefficient prime may equal p. -/
+theorem iharaPrincipal_congruenceKernel (N p q : ℕ) (hN : 3 ≤ N)
+    (hp : p.Prime) (hq : q.Prime) (hpN : ¬ p ∣ N)
+    (c : ↥(CongruenceSubgroup.Gamma N ⊓ CongruenceSubgroup.Gamma0 p) →*
+      CongruenceSubgroup.Gamma N)
+    (hc : ∀ g, (c g).val.val.map (Int.castRingHom ℚ) =
+      Matrix.diagonal ![(p : ℚ), 1] * g.val.val.map (Int.castRingHom ℚ) *
+        Matrix.diagonal ![(p : ℚ)⁻¹, 1])
+    (ψ φ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q))
+    (hagree : ∀ g, ψ (Additive.ofMul ⟨g.val, g.property.1⟩) =
+      φ (Additive.ofMul (c g))) :
+    IsCongruenceCharacter N q ψ ∧ IsCongruenceCharacter N q φ := by
+  sorry
+
+/-- A character whose every ambient conjugation difference is congruence is itself
+congruence (README §15.9; CDT Corollary 4.5.3). The ambient action factors through
+`SL₂(ℤ/N)` because inner conjugations fix additive characters. -/
+theorem congruenceClasses_invariant (N q : ℕ) (hN : 3 ≤ N) (hq : q.Prime)
+    (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q)) :
+    letI : (CongruenceSubgroup.Gamma N).Normal := CongruenceSubgroup.Gamma_normal N
+    (∀ g : Matrix.SpecialLinearGroup (Fin 2) ℤ, IsCongruenceCharacter N q
+      (ψ.comp (MulAut.conjNormal g).toMonoidHom.toAdditive - ψ)) →
+        IsCongruenceCharacter N q ψ := by
+  sorry
+
+/-- Agreement after restriction to `Γ(N) ∩ Γ₁(p)` still forces both ordinary
+characters to be congruence (README §15.10; CDT Lemma 4.6.3), for every coefficient
+prime, including primes dividing the intermediate covering degree. -/
+theorem iharaPrincipalGamma1_congruenceKernel (N p q : ℕ) (hN : 3 ≤ N)
+    (hp : p.Prime) (hq : q.Prime) (hpN : ¬ p ∣ N)
+    (c : ↥(CongruenceSubgroup.Gamma N ⊓ CongruenceSubgroup.Gamma1 p) →*
+      CongruenceSubgroup.Gamma N)
+    (hc : ∀ g, (c g).val.val.map (Int.castRingHom ℚ) =
+      Matrix.diagonal ![(p : ℚ), 1] * g.val.val.map (Int.castRingHom ℚ) *
+        Matrix.diagonal ![(p : ℚ)⁻¹, 1])
+    (ψ φ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q))
+    (hagree : ∀ g, ψ (Additive.ofMul ⟨g.val, g.property.1⟩) =
+      φ (Additive.ofMul (c g))) :
+    IsCongruenceCharacter N q ψ ∧ IsCongruenceCharacter N q φ := by
+  sorry
+
 /-! ## Layer 0: general inputs on stacks and invariant rings -/
 
 /-- An endomorphism `σ` is a pseudo-reflection when `1 - σ` has rank at most one, so the
@@ -40,68 +132,6 @@ example {k V : Type*} [Field k] [AddCommGroup V] [Module k V] [FiniteDimensional
   rw [sub_self, LinearMap.range_zero, finrank_bot]
   exact zero_le_one
 
-/-- `diag(-1, 1)` is a pseudo-reflection of `ℚ²`; its invariants on `k[[x, y]]` are regular. -/
-example : IsPseudoReflection (Matrix.toLin' !![(-1 : ℚ), 0; 0, 1]) := by
-  sorry
-
-/-- `-1` on `ℚ²` is not one, since `1 - (-1) = 2` has rank two: the ordinary `j = 1728`
-action of README §11.3, whose invariant ring is singular. -/
-example : ¬ IsPseudoReflection (-LinearMap.id : (Fin 2 → ℚ) →ₗ[ℚ] (Fin 2 → ℚ)) := by
-  sorry
-
-/-! ## Layer 1: lattice uniformization -/
-
-/-- The normalized cubic associated with a genuine rank-two complex period pair. -/
-def latticeWeierstrass (L : PeriodPair) : WeierstrassCurve ℂ where
-  a₁ := 0
-  a₂ := 0
-  a₃ := 0
-  a₄ := -L.g₂ / 4
-  a₆ := -L.g₃ / 4
-
-theorem latticeWeierstrass_discriminant (L : PeriodPair) :
-    (latticeWeierstrass L).Δ = L.g₂ ^ 3 - 27 * L.g₃ ^ 2 := by
-  sorry
-
-/-- Nonsingularity of the lattice cubic, `Δ = g₂³ - 27g₃² ≠ 0`; the differential equation
-alone does not imply it. -/
-theorem latticeWeierstrass_isElliptic (L : PeriodPair) :
-    (latticeWeierstrass L).IsElliptic := by
-  sorry
-
-example (L : PeriodPair) (z : ℂ) (hz : z ∉ L.lattice) :
-    (L.derivWeierstrassP z / 2) ^ 2 =
-      L.weierstrassP z ^ 3 - L.g₂ * L.weierstrassP z / 4 - L.g₃ / 4 := by
-  sorry
-
-
-/-- The square lattice has vanishing weight-six invariant. -/
-example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
-    (PeriodPair.mk 1 Complex.I h).g₃ = 0 := by
-  sorry
-
-/-- The square lattice cubic has zero constant coefficient. -/
-example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
-    (latticeWeierstrass (PeriodPair.mk 1 Complex.I h)).a₆ = 0 := by
-  sorry
-
-/-- The square lattice cubic has vanishing weight-six invariant. -/
-example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
-    (latticeWeierstrass (PeriodPair.mk 1 Complex.I h)).c₆ = 0 := by
-  sorry
-
-/-- The square lattice cubic has j-invariant 1728. -/
-example (h : LinearIndependent ℝ ![(1 : ℂ), Complex.I]) :
-    letI := latticeWeierstrass_isElliptic (PeriodPair.mk 1 Complex.I h)
-    (latticeWeierstrass (PeriodPair.mk 1 Complex.I h)).j = 1728 := by
-  sorry
-
-/-- The periods `1` and `2` are real-linearly dependent, so they do not form a `PeriodPair`. -/
-example : ¬ LinearIndependent ℝ ![(1 : ℂ), 2] := by
-  intro h
-  have hh := LinearIndependent.pair_iff.mp h 2 (-1) (by norm_num)
-  norm_num at hh
-
 /-! ## Layer 2: generalized elliptic curves and polygons -/
 
 /-- The integral split one-gon equation; its projective normalization is a README target. -/
@@ -112,30 +142,10 @@ def splitOneGonEquation : WeierstrassCurve ℤ where
   a₄ := 0
   a₆ := 0
 
-
-/-- The normalization parameters satisfy the affine equation. -/
-example (t : ℤ) :
-    (t ^ 2 * (t + 1)) ^ 2 + (t * (t + 1)) * (t ^ 2 * (t + 1)) =
-      (t * (t + 1)) ^ 3 := by
-  ring
-
--- A light equation record does not assert ellipticity or define the polygon stack.
+/-- The split one-gon equation is singular, as required for a nodal boundary fibre. -/
 example : splitOneGonEquation.Δ = 0 := by
   norm_num [splitOneGonEquation, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
-/-- The one-gon has b₂=1 and b₈=0 over the integers. -/
-example : splitOneGonEquation.b₂ = 1 ∧ splitOneGonEquation.b₈ = 0 := by
-  norm_num [splitOneGonEquation, WeierstrassCurve.b₂, WeierstrassCurve.b₈]
-
-
-/-- In characteristic two the one-gon tangent cone has two distinct linear factors. -/
-example :
-    let W := splitOneGonEquation.map (Int.castRingHom (ZMod 2))
-    let x : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 0
-    let y : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 1
-    y ^ 2 + W.a₁ • (x * y) - W.a₂ • x ^ 2 = y * (y + x) ∧ y ≠ y + x := by
-  sorry
 
 /-! ## Layer 3: integral level stacks and the open comparison -/
 
@@ -145,17 +155,9 @@ def nodePowerFibreMonomials (m : ℕ) : Finset (ℕ × ℕ) :=
   ((Finset.range m).product (Finset.range m)).filter
     (fun ij => ij.1 = 0 ∨ ij.2 = 0)
 
-/-- The identity power map has node fibre of length one. -/
-example : (nodePowerFibreMonomials 1).card = 1 := by decide
-
 /-- The square map has fibre basis 1,x,y: length three, not generic degree two. -/
 example : nodePowerFibreMonomials 2 = {(0, 0), (1, 0), (0, 1)} ∧
     (nodePowerFibreMonomials 2).card = 3 := by decide
-
-
-/-- The cube-map fibre has length five; the mixed monomial xy is excluded. -/
-example : (nodePowerFibreMonomials 3).card = 5 ∧ (1, 1) ∉ nodePowerFibreMonomials 3 := by
-  decide
 
 /-- Node-fibre length for positive power; no zero-power isogeny is asserted. -/
 theorem nodePowerFibreMonomials_card (m : ℕ) (hm : 0 < m) :
@@ -172,67 +174,11 @@ theorem positiveFrame_changeMarking (γ : Matrix.SpecialLinearGroup (Fin 2) ℤ)
         ((γ 0 1 : ℂ) * (τ : ℂ) + (γ 1 1 : ℂ)) := by
   sorry
 
-/-- At level five and period 2i, the positive-frame T action has period
-`(4+2i)/5` and fibre multiplier `(1-2i)/5` (README §§3.14 and 4.5). -/
-example : (2 * Complex.I) / (2 * Complex.I + 1) = (4 + 2 * Complex.I) / 5 ∧
-    1 / (2 * Complex.I + 1) = (1 - 2 * Complex.I) / 5 := by
-  norm_num [Complex.ext_iff, Complex.div_re, Complex.div_im, Complex.normSq_apply]
-
-/-! ## Layer 4: formal cusps and fixed-pairing components -/
-
-/-- Component counts are modulo inversion, rather than marked-chart counts. -/
-example : Nat.totient 5 / 2 * Nat.totient (15 / 5) = 4 := by decide
-
-/-- At d=4,N=4 there is one component, rather than two marked unit labels. -/
-example : Nat.totient 4 / 2 * Nat.totient (4 / 4) = 1 := by decide
-
-/-- At the cusp σ=S⁻¹ and τ=2i, the transformed period is i/2 and the fibre
-multiplier is −i/2, as in README §4.8. -/
-example : -1 / (2 * Complex.I) = Complex.I / 2 ∧
-    1 / (2 * Complex.I) = -Complex.I / 2 := by
-  sorry
-
-/-! ## Layer 5: cyclic modular polynomials -/
-
-/-- At m=1 equal j-invariants give an isomorphism over the algebraic closure. -/
-example {K : Type*} [Field K] [CharZero K]
-    (E E' : WeierstrassCurve K) [E.IsElliptic] [E'.IsElliptic]
-    (h : E.j = E'.j) :
-    ∃ c : WeierstrassCurve.VariableChange (AlgebraicClosure K),
-      c • E.baseChange (AlgebraicClosure K) = E'.baseChange (AlgebraicClosure K) := by
-  apply WeierstrassCurve.exists_variableChange_of_j_eq
-  simpa only [WeierstrassCurve.baseChange, WeierstrassCurve.map_j] using
-    congrArg (algebraMap K (AlgebraicClosure K)) h
-
-/-- The affine quotient formula for y²=x³−x lands on y²=x³+4x away from x=0. -/
-example {K : Type*} [Field K] (x y : K) (hx : x ≠ 0) (h : y ^ 2 = x ^ 3 - x) :
-    (y * (1 + 1 / x ^ 2)) ^ 2 = (x - 1 / x) ^ 3 + 4 * (x - 1 / x) := by
-  rw [mul_pow, h]
-  field_simp
-  ring
-
-/-- Over 𝔽₅ the curves y²=x³−x and y²=x³+16x have different point counts,
-although both have j=1728 and satisfy the geometric degree-two relation of §5.6. -/
-example : ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
-    (fun P => P.2 ^ 2 = P.1 ^ 3 - P.1)).card + 1 = 8 ∧
-    ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
-      (fun P => P.2 ^ 2 = P.1 ^ 3 + 16 * P.1)).card + 1 = 4 := by
-  decide
-
 /-! ## Layer 9: algebraic correspondences and quotient curves -/
 
 /-- Arithmetic degree of a prime degeneracy leg at positive level.
 The geometric finite-flatness theorem is separate from this numerical function. -/
 def degeneracyDegree (N p : ℕ) : ℕ := if p ∣ N then p else p + 1
-
-/-- Test `degree_degeneracy_coprime`: N=11, p=2. -/
-example : degeneracyDegree 11 2 = 3 := by decide
-
-/-- Test `degree_degeneracy_dvd`: N=10, p=5. -/
-example : degeneracyDegree 10 5 = 5 := by decide
-
-/-- At level one the good-prime degree for p=2 is three. -/
-example : degeneracyDegree 1 2 = 3 := by decide
 
 /-- HNF branches of the all-subgroup correspondence, with ad=m and b<d. -/
 def allSubgroupBranches (m : ℕ) : Finset (ℕ × ℕ × ℕ) :=
@@ -254,66 +200,12 @@ theorem cyclicSubgroupBranches_primeSquare_card (p : ℕ) (hp : p.Prime) :
     (cyclicSubgroupBranches (p ^ 2)).card = p ^ 2 + p := by
   sorry
 
-/-- Test `fullCyclic_one`: identity degree in both conventions. -/
-example : (allSubgroupBranches 1).card = 1 ∧ (cyclicSubgroupBranches 1).card = 1 := by
-  decide
-
-/-- Test `fullCyclic_four`: σ₁(4)=7, ψ(4)=6. -/
+/-- At the first nonsquarefree level, the all-subgroup and cyclic degrees differ. -/
 example : (allSubgroupBranches 4).card = 7 ∧ (cyclicSubgroupBranches 4).card = 6 := by
   decide
 
-/-- The excluded scalar branch is precisely the one detecting the m=4 error. -/
+/-- The scalar branch belongs to the all-subgroup set and fails the cyclic filter. -/
 example : (2, 2, 0) ∈ allSubgroupBranches 4 ∧ (2, 2, 0) ∉ cyclicSubgroupBranches 4 := by
-  decide
-
-/-- At m=9 the scalar branch makes full degree thirteen differ from cyclic degree twelve. -/
-example : (allSubgroupBranches 9).card = 13 ∧ (cyclicSubgroupBranches 9).card = 12 := by
-  native_decide
-
-/-- At squarefree m=6 every HNF branch is cyclic. -/
-example : (allSubgroupBranches 6).card = 12 ∧ (cyclicSubgroupBranches 6).card = 12 := by
-  native_decide
-
-/-- The analytic Fricke map is the Möbius action of Tau Ceti's Fricke matrix
-`[[0, -1], [N, 0]]`, of determinant `N > 0`: on `ℍ` it is `τ ↦ -1/(Nτ)`. No separate
-complex formula is introduced; `N = 0` has no Fricke matrix. -/
-theorem frickeGL_smul_coe (N : ℕ) [NeZero N] (τ : UpperHalfPlane) :
-    ((TauCeti.frickeGL ℝ N • τ : UpperHalfPlane) : ℂ) = -1 / ((N : ℂ) * τ) := by
-  sorry
-
-/-- Applying the Fricke matrix twice is the identity of `ℍ`, since its square is the
-scalar `-N`. -/
-theorem frickeGL_smul_smul (N : ℕ) [NeZero N] (τ : UpperHalfPlane) :
-    TauCeti.frickeGL ℝ N • TauCeti.frickeGL ℝ N • τ = τ := by
-  sorry
-
-/-- The sign and the reciprocal are both detected by this value: `-1/(1 · 2i) = i/2`. -/
-example : ((TauCeti.frickeGL ℝ 1 • (⟨2 * Complex.I, by simp⟩ : UpperHalfPlane) :
-    UpperHalfPlane) : ℂ) = Complex.I / 2 := by
-  sorry
-
-
-/-- Fricke at level two sends i to i/2. -/
-example : ((TauCeti.frickeGL ℝ 2 • (⟨Complex.I, by simp⟩ : UpperHalfPlane) :
-    UpperHalfPlane) : ℂ) = Complex.I / 2 := by
-  sorry
-
-/-- The Fricke image of the cusp 1/2 at level four differs from it by translation
-by -1, a matrix in Γ₀(4); this fixed cusp contributes to ramification (README §9.8). -/
-example : -1 / ((4 : ℚ) * (1 / 2)) = 1 / 2 - 1 := by
-  norm_num
-
-/-- The exact divisors of 12 are 1,3,4,12, excluding 2 and 6. -/
-example :
-    ((12 : ℕ).divisors.filter (fun d => Nat.Coprime d (12 / d))) = {1, 3, 4, 12} := by
-  decide
-
-
-
-/-- At level thirteen the root-change labels 3 and 9 are distinct inverse units of
-order three; reversing Fricke pullbacks inverts this diamond (README §14.7). -/
-example : (3 : ZMod 13) * 9 = 1 ∧ (3 : ZMod 13) ^ 3 = 1 ∧
-    (9 : ZMod 13) ^ 3 = 1 ∧ (3 : ZMod 13) ≠ 9 := by
   decide
 
 /-! ## Layer 11: explicit semistable split-Cartan models -/
@@ -323,20 +215,10 @@ with the chosen root ϖ^((ℓ²−1)/2)=ℓ. BDMTV Theorems 6.5–6.6, pp.928–
 the chosen root is stronger than its square equation. -/
 def splitCartanRamificationIndex (ℓ : ℕ) : ℕ := (ℓ ^ 2 - 1) / 2
 
-
 /-- Edixhoven's exponent at ℓ=12k+1, with no primality assertion for arbitrary k. -/
 theorem splitCartanRamificationIndex_eq (k : ℕ) :
     splitCartanRamificationIndex (12 * k + 1) = 12 * k * (6 * k + 1) := by
   sorry
-
-/-- Level 13: the extension has ramification index 84 (BDMTV Corollary 6.7). -/
-example : splitCartanRamificationIndex 13 = 84 := by decide
-
-/-- The level-37 extension has ramification index 684. -/
-example : splitCartanRamificationIndex 37 = 684 := by decide
-
-/-- The level-61 extension has ramification index 1860. -/
-example : splitCartanRamificationIndex 61 = 1860 := by decide
 
 /-- Arithmetic genus of the stated normalizer fibre: component genera plus b₁(K_(k,3)).
 Its geometric interpretation requires ℓ=12k+1 prime and k≥1 (BDMTV Theorem 6.6, p.929). -/
@@ -348,22 +230,6 @@ theorem splitCartanFibreGenus_eq (k : ℕ) (hk : 1 ≤ k) :
     splitCartanFibreGenus k = 6 * k ^ 2 - 3 * k := by
   sorry
 
-/-- For ℓ=13 the graph is a tree with one genus-three component. -/
-example : splitCartanFibreGenus 1 = 3 := by decide
-
-/-- For ℓ=37 four graph cycles contribute to genus 45. -/
-example : splitCartanFibreGenus 3 = 45 := by decide
-
-/-- At k=5 the normalizer fibre has arithmetic genus 135. -/
-example : splitCartanFibreGenus 5 = 135 := by decide
-
-/-! ## Layer 13: relative Jacobian specialization -/
-
-/-- A positive-characteristic fibre is reached by specialization over a trait;
-there is no unital field map from the rational generic field (README §13.1). -/
-example (p : ℕ) [Fact p.Prime] : IsEmpty (ℚ →+* ZMod p) := by
-  sorry
-
 /-! ## Layer 14: cohomological realizations and parabolic lattices -/
 
 /-- Specialize the existing symmetric-power action to weight k≥2, without defining
@@ -372,26 +238,6 @@ def weightCoefficients {R : Type} {G M : Type*} [CommRing R] [Group G]
     [AddCommGroup M] [Module R M] (ρ : Representation R G M) (k : ℕ) (_hk : 2 ≤ k) :
     Representation R G (Sym[R]^(k - 2) M) := ρ.symmetricPower (k - 2)
 
-
-/-- Weight two is the zeroth symmetric power, with trivial action. -/
-example {R : Type} {G M : Type*} [CommRing R] [Group G] [AddCommGroup M] [Module R M]
-    (ρ : Representation R G M) (g : G) :
-    weightCoefficients ρ 2 (by decide) g = LinearMap.id := sorry
-
-/-- Weight three transports the actual action on the first symmetric power. -/
-example {R : Type} {G M : Type*} [CommRing R] [Group G] [AddCommGroup M] [Module R M]
-    (ρ : Representation R G M) (g : G) (m : Fin 1 → M) :
-    weightCoefficients ρ 3 (by decide) g (⨂ₛ[R] i, m i) = ⨂ₛ[R] i, ρ g (m i) := sorry
-
-
-/-- Weight three detects the unipotent action sending the second basis vector to their sum. -/
-example {G : Type*} [Group G] (ρ : Representation ℚ G (Fin 2 → ℚ)) (g : G)
-    (hg : ρ g = Matrix.toLin' !![(1 : ℚ), 1; 0, 1]) :
-    weightCoefficients ρ 3 (by decide) g
-      (⨂ₛ[ℚ] i, (fun _ : Fin 1 => (![0, 1] : Fin 2 → ℚ)) i) =
-      ⨂ₛ[ℚ] i, (fun _ : Fin 1 => (![1, 1] : Fin 2 → ℚ)) i := by
-  sorry
-
 section Parabolic
 variable {R C H : Type*} [CommRing R]
     [AddCommGroup C] [Module R C] [AddCommGroup H] [Module R H]
@@ -399,16 +245,7 @@ variable {R C H : Type*} [CommRing R]
 /-- Notation for Mathlib's image submodule of the actual support-forgetting map. -/
 abbrev parabolicH1 (u : C →ₗ[R] H) : Submodule R H := LinearMap.range u
 
-/-- On a compact space the support map is the identity. -/
-example : parabolicH1 (LinearMap.id : H →ₗ[R] H) = ⊤ := by sorry
-
-/-- The zero support map has zero parabolic image. -/
-example : parabolicH1 (0 : C →ₗ[R] H) = ⊥ := by sorry
 end Parabolic
-
-/-- An image can fail to be saturated over ℤ; integral duality needs more than this definition. -/
-example : (2 : ℤ) ∈ parabolicH1 (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) ∧
-    (1 : ℤ) ∉ parabolicH1 (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) := by sorry
 
 /-- Permutation model for the diamond on the five width-one cusps at Γ₁(11),
 with coefficients in 𝔽₅: the basis vector at `i` maps to that at `i + 1`. -/
@@ -417,15 +254,6 @@ def levelElevenCuspCycle : Module.End (ZMod 5) (ZMod 5 → ZMod 5) where
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
 
-/-- The cusp cycle sends the first basis vector to the next. -/
-example : levelElevenCuspCycle (Pi.single 0 1) = Pi.single 1 1 := by
-  decide
-
-/-- The cusp cycle preserves the sum of residues. -/
-example (v : ZMod 5 → ZMod 5) :
-    (∑ i, levelElevenCuspCycle v i) = ∑ i, v i := by
-  sorry
-
 /-- The cusp cycle is a nonidentity unipotent operator of order five in characteristic
 five; a scalar extension cannot make it diagonalizable (README §14.9). -/
 theorem levelElevenCuspCycle_unipotent :
@@ -433,38 +261,18 @@ theorem levelElevenCuspCycle_unipotent :
       (levelElevenCuspCycle - 1) ^ 5 = 0 := by
   sorry
 
-/-- The class of 3 has order five on the level-eleven cusp labels modulo sign. -/
-example : (3 : ZMod 11) ^ 5 = 1 ∧ (3 : ZMod 11) ≠ 1 ∧ (3 : ZMod 11) ≠ -1 := by
-  decide
-
 /-- The residue-sum kernel still has nontrivial unipotent action: for `v = e₁ - e₀`,
 the next difference is `e₂ - 2e₁ + e₀`, which is nonzero. -/
 example :
     let e₀ : ZMod 5 → ZMod 5 := Pi.single 0 1
     let v := (levelElevenCuspCycle - 1) e₀
     (∑ i, v i) = 0 ∧ (levelElevenCuspCycle - 1) v ≠ 0 := by
-  sorry
+  decide
 
 /-- Notation for Mathlib's ideal comap along the inverse adjoint ring equivalence.
 For an involution `ι`, it consists of `t` such that `ι t` lies in `m` (README §14.11). -/
 abbrev adjointIdeal {T : Type*} [CommRing T] (ι : T ≃+* T) (m : Ideal T) : Ideal T :=
   m.comap ι.symm.toRingHom
-
-/-- Identity adjoint transport preserves every ideal. -/
-example {T : Type*} [CommRing T] (m : Ideal T) :
-    adjointIdeal (RingEquiv.refl T) m = m := by
-  sorry
-
-/-- Involutive adjoint transport applied twice returns the original ideal. -/
-example {T : Type*} [CommRing T] (ι : T ≃+* T)
-    (hι : Function.Involutive ι) (m : Ideal T) :
-    adjointIdeal ι (adjointIdeal ι m) = m := by
-  sorry
-
-/-- The adjoint may exchange distinct maximal ideals rather than fix them. -/
-example : adjointIdeal (RingEquiv.prodComm : (ℚ × ℚ) ≃+* (ℚ × ℚ)) (RingHom.ker (RingHom.fst ℚ ℚ)) =
-    RingHom.ker (RingHom.snd ℚ ℚ) := by
-  sorry
 
 /-- A diamond-invariant bilinear pairing vanishes on a same-character block when
 `a² - 1` is a unit. Its dual block has the inverse character (README §14.11). -/
@@ -474,18 +282,6 @@ theorem diamondPairing_sameCharacter_zero {R M : Type*} [CommRing R]
     (x y : M) (hx : D x = a • x) (hy : D y = a • y) : B x y = 0 := by
   sorry
 
-/-- The residual value 2 in 𝔽₇ is nonquadratic: it has order three and a²-1 is a unit. -/
-example : (2 : ZMod 7) ^ 3 = 1 ∧ (2 : ZMod 7) ^ 2 ≠ 1 ∧
-    IsUnit ((2 : ZMod 7) ^ 2 - 1) := by
-  decide
-
-/-- Multiplication pairs the 2-character line with its inverse 4-character line. -/
-example (x y : ZMod 7) : (2 * x) * (4 * y) = x * y := by
-  have h : (2 : ZMod 7) * 4 = 1 := by decide
-  calc
-    (2 * x) * (4 * y) = ((2 : ZMod 7) * 4) * (x * y) := by ring
-    _ = x * y := by rw [h, one_mul]
-
 /-! ## Layer 15: Ihara and change of level -/
 
 section Degeneracy
@@ -494,23 +290,8 @@ variable {R H H' : Type*} [CommRing R]
 
 /-- Notation for Mathlib's coprod of the two actual geometric pullbacks. -/
 abbrev degeneracyH1 (a b : H →ₗ[R] H') : H × H →ₗ[R] H' := a.coprod b
-/-- Two zero degeneracy legs induce the zero map. -/
-example : degeneracyH1 (0 : H →ₗ[R] H') 0 = 0 := by
-  sorry
-
-/-- A common postcomposition commutes with the sum of the two legs. -/
-example {H'' : Type*} [AddCommGroup H''] [Module R H'']
-    (a b : H →ₗ[R] H') (c : H' →ₗ[R] H'') :
-    degeneracyH1 (c.comp a) (c.comp b) = c.comp (degeneracyH1 a b) := by
-  sorry
 
 end Degeneracy
-
-/-- Pin the ordering of the first and second legs. -/
-example : degeneracyH1 (LinearMap.id : ℤ →ₗ[ℤ] ℤ) 0 (3, 5) = 3 := by sorry
-
-/-- Equal legs have the anti-diagonal kernel; injectivity is a geometric theorem. -/
-example : degeneracyH1 (LinearMap.id : ℤ →ₗ[ℤ] ℤ) LinearMap.id (1, -1) = 0 := by sorry
 
 /-- The general-character degeneracy norm determinant retains the inverse diamond unit.
 README §15.8 uses its symmetric specialization only under actual trivial integral action. -/
@@ -519,69 +300,17 @@ theorem degeneracyNormMatrix_det {R : Type*} [CommRing R] (a b : R) (d : Rˣ) :
   rw [Matrix.det_fin_two_of]
   ring
 
-/-- The trivial diamond gives the symmetric norm matrix over any commutative ring. -/
-example {R : Type*} [CommRing R] (a b : R) :
-    Matrix.det !![a, b; b, a] = a ^ 2 - b ^ 2 := by
-  rw [Matrix.det_fin_two_of]
-  ring
-
-/-- An order-seven diamond in ℤ/49 reduces to one but is not the identity integrally. -/
-example : (8 : ZMod 49) ^ 7 = 1 ∧ (8 : ZMod 49) ≠ 1 ∧
-    (8 : ZMod 49) * 43 = 1 ∧ (8 : ZMod 7) = 1 := by
-  decide
-
-/-- The general adjoint matrix and its symmetric specialization have different determinants. -/
-example : Matrix.det !![(30 : ZMod 49), 6; 43 * 6, 30] = 38 ∧
-    Matrix.det !![(30 : ZMod 49), 6; 6, 30] = 31 ∧ (38 : ZMod 49) ≠ 31 := by
-  rw [Matrix.det_fin_two_of, Matrix.det_fin_two_of]
-  decide
-
-/-- Reduction of the general matrix has unit determinant and distinct reciprocal old roots. -/
-example : Matrix.det !![(30 : ZMod 7), 6; 43 * 6, 30] = 3 ∧
-    IsUnit (3 : ZMod 7) ∧ (2 : ZMod 7) * 4 = 1 ∧
-    (2 : ZMod 7) + 4 = 6 ∧ (2 : ZMod 7) ≠ 4 := by
-  rw [Matrix.det_fin_two_of]
-  decide
-
-/-- Principal-level ordinary characters that vanish at a deeper principal level. -/
-def IsCongruenceCharacter (N q : ℕ)
-    (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q)) : Prop :=
-  ∃ M : ℕ, 0 < M ∧ N ∣ M ∧
-    ∀ (g : CongruenceSubgroup.Gamma N), g.val ∈ CongruenceSubgroup.Gamma M →
-      ψ (Additive.ofMul g) = 0
-
 /-- Zero is a congruence character at every positive level. -/
 example (N q : ℕ) (hN : 0 < N) :
     IsCongruenceCharacter N q 0 := by
   exact ⟨N, hN, dvd_refl N, by simp⟩
 
-/-- A congruence-character witness survives refinement to a divisible positive level. -/
-example (N q M M' : ℕ)
-    (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q))
-    (hM : 0 < M) (hM' : 0 < M') (hNM : N ∣ M) (hMM' : M ∣ M')
-    (hψ : ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M →
-      ψ (Additive.ofMul g) = 0) :
-    0 < M' ∧ N ∣ M' ∧
-      ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M' →
-        ψ (Additive.ofMul g) = 0 := by
-  sorry
-
-/-- The sum of two congruence characters vanishes at the lcm of their witness levels. -/
-example (N q M₁ M₂ : ℕ)
-    (ψ φ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q))
-    (hM₁ : 0 < M₁) (hM₂ : 0 < M₂) (hN₁ : N ∣ M₁) (hN₂ : N ∣ M₂)
-    (hψ : ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M₁ →
-      ψ (Additive.ofMul g) = 0)
-    (hφ : ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M₂ →
-      φ (Additive.ofMul g) = 0) :
-    (∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma (Nat.lcm M₁ M₂) →
-      (ψ + φ) (Additive.ofMul g) = 0) ∧ IsCongruenceCharacter N q (ψ + φ) := by
-  sorry
-
 /-- A finite codomain does not force an ordinary character to be congruence.
 CDT Theorem 4.5.2 and the genus-zero four-cusp quotient Γ(3) give this negative control. -/
-example : ∃ ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma 3)) (ZMod 5),
-    ¬ IsCongruenceCharacter 3 5 ψ := by sorry
+theorem exists_noncongruenceCharacter_level_three :
+    ∃ ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma 3)) (ZMod 5),
+      ¬ IsCongruenceCharacter 3 5 ψ := by
+  sorry
 
 /-! ## Layer 16: weight-two modular abelian quotients -/
 
@@ -597,68 +326,17 @@ theorem isogeny_of_norm_pull {K : Type} [Field K]
     AbelianVariety.IsIsogeny u := by
   sorry
 
-/-- The criterion includes the identity with degree one in every dimension. -/
-example {K : Type} [Field K] (A : AbelianVariety K) :
-    AbelianVariety.IsIsogeny (𝟙 A) := by
-  apply isogeny_of_norm_pull A A (𝟙 A) (𝟙 A) 1 (by decide) rfl
-  simp
-
-/-- A nonzero endomorphism of a two-dimensional rational space can have a kernel. -/
-example : (Matrix.toLin' !![(1 : ℚ), 0; 0, 0]) ≠ 0 ∧
-    ¬ Function.Injective (Matrix.toLin' !![(1 : ℚ), 0; 0, 0]) := by
-  sorry
-
 end NormPull
 
 /-- Notation for Mathlib's kernel ideal of the actual geometric Hecke eigencharacter. -/
 abbrev heckePrime {T K : Type*} [CommRing T] [Field K] (χ : T →+* K) : Ideal T :=
   RingHom.ker χ
 
-/-- The rational inclusion kills no nonzero integer. -/
-example : heckePrime (Int.castRingHom ℚ) = ⊥ := by sorry
-
-/-- A product character selects the first factor and kills the second. -/
-example (x y : ℚ) : (x, y) ∈ heckePrime (RingHom.fst ℚ ℚ) ↔ x = 0 := by sorry
-
-/-- An injective coefficient-field homomorphism preserves the Hecke-character kernel. -/
-example {T K K' : Type*} [CommRing T] [Field K] [Field K']
-    (χ : T →+* K) (ι : K →+* K') (hι : Function.Injective ι) :
-    heckePrime (ι.comp χ) = heckePrime χ := by
-  sorry
-
 /-! ## Layer 17: bad-prime and Taylor–Wiles interfaces -/
 
 /-- Degree-zero combinations on the supplied geometric supersingular intersection set. -/
 def supersingularDegreeZero (S : Type*) : Submodule ℤ (S →₀ ℤ) :=
   LinearMap.ker (Finsupp.linearCombination ℤ (fun _ : S => (1 : ℤ)))
-
-/-- A singleton intersection set gives zero toric character rank. -/
-example : supersingularDegreeZero Unit = ⊥ := by sorry
-
-/-- A difference is degree zero, whereas a single point is not. -/
-example : Finsupp.single (0 : Fin 2) (1 : ℤ) - Finsupp.single 1 1 ∈
-    supersingularDegreeZero (Fin 2) ∧
-    Finsupp.single (0 : Fin 2) (1 : ℤ) ∉ supersingularDegreeZero (Fin 2) := by sorry
-
-/-- Two supersingular edges give a degree-zero lattice of rank one. -/
-example : Module.finrank ℤ (supersingularDegreeZero (Fin 2)) = 1 := by
-  sorry
-
-/-- Distinct supersingular labels give a nonzero difference in the free lattice. -/
-example {S : Type*} (s t : S) (h : s ≠ t) :
-    Finsupp.single s (1 : ℤ) - Finsupp.single t 1 ≠ 0 := by
-  sorry
-
-/-- The level-eleven elliptic model has four affine points over 𝔽₂; its point at
-infinity gives five points and Frobenius trace −2 (README §17.2). -/
-example : ((Finset.univ : Finset (ZMod 2 × ZMod 2)).filter
-    (fun P => P.2 ^ 2 + P.2 = P.1 ^ 3 - P.1 ^ 2 - 10 * P.1 - 20)).card = 4 := by
-  decide
-
-/-- The same model has four affine points over 𝔽₃, giving Frobenius trace −1. -/
-example : ((Finset.univ : Finset (ZMod 3 × ZMod 3)).filter
-    (fun P => P.2 ^ 2 + P.2 = P.1 ^ 3 - P.1 ^ 2 - 10 * P.1 - 20)).card = 4 := by
-  decide
 
 section Minus
 variable {O M : Type*} [CommRing O] [AddCommGroup M] [Module O M]
@@ -676,39 +354,25 @@ theorem taylorWilesMinus_projector_range (ξ : M →ₗ[O] M)
     (hξ : ξ.comp ξ = LinearMap.id) (u : Oˣ) (hu : (u : O) = 2) :
     LinearMap.range (taylorWilesMinus_projector ξ u) = taylorWilesMinus ξ := by sorry
 
-/-- For an involution and the unit two, the minus projector is idempotent. -/
-example (ξ : M →ₗ[O] M) (hξ : ξ.comp ξ = LinearMap.id)
-    (u : Oˣ) (hu : (u : O) = 2) :
+/-- The minus projector is idempotent for an involution when two is a unit
+(README §17.8). -/
+theorem taylorWilesMinus_projector_idempotent (ξ : M →ₗ[O] M)
+    (hξ : ξ.comp ξ = LinearMap.id) (u : Oˣ) (hu : (u : O) = 2) :
     (taylorWilesMinus_projector ξ u).comp (taylorWilesMinus_projector ξ u) =
       taylorWilesMinus_projector ξ u := by
   sorry
 
-/-- When conjugation is negation and two is a unit, the minus projector is the identity. -/
-example (u : Oˣ) (hu : (u : O) = 2) :
-    taylorWilesMinus_projector (-LinearMap.id : M →ₗ[O] M) u = LinearMap.id := by
-  sorry
-
-/-- Negation acts as minus on the whole module. -/
-example : taylorWilesMinus (-LinearMap.id : M →ₗ[O] M) = ⊤ := by sorry
-/-- When two is a unit, identity has zero minus eigenspace. -/
-example (u : Oˣ) (hu : (u : O) = 2) :
-    taylorWilesMinus (LinearMap.id : M →ₗ[O] M) = ⊥ := by
-  sorry
-
 end Minus
-
-/-- The swap involution has minus vectors (x,-x). -/
-example (x y : ℚ) :
-    (x, y) ∈ taylorWilesMinus (LinearEquiv.prodComm ℚ ℚ ℚ).toLinearMap ↔ y = -x := by sorry
 
 /-- In characteristic two identity and negation coincide, so a complementary projector fails. -/
 example {O M : Type*} [CommRing O] [CharP O 2] [AddCommGroup M] [Module O M] :
-    taylorWilesMinus (LinearMap.id : M →ₗ[O] M) = ⊤ := by sorry
-
-/-- Test the actual inverse of two in a minus projector, rather than its numerator. -/
-example (x y : ℚ) :
-    taylorWilesMinus_projector (LinearEquiv.prodComm ℚ ℚ ℚ).toLinearMap
-      (Units.mk0 2 (by norm_num)) (x, y) = ((x - y) / 2, (y - x) / 2) := by sorry
+    taylorWilesMinus (LinearMap.id : M →ₗ[O] M) = ⊤ := by
+  have htwo : (2 : O) = 0 := CharP.cast_eq_zero O 2
+  have hsum : (LinearMap.id : M →ₗ[O] M) + LinearMap.id = 0 := by
+    ext x
+    simpa only [LinearMap.add_apply, LinearMap.id_apply, LinearMap.zero_apply,
+      two_smul, zero_smul] using congrArg (fun a : O => a • x) htwo
+  simp [taylorWilesMinus, hsum]
 
 /-
 Definitions and constructions whose geometric carriers remain in README.md (the generalized

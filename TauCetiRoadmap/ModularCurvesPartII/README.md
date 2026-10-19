@@ -399,6 +399,7 @@ The public interface should expose:
 - `latticeWeierstrass`: The five-coefficient `W_L` over C.
 - `latticeWeierstrass_discriminant`: `W_L.Δ=L.g₂³−27L.g₃²`.
 - `latticeWeierstrass_isElliptic`: `W_L` is elliptic for every native PeriodPair.
+- `latticeWeierstrass_equation`: For `z∉Λ_L`, the native affine equation holds at `(℘_L(z),℘′_L(z)/2)`.
 - `latticeUniformization`: A pointed analytic group isomorphism `C/Λ_L→W_L^an`.
 - `latticeUniformization_zero`: The zero class maps to the projective identity.
 
@@ -4180,7 +4181,7 @@ The public interface should expose:
 - The zero character kills every deeper principal subgroup.
 - Pulling back a character of `Γ(N)/Γ(M)` gives a member.
 - If `ψ` kills `Γ(M₁)` and `φ` kills `Γ(M₂)`, `ψ+φ` kills `Γ(lcm(M₁,M₂))`.
-- At `Γ(3)` with `F₅` coefficients the congruence subspace is zero, whereas ordinary `H¹` has dimension three. A nonzero ordinary character is therefore not a congruence class. Use the pro-3 level factor and the perfectness/abelianization of the other `SL₂(Z_p)` factors, as in CDT §4.5, to check the finite congruence quotients.
+- `exists_noncongruenceCharacter_level_three`: At `Γ(3)` with `F₅` coefficients the congruence subspace is zero, whereas ordinary `H¹` has dimension three. A nonzero ordinary character is therefore not a congruence class. Use the pro-3 level factor and the perfectness/abelianization of the other `SL₂(Z_p)` factors, as in CDT §4.5, to check the finite congruence quotients.
 - The zero character is congruence; every character pulled from `Γ(N)/Γ(M)` is congruence.
 - A character known only to have finite image is not thereby proved congruence.
 
@@ -4192,7 +4193,7 @@ The public interface should expose:
 
 ### 15.6 Principal-level Ihara modulo congruence classes
 
-For `N≥3` and primes p,q with `p∤N`, the kernel of `D_p:H¹(Γ(N),F_q)²→H¹(Γ(N)∩Γ₀(p),F_q)`, `D_p(ψ,φ)(g)=ψ(g)−φ(AgA⁻¹)`, is contained in `H¹_cong(Γ(N),F_q)²`. There is no requirement `q≠p` in this ordinary character theorem, and no unconditional injectivity assertion.
+For `N≥3` and primes p,q with `p∤N`, the kernel of `D_p:H¹(Γ(N),F_q)²→H¹(Γ(N)∩Γ₀(p),F_q)`, `D_p(ψ,φ)(g)=ψ(g)−φ(AgA⁻¹)`, is contained in `H¹_cong(Γ(N),F_q)²`. There is no requirement `q≠p` in this ordinary character theorem, and no unconditional injectivity assertion. The signature `iharaPrincipal_congruenceKernel` specifies the second restriction by its `diag(p,1)` conjugation formula on rational matrices.
 
 Trivial `F_q` coefficients; ordinary group cohomology, not compact cohomology or an arbitrary `Sym^r` system.
 
@@ -4202,6 +4203,7 @@ Establish this as follows. An element of the kernel is an agreeing pair of addit
 
 - Kernel zero follows only after independently killing the congruence subspaces in the chosen quotient/localization.
 - The `q=p` case is covered by this character argument, not by `ℓ`-adic geometric smoothness.
+- At `N=3,p=2,q=5`, `H¹_cong=0` by §15.5, so the restriction difference is injective on ordinary characters.
 
 *Needs:* [§15.1](#s15-1); [§15.3](#s15-3); [§15.4](#s15-4); [§15.5](#s15-5).
 
@@ -4261,7 +4263,7 @@ The intermediate cohomological input consists of continuous cohomology of the re
 
 For `N≥3`, prime q and `η∈H¹(Γ(N),F_q)`, let `SL₂(Z/N)` act by the conjugations of ambient `SL₂(Z)`. If `gη−η` belongs to `H¹_cong(Γ(N),F_q)` for every `g∈SL₂(Z/N)`, then `η` itself belongs to `H¹_cong`. Equivalently, the direct limit of ordinary `H¹` over principal levels, with restriction transition maps, has no `SL₂(Ẑ)`-invariants. This direct-limit character input is the specific prerequisite of [§15.10](#s15-10), not a result of the completed-cohomology roadmap.
 
-The action factors through the finite quotient because inner conjugation acts trivially on trivial-coefficient `H¹`.
+The signature `congruenceClasses_invariant` uses all ambient `SL₂(ℤ)` conjugations. The action factors through the finite quotient because inner conjugation acts trivially on trivial-coefficient `H¹`.
 
 The coefficient prime may be 2 or 3; the proof retains the exceptional small-prime calculations.
 
@@ -4271,6 +4273,7 @@ Establish this as follows. Pass to the restriction direct limit; its kernel from
 
 - The condition must hold for every ambient finite-quotient conjugation, not just one level-changing element.
 - An arbitrary noncongruence character cannot be declared congruence just because its codomain is finite.
+- For a nonzero `Γ(3)→F₅` character, some ambient conjugation difference is noncongruence; the criterion therefore does not kill all ordinary characters.
 
 *Needs:* [§15.5](#s15-5); Mathlib `groupCohomology.H1`.
 
@@ -4282,13 +4285,15 @@ Establish this as follows. Pass to the restriction direct limit; its kernel from
 
 With N,p,q as in [§15.6](#s15-6), the kernel of the same restriction difference into `H¹(Γ(N)∩Γ₁(p),F_q)` is also contained in `H¹_cong(Γ(N),F_q)²`. The congruence-invariance criterion of [§15.9](#s15-9) used here says that if every conjugation difference for a character of a principal subgroup is congruence, then the character itself is congruence, as in CDT Corollary 4.5.3 with the `SL₂(Z/N)`-action induced by ambient `SL₂(ℤ)` conjugations.
 
-This is still trivial-coefficient ordinary `H¹` and still a kernel bound, not automatic injectivity.
+The signature is `iharaPrincipalGamma1_congruenceKernel`, with its second restriction specified by the same rational-matrix conjugation formula. This is still trivial-coefficient ordinary `H¹` and still a kernel bound, not automatic injectivity.
 
 Establish this as follows. Restriction to `Γ(N)∩Γ₁(p)` implies that the disagreement on `Γ(N)∩Γ₀(p)` is a congruence class because the quotient of these two groups is congruence. Follow the ambient conjugations in CDT Lemma 4.6.3 and apply Corollary 4.5.3 to the two source characters. Use the principal-level kernel bound after the congruence error is removed.
 
 **Checks.**
 
 - The enhancement is not proved by treating restriction across a finite quotient as injective when q divides its order.
+- The case `q=p` remains in the statement.
+- For `N=3,p=11,q=5`, the intermediate diamond quotient has order ten, divisible by q; the kernel bound still holds, and §15.5 makes the source congruence subspace zero.
 
 *Needs:* [§15.5](#s15-5); [§15.6](#s15-6); [§15.9](#s15-9).
 
@@ -4693,6 +4698,7 @@ The public interface should expose:
 - `mem_taylorWilesMinus`: x lies in `M^-` iff `ξx=−x`.
 - `taylorWilesMinus_projector`: Since 2 is a unit, `(1−ξ)/2` projects to the minus submodule.
 - `taylorWilesMinus_projector_range`: For an involution `ξ` and the unit `u=2`, the range of `u⁻¹(1−ξ)` is exactly the minus submodule.
+- `taylorWilesMinus_projector_idempotent`: Under the same involution and unit-two hypotheses, the projector composed with itself is itself.
 - `taylorWilesMinus_coefficients`: Coefficient change and deck/Hecke-equivariant morphisms commute with minus projection under the proved base-change hypotheses.
 - `taylorWilesMinus_ext`: Two minus classes are equal if their images in the actual cover `H¹` agree.
 
