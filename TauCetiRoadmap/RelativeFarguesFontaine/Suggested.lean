@@ -70,6 +70,11 @@ example (p : ℕ) [Fact p.Prime] (A : Type u) [CommRing A] (x : WittVector p A) 
     ramifiedGhost (p : ℤ) p A n x.coeff = WittVector.ghostComponent n x := by
   sorry
 
+example :
+    WittVector.teichmuller 2 (1 : ZMod 2) + WittVector.teichmuller 2 (1 : ZMod 2) ≠
+      WittVector.teichmuller 2 ((1 : ZMod 2) + 1) := by
+  sorry
+
 example (π : O) (q : ℕ) :
     ramifiedWittPolynomials π q 0 = MvPolynomial.X (0 : ℕ) := by
   sorry
@@ -267,6 +272,18 @@ example (S₂ S₃ S₆ : Type u) [CommRing S₂] [CommRing S₃] [CommRing S₆
       ¬ D.IsSection (1, 1) := by
   sorry
 
+example (S₂ S₃ S₆ : Type u) [CommRing S₂] [CommRing S₃] [CommRing S₆]
+    [Algebra ℤ S₂] [Algebra ℤ S₃] [Algebra ℤ S₆]
+    [IsLocalization.Away (2 : ℤ) S₂] [IsLocalization.Away (3 : ℤ) S₃]
+    [IsLocalization.Away (6 : ℤ) S₆]
+    [Algebra S₂ S₆] [Algebra S₃ S₆]
+    [IsScalarTower ℤ S₂ S₆] [IsScalarTower ℤ S₃ S₆] (h₃ : IsUnit (3 : S₆))
+    (a : S₂) (b : S₃) :
+    let D := GlueingDatum.unitTransition S₂ S₃ S₆ h₃.unit
+    D.IsSection (a, b) ↔ ∃ k : ℤ, a = algebraMap ℤ S₂ k ∧
+      b = algebraMap ℤ S₃ k * IsLocalization.Away.invSelf (S := S₃) (3 : ℤ) := by
+  sorry
+
 section GlueingPair
 
 variable {R : Type u} [CommRing R]
@@ -385,7 +402,8 @@ cohenCoefficientLifts; qTwistedWittFunctor,
 qTeichmullerLift, lubinTateTeichmullerLift, integralRationalChartRings,
 rootExtensionChartModel, wholeAnalyticAinfLocus, wholeAnalyticAinf.
 Layer 1: annularGlobalSectionGeneration; radiusFunctionAndRationalAnnuli,
-wittSeminormLambdaMu, relativeExtendedRobbaRings, relativePeriodPresheaves,
+wittSeminormLambdaMu; relativeExtendedRobbaRings and relativePeriodPresheaves compare the
+supplied p-typical carriers with the twelve-variant and all-E interfaces;
 intervalAdicPairAndBaseProjection, berkovichPeriodDeformation.
 Layer 2: globalPeriodSheavesAndEtaleFunctoriality and the diamond presentations of the supplied curve.
 Layer 3: divDModuliVSheaf, completedRingsBPlusAndB, additionAndDisjointDivisorLoci,

@@ -808,9 +808,9 @@ Further specializations and compatibility requirements are as follows.
 
 ### 1.4 Relative extended Robba rings
 
-Define `relativeExtendedRobbaRings`. For a perfect uniform Banach pair `(R,R⁺)` over an analytic field of characteristic `p` with spectral norm `α`, define `Ẽ^int=W(R)`, `Ẽ=Ẽ^int[1/p]`, `R̃^(int,r)={Σ_(i≥0)p^i[x_i]:p^(−i)α(x_i)^r→0}`, `R̃^(bd,r)=R̃^(int,r)[1/p]`, `R̃^r` its Frechet completion for `λ(α^s)`, `0<s≤r`, and `R̃^[s,r]` its Banach completion for `max(λ(α^s),λ(α^r))`. Dropping `r` takes the union over `r>0`. Define each plus-input variant by `R⁺` instead of `R`. Its integral/bounded variants are `W(R⁺)` and `W(R⁺)[1/p]`; `R̃⁺` is the completion for all `s>0`, whereas `R̃^∞=∩_rR̃^r` is a different ring. Record `p`-adic, weak, Banach, Frechet and inductive limit topologies separately.
+Consume PadicHodgeTheory §7.5, `relativePeriodSheaf` and its weighted `p`-typical Robba, bounded, integral and interval carriers, restriction and Frobenius maps, and VectorBundlesAndIsocrystals VB1, `tilted-robba-ring`. Define `relativeExtendedRobbaRings` as the additional twelve-variant interfaces by comparison with these carriers; prove the additional growth estimates and all-`E` refinements here. For a perfect uniform Banach pair `(R,R⁺)` over an analytic field of characteristic `p` with spectral norm `α`, identify the supplied carriers with `Ẽ^int=W(R)`, `Ẽ=Ẽ^int[1/p]`, `R̃^(int,r)={Σ_(i≥0)p^i[x_i]:p^(−i)α(x_i)^r→0}`, `R̃^(bd,r)=R̃^(int,r)[1/p]`, `R̃^r` its Frechet completion for `λ(α^s)`, `0<s≤r`, and `R̃^[s,r]` its Banach completion for `max(λ(α^s),λ(α^r))`. Dropping `r` takes the union over `r>0`. Each plus-input variant uses `R⁺` instead of `R`. Its integral/bounded variants are `W(R⁺)` and `W(R⁺)[1/p]`; `R̃⁺` is the completion for all `s>0`, whereas `R̃^∞=∩_rR̃^r` is a different ring. Record `p`-adic, weak, Banach, Frechet and inductive limit topologies separately.
 
-KL Hypothesis 5.0.1. These are extended relative rings. The paper does not construct the arithmetic relative Robba rings. For all `E` replace `p` by `π` and `p`-Frobenius by `q`-Frobenius and prove the stated extension.
+KL Hypothesis 5.0.1. These are extended relative rings. The paper does not construct the arithmetic relative Robba rings. For all `E`, compare the supplied ramified annuli with the formulas using `π` and `q`-Frobenius, and prove the additional growth and norm comparisons through coefficient transport.
 
 The interface must support the following operations and laws.
 
@@ -820,13 +820,11 @@ The interface must support the following operations and laws.
 - `relativeRobba_restrict`: Continuous interval restrictions for interval inclusion.
 - `relativeRobba_frobenius`: In the `p`-typical interface, `φ` transports `[s,r]` to `[s/p,r/p]`; the all-`E q`-transport requires the recorded norm extension.
 
-Use the coefficient norm estimates to show the growth subsets are subrings.
-
-Localize integral growth rings and complete in the indicated families of norms.
+Compare the supplied growth subrings, localizations and completions with these interfaces using the coefficient norm estimates; transport the estimates through the all-`E` coefficient comparison.
 
 Use `log` convexity to identify the interval norm with its two endpoint maximum.
 
-Construct inclusions, their topologies and Frobenius `φ`:`R̃^[s,r]≃R̃^[s/q,r/q]`.
+Identify the supplied inclusions, topologies and Frobenius with `φ`:`R̃^[s,r]≃R̃^[s/q,r/q]` in the explicit interfaces.
 
 **Checks.**
 
@@ -840,7 +838,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Hypothesis 5.0.1 and Definitions 5.1.1 and 5.1.3, printed pp. 113–115.)
 
-*Needs:* [§0.7](#target-0-7); [§1.3](#target-1-3).
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB1/tilted-robba-ring; [§0.7](#target-0-7); [§1.3](#target-1-3).
 
 <a id="target-1-5"></a>
 
@@ -897,7 +895,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 1.7 Relative period presheaves
 
-Define `relativePeriodPresheaves`. On `Spa(R,R⁺)` define the period presheaf for each of the twelve variants `Ẽ^int,Ẽ,R̃^(int,r),R̃^(int,+),R̃^int,R̃^(bd,r),R̃^(bd,+),R̃^bd,R̃^[s,r],R̃^r,R̃⁺,R̃` by the inverse limit of its values on rational affinoids contained in an open `U`. Restrictions and base maps are induced by the coefficient maps and completions. The plus-input and positive-radii-completion variants keep their distinct topologies.
+Consume PadicHodgeTheory §7.5, `relativePeriodSheaf` and its weighted `p`-typical Robba, bounded, integral and interval carriers, restriction and Frobenius maps, and VectorBundlesAndIsocrystals VB1, `tilted-robba-ring`. Define `relativePeriodPresheaves` as the additional twelve-variant rational-basis interfaces by comparison with these supplied presheaves; prove their additional growth and all-`E` comparisons here. On `Spa(R,R⁺)` present the period presheaf for each of the twelve variants `Ẽ^int,Ẽ,R̃^(int,r),R̃^(int,+),R̃^int,R̃^(bd,r),R̃^(bd,+),R̃^bd,R̃^[s,r],R̃^r,R̃⁺,R̃` by the inverse limit of its values on rational affinoids contained in an open `U`. Restrictions and base maps are induced by the coefficient maps and completions. The plus-input and positive-radii-completion variants keep their distinct topologies.
 
 Perfect uniform Banach base as in KL5.0.1; bounds and radii must be adjusted for a bounded coefficient map before taking the union.
 
@@ -908,7 +906,7 @@ The interface must support the following operations and laws.
 - `relativePeriodPresheaf_affinoid`: On a rational affinoid `U`, identify the constructed presheaf value with relativePeriodRing of `coeff(U)`, `plus(U)`, `α_U`, `p,s,r` and that same variant.
 - `relativePeriodPresheaf_phi`: The coefficient Frobenius induces the natural transformation to the same variant with radii `s/p,r/p`.
 
-Construct the functor on the rational basis from Witt naturality and bounded norm estimates.
+Compare the rational-basis functor with the supplied restriction maps using Witt naturality and bounded norm estimates.
 
 Use restriction coherence to define the limit on all opens.
 
@@ -918,7 +916,7 @@ Prove its value on a rational affinoid is its original period ring once the basi
 
 - `period_empty`: The value on the empty open is the terminal zero ring.
 - `period_restriction_chain`: Restriction through two rational subopens equals their composite.
-- `period_plus_distinction`: Use the actual affinoid comparison for variant 10 and its inclusion into relativeRobbaInfinity. A Teichmüller coefficient with norm greater than one is outside this map’s range when the plus coefficients have norm at most one.
+- `period_plus_distinction`: Use the actual affinoid comparison for `R̃⁺` and its inclusion into `R̃^∞`. For `α(x)>1` with `α≤1` on `R⁺`, `[x]` is outside this inclusion’s image.
 
 Further specializations and compatibility requirements are as follows.
 
@@ -926,19 +924,17 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Definition 5.3.1, printed pp. 121–122.)
 
-*Needs:* [§1.4](#target-1-4); AdicSpacesPartIII, R3.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB1/tilted-robba-ring; [§1.4](#target-1-4); AdicSpacesPartIII, R3.
 
 <a id="target-1-8"></a>
 
 ### 1.8 Period sheaves and rational acyclicity
 
-Prove `relativePeriodSheafAndAcyclicity`. Every period presheaf of KL5.3.1 is a sheaf. Rational Tate acyclicity is asserted for `Ẽ^int,Ẽ,R̃^(int,r),R̃^int,R̃^(bd,r),R̃^bd,R̃^[s,r],R̃^r,R̃`, exactly the nine variants of Theorem5.3.3. The Kiehl property is proved for `Ẽ^int` and `R̃^(int,r)`, and separately for `R̃^[s,r]`; it is not automatically asserted for all twelve variants.
+Consume the `p`-typical rational and finite-projective descent of PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Prove `relativePeriodSheafAndAcyclicity` as their comparison with the twelve-variant interfaces, including the additional plus-variant sheaf assertions, exact acyclicity range and all-`E` refinements below. Every period presheaf of KL5.3.1 is a sheaf. Rational Tate acyclicity is asserted for `Ẽ^int,Ẽ,R̃^(int,r),R̃^int,R̃^(bd,r),R̃^bd,R̃^[s,r],R̃^r,R̃`, exactly the nine variants of Theorem5.3.3. The supplied Kiehl property is transported to the explicit interfaces for `Ẽ^int` and `R̃^(int,r)`, and separately for `R̃^[s,r]`; it is not automatically asserted for all twelve variants.
 
 Use continuous strict rational covering sequences and the norm assigned to each variant. The plus variants are sheaves without the extra acyclicity claim in this theorem.
 
-Lift the elementary Laurent covering sequence coefficientwise in Witt expansions.
-
-Apply the controlled splitting to preserve its strictness under each completion.
+Use the supplied rational descent on the common carriers. For the additional variants and coefficient refinements, compare the Laurent covering sequence coefficientwise in Witt expansions and use controlled splitting to preserve strictness under the specified completions.
 
 For `R̃^r` choose a convergent correction sequence over the shrinking radii, eliminating the `lim^1` term.
 
@@ -950,13 +946,13 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Lemma 5.3.2, Theorems 5.3.3 and 5.3.6, printed pp. 121–123.)
 
-*Needs:* [§1.7](#target-1-7); [§1.6](#target-1-6); AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.7](#target-1-7); [§1.6](#target-1-6); AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent.
 
 <a id="target-1-9"></a>
 
 ### 1.9 Relatively perfectoid interval rings
 
-Prove `intervalRingsRelativelyPerfectoid`. For `0<s≤r` the Banach rings `Ẽ`, `R̃^(bd,r)` and `R̃^[s,r]` are relatively perfectoid. For any compatible adic plus extension they are stably uniform, sheafy, rationally acyclic and satisfy finite-projective Kiehl gluing. After scalar extension to the completed `p`-power-root tower the interval norm is power multiplicative and the ring is perfectoid. In all-`E` annular charts use the specified whole root relations and prove the coefficient extension of these norm estimates.
+Consume rational and finite-projective descent on the supplied `p`-typical interval carriers from PadicHodgeTheory §7.5 and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Prove `intervalRingsRelativelyPerfectoid` for the explicit interfaces, retaining the additional norm comparisons and all-`E` refinements. For `0<s≤r` the Banach rings `Ẽ`, `R̃^(bd,r)` and `R̃^[s,r]` are relatively perfectoid. For any compatible adic plus extension they are stably uniform, sheafy, rationally acyclic and satisfy finite-projective Kiehl gluing. After scalar extension to the completed `p`-power-root tower the interval norm is power multiplicative and the ring is perfectoid. In all-`E` annular charts use the specified whole root relations and prove the coefficient extension of these norm estimates.
 
 No field assumption on `R`. Relative perfectoidness is the imported sousperfectoid/relative-perfectoid condition, not an unproved designation for every Frechet or integral ring.
 
@@ -966,7 +962,7 @@ Prove power multiplicativity away from the finitely many norm-crossing radii and
 
 Frobenius-compatible Teichmuller representatives generate a dense perfect subring after tensor extension.
 
-Apply AdicSpacesPartIII §R3.5’s split completed-base-change criterion and PerfectoidSpaces §P3.17a.3’s sheafiness criterion to the listed Banach rings.
+Transport the supplied descent along the interval comparisons. For the all-`E` norm refinement apply AdicSpacesPartIII §R3.5’s split completed-base-change criterion and PerfectoidSpaces §P3.17a.3’s sheafiness criterion to the listed Banach rings.
 
 Use the corrected perfectoid completed-tensor comparison of [KL II](#ref-kl-ii) Theorem 3.3.13 (including injectivity), required from P3, when invoking Lemma 5.3.14; the old KL3.6.11 proof is incomplete.
 
@@ -976,13 +972,13 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Theorem 5.3.9 and Lemma 5.3.14, printed pp. 123–125.)
 
-*Needs:* [§1.4](#target-1-4); [§1.5](#target-1-5); [§0.16](#target-0-16); PerfectoidSpaces, P3.17a.3/sousperfectoid-sheafy; AdicSpacesPartIII, R3.5/split-injection-completed-base-change; PerfectoidSpaces, P3.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.4](#target-1-4); [§1.5](#target-1-5); [§0.16](#target-0-16); PerfectoidSpaces, P3.17a.3/sousperfectoid-sheafy; AdicSpacesPartIII, R3.5/split-injection-completed-base-change; PerfectoidSpaces, P3.
 
 <a id="target-1-10"></a>
 
 ### 1.10 Interval adic pairs and base projection
 
-Define `intervalAdicPairAndBaseProjection`. Give `R̃^[s,r]` the plus ring obtained by completing the subring generated by elements of endpoint norm `<1` and `[R⁺]`. A semivaluation first determines its unique exponent `t∈[s,r]`, then a seminorm `γ=μ(β)^(1/t)` of `R`. Extending to `H(γ)` and using `{x:v([x])≤1}` yields the valuation on `R`. This defines `μ_ad`:`Spa(R̃^[s,r],R̃^[s,r],+)→Spa(R,R⁺)` as a continuous map of adic topological spaces, without a structural ring homomorphism `R→R̃^[s,r]`.
+Consume the supplied interval carriers and their rational and finite-projective descent from PadicHodgeTheory §7.5 and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Define `intervalAdicPairAndBaseProjection` as their explicit plus-ring and valuation-projection comparison. Give `R̃^[s,r]` the plus ring obtained by completing the subring generated by elements of endpoint norm `<1` and `[R⁺]`. A semivaluation first determines its unique exponent `t∈[s,r]`, then a seminorm `γ=μ(β)^(1/t)` of `R`. Extending to `H(γ)` and using `{x:v([x])≤1}` yields the valuation on `R`. This defines `μ_ad`:`Spa(R̃^[s,r],R̃^[s,r],+)→Spa(R,R⁺)` as a continuous map of adic topological spaces, without a structural ring homomorphism `R→R̃^[s,r]`.
 
 Teichmuller representatives are multiplicative; their nonadditivity must be handled through the valuation-ring criterion. The pair uses the specified completed plus ring.
 
@@ -1013,23 +1009,17 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Lemma 5.3.4 and Definition 5.3.10, printed pp. 122–124.)
 
-*Needs:* [§1.4](#target-1-4); [§1.9](#target-1-9); [§1.3](#target-1-3); Tau Ceti TauCeti.ValuationSpectrum.spa.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.4](#target-1-4); [§1.9](#target-1-9); [§1.3](#target-1-3); Tau Ceti TauCeti.ValuationSpectrum.spa.
 
 <a id="target-1-11"></a>
 
 ### 1.11 Rational base change and interval descent
 
-Consume rational base change and finite-projective interval descent from VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Apply this supplied descent to the explicit twelve-variant period interfaces of §§1.4–1.10; the comparisons denoted `annularRationalBaseChange` retain their individual topologies and restriction maps. A rational localization `(R,R⁺)→(S,S⁺)` induces the rational localization of interval pairs representing `μ_ad^−1Spa(S,S⁺)`. Rational base coverings therefore induce annular coverings and the interval period sheaf satisfies Kiehl gluing. For a finite covering `I=⋃I_j` of a compact interval in `(0,∞)`, `R̃^I→∏R̃^I_j` is effective descent for finite projective modules. After the scalar extension of KL5.3.14, each subinterval restriction is itself a rational localization; before that extension use the proven gluing square, rather than asserting rationality.
+Consume rational base change and finite-projective interval descent from PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Apply this supplied descent to the explicit twelve-variant period interfaces of §§1.4–1.10; the comparisons denoted `annularRationalBaseChange` retain their individual topologies and restriction maps. A rational localization `(R,R⁺)→(S,S⁺)` induces the rational localization of interval pairs representing `μ_ad^−1Spa(S,S⁺)`. Rational base coverings therefore induce annular coverings and the interval period sheaf satisfies Kiehl gluing. For a finite covering `I=⋃I_j` of a compact interval in `(0,∞)`, `R̃^I→∏R̃^I_j` is effective descent for finite projective modules. After the scalar extension of KL5.3.14, each subinterval restriction is itself a rational localization; before that extension use the proven gluing square, rather than asserting rationality.
 
 The interval cover is finite and uses closed intervals; the Banach base is perfect uniform over an analytic field. General base maps give functorial maps, not a universal uncompleted tensor identity.
 
-Lift rational inequalities by Teichmuller representatives.
-
-Apply stable uniformity and the spectral-norm isometry criterion to the map from the rational localization.
-
-The dense coefficient subring proves surjectivity and the rational base-cover assertion.
-
-For interval covers use controlled splitting/intersections to check the gluing square, or descend the rational-cover argument after the specified perfectoid scalar extension.
+Identify the supplied rational-localization maps through their Teichmüller inequalities and spectral norms. Transport the supplied gluing squares and finite-projective descent along these comparisons, retaining the restriction and overlap maps; the all-`E` transport uses the coefficient norm comparison.
 
 Further specializations and compatibility requirements are as follows.
 
@@ -1037,7 +1027,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Lemma 5.3.11, Corollary 5.3.12 and Theorems 5.3.13 and 5.3.16, printed pp. 124–126.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.10](#target-1-10); [§1.6](#target-1-6); [§1.9](#target-1-9); AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent; AdicSpacesPartIII, R3.5/finite-projective-etale-descent.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.10](#target-1-10); [§1.6](#target-1-6); [§1.9](#target-1-9); AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent; AdicSpacesPartIII, R3.5/finite-projective-etale-descent.
 
 <a id="target-1-12"></a>
 
@@ -1128,7 +1118,7 @@ The fixed-radius integral category requires Frobenius descent. The primitive quo
 
 Use the corrected primitive definition in [KL II](#ref-kl-ii) Appendix A: `z_0` is a unit of `R`. This concerns the generic quotient comparison and does not remove the `π=0` integral leg.
 
-Lift a finite residue-module generating set and use a strict norm bound to obtain generators at sufficiently small radii. In the iterative proof of Lemma 5.5.2 initialize the residual with `z_0=z`, not the printed `z_0=0` (KL II Appendix A). Also use the `S`-period ring for the final arbitrary element in Lemma5.5.2 (KL II Appendix A), and read the scalar ring of Proposition5.5.3 without the printed FÉt wrapper (KL II Appendix A).
+Lift a finite residue-module generating set and use a strict norm bound to obtain generators at sufficiently small radii. In KL I Lemma 5.5.2, initialize the residual with `z₀=z`, not the printed `z₀=0`, and use the `S`-period ring for the final arbitrary element (printed pp. 128–129). In Proposition 5.5.3’s proof, the module’s scalar ring is the period ring without the printed FÉt wrapper (p. 129). The residual recursion and module types determine these readings of the displayed proofs.
 
 Use henselian lifting for the integral union and Frobenius iteration for each fixed radius.
 
@@ -1306,7 +1296,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 2.4 Global period sheaves and etale curve maps
 
-Define `globalPeriodSheavesAndEtaleFunctoriality`. Glue the twelve rational period sheaves over any perfect adic base; their etale sheafifications have the same values on perfect uniform affinoids. The relative-curve functor carries etale, finite etale and faithfully finite etale base morphisms to morphisms with the same property. The projection of underlying topological spaces upgrades to a morphism of etale topoi. This does not supply a structural adic map `X_S→S`.
+Consume the `p`-typical period sheaves and their rational and finite-projective descent from PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Define `globalPeriodSheavesAndEtaleFunctoriality` as the twelve-variant, all-`E` and étale-curve comparison with those supplied interfaces. Glue the twelve rational period sheaves over any perfect adic base; their etale sheafifications have the same values on perfect uniform affinoids. The relative-curve functor carries etale, finite etale and faithfully finite etale base morphisms to morphisms with the same property. The projection of underlying topological spaces upgrades to a morphism of etale topoi. This does not supply a structural adic map `X_S→S`.
 
 Use the etale comparison for the exact affinoid class; a general nonuniform affinoid is not covered.
 
@@ -1318,7 +1308,7 @@ The interface must support the following operations and laws.
 - `relativeCurve_finiteEtale`: Finite etale and faithfully finite etale base maps retain those properties.
 - `relativeCurve_etaleTopos`: The underlying projection induces a morphism of etale topoi.
 
-Glue rational period sheaves by functoriality on overlaps.
+Use the supplied rational descent and overlap maps to glue the additional period-sheaf comparisons.
 
 Use the R3 etale comparison and KL8.2.21 to identify etale values.
 
@@ -1340,7 +1330,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](#ref-kl-i) Definition 8.3.4, printed p. 166; Lemma 8.7.15 and Remark 8.7.16, p. 180.)
 
-*Needs:* [§1.8](#target-1-8); [§1.14](#target-1-14); [§2.3](#target-2-3); [§2.2](#target-2-2); DiamondsAndVStacks, D6/etale-site-comparison.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.8](#target-1-8); [§1.14](#target-1-14); [§2.3](#target-2-3); [§2.2](#target-2-2); DiamondsAndVStacks, D6/etale-site-comparison.
 
 <a id="target-2-5"></a>
 
@@ -2319,9 +2309,9 @@ Further specializations and compatibility requirements are as follows.
 
 ### 6.5 The Beauville-Laszlo theorem for non-noetherian rings
 
-Prove `beauville_laszlo_module_gluing`. Let `(R → R', f)` be a glueing pair (the regular-completion case is supplied by AInfCohomology §AI.2.1, `AInf.linear_module_patching`). (a) The functor `Can` : `M ↦ (M ⊗_R R', M_f, can)` is an equivalence from the category of `R`-modules glueable for `(R → R', f)` to the category of glueing data `(M', M_1, α_1 : (M')_f = M_1 ⊗_R R')`, with quasi-inverse the module of sections. Consume the equivalence for regular completion and `f`-torsion-free modules from that supplier, and identify its fibre-product inverse and Hom maps with the glueable-module equivalence here. (b) An `R`-module `M` is flat, resp. finite projective, iff `M ⊗_R R'` and `M_f` are flat, resp. finite projective; hence every finite projective glueing datum is `Can` of a finite projective `R`-module, unique up to unique isomorphism, and `R → R' x R_f` is an effective descent morphism for finite projective modules. (c) For a flat `M` the sequence `0 → M → (M ⊗_R R_f) ⊕ (M ⊗_R R-hat) → M ⊗_R R-hat_f → 0` is exact. The statement is not a case of fpqc descent: `R → R-hat` need not be flat when `R` is not noetherian, and no descent datum over `R-hat ⊗_R R-hat` is part of the data.
+Prove `beauville_laszlo_module_gluing`. Let `(R → R', f)` be a glueing pair (the regular-completion case is supplied by AInfCohomology §AI.2.1, `AInf.linear_module_patching`). (a) The functor `Can` : `M ↦ (M ⊗_R R', M_f, can)` is an equivalence from the category of `R`-modules glueable for `(R → R', f)` to the category of glueing data `(M', M_1, α_1 : (M')_f = M_1 ⊗_R R')`, with quasi-inverse the module of sections. Consume the equivalence for regular completion and `f`-torsion-free modules from that supplier, and identify its fibre-product inverse and Hom maps with the glueable-module equivalence here. (b) An `R`-module `M` is flat, resp. finite projective, iff `M ⊗_R R'` and `M_f` are flat, resp. finite projective; hence every finite projective glueing datum is `Can` of a finite projective `R`-module, unique up to unique isomorphism, and `R → R' x R_f` is an effective descent morphism for finite projective modules. (c) For flat `M`, the sequence `0 → M → (M ⊗_R R′) ⊕ M_f → M ⊗_R R′_f → 0` is exact. In particular this applies with `R′=R-hat` when `(R → R-hat,f)` is a glueing pair, including when `f` is a nonzerodivisor. The statement is not a case of fpqc descent: `R → R-hat` need not be flat when `R` is not noetherian, and no descent datum over `R-hat ⊗_R R-hat` is part of the data.
 
-`f` is a nonzerodivisor of `R`, or more generally `(R → R', f)` is a glueing pair; no noetherian, flatness or separatedness hypothesis is needed (Kedlaya-Liu's `'t`-adically separated' in Proposition 1.3.6 is not used by the Stacks proof).
+For `R′=R-hat`, a nonzerodivisor `f` suffices; for general `R′`, assume `(R → R′,f)` is a glueing pair. No noetherian, flatness or separatedness hypothesis is needed (Kedlaya-Liu's `'t`-adically separated' in Proposition 1.3.6 is not used by the Stacks proof).
 
 In (a) the modules must be glueable; for `f` a nonzerodivisor every module on which `f` is a nonzerodivisor is glueable.
 
@@ -2341,6 +2331,12 @@ Alternatively, for `f` a nonzerodivisor and finite projective data, Kedlaya-Liu 
 
 The light milestones `beauvilleLaszlo_finiteProjective_iff` and `beauvilleLaszlo_effective` state finite-projective detection for an arbitrary module and existence of compatible base-change identifications for finite-projective gluing data. The latter has an explicit common localization and compatibility on pure tensors. Neither assumes completion flatness.
 
+**Checks.**
+
+- For the identity pair `R′=R`, the flat-module sequence is exact for every `f`. In the ring `k[f,T₁,T₂,…]/(fT₁,fT₂−T₁,…)`, the nonzero `T₁` maps to zero in both `R-hat` and `R_f`, so replacing `R′` by the completion would destroy injectivity.
+- For `R=ℤ`, `f=p` prime and `M=R`, the regular-completion sequence is `0→ℤ→ℤ_p⊕ℤ[1/p]→ℚ_p→0`.
+- For unit `f`, completion is zero and the sequence for `R′=R-hat` reduces to the identity of `M`.
+
 Further specializations and compatibility requirements are as follows.
 
 - Run the gluing for `R = A_inf[1/p]` and `f = ξ`, where `R-hat = B⁺_dR(C)`: a `B⁺_dR`-lattice in `T ⊗ B_dR` glues with `T ⊗ A_inf[1/p][1/ξ]` to a finite projective `A_inf[1/p]`-module (the step used in SW20 Proposition 12.4.6)
@@ -2348,7 +2344,7 @@ Further specializations and compatibility requirements are as follows.
 - Verify finite projectivity in both directions of (b)
 - Check the necessity of glueability with Stacks Example 15.92.12
 
-([SW](#ref-sw) Lemma 5.2.9, printed p. 38; [SW](#ref-sw) After Lemma 5.2.9, printed p. 38; [Stacks](#ref-stacks) Theorem 15.92.16 (tag 0BP2); [Stacks](#ref-stacks) Lemma 15.92.19; [KL I](#ref-kl-i) Proposition 1.3.6, pp. 16-17.)
+([SW](#ref-sw) Lemma 5.2.9, printed p. 38; [SW](#ref-sw) After Lemma 5.2.9, printed p. 38; [Stacks](#ref-stacks) Theorem 15.92.16 (tag 0BP2), Remark 15.92.11 (tag 0BNX) and Example 15.92.9 (tag 0BNU); [Stacks](#ref-stacks) Lemma 15.92.19; [KL I](#ref-kl-i) Proposition 1.3.6, pp. 16-17.)
 
 *Needs:* AInfCohomology §AI.2.1/AInf.linear_module_patching; [§6.4](#target-6-4); [§6.1](#target-6-1); [§6.2](#target-6-2); Mathlib AdicCompletion; Mathlib IsAdicComplete; Mathlib IsLocalization.Away; Mathlib nonZeroDivisors; Mathlib Module.Projective; Mathlib Module.Flat; Mathlib Module.FinitePresentation; Mathlib Module.FaithfullyFlat.
 
@@ -2434,7 +2430,7 @@ The fixed-reference construction follows the local algebra used in SW Propositio
 
 **Checks.**
 
-- For `S` a geometric point, `d = 1` and `E'` trivial of rank `n`, recover the classical bijection between rank-`n` bundles with a trivialisation off `infinity` and `B⁺_dR`-lattices in `B_dR^n`
+- For a geometric base, `d=1` and trivial rank-`n` reference bundle, recover the bijection between modifications with a specified meromorphic trivialization off infinity and `B_dR⁺`-lattices in `B_dR^n`. The schematic version permits arbitrary algebraic complement trivializations.
 - For a geometric reduced degree-one leg, lattices `tE′-hat⊆Ξ⊆E′-hat` correspond to vector-space quotients of `E′|_D`. For a general divisor, impose explicitly that `E′-hat/Ξ` is finite projective over `O_D`; finite projectivity of `Ξ` and these inclusions do not imply it.
 - At a double geometric leg `D=2D₀`, take `B=B_dR⁺`, `E′-hat=B` and `Ξ=tB`. The inclusions `t²B⊂tB⊂B` hold, but `B/tB` is not projective over `B/t²B`: over this local ring a nonzero projective finite module is free, whereas `t` annihilates this quotient.
 - Independence of the chart `U` and of the local generator `ξ`
