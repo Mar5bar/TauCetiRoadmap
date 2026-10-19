@@ -28,18 +28,6 @@ namespace TauCetiRoadmap.TorsionCohomologyInfrastructure
 
 open Polynomial
 
-/-! ## Layer 1: period-lattice chart validation -/
-
-/-- The displayed integral plane is isotropic and has both Plücker minors equal to one. -/
-example :
-    let v : Fin 4 → ℤ := ![1, 0, 0, 1]
-    let w : Fin 4 → ℤ := ![0, 1, 1, 0]
-    let A : Matrix (Fin 2) (Fin 4) ℤ := ![v, w]
-    v 0 * w 2 + v 1 * w 3 - v 2 * w 0 - v 3 * w 1 = 0 ∧
-      Matrix.det (A.submatrix id ![0, 2]) = 1 ∧
-      Matrix.det (A.submatrix id ![0, 1]) = 1 := by
-  sorry
-
 /-! ## Layer 2: coherent, completed and torsion cohomology -/
 
 section HeckeTopology
@@ -68,38 +56,6 @@ theorem continuous_heckeInitialTopology_restrict {T T' ι : Type*} [Ring T] [Rin
     (ρ : ∀ i, T →+* E i) (f : T' →+* T) :
     @Continuous T' T (heckeInitialTopology (fun i => (ρ i).comp f))
       (heckeInitialTopology ρ) f := by
-  sorry
-
-/-- An element killed by every defining action lies in every neighbourhood of `0`, so `T_cl` need
-not be Hausdorff. -/
-example {T ι : Type*} [Ring T] {E : ι → Type*} [∀ i, Ring (E i)]
-    [∀ i, TopologicalSpace (E i)] (ρ : ∀ i, T →+* E i) (t : T) (ht : ∀ i, ρ i t = 0) :
-    ∀ U ∈ @nhds T (heckeInitialTopology ρ) 0, t ∈ U := by
-  sorry
-
-/-- Two actions `ℤ → ℤ/2` and `ℤ → ℤ/3` with discrete targets: the neighbourhoods come from the
-intersection `6ℤ` of the kernels, so `6ℤ` is open and `4ℤ` is not. -/
-example :
-    let ρ : ∀ b : Bool, ℤ →+* ZMod (if b then 2 else 3) := fun _ => Int.castRingHom _
-    @IsOpen ℤ (heckeInitialTopology ρ) {x : ℤ | (6 : ℤ) ∣ x} ∧
-      ¬ @IsOpen ℤ (heckeInitialTopology ρ) {x : ℤ | (4 : ℤ) ∣ x} := by
-  sorry
-
-/-- With the `p`-adic topology on the target, `p ^ r → 0` in `T_cl`, although no power of `p` lies
-in the kernel of the action; with the discrete topology on the target this would fail. -/
-example (p : ℕ) [Fact p.Prime] :
-    let ρ : ∀ _ : Unit, ℤ →+* ℤ_[p] := fun _ => Int.castRingHom ℤ_[p]
-    Filter.Tendsto (fun r : ℕ => (p : ℤ) ^ r) Filter.atTop
-      (@nhds ℤ (heckeInitialTopology ρ) 0) := by
-  sorry
-
-/-- The second projection prevents powers of `(p, 1)` from converging to zero in the initial
-topology defined by both projections. -/
-example (p : ℕ) [Fact p.Prime] :
-    let ρ : Bool → (ℤ_[p] × ℤ_[p] →+* ℤ_[p]) := fun b =>
-      if b then RingHom.fst _ _ else RingHom.snd _ _
-    ¬ Filter.Tendsto (fun r : ℕ => ((p, 1) : ℤ_[p] × ℤ_[p]) ^ r) Filter.atTop
-      (@nhds (ℤ_[p] × ℤ_[p]) (heckeInitialTopology ρ) 0) := by
   sorry
 
 end HeckeTopology
@@ -148,43 +104,6 @@ theorem twisted_product_separation (n : ℕ) (u : Rˣ) (P Q P' Q' : R[X])
     P = P' ∧ Q = Q' := by
   sorry
 
-/-- Constant factors ignore the twist. -/
-example : weightedProduct (C (2 : ℤ)) (C 3) (-1) = C 6 := by
-  sorry
-
-/-- Opposite scaling: `(1 - 2X)` and `(1 - 3X)` at `u = 2` give `(1 - X)(1 - 6X)`. -/
-example : weightedProduct (1 - C (2 : ℚ) * X) (1 - C 3 * X) (Units.mk0 (2 : ℚ) (by norm_num)) =
-    1 - C 7 * X + C 6 * X ^ 2 := by
-  sorry
-
-/-- Swapping the two factors at the same nontrivial twist changes the linear coefficient. -/
-example :
-    let u : ℚˣ := Units.mk0 2 (by norm_num)
-    weightedProduct (1 - C (3 : ℚ) * X) (1 - C 2 * X) u =
-        1 - C (11 / 2 : ℚ) * X + C 6 * X ^ 2 ∧
-      weightedProduct (1 - C (3 : ℚ) * X) (1 - C 2 * X) u ≠
-        (1 - C (7 : ℚ) * X + C 6 * X ^ 2) := by
-  sorry
-
-/-- Collision at the trivial twist: the factors can be interchanged. -/
-example : weightedProduct (1 - C (2 : ℚ) * X) (1 - C 3 * X) 1 =
-    weightedProduct (1 - C (3 : ℚ) * X) (1 - C 2 * X) 1 := by
-  sorry
-
-/-- Over `ℤ/9` with `u = 2`, `1 - u²` is nonzero but not a unit, and separation fails:
-`1 + 3X` can be moved from one factor to the other. -/
-example :
-    let u : (ZMod 9)ˣ := ⟨2, 5, by decide, by decide⟩
-    (1 - (↑u : ZMod 9) ^ 2 ≠ 0) ∧ ¬ IsUnit (1 - (↑u : ZMod 9) ^ 2) ∧
-      weightedProduct (1 + C (3 : ZMod 9) * X) 1 u = weightedProduct 1 (1 + C (3 : ZMod 9) * X) u ∧
-      (1 + C (3 : ZMod 9) * X : (ZMod 9)[X]) ≠ 1 := by
-  sorry
-
-/-- Degree zero with constant term one forces both factors to be one over any ring. -/
-example (P Q : R[X]) (hP : P.natDegree ≤ 0) (hQ : Q.natDegree ≤ 0)
-    (hcP : P.coeff 0 = 1) (hcQ : Q.coeff 0 = 1) : P = 1 ∧ Q = 1 := by
-  sorry
-
 end WeightedProduct
 
 section FiniteWeight
@@ -194,26 +113,6 @@ variable {S : Type*} [CommRing S]
 /-- `weightSubst m F` is the series `F(T^m X)`, with coefficients in `S[T;T⁻¹]`. -/
 noncomputable def weightSubst (m : ℤ) (F : PowerSeries S) : PowerSeries (LaurentPolynomial S) :=
   PowerSeries.rescale (LaurentPolynomial.T m) (PowerSeries.map LaurentPolynomial.C F)
-
-/-- Weight zero changes only the coefficient ring. -/
-example (F : PowerSeries S) : weightSubst 0 F = PowerSeries.map LaurentPolynomial.C F := by
-  sorry
-
-/-- The weight acts on the variable: `(1 - X)(T^2 X) = 1 - T^2 X`. -/
-example :
-    weightSubst 2 (1 - PowerSeries.X : PowerSeries ℤ) =
-      1 - PowerSeries.C (LaurentPolynomial.T 2 : LaurentPolynomial ℤ) * PowerSeries.X := by
-  sorry
-
-/-- Weights one and two give distinct series on the same input. -/
-example :
-    weightSubst 1 (1 + PowerSeries.X : PowerSeries ℤ) =
-        1 + PowerSeries.C (LaurentPolynomial.T 1 : LaurentPolynomial ℤ) * PowerSeries.X ∧
-      weightSubst 2 (1 + PowerSeries.X : PowerSeries ℤ) =
-        1 + PowerSeries.C (LaurentPolynomial.T 2 : LaurentPolynomial ℤ) * PowerSeries.X ∧
-      weightSubst 1 (1 + PowerSeries.X : PowerSeries ℤ) ≠
-        weightSubst 2 (1 + PowerSeries.X : PowerSeries ℤ) := by
-  sorry
 
 /-- **Uniqueness of finite-weight factorisations** (Scholze, Lemma 5.3.10, pp.1053–1054): for a
 finite set of distinct weights, the factors `Q m` with constant term `1` are determined by the
@@ -265,72 +164,6 @@ theorem substStableIdeal_le_map (I : Ideal (LaurentPolynomial R)) :
     substStableIdeal I ≤ (laurentCoeffIdeal I).map LaurentPolynomial.C := by
   sorry
 
-/-- The substitution multiplies exponents: `T ^ k ↦ T ^ (a * k)`. -/
-example (a k : ℤ) :
-    laurentSubst a (LaurentPolynomial.T k : LaurentPolynomial R) = LaurentPolynomial.T (a * k) := by
-  sorry
-
-/-- At `a = 0` every monomial goes to `1`, so `f ↦ f(1)`. -/
-example (k : ℤ) : laurentSubst 0 (LaurentPolynomial.T k : LaurentPolynomial R) = 1 := by
-  sorry
-
-/-- The zero ideal has zero coefficient ideal. -/
-example : laurentCoeffIdeal (⊥ : Ideal (LaurentPolynomial R)) = ⊥ := by
-  sorry
-
-/-- Substitution doubles exponents and preserves coefficients. -/
-example :
-    laurentSubst 2 (LaurentPolynomial.C (3 : ℤ) * LaurentPolynomial.T (-1) + LaurentPolynomial.T 2) =
-      LaurentPolynomial.C 3 * LaurentPolynomial.T (-2) + LaurentPolynomial.T 4 := by
-  sorry
-
-/-- Zero evaluates at one, the identity fixes the polynomial, and minus one reverses exponents. -/
-example :
-    let f : LaurentPolynomial ℤ := LaurentPolynomial.C 3 * LaurentPolynomial.T (-1) + LaurentPolynomial.T 2
-    laurentSubst 0 f = LaurentPolynomial.C 4 ∧ laurentSubst 1 f = f ∧
-      laurentSubst (-1) f = LaurentPolynomial.C 3 * LaurentPolynomial.T 1 + LaurentPolynomial.T (-2) := by
-  sorry
-
-/-- Composing Laurent substitutions multiplies their exponent multipliers. -/
-example (a b : ℤ) (f : LaurentPolynomial R) :
-    laurentSubst a (laurentSubst b f) = laurentSubst (a * b) f := by
-  sorry
-
-/-- Opposite exponent multipliers compose in the same order on a monomial. -/
-example : laurentSubst 2 (laurentSubst (-3) (LaurentPolynomial.T 1 : LaurentPolynomial ℤ)) =
-    LaurentPolynomial.T (-6) := by
-  sorry
-
-/-- The coefficient ideal retains the square-zero ideal over `ℤ/4`, while a single preimage
-at zero also contains `T - 1`. -/
-example :
-    let I : Ideal (LaurentPolynomial (ZMod 4)) := Ideal.span {LaurentPolynomial.C 2}
-    I ^ 2 = ⊥ ∧ substStableIdeal I = I ∧
-      laurentCoeffIdeal I = Ideal.span {(2 : ZMod 4)} ∧ laurentCoeffIdeal I ^ 2 = ⊥ ∧
-      LaurentPolynomial.T 1 - 1 ∈ I.comap (laurentSubst 0) ∧
-      LaurentPolynomial.T 1 - 1 ∉ I := by
-  sorry
-
-/-- A proper substitution-stable ideal can have unit coefficient ideal. -/
-example :
-    let I : Ideal (LaurentPolynomial ℤ) := Ideal.span {LaurentPolynomial.T 1 - 1}
-    substStableIdeal I = I ∧ laurentCoeffIdeal I = ⊤ ∧ I ≠ ⊤ := by
-  sorry
-
-/-- In the quotient `𝔽₂[a,b]/(a²,b²)`, the raw coefficients of a square-zero Laurent ideal
-need not generate a square-zero ideal; the substitution-stable intersection excludes `a+bT`. -/
-example :
-    let J : Ideal (MvPolynomial (Fin 2) (ZMod 2)) :=
-      Ideal.span {MvPolynomial.X (0 : Fin 2) ^ 2, MvPolynomial.X (1 : Fin 2) ^ 2}
-    let B := MvPolynomial (Fin 2) (ZMod 2) ⧸ J
-    let a : B := Ideal.Quotient.mk J (MvPolynomial.X 0)
-    let b : B := Ideal.Quotient.mk J (MvPolynomial.X 1)
-    let f : LaurentPolynomial B := LaurentPolynomial.C a + LaurentPolynomial.C b * LaurentPolynomial.T 1
-    let I : Ideal (LaurentPolynomial B) := Ideal.span {f}
-    I ^ 2 = ⊥ ∧ a * b ≠ 0 ∧ (Ideal.span {a, b}) ^ 2 ≠ ⊥ ∧
-      f ∉ I.comap (laurentSubst 2) := by
-  sorry
-
 end LaurentCoefficientIdeal
 
 /-! ## Layer 3b: arithmetic Levi realisation -/
@@ -368,97 +201,25 @@ theorem normalizedReciprocal_normalizedReciprocal (n : ℕ) (P : R[X]) (c : Rˣ)
     normalizedReciprocal n (normalizedReciprocal n P c) c⁻¹ = P := by
   sorry
 
-/-- The degree-zero normalized reciprocal fixes the constant one. -/
-example : normalizedReciprocal 0 (1 : ℤ[X]) 1 = 1 := by
-  sorry
-
-/-- The normalized reciprocal preserves this nonreduced quadratic and reduces coefficientwise. -/
-example :
-    let P : (ZMod 4)[X] := 1 + C 2 * X + C 3 * X ^ 2
-    let c : (ZMod 4)ˣ := ⟨3, 3, by decide, by decide⟩
-    normalizedReciprocal 2 P c = P ∧
-      (normalizedReciprocal 2 P c).map (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) =
-        1 + X ^ 2 := by
-  sorry
-
-/-- Rank zero gives the constant one whenever `U 0 = 1`. -/
-example (q : R) (U : ℕ → R) (hU : U 0 = 1) : scholzeLeviPolynomial 0 q U = 1 := by
-  sorry
-
-/-- The dual of the rank-one Levi polynomial `1 - 6X` (top coefficient `c = -6`) is
-`1 - X/6 = 1 - q⁻¹U₁⁻¹X` for `q = 3`, `U₁ = 2`. -/
-example : normalizedReciprocal 1 (1 - C (6 : ℚ) * X) (Units.mk0 (-6) (by norm_num)) =
-    1 - C (1 / 6 : ℚ) * X := by
-  sorry
-
-/-- Rank one: `n = 1`, `q = 3`, `U₁ = 2` gives `1 - 6X`, not the standard reciprocal `1 - 2X`. -/
-example : scholzeLeviPolynomial 1 (3 : ℤ) (fun i => if i = 0 then 1 else 2) = 1 - C 6 * X := by
-  sorry
-
-/-- Rank two: `n = 2`, `q = 2`, `U₁ = 3`, `U₂ = 5` gives `1 - 6X + 40X²`. -/
-example :
-    scholzeLeviPolynomial 2 (2 : ℤ) (fun i => if i = 0 then 1 else if i = 1 then 3 else 5) =
-      1 - C 6 * X + C 40 * X ^ 2 := by
-  sorry
-
-/-- The same polynomial as the standard reciprocal `1 - 3X + 10X²` evaluated at `2X`. -/
-example : (1 - C (3 : ℤ) * X + C 10 * X ^ 2).comp (C 2 * X) = 1 - C 6 * X + C 40 * X ^ 2 := by
-  sorry
-
-/-- Unitary top sign: two degree-one factors `P(X)` and `P^∨_{v^c}(qX)` give a positive top
-coefficient. -/
-example (q a b : R) :
-    (1 - C a * X) * (1 - C b * X).comp (C q * X) = 1 - C (a + q * b) * X + C (q * a * b) * X ^ 2 := by
-  sorry
-
-/-- The real rank-one ambient polynomial has degree three, while its extracted Levi factor
-has degree one. -/
-example :
-    let P : ℚ[X] := 1 - C 2 * X
-    let A : ℚ[X] := (1 - X) * P * normalizedReciprocal 1 P (Units.mk0 (-2) (by norm_num))
-    A.natDegree = 3 ∧ P.natDegree = 1 ∧ A ≠ P := by
-  sorry
-
-/-- In the trivial CM rank-one system, conjugate reciprocity includes substitution by `qX`. -/
-example :
-    let P : ℚ[X] := 1 - C 7 * X
-    let Q : ℚ[X] := normalizedReciprocal 1 P (Units.mk0 (-7) (by norm_num))
-    Q.comp (C 7 * X) = 1 - X ∧
-      P * Q.comp (C 7 * X) = (1 - C 7 * X) * (1 - X) ∧
-      P * Q.comp (C 7 * X) ≠ P * Q := by
+/-- README §3b.1: coefficient change commutes with the normalised reciprocal, including
+specialisation to a nonreduced coefficient ring or to a nilpotent quotient. -/
+theorem normalizedReciprocal_map {S : Type*} [CommRing S] (f : R →+* S)
+    (n : ℕ) (P : R[X]) (c : Rˣ) :
+    (normalizedReciprocal n P c).map f =
+      normalizedReciprocal n (P.map f) (Units.map f c) := by
   sorry
 
 end LeviPolynomial
 
-/-- Multiplication by a unit-valued component function is undone by its inverse function. -/
-example {R ι : Type*} [CommRing R] (u : ι → Rˣ) (f : ι → R) :
-    (fun i => (↑((u i)⁻¹) : R) * ((↑(u i) : R) * f i)) = f := by
-  sorry
-
-/-- The constant character line on three cyclically permuted components has no equivariant
-retraction in characteristic three, the reduction of the level-seven rank-one example. -/
-example : ¬ ∃ r : (Fin 3 → ZMod 3) →ₗ[ZMod 3] ZMod 3,
-    (∀ f, r ![f 1, f 2, f 0] = r f) ∧ r (fun _ => 1) = 1 := by
-  sorry
-
 /-! ## Layer 4: assembly, compatibility and validation -/
 
-section Nonlifting
-
-/-- The stabiliser `{±1}` of `[pt/{±1}]` (`GL₁/ℚ` at level `ℤ̂ˣ`) has `H¹(ℤˣ, ℤ₂) = 0`. -/
-example : Subsingleton (groupCohomology (Rep.trivial ℤ_[2] ℤˣ ℤ_[2]) 1) := by
+/-- README §4.8, the group-cohomology part of `nonlifting_example`: the integral first
+cohomology of the stabiliser `{±1}` vanishes, whereas its mod-2 first cohomology is a
+one-dimensional vector space. Its nonzero class therefore has no integral lift. -/
+theorem nonlifting_groupCohomology :
+    Subsingleton (groupCohomology (Rep.trivial ℤ_[2] ℤˣ ℤ_[2]) 1) ∧
+      Nonempty (groupCohomology (Rep.trivial ℤ ℤˣ (ZMod 2)) 1 ≃ₗ[ℤ] ZMod 2) := by
   sorry
-
-/-- ... while `H¹(ℤˣ, 𝔽₂) ≠ 0`: this mod-`2` class has no integral lift. -/
-example : Nontrivial (groupCohomology (Rep.trivial ℤ ℤˣ (ZMod 2)) 1) := by
-  sorry
-
-/-- The algebraic diagnostic: in the complex `ℤ →(2) ℤ`, the degree-zero class `1` modulo `2` has
-no integral degree-zero lift. -/
-example : ¬ ∃ x : ℤ, 2 * x = 0 ∧ (x : ZMod 2) = 1 := by
-  sorry
-
-end Nonlifting
 
 /-!
 ## Targets stated in the README only
