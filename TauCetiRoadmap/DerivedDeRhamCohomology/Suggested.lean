@@ -1,6 +1,5 @@
 import Mathlib
 import TauCeti.RingTheory.Kaehler.MapSemilinear
-import TauCeti.RingTheory.DividedPowers.Associative
 
 /-!
 # DerivedDeRhamCohomology: representative target signatures
@@ -47,6 +46,55 @@ open scoped TensorProduct
 
 noncomputable section
 
+/-! ## Milestones on pinned carriers -/
+
+namespace DerivedDeRham
+
+/-- Faithful flatness of the reduction gives ordinary faithful flatness under the
+Noetherian, torsion-free and completeness hypotheses of README 1.10. -/
+theorem ordinaryFaithfulFlatnessFromCompleteFaithfulFlatness (A B : Type)
+    [CommRing A] [CommRing B] [Algebra A B] [IsNoetherianRing A] (π : A)
+    (hπA : IsSMulRegular A π) (hπB : IsSMulRegular B (algebraMap A B π))
+    (hA : IsAdicComplete (Ideal.span {π}) A) (hB : IsAdicComplete (Ideal.span {π}) B)
+    (hflat : Module.FaithfullyFlat (A ⧸ Ideal.span {π})
+      (B ⧸ Ideal.map (algebraMap A B) (Ideal.span {π}))) :
+    Module.FaithfullyFlat A B := by
+  sorry
+
+section ComplexHeartExt
+
+attribute [local instance] HasExt.standard
+
+/-- Ext in the abelian category of cochain complexes between `M[0]` and `N[c]` agrees
+with module Ext in degree `i + c` when `c ≤ 0` and `i + c ≥ 0` (README 1.20,
+`complexHeartExt`; BMS19, Proposition 5.6, proof). The second complex is supported in degree `−c`. -/
+theorem complexHeartExt (A : Type) [CommRing A] (M N : ModuleCat.{0} A)
+    (i : ℕ) (c : ℤ) (hc : c ≤ 0) (hi : 0 ≤ (i : ℤ) + c) :
+    Nonempty (Abelian.Ext.{1} ((CochainComplex.singleFunctor (ModuleCat.{0} A) 0).obj M)
+        ((CochainComplex.singleFunctor (ModuleCat.{0} A) (-c)).obj N) i ≃+
+      Abelian.Ext.{1} M N (((i : ℤ) + c).toNat)) := by
+  sorry
+
+/-- A positive shift of the target makes all nonnegative Ext groups from `M[0]`
+vanish in the abelian category of cochain complexes (README 1.20). -/
+theorem complexHeartExt_positive_shift (A : Type) [CommRing A] (M N : ModuleCat.{0} A)
+    (i : ℕ) (c : ℤ) (hc : 0 < c) :
+    Subsingleton (Abelian.Ext.{1} ((CochainComplex.singleFunctor (ModuleCat.{0} A) 0).obj M)
+      ((CochainComplex.singleFunctor (ModuleCat.{0} A) (-c)).obj N) i) := by
+  sorry
+
+/-- When `c ≤ 0` and `i + c < 0`, Ext between `M[0]` and `N[c]` vanishes in the
+abelian category of cochain complexes (README 1.20). -/
+theorem complexHeartExt_negative_total (A : Type) [CommRing A] (M N : ModuleCat.{0} A)
+    (i : ℕ) (c : ℤ) (hc : c ≤ 0) (hi : (i : ℤ) + c < 0) :
+    Subsingleton (Abelian.Ext.{1} ((CochainComplex.singleFunctor (ModuleCat.{0} A) 0).obj M)
+      ((CochainComplex.singleFunctor (ModuleCat.{0} A) (-c)).obj N) i) := by
+  sorry
+
+end ComplexHeartExt
+
+end DerivedDeRham
+
 /-! ## Layer 0: André–Quillen criteria and local differential algebra -/
 
 namespace DerivedDeRham
@@ -71,18 +119,8 @@ theorem pBasis_kaehler_basis (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [Cha
       Submodule.span k (Set.range fun i => KaehlerDifferential.D (ZMod p) k (b i)) = ⊤ := by
   sorry
 
--- For a perfect field the empty family is a p-basis.
-example (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p] [PerfectRing k p] :
-    IsPBasis p k (Fin.elim0 : Fin 0 → k) := by
-  sorry
-
--- For `F_p(t)` the variable `t` is a p-basis, including `p = 2`.
-example (p : ℕ) [Fact p.Prime] :
-    IsPBasis p (RatFunc (ZMod p)) (fun _ : Fin 1 => RatFunc.X) := by
-  sorry
-
--- The transcendence basis `{t^p}` of `F_p(t)` is not a p-basis.
-example (p : ℕ) [Fact p.Prime] :
+/-- The transcendence basis `{t^p}` of `F_p(t)` fails the p-basis condition (README 0.23). -/
+theorem test_pbasis_transcendence_not_enough (p : ℕ) [Fact p.Prime] :
     ¬ IsPBasis p (RatFunc (ZMod p)) (fun _ : Fin 1 => (RatFunc.X : RatFunc (ZMod p)) ^ p) := by
   sorry
 
@@ -146,6 +184,7 @@ theorem test_bdr_p_inverted_inside (p : ℕ) [Fact p.Prime] :
         (↑(PowerSeries.coeff (R := PadicInt p) n g) : Padic p) := by
   sorry
 
+
 end DerivedDeRham
 
 end
@@ -196,35 +235,6 @@ def ofDividedPowers (γ : DividedPowers I) : AdditivePowers I where
 @[simp]
 theorem ofDividedPowers_dpow (γ : DividedPowers I) : (ofDividedPowers γ).dpow = γ.dpow := rfl
 
-/-- The candidate vanishes outside the ideal in degree zero as well. -/
-example (δ : AdditivePowers I) {x : A} (hx : x ∉ I) : δ.dpow 0 x = 0 := δ.dpow_null hx
-
-/-- In positive degree the candidate vanishes at zero. -/
-example (δ : AdditivePowers I) : δ.dpow 2 0 = 0 := by
-  have h := δ.dpow_mul (n := 2) (a := 0) (x := 0) I.zero_mem
-  simpa using h
-
-/-- Over a rational algebra the candidate from divided powers has the factorial formula
-on its ideal (test_candidate_rational). -/
-example {R : Type*} [CommRing R] [Algebra ℚ R] {J : Ideal R}
-    (γ : DividedPowers J) {x : R} (hx : x ∈ J) (n : ℕ) :
-    (ofDividedPowers γ).dpow n x = TauCeti.Associative.dividedPower n x ∧
-      (ofDividedPowers γ).dpow n x = Ring.inverse (n.factorial : R) * x ^ n := by
-  sorry
-
-open scoped Classical in
-/-- On the dual numbers over `ZMod 2`, an additive candidate can fail the multiplication
-identity in degrees one and two (test_candidate_not_pd). -/
-example :
-    let B := Polynomial (ZMod 2) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod 2)) ^ 2}
-    let ε : B := Ideal.Quotient.mk _ Polynomial.X
-    let J := Ideal.span {ε}
-    ∃ δ : AdditivePowers J,
-      (∀ n x, δ.dpow n x = if x ∈ J then
-        if n = 0 then 1 else if n = 1 ∨ n = 3 then x else 0 else 0) ∧
-      δ.dpow 1 ε * δ.dpow 2 ε ≠ (3 : B) * δ.dpow 3 ε := by
-  sorry
-
 end AdditivePowers
 
 /-- Divided powers from identities on generators (Stacks, Lemma 23.2.4): an additive candidate
@@ -273,13 +283,6 @@ noncomputable def canonicalCoeff (p : ℕ) (A : Type*) [CommRing A] (n : ℕ) : 
   (p : A) ^ (n - padicValNat p n.factorial) *
     Ring.inverse ((n.factorial / p ^ padicValNat p n.factorial : ℕ) : A)
 
-example (p : ℕ) (A : Type*) [CommRing A] : canonicalCoeff p A 0 = 1 := by
-  simp [canonicalCoeff]
-
-/-- At `p = 2`, the degree-two coefficient is `2`, rather than `4`. -/
-example : canonicalCoeff 2 ℚ 2 = 2 := by
-  sorry
-
 /-- The canonical divided powers on `(p)` in a `ℤ_(p)`-algebra (Stacks, Example 23.2.3), `γ_n(pa) = c_n aⁿ`; the prime
 `p = 2` is included and `A` may have `p`-torsion. -/
 theorem exists_dividedPowers_span_p (p : ℕ) [Fact p.Prime] (A : Type*) [CommRing A]
@@ -312,18 +315,6 @@ theorem existsUnique_dividedPowers_augmentationIdeal :
         DividedPowerAlgebra.dp R n m := by
   sorry
 
-/-- The free rank-one generator over `ZMod 2` has square zero and nonzero second
-  divided generator (test_gammaPD_F2). -/
-example : (DividedPowerAlgebra.dp (ZMod 2) 1 (1 : ZMod 2)) ^ 2 = 0 ∧
-    DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2) ≠ 0 := by
-  sorry
-
-/-- The degree-two and degree-one generators of `Γ_ℤ(ℤ/2)` have additive orders four and two
-  (test_gammaPD_torsion_module). -/
-example : addOrderOf (DividedPowerAlgebra.dp ℤ 2 (1 : ZMod 2)) = 4 ∧
-    addOrderOf (DividedPowerAlgebra.dp ℤ 1 (1 : ZMod 2)) = 2 := by
-  sorry
-
 end CanonicalAugmentationPowers
 
 /-! ### The divided power filtration -/
@@ -340,43 +331,31 @@ def pdFiltration (γ : DividedPowers I) (n : ℕ) : Ideal A :=
 def IsPDNilpotent (γ : DividedPowers I) : Prop :=
   ∃ n, n ≠ 0 ∧ pdFiltration γ n = ⊥
 
-/-- Positive steps of the zero ideal's PD filtration vanish. -/
-example (n : ℕ) (hn : n ≠ 0) : pdFiltration (dividedPowersBot A) n = ⊥ := by
-  sorry
-
+/-- The empty product makes the zeroth divided power filtration step the whole ring (README PD.4). -/
 theorem pdFiltration_zero (γ : DividedPowers I) : pdFiltration γ 0 = ⊤ := by
   rw [eq_top_iff, ← Ideal.span_singleton_one]
   refine Ideal.span_mono ?_
   rintro _ rfl
   exact ⟨0, Fin.elim0, Fin.elim0, fun j ↦ j.elim0, by simp, by simp⟩
 
+/-- The first divided power filtration step is the given ideal (README PD.4). -/
 theorem pdFiltration_one (γ : DividedPowers I) : pdFiltration γ 1 = I := by
   sorry
 
+/-- Ordinary ideal powers lie in the corresponding divided power filtration steps (README PD.4). -/
 theorem pow_le_pdFiltration (γ : DividedPowers I) (n : ℕ) : I ^ n ≤ pdFiltration γ n := by
   sorry
 
-/-- The zero ideal with its unique divided powers is PD nilpotent. -/
-example : IsPDNilpotent (dividedPowersBot A) := by
-  sorry
-
-/-- The canonical 2-adic PD filtration differs from ordinary ideal powers: its second
-step contains `2`, whereas the ordinary square does not. -/
-example :
-    (2 : ℤ_[2]) ∈ pdFiltration (PadicInt.dividedPowers 2) 2 ∧
-      (2 : ℤ_[2]) ∉ (Ideal.span {(2 : ℤ_[2])}) ^ 2 := by
-  sorry
-
 /-- Every positive step of the canonical 2-adic PD filtration is `(2)`
-  (pd_filtration_two_adic_constant). -/
-example (n : ℕ) (hn : 0 < n) :
+  (README PD.4). -/
+theorem pd_filtration_two_adic_constant (n : ℕ) (hn : 0 < n) :
     pdFiltration (PadicInt.dividedPowers 2) n = Ideal.span ({(2 : ℤ_[2])} : Set ℤ_[2]) := by
   sorry
 
 open scoped Classical in
 /-- The square-zero ideal `(2)` of `ZMod 4` supports both PD-nilpotent square-zero powers
-and non-PD-nilpotent canonical powers (test_nilpotent_two_structures). -/
-example :
+and non-PD-nilpotent canonical powers (README PD.4). -/
+theorem test_nilpotent_two_structures :
     let J := Ideal.span {(2 : ZMod 4)}
     ∃ (hJ : J ^ 2 = 0) (γ : DividedPowers J),
       (∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
@@ -386,27 +365,6 @@ example :
       IsPDNilpotent (DividedPowers.OfSquareZero.dividedPowers hJ) ∧
       ¬ IsPDNilpotent γ := by
   classical
-  sorry
-
-/-- Coefficients of the nonsymmetric second-order thickening over `ZMod 2`: the diagonal
-quadratic term is zero on each basis vector and nonzero on their sum, and the symmetric
-cross-product equals `1` in the second-order summand. -/
-example :
-    let q : (ZMod 2 × ZMod 2) → (ZMod 2 × ZMod 2) → ZMod 2 := fun z z' ↦ z.1 * z'.2
-    let e₁ : ZMod 2 × ZMod 2 := (1, 0)
-    let e₂ : ZMod 2 × ZMod 2 := (0, 1)
-    q e₁ e₁ = 0 ∧ q e₂ e₂ = 0 ∧ q (e₁ + e₂) (e₁ + e₂) = 1 ∧
-      q e₁ e₂ + q e₂ e₁ = 1 := by
-  decide
-
-open scoped TensorProduct in
-/-- The tensor-product ring in the identity-leg PD pushout Check has the original carrier. -/
-example : Nonempty ((ZMod 4 ⊗[ℤ] ℤ) ≃ₐ[ℤ] ZMod 4) := by
-  sorry
-
-open scoped TensorProduct in
-/-- The zero-ideal PD pushout of two copies of `ZMod 2` over `ℤ` has the ordinary tensor ring. -/
-example : Nonempty ((ZMod 2 ⊗[ℤ] ZMod 2) ≃ₐ[ℤ] ZMod 2) := by
   sorry
 
 /-- PD nilpotence implies nilpotence of the ideal; the converse fails for `(2) ⊂ ZMod 4`. -/
@@ -422,26 +380,6 @@ def IsCompatibleWith {B : Type*} [CommRing B] (φ : A →+* B) (γ : DividedPowe
     {J : Ideal B} (δ : DividedPowers J) : Prop :=
   ∃ θ : DividedPowers (J ⊔ I.map φ),
     DividedPowers.IsDPMorphism γ θ φ ∧ DividedPowers.IsDPMorphism δ θ (RingHom.id B)
-
-/-- A divided power structure is compatible with itself. -/
-example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) γ γ := by
-  sorry
-
-/-- The zero PD ideal is compatible with every divided power structure on the same ring. -/
-example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) (dividedPowersBot A) γ := by
-  sorry
-
-open scoped Classical in
-/-- On `(2) ⊂ ZMod 4`, square-zero powers are incompatible with the canonical powers along
-the identity: their degree-two values at `2` differ (test_isCompatibleWith_Z4). -/
-example (γ : DividedPowers (Ideal.span {(2 : ZMod 4)}))
-    (hγ : ∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
-      canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n)
-    (hJ : (Ideal.span {(2 : ZMod 4)}) ^ 2 = 0) :
-    ¬ IsCompatibleWith (RingHom.id (ZMod 4)) γ
-      (DividedPowers.OfSquareZero.dividedPowers hJ) := by
-  classical
-  sorry
 
 /-- `(D, J', δ)` with `ι : B → D` is a divided power envelope of `J ⊆ B` relative to `(A, I, γ)`:
 `ι(J) ⊆ J'`, `A → D` is a divided power morphism, and every `A`-algebra map `B → C` sending `J` into
@@ -464,18 +402,6 @@ theorem exists_isPDEnvelope {B : Type u} [CommRing B] [Algebra A B] (γ : Divide
       (ι : B →ₐ[A] D), IsPDEnvelope γ J δ ι := by
   sorry
 
-/-- The identity PD envelope has the original ring and ideal. -/
-example (A : Type u) [CommRing A] (I : Ideal A) (γ : DividedPowers I) :
-    IsPDEnvelope γ I γ (AlgHom.id A A) := by
-  sorry
-
-/-- Over a zero PD base, the envelope of the zero ideal in any algebra is that algebra
-with its zero PD ideal (test_envelope_zero). -/
-example (A B : Type u) [CommRing A] [CommRing B] [Algebra A B] :
-    IsPDEnvelope (dividedPowersBot A) (⊥ : Ideal B) (dividedPowersBot B)
-      (AlgHom.id A B) := by
-  sorry
-
 /-- A compatible-base envelope keeps the quotient `B/J`: its PD ideal may exclude the
 extended base ideal, but their powers have a common extension. Its universal property tests
 PD ideals compatible with the base powers (README PD.6). -/
@@ -496,53 +422,6 @@ theorem exists_isCompatiblePDEnvelope {B : Type u} [CommRing B] [Algebra A B]
     (hquot : IsCompatibleWith (algebraMap A (B ⧸ J)) γ (dividedPowersBot (B ⧸ J))) :
     ∃ (D : Type u) (_ : CommRing D) (_ : Algebra A D) (K : Ideal D) (δ : DividedPowers K)
       (ι : B →ₐ[A] D), IsCompatiblePDEnvelope γ J δ ι := by
-  sorry
-
-/-- With canonical base powers on `(2)`, the identity compatible envelope of `ZMod 4`
-has zero defining ideal, which does not contain the base ideal. The identity is therefore not
-a divided power morphism from the base ideal to the zero ideal (compatible_identity). -/
-example (γ : DividedPowers (Ideal.span {(2 : ZMod 4)}))
-    (hγ : ∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
-      canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n) :
-    IsCompatiblePDEnvelope γ (⊥ : Ideal (ZMod 4)) (dividedPowersBot (ZMod 4))
-      (AlgHom.id (ZMod 4) (ZMod 4)) ∧
-      ¬ Ideal.span {(2 : ZMod 4)} ≤ (⊥ : Ideal (ZMod 4)) ∧
-      ¬ DividedPowers.IsDPMorphism γ (dividedPowersBot (ZMod 4)) (RingHom.id (ZMod 4)) := by
-  sorry
-
-/-- Over `ZMod p` with zero base ideal, the compatible envelope of `(t)` in the polynomial
-ring is the rank-one divided power algebra with its canonical augmentation powers
-(compatible_zero_base). -/
-example (p : ℕ) [Fact p.Prime] :
-    let R := ZMod p
-    let D := DividedPowerAlgebra R R
-    let K : Ideal D := RingHom.ker (DividedPowerAlgebra.lift (dividedPowersBot R)
-      (0 : R →ₗ[R] R) (fun _ ↦ by simp))
-    ∃ δ : DividedPowers K,
-      (∀ (n : ℕ) (a : R), δ.dpow n (DividedPowerAlgebra.dp R 1 a) =
-        DividedPowerAlgebra.dp R n a) ∧
-      IsCompatiblePDEnvelope (dividedPowersBot R) (Ideal.span {(Polynomial.X : Polynomial R)})
-        δ (Polynomial.aeval (DividedPowerAlgebra.dp R 1 (1 : R))) := by
-  sorry
-
-open scoped Classical in
-/-- The truncated powers on `(t) ⊂ F_p[t]/(t^p)` make a proper quotient of the universal
-envelope `F_p⟨t⟩`: the identity is neither envelope over the zero PD base
-(test_envelope_truncated, compatible_truncated). -/
-example (p : ℕ) [Fact p.Prime] :
-    let B := Polynomial (ZMod p) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod p)) ^ p}
-    let t : B := Ideal.Quotient.mk _ Polynomial.X
-    let J : Ideal B := Ideal.span {t}
-    let hpB : IsNilpotent (p : B) := by
-      have hp : (p : B) = 0 := by
-        simpa only [map_natCast, map_zero] using
-          congrArg (algebraMap (ZMod p) B) (CharP.cast_eq_zero (ZMod p) p)
-      exact hp ▸ IsNilpotent.zero
-    ∃ hJ : J ^ p = 0,
-      ¬ IsPDEnvelope (dividedPowersBot (ZMod p)) J (DividedPowers.IsNilpotent.dividedPowers hpB hJ)
-        (AlgHom.id (ZMod p) B) ∧
-      ¬ IsCompatiblePDEnvelope (dividedPowersBot (ZMod p)) J
-        (DividedPowers.IsNilpotent.dividedPowers hpB hJ) (AlgHom.id (ZMod p) B) := by
   sorry
 
 end PD
@@ -646,28 +525,6 @@ abbrev wedge {m n : ℕ} (x : Forms A B m) (y : Forms A B n) : Forms A B (m + n)
 abbrev zeroForm (b : B) : Forms A B 0 :=
   (exteriorPower.zeroEquiv B (KaehlerDifferential A B)).symm b
 
-/-- A degree-zero wedge factor acts by scalar multiplication (test_wedge_scalar). -/
-example {n : ℕ} (b : B) (y : Forms A B n) :
-    (wedge A B (zeroForm A B b) y).val = b • y.val := by
-  sorry
-
-/-- The oriented two-form on `ℤ[X,Y]` is nonzero and changes sign under swapping its
-one-form factors (test_wedge_orientation). -/
-example :
-    let B := MvPolynomial (Fin 2) ℤ
-    let dx := elementary ℤ B 1 1 (fun _ => MvPolynomial.X 0)
-    let dy := elementary ℤ B 1 1 (fun _ => MvPolynomial.X 1)
-    (wedge ℤ B dx dy).val = -(wedge ℤ B dy dx).val ∧ wedge ℤ B dx dy ≠ 0 := by
-  sorry
-
-/-- A repeated one-form has zero wedge square also in characteristic two
-(test_wedge_char_two). -/
-example :
-    let B := Polynomial (ZMod 2)
-    let dx := elementary (ZMod 2) B 1 1 (fun _ => Polynomial.X)
-    wedge (ZMod 2) B dx dx = 0 := by
-  sorry
-
 /-- The six relation families: coefficient additivity, base scalars, slot additivity, slot Leibniz,
 base constants in a slot, and strict alternation. Only additive and `A`-scalar closure in the
 coefficient is imposed. -/
@@ -703,26 +560,13 @@ theorem symbolRelations_slot_mul (n : ℕ) (c x y : B) (v : Fin n → B) (i : Fi
       sym A B n (c * y) (Function.update v i x) ∈ symbolRelations A B n := by
   sorry
 
--- `[0; ()]` is a relation, whereas the unit `[1; ()]` is not.
-example : sym A B 0 0 Fin.elim0 ∈ symbolRelations A B 0 := by
-  sorry
-
-example : sym ℤ ℤ 0 1 Fin.elim0 ∉ symbolRelations ℤ ℤ 0 := by
-  sorry
-
--- A differential slot filled with an element of `A` is a relation.
-example (c : B) (a : A) : sym A B 1 c (fun _ => algebraMap A B a) ∈ symbolRelations A B 1 := by
-  sorry
-
--- `[1; X]` over `ℤ[X]` is not a relation, since `dX ≠ 0`.
-example : sym ℤ (Polynomial ℤ) 1 1 (fun _ => Polynomial.X) ∉ symbolRelations ℤ (Polynomial ℤ) 1 := by
-  sorry
-
--- Over `F₂` the diagonal degree-two symbol is itself a relation.
+-- Strict alternation includes diagonal symbols in characteristic two.
 example (x : Polynomial (ZMod 2)) :
     sym (ZMod 2) (Polynomial (ZMod 2)) 2 1 (fun _ => x) ∈
       symbolRelations (ZMod 2) (Polynomial (ZMod 2)) 2 := by
-  sorry
+  apply Submodule.subset_span
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+    ⟨1, (fun _ => x), (0 : Fin 2), 1, by decide, rfl, rfl⟩))))
 
 /-- The evaluation `qₙ : Sₙ → Ωⁿ`, `[c; v] ↦ c dv₁ ∧ … ∧ dvₙ` (README 2.2). -/
 def symbolMap (n : ℕ) : Symbols A B n →ₗ[A] Forms A B n :=
@@ -741,31 +585,6 @@ theorem symbolMap_add (n : ℕ) (x y : Symbols A B n) :
 /-- `qₙ` is `A`-linear. -/
 theorem symbolMap_smul (n : ℕ) (a : A) (s : Symbols A B n) :
     symbolMap A B n (a • s) = a • symbolMap A B n s := by
-  sorry
-
--- In weight zero evaluation agrees with `zeroEquiv`.
-example (c : B) :
-    (exteriorPower.zeroEquiv B (KaehlerDifferential A B)) (symbolMap A B 0 (sym A B 0 c Fin.elim0)) =
-      c := by
-  sorry
-
--- In weight one evaluation is `c` times the universal derivation.
-example (c x : B) :
-    (exteriorPower.oneEquiv B (KaehlerDifferential A B)) (symbolMap A B 1 (sym A B 1 c (fun _ => x))) =
-      c • KaehlerDifferential.D A B x := by
-  sorry
-
--- The image of `[c; x, x]` is zero in every characteristic.
-example (c x : B) : symbolMap A B 2 (sym A B 2 c (fun _ => x)) = 0 := by
-  sorry
-
--- Over `ℤ[X,Y]`, degree-two evaluation is the nonzero exterior basis form.
-example :
-    let B := MvPolynomial (Fin 2) ℤ
-    let v : Fin 2 → B := fun i => MvPolynomial.X i
-    symbolMap ℤ B 2 (sym ℤ B 2 1 v) =
-        exteriorPower.ιMulti B 2 (fun i => KaehlerDifferential.D ℤ B (v i)) ∧
-      symbolMap ℤ B 2 (sym ℤ B 2 1 v) ≠ 0 := by
   sorry
 
 /-- The symbol map is surjective: elementary forms span `Ωⁿ` over `A` (README 2.3). -/
@@ -798,29 +617,6 @@ theorem freeDifferential_add (n : ℕ) (s t : Symbols A B n) :
 /-- `δₙ` is `A`-linear. -/
 theorem freeDifferential_smul (n : ℕ) (a : A) (s : Symbols A B n) :
     freeDifferential A B n (a • s) = a • freeDifferential A B n s := by
-  sorry
-
--- Symbols with coefficient one have zero differential.
-example (n : ℕ) (v : Fin n → B) : freeDifferential A B n (sym A B n 1 v) = 0 := by
-  sorry
-
--- In weight zero the free differential is `D` after `oneEquiv`.
-example (c : B) :
-    (exteriorPower.oneEquiv B (KaehlerDifferential A B))
-        (freeDifferential A B 0 (sym A B 0 c Fin.elim0)) = KaehlerDifferential.D A B c := by
-  sorry
-
--- `δ₁([x; x]) = 0`, while over `ℤ[X, Y]` the oriented form `dX ∧ dY` is nonzero.
-example (x : B) : freeDifferential A B 1 (sym A B 1 x (fun _ => x)) = 0 := by
-  sorry
-
-example :
-    let B := MvPolynomial (Fin 2) ℤ
-    let dx := KaehlerDifferential.D ℤ B (MvPolynomial.X 0)
-    let dy := KaehlerDifferential.D ℤ B (MvPolynomial.X 1)
-    freeDifferential ℤ B 1 (sym ℤ B 1 (MvPolynomial.X 0) (fun _ => MvPolynomial.X 1)) =
-        exteriorPower.ιMulti B 2 (Fin.cons dx (fun _ => dy)) ∧
-      exteriorPower.ιMulti B 2 (Fin.cons dx (fun _ => dy)) ≠ 0 := by
   sorry
 
 /-- The free differential kills every relation (README 2.6). -/
@@ -878,67 +674,11 @@ theorem IsDeRhamDifferential.polynomial_not_linear (R : Type u) [CommRing R] [No
       (Polynomial.X : Polynomial R) • f (zeroForm R (Polynomial R) 1) := by
   sorry
 
--- The differential of a base constant is zero.
-example {f : Forms A B 0 →ₗ[A] Forms A B (0 + 1)} (hf : IsDeRhamDifferential A B 0 f) (a : A) :
-    f (zeroForm A B (algebraMap A B a)) = 0 := by
-  sorry
-
--- The differential of `X` in `ℤ[X]` is nonzero, so the zero operator fails.
-example {f : Forms ℤ (Polynomial ℤ) 0 →ₗ[ℤ] Forms ℤ (Polynomial ℤ) (0 + 1)}
-    (hf : IsDeRhamDifferential ℤ (Polynomial ℤ) 0 f) :
-    f (zeroForm ℤ (Polynomial ℤ) Polynomial.X) ≠ 0 := by
-  sorry
-
--- The differential of `X` in `F₂[X]` over `F₂` is still nonzero.
-example {f : Forms (ZMod 2) (Polynomial (ZMod 2)) 0 →ₗ[ZMod 2]
-      Forms (ZMod 2) (Polynomial (ZMod 2)) (0 + 1)}
-    (hf : IsDeRhamDifferential (ZMod 2) (Polynomial (ZMod 2)) 0 f) :
-    f (zeroForm (ZMod 2) (Polynomial (ZMod 2)) Polynomial.X) ≠ 0 := by
-  sorry
-
--- In `ℤ[X, Y]`, `d(X dY) = dX ∧ dY`, and this two-form is nonzero.
-example {f : Forms ℤ (MvPolynomial (Fin 2) ℤ) 1 →ₗ[ℤ] Forms ℤ (MvPolynomial (Fin 2) ℤ) (1 + 1)}
-    (hf : IsDeRhamDifferential ℤ (MvPolynomial (Fin 2) ℤ) 1 f) :
-    let B := MvPolynomial (Fin 2) ℤ
-    let dx := KaehlerDifferential.D ℤ B (MvPolynomial.X 0)
-    let dy := KaehlerDifferential.D ℤ B (MvPolynomial.X 1)
-    f (elementary ℤ B 1 (MvPolynomial.X 0) (fun _ => MvPolynomial.X 1)) ≠ 0 ∧
-      f (elementary ℤ B 1 (MvPolynomial.X 0) (fun _ => MvPolynomial.X 1)) =
-        exteriorPower.ιMulti B 2 (Fin.cons dx (fun _ => dy)) := by
-  sorry
-
 /-- The differential is linear for the Frobenius-twisted action: `d(bᵖ ω) = bᵖ dω` in
 characteristic `p` (`d_frobenius_smul`, README 3.1). -/
 theorem IsDeRhamDifferential.frobenius_smul (p : ℕ) [Fact p.Prime] [CharP A p] [CharP B p]
     {n : ℕ} {f : Forms A B n →ₗ[A] Forms A B (n + 1)} (hf : IsDeRhamDifferential A B n f)
     (b : B) (x : Forms A B n) : f (b ^ p • x) = b ^ p • f x := by
-  sorry
-
--- In characteristic two, `d(X³) = X² dX`.
-example {f : Forms (ZMod 2) (Polynomial (ZMod 2)) 0 →ₗ[ZMod 2]
-      Forms (ZMod 2) (Polynomial (ZMod 2)) (0 + 1)}
-    (hf : IsDeRhamDifferential (ZMod 2) (Polynomial (ZMod 2)) 0 f) :
-    f (zeroForm (ZMod 2) (Polynomial (ZMod 2)) (Polynomial.X ^ 3)) =
-      (Polynomial.X : Polynomial (ZMod 2)) ^ 2 •
-        f (zeroForm (ZMod 2) (Polynomial (ZMod 2)) Polynomial.X) := by
-  sorry
-
--- A nonzero p-th power has zero differential over `F_p`.
-example (p : ℕ) [Fact p.Prime]
-    {f : Forms (ZMod p) (Polynomial (ZMod p)) 0 →ₗ[ZMod p]
-      Forms (ZMod p) (Polynomial (ZMod p)) (0 + 1)}
-    (hf : IsDeRhamDifferential (ZMod p) (Polynomial (ZMod p)) 0 f) :
-    f (zeroForm (ZMod p) (Polynomial (ZMod p)) (Polynomial.X ^ p)) = 0 ∧
-      (Polynomial.X : Polynomial (ZMod p)) ^ p ≠ 0 := by
-  sorry
-
--- Over `F₃`, the ordinary polynomial action does not make the differential linear.
-example {f : Forms (ZMod 3) (Polynomial (ZMod 3)) 0 →ₗ[ZMod 3]
-      Forms (ZMod 3) (Polynomial (ZMod 3)) (0 + 1)}
-    (hf : IsDeRhamDifferential (ZMod 3) (Polynomial (ZMod 3)) 0 f) :
-    f (zeroForm (ZMod 3) (Polynomial (ZMod 3)) (Polynomial.X ^ 2)) ≠
-      (Polynomial.X : Polynomial (ZMod 3)) •
-        f (zeroForm (ZMod 3) (Polynomial (ZMod 3)) Polynomial.X) := by
   sorry
 
 variable {A B}
@@ -998,23 +738,10 @@ theorem IsFormPullback.comp_apply {f : B →ₐ[A] C} {f' : C →ₐ[A] E} {n : 
     (hg'' : IsFormPullback (f'.comp f) n g'') (x : Forms A B n) : g'' x = g' (g x) := by
   sorry
 
--- Degree-zero pullback is `f` under `Ω⁰ ≃ B`.
-example {f : B →ₐ[A] C} {g : Forms A B 0 →ₛₗ[f.toRingHom] Forms A C 0}
+/-- Degree-zero pullback agrees with `f` under `Ω⁰ ≃ B` (README 2.13). -/
+theorem IsFormPullback.zero_degree {f : B →ₐ[A] C} {g : Forms A B 0 →ₛₗ[f.toRingHom] Forms A C 0}
     (hg : IsFormPullback f 0 g) (b : B) : g (zeroForm A B b) = zeroForm A C (f b) := by
   sorry
-
--- Degree-one pullback is the supplied semilinear map on Kähler differentials.
-example {f : B →ₐ[A] C} {g : Forms A B 1 →ₛₗ[f.toRingHom] Forms A C 1}
-    (hg : IsFormPullback f 1 g) (x : Forms A B 1) :
-    (exteriorPower.oneEquiv C (KaehlerDifferential A C)) (g x) =
-      KaehlerDifferential.mapSemilinear f
-        ((exteriorPower.oneEquiv B (KaehlerDifferential A B)) x) := by
-  exact IsFormPullback.one_eq_mapSemilinear hg x
-
--- Identity pullback fixes every degree-two form.
-example {g : Forms A B 2 →ₛₗ[(AlgHom.id A B).toRingHom] Forms A B 2}
-    (hg : IsFormPullback (AlgHom.id A B) 2 g) (x : Forms A B 2) : g x = x := by
-  exact IsFormPullback.id_apply hg x
 
 end DeRham
 
@@ -1072,44 +799,13 @@ theorem teichmuller_sub_one_mem_ker_fontaineTheta (O : Type) [CommRing O] (p : �
     WittVector.teichmuller p ε - 1 ∈ RingHom.ker (WittVector.fontaineTheta O p) := by
   sorry
 
--- The identity system lies in `Z_p(1)`.
-example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
-    [IsAdicComplete (Ideal.span {(p : O)}) O] : (1 : PreTilt O p) ∈ compatibleRootsOfUnity O p := by
-  sorry
-
 /-- An untilt different from `1` excludes membership in the compatible root systems
 (test_period_roots_kernel). -/
 example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
     [IsAdicComplete (Ideal.span {(p : O)}) O] (x : PreTilt O p) (hx : PreTilt.untilt x ≠ 1) :
     x ∉ compatibleRootsOfUnity O p := by
-  sorry
-
-/-- Compatible root systems are closed under natural powers (test_period_roots_closure). -/
-example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
-    [IsAdicComplete (Ideal.span {(p : O)}) O] (ε : PreTilt O p)
-    (hε : ε ∈ compatibleRootsOfUnity O p) (n : ℕ) :
-    ε ^ n ∈ compatibleRootsOfUnity O p := by
-  sorry
-
-/-- Compatible root systems are closed under multiplication (test_period_roots_closure). -/
-example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
-    [IsAdicComplete (Ideal.span {(p : O)}) O] (ε η : PreTilt O p)
-    (hε : ε ∈ compatibleRootsOfUnity O p) (hη : η ∈ compatibleRootsOfUnity O p) :
-    ε * η ∈ compatibleRootsOfUnity O p := by
-  sorry
-
-/-- The inverse of a unit root system is again compatible (test_period_roots_closure). -/
-example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
-    [IsAdicComplete (Ideal.span {(p : O)}) O] (ε : (PreTilt O p)ˣ)
-    (hε : (ε : PreTilt O p) ∈ compatibleRootsOfUnity O p) :
-    (↑(ε⁻¹) : PreTilt O p) ∈ compatibleRootsOfUnity O p := by
-  sorry
-
--- An element with untilt different from `1` gives `[x] − 1 ∉ ker θ`.
-example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
-    [IsAdicComplete (Ideal.span {(p : O)}) O] (x : PreTilt O p) (hx : PreTilt.untilt x ≠ 1) :
-    WittVector.teichmuller p x - 1 ∉ RingHom.ker (WittVector.fontaineTheta O p) := by
-  sorry
+  change PreTilt.untilt x ≠ 1
+  exact hx
 
 -- `B_dR⁺` and `B_dR` of README 5.13–5.14 are Mathlib's.
 #check @BDeRhamPlus

@@ -459,7 +459,8 @@ are not substituted.
 
 *Needs:* Mathlib `KaehlerDifferential.D`, `frobenius`.
 
-Lean: `DerivedDeRham.IsPBasis`, `DerivedDeRham.pBasis_kaehler_basis`.
+Lean: `DerivedDeRham.IsPBasis`, `DerivedDeRham.pBasis_kaehler_basis`,
+`DerivedDeRham.test_pbasis_transcendence_not_enough`.
 
 **Checks.**
 
@@ -526,7 +527,8 @@ Proposition 5.1, not a general identification of complete flatness and ordinary 
 *Needs:* DerivedModuleAlgebra §1.7 Complete flatness and complete faithful flatness;
 DerivedModuleAlgebra §1.5 When ordinary quotient towers compute completion.
 
-Lean: `DerivedDeRham.ordinaryFlatnessFromCompleteFlatness`.
+Lean: `DerivedDeRham.ordinaryFlatnessFromCompleteFlatness`,
+`DerivedDeRham.ordinaryFaithfulFlatnessFromCompleteFaithfulFlatness`.
 
 ### 1.11 Quotient completeness under a nonzerodivisor condition
 
@@ -849,7 +851,8 @@ negative-degree Ext defined to be zero. This is [BMS19] Proposition 5.6; it is n
 *Needs:* Layer 1: The Beilinson heart is the category of complexes; Layer 1: The Beilinson
 t-structure; Mathlib `CategoryTheory.Abelian.Ext`.
 
-Lean: `DerivedDeRham.complexHeartExt`.
+Lean: `DerivedDeRham.complexHeartExt`, `DerivedDeRham.complexHeartExt_positive_shift`,
+`DerivedDeRham.complexHeartExt_negative_total`.
 
 **Checks.**
 
@@ -1612,7 +1615,8 @@ all finite products `γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ)`, where `xⱼ∈I`, `eⱼ
 with total degree zero. Thus the convention at `n=0` is intrinsic to the same formula. The carrier is
 `Ideal R` and the operations are those of the given `DividedPowers I`.
 
-`Suggested.lean` declares `PD.pdFiltration`, `PD.pdFiltration_zero`, `PD.pdFiltration_one`.
+`Suggested.lean` declares `PD.pdFiltration`, `PD.pdFiltration_zero`, `PD.pdFiltration_one`
+and the boundary theorem `PD.pd_filtration_two_adic_constant`.
 
 *Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `n` and the weights `e_j` are natural numbers, the `x_j` are elements of `I`, and the
 empty product (value 1, weight 0) is allowed.
@@ -1840,7 +1844,8 @@ powers induced from `ℤ₂` satisfies `(2)²=0` and is not PD-nilpotent; the au
 lies in the nilradical (`y^p=p!·γ_p(y)=0`) and is not nilpotent. If `p` is a prime that is nilpotent in
 `R/I`, then `I≤nilradical R` if and only if `p` is nilpotent in `R`.
 
-`Suggested.lean` declares `PD.IsPDNilpotent`, `PD.IsPDNilpotent.isNilpotent`.
+`Suggested.lean` declares `PD.IsPDNilpotent`, `PD.IsPDNilpotent.isNilpotent`
+and the boundary theorem `PD.test_nilpotent_two_structures`.
 
 *Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). In the last sentence `p` is a prime number and some power of `p` lies in `I`.
 
@@ -2329,10 +2334,9 @@ Mathlib `DividedPowers.SubDPIdeal` and `DividedPowers.Quotient.dividedPowers`.
 - `compatible_identity`: For `B=A=ℤ/4`, `J=0` and the canonical powers on `I=(2)`, `D=A` and `K=0`;
   `ID=(2)` is not contained in `K`. The zero PD ideal is compatible with the base powers, but the
   identity is not a PD morphism from `(I,γ)` to `(0,0)`, since 2 does not map to zero.
-  `Suggested.lean` mirrors this compatible identity envelope and the failure of a base PD morphism.
 - `compatible_zero_base`: For `A=𝔽_p`, `I=0`, `B=𝔽_p[t]`, `J=(t)`, `D=𝔽_p⟨t⟩` with its augmentation
   ideal `K` and `D/K=𝔽_p`. The map sends `t` to `dp₁(1)` and the canonical powers satisfy
-  `δ_n(dp₁(a))=dp_n(a)`, as in the Lean example.
+  `δ_n(dp₁(a))=dp_n(a)`.
 - `compatible_truncated`: For `B=𝔽_p[t]/(t^p)`, `J=(t)` and the truncated divided powers of
   `test_envelope_truncated`, the identity of `B` is not a compatible-base envelope over
   `(𝔽_p,0)`: the universal envelope still has the nonzero generator `t^[p]`.
@@ -3126,7 +3130,7 @@ Prove the following named laws.
 - `test_complex_two_steps`: the first two arrows compose to zero on each `b`.
 - `test_complex_base_ring`: over `A → A` the first differential is zero.
 - `test_complex_positive_differential`: over `ℤ[X,Y]`, the degree-one differential sends
-  `X dY` to `dX ∧ dY ≠ 0`, as in the `IsDeRhamDifferential` example in `Suggested.lean`.
+  `X dY` to `dX ∧ dY ≠ 0`.
 
 *Pullback and the ordinary universal property.*
 
@@ -3139,7 +3143,8 @@ For an `A`-algebra homomorphism `f : B → C`, extend the pinned `KaehlerDiffere
 `f`-semilinear maps `f*ₙ : Ωⁿ_(B/A) → Ωⁿ_(C/A)`, `DeRham.pullback f n`. On elementary forms,
 `c Dv₁ ∧ … ∧ Dvₙ` maps to `f(c) D(fv₁) ∧ … ∧ D(fvₙ)`; this characterization is the predicate
 `DeRham.IsFormPullback` of `Suggested.lean`, with existence and uniqueness stated as
-`DeRham.existsUnique_isFormPullback`. These maps are `A`-linear as well, but in general are not
+`DeRham.existsUnique_isFormPullback`; `DeRham.IsFormPullback.zero_degree` identifies degree-zero
+pullback with `f`. These maps are `A`-linear as well, but in general are not
 `B`-linear for an unrelated `B`-action on `C`. The intended Lean signature is
 
 ```lean
