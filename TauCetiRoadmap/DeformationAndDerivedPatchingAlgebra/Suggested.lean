@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Algebra.Homology.LinearHomComplex.Basic
 
 /-!
 # DeformationAndDerivedPatchingAlgebra: representative target signatures
@@ -8,7 +9,9 @@ statable against the pinned Mathlib and Tau Ceti APIs; it is not exhaustive.
 The choices made explicit here are the cumulative exponent n + 1, intrinsic versus
 ambient multiplicity, near faithfulness through the nilradical, actual square
 presentations, strict native cochain representatives and cohomological indexing.
-Heavy coefficient, duality and patching objects remain targets in the README.
+The headline signatures use finite group rings, native perfect representatives,
+linear Hom complexes and residue Ext. The normalized dualizing-complex and
+paired spectral-action statements retain their full contracts in the README.
 
 Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a;
 Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
@@ -24,6 +27,171 @@ namespace TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
 
 variable (A : Type u) [CommRing A]
 variable (M : Type v) [AddCommGroup M] [Module A M]
+
+/-! ## Native conventions for the headline statements -/
+
+open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
+attribute [local instance] HasDerivedCategory.standard
+
+/-- Native derived module objects. -/
+abbrev Der (R : Type u) [CommRing R] := DerivedCategory (ModuleCat.{u} R)
+
+/-- Native integer-indexed cochain complexes. -/
+abbrev Cpx (R : Type u) [CommRing R] := CochainComplex (ModuleCat.{u} R) ℤ
+
+/-- Cohomology in the native module category. -/
+abbrev H {R : Type u} [CommRing R] (i : ℤ) (C : Der R) :=
+  (DerivedCategory.homologyFunctor (ModuleCat R) i).obj C
+
+/-- A square finite presentation permits zero generators and does not require injectivity. -/
+def HasSquarePresentation (S : Type*) [Ring S]
+    (N : Type*) [AddCommGroup N] [Module S N] : Prop :=
+  ∃ d : ℕ, ∃ f : (Fin d → S) →ₗ[S] (Fin d → S),
+    ∃ g : (Fin d → S) →ₗ[S] N,
+      Function.Surjective g ∧ LinearMap.range f = LinearMap.ker g
+
+/-- Complex support is the union of the supports of its native cohomology modules. -/
+def derivedSupport {R : Type u} [CommRing R] (C : Der R) : Set (PrimeSpectrum R) :=
+  ⋃ i : ℤ, Module.support R (H i C)
+
+/-- The cohomology annihilator uses an intersection, not a sum or the derived-action kernel. -/
+def cohomologyAnnihilator {R : Type u} [CommRing R] (C : Der R) : Ideal R :=
+  ⨅ i : ℤ, Module.annihilator R (H i C)
+
+/-- The finite Taylor–Wiles group ring at the positive level n + 1. -/
+abbrev PatchingGroupRing (O : Type u) [CommRing O] (p q n : ℕ) :=
+  MonoidAlgebra O (Multiplicative (Fin q → ZMod (p ^ (n + 1))))
+
+/-! ## Headline theorems -/
+
+/-- Balanced finite-level modules with compatible scalar images and augmentation give a free
+specialized module over the deformation quotient. -/
+theorem balanced_module_patching
+    (p q : ℕ) [Fact p.Prime] (hp : 3 ≤ p) (hq : 1 ≤ q)
+    (O R : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)]
+    [Algebra ℤ_[p] O] [Module.Finite ℤ_[p] O] [CharZero O]
+    [CharP (ResidueField O) p]
+    [CommRing R] [IsLocalRing R] [IsNoetherianRing R] [Algebra O R]
+    [IsLocalHom (algebraMap O R)] [IsAdicComplete (maximalIdeal R) R]
+    (H₀ : Type u) [AddCommGroup H₀] [Module O H₀] [Module R H₀]
+    [IsScalarTower O R H₀] [Module.Finite O H₀] [Module.Finite R H₀]
+    (X : ℕ → Type u) [∀ n, AddCommGroup (X n)]
+    [∀ n, Module O (X n)] [∀ n, Module (PatchingGroupRing O p q n) (X n)]
+    [∀ n, IsScalarTower O (PatchingGroupRing O p q n) (X n)]
+    (hfinite : ∀ n, Module.Finite (PatchingGroupRing O p q n) (X n))
+    (hbalanced : ∀ n, HasSquarePresentation (PatchingGroupRing O p q n) (X n))
+    (φ : ℕ → MvPowerSeries (Fin (q - 1)) O →ₐ[O] R)
+    (hφ : ∀ n, Function.Surjective (φ n))
+    (hlocal : ∀ n, IsLocalHom (φ n).toRingHom)
+    (α : ∀ n, MvPowerSeries (Fin (q - 1)) O →ₐ[O]
+      Module.End (PatchingGroupRing O p q n) (X n))
+    (ψ : ∀ n, X n →ₗ[O] H₀) (hψ : ∀ n, Function.Surjective (ψ n))
+    (hequiv : ∀ n a x, ψ n (α n a x) = φ n a • ψ n x)
+    (hcoinvariants : ∀ n, LinearMap.ker (ψ n) =
+      ((RingHom.ker (MonoidAlgebra.lift O O
+        (Multiplicative (Fin q → ZMod (p ^ (n + 1)))) 1).toRingHom) •
+          (⊤ : Submodule (PatchingGroupRing O p q n) (X n))).restrictScalars O)
+    (hscalar : ∀ n (s : PatchingGroupRing O p q n), ∃ a, ∀ x : X n,
+      s • x = α n a x)
+    (haugmentation : ∀ n (s : PatchingGroupRing O p q n),
+      s ∈ RingHom.ker (MonoidAlgebra.lift O O
+        (Multiplicative (Fin q → ZMod (p ^ (n + 1)))) 1).toRingHom →
+      ∃ a ∈ RingHom.ker (φ n).toRingHom, ∀ x : X n, s • x = α n a x) :
+    Module.Free R H₀ := by
+  sorry
+
+/-- Over a regular local ring, a nonzero finite-projective interval has support of codimension at most its width. -/
+theorem codimension_amplitude_inequality
+    {R : Type u} [CommRing R] [IsRegularLocalRing R]
+    (C : Der R) (n l : ℕ) (a : ℤ)
+    (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
+    (hC : ¬ IsZero C) (P : Cpx R)
+    (hbound : ∀ i, i < a ∨ a + l < i → IsZero (P.X i))
+    (hfinite : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i))
+    (e : DerivedCategory.Q.obj P ≅ C) :
+    ∃ p : PrimeSpectrum R, p ∈ derivedSupport C ∧
+      (n - l : WithBot ℕ∞) ≤ ringKrullDim (R ⧸ p.asIdeal) := by
+  sorry
+
+/-- The matching support bound forces top-degree concentration with the predicted projective and support dimensions. -/
+theorem balanced_dimension_concentration
+    {R : Type u} [CommRing R] [IsRegularLocalRing R]
+    (C : Der R) (n l : ℕ) (a : ℤ)
+    (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
+    (hC : ¬ IsZero C) (P : Cpx R)
+    (hbound : ∀ i, i < a ∨ a + l < i → IsZero (P.X i))
+    (hfinite : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i))
+    (e : DerivedCategory.Q.obj P ≅ C)
+    (hsupport : ∀ p ∈ derivedSupport C,
+      ringKrullDim (R ⧸ p.asIdeal) ≤ (n - l : WithBot ℕ∞)) :
+    (∀ i : ℤ, i ≠ a + l → IsZero (H i C)) ∧ ¬ IsZero (H (a + l) C) ∧
+      CategoryTheory.projectiveDimension (H (a + l) C) = l ∧
+      Module.supportDim R (H (a + l) C) = (n - l : WithBot ℕ∞) ∧
+      (∀ j : ℕ, j ≠ n - l → IsZero
+        ((localCohomology (maximalIdeal R) j).obj (H (a + l) C))) ∧
+      ¬ IsZero ((localCohomology (maximalIdeal R) (n - l)).obj (H (a + l) C)) := by
+  sorry
+
+/-- The signed dual of a balanced patched representative concentrates at the dual endpoint;
+its remaining module is the canonical CM dual expressed as Ext over the regular base. -/
+theorem patched_dual_concentration
+    {R : Type u} [CommRing R] [IsRegularLocalRing R]
+    (C : Der R) (n l : ℕ) (a : ℤ)
+    (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
+    (hC : ¬ IsZero C) (P : Cpx R)
+    (hbound : ∀ i, i < a ∨ a + l < i → IsZero (P.X i))
+    (hfinite : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i))
+    (e : DerivedCategory.Q.obj P ≅ C)
+    (hsupport : ∀ p ∈ derivedSupport C,
+      ringKrullDim (R ⧸ p.asIdeal) ≤ (n - l : WithBot ℕ∞)) :
+    let D := TauCeti.linearHomComplex R P
+      ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0).obj
+        (ModuleCat.of R R))
+    (∀ i : ℤ, i ≠ -a → IsZero (H i (DerivedCategory.Q.obj D))) ∧
+      Nonempty (H (-a) (DerivedCategory.Q.obj D) ≅
+        ModuleCat.of R (CategoryTheory.Abelian.Ext (H (a + l) C) (ModuleCat.of R R) l)) := by
+  sorry
+
+/-- Two complete regular coefficient sources compute the same canonical dual through
+finite faithful action quotients, expressed as an additive equivalence of Ext groups. -/
+theorem finiteActionCanonicalDuality_ext
+    (S Q R : Type u) [CommRing S] [IsRegularLocalRing S]
+    [IsAdicComplete (maximalIdeal S) S]
+    [CommRing Q] [IsRegularLocalRing Q] [IsAdicComplete (maximalIdeal Q) Q]
+    [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    [IsAdicComplete (maximalIdeal R) R]
+    [Algebra S R] [IsLocalHom (algebraMap S R)]
+    [Algebra Q R] [IsLocalHom (algebraMap Q R)]
+    (N : Type u) [AddCommGroup N] [Module R N] [Module S N] [Module Q N]
+    [IsScalarTower S R N] [IsScalarTower Q R N]
+    [Module.Finite R N] [Module.Finite S N] [Module.Finite Q N]
+    (d e r : ℕ) (hS : ringKrullDim S = d) (hQ : ringKrullDim Q = e)
+    (hrS : r ≤ d) (hrQ : r ≤ e) :
+    Nonempty (CategoryTheory.Abelian.Ext (ModuleCat.of S N) (ModuleCat.of S S) (d - r) ≃+
+      CategoryTheory.Abelian.Ext (ModuleCat.of Q N) (ModuleCat.of Q Q) (e - r)) := by
+  sorry
+
+/-- Paired perfect representatives with isomorphic derived reductions have the same
+cohomological support along the coefficient divisor. -/
+theorem paired_support_mod_uniformizer
+    {R : Type u} [CommRing R] [IsNoetherianRing R]
+    (π : R) (P Q : Cpx R)
+    (hfiniteP : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i))
+    (hfiniteQ : ∀ i, Module.Finite R (Q.X i) ∧ Module.Projective R (Q.X i))
+    (a b c d : ℤ)
+    (hboundP : ∀ i, i < a ∨ b < i → IsZero (P.X i))
+    (hboundQ : ∀ i, i < c ∨ d < i → IsZero (Q.X i))
+    (e : DerivedCategory.Q.obj
+        (((ModuleCat.extendScalars (Ideal.Quotient.mk (Ideal.span {π}))).mapHomologicalComplex
+          (ComplexShape.up ℤ)).obj P) ≅
+      DerivedCategory.Q.obj
+        (((ModuleCat.extendScalars (Ideal.Quotient.mk (Ideal.span {π}))).mapHomologicalComplex
+          (ComplexShape.up ℤ)).obj Q)) :
+    derivedSupport (DerivedCategory.Q.obj P) ∩ PrimeSpectrum.zeroLocus {π} =
+      derivedSupport (DerivedCategory.Q.obj Q) ∩ PrimeSpectrum.zeroLocus {π} := by
+  sorry
 
 /-!
 Layers 1–2 are specified in README.md, §§1.1–2.8. The small-extension predicate
@@ -274,13 +442,6 @@ theorem exists_integral_point_of_not_nilpotent
 
 /-! ## Layer 5: Balanced module presentations -/
 
-/-- A square finite presentation permits zero generators and does not require injectivity. -/
-def HasSquarePresentation (S : Type*) [Ring S]
-    (N : Type*) [AddCommGroup N] [Module S N] : Prop :=
-  ∃ d : ℕ, ∃ f : (Fin d → S) →ₗ[S] (Fin d → S),
-    ∃ g : (Fin d → S) →ₗ[S] N,
-      Function.Surjective g ∧ LinearMap.range f = LinearMap.ker g
-
 /-- A presentation with at most as many relations as generators can be made square by zero columns. -/
 theorem square_presentation_iff_generator_relation_inequality
     [IsLocalRing A] [IsNoetherianRing A] [Module.Finite A M] :
@@ -313,6 +474,13 @@ theorem nearlyFaithful_iff_full_support [Module.Finite A M] :
     NearlyFaithful A M ↔ Module.support A M = Set.univ := by
   sorry
 
+/-- Quotienting a finite nearly faithful module gives precisely the radical of the
+coefficient ideal as its annihilator radical. -/
+theorem nearlyFaithful_quotient_annihilator [Module.Finite A M]
+    (hM : NearlyFaithful A M) (I : Ideal A) :
+    (Module.annihilator A (M ⧸ (I • (⊤ : Submodule A M)))).radical = I.radical := by
+  sorry
+
 /-- A reduced source and full support force a surjective action-compatible quotient map to be injective. -/
 theorem reduced_quotient_identification
     {B : Type w} [CommRing B] [IsNoetherianRing A] [IsReduced A]
@@ -336,20 +504,6 @@ example [Nontrivial A] [Subsingleton M] : ¬ NearlyFaithful A M := by
 
 /-! ## Layer 7: Finite complexes, signed duality and coefficient towers -/
 
-open CategoryTheory CategoryTheory.Limits
-open scoped ZeroObject
-attribute [local instance] HasDerivedCategory.standard
-
-/-- Native derived module objects. -/
-abbrev Der (R : Type u) [CommRing R] := DerivedCategory (ModuleCat.{u} R)
-
-/-- Native integer-indexed cochain complexes. -/
-abbrev Cpx (R : Type u) [CommRing R] := CochainComplex (ModuleCat.{u} R) ℤ
-
-/-- Cohomology in the native module category. -/
-abbrev H {R : Type u} [CommRing R] (i : ℤ) (C : Der R) :=
-  (DerivedCategory.homologyFunctor (ModuleCat R) i).obj C
-
 /-- Minimality on native cochains applies to finite free and complete flat models, without bounds. -/
 def IsMinimal {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : Prop :=
   ∀ i : ℤ, LinearMap.range (P.d i (i + 1)).hom ≤
@@ -359,6 +513,16 @@ def IsMinimal {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : Prop :=
 def CompleteFlatComplex {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : Prop :=
   (∃ a b : ℤ, ∀ i : ℤ, i < a ∨ b < i → IsZero (P.X i)) ∧
     ∀ i : ℤ, Module.Flat R (P.X i) ∧ IsAdicComplete (maximalIdeal R) (P.X i)
+
+/-- Signed linear Hom into the degree-zero ring is involutive on termwise finite
+projective native cochain complexes, without a bound on their terms. -/
+theorem perfect_signed_biduality
+    {R : Type u} [CommRing R] (P : Cpx R)
+    (hfinite : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i)) :
+    let U := (HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0).obj
+      (ModuleCat.of R R)
+    Nonempty (P ≅ TauCeti.linearHomComplex R (TauCeti.linearHomComplex R P U) U) := by
+  sorry
 
 /-- A fraction-field stalk is flat but not maximal-adically separated. -/
 theorem completeFlat_fractionField_failure
@@ -447,14 +611,6 @@ theorem finite_germ_equivalence (F : Ultrafilter ℕ)
 
 /-! ## Layer 9: Codimension, canonical duality and support transport -/
 
-/-- Complex support is the union of the supports of its native cohomology modules. -/
-def derivedSupport {R : Type u} [CommRing R] (C : Der R) : Set (PrimeSpectrum R) :=
-  ⋃ i : ℤ, Module.support R (H i C)
-
-/-- The cohomology annihilator uses an intersection, not a sum or the derived-action kernel. -/
-def cohomologyAnnihilator {R : Type u} [CommRing R] (C : Der R) : Ideal R :=
-  ⨅ i : ℤ, Module.annihilator R (H i C)
-
 /-- Empty cohomological support detects the zero object in the native derived category. -/
 theorem derivedSupport_empty_iff
     {R : Type u} [CommRing R] (C : Der R) :
@@ -467,35 +623,6 @@ theorem derivedSupport_eq_zeroLocus
     (hfinite : ∀ i : ℤ, Module.Finite R (H i C))
     (a b : ℤ) (hbound : ∀ i : ℤ, i < a ∨ b < i → IsZero (H i C)) :
     derivedSupport C = PrimeSpectrum.zeroLocus (cohomologyAnnihilator C) := by
-  sorry
-
-/-- Over a regular local ring, a nonzero finite-projective interval has support of codimension at most its width. -/
-theorem codimension_amplitude_inequality
-    {R : Type u} [CommRing R] [IsRegularLocalRing R]
-    (C : Der R) (n l : ℕ) (a : ℤ)
-    (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
-    (hC : ¬ IsZero C) (P : Cpx R)
-    (hbound : ∀ i, i < a ∨ a + l < i → IsZero (P.X i))
-    (hfinite : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i))
-    (e : DerivedCategory.Q.obj P ≅ C) :
-    ∃ p : PrimeSpectrum R, p ∈ derivedSupport C ∧
-      (n - l : WithBot ℕ∞) ≤ ringKrullDim (R ⧸ p.asIdeal) := by
-  sorry
-
-/-- The matching support bound forces top-degree concentration with the predicted projective and support dimensions. -/
-theorem balanced_dimension_concentration
-    {R : Type u} [CommRing R] [IsRegularLocalRing R]
-    (C : Der R) (n l : ℕ) (a : ℤ)
-    (hdim : ringKrullDim R = (n : WithBot ℕ∞)) (hl : l ≤ n)
-    (hC : ¬ IsZero C) (P : Cpx R)
-    (hbound : ∀ i, i < a ∨ a + l < i → IsZero (P.X i))
-    (hfinite : ∀ i, Module.Finite R (P.X i) ∧ Module.Projective R (P.X i))
-    (e : DerivedCategory.Q.obj P ≅ C)
-    (hsupport : ∀ p ∈ derivedSupport C,
-      ringKrullDim (R ⧸ p.asIdeal) ≤ (n - l : WithBot ℕ∞)) :
-    (∀ i : ℤ, i ≠ a + l → IsZero (H i C)) ∧ ¬ IsZero (H (a + l) C) ∧
-      CategoryTheory.projectiveDimension (H (a + l) C) = l ∧
-      Module.supportDim R (H (a + l) C) = (n - l : WithBot ℕ∞) := by
   sorry
 
 /-

@@ -1079,7 +1079,7 @@ Let `S` be regular local of dimension `d` and `A` Noetherian local acting on a n
 
 For an `S`-free module use `l=0`. For a square presentation over the domain `S` with support dimension strictly below `d`, the relation map becomes an isomorphism over the fraction field and is injective; for nonzero cokernel the projective dimension is exactly one. The source's dimension deficit is what turns a square presentation into a resolution. MCM over a domain gives near faithfulness; over a regular target it gives freeness. Component support over a reducible target requires Layer 6.
 
-**Balanced patching theorem.** Let `O` be the integers of a finite extension of `ℚ_p`, `p≥3`, `q≥1`, `A=O[[x₁,…,x_(q-1)]]`, `R` a complete Noetherian local coefficient algebra and `H` finite over `R` and `O`. For every `N≥1`, assume a local continuous surjection `φ_N:A→R` and a module `H_N` over `A⊗_O O[(Z/p^N)^q]` such that:
+**Balanced patching theorem (`balanced_module_patching`).** Let `O` be the integers of a finite extension of `ℚ_p`, `p≥3`, `q≥1`, `A=O[[x₁,…,x_(q-1)]]`, `R` a complete Noetherian local coefficient algebra and `H` finite over `R` and `O`. For every `N≥1`, assume a local continuous surjection `φ_N:A→R` and a module `H_N` over `A⊗_O O[(Z/p^N)^q]` such that:
 
 - `H_N` is finite balanced over the group algebra;
 - its augmentation quotient is the specified `H`, `A`-linearly through `φ_N`;
@@ -1087,6 +1087,14 @@ For an `S`-free module use `l=0`. For a square presentation over the domain `S` 
 - the augmentation image is contained in the image of `ker φ_N`.
 
 Then `H` is `R`-free. For `H≠0`, the construction gives an `A`-free nonzero `M_∞`, a local scalar lift `ι:S→A`, `ker φ_∞=ι(a)A`, and `R≃A/ι(a)A`. For `H=0`, the conclusion is rank zero without the nonzero cutoffs. In the boundary `q=1`, `A=O`; the dimension computation still uses `dim S=2` and `dim A=1`. No claim here extends the source's stated `p≥3` range merely from the characteristic-two group-ring checks.
+
+The signature uses `PatchingGroupRing O p q n=O[(Z/p^(n+1))^q]` on the native monoid algebra. Its coefficient hypotheses present `O` as a complete DVR finite over `Z_p`, of characteristic zero and with residue characteristic `p`. The map from each module to `H` is surjective with kernel the augmentation submodule, and intertwines the displayed actions; this states the specified augmentation quotient without a separate patch-datum carrier.
+
+**Checks.**
+
+- `H=0` has the rank-zero free conclusion and needs no faithful patched action.
+- At `q=1`, the formal coefficient source has zero variables; the numerical dimensions remain `dim S=2` and `dim A=1`.
+- The relation matrix `π` gives a balanced torsion module over the group ring, so balance alone gives no freeness without the scalar and augmentation hypotheses.
 
 Source: Calegari–Geraghty, Proposition 2.3 and proof, PDF pp. 11–14; the numerical module form also follows from §3.1. Needs: §§3.1, 3.3, 5.1–5.4 and Layer 6 only for the separate component conclusion.
 
@@ -1193,11 +1201,17 @@ Define **support on components** by requiring primes minimal over the annihilato
 
 ### 6.2 Quotients, coefficient change and framing
 
-For finite nearly faithful `M`, prove `√ann_A(M/IM)=√I`, hence near faithfulness over `A/I`. Under a surjection `A→B`, annihilators pull back and support maps by the closed immersion; a nilpotent kernel transfers near faithfulness back to `A`. If a second compatible action on `M/IM` factors through any `A→B`, its kernel is contained in `√I`. To infer near faithfulness over `B`, also require surjectivity and `I⊆√ker(A→B)`.
+For finite nearly faithful `M`, prove `nearlyFaithful_quotient_annihilator`: `√ann_A(M/IM)=√I`, hence near faithfulness over `A/I`. Under a surjection `A→B`, annihilators pull back and support maps by the closed immersion; a nilpotent kernel transfers near faithfulness back to `A`. If a second compatible action on `M/IM` factors through any `A→B`, its kernel is contained in `√I`. To infer near faithfulness over `B`, also require surjectivity and `I⊆√ker(A→B)`.
 
 For every scalar extension there is support inclusion into the inverse image; it is equality for finite `M`, or for arbitrary `M` when the extension is flat. Thus near faithfulness of finite modules ascends under any base change and descends when each minimal prime lifts, in particular under faithfully flat change. Formal-variable extensions have a coefficient retraction and give this equivalence even before using flatness. For finitely many variables the augmentation kernel is the variable ideal, and removing those variables from a finite nearly faithful module preserves near faithfulness. Infinite-variable series do not acquire a finitely generated augmentation ideal by this argument.
 
 If `f` is a nonzerodivisor of `A`, minimal primes correspond under `A→A[1/f]`; finite-module near faithfulness can be tested there. For a finite module, faithfulness also compares when the localized ring is reduced. Completion is faithfully flat in the Noetherian local setting. Source: Stacks, Algebra, support tag 00L2 and base-change tag 0BUR; Taylor, proof of Theorem 4.1, p. 221; Calegari–Geraghty, Theorem 6.4(2)–(3), PDF pp. 93–94. Needs: §6.1 and native localization/tensor. The unit ideal gives the zero quotient; identities involving a nonzero coefficient object treat it separately.
+
+**Checks.**
+
+- For `M=A` the quotient annihilator is exactly `I`.
+- For `A=k[ε]/ε²`, `M=k` and `I=0`, the annihilator is `(ε)`, so only the radical equality holds.
+- For `I=A`, both annihilator radicals are the unit ideal, including the zero quotient module.
 
 ### 6.3 The maximal coefficient-flat quotient
 
@@ -1403,14 +1417,14 @@ Source: Stacks §§10.84–10.85, tags [058T](https://stacks.math.columbia.edu/t
 
 ### 7.6 Signed perfect duality and discrete fraction-quotient duals
 
-Use the supplied `RHom(X,A)` on perfect objects and construct its native representative comparison. For bounded finite projective `P` the degree-`n` term is `(P^(-n))*` and differential `(-1)^(n+1)(d^(-n-1))*`. Evaluation `x↦(λ↦(-1)^nλ(x))` gives a chain isomorphism to the double dual. The API gives contravariant maps and reversed composition, perfectness of the dual, amplitude `[-b,-a]` from `[a,b]`, and natural biduality. There is a chain isomorphism `E⊗P*≃Hom•(P,E)` for arbitrary `E`: on `E^q⊗(P^p)*` the map is `e⊗λ↦(x↦λ(x)e)` with **no extra sign in this ordering**. Reversing factors invokes the Koszul braid. Perfect-source derived Hom and perfect duals commute with arbitrary coefficient extension. All these comparisons respect composition, units and the signed shift maps.
+Use the supplied `RHom(X,A)` on perfect objects and construct its native representative comparison. For bounded finite projective `P` the degree-`n` term is `(P^(-n))*` and differential `(-1)^(n+1)(d^(-n-1))*`. Evaluation `x↦(λ↦(-1)^nλ(x))` gives a chain isomorphism to the double dual. The target `perfect_signed_biduality` states this isomorphism using the native linear Hom complex into the degree-zero ring; termwise finite projectivity suffices for this comparison, without a boundedness hypothesis. The API gives contravariant maps and reversed composition, perfectness of the dual, amplitude `[-b,-a]` from `[a,b]`, and natural biduality. There is a chain isomorphism `E⊗P*≃Hom•(P,E)` for arbitrary `E`: on `E^q⊗(P^p)*` the map is `e⊗λ↦(x↦λ(x)e)` with **no extra sign in this ordering**. Reversing factors invokes the Koszul braid. Perfect-source derived Hom and perfect duals commute with arbitrary coefficient extension. All these comparisons respect composition, units and the signed shift maps.
 
 The tensor-cone comparison `E⊗Cone(f)≃Cone(id_E⊗f)` is the identity on the unshifted target summand and multiplication by `(-1)^q` on the shifted source summand coming from `E^q`. This sign is required by the cross differential `f`, even when the original differentials vanish.
 
 **Checks.**
 
 - Take `P=[Q --2→ Q]` in degrees `0,1`. Its dual has degrees `-1,0` with differential `+2`. Its double dual has degrees `0,1` with differential `-2`. Signed evaluation is `+1` in degree zero and `-1` in degree one, and the chain equation is `(-2)·1=(-1)·2=-2`. Unsigned evaluation gives `-2≠2`.
-- If `E=Q` in degree one and `f=id` on the degree-zero stalk, the source tensor-cone cross differential is `-1`; the cone on the tensored map has cross differential `+1`, so the shifted-summand comparison is `-1`. These are two-term numerical witnesses, also recorded in the statement file.
+- If `E=Q` in degree one and `f=id` on the degree-zero stalk, the source tensor-cone cross differential is `-1`; the cone on the tensored map has cross differential `+1`, so the shifted-summand comparison is `-1`. These two-term witnesses distinguish the signed comparison from the unsigned one.
 - In characteristic two the signs coincide, so that field alone is an inadequate test. A finite projective stalk in degree `j` dualizes to degree `-j`; the perfect torsion stalk `Z/2` dualizes to nonzero degree one rather than its zero ordinary dual.
 
 For a DVR with fraction field `E`, put `D_O(M)=Hom_O(M,E/O)` on the native opposite module category by precomposition. The quotient is an injective module. If `O` is complete, scalar multiplication identifies `End_O(E/O)` with `O`; in general it is the completion. The API gives exact contravariance, identity/composition, evaluation `D_O(O)=E/O`, and for finite free `L` the natural equivalence `D_O(L⊗E/O)≃L*`, carrying dual maps to their adjoints.
@@ -1684,7 +1698,7 @@ Let `S` be regular local of dimension `d`, and `C≠0` perfect of Tor-amplitude 
 
 `dim Supp H^m(C) ≥ d-(m-a)`.
 
-The target `codimension_amplitude_inequality` gives `dim Supp C≥d-l`. The target `balanced_dimension_concentration` states that if `dim Supp C≤d-l`, the inequalities force `m=b`: only `H^b(C)=M≠0` remains. Its projective dimension is exactly `l` and `depth_S M=dim Supp_S M=d-l`. In particular a finite algebra action whose cohomological support has dimension at most `d-l` gives this conclusion by finite integral dimension comparison. If `l=0`, `M` is finite free over `S`. A support bound and an ordinary cohomology interval do not replace the Tor-amplitude hypothesis.
+The target `codimension_amplitude_inequality` gives `dim Supp C≥d-l`. The target `balanced_dimension_concentration` states that if `dim Supp C≤d-l`, the inequalities force `m=b`: only `H^b(C)=M≠0` remains. Its projective dimension is exactly `l` and `depth_S M=dim Supp_S M=d-l`. The signature also states CM concentration directly on the native local-cohomology functors: all degrees except `d-l` vanish and degree `d-l` is nonzero. In particular a finite algebra action whose cohomological support has dimension at most `d-l` gives this conclusion by finite integral dimension comparison. If `l=0`, `M` is finite free over `S`. A support bound and an ordinary cohomology interval do not replace the Tor-amplitude hypothesis.
 
 The CM-base extension is also retained. For nonzero perfect `C` over a CM local `S`, prove
 
@@ -1721,6 +1735,16 @@ Identify its top cohomology with the canonical CM dual `M_∞^∨=H^(-dim R_∞)
 - A perfect system lacking compatible dual augmentation is not an input to this theorem.
 
 Source: Iyengar–Khare–Manning, Theorem 10.6 and Lemma 10.7, pp. 43–48; §§11.1–11.2 and Theorem 11.3, pp. 49–51. Needs: §§3.8–3.9, 7.6, 8.4–8.5, 9.2. The canonical-duality comparison through the finite action quotient is the named target below; arithmetic self-duality is supplied downstream.
+
+The native representative target `patched_dual_concentration` states the signed-dual conclusion over the regular coefficient ring: for a finite projective model in `[a,a+l]` satisfying §9.2's support bound, its linear Hom complex into the degree-zero ring has cohomology only in degree `-a`, where it is `Ext_S^l(H^(a+l)(C),S)`. Shifting by `-(2a+l)` puts that module in degree `a+l`. This is the regular-base expression of the canonical CM dual; the system-level comparison above retains its genuine actions and normalization.
+
+The target `finiteActionCanonicalDuality_ext` compares two complete regular coefficient sources `S,Q` acting through the same complete Noetherian local `R` on `M`, finite over all three. If their dimensions are `d,e` and `0≤r≤min(d,e)`, it gives an additive equivalence `Ext_S^(d-r)(M,S)≃Ext_Q^(e-r)(M,Q)`. Both calculations use the finite faithful quotient `R/ann_R M`. The normalized-complex comparison below supplies the stronger natural `R`-linear identification; the native Ext statement does not select a normalization. Source: Stacks Lemma 47.16.1, tag [0AX1](https://stacks.math.columbia.edu/tag/0AX1), finite-local normalization and adjunction in SchemeAndStackFoundations §§2.18–2.21, and Iyengar–Khare–Manning, Lemma 10.7 and Theorem 11.3, pp. 47–48, 50–51.
+
+**Checks.**
+
+- For `S=Q=R=k`, `r=0`, both Ext groups are the ordinary vector-space dual.
+- For `S=O`, `Q=R=M=k`, `r=0`, the comparison is `Ext_O^1(k,O)≃Hom_k(k,k)`; ordinary `Hom_O(k,O)` is zero.
+- For `R=S[[t]]`, `Q=S`, `M=S` with `t=0`, both sources act through the finite quotient `R/(t)=S`, despite `R/S` not being finite.
 
 The prerequisite `finiteActionCanonicalDuality` has the following exact contract. Let `S` be complete regular local of dimension `d`, `R` complete Noetherian local with normalized `ω_R`, and `M≠0` finite over both, with compatible local actions and `dim_R M=dim R=r`. Put `B=R/ann_R M`. Assume the `S`-action factors through `B`; the finite-action theorem makes `B` finite over `S`. The two finite local maps `S→B` and `R→B` identify the same normalized `ω_B`. The supplied finite-map adjunctions then give the natural comparison
 
@@ -1793,6 +1817,8 @@ Set `S=Λ[[X₁,…,X_r]]` over a complete DVR, with augmentation `a`. Let `C,C'
 
 Global Tor-amplitude in this interval is sufficient but is **not required** by the source: the seed is local. Over regular `S_p`, minimality gives that interval in terms. The support dimension bound through the finite action algebra and §9.2 force local concentration at its upper endpoint, producing one top generic with nonzero Euler length. Each top generic specializes to a dimension-`D-1` generic on the divisor. At that residual point the component hypotheses make the relevant local spectrum irreducible of dimension one. Apply §9.5 to carry nonzero Euler length to the divisor, across the common residual action image, up to the unique top component of `R'`, and back down and up to any other top component of `R`. Residual length comparison uses nilpotent filtrations for both error images; agreement after their sum is the required input, not equality of full residual deformation actions.
 
+The native representative target `paired_support_mod_uniformizer` states the coefficient-divisor comparison: bounded finite projective complexes over a Noetherian ring with isomorphic derived reductions modulo `π` have equal cohomological supports intersected with `V(π)`. The termwise scalar extension of these projective representatives computes derived reduction, so this assertion requires neither a strict action nor regularity of `π`. It is the coefficient-support part of the paired comparison; transporting spectral deformation support still uses the action-image and component inputs above.
+
 Conclude that the spectral `R`-support of `H*(C)` contains **every dimension-D component**. If `R` is equidimensional this is full support and `ker(R→T/I)⊆√0`; hence the reduced quotient map is an isomorphism. Lower-dimensional components are not included without another argument. The API retains the chosen generic/special primes, the divisor length comparisons and the nilpotent spectral homeomorphisms used on each leg.
 
 **Checks.**
@@ -1803,6 +1829,7 @@ Conclude that the spectral `R`-support of `H*(C)` contains **every dimension-D c
 - If the auxiliary ring has two unrelated top components, the stated bridge is absent.
 - Equal residue dimensions without the action-image comparison do not identify localized Euler lengths.
 - The nonzero seed excludes the zero paired system.
+- For `paired_support_mod_uniformizer`, an identity pair gives equality on the whole divisor, and `π=0` gives equality of the original supports. If `π` is a unit, both intersections are empty; no generic-support equality follows from that comparison.
 - Strict lower-component bounds cannot be weakened to equality at `D-1` in this proof.
 
 Source: Allen et al., §6.3.5, Assumption 6.3.6, Lemma 6.3.7 and Proposition 6.3.8, pp. 1050–1052. Needs: §§6.4–6.7, 8.5, 9.1–9.2, 9.4–9.5. These hypotheses are checked in arithmetic applications; the roadmap supplies no Taylor–Wiles-prime construction or Ihara-avoidance assertion by itself.
