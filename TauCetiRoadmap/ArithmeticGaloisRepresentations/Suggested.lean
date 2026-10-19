@@ -1932,10 +1932,15 @@ example [Finite k] (hV : Module.finrank k V = 2) (k' : Subalgebra k (Module.End 
   sorry
 
 -- For `q = 2` the split Cartan is trivial and its normaliser is everything (index `6 ≠ 2`).
+-- In a basis along the two lines, `[[0,1],[1,1]]` normalises it but does not preserve their pair.
 example (hk : Nat.card k = 2) (hV : Module.finrank k V = 2) (D₁ D₂ : Submodule k V)
     (h₁ : Module.finrank k D₁ = 1) (h₂ : Module.finrank k D₂ = 1) (hne : D₁ ≠ D₂) :
     split D₁ D₂ = ⊥ ∧
-      Subgroup.normalizer (split D₁ D₂ : Set (LinearMap.GeneralLinearGroup k V)) = ⊤ := by
+      Subgroup.normalizer (split D₁ D₂ : Set (LinearMap.GeneralLinearGroup k V)) = ⊤ ∧
+      ∃ g : LinearMap.GeneralLinearGroup k V,
+        g ∈ Subgroup.normalizer (split D₁ D₂ : Set (LinearMap.GeneralLinearGroup k V)) ∧
+        D₁.map (g : V →ₗ[k] V) = D₂ ∧ D₂.map (g : V →ₗ[k] V) ≠ D₁ ∧
+        D₂.map (g : V →ₗ[k] V) ≠ D₂ := by
   sorry
 
 end Cartan
@@ -2961,7 +2966,8 @@ theorem tracePairing_perfect (ρ : ContinuousRep Γ A M) :
       ∀ X Y, e X (Submodule.Quotient.mk Y) = endTrace A M ((X : Module.End A M) * Y) := by
   sorry
 
-/-- For `M` free of rank `n ≥ 1`: `1 ∈ ad⁰` iff `n = 0` in `A`; the map `ad⁰ → ad/A·1` has kernel
+/-- For `M` free of rank `n ≥ 1`: `1 ∈ ad⁰` iff `n = 0` in `A`; the natural composite
+`ad⁰ ↪ ad → ad/A·1` has kernel
 `A[n]·1` and cokernel `A/nA`, and is an isomorphism with `ad = A·1 ⊕ ad⁰` exactly when `n ∈ Aˣ`. -/
 theorem adZero_to_adQuot [Module.Free A M] (hn : 0 < Module.finrank A M) :
     ((1 : Module.End A M) ∈ LinearMap.ker (endTrace A M) ↔ (Module.finrank A M : A) = 0) ∧
@@ -2984,9 +2990,16 @@ example (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Modu
     [Module.Projective R N] (h : ¬ Module.Free R N) : LinearMap.trace R N = 0 := by
   sorry
 
+-- In rank two over `F₂`, both adjoint carriers have dimension three, so are isomorphic for a
+-- trivial action, although the natural comparison map kills the nonzero identity.
 example {N : Type*} [AddCommGroup N] [Module (ZMod 2) N] [Module.Finite (ZMod 2) N]
     (h : Module.finrank (ZMod 2) N = 2) :
-    (1 : Module.End (ZMod 2) N) ∈ LinearMap.ker (endTrace (ZMod 2) N) := by
+    (1 : Module.End (ZMod 2) N) ∈ LinearMap.ker (endTrace (ZMod 2) N) ∧
+      Nonempty (LinearMap.ker (endTrace (ZMod 2) N) ≃ₗ[ZMod 2]
+        (Module.End (ZMod 2) N ⧸ Submodule.span (ZMod 2) {(1 : Module.End (ZMod 2) N)})) ∧
+      ¬ Function.Injective
+        ((Submodule.span (ZMod 2) {(1 : Module.End (ZMod 2) N)}).mkQ ∘ₗ
+          (LinearMap.ker (endTrace (ZMod 2) N)).subtype) := by
   sorry
 
 end Adjoint

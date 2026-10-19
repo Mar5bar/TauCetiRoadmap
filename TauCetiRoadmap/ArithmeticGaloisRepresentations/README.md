@@ -2488,13 +2488,20 @@ fundamental characters).
 
 **Artin–Schreier characters.** Let `K` have characteristic `p > 0` in the setting, `u ∈ K` with
 `v(u) = −m < 0`, `p ∤ m`, and `L = K(α)`, `α^p − α = u`. Prove that `L/K` is totally ramified and cyclic
-of degree `p` with the single break `m` in both numberings (Serre 1961, n° 4.4, Lemme 4 (b), p. 41);
+of degree `p` with the single break `m` in both numberings (Serre 1961, n° 4.4, Lemme 4(a)–(b),
+pp. 144–145, printed pagination);
 that every nontrivial character `ψ` of `Gal(L/K)` has `Sw(ψ) = m`, `a(ψ) = m + 1`, and the different
 exponent is `(p − 1)(m + 1)` (Deligne 1974, §8, Lemme (8.13), p. 306); that for `V` of the setting with
 breaks `< m`, every break of `V ⊗ ψ` is `m`, `Sw(V ⊗ ψ) = m dim V` and `a(V ⊗ ψ) = (m + 1) dim V` (Ulmer,
 §10, pp. 7–8); and that for `k` finite and `y ∈ k[[x]]` of valuation `d` with `p ∤ d`, the character of
 `T^p − T = y⁻¹` has conductor exponent `d + 1`, so Deligne's sheaf `ℱ_j` has Swan conductor `d` at
 infinity (Deligne 1974, (8.12)–(8.13)). *Needs:* §3.2, §3.4.
+
+**Checks.**
+- Over `F₂((t))`, `α² − α = t⁻¹` has break `1`, character conductor `2` and different exponent `2`.
+- Over `F₃((t))`, `α³ − α = t⁻²` has break `2`, character conductor `3` and different exponent `6`.
+- The condition `p ∤ m` is necessary: `α^p − α = t⁻ᵖ` becomes
+  `β^p − β = t⁻¹` after `β = α − t⁻¹`, so its break is `1`, not `p`.
 
 ### Examples
 
@@ -2576,8 +2583,9 @@ subgroup of `PGL₂(k̄)` fixes a point of `P¹` (Serre 1972, §2.3, p. 280). *N
 (the stabiliser of two distinct lines), `GL2Cartan.nonsplit k'` (the units of a subfield `k'` of
 `End_k(V)` with `q²` elements), `GL2Cartan.IsCartan`, `GL2Cartan.halfSplit D₁ D₂` (the elements of the
 split Cartan acting trivially on `D₂`) and the normaliser `N(C)`. Its API is `[N(C) : C] = 2` for `C`
-non-split, or split with `q ≥ 3`; membership in the normaliser of a split Cartan (preserve or swap the
-two lines); `π(C)` cyclic of order `q ∓ 1` with dihedral normaliser `π(N(C))`; conjugation; for `p ≠ 2`
+non-split, or split with `q ≥ 3`; for a split Cartan with `q ≥ 3`, membership in its normaliser means
+preserving or swapping the two lines; `π(C)` cyclic of order `q ∓ 1` with dihedral normaliser
+`π(N(C))`; conjugation; for `p ≠ 2`
 and `tr² ≠ 4 det`, the unique Cartan containing an element, split iff the discriminant is a square;
 the diagonal model; agreement of the non-split Cartan with Tau Ceti's `GL2NonSplitTorus`; and Serre's
 Proposition 14, that over `F_ℓ` a Cartan (resp. split half-Cartan) inside `N(C)` equals `C` (resp. lies
@@ -2591,7 +2599,8 @@ pp. 278–280). *Needs:* Tau Ceti `GL2NonSplitTorus`, `diagGL`, `centralizer_dia
 - A non-split Cartan has `q² − 1` elements and its normaliser `2(q² − 1)`. *Lean:* the first `example`
   after `exists_unique_of_disc_ne_zero`.
 - For `q = 2` the split Cartan is trivial and its normaliser is `GL₂(F₂) ≅ S₃`, of index `6`, not `2`.
-  *Lean:* the second `example`.
+  For the coordinate lines `D₁, D₂`, `g = [[0,1],[1,1]]` lies in the normaliser, but sends `D₁` to
+  `D₂` and `D₂` to `⟨e₁ + e₂⟩`, so it does not preserve their pair. *Lean:* the second `example`.
 - Outside `C` in `N(C)` (non-split, or split with `q ≥ 3`) elements have trace `0` and scalar square; a
   split and a non-split Cartan are never conjugate.
 
@@ -4353,7 +4362,8 @@ constituent `χ` of `(ad ρ̄)^ss` has `χ² = 1`, so `H⁰(G_ℚ, M(1)) = 0` fo
 ### 7.9 Adequate subgroups
 
 **Adequacy.** Let `char k = p > 0`, `n ≥ 1`, `H ⊆ GL_n(k)` (in the Lean any subgroup), `ad = M_n(k)`, `ad⁰` the
-trace-zero matrices and `ad₀ = ad/k·1` (isomorphic to `ad⁰` iff `p ∤ n`); `g` is semisimple iff its
+trace-zero matrices and `ad₀ = ad/k·1` (the natural map `ad⁰ → ad₀` is an isomorphism iff `p ∤ n`);
+`g` is semisimple iff its
 minimal polynomial is separable, and `e_{g,α}` is the projection to the generalised `α`-eigenspace.
 Define `ResidualImage.adRep`, `ResidualImage.adZeroRep`, `ResidualImage.adQuotRep`,
 `ResidualImage.IsSimpleStable`, `ResidualImage.IsEigenProjection e f α` (`e² = e`, range the maximal
@@ -4381,6 +4391,9 @@ A.1.1, pp. 28–29). *Lean:* `ResidualImage.adRep`, `ResidualImage.adZeroRep`,
   `isAdequate_of_coprime_or_large` (`SL₂(F_5)`).
 - The trivial subgroup of `GL₂(k)` is not adequate (`H⁰(H, ad⁰) = ad⁰ ≠ 0`); finite rank-one image is adequate;
   `p | n ≥ 1` excludes adequacy. *Lean:* the same `example` (trivial subgroup).
+- For `H = 1`, `n = 2` and `k = F₂`, both `ad⁰` and `ad₀` are three-dimensional trivial
+  representations, hence are isomorphic; their natural comparison map has `k·1` in its kernel.
+  *Lean:* the rank-two `F₂` example in §7.2.
 - `SL₂(F_4)` is GHT-adequate but not adequate (`2 | 2`), and using `ad⁰` in place of `ad₀` in the GHT
   definition fails.
 - For `k = F_p(t)`, `H = ⟨t⟩ ⊂ GL₁(k)` has `H¹(H,k) = Hom(ℤ,k⁺) ≅ k`, so is not adequate,
