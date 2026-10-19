@@ -20,8 +20,9 @@ Design choices made explicit here:
 * the residual Hecke ideal is the kernel of an explicit evaluation, and descent to an acting quotient
   is a theorem under an explicit relation hypothesis.
 
-Moduli spaces, integral models, formal and rigid spaces, adelic form spaces, Galois representations
-and étale cohomology have no carriers at the pins; they are README targets only. In particular,
+The Hilbert and quaternionic moduli spaces, their integral models, formal Drinfeld spaces,
+adelic quaternionic form spaces and their étale cohomological Galois realizations need carriers
+beyond those at the pins; their theorems are README targets. In particular,
 the Hilbert quotient-stack/free-locus torsors, coefficient extension groups and finite-level
 Kodaira–Spencer determinant descent are specified in the README, not by stand-in propositions here.
 -/
@@ -75,6 +76,11 @@ theorem integralTraceFamily_integral (c : HilbertFractionalIdeal F) (hc : c ≠ 
     ∃ n : ℤ, integralTraceFamily F a x y = n := by
   sorry
 
+/-- The rational trace family is nondegenerate exactly for nonzero parameters (H0.4). -/
+theorem integralTraceFamily_nondegenerate (a : F) :
+    (∀ x : F × F, (∀ y : F × F, integralTraceFamily F a x y = 0) → x = 0) ↔ a ≠ 0 := by
+  sorry
+
 /-- The trace-alternating dual of an `O`-lattice in `F × F`, as a set. -/
 def traceAlternatingDual (L : Submodule (𝓞 F) (F × F)) : Set (F × F) :=
   {x | ∀ y ∈ L, ∃ z : ℤ, Algebra.trace ℚ F (x.1 * y.2 - x.2 * y.1) = z}
@@ -96,10 +102,6 @@ example (x y : ℚ × ℚ) :
   unfold integralTraceFamily
   rw [show (1 : ℚ) * (x.1 * -y.2 - -x.2 * y.1) =
     -(1 * (x.1 * y.2 - x.2 * y.1)) by ring, map_neg]
-
--- `traceFamily_zero`: the parameter `a = 0` gives the zero form, which is degenerate.
-example (x y : ℚ × ℚ) : integralTraceFamily ℚ 0 x y = 0 := by
-  simp [integralTraceFamily]
 
 /-! ## Layer H3: polarization quotients and Hilbert Hecke maps -/
 
@@ -458,6 +460,24 @@ theorem mem_liftableResidueImage {O Γ W V : Type*} [CommRing O] [Group Γ]
     v ∈ liftableResidueImage ρ red ↔ ∃ w : W, w ∈ ρ.invariants ∧ red w = v := by
   sorry
 
+/-- Integral invariants are saturated: division by a nonzero scalar preserves invariance,
+giving injective reduction of the invariant lattice (R18.3.23). -/
+theorem LiftableReductionImage.reductionInjective {O Γ W : Type*} [CommRing O] [IsDomain O]
+    [Group Γ] [AddCommGroup W] [Module O W] [Module.IsTorsionFree O W]
+    (ρ : Representation O Γ W) (a : O) (ha : a ≠ 0) (w : ρ.invariants) :
+    (∃ y : W, (w : W) = a • y) ↔ ∃ y : ρ.invariants, (w : W) = a • (y : W) := by
+  sorry
+
+/-- Averaging lifts every invariant through an equivariant surjection when the finite
+stabilizer order is invertible; the liftable image is then all invariants (R18.3.23). -/
+theorem LiftableReductionImage.unitIsotropy {O Γ W V : Type*} [CommRing O] [Group Γ]
+    [Fintype Γ] [Invertible (Fintype.card Γ : O)]
+    [AddCommGroup W] [Module O W] [AddCommGroup V] [Module O V]
+    (ρ : Representation O Γ W) (σ : Representation O Γ V) (red : W →ₗ[O] V)
+    (hred : Function.Surjective red) (hequiv : ∀ g w, red (ρ g w) = σ g (red w)) :
+    ∀ v : V, v ∈ liftableResidueImage ρ red.toAddMonoidHom ↔ v ∈ σ.invariants := by
+  sorry
+
 /-- For the trivial/sign representation, only the first residual coordinate has an invariant lift
 (R18.3.23). -/
 theorem LiftableReductionImage.directSum (ρ : Representation ℤ (Multiplicative (ZMod 2)) (ℤ × ℤ))
@@ -511,13 +531,6 @@ theorem normTwist_involutive {G A O W : Type*} [Group G] [CommGroup A] [CommRing
     [AddCommGroup W] [Module O W] (ν : G →* A) (χ : A →* Oˣ)
     (hχ : ∀ a, χ a * χ a = 1) : Function.Involutive (normTwist (W := W) ν χ) := by
   sorry
-
--- `DyadicNormTwist.trivial`: the trivial character gives the identity.
-example {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]
-    [AddCommGroup W] [Module O W] (ν : G →* A) (f : G → W) :
-    normTwist ν (1 : A →* Oˣ) f = f := by
-  funext g
-  simp [normTwist]
 
 -- `DyadicNormTwist.scalar`: a quadratic character is trivial on the square norm of a scalar.
 example {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]

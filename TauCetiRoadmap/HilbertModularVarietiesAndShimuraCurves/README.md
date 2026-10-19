@@ -268,6 +268,7 @@ Its API:
 - `integralTraceFamily_parameter_add`: `ψ_{a+b}=ψ_a+ψ_b` and `ψ_0=0`.
 - `integralTraceFamily_alternating`: For every number field F, parameter a and vector x in F², `integralTraceFamily F a x x = 0`.
 - `integralTraceFamily_integral`: Its rational image agrees with §H0.0’s trace representation multiplied by a.
+- `integralTraceFamily_nondegenerate`: For every number field F, the rational form on F² has zero radical exactly when its parameter a is nonzero.
 - `integralTraceFamily_balance`: For `b∈O`, `ψ_{ba}(x, y)=ψ_a(bx, y)=ψ_a(x, by)`. This specifies the O-action on the family of ℤ-bilinear forms; it is not scalar multiplication of their `ℤ`-valued outputs.
 
 **Checks.**
@@ -276,7 +277,7 @@ Its API:
 - `traceFamily_zero`: The `a=0` form is zero, hence is not declared nondegenerate.
 - `traceFamily_ramified`: For `F=ℚ(√2)`, the second summand uses `d⁻¹=(2√2)⁻¹O`, preventing a false O² self-duality assertion.
 
-In [Suggested.lean](Suggested.lean): `integralTraceFamily`, `integralTraceFamily_alternating`, `integralTraceFamily_integral`.
+In [Suggested.lean](Suggested.lean): `integralTraceFamily`, `integralTraceFamily_alternating`, `integralTraceFamily_integral`, `integralTraceFamily_nondegenerate`.
 
 (Source: [BHW23](#references) Notation 5.1(3), p.1740; compare DP §2.12.)
 
@@ -3034,8 +3035,8 @@ Its API:
 
 - `LiftableReductionImage.inclusion`: The image inclusion is a k-linear map into residual invariant coefficients.
 - `LiftableReductionImage.mem`: A residual invariant vector is in `L_t` exactly when it is the reduction of an integral invariant vector.
-- `LiftableReductionImage.reductionInjective`: The induced map `W^Γ⊗k→W_k^Γ` is injective for W torsion-free over a DVR.
-- `LiftableReductionImage.unitIsotropy`: If `|Γ|` is invertible, `L_t` equals the full invariant submodule.
+- `LiftableReductionImage.reductionInjective`: The induced map `W^Γ⊗k→W_k^Γ` is injective for W torsion-free over a DVR. More generally, over any domain, if an invariant vector in a torsion-free representation is divisible by a nonzero scalar in W, its quotient is invariant too.
+- `LiftableReductionImage.unitIsotropy`: If `|Γ|` is invertible, `L_t` equals the full invariant submodule. For any finite Γ over a commutative ring O with invertible `|Γ|`, an equivariant surjective O-linear coefficient map carries integral invariants onto target invariants by averaging; no torsion-free or residue-field hypothesis is needed for this assertion.
 - `LiftableReductionImage.transport`: Intertwining coefficient maps carry liftable vectors to liftable vectors; identity and composition are inherited from images.
 - `LiftableReductionImage.globalEvaluation`: The global liftable subspace is the direct sum over class representatives, naturally under their transport.
 
@@ -3046,7 +3047,7 @@ Its API:
 - `LiftableReductionImage.oddIsotropy`: For `C₃` over `Z_2` averaging makes every residual invariant liftable. The native mirror `LiftableReductionImage.cyclicPermutation` acts on `ℤ³` by a cyclic coordinate shift; both integral and mod-two invariants are diagonal, and every residual diagonal has an integral invariant lift.
 - `LiftableReductionImage.directSum`: For the direct sum of the trivial and sign `Z_2` characters the liftable subspace has dimension one while residual invariants have dimension two. The integral mirror on `ℤ²` has liftable image `{(a,0):a∈F_2}` under coordinatewise reduction.
 
-In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidueImage`, `LiftableReductionImage.directSum`, `LiftableReductionImage.oddIsotropy`.
+In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidueImage`, `LiftableReductionImage.reductionInjective`, `LiftableReductionImage.unitIsotropy`, `LiftableReductionImage.directSum`, `LiftableReductionImage.oddIsotropy`.
 
 (Source: [KW09](#references) Lemma 7.4(1) and proof, pp.64–65 (The comparison is between images of integral reduction, not all residual forms); [Tay06](#references) Corollary 1.2, p.739 (Prime-to-p isotropy is the stronger situation where arbitrary base change is available))
 
