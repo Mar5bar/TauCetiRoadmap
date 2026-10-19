@@ -317,8 +317,8 @@ The API gives `ProjectiveBundles.projectiveBundle.projection`: The structure map
 **Checks.**
 
 - `ProjectiveBundleTests.rankOne`: the identity quotient of an invertible `L` gives `P(L) = S`.
-- `ProjectiveBundleTests.zero`: no invertible quotient of the zero module exists on a nonempty test
-  scheme, so `P(0)` is empty. In Lean this is an `example` on `LineQuotient`.
+- `ProjectiveBundles.noLineQuotientZero`: no invertible quotient of the zero module exists on a nonempty test
+  scheme, so `P(0)` is empty. The Lean theorem uses `ProjectiveBundles.LineQuotient`.
 - `ProjectiveBundleTests.rankTwo`: Over `Spec R`, points over the identity of `P(O²)` correspond to rank-one quotient Grassmannian data for `R²`.
 - `ProjectiveBundleTests.baseChange`: A nonflat base change also gives `P(f*E)≅P(E)×_S T`.
 
@@ -482,8 +482,8 @@ end ProjectiveBundles
 
 **Checks.**
 
-- `ProjectiveBundleTests.zero`: no invertible quotient of the zero module exists on a nonempty test
-  scheme, so `P(0)` is empty. In Lean this is an `example` on `LineQuotient`.
+- `ProjectiveBundles.noLineQuotientZero`: no invertible quotient of the zero module exists on a nonempty test
+  scheme, so `P(0)` is empty. The Lean theorem uses `ProjectiveBundles.LineQuotient`.
 - `ProjectiveBundleTests.rankOne`: the identity quotient of an invertible `L` gives `P(L) = S`.
 - `TwistingSheafTests.rankOne`: on `P(L)`, the universal quotient line is `L`, fixing the quotient
   convention against its dual.
@@ -1080,7 +1080,7 @@ The API gives `QCohPseudofunctor.fibre`: The fibre at X is the full subcategory 
 - `QCohPseudoTests.identity`: The unit map is the pullbackId restricted to the full subcategory.
 - `QCohPseudoTests.infiniteModule`: The direct sum of countably many copies of R on `Spec R` is included even though it is not finitely generated when R is a field.
 - `QCohPseudoTests.nonInvertibleArrow`: Multiplication by 2 on `O_SpecZ` is a fibre morphism, and is not an isomorphism; the category is not truncated to its core.
-- `AffinePullbackTests.nonflat`: along `ℤ → ℤ/2`, multiplication by `2` on `O_{Spec ℤ}` is a monomorphism whose pullback is the zero endomorphism of the nonzero sheaf `O_{Spec 𝔽₂}`; pullback is right exact, not exact. This is an `example` in the Lean file.
+- `AffinePullbackTests.nonflat`: along `ℤ → ℤ/2`, multiplication by `2` on `O_{Spec ℤ}` is a monomorphism whose pullback is the zero endomorphism of the nonzero sheaf `O_{Spec 𝔽₂}`; pullback is right exact, not exact.
 
 Define `moduleDescentCoaction`. For every commutative ring map `R→A`, tensor-overlap module descent is equivalent to the existing scalar-extension comonad coalgebras, preserving the underlying A-module and every morphism. The all-test-object DescentData category is identified with this presentation through Mathlib’s existing chosen-pullback descent equivalence and the module-specific coordinate comparison. The coaction is `d(n)=θ(n⊗1)`; the reverse transition and its inverse are the specified coaction-transition maps. No flatness is required for these presentation comparisons.
 
@@ -1578,7 +1578,7 @@ end
 
 - `ModuleNativeChecks.object`: the canonical descent object corresponds to the scalar-extension coalgebra with the unit coaction.
 - `ModuleNativeChecks.roundtrip`: an arbitrary overlap datum is recovered after conversion to a coalgebra and back.
-- `ModuleNativeChecks.arrows`: extension of every module map, including a zero or noninvertible map, is the underlying map of canonical descent; this is an `example` in the Lean file.
+- `ModuleNativeChecks.arrows`: extension of every module map, including a zero or noninvertible map, is the underlying map of canonical descent.
 - `ModuleCoalgebraChecks.counit`: the coaction followed by the counit is the identity (Mathlib's `Comonad.Coalgebra.counit`).
 - `ModuleCoalgebraChecks.coassociativity`: the two iterated coactions agree (Mathlib's `Comonad.Coalgebra.coassoc`).
 - `ModuleCoalgebraChecks.arrows`: a coalgebra morphism intertwines coactions; the morphisms are not restricted to isomorphisms.
@@ -2177,7 +2177,7 @@ The API gives `GerbeLimitFamily.component`: The family has an object xi at each 
 
 **Checks.**
 
-- `LimitFamilyTests.singleton`: For any pseudofunctor on LocallyDiscrete(Discrete PUnit), its compatible-family category is equivalent to the sole fibre, including the pseudofunctor unit constraint.
+- `GerbeLimitFamily.singletonEquivalence`: For any pseudofunctor on LocallyDiscrete(Discrete PUnit), its compatible-family category is equivalent to the sole fibre, including the pseudofunctor unit constraint.
 - `LimitFamilyTests.identityTower`: For a nonempty cofiltered ordinary index category and the constant identity diagram SingleObj G, with G a group, its compatible-family category is equivalent to SingleObj G. This retains G automorphisms. The corresponding BA(T) formulation additionally requires the geometric classifying-stack fibre comparison.
 - `LimitFamilyTests.classesInsufficient`: For the singleton constant diagram SingleObj(Multiplicative(ZMod 3)), compatible families are nonempty, their Skeleton is a subsingleton, and every object has exactly three endomorphisms. Passing only to the singleton set of isomorphism classes loses those arrows. Comparing this model to `B(C3)` over an algebraically closed point is a separate geometric input.
 
@@ -2911,7 +2911,7 @@ For the proof, project the defining subgroup membership equation; no descent or 
 
 ### 4.6a Compatible centre carriers
 
-`intrinsicBandSectionSubgroup F U` is the subgroup of slice-indexed centre units satisfying all restriction equations; it and `IntrinsicBandSection F U` are stated in the Lean file, with the `BandCenterTests.C3` and `BandCenterTests.S3` examples. The remaining carriers have the intended signatures of §4.24. Its API `IntrinsicBandSections.commGroup`, `IntrinsicBandSections.restrict`, `IntrinsicBandSections.eval` gives commutative pointwise composition, reindexing along a slice arrow, and evaluation at an object. `IntrinsicBandSections.pullbackArrow` names the composite slice arrow used by that reindexing. The presheaf `IntrinsicBandSections.presheaf` packages these groups and restriction maps. With gerbe locality and commutative inertia, `IntrinsicBandSections.evalEquiv` identifies the compatible family with the automorphism group of a chosen object over U, evaluated at the identity arrow of U. The subgroup and its commutativity do not require gerbe locality; bijectivity of evaluation does. (The endomorphism interchange calculation, followed by Hom-sheaf descent in §§4.6–4.7.)
+`intrinsicBandSectionSubgroup F U` is the subgroup of slice-indexed centre units satisfying all restriction equations; it and `IntrinsicBandSection F U` are stated in the Lean file. The theorem `intrinsicBandSection_evaluation_bijective` states the bijectivity of evaluation underlying `IntrinsicBandSections.evalEquiv` for a gerbe with commutative inertia. The remaining carriers have the intended signatures of §4.24. Its API `IntrinsicBandSections.commGroup`, `IntrinsicBandSections.restrict`, `IntrinsicBandSections.eval` gives commutative pointwise composition, reindexing along a slice arrow, and evaluation at an object. `IntrinsicBandSections.pullbackArrow` names the composite slice arrow used by that reindexing. The presheaf `IntrinsicBandSections.presheaf` packages these groups and restriction maps. With gerbe locality and commutative inertia, `IntrinsicBandSections.evalEquiv` identifies the compatible family with the automorphism group of a chosen object over U, evaluated at the identity arrow of U. The subgroup and its commutativity do not require gerbe locality; bijectivity of evaluation does. (The endomorphism interchange calculation, followed by Hom-sheaf descent in §§4.6–4.7.)
 
 The intrinsic band has the further API: `IntrinsicBandSections.eval_surjective` (for a gerbe whose
 automorphism groups are commutative, evaluation at an object over `U` is surjective; with
@@ -8859,7 +8859,7 @@ The API gives `ArtinCriteria.StrongInfinitesimalGluing.of_preservesLimits`: A fu
 - `StrongGluingTests.forget`: The commutative-ring forgetful functor satisfies RS*.
 - `StrongGluingTests.terminal`: The terminal constant functor satisfies RS*.
 - `StrongGluingTests.zeroKernel`: For `A→C←C` with the second map the identity, the comparison is bijective.
-- `StrongGluingTests.subsetFailure`: The functor R↦Set(R), with direct-image maps, fails RS*. For both maps `Q[ε]/ε²→Q`, the diagonal subset and the whole pullback have the same two projections but are distinct: `(ε,0)` is in the latter only. Thus the comparison is not injective even for a square-zero surjection.
+- `ArtinCriteria.StrongGluingTests.subsetFailure`: The functor R↦Set(R), with direct-image maps, fails RS*. For both maps `Q[ε]/ε²→Q`, the diagonal subset and the whole pullback have the same two projections but are distinct: `(ε,0)` is in the latter only. Thus the comparison is not injective even for a square-zero surjection.
 
 Define `ArtinCriteria.FormalPoint`. For an affine set-valued functor F, a ring R and ideal I, FormalPoint(F,R,I) consists of `ξ_n∈F(R/I^(n+1))` for every `n≥0`, compatible with every quotient transition. Restriction sends `x∈F(R)` to its family. In the geometric criterion take `I=m_R`, R complete Noetherian local over S, and residue field finite type over S.
 
@@ -8877,7 +8877,7 @@ The API gives `ArtinCriteria.FormalPoint.ofPoint`: Restrict an actual point to e
 - `FormalPointTests.terminal`: The terminal functor has only one formal point.
 - `FormalPointTests.allOrders`: Agreement at every order forces equality of compatible families.
 - `FormalPointTests.specialFibreInsufficient`: For `R=Q[ε]/ε²` and `I=(ε)`, the points 0 and ε have the same reduction modulo I but different reductions modulo `I²=0`. Their formal points have equal value 0 and unequal value 1; the special fibre alone cannot define FormalPoint.
-- `FormalPointTests.firstOrderInsufficient`: For `R=Q[t]/t³` and `I=(t)`, the points 0 and `t²` agree modulo I and modulo `I²`, but differ modulo `I³=0`. Their formal points have equal values 0 and 1 and unequal value 2, so the residue together with the first-order jet does not determine a formal point.
+- `ArtinCriteria.FormalPointTests.firstOrderInsufficient`: For `R=Q[t]/t³` and `I=(t)`, the points 0 and `t²` agree modulo I and modulo `I²`, but differ modulo `I³=0`. Their formal points have equal values 0 and 1 and unequal value 2, so the residue together with the first-order jet does not determine a formal point.
 
 Define `ArtinCriteria.IsEffective`. Affine set-valued effectivity at `(R,I)` is surjectivity of `F(R)`→FormalPoint(F,R,I). The Artin space criterion quantifies this over all complete Noetherian local S-algebras with finite-type residue field. For a stack, effectivity means essential surjectivity of restriction to its formal-object groupoid. The stronger equivalence interface also retains unique compatible lifting of morphisms; with represented diagonal this is the standard supplied effectivity interface.
 
@@ -8894,7 +8894,7 @@ The API gives `ArtinCriteria.IsEffective.iff_lift`: Every formal point is the re
 - `EffectivityTests.terminal`: The terminal functor is effective for any ideal.
 - `EffectivityTests.zeroIdeal`: For `I=0`, quotient powers are R and any functor is effective.
 - `EffectivityTests.topIdeal`: The affine-line functor is effective at `I=R` because every quotient is the zero ring.
-- `EffectivityTests.emptyScheme`: For `F=Hom_CommRing`(ZMod 1,−), `R=Q` and I=top, every quotient has its unique zero-ring point, giving a formal point, but `F(Q)` is empty. Thus IsEffective is false. A constant-true predicate would fail this test.
+- `ArtinCriteria.EffectivityTests.emptyScheme`: For `F=Hom_CommRing`(ZMod 1,−), `R=Q` and I=top, every quotient has its unique zero-ring point, giving a formal point, but `F(Q)` is empty. Thus IsEffective is false. A constant-true predicate would fail this test.
 
 Define `ArtinCriteria.TangentFiber`. For `x∈F(k)`, define the tangent fibre as the fibre over x of `F(k[ε]/ε²)→F(k)`, with zero tangent given by the split inclusion `k→k[ε]/ε²`. For a stack take isomorphism classes of lifts with a specified identification with x; infinitesimal automorphisms are the kernel of the automorphism restriction of the split lift. RS supplies their natural k-vector-space structures.
 
@@ -8994,7 +8994,7 @@ For the proof, construct versal deformation hulls, retaining infinitesimal autom
 
 - `SubsetImageChecks.empty`: the image of the empty set is empty.
 - `SubsetImageChecks.unit`: the image of `{1}` is `{1}`, including a map between different rings.
-- `StrongGluingTests.subsetFailure`: The functor R↦Set(R), with direct-image maps, fails RS*. For both maps `Q[ε]/ε²→Q`, the diagonal subset and the whole pullback have the same two projections but are distinct: `(ε,0)` is in the latter only. Thus the comparison is not injective even for a square-zero surjection.
+- `ArtinCriteria.StrongGluingTests.subsetFailure`: The functor R↦Set(R), with direct-image maps, fails RS*. For both maps `Q[ε]/ε²→Q`, the diagonal subset and the whole pullback have the same two projections but are distinct: `(ε,0)` is in the latter only. Thus the comparison is not injective even for a square-zero surjection.
 
 ### 7.2 Perfect-complex rank loci
 
@@ -9101,7 +9101,7 @@ Here modules use `spaceQuasicoherentModules` on the ringed small étale site, wi
 
 **Checks.**
 
-- `CoherentModuleChecks.movingSectionsHom`: for `B=Spec k[t]`, `X=Spec k[t,x]`, `F=O_X/(x)` and `G=O_X/(x−t)`, both supports are sections and both modules are B-flat. On a k[t]-algebra R, every map is multiplication by `b∈R` with tb=0, so `Hom(F,G)=Spec k[t,z]`/(tz). This is the polynomial-module example in `Suggested.lean`.
+- `CoherentModuleChecks.movingSectionsHom`: for `B=Spec k[t]`, `X=Spec k[t,x]`, `F=O_X/(x)` and `G=O_X/(x−t)`, both supports are sections and both modules are B-flat. On a k[t]-algebra R, every map is multiplication by `b∈R` with tb=0, so `Hom(F,G)=Spec k[t,z]`/(tz).
 - `CoherentModuleChecks.specialFibre`: in that example `f_*Hom_X(F,G)=0` on B, while at `t=0` the representing Hom fibre is `A¹_k`. Its coordinate ring has t-torsion, so it is not B-flat; pulling back the single module `f_*Hom_X(F,G)` would give the wrong functor.
 - `CoherentModuleChecks.nonflatSource`: for `X=B=Spec k[t]`, `F=O_B/(t)` and `G=O_B`, the same space `Spec k[t,z]`/(tz) represents Hom. The source F is not B-flat and imposes no proper-support condition in the Hom theorem.
 
@@ -9117,7 +9117,7 @@ Here f is of finite presentation, and both F and G are finitely presented, B-fla
 
 **Checks.**
 
-- `CoherentModuleChecks.movingSectionsIsom`: for the two section modules above, a map is invertible exactly when its multiplier b is a unit and tb=0. Thus `Isom(F,G)=Spec k[t,z,z⁻¹]/(t)`, empty away from `t=0` and `G_m` over `t=0`. The polynomial-module equivalence in `Suggested.lean` retains the unit condition.
+- `CoherentModuleChecks.movingSectionsIsom`: for the two section modules above, a map is invertible exactly when its multiplier b is a unit and tb=0. Thus `Isom(F,G)=Spec k[t,z,z⁻¹]/(t)`, empty away from `t=0` and `G_m` over `t=0`.
 - `CoherentModuleChecks.line`: for `X=B` and `F=G=O_B`, `Hom(F,G)=A¹_B` and the two-composite identity fibre is `G_m`,B, the diagonal fibre of the rank-one component of `Coh_{B/B}`.
 - `CoherentModuleChecks.zero`: `Isom(0,0)=B` with its unique identity; `Isom(0,O_B)` is empty over a nonempty base. The rank-zero component of Coh retains this identity arrow.
 
@@ -9282,7 +9282,7 @@ boundary functionals is introduced.
 - `BoundaryTests.identity`: for `B = A` and `J = I`, the identity is compatible and induces the identity of `A/I`.
 - `BoundaryTests.dualNumbers`: for `B = ℚ[ε]/ε²`, `I = 0` and `J = (ε)`, the ε-coefficient functional is not
   compatible because it sends ε to 1; multiplying its input by ε gives the compatible
-  constant-coefficient functional. The first half is an `example` in the Lean file.
+  constant-coefficient functional.
 
 Prove `fundamental_class_boundary`. Let `f:X→Y` be an embeddable morphism between S-schemes of the same pure relative dimension. Let `Θ : O_X → f^!O_Y` be its fundamental class, constructed here in two cases: from the trace of SchemeAndStackFoundations §2.21 (`trace_finite`) when f is finite flat, and from the determinant of the differential under the hypotheses of Pilloni 4.2.4.1(1); the two agree where both are defined. Let `D_X`,`D_Y` be reduced relative effective Cartier divisors with `f⁻¹(|D_Y|)=|D_X|`. For the determinant construction assume the normal/smooth dense open and relative normal-crossings conditions of Pilloni 4.2.4.1(1); for the trace construction assume f finite flat as in (2). Then Θ sends `O_X(−D_X)` into `f^!O_Y(−D_Y)`. Under an open base change or, in the finite-flat case, any base change for which the Cartier divisors remain Cartier, this boundary map agrees with the base-changed map.
 

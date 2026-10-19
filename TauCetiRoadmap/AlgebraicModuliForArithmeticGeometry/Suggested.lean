@@ -8,8 +8,8 @@ import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
 `README.md`. The declarations below are suggested forms for the parts of the roadmap that can be
 stated directly against the pinned Mathlib and Tau Ceti: the light definitions with real bodies,
-the theorems whose every carrier exists at the pins or is one of those definitions, and one or
-two discriminating examples for each kept definition. `sorry` marks a goal, not a result.
+the theorems whose every carrier exists at the pins or is one of those definitions, and a few
+proved examples exhibiting their moduli and descent properties. `sorry` marks a goal, not a result.
 
 The heavy carriers are README targets with their intended signatures and do not appear here:
 projective bundles of quasi-coherent modules and their twisting sheaves, coherent Grassmannians
@@ -40,6 +40,15 @@ universe u v w u' v' uI vI
 noncomputable section
 
 namespace TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+/-- `hopfInclusion_faithfullyFlat` (README §4.22): an injective map of commutative Hopf algebras
+makes the target faithfully flat over the source, over any field and without finite-type or
+reducedness hypotheses (Milne, version 3.00, Theorem 6.43 and Corollary 8.25). -/
+theorem hopfInclusion_faithfullyFlat {k : Type u} [Field k]
+    {A : Type v} [CommRing A] [HopfAlgebra k A]
+    {B : Type w} [CommRing B] [HopfAlgebra k B]
+    (f : A →ₐc[k] B) (hf : Function.Injective f) :
+    f.toAlgHom.toRingHom.FaithfullyFlat := sorry
 
 /-! ## Layer 1: projective parameter spaces -/
 
@@ -95,38 +104,6 @@ theorem exists_artinianHilbertPolynomial (A : Type u) [CommRing A] [IsArtinianRi
       ∃ (P : Polynomial ℚ) (N : ℕ), ∀ n, N ≤ n →
         P.eval (n : ℚ) = ((Module.length A (ℳ n)).toNat : ℚ) := sorry
 
-/-- `HilbertFunctionChecks.zero`: every piece of the zero graded submodule has dimension zero. -/
-example (k : Type u) [Field k] (n : ℕ) :
-    Module.finrank k ((fun _ : ℕ => (⊥ : Submodule k (MvPolynomial (Fin 1) k))) n) = 0 := sorry
-
-/-- `HilbertFunctionChecks.constant`: the degree-`n` piece of `k[x]` is spanned by `x^n`. -/
-example (k : Type u) [Field k] (n : ℕ) :
-    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin 1) k n) = 1 := sorry
-
-/-- `HilbertFunctionChecks.degreeTwo`: `x²`, `xy`, `y²` form a basis of the quadratic piece. -/
-example (k : Type u) [Field k] :
-    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin 2) k 2) = 3 := sorry
-
-/-- `HilbertFunctionChecks.cancelledDenominator`: cancelling a factor `1−T` in a rational
-Hilbert-series presentation preserves the polynomial; `k[x]` has this series over every field. -/
-example : Polynomial.hilbertPoly (1 - Polynomial.X : Polynomial ℚ) 2 =
-    Polynomial.hilbertPoly (1 : Polynomial ℚ) 1 := by
-  simpa using Polynomial.hilbertPoly_mul_one_sub_succ (1 : Polynomial ℚ) 1
-
-/-- `HilbertLengthChecks.dualNumbers`: the constant graded piece over the dual numbers has
-length two over its coefficient ring. -/
-example (k : Type u) [Field k] :
-    letI : CommRing (DualNumber k) := inferInstance
-    Module.length (DualNumber k)
-      (MvPolynomial.homogeneousSubmodule (Fin 1) (DualNumber k) 0) = 2 := sorry
-
-/-- `HilbertLengthChecks.dualNumbersResidueField`: the constant piece of the residue-field
-polynomial ring has length one over the dual numbers, acting through the augmentation. -/
-example (k : Type u) [Field k] :
-    letI : Algebra (DualNumber k) k := (TrivSqZeroExt.fstHom k k k).toRingHom.toAlgebra
-    Module.length (DualNumber k)
-      ((MvPolynomial.homogeneousSubmodule (Fin 1) k 0).restrictScalars (DualNumber k)) = 1 := sorry
-
 end ProjectiveParameterSpaces
 
 /-- The ordered maximal minors of the rank-two quotient graph matrix over any commutative ring
@@ -156,9 +133,9 @@ structure LineQuotient {S T : Scheme.{u}} (f : T ⟶ S) (E : S.Modules) where
   /-- The quotient morphism is an epimorphism of module sheaves. -/
   surjective : Epi quotient
 
-/-- `ProjectiveBundleTests.zero`: the zero module has no invertible quotient on a nonempty test
+/-- The zero module has no invertible quotient on a nonempty test
 scheme, so `P(0)` is empty. -/
-example {S T : Scheme.{u}} (f : T ⟶ S) [Nonempty T] :
+theorem noLineQuotientZero {S T : Scheme.{u}} (f : T ⟶ S) [Nonempty T] :
     IsEmpty (LineQuotient f (SheafOfModules.free (R := S.ringCatSheaf) PEmpty.{u + 1})) := sorry
 
 /-- The exponent vectors indexing the Laurent Čech basis of `H^q(P^n_A, O(m))`: in degree `0`
@@ -168,16 +145,14 @@ def projectiveTwistBasis (n q : ℕ) (m : ℤ) : Type :=
   {e : Fin (n + 1) → ℤ // (∑ i, e i) = m ∧
     ((q = 0 ∧ (n = 0 ∨ ∀ i, 0 ≤ e i)) ∨ (0 < n ∧ q = n ∧ ∀ i, e i < 0))}
 
-/-- `ProjectiveTwistCohomologyTests.topLine`: `H¹(P¹_A, O(−2))` has the single basis vector
-`(−1, −1)`. -/
-example : Nat.card (projectiveTwistBasis 1 1 (-2)) = 1 := sorry
-
-/-- `ProjectiveTwistCohomologyTests.lineBoundary`: `H¹(P¹_A, O(−1)) = 0`. -/
-example : IsEmpty (projectiveTwistBasis 1 1 (-1)) := sorry
-
-/-- `ProjectiveTwistCohomologyTests.pointNegative`: on `P⁰_A = Spec A` every twist is trivial, so
-`H⁰(P⁰_A, O(−7))` has one basis vector even though the exponent is negative. -/
-example : Nat.card (projectiveTwistBasis 0 0 (-7)) = 1 := sorry
+/-- On `P⁰` every integer twist has a single Laurent basis vector, including negative twists. -/
+example (m : ℤ) : Nonempty (Unique (projectiveTwistBasis 0 0 m)) := by
+  refine ⟨{ default := ⟨fun _ => m, by simp⟩, uniq := ?_ }⟩
+  intro e
+  apply Subtype.ext
+  funext i
+  fin_cases i
+  simpa using e.property.1
 
 /-- The finite cutoff of the coefficient-fixing Frobenius `u ↦ u^p` on coefficient vectors: the
 coefficient in degree `j < N` is placed in degree `p j ≤ p N`. Every matrix entry is `0` or `1`;
@@ -194,26 +169,11 @@ theorem coefficientFrobeniusCutoff_single (R : Type u) [CommRing R] (p N : ℕ)
     coefficientFrobeniusCutoff R p N (Pi.single j t) =
       fun i => if i.val = p * j.val then t else 0 := sorry
 
-/-- `CoefficientFrobeniusTests.zero`: the coefficient-linear cutoff sends the zero vector to zero. -/
-example (R : Type u) [CommRing R] (p N : ℕ) :
-    coefficientFrobeniusCutoff R p N 0 = 0 := by simp
-
-/-- `CoefficientFrobeniusTests.monomial`: for `p = N = 3`, coefficient `5` in degree `2` over
-`ℤ` maps to coefficient `5` in degree `6`, with exactly that nonzero support. -/
-example :
-    let v := coefficientFrobeniusCutoff ℤ 3 3 (Pi.single (2 : Fin 3) (5 : ℤ))
-    v = Pi.single (6 : Fin 10) (5 : ℤ) ∧ ∀ i : Fin 10, v i ≠ 0 ↔ i.val = 6 := sorry
-
-/-- `CoefficientFrobeniusTests.nonFixedCoefficient`: in characteristic `p` with `t^p ≠ t`, the
-constant coefficient of the cutoff image is `t`, not `t^p`. -/
-example (p : ℕ) (hp : p.Prime) (k : Type u) [Field k] [CharP k p]
-    (t : k) (h : t ^ p ≠ t) :
-    coefficientFrobeniusCutoff k p 1 (fun _ => t) 0 ≠ t ^ p := sorry
-
-/-- `CoefficientFrobeniusTests.collapsedExponents`: at `p = 0`, both source exponents map to
-zero and their coefficients add in the one-dimensional target. -/
-example (R : Type u) [CommRing R] (a b : R) :
-    coefficientFrobeniusCutoff R 0 2 ![a, b] = fun _ => a + b := sorry
+/-- Coefficient transport along `u ↦ u^p` fixes a coefficient even when its `p`-th power differs. -/
+example (p : ℕ) (R : Type u) [CommRing R] (t : R) (h : t ^ p ≠ t) :
+    coefficientFrobeniusCutoff R p 1 (fun _ => t) 0 ≠ t ^ p := by
+  change (∑ j : Fin 1, (if (0 : ℕ) = p * j.val then (1 : R) else 0) * t) ≠ t ^ p
+  simpa using h.symm
 
 end ProjectiveBundles
 
@@ -238,24 +198,6 @@ theorem not_flat_dualNumberPoint : ¬ Flat (dualNumberPoint k) := sorry
 end HomIsom
 
 /-! ## Layer 3: effective descent and finite-source restriction -/
-
-section QuasicoherentPullback
-
-open AlgebraicGeometry
-
-/-- `AffinePullbackTests.nonflat`: along the nonflat map `ℤ → ℤ/2`, multiplication by `2` on
-`O_{Spec ℤ}` is a monomorphism whose pullback is the zero endomorphism of the nonzero sheaf
-`O_{Spec 𝔽₂}`. Pullback of quasi-coherent modules is right exact, not exact. -/
-example :
-    let f := CommRingCat.ofHom (Int.castRingHom (ZMod 2))
-    let h := (tilde.functor (CommRingCat.of ℤ)).map
-      (ModuleCat.ofHom (2 • LinearMap.id : ℤ →ₗ[ℤ] ℤ))
-    Mono h ∧
-      (Scheme.Modules.pullback (Spec.map f)).map h = 0 ∧
-      ¬ Mono ((Scheme.Modules.pullback (Spec.map f)).map h) := by
-  sorry
-
-end QuasicoherentPullback
 
 open TensorProduct in
 /-- Finite presentation of a module descends along a faithfully flat ring map. Mathlib proves the
@@ -285,13 +227,6 @@ equivalence of categories. Mathlib supplies the comonadicity of extension of sca
 theorem faithfullyFlatDescent (f : R →+* A) (hf : f.FaithfullyFlat) :
     (affineModulePullback.toDescentData
       (fun (_ : PUnit) ↦ (CommRingCat.ofHom f).op)).IsEquivalence := sorry
-
-/-- `ModuleNativeChecks.arrows`: the canonical descent functor extends every module map, including
-noninvertible maps; its component at the single index is `extendScalars f` of the map. -/
-example (f : R →+* A) {M N : ModuleCat.{u} R} (h : M ⟶ N) :
-    ((affineModulePullback.toDescentData
-      (fun (_ : PUnit) ↦ (CommRingCat.ofHom f).op)).map h).hom PUnit.unit =
-      (ModuleCat.extendScalars f).map h := sorry
 
 end AffineModuleDescent
 
@@ -352,17 +287,13 @@ variable {A : Sheaf J AddCommGrpCat.{w}} [IsGerbe F J]
 theorem banded_aut_commute (b : AbelianBanding F J A) (U : C)
     (x : F.obj (.mk (op U))) (a a' : Aut x) : a * a' = a' * a := sorry
 
-/-- `BandingTests.zero`: if `A(U)` is trivial, an `A`-banding makes every `Aut x` over `U`
-trivial. -/
+/-- A band with trivial sections forces the corresponding object automorphisms to be trivial. -/
 example (b : AbelianBanding F J A) (U : C)
     [Subsingleton (A.obj.obj (op U))] (x : F.obj (.mk (op U))) :
-    ∀ a : Aut x, a = 1 := sorry
-
-/-- `BandingTests.nonabelian`: a gerbe with an object whose automorphism group is `S₃` admits no
-abelian banding. -/
-example (U : C) (x : F.obj (.mk (op U)))
-    (e : Aut x ≃* Equiv.Perm (Fin 3)) :
-    ¬ Nonempty (AbelianBanding F J A) := sorry
+    ∀ a : Aut x, a = 1 := by
+  have : Subsingleton (Aut x) := (b.autEquiv U x).symm.injective.subsingleton
+  intro a
+  exact Subsingleton.elim a 1
 
 /-- A neutralization over `S`: an object of the fibre over `S`. -/
 structure Neutralization (F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}) (S : C) where
@@ -374,15 +305,6 @@ terminal object use the terminal sheaf of the topos (README, Conventions). -/
 def IsNeutral (F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}) (S : C)
     (_hS : Limits.IsTerminal S) : Prop :=
   Nonempty (Neutralization F S)
-
-/-- `NeutralizationTests.nonterminal`: the constant `B(ℤ/3)` diagram on the two-object
-discrete site has an object over `true`, but neither site object is terminal. A fibre object
-alone does not supply the terminal-object witness required by `IsNeutral`. -/
-example :
-    let F := ((Functor.const (Discrete Bool)ᵒᵖ).obj
-      (Cat.of (SingleObj (Multiplicative (ZMod 3))))).toPseudofunctor'
-    Nonempty (Neutralization F (Discrete.mk true)) ∧
-      ∀ S : Discrete Bool, IsEmpty (Limits.IsTerminal S) := sorry
 
 variable [IsGerbe G J]
 
@@ -493,20 +415,10 @@ theorem evaluation_map (i : I) {x y : GerbeLimitFamily Φ} (f : x ⟶ y) :
 theorem isIso_of_components {x y : GerbeLimitFamily Φ} (f : x ⟶ y)
     (hf : ∀ i : I, IsIso (Hom.component f i)) : IsIso f := sorry
 
-/-- `LimitFamilyTests.singleton`: on the one-object discrete index the compatible families are
+/-- On the one-object discrete index the compatible families are
 equivalent to the single stage, for any unit data of `Φ`. -/
-example (Φ : LocallyDiscrete (Discrete PUnit) ⥤ᵖ Cat.{v', u'}) :
+theorem singletonEquivalence (Φ : LocallyDiscrete (Discrete PUnit) ⥤ᵖ Cat.{v', u'}) :
     Nonempty (GerbeLimitFamily Φ ≌ Φ.obj (.mk (Discrete.mk PUnit.unit))) := sorry
-
-/-- `LimitFamilyTests.classesInsufficient`: the constant diagram with value `B(ℤ/3)` has one
-isomorphism class of compatible families, whose automorphism group has three elements: the arrows of the groupoid
-are retained, not only its isomorphism classes. -/
-example :
-    let Φ := ((Functor.const (Discrete PUnit)).obj
-      (Cat.of (SingleObj (Multiplicative (ZMod 3))))).toPseudofunctor'
-    Nonempty (GerbeLimitFamily Φ) ∧
-      Subsingleton (Skeleton (GerbeLimitFamily Φ)) ∧
-      ∀ x : GerbeLimitFamily Φ, Nat.card (x ⟶ x) = 3 := sorry
 
 end GerbeLimitFamily
 
@@ -551,18 +463,14 @@ abbrev IntrinsicBandSection (U : C) := ↥(intrinsicBandSectionSubgroup F U)
 variable (J : GrothendieckTopology C) [IsGerbe F J]
 
 include J in
-/-- `BandCenterTests.C3`: for a gerbe with commutative automorphism groups and an object over `U`
-with automorphism group `ℤ/3`, the intrinsic band has three sections over `U`. -/
-example (hComm : ∀ (U : C) (x : F.obj (.mk (op U))) (a b : Aut x), a * b = b * a)
-    (U : C) (x : F.obj (.mk (op U))) (e : Aut x ≃* Multiplicative (ZMod 3)) :
-    Nat.card (IntrinsicBandSection F U) = 3 := sorry
-
-include J in
-/-- `BandCenterTests.S3`: for a gerbe and an object with automorphism group `S₃` the sections of the
-intrinsic band form the trivial centre of `S₃`, not all six automorphisms. -/
-example (U : C) (x : F.obj (.mk (op U)))
-    (e : Aut x ≃* Equiv.Perm (Fin 3)) :
-    Nat.card (IntrinsicBandSection F U) = 1 := sorry
+/-- `IntrinsicBandSections.evalEquiv` (README §§4.6a, 4.21): evaluation of compatible central
+sections at an object is bijective for a gerbe with abelian automorphism groups.
+The evaluation uses the identity slice arrow (Stacks, tag 0CJY, with Hom-sheaf descent). -/
+theorem intrinsicBandSection_evaluation_bijective
+    (hComm : ∀ (V : C) (y : F.obj (.mk (op V))) (a b : Aut y), a * b = b * a)
+    (U : C) (x : F.obj (.mk (op U))) :
+    Function.Bijective (fun s : IntrinsicBandSection F U =>
+      (Aut.unitsEndEquivAut (𝟭 (F.obj (.mk (op U)))) (s.val U (𝟙 U))).app x) := sorry
 
 end IntrinsicBand
 
@@ -588,34 +496,9 @@ solutions exactly, the degenerate case of Artin approximation. -/
 theorem hasArtinApproximation_of_isAdicComplete [IsNoetherianRing A]
     [IsAdicComplete (IsLocalRing.maximalIdeal A) A] : HasArtinApproximation A := sorry
 
-/-- `ApproximationTests.field`: the completion of a field at its zero maximal ideal changes no
-solution. -/
-example (K : Type u) [Field K] : HasArtinApproximation K := sorry
-
 end Approximation
 
 /-! ## Layer 7: space Picard, Artin representability and arithmetic coefficients -/
-
-namespace CoherentModuleChecks
-
-variable (R : Type u) [CommRing R] (t : R)
-
-/-- `CoherentModuleChecks.movingSectionsHom`: maps between the two section modules over `R[x]`
-correspond to multipliers annihilated by the image `t` of the base parameter. -/
-example : Nonempty
-    (((Polynomial R ⧸ Ideal.span {(Polynomial.X : Polynomial R)}) →ₗ[Polynomial R]
-      (Polynomial R ⧸ Ideal.span {Polynomial.X - Polynomial.C t})) ≃
-      {b : R // t * b = 0}) := sorry
-
-/-- `CoherentModuleChecks.movingSectionsIsom`: isomorphisms between the two section modules
-correspond to unit multipliers annihilated by `t`, so they exist exactly over the fibre `t = 0`.
-The parameter ring of this functor is `k[t,z,z⁻¹]/(t)`. -/
-example : Nonempty
-    (((Polynomial R ⧸ Ideal.span {(Polynomial.X : Polynomial R)}) ≃ₗ[Polynomial R]
-      (Polynomial R ⧸ Ideal.span {Polynomial.X - Polynomial.C t})) ≃
-      {b : Rˣ // t * (b : R) = 0}) := sorry
-
-end CoherentModuleChecks
 
 namespace ArtinCriteria
 
@@ -646,9 +529,6 @@ theorem StrongInfinitesimalGluing.transport
     {G : CommRingCat.{u} ⥤ Type u} (e : F ≅ G)
     (hF : StrongInfinitesimalGluing F) : StrongInfinitesimalGluing G := sorry
 
-/-- `StrongGluingTests.forget`: the underlying-set functor (the affine line) satisfies (RS). -/
-example : StrongInfinitesimalGluing (forget CommRingCat.{u}) := sorry
-
 /-- Direct image of subsets: a functor of points that fails (RS). -/
 def StrongGluingTests.subsetImage : CommRingCat.{u} ⥤ Type u where
   obj R := Set R
@@ -659,7 +539,7 @@ def StrongGluingTests.subsetImage : CommRingCat.{u} ⥤ Type u where
 /-- `StrongGluingTests.subsetFailure`: for both maps `ℚ[ε] → ℚ`, the diagonal subset and the whole
 pullback have the same two projections but differ, so the comparison is not injective even along a
 square-zero surjection. -/
-example : ¬ StrongInfinitesimalGluing StrongGluingTests.subsetImage.{0} := sorry
+theorem StrongGluingTests.subsetFailure : ¬ StrongInfinitesimalGluing StrongGluingTests.subsetImage.{0} := sorry
 
 variable (R : Type u) [CommRing R] (I : Ideal R)
 
@@ -702,20 +582,10 @@ theorem FormalPoint.map_value {G : CommRingCat.{u} ⥤ Type u} (η : F ⟶ G)
     (ξ : FormalPoint F R I) (n : ℕ) :
     (FormalPoint.map F R I η ξ).value n = η.app _ (ξ.value n) := rfl
 
-/-- `FormalPointTests.specialFibreInsufficient`: on `ℚ[ε]` with `I = (ε)`, the points `0` and `ε`
-agree modulo `I` but not modulo `I² = 0`; the special fibre does not determine a formal point. -/
-example :
-    let J : Ideal (TrivSqZeroExt ℚ ℚ) :=
-      RingHom.ker (TrivSqZeroExt.fstHom ℚ ℚ ℚ).toRingHom
-    let x := FormalPoint.ofPoint (forget CommRingCat.{0}) (TrivSqZeroExt ℚ ℚ) J 0
-    let y := FormalPoint.ofPoint (forget CommRingCat.{0}) (TrivSqZeroExt ℚ ℚ) J
-      (TrivSqZeroExt.inr (1 : ℚ))
-    x.value 0 = y.value 0 ∧ x.value 1 ≠ y.value 1 := sorry
-
 /-- `FormalPointTests.firstOrderInsufficient`: on `ℚ[t]/(t³)` with `I = (t)`, the points `0` and
 `t²` agree modulo `I` and modulo `I²` but not modulo `I³ = 0`; the residue together with the
 first-order jet does not determine a formal point. -/
-example :
+theorem FormalPointTests.firstOrderInsufficient :
     let x := FormalPoint.ofPoint (forget CommRingCat.{0})
       (AdjoinRoot (Polynomial.X ^ 3 : Polynomial ℚ))
       (Ideal.span {AdjoinRoot.root (Polynomial.X ^ 3 : Polynomial ℚ)}) 0
@@ -748,13 +618,9 @@ theorem IsEffective.lift_spec (h : IsEffective F R I) (ξ : FormalPoint F R I) :
 theorem IsEffective.transport {G : CommRingCat.{u} ⥤ Type u} (e : F ≅ G)
     (h : IsEffective F R I) : IsEffective G R I := sorry
 
-/-- `EffectivityTests.zeroIdeal`: along `I = 0` the quotients are `R` and every functor is
-effective. -/
-example : IsEffective F R (⊥ : Ideal R) := sorry
-
 /-- `EffectivityTests.emptyScheme`: for `F = Hom(ℤ/1, −)`, `R = ℚ` and `I = ⊤` every quotient is
 the zero ring with its unique point, giving a formal point, but `F(ℚ)` is empty. -/
-example : ¬ IsEffective
+theorem EffectivityTests.emptyScheme : ¬ IsEffective
     (coyoneda.obj (Opposite.op (CommRingCat.of (ZMod 1)))) ℚ (⊤ : Ideal ℚ) := sorry
 
 variable (k : Type u) [Field k]
@@ -779,14 +645,6 @@ def TangentFiber.zero (x : F.obj (CommRingCat.of k)) : TangentFiber F k x :=
 def TangentFiber.map {G : CommRingCat.{u} ⥤ Type u} (η : F ⟶ G)
     (x : F.obj (CommRingCat.of k)) : TangentFiber F k x → TangentFiber G k (η.app _ x) :=
   fun y => ⟨η.app _ y.val, by rw [← NatTrans.naturality_apply, y.property]⟩
-
-/-- `TangentTests.affineLine`: the tangent fibre of the affine line at `x` is `k`, through the
-`ε`-coefficient. -/
-example (x : k) : Nonempty (TangentFiber (forget CommRingCat.{u}) k x ≃ k) := sorry
-
-/-- `TangentTests.twoElements`: the affine line over `𝔽₂` has two tangent vectors at `0`, whereas
-it has four dual-number points. -/
-example : Nat.card (TangentFiber (forget CommRingCat.{0}) (ZMod 2) 0) = 2 := sorry
 
 end ArtinCriteria
 
@@ -864,13 +722,6 @@ theorem KOCoefficients.map_comp {N P : Type u}
     KOCoefficients.map R K M (g.comp f) =
       (KOCoefficients.map R K N g).comp (KOCoefficients.map R K M f) := sorry
 
-/-- `KOTests.halfIntegralNonzero`: for `R = ℤ`, `K = ℚ` and `M = ℤ`, the class of `½ ⊗ 1` is
-nonzero; the quotient is not defined to be zero. -/
-example : KOCoefficients.mk ℤ ℚ ℤ ((1 / 2 : ℚ) ⊗ₜ[ℤ] (1 : ℤ)) ≠ 0 := sorry
-
-/-- `KOTests.baseField`: for `K = R` every coefficient class is zero. -/
-example (z : KOCoefficients R R M) : z = 0 := sorry
-
 /-- Boundary duality: if `n ≥ 1`, `J^n ⊆ I B` and `c ∈ J^(n−1)`, then for every `A`-linear
 `ℓ : B → A` the functional `b ↦ ℓ (c b)` sends `J` into `I`, so it lies in Mathlib's
 `Submodule.compatibleMaps` and induces `B/J → A/I` by `Submodule.mapQLinear`. -/
@@ -878,13 +729,6 @@ theorem boundaryDual_mulInput {A B : Type u} [CommRing A] [CommRing B] [Algebra 
     (I : Ideal A) (J : Ideal B) (n : ℕ) (hn : 1 ≤ n)
     (hJ : J ^ n ≤ I.map (algebraMap A B)) (c : B) (hc : c ∈ J ^ (n - 1)) (ℓ : B →ₗ[A] A) :
     ℓ ∘ₗ LinearMap.mulLeft A c ∈ Submodule.compatibleMaps (J.restrictScalars A) I := sorry
-
-/-- `BoundaryTests.dualNumbers`: on `ℚ[ε]` with `J = (ε)` and `I = 0`, the `ε`-coefficient
-functional sends `ε` to `1`, so it is not compatible with `(J, I)`. -/
-example :
-    TrivSqZeroExt.sndHom ℚ ℚ ∉ Submodule.compatibleMaps
-      ((RingHom.ker (TrivSqZeroExt.fstHom ℚ ℚ ℚ).toRingHom).restrictScalars ℚ) (⊥ : Ideal ℚ) :=
-  sorry
 
 variable {F₀ E₀ L₀ : Type u} [Field F₀] [Field E₀] [Field L₀]
 variable [Algebra F₀ E₀] [Algebra F₀ L₀]
@@ -941,10 +785,6 @@ noncomputable def relativePicardPresheaf : (Over B)ᵒᵖ ⥤ Type (u + 1) where
 test scheme, before sheafification kills these classes. -/
 theorem relativePicardPresheaf_id_obj (T : (Over B)ᵒᵖ) :
     Nonempty ((relativePicardPresheaf (𝟙 B)).obj T ≃ LineBundleClass T.unop.left) := sorry
-
-/-- `PicardPresheafChecks.field`: every line bundle on the spectrum of a field is trivial. -/
-example (K : Type u) [Field K] :
-    Subsingleton (LineBundleClass (Spec (CommRingCat.of K))) := sorry
 
 end RelativePicard
 
