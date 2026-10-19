@@ -267,6 +267,25 @@ the finite-product rule with their exact derivative and nonvanishing hypotheses.
 series of principal parts receives no value from a paired-product identity.
 
 
+#### Sharp finite-product majorant
+
+For every finite set `s` and `u : ι → ℂ`, put `P_s=∏_(i∈s)(1+u_i)` and
+`A_s=∏_(i∈s)(1+‖u_i‖) : ℝ`. Prove both inequalities
+
+`‖P_s−1‖ ≤ A_s−1` and `A_s ≤ exp(Σ_(i∈s) ‖u_i‖)`.
+
+The first is a separate sharp finite-induction target: the native
+`Finset.norm_prod_one_add_sub_one_le` supplies the exponential consequence but does not
+state this intermediate bound. For insertion of a fresh index, use
+`P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle inequality,
+`‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. Derive the second bound by multiplying
+`1+t≤exp t` for nonnegative `t`, and expose their combined exponential bound for consumers.
+No factor is divided out: zero factors, `u_i=0`, and an empty index set are allowed;
+for the empty set `P_s=A_s=1` and the sharp error is zero. These finite estimates precede
+the arbitrary-set uniform-tail and holomorphic product targets below. They do not introduce
+a logarithm of a vanishing factor or replace either sequential or unordered convergence.
+
+
 #### Uniform-tail product criterion
 
 For an arbitrary set X and functions `u_n : X → ℂ`, assume each u_n is bounded on X,
@@ -769,6 +788,62 @@ Mathlib's `Gamma/Beta.lean` and `Gamma/Digamma.lean`. Name the harmonic/logarith
 `Real.tendsto_harmonic_sub_log` from `Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`. State pole exclusions when taking
 logarithmic derivatives. These native special-function facts do not replace the sine-product
 proof or global product API.
+
+#### Independent paired-cotangent strip proof
+
+Develop this second proof of the paired cotangent identity alongside the preceding
+product/logarithmic-derivative proof. It does not consume that identity, the sine product,
+or native `cot_series_rep` as a premise. Write
+`U=ℂ\{(k:ℂ) | k∈ℤ}`,
+`q_N(z)=Σ_(k=−N)^N (z−k)⁻¹`, and
+`q(z)=z⁻¹+Σ_(n≥1)((z−n)⁻¹+(z+n)⁻¹)`.
+The infinite sum is specifically this paired series, not an unpaired bilateral sum.
+
+First prove local uniform convergence of `q_N` to q on U using
+`(z−n)⁻¹+(z+n)⁻¹=2z/(z²−n²)` and compact-dependent `O(n⁻²)` bounds.
+Give the finite truncation/pairing comparison, holomorphy on U, and the residue-one
+local decomposition at each integer. Derive periodicity directly from the finite identity
+
+`q_N(z+1)−q_N(z)=(z+N+1)⁻¹−(z−N)⁻¹`.
+
+Its two boundary terms converge locally uniformly to zero away from the indicated poles;
+thus `q(z+1)=q(z)` on U. Put `c(z)=π cos(πz)/sin(πz)`. Prove its regular locus and
+residue-one decompositions using elementary sine/cosine differentiation and their integer
+zeros. Cancel the principal parts to construct an actual entire function F satisfying
+`F=c−q` on U, with its values at the integers obtained by removable extension. Do not
+assign zero arbitrarily at the poles. Prove uniqueness and one-periodicity of this extension.
+
+Prove uniform bounds on the full closed fundamental strip `|Re z|≤1/2`, rather than
+only at `z=iy`. For `|Im z|≥1` and n≥1,
+
+`‖2z/(z²−n²)‖ ≤ 3|Im z|/((n−1/2)²+(Im z)²)`.
+
+The decreasing-function integral comparison gives
+`Σ_(n≥1) |y|/((n−1/2)²+y²) ≤ 1+π/2` for `|y|≥1`.
+Together with `‖1/z‖≤1`, this bounds q by `4+3π/2` on those two strip tails.
+Use the exponential formula for cotangent to bound c there by
+`π(1+exp(−2π))/(1−exp(−2π))`. On the remaining compact rectangle
+`|Re z|≤1/2`, `|Im z|≤1`, use continuity of the entire extension F, including the
+removed pole at zero. Periodicity moves every complex number into this strip, so F is
+globally bounded. Consume native Liouville only after this bound, giving F constant.
+
+Determine the constant without invoking the desired cotangent series. For real `y>0`, prove
+
+`q(iy)=−i(1/y+2 S_y)`, where
+`S_y=(1/y) Σ_(n≥1) 1/(1+(n/y)²)`.
+
+Construct the improper-Riemann comparison from finite upper and lower rectangular sums
+for the decreasing function `t↦1/(1+t²)` on `[0,R]`. Prove the improper integral is π/2
+using the arctangent derivative and limit; control the infinite tail by
+`∫_R^∞ 1/(1+t²) dt ≤ 1/R` for `R>0`. Pass from finite sums to the summable infinite
+series, obtaining the explicit all-`y>0` estimate
+`0≤π/2−S_y≤1/y`. Hence `q(iy)→−πi`. Independently the exponential formula gives
+`c(iy)→−πi`, so the constant F is zero. Conclude `c=q` on U, and compare this independently
+constructed proof with the existing native theorem afterwards. The zero value `y=0` is
+excluded from the Riemann/vertical-limit claims; integers are excluded from the final identity.
+No absolute convergence of `Σ_(k∈ℤ)(z−k)⁻¹` is claimed. This alternative does not remove
+the existing sine/cosine/Gamma/shifted-product or contour examples.
+
 
 <a id="gh4-theta-ratios"></a>
 #### Theta, hyperbolic sine, divisors, and ratio products
