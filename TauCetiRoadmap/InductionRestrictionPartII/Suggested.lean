@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Algebra.Group.ElementaryTwoQuotient.Basic
+import TauCeti.GroupTheory.GroupExtension.Character
 import TauCeti.InformationTheory.Coding.Weight.Enumerator
 import TauCeti.RepresentationTheory.Homological.GroupHomology.Transfer.Basic
 
@@ -12,6 +13,12 @@ not an exhaustive checklist. The supplied reduced covers,
 marked extensions and unit actions are prerequisites from InverseGaloisAndArithmeticFundamentalGroups
 IG.3.4–IG.3.5; they are not redeclared here. Targets requiring those carriers not provided by the pins are listed
 at the end and stated fully in the README.
+
+RS.0.1 uses only IG.3.4's section-cocycle class map and universal coefficients. Its full
+five-term exactness and stem-surjectivity targets apply without finiteness. IG.3.4's finite
+oriented Schur-cover comparison follows independently from universal coefficients and the
+pinned injective character transgression for stem extensions. The reduced-cover homology
+applications in RS.1 use both comparisons.
 
 `Multiplier G` abbreviates integral `H₂(G, ℤ)`, written additively. Commutators use
 `XYX⁻¹Y⁻¹`. Degree coordinates are integers. Finite parity calculations use Tau Ceti's existing
@@ -28,6 +35,9 @@ namespace TauCetiRoadmap.InductionRestrictionPartII
 -- The homological transfer and its index identity are supplied at the pin.
 #check TauCeti.groupHomology.transfer
 #check TauCeti.groupHomology.transfer_comp_map_subtype_id
+
+-- The finite oriented cover comparison uses the supplied character transgression.
+#check TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator
 
 /-! ## Layer RS.0: exactness and Hall-coinvariant homology comparisons -/
 
