@@ -40,6 +40,44 @@ namespace TauCetiRoadmap.AInfCohomology
 
 open scoped BigOperators
 
+/-! ## Milestones on existing coefficient and module carriers -/
+
+/-- The valuation ring `O_C` of `C`. -/
+abbrev integers (C : Type*) [NontriviallyNormedField C] [IsUltrametricDist C] : Subring C :=
+  (NormedField.valuation (K := C)).integer
+
+section CoefficientMilestones
+
+variable (p : ℕ) [Fact p.Prime]
+variable (C : Type*) [NontriviallyNormedField C] [IsUltrametricDist C] [hcomplete : CompleteSpace C]
+  [halgclosed : IsAlgClosed C] [hcharzero : CharZero C]
+variable [hpnonunit : Fact (¬IsUnit (p : integers C))]
+  [hadic : IsAdicComplete (Ideal.span {(p : integers C)}) (integers C)]
+
+include hcomplete halgclosed hcharzero hpnonunit hadic
+
+/-- Finite-Witt coherence (AI.0.3, `AInf.witt_coherence`): relation modules of maps between
+finite free modules are finitely generated, over both `W_r(O_C)` and `W_r(O_C^♭)`
+(BMS1, Proposition 3.24). -/
+theorem finite_witt_coherence (r : ℕ) (hr : 1 ≤ r) :
+    (∀ (m n : ℕ) (f : (Fin m → TruncatedWittVector p r (integers C)) →ₗ[
+        TruncatedWittVector p r (integers C)] (Fin n → TruncatedWittVector p r (integers C))),
+      (LinearMap.ker f).FG) ∧
+    (∀ (m n : ℕ) (f : (Fin m → TruncatedWittVector p r (PreTilt (integers C) p)) →ₗ[
+        TruncatedWittVector p r (PreTilt (integers C) p)]
+        (Fin n → TruncatedWittVector p r (PreTilt (integers C) p))),
+      (LinearMap.ker f).FG) := by sorry
+
+/-- The p-local freeness conclusion of AI.2.1, `AInf.punctured_vector_bundle_criterion`:
+every finite projective `A_inf[1/p]`-module is free (BMS1, Corollary 4.12). -/
+theorem ainf_invert_p_projective_free (M : Type*) [AddCommGroup M]
+    [Module (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M]
+    [Module.Finite (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M]
+    [Module.Projective (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M] :
+    Module.Free (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M := by sorry
+
+end CoefficientMilestones
+
 /-! ## Layer AI.0: Cyclotomic periods and finite Witt coefficients -/
 
 section Cyclotomic
@@ -89,23 +127,6 @@ theorem tildeXiLevel_succ (ε : S) (r : ℕ) :
     tildeXiLevel p ε (r + 1) =
       tildeXiLevel p ε r * ((WittVector.frobeniusEquiv p S)^[r + 1]) (xi p ε) := by sorry
 
--- The empty product: length zero.
-example (ε : S) : xiLevel p ε 0 = 1 ∧ tildeXiLevel p ε 0 = 1 := by sorry
-
--- At length one the two conventions already give different generators.
-example (ε : S) : xiLevel p ε 1 = xi p ε ∧ tildeXiLevel p ε 1 = tildeXi p ε := by sorry
-
--- Orientation at length two: `ξ_2` uses `φ⁻¹`, `ξ̃_2` uses `φ`.
-example (ε : S) :
-    xiLevel p ε 2 = xi p ε * (WittVector.frobeniusEquiv p S).symm (xi p ε) ∧
-      tildeXiLevel p ε 2 = tildeXi p ε * WittVector.frobenius (tildeXi p ε) := by sorry
-
--- Non-example: `ε = 1` is not a primitive system; it gives `μ = 0` and `ξ = p`.
-example : mu p (1 : S) = 0 ∧ xi p (1 : S) = p := by sorry
-
--- Characteristic two does not remove the integer 2 in the Witt ring.
-example : mu 2 (1 : ZMod 2) = 0 ∧ xi 2 (1 : ZMod 2) = 2 := by sorry
-
 /-- Residue specialization of the periods (Layer AI.0:integral): a ring map `ρ : S → k` to a
 perfect ring of characteristic `p` with `ρ ε = 1` sends `μ` to `0` and `ξ` to `p`. -/
 theorem map_mu_xi_of_eq_one {k : Type*} [CommRing k] [CharP k p] [PerfectRing k p]
@@ -122,6 +143,7 @@ variable {A O : Type*} [CommRing A] [CommRing O]
 def shiftedTheta (θ : A →+* O) (φ : A ≃+* A) : A →+* O :=
   θ.comp φ.symm.toRingHom
 
+/-- Surjectivity of the Fontaine map is preserved by the Frobenius shift (AI.0.1). -/
 theorem shiftedTheta_surjective (θ : A →+* O) (φ : A ≃+* A) (h : Function.Surjective θ) :
     Function.Surjective (shiftedTheta θ φ) := by sorry
 
@@ -131,20 +153,7 @@ theorem shiftedTheta_ker (θ : A →+* O) (φ : A ≃+* A) (x : A)
     (hx : RingHom.ker θ = Ideal.span {x}) :
     RingHom.ker (shiftedTheta θ φ) = Ideal.span {φ x} := by sorry
 
--- The identity automorphism gives the original map.
-example (θ : A →+* O) : shiftedTheta θ (RingEquiv.refl A) = θ := by sorry
-
 end ShiftedTheta
-
-/-! ## Checks on the light carriers of AI.2 and AI.3 -/
-
--- AI.2.4: the rank-one Frobenius image `(ξ̃²)` fails to contain `(ξ̃)`.
-example : ¬ (2 : ℤ) ∈ Ideal.span ({(2 : ℤ) ^ 2} : Set ℤ) := by sorry
-
--- AI.3.1: profinite products use continuous functions, which need not be locally constant.
-example (p : ℕ) [Fact p.Prime] :
-    Continuous (fun x : PadicInt p => (x : Padic p)) ∧
-      ¬ IsLocallyConstant (fun x : PadicInt p => (x : Padic p)) := by sorry
 
 section Fontaine
 
@@ -165,22 +174,17 @@ theorem thetaTilde_teichmuller (a : PreTilt O p) :
 theorem thetaTilde_teichmuller_pow (a : PreTilt O p) :
     thetaTilde p O (WittVector.teichmuller p a ^ p) = PreTilt.untilt a := by sorry
 
--- Integer coefficients are fixed by `θ̃`.
-example : thetaTilde p O (p : WittVector p (PreTilt O p)) = p := by sorry
-
 end Fontaine
 
 section CyclotomicKernel
 
 variable (p : ℕ) [Fact p.Prime]
-variable {C : Type*} [NontriviallyNormedField C] [IsUltrametricDist C] [CompleteSpace C]
-  [IsAlgClosed C] [CharZero C]
+variable {C : Type*} [NontriviallyNormedField C] [IsUltrametricDist C] [hcomplete : CompleteSpace C]
+  [halgclosed : IsAlgClosed C] [hcharzero : CharZero C]
+variable [hpnonunit : Fact (¬IsUnit (p : integers C))]
+  [hadic : IsAdicComplete (Ideal.span {(p : integers C)}) (integers C)]
 
-/-- The valuation ring `O_C` of `C`. -/
-abbrev integers (C : Type*) [NontriviallyNormedField C] [IsUltrametricDist C] : Subring C :=
-  (NormedField.valuation (K := C)).integer
-
-variable [Fact (¬IsUnit (p : integers C))] [IsAdicComplete (Ideal.span {(p : integers C)}) (integers C)]
+include hcomplete halgclosed hcharzero hpnonunit hadic
 
 /-- Milestone of Layer AI.0: for a compatible system `ε` whose first root `(ε^{1/p})^♯` is a
 primitive `p`-th root of unity, `ker θ = (ξ)` and `ker θ̃ = (ξ̃)` in `A_inf = W(O_C^♭)`
@@ -198,30 +202,30 @@ theorem isRegular_p_mu (ε : PreTilt (integers C) p)
     RingTheory.Sequence.IsRegular (WittVector p (PreTilt (integers C) p))
       [(p : WittVector p (PreTilt (integers C) p)), mu p ε] := by sorry
 
--- The three cyclotomic evaluations distinguish the two Fontaine maps.
-example (ε : PreTilt (integers C) p)
+/-- The cyclotomic normalizations in AI.0.1, `AInf.cyclotomic_test_theta`:
+`θ(μ) = 0`, `θ(ξ̃) = p`, and `θ̃(ξ̃) = 0` (BMS1, Example 3.16). -/
+theorem cyclotomic_period_evaluations (ε : PreTilt (integers C) p)
     (hε : IsPrimitiveRoot
       (PreTilt.untilt ((_root_.frobeniusEquiv (PreTilt (integers C) p) p).symm ε)) p) :
     WittVector.fontaineTheta (integers C) p (mu p ε) = 0 ∧
-    WittVector.fontaineTheta (integers C) p (tildeXi p ε) = p ∧
-    thetaTilde p (integers C) (tildeXi p ε) = 0 := by sorry
+      WittVector.fontaineTheta (integers C) p (tildeXi p ε) = p ∧
+      thetaTilde p (integers C) (tildeXi p ε) = 0 := by sorry
 
--- The generic polynomials do not assert a kernel formula for arbitrary ε.
-example : xi 2 (0 : ZMod 2) = 1 ∧ tildeXi 2 (0 : ZMod 2) = 1 := by sorry
+/-- The mixed-characteristic freeness criterion in AI.2.1, `AInf.ainf_module_structure`:
+a finitely presented module with projective p-inversion is free when its `θ` reduction
+is p-torsion-free. Reduction is expressed as `M/ξM` (BMS1, Proposition 4.13). -/
+theorem ainf_free_of_torsionFree_reduction (ε : PreTilt (integers C) p)
+    (hε : IsPrimitiveRoot
+      (PreTilt.untilt ((_root_.frobeniusEquiv (PreTilt (integers C) p) p).symm ε)) p)
+    (M : Type*) [AddCommGroup M] [Module (WittVector p (PreTilt (integers C) p)) M]
+    [Module.FinitePresentation (WittVector p (PreTilt (integers C) p)) M]
+    (hproj : Module.Projective (Localization.Away (p : WittVector p (PreTilt (integers C) p)))
+      (LocalizedModule (Submonoid.powers (p : WittVector p (PreTilt (integers C) p))) M))
+    (hred : Function.Injective (fun x : M ⧸
+        LinearMap.range (LinearMap.lsmul (WittVector p (PreTilt (integers C) p)) M (xi p ε)) =>
+      (p : WittVector p (PreTilt (integers C) p)) • x)) :
+    Module.Free (WittVector p (PreTilt (integers C) p)) M := by sorry
 
--- Length one identifies the Witt almost ideal with the nonzero proper maximal ideal.
-example :
-    let m := IsLocalRing.maximalIdeal (integers C)
-    Function.Bijective (fun x : TruncatedWittVector p 1 (integers C) => x.coeff 0) ∧
-    (p : TruncatedWittVector p 1 (integers C)).coeff 0 ∈ m ∧
-    (p : TruncatedWittVector p 1 (integers C)) ≠ 0 ∧
-    (1 : TruncatedWittVector p 1 (integers C)).coeff 0 ∉ m := by sorry
-
--- At length two, the cyclotomic quotient and V(1) have different first coordinates.
-example (ζ : integers C) (hζ : IsPrimitiveRoot ζ 4) :
-    (WittVector.truncate 2 (1 + WittVector.teichmuller 2 ζ)).coeff 0 = 1 + ζ ∧
-    1 + ζ ≠ 0 ∧
-    (WittVector.truncate 2 (WittVector.verschiebung (1 : WittVector 2 (integers C)))).coeff 0 = 0 := by sorry
 
 end CyclotomicKernel
 
@@ -243,19 +247,19 @@ core of CrystallineCohomology CR.4; its torsion-free complex and derived interfa
 def etaTerm (C : CochainComplex (ModuleCat.{u} R) ℤ) (f : R) (i : ℤ) : Submodule R (C.X i) :=
   Submodule.comap (C.d i (i + 1)).hom (LinearMap.range (LinearMap.lsmul R (C.X (i + 1)) f))
 
+/-- Membership in the divisibility submodule is witnessed by a quotient of the differential. -/
 theorem mem_etaTerm (C : CochainComplex (ModuleCat.{u} R) ℤ) (f : R) (i : ℤ) (x : C.X i) :
     x ∈ etaTerm C f i ↔ ∃ y : C.X (i + 1), f • y = (C.d i (i + 1)).hom x := by sorry
 
--- For `f = 1` every element is divisible.
-example (C : CochainComplex (ModuleCat.{u} R) ℤ) (i : ℤ) : etaTerm C 1 i = ⊤ := by sorry
+-- A unit gives the ambient module; zero gives precisely the cocycles.
+example (C : CochainComplex (ModuleCat.{u} R) ℤ) (i : ℤ) : etaTerm C 1 i = ⊤ := by
+  ext x
+  simp [etaTerm, LinearMap.mem_range]
 
--- For `f = 0` the divisibility submodule is the module of cocycles.
 example (C : CochainComplex (ModuleCat.{u} R) ℤ) (i : ℤ) :
-    etaTerm C 0 i = LinearMap.ker (C.d i (i + 1)).hom := by sorry
-
--- A zero differential gives the entire divisibility submodule for every f.
-example (C : CochainComplex (ModuleCat.{u} R) ℤ) (f : R) (i : ℤ)
-    (hd : C.d i (i + 1) = 0) : etaTerm C f i = ⊤ := by sorry
+    etaTerm C 0 i = LinearMap.ker (C.d i (i + 1)).hom := by
+  ext x
+  simp [etaTerm]
 
 /-- The integer complex `[ℤ --a→ ℤ]` in degrees zero and one, zero elsewhere. -/
 def integerTwoTerm (a : ℤ) : CochainComplex (ModuleCat ℤ) ℤ :=
@@ -265,45 +269,12 @@ def integerTwoTerm (a : ℤ) : CochainComplex (ModuleCat ℤ) ℤ :=
       subst i
       exact ModuleCat.ofHom (LinearMap.lsmul ℤ ℤ a)
     else 0)
-    (by sorry)
-
--- The nondivisible element is excluded by η, even in an acyclic complex.
-example : (show (integerTwoTerm 1).X 0 from (1 : ℤ)) ∉ etaTerm (integerTwoTerm 1) 2 0 := by sorry
-
--- A divisible differential and the terminal term give the full divisibility modules.
-example : etaTerm (integerTwoTerm 4) 2 0 = ⊤ ∧
-    etaTerm (integerTwoTerm 4) 2 1 = ⊤ := by sorry
-
--- Changing 2 to −2 multiplies degree-one normalized coordinates by −1.
-example (x : ℤ) : (-1 : ℤ) ^ (1 : ℕ) * x = -x := by sorry
-
--- The negative tensor power of (2) is the line (1/2)ℤ inside ℚ.
-example : (1 / 2 : ℚ) ∈ LinearMap.range
-    ({ toFun := fun n : ℤ => (n : ℚ) / 2
-       map_add' := by sorry
-       map_smul' := by sorry } : ℤ →ₗ[ℤ] ℚ) ∧
-    (4 : ℚ) * (1 / 2) = 2 := by sorry
-
--- The cochain Koszul convention d⁰(m) = (xm, ym), d¹(a,b) = xb − ya has square zero.
-example (x y m : R) : x * (y * m) - y * (x * m) = 0 := by sorry
-
--- In the ordered dual basis, d¹(e₁) = −y and d¹(e₂) = x, including characteristic two.
-example (x y : R) : x * 0 - y * 1 = -y ∧ x * 1 - y * 0 = x := by sorry
-
--- Noncommuting operators give a nonzero square over every nonzero coefficient ring.
-example [Nontrivial R] :
-    let g₁ : Matrix (Fin 2) (Fin 2) R := !![0, 1; 0, 0]
-    let g₂ : Matrix (Fin 2) (Fin 2) R := !![0, 0; 1, 0]
-    g₁ * g₂ - g₂ * g₁ = !![1, 0; 0, -1] ∧
-    (g₁ * g₂ - g₂ * g₁).mulVec ![1, 0] = ![1, 0] ∧
-    g₁ * g₂ - g₂ * g₁ ≠ 0 := by sorry
-
--- Over the zero ring the same commutator vanishes.
-example :
-    let g₁ : Matrix (Fin 2) (Fin 2) (ZMod 1) := !![0, 1; 0, 0]
-    let g₂ : Matrix (Fin 2) (Fin 2) (ZMod 1) := !![0, 0; 1, 0]
-    g₁ * g₂ - g₂ * g₁ = 0 ∧
-    (g₁ * g₂ - g₂ * g₁).mulVec ![1, 0] = 0 := by sorry
+    (by
+      intro i
+      by_cases hi : i = 0
+      · subst i
+        simp
+      · simp [hi])
 
 end Decalage
 
@@ -314,31 +285,26 @@ section QInteger
 variable {R : Type*} [CommRing R]
 
 /-- The `q`-integer `[n]_q = Σ_{j<n} q^j`, the coefficient of the divided torus differential
-`d(T^n) = [n]_q T^n dlog_q T` of the `q`-de Rham model (BMS1, Remark 7.8). -/
+`d(T^n) = [n]_q T^n dlog_q T` of the `q`-de Rham model (BMS1, Example 7.7). -/
 def qInteger (q : R) (n : ℕ) : R := ∑ j ∈ Finset.range n, q ^ j
 
+/-- Multiplying the divided torus coefficient by `q − 1` recovers the undivided coefficient. -/
 theorem qInteger_mul_sub_one (q : R) (n : ℕ) : (q - 1) * qInteger q n = q ^ n - 1 := by sorry
 
--- At `q = 1` the `q`-integer is the ordinary integer `n`.
-example (n : ℕ) : qInteger (1 : R) n = n := by sorry
+-- At the classical specialization, every torus weight has its ordinary de Rham coefficient.
+example (n : ℕ) : qInteger (1 : R) n = n := by
+  simp [qInteger]
 
--- `d(T²) = (1 + q) T² dlog_q T`.
-example (q : R) : qInteger q 2 = 1 + q := by sorry
-
--- The empty sum is zero; the divided-difference formula is defined at q = 1.
-example (q : R) : qInteger q 0 = 0 := by sorry
-
-/-- The Laurent q-integer for an integer exponent and a unit q (BMS1, Remark 7.8). -/
+/-- The Laurent q-integer for an integer exponent and a unit q (BMS1, Example 7.7). -/
 def laurentQInteger (q : Rˣ) (n : ℤ) : R :=
   if 0 ≤ n then qInteger (q : R) n.toNat
   else -((q ^ n : Rˣ) : R) * qInteger (q : R) (-n).toNat
 
--- The inverse torus coordinate has coefficient −q⁻¹.
-example (q : Rˣ) : laurentQInteger q (-1) = -((q⁻¹ : Rˣ) : R) := by sorry
-
-example (n : ℤ) : laurentQInteger (1 : Rˣ) n = n := by sorry
-
-example (q : Rˣ) : laurentQInteger q 2 = 1 + (q : R) := by sorry
+-- The classical specialization also preserves all negative Laurent weights.
+example (n : ℤ) : laurentQInteger (1 : Rˣ) n = n := by
+  cases n with
+  | ofNat n => simp [laurentQInteger, qInteger]
+  | negSucc n => simp [laurentQInteger, qInteger]
 
 end QInteger
 
@@ -351,85 +317,6 @@ theorem valuation_finite_torsionFree_free (V M : Type*) [CommRing V] [IsDomain V
     Module.Flat.flat_iff_torsion_eq_bot_of_isBezout.mpr
       (Submodule.isTorsionFree_iff_torsion_eq_bot.mp inferInstance)
   exact Module.free_of_flat_of_isLocalRing
-
-/-! ## Polynomial, monodromy and multiplicative checks of AI.1 and AI.6 -/
-
--- The log chain rule sums all source occurrences with a given target value (AI.6.6).
-example {R ι κ : Type*} [CommRing R] [Fintype ι] [DecidableEq κ]
-    (v : ι → κ) (a : κ) (P : MvPolynomial ι R) :
-    MvPolynomial.X a * MvPolynomial.pderiv a (MvPolynomial.rename v P) =
-      ∑ τ : ι, if v τ = a then
-        MvPolynomial.rename v (MvPolynomial.X τ * MvPolynomial.pderiv τ P) else 0 := by sorry
-
--- Two independent occurrences mapping to Z have a summed derivative, and no individual identity.
-example (P : MvPolynomial (Fin 2) ℤ) :
-    let f := MvPolynomial.rename (R := ℤ) (fun _ : Fin 2 => ())
-    let X : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
-    let Y : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 1
-    let Z : MvPolynomial Unit ℤ := MvPolynomial.X ()
-    let D₀ := X • MvPolynomial.pderiv 0
-    let D₁ := Y • MvPolynomial.pderiv 1
-    let D := Z • MvPolynomial.pderiv ()
-    f X = Z ∧ f Y = Z ∧ D (f P) = f (D₀ P + D₁ P) ∧
-      f (D₀ Y) = 0 ∧ D (f Y) = Z ∧ Z ≠ 0 := by sorry
-
--- Branch and torus log derivations, including their weights on every monomial.
-example (a b : ℕ) (c : ℤ) :
-    let X₀ : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
-    let X₁ : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 1
-    let D : Derivation ℤ (MvPolynomial (Fin 2) ℤ) (MvPolynomial (Fin 2) ℤ) :=
-      X₁ • MvPolynomial.pderiv 1 - X₀ • MvPolynomial.pderiv 0
-    D (X₀ * X₁ - MvPolynomial.C c) = 0 ∧
-    D (X₀ ^ a * X₁ ^ b) = ((b : ℤ) - a) • (X₀ ^ a * X₁ ^ b) := by sorry
-
-example (a b : ℕ) :
-    let Y : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
-    let Z : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 1
-    let D : Derivation ℤ (MvPolynomial (Fin 2) ℤ) (MvPolynomial (Fin 2) ℤ) :=
-      Y • MvPolynomial.pderiv 0 - Z • MvPolynomial.pderiv 1
-    D (Y * Z - 1) = 0 ∧
-    D (Y ^ a * Z ^ b) = ((a : ℤ) - b) • (Y ^ a * Z ^ b) := by sorry
-
--- The position of N relative to the two Frobenius slopes fixes Nφ = pφN.
-example :
-    let φ : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 0, 3]
-    let N : Matrix (Fin 2) (Fin 2) ℤ := !![0, 1; 0, 0]
-    let N' : Matrix (Fin 2) (Fin 2) ℤ := !![0, 0; 1, 0]
-    N * φ = 3 • (φ * N) ∧ N' * φ ≠ 3 • (φ * N') := by sorry
-
--- For K = ℚ₅(√5) and E_(√5), the raw Tate coefficient is 1 and the p-normalized one is 1/2.
--- Both satisfy Nφ = pφN, so that relation cannot distinguish the normalizations.
-example :
-    let φ : Matrix (Fin 2) (Fin 2) ℚ := !![1, 0; 0, 5]
-    let Nraw : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
-    let Np := (2 : ℚ)⁻¹ • Nraw
-    Nraw * φ = 5 • (φ * Nraw) ∧ Np * φ = 5 • (φ * Np) ∧
-      Nraw.mulVec ![0, 1] = ![1, 0] ∧ Np.mulVec ![0, 1] = ![1 / 2, 0] ∧
-      Np ≠ Nraw := by sorry
-
--- Trivial rank-two action gives an exterior product with the ordered sign.
-example :
-    let x : ExteriorAlgebra ℤ (Fin 2 → ℤ) := ExteriorAlgebra.ι ℤ (Pi.single 0 1 : Fin 2 → ℤ)
-    let y : ExteriorAlgebra ℤ (Fin 2 → ℤ) := ExteriorAlgebra.ι ℤ (Pi.single 1 1 : Fin 2 → ℤ)
-    x * y ≠ 0 ∧ y * x = -(x * y) := by sorry
-
--- In characteristic two the exterior relation supplies information beyond the sign rule.
-example :
-    let k := GaloisField 2 1
-    let x : ExteriorAlgebra k k := ExteriorAlgebra.ι k (1 : k)
-    Nat.card k = 2 ∧ x * x = 0 ∧ (Polynomial.X : Polynomial k) ^ 2 ≠ 0 := by sorry
-
--- A Laurent matrix realization of xt = −tx for γ(t) = −t.
-example :
-    let t : LaurentPolynomial ℤ := LaurentPolynomial.T 1
-    let T : Matrix (Fin 2) (Fin 2) (LaurentPolynomial ℤ) := !![t, 0; 0, -t]
-    let x : Matrix (Fin 2) (Fin 2) (LaurentPolynomial ℤ) := !![0, 1; 0, 0]
-    x * T = -(T * x) ∧ x * x = 0 := by sorry
-
--- Annihilators of 1 and 0 cannot be interchanged, already on length-two Witt vectors.
-example (p : ℕ) [Fact p.Prime] (R : Type*) [CommRing R] :
-    (∀ x : TruncatedWittVector p 2 R, x * 1 = 0 ↔ x = 0) ∧
-    (∀ x : TruncatedWittVector p 2 R, x * 0 = 0) := by sorry
 
 /-! ## Layer AI.7: Breuil–Kisin cohomology and relative traces -/
 
@@ -456,61 +343,22 @@ theorem coefficientFrobenius_formula (p : ℕ) (hp : p ≠ 0) (F : R →+* R)
     PowerSeries.coeff n (coefficientFrobenius p hp F f) =
       if p ∣ n then F (PowerSeries.coeff (n / p) f) else 0 := by sorry
 
+/-- The basis property of Breuil–Kisin Frobenius (AI.7.1, *Finite freeness of the
+Breuil–Kisin Frobenius*): each series has a unique expansion in `1,u,…,u^(p−1)`
+over the coefficient-twisted Frobenius image. -/
+theorem coefficientFrobenius_basis (p : ℕ) (hp : p ≠ 0) (F : R ≃+* R)
+    (f : PowerSeries R) :
+    ∃! a : Fin p → PowerSeries R,
+      f = ∑ j : Fin p, PowerSeries.X ^ (j : ℕ) * coefficientFrobenius p hp F.toRingHom (a j) := by
+  sorry
+
 /-- The generic residue formula intertwines the supplied Breuil–Kisin Frobenius with `F`;
 at `R = W(k₀)` this gives the cohomological compatibility of the imported `ε₁`. -/
 theorem crystallineCoefficient_comp (p : ℕ) (hp : p ≠ 0) (F : R →+* R) :
     (crystallineCoefficient F).comp (coefficientFrobenius p hp F) =
       F.comp (crystallineCoefficient F) := by sorry
 
--- With `F = id` the crystalline map is the constant coefficient.
-example : crystallineCoefficient (RingHom.id R) = PowerSeries.constantCoeff (R := R) := by sorry
-
--- The variable `u` has degree zero and maps to zero.
-example (F : R →+* R) : crystallineCoefficient F PowerSeries.X = 0 := by sorry
-
--- At p = 2 the coefficient at u is zero while u² has coefficient F(a).
-example (F : R →+* R) (a : R) :
-    PowerSeries.coeff 1 (coefficientFrobenius 2 (by decide) F
-      (PowerSeries.C a * PowerSeries.X)) = 0 ∧
-    PowerSeries.coeff 2 (coefficientFrobenius 2 (by decide) F
-      (PowerSeries.C a * PowerSeries.X)) = F a := by sorry
-
--- Constant coefficients retain precisely one application of F.
-example (F : R →+* R) (a : R) : crystallineCoefficient F (PowerSeries.C a) = F a := by sorry
-
--- No series has Frobenius image u when all exponents in the image are even.
-example : (PowerSeries.X : PowerSeries ℤ) ∉
-    Set.range (coefficientFrobenius 2 (by decide) (RingHom.id ℤ)) := by sorry
-
--- A chosen multiplicative generator of the field of four elements is not Frobenius-fixed.
-example :
-    let k := GaloisField 2 2
-    let a : k := (Classical.choose (IsCyclic.exists_generator (α := kˣ)) : kˣ)
-    Nat.card k = 4 ∧ a ^ 2 ≠ a ∧
-    WittVector.map (RingHom.id k) (WittVector.teichmuller 2 a) ≠
-      WittVector.frobenius (WittVector.map (RingHom.id k) (WittVector.teichmuller 2 a)) ∧
-    crystallineCoefficient (WittVector.frobenius : WittVector 2 k →+* WittVector 2 k)
-      (PowerSeries.C (WittVector.teichmuller 2 a)) = WittVector.teichmuller 2 (a ^ 2) ∧
-    WittVector.teichmuller 2 (a ^ 2) ≠ WittVector.teichmuller 2 a := by sorry
-
--- For the monic unramified E = u − p, residue evaluation gives −p and the trace unit is −1.
-example (p : ℕ) [Fact p.Prime] :
-    Polynomial.eval (0 : PadicInt p)
-      (Polynomial.X - Polynomial.C (p : PadicInt p)) = -(p : PadicInt p) ∧
-    -(p : PadicInt p) * (-1) = p ∧ (2 : PadicInt p) * p ≠ 0 := by sorry
-
 end BreuilKisinCoefficient
-
--- Precomposing the loop z ↦ s zⁿ with z ↦ zᵖ preserves s and multiplies its weight by p.
-example (p n : ℕ) (s z : Circle) :
-    (fun w : Circle => s * w ^ n) (z ^ p) = s * z ^ (p * n) := by sorry
-
--- On weight pn, residual rotation by [λ] becomes weight n through [λ] ↦ λᵖ.
-example (p n : ℕ) (s t : Circle) :
-    t ^ (p * n) * s = (t ^ p) ^ n * s := by sorry
-
--- At weight one, p = 2 and t = −1, raising the circle coordinate to p fails equivariance.
-example : ((-1 : Circle) * 1) ^ 2 ≠ (-1 : Circle) * (1 : Circle) ^ 2 := by sorry
 
 /-! ## Targets stated in README.md only
 

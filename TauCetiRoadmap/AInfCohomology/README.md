@@ -521,7 +521,7 @@ computations of AI.3.
 
 **Cyclotomic period elements** (`AInf.cyclotomic`). For `C` complete algebraically closed over `ℚ_p` and `ε=(1,ζ_p,ζ_{p²},...)` in `O_C^♭`, define `μ=[ε]-1`, `ξ=Σ_{j=0}^{p-1}[ε^(1/p)]^j`, and `ξ̃=φ(ξ)`. Thus `μ=ξ*φ^(-1)(μ)`; division is the proven factorization in `A_inf`, never division in a fraction field.
 
-`Suggested.lean` declares `mu`, `xi`, `tildeXi`, `mu_factorization`, `frobenius_mu`, `ker_fontaineTheta_eq_span_xi`.
+`Suggested.lean` declares `mu`, `xi`, `tildeXi`, `mu_factorization`, `frobenius_mu`, `ker_fontaineTheta_eq_span_xi`, `cyclotomic_period_evaluations`.
 
 `C` is a complete algebraically closed nonarchimedean extension of `ℚ_p`. `p` is prime. roots are compatible and primitive.
 
@@ -537,7 +537,7 @@ Use the geometric sum identity in Witt vectors. Evaluate `θ(ξ)` using the prim
 **Checks.**
 
 - `AInf.cyclotomic_test_unit`: `ε=1` makes `μ=0` and does not give an admissible primitive root system.
-- `AInf.cyclotomic_test_theta`: `θ(μ)=0` and `θ(ξ̃)=p`; these evaluations and `θ̃(ξ̃)=0` have Lean mirrors under the primitive-root hypotheses.
+- `AInf.cyclotomic_test_theta`: `θ(μ)=0` and `θ(ξ̃)=p`; the named target `cyclotomic_period_evaluations` states these evaluations and `θ̃(ξ̃)=0` under the primitive-root hypotheses.
 - `AInf.cyclotomic_test_tildeTheta`: `θ̃(μ)=ζ_p-1`; `θ̃(ξ̃)=0`.
 
 **Frobenius-shifted Fontaine map** (`AInf.tildeTheta`). Define `θ̃=θ∘φ^(-1)`: `A_inf(S)→S` on a perfectoid ring. Its kernel is `φ(ker θ)`; for the cyclotomic `O_C` normalization it is `(ξ̃)`.
@@ -665,7 +665,7 @@ Use Lemma 10.1 to compare powers of Witt ideals with ideals of Teichmüller lift
 
 **Checks.**
 
-- At `r=1`, `W₁(m)=m` is nonzero and proper; the length-one coefficient map is bijective, `p` gives a nonzero element of this ideal and `1` lies outside it, as mirrored in `Suggested.lean`.
+- At `r=1`, `W₁(m)=m` is nonzero and proper; the length-one coefficient map is bijective, `p` gives a nonzero element of this ideal and `1` lies outside it.
 - At `r=2,j=0`, `V⁰(1)=1` and `q_(2,0)=0`; their annihilators are zero and the whole ring, respectively.
 - At `p=2,r=2,j=1`, `q=1+[ζ₄]` has nonzero zeroth coordinate `1+ζ₄`, while `V(1)` has zeroth coordinate zero; the annihilator generators cannot be interchanged.
 
@@ -702,9 +702,17 @@ Compare scalar extension and restriction modulo bounded f-torsion. Translate equ
 
 **Coherence of Witt vectors of perfectoid integers** (`AInf.witt_coherence`). `W_r(O_C)` and `W_r(O_C^♭)` are coherent for every finite `r`. Kernels of maps between finite free modules are finitely generated; hence finitely presented modules form an abelian category at these finite Witt levels.
 
+`Suggested.lean` states `finite_witt_coherence` as finite generation of kernels of arbitrary maps between finite free modules over both coefficient rings.
+
 Finite `r≥1`; the base is the valuation ring `O_C` or its tilt, not every perfectoid ring.
 
 Use the valuation-ring kernel estimates, finite Witt truncation and induction on `r`. Do not infer coherence of the infinite ring `A_inf` from this theorem. (BMS1 (arXiv v3), Proposition 3.24; printed p.28). *Needs:* Mathlib `TruncatedWittVector`; *Coherence of a square-zero extension* (§AI.0.3); *Coherence from Artin–Rees and two charts* (§AI.0.3); *Artin–Rees under a bounded isogeny* (§AI.0.3).
+
+**Checks.**
+
+- At `r=1`, the two statements recover coherence of the valuation rings `O_C` and `O_C^♭`.
+- A zero map between finite free modules has its entire finite free source as kernel, including rank zero.
+- Finite Witt length is essential; coherence of `A_inf` does not follow from coherence of every `W_r(O_C^♭)`.
 
 **Absence of almost-zero finite Witt sections** (`AInf.no_almost_zero_witt_sections`). Every finitely presented `W_r(O_C)-module M` has no nonzero element killed by `W_r(m)`, for finite `r≥1`. In particular this applies to the finitely presented toric cohomology modules; it is stronger than just the free-module case.
 
@@ -727,7 +735,7 @@ Use the supplied arbitrary-ring coefficient theorem before the local de Rham–W
 ### Examples
 
 For `ε = 1` the formulas give `μ = 0` and `ξ = p`, which is why `ε` must be a compatible system of
-*primitive* roots; `Suggested.lean` records this non-example. At length two
+*primitive* roots. At length two
 `ξ_2 = ξ · φ⁻¹(ξ)` while `ξ̃_2 = ξ̃ · φ(ξ̃)`: the two orientations already differ for `r = 2`.
 
 ### Dependencies
@@ -899,7 +907,7 @@ ambient module algebra and completion, rather than a second principal-`p` functo
 
 **Divisibility submodule** (`Decalage.etaTerm`). `E_f(C)^i` is the R-submodule of `C^i` consisting of `x` for which there exists `y` in `C^(i+1)` with `f y=d x`. No torsion-freeness is needed to define this submodule.
 
-`Suggested.lean` declares `etaTerm`, `mem_etaTerm` and the test complex `integerTwoTerm`. Its degree-zero exclusion for `[ℤ --1→ℤ]` at `f=2` distinguishes divisibility from mere membership in the ambient module.
+`Suggested.lean` declares `etaTerm`, `mem_etaTerm` and the test complex `integerTwoTerm`. The Check on degree-zero exclusion for `[ℤ --1→ℤ]` at `f=2` distinguishes divisibility from mere membership in the ambient module.
 
 Standing hypotheses (Cx).
 
@@ -1077,7 +1085,7 @@ Form the divisibility subobject intrinsically as a kernel/preimage in O-modules 
 - `ideal_overlap`: Changes by units `u` and `v` compose to the change by uv, including in degree -1.
 - `ideal_two_term`: On a principal chart, `[R --f²→R]` gives `[R --f→R]` after trivializing the two line factors.
 - Shifting `[R --f²→R]` to degrees `−1,0` gives degree-`−1` term `f^(−1)R` and degree-zero term `R`, with the restricted differential `f²` (normalized differential `f`).
-- Over `ℤ`, changing `f=2` to `f′=−2` gives multiplication by `−1` on degree-one coordinates. `Suggested.lean` mirrors this unit factor and the negative line inside `ℚ`.
+- Over `ℤ`, changing `f=2` to `f′=−2` gives multiplication by `−1` on degree-one coordinates.
 
 **Cohomology of ideal décalage** (`AInf.decalage_cohomology`). `H^i(η_I C)≅(H^i(C)/H^i(C)[I])` tensor `I^⊗i`, naturally in a termwise I-torsion-free `C`. Here H[I] is the kernel of `H→H` tensor `I^(-1)` induced by `I→O`.
 
@@ -1455,7 +1463,7 @@ Write the differential with the exterior-algebra sign `e_i` ∧ `e_J`; `d` ∘ `
 - `koszul_two_sign`: For multiplication by x,y, `d¹(1,0)=−y` and `d¹(0,1)=x`; `d¹d⁰(m)=xym−yxm=0`, including in characteristic 2.
 - `koszul_identity`: If some `g_i` is the identity of `M`, the complex is acyclic.
 - `koszul_sequence`: For A `= M = ℤ[x`, `y`] and `g = (x, y)` multiplications, `H^2 = ℤ` and `H^0 = H^1 =` 0.
-- `koszul_noncommuting`: For a nonzero commutative ring `A`, take `M=A²`, `g₁=E₁₂` and `g₂=E₂₁`. The commutator is `diag(1,−1)≠0`, so the displayed differential has `d²≠0`; on `(1,0)` it gives `(1,0)`. Over the zero ring the commutator and `d²` are zero. These matrix computations are mirrored in `Suggested.lean`.
+- `koszul_noncommuting`: For a nonzero commutative ring `A`, take `M=A²`, `g₁=E₁₂` and `g₂=E₂₁`. The commutator is `diag(1,−1)≠0`, so the displayed differential has `d²≠0`; on `(1,0)` it gives `(1,0)`. Over the zero ring the commutator and `d²` are zero.
 
 **Dé­calage of commuting Koszul operators** (`AInf.koszul_decalage_calculation`). For `f` regular and a complex `M` of f-torsion-free modules, let regular scalars `g_i` each divide `f` or be divisible by `f`. If some `g_i` divides `f`, `η_f(M tensor K(g_i))` is acyclic. If `f` divides every `g_i`, `η_f(M tensor K(g_i))≅η_f M` tensor `K(g_i/f)`. The toric `γ_i−1` calculation is obtained weightwise from these scalar statements; the general Koszul complex of commuting endomorphisms is *Koszul complex of commuting endomorphisms* (§AI.1.7).
 
@@ -1476,9 +1484,9 @@ Construct the twisted DGA by the displayed relations and verify the Leibniz rule
 
 **Checks.**
 
-- For the trivial action on `ℤ` in rank two, `x₁x₂` is nonzero and `x₂x₁=−x₁x₂`; `Suggested.lean` checks the exterior-algebra carrier.
+- For the trivial action on `ℤ` in rank two, `x₁x₂` is nonzero and `x₂x₁=−x₁x₂`.
 - In characteristic two impose `x₁²=0`; graded commutativity alone does not imply it, as the odd generator of the polynomial algebra over `𝔽₂` shows.
-- For `R=ℤ[t,t⁻¹]` and `γ(t)=−t`, the defining relation is `xt=−tx`. `Suggested.lean` checks a matrix realization over Laurent polynomials; the constructed twisted DGA must also carry these three computations.
+- For `R=ℤ[t,t⁻¹]` and `γ(t)=−t`, the defining relation is `xt=−tx`. The twisted DGA carries these computations.
 
 
 **Continuous cochains as an integer-indexed complex** (`Decalage.contCochains`). For a profinite group `Γ` and a topological `Γ-module N = lim_k N_k`, where each `N_k` is a discrete continuous `Γ`-module killed by `p^k` and the transition maps are surjective, define `C^•_cont(Γ, N)` as the complex of continuous inhomogeneous cochains, placed in degrees `≥` 0 of a `ℤ-indexed` cochain complex of abelian groups. Its cohomology is the module underlying Mathlib's continuousCohomology of `N`, and `C^•_cont(Γ, N) ≅ lim_k C^•_cont(Γ, N_k)`, which computes `Rlim_k RΓ_cont(Γ, N_k)` because the transition maps of cochain groups are surjective.
@@ -1608,11 +1616,27 @@ Resolve over finite Witt valuation rings and use the x-root filtered quotient mo
 
 On D(p), use the assumed projectivity. The only remaining prime of `U` containing `p` is `(p)`. Show `A_inf,(p)` is a DVR with uniformizer `p`: a nonzero Witt vector has a first nonzero p-adic coefficient, whose Teichmüller representative is a unit after localization at `(p)`. A finite p-torsion-free module over this DVR is free. Apply punctured-spectrum triviality; extend a finite projective `A_inf[1/p]`-module by a finitely generated p-torsion-free lattice to prove Corollary 4.12. (BMS1 (arXiv v3), Lemma 4.10, printed pp.36–37; Corollary 4.12, p.37). *Needs:* *Kedlaya triviality on the punctured spectrum* (§AI.2.1).
 
+`Suggested.lean` states the p-local conclusion as `ainf_invert_p_projective_free` on Mathlib's localization carrier, with finite generation and projectivity as hypotheses.
+
+**Checks.**
+
+- The zero module is free of rank zero.
+- The conclusion applies in every finite rank, including rank one; it is not restricted to line bundles.
+- The ideal `(p,x)` has free p-inversion but need not be projective over `A_inf`; freeness of the localization does not assert freeness of the original module.
+
 **A_inf module structure theorem** (`AInf.ainf_module_structure`). For finitely presented `M` with M[1/p] finite projective, there is a functorial exact sequence `0→M_tor→M→M_free→M_bar→0`. `M_free` is finite free; `M_tor` is perfect and bounded p-power torsion; `M_bar` is finitely presented perfect and killed by a power of (p,x). If `M⊗W(k)` is p-torsion-free, or `M⊗O_C` is p-torsion-free in mixed characteristic, then `M` is finite free.
+
+`Suggested.lean` states the mixed-characteristic last criterion as `ainf_free_of_torsionFree_reduction`, using `M/ξM≅M⊗O_C` for the ordinary θ reduction.
 
 Source hypotheses on `M`; ordinary scalar extensions in the last criterion.
 
 Extend `M/M_tor` from `U` by global sections. Its finite closed-point-supported cokernel yields the four-term exact sequence. Compare generic and residue rank by Fitting ideals for the freeness criterion. (BMS1 (arXiv v3), Proposition 4.13, printed pp.37–38). *Needs:* *Perfectness of finitely presented A_inf modules* (§AI.2.1); *Bounded and finitely presented A_inf torsion* (§AI.2.1); *Vector-bundle criterion and p-local freeness* (§AI.2.1).
+
+**Checks.**
+
+- For a finite free module the torsion term and the closed-point cokernel vanish.
+- For `M=A_inf/p`, the θ reduction is `O_C/p`, which has p-torsion and does not satisfy the freeness criterion.
+- The ideal `(p,ξ)` has free p-inversion but is not free over `A_inf`; its θ reduction has a nonzero class represented by `ξ` that is killed by `p`.
 
 **p-local freeness from two period realizations** (`AInf.p_local_freeness_from_periods`). For finitely presented `M`, if `M[1/(p μ)]` is finite projective and `M⊗B_crys^+` is finite projective, then `M[1/p]` is finite free.
 
@@ -1855,7 +1879,7 @@ For duality, the inclusions imply that `ξ̃F⁻¹` is integral. Its transpose i
 - `minuscule_xi`: `(A_inf,ξ̃·φ_A)` has cokernel `A_inf/ξ̃`; duality interchanges it with the unit object.
 - `minuscule_square`: `(A_inf,ξ̃²·φ_A)` is BKF but fails the image bound, since `ξ̃` is nonzero in `A_inf/ξ̃²`.
 - A direct sum of the first two objects has Frobenius matrix `diag(1,ξ̃)`; its dual twist has matrix `diag(ξ̃,1)`, including when `p=2`.
-- The scalar image-bound witness `2∉(2²)` in `ℤ` is mirrored in Lean; it detects replacing an ideal by its square without pretending `ℤ` is `A_inf`.
+- The scalar image-bound witness `2∉(2²)` in `ℤ` detects replacing an ideal by its square.
 
 ### Examples
 
@@ -2165,7 +2189,7 @@ Use Faltings/Scholze almost purity to identify the almost cone. Verify each inde
 
 **Framed q-de Rham model** (`AOmega.qModel`). For a framed torus algebra over `A_inf`, `q=[ε]`, the normalized complex is `η_(q−1)K(A_inf<T_i±1>;γ_i−1)`, where `γ_i(T_i)=qT_i`. In one variable `d(T^n)=[n]_q T^n dlog_q T` and `dlog_q T*f(T)=f(qT)*dlog_q T`. The model depends on the framing; it is not a commutative dga.
 
-`Suggested.lean` declares `qInteger`, `qInteger_mul_sub_one` and `laurentQInteger`; for a unit `q` the latter uses `[n]_q=−q^n[−n]_q` at negative exponents. Its checks give `[−1]_q=−q⁻¹`, `[n]_1=n` for integer `n`, and `[2]_q=1+q`.
+`Suggested.lean` declares `qInteger`, `qInteger_mul_sub_one` and `laurentQInteger`; for a unit `q` the latter uses `[n]_q=−q^n[−n]_q` at negative exponents. Its proved specialization tests give `[n]_1=n` for natural and integer exponents.
 
 Chosen framing and compatible roots; the smooth lift and completion are the source ones.
 
@@ -3220,7 +3244,7 @@ The log class of `p` is `e_K` times the uniformizer class, up to a unit. Beilins
 **Checks.**
 
 - For `e_K=1`, `N_HK,p=N_raw`; the relative log point has both operators zero.
-- For `K=ℚ₅(√5)`, `π_K=√5` and the split Tate curve `E_(π_K)` with a proper semistable model, CR.6’s geometric Tate basis has `N_raw(e₁)=e₀` but `N_HK,p(e₁)=e₀/2`. For the p-normalized period comparison `c`, `(1⊗N_p)c(e₁⊗1)=c(e₀⊗1)/2`; using `N_raw` on the first factor gives the wrong coefficient. `Suggested.lean` checks the two distinct matrices with Frobenius `diag(1,5)`.
+- For `K=ℚ₅(√5)`, `π_K=√5` and the split Tate curve `E_(π_K)` with a proper semistable model, CR.6’s geometric Tate basis has `N_raw(e₁)=e₀` but `N_HK,p(e₁)=e₀/2`. For the p-normalized period comparison `c`, `(1⊗N_p)c(e₁⊗1)=c(e₀⊗1)/2`; using `N_raw` on the first factor gives the wrong coefficient. Both monodromy matrices satisfy `Nφ=5φN` with Frobenius `diag(1,5)`.
 - For `K=ℚ_p(p^(1/p))` and the Tate curve with parameter `π_K=p^(1/p)`, the coefficient is `1/p`. Thus the normalized operator need not preserve the integral geometric Tate lattice.
 - Under a finite ramified extension of index `d`, `N_raw,L/e_L=(dN_raw,K)/(d e_K)` on the compared rational complexes, including when `p` divides `d`.
 
@@ -3524,7 +3548,7 @@ The adic generic fibre `X_C^ad` is smooth over `C` by the charts (1.5.1) and Hub
 
 - `Semistable.bdrComparisonMap.point`: For `𝔛=Spf O_C (d=0, Σ=∅, one chart` with `r=0`) both sides are concentrated in degree 0: `RΓ_logcrys(Spec(O_C/p)/A_cris)=A_cris` and `RΓ_crys(Spa(C,O_C)/B_dR⁺)=B_dR⁺`. The map (6.5.1) is the inclusion `A_cris→B_dR⁺` of CK §6.1, and its `B_dR⁺-linearisation` is the identity of `B_dR⁺`.
 - `Semistable.bdrComparisonMap.good_reduction`: For `𝔛` proper and smooth over `O_C` (the log structure is then pulled back from the base, so `Ω^j_{𝔛/O_C,log}=Ω^j_{𝔛/O_C}`), the reduction modulo `ξ` of the `B_dR⁺`-linear map is identified by (5.23.2) and (6.2.6) with the canonical isomorphism `RΓ_dR(𝔛/O_C)⊗_{O_C}C≃RΓ_dR(X_C^ad/C)`; hence the map is an isomorphism, as in BMS1 Proposition 13.23. For the p-adic completion of `P¹_{O_C}` both sides have cohomology `B_dR⁺`, 0, `B_dR⁺` in degrees 0, 1, 2. Equality with the map of BMS1 Proposition 13.23 is not asserted: BMS1 does not write that map down.
-- Repeated-coordinate torus: take `R=O_C⟨t^{±1}⟩`, `Σ={σ}` with `t_σ=t` and one chart with `r_λ=0`, `d=1`, `q_λ=1`, `t_{λ,0}=p`, `t_{λ,1}=t`. The torus immersion and chart étale map are identities and the special fibre is connected, so this is an all-coordinates index. With `Ψ={t}`, `Ξ=∅`, put `X=X_σ`, `Y=X_{λ,1}`, `Z=X_t`. Then `f(X)=f(Y)=Z`, `f(D_σY)=0` and `D′_t(f(Y))=Z≠0` (its augmentation is the unit `t`). The valid identity is `D′_t∘f=f∘(D_σ+D_{λ,1})`. Both `dlog X` and `dlog Y` map to `dlog Z`; their wedge maps to zero. On the polynomial coordinate subalgebras this is the chain rule for `MvPolynomial.rename`, without an injectivity hypothesis on the map of variables; `Suggested.lean` records that identity and its two-variable instance.
+- Repeated-coordinate torus: take `R=O_C⟨t^{±1}⟩`, `Σ={σ}` with `t_σ=t` and one chart with `r_λ=0`, `d=1`, `q_λ=1`, `t_{λ,0}=p`, `t_{λ,1}=t`. The torus immersion and chart étale map are identities and the special fibre is connected, so this is an all-coordinates index. With `Ψ={t}`, `Ξ=∅`, put `X=X_σ`, `Y=X_{λ,1}`, `Z=X_t`. Then `f(X)=f(Y)=Z`, `f(D_σY)=0` and `D′_t(f(Y))=Z≠0` (its augmentation is the unit `t`). The valid identity is `D′_t∘f=f∘(D_σ+D_{λ,1})`. Both `dlog X` and `dlog Y` map to `dlog Z`; their wedge maps to zero. On the polynomial coordinate subalgebras this is the chain rule for `MvPolynomial.rename`, without an injectivity hypothesis on the map of variables.
 - `Semistable.bdrComparisonMap.node`: On the chart `R□=O_C{t_0,t_1}/(t_0t_1−p^q)`, with `A=R□[1/p]`: `Ω¹_{R□/O_C,log}` is free on dlog `t_1=−dlog t_0`, `Ω^{1,cont}_{A/C}` is free on `dT_1/T_1=−dT_0/T_0`, and the lower arrow of (6.5.7) is in degree 1 the R□-linear map dlog `t_1↦dT_1/T_1`. So the relation dlog `t_0+dlog t_1=0` goes to `dT_0/T_0+dT_1/T_1=0`, and the arrow becomes an isomorphism after inverting p. On the `B_dR⁺` side `t_1` is a coordinate in `Ξ` and `t_0` is omitted.
 - The square (6.5.7) commutes in the derived category: the map followed by the reduction modulo `ξ` of (6.2.6) equals the reduction (5.23.2) to `RΓ_logdR(𝔛/O_C)` followed by the map `RΓ_logdR(𝔛/O_C)→RΓ_dR(X_C^ad/C)`.
 - The map and the square are constructed without properness; properness enters only in the composite with `RΓ_Ainf(𝔛)⊗^L_{A_inf}A_cris`.
@@ -3766,7 +3790,7 @@ Transport the scalar maps and their Eisenstein-kernel identities from R07.4.16. 
 - `CohomologicalBK.coefficientNormalization.twisted_constant`: For an arbitrary coefficient endomorphism `F`, the normalized residue of C(a) is F(a); for `k₀=F_{p²}`, `F=φ_W` and `a=[ζ]` with `ζ∉𝔽_p` this is `[ζ^p]`, which differs from a.
 - `CohomologicalBK.coefficientNormalization.constant_identity`: At `F=id`, c is exactly Mathlib PowerSeries.constantCoeff.
 - `CohomologicalBK.coefficientNormalization.nonsurjective`: Over `Z` with `p=2`, the coefficient of `u` in every image of `φ` is zero, so `u` is not an image.
-- On `k₀=F_{p²}`, c on a Teichmüller coefficient is `[a^p]`, which differs from [a] for `a∉𝔽_p`. `Suggested.lean` uses `GaloisField 2 2` and a chosen multiplicative generator `a` (of order three), checks `a²≠a`, and distinguishes `WittVector.map` from its Frobenius composite as well as the crystalline constant map.
+- On `k₀=F_{p²}`, c on a Teichmüller coefficient is `[a^p]`, which differs from [a] for `a∉𝔽_p`. A multiplicative generator of `𝔽₄` has `a²≠a`, distinguishing the residue map from its Frobenius composite and the crystalline constant map from evaluation with identity coefficients.
 - `φ_𝔖` is an endomorphism and is not surjective onto `u`.
 
 **Flat Breuil–Kisin to A_inf extension** (`CohomologicalBK.flatCoefficientExtension`). The normalized map `f:𝔖→A_inf` is flat (BMS1 Lemma 4.30). It is moreover faithfully flat and topologically free: `A_inf` is isomorphic as an `𝔖`-module to the (p,u)-adic completion of a free `𝔖`-module, with 1 part of a topological basis, so that `f` has an `𝔖`-linear retraction. These two properties are asserted in BMS2 Notation 11.1, with a reference to Lemma 4.30 and its proof, and are proved here. In particular `M⊗^L_𝔖 A_inf` is concentrated in degree 0 for every `𝔖-module M`. Detection: a map that becomes zero, respectively an equivalence, after extension along `f` is zero, respectively an equivalence, in each of three domains: maps of `𝔖`-modules with the ordinary tensor product; maps of perfect complexes of `𝔖`-modules with the derived tensor product; maps of derived (p,u)-complete complexes with the (p,u)-completed derived tensor product. The same holds for `g=φ_A^{-1}∘f`. Finally `f` is p-completely faithfully flat and the p-completed tensor powers of `A_inf` over `𝔖` are flat over `𝔖` (BMS1 Remark 4.31), so the Čech descent of complete-flat-descent applies to derived p-complete `𝔖-complexes`, with the p-completed Čech nerve of `f`.
@@ -3785,6 +3809,14 @@ Flatness is BMS1 Lemma 4.30: by approximation one may take `M` finitely generate
 `R` a ring, `F` an automorphism of `R`, `p ≥` 1.
 
 Every power series is uniquely `Σ_{j<p} u^j φ_𝔖(f_j)`, grouping exponents by residue modulo `p` and using that `F` is bijective on coefficients. (BMS1 (arXiv v3), Definition 4.1 and Proposition 4.3, printed pp.31–32). *Needs:* *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1); Mathlib `PowerSeries`.
+
+`Suggested.lean` states `coefficientFrobenius_basis`: every series has a unique expansion `Σ_{j<p} u^j φ_𝔖(f_j)`, for an arbitrary coefficient automorphism.
+
+**Checks.**
+
+- At `p=1` the basis consists of `1` and the map is the coefficient automorphism.
+- For `p≥2` over a nonzero `R`, the image has zero coefficient at `u`, so `u` lies outside it even though it is a basis element over it.
+- Without bijectivity of `F`, existence or uniqueness can fail already on constant coefficients.
 
 ### AI.7.2 Relative cyclotomic traces
 
@@ -3871,7 +3903,7 @@ Realize the cyclic bar of an `E∞`-algebra in spectra to obtain THH and its cir
 - `relative_cyclotomic_traces_base`: `THH(𝕊[z]/𝕊[z])=𝕊[z]` with trivial circle action and cyclotomic Frobenius `z↦z^p`.
 - `relative_cyclotomic_traces_weight_zero`: The cyclic-bar weight-zero component is a single fixed point; it is not a full circle.
 - `relative_cyclotomic_traces_weight_p`: On the weight-p component the circle action is `t^p`, whereas the weight-one component has action `t`. They cannot be assigned the same circle action.
-- `relative_cyclotomic_traces_frobenius`: Precomposition sends `γ_{s,1}(z)=sz` to `sz^p`, so `(s,1)↦(s,p)`. At weight one the transported target action is `t·s=ts`, and this lift is equivariant. The coordinate-power map would give `F(ts,1)=(t^p s^p,p)` but `t⋆F(s,1)=(t s^p,p)`; for `p=2`, `t=−1`, `s=1` these differ. `Suggested.lean` records the precomposition, action transport and this boundary case.
+- `relative_cyclotomic_traces_frobenius`: Precomposition sends `γ_{s,1}(z)=sz` to `sz^p`, so `(s,1)↦(s,p)`. At weight one the transported target action is `t·s=ts`, and this lift is equivariant. The coordinate-power map would give `F(ts,1)=(t^p s^p,p)` but `t⋆F(s,1)=(t s^p,p)`; for `p=2`, `t=−1`, `s=1` these differ.
 - `relative_cyclotomic_traces_free_ring`: The free `E∞`-ring on a degree-zero class has `⊕_n𝕊_{hΣ_n}` as its underlying spectrum; it is not substituted for the monoid algebra `𝕊[ℕ]`.
 - The spectral base has `π_*𝕊[z]=π_*𝕊[z]`; a free `E∞` generator would have symmetric-group homotopy and fail this description.
 - Relative traces remain circle-equivariant and Frobenius-semilinear for `z^p` throughout base change.
@@ -3989,7 +4021,7 @@ Base change along the perfectoid root base reduces the computation to the perfec
 
 - `can(bv)=E`, whereas `φ(bv)=φ(E)` since the factors `α` and `α^−1` cancel.
 - The target quotient evaluation `u↦π^{1/p}` distinguishes `θ̃` from `θ` in this trace diagram and sends the finite-Tate Frobenius coefficient to `θ̃^(−1)(α)`.
-- At `K=ℚ_p`, `π=p`, `E=u−p`, the cyclotomic residue specialization has `u↦0`, `E↦−p` and `α↦−1`. Thus `can(b̄)=−pσ̄=pφ(b̄)`, in agreement with `TC⁻(𝔽_p)→TP(𝔽_p)`. Setting `α=1` would force `2pσ̄=0` in `ℤ_p[σ̄^{±1}]`, also impossible at `p=2`. The coefficient/sign and nonvanishing assertions have mirrors in `Suggested.lean`.
+- At `K=ℚ_p`, `π=p`, `E=u−p`, the cyclotomic residue specialization has `u↦0`, `E↦−p` and `α↦−1`. Thus `can(b̄)=−pσ̄=pφ(b̄)`, in agreement with `TC⁻(𝔽_p)→TP(𝔽_p)`. Setting `α=1` would force `2pσ̄=0` in `ℤ_p[σ̄^{±1}]`, also impossible at `p=2`.
 - Under `(b,v,σ)↦(cb,c^−1v,cσ)`, the localized coefficient changes from `α/E` to `φ(c)α/(cE)`, the usual semilinear change of basis; the underlying Frobenius map is unchanged.
 
 **Relative quasiregular evenness and descent**. For `S` a quasiregular semiperfectoid quasisyntomic `O_K`-algebra, the relative THH, `TC⁻` and TP spectra over `𝕊[z]` have no odd homotopy. Each homotopy group is an acyclic sheaf on the quasiregular semiperfectoid basis. `π_0TC⁻≃π_0TP` unfolds to an `E∞-𝔖^(−1)-algebra D̂_{A/𝔖^(−1)}` on `QSyn_{O_K}`, with the complete descending multiplicative Nygaard filtration from the homotopy fixed point spectral sequence. For smooth A this is the twisted trace complex of Layer AI.7; its specializations are those of Corollary 11.12, including the identity Witt map and `u↦π` on `𝔖^(−1)`.
@@ -4230,7 +4262,7 @@ that `d(T^n) = [n]_q T^n dlog_q T`; at `q = 1` it becomes `n` and recovers `d(T^
 For `n < 0`, use the Laurent expression `[n]_q = −q^n[−n]_q`, so at `n = −1` the coefficient is `−q^(−1)` and specializes to `−1`.
 The `q`-model is not a commutative differential graded algebra: in characteristic two the
 operation `Sq^0` detects it (BMS1, Remark 7.8 and Lemma 7.9, printed pp.58–59; Theorem 9.4,
-pp.70–75). `Suggested.lean` records `qInteger` and `laurentQInteger`, including the inverse-coordinate coefficient `[−1]_q=−q⁻¹`.
+pp.70–75). `Suggested.lean` records `qInteger` and `laurentQInteger`, with proved classical specializations for all integer weights.
 
 ### A redundant infinitesimal coordinate
 
