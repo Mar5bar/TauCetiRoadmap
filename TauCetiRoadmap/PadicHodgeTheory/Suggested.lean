@@ -285,6 +285,15 @@ example : (!![(0 : ℚ), 1; -1, 0]) *ᵥ ![0, 1] = ![1, 0] ∧
 /-! ## Layer 5: Monodromy and admissibility -/
 
 /-!
+README §5.5 provides `tensorIsomTorsor` for finite-type affine groups over any
+field, with right precomposition, commuting left postcomposition and conversion
+to the common left-action torsor carrier. For smooth groups and a field-valued
+fibre functor, `tensorIsomTorsor_galoisClass` composes that construction with
+PELModuli §M0.9's `smoothAffineTorsor_galoisH1`. ReductiveGroups Layer 1 supplies
+reconstruction and faithful algebraic embeddings.
+-/
+
+/-!
 README §5.1's zero-Lie-action assertion uses a finite extension F/Q_p, a finite
 scalar action of Gamma_K, and a finite-dimensional continuous semilinear
 F-representation. On an open subgroup fixing F the representation is linear;
