@@ -446,6 +446,22 @@ def CompleteFlatComplex {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) : 
   (∃ a b : ℤ, ∀ i : ℤ, i < a ∨ b < i → IsZero (P.X i)) ∧
     ∀ i : ℤ, Module.Flat R (P.X i) ∧ IsAdicComplete (maximalIdeal R) (P.X i)
 
+example {R : Type u} [CommRing R] [IsLocalRing R] :
+    CompleteFlatComplex (0 : Cpx R) := by
+  sorry
+
+example {R : Type u} [CommRing R] [IsLocalRing R]
+    [IsAdicComplete (maximalIdeal R) R] (i : ℤ) :
+    CompleteFlatComplex ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) i).obj
+      (ModuleCat.of R R)) := by
+  sorry
+
+/-- A fraction-field stalk is flat but not maximal-adically separated. -/
+example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (i : ℤ) :
+    ¬ CompleteFlatComplex ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) i).obj
+      (ModuleCat.of R (FractionRing R))) := by
+  sorry
+
 /-- Residual exactness of three finite free terms forces middle exactness, with no endpoint assertion. -/
 theorem three_term_residue_exactness [IsLocalRing A]
     (F₀ F₁ F₂ : Type v)
