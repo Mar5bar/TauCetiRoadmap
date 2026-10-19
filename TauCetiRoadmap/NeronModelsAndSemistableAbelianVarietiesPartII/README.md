@@ -30,8 +30,8 @@ belong to IntegralLattices and the pinned Tau Ceti library. Their identification
 classes is the new work.
 
 General Lang surjectivity and finite-field torsor triviality belong to ReductiveGroupsPartII §RG2.3.7, whose
-stated scope includes smooth geometrically connected finite-type groups. General Tsen and Brauer vanishing
-belong to SchemeAndStackFoundations SF.2; the Picard obstruction sequence belongs to its SF.3 and
+prose statement includes smooth geometrically connected finite-type groups; its Lean carrier is affine.
+General Tsen and Brauer vanishing belong to SchemeAndStackFoundations SF.2; the Picard obstruction sequence belongs to its SF.3 and
 ComplexComparisonPartII §C3.2d.4. This roadmap uses their genus-one and projective-line consequences. It
 does not construct another elliptic-curve, polynomial quotient, ring pullback, model, lattice or
 numerical-Picard carrier.
@@ -140,13 +140,15 @@ StableReduction Layer 1 supplies finite normalization, local node/branch compari
 normalization exact sequence, and the splitting of nodes and branches after a finite separable field
 extension; reducedness of the target alone is insufficient. Layer 2 supplies coherent cohomology of proper
 curves (finite dimensionality, vanishing above degree one, cohomology and base change), proper-flat
-Euler-characteristic constancy and curve duality; the values H⁰(P¹,O)=k and H¹(P¹,O)=0 used below are the
+constancy of the arithmetic genus (`R¹f_*O` locally free of constant rank) and curve duality. Together with
+`f_*O = O`, this gives the Euler-characteristic constancy used in §3.3; the values H⁰(P¹,O)=k and H¹(P¹,O)=0 are the
 genus-zero case. Layer 4 supplies blowup/intersection operations, including negative semidefiniteness of the
 component matrix of a fibre. The sharper form used here, that the form vanishes exactly on multiples of the
 multiplicity vector and hence every proper principal submatrix is negative definite, is the linear-algebra
 lemma of Stacks Lemma 55.2.3 (tag 0C5X), proved here as part of §2.5. Layer 5 supplies regular relatively
 minimal models of smooth positive-genus generic curves, their uniqueness, components, multiplicities,
-adjunction and the genus formula; sections extend by the valuative criterion. Layer 6 supplies the abstract
+adjunction and the genus formula. Sections extend by Mathlib’s `IsProper.eq_valuativeCriterion`,
+listed in StableReduction’s existing-library dependencies under “Valuative criterion”. Layer 6 supplies the abstract
 numerical-Picard construction; the map from an actual fiber divisor to its weighted numerical type is
 constructed here.
 
@@ -175,10 +177,11 @@ SchemeAndStackFoundations Layer 0 (SF.0), §0.27, supplies flat exactness and fi
 annihilators under flat scalar extension (`FlatAnnihilator.annihilator_flat_baseChange`, Stacks
 Lemma 10.40.4, tag 07T8); §0.28 supplies ideal restriction and quotient/localization comparisons,
 including `ideal_comap_top`, `ideal_restrict_top` and the affine ideal-pullback formula. SF.1 supplies genuine algebraic spaces on the small étale site, étale descent, fibre products of
-spaces and the quotient of a scheme by an étale equivalence relation (Stacks Theorem 65.10.5, tag 02WW). Four
+spaces and the quotient of a scheme by an étale equivalence relation (Stacks Theorem 65.10.5, tag 02WW).
+The diagonal properties of Stacks Lemma 65.13.1 (tag 02X4) are supplied by SF.1 §1.3’s
+`IsAlgebraicSpace.diagonal_locallyQuasiFinite`; locally quasi-finite implies locally of finite type. Three
 Stacks inputs that SF.1 does not state are targets of §1.9 here: étale algebras lift along surjections of rings
-(Lemma 10.143.10, tag 04D1); the diagonal of an algebraic space is locally of finite type, a monomorphism,
-separated and locally quasi-finite (Lemma 65.13.1, tag 02X4); a separated locally quasi-finite morphism to a
+(Lemma 10.143.10, tag 04D1); a separated locally quasi-finite morphism to a
 scheme is representable (Proposition 67.50.2, Section 67.50, tag 0417); and quasi-separatedness and
 separatedness descend along a surjective universally closed morphism (Lemma 67.9.8, tag 05Z2). The
 flat-module patching equivalence over a ring fibre product (Ferrand, Théorème 2.2(iv), p. 560; Stacks Lemma
@@ -211,11 +214,13 @@ Kodaira type (2.8); Layer 3, §§3.8–3.9, the degree-zero Picard scheme of a s
 identification with the Néron identity component; and Layer 4 the Picard schemes of semistable curves and the
 monodromy pairing. Additive torsors, LLR discriminant/Lie-lattice comparisons, local period equals
 fiber multiplicity and the corrected obstruction factors are developed in Layer 3 here. Thus the stronger
-comparison is not silently imported from a semistable theorem. ReductiveGroupsPartII §RG2.3.7 supplies Lang
-for every smooth geometrically connected finite-type group over a finite field, including an elliptic curve
-and PGL₂.
+comparison is not silently imported from a semistable theorem. ReductiveGroupsPartII §RG2.3.7’s prose
+target *lang-theorem* supplies Lang for every smooth geometrically connected finite-type group over a finite
+field, including an elliptic curve and PGL₂ (Lang (1956), Theorem 1 and corollary, pp. 556–557). Its Lean target
+`Lang.lang_surjective` has the affine carrier `FiniteTypeCommHopfAlgCat`, and it has no compiled PGL₂ carrier.
+The Jacobian application of §2.15 and the PGL₂ application of §2.16 consume the prose target.
 
-EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b)
+EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b)
 supplies finite-coefficient cohomology, adic realization, finiteness, duality, purity/Gysin and cycle
 classes, projective bundles, blowups, geometric Frobenius, Tate twists and perfect-complex traces.
 EtaleCohomologyFoundations §§0.9–0.11 supplies the algebraic cycle-class, projective-bundle
@@ -437,7 +442,10 @@ The construction needs the following maps and laws.
   arbitrary modules the comparison L→(L⊗B)×(L⊗A′) is only surjective. Uses `CommRingCat.pullbackCone`,
   tensor products and `Module.Flat`. Compare kernels of the two coordinate projections as in
   `pullback_projection`, and use flatness to keep the fiber-product sequence exact (Ferrand, Théorème 2.2,
-  pp. 559–560; [Stacks, Lemmas 15.6.4, 15.6.8 and 15.6.9, tag 0D2I](https://stacks.math.columbia.edu/tag/0D2I)).
+  pp. 559–560; [Stacks, Lemma 15.6.4, tag 07RU](https://stacks.math.columbia.edu/tag/07RU);
+  [Lemma 15.6.5, tag 08IG](https://stacks.math.columbia.edu/tag/08IG);
+  [Lemma 15.6.8, tag 0D2I](https://stacks.math.columbia.edu/tag/0D2I);
+  [Lemma 15.6.9, tag 0D2J](https://stacks.math.columbia.edu/tag/0D2J)).
 
 **Checks.**
 
@@ -610,7 +618,8 @@ using finite presentation and limit descent. This precedes `FerrandPushout.pinch
 ([Temkin–Tyomkin, v3](https://math.huji.ac.il/~temkin/papers/Ferrands_Pushouts.pdf), Lemma 5.1.2,
 p. 14.) *Needs:* SchemeAndStackFoundations SF.1 algebraic spaces and étale descent; SF.0 §0.9
 finite-presentation limit descent and §0.14 finite-algebra decomposition; ModularCurves Layer 4D
-strict henselization, constructed as a filtered limit of pointed étale neighborhoods.
+strict henselization, whose filtered-colimit construction from étale algebras with a chosen geometric
+point is [Stacks, Lemma 10.155.2, tag 04GP](https://stacks.math.columbia.edu/tag/04GP).
 
 **Checks.**
 
@@ -678,7 +687,7 @@ strict henselization, constructed as a filtered limit of pointed étale neighbor
   SchemeAndStackFoundations SF.1, scheme/étale-space contracts. The components of D1 are ind-quasi-affine
   schemes. On pairs of
   affine chart components, their maps are base changes of the separated locally quasi-finite diagonals of Y
-  and Z′ (`AlgebraicSpace.diagonal_properties` of this section, Stacks tag 02X4);
+  and Z′ (SchemeAndStackFoundations §1.3, `IsAlgebraicSpace.diagonal_locallyQuasiFinite`, Stacks tag 02X4);
   `representable_of_separated_locallyQuasiFinite` of this section supplies representability,
   and its proof supplies the local quasi-affineness comparison. Use affine lifting on ind-quasi-affine schemes
   (Temkin–Tyomkin 5.2.5) to obtain a secondary affine étale covering Q0→D1. The components of D1 are separated schemes, so
@@ -733,9 +742,9 @@ strict henselization, constructed as a filtered limit of pointed étale neighbor
   determinant ([Stacks, Lemma 10.143.10, tag 04D1](https://stacks.math.columbia.edu/tag/04D1)). Used to lift
   affine étale charts of Z across the closed immersion into Y in `FerrandPushout.pinching_etale_cover`.
 
-- `AlgebraicSpace.diagonal_properties`: The diagonal of an algebraic space over S is locally of finite type, a
-  monomorphism, separated and locally quasi-finite ([Stacks, Lemma 65.13.1, tag
-  02X4](https://stacks.math.columbia.edu/tag/02X4)); pull back the diagonal along an étale presentation U/R.
+- Use SchemeAndStackFoundations §1.3’s `IsAlgebraicSpace.diagonal_locallyQuasiFinite`: the diagonal is
+  representable by separated locally quasi-finite monomorphisms, hence is also locally of finite type
+  ([Stacks, Lemma 65.13.1, tag 02X4](https://stacks.math.columbia.edu/tag/02X4)).
 
 - `representable_of_separated_locallyQuasiFinite`: A separated, locally quasi-finite morphism from an
   algebraic space to a scheme has a scheme as source ([Stacks, Proposition 67.50.2, Section 67.50, tag
@@ -756,7 +765,8 @@ strict henselization, constructed as a filtered limit of pointed étale neighbor
 - This theorem does not assert P is a scheme.
 
 *Needs:* §1.1; SchemeAndStackFoundations SF.1, scheme/étale-space contracts; §1.3;
-`CommRingCat.pullbackConeIsLimit`; Stacks tags 04D1, 02X4, 0417 and 05Z2 (targets of this section); §1.5.
+`CommRingCat.pullbackConeIsLimit`; SchemeAndStackFoundations SF.1 §1.3 diagonal properties;
+Stacks tags 04D1, 0417 and 05Z2 (targets of this section); §1.5.
 
 ### 1.10 flat compatibility of algebraic-space pinching
 
@@ -4162,13 +4172,15 @@ only three points.
 
 ### 2.15 finite-field genus-one torsors have points
 
-Apply the general Lang torsor theorem to the smooth connected Jacobian of a smooth proper geometrically
-connected genus-one curve over `𝔽_q`. Its torsor class vanishes, so the curve has an `𝔽_q`-point and becomes a
+Apply the prose target *lang-theorem* of ReductiveGroupsPartII §RG2.3.7 to the smooth connected Jacobian
+of a smooth proper geometrically connected genus-one curve over `𝔽_q`. Its torsor class vanishes, so the curve has an `𝔽_q`-point and becomes a
 pointed elliptic curve. This consumer requires the scheme torsor/Picard comparison, not a new proof of Lang or
 the assumption that a regular nonsmooth genus-one curve is elliptic.
 
 Use the genuine Jacobian torsor structure. Apply surjectivity of `x↦x⁻¹Frob_q(x)` and the Frobenius descent
-argument of Lang Theorem2 to obtain a fixed point.
+argument of Lang Theorem 2 to obtain a fixed point. For an abelian variety the Lang map is `Frob_q − 1`;
+its differential is `−1`, so its image is open, and properness makes the image closed. Geometric
+connectedness gives surjectivity. This is the non-affine specialization of the supplied prose theorem.
 
 ([Lang (1956)](https://wstein.org/papers/bib/Lang-Algebraic_Groups_Over_Finite_Fields.pdf), Theorem1,
 corollary and Theorem2 with proofs, pp556–558.)
@@ -4178,7 +4190,7 @@ corollary and Theorem2 with proofs, pp556–558.)
 - For a disconnected finite constant group the general torsor conclusion can fail.
 
 *Needs:* ComplexComparisonPartII §§C3.2d.2–C3.2d.4, Picard representability and obstruction; EllipticCurves Layer 1;
-ReductiveGroupsPartII §RG2.3.7, the general Lang/torsor theorem.
+ReductiveGroupsPartII §RG2.3.7, prose target *lang-theorem* (including its non-affine scope).
 
 ### 2.16 finite-field forms of the projective line
 
@@ -4186,8 +4198,8 @@ Apply Lang to PGL₂ to trivialize every finite-field form of P¹, and construct
 Equivalently use its smooth proper genus-zero curve with a rational point. This application has its own group
 and torsor; genus-one torsor triviality cannot be substituted for the PGL₂ statement.
 
-Use Lang Theorem1/2 for the smooth connected group PGL₂, through ReductiveGroupsPartII §RG2.3.7; the genus-one
-consumer alone does not supply this statement. For the degree1 version use Riemann–Roch to obtain two sections
+Use Lang Theorem 1/2 for the smooth connected group PGL₂, through ReductiveGroupsPartII §RG2.3.7’s prose
+target *lang-theorem*; the genus-one consumer alone does not supply this statement. For the degree1 version use Riemann–Roch to obtain two sections
 and a degree1 morphism to P¹, then finite degree1 normality gives the isomorphism.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), proof of Proposition 3.1, p. 11; proof of Theorem
@@ -4198,7 +4210,7 @@ and a degree1 morphism to P¹, then finite degree1 normality gives the isomorphi
 - Do not apply Tsen over `𝔽_q(t)` to prove this finite-field statement.
 
 *Needs:* AlgebraicModuliForArithmeticGeometry Layer 3 §3.5, effective polarized descent contract; StableReduction
-Layer 2; ReductiveGroupsPartII §RG2.3.7, the general Lang/torsor theorem.
+Layer 2; ReductiveGroupsPartII §RG2.3.7, prose target *lang-theorem* (applied to PGL₂).
 
 ### 2.17 elliptic curve E1 over F₂
 
@@ -4777,11 +4789,13 @@ Ferrand neighborhood hypothesis. Use the inherited universal property to obtain 
 is onto, Y→C is onto. Descend separatedness through the finite surjection using Stacks tag 09MQ. The inherited
 finite maps give universally closedness; properness of Y and surjectivity give universally closedness of
 C→Spec k via the pinned theorem. Obtain local finite type over k on Ferrand affine charts from
-Stacks 37.67.5/00IT, retaining the Noetherian base hypothesis (a field). Combine the three native morphism
+Stacks Lemma 37.67.5 (tag 0E27), whose affine case is Lemma 15.5.1 (tag 00IT); both retain the
+(locally) Noetherian base hypothesis, here a field. Combine the three native morphism
 properties.
 
-([Stacks, tag 0ECH](https://stacks.math.columbia.edu/tag/0ECH), 37.67.1–5, especially4–5 including proofs;
-[Stacks, tag 00IT](https://stacks.math.columbia.edu/tag/00IT), 15.5.1, full; [Stacks, tag
+([Stacks, §37.67, tag 0ECH](https://stacks.math.columbia.edu/tag/0ECH), especially Lemmas 37.67.4–5;
+[Lemma 37.67.5, tag 0E27](https://stacks.math.columbia.edu/tag/0E27), including proof;
+[Lemma 15.5.1, tag 00IT](https://stacks.math.columbia.edu/tag/00IT), full; [Stacks, tag
 09MQ](https://stacks.math.columbia.edu/tag/09MQ), 29.42.11(4), full.)
 
 **Checks.**
@@ -7506,7 +7520,7 @@ The construction needs the following maps and laws.
   is an arbitrary field; a,b∈k. Uses §2.54, §2.47, `AlgebraicGeometry.Scheme.Hom.toNormalization`,
   `AlgebraicGeometry.IsFinite.iff_isIntegralHom_and_locallyOfFiniteType`. Finiteness of ν supplies
   IsIntegralHom ν by the cited finite/integral/locally-finite-type equivalence. Apply the existing anonymous
-  instance in Mathlib/AlgebraicGeometry/Normalization.lean, line 283 at the pinned commit: [IsIntegralHom f]
+  instance in Mathlib/AlgebraicGeometry/Normalization.lean, line 282 at the pinned commit: [IsIntegralHom f]
   implies IsIso f.toNormalization. This instance belongs to the same imported normalization module as the
   cited toNormalization definition. No normality or projective-line argument is required for this relative
   statement.
@@ -9299,7 +9313,7 @@ in this layer.
 
 ### 5.0 projective-plane and point-blowup cohomology comparisons
 
-Specialize EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5
+Specialize EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5
 (including F.10.2b) before `rationalSurface_cycleClass` and §5.2. These sections supply
 finite-coefficient operations, adic realization with derived completion, finiteness, duality,
 purity/Gysin and cycle classes, projective bundles, blowups, geometric Frobenius and perfect-complex
@@ -9346,7 +9360,7 @@ proof of Corollary 7.3, p. 21. The twist is fixed by the geometric-Frobenius con
   over `𝔽_q` and becomes 2q² over `𝔽_(q²)`.
 - With Z empty the comparison is the identity and adds no cohomology or Picard generator.
 
-*Needs:* §4.0; EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
+*Needs:* §4.0; EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
 (including F.10.2b) and §§0.9–0.11; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4;
 StableReduction Layer 4 blowups.
 
@@ -9646,7 +9660,7 @@ smooth supersingular E₃ has c₄=0 but Δ=1 and is a negative control for “c
 
 ### Dependencies
 
-Layers 2 and 4; EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
+Layers 2 and 4; EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
 (including F.10.2b) and §§0.9–0.11; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4;
 the projective-plane and point-blowup specializations of §5.0;
 native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer.
@@ -9663,8 +9677,10 @@ and their individual invariants below are Checks of this single list target; com
 §7.4.
 
 The plain list `modelEquations : Fin 14→WeierstrassCurve F₂[t]` carries the displayed equations, with model i
-at index i−1. Its basic laws `modelEquations_bounded` and `modelEquations_injective` give the five coefficient
-bounds and distinctness of the coefficient tuples. The per-model invariants are Checks of this list.
+at index i−1. The vector `modelDiscriminant : Fin 14 → F₂[t]` records the displayed Δ column in the same
+order. The laws `modelEquations_bounded`, `modelEquations_injective` and `modelEquations_discriminant`
+give the five coefficient bounds, distinctness of the coefficient tuples, and each displayed discriminant
+together with `c₄ = a₁⁴`. The per-model invariants are Checks of this list.
 Geometric equivalence is the relation of §7.2.
 
 Models 1–8 are the nonzero-j equations in Schröer's Theorem 10.4 (p. 29), and models 9–11 are the zero-j
@@ -9719,7 +9735,9 @@ closed points. The count column is the sum of the three resolved rational-fibre 
 | 13 | (t,t,t³,0,0) | t¹¹ | t | I₃*, E₄, nonsplit I₁ | minimal, minimal | 17+4+4=25 |
 | 14 | (t,t²,t²,0,0) | t⁸(t²+t+1) | t⁴/(t²+t+1) | IV*, E₄, nonsplit I₂ | minimal, minimal | 15+4+6=25 |
 
-- For model 1, c₄=t⁴ and Δ=t⁸ give j=c₄³/Δ=t⁴.
+- `modelDiscriminant`: model 1 has Δ=t⁸ and c₄=t⁴, giving j=c₄³/Δ=t⁴.
+- `modelDiscriminant`: model 2 has Δ=t¹⁰(t²+t+1), with a nonrational discriminant place.
+- `modelDiscriminant`: model 14 has Δ=t⁸(t²+t+1), distinct from model 12’s t¹⁰ despite equal resolved counts.
 - Models 9–11 have c₄=0 and Δ=t⁸≠0, so their generic curves are smooth with j=0.
 - The weight bounds are 1,2,3,4,6 for every row, including model 12's constant a₂=1.
 - The nonsplit I₂ and I₁ counts are six and four, respectively, as in §§2.11–2.12.
@@ -9786,14 +9804,16 @@ In characteristic two expand x↦x+a₂ to obtain a₂′=0, a₃′=a₃+a₁a�
 cubic terms cancel. Prove all five weight bounds remain valid and identify this normalization with the native
 variable change. The bounded normalized coefficients give finitely many normal forms under §7.2.
 
-Define `coefficientPolynomial n c=Σ_(j:Fin(n+1))cⱼtʲ` over any commutative ring,
+Define `coefficientPolynomial n c=Σ_(j:Fin(n+1))cⱼtʲ` over any commutative ring as the inverse of Mathlib’s
+`Polynomial.degreeLTEquiv k (n+1)` followed by the inclusion `degreeLT k (n+1) → k[t]`. Define
 `NormalizedCoefficients=(Fin 2→F₂)×(Fin 4→F₂)×(Fin 5→F₂)×(Fin 7→F₂)`, and `normalizedEquation` with a₂=0.
 Define `normalizeA2` by the expanded x-translation. Their API has coefficient evaluation,
 `coefficientPolynomial_injective`, `coefficientPolynomial_range` for the bounded-polynomial range,
 `normalizedEquation_injective` and `normalizedEquation_range` for the bounded a₂=0 slice, the weight bounds,
 `normalizeA2_variableChange`, `normalizeA2_bounded`, vanishing a₂, idempotence and discriminant invariance
-(`normalizeA2_discriminant`). Coefficient-vector injectivity follows by taking coeff j; the range comparison
-uses the first n+1 coefficients. The geometric interpretation uses nonzero Δ and local minimality.
+(`normalizeA2_discriminant`). The two coefficient-polynomial laws use `Polynomial.degreeLTEquiv`’s
+bijectivity and `Polynomial.mem_degreeLT`, with `Polynomial.degreeLT_succ_eq_degreeLE` translating the
+degree bound. The geometric interpretation uses nonzero Δ and local minimality.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32.)
 
@@ -9810,7 +9830,8 @@ uses the first n+1 coefficients. The geometric interpretation uses nonzero Δ an
 - `normalizeA2`: (t,t,0,0,0) maps to (t,0,t²,t²,0).
 - `normalizeA2`: (0,1,0,0,0) maps to (0,0,0,1,0).
 
-*Needs:* §4.10; §4.14.
+*Needs:* §4.10; §4.14; Mathlib `Polynomial.degreeLTEquiv`, `Polynomial.mem_degreeLT` and
+`Polynomial.degreeLT_succ_eq_degreeLE`.
 
 ### 7.2 admissible fibration equivalence
 

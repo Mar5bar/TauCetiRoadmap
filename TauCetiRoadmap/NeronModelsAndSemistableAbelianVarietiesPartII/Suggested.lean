@@ -404,17 +404,30 @@ theorem modelEquations_bounded (i : Fin 14) :
 /-- The fourteen equations have pairwise distinct coefficient tuples. -/
 theorem modelEquations_injective : Function.Injective modelEquations := by sorry
 
+/-- The fourteen displayed discriminants of §6.1, in the order of `modelEquations`. -/
+def modelDiscriminant : Fin 14 → (ZMod 2)[X] :=
+  ![X ^ 8, X ^ 10 * (X ^ 2 + X + 1), X ^ 10, X ^ 10, X ^ 11, X ^ 11, X ^ 12, X ^ 4,
+    X ^ 8, X ^ 8, X ^ 8, X ^ 10, X ^ 11, X ^ 8 * (X ^ 2 + X + 1)]
+
+/-- Each listed equation has its displayed discriminant and characteristic-two invariant
+`c₄ = a₁⁴`, giving the functional invariant `j = a₁¹² / Δ` on its generic curve. -/
+theorem modelEquations_discriminant (i : Fin 14) :
+    (modelEquations i).Δ = modelDiscriminant i ∧
+      (modelEquations i).c₄ = (modelEquations i).a₁ ^ 4 := by sorry
+
 /-! ## Layer 7: admissible equivalence and classification -/
 
-/-- A coefficient polynomial of prescribed weight, built from its complete vector. -/
+/-- The inverse of Mathlib's `Polynomial.degreeLTEquiv k (n + 1)`, followed by inclusion
+into `k[X]`, realizes a complete coefficient vector as its bounded polynomial. -/
 def coefficientPolynomial {k : Type u} [CommRing k] (n : ℕ) (c : Fin (n + 1) → k) :
-    k[X] := ∑ j : Fin (n + 1), C (c j) * X ^ j.val
+    k[X] := ((Polynomial.degreeLTEquiv k (n + 1)).symm c : k[X])
 
-/-- Coefficient-vector evaluation is injective. -/
+/-- Bijectivity of `Polynomial.degreeLTEquiv` makes coefficient-vector evaluation injective. -/
 theorem coefficientPolynomial_injective {k : Type u} [CommRing k] (n : ℕ) :
     Function.Injective (coefficientPolynomial (k := k) n) := by sorry
 
-/-- These vectors parametrize exactly the polynomials obeying the bound. -/
+/-- Bijectivity of `Polynomial.degreeLTEquiv` and `Polynomial.mem_degreeLT` identify the range
+with the polynomials obeying the bound. -/
 theorem coefficientPolynomial_range {k : Type u} [CommRing k] (n : ℕ) (p : k[X]) :
     (∃ c, coefficientPolynomial n c = p) ↔ p.natDegree ≤ n := by sorry
 
@@ -527,7 +540,7 @@ the supplied projective-bundle and blowup specializations projectivePlane_ellAdi
 and pointBlowup_ellAdicCohomology (§5.0), followed by
 rationalSurface_cycleClass (§5.2). Their genuine geometric and cohomological carriers are specified there.
 The general cohomology, Frobenius, perfect-complex trace, duality and Gysin constructions come from
-EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b),
+EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b),
 with the algebraic class and trace normalizations of EtaleCohomologyFoundations §§0.9–0.11.
 The curve, finite-coefficient and rational trace formulas and the constant-sheaf point-count trace
 come from
