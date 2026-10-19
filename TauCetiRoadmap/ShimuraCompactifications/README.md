@@ -418,11 +418,11 @@ The API: `faceProjection_eq_comapDomain`; `faceProjection_single_mem` (`r e_p �
 
 **Checks.**
 
-- `faceProjection_zero_test`: `0 ↦ 0`.
-- `faceProjection_positive_test`: for `R = ℤ/4`, `P = ℕ`, `F = {0}`, `π(e_1) = 0`.
-- `faceProjection_nilpotent_test`: in the same case, the degree-zero coefficient of `π(2e_0)` is
+- `0 ↦ 0`.
+- For `R = ℤ/4`, `P = ℕ`, `F = {0}`, `π(e_1) = 0`.
+- In the same case, the degree-zero coefficient of `π(2e_0)` is
   `2 ≠ 0`; a map that reduced the coefficients would fail.
-- `faceProjection_laurent_test`: for `R = ℤ`, `P = ℤ`, `F = P`, the degree `−1` coefficient of
+- For `R = ℤ`, `P = ℤ`, `F = P`, the degree `−1` coefficient of
   `π(e_{−1})` is `1`; invertible character directions are kept.
 - The face condition cannot be dropped: restricting to the even submonoid of `ℕ` kills `e_1` but
   keeps `e_2 = e_1²`, so it is not multiplicative.
@@ -485,11 +485,11 @@ coefficients agree in every `F`-degree). *Needs:* C0.3, C0.4; Mathlib
 
 **Checks.**
 
-- `faceQuotient_zero_test`: the class of `0` maps to `0`.
-- `faceQuotient_positive_test`: for `R = ℤ/4`, `P = ℕ`, `F = {0}`, the class of `e_1` maps to `0`.
-- `faceQuotient_nilpotent_test`: in the same case, the image of the class of `2e_0` has degree-zero
+- The class of `0` maps to `0`.
+- For `R = ℤ/4`, `P = ℕ`, `F = {0}`, the class of `e_1` maps to `0`.
+- In the same case, the image of the class of `2e_0` has degree-zero
   coefficient `2`, not `0`.
-- `faceQuotient_laurent_test`: for `R = ℤ`, `P = ℤ`, `F = P`, the image of the class of `e_{−1}`
+- For `R = ℤ`, `P = ℤ`, `F = P`, the image of the class of `e_{−1}`
   has degree `−1` coefficient `1`.
 
 ### C0.6 Coefficient change commutes with face restriction
@@ -795,8 +795,10 @@ Layer 1.
 ### C0.18 The integral toric boundary
 
 Prove `TauCeti.Toric.boundaryUnion_ideal` (suggested home
-`TauCeti/Geometry/Toric/Algebraic/Boundary`; the Lean file states the flatness as
-`ToricBoundary.boundaryUnion_flat`, with `ToricBoundary.RegularChart` and `ToricBoundary.boundaryProduct`): in a regular chart
+`TauCeti/Geometry/Toric/Algebraic/Boundary`; the Lean signatures are
+`ToricBoundary.boundaryUnion_ideal`, `ToricBoundary.boundaryUnion_basis`,
+`ToricBoundary.boundaryProduct_mul_injective` and `ToricBoundary.boundaryUnion_flat`,
+with `ToricBoundary.RegularChart` and `ToricBoundary.boundaryProduct`): in a regular chart
 `A_R = R[x_1, …, x_r, y_1^{±1}, …, y_s^{±1}]` the scheme-theoretic union of the `r` boundary divisors
 has ideal `(t)`, `t = x_1⋯x_r`; the quotient has `R`-basis the monomials `x^a y^b` with some
 `a_i = 0`. Hence the boundary is flat over `R`, its geometric fibres are reduced, and its formation
@@ -2141,7 +2143,7 @@ AdicSpacesPartII §R1.3.
 **Checks.**
 
 Use the symplectic frame `(ℤ/p²)^4` with basis `e_1,e_2,f_1,f_2` and
-`⟨e_i,f_j⟩ = δ_ij`; the Lean examples compute the following groups.
+`⟨e_i,f_j⟩ = δ_ij`.
 
 - `L = ⟨e_1,pe_2,pf_2⟩` is isotropic of type `ℤ/p² ⊕ (ℤ/p)²`: the only potentially nonzero
   pairing among its displayed generators is `⟨pe_2,pf_2⟩ = p² = 0`.
@@ -3387,17 +3389,18 @@ Proposition 4.1(ii) and equation (5), pp. 537 and 546). The API: `tracePhase_app
 `tracePhase_add`, `tracePhase_lift`, `tracePhase_trivial_root` (`ζ = 1` gives the trivial character),
 `tracePhase_map` (transport along `R → R′`). The Lean file has the underlying function
 `CyclotomicPhase.tracePhaseFun`, with real body `ξ ↦ ζ^{num(n·Tr(ξx))}`, and its additivity
-`CyclotomicPhase.tracePhaseFun_add`. *Needs:* C6.15, C6.17, C6.18.
+`CyclotomicPhase.tracePhaseFun_add` and lift independence
+`CyclotomicPhase.tracePhaseFun_lift`. *Needs:* C6.15, C6.17, C6.18.
 
 **Checks.**
 
-- `phase_third_denominator`: for `K = ℚ`, `A = ℤ`, `B = ⅓ℤ`, `n = 3`, `x = 1`, the value at `⅓` is `ζ`.
-- `phase_zero_character`: the value at `0` is `1`, also over the zero ring.
-- `phase_dual_shift`: for `x = 1` and `x′ = 4` (with `B = ⅓ℤ`) the characters agree when `ζ³ = 1`,
+- For `K = ℚ`, `A = ℤ`, `B = ⅓ℤ`, `n = 3`, `x = 1`, the value at `⅓` is `ζ`.
+- The value at `0` is `1`, also over the zero ring.
+- For `x = 1` and `x′ = 4` (with `B = ⅓ℤ`) the characters agree when `ζ³ = 1`,
   since `3 ∈ traceDual(B)`.
-- `phase_wrong_dual`: for `A = ℤ`, `B = ¼ℤ`, `n = 4`, `ζ = 2 ∈ (ℤ/5)^×`, `x = 0`, `x′ = 1`, the values at
+- For `A = ℤ`, `B = ¼ℤ`, `n = 4`, `ζ = 2 ∈ (ℤ/5)^×`, `x = 0`, `x′ = 1`, the values at
   `¼` are `1` and `2`; working modulo `traceDual(A)` would be wrong.
-- `phase_nonprimitive`: over `ℤ/8` with `n = 4` and `ζ = 3` (of order `2`) the value is `3^m`.
+- Over `ℤ/8` with `n = 4` and `ζ = 3` (of order `2`) the value is `3^m`.
 
 ### C6.20 The universal family on a cusp chart
 
@@ -3816,8 +3819,7 @@ a noninjective map such as `R → 0` uniqueness fails ([Dimitrov], Proposition 8
 
 - The injective non-flat map `ℤ/4 → (ℤ/4)[t]/(2t)` is allowed. Evaluation at zero splits the
   coefficient inclusion; the class of `t` is killed by `2` but is not in `2A`, where
-  `A = (ℤ/4)[t]/(2t)`. Flatness would force `ker(2 : A → A) = 2A`. The Lean examples state
-  injectivity and nonflatness for this polynomial quotient.
+  `A = (ℤ/4)[t]/(2t)`. Flatness would force `ker(2 : A → A) = 2A`.
 - For `R → 0`, uniqueness fails when `R ≠ 0`.
 - For the identity inclusion the descended section is the original section.
 
