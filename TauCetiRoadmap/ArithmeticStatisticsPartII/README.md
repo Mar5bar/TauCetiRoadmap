@@ -90,7 +90,7 @@ Define `ArithmeticOrbitRefinement.idealNorm` for a D-submodule I of L relative t
 
 **Quotient by scalars is free.** Let R be a principal ideal domain or a local ring and A an R-algebra that is free of rank `n ≥ 1` as an R-module. Then `R → A`, `r ↦ r.1`, is injective, the quotient `A/R.1` is free of rank `n - 1`, and 1 extends to an R-basis `<1, a_2, ..., a_n>` of A. For `n = 3` there is a basis b of A indexed by Fin 3 with `b 0 = 1`.
 
-R is a PID or a local ring (over an arbitrary base the quotient is only projective, and the parametrization must be phrased with rank-2 projective modules; that generality is not used by any consumer and is outside this free-basis specialization).
+R is a PID or a local ring (over an arbitrary base the quotient is only projective, and the parametrization must be phrased with rank-2 projective modules; that generality is not used by any consumer and is outside this free-basis specialization). The signature `quotientByScalars_free` states the injection, quotient freeness and rank, and scalar-first basis with total rank written as `n+1`.
 
 For the proof, Injectivity: if `r.1 = 0` then r annihilates the nonzero free module A, so `r = 0`. Local case: 1 is nonzero modulo mA (else `A = mA` and Nakayama gives `A = 0`); extend its image to a basis of `A/mA` and lift; by Nakayama the lift is a basis. PID case: `A/R.1` is finitely generated and torsion-free (if `r a = s.1` with `r ≠ 0` then a is integral over R and equals `s/r` in A tensor `Frac(R)`; a PID is integrally closed, so `s/r` is in R), hence free by the structure theorem (Mathlib `Module.free_of_finite_type_torsion_free'`); a basis of the quotient lifts, together with 1, to a basis of A.
 
@@ -103,6 +103,8 @@ For the proof, Injectivity: if `r.1 = 0` then r annihilates the nonzero free mod
 - For `A = ℤ[x]/(x^3 - 2)`: the basis `<1, x, x^2>` has first vector 1.
 
 - For `R = ℤ/4` (local) and `A = R^3` the vector `(1,1,1)` extends to a basis.
+
+- For `A=R` of rank one, the scalar map is the identity and the quotient is the zero module, of rank zero.
 
 <a id="index-form-of-a-based-cubic-ring"></a>
 
@@ -552,7 +554,7 @@ For the proof, Expand the two-by-two determinants. Row operations of determinant
 
 **Integral minor fibres.** Every nonzero integral alternating `6×6` array satisfying the four-index Plücker equations is the minors array of an integral `2×6` matrix. If `d>0` is the gcd of its entries, its fibre modulo `SL₂(ℤ)`, with the six coefficients fixed, is in bijection with index-d sublattices of the saturated oriented rank-two coefficient lattice, and has `Σ_{a|d}a` elements. The zero array is excluded from this finite-count theorem. This is a based coefficient assertion, not a quotient by quartic-ring automorphisms.
 
-At least one prescribed minor is nonzero. The six coefficient labels remain fixed; only the two rows change basis.
+At least one prescribed minor is nonzero. The six coefficient labels remain fixed; only the two rows change basis. The signature `ArithmeticOrbitRefinement.quarticMinors_exists` states the integral realization for an antisymmetric array satisfying the Plücker relations.
 
 For the proof, Choose a nonzero minor to reconstruct the rational rank-two plane and use the Plücker equations to check its remaining coordinates. Saturate its intersection with `Z⁶`. The primitive minors specify an oriented basis of this lattice; minors scaled by d specify oriented sublattices of index d. Hermite normal forms count them by the divisor sum.
 
@@ -1180,7 +1182,7 @@ For the proof, Into the Selmer group: for locally soluble g, `z(g)` has square n
 
 **Primitive vectors extend to special linear matrices.** Let O be a principal ideal domain and v in `O^3` with coordinates generating the unit ideal (a primitive vector). Then for every j there is M in `SL3(O)` whose j-th column is v; in particular `SL3(O)` acts transitively on `P^2(Frac O)` (on primitive vectors up to units).
 
-O a PID `(ℤ, ℤ_p, ℤ_(p))`.
+O a PID `(ℤ, ℤ_p, ℤ_(p))`. The signature `primitiveVector_exists_SL3` expresses primitivity by `Ideal.span (Set.range v) = ⊤` and keeps the prescribed column.
 
 For the proof, `O^3/Ov` is finitely generated and torsion-free (v primitive), hence free of rank 2 over the PID (Mathlib `Module.free_of_finite_type_torsion_free'`); so v extends to a basis of `O^3`. First permute the extended basis so that v is its j-th column. Its determinant is a unit u; multiply a different column by `u^{-1}`. This preserves the chosen column and makes the determinant 1, including the sign of the permutation.
 
@@ -1191,6 +1193,10 @@ For the proof, `O^3/Ov` is finitely generated and torsion-free (v primitive), he
 **Checks.**
 
 - `v = (1290, -383, 1000)` (the point `2(3,5)` of `y^2 = x^3 - 2` in projective coordinates) is a column of a matrix in `SL3(ℤ)`.
+
+- For each j, the standard vector `e_j` is column j of the identity matrix.
+
+- Over `ℤ`, `v=(2,0,0)` is not primitive and cannot be a column of a determinant-one matrix: its entries generate `2ℤ`.
 
 <a id="ternary-cubic-forms-and-their-invariants"></a>
 
@@ -2376,7 +2382,7 @@ For `xy(x-y)` the integral twisted cubic stabilizer has six elements, so the ord
 
 The point-quartic construction sends the point at ∞ to the specified linear-factor orbit. For a finite point the denominators 6, 27 and 432 require the characteristic exclusions in the formula. For pencils, a vector-space isotropic g-plane is a projective `(g-1)`-plane. At `p=2` a polar-isotropic plane need not make the quadratic form vanish. The quotient `(SL_n/μ₂)(Q)` must be evaluated as rational points of a group scheme; it can exceed `SL_n(Q)/{±1}`.
 
-The standalone Lean file represents monicization by the existing carrier `Fin 5 → R`, in the same descending coefficient convention: `[2,3,5,7,11]` maps to `[1,3,10,28,88]`, `[0,3,5,7,11]` maps to `[1,3,0,0,0]`, and `[1,b,c,d,e]` is fixed. The geometric comparison still requires the original leading coefficient to be nonzero and the original local Kummer images; these vector identities do not supply that comparison. For quartic minors, the zero two-row matrix has zero minors, exchanging the two column indices changes sign, and the first two standard row vectors have minor `(0,1)=1`. The empty isotropic space has its unique rank-zero submodule; over the reals the identity form has no isotropic line. The bilinear evaluations in rank zero, rank one with matrix `[1]` at `2,3`, and matrix `[2]` at `3,5` are `0,6,30`. They test the bilinear normalization independently of quadratic refinement.
+The proved Lean examples show that proportional coefficient rows have zero quartic minors, and that the characteristic-two alternating plane with matrix `[[0,1],[1,0]]` fails the full bilinear common-isotropy condition. The first detects the excluded zero fibre in the finite minor-fibre count; the second detects the mixed values lost by testing only `uᵀAu`.
 
 ### Dependencies
 

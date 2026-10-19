@@ -4,9 +4,9 @@ import Mathlib
 # Arithmetic statistics, Part II: representative target signatures
 
 The accompanying README is the full specification, with source locators and exact
-supplier contracts. This file gives suggested forms, not an exhaustive checklist: light definitions
-and selected milestones on the pinned carriers. Counts retain the specified cutoffs and denominators; orbit,
-moduli, covering and arithmetic probability constructions remain README targets.
+supplier contracts. This file gives suggested forms, not an exhaustive checklist:
+light coordinate definitions and milestones on the pinned carriers. Ring-resolvent,
+moduli, covering and Selmer orbit constructions are specified in the README.
 -/
 
 noncomputable section
@@ -15,63 +15,20 @@ open Polynomial Filter
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartII
 
-/-! ## Layer 1: Integral orbit dictionaries -/
+/-! ## Coordinate conventions -/
 
 namespace BinaryQuartic
 /-- Monicization in the five descending ordinary coefficients of a binary quartic. -/
 def monicize {R : Type*} [CommRing R] (f : Fin 5 → R) : Fin 5 → R :=
   ![1, f 1, f 0 * f 2, f 0 ^ 2 * f 3, f 0 ^ 3 * f 4]
 
-example : monicize (![2,3,5,7,11] : Fin 5 → ℤ) = ![1,3,10,28,88] := by sorry
-example : monicize (![0,3,5,7,11] : Fin 5 → ℤ) = ![1,3,0,0,0] := by sorry
-example (b c d e : ℤ) : monicize (![1,b,c,d,e] : Fin 5 → ℤ) = ![1,b,c,d,e] := by sorry
-
-/-- The supplier's sparse coefficient formulas exhibit the monicization weights. -/
-example :
-    let f : Fin 5 → ℤ := ![2,0,0,0,-2]
-    let m := monicize f
-    m = ![1,0,0,0,-16] ∧
-    12 * f 0 * f 4 = -48 ∧ 12 * m 0 * m 4 = -192 ∧
-    12 * m 0 * m 4 = (f 0)^2 * (12 * f 0 * f 4) ∧
-    256 * (f 0)^3 * (f 4)^3 = -16384 ∧
-    256 * (m 0)^3 * (m 4)^3 = -1048576 ∧
-    256 * (m 0)^3 * (m 4)^3 = (f 0)^6 * (256 * (f 0)^3 * (f 4)^3) := by sorry
-
-/-- Monicization can change real solubility, even for a nonsingular quartic. -/
-example :
-    let f : Fin 5 → ℝ := ![-1,0,0,0,-1]
-    let m := monicize f
-    m = ![1,0,0,0,1] ∧
-    (¬ ∃ x y z : ℝ, (x ≠ 0 ∨ y ≠ 0) ∧ z^2 = f 0 * x^4 + f 4 * y^4) ∧
-    (∃ x y z : ℝ, (x ≠ 0 ∨ y ≠ 0) ∧ z^2 = m 0 * x^4 + m 4 * y^4) := by sorry
-
 end BinaryQuartic
 
 namespace ArithmeticOrbitRefinement
-
 /-- Plücker coordinates of the two rows in the quartic coefficient convention. -/
 def quarticMinors (M : Matrix (Fin 2) (Fin 6) ℤ) : Matrix (Fin 6) (Fin 6) ℤ :=
   fun i j => M 0 i * M 1 j - M 0 j * M 1 i
 
-/-- Changing the two row generators scales every minor by the determinant. -/
-theorem quarticMinors_mul (h : Matrix (Fin 2) (Fin 2) ℤ)
-    (M : Matrix (Fin 2) (Fin 6) ℤ) :
-    quarticMinors (h * M) = fun i j => h.det * quarticMinors M i j := by sorry
-
-example : quarticMinors (0 : Matrix (Fin 2) (Fin 6) ℤ) = 0 := by sorry
-example (M : Matrix (Fin 2) (Fin 6) ℤ) (i j : Fin 6) :
-    quarticMinors M j i = -quarticMinors M i j := by sorry
-
-example : quarticMinors (fun i j => if i = 0 then (if j = 0 then 1 else 0)
-    else (if j = 1 then 1 else 0)) 0 1 = 1 := by sorry
-
-/-- Exchanging the two nonzero standard coefficient rows reverses orientation. -/
-example : quarticMinors (fun i j => if i = 0 then (if j = 1 then 1 else 0)
-    else (if j = 0 then 1 else 0)) 0 1 = -1 := by sorry
-
-/-- Nonzero proportional coefficient rows still have every minor zero. -/
-example : quarticMinors (fun i j => if i = 0 then (if j = 0 then 1 else 0)
-    else (if j = 0 then 2 else 0)) = 0 := by sorry
 
 section Isotropic
 variable {K : Type*} [Field K]
@@ -83,28 +40,6 @@ def commonIsotropic {n : ℕ} (r : ℕ) (A B : Matrix (Fin n) (Fin n) K) :
     Set (Submodule K (Fin n → K)) :=
   {U | Module.finrank K U = r ∧
     ∀ u ∈ U, ∀ v ∈ U, pairing A u v = 0 ∧ pairing B u v = 0}
-
-example (U : Submodule K (Fin 3 → K)) (h : Module.finrank K U = 1) :
-    U ∈ commonIsotropic 1 (0 : Matrix (Fin 3) (Fin 3) K) 0 := by sorry
-example : commonIsotropic 1 (1 : Matrix (Fin 3) (Fin 3) ℝ) 0 = ∅ := by sorry
-example : pairing (1 : Matrix (Fin 1) (Fin 1) ℝ) (fun _ => 2) (fun _ => 3) = 6 := by sorry
-example : (⊥ : Submodule K (Fin 0 → K)) ∈
-    commonIsotropic 0 (0 : Matrix (Fin 0) (Fin 0) K) 0 := by sorry
-example (u v : Fin 0 → K) : pairing (0 : Matrix (Fin 0) (Fin 0) K) u v = 0 := by sorry
-example : pairing (!![2] : Matrix (Fin 1) (Fin 1) ℚ) ![3] ![5] = 30 := by sorry
-
-/-- In characteristic two, diagonal quadratic vanishing misses mixed bilinear values. -/
-example : (⊤ : Submodule (ZMod 2) (Fin 2 → ZMod 2)) ∉
-    commonIsotropic 2 (!![0,1;1,0]) 0 := by sorry
-
-/-- Two nonzero forms vanish bilinearly on the line of their common zero block. -/
-example : Submodule.span ℚ ({![1,0,0]} : Set (Fin 3 → ℚ)) ∈
-    commonIsotropic 1 (!![0,1,0;1,0,0;0,0,1] : Matrix (Fin 3) (Fin 3) ℚ)
-      (!![0,0,1;0,1,0;1,0,0]) := by sorry
-
-/-- A rank larger than the ambient dimension is excluded, even for the zero pencil. -/
-example : commonIsotropic 3 (0 : Matrix (Fin 2) (Fin 2) ℚ) 0 = ∅ := by sorry
-
 
 end Isotropic
 end ArithmeticOrbitRefinement
@@ -120,6 +55,92 @@ def dividedSubst {R : Type*} [CommRing R]
     a*r*t^2 + b*(2*r*t*u + t^2*s) + c*(r*u^2 + 2*t*s*u) + d*s*u^2,
     a*t^3 + 3*b*t^2*u + 3*c*t*u^2 + d*u^3]
 
+
+/-- Divided coefficients represent ax³+3bx²y+3cxy²+dy³; ordinary Δ is −27 times this. -/
+def normalizedDisc {R : Type*} [CommRing R] (v : Fin 4 → R) : R :=
+  v 0 ^ 2 * v 3 ^ 2 - 6 * v 0 * v 1 * v 2 * v 3 - 3 * v 1 ^ 2 * v 2 ^ 2 +
+    4 * v 0 * v 2 ^ 3 + 4 * v 1 ^ 3 * v 3
+
+end Cubic
+
+/-! ## Milestones on existing carriers -/
+
+namespace ArithmeticOrbitRefinement
+
+/-- Integral minor fibres: nonzero integral Plücker data have an integral two-row realization. -/
+theorem quarticMinors_exists (L : Matrix (Fin 6) (Fin 6) ℤ)
+    (hne : L ≠ 0) (hskew : ∀ i j, L j i = -L i j)
+    (hplucker : ∀ i j k l, L i k * L j l = L i j * L k l + L i l * L j k) :
+    ∃ M : Matrix (Fin 2) (Fin 6) ℤ, quarticMinors M = L := by sorry
+
+end ArithmeticOrbitRefinement
+
+/-- Quotient by scalars is free: a positive-rank free algebra over a PID or local ring
+has a scalar-first basis and a free quotient of rank one less. -/
+theorem quotientByScalars_free {R A : Type*} [CommRing R] [Nontrivial R]
+    [Ring A] [Algebra R A] [Module.Free R A] [Module.Finite R A]
+    (hR : (IsDomain R ∧ IsPrincipalIdealRing R) ∨ IsLocalRing R)
+    (n : ℕ) (hrank : Module.finrank R A = n + 1) :
+    Function.Injective (algebraMap R A) ∧
+    Module.Free R (A ⧸ Submodule.span R ({1} : Set A)) ∧
+    Module.finrank R (A ⧸ Submodule.span R ({1} : Set A)) = n ∧
+    ∃ b : Module.Basis (Fin (n + 1)) R A, b 0 = 1 := by sorry
+
+/-- Primitive vectors extend to special linear matrices: every primitive vector over a PID
+is any prescribed column of a determinant-one matrix. -/
+theorem primitiveVector_exists_SL3 {O : Type*} [CommRing O] [IsDomain O]
+    [IsPrincipalIdealRing O] (v : Fin 3 → O) (hv : Ideal.span (Set.range v) = ⊤)
+    (j : Fin 3) :
+    ∃ M : Matrix.SpecialLinearGroup (Fin 3) O, ∀ i, M i j = v i := by sorry
+
+namespace BinaryQuartic
+
+/-- Quartic monicization has leading coefficient one over every commutative ring. -/
+theorem monicize_a {R : Type*} [CommRing R] (f : Fin 5 → R) :
+    monicize f 0 = 1 := by sorry
+
+/-- Quartic monicization fixes every form whose leading coefficient is one. -/
+theorem monicize_eq_self {R : Type*} [CommRing R] (f : Fin 5 → R) (hf : f 0 = 1) :
+    monicize f = f := by sorry
+
+end BinaryQuartic
+
+namespace ArithmeticOrbitRefinement
+
+/-- Quartic minors reverse sign when the two coefficient labels are exchanged. -/
+theorem quarticMinors_swap (M : Matrix (Fin 2) (Fin 6) ℤ) (i j : Fin 6) :
+    quarticMinors M j i = -quarticMinors M i j := by sorry
+
+/-- Quartic minors satisfy the Plücker relations in the fixed coefficient order. -/
+theorem quarticMinors_plucker (M : Matrix (Fin 2) (Fin 6) ℤ) (i j k l : Fin 6) :
+    quarticMinors M i k * quarticMinors M j l =
+      quarticMinors M i j * quarticMinors M k l +
+      quarticMinors M i l * quarticMinors M j k := by sorry
+
+/-- Changing the two row generators scales every minor by the determinant. -/
+theorem quarticMinors_mul (h : Matrix (Fin 2) (Fin 2) ℤ)
+    (M : Matrix (Fin 2) (Fin 6) ℤ) :
+    quarticMinors (h * M) = fun i j => h.det * quarticMinors M i j := by sorry
+
+section Isotropic
+variable {K : Type*} [Field K]
+
+/-- Common isotropic subspaces transport by the inverse transpose under congruence. -/
+theorem commonIsotropic_congr {n : ℕ} (r : ℕ) (A B : Matrix (Fin n) (Fin n) K)
+    (P : Matrix.GeneralLinearGroup (Fin n) K) (U : Submodule K (Fin n → K)) :
+    U.map (Matrix.toLin' (P⁻¹).val.transpose) ∈
+        commonIsotropic r (P.val * A * P.val.transpose) (P.val * B * P.val.transpose) ↔
+      U ∈ commonIsotropic r A B := by sorry
+
+/-- The zero pencil has every subspace of the specified vector dimension as a common isotropic. -/
+theorem commonIsotropic_zero {n : ℕ} (r : ℕ) :
+    commonIsotropic r (0 : Matrix (Fin n) (Fin n) K) 0 =
+      {U : Submodule K (Fin n → K) | Module.finrank K U = r} := by sorry
+
+end Isotropic
+end ArithmeticOrbitRefinement
+
+namespace Cubic
 /-- The identity matrix fixes every divided cubic vector. -/
 theorem dividedSubst_one {R : Type*} [CommRing R] (v : Fin 4 → R) :
     dividedSubst 1 v = v := by sorry
@@ -135,11 +156,6 @@ theorem dividedSubst_map {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S)
     (fun i => f (dividedSubst g v i)) =
       dividedSubst (g.map f) (fun i => f (v i)) := by sorry
 
-/-- Divided coefficients represent ax³+3bx²y+3cxy²+dy³; ordinary Δ is −27 times this. -/
-def normalizedDisc {R : Type*} [CommRing R] (v : Fin 4 → R) : R :=
-  v 0 ^ 2 * v 3 ^ 2 - 6 * v 0 * v 1 * v 2 * v 3 - 3 * v 1 ^ 2 * v 2 ^ 2 +
-    4 * v 0 * v 2 ^ 3 + 4 * v 1 ^ 3 * v 3
-
 /-- Divided substitution has determinant-six discriminant covariance over every ring. -/
 theorem normalizedDisc_dividedSubst {R : Type*} [CommRing R]
     (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
@@ -154,69 +170,27 @@ theorem ordinaryDisc_eq {K : Type*} [Field K] (v : Fin 4 → K) (ha : v 0 ≠ 0)
     (C (v 0) * X ^ 3 + C (3 * v 1) * X ^ 2 + C (3 * v 2) * X + C (v 3)).discr =
       -27 * normalizedDisc v := by sorry
 
-/-- A determinant-one transvection preserves the divided discriminant. -/
-example :
-    dividedSubst (!![1,1;0,1] : Matrix (Fin 2) (Fin 2) ℤ) ![1,0,0,1] = ![2,1,1,1] ∧
-    normalizedDisc (![2,1,1,1] : Fin 4 → ℤ) = 1 ∧
-    normalizedDisc (![2,3,3,1] : Fin 4 → ℤ) = -23 := by sorry
-
-/-- Interchanging variables reverses divided coefficients and preserves D. -/
-example :
-    dividedSubst (!![0,1;1,0] : Matrix (Fin 2) (Fin 2) ℤ) ![1,2,3,5] = ![5,3,2,1] ∧
-    normalizedDisc (![1,2,3,5] : Fin 4 → ℤ) = 5 ∧
-    normalizedDisc (![5,3,2,1] : Fin 4 → ℤ) = 5 := by sorry
-
-/-- A diagonal substitution scales D by the sixth power of the determinant. -/
-example :
-    dividedSubst (!![2,0;0,1] : Matrix (Fin 2) (Fin 2) ℤ) ![1,0,0,1] = ![8,0,0,1] ∧
-    normalizedDisc (![1,0,0,1] : Fin 4 → ℤ) = 1 ∧
-    normalizedDisc (![8,0,0,1] : Fin 4 → ℤ) = 64 := by sorry
-
-example : normalizedDisc (![2,0,0,2] : Fin 4 → ℤ) = 16 := by sorry
-
-/-- Ordinary coefficients forget nonzero divided data in characteristic three. -/
-example :
-    (![0,1,0,0] : Fin 4 → ZMod 3) ≠ 0 ∧
-    (![0,3 * 1,3 * 0,0] : Fin 4 → ZMod 3) = 0 := by sorry
-
-example (s : ℚ) : normalizedDisc ![0,1,0,s/4] = s := by sorry
-example : normalizedDisc (![1,0,0,1] : Fin 4 → ℤ) = 1 ∧
-    (X ^ 3 + 1 : ℤ[X]).discr = -27 := by sorry
-example : normalizedDisc (![1,0,0,0] : Fin 4 → ℤ) = 0 := by sorry
-example : normalizedDisc (![0,1,0,1] : Fin 4 → ℚ) = 4 ∧
-    (C 3 * X ^ 2 + 1 : ℚ[X]).discr = -12 := by sorry
-example : normalizedDisc (![1,0,0,1] : Fin 4 → ZMod 3) = 1 ∧
-    (X ^ 3 + 1 : (ZMod 3)[X]).discr = 0 := by sorry
-example : normalizedDisc (![1,0,0,1] : Fin 4 → ZMod 2) = 1 ∧
-    (X ^ 3 + 1 : (ZMod 2)[X]).discr = 1 := by sorry
 end Cubic
 
-namespace BinaryQuartic
-/-- The resolvent discriminant uses 729 times the ordinary quartic discriminant. -/
-example : (X ^ 3 - C 9 * X : ℚ[X]).discr = 2916 ∧
-    (X ^ 3 - C 9 * X : ℚ[X]).discr ≠ 27 * 4 := by sorry
+/-! ## Structural checks -/
 
-/-- For x⁴−y⁴, the quartic covariant resultant is 81Δ². -/
-example : (X ^ 4 - 1 : ℚ[X]).resultant (C 48 * X ^ 2) = 5308416 := by sorry
+namespace ArithmeticOrbitRefinement
 
-/-- For x⁴−y⁴, the sextic covariant resultant is Δ³. -/
-example : (X ^ 4 - 1 : ℚ[X]).resultant (-C 32 * X * (X ^ 4 + 1)) =
-    -16777216 := by sorry
+/-- Dependent coefficient rows have zero wedge, even when neither row is zero. -/
+example (a : Fin 6 → ℤ) (c : ℤ) :
+    quarticMinors (fun i j => if i = 0 then a j else c * a j) = 0 := by
+  ext i j
+  simp [quarticMinors]
+  ring
 
-/-- The resolvent of the real order-two point has no projective zero. -/
-example : ¬ ∃ u v : ℝ, (u ≠ 0 ∨ v ≠ 0) ∧ u^4 + 4 * v^4 = 0 := by sorry
+/-- In characteristic two, vanishing on the diagonal does not give bilinear isotropy. -/
+example : (⊤ : Submodule (ZMod 2) (Fin 2 → ZMod 2)) ∉
+    commonIsotropic 2 (!![0,1;1,0]) 0 := by
+  intro h
+  have h01 := h.2 (![1,0]) (by trivial) (![0,1]) (by trivial)
+  norm_num [pairing, Fin.sum_univ_two] at h01
 
-/-- Trace-zero representatives describe nonidentity quartic self-equivalences. -/
-example : (1 : Matrix (Fin 2) (Fin 2) ℚ).trace = 2 ∧
-    ( !![1,0;0,-1] : Matrix (Fin 2) (Fin 2) ℚ).trace = 0 ∧
-    ( !![1,0;0,-1] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = 1 := by sorry
-end BinaryQuartic
-
-/-! For g=1 the signed-minor coefficient determinant is Q. These matrices record
-its values for the standard blocks and the two adapted completions in the README. -/
-example : ( !![0,-1;-1,0] : Matrix (Fin 2) (Fin 2) ℤ).det = -1 ∧
-    ( !![0,1;1,0] : Matrix (Fin 2) (Fin 2) ℤ).det = -1 ∧
-    ( !![0,1;-1,0] : Matrix (Fin 2) (Fin 2) ℤ).det = 1 := by sorry
+end ArithmeticOrbitRefinement
 
 /-!
 The README also specifies the arithmetic and geometric constructions whose
@@ -236,12 +210,12 @@ pencil invariant and its determinant identities are supplied by Part I §0.22.
 
 README-only API targets, grouped by their mathematical namespace:
 ArithmeticOrbitRefinement:
-  basedSexticResolvent_disc, basedSexticResolvent_self, commonIsotropic_congr.
+  basedSexticResolvent_disc, basedSexticResolvent_self.
   idealNorm, IsMaximalAtUniformizer, quinticSymmetricClosure, pencilFanoGeometry.
-  commonIsotropic_zero, markedQ_equivariant, markedQ_independent.
+  markedQ_equivariant, markedQ_independent.
   monogenizing_adjoin, monogenizing_translate, normPair_sign_iff.
   orbitTriple_rescale, qHyperdeterminant_scale, qHyperdeterminant_sl2.
-  qHyperdeterminant_transform, quarticMinors_plucker, quarticMinors_swap.
+  qHyperdeterminant_transform.
   quinticCoeff_scale, quinticRing_add, sexticRing_add.
   sextic_discriminant, weak_strong_exclusive.
 BinaryQuartic:
@@ -252,8 +226,8 @@ BinaryQuartic:
   invJ_pgl_smul, invJ_quarticOfPoint, isLocallySolubleQ_iff.
   isLocallySoluble_iff, isSoluble_of_eval_eq_zero, isSoluble_of_isSquare_a.
   isSoluble_pgl_smul, isSoluble_quarticOfPoint, isUnit_irrationalCovariant.
-  mem_range_embed_iff, mem_selmerGroup₂_iff, monicize_a.
-  monicize_eq_self, monicize_invariants, monicize_twist.
+  mem_range_embed_iff, mem_selmerGroup₂_iff.
+  monicize_invariants, monicize_twist.
   norm_irrationalCovariant, pgl_orbits_eq_gl_orbits_int, pgl_smul_mk.
   quarticOfPoint_neg, resolventForm_embed, rho_det.
   sextic_twistedSMul, veroneseForm_comp_rho.
