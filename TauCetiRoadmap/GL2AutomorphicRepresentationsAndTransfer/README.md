@@ -225,8 +225,8 @@ AutomorphicLFunctionsAndLocalFactors AL.2
 [global-godement-jacquet](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet)
 at `n = 1` supplies the global zeta integral, meromorphic continuation and reflected equation
 for arbitrary Schwartz–Bruhat test functions. Its AL.1
-[global-zeta-integral](../AutomorphicLFunctionsAndLocalFactors/README.md#global-zeta-integral)
-and [hecke-l-functional-equation](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation)
+[hecke-l-functional-equation](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation)
+(the rank-one scalar specialisation)
 supplies the scalar continuation and reflected equation for every unitary idele-class character as the `n = 1`
 case of the matrix theory, including the residue identification of the norm-one idele-class volume with `κ`.
 AutomorphicLFunctionsAndLocalFactors, AL.0 `local-schwartz-bruhat-space` and its
