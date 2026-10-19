@@ -265,6 +265,8 @@ See [47][R47], §9 proof, p. 382; Rosser–Schoenfeld Theorem 1.
 
 ### 0.6 Bounded-height Landau–Page theorem
 
+The signature `landau_page` expresses uniqueness of the primitive character and its simple real zero without asserting that an exception exists.
+
 There is an effective absolute `c>0` such that among primitive Dirichlet characters of moduli `q≤T, T≥2`, there is at most one zero `ρ=β+i*t` with `|t|≤T` and `β>1-c/log T`. Any exception is a simple real zero of a real character.
 
 Use ZerosOfLFunctions §§6.2–6.4 through [§0.30][R129]. For `q,|t|≤T`, `log(q(|t|+2))≤3logT+O(1)`; shrink one effective width so exceptions are real and simple. Distinct primitive real characters have nonprincipal product and `ζLχ₁Lχ₂L(χ₁χ₂)` has nonnegative logarithmic coefficients and conductor `≤T²`; §0.17 excludes two exceptions. Shrink again for bounded `T`, with cutoff `>1/2` at `T=2`. For the principal character, the `ζ` region excludes nonreal zeros and `η(s)>0` gives `ζ(s)=η(s)/(1−2^(1−s))<0` on `(0,1)`. Count multiplicities.
@@ -468,6 +470,8 @@ See [47][R47], Proposition 7.1(i), (23), p. 373.
 
 ### 0.18 Effective character prime-number estimate
 
+The signature `effective_character_pnt` uses `IsExceptionalRealZero` and an empty or singleton exceptional-zero sum, with absolute constants chosen before the conductor.
+
 For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)*Λ(m)=-X^β/β+O(X*exp(-c*log X/(√(log X)+log N))*(log N)^4)`, with the `β` term only when an exceptional zero exists; `c>0` and the implied constant are absolute and effective.
 
 Use the character explicit formula and isolate the exceptional real zero before estimating the other zeros. Optimize the height using the conductor-uniform region; preserve `log N` and the effective constants.
@@ -538,7 +542,7 @@ See [53][R53], Theorem 8.7 proof, p.49, and Exercise 8.4.10, p.52. This adapter 
 
 ### 0.23 Finite-order Hadamard factorization
 
-The signature `finite_order_hadamard` states the canonical product and polynomial degree bound directly using native analytic multiplicities. Its growth hypotheses spell out the compact-boundedness formulation of the supplier’s `OrderLE`.
+The signatures `finite_order_hadamard` and `finite_order_zero_summable` state the canonical product, polynomial degree bound and multiplicity-weighted zero summability directly using native analytic multiplicities. Their growth hypotheses spell out the compact-boundedness formulation of the supplier’s `OrderLE`.
 
 For nonzero entire `f` of finite order at most `ρ≥0`, set `n=floor ρ`. Its nonzero zeros `α` with multiplicity satisfy `Σ|α|^(−n−1)<∞` and `f(z)=z^m exp(h(z))∏E_n(z/α)`, where `E_n(w)=(1−w)exp(Σ_{j=1}^n w^j/j), h` is a polynomial of degree `≤n` and the product converges locally uniformly. Finite/empty zero sets are allowed.
 
@@ -1156,7 +1160,7 @@ See [64][R64], Euler-factor adapter for Tsimerman, Corollary 3.3, p.384; compare
 
 ### 2.8 Partial ideal zeta series
 
-The coefficient partition signature is `sum_partialIdealZetaCoeff`.
+The coefficient partition signature is `sum_partialIdealZetaCoeff`; `sum_partialIdealZeta_series` and `sum_narrowPartialIdealZeta_series` give the ordinary and narrow analytic class sums on `Re s>1`.
 
 For a number field `K`, choose its ordinary or narrow ideal class group, and a class A. Write `ζ_A` for [LFunctions Layer 2][R9]’s partial ray-class zeta series transported through the class equivalence at trivial finite modulus, with empty infinity part for ordinary classes and all real places for narrow classes. Its coefficient `a_A` is the supplier's `normCoeff` of the class indicator. Prove the adapter formula counting nonzero integral ideals of norm `n` in A, with `a_A(0)=0`. Quadratic period applications use narrow classes for real quadratic `K` and ordinary classes for imaginary quadratic `K`. Index ideals, not their generators. The finite class sum agrees with `NumberField.dedekindZeta` as an `LSeries`: the latter may have a different zeroth coefficient, which `LSeries` ignores. The representative ordinary-class coefficient abbreviation is `partialIdealZetaCoeff`, defined through the native `TauCeti.normCoeff`; `partialIdealZetaCoeff_eq_card` proves its cardinality expression. The analytic function and its continuation are the supplier's throughout.
 
@@ -1427,7 +1431,7 @@ For a finite Galois `L/K` and finite-dimensional complex `ρ`, use AdelicAlgebra
 For `P(0)=1` recursively set `a₀=1, a_(n+1)=−Σ_(j=0)^nP_(j+1)a_(n−j)`, and extend by unique ideal factorization multiplicatively, not completely multiplicatively. Expanding each reciprocal polynomial into `m=dim V^I≤d` geometric factors bounds its absolute coefficients by `(1−Np^−σ)^−d`. The `d`-fold Dedekind majorant proves ideal-indexed absolute convergence in artin-absolute-convergence. ADS1 regroupByNorm and ADS3 EulerProductData identify the canonical normCoeff `LSeries` and unordered all-prime product on `Re s>1`. Trivial `ρ` recovers all Dedekind factors, including ramified primes; zero `ρ` gives1.
 
 - `artin_euler_series.series`: The absolutely convergent Euler product equals the norm-regrouped coefficient `LSeries` on `Re s>1`.
-- `artin_euler_series.deleted`: Omitting a finite bad-prime set multiplies `L_K` by exactly `∏_{p bad}P_p((Np)^−s)`.
+- `artin_euler_series.deleted`: Omitting a finite bad-prime set multiplies `L_K` by exactly `∏_{p bad}P_p((Np)^−s)`. The signature `artin_euler_series_deleted` states this for the native norm-regrouped coefficients and their restriction away from the deleted primes.
 
 The signature `artin_euler_series_eq` constructs native `TauCeti.EulerProductData` from polynomials `P_v(T)=∏_(i<d)(1−α_(v,i)T)` with `|α_(v,i)|≤1`. Its local power series is the formal reciprocal of `P_v`; its ideal series and norm-regrouped `LSeries` converge absolutely on `Re s>1`, and the latter is the unrestricted product of `P_v((Nv)^(−s))⁻¹`. For finite-image Artin representations, use the inertia-invariant Frobenius eigenvalues and pad to the common dimension with zeros. For unitary Hecke characters use `d=1`, with zero at a deleted prime. This states the coefficient construction and analytic comparison without a carrier for the supplier's canonical continued Artin or Hecke function; the full arithmetic identification remains the target above and in §2.3. The signature admits all bounded-degree unit-disc inverse-root systems, independently of a representation.
 
@@ -1452,7 +1456,7 @@ At `1+2n` the convergent positive ideal series is `≥1`, from the unit ideal; a
 
 For `Q` the order is 1, agreeing with the existing negative-even Riemann zeros. For a real quadratic field the order is 2, whereas for an imaginary quadratic field it is 1.
 
-See [65][R65], §4.5 equation on scan p.58, with §2.5 archimedean factors; derived negative-even specialization.
+Source: [LFunctions Layer 5][R57] and [ArithmeticGaloisRepresentations §2.7, Finite-order Hecke functional equation][AGR-Hecke], at the trivial character, with §2.5's archimedean factors; the order calculation above gives the negative-even specialization.
 
 *Needs:* [§2.5][R190]; AutomorphicLFunctionsAndLocalFactors AL.1; [§2.16a](#s2-16a).
 
@@ -1594,7 +1598,7 @@ Consume [LFunctions Layer 5][R9]’s `eulerCorrection` and primitive/presented m
 
 For `K=Q` and primitive trivial character, agree with Mathlib’s principal-character finite Euler correction. Changing a finite modulus `p` to `p²` deletes the same single factor; an added real place creates no new finite prime factor.
 
-See [65][R65], §4.5, scan p.57, Euler product over finite primes outside S.
+Source: [LFunctions Layer 5][R57], primitive/presented Euler correction, and [ArithmeticGaloisRepresentations §2.7, Hecke zeta-integral comparison][AGR-comparison], finite omitted factors.
 
 *Needs:* [LFunctions Layer 5][R9]; [§2.11][R197]; [GlobalNumberFields 9][R19]; [§2.3][R188].
 
@@ -2442,7 +2446,7 @@ See [86][R86], Introduction, p.411 (terminology); Introduction p.412 and §1 p.4
 
 ### 3.21 Dickman function
 
-The construction and uniqueness signature is `existsUnique_dickman`; it specifies the negative extension separately from continuity on `[0,∞)`.
+The construction and uniqueness signature is `existsUnique_dickman`; it specifies the negative extension separately from continuity on `[0,∞)`. The signatures `dickman_positive_antitone` and `dickman_interval_identity` provide positivity, monotonicity and the integral identity, with the negative extension required only for the identity on the whole real line.
 
 `ρ:R→R` is0 for `u<0`, equals1 for `0≤u≤1`, is continuous on `[0,∞)`, and satisfies `uρ′(u)=−ρ(u−1)` on `u>1`. Construct it recursively on intervals `[k,k+1]` by integration; the value at0 is1, so no continuity across negative `u` is claimed.
 
@@ -3079,7 +3083,7 @@ See [85][R85], Theorem1.1 and Corollary1.2 p.2; full §2, especially Lemmas2.1�
 
 ### 3.34 Dickman fixed-`u` asymptotic
 
-The fixed-parameter limit signature is `smoothCount_dickman`, quantified over the unique continuous delay-equation solution.
+The fixed-parameter limit signature is `smoothCount_dickman`, quantified over the unique continuous delay-equation solution. The signature `dickman_compact_limit` gives its uniform version on each fixed compact interval of positive parameters.
 
 For each fixed `u>0, Ψ(x,x^(1/u))/x→ρ(u)` as `x→∞`. This statement is not uniform for `u` tending to infinity.
 
@@ -3374,11 +3378,17 @@ See [85][R85], Theorem1.1 p.2; §2 pp.7–12, Lemmas2.2–2.6, Proposition2.1 an
 
 <a id="s3-45a"></a>
 
-**§3.45a Prime-weighted Dirichlet-polynomial mean bound.** There is an absolute `C>0` such that for `T≥1, x≥1` and any complex coefficients `a(n)`, the integral from `−T` to `T` of `|∑_{T²≤n≤x}a(n)Λ(n)exp(−it log n)|²` is at most `C∑_{T²≤n≤x}n|a(n)|²Λ(n)`. The finite sums use inclusive real cutoffs. If `x<T²` they are empty.
+**§3.45a Prime-weighted Dirichlet-polynomial mean bound.** The signature is `prime_weighted_mean_square`. There is an absolute `C>0` such that for `T≥1, x≥1` and any complex coefficients `a(n)`, the integral from `−T` to `T` of `|∑_{T²≤n≤x}a(n)Λ(n)exp(−it log n)|²` is at most `C∑_{T²≤n≤x}n|a(n)|²Λ(n)`. The finite sums use inclusive real cutoffs. If `x<T²` they are empty.
 
 Use `Φ(t)=(sint/t)²/(sin1)²` with continuous value at 0. Expand the finite square under this nonnegative majorant; its angular Fourier transform is `π(2−|u|)_+/(2sin²1)`, supported on `[−2,2]`. Thus off-diagonal pairs satisfy `|log(n/m)|≤2/T`. Apply `2|a(m)a(n)|≤|a(m)|²+|a(n)|²`, symmetry and §3.43 at `c₀=2`; retain the diagonal and `κ,T,y` dependence. The rough indicator’s `C(1)` witness has logarithmic coefficient `Λ` on allowed prime powers and zero elsewhere; `ζ` majorizes its convergent series.
 
 See [85][R85], §2.3 Lemma2.6 and its complete proof, p.11.
+
+**Checks.**
+
+- If `x<T²`, both finite sums are empty, including when the lower cutoff is not an integer.
+- For one supported prime power `n≥T²`, the integral is `2T|a(n)|²Λ(n)²`; the right side retains one `Λ(n)` and the factor `n`.
+- At `T=2,x=4`, the lower endpoint includes `n=4` with `Λ(4)=log2`. A coefficient supported at a positive non-prime-power contributes zero.
 
 ### Proof-route checks
 

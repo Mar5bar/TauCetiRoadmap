@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.EulerProduct.Analytic
+import TauCeti.NumberTheory.NumberField.NarrowClassGroup.Basic
 
 /-!
 # AnalyticNumberTheoryPartI: representative target signatures
@@ -235,15 +236,34 @@ theorem IsExceptionalRealZero.mono {c c' : ℝ} {N : ℕ} [NeZero N] {χ : Diric
     {β : ℝ} (h : IsExceptionalRealZero c χ β) (hc : c ≤ c') : IsExceptionalRealZero c' χ β := by
   sorry
 
-/-- Width zero does not designate an exceptional zero. -/
-example {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (β : ℝ) :
-    ¬ IsExceptionalRealZero 0 χ β := by
-  simp [IsExceptionalRealZero]
-
 /-- Conductor one is excluded before any logarithmic denominator is used. -/
 example (c β : ℝ) (χ : DirichletCharacter ℂ 1) :
     ¬ IsExceptionalRealZero c χ β := by
   simp [IsExceptionalRealZero]
+
+/-- In the bounded-height Landau–Page region, every zero belongs to one primitive real
+character and is the same simple real zero; the region may contain no zero. -/
+theorem landau_page : ∃ c > 0, ∀ T : ℝ, 2 ≤ T →
+    ∃ q₀ : ℕ, ∃ χ₀ : ℕ → ℂ, ∃ β : ℝ,
+      ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+        χ.IsPrimitive → (q : ℝ) ≤ T → ∀ z : ℂ,
+        0 < z.re → z.re < 1 → 1 - c / Real.log T < z.re → |z.im| ≤ T →
+        DirichletCharacter.LFunction χ z = 0 →
+          q = q₀ ∧ (∀ n : ℕ, χ n = χ₀ n) ∧ z = (β : ℂ) ∧ χ ^ 2 = 1 ∧
+            analyticOrderAt (DirichletCharacter.LFunction χ) z = 1 := by
+  sorry
+
+/-- The effective primitive-character prime estimate isolates the exceptional real-zero
+term and has absolute constants; its threshold may depend on the character. -/
+theorem effective_character_pnt : ∃ c₀ > 0, ∃ c > 0, ∃ C > 0,
+    ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N),
+      1 < N → χ.IsPrimitive → χ ≠ 1 → ∀ᶠ x : ℝ in atTop,
+        ‖(∑ n ∈ Finset.Icc 1 ⌊x⌋₊, χ n * (ArithmeticFunction.vonMangoldt n : ℂ)) +
+          ∑ᶠ β : {β : ℝ // IsExceptionalRealZero c₀ χ β},
+            ((x ^ β.val / β.val : ℝ) : ℂ)‖ ≤
+          C * x * Real.exp (-c * Real.log x / (Real.sqrt (Real.log x) + Real.log N)) *
+            Real.log N ^ 4 := by
+  sorry
 
 /-- The entire Riemann `ξ`, written through Mathlib's entire
 `completedRiemannZeta₀`, so that no junk value at `s = 0, 1` enters. -/
@@ -258,10 +278,6 @@ theorem riemannXi_eq {s : ℂ} (hs₀ : s ≠ 0) (hs₁ : s ≠ 1) :
 /-- The pole-cancelled xi function is invariant under s ↦ 1 − s. -/
 theorem riemannXi_one_sub (s : ℂ) : riemannXi (1 - s) = riemannXi s := by
   sorry
-
-/-- The other former pole has the same analytic value. -/
-example : riemannXi 1 = 1 / 2 := by
-  norm_num [riemannXi]
 
 /-- Finite-range theta inequalities below the analytic cutoff `exp 10000`. -/
 def SchoenfeldFiniteRangeInput : Prop :=
@@ -350,6 +366,15 @@ theorem finite_order_hadamard (f : ℂ → ℂ) (hf : Differentiable ℂ f)
           (∑ j ∈ Finset.Icc 1 ⌊ρ⌋₊, (z / α.val) ^ j / (j : ℂ))) ^
             (analyticOrderAt f α.val).toNat) v ∧
       f z = z ^ (analyticOrderAt f 0).toNat * Complex.exp (P.eval z) * v := by
+  sorry
+
+/-- Finite upper order makes the nonzero zero divisor summable at the canonical genus. -/
+theorem finite_order_zero_summable (f : ℂ → ℂ) (hf : Differentiable ℂ f)
+    (hne : ∃ z, f z ≠ 0) {ρ : ℝ} (hρ : 0 ≤ ρ)
+    (hgrowth : ∀ b : ℝ, ρ < b → ∃ C > 0, ∀ z : ℂ,
+      ‖f z‖ ≤ C * Real.exp (‖z‖ ^ b)) :
+    Summable (fun α : {a : ℂ // a ≠ 0} =>
+      (analyticOrderAt f α.val).toNat * ‖α.val‖ ^ (-(⌊ρ⌋₊ + 1 : ℝ))) := by
   sorry
 
 /-- Paired imaginary zeros and nonpolynomiality make every positive-axis derivative positive. -/
@@ -485,6 +510,39 @@ theorem sum_partialIdealZetaCoeff (n : ℕ) :
       _root_.TauCeti.normCoeff K (fun _ => 1) n := by
   sorry
 
+/-- The ordinary-class partial ideal series sum to the native Dedekind zeta function
+on the half-plane of absolute convergence. -/
+theorem sum_partialIdealZeta_series {s : ℂ} (hs : 1 < s.re) :
+    (∑ A : ClassGroup (𝓞 K), LSeries (partialIdealZetaCoeff K A) s) =
+      dedekindZeta K s := by
+  sorry
+
+open scoped Classical in
+/-- The narrow-class ideal series also sum to Dedekind zeta, retaining the positivity
+condition on principal generators at real places. -/
+theorem sum_narrowPartialIdealZeta_series {s : ℂ} (hs : 1 < s.re) :
+    (∑' A : NarrowClassGroup K, LSeries (_root_.TauCeti.normCoeff K
+      (fun J => if NarrowClassGroup.mk0 J = A then 1 else 0)) s) =
+      dedekindZeta K s := by
+  sorry
+
+/-- Deleting finitely many Artin Euler factors multiplies the norm-regrouped series
+by their local polynomials, including at ramified primes. -/
+theorem artin_euler_series_deleted (d : ℕ)
+    (P : IsDedekindDomain.HeightOneSpectrum (𝓞 K) → Polynomial ℂ)
+    (hP : ∀ v, ∃ α : Fin d → ℂ, (∀ i, ‖α i‖ ≤ 1) ∧
+      P v = ∏ i, (1 - Polynomial.C (α i) * Polynomial.X))
+    (D : _root_.TauCeti.EulerProductData K)
+    (hD : ∀ v, D.localPowerSeries v * (P v).toPowerSeries = 1)
+    (S : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
+    {s : ℂ} (hs : 1 < s.re) :
+    LSeries (_root_.TauCeti.normCoeff K
+      (_root_.TauCeti.IdealArithmeticFunction.supportedPart D.toIdealArithmeticFunction
+        ((↑S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))ᶜ))) s =
+      LSeries (_root_.TauCeti.normCoeff K D.toIdealArithmeticFunction) s *
+        ∏ v ∈ S, (P v).eval ((Ideal.absNorm v.asIdeal : ℂ) ^ (-s)) := by
+  sorry
+
 /-- Louboutin's bound for the Dedekind residue retains the degree and discriminant. -/
 theorem dedekindZeta_residue_le (hd : 1 < Module.finrank ℚ K) :
     dedekindZeta_residue K ≤
@@ -534,6 +592,36 @@ theorem existsUnique_dickman : ∃! ρ : ℝ → ℝ,
     (∀ u < 0, ρ u = 0) ∧ (∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1) ∧
     ContinuousOn ρ (Set.Ici 0) ∧
     ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u := by
+  sorry
+
+/-- The continuous Dickman solution is positive at every finite nonnegative argument
+and is nonincreasing on the nonnegative real axis. -/
+theorem dickman_positive_antitone (ρ : ℝ → ℝ)
+    (hinit : ∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1)
+    (hcont : ContinuousOn ρ (Set.Ici 0))
+    (hdelay : ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u) :
+    (∀ u ≥ 0, 0 < ρ u) ∧ AntitoneOn ρ (Set.Ici 0) := by
+  sorry
+
+/-- With the zero negative extension, Dickman's delay equation gives the unit-interval
+integral identity on the whole real line. -/
+theorem dickman_interval_identity (ρ : ℝ → ℝ)
+    (hneg : ∀ u < 0, ρ u = 0)
+    (hinit : ∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1)
+    (hcont : ContinuousOn ρ (Set.Ici 0))
+    (hdelay : ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u) (u : ℝ) :
+    u * ρ u = ∫ v : ℝ in (u - 1)..u, ρ v := by
+  sorry
+
+/-- Smooth-number ratios converge to Dickman's solution uniformly on each fixed
+compact interval of positive parameters. -/
+theorem dickman_compact_limit (ρ : ℝ → ℝ)
+    (hinit : ∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1)
+    (hcont : ContinuousOn ρ (Set.Ici 0))
+    (hdelay : ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u)
+    {a U : ℝ} (ha : 0 < a) (haU : a ≤ U) :
+    ∀ ε > 0, ∀ᶠ x : ℝ in atTop, ∀ u ∈ Set.Icc a U,
+      |(smoothCount x (x ^ (1 / u)) : ℝ) / x - ρ u| < ε := by
   sorry
 
 /-- For each positive exponent, the divisor count has a uniform subpower bound. -/
@@ -605,10 +693,6 @@ theorem BeurlingPrimeSystem.pnt_iff_integerCount (P : BeurlingPrimeSystem)
 /-- The inclusive divisor average has a square-root remainder. -/
 theorem divisorError_isBigO : divisorError =O[atTop] (fun x : ℝ => Real.sqrt x) := by
   sorry
-
-/-- Finite Möbius inversion at D equal to one recovers the ordinary divisor error. -/
-example (x : ℝ) : divisorCoprimeError 1 x = divisorError x := by
-  simp [divisorCoprimeError]
 
 /-- The explicit square-root divisor bound combines the finite input with its analytic tail. -/
 theorem divisorError_sqrt_bound (hBBR : BBRFiniteInput) {x : ℝ} (hx : 1 ≤ x) :
@@ -794,9 +878,6 @@ def amplitude (T n : ℝ) : ℝ :=
     (1 + Real.pi * n / (2 * T)) ^ (-1 / 4 : ℝ) *
       Real.sqrt (Real.pi * n / (2 * T)) / Real.arsinh (Real.sqrt (Real.pi * n / (2 * T)))
 
-example (T : ℝ) : amplitude T 0 = 1 := by
-  simp [amplitude]
-
 /-- First Atkinson phase, including the negative quarter-period shift. -/
 def phase₁ (T n : ℝ) : ℝ :=
   2 * T * Real.arsinh (Real.sqrt (Real.pi * n / (2 * T))) +
@@ -903,6 +984,18 @@ theorem atkinson_remainder_budget (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : 
   sorry
 
 end zetaSecondMoment
+
+/-- Prime-supported logarithmic coefficients satisfy a mean-square estimate with a
+single von Mangoldt weight; the lower cutoff is the square of the height. -/
+theorem prime_weighted_mean_square : ∃ C > 0, ∀ T x : ℝ, 1 ≤ T → 1 ≤ x →
+    ∀ a : ℕ → ℂ,
+      (∫ t : ℝ in (-T)..T,
+        ‖∑ n ∈ Finset.Icc ⌈T ^ 2⌉₊ ⌊x⌋₊,
+          a n * (ArithmeticFunction.vonMangoldt n : ℂ) *
+            Complex.exp (-I * ((t * Real.log n : ℝ) : ℂ))‖ ^ 2) ≤
+        C * ∑ n ∈ Finset.Icc ⌈T ^ 2⌉₊ ⌊x⌋₊,
+          (n : ℝ) * ‖a n‖ ^ 2 * ArithmeticFunction.vonMangoldt n := by
+  sorry
 
 end AN5
 
