@@ -791,8 +791,9 @@ and §C3.2f.2's `picardZeroCriterion`.
 EtaleCohomologyFoundations F.3a supplies `VanishingCycles.HenselianTrait`,
 `VanishingCycles.HenselianTrait.inertia_exact`, `VanishingCycles.inertia_eq_valuation_inertia`
 and `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`, `tameCharacter_conj`,
-`tameCharacter_restrict`. ArithmeticGaloisRepresentations 2.1a supplies
-`tameCharacter_eq_inertiaTameCharacter`. README 3.5–3.12,
+`tameCharacter_restrict` and, for valuation rings of nonarchimedean local fields,
+`VanishingCycles.tameCharacter_eq_inertiaTameCharacter`. ArithmeticGaloisRepresentations
+§2.1a transports this comparison to global decomposition groups. README 3.5–3.12,
 4.3 and 5.1 use its general henselian-trait interface: the generic Galois group is the
 one acting on `AbelianTate`, the residue action is on the character lattices, and reduction
 of prime-to-residue roots of unity identifies the supplier's twist with `PadicTateTwist`.
@@ -880,7 +881,7 @@ and shared period realizations; their ramified crystalline/de Rham bridge belong
 parameter fields come from SmoothRepresentationsOfLocalGroups SR.5.2,
 `classical-llc-normalization`; its `wd-parameter-operations` supplies restriction and
 rescaling by nonzero scalars for `q ≥ 2` and finite inertia image.
-ArithmeticGaloisRepresentations R01.2 §2.4 supplies the arithmetic Weil–Deligne adapter.
+ArithmeticGaloisRepresentations Layer 2 (§2.4) supplies the arithmetic Weil–Deligne adapter.
 
 The construction `NeronModel.extend` and its API (`extend_restrict`, `extend_unique`,
 `extend_map`, `extend_identity`, `extend_precomp`, `extend_proof_irrel`, `extend_to_model`,
@@ -909,11 +910,16 @@ AbelianSchemesAndArithmeticModuli A1.8 supplies Weil extension for the consequen
 `AbelianSchemeModel` in README 1.8.
 
 The corresponding untyped theorems include `GroupLaw`, `Smoothening`, `LocalExistence`,
-`AbelianSchemeModel`, `SpreadAbelian`, `DedekindGluing`, `EtaleBasechange`,
+`KodairaConfiguration`, `AbelianSchemeModel`, `SpreadAbelian`, `DedekindGluing`, `EtaleBasechange`,
 `JacobianIsogenyFactor`, `FiniteSeparableSemistableExtension`, `MonodromyCriterion`,
 `GraphMonodromy`, `ComponentCokernel`, `IntersectionComponentQuotient`, the Picard–Néron
 comparison, Néron–Ogg–Shafarevich, `PadicComparison`, conductor and local-factor comparisons,
-and the geometric exports of Layer 6. The signed `prime_adic`, `prime_adic_finite_flat`,
+and the geometric exports of Layer 6. `Smoothening` uses an excellent DVR;
+`LocalExistence` provides a finite-type model over every DVR by construction over its
+completion and existence descent (BLR §7.2, Theorem 1(i), p. 176).
+`KodairaConfiguration` identifies the minimal regular fibre with Tate's labelled
+configuration over a strictly henselian DVR with algebraically closed residue field
+(Tate §6, pp. 45–46; §§7–8, pp. 47–52). The signed `prime_adic`, `prime_adic_finite_flat`,
 `prime_adic_transition` and `henselian_valuation_descent` comparisons, together with
 `good_abelian_frobenius_polynomial` (before `semistable_trace_comparison`),
 `semistable_trace_descent` and `pure_WD_export`, are stated
