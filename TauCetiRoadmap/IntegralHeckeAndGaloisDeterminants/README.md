@@ -596,12 +596,17 @@ laws, including their scalar-extension definitions and degree-one characterizati
 
 ### 0.2 Scalar-extension laws and degree one
 
-DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws supplies the polynomial law of
-an `A`-linear map `ℓ : M → N` on Mathlib's `PolynomialLaw` carrier, for arbitrary `A`-modules
-`M, N`. Its scalar-extension map is `ℓ_S = S ⊗ ℓ` (`LinearMap.lTensor`) for every commutative
-`A`-algebra `S`, and its ground map is `ℓ` under `A ⊗_A M ≅ M`. The construction and ground-value
-comparison belong to that supplier ([Chenevier](https://arxiv.org/pdf/0809.0415v2),
-Example 1.2(i), p.7).
+**Linear-map laws and ground-value adapters.** For a commutative ring `A` and arbitrary
+`A`-modules `M, N`, construct the polynomial law of an `A`-linear map `ℓ : M → N` on Mathlib's
+`PolynomialLaw` carrier. Its scalar-extension map is `ℓ_S = S ⊗ ℓ` (`LinearMap.lTensor`) for
+every commutative `A`-algebra `S`. Prove that its ground map is `ℓ` under `A ⊗_A M ≅ M`, and
+that two such laws agree iff the linear maps agree. Using the degree-one characterization of
+DerivedModuleAlgebra §0.DP.1, prove that a homogeneous degree-one law `P : M → N` is the law of
+the unique linear map whose underlying function is `P.ground`, without flatness or
+finite-generation assumptions ([Chenevier](https://arxiv.org/pdf/0809.0415v2),
+Example 1.2(i) and footnote 11, p.7). *Needs:* DerivedModuleAlgebra §0.DP.1 / Homogeneous
+polynomial laws; Mathlib `PolynomialLaw.ground`, `TensorProduct.lid`, `LinearMap.lTensor`.
+*Lean:* none (README-only).
 
 **Checks.**
 
@@ -611,15 +616,9 @@ Example 1.2(i), p.7).
   that forgot to identify `A ⊗_A M` with `M` would compute a different map.
 - The law of `0` is the zero law, the degenerate case; a construction producing a nonzero constant
   term would fail it.
-
-The converse and uniqueness are also supplied by DerivedModuleAlgebra §0.DP.1 / Homogeneous
-polynomial laws: a law `P : M → N` has degree one exactly when it is the scalar-extension law
-of a unique `A`-linear map, with no flatness or finite-generation hypothesis. The characterization
-and its proof belong there ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.2(i) and
-footnote 11, p.7). For the torsion specialization `A = ℤ`, `M = N = ℤ/2`, the identity law is
-still degree one and corresponds to `id`; the characteristic-polynomial target below uses the
-same supplied characterization for determinant traces, and the one-dimensional determinant
-target uses it for algebra maps.
+- For `A = ℤ`, `M = N = ℤ/2`, the identity law corresponds uniquely to `id` despite the
+  torsion. The characteristic-polynomial target uses this adapter for determinant traces,
+  and the one-dimensional determinant target uses it for algebra maps.
 
 **Determinants (Chenevier).** For `A` commutative and `R` any associative unital `A`-algebra, a
 `d`-dimensional determinant valued in `A` is a degree-`d` homogeneous polynomial law `D : R → A`
@@ -655,7 +654,7 @@ degree zero), prove that `χ(x, t)` is monic, that `deg χ = d`, and that `χ(x,
 define `Determinant.traceLinear` (`Tr` as an `A`-linear map) and prove `Tr(1) = d`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, p. 12;
 [Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, (1.3), p. 12). *Needs:* Determinants (Chenevier), Mathlib `Polynomial`, `Algebra.TensorProduct.rid`, `Polynomial.Monic`,
-DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws (degree-one characterization).
+§0.2 / Linear-map laws and ground-value adapters.
 *Lean:* `Determinant.charpoly`, `Determinant.trace`, `Determinant.traceLinear`.
 
 **Checks.**
@@ -708,8 +707,8 @@ determinant `D` on `R`, prove that `D ∘ φ`, the composition of polynomial law
 law of `φ`, is a `d`-dimensional determinant on `R′`; for a subgroup `H ≤ G`, restriction along
 `A[H] → A[G]` is restriction to `H`. Prove `(D ∘ φ)(x) = D(φ x)`, that restriction along the
 identity is `D`, and that restriction along `ψ ∘ φ` is restriction along `ψ` then `φ` ([Chenevier](https://arxiv.org/pdf/0809.0415v2),
-§1.5, p. 9 (determinants on A[G])). *Needs:* Determinants (Chenevier), Mathlib
-`MonoidAlgebra.mapDomainAlgHom`.
+§1.5, p. 9 (determinants on A[G])). *Needs:* Determinants (Chenevier),
+§0.2 / Linear-map laws and ground-value adapters; Mathlib `MonoidAlgebra.mapDomainAlgHom`.
 
 **Checks.**
 
@@ -742,8 +741,7 @@ Mathlib `TensorProduct.AlgebraTensorModule.cancelBaseChange`.
 the map `D ↦ D_A` is a bijection between `1`-dimensional `A`-valued determinants on `R` and
 `A`-algebra homomorphisms `R → A`; for `R = A[G]`, these are the characters `G → A^×`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5, p. 9). *Needs:* Determinants (Chenevier),
-Mathlib `AlgHom`, DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws
-(degree-one characterization).
+Mathlib `AlgHom`; §0.2 / Linear-map laws and ground-value adapters.
 
 **Two-dimensional determinants on a group.** For a group `G` (for monoids, Chenevier's form with
 `f(g, h)` applies instead), prove that `D ↦ (T, D|_G)` is a bijection between `2`-dimensional
@@ -2099,7 +2097,8 @@ determinants, Mathlib `PolynomialLaw.comp`, `Algebra.leftMulMatrix`, `Algebra.no
   determinant of the left regular representation `ℍ → M₄(ℝ)` is `Nrd²`: a construction through
   the regular representation of `C` over `k` would have the wrong dimension.
 - For `k = 𝔽₂(u,v)`, `L = k(√u,√v)`, `C=L` and `c=√u`, `z_c=u` in `L_s=k`,
-  so `δ_C(c)=u`; applying the norm on `L` instead would give `u⁴`.
+  so `δ_C(c)=N_{L_s/k}(z_c)=u`; applying `N_{L/k}` to `z_c=u` instead would give
+  `N_{L/k}(z_c)=u⁴`, whereas `N_{L/k}(c)=u²`.
 - For `k = 𝔽₂(u, v)`, `L = k(√u, √v)` and `C = M₂(L)`, `δ_C = (det)²` has values in `k` and
   dimension `n f q = 4`, whereas `Algebra.norm k ∘ det` has dimension `n [L : k] = 8`: the
   inseparable factor enters through `q = 2`, not through `[L : L_s] = 4`.
@@ -4765,9 +4764,9 @@ regardless of its matrix and scalar, because there is no distinct pair.
 - A single matrix relation has `D₁ = A ⊗ R → R` with its four entries, and no repeated-block
   exterior terms: the degree-one term is one copy of the adjoint, so a construction keeping
   wedges from the same block would have extra terms.
-- For two distinct local blocks the four basis wedges give all four local relation entries, while
-  wedges from one block alone are excluded: the image is exactly `J_v`, so a construction that
-  admitted same-block wedges would enlarge the degree-one image beyond `J`.
+- For distinct indices `σ≠τ` of one local block `B_v`, the four basis wedges give
+  `−C_στ, −D_στ, A_στ, B_στ`, so the degree-one image is exactly `J_v`.
+  Wedges repeating an index are excluded; admitting them would enlarge the image beyond `J`.
 
 **Equivariant comparison of the relation complexes.**
 The comparison has as input the formal ring,

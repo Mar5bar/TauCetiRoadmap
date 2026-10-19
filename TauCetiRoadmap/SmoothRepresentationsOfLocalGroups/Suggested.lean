@@ -175,6 +175,13 @@ def HasUnitProOrder (A : Type*) [CommRing A] {G : Type*} [Group G] [TopologicalS
     (K : Subgroup G) : Prop :=
   ∀ U : OpenNormalSubgroup K, IsUnit ((Nat.card (K ⧸ U.toSubgroup) : ℕ) : A)
 
+/-- Every neighbourhood of `1` contains a compact open subgroup of pro-order invertible in `A`
+([Ber87], §1.3, p. 4). -/
+def HasCofinalUnitProOrder (A : Type*) [CommRing A] (G : Type*) [Group G]
+    [TopologicalSpace G] : Prop :=
+  ∀ U ∈ nhds (1 : G), ∃ K : OpenSubgroup G,
+    IsCompact (K : Set G) ∧ (K : Set G) ⊆ U ∧ HasUnitProOrder A K.toSubgroup
+
 -- `ℤ_p` has pro-order invertible in a nonzero ring `A` exactly when `p` is a unit of `A`.
 example (p : ℕ) [Fact p.Prime] (A : Type*) [CommRing A] [Nontrivial A] :
     HasUnitProOrder A (⊤ : Subgroup (Multiplicative ℤ_[p])) ↔ IsUnit (p : A) := sorry

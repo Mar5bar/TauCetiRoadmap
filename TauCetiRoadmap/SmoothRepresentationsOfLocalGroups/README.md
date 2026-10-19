@@ -137,7 +137,7 @@ here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti
 induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
 `Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
 for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
-formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z ∈ Δ_M` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
+formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
 and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
 *parabolic-adjoint-determinant* in every characteristic, supplying
 det(Ad(p)|Lie P) = det(Ad(p)|Lie N) as an algebraic identity (SR.1.4–SR.1.5, SR.2.2, SR.3a.2;
@@ -449,7 +449,7 @@ chains of GL(V) and their stabilisers (*gl-building-lattice-chains*), whose endo
 are the hereditary orders of the types of SR.5.2. RG2.3: parahoric, Iwahori and
 pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position.
 RG2.4: the Iwasawa, Cartan and Iwahori–Bruhat decompositions, Iwahori factorisations and cell
-products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z ∈ Δ_M` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
+products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
 compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic. RG2.5: the pinned
 integral dual group over ℤ with its Galois action through a finite quotient and the L-group. These
 are consumed as imported objects; no second topology, parahoric or dual group is defined here.
@@ -595,18 +595,14 @@ representation are smooth ([Ber92] Ch. I Definition 2 and Proposition 1, p. 7). 
 - For G = ℤ_p and U = p^n ℤ_p, the permutation representation ℤ[ℤ_p ⧸ U] is smooth and every
   vector is fixed by U.
 
-**Smooth vectors and the smooth part functor** (*smooth-vectors*). For a topological group G, a
+**The subrepresentation of smooth vectors** (*smooth-vectors*). For a topological group G, a
 commutative ring A and any representation ρ : Representation A G V, define
 `Representation.smoothVectors`, the subrepresentation V^∞ = {v ∈ V | the stabiliser of v is open}
 of smooth vectors, and prove that v ∈ V^∞ ↔ IsOpen (stabiliser of v), and for locally profinite
 G ↔ ∃ compact open U, v ∈ V^U, so that V^∞ = ⋃_U V^U over compact open U. Prove that the
-restriction of ρ to V^∞ is smooth, and that V^∞ = ⊤ iff ρ is smooth. The assignment V ↦ V^∞ is
-a functor smoothPart : Rep A G ⥤ SmoothRep A G which is right adjoint to the inclusion
-ι : SmoothRep A G ⥤ Rep A G; the counit ι(V^∞) → V is the inclusion and is an isomorphism exactly
-when V is smooth, so SmoothRep A G is a coreflective full subcategory of Rep A G ([Ber92] Ch. I
+restriction of ρ to V^∞ is smooth, and that V^∞ = ⊤ iff ρ is smooth ([Ber92] Ch. I
 §1.1, Definition 2 and Proposition 1, p. 7). *Needs:* *is-smooth*.
-*Lean:* `Representation.smoothVectors` (for `IsTopologicalGroup G`), `SmoothRep.smoothPart`,
-`SmoothRep.nonempty_smoothPartAdjunction`.
+*Lean:* `Representation.smoothVectors` (for `IsTopologicalGroup G`).
 
 **Checks.**
 
@@ -621,13 +617,6 @@ whereas its translate by (12) does not. Thus an arbitrary topology does not give
 subrepresentation of smooth vectors, which is why `Representation.smoothVectors`, the smooth part
 and every functor built from them assume `IsTopologicalGroup G`.
 
-**Checks (coreflection).** The tests compute the counit on a smooth vector as its
-underlying vector, compute the image of a morphism as the original equivariant map, show that
-the counit is invertible for discrete G, and show that the smooth part of the zero module is zero.
-They use the explicit action of the smooth part on morphisms and the explicit counit; the
-adjunction has the inclusion as counit, fixing its normalization. The zero representation also
-has smooth-vector submodule ⊤.
-
 ### SR.0.2 The abelian category and the discrete comparison
 
 **The category of smooth representations** (*smooth-rep-category*). For a commutative ring A and
@@ -637,8 +626,15 @@ subcategory of Mathlib's Rep A G on the smooth representations. Morphisms are A-
 G-equivariant maps, so the category is A-linear; its limits, colimits and abelian structure are
 *smooth-rep-abelian*. Define `SmoothRep.ι`, the fully faithful inclusion SmoothRep A G ⥤ Rep A G,
 and use `ObjectProperty.FullSubcategory.mk` to bundle ρ with its smoothness proof.
-Use `ObjectProperty.hom_ext` and `Rep.Hom.ext` for equality of morphisms ([Ber92] Ch. I §2, p. 11). *Needs:* *is-smooth*, *smooth-vectors*.
-*Lean:* `SmoothRep`, `SmoothRep.ι`.
+The assignment V ↦ V^∞ is
+a functor smoothPart : Rep A G ⥤ SmoothRep A G which is right adjoint to the inclusion
+ι : SmoothRep A G ⥤ Rep A G; the counit ι(V^∞) → V is the inclusion and is an isomorphism exactly
+when V is smooth, so SmoothRep A G is a coreflective full subcategory of Rep A G.
+Use `ObjectProperty.hom_ext` and `Rep.Hom.ext` for equality of morphisms ([Ber92] Ch. I §2, p. 11;
+§1.1, Proposition 1, p. 7, for the smooth part). *Needs:* *is-smooth*, *smooth-vectors*.
+*Lean:* `SmoothRep`, `SmoothRep.ι`, `SmoothRep.smoothPart`,
+`SmoothRep.nonempty_smoothPartAdjunction` (the smooth part and adjunction require
+`IsTopologicalGroup G`).
 
 **Checks.**
 
@@ -652,6 +648,13 @@ Use `ObjectProperty.hom_ext` and `Rep.Hom.ext` for equality of morphisms ([Ber92
 for discrete G, identify the endomorphism ring of the trivial rank-one smooth object with A,
 and exclude the integral regular representation of ℤ_p from the full subcategory (the last is the
 Lean `example` after `Representation.IsSmooth`).
+
+**Checks (coreflection).** The tests compute the counit on a smooth vector as its
+underlying vector, compute the image of a morphism as the original equivariant map, show that
+the counit is invertible for discrete G, and show that the smooth part of the zero module is zero.
+They use the explicit action of the smooth part on morphisms and the explicit counit; the
+adjunction has the inclusion as counit, fixing its normalization. The zero representation also
+has smooth-vector submodule ⊤.
 
 **Smooth representations form an abelian category** (*smooth-rep-abelian*). For a commutative
 ring A and a topological group G, prove that the property 'smooth' on Rep A G contains 0 and is
@@ -735,13 +738,13 @@ to every open subgroup K' ≤ K (compactness of K suffices, through the open nor
 for K profinite it passes to every closed subgroup; that a compact
 pro-p subgroup (Tau Ceti's `TauCeti.IsProP p K`, used verbatim as the hypothesis) has invertible
 pro-order in any A with IsUnit (p : A); and that it is inherited along ring
-homomorphisms A → B. A locally profinite group G has a cofinal
-family of compact open subgroups of invertible pro-order in A if every neighbourhood of 1 contains
-such a subgroup; for a non-discrete locally pro-p group (some compact open subgroup is pro-p) and
+homomorphisms A → B. Define `HasCofinalUnitProOrder A G` for a topological group G to mean that every
+neighbourhood of 1 contains a compact open subgroup with `HasUnitProOrder A K`. For a locally
+profinite group this says that these subgroups form a cofinal family; for a non-discrete locally pro-p group (some compact open subgroup is pro-p) and
 A ≠ 0 this holds exactly when p ∈ A^× ([Ber87] §1.3, p. 4). *Needs:* *van-dantzig*;
 ProfiniteProPGroups layer 1.
 *Lean:* `HasUnitProOrder` (for a subgroup K of a topological group, quantifying over the open
-normal subgroups of K).
+normal subgroups of K), `HasCofinalUnitProOrder`.
 
 **Checks.**
 
@@ -756,6 +759,13 @@ normal subgroups of K).
   so its only open normal subgroup is itself and it has unit pro-order over F_p; its closed
   subgroup μ_p carries the discrete topology, and the quotient by {1} has order p, which is 0 in
   F_p. The test records both halves; the passage to subgroups K' ≤ K is stated for open K'.
+
+- Every discrete group has `HasCofinalUnitProOrder A G`: the trivial subgroup is compact open
+  and has invertible pro-order over every commutative ring A.
+- For additive `ℤ_p` and nonzero A, `HasCofinalUnitProOrder A ℤ_p` iff p is a unit in A:
+  every open subgroup contains some `p^n ℤ_p`, and every compact open subgroup is pro-p.
+- Additive `ℤ_p` fails `HasCofinalUnitProOrder 𝔽_p ℤ_p`, although the trivial subgroup has
+  unit pro-order: it is not open, so it cannot supply the required neighbourhood basis.
 
 Two further statements restrict invertible pro-order to a closed subgroup of a compact totally
 disconnected Hausdorff group, and test it on every open subgroup without requiring normality.
@@ -2643,13 +2653,20 @@ Checks:
 reductive over F with complex coefficients, σ an irreducible cuspidal representation of a Levi M
 and P = MN. Prove that for ψ in a nonempty Zariski-open subset of the torus Ψ(M), i_P(ψσ) is
 irreducible. In particular every element z of the centre acts on i_P(ψσ) by a scalar z(ψσ), and
-ψ ↦ z(ψσ) is a regular function on that open subset; it extends to a regular function on Ψ(M) by
-*bernstein-centre-blocks* ([Ber92] Ch. III §3.3, Lemma 35, p. 69; Ch. IV §1.2, Theorem 27, p. 86;
+ψ ↦ z(ψσ) is a regular function on that open subset ([Ber92] Ch. III §3.3, Lemma 35, p. 69; Ch. IV §1.2, Theorem 27, p. 86;
 Ch. III §4.2, Remark, pp. 74–75 (the regular function z(ψσ))). *Needs:*
 *unramified-characters*, *parabolic-induction*, *admissibility-of-irreducibles*,
 *finite-length*.
 
-The statement specifies a nonempty principal open by a nonzero element of ℂ[M/M°]. It states irreducibility on that open and represents each central scalar action by an element of the same coordinate ring.
+The statement specifies a nonempty principal open by a nonzero element of ℂ[M/M°]. It states irreducibility on that open and represents each central scalar action by an element of its localized coordinate ring `ℂ[M/M°][1/f]`, where f defines the principal open.
+
+**Checks.**
+
+- For a torus G = M, every induced character is already irreducible and the open subset can
+  be the whole character torus.
+- For normalized principal series of `GL₂(F)`, characters with ratio `|·|` or `|·|⁻¹` are
+  reducible. The generic open excludes these loci; irreducibility on the whole torus would fail.
+- The central scalar endomorphism `a·id` gives the constant regular function a on the open.
 
 ### SR.3.2 The Bernstein decomposition and centre
 
@@ -2746,7 +2763,9 @@ here only.
 coefficients, prove that the centre Z(G) = CatCenter(SmoothRep ℂ G) of SR.0 is the product over
 inertial classes of the centres Z_s of the blocks, and that `Z_s ≅ ℂ[D_s]^{W_s}`, the ring of
 W_s-invariant regular functions on the cuspidal component D_s; hence Z(G) is the ring of regular
-functions on Ω(G) = ⊔_s D_s/W_s. An element z acts on every i_P(π), π ∈ D_s, by the scalar z(π),
+functions on Ω(G) = ⊔_s D_s/W_s. For every central element z, the generic scalar function `ψ ↦ z(ψσ)` of
+*generic-irreducibility* extends to a regular function on all of Ψ(M), descending to D_s/W_s.
+An element z acts on every i_P(π), π ∈ D_s, by the scalar z(π),
 and on every irreducible V by z(scs V). The action on every object is the SR.0 action; on the
 generators ℂ[G/K] it is the SR.1 description Z(G) ≅ lim_K Z(H(G, K)) ([BD84] Proposition 1.15,
 p. 11; Proposition 2.11, p. 21; Théorème 2.13, p. 22). *Needs:* *smooth-centre*,
@@ -4808,7 +4827,9 @@ functors, first adjointness and coinvariants), SR.3a (cuspidality, for the disti
 types and segments), SR.3 (finite length, cuspidal support, the Bernstein centre and the
 finiteness of Hecke corners over it) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
 RG2.2.4 (the lattice chains that define the hereditary orders of the types); ClassFieldTheory
-layer 9 for the Weil groups, embeddings and degree maps used throughout SR.5.2.
+layer 9 for the Weil groups, embeddings and degree maps used throughout SR.5.2;
+RepresentationTheory/InductionRestriction layers 0 and 2 on main for the restriction,
+finite-index induction and finite-dimensionality used by *wd-parameter-operations*.
 
 ## Layer SR.6: finite-wild parameters, center images and stability
 
