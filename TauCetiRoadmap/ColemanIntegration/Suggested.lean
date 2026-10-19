@@ -68,11 +68,15 @@ theorem rationalPolylogSeries_unique (k : ℤ) (f : PowerSeries ℚ)
     f = rationalPolylogSeries k := by
   sorry
 
-example : PowerSeries.coeff 2 (rationalPolylogSeries 1) = 1 / 2 := by
-  norm_num [rationalPolylogSeries]
+/-- L0.F: weight zero is the formal geometric series with zero constant term. -/
+theorem rationalPolylogSeries_zero_weight :
+    rationalPolylogSeries 0 = PowerSeries.X * (1 - PowerSeries.X)⁻¹ := by
+  sorry
 
-example : PowerSeries.coeff 0 (rationalPolylogSeries 1) = 0 := by
-  simp [rationalPolylogSeries]
+/-- L0.F: weight one is the negative logarithm after substitution of `-X`. -/
+theorem rationalPolylogSeries_one_eq_neg_log :
+    rationalPolylogSeries 1 = -PowerSeries.subst (-PowerSeries.X) (PowerSeries.log ℚ) := by
+  sorry
 
 /-! ### L0.2–L0.5: the normalised formal primitive -/
 
@@ -88,13 +92,18 @@ def primitive : A⟦X⟧ →ₗ[A] A⟦X⟧ where
   map_add' := by sorry
   map_smul' := by sorry
 
-/-- L0.3. -/
+/-- L0.3: differentiating the normalized formal primitive recovers the series. -/
 theorem derivative_primitive (f : A⟦X⟧) : derivative (primitive f) = f := by
   sorry
 
 /-- L0.4: the primitive with a given constant term is unique. -/
 theorem eq_C_add_primitive_iff (f g : A⟦X⟧) (c : A) :
     (derivative g = f ∧ constantCoeff g = c) ↔ g = C c + primitive f := by
+  sorry
+
+/-- L0.3: integration after differentiation removes precisely the constant term. -/
+theorem primitive_derivative (f : A⟦X⟧) :
+    primitive (derivative f) = f - C (constantCoeff f) := by
   sorry
 
 end PowerSeries
@@ -162,6 +171,14 @@ theorem existsUnique_primitive_disc [CharZero K] {a : K} {r : ENNReal} {f : K �
           Set.EqOn G F (Metric.eball a r) := by
   sorry
 
+/-- L0.7: a whole-disc analytic function vanishing on a nonempty open subset vanishes
+throughout the disc. -/
+theorem discAnalytic.eq_zero_of_eqOn {a : K} {r : ENNReal} {f : K → K}
+    {P : FormalMultilinearSeries K K K} (hf : HasFPowerSeriesOnBall f P a r)
+    {U : Set K} (hU : IsOpen U) (hne : U.Nonempty) (hUr : U ⊆ Metric.eball a r)
+    (h0 : ∀ z ∈ U, f z = 0) : ∀ z ∈ Metric.eball a r, f z = 0 := by
+  sorry
+
 end Disc
 
 /-- L0.9: locally analytic functions with zero derivative need not be constant on a disc. -/
@@ -189,6 +206,17 @@ theorem logOneAdd_add_mul_of_ultrametric [CompleteSpace K] {u v : K} (hu : ‖u�
     (hv : ‖v‖ < 1) :
     NormedSpace.logOneAdd K K (u + v + u * v) =
       NormedSpace.logOneAdd K K u + NormedSpace.logOneAdd K K v := by
+  sorry
+
+/-- L0.10: the logarithm series represents its sum on the whole open unit disc. -/
+theorem hasFPowerSeriesOnBall_logOneAdd_of_ultrametric [CompleteSpace K] :
+    HasFPowerSeriesOnBall (NormedSpace.logOneAdd K K)
+      (NormedSpace.logOneAddSeries K K) 0 1 := by
+  sorry
+
+/-- L0.10: the derivative of the series logarithm is the reciprocal of the principal unit. -/
+theorem hasDerivAt_logOneAdd_of_ultrametric [CompleteSpace K] {u : K} (hu : ‖u‖ < 1) :
+    HasDerivAt (NormedSpace.logOneAdd K K) (1 + u)⁻¹ u := by
   sorry
 
 end LogSeries
@@ -253,6 +281,34 @@ theorem exists_subinterval_single_dominant {I : Set ℝ} (hI : I ⊆ Set.Ioi 0)
       ∀ ρ ∈ Set.Ioo ρ₁ ρ₂, ∀ n ≠ j, ‖a n‖ * ρ ^ n < ‖a j‖ * ρ ^ j := by
   sorry
 
+/-- L0.12: on an open annulus a differential has a Laurent primitive exactly when its
+residue vanishes; the coefficient equation is `dg = a dT`. -/
+theorem exists_laurent_primitive_iff [CharZero K] {I : Set ℝ} (hI : IsOpen I)
+    (hpos : I ⊆ Set.Ioi 0) (hne : I.Nonempty) {a : ℤ → K} (ha : IsLaurentOn I a) :
+    (∃ g : ℤ → K, IsLaurentOn I g ∧
+      ∀ n : ℤ, ((n + 1 : ℤ) : K) * g (n + 1) = a n) ↔ a (-1) = 0 := by
+  sorry
+
+/-- L0.22: adjoining a formal logarithm makes every Laurent differential integrable.
+The two summands encode differentiation of its coefficient and of the logarithm power. -/
+theorem exists_logLaurent_primitive [CharZero K] {I : Set ℝ} (hI : IsOpen I)
+    (hpos : I ⊆ Set.Ioi 0) (hne : I.Nonempty) (F : Polynomial (ℤ → K))
+    (hF : ∀ k, IsLaurentOn I (F.coeff k)) :
+    ∃ G : Polynomial (ℤ → K), (∀ k, IsLaurentOn I (G.coeff k)) ∧
+      ∀ (k : ℕ) (n : ℤ), ((n + 1 : ℤ) : K) * G.coeff k (n + 1) +
+        ((k + 1 : ℕ) : K) * G.coeff (k + 1) (n + 1) = F.coeff k n := by
+  sorry
+
+/-- L0.22: the kernel of differentiation in the logarithmic Laurent ring consists
+precisely of scalar constants. -/
+theorem logLaurent_derivative_eq_zero_iff [CharZero K] {I : Set ℝ} (hI : IsOpen I)
+    (hpos : I ⊆ Set.Ioi 0) (hne : I.Nonempty) (F : Polynomial (ℤ → K))
+    (hF : ∀ k, IsLaurentOn I (F.coeff k)) :
+    (∀ (k : ℕ) (n : ℤ), ((n + 1 : ℤ) : K) * F.coeff k (n + 1) +
+      ((k + 1 : ℕ) : K) * F.coeff (k + 1) (n + 1) = 0) ↔
+        ∃ c : K, F = Polynomial.C (Pi.single 0 c) := by
+  sorry
+
 end LaurentCarrier
 
 section LaurentPoints
@@ -311,6 +367,24 @@ theorem logBranch_sub {a b : ℂ_[p]} {L L' : ℂ_[p] → ℂ_[p]}
     L' x - L x = (b - a) * (v : ℂ_[p]) := by
   sorry
 
+/-- L0.19: a logarithm branch is locally analytic away from zero, with derivative `1/x`. -/
+theorem IsLogBranch.hasDerivAt {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]}
+    (hL : IsLogBranch p a L) {x : ℂ_[p]} (hx : x ≠ 0) : HasDerivAt L x⁻¹ x := by
+  sorry
+
+/-- L0.17: continuous field automorphisms transport a logarithm branch along its parameter. -/
+theorem IsLogBranch.map_ringEquiv {a : ℂ_[p]} {L L' : ℂ_[p] → ℂ_[p]}
+    (σ : ℂ_[p] ≃+* ℂ_[p]) (hσ : Continuous σ)
+    (hL : IsLogBranch p a L) (hL' : IsLogBranch p (σ a) L')
+    {x : ℂ_[p]} (hx : x ≠ 0) : L' (σ x) = σ (L x) := by
+  sorry
+
+/-- L0.17: a branch whose parameter belongs to a finite extension preserves that extension. -/
+theorem IsLogBranch.mem_intermediateField {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]}
+    (hL : IsLogBranch p a L) (F : IntermediateField ℚ_[p] ℂ_[p]) [FiniteDimensional ℚ_[p] F]
+    (ha : a ∈ F) {x : ℂ_[p]} (hx : x ∈ F) (hne : x ≠ 0) : L x ∈ F := by
+  sorry
+
 /-- The normalization distinguishes branches already at `p`. -/
 example {L L' : ℂ_[p] → ℂ_[p]} (hL : IsLogBranch p 0 L)
     (hL' : IsLogBranch p 1 L') : L' p - L p = 1 := by
@@ -345,6 +419,18 @@ theorem IsLogLaurentNear.eqOn_punctured {a : ℂ_[p]} {L f g : ℂ_[p] → ℂ_[
     (hg : IsLogLaurentNear p L g c) {r : ℝ} (hr0 : 0 ≤ r) (hr : r < 1)
     (hfg : ∀ z, r < ‖z - c‖ → ‖z - c‖ < 1 → f z = g z) :
     ∀ z, 0 < ‖z - c‖ → ‖z - c‖ < 1 → f z = g z := by
+  sorry
+
+/-- L0.21: a polynomial relation in a logarithm branch with convergent Laurent
+coefficients on an open annulus has all coefficients zero. -/
+theorem logBranch_laurent_transcendental {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]}
+    (hL : IsLogBranch p a L) {I : Set ℝ} (hI : IsOpen I)
+    (hpos : I ⊆ Set.Ioi 0) (hne : I.Nonempty)
+    (N : ℕ) (g : Fin (N + 1) → ℤ → ℂ_[p])
+    (hg : ∀ k, IsLaurentOn I (g k))
+    (h0 : ∀ z : ℂ_[p], ‖z‖ ∈ I →
+      ∑ k : Fin (N + 1), laurentSeriesEval (g k) z * L z ^ (k : ℕ) = 0) :
+    ∀ k, g k = 0 := by
   sorry
 
 end LogLaurent
@@ -389,6 +475,14 @@ def Hw : Prop :=
     (∀ i, (𝔇.M.charpoly.map (algebraMap K (AlgebraicClosure K))).IsRoot (μ i)) →
       (∏ i, μ i) ^ m ≠ 1
 
+/-- L1.7: Frobenius sends de Rham coordinates `c` to `Mᵀc`; exact corrections do not
+affect these coordinates. -/
+theorem coords_frobenius (h1 : 𝔇.H1) (η : Ω) (c c' : Fin r → K) (h h' : A)
+    (hη : η = 𝔇.d h + ∑ i, c i • 𝔇.ω i)
+    (hφη : 𝔇.φΩ η = 𝔇.d h' + ∑ j, c' j • 𝔇.ω j) :
+    ∀ j, c' j = ∑ i, c i * 𝔇.M i j := by
+  sorry
+
 end FrobeniusDatum
 
 /-- L1.8: for `q > 1`, a nonempty product of numbers of positive Weil weight is not a root
@@ -422,11 +516,6 @@ example {K : Type*} [Field K] :
         HahnSeries.single (1 : ℤ) (1 : K))) = 1 := by
   simp [constantTerm]
 
-/-- The regular logarithmic germ has constant term its scalar coefficient. -/
-example {K : Type*} [Field K] (c : K) :
-    constantTerm (Polynomial.C (HahnSeries.single (0 : ℤ) c)) = c := by
-  simp [constantTerm]
-
 /-- L1.17a: a geometric series with parameter transcendental over `K` has no finite
 expression with coefficients in `L` and power series over `K`. Its coefficients are the
 linearly independent powers of the parameter, whereas a finite expression has coefficients
@@ -453,6 +542,48 @@ theorem polylogSer_hasFPowerSeriesOnBall (k : ℤ) :
     HasFPowerSeriesOnBall (polylogSer p k)
       (FormalMultilinearSeries.ofScalars ℂ_[p]
         (fun n => if n = 0 then 0 else ((n : ℂ_[p]) ^ k)⁻¹)) 0 1 := by
+  sorry
+
+/-- L2.1: the rational polylogarithm coefficients have radius exactly one over `ℂ_p`. -/
+theorem radius_polylogSeries (k : ℤ) :
+    (FormalMultilinearSeries.ofScalars ℂ_[p]
+      (fun n => if n = 0 then 0 else ((n : ℂ_[p]) ^ k)⁻¹)).radius = 1 := by
+  sorry
+
+open Classical in
+/-- L2.1: termwise differentiation gives the polylogarithm differential recursion, with
+its removable value at the origin. -/
+theorem polylogSer_hasDerivAt (k : ℤ) {z : ℂ_[p]} (hz : ‖z‖ < 1) :
+    HasDerivAt (polylogSer p (k + 1)) (if z = 0 then 1 else polylogSer p k z / z) z := by
+  sorry
+
+/-- L2.1: weight zero sums to the rational function on the open unit disc. -/
+theorem polylogSer_zero_index {z : ℂ_[p]} (hz : ‖z‖ < 1) :
+    polylogSer p 0 z = z / (1 - z) := by
+  sorry
+
+/-- L2.1: weight one agrees with the principal-unit logarithm series. -/
+theorem polylogSer_one_eq_neg_logOneAdd {z : ℂ_[p]} (hz : ‖z‖ < 1) :
+    polylogSer p 1 z = -NormedSpace.logOneAdd ℂ_[p] ℂ_[p] (-z) := by
+  sorry
+
+/-- L2.1: the series polylogarithm commutes with continuous field automorphisms. -/
+theorem polylogSer_map (k : ℤ) (σ : ℂ_[p] ≃+* ℂ_[p]) (hσ : Continuous σ)
+    {z : ℂ_[p]} (hz : ‖z‖ < 1) : σ (polylogSer p k z) = polylogSer p k (σ z) := by
+  sorry
+
+/-- L2.1: values of the polylogarithm series remain in every closed coefficient subfield. -/
+theorem polylogSer_mem_of_mem (k : ℤ) (F : Subfield ℂ_[p]) (hF : IsClosed (F : Set ℂ_[p]))
+    {z : ℂ_[p]} (hz : z ∈ F) (hz1 : ‖z‖ < 1) : polylogSer p k z ∈ F := by
+  sorry
+
+open Classical in
+/-- L2.2: the distance of a primitive root of unity from one is determined by whether
+its exact order is a power of the residue characteristic. -/
+theorem rootOfUnity_norm_one_sub {N : ℕ} (hN : 2 ≤ N) {ζ : ℂ_[p]}
+    (hζ : IsPrimitiveRoot ζ N) :
+    ‖1 - ζ‖ ^ Nat.totient N =
+      if ∃ r : ℕ, N = p ^ (r + 1) then (p : ℝ)⁻¹ else 1 := by
   sorry
 
 end PolylogSeries
@@ -487,6 +618,29 @@ theorem complexPolylog_inversion_rootOfUnity {k : ℕ} (hk : 1 ≤ k) {x : ℝ} 
         (-1) ^ k * complexPolylog k (Complex.exp (-(2 * Real.pi * Complex.I * x))) =
       -(2 * Real.pi * Complex.I) ^ k / (k.factorial) *
         ((Polynomial.bernoulli k).map (algebraMap ℚ ℂ)).eval (x : ℂ) := by
+  sorry
+
+/-- L2.Fa: the defining series sums unconditionally on the closed disc in weights at
+least two, and on the open disc in weight one. -/
+theorem complexPolylog_hasSum {k : ℕ} {z : ℂ}
+    (h : (2 ≤ k ∧ ‖z‖ ≤ 1) ∨ (k = 1 ∧ ‖z‖ < 1)) :
+    HasSum (fun n : ℕ => z ^ (n + 1) / ((n + 1 : ℕ) : ℂ) ^ k) (complexPolylog k z) := by
+  sorry
+
+/-- L2.Fa: weight-one boundary values at nontrivial roots of unity are ordered limits
+of partial sums, including the conditionally convergent case. -/
+theorem complexPolylog_rootOfUnity_one {N : ℕ} (hN : 0 < N) {ζ : ℂ}
+    (hζ : ζ ^ N = 1) (hne : ζ ≠ 1) :
+    Tendsto (fun M : ℕ => ∑ n ∈ Finset.range M, ζ ^ (n + 1) / (n + 1 : ℂ))
+      atTop (𝓝 (complexPolylog 1 ζ)) := by
+  sorry
+
+/-- L2.Fa: averaging over all `m`-th roots of unity gives the distribution relation
+throughout the closed unit disc. -/
+theorem complexPolylog_distribution {k m : ℕ} (hk : 2 ≤ k) (hm : 0 < m)
+    {z : ℂ} (hz : ‖z‖ ≤ 1) :
+    complexPolylog k (z ^ m) = (m : ℂ) ^ (k - 1) *
+      ∑ ζ ∈ Polynomial.nthRootsFinset m (1 : ℂ), complexPolylog k (ζ * z) := by
   sorry
 
 end ComplexPolylog
@@ -530,11 +684,26 @@ theorem crossRatio_finite (a b c d : K) :
     crossRatio K (finitePoint K a) (finitePoint K b) (finitePoint K c) (finitePoint K d) =
       (a - b) * (c - d) / ((a - d) * (c - b)) := by sorry
 
-example : detPair ℚ ![2, 4] ![3, 6] = 0 := by
-  norm_num [detPair]
+/-- L2.Fb: the cross-ratio of four distinct points avoids zero and one. -/
+theorem crossRatio_admissible (s : Fin 4 → Point K) (hs : Function.Injective s) :
+    crossRatio K (s 0) (s 1) (s 2) (s 3) ≠ 0 ∧
+      crossRatio K (s 0) (s 1) (s 2) (s 3) ≠ 1 := by
+  sorry
 
-example : detPair ℚ ![1, 0] ![0, 1] = 1 := by
-  norm_num [detPair]
+/-- L2.Fb: an invertible linear change of homogeneous coordinates preserves the cross-ratio. -/
+theorem crossRatio_linearEquiv (g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) (a b c d : Point K) :
+    crossRatio K (Projectivization.map g.toLinearMap g.injective a)
+      (Projectivization.map g.toLinearMap g.injective b)
+      (Projectivization.map g.toLinearMap g.injective c)
+      (Projectivization.map g.toLinearMap g.injective d) = crossRatio K a b c d := by
+  sorry
+
+/-- L2.Fb: every distinct projective five-tuple admits the normal form `(∞,0,1,x,y)`. -/
+theorem normalize_five (s : Fin 5 → Point K) (hs : Function.Injective s) :
+    ∃ (g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) (x y : K),
+      x ≠ 0 ∧ x ≠ 1 ∧ y ≠ 0 ∧ y ≠ 1 ∧ x ≠ y ∧
+        ∀ i, Projectivization.map g.toLinearMap g.injective (s i) = normalizedFive K x y i := by
+  sorry
 
 /-- A scalar five-term identity for a function with the two-term laws transfers to every
 injective five-tuple of points; no relation in the integral pre-Bloch group is asserted. -/
@@ -580,9 +749,13 @@ example : geometricTransform (1 : K) = 0 := by
     PowerSeries.inv_eq_zero.mpr (by simp)
   rw [h, mul_zero]
 
-/-- At a nonsingular formal parameter the constant coefficient need not vanish. -/
-example : PowerSeries.constantCoeff (geometricTransform (-1 : K)) = -1 / 2 := by
-  norm_num [geometricTransform]
+/-- L3.3: the geometric transform determines a unique bounded measure with integral
+norm bound over a finite extension of `ℚ_p`, outside the residue disc of one. -/
+theorem existsUnique_geometricMeasure [NormedAlgebra ℚ_[p] K] [FiniteDimensional ℚ_[p] K]
+    [IsScalarTower ℤ_[p] ℚ_[p] K] (w : K) (hw : ‖w‖ ≤ 1) (hw1 : ‖w - 1‖ = 1) :
+    ∃! μ : D(ℤ_[p], K), μ.amiceTransform = geometricTransform w ∧
+      ∀ f : C(ℤ_[p], K), ‖μ f‖ ≤ ‖f‖ := by
+  sorry
 
 /-- L3.6: if `∂^k F = A_μ` with `F ∈ R⁺`, then
 `∫_{ℤ_p^×} x^{-k} dμ = F(0) - p⁻¹ ∑_{ξ ∈ μ_p} F(ξ - 1)`. -/
@@ -608,9 +781,53 @@ theorem constantCoeff_rotatedSmoothedTransform_one (b : ℕ) (hb : 1 ≤ b) :
     PowerSeries.constantCoeff (rotatedSmoothedTransform b (1 : K)) = ((b : K) - 1) / 2 := by
   sorry
 
-/-- Smoothing at the formerly singular centre has a nonzero finite value. -/
-example : PowerSeries.constantCoeff (rotatedSmoothedTransform 2 (1 : K)) = 1 / 2 := by
-  norm_num [rotatedSmoothedTransform, Finset.sum_range_succ]
+/-- L3.18: the pole-cancelled quotient satisfies its finite denominator equation. -/
+theorem rotatedSmoothedTransform_mul_denominator (b : ℕ) (w : K)
+    (hQ : (∑ i ∈ Finset.range b, w ^ i) ≠ 0) :
+    (∑ i ∈ Finset.range b, (PowerSeries.C w * (1 + PowerSeries.X)) ^ i) *
+        rotatedSmoothedTransform b w =
+      ∑ i ∈ Finset.range (b - 1),
+        PowerSeries.C ((b - 1 - i : ℕ) : K) * (PowerSeries.C w * (1 + PowerSeries.X)) ^ i := by
+  sorry
+
+/-- L3.18: the cleared finite denominator equation characterizes the smoothing transform. -/
+theorem rotatedSmoothedTransform_unique (b : ℕ) (w : K)
+    (hQ : (∑ i ∈ Finset.range b, w ^ i) ≠ 0) (F : PowerSeries K)
+    (hF : (∑ i ∈ Finset.range b, (PowerSeries.C w * (1 + PowerSeries.X)) ^ i) * F =
+      ∑ i ∈ Finset.range (b - 1),
+        PowerSeries.C ((b - 1 - i : ℕ) : K) * (PowerSeries.C w * (1 + PowerSeries.X)) ^ i) :
+    F = rotatedSmoothedTransform b w := by
+  sorry
+
+/-- L3.19: a unit smoothing parameter and a rotation near one give integral coefficients. -/
+theorem rotatedSmoothedTransform_coeff_bound (b : ℕ) (hb : ‖(b : K)‖ = 1)
+    (w : K) (hw : ‖w - 1‖ < 1) (n : ℕ) :
+    ‖PowerSeries.coeff n (rotatedSmoothedTransform b w)‖ ≤ 1 := by
+  sorry
+
+/-- L3.20: the rotated transform converges on the whole open unit disc. -/
+theorem rotatedSmoothedTransform_mem_openDisc (b : ℕ) (hb : ‖(b : K)‖ = 1)
+    (w : K) (hw : ‖w - 1‖ < 1) :
+    RestrictedPowerSeries.OnOpenDisc 1 (rotatedSmoothedTransform b w) := by
+  sorry
+
+/-- L3.21: evaluating the pole-cancelled series gives the finite quotient, including
+its removable point. -/
+theorem rotatedSmoothedTransform_eval (b : ℕ) (hb : ‖(b : K)‖ = 1)
+    (w : K) (hw : ‖w - 1‖ < 1) {t : K} (ht : ‖t‖ < 1) :
+    RestrictedPowerSeries.eval₂ (RingHom.id K) (rotatedSmoothedTransform b w) t =
+      (∑ i ∈ Finset.range (b - 1), ((b - 1 - i : ℕ) : K) * (w * (1 + t)) ^ i) /
+        (∑ i ∈ Finset.range b, (w * (1 + t)) ^ i) := by
+  sorry
+
+/-- L3.22: away from the singular constants, the cancelled quotient agrees with the
+two separate formal reciprocals. -/
+theorem rotatedSmoothedTransform_eq_rational (b : ℕ) (hb : 1 ≤ b) (w : K)
+    (hw : w ≠ 1) (hwb : w ^ b ≠ 1) :
+    rotatedSmoothedTransform b w =
+      (PowerSeries.C w * (1 + PowerSeries.X) - 1)⁻¹ -
+        PowerSeries.C (b : K) * (PowerSeries.C (w ^ b) * (1 + PowerSeries.X) ^ b - 1)⁻¹ := by
+  sorry
 
 /-- Separate inverses at the centre vanish and do not give the regularized transform. -/
 example :
@@ -641,6 +858,15 @@ theorem LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog {N : ℕ} [NeZero N
     DirichletCharacter.LFunction θ k =
       (gaussSum θ⁻¹ ZMod.stdAddChar)⁻¹ *
         ∑ c : ZMod N, θ⁻¹ c * complexPolylog k (ZMod.stdAddChar c) := by
+  sorry
+
+/-- L3.31: at weight one the complex comparison uses the ordered boundary values
+of the polylogarithm for a nontrivial primitive character. -/
+theorem LFunction_one_eq_gaussSum_inv_mul_sum_complexPolylog {N : ℕ} [NeZero N]
+    (θ : DirichletCharacter ℂ N) (hθ : θ.IsPrimitive) (hne : θ ≠ 1) (hN : 2 ≤ N) :
+    DirichletCharacter.LFunction θ 1 =
+      (gaussSum θ⁻¹ ZMod.stdAddChar)⁻¹ *
+        ∑ c : ZMod N, θ⁻¹ c * complexPolylog 1 (ZMod.stdAddChar c) := by
   sorry
 
 end PositiveIntegerValues
@@ -752,30 +978,24 @@ inversion would give zero instead of `L₃(-1, 1, ℚ) = 1/6`.
 The following README APIs specify further targets in these subsections; they do not add
 Lean declarations to the representative signatures above:
 
-* L1.7: `FrobeniusDatum.coords_frobenius`.
 * L0.2: `PowerSeries.coeff_succ_primitive`, `PowerSeries.coeff_zero_primitive`, `PowerSeries.map_primitive`,
-  `PowerSeries.primitive_X_pow`, `PowerSeries.primitive_derivative`, `PowerSeries.primitive_eq_log`.
-* L2.Fa: `complexPolylog_coeff`, `complexPolylog_distribution`, `complexPolylog_hasSum`, `complexPolylog_one`,
-  `complexPolylog_rootOfUnity_one`.
-* L2.Fb: `crossRatio_admissible`, `crossRatio_complement`, `crossRatio_fieldMap`, `crossRatio_infinity_first`,
+  `PowerSeries.primitive_X_pow`, `PowerSeries.primitive_eq_log`.
+* L2.Fa: `complexPolylog_coeff`, `complexPolylog_one`.
+* L2.Fb: `crossRatio_complement`, `crossRatio_fieldMap`, `crossRatio_infinity_first`,
   `crossRatio_infinity_fourth`, `crossRatio_infinity_second`, `crossRatio_infinity_third`,
-  `crossRatio_inverse`, `crossRatio_linearEquiv`, `crossRatio_mk`, `crossRatio_pair_swap`,
+  `crossRatio_inverse`, `crossRatio_mk`, `crossRatio_pair_swap`,
   `detPair_eq_zero_iff`, `detPair_smul`, `detPair_swap`, `finitePoint_injective`, `finitePoint_ne_infinity`,
   `normalizedFive_crossRatios`, `normalizedFive_injective_iff`.
-* L0.7: `discAnalytic.deriv_mem`, `discAnalytic.eq_zero_of_eqOn`.
+* L0.7: `discAnalytic.deriv_mem`.
 * L3.6: `dop_C`, `dop_X`, `dop_add`, `dop_iterate`, `dop_smul`, `unitsZPow_mul`, `unitsZPow_of_isUnit`,
   `unitsZPow_of_not_isUnit`, `unitsZPow_one`, `unitsZPow_zero`.
 * L0.15: `isLogBranch_padicLogBranch`.
 * L0.A1: `laurentGaussNorm_add_le`, `laurentGaussNorm_eq_zero_iff`.
 * L0.A1: `laurentGaussNorm_logConvex`.
 * L0.A2: `laurentSeriesEval_add`, `laurentSeriesEval_laurentMul`, `laurentSeriesEval_one`.
-* L2.1: `polylogSer_eq_eval_polylogSeries`, `polylogSer_hasDerivAt`, `polylogSer_map`,
-  `polylogSer_mem_of_mem`, `polylogSer_one_eq_neg_logOneAdd`, `polylogSer_zero`, `polylogSer_zero_index`.
-* L0.F: `rationalPolylogSeries_one_eq_neg_log`, `rationalPolylogSeries_zero_weight`.
-* L3.18: `rotatedSmoothedTransform_coeff_bound`, `rotatedSmoothedTransform_eq_rational`,
-  `rotatedSmoothedTransform_eval`, `rotatedSmoothedTransform_map`, `rotatedSmoothedTransform_mem_openDisc`,
-  `rotatedSmoothedTransform_mul_denominator`, `rotatedSmoothedTransform_one`,
-  `rotatedSmoothedTransform_parameter_one`, `rotatedSmoothedTransform_unique`.
+* L2.1: `polylogSer_eq_eval_polylogSeries`, `polylogSer_zero`.
+* L3.18: `rotatedSmoothedTransform_map`, `rotatedSmoothedTransform_one`,
+  `rotatedSmoothedTransform_parameter_one`.
 
 L3.Fa.1 specializes GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.3's `quillenQ`,
 `exactKGroup`, `exactKGroup_zero_iso`, `exactKGroup_map`, `nerveRealization_homotopy`,
