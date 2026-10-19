@@ -111,7 +111,8 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   name. Likewise the **Frobenius theorem** and its immersed leaves (Layer 4 below) are that roadmap's
   layer 4, built to this roadmap's specification and consumed here, and the smooth structure on the
   covering spaces of Layer 5 is its 2.3.
-  On `G = Rˣ` (units of a Banach algebra, `Lie(Rˣ) = R`) it must coincide with `NormedSpace.exp`, on
+  On `G = Rˣ` for a real normed algebra with `[FiniteDimensional ℝ R]`, use the native
+  derivation–tangent equivalence `Lie(Rˣ) ≃ R` and compare `lieExp` with `NormedSpace.exp`; on
   matrix groups with `Matrix.exp`, and on the circle with `Circle.exp`; those coincidences are
   acceptance criteria, not definitions. Reuse Mathlib's `NormedSpace.exp`, `Matrix.exp` lemmas, and
   `Circle.exp` for the worked arena; never redefine the matrix exponential.
@@ -269,11 +270,15 @@ statements separate from this boundaryless native interface.
   `lieExp (0 • X) = 1`. Conversely, **every** continuous homomorphism `ℝ → G` is `oneParameterSubgroup X`
   for a unique `X` (a continuous one-parameter subgroup is automatically smooth). This bijection
   `Hom_cont(ℝ, G) ≃ 𝔤` is the definition's justification.
-- **The matrix and circle shadows.** On `G = Rˣ` for a Banach algebra `R` (with `Lie(Rˣ) ≅ R`),
-  `lieExp = NormedSpace.exp` landing in `Rˣ` (`isUnit_exp`); on matrix groups it is `Matrix.exp`, whose
-  `Matrix.exp_diagonal`, `Matrix.exp_transpose`, `Matrix.exp_conj` are the computational identities; on
-  the circle it is `Circle.exp`, with `Circle.exp_add` its one-parameter-subgroup law. These are proved
-  here as the coincidence lemmas that ground the abstract `lieExp`.
+- **The matrix and circle shadows.** For a real normed algebra `R` with
+  `[FiniteDimensional ℝ R]`, consume native `unitsLieAlgebraEquiv` and `lieExp_eq_expUnit`
+  from `TauCeti.Geometry.Lie.Exponential.Units.Compatibility` to identify the derivation
+  algebra of `Rˣ` with `R` and its abstract `lieExp` with the unit exponential.
+  The complete normed-algebra `TauCeti.expUnit`, its tangent one-parameter identity
+  and the norm-series laws have their more general hypotheses; those do not assert
+  an unrestricted Banach derivation–tangent equivalence. On matrix groups the value
+  is `Matrix.exp`, with `Matrix.exp_diagonal`, `Matrix.exp_transpose` and `Matrix.exp_conj`;
+  on the circle it is `Circle.exp`, with `Circle.exp_add`. Retain those specific comparisons.
 
 ### Layer 1: the adjoint representations `Ad` and `ad`
 
@@ -489,13 +494,21 @@ is independent of the universal-cover/asphericity and complexification construct
   from Layer5A's Ad-invariant form, prove bi-invariance and identify its normalized
   measure with CompactGroups Layer0's Haar probability by uniqueness. Prove the
   quotient/product integration and orientation/Jacobian comparisons used next.
-- **The Weyl integration formula.** For a compact connected `G` with maximal torus `T` and normalized
-  Haar `μ_G`, `μ_T`, and any class function (conjugation-invariant integrable) `f`,
-  `∫_G f dμ_G = |W|⁻¹ ∫_T f(t) · |Δ(t)|² dμ_T(t)` with Weyl density `|Δ(t)|² = ∏_{α > 0} |1 - α(t)⁻¹|²`
-  over the positive roots. This reduces integration over `G` to the torus, the general form of
-  [../CompactGroups](../CompactGroups/README.md)'s `weyl_integration_formula` for `SU(2)`; specializing to
-  `SU(2)` with `T = Circle` recovers `|Δ|² = 4 sin²θ` exactly. Consequence: **Weyl character
-  orthogonality** for compact `G`, via the formula and the torus Fourier theory.
+- **The Weyl integration formula.** For compact connected G and maximal torus T, use
+  normalized Haar probabilities μG,μT and the quotient probability μ_(G/T), the actual
+  pushforward of μG. Construct c:G/T×T→G, c([g],t)=gtg⁻¹, and prove the Borel measure identity
+  `c_*((D(t)/|W|) dμ_(G/T) dμT)=μG`, with D(t)=|Δ(t)|² and its actual determinant/Jacobian.
+  Include measurability, singular-locus null sets, normalizations and the rank-zero case.
+  Deduce by change of variables and Tonelli/absolute-value comparison that a conjugation-invariant
+  real- or complex-valued L¹(μG) function has integrable weighted restriction f|T·D with respect to μT, and prove
+  `∫_G f dμG=|W|⁻¹∫_T f(t)D(t)dμT`. The measure identity also compares almost-everywhere
+  representatives in these weighted spaces. The unweighted restriction to torus Haar need
+  not be integrable. First prove the continuous formula, then derive this L¹ extension from
+  the measure identity; boundedness of D alone does not justify restricting an L¹ class.
+  For SU₂ recover D=4sin²θ and check f=1/sin²θ off the two central elements, with f=0 there: f∈L¹(G),
+  its unweighted torus restriction is not L¹, while fD is. Retain the general positive-root
+  formula D(t)=∏_(α>0)|1−α(t)⁻¹|² and derive compact Weyl character orthogonality using
+  the actual torus Fourier and CompactGroups Haar interfaces.
 
 ### Layer 7: complexification and real forms
 - **Compact real forms of semisimple Lie algebras.** Own this construction
@@ -749,25 +762,235 @@ is independent of the universal-cover/asphericity and complexification construct
   representation reconstruction or analytic GAGA theorem. The finite-dimensional
   representation restriction equivalence above remains a separate comparison.
 
+### Layer 7E: compact exceptional symmetric spaces and their full isometries
+
+Construct the following late compact applications of Layers2,4–7, using Layer7's
+actual compact real forms, LieHighestWeight Layer8's concrete exceptional algebras
+and scalar-extension comparisons, and
+[SpinRepresentations](../SpinRepresentations/README.md)' Clifford/spin modules. Use
+native Clifford/Spin carriers and construct the real compact topology, Lie structure,
+covering map and representation comparisons on those same carriers. These real
+compact groups are not the split Serre groups over ℝ. This layer supplies the named
+exceptional homogeneous/symmetric applications; the generic integration, quotient,
+metric and isometry-group theories retain their existing owners.
+
+**Actual carriers, homomorphisms and isotropy.** For each compact simple algebra of
+type F4,E6,E7,E8 construct its simply connected compact integration G_sc by Layer7.
+For FII consume TangentialBordism's concrete compactF4/Spin9 homomorphism and
+transport it through Layer4's unique simply connected integration comparison; that
+owner retains its Peirce/Clifford construction. For the other rows build the displayed
+isotropy homomorphism from the chosen root/Clifford inclusion,
+its derivative, image, closedness and connectedness. Construct the inner symmetric
+involution, identify its fixed Lie algebra h and Killing-orthogonal complement p,
+and prove [h,h]⊂h, [h,p]⊂p, [p,p]⊂h and [p,p]=h. Identify the connected
+fixed subgroup with that actual image H. Prove its full stabilizer/normalizer below;
+no abstract subgroup of the right dimension is substituted for the image.
+
+| Compact symmetric quotient G_sc/H | Isotropy map and exact kernel | Actual tangent module |
+| --- | --- | --- |
+| FII | Spin(9)→F4, injective | real spin16 |
+| EIII | Spin(10)×U1→E6, kernel ⟨(z,i)⟩ of order4 | S−10 of circle weight−3, complex16/real32 |
+| EVI | Spin(12)×Sp1→E7, kernel ⟨(ω,−1)⟩ of order2 | real form of S−12⊗ℂ², real64 |
+| EVIII | Spin(16)→E8, kernel ⟨ω⟩ of order2 | real half-spin S+16, real128 |
+
+For the even-dimensional covers pin negative-square Euclidean Clifford generators
+and their ordered volume element. For FII keep TangentialBordism's positive Cliff(9,0)
+Peirce module and its pinned volume−Id, with an explicit even-Spin comparison if a
+different Clifford signature is used.
+For Spin(10), z=e1…e10 has order4 and acts on V10,S+10,S−10 by−1,i,−i.
+Parameterize U1 by t=exp(iθ), with weight q meaning t^q. Integrate the minuscule
+27 with restriction V10_2⊕S+10_(−1)⊕1_(−4), and its dual with opposite weights.
+Prove faithfulness from its generator central character on P(E6)/Q(E6)=C3 and
+simplicity. Its three scalar equations give precisely (z^k,i^k) in the isotropy
+kernel. Obtain the U1 period from these integral weights when descending the
+integrated Spin(10)×ℝ map. In the 27* projective model the base line has weight+4
+and the varying spinor summand weight+1; construct the tangent intertwiner as
+Hom(1_4,S−_1)=S−_(−3), including the central-kernel descent. Changing to a dual
+Jordan model requires its explicit equivariant comparison, not a silent sign change.
+
+For Spin(12) and Spin(16), choose chirality so ω acts+1 on S+ and−1 on S−;
+ω²=1, while scalar−1 acts−1 on both spin modules. For E7 construct both
+133=(66,1)⊕(1,3)⊕(S−,2) and the faithful minuscule56=(S+,1)⊕(V12,2).
+The latter's two scalar equations give exactly ⟨(ω,−1)⟩. Construct the invariant
+quaternionic structures on S−12 and ℂ²; their tensor has square+1, whose fixed
+real form supplies the64-dimensional tangent and invariant real metric. For E8
+construct 248=120⊕S+128; faithfulness of its center-free adjoint representation
+makes the kernel exactly {1,ω}. Distinguish this semispin subgroup from SO(16),
+whose covering kernel is {1,−1}. For F4 the decomposition52=36⊕spin16 proves
+that the possible Spin(9) central kernel is trivial. Export actual representation
+and differential intertwiners, real/complex scalar-extension maps and dimension
+identities; branching dimensions alone are not the tangent comparison.
+
+**Root coordinates and global forms.** In the E8 Euclidean model use roots ±ei±ej
+and half roots with an even number of minus signs. E7 is perpendicular to e7+e8,
+with D6 on the first six coordinates and A1=±(e7−e8). E6 is perpendicular to
+e6+e8 and e7+e8; D5 uses the first five coordinates and its remaining line is
+u=e6+e7−e8. Construct the root/base isomorphisms, generator and chirality
+comparisons with the selected compact integrations. E7's64 mixed roots have
+opposite last signs and the indicated D6 half-spin parity; E8's128 half roots
+pick S+. Keep the actual maximal torus, character/coroot lattices and central
+maps. Prove |Z(G_sc)|=1,3,2,1 through the root-lattice comparison. Since H
+contains a maximal torus it contains the center. Its core in G_sc has zero Lie
+algebra by simplicity and properness of h; a discrete normal subgroup of a
+connected group is central. Thus the effective connected actions are F4,
+E6/C3,E7/C2,E8. Construct those quotient homomorphisms and identify their
+kernels and induced faithful actions; E6 and E7 themselves are ineffective.
+
+**Quotients and metrics on the actual models.** Consume Layer6's SBC B1.4
+smooth G_sc/H and tangent quotient. Consume [RiemannianGeometry R1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/505150c263c8793d8836d2a79f5ed7494ffa7ea3/TauCetiRoadmap/RiemannianGeometry/README.md#r1-intrinsic-curvature-calculus-and-normal-coordinate-jets)
+for the normal homogeneous metric from −Killing and its horizontal/tangent
+comparison. Prove these are the compact irreducible symmetric metrics,
+R(X,Y)Z=−[[X,Y],Z] in the stated convention, completeness and the isometric
+G_sc action. Fix the common positive metric scale in every comparison.
+For FII consume [TangentialBordism's Albert/Cayley-plane construction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md),
+consume its actual rank-one-idempotent orbit/stabilizer and quotient diffeomorphism,
+and construct the tangent and metric comparison with the selected LG normalization. For EIII construct
+the 27* highest-line orbit and its real cubic/Jordan coordinate comparison,
+including the orbit equations, inverse, stabilizer and invariant Hermitian/Fubini–Study
+metric comparison with this symmetric quotient. EVI and EVIII mean these
+explicit compact quotients with their spin tangent models. Tensor-octonionic
+“plane” notation is a name for the compared Rosenfeld models, not projectivization
+over an asserted tensor-product division algebra.
+
+**Self-normalizers and inner components.** For each actual connected full-rank H
+containing T, prove N_G(H)/H≃N_W(Ψ)/WΨ by conjugating H's maximal tori and
+comparing the root-generated subgroup. Construct chamber adjustment modulo WΨ
+before passing to the length-preserving diagram action. For B4⊂F4 the diagram
+action is trivial. For D6+A1⊂E7 and D8⊂E8 the only possible quotient has
+order1 or2, while the subsystem indices are63 and135. For D5⊂E6 its image
+on the D5 diagram and kernel on ℝu each have order1 or2, so the quotient has
+order1,2 or4 and divides27. Prove these indices from the actual Weyl groups,
+including1152/384=3 in F4; conclude N_G(H)=H in all four cases. Also give the
+coordinate checks: a D6 odd sign change cannot preserve E7's mixed-root parity,
+and a D8 odd sign change exchanges the absent/present half-root chirality.
+In E6 the simultaneous D5 odd sign change and u reversal preserves roots but
+sends λ=(2/3)u to−λ, nontrivially on P/Q=C3; it is outer, not Weyl.
+This normalizer computation is needed in addition to the diagram-outer classification.
+
+**Full metric isometries.** Consume [PositiveScalarCurvature P2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/5517349e4ad45a4bdb2a736c2776c0a55a525dcc/TauCetiRoadmap/PositiveScalarCurvature/README.md#p2-positive-fibres-and-bundle-metrics)'s
+metric-isometry Lie-group/smoothness and1-jet framework. Apply it to these actual
+connected compact quotients. For a basepoint-fixing isometry, prove that its orthogonal
+derivative A:p→p preserves curvature/Lie triples. Construct its extension on
+h=[p,p] by [X,Y]↦[AX,AY]; prove well-definedness using the faithful h-action on p,
+then the Lie bracket identities. Integrate on G_sc, compare connected H, descend to
+the quotient and apply the1-jet theorem. Inner pair automorphisms contribute only
+H/Z(G) by self-normalization. Use Out(F4)=Out(E7)=Out(E8)=1 and Out(E6)=C2.
+For EIII construct the explicit anti-linear projective map c[v]=[bar v] from the
+chosen real cubic/Jordan structure, prove orbit and metric preservation, compatibility
+with the actual dual-model/pinning, antiholomorphicity, c²=1 as a map, and its
+nontrivial outer conjugation on E6/C3. Construct the semidirect action and prove
+
+    Isom(FII) ≃ F4,       Isom(EIII) ≃ (E6/C3) ⋊ C2,
+    Isom(EVI) ≃ E7/C2,   Isom(EVIII) ≃ E8.
+
+These are group/Lie-group comparisons on the specified Riemannian-distance carriers,
+with the actual action maps and identity components; no table or Lie-algebra dimension
+substitutes for the lower map or the LTS upper bound. Export restriction/conjugation,
+isotropy, evaluation and metric-rescaling compatibility for the application API.
+This layer consumes generic metric and isometry suppliers and does not duplicate them.
+It is independent of Layer8's Borel–Weil–Bott and Layer9's noncompact decompositions.
+For the EIII projective/spinor and E8 Lie-algebra constructions use
+[Qiu, *Plücker Coordinates and the Rosenfeld Planes*, §2.2 and Appendix B](https://arxiv.org/html/2401.07735v2).
+The central kernels, normalizers, metric comparisons and full-isometry proof targets
+above require their explicit maps and arguments; the model descriptions alone do not supply them.
+
 ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
 - **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
 - **Bruhat and Schubert geometry.** ReductiveGroups RG7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. Apply it to the preceding groups and construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
-- **Borel–Weil and Borel–Weil–Bott.** For the preceding connected linear complex groups, choose the actual algebraic Borel `B_+` and a holomorphic character `χ:B_+→ℂˣ` arising from the actual group character lattice. Form `E_χ=(G_ℂ×ℂ)/((g b,z)∼(g,χ(b)z))`; sections are holomorphic functions with `f(gb)=χ(b)^{-1}f(g)`, and `(a·f)(g)=f(a^{-1}g)`. For a dominant integral character `λ` in that lattice, retain `L_λ=E_{−λ}` and prove `H⁰(G_ℂ/B_+,L_λ)≅L(λ)^*=L(−w₀λ)`.
-  The coefficient map l↦(g↦l(gv_λ)) fixes the representation convention.
-  Prove the equivalent realizations H0(G_C/B−,E_{+λ})≅L(λ) and
-  H0(G_C/B+,E_{w0λ})≅L(λ), with their base/character identifications. For B+
-  and +λ prove vanishing when some simple-coroot pairing is positive by the
-  negative-degree rank-one Schubert-curve restriction. Pure central characters
-  have their one-dimensional sections and are retained. Use the actual
-  character lattice of the given group, not all abstract weights of its algebra.
-  Construct the higher cohomology groups and PROVE Borel–Weil–Bott: for a fiber
-  character χ put μ=−χ. If μ+ρ is singular all cohomology vanishes; otherwise
-  let w(μ+ρ) be dominant and prove the only nonzero group is in degree ℓ(w),
-  isomorphic to L(w(μ+ρ)−ρ)*, including the central factor and base-change of
-  Borel. For finite-component compact groups retain the representation and
-  component-cocycle applications from Layer7 rather than identifying their
-  section spaces with connected highest-weight irreducibles without that data.
+- **Associated coherent lines and the two Borel conventions.** For the preceding connected
+  linear complex groups use the actual algebraic character lattice X of T and the positive
+  Borel B+. For χ∈X construct the algebraic associated line Eχ by descent, its G-linearization,
+  transition functions, tensor E_(χ+ψ), dual E_(−χ), and base/character-change maps. Its analytic
+  line is (G_C×ℂ)/((gb,z)∼(g,χ(b)z)). Construct its locally free rank-one coherent sheaf of
+  holomorphic sections, and identify H⁰ with the actual holomorphic function subspace
+  f(gb)=χ(b)⁻¹f(g), with (a·f)(g)=f(a⁻¹g). Compare evaluation, multiplication of sections,
+  pullback and duals under this identification. Consume only the algebraic associated-line
+  and rank-one bundle contracts of [SchubertGeometry S2.1, S3.1 and S3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7cf01b380473933670e894c7b42390e08648eb71/TauCetiRoadmap/SchubertGeometry/README.md#s2-all-word-bottsamelson-and-crank-interfaces),
+  with their precise negative-Borel convention, and own their application to this actual flag.
+  Choose a longest-element representative n₀ and construct the G-equivariant isomorphism
+  φ:G/B+→G/B−, gB+↦gn₀B−. Prove that φ* of the negative-Borel line with fibre character κ
+  is the positive-Borel E_(w₀κ), including the linearization. Thus Lμ:=E_(−μ) corresponds
+  to SchubertGeometry's L(−w₀μ). Record the change on torus characters, root-curve degrees,
+  section actions and highest weights; inversion without its action change is not this
+  equivariant identification. Pure central characters remain actual group characters.
+- **Native cohomology and equivariant analytification.** Use native scheme-module cohomology
+  `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` (the underlying native `Sheaf.H`)
+  for the algebraic line, with `cohomologyZeroEquiv` for global sections. Construct its
+  ℂ-module structure and finite-dimensionality on this projective complex flag. On the
+  analytic side use the same native sheaf cohomology for the coherent section sheaf,
+  not ordinary singular/CW cohomology. Consume [ComplexComparisonPartII C−1.1,
+  C0.1/C0.3–C0.5 and C1.9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e3c8536df9555dc6e7027bfb3d60daef8bf33586/TauCetiRoadmap/ComplexComparisonPartII/README.md#c19-projective-and-proper-coherent-gaga):
+  the actual analytification/ring sheaf, bundle–locally-free-sheaf dictionary, coherent
+  pullback and canonical all-degree GAGA/exchange maps. Identify analytification of the
+  algebraic associated line with the preceding holomorphic associated line by their actual
+  transition functions and descent maps. Compare FCO's smooth analytic flag carrier with
+  that same analytification through the point/chart/sheaf maps; this is an application
+  after the independent analytic constructions, not a premise of generic GAGA.
+
+  For every q≥0, construct the complex-linear G_C action on H^q from the line's linearization
+  and pullback by g⁻¹. Prove identity, multiplication, naturality in line maps, tensor/character
+  transport and the preceding H⁰ action formula. Construct the finite-dimensional algebraic
+  representation on algebraic H^q, using proper projection G×X→G, coherent base change and
+  the linearization cocycle; its analytification is the holomorphic action just constructed.
+  Prove the canonical GAGA isomorphism is equivariant in every degree, using its naturality
+  with those translations and, over the parameter G, the relative proper exchange map.
+  Neither a dimension equality nor unrelated degreewise isomorphisms supply this comparison.
+  This application consumes the stated early coherent/GAGA contracts, not all of SchubertGeometry;
+  its S7 and S9 compact/topological comparisons consume these LieGroups flags afterwards.
+- **Borel–Weil in degree zero.** For dominant λ∈X retain Lλ=E_(−λ) and prove
+  H⁰(G_C/B+,Lλ)≃L(λ)*=L(−w₀λ), through the coefficient map
+  ℓ↦(g↦ℓ(gvλ)), intertwining the actual actions. Prove the equivalent realizations
+  H⁰(G_C/B−,E_(+λ))≃L(λ) and H⁰(G_C/B+,E_(w₀λ))≃L(λ)
+  with their base/character comparisons. For B+ and fibre character+λ, some positive
+  simple-coroot pairing gives negative degree on the corresponding rank-one curve and
+  hence no sections. Pure central characters give their one-dimensional section spaces.
+  The representation L(λ) is LieHighestWeight's actual irreducible carrier, transported
+  by Layer7's representation comparison; do not replace the actual character lattice by
+  all abstract Lie-algebra weights.
+- **Relative rank-one cohomology and the reflection shift.** On the actual smooth proper
+  minimal-parabolic map pα:G/B+→G/Pα+ construct its P¹ fibres, root-coordinate/local
+  trivializations, relative canonical line ω_pα=E_α=L_(−α), restricting to O(−2),
+  and equivariant restriction of Lμ of degree
+  m=⟨μ,α∨⟩. Apply the opposite-Borel transport above to SchubertGeometry S2.1/S3.3's
+  all-integer P¹ calculation: H⁰(O(m)) has dimension m+1 and H¹=0 for m≥0;
+  both vanish for m=−1; for m≤−2, H⁰=0 and H¹ has dimension−m−1, with
+  the actual T-weights and residue/relative-Serre pairing. Prove the relative higher-image
+  vanishing and bundle identifications over G/Pα+, including base change, rather than
+  using only fibre dimensions. Compare the relative canonical character and determinant
+  factor to obtain a G-equivariant isomorphism pα*Lμ≃R¹pα*L_(sα·μ) for m≥0,
+  with the other direct images zero, where sα·μ=μ−(m+1)α. Consume the generic Leray
+  spectral sequence and edge/naturality interfaces of SchemeAndStackFoundations §2.2,
+  through the same sheaf carriers and C0.5's composition comparison. Own its collapse
+  on these two rows and prove H^q(X,Lμ)≃H^(q+1)(X,L_(sα·μ)) for every q≥0.
+  For m=−1 all relative images and all H^q vanish. These are representation-level maps,
+  not only Euler-character identities.
+- **Dominant vanishing and the BWB deduction.** Construct the canonical-line identity
+  K_X≃L_(−2ρ) with its G-linearization from the tangent-root weights; 2ρ is the sum
+  of positive roots and lies in X even when ρ does not. For dominant λ, L_(λ+2ρ) is
+  ample on the flag (central twists change the linearization, not positivity). Construct
+  a positive Hermitian metric from a very-ample power and its Fubini–Study pullback,
+  compare its curvature and line powers, and apply [ComplexKahlerGeometry K5b and
+  K6.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/17de96c131cb4bba925c11191595b59dd39cde98/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k60-local-kähler-and-curvature-identities)'s
+  compact Dolbeault/Hodge comparison and positive-curvature estimate on top-degree
+  bundle-valued forms. Own this flag application: harmonic forms with values in
+  K_X⊗L_(λ+2ρ)=Lλ vanish for q>0, so the actual coherent H^q(X,Lλ) vanishes.
+  The root-free case X=point and arbitrary central characters are separate zero-dimensional
+  tests. This is a specialized application of those generic suppliers, not a duplicate
+  general Kodaira or coherent-vanishing owner.
+
+  Iterate the equivariant reflection shifts along Weyl length. For a fibre character χ put
+  μ=−χ. If μ+ρ is singular, transport to a simple wall m=−1 and prove every cohomology
+  group zero. Otherwise choose the unique w with w(μ+ρ) strictly dominant, prove that
+  the successive allowed rank-one shifts give the unique nonzero degree ℓ(w), and identify
+  that representation as L(w(μ+ρ)−ρ)* by dominant vanishing and the degree-zero theorem.
+  Identify the resulting representation independently of the reflection route; record
+  changes of the chosen intertwiners under rank-two moves instead of asserting equality
+  of unnormalized maps. Define each simple dot action by μ↦μ−(⟨μ,α∨⟩+1)α,
+  so the construction preserves X without assuming ρ is itself a group character. Retain
+  central characters, all Borel-change maps and the finite-component representation and
+  component-cocycle applications of Layer7; those groups are not identified with connected
+  highest-weight irreducibles without their component data.
 
 ### Layer 9: the Cartan, Iwasawa, and KAK decompositions
 
@@ -903,16 +1126,23 @@ constructions; the generic Layer 9 theorem is independent, and only its concrete
 Compact semisimple integration uses the generic Hopf–Rinow completeness and RiemannianGeometry R4.5 Bonnet–Myers
 targets. Generic L7 carriers, global exponential and realification precede the lower FCO F2.4/F4.3 dictionary.
 That lower dictionary uses LG0–6 and only the generic pre-compact-form LG7 interfaces needed for its complex-point,
-tangent, center/derived and root-generation constructions, together with the relevant RG1/RG4/RG6 contracts. RG7's
-generic Bruhat theorem is used only later in Layer 8; the lower dictionary does not use LG7's algebraic compact-form
-specialization, LG8, LG9 or C5.1. LG7 then uses the completed lower dictionary, actual RG1/RG4/RG6 data and
-root-generation connectedness to construct its algebraic compact-form specialization. Its separate algebraization
+tangent, center/derived and root-generation constructions. Its algebraic prerequisites include RG1/RG4/RG6
+and the early generic RG7 Levi/Bruhat and RG8/RG9 full-root-datum/pinned-Chevalley contracts: FCO F4.3 uses
+these for actual root-generation connectedness before the LG7 compact-form specialization. Those generic
+algebraic contracts do not consume their later compact-form applications. The lower dictionary uses no
+LG7 algebraic compact-form specialization, LG8, LG9 or C5.1. LG7 then uses the completed lower dictionary
+and these actual algebraic inputs to construct its compact-form specialization; LG8 applies the same
+single-owner generic RG7 Bruhat theorem on the resulting flag group. Its separate algebraization
 target identifies `K_ℂ` with the complex points of an affine reductive algebraic group before LG8. Only after these
 LG7 constructions does late FCO consume the compact form, the Layer 6 root/Weyl comparison and C5.1 for compact
 restriction. Universal complexification retains Layer 4/5 integration and period data, Layer 6 tori, and
 LieHighestWeight Layer 7 Serre data. Layer 8 (Borel–Weil) uses the group/compact-form inputs and actual character
 lattice stated above, the root systems of [../RootSystems](../RootSystems/README.md), and `L(λ)` of
-[../LieHighestWeight](../LieHighestWeight/README.md); generic Bruhat remains RG7's single-owner theorem. Layer 9
+[../LieHighestWeight](../LieHighestWeight/README.md). Its associated-line/rank-one inputs are only SchubertGeometry
+S2.1/S3.1/S3.3, followed by CCPII C−1/C0/C1.9's coherent and canonical GAGA maps; the actual cohomology
+actions, opposite-Borel transport, relative P¹/Leray reflection shifts and BWB deduction are owned in LG8.
+Its dominant-vanishing application consumes ComplexKahlerGeometry K5b/K6.0 and Schubert S3.1's ampleness,
+not the downstream Schubert S7/S9 compact comparisons. Generic Bruhat remains RG7's single-owner theorem. Layer 9
 (Cartan/Iwasawa/KAK) needs Layer 7's real forms and Layer 6's tori. A contributor can complete Layers 0-3 (the exponential map and the Lie functor)
 as a self-contained first deliverable, well before the integration theorems of Layer 4 or the structure
 theory of Deliverable C. The layers are far from uniform in size. Each of Layers 6-9 (maximal tori and

@@ -116,16 +116,17 @@ end LieGroup
 
 /-! ### Layer 0 (worked shadow): the exponential of the units of a Banach algebra
 
-`Rˣ` is a Lie group (`LieGroup 𝓘(𝕜, R) n Rˣ`), with `Lie(Rˣ) ≅ R` and `lieExp = NormedSpace.exp`. Over
-a Banach algebra the exponential and its one-parameter-subgroup law are Mathlib-native and norm-based. -/
+For finite-dimensional real normed R, the derivation-based `Lie(Rˣ) ≃ R` and abstract
+`lieExp` comparison use native Units.Compatibility. For complete normed algebras the unit
+exponential and its norm-based/tangent one-parameter identities have their general hypotheses. -/
 
 section BanachExp
 
 variable {R : Type u} [NormedRing R] [NormedAlgebra ℝ R] [CompleteSpace R]
 
-/-- On `Rˣ`, the abstract `lieExp` is `NormedSpace.exp`, which lands in the units. This is the
-coincidence lemma grounding `lieExp`; here the resulting unit is pinned, with `(expUnits x : R)` the
-Banach-algebra exponential. -/
+/-- The norm-based unit exponential for a complete real normed algebra. Its comparison
+with the abstract derivation-based `lieExp` uses finite-dimensional R, as specified above.
+The coercion `(expUnits x : R)` is the Banach-algebra exponential. -/
 noncomputable def expUnits (x : R) : Rˣ := by
   letI : NormedAlgebra ℚ R := NormedAlgebra.restrictScalars ℚ ℝ R
   exact TauCeti.expUnit x
@@ -485,7 +486,8 @@ connected `G` with maximal torus `T`, `∫_G f dμ_G = |W|⁻¹ ∫_T f · D dμ
 `SU(2)` formula of `../CompactGroups/README.md`. The measures are **pinned as normalized Haar** —
 with free `μG`, `μT`, and density the formula would be false (`f = 1`, density `0`) — and the
 density is the genuine `weylDensity` above. Continuous class functions are the honest first
-statement; the `Integrable` generalization is a corollary once the density's boundedness is known. -/
+statement; the weighted conjugation pushforward identity below supplies the L1 integrability
+comparison and extension. Boundedness of the density does not justify unweighted restriction to T. -/
 theorem weyl_integration_formula [CompactSpace G] [ConnectedSpace G]
     [MeasurableSpace G] [BorelSpace G]
     (T : Subgroup G) (hT : IsMaximalTorus T) [MeasurableSpace T] [BorelSpace T]
@@ -495,6 +497,28 @@ theorem weyl_integration_formula [CompactSpace G] [ConnectedSpace G]
     ∫ g, f g ∂μG
       = (Nat.card (weylGroup T) : ℝ)⁻¹
         * ∫ t, f (t : G) * weylDensity (I := I) T t ∂μT := sorry
+
+/-- The weighted conjugation pushforward, with actual conjugation and quotient measure.
+This identity, rather than boundedness of D, supplies the weighted L1 restriction law. -/
+theorem weyl_conjugation_pushforward [CompactSpace G] [ConnectedSpace G]
+    [MeasurableSpace G] [BorelSpace G]
+    (T : Subgroup G) (hT : IsMaximalTorus T)
+    [MeasurableSpace T] [BorelSpace T]
+    [MeasurableSpace (G ⧸ T)] [BorelSpace (G ⧸ T)]
+    (muG : Measure G) [muG.IsHaarMeasure] [IsProbabilityMeasure muG]
+    (muT : Measure T) [muT.IsHaarMeasure] [IsProbabilityMeasure muT]
+    (muQ : Measure (G ⧸ T))
+    (hmuQ : muQ = Measure.map (QuotientGroup.mk : G → G ⧸ T) muG)
+    (hq : Measurable (QuotientGroup.mk : G → G ⧸ T))
+    (conjMap : (G ⧸ T) × T → G) (hconj : Measurable conjMap)
+    (hconj_eq : ∀ (g : G) (t : T),
+      conjMap (QuotientGroup.mk g, t) = g * (t : G) * g⁻¹) :
+    Measure.map conjMap
+      ((muQ.prod muT).withDensity (fun p =>
+        ENNReal.ofReal (weylDensity (I := I) T p.2 /
+          (Nat.card (weylGroup T) : ℝ)))) = muG := by
+  sorry
+
 
 end Structure
 
@@ -561,6 +585,128 @@ theorem exists_holomorphic_extension [CompactSpace G] [ConnectedSpace G]
       ContMDiff Ic 𝓘(ℂ, V →L[ℂ] V) ∞ (fun g : Gc => ((ρc g : (V →L[ℂ] V)ˣ) : V →L[ℂ] V)) := sorry
 
 end Complexification
+
+/-! ### Layer 7E: actual compact symmetric quotient comparison interfaces
+
+These are nonexhaustive data and transport targets on native groups, quotients,
+root pairings, isometries and Lie algebras. The README constructs the four specific
+applications and proves their hypotheses. No arbitrary group is asserted exceptional.
+The admitted transports below retain their full function families. -/
+
+/-- Exact isotropy map and central generator, including its actual image and kernel.
+The four README constructions specialize this to the stated Clifford covers. -/
+structure IsotropyKernelComparison {C : Type u} [Group C]
+    {G : Type v} [Group G] (H : Subgroup G) (iota : C →* G) (z : C) (n : ℕ) where
+  image_eq : iota.range = H
+  generator_order : orderOf z = n
+  kernel_eq : iota.ker = Subgroup.zpowers z
+
+/-- A metric model is compared with the literal nonnormal coset carrier. Its action
+law pins the comparison, rather than allowing an unrelated homeomorphism and action. -/
+structure QuotientMetricRealization {G : Type u} [Group G] [TopologicalSpace G]
+    (H : Subgroup G) (M : Type v) [MetricSpace M] where
+  quotientModel : (G ⧸ H) ≃ₜ M
+  action : G →* (M ≃ᵢ M)
+  action_eq : ∀ (g x : G),
+    action g (quotientModel (QuotientGroup.mk x)) =
+      quotientModel (QuotientGroup.mk (g * x))
+  kernel_eq_center : action.ker = Subgroup.center G
+
+/-- Descent of the actual isometric action through its proved ineffective center.
+This is a whole homomorphism-valued construction, not a new isometry-group axiom. -/
+noncomputable def effectiveMetricAction {G : Type u} [Group G] [TopologicalSpace G]
+    {H : Subgroup G} {M : Type v} [MetricSpace M]
+    (D : QuotientMetricRealization H M) :
+    (G ⧸ Subgroup.center G) →* (M ≃ᵢ M) :=
+  QuotientGroup.lift (Subgroup.center G) D.action D.kernel_eq_center.ge
+
+theorem effectiveMetricAction_mk {G : Type u} [Group G] [TopologicalSpace G]
+    {H : Subgroup G} {M : Type v} [MetricSpace M]
+    (D : QuotientMetricRealization H M) (g : G) :
+    effectiveMetricAction D (QuotientGroup.mk g) = D.action g := by
+  rfl
+
+theorem effectiveMetricAction_injective {G : Type u} [Group G] [TopologicalSpace G]
+    {H : Subgroup G} {M : Type v} [MetricSpace M]
+    (D : QuotientMetricRealization H M) :
+    Function.Injective (effectiveMetricAction D) := by
+  exact (QuotientGroup.injective_lift_iff (Subgroup.center G) D.action
+    D.kernel_eq_center.ge).2 D.kernel_eq_center.symm
+
+/-- Actual finite root datum and common torus comparison. The root subset determines
+its reflection subgroup, and the normalizer test uses the actual Weyl permutation. -/
+structure IsotropyRootNormalizerComparison
+    {G : Type u} [Group G] (T H : Subgroup G)
+    {ι V W : Type*} [AddCommGroup V] [Module ℝ V]
+    [AddCommGroup W] [Module ℝ W]
+    (P : RootPairing ι ℝ V W) (Psi : Set ι) where
+  torus_le_isotropy : T ≤ H
+  weylEquiv : weylGroup T ≃* P.weylGroup
+  subsystemWeyl : Subgroup P.weylGroup
+  subsystemWeyl_eq : subsystemWeyl =
+    Subgroup.closure {w | ∃ i ∈ Psi, w = RootPairing.weylGroup.ofIdx P i}
+  normalizes_iff : ∀ n : Subgroup.normalizer (T : Set G),
+    (n : G) ∈ Subgroup.normalizer (H : Set G) ↔
+      ∀ i, i ∈ Psi ↔
+        P.weylGroupToPerm (weylEquiv (QuotientGroup.mk n)) i ∈ Psi
+
+/-- Tangent Lie triples with an actual inclusion in the ambient Lie algebra,
+bracket-span isotropy, a direct-sum comparison and faithful isotropy action. -/
+structure SymmetricTangentLieData (L : Type u) [LieRing L] [LieAlgebra ℝ L]
+    (P : Type v) [NormedAddCommGroup P] [InnerProductSpace ℝ P]
+    [FiniteDimensional ℝ P] where
+  isotropy : LieSubalgebra ℝ L
+  tangentInclusion : P →ₗ[ℝ] L
+  decomposition : (isotropy × P) ≃ₗ[ℝ] L
+  decomposition_eq : ∀ Z X, decomposition (Z, X) = (Z : L) + tangentInclusion X
+  isotropy_eq_span : isotropy.toSubmodule =
+    Submodule.span ℝ {Z | ∃ X Y : P, Z = ⁅tangentInclusion X, tangentInclusion Y⁆}
+  isotropy_action_faithful : ∀ Z : isotropy,
+    (∀ X : P, ⁅(Z : L), tangentInclusion X⁆ = 0) → Z = 0
+  curvature : P →ₗ[ℝ] P →ₗ[ℝ] P →ₗ[ℝ] P
+  curvature_eq : ∀ X Y Z,
+    tangentInclusion (curvature X Y Z) =
+      -⁅⁅tangentInclusion X, tangentInclusion Y⁆, tangentInclusion Z⁆
+
+/-- The curvature-preserver extension is a whole family over the actual orthogonal
+map and its Lie-triple identity. Its construction uses bracket-span and faithfulness. -/
+noncomputable def extendTangentLieIsometry
+    {L : Type u} [LieRing L] [LieAlgebra ℝ L]
+    {P : Type v} [NormedAddCommGroup P] [InnerProductSpace ℝ P]
+    [FiniteDimensional ℝ P] (D : SymmetricTangentLieData L P) :
+    (A : P ≃ₗᵢ[ℝ] P) →
+    (hA : ∀ X Y Z, A (D.curvature X Y Z) =
+      D.curvature (A X) (A Y) (A Z)) →
+    {F : L ≃ₗ⁅ℝ⁆ L // ∀ X, F (D.tangentInclusion X) = D.tangentInclusion (A X)} := by
+  sorry
+
+section SymmetricMetricTangent
+
+variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {HG : Type v} [TopologicalSpace HG] {I : ModelWithCorners ℝ E HG}
+  {G : Type w} [Group G] [TopologicalSpace G] [ChartedSpace HG G]
+  [IsManifold I ∞ G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
+  {F : Type u} [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
+  {HM : Type v} [TopologicalSpace HM] (J : ModelWithCorners ℝ F HM)
+  {M : Type w} [MetricSpace M] [ChartedSpace HM M] [IsManifold J ∞ M]
+  {P : Type u} [NormedAddCommGroup P] [InnerProductSpace ℝ P]
+  [FiniteDimensional ℝ P]
+
+/-- The actual metric quotient, native group Lie algebra and tangent triple model
+are compared by the differential of the orbit map. The given distance is the one
+whose isometries occur in the quotient action. -/
+structure SymmetricMetricTangentComparison (H : Subgroup G)
+    (D : QuotientMetricRealization H M)
+    (S : SymmetricTangentLieData (LeftInvariantDerivation I G) P) where
+  tangentEquiv : P ≃ₗ[ℝ] TangentSpace J (D.quotientModel (QuotientGroup.mk (1 : G)))
+  orbit_smooth : ContMDiff I J ∞
+    (fun g : G => D.action g (D.quotientModel (QuotientGroup.mk (1 : G))))
+  orbit_derivative : ∀ X : P,
+    mfderiv I J
+      (fun g : G => D.action g (D.quotientModel (QuotientGroup.mk (1 : G)))) 1
+      (lieAlgebraTangentEquiv I G (S.tangentInclusion X)) = tangentEquiv X
+
+end SymmetricMetricTangent
 
 /-! ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
