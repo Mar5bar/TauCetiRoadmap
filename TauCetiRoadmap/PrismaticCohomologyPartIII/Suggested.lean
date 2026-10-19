@@ -54,6 +54,25 @@ theorem pr7_ok_bk_not_perfect :
     ¬ ∃ f : PowerSeries ℤ_[2], PowerSeries.expand 2 (by decide) f = PowerSeries.X := by
   sorry
 
+/-- Residue compatibility for the fixed monic polynomial u − p forces the Frobenius
+unit to be −1; replacing it by 1 contradicts nonvanishing of 2p, including at p = 2. -/
+theorem pr7_trace_residue_unit (p : ℕ) [Fact p.Prime] (a : ℤ_[p]) :
+    ((-(p : ℤ_[p]) = (p : ℤ_[p]) * a) ↔ a = -1) ∧
+      (2 : ℤ_[p]) * (p : ℤ_[p]) ≠ 0 := by
+  sorry
+
+/-- Compatible Hom numerators across a regular pair have a unique integral common
+value, giving extension across the puncture without a Noetherian hypothesis. -/
+theorem pr7_punctured_hom_extension (A : Type*) [CommRing A]
+    (P Q : Type*) [AddCommGroup P] [Module A P] [Module.Finite A P]
+    [Module.Projective A P] [AddCommGroup Q] [Module A Q] [Module.Finite A Q]
+    [Module.Projective A Q] (f g : A)
+    (hreg : RingTheory.Sequence.IsWeaklyRegular A [f, g])
+    (m n : ℕ) (x y : P →ₗ[A] Q)
+    (hxy : g ^ n • x = f ^ m • y) :
+    ∃! z : P →ₗ[A] Q, f ^ m • z = x ∧ g ^ n • z = y := by
+  sorry
+
 /-- The polynomial 1 + x over a prime field cannot be an invertible rank-one multiplier. -/
 theorem pr7_etale_rank_one_nonunit (p : ℕ) [Fact p.Prime] :
     ¬ IsUnit (1 + Polynomial.X : Polynomial (ZMod p)) := by
