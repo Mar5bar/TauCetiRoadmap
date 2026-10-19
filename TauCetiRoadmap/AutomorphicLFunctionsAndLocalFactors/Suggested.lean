@@ -24,8 +24,7 @@ AL.1 gives its scalar Hecke corollary and normalization comparisons, and special
 the local matrix equation through `rank-one-local-functional-equation`.
 The local equation for arbitrary Schwartz functions and eigendistribution uniqueness
 are targets here. The standard-function evaluations and `tateLocalConstant` belong to that
-supplier. The equality of the norm-one idele-class volume with Mathlib's Dedekind residue κ
-is recorded in the Hecke corollary by comparing AL.2 at n = 1 with the standard Hecke residue.
+supplier. The Hecke corollary uses the conductor-balanced standard factors.
 `LocalAdditiveSelfDuality` compares the supplied isomorphism with the bilinear annihilator;
 `SelfDualHaar` records the local measure adapter. The README specifies the additional
 local-factor, vector-space and distribution refinements, representation spaces, shtukas and
@@ -200,6 +199,30 @@ theorem fourierIntegral_fourierIntegral_indicator [MeasurableSpace W]
 
 end Fourier
 
+/-- Membership in the annihilator is character triviality on the subgroup. -/
+theorem mem_pairingAnnihilator (ψ : AddChar R Circle)
+    (L : V →ₗ[R] W →ₗ[R] R) (U : AddSubgroup V) (w : W) :
+    w ∈ pairingAnnihilator ψ L U ↔ ∀ v ∈ U, ψ (L v w) = 1 := by sorry
+
+/-- The zero subgroup imposes no character condition. -/
+theorem pairingAnnihilator_bot (ψ : AddChar R Circle) (L : V →ₗ[R] W →ₗ[R] R) :
+    pairingAnnihilator ψ L ⊥ = ⊤ := by sorry
+
+/-- A zero pairing makes every character value trivial. -/
+theorem pairingAnnihilator_zero (ψ : AddChar R Circle) (U : AddSubgroup V) :
+    pairingAnnihilator ψ (0 : V →ₗ[R] W →ₗ[R] R) U = ⊤ := by sorry
+
+/-- Increasing the subgroup decreases its character annihilator. -/
+theorem pairingAnnihilator_antitone (ψ : AddChar R Circle) (L : V →ₗ[R] W →ₗ[R] R) :
+    Antitone (pairingAnnihilator ψ L) := by sorry
+
+/-- Pulling back the second variable pulls back the annihilator. -/
+theorem pairingAnnihilator_comap {W' : Type*} [AddCommGroup W'] [Module R W']
+    (ψ : AddChar R Circle) (L : V →ₗ[R] W →ₗ[R] R)
+    (U : AddSubgroup V) (T : W' →ₗ[R] W) :
+    pairingAnnihilator ψ (L.compl₂ T) U =
+      (pairingAnnihilator ψ L U).comap T.toAddMonoidHom := by sorry
+
 end TauCeti.LocalFourier
 
 namespace TauCeti.AutomorphicLFunctions.AL0
@@ -211,6 +234,7 @@ def PartialFourierTransform {X V W R : Type*} [MeasurableSpace V]
     (Φ : X × V → ℂ) (x : X) (w : W) : ℂ :=
   VectorFourier.fourierIntegral ψ μ B (fun v => Φ (x,v)) (-w)
 
+/-- A product test function retains its untransformed factor. -/
 theorem PartialFourierTransform.product {X V W R : Type*} [MeasurableSpace V]
     [CommRing R] [AddCommGroup V] [Module R V] [AddCommGroup W] [Module R W]
     (ψ : AddChar R Circle) (μ : Measure V) (B : V →ₗ[R] W →ₗ[R] R)
@@ -230,6 +254,7 @@ supplied by ArithmeticGaloisRepresentations §2.7, with residue size q and diffe
 def SelfDualHaar {F : Type*} [MeasurableSpace F] (μ₀ : Measure F)
     (q : ℝ) (d : ℕ) : Measure F := ENNReal.ofReal (q ^ (-(d : ℝ)/2)) • μ₀
 
+/-- The finite adapter gives the prescribed volume of the valuation ring. -/
 theorem SelfDualHaar.unit_volume {F : Type*} [MeasurableSpace F]
     (μ₀ : Measure F) (O : Set F) (q : ℝ) (d : ℕ) (h : μ₀ O = 1) :
     SelfDualHaar μ₀ q d O = ENNReal.ofReal (q ^ (-(d : ℝ)/2)) := by sorry
@@ -276,6 +301,7 @@ theorem BesselK.half {c : ℝ} (hc : 0 < c) :
 /-- Real exponential integral Ei(-r), only r>0 is used. -/
 def negativeEi (r : ℝ) : ℝ := -(∫ t : ℝ in Set.Ioi r, Real.exp (-t)/t)
 
+/-- The order derivative at one half is expressed by the negative exponential integral. -/
 theorem BesselHalfOrderDerivative {c : ℝ} (hc : 0 < c) :
     deriv (fun ν : ℂ => BesselK ν c) (1/2) =
       (-(Real.sqrt (Real.pi/2)*Real.exp c*c^(-1/2 : ℝ)*negativeEi (2*c)) : ℝ) := by sorry
@@ -351,6 +377,40 @@ theorem gaussian_periodization_compact_scaled (K : Set ℝ) (hK : IsCompact K)
         ∑' n : ℤ, Real.exp (-Real.pi * (p.1 * (p.2 + (n : ℝ))) ^ 2))
       Filter.atTop (Set.Icc r R ×ˢ K) := by sorry
 
+/-- Positive and native negative partial Fourier kernels differ by frequency reflection. -/
+theorem PartialFourierTransform.negative_kernel {X V W R : Type*} [MeasurableSpace V]
+    [CommRing R] [AddCommGroup V] [Module R V] [AddCommGroup W] [Module R W]
+    (ψ : AddChar R Circle) (μ : Measure V) (B : V →ₗ[R] W →ₗ[R] R)
+    (Φ : X × V → ℂ) (x : X) (w : W) :
+    PartialFourierTransform ψ μ B Φ x w =
+      VectorFourier.fourierIntegral ψ μ B (fun v => Φ (x, v)) (-w) := by sorry
+
+/-- Every order derivative inserts the corresponding logarithmic power in the kernel. -/
+theorem BesselK.order_deriv (j : ℕ) (ν : ℂ) {c : ℝ} (hc : 0 < c) :
+    iteratedDeriv j (fun z => BesselK z c) ν =
+      (1/2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
+        Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹)/2) *
+          Complex.exp (ν * (Real.log u : ℂ)) * (Real.log u : ℂ)^j / (u : ℂ) := by sorry
+
+/-- The negative exponential integral has strictly negative values on positive inputs. -/
+theorem negativeEi.neg {r : ℝ} (hr : 0 < r) : negativeEi r < 0 := by sorry
+
+/-- Differentiating the lower endpoint gives the positive exponential tail density.
+The parameter estimates use Mathlib hasDerivAt_integral_of_dominated_loc_of_deriv_le. -/
+theorem negativeEi.hasDerivAt {r : ℝ} (hr : 0 < r) :
+    HasDerivAt negativeEi (Real.exp (-r)/r) r := by sorry
+
+/-- The exponential tail fixes the integration constant by vanishing at infinity. -/
+theorem negativeEi.tendsto : Filter.Tendsto negativeEi Filter.atTop (𝓝 0) := by sorry
+
+/-- A point-supported tempered distribution depends on only finitely many derivatives.
+The vanishing-jet form applies in every finite real dimension. -/
+theorem pointSupported_finiteJet {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] (T : TemperedDistribution E ℂ)
+    (hT : Distribution.dsupport (fun f : SchwartzMap E ℂ => T f) ⊆ {0}) :
+    ∃ N : ℕ, ∀ f : SchwartzMap E ℂ,
+      (∀ k ≤ N, iteratedFDeriv ℝ k f 0 = 0) → T f = 0 := by sorry
+
 end TauCeti.AutomorphicLFunctions.AL0
 
 /-! ## Layer AL.1: Local eigendistributions and Hecke factors -/
@@ -362,11 +422,13 @@ def zetaIntegral {G : Type*} [MeasurableSpace G]
     (μ : Measure G) (a : G → ℝ) (ω : G → ℂ) (s : ℂ) (f : G → ℂ) : ℂ :=
   ∫ x, f x * ω x * (a x : ℂ)^s ∂μ
 
+/-- Rescaling multiplicative Haar measure rescales the local integral by the same scalar. -/
 theorem zetaIntegral_measure_scale {G : Type*} [MeasurableSpace G]
     (μ : Measure G) (a : G → ℝ) (ω f : G → ℂ) (s : ℂ) (c : ℝ≥0) :
     zetaIntegral ((c : ℝ≥0∞) • μ) a ω s f =
       (c : ℂ) * zetaIntegral μ a ω s f := by sorry
 
+/-- A norm twist of the local character translates the complex variable. -/
 theorem zetaIntegral_twist {G : Type*} [MeasurableSpace G]
     (μ : Measure G) (a : G → ℝ) (ha : ∀ x, 0 < a x)
     (ω f : G → ℂ) (s t : ℂ) :
@@ -466,6 +528,7 @@ comparison, and complex norm twists translate the variable. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 
+/-- Unit central local epsilon factors have a unit central finite product. -/
 theorem norm_globalEpsilon_half {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ)
     (h : ∀ v ∈ S, ‖ε v (1/2)‖ = 1) : ‖globalEpsilon S ε (1/2)‖ = 1 := by sorry
 
@@ -480,6 +543,7 @@ theorem zetaIntegral_act {G : Type*} [Group G] [MeasurableSpace G] [MeasurableMu
     zetaIntegral μ (fun x => a x) (fun x => ω x) s (fun x => f (x*b)) =
     ((ω b : ℂ)*(a b : ℂ)^s)⁻¹*zetaIntegral μ (fun x => a x) (fun x => ω x) s f := by sorry
 
+/-- A convergent all-place product splits into its removed and retained factors. -/
 theorem completedHeckeL_eq_mul {ι : Type*} [DecidableEq ι] (S : Finset ι)
     (L : ι → ℂ → ℂ) (s : ℂ) (h : Multipliable (fun v => L v s)) :
     completedHeckeL L s = (∏ v ∈ S, L v s)*partialHeckeL (S : Set ι) L s := by sorry
@@ -488,6 +552,38 @@ theorem completedHeckeL_eq_mul {ι : Type*} [DecidableEq ι] (S : Finset ι)
     supplies product one, not independent choices at the places. -/
 theorem globalEpsilon_indep {ι : Type*} (S : Finset ι) (ε c : ι → ℂ)
     (hc : ∏ v ∈ S, c v = 1) : (∏ v ∈ S, c v*ε v) = ∏ v ∈ S, ε v := by sorry
+
+/-- The continuous eigendistributions for inverse scalar pullback on an archimedean field.
+The maps e are the real linear equivalences x ↦ a⁻¹x in the uniqueness theorem. -/
+def archimedeanEigenSpace {F : Type*} [RCLike F]
+    (e : Fˣ → F ≃L[ℝ] F) (χ : Fˣ →ₜ* ℂˣ) : Submodule ℂ (TemperedDistribution F ℂ) where
+  carrier := {T | ∀ a f, T (SchwartzMap.compCLMOfContinuousLinearEquiv ℂ (e a) f) =
+    (χ a : ℂ) * T f}
+  zero_mem' := by simp
+  add_mem' := by
+    intro T S hT hS a f
+    simp only [Set.mem_ofPred_eq] at hT hS ⊢
+    simp [hT a f, hS a f, mul_add]
+  smul_mem' := by
+    intro c T hT a f
+    simp only [Set.mem_ofPred_eq] at hT ⊢
+    simp [hT a f, mul_left_comm]
+
+/-- The archimedean eigencondition is equality under every inverse scalar pullback. -/
+theorem archimedeanEigenSpace.mem {F : Type*} [RCLike F]
+    (e : Fˣ → F ≃L[ℝ] F) (χ : Fˣ →ₜ* ℂˣ) (T : TemperedDistribution F ℂ) :
+    T ∈ archimedeanEigenSpace e χ ↔ ∀ a f,
+      T (SchwartzMap.compCLMOfContinuousLinearEquiv ℂ (e a) f) = (χ a : ℂ) * T f := by sorry
+
+/-- Every archimedean quasi-character has a one-dimensional continuous eigenline. -/
+theorem archimedeanEigenSpace.finrank {F : Type*} [RCLike F]
+    (e : Fˣ → F ≃L[ℝ] F) (he : ∀ a x, e a x = (↑a⁻¹ : F) * x)
+    (χ : Fˣ →ₜ* ℂˣ) : Module.finrank ℂ (archimedeanEigenSpace e χ) = 1 := by sorry
+
+/-- Evaluation at zero is invariant under inverse scalar pullback. -/
+theorem archimedeanEigenSpace.delta_mem {F : Type*} [RCLike F]
+    (e : Fˣ → F ≃L[ℝ] F) :
+    TemperedDistribution.delta (0 : F) ∈ archimedeanEigenSpace e 1 := by sorry
 
 end TauCeti.TateZeta
 
@@ -504,17 +600,21 @@ def gammaBranch (b : GammaBranch) (s : ℂ) : ℂ := match b with
 def CanonicalArchimedeanFactor (bs : List GammaBranch) (s : ℂ) : ℂ :=
   (bs.map (fun b => gammaBranch b s)).prod
 
+/-- A real character branch gives its canonical real gamma factor. -/
 theorem CanonicalArchimedeanFactor.real (a : Fin 2) (t s : ℂ) :
     CanonicalArchimedeanFactor [.inl (a, t)] s = Complex.Gammaℝ (s+t+(a.val : ℂ)) := by sorry
 
+/-- A complex character branch retains its absolute angular weight and norm shift. -/
 theorem CanonicalArchimedeanFactor.complex (κ : ℤ) (t s : ℂ) :
     CanonicalArchimedeanFactor [.inr (.inl (κ, t))] s =
       Complex.Gammaℂ (s+t+(κ.natAbs : ℂ)/2) := by sorry
 
+/-- A real discrete-series branch gives the gamma shift prescribed by its weight. -/
 theorem CanonicalArchimedeanFactor.discrete_series (k : {k : ℕ // 2 ≤ k}) (t s : ℂ) :
     CanonicalArchimedeanFactor [.inr (.inr (k, t))] s =
       Complex.Gammaℂ (s+t+((k.val : ℂ)-1)/2) := by sorry
 
+/-- Direct sums of archimedean constituents multiply their canonical gamma factors. -/
 theorem CanonicalArchimedeanFactor.direct_sum (bs cs : List GammaBranch) (s : ℂ) :
     CanonicalArchimedeanFactor (bs++cs) s =
       CanonicalArchimedeanFactor bs s * CanonicalArchimedeanFactor cs s := by sorry
@@ -533,17 +633,17 @@ def GodementJacquetIntegral {G : Type*} [MeasurableSpace G] (n : ℕ)
     (μ : Measure G) (β Φ : G → ℂ) (absDet : G → ℝ) (s : ℂ) : ℂ :=
   ∫ g, β g * Φ g * (absDet g : ℂ)^(s+((n : ℂ)-1)/2) ∂μ
 
+/-- Twisting the matrix coefficient by a determinant norm translates the integral variable. -/
 theorem GodementJacquetIntegral.twist {G : Type*} [MeasurableSpace G] (n : ℕ)
     (μ : Measure G) (β Φ : G → ℂ) (absDet : G → ℝ)
     (h : ∀ g, 0 < absDet g) (s t : ℂ) :
     GodementJacquetIntegral n μ (fun g => β g*(absDet g : ℂ)^t) Φ absDet s =
       GodementJacquetIntegral n μ β Φ absDet (s+t) := by sorry
 
--- TauCeti.AutomorphicLFunctions.AL2.GodementJacquetIntegral.rank_one
 /-- At n = 1 the matrix exponent is s and the integral is the rank-one integral.
 Its global continuation and reflected equation specialize the same matrix theory. -/
-example {G : Type*} [MeasurableSpace G] (μ : Measure G) (β Φ : G → ℂ)
-    (absDet : G → ℝ) (s : ℂ) :
+theorem GodementJacquetIntegral.rank_one {G : Type*} [MeasurableSpace G]
+    (μ : Measure G) (β Φ : G → ℂ) (absDet : G → ℝ) (s : ℂ) :
     GodementJacquetIntegral 1 μ β Φ absDet s =
       TauCeti.TateZeta.zetaIntegral μ absDet β s Φ := by
   simp only [GodementJacquetIntegral, TauCeti.TateZeta.zetaIntegral,
@@ -552,23 +652,18 @@ example {G : Type*} [MeasurableSpace G] (μ : Measure G) (β Φ : G → ℂ)
   ext g
   ring
 
--- TauCeti.AutomorphicLFunctions.AL2.GodementJacquetIntegral.rank_two_shift
-example {G : Type*} [MeasurableSpace G] (μ : Measure G) (β Φ : G → ℂ)
-    (absDet : G → ℝ) (s : ℂ) :
-    GodementJacquetIntegral 2 μ β Φ absDet s =
-      ∫ g, β g * Φ g * (absDet g : ℂ)^(s+1/2) ∂μ := by
-  norm_num [GodementJacquetIntegral]
-
 /-- Evaluation once the finite-place principal-ideal theorem supplies P, P(0)=1.
     The archimedean branch uses CanonicalArchimedeanFactor. -/
 def StandardLocalLFactor (P : Polynomial ℂ) (q : ℝ) (s : ℂ) : ℂ :=
   (P.eval ((q : ℂ)^(-s)))⁻¹
 
+/-- A split local denominator evaluates as the product of its Satake factors. -/
 theorem StandardLocalLFactor.unramified {ι : Type*} [Fintype ι]
     (α : ι → ℂ) (q : ℝ) (s : ℂ) :
     StandardLocalLFactor (∏ i, (1-Polynomial.C (α i)*Polynomial.X)) q s =
       ∏ i, (1-α i*(q : ℂ)^(-s))⁻¹ := by sorry
 
+/-- A scalar change of Satake roots translates the local L-factor variable. -/
 theorem StandardLocalLFactor.twist (P : Polynomial ℂ) (q : ℝ) (hq : 0 < q)
     (s t : ℂ) : StandardLocalLFactor
       (P.comp (Polynomial.C ((q : ℂ)^(-t))*Polynomial.X)) q s =
@@ -591,6 +686,7 @@ def maassCompletion (a : ℕ → ℂ) (ε : Fin 2) (r : ℝ) (s : ℂ) : ℂ :=
   Complex.Gammaℝ (s+(ε.val : ℂ)+Complex.I*r)*
     Complex.Gammaℝ (s+(ε.val : ℂ)-Complex.I*r)*LSeries a s
 
+/-- The classical Maass gamma normalization differs from the canonical one by a parity scalar. -/
 theorem MaassStandardLFunction.duke (a : ℕ → ℂ) (ε : Fin 2) (r : ℝ) (s : ℂ) :
     (Real.pi : ℂ)^(-s)*Complex.Gamma ((s+(ε.val : ℂ)+Complex.I*r)/2)*
       Complex.Gamma ((s+(ε.val : ℂ)-Complex.I*r)/2)*LSeries a s =
@@ -657,6 +753,7 @@ theorem PairedHadamard_derivatives_positive (f : ℂ → ℂ) (δ : ℂ)
     (k : ℕ) (x : ℝ) (hx : 0 < x) :
     0 < (iteratedDeriv k f (x : ℂ)).re := by sorry
 
+/-- The matrix integral is additive in its integrable coefficient input. -/
 theorem GodementJacquetIntegral.bilinear {G : Type*} [MeasurableSpace G]
     (n : ℕ) (μ : Measure G) (β₁ β₂ Φ : G → ℂ) (a : G → ℝ) (s : ℂ)
     (h₁ : Integrable (fun g => β₁ g*Φ g*(a g : ℂ)^(s+((n : ℂ)-1)/2)) μ)
@@ -668,6 +765,19 @@ theorem GodementJacquetIntegral.bilinear {G : Type*} [MeasurableSpace G]
 theorem MaassStandardLFunction.euler (A : ℂ) (q : ℝ) (hq : 0 < q) (s : ℂ) :
     StandardLocalLFactor (1-Polynomial.C A*Polynomial.X+Polynomial.X^2) q s =
       (1-A*(q : ℂ)^(-s)+(q : ℂ)^(-2*s))⁻¹ := by sorry
+
+/-- Products of entire functions with centered order at most one retain that bound. -/
+theorem IsCenteredOrderOne.mul {f g : ℂ → ℂ}
+    (hf : IsCenteredOrderOne f) (hg : IsCenteredOrderOne g) :
+    IsCenteredOrderOne (fun z => f z * g z) := by sorry
+
+/-- Translating the centre preserves the entire order-one bound. -/
+theorem IsCenteredOrderOne.translate {f : ℂ → ℂ} (hf : IsCenteredOrderOne f) (a : ℂ) :
+    IsCenteredOrderOne (fun z => f (z + a)) := by sorry
+
+/-- Polynomial functions satisfy the centered order-one bound. -/
+theorem IsCenteredOrderOne.polynomial (P : Polynomial ℂ) :
+    IsCenteredOrderOne (fun z => P.eval z) := by sorry
 
 end TauCeti.AutomorphicLFunctions.AL2
 
@@ -686,12 +796,14 @@ theorem UnramifiedRankOneReciprocity.constant_field_inversion (ζ : ℂ)
 def whittakerFunction {G V : Type*} [Monoid G] [AddCommGroup V] [Module ℂ V]
     (ρ : G →* Module.End ℂ V) (ℓ : V →ₗ[ℂ] ℂ) (v : V) (g : G) : ℂ := ℓ (ρ g v)
 
+/-- A Whittaker functional gives the prescribed left unipotent equivariance of orbit functions. -/
 theorem WhittakerModel.equivariance {G V : Type*} [Monoid G]
     [AddCommGroup V] [Module ℂ V] (ρ : G →* Module.End ℂ V) (ℓ : V →ₗ[ℂ] ℂ)
     (N : Submonoid G) (ψ : N →* ℂ) (h : ∀ u : N, ∀ v, ℓ (ρ u v) = ψ u*ℓ v)
     (u : N) (v : V) (g : G) :
     whittakerFunction ρ ℓ v (u*g) = ψ u*whittakerFunction ρ ℓ v g := by sorry
 
+/-- The representation action becomes right translation of its Whittaker functions. -/
 theorem WhittakerModel.right_action {G V : Type*} [Monoid G]
     [AddCommGroup V] [Module ℂ V] (ρ : G →* Module.End ℂ V) (ℓ : V →ₗ[ℂ] ℂ)
     (v : V) (g h : G) : whittakerFunction ρ ℓ (ρ h v) g =
@@ -748,15 +860,18 @@ theorem OpenDiscZeroPoleIndex.divisor (P Q : Polynomial ℂ) (hP : P ≠ 0) (hQ 
       ∑ z ∈ ((P.roots+Q.roots).toFinset.filter (fun z => ‖z‖ < 1)),
         MeromorphicOn.divisor (fun w => P.eval w / Q.eval w) Set.univ z := by sorry
 
+/-- Equal nonzero rational presentations have the same open-disc divisor index. -/
 theorem OpenDiscZeroPoleIndex.presentation (P Q P' Q' : Polynomial ℂ)
     (hP : P ≠ 0) (hQ : Q ≠ 0) (hP' : P' ≠ 0) (hQ' : Q' ≠ 0)
     (h : P*Q' = P'*Q) : OpenDiscZeroPoleIndex P Q = OpenDiscZeroPoleIndex P' Q' := by sorry
 
+/-- Multiplication adds open-disc zero-pole indices, including common-root cancellation. -/
 theorem OpenDiscZeroPoleIndex.mul (P Q P' Q' : Polynomial ℂ)
     (hP : P ≠ 0) (hQ : Q ≠ 0) (hP' : P' ≠ 0) (hQ' : Q' ≠ 0) :
     OpenDiscZeroPoleIndex (P*P') (Q*Q') =
       OpenDiscZeroPoleIndex P Q+OpenDiscZeroPoleIndex P' Q' := by sorry
 
+/-- Inverting a rational presentation negates its open-disc index. -/
 theorem OpenDiscZeroPoleIndex.inv (P Q : Polynomial ℂ) :
     OpenDiscZeroPoleIndex Q P = -OpenDiscZeroPoleIndex P Q := by sorry
 
@@ -778,22 +893,12 @@ theorem WhittakerModel.realization {G V : Type*} [Group G]
     (hirr : ∀ U : Submodule ℂ V, (∀ g v, v ∈ U → ρ g v ∈ U) → U = ⊥ ∨ U = ⊤) :
     Function.Injective (fun v => whittakerFunction ρ ℓ v) := by sorry
 
+/-- A determinant norm twist translates the unequal-rank integral variable. -/
 theorem RsLocalIntegrals.twist {Q M : Type*} [MeasurableSpace Q] [MeasurableSpace M]
     (n m : ℕ) (μ : Measure Q) (ν : Measure M) (W : Q → M → ℂ)
     (W' : Q → ℂ) (a : Q → ℝ) (ha : ∀ g, 0 < a g) (s t : ℂ) :
     RsLocalIntegrals n m μ ν (fun g x => W g x*(a g : ℂ)^t) W' a s =
       RsLocalIntegrals n m μ ν W W' a (s+t) := by sorry
-
-/-- The quotient s/s continues to 1 at zero. -/
-example : Differentiable ℂ (fun _ : ℂ => (1 : ℂ)) ∧
-    (∀ s : ℂ, s ≠ 0 → (1 : ℂ) = s/s) ∧
-    NormalizedRsPeriod (fun _ : ℂ => (LinearMap.id : ℂ →ₗ[ℂ] ℂ)) 1 = 1 ∧
-    (0 : ℂ)/(0 : ℂ) = 0 := by
-  refine ⟨differentiable_const 1, ?_, ?_, ?_⟩
-  · intro s hs
-    exact (div_self hs).symm
-  · norm_num [NormalizedRsPeriod]
-  · norm_num
 
 /-- Continuation evaluates the analytic quotient, including at a simultaneous zero. -/
 theorem NormalizedRsPeriod.continued_value_scalar (N A L : ℂ → ℂ) (s₀ : ℂ)
@@ -835,6 +940,30 @@ intersection cohomology, with r-negligible kernels and cokernels under lower-ran
 ramified induction. Its equivariant contract transports Hecke and partial Frobenius
 through these comparisons. These geometric contracts are specified in README AL.3. -/
 
+/-- The normalized period evaluates the continued quotient on every vector,
+including when the unnormalized period and local factor vanish together. -/
+theorem NormalizedRsPeriod.continued_value {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (N : ℂ → V →ₗ[ℂ] ℂ) (A : ℂ → V →ₗ[ℂ] ℂ) (L : ℂ → ℂ)
+    (hN : ∀ v, AnalyticAt ℂ (fun s => N s v) 0)
+    (hA : ∀ v, AnalyticAt ℂ (fun s => A s v) 0) (hL : AnalyticAt ℂ L 0)
+    (h : ∀ v, (fun s => A s v) =ᶠ[𝓝[≠] 0] fun s => L s * N s v) (v : V) :
+    A 0 v = L 0 * NormalizedRsPeriod N v := by sorry
+
+/-- A nondegenerate alternating pairing of similitude q gives the self-pair
+reciprocity polynomial in every even dimension. -/
+theorem FunctionFieldSelfPairReflection (g : ℕ) (q : ℝ) (hq : 1 < q)
+    (A J : Matrix (Fin (2 * g)) (Fin (2 * g)) ℂ)
+    (hJ : IsUnit J) (halt : J.transpose = -J)
+    (hsim : A.transpose * J * A = (q : ℂ) • J) (z : ℂ) (hz : z ≠ 0) :
+    A.charpolyRev.eval z = (q : ℂ)^g * z^(2 * g) *
+      A.charpolyRev.eval (1 / ((q : ℂ) * z)) := by sorry
+
+/-- Weight-one eigenvalues give reciprocal-polynomial roots of modulus q to minus one half. -/
+theorem FunctionFieldSelfPairReflection.root_norm {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (q : ℝ) (hq : 1 < q) (A : Matrix ι ι ℂ)
+    (hweight : ∀ a ∈ A.charpoly.roots, ‖a‖ = Real.sqrt q)
+    (z : ℂ) (hz : A.charpolyRev.IsRoot z) : ‖z‖ = (Real.sqrt q)⁻¹ := by sorry
+
 end TauCeti.AutomorphicLFunctions.AL3
 
 /-! ## Layer AL.4: unramified determinant comparisons -/
@@ -856,6 +985,31 @@ theorem LGroupLocalFactor.standard_gln {ι : Type*} [Fintype ι] [DecidableEq ι
     (α : ι → ℂ) : Matrix.charpolyRev (Matrix.diagonal α) =
       ∏ i, (1-Polynomial.C (α i)*Polynomial.X) := by sorry
 
+/-- Scalar twisting substitutes cT in the reversed characteristic polynomial. -/
+theorem LGroupLocalFactor.scalar_twist {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (A : Matrix ι ι ℂ) (c : ℂ) :
+    Matrix.charpolyRev (c • A) = A.charpolyRev.comp (Polynomial.C c * Polynomial.X) := by sorry
+
+/-- Tensoring Satake operators multiplies their eigenvalues with multiplicity.
+The formula holds for arbitrary complex matrices, including nontrivial Jordan blocks. -/
+theorem LGroupLocalFactor.tensor {ι κ : Type*} [Fintype ι] [DecidableEq ι]
+    [Fintype κ] [DecidableEq κ] (A : Matrix ι ι ℂ) (B : Matrix κ κ ℂ) :
+    (Matrix.kronecker A B).charpolyRev =
+      (A.charpoly.roots.map (fun a =>
+        (B.charpoly.roots.map (fun b =>
+          (1 - Polynomial.C (a * b) * Polynomial.X : Polynomial ℂ))).prod)).prod := by sorry
+
+/-- The dual of an invertible Satake operator has reciprocal roots with multiplicity. -/
+theorem LGroupLocalFactor.dual {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (A : Matrix ι ι ℂ) (hA : IsUnit A) :
+    A⁻¹.charpolyRev = (A.charpoly.roots.map (fun a =>
+      (1 - Polynomial.C (a⁻¹) * Polynomial.X : Polynomial ℂ))).prod := by sorry
+
+/-- Applying a coefficient embedding commutes with the determinant polynomial. -/
+theorem LGroupLocalFactor.coefficient_embedding {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (A : Matrix ι ι ℂ) (σ : ℂ →+* ℂ) :
+    (A.map σ).charpolyRev = A.charpolyRev.map σ := by sorry
+
 end TauCeti.AutomorphicLFunctions.AL4
 
 /-! ## Layer AL.5: Euler corrections and critical values -/
@@ -866,9 +1020,11 @@ namespace TauCeti.AutomorphicLFunctions.AL5
 def FiniteEulerCorrection {ι : Type*} (S : Finset ι) (P : ι → Polynomial ℂ)
     (q : ι → ℝ) (s : ℂ) : ℂ := ∏ v ∈ S, (P v).eval ((q v : ℂ)^(-s))
 
+/-- Removing no places gives the identity correction. -/
 theorem FiniteEulerCorrection.empty {ι : Type*} (P : ι → Polynomial ℂ)
     (q : ι → ℝ) (s : ℂ) : FiniteEulerCorrection ∅ P q s = 1 := by sorry
 
+/-- Disjoint sets of removed places multiply their finite corrections. -/
 theorem FiniteEulerCorrection.union {ι : Type*} [DecidableEq ι]
     (S T : Finset ι) (h : Disjoint S T) (P : ι → Polynomial ℂ) (q : ι → ℝ) (s : ℂ) :
     FiniteEulerCorrection (S∪T) P q s =
@@ -878,9 +1034,11 @@ theorem FiniteEulerCorrection.union {ι : Type*} [DecidableEq ι]
 def OrdinaryGl2EulerFactor (p : ℝ) (k j : ℕ) (α χp χinvp εp : ℂ) : ℂ :=
   (1-χp*(p : ℂ)^j/α)*(1-χinvp*εp*(p : ℂ)^(k-j)/α)
 
+/-- Zero-extended ramified character values remove both good-prime correction factors. -/
 theorem OrdinaryGl2EulerFactor.ramified (p : ℝ) (k j : ℕ) (α εp : ℂ) :
     OrdinaryGl2EulerFactor p k j α 0 0 εp = 1 := by sorry
 
+/-- The trivial character gives the two factors of the primitive newform correction. -/
 theorem OrdinaryGl2EulerFactor.unramified (p : ℝ) (k j : ℕ) (α εp : ℂ) :
     OrdinaryGl2EulerFactor p k j α 1 1 εp =
       (1-(p : ℂ)^j/α)*(1-εp*(p : ℂ)^(k-j)/α) := by sorry
@@ -889,6 +1047,7 @@ theorem OrdinaryGl2EulerFactor.unramified (p : ℝ) (k j : ℕ) (α εp : ℂ) :
 theorem CentralSignVanishing (Λ : ℂ → ℂ) (h : ∀ s, Λ s = -Λ (1-s)) :
     Λ (1/2) = 0 := by sorry
 
+/-- Reflection in the centre forces the root-number parity on each Taylor derivative. -/
 theorem FirstNonzeroTermParity (Λ : ℂ → ℂ) (hΛ : Differentiable ℂ Λ)
     (ε : ℂ) (hε : ε = 1 ∨ ε = -1) (h : ∀ s, Λ s = ε*Λ (1-s)) (j : ℕ) :
     iteratedDeriv j Λ (1/2) = ε*(-1)^j*iteratedDeriv j Λ (1/2) := by sorry
@@ -927,12 +1086,14 @@ example (a : ℕ → ℂ) (p : ℕ) (hp : 1 < p) (α β : ℂ)
   have hp0 : 0 < p := by omega
   simp [pStabilizedCoeff, Nat.div_self hp0, h₁, hpcoeff]
 
+/-- Multiplication by a finite correction adds its meromorphic order to the L-function order. -/
 theorem FiniteEulerCorrection.orders {ι : Type*} (S : Finset ι) (P : ι → Polynomial ℂ)
     (q : ι → ℝ) (L : ℂ → ℂ) (s₀ : ℂ)
     (hE : MeromorphicAt (FiniteEulerCorrection S P q) s₀) (hL : MeromorphicAt L s₀) :
     meromorphicOrderAt (fun s => FiniteEulerCorrection S P q s*L s) s₀ =
       meromorphicOrderAt (FiniteEulerCorrection S P q) s₀+meromorphicOrderAt L s₀ := by sorry
 
+/-- A continued imprimitive identity evaluates at a point where all representatives are analytic. -/
 theorem FiniteEulerCorrection.value {ι : Type*} (S : Finset ι) (P : ι → Polynomial ℂ)
     (q : ι → ℝ) (L Lpartial : ℂ → ℂ) (s₀ : ℂ)
     (hE : AnalyticAt ℂ (FiniteEulerCorrection S P q) s₀)
@@ -940,10 +1101,12 @@ theorem FiniteEulerCorrection.value {ι : Type*} (S : Finset ι) (P : ι → Pol
     (h : Lpartial =ᶠ[𝓝[≠] s₀] fun s => FiniteEulerCorrection S P q s*L s) :
     Lpartial s₀ = FiniteEulerCorrection S P q s₀*L s₀ := by sorry
 
+/-- A vanishing Euler correction leaves only its derivative times the original value. -/
 theorem EulerCorrectionLeadingTerm (E L : ℂ → ℂ) (s₀ : ℂ)
     (hE : DifferentiableAt ℂ E s₀) (hL : DifferentiableAt ℂ L s₀) (hz : E s₀ = 0) :
     deriv (fun s => E s*L s) s₀ = deriv E s₀*L s₀ := by sorry
 
+/-- The second primitive-newform correction is the stabilization factor for the other Hecke root. -/
 theorem OrdinaryGl2EulerFactor.refinement (p : ℝ) (hp : 0 < p)
     (k j : ℕ) (hj : j ≤ k) (α χp χinvp εp : ℂ) (hα : α ≠ 0) :
     OrdinaryGl2EulerFactor p k j α χp χinvp εp =
@@ -961,23 +1124,43 @@ theorem CriticalValuePeriodInterface (E : Subfield ℂ)
     completed/(gamma*normalization) = finite/normalization ∧
       completed/(gamma*normalization) ∈ E := by sorry
 
+/-- The first nonzero Taylor coefficient of a product is the product of those
+of its two factors, with the sum of their finite vanishing orders. -/
+theorem EulerCorrectionLeadingTerm.taylor (E L : ℂ → ℂ) (s₀ : ℂ) (m r : ℕ)
+    (hE : AnalyticAt ℂ E s₀) (hL : AnalyticAt ℂ L s₀)
+    (hEm : iteratedDeriv m E s₀ ≠ 0) (hLr : iteratedDeriv r L s₀ ≠ 0)
+    (hE0 : ∀ j < m, iteratedDeriv j E s₀ = 0)
+    (hL0 : ∀ j < r, iteratedDeriv j L s₀ = 0) :
+    (∀ j < m + r, iteratedDeriv j (fun s => E s * L s) s₀ = 0) ∧
+    iteratedDeriv (m + r) (fun s => E s * L s) s₀ / ((m + r).factorial : ℂ) =
+      (iteratedDeriv m E s₀ / (m.factorial : ℂ)) *
+        (iteratedDeriv r L s₀ / (r.factorial : ℂ)) ∧
+    iteratedDeriv (m + r) (fun s => E s * L s) s₀ ≠ 0 := by sorry
+
+/-- The derivative of a simple removed Euler zero is the logarithm of its residue size. -/
+theorem EulerCorrectionLeadingTerm.euler_zero (q : ℝ) (hq : 1 < q) (a s₀ : ℂ)
+    (hz : a * (q : ℂ)^(-s₀) = 1) :
+    HasDerivAt (fun s : ℂ => 1 - a * (q : ℂ)^(-s)) (Real.log q : ℂ) s₀ := by sorry
+
+/-- Coefficients at indices prime to p survive stabilization unchanged. -/
+theorem pStabilizedCoeff.not_dvd (a : ℕ → ℂ) (p : ℕ) (β : ℂ) (n : ℕ)
+    (hn : ¬ p ∣ n) : pStabilizedCoeff a p β n = a n := by sorry
+
+/-- At multiples of p stabilization subtracts the rescaled old coefficient. -/
+theorem pStabilizedCoeff.mul (a : ℕ → ℂ) (p : ℕ) (hp : 0 < p) (β : ℂ) (n : ℕ) :
+    pStabilizedCoeff a p β (p * n) = a (p * n) - β * a n := by sorry
+
 end TauCeti.AutomorphicLFunctions.AL5
 
 /-
 README.md states the full local-field, representation and Weyl-group interfaces:
 
-AL.0: `PartialFourierTransform.negative_kernel` compares the signs;
-`SelfDualHaar.character_scale` fixes Haar rescaling for ψ_a.
+AL.0: `SelfDualHaar.character_scale` fixes Haar rescaling for ψ_a.
 AL.2: `StandardLocalLFactor.normalized_zeta` is the continued test-integral quotient.
-`IsCenteredOrderOne.mul`, `IsCenteredOrderOne.translate` and
-`IsCenteredOrderOne.polynomial` specify the basic growth API.
 AL.3: `RsLocalIntegrals.equal_rank` and `RsLocalIntegrals.j_range` specify the actual
 quotient and block embeddings. `MirabolicEisensteinSeries.parabolic_sum` and
 `MirabolicEisensteinSeries.nontrivial_normone` specify unfolding and zero-mode poles.
-`NormalizedRsPeriod.tempered_half_plane` and `NormalizedRsPeriod.continued_value`
-fix the domain and continuation at zero.
-AL.5: `pStabilizedCoeff.not_dvd` and `pStabilizedCoeff.mul` specify the prime-to-p
-and multiple-of-p coefficient formulas.
+`NormalizedRsPeriod.tempered_half_plane` fixes the convergence domain.
 -/
 
 /-! ## AL.2: GL₂ newvectors on native representation carriers -/
@@ -1034,6 +1217,23 @@ theorem conductor_min (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
     (∃ v ∈ (Representation.invariants (ρ.comp (K (conductorExponent ρ K hex)).subtype)), v ≠ 0) ∧
     ∀ n < conductorExponent ρ K hex,
       ¬ ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0 := by sorry
+
+/-- An intertwining linear equivalence preserves the least nonzero fixed level. -/
+theorem conductor_iso {W : Type*} [AddCommGroup W] [Module ℂ W]
+    (π : Representation ℂ G V) (τ : Representation ℂ G W) (K : ℕ → Subgroup G)
+    (e : V ≃ₗ[ℂ] W) (he : ∀ g v, e (π g v) = τ g (e v))
+    (hπ : ∃ n, ∃ v ∈ Representation.invariants (π.comp (K n).subtype), v ≠ 0)
+    (hτ : ∃ n, ∃ v ∈ Representation.invariants (τ.comp (K n).subtype), v ≠ 0) :
+    conductorExponent π K hπ = conductorExponent τ K hτ := by sorry
+
+/-- A twist trivial on every level subgroup preserves the conductor exponent.
+Unramified determinant characters are trivial on the integral congruence subgroups. -/
+theorem conductor_unramified_twist (π τ : Representation ℂ G V) (K : ℕ → Subgroup G)
+    (χ : G →* ℂˣ) (htwist : ∀ g v, τ g v = (χ g : ℂ) • π g v)
+    (hχ : ∀ n g, g ∈ K n → χ g = 1)
+    (hπ : ∃ n, ∃ v ∈ Representation.invariants (π.comp (K n).subtype), v ≠ 0)
+    (hτ : ∃ n, ∃ v ∈ Representation.invariants (τ.comp (K n).subtype), v ≠ 0) :
+    conductorExponent π K hπ = conductorExponent τ K hτ := by sorry
 
 end LocalRepresentation
 
@@ -1177,7 +1377,16 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
 /-- The vector of value one for a nonzero functional on a one-dimensional line. -/
 def normalizedNewvector (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
-    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) : L := by sorry
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) : L := by
+  classical
+  have hex : ∃ v : L, ell v ≠ 0 := by
+    by_contra h
+    apply hell
+    ext v
+    simpa using (not_exists.mp h v)
+  let v := Classical.choose hex
+  let _ := hdim
+  exact (ell v)⁻¹ • v
 
 /-- The normalized vector has value one under the specified functional. -/
 theorem normalizedNewvector_eval (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
@@ -1189,11 +1398,17 @@ theorem normalizedNewvector_unique (L : Submodule ℂ V) (ell : L →ₗ[ℂ] �
     (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) (v : L) (hv : ell v = 1) :
     v = normalizedNewvector L ell hdim hell := by sorry
 
+/-- Scaling the Whittaker functional inversely rescales its value-one vector. -/
+theorem normalizedNewvector_scale (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) (a : ℂ) (ha : a ≠ 0)
+    (hscaled : a • ell ≠ 0) :
+    normalizedNewvector L (a • ell) hdim hscaled =
+      a⁻¹ • normalizedNewvector L ell hdim hell := by sorry
+
 end NormalizedLine
 
 
-/- The full API also includes conductor_iso, conductor_unramified_twist,
-normalizedNewvector_fixed and normalizedNewvector_twist, with the hypotheses
+/- The full API also includes normalizedNewvector_fixed and normalizedNewvector_twist, with the hypotheses
 and last-row convention specified in README AL.2 / GL₂ newvectors. -/
 
 end TauCeti.GL2Blueprint

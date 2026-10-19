@@ -8,7 +8,7 @@ The library must expose the spaces, measures, distributions and comparison maps 
 
 The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7 and 3.4–3.5, supplies normalized archimedean induction, Langlands classification, archimedean parameters, the generic unitary dual, globalization and algebraic restricted tensor factorization; §§4.3 and 5.7 supply number-field cuspidal `GLₙ` genericity and Clozel rationality; §4.5 supplies the shared `NormalizedMaassEigenform(r,δ)` carrier and its Fourier, Hecke, reflection-parity and adelization comparisons. The representation prerequisites below specialize these constructions to the `GLₙ` Whittaker and local-factor interfaces, compare their smooth and Hilbert tensor realizations, and construct function-field cuspidal carriers, number-field isobaric sums and rational Whittaker/cohomological comparisons. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and [GL₂ newvectors](#gl2-newvectors) for rank two; the compatible higher-rank newform construction is a target here. AL.2 consumes the real-parameter specialization of the shared Maass carrier for its standard and adjoint L-functions. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from the supplied cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
 
-**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. ArithmeticGaloisRepresentations §2.7, **Global inputs**, owns the standard trace character, local additive self-duality, restricted-product adelic duality and diagonal self-annihilator, together with the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform and Poisson summation. Its [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations) supplies `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) identifies their standard global integral with the conductor-normalized Hecke completion on algebraic norm twists; [Finite-order Hecke functional equation](../ArithmeticGaloisRepresentations/README.md#finite-order-hecke-functional-equation) supplies LFunctions layer 5's equation for finite-order characters; [Root-number product formula](../ArithmeticGaloisRepresentations/README.md#root-number-product-formula) is a finite-sum identity identifying the Gauss-sum root number with the local constants. General unitary-character continuation and functional equations come from [The global standard L-function](#global-godement-jacquet) at `n=1`. This roadmap owns the local functional equation for arbitrary Schwartz functions, eigendistribution uniqueness and the global matrix-integral continuation for every `n≥1`, with its rank-one scalar corollary [Hecke continuation and functional equation](#hecke-l-functional-equation), including the residue and measure comparison with `κ := NumberField.dedekindZeta_residue K`. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized `GLₙ` Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. AL.1 identifies its distribution scalar with `tateLocalConstant` unconditionally. Higher-rank ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
+**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. ArithmeticGaloisRepresentations §2.7, **Global inputs**, owns the standard trace character, local additive self-duality, restricted-product adelic duality and diagonal self-annihilator, together with the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform and Poisson summation. Its [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations) supplies `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) identifies their standard global integral with the conductor-normalized Hecke completion on algebraic norm twists; [Finite-order Hecke functional equation](../ArithmeticGaloisRepresentations/README.md#finite-order-hecke-functional-equation) supplies LFunctions layer 5's equation for finite-order characters; [Root-number product formula](../ArithmeticGaloisRepresentations/README.md#root-number-product-formula) is a finite-sum identity identifying the Gauss-sum root number with the local constants. General unitary-character continuation and functional equations come from [The global standard L-function](#global-godement-jacquet) at `n=1`. This roadmap owns the local functional equation for arbitrary Schwartz functions, eigendistribution uniqueness and the global matrix-integral continuation for every `n≥1`, with its rank-one scalar corollary [Hecke continuation and functional equation](#hecke-l-functional-equation), with the conductor and root-number normalizations below. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized `GLₙ` Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. AL.1 identifies its distribution scalar with `tateLocalConstant` unconditionally. Higher-rank ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
 **LFunctions**, layers 0, 5–6, owns the primitive finite-order and algebraic Hecke functions, conductor-balanced completions, continuation and inverse-character functional equations. **ArithmeticGaloisRepresentations**, §2.7, supplies **Standard-test-function evaluations**, **Hecke zeta-integral comparison**, **Finite-order Hecke functional equation** and **Root-number product formula**, with the root-number formula a finite-sum identity for arbitrary unitary characters and complex norm twists. AL.0 consumes that supplier's Schwartz/Fourier/Poisson prefix and proves its finite-dimensional vector-space and partial-transform extensions and compact-uniform estimates. AL.2 proves the global Godement–Jacquet continuation by matrix Poisson summation for every `n≥1`; AL.1 states its rank-one scalar corollary and the normalization adapters to Hecke's functions, with the exact comparison in [Canonical rank-one comparison](#canonical-rank-one-comparison). AL.4 consumes the earlier arithmetic Weil–Deligne theory; no arithmetic local-constant construction depends on AL.4.
 
@@ -223,7 +223,7 @@ All local APIs below are proposed extensions of those carriers. The suggested fi
 | AL.4 | Satake/L-group determinants, conditional Weil–Deligne comparisons and factor operations. |
 | AL.5 | Finite Euler corrections, critical-value normalization, sign vanishing and refined GL₂ factors. |
 
-Specialize AutomorphicFormsOnReductiveGroups §§2.3–2.7’s induction, parameters and globalization to `GLₙ` before the Whittaker/Weil-parameter comparisons and AL.1’s archimedean factors. Construct AL.0 and AL.1's local distribution prefix first among the analytic layers; construct the restricted-tensor comparisons using that supplier’s §§3.4–3.5 and use the ALS.F.6 cusp realization before number-field global integrals. In the function-field branch, curve additive analysis constructs completion-valued adeles and compact rational unipotent quotients before restricted-tensor realizations constructs the cuspidal carriers. Prove local Whittaker uniqueness, then construct the local integral/factor prefixes of AL.2 and AL.3. The local `GL₂` newvector targets and the higher-rank newvector/essential-function targets follow these prefixes and precede ramified tests. The `GL₂` dimension theorem uses only the AL.2 prefix ending at standard-local-l-factor. The ramified Godement–Jacquet test uses the finite-place Rankin–Selberg induced-factor product. AL.2's matrix Poisson continuation, including `n=1`, precedes AL.1's global continuation and volume comparison. The rank-one part uses only AL.0, AL.1's local prefix and the supplied Hecke comparisons. The global analytic prefix of AL.3 precedes AL.2's sharp Euler-product convergence boundary, using the positive self-pair and the Jacquet–Shalika bound. AL.4's determinant interface precedes the function-field and motivic suffix of AL.3. Rational periods use the geometric rational structures of the finite-part rationality target and ALS.5b after the analytic Whittaker model has been constructed. The isobaric construction precedes number-field strong multiplicity one, which then precedes finite-part rationality and periods. In the curve branch, degree/slope, HN filtrations and polygon boundedness precede shtuka truncations. Function-field local/global analytic and converse targets precede rank induction. Rank r first assumes the ramified correspondence and temperedness in every smaller rank, constructs the lower-rank leg-in-level spaces and their counts for boundary degenerators in the level, constructs the local-model intersection complexes and their essential compact-support comparison, proves the level-r essential-cohomology construction, applies VI.11 and its local comparisons, then specializes to no level. The document groups targets by layer; these finer dependencies specify their acyclic construction order.
+Specialize AutomorphicFormsOnReductiveGroups §§2.3–2.7’s induction, parameters and globalization to `GLₙ` before the Whittaker/Weil-parameter comparisons and AL.1’s archimedean factors. Construct AL.0 and AL.1's local distribution prefix first among the analytic layers; construct the restricted-tensor comparisons using that supplier’s §§3.4–3.5 and use the ALS.F.6 cusp realization before number-field global integrals. In the function-field branch, curve additive analysis constructs completion-valued adeles and compact rational unipotent quotients before restricted-tensor realizations constructs the cuspidal carriers. Prove local Whittaker uniqueness, then construct the local integral/factor prefixes of AL.2 and AL.3. The local `GL₂` newvector targets and the higher-rank newvector/essential-function targets follow these prefixes and precede ramified tests. The `GL₂` dimension theorem uses only the AL.2 prefix ending at standard-local-l-factor. The ramified Godement–Jacquet test uses the finite-place Rankin–Selberg induced-factor product. AL.2's matrix Poisson continuation, including `n=1`, precedes AL.1's Hecke comparison. The rank-one part uses only AL.0, AL.1's local prefix and the supplied Hecke comparisons. The global analytic prefix of AL.3 precedes AL.2's sharp Euler-product convergence boundary, using the positive self-pair and the Jacquet–Shalika bound. AL.4's determinant interface precedes the function-field and motivic suffix of AL.3. Rational periods use the geometric rational structures of the finite-part rationality target and ALS.5b after the analytic Whittaker model has been constructed. The isobaric construction precedes number-field strong multiplicity one, which then precedes finite-part rationality and periods. In the curve branch, degree/slope, HN filtrations and polygon boundedness precede shtuka truncations. Function-field local/global analytic and converse targets precede rank induction. Rank r first assumes the ramified correspondence and temperedness in every smaller rank, constructs the lower-rank leg-in-level spaces and their counts for boundary degenerators in the level, constructs the local-model intersection complexes and their essential compact-support comparison, proves the level-r essential-cohomology construction, applies VI.11 and its local comparisons, then specializes to no level. The document groups targets by layer; these finer dependencies specify their acyclic construction order.
 
 For named APIs, `LocalFourier` means `TauCeti.LocalFourier`, `SchwartzBruhat` means `TauCeti.SchwartzBruhat`, `TateZeta` means `TauCeti.TateZeta`, and `ALk` means `TauCeti.AutomorphicLFunctions.ALk`. A definition's tests specify concrete computations, comparisons or failures that distinguish its normalization.
 
@@ -306,18 +306,24 @@ Require the following API.
 - For `V=W=R`, multiplication pairing and U the additive subgroup generated by `1, U⊥` equals the native kernel of `ψ.toAddMonoidHom`. U cannot be replaced by all of R in this assertion.
 - `LocalFourier.pairingAnnihilator_not_real_submodule`: For `R=V=W=R`-real, `ψ(x)=exp(2πix)`, multiplication pairing and `U=Z·1`, the annihilator contains 1 and does not contain 1/2. Thus it is not stable under real scalar multiplication.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* Mathlib `AddChar`; Mathlib `AddChar.map_zero_eq_one`; Mathlib `AddChar.map_add_eq_mul`; Mathlib `LinearMap.compl₂`; Mathlib `AddChar.toAddMonoidHom`; Mathlib `ZMod.toCircle`; Mathlib `ZMod.injective_toCircle`; Mathlib `Real.fourierChar`; Mathlib `Subgroup.zpowers`.
 
 
 <a id="mem-pairing-annihilator"></a>
 
-**Membership in the character annihilator.** For every `w, w∈U⊥` if and only if `ψ(L(u,w))=1` for all `u∈U`.
+**Membership in the character annihilator.** `LocalFourier.mem_pairingAnnihilator` gives, for every `w, w∈U⊥` if and only if `ψ(L(u,w))=1` for all `u∈U`.
 
 Work under the following hypotheses. Use the pairing data above.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- For U zero the condition is empty.
+- For the trivial character it holds on every subgroup.
+- For the real standard character and `U=ℤ·1`, membership is precisely integral frequency.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* [Annihilator for a bilinear character pairing](#pairing-annihilator).
 
@@ -328,7 +334,13 @@ Work under the following hypotheses. Use the pairing data above.
 
 Work under the following hypotheses. Use the pairing data above. W is topological; each displayed one-variable circle-valued map is continuous.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- For U zero the annihilator is the closed set W.
+- Over ℝ the annihilator of `ℤ·1` is the closed subgroup `ℤ·1`.
+- For the real standard character and `U=ℝ` it is the closed singleton zero.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* [Membership in the character annihilator](#mem-pairing-annihilator); Mathlib `isClosed_eq`; Mathlib `isClosed_iInter`.
 
@@ -339,7 +351,13 @@ Work under the following hypotheses. Use the pairing data above. W is topologica
 
 Work under the following hypotheses. Use the pairing data above. V,W are topological; U is compact; the joint circle-valued pairing is IsLocallyConstant.
 
-(Source: [Kudla](#ref-kudla2004), p.115, local constancy and compact support; p.122, Fourier transforms.)
+**Checks.**
+
+- For U zero the annihilator is all of W and is open.
+- At an unramified finite place the annihilator of O is the open subgroup O.
+- The real multiplication pairing is continuous but not locally constant; its annihilator of `ℤ·1` is not open.
+
+(Source: Mathlib `IsLocallyConstant`, compactness and the finite-subcover argument applied to the character pairing.)
 
 *Needs:* [Membership in the character annihilator](#mem-pairing-annihilator); Mathlib `IsLocallyConstant.isOpen_fiber`; Mathlib `generalized_tube_lemma`.
 
@@ -350,7 +368,13 @@ Work under the following hypotheses. Use the pairing data above. V,W are topolog
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. Addition on V is measurable and `μ` is invariant under right addition.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- A constant function has zero transform at every nontrivial character frequency.
+- For `f=1_O` at an unramified finite place, a frequency outside O is killed by an O-period.
+- The zero period has character value one and fails the nontrivial-phase hypothesis.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* Mathlib `VectorFourier.fourierIntegral_comp_add_right`.
 
@@ -361,7 +385,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. Addition on V is measurable and `μ` is invariant under right addition.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- An O-periodic finite-place function has transform supported in the trace dual of O.
+- For the trivial character the annihilator is all frequencies, giving no smaller support.
+- For f zero the Fourier support is empty even for a degenerate pairing.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* [Membership in the character annihilator](#mem-pairing-annihilator); [Fourier vanishing from a nontrivial period](#vanishing-from-period).
 
@@ -372,7 +402,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. Addition on V is measurable and `μ` is invariant under right addition. U is measurable. No unit-volume assumption and no self-duality identification are imposed.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- At an unramified finite place with unit O-volume, the transform of `1_O` is `1_O`.
+- Rescaling Haar measure rescales the transformed indicator.
+- For the trivial character the transformed indicator is the constant `μ.real(U)`.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* [Membership in the character annihilator](#mem-pairing-annihilator); [Fourier support lies in the period annihilator](#fourier-support); Mathlib `VectorFourier.fourierIntegral`; Mathlib `MeasureTheory.integral_indicator_const`; Mathlib `MeasureTheory.integral_congr_ae`.
 
@@ -383,7 +419,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. Addition on V is measurable and `μ` is invariant under right addition. U is measurable; `a∈V`.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- For a zero translate the subgroup-indicator formula is recovered.
+- Translating O by an element of O leaves its indicator unchanged.
+- A translate with nontrivial phase gives the inverse phase for the negative kernel.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* [Fourier transform of a subgroup indicator](#indicator-transform); Mathlib `VectorFourier.fourierIntegral_comp_add_right`.
 
@@ -394,7 +436,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- Modulation by zero frequency changes nothing.
+- Modulating a real Gaussian moves its transformed Gaussian to the modulation frequency.
+- The identity holds for the zero measure and requires no Haar normalization.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* Mathlib `VectorFourier.fourierIntegral`; Mathlib `AddChar.map_add_eq_mul`; Mathlib `MeasureTheory.integral_congr_ae`.
 
@@ -405,7 +453,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions.
 
-(Source: [Tate](#ref-tate1950), §2.5, physical p.24, printed (2.17), compact-subgroup Fourier calculation.)
+**Checks.**
+
+- A function supported in O at an unramified finite place has O-periodic transform.
+- For support in the zero subgroup the Fourier integrand is independent of frequency.
+- For U the full space and a nondegenerate pairing, only the zero frequency period follows.
+
+(Source: Mathlib `AddChar.toAddMonoidHom` and `VectorFourier.fourierIntegral`; the subgroup identities follow by evaluating characters and translating the integral.)
 
 *Needs:* [Membership in the character annihilator](#mem-pairing-annihilator); Mathlib `VectorFourier.fourierIntegral`; Mathlib `AddChar.map_add_eq_mul`; Mathlib `MeasureTheory.integral_congr_ae`.
 
@@ -416,7 +470,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. W is an IsTopologicalAddGroup; U is compact in V; the joint pairing is locally constant.
 
-(Source: [Kudla](#ref-kudla2004), p.122, Fourier transforms of Schwartz–Bruhat functions.)
+**Checks.**
+
+- At a finite place the transform of a Schwartz–Bruhat function is locally constant.
+- Support in O at an unramified place gives a transform constant on O-cosets.
+- A real Gaussian has nonconstant transform; continuity cannot replace local constancy of the pairing.
+
+(Source: Mathlib `VectorFourier.fourierIntegral`; translation of the frequency by the open annihilator of the compact support subgroup.)
 
 *Needs:* [Openness of a compact subgroup annihilator](#open-annihilator); [Frequency periods from support containment](#frequency-periods); Mathlib `IsLocallyConstant.iff_exists_open`.
 
@@ -427,7 +487,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. Addition on V is measurable and `μ` is invariant under right addition. W is a Hausdorff topological space; `U⊥` is compact. This compactness is an explicit input, not inferred from openness of U.
 
-(Source: [Kudla](#ref-kudla2004), p.122, Fourier transforms of Schwartz–Bruhat functions.)
+**Checks.**
+
+- Finite-place open lattices have compact annihilators under the supplied local duality.
+- For f zero the transform has empty compact support.
+- For U zero over a noncompact dual the annihilator is W, so the compactness hypothesis fails.
+
+(Source: Mathlib `HasCompactSupport`, `tsupport` and `VectorFourier.fourierIntegral`; the Fourier-support containment and closed compact annihilator give the result.)
 
 *Needs:* [Fourier support lies in the period annihilator](#fourier-support); Mathlib `HasCompactMulSupport.of_mulSupport_subset_isCompact`.
 
@@ -438,7 +504,13 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. Addition on V is measurable and `μ` is invariant under right addition. W has measurable addition and `ν` is right-translation invariant. U,A are measurable. The double-annihilator equality and the volume-product equality are supplied explicitly.
 
-(Source: [Kudla](#ref-kudla2004), p.122, self-dual measure and Fourier inversion.)
+**Checks.**
+
+- For the unramified lattice O both unit-volume transforms fix its indicator.
+- For `U=P^m` the dual lattice and reciprocal volumes cancel.
+- Rescaling only one measure leaves an uncancelled scalar and violates the volume-product hypothesis.
+
+(Source: Mathlib `VectorFourier.fourierIntegral`; applying the indicator formula twice with the stated double-annihilator and volume hypotheses.)
 
 *Needs:* [Fourier transform of a subgroup indicator](#indicator-transform); Mathlib `VectorFourier.fourierIntegral_const_smul`; Mathlib `LinearMap.flip`.
 
@@ -473,7 +545,7 @@ Use the following specializations of the supplied API.
 - `ψ_C(i)=1` although `i≠0`; nontriviality does not mean an injective character.
 - At diagonal `1/3∈ℚ`, the real phase `exp(2πi/3)` cancels the `3`-adic phase `exp(−2πi/3)`. Giving both phases the positive sign fails diagonal triviality.
 
-(Source: [Kudla](#ref-kudla2004), §3, Proposition 3.8 and (3.30), p.124; §4, p.127, global character.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Global inputs**, standard trace characters; definitions and conventions in [Kudla](#ref-kudla2004), §3 (3.30), p.124 and §4, p.127.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, scalar character/duality prefix; [Annihilator for a bilinear character pairing](#pairing-annihilator); Mathlib `AddChar.compAddMonoidHom`.
 
@@ -490,7 +562,7 @@ Work under the following hypotheses. Nonarchimedean completion of a number field
 - At a ramified completion with `d_v>0`, `O_v⊥=P_v^(−d_v)`, which strictly contains `O_v`.
 - For arbitrary integer m, applying `m↦−m−d_v` twice returns m, including for negative m.
 
-(Source: [Tate](#ref-tate1950), §2.2, Lemma2.2.3, physical p.10.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Global inputs**, trace duality and the inverse different; comparison with the character annihilator above.)
 
 *Needs:* [The standard additive character](#standard-additive-character); [Annihilator for a bilinear character pairing](#pairing-annihilator); Tau Ceti **LocalFieldsRamification**, layer 3 ramification the tame and wild cases and the filtration.
 
@@ -514,7 +586,7 @@ Require the following API.
 - For `|a|=q^(−1)`, the new Haar is `q^(−1/2)μ`, not `q^(−1)μ`.
 - The complex trace pairing needs2 dxdy, not dxdy.
 
-(Source: [Kudla](#ref-kudla2004), §3, Fourier inversion and (3.29)–(3.30), pp.122–124.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Global inputs**, self-dual measures and character scaling; the fractional-ideal annihilator and indicator inversion give the volume product.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, scalar self-dual measure; [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator); [Fourier inversion for a subgroup indicator](#indicator-inversion); **AdelicAlgebraicGroups**, §0.1, Borel structure and local normalization; Mathlib `fourierIntegral_gaussian`.
 
@@ -539,7 +611,7 @@ its comparison with `LocalFourier.pairingAnnihilator` is specified below.
 - Over the two-element field: Over `F₂` with the nontrivial character, the map identifies the two elements with the two characters.
 - For the trivial character: For trivial `ψ` the map is constant and cannot be a duality isomorphism.
 
-(Source: [Tate](#ref-tate1950), §2.2, Theorem 2.2.1, physical p.10.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Global inputs**, scalar local additive duality; Mathlib `PontryaginDual`.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, local additive self-duality; Mathlib `PontryaginDual`; Mathlib `AddChar`; Mathlib `ContinuousMonoidHom`; [The standard additive character](#standard-additive-character).
 
@@ -556,7 +628,7 @@ Work under the following hypotheses. F is a number-field completion in AL.0’s 
 - For `U=F` and nontrivial `ψ`, both descriptions give `{0}`: a nonzero y has `yF=F`.
 - For `F=ℝ`, the standard character and `U=ℤ·1` give the annihilator `ℤ·1`, which is not a real subspace.
 
-(Source: [Tate](#ref-tate1950), §2.2, Theorem2.2.1, physical p.10.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Global inputs**, scalar local additive duality; comparison by evaluating the supplied pairing.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, local additive self-duality; [The additive local-field duality map](#additive-duality-map); [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator).
 
@@ -583,7 +655,7 @@ Require the following API.
 - `SchwartzBruhat.LocalSpace.delta_invariant`: `r′(a)δ₀ = δ₀` for all `a ∈ F^×`.
 - The constant function 1 on F is not in `S(F)`: its support is not compact (finite place) and it does not decay `(ℝ)`.
 
-(Source: [Kudla](#ref-kudla2004), §3, printed p. 115 (physical p. 7).)
+(Source: Mathlib `SchwartzMap`, `TemperedDistribution` and continuous duals; SmoothRepresentationsOfLocalGroups SR.1.1, locally constant compactly supported functions.)
 
 *Needs:* **SmoothRepresentationsOfLocalGroups**, SR.1; Mathlib `SchwartzMap`; Mathlib `TemperedDistribution`; Mathlib `TemperedDistribution.delta`; [Local constancy of the Fourier transform](#locally-constant-transform).
 
@@ -594,7 +666,13 @@ Require the following API.
 
 Work under the following hypotheses. Import SR.1’s generic carrier; the ambient group is an actual local field, not an arbitrary LCA group.
 
-(Source: [Kudla](#ref-kudla2004), §3, p.115, finite Schwartz description.)
+**Checks.**
+
+- The indicator of O has O as a period subgroup.
+- The indicator of `P^m` is invariant under `P^m`.
+- A nonzero constant function on a noncompact local field is locally constant but has no compact support lattice.
+
+(Source: SmoothRepresentationsOfLocalGroups SR.1.1 and compactness; a finite cover by constancy cosets supplies a common open period subgroup.)
 
 *Needs:* [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); [Fourier transform of a coset indicator](#coset-transform); [The trace annihilator of a fractional ideal](#fractional-ideal-annihilator).
 
@@ -605,7 +683,13 @@ Work under the following hypotheses. Import SR.1’s generic carrier; the ambien
 
 Work under the following hypotheses. Every function has a finite coset decomposition; the actual integrals are integrable.
 
-(Source: [Kudla](#ref-kudla2004), §3, p.122, Fourier inversion.)
+**Checks.**
+
+- The zero finite quotient gives the identity transform.
+- On the two-element quotient the constant vector transforms to a multiple of the zero-frequency indicator.
+- On a cyclic quotient of odd order the double same-sign transform reflects a delta at a nonzero element.
+
+(Source: Mathlib `ZMod.dft` and finite character orthogonality, applied to the finite quotient determined by a support lattice and a period lattice.)
 
 *Needs:* [Finite-place Schwartz levels](#finite-schwartz-period-level); [Self-dual local additive Haar measure](#self-dual-haar); [Fourier inversion for a subgroup indicator](#indicator-inversion); [Fourier transform of a coset indicator](#coset-transform).
 
@@ -616,7 +700,15 @@ Work under the following hypotheses. Every function has a finite coset decomposi
 
 Work under the following hypotheses. The complex absolute value for Tate is|z|²; the native Euclidean norm remains|z|. The trace pairing differs from the Hermitian inner product.
 
-(Source: [Kudla](#ref-kudla2004), §3, pp.122–123, archimedean Fourier normalization.)
+**Checks.**
+
+- The real Gaussian `exp(−πx²)` is fixed by the positive transform.
+- The complex trace Gaussian `exp(−2π
+- z
+- ²)` is fixed with measure `2 dxdy`.
+- Using only dxdy over ℂ halves its transformed value and fails the normalization.
+
+(Source: Mathlib `SchwartzMap.fourierTransformCLM`, `fourierIntegral_gaussian` and Fourier inversion; the real-linear trace pairing and its Jacobian give the complex comparison.)
 
 *Needs:* Mathlib `SchwartzMap.fourierTransformCLM`; Mathlib `fourierIntegral_gaussian`; [Self-dual local additive Haar measure](#self-dual-haar).
 
@@ -633,7 +725,7 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 - At `F=ℂ`, the standard trace character and `2 dxdy` fix `exp(−2π|z|²)` under the positive transform.
 - For `β=ϖ` at a finite place, the character change gives `q^(−1/2)r(ϖ)f̂`; the factor is the square root of the additive Jacobian.
 
-(Source: [Kudla](#ref-kudla2004), §3, "Fourier transforms", printed p. 122 (physical p. 14), and character scaling, pp.123–124.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Global inputs**, scalar self-duality; the finite Fourier-level comparison and Mathlib Schwartz inversion give the local-factor adapter. Definition and sign convention: [Kudla](#ref-kudla2004), §3, Fourier transforms, p.122.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, scalar duality and self-dual measure; [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); [Fourier transform of a subgroup indicator](#indicator-transform); [Fourier transform of a coset indicator](#coset-transform); [Fourier inversion for a subgroup indicator](#indicator-inversion); Mathlib `SchwartzMap.fourierTransformCLM`; Mathlib `fourierIntegral_gaussian`; Mathlib `Real.fourierChar`; [Finite-place Schwartz Fourier inversion](#finite-fourier-inversion); [Archimedean Schwartz Fourier comparison](#archimedean-fourier-comparison); [Self-dual local additive Haar measure](#self-dual-haar); [Self-duality of a local additive group](#local-additive-self-duality).
 
@@ -642,9 +734,17 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 
 **Tempered distributions supported at a point.** Let `E = ℝⁿ`. A tempered distribution `λ ∈ 𝓢′(E, ℂ)` with `dsupport λ ⊆ {0}` is a finite linear combination `Σ_{|α|≤N} c_α ∂^αδ₀`. For `n = 1 (F = ℝ)` the `F^×`-finite ones are `⊕_k ℂ·D^kδ₀`; for `n = 2` written in `x, x̄ (F = ℂ)` they are `⊕_{k,l} ℂ·D^kD̄^lδ₀, D = ∂/∂x, D̄ = ∂/∂x̄`.
 
+`AL0.pointSupported_finiteJet` states the equivalent vanishing-jet property in every finite real dimension: each point-supported tempered distribution vanishes on all Schwartz functions whose derivatives through some finite order vanish at zero.
+
 Work under the following hypotheses. `E = ℝⁿ` with Mathlib's `𝓢(E, ℂ), 𝓢′(E, ℂ) = TemperedDistribution` and dsupport.
 
-(Source: [Kudla](#ref-kudla2004), §3, Lemma 3.3 (ii)–(iii) and footnote 8, printed pp. 116–117 (physical pp. 8–9).)
+**Checks.**
+
+- Evaluation at zero depends only on the zeroth jet.
+- The first derivative of evaluation depends on the first jet and is not a multiple of evaluation.
+- Empty distributional support forces the zero distribution, which satisfies the finite-jet property.
+
+(Source: Mathlib `Distribution.dsupport` and `SchwartzMap` seminorms; a shrinking cutoff and finite Taylor expansion give the finite-jet factorization, and its dual gives the derivatives of evaluation.)
 
 *Needs:* [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); Mathlib `TemperedDistribution`; Mathlib `TemperedDistribution.delta`; Mathlib `Distribution.dsupport`; Mathlib `SchwartzMap`.
 
@@ -748,7 +848,7 @@ Require the following API.
 
 - `AL0.BesselK.integral`: For `c>0`, the half-integral converges absolutely and the adapter equals the supplied cosh integral.
 - `AL0.BesselK.even`: Transport the supplied symmetry to the adapter: `K_{−ν}(c)=K_ν(c)`.
-- `AL0.BesselK.entire_order`: `ν↦K_ν(c)` is entire; its j-th derivative inserts `(log u)^j` in the half-integral.
+- `AL0.BesselK.entire_order`: `ν↦K_ν(c)` is entire; the signature `AL0.BesselK.order_deriv` inserts `(log u)^j` for its j-th derivative in the half-integral.
 - `AL0.BesselK.half`: Transport the supplied half-order value: `K_{1/2}(c)=sqrt(π/(2c)) exp(−c)`.
 
 **Checks.**
@@ -770,7 +870,7 @@ Require the following API.
 Work under the following hypotheses. `c>0`; both integrals use real Lebesgue measure.
 
 The light real-valued function `AL0.negativeEi(r)` has domain `ℝ` and body
-`−∫_{t>r}exp(−t)/t dt`; the public analytic statements require `r>0`. Its API gives
+`−∫_{t>r}exp(−t)/t dt`; the public analytic statements require `r>0`. Its API `AL0.negativeEi.neg`, `AL0.negativeEi.hasDerivAt` and `AL0.negativeEi.tendsto` gives
 negativity for `r>0`, derivative `exp(−r)/r` and the limit zero as `r→∞`.
 
 **Checks.**
@@ -818,7 +918,7 @@ It includes every unitary idele-class character, norm twists, residues and the H
 
 <a id="local-quasicharacter-conductor"></a>
 
-**Local quasi-characters, unramified characters and the conductor exponent.** A quasi-character of `F^×` is a continuous homomorphism `ω` : `F^× → ℂ^×`; it is a character if `|ω| = 1`. There is a unique real `σ` (the exponent) with `|ω(x)| = |x|^σ`, so `ω = ω_u·ω_σ` with `ω_u` a character. For F nonarchimedean, `ω` is unramified if `ω` is trivial on `O^×`; the unramified quasi-characters are exactly `x ↦ t^{ord x} = |x|^s` with `t = q^{−s} ∈ ℂ^×, s` determined modulo `2πi/log q` (Tate Lemma 2.3.1). For ramified `ω` the conductor exponent `c(ω)` is the smallest integer `c ≥ 1` with `ω` trivial on `1 + P^c`; put `c(ω) = 0` for unramified `ω`. For `F = ℝ` every quasi-character is `ωω_s` with `ω(x) = x^{−a}, a ∈ {0, 1}` (Kudla (3.18)); for `F = ℂ it` is `ωω_s` with `ω(x) = x^{−a}x̄^{−b}, a, b ∈ ℤ, min(a, b) = 0` (Kudla (3.20)). Use the attained `ClassFieldTheory.characterConductorExp` supplied by **ClassFieldTheory**, layer 7, as this integer; its arithmetic construction is supplied there.
+**Local quasi-characters, unramified characters and the conductor exponent.** A quasi-character of `F^×` is a continuous homomorphism `ω` : `F^× → ℂ^×`; it is a character if `|ω| = 1`. There is a unique real `σ` (the exponent) with `|ω(x)| = |x|^σ`, so `ω = ω_u·ω_σ` with `ω_u` a character. For F nonarchimedean, `ω` is unramified if `ω` is trivial on `O^×`; the unramified quasi-characters are exactly `x ↦ t^{ord x} = |x|^s` with `t = q^{−s} ∈ ℂ^×, s` determined modulo `2πi/log q`. For ramified `ω` the conductor exponent `c(ω)` is the smallest integer `c ≥ 1` with `ω` trivial on `1 + P^c`; put `c(ω) = 0` for unramified `ω`. For `F = ℝ` every quasi-character is `ωω_s` with `ω(x) = x^{−a}, a ∈ {0, 1}` (Kudla (3.18)); for `F = ℂ it` is `ωω_s` with `ω(x) = x^{−a}x̄^{−b}, a, b ∈ ℤ, min(a, b) = 0` (Kudla (3.20)). Use the attained `ClassFieldTheory.characterConductorExp` supplied by **ClassFieldTheory**, layer 7, as this integer; its arithmetic construction is supplied there.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. The archimedean normal forms are Kudla's (after Weil); they differ from the common `sgn^a` normalisation: `sgn(x) = x^{−1}|x|`, so `sgn = x^{−1}·ω_1`.
 
@@ -845,14 +945,14 @@ The norm-power construction has intended signature: a positive continuous homomo
 Here a is the normalized local absolute value in the arithmetic specialization.
 
 
-(Source: [Kudla](#ref-kudla2004), §3, "The ramified local theory", printed p. 120 (physical p. 12); [Kudla](#ref-kudla2004), §3, "The archimedean case", printed p. 121 (physical p. 13).)
+(Source: ClassFieldTheory layer 7, `characterConductorExp` and `unitFiltration_characterConductorExp_le_ker`; norm characters are trivial on the unit filtration.)
 
 *Needs:* Mathlib `ContinuousMonoidHom`; [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); Tau Ceti **ClassFieldTheory**, layer 7 the absolute local artin map its normalizations and conductors; Tau Ceti **GlobalNumberFields**, layer 0 places completions and the product formula; Tau Ceti **GlobalNumberFields**, layer 10 archimedean characters infinity types and cyclotomic arithmetic.
 
 
 <a id="local-zeta-integral"></a>
 
-**The local Tate zeta integral `z(s, ω; f)`.** For a character `ω` of `F^×, s ∈ ℂ` with `Re s > 0` and `f ∈ S(F), z(s, ω; f) = ∫_{F^×} f(x)ω(x)|x|^s d^×x` converges absolutely (Kudla (3.3)); `s ↦ z(s, ω; f)` is holomorphic on `Re s > 0` (Tate Lemma 2.4.1, differentiation under the integral), and `f ↦ z(s, ω; f)` is a nonzero element `z(s, ω) ∈ S′(ωω_s)`. In Tate's notation, `ζ(f, c) = ∫ f(α)c(α)d^×α` for quasi-characters c of exponent `> 0`, and `z(s, ω; f) = ζ(f, ωω_s)`. The integral satisfies `z(s, ωω_t; f) = z(s + t, ω; f)` and `z(s, ω; r(a)f) = (ωω_s)(a)^{−1}z(s, ω; f)`.
+**The local Tate zeta integral `z(s, ω; f)`.** For a character `ω` of `F^×, s ∈ ℂ` with `Re s > 0` and `f ∈ S(F), z(s, ω; f) = ∫_{F^×} f(x)ω(x)|x|^s d^×x` converges absolutely (Kudla (3.3)); `s ↦ z(s, ω; f)` is holomorphic on `Re s > 0`, and `f ↦ z(s, ω; f)` is a nonzero element `z(s, ω) ∈ S′(ωω_s)`. In Tate's notation, `ζ(f, c) = ∫ f(α)c(α)d^×α` for quasi-characters c of exponent `> 0`, and `z(s, ω; f) = ζ(f, ωω_s)`. The integral satisfies `z(s, ωω_t; f) = z(s + t, ω; f)` and `z(s, ω; r(a)f) = (ωω_s)(a)^{−1}z(s, ω; f)`.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. Measures as in Kudla: at a finite place `d^×x` gives `O^×` volume 1; at `ℝ` and `ℂ, d^×x = |x|^{−1}dx` with dx Lebesgue (resp. twice Lebesgue) measure. Tate instead gives `O^×` the volume `N𝔡^{−1/2}`. Rescaling `d^×x` by `c>0` rescales z and `z₀=z/L` by c, since L is fixed. It leaves `ε` and `γ` unchanged when both sides use the same rescaling and the additive Fourier measure is fixed. A standard test vector with z₀-value1 must then be rescaled by `c^(−1)`. `ω` unitary; the quasi-character case is the twist `ω_t`.
 
@@ -882,14 +982,14 @@ the displayed integral as value. At infinity the target also proves continuity f
 Schwartz topology. Integrability is an explicit input to this linear construction.
 
 
-(Source: [Kudla](#ref-kudla2004), §3, "Zeta integrals", printed p. 117 (physical p. 9); [Tate](#ref-tate1950), §2.4, physical pp. 16–17, Definition 2.4.1 and Lemma 2.4.1.)
+(Source: [Humphries, archimedean newforms](#ref-humphriesarch), §2.3.2 (2.3), pp.5–6, specialized to rank one. Integral definition and measure convention only: [Tate](#ref-tate1950), §2.4, Definition 2.4.1, physical p.16; [Kudla](#ref-kudla2004), §3, Zeta integrals, p.117.)
 
 *Needs:* [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor); [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); **AdelicAlgebraicGroups**, AA.0; Mathlib `Complex.Gammaℝ`; Mathlib `Complex.Gammaℂ`; Mathlib `Complex.integral_cpow_mul_exp_neg_mul_Ioi`; Mathlib `mellin`.
 
 
 <a id="eigendistribution-space"></a>
 
-**The spaces `S′(ω)` of `ω`-eigendistributions.** For a quasi-character `ω` of `F^×, S′(ω) = {λ ∈ S(F)′ : r′(a)λ = ω(a)λ for all a ∈ F^×}` (Kudla Definition 3.1). Restriction along `C_c^∞(F^×) ⊂ S(F)` gives an exact sequence `0 → S′(ω)₀ → S′(ω) → C_c^∞(F^×)′(ω)` (3.2), where `S′(ω)₀` is the space of `ω`-eigendistributions supported at 0 (vanishing on `C_c^∞(F^×)`); here `C_c^∞(F^×)` means locally constant compactly supported functions at a finite place.
+**The spaces `S′(ω)` of `ω`-eigendistributions.** For a quasi-character `ω` of `F^×, S′(ω) = {λ ∈ S(F)′ : r′(a)λ = ω(a)λ for all a ∈ F^×}` . Restriction along `C_c^∞(F^×) ⊂ S(F)` gives an exact sequence `0 → S′(ω)₀ → S′(ω) → C_c^∞(F^×)′(ω)` (3.2), where `S′(ω)₀` is the space of `ω`-eigendistributions supported at 0 (vanishing on `C_c^∞(F^×)`); here `C_c^∞(F^×)` means locally constant compactly supported functions at a finite place.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. At `ℝ, ℂ, C_c^∞(F^×) ⊂ 𝓢(F, ℂ)` consists of smooth functions with compact support in `F^×`.
 
@@ -913,32 +1013,53 @@ For the algebraic specialization, the intended signature takes a group action
 cut out by `ℓ(ρ(a⁻¹)v)=ω(a)ℓ(v)` for every a,v. Given `U⊆V`, the intended
 `TateZeta.eigenSpaceZero` is its intersection with the annihilator of U.
 For the local analytic statement U is the punctured compactly supported test space;
-the archimedean version uses the continuous dual.
+the archimedean version uses the continuous dual. On a native real or complex
+field F, `TateZeta.archimedeanEigenSpace` is the submodule of
+`TemperedDistribution F ℂ` satisfying `T(f∘e_a)=χ(a)T(f)`, where
+`e_a : F ≃L[ℝ] F` is inverse scalar multiplication and χ is a continuous
+quasi-character of `Fˣ`. Its membership theorem
+`TateZeta.archimedeanEigenSpace.mem` exposes this condition and
+`TateZeta.archimedeanEigenSpace.delta_mem` places evaluation at zero in the
+trivial eigenline. The dimension theorem
+`TateZeta.archimedeanEigenSpace.finrank` requires explicitly
+`e_a(x)=a⁻¹x` and states that every such eigenline has complex dimension one.
 
 
-(Source: [Kudla](#ref-kudla2004), §3, Definition 3.1, printed p. 115 (physical p. 7).)
+(Source: Mathlib continuous linear duals and `Submodule`; the eigencondition defines a linear subspace, and restriction has kernel the annihilator of the punctured test space.)
 
 *Needs:* [The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions](#local-schwartz-bruhat-space); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor).
 
 
 <a id="restriction-to-punctured-line"></a>
 
-**Eigendistributions on `C_c^∞(F^×)` are multiples of `ω(x)d^×x` (Lemma 3.2).** The space `C_c^∞(F^×)′(ω)` of `ω`-eigendistributions on `C_c^∞(F^×)` is one-dimensional, spanned by `ω(x)d^×x`. Hence for `λ ∈ S′(ω)` there is `c ∈ ℂ` with `⟨λ, f⟩ = c∫_{F^×} f(x)ω(x)d^×x` for all f with compact support in `F^×`.
+**Eigendistributions on `C_c^∞(F^×)` are multiples of `ω(x)d^×x`.** The space `C_c^∞(F^×)′(ω)` of `ω`-eigendistributions on `C_c^∞(F^×)` is one-dimensional, spanned by `ω(x)d^×x`. Hence for `λ ∈ S′(ω)` there is `c ∈ ℂ` with `⟨λ, f⟩ = c∫_{F^×} f(x)ω(x)d^×x` for all f with compact support in `F^×`.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`.
 
-(Source: [Kudla](#ref-kudla2004), §3, Lemma 3.2, printed p. 116 (physical p. 8).)
+**Checks.**
+
+- The trivial character gives multiplicative Haar integration on punctured tests.
+- Rescaling multiplicative Haar measure changes the generator but preserves its line.
+- Evaluation at zero restricts to zero, so restriction on the full Schwartz dual is not injective.
+
+(Source: Mathlib `MeasureTheory.Measure.IsHaarMeasure` and uniqueness of invariant Haar functionals; multiplication by the character identifies the eigencondition with invariance on the multiplicative group.)
 
 *Needs:* [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); Mathlib `MeasureTheory.Measure.IsHaarMeasure`.
 
 
 <a id="eigendistributions-supported-at-zero"></a>
 
-**Eigendistributions supported at 0 (Lemma 3.3).** (i) F nonarchimedean: the distributions supported at 0 are `ℂ·δ₀`, and `δ₀ ∈ S′(ω₀)` for the trivial `ω₀`; `S′(ω)₀ = 0` for `ω ≠ ω₀`. (ii) `F = ℝ, D = d/dx`: the `F^×`-finite distributions supported at 0 are `⊕_{k≥0} ℂ·D^kδ₀`, and `S′(ω)₀ = ℂ·D^kδ₀` if `ω(x) = x^{−k}, 0` otherwise. (iii) `F = ℂ, D = ∂/∂x, D̄ = ∂/∂x̄`: they are `⊕_{k,l≥0} ℂ·D^kD̄^lδ₀`, and `S′(ω)₀ = ℂ·D^kD̄^lδ₀` if `ω(x) = x^{−k}x̄^{−l}, 0` otherwise.
+**Eigendistributions supported at 0.** (i) F nonarchimedean: the distributions supported at 0 are `ℂ·δ₀`, and `δ₀ ∈ S′(ω₀)` for the trivial `ω₀`; `S′(ω)₀ = 0` for `ω ≠ ω₀`. (ii) `F = ℝ, D = d/dx`: the `F^×`-finite distributions supported at 0 are `⊕_{k≥0} ℂ·D^kδ₀`, and `S′(ω)₀ = ℂ·D^kδ₀` if `ω(x) = x^{−k}, 0` otherwise. (iii) `F = ℂ, D = ∂/∂x, D̄ = ∂/∂x̄`: they are `⊕_{k,l≥0} ℂ·D^kD̄^lδ₀`, and `S′(ω)₀ = ℂ·D^kD̄^lδ₀` if `ω(x) = x^{−k}x̄^{−l}, 0` otherwise.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. In (ii), (iii) only `F^×`-finite distributions are classified (Kudla footnote 8).
 
-(Source: [Kudla](#ref-kudla2004), §3, Lemma 3.3, printed pp. 116–117 (physical pp. 8–9).)
+**Checks.**
+
+- At a finite place evaluation at zero has trivial eigencharacter.
+- Over ℝ its first derivative has inverse scalar character `a↦a⁻¹`.
+- Over ℂ the holomorphic and antiholomorphic first jets have distinct characters on nonreal scalars.
+
+(Source: The point-supported finite-jet theorem above; scalar pullback acts diagonally on Taylor monomials, giving the stated inverse monomial characters on their dual jets.)
 
 *Needs:* [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Tempered distributions supported at a point](#point-supported-distributions).
 
@@ -958,7 +1079,7 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 - For `ν=1`, Tate's integral of the unscaled `1_O` is `q^(−1/2)L(s,ω)`; the vector `q^(1/2)1_O` has normalized value 1. Dropping this scaling loses the different.
 - For `ω=1` at `s=0`, the unnormalized distribution has a pole, while `z₀(0,1)=δ₀` with Kudla's measure and still evaluates to 1 on `1_O`.
 
-(Source: [Kudla](#ref-kudla2004), §3, "The unramified local theory", printed pp. 118–119 (physical pp. 10–11), (3.4)–(3.9); [Kudla](#ref-kudla2004), §3, printed p. 119 (physical p. 11).)
+(Source: ArithmeticGaloisRepresentations §2.7, **Standard-test-function evaluations**; summing valuation shells gives the geometric denominator, and the difference operator removes the tail near zero.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, `finiteStandardEvaluation`; [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); Mathlib `tsum_geometric_of_norm_lt_one`.
 
@@ -969,9 +1090,15 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. `f^o = 1_O`; the matrix (3.14) is written in the ordered basis `(δ₀, λ₀)`.
 
-(Source: [Kudla](#ref-kudla2004), §3, Example, printed pp. 119–120 (physical pp. 11–12), (3.10)–(3.14).)
+**Checks.**
 
-*Needs:* [Eigendistributions supported at 0 (Lemma 3.3)](#eigendistributions-supported-at-zero); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x (Lemma 3.2)](#restriction-to-punctured-line); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory).
+- Evaluation at zero is fixed by the unipotent matrix.
+- The regularized Haar lift changes by minus evaluation under a uniformizer.
+- Inverting the uniformizer changes the off-diagonal entry to plus one, distinguishing the extension from two trivial lines.
+
+(Source: The punctured Haar-functional and point-support classifications above; translating the regularized shell sum by a uniformizer gives the displayed nontrivial unipotent extension.)
+
+*Needs:* [Eigendistributions supported at 0](#eigendistributions-supported-at-zero); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x](#restriction-to-punctured-line); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory).
 
 
 <a id="ramified-local-theory"></a>
@@ -986,14 +1113,14 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 - Over `ℚ₃`, the quadratic unit character with `ω(3)=1` and the standard negative finite additive character has `c=1, ν=0` and Fourier-transformed standard vector supported on `3⁻¹ℤ₃×`, with central epsilon `−i`. The original vector is supported on `ℤ₃×`.
 - For `f=1_(P^n)`, unit-character orthogonality makes the continued distribution value zero for every s; for the standard vector it is 1. Thus the family is nonzero without a pole or a nonzero value on every test vector.
 
-(Source: [Kudla](#ref-kudla2004), §3, "The ramified local theory", printed p. 120 (physical p. 12).)
+(Source: ArithmeticGaloisRepresentations §2.7, **Standard-test-function evaluations**; unit-character orthogonality cancels the sufficiently small shells, making the remaining sum entire.)
 
-*Needs:* **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, `finiteStandardEvaluation`; [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x (Lemma 3.2)](#restriction-to-punctured-line); [Eigendistributions supported at 0 (Lemma 3.3)](#eigendistributions-supported-at-zero); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, `finiteStandardEvaluation`; [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x](#restriction-to-punctured-line); [Eigendistributions supported at 0](#eigendistributions-supported-at-zero); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor).
 
 
 <a id="archimedean-local-theory"></a>
 
-**Archimedean local theory: `Γ`-factors and the standard functions (Proposition 3.5).** Consume ArithmeticGaloisRepresentations §2.7, [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations), `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`, for the scalar integrals and Fourier transforms of the standard functions. In Kudla's real normal form `ω(x)=x^(−a)`, `a∈{0,1}`, the supplier's norm exponent is `t=−a`, giving `L(s,ω)=Γ_ℝ(s)` and `f^o=x^a exp(−πx²)` (3.19). In his complex normal form `ω(z)=z^(−a)z̄^(−b)`, `a,b∈ℕ, min(a,b)=0`, the supplier's angular weight is `k=b−a` and norm exponent is `t=−(a+b)/2`, giving `L(s,ω)=πΓ_ℂ(s)` and `f^o=z^a z̄^b exp(−2πzz̄)` (3.21). Tate and Kudla use the same archimedean measures `dx/|x|` and `2 dx dy/|z|_ℂ`; Kudla's complex vector and factor are π times the supplied vector and canonical factor, so `z₀,Kudla=π⁻¹z₀,canonical`. Thus `⟨z₀(s,ω),f^o⟩=1` is the supplied scalar evaluation in these normalizations.
+**Archimedean local theory: `Γ`-factors and the standard functions.** Consume ArithmeticGaloisRepresentations §2.7, [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations), `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`, for the scalar integrals and Fourier transforms of the standard functions. In Kudla's real normal form `ω(x)=x^(−a)`, `a∈{0,1}`, the supplier's norm exponent is `t=−a`, giving `L(s,ω)=Γ_ℝ(s)` and `f^o=x^a exp(−πx²)` (3.19). In his complex normal form `ω(z)=z^(−a)z̄^(−b)`, `a,b∈ℕ, min(a,b)=0`, the supplier's angular weight is `k=b−a` and norm exponent is `t=−(a+b)/2`, giving `L(s,ω)=πΓ_ℂ(s)` and `f^o=z^a z̄^b exp(−2πzz̄)` (3.21). Tate and Kudla use the same archimedean measures `dx/|x|` and `2 dx dy/|z|_ℂ`; Kudla's complex vector and factor are π times the supplied vector and canonical factor, so `z₀,Kudla=π⁻¹z₀,canonical`. Thus `⟨z₀(s,ω),f^o⟩=1` is the supplied scalar evaluation in these normalizations.
 
 Prove that `z₀(s,ω):=L(s,ω)⁻¹z(s,ω)` extends to an entire distribution family and is a basis vector of `S′(ωω_s)` for every s. Prove that `z(s,ω)` has simple distribution poles exactly at the poles of L: over `ℝ` at `s=−r`, `r∈2ℤ_{≥0}`, with residue a nonzero multiple of `D^(a+r)δ₀`; over `ℂ` at `s=−r`, `r∈ℤ_{≥0}`, with residue a nonzero multiple of `D^(a+r)D̄^(b+r)δ₀`. At a pole the constant Laurent coefficient extends `ωω_(−r)(x)d^×x` to `S(F)` but is not an element of `S′(ωω_(−r))`.
 
@@ -1006,31 +1133,43 @@ Work under the following hypotheses. F is `ℝ` with its usual absolute value or
 - Over `ℂ`, angular weight `k=1` uses `a=0,b=1` and `t=−1/2`; replacing the supplied `π⁻¹z̄ exp(−2πzz̄)` by `π⁻¹z exp(−2πzz̄)` makes its integral zero by angular integration.
 - Over `ℝ`, a Schwartz function nonzero at 0 in the `a=1` normal form requires `Re(s)>1` for absolute convergence; the supplied special function's cancellation does not give a distribution integral on all inputs in `Re(s)>0`.
 
-(Source: [Kudla](#ref-kudla2004), §3, "The archimedean case", Proposition 3.5 and (3.22), printed pp. 121–122 (physical pp. 13–14); [Tate](#ref-tate1950), §2.5, "k real" and "k complex", physical pp. 20–23.)
+(Source: [Humphries, archimedean newforms](#ref-humphriesarch), §§2.3.2 and 2.4.2–2.4.3, pp.5–7, rank-one factors; ArithmeticGaloisRepresentations §2.7, **Standard-test-function evaluations**. Subtracting Taylor jets near zero gives the distribution continuation and residues.)
 
-*Needs:* **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x (Lemma 3.2)](#restriction-to-punctured-line); [Eigendistributions supported at 0 (Lemma 3.3)](#eigendistributions-supported-at-zero); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor); Mathlib `Complex.Gammaℝ`; Mathlib `Complex.Gammaℂ`; Mathlib `Complex.Gammaℝ_mul_Gammaℝ_add_one`; [Tempered distributions supported at a point](#point-supported-distributions); [Domination for Schwartz parameter integrals](#schwartz-parameter-domination).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x](#restriction-to-punctured-line); [Eigendistributions supported at 0](#eigendistributions-supported-at-zero); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor); Mathlib `Complex.Gammaℝ`; Mathlib `Complex.Gammaℂ`; Mathlib `Complex.Gammaℝ_mul_Gammaℝ_add_one`; [Tempered distributions supported at a point](#point-supported-distributions); [Domination for Schwartz parameter integrals](#schwartz-parameter-domination).
 
 
 <a id="local-uniqueness-theorem"></a>
 
-**Local uniqueness: `dim S′(ω) = 1` (Theorem 3.4).** For every quasi-character `ω` of `F^×`, the space `S′(ω)` of `ω`-eigendistributions on `S(F)` is one-dimensional. Writing `ω = ω′ω_s` with `ω′` a character (or an archimedean normal form), it is spanned by `z₀(s, ω′)`.
+**Local uniqueness: `dim S′(ω) = 1`.** For every quasi-character `ω` of `F^×`, the space `S′(ω)` of `ω`-eigendistributions on `S(F)` is one-dimensional. Writing `ω = ω′ω_s` with `ω′` a character (or an archimedean normal form), it is spanned by `z₀(s, ω′)`.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`.
 
-(Source: [Kudla](#ref-kudla2004), §3, Theorem 3.4, printed p. 117 (physical p. 9); [Kudla](#ref-kudla2004), §3, printed p. 120 (physical p. 12).)
+**Checks.**
 
-*Needs:* [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x (Lemma 3.2)](#restriction-to-punctured-line); [Eigendistributions supported at 0 (Lemma 3.3)](#eigendistributions-supported-at-zero); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [The invariant distributions: S′(ω₀) is one-dimensional](#invariant-distributions-exceptional-case); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory).
+- At a finite place the trivial eigenline is evaluation at zero.
+- For the real character `a↦a⁻¹`, the resonant eigenline is the first derivative of evaluation.
+- The regularized punctured Haar lift at a resonant character has a nonzero scaling defect and gives no second eigenvector.
+
+(Source: The punctured eigenline, point-supported jet classification and exceptional extension above; the normalized local families supply a nonzero line, and the extension obstruction excludes a second eigenvector at a resonant character.)
+
+*Needs:* [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Eigendistributions on `C_c^∞(F^×)` are multiples of ω(x)d^×x](#restriction-to-punctured-line); [Eigendistributions supported at 0](#eigendistributions-supported-at-zero); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [The invariant distributions: S′(ω₀) is one-dimensional](#invariant-distributions-exceptional-case); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory).
 
 
 <a id="fourier-transform-eigendistribution"></a>
 
-**The Fourier transform of an `ω`-eigendistribution (Lemma 3.6).** If `λ ∈ S′(ω)`, then `λ̂ ∈ S′(ω^{−1}ω₁)`, where `ω₁(x) = |x|` and `⟨λ̂, f⟩ = ⟨λ, f̂⟩`. Consequently `ẑ₀(s, ω)` is a multiple of `z₀(1 − s, ω^{−1})`.
+**The Fourier transform of an `ω`-eigendistribution.** If `λ ∈ S′(ω)`, then `λ̂ ∈ S′(ω^{−1}ω₁)`, where `ω₁(x) = |x|` and `⟨λ̂, f⟩ = ⟨λ, f̂⟩`. Consequently `ẑ₀(s, ω)` is a multiple of `z₀(1 − s, ω^{−1})`.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. f̂ is taken with the self-dual measure for a fixed nontrivial `ψ`.
 
-(Source: [Kudla](#ref-kudla2004), §3, Lemma 3.6, printed p. 122 (physical p. 14).)
+**Checks.**
 
-*Needs:* [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem).
+- The Fourier transform of evaluation at zero is additive Haar with absolute-value eigencharacter.
+- Transforming additive Haar gives evaluation at zero and the trivial eigencharacter.
+- The transform of a unitary eigencharacter includes the absolute-value factor and need not be unitary.
+
+(Source: Mathlib `SchwartzMap.fourierTransformCLM`; changing variables in scalar pullback gives the inverse character and the absolute-value Jacobian.)
+
+*Needs:* [The spaces S′(ω) of ω-eigendistributions](#eigendistribution-space); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); [Local uniqueness: dim S′(ω) = 1](#local-uniqueness-theorem).
 
 
 ### Local epsilon factors and Gauss sums
@@ -1068,9 +1207,9 @@ gives 10/3 rather than 6/5; for a real trivial constituent its gamma quotient
 is `Γ_R(1−s)/Γ_R(s)`, the inverse of Tate's rho quotient at regular points.
 
 
-(Source: [Kudla](#ref-kudla2004), §3, Corollary 3.7 and (3.23)–(3.29), printed p. 123 (physical p. 15); [Tate](#ref-tate1950), §2.4, Lemma2.4.3 and Corollary2.4.1, physical pp.18–19.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Arithmetic character constants** and **Standard-test-function evaluations**; the rank-one Godement–Jacquet equation identifies the analytic scalar. Local-integral constant convention only: [Kudla](#ref-kudla2004), §3 (3.23)–(3.26), p.123.)
 
-*Needs:* **ArithmeticGaloisRepresentations**, §2.7, [Arithmetic character constants](../ArithmeticGaloisRepresentations/README.md#local-constant-gauss-sum) and **Standard-test-function evaluations**, `finiteStandardEvaluation`, for the canonical finite-place scalar and the standard-vector comparison; [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem); [The Fourier transform of an ω-eigendistribution (Lemma 3.6)](#fourier-transform-eigendistribution); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7, [Arithmetic character constants](../ArithmeticGaloisRepresentations/README.md#local-constant-gauss-sum) and **Standard-test-function evaluations**, `finiteStandardEvaluation`, for the canonical finite-place scalar and the standard-vector comparison; [Local uniqueness: dim S′(ω) = 1](#local-uniqueness-theorem); [The Fourier transform of an ω-eigendistribution](#fourier-transform-eigendistribution); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion).
 
 
 <a id="rank-one-local-functional-equation"></a>
@@ -1090,14 +1229,14 @@ The suggested signatures use `TateZeta.localZetaIntegral` as an abbreviation on 
 - At `ℝ`, `χ=sgn^a|·|^t` has `L(s,χ)=Γ_ℝ(s+t+a)` and `ε=i^a`; at `ℂ`, angular weight k gives `Γ_ℂ(s+t+|k|/2)` and `ε=i^|k|`. Use the supplied conjugate-angular standard vectors and their `π⁻¹` normalization over `ℂ`.
 - For `χ=1,f=1_O,ν=0`, the integral diverges at `s=0` while its continuation has a pole; the equation there is an identity of germs rather than of totalized integral values.
 
-(Source: [Humphries, archimedean newforms](#ref-humphriesarch), §2.3.2 (2.3), pp.5–6 and §2.4.4 (2.15), p.7, with the transpose trivial in rank one; [Kudla](#ref-kudla2004), §3 (3.24)–(3.26), p.123 and Proposition 3.8, pp.124–125.)
+(Source: [Humphries, archimedean newforms](#ref-humphriesarch), §2.3.2 (2.3), pp.5–6 and §2.4.4 (2.15), p.7, with transpose trivial in rank one; ArithmeticGaloisRepresentations §2.7, **Standard-test-function evaluations**, for normalization.)
 
 *Needs:* [The Godement–Jacquet zeta integral](#godement-jacquet-integral), [Convergence of the matrix zeta integral](#godement-jacquet-convergence), [The standard local L-factor](#standard-local-l-factor) and [The Godement–Jacquet functional equation](#godement-jacquet-functional-equation) at `n=1`; [The local Tate zeta integral](#local-zeta-integral) for its sharp convergence half-plane; **ArithmeticGaloisRepresentations**, §2.7, **Arithmetic character constants** and **Standard-test-function evaluations**.
 
 
 <a id="local-functional-equation"></a>
 
-**Tate's local functional equation (Corollary 3.7).** This is the distribution form of [Rank-one local zeta integral and functional equation](#rank-one-local-functional-equation), obtained from AL.2 at `n=1`. For every `f ∈ S(F)`, as meromorphic functions of `s, z(1 − s, ω^{−1}; f̂) = γ(s, ω, ψ)z(s, ω; f)` (3.25); equivalently `z(1 − s, ω^{−1}; f̂)/L(1 − s, ω^{−1}) = ε(s, ω, ψ)·z(s, ω; f)/L(s, ω)` (3.24), both sides entire. In Tate's form (Theorem 2.4.1): every `ζ`-function continues to all quasi-characters by `ζ(f, c) = ρ(c)ζ(f̂, ĉ), ĉ = |·|c^{−1}`, with `ρ` independent of f.
+**Distribution form of the rank-one local functional equation.** This is the distribution form of [Rank-one local zeta integral and functional equation](#rank-one-local-functional-equation), obtained from AL.2 at `n=1`. For every `f ∈ S(F)`, as meromorphic functions of `s, z(1 − s, ω^{−1}; f̂) = γ(s, ω, ψ)z(s, ω; f)` (3.25); equivalently `z(1 − s, ω^{−1}; f̂)/L(1 − s, ω^{−1}) = ε(s, ω, ψ)·z(s, ω; f)/L(s, ω)` (3.24), both sides entire.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. `ω` unitary, with quasi-characters included by norm twists; f̂ for `ψ` with the self-dual measure.
 
@@ -1107,9 +1246,9 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 - For a ramified finite-place character, `L=1` and the unit-supported standard vector gives the normalized Gauss-sum scalar.
 - The real odd Gaussian gives `ε=i`; the complex conjugate-angular vector of weight k gives `ε=i^|k|` with the canonical gamma factor.
 
-(Source: [Kudla](#ref-kudla2004), §3, Corollary 3.7 and (3.24)–(3.25), printed p. 123 (physical p. 15); [Tate](#ref-tate1950), §2.4, Lemma 2.4.2 and Theorem 2.4.1, physical pp. 17–19.)
+(Source: The rank-one Godement–Jacquet equation above and its normalized-distribution comparison; ArithmeticGaloisRepresentations §2.7, **Arithmetic character constants**, identifies the finite-place epsilon scalar.)
 
-*Needs:* [Rank-one local zeta integral and functional equation](#rank-one-local-functional-equation); [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion).
+*Needs:* [Rank-one local zeta integral and functional equation](#rank-one-local-functional-equation); [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion).
 
 
 <a id="local-gauss-sum"></a>
@@ -1140,22 +1279,22 @@ prefactor and phase of the scalar formula; the norm-one theorem uses the genuine
 local-field unit group and ramified-character hypotheses stated above.
 
 
-(Source: [Kudla](#ref-kudla2004), §3, Proposition 3.8(ii) and (3.31)–(3.32), printed pp. 124–125 (physical pp. 16–17); [Tate](#ref-tate1950), §2.5, "k 𝔭-adic", physical pp. 24–26.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Arithmetic character constants**, **Standard-test-function evaluations** and the local Gauss-sum normalization; comparison by evaluation on the nonzero normalized eigenline.)
 
 *Needs:* **ArithmeticGaloisRepresentations**, §2.7, [Arithmetic character constants](../ArithmeticGaloisRepresentations/README.md#local-constant-gauss-sum), for the shared normalized Gauss integral; [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); Mathlib `gaussSum`; Mathlib `gaussSum_mul_gaussSum_eq_card`.
 
 
 <a id="explicit-epsilon-factors"></a>
 
-**Explicit local `ε`-factors (Proposition 3.8).** Compare the normalized-distribution scalar with ArithmeticGaloisRepresentations §2.7, [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations): `finiteStandardEvaluation` and `tateLocalConstant` supply the finite formulas, while `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex` supply the archimedean values. Use their standard-vector evaluations and local uniqueness to identify their scalars with the action on the full eigenline. The real measures agree; the complex vector and factor both differ by π in Kudla's convention, leaving epsilon unchanged. (i) F nonarchimedean, `ω` unramified, `ν(ψ) = ν`: `ε(s, ω, ψ) = ω(ϖ^ν)q^{(1/2−s)ν}`. (ii) `ω` ramified with conductor c: `ε(s, ω, ψ) = ω(ϖ^{ν+c})q^{(1/2−s)(ν+c)}𝔤(ω, ψ)`. These are transported by `TateZeta.epsilonFactor_eq_tateLocalConstant`. (iii) `F = ℝ, ω(x) = x^{−a}, a ∈ {0, 1}, ψ = e`: the supplied `t=−a` evaluation gives `ε(s, ω, ψ) = i^a`. (iv) `F = ℂ, ω(z) = z^(−a)z̄^(−b), a,b∈ℕ, min(a,b)=0, ψ=e(z+z̄)`: the supplied `k=b−a, t=−(a+b)/2` evaluation gives `ε(s,ω,ψ)=i^|k|=i^max(a,b)`. In Tate's normalisation (`ψ` with conductor `𝔡^{−1}`, so `ν = ord 𝔡`), the supplied finite formulas give `ρ(|·|^s) = N𝔡^{s−1/2}(1 − q^{s−1})/(1 − q^{−s})` and `ρ(c|·|^s) = N(𝔡𝔣)^{s−1/2}ρ₀(c)` for ramified c with conductor `𝔣` and `c(π) = 1`.
+**Explicit local `ε`-factors.** Compare the normalized-distribution scalar with ArithmeticGaloisRepresentations §2.7, [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations): `finiteStandardEvaluation` and `tateLocalConstant` supply the finite formulas, while `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex` supply the archimedean values. Use their standard-vector evaluations and local uniqueness to identify their scalars with the action on the full eigenline. The real measures agree; the complex vector and factor both differ by π in Kudla's convention, leaving epsilon unchanged. (i) F nonarchimedean, `ω` unramified, `ν(ψ) = ν`: `ε(s, ω, ψ) = ω(ϖ^ν)q^{(1/2−s)ν}`. (ii) `ω` ramified with conductor c: `ε(s, ω, ψ) = ω(ϖ^{ν+c})q^{(1/2−s)(ν+c)}𝔤(ω, ψ)`. These are transported by `TateZeta.epsilonFactor_eq_tateLocalConstant`. (iii) `F = ℝ, ω(x) = x^{−a}, a ∈ {0, 1}, ψ = e`: the supplied `t=−a` evaluation gives `ε(s, ω, ψ) = i^a`. (iv) `F = ℂ, ω(z) = z^(−a)z̄^(−b), a,b∈ℕ, min(a,b)=0, ψ=e(z+z̄)`: the supplied `k=b−a, t=−(a+b)/2` evaluation gives `ε(s,ω,ψ)=i^|k|=i^max(a,b)`. In Tate's normalisation (`ψ` with conductor `𝔡^{−1}`, so `ν = ord 𝔡`), the supplied finite formulas give `ρ(|·|^s) = N𝔡^{s−1/2}(1 − q^{s−1})/(1 − q^{−s})` and `ρ(c|·|^s) = N(𝔡𝔣)^{s−1/2}ρ₀(c)` for ramified c with conductor `𝔣` and `c(π) = 1`.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. `ψ` standard at `ℝ, ℂ` as in (3.30); at a finite place (3.28) and (3.29) reduce to `ν = 0` and a fixed `ω`.
 
 **Checks.** An unramified conductor-zero character gives 1; a ramified character with `c=ν=1` gives `ω(ϖ²)q^(1−2s)𝔤`, agreeing with the canonical local comparison; at `ℝ` the odd normal-form constituent gives i; at `ℂ` the trivial constituent gives 1, while both angular weights `k=1` and `k=−1` give i with the conjugate standard vectors specified by the supplier.
 
-(Source: [Kudla](#ref-kudla2004), §3, Proposition 3.8 and its proof, printed pp. 124–125 (physical pp. 16–17); [Tate](#ref-tate1950), §2.5, physical pp. 20–27.)
+(Source: ArithmeticGaloisRepresentations §2.7, **Arithmetic character constants** and **Standard-test-function evaluations**; [Humphries, archimedean newforms](#ref-humphriesarch), §2.4.4 (2.14)–(2.15), p.7, for the archimedean branches.)
 
-*Needs:* **ArithmeticGaloisRepresentations**, §2.7, [Arithmetic character constants](../ArithmeticGaloisRepresentations/README.md#local-constant-gauss-sum) and **Standard-test-function evaluations**, `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [The local Gauss sum 𝔤(ω, ψ)](#local-gauss-sum); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7, [Arithmetic character constants](../ArithmeticGaloisRepresentations/README.md#local-constant-gauss-sum) and **Standard-test-function evaluations**, `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [The local Gauss sum 𝔤(ω, ψ)](#local-gauss-sum); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory); [Local quasi-characters, unramified characters and the conductor exponent](#local-quasicharacter-conductor).
 
 
 ### Canonical archimedean factors
@@ -1193,7 +1332,7 @@ record the gamma formulas; the Weil-parameter comparison uses the archimedean `G
 
 (Source: [Humphries, archimedean newforms](#ref-humphriesarch), §2.4.2–§2.4.3, (2.7), (2.10), (2.13), pp.6–7.)
 
-*Needs:* [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
+*Needs:* [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
 
 
 <a id="archimedean-standard-epsilon"></a>
@@ -1208,7 +1347,7 @@ Work under the following hypotheses. `I_0=1⊕sgn` is reducible and gives epsilo
 
 (Source: [Chenevier–Taïbi](#ref-cheneviertaibi2020), §2.1 p.274, footnote6 and epsilon formula.)
 
-*Needs:* [Explicit local ε-factors (Proposition 3.8)](#explicit-epsilon-factors); [Canonical archimedean factors](#canonical-archimedean-factor); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
+*Needs:* [Explicit local ε-factors](#explicit-epsilon-factors); [Canonical archimedean factors](#canonical-archimedean-factor); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
 
 
 ### Global distributions and completed Euler products
@@ -1216,18 +1355,24 @@ Work under the following hypotheses. `I_0=1⊕sgn` is reducible and gives epsilo
 
 <a id="global-eigendistributions"></a>
 
-**Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2).** A restricted family of continuous local distributions normalized on almost every standard vector defines a continuous restricted-tensor distribution. A nonzero global `ω`-eigendistribution factors into the local eigenlines and the global eigenline has dimension1. No factorization converse is asserted for arbitrary distributions: a sum of two independent product distributions need not be decomposable.
+**Factorizable distributions and global uniqueness.** A restricted family of continuous local distributions normalized on almost every standard vector defines a continuous restricted-tensor distribution. A nonzero global `ω`-eigendistribution factors into the local eigenlines and the global eigenline has dimension1. No factorization converse is asserted for arbitrary distributions: a sum of two independent product distributions need not be decomposable.
 
 Work under the following hypotheses. k a number field, `𝔸 = 𝔸_k, 𝔸^×` the ideles with `|x| = ∏|x_v|_v, J = {|x| = 1}`; `ω = ⊗ω_v` a character of `𝔸^×/k^×` (a Hecke character in the sense of GlobalNumberFields Layer 9); `ω_s(x) = |x|^s`.
 
-(Source: [Kudla](#ref-kudla2004), §4, Lemma 4.1 and Theorem 4.2, printed p. 126 (physical p. 18); [Kudla](#ref-kudla2004), §4, printed p. 126 (physical p. 18).)
+**Checks.**
 
-*Needs:* [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); Tau Ceti **GlobalNumberFields**, layer 9 hecke and ray class characters.
+- A restricted tensor of normalized local eigenvectors is a global eigenvector.
+- Rescaling one local generator rescales the tensor by the same scalar.
+- In the unrestricted distribution space a sum of independent product tensors need not factor.
+
+(Source: AutomorphicFormsOnReductiveGroups §§3.4–3.5, restricted-tensor universal maps; local eigenline uniqueness determines each finite-factor restriction, and continuity determines the completed archimedean extension.)
+
+*Needs:* [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [Local uniqueness: dim S′(ω) = 1](#local-uniqueness-theorem); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory); Tau Ceti **GlobalNumberFields**, layer 9 hecke and ray class characters.
 
 
 <a id="completed-hecke-l-function"></a>
 
-**Normalization of the supplied completed Hecke function.** Identify the `n=1` standard matrix integral with the unbalanced all-place product using ArithmeticGaloisRepresentations §2.7's [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations). Its [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) identifies the conductor-balanced form on algebraic norm twists with LFunctions' completion; its [Finite-order Hecke functional equation](../ArithmeticGaloisRepresentations/README.md#finite-order-hecke-functional-equation) supplies the finite-order equation from LFunctions layer 5. For every unitary idele-class character, the conductor-balanced completion is constructed by [The global standard L-function](#global-godement-jacquet) at `n=1`. Compare these meromorphic germs with the integral continuation of [The global standard L-function](#global-godement-jacquet) at `n=1` by equality in the convergence half-plane. For a unitary character `ω` of `𝔸^×/k^×`, use `Λ(s,ω)=∏_v L_v(s,ω_v)` (4.4) over all places, with canonical archimedean factors; `L^S(s,ω)=∏_(v∉S)L_v(s,ω_v)` for a finite S containing infinity and the ramified places. Both products converge absolutely for `Re(s)>1`; for continuous quasi-characters of norm exponent r use `Re(s)+r>1`. For `S ⊇ S_∞ ∪ {ramified v}, L^S(s, ω) = Σ_{𝔞 prime to S} χ(𝔞)N𝔞^{−s}`, where `χ(𝔭_v) = ω_v(ϖ_v)` is the associated ideal character (Kudla §5; Tate §4.5).
+**Normalization of the supplied completed Hecke function.** Identify the `n=1` standard matrix integral with the unbalanced all-place product using ArithmeticGaloisRepresentations §2.7's [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations). Its [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) identifies the conductor-balanced form on algebraic norm twists with LFunctions' completion; its [Finite-order Hecke functional equation](../ArithmeticGaloisRepresentations/README.md#finite-order-hecke-functional-equation) supplies the finite-order equation from LFunctions layer 5. For every unitary idele-class character, the conductor-balanced completion is constructed by [The global standard L-function](#global-godement-jacquet) at `n=1`. Compare these meromorphic germs with the integral continuation of [The global standard L-function](#global-godement-jacquet) at `n=1` by equality in the convergence half-plane. For a unitary character `ω` of `𝔸^×/k^×`, use `Λ(s,ω)=∏_v L_v(s,ω_v)` (4.4) over all places, with canonical archimedean factors; `L^S(s,ω)=∏_(v∉S)L_v(s,ω_v)` for a finite S containing infinity and the ramified places. Both products converge absolutely for `Re(s)>1`; for continuous quasi-characters of norm exponent r use `Re(s)+r>1`. For `S ⊇ S_∞ ∪ {ramified v}, L^S(s, ω) = Σ_{𝔞 prime to S} χ(𝔞)N𝔞^{−s}`, where `χ(𝔭_v) = ω_v(ϖ_v)` is the associated ideal character.
 
 Work under the following hypotheses. k a number field, `𝔸 = 𝔸_k, 𝔸^×` the ideles with `|x| = ∏|x_v|_v, J = {|x| = 1}`; `ω = ⊗ω_v` a unitary character of `𝔸^×/k^×` (a Hecke character in the sense of GlobalNumberFields Layer 9); `ω_s(x) = |x|^s`. A general continuous quasi-character is `χ=ω|·|^t`, with the corresponding variable shift `s↦s+t`.
 
@@ -1253,15 +1398,12 @@ Use the supplied function through the following product notation and normalizati
 - Removing infinity and both 2 and 3 gives `(1−2^(−s))(1−3^(−s))ζ(s)`, with each prime removed once.
 
 
-On a finite two-place scalar model, local values 2 and 3 give completed product
-6, while removing the first place gives partial product 3. Removing no place
-with two local values 2 gives 4. The arithmetic product identities retain their
-absolute-convergence half-plane and continuation hypotheses.
+The arithmetic product identities retain their absolute-convergence half-plane and continuation hypotheses.
 
 
-(Source: [Kudla](#ref-kudla2004), §4, (4.4), printed p. 127 (physical p. 19); [Kudla](#ref-kudla2004), §5, printed p. 129 (physical p. 21).)
+(Source: ArithmeticGaloisRepresentations §2.7, **Standard-test-function evaluations**, **Hecke zeta-integral comparison** and **Finite-order Hecke functional equation**; ArithmeticDirichletSeries layer 3, absolutely convergent Euler products.)
 
-*Needs:* [The global standard L-function](#global-godement-jacquet) at `n=1`; **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, **Hecke zeta-integral comparison**, **Finite-order Hecke functional equation** and **Root-number product formula**; [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products.
+*Needs:* [The global standard L-function](#global-godement-jacquet) at `n=1`; **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, **Hecke zeta-integral comparison**, **Finite-order Hecke functional equation** and **Root-number product formula**; [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory); Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products.
 
 
 <a id="canonical-rank-one-comparison"></a>
@@ -1328,7 +1470,7 @@ pin the product convention independently of the arithmetic conductor calculation
 
 (Source: ArithmeticGaloisRepresentations §2.7, **Root-number product formula**; [Godement–Jacquet, Global Theory](https://link.springer.com/chapter/10.1007/BFb0070265), pp.136–184, `n=1` local-constant product.)
 
-*Needs:* [The global standard L-function](#global-godement-jacquet) at `n=1`; **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, **Hecke zeta-integral comparison**, **Finite-order Hecke functional equation** and **Root-number product formula**; [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [Explicit local ε-factors (Proposition 3.8)](#explicit-epsilon-factors); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation).
+*Needs:* [The global standard L-function](#global-godement-jacquet) at `n=1`; **ArithmeticGaloisRepresentations**, §2.7, **Standard-test-function evaluations**, **Hecke zeta-integral comparison**, **Finite-order Hecke functional equation** and **Root-number product formula**; [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [Explicit local ε-factors](#explicit-epsilon-factors); [Factorizable distributions and global uniqueness](#global-eigendistributions); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation).
 
 
 <a id="hecke-l-functional-equation"></a>
@@ -1341,7 +1483,7 @@ pin the product convention independently of the arithmetic conductor calculation
 
 Here `W_H(ω)` is the Gauss-sum root number of ArithmeticGaloisRepresentations §2.7's [Root-number product formula](../ArithmeticGaloisRepresentations/README.md#root-number-product-formula), with `|W_H(ω)|=1`. That finite-sum identity identifies the product of local constants; the analytic continuation and reflected equation come from Godement–Jacquet. The [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) and [Finite-order Hecke functional equation](../ArithmeticGaloisRepresentations/README.md#finite-order-hecke-functional-equation) identify the finite-order/algebraic specializations with LFunctions layers 5–6.
 
-The completions are entire unless `ω=|·|^(it)` for a real t. In that case their poles are simple at `−it,1−it`. For an arbitrary `f∈S(𝔸_K)`, the scalar `n=1` matrix integral `Z(s,ω,f)` has at most these poles, with residues `−κ f(0)` and `κ f̂(0)` respectively, where `κ := NumberField.dedekindZeta_residue K` and r₂ is the number of complex places; the polar part is `κ f̂(0)/(s+it−1)−κ f(0)/(s+it)`. These singularities may be removable for particular f. For the normalized standard vector of a norm character, `f(0)=√|D_K|π^(−r₂)` and `f̂(0)=π^(−r₂)`, so the unbalanced completion has residues `−κ√|D_K|π^(−r₂),κπ^(−r₂)`; balancing multiplies each residue by `A^(s₀/2)` at its pole `s₀`. Complex norm twists of any character translate s and the inverse twist in the reflected equation.
+The completions are entire unless `ω=|·|^(it)` for a real t. In that case their poles are simple at `−it,1−it`. Complex norm twists of any character translate s and the inverse twist in the reflected equation.
 
 Work under the following hypotheses. Use the continuous idele-class character carrier of GlobalNumberFields layer 9, the standard trace character with positive Fourier kernel and its self-dual additive measure. The scalar matrix integrals use Tate's multiplicative measure: finite unit volume `q_v^(−ν_v/2)`, `dx/|x|` over `ℝ` and `2 dx dy/|z|_ℂ` over `ℂ`, with `dt/t` in the idele-class norm disintegration. Standard vectors have the finite `q_v^(ν_v/2)` and complex `π⁻¹` scalings of ArithmeticGaloisRepresentations §2.7. Interpret the equations as identities of meromorphic germs, and as value identities where the representatives are analytic. The adapter `TateZeta.balancedHeckeL_functionalEquation` transports the unbalanced germ equation to the balanced one.
 
@@ -1349,9 +1491,8 @@ Work under the following hypotheses. Use the continuous idele-class character ca
 
 - For `K=ℚ, ω=1`, the unbalanced completion is `completedRiemannZeta`, with residues `−1,+1` at `0,1` and reflected equation `Λ(s)=Λ(1−s)`.
 - A primitive finite-order character gives the supplied LFunctions completion. For the odd quadratic character of conductor 4 over `ℚ`, `W_H=1` and balancing removes the factor `4^(1/2−s)` from the unbalanced equation.
-- For `ω=|·|^(it)`, put `D=|D_K|`. Then `Λ_H(ω,s)=D^(−it/2)Λ_H(1,s+it)` and `W_H(ω)=D^(−it)`, so the poles move to `−it,1−it`. For `f=0` the scalar integral is zero and both residues vanish.
-- For a character nontrivial on `C_K¹`, the completion and all its scalar matrix integrals are entire; nontriviality on the full idele-class group alone does not exclude norm characters.
-- For Tate's multiplicative measure, comparing the `n=1` Godement–Jacquet residue `vol(C_K¹) f̂(0)` with the normalized trivial-character standard integral and Mathlib's Dedekind residue limit gives `vol(C_K¹)=κ`: both `f̂(0)` and the archimedean factor at 1 are `π^(−r₂)≠0`. Over `ℚ` this is 1; over `ℚ(i)` it is `π/4`. Replacing the finite measures by unit-volume-one measures over `ℚ(i)` multiplies the norm-one volume by 2, while the Dedekind residue stays `π/4`.
+- For `ω=|·|^(it)`, put `D=|D_K|`. Then `Λ_H(ω,s)=D^(−it/2)Λ_H(1,s+it)` and `W_H(ω)=D^(−it)`, so the poles move to `−it,1−it`.
+- For a character nontrivial on `C_K¹`, the completion is entire; nontriviality on the full idele-class group alone does not exclude norm characters.
 
 (Source: [Godement–Jacquet, Global Theory](https://link.springer.com/chapter/10.1007/BFb0070265), pp.136–184, specialized to `n=1`; ArithmeticGaloisRepresentations §2.7, **Standard-test-function evaluations**, **Hecke zeta-integral comparison**, **Finite-order Hecke functional equation** and **Root-number product formula**; Mathlib `NumberField.dedekindZeta_residue_def` and `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`.)
 
@@ -1393,12 +1534,12 @@ Work under the following hypotheses. Use Zhang’s stated local measures and L-f
 
 (Source: [Zhang](#ref-zhang2021), §12.5 pp.946–947 (12.15)–(12.19).)
 
-*Needs:* [The global standard L-function](#global-godement-jacquet) at `n=1`; [Normalization of the supplied completed Hecke function](#completed-hecke-l-function); [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem).
+*Needs:* [The global standard L-function](#global-godement-jacquet) at `n=1`; [Normalization of the supplied completed Hecke function](#completed-hecke-l-function); [Local uniqueness: dim S′(ω) = 1](#local-uniqueness-theorem).
 
 
 ### Examples
 
-For `ℚ`, the standard finite indicators and real Gaussian give completedRiemannZeta, epsilon factor 1 and norm-one idele-class volume 1. Over `ℂ`, the same trace Gaussian gives `πΓ_C`, while a weight-two real discrete-series block gives `Γ_C(s+1/2)`. These two computations distinguish multiplicative measure conversion from the discrete-series shift.
+For `ℚ`, the standard finite indicators and real Gaussian give completedRiemannZeta, epsilon factor 1. Over `ℂ`, the same trace Gaussian gives `πΓ_C`, while a weight-two real discrete-series block gives `Γ_C(s+1/2)`. These two computations distinguish multiplicative measure conversion from the discrete-series shift.
 
 ### Dependencies
 
@@ -1436,7 +1577,7 @@ Require the following API.
 **Checks.**
 
 - `AL2.GodementJacquetIntegral.rank_one`: For `n=1` the exponent is s and Z is the Tate integral.
-- `AL2.GodementJacquetIntegral.rank_two_shift`: For `n=2` the determinant exponent is `s+1/2`.
+- For `n=2` the determinant exponent is `s+1/2`.
 - `Φ=0` gives `Z=0`, including after continuation.
 - Replacing dg by c dg multiplies Z by c; the L-factor normalization is independent of this choice.
 
@@ -1478,7 +1619,7 @@ Require the following API.
 
 (Source: [Humphries, archimedean newforms](#ref-humphriesarch), §2.4.1–§2.4.3, pp.6–7.)
 
-*Needs:* [Convergence of the matrix zeta integral](#godement-jacquet-convergence); [Archimedean GLₙ parameters](#archimedean-gln-parameters); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory).
+*Needs:* [Convergence of the matrix zeta integral](#godement-jacquet-convergence); [Archimedean GLₙ parameters](#archimedean-gln-parameters); [Archimedean local theory: Γ-factors and the standard functions](#archimedean-local-theory).
 
 
 <a id="godement-jacquet-functional-equation"></a>
@@ -1584,6 +1725,7 @@ Prove the following API.
 - `normalizedNewvector_fixed`: vnew is fixed by `K₁(p^{c(π)})`.
 - `normalizedNewvector_eval`: `λ(vnew)=1`.
 - `normalizedNewvector_unique`: Every fixed v with `λ(v)=1` equals vnew.
+- `normalizedNewvector_scale`: Scaling the nonzero functional by `a≠0` rescales its normalized vector by `a⁻¹`.
 - `normalizedNewvector_twist`: An unramified twist identifies Wnew with `χ(det g)Wnew(g)`.
 
 **Checks.**
@@ -1630,7 +1772,7 @@ Work under the following hypotheses. Genericity is imported from the cuspidal re
 
 **The global standard L-function.** For every `n≥1` and unitary cuspidal `π` of `GLₙ(𝔸_K)`, construct the global Godement–Jacquet integrals `Z(s,β,Φ)=∫_(GLₙ(𝔸_K)) β(g)Φ(g)|det g|^(s+(n−1)/2)dg`, where `β(g)=⟨π(g)φ,φ′⟩` is a cuspidal automorphic matrix coefficient, with the pairing on `Z(𝔸_K)GLₙ(K)\GLₙ(𝔸_K)`, and `Φ∈S(Mₙ(𝔸_K))`. Prove convergence in a right half-plane and meromorphic continuation with `Z(s,β,Φ)=Z(1−s,β∨,Φ̂)`, where `β∨(g)=β(g⁻¹)` and the positive Fourier transform uses the trace pairing. Use AL.0's vector-space Poisson comparison on `Mₙ(𝔸_K)` to establish the matrix theta identity before its cuspidal pairing and Mellin transform. For `n≥2`, cuspidality removes the rank-deficient contributions and the integrals are entire. For `n=1`, this is the same construction on `M₁(𝔸_K)=𝔸_K`. Include complex determinant norm twists by translating s. The finite standard Euler product converges absolutely for `Re(s)>1` for unitary π. The completed `Λ(s,π)=∏_v L(s,π_v)` continues meromorphically and satisfies `Λ(s,π)=ε(s,π)Λ(1−s,π∨)`; it is entire for `n≥2`. The product of local epsilon factors is independent of the global additive character.
 
-For `n=1`, let χ be any continuous idele-class quasi-character and normalize its matrix coefficient as `β=χ`. The only possible poles of `Z(s,χ,f)` occur when `χ=|·|^t`, `t∈ℂ`; they are at most simple at `−t,1−t`, with residues `−c_K f(0), c_K f̂(0)` respectively, where `c_K=vol(C_K¹)` for `C_K¹=ker(|·|:𝔸_K×/K×→ℝ_{>0})`. For the factorisable standard function, ArithmeticGaloisRepresentations §2.7's [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) gives `Z(s,χ,f^std_χ)=A^(−u/2)Λ_unit(χ₀,u)` for `χ=χ₀|·|^t`, algebraic `χ₀`, `u=s+t−σ` and `A=|D_K|N𝔣₀`. Thus `A^(u/2)Z` is the supplied Hecke completion. For general unitary characters the local standard evaluations identify the product with the standard matrix integral in its convergence half-plane. This matrix-integral theorem supplies its continuation and functional equation; define `Λ_H(χ,s)=A^(s/2)Λ(s,χ)` by conductor balancing, and translate s for complex norm twists.
+For `n=1`, let χ be any continuous idele-class quasi-character and normalize its matrix coefficient as `β=χ`. For the factorisable standard function, ArithmeticGaloisRepresentations §2.7's [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison) gives `Z(s,χ,f^std_χ)=A^(−u/2)Λ_unit(χ₀,u)` for `χ=χ₀|·|^t`, algebraic `χ₀`, `u=s+t−σ` and `A=|D_K|N𝔣₀`. Thus `A^(u/2)Z` is the supplied Hecke completion. For general unitary characters the local standard evaluations identify the product with the standard matrix integral in its convergence half-plane. This matrix-integral theorem supplies its continuation and functional equation; define `Λ_H(χ,s)=A^(s/2)Λ(s,χ)` by conductor balancing, and translate s for complex norm twists.
 
 Work under the following hypotheses. K is a number field, `n≥1`, and π is unitary cuspidal, with complex determinant twists included by translation. Use a nontrivial continuous additive character of `𝔸_K/K` and the self-dual matrix measure for the trace pairing. The standard-function comparisons use the standard trace character; transport them to any other global character `ψ_b`, `b∈K×`, by Fourier and Haar scaling and the product formula. Choose multiplicative Haar measures compatible with the local integrals and, at `n=1`, with AL.1's Tate measures after the stated local Haar comparisons; disintegrate the idele-class norm with `dt/t`. The initial matrix-integral construction gives a sufficiently far-right half-plane; the sharp `Re(s)>1` Euler-product boundary for higher rank additionally uses the self-pair Rankin–Selberg mean-square coefficient argument. The matrix Poisson continuation and its `n=1` case precede that sharper boundary.
 
@@ -1863,7 +2005,7 @@ Require the following API.
 
 (Source: [Jacquet](#ref-jacquetarch), §2, Theorems 2.3–2.7, pp.8–10; §12.1, pp.83–87; [Cogdell, Fields lectures](#ref-cogdellfields), Lecture6 §2, Proposition6.3 and Corollary6.3.1, printed p.48 (physical p.52).)
 
-*Needs:* [The local Rankin–Selberg integrals](#rs-local-integrals); **SmoothRepresentationsOfLocalGroups**, SR.3; [Archimedean GLₙ parameters](#archimedean-gln-parameters); [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem); [Local convergence and continuity](#rs-local-convergence); [Generic finite-place newforms](#generic-local-newforms).
+*Needs:* [The local Rankin–Selberg integrals](#rs-local-integrals); **SmoothRepresentationsOfLocalGroups**, SR.3; [Archimedean GLₙ parameters](#archimedean-gln-parameters); [Local uniqueness: dim S′(ω) = 1](#local-uniqueness-theorem); [Local convergence and continuity](#rs-local-convergence); [Generic finite-place newforms](#generic-local-newforms).
 
 
 ### Induction, functional equations and test realization
@@ -2020,7 +2162,7 @@ Work under the following hypotheses. Positive Fourier kernel, additive self-dual
 
 (Source: [Cogdell, Columbia lectures](#ref-cogdellintegrals), §1.1.3, pp.4–5, Poisson summation and functional equation.)
 
-*Needs:* [The mirabolic Eisenstein series](#mirabolic-eisenstein-series); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); [Hecke continuation and functional equation](#hecke-l-functional-equation), its norm-one-volume Check.
+*Needs:* [The mirabolic Eisenstein series](#mirabolic-eisenstein-series); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); [Hecke continuation and functional equation](#hecke-l-functional-equation).
 
 
 <a id="global-rs-unfolding"></a>
@@ -2404,7 +2546,19 @@ Work under the following hypotheses. Inertial equivalence means twisting by an u
 
 **The self-pair polynomial reflection.** For the self-pair numerator P above, `D=(2g−2)n²+2d, P(z)=q^(D/2)z^D` P(1/(qz)); every root has modulus `q^(−1/2)`. The `H¹` alternating pairing has similitude q and pairs Frobenius eigenvalues with product q.
 
+The signature `AL3.FunctionFieldSelfPairReflection` states the reciprocal identity
+for the native matrix of Frobenius on any even-dimensional space with a
+nondegenerate alternating form of similitude q. The signature
+`AL3.FunctionFieldSelfPairReflection.root_norm` transports weight-one eigenvalue
+norms to roots of the reversed characteristic polynomial.
+
 Work under the following hypotheses. Use AL.3’s unramified pure realization and tensor cohomological determinant, geometric Poincaré duality and the chosen complex embedding.
+
+**Checks.**
+
+- A zero-dimensional `H¹` has numerator 1 and satisfies the reciprocal identity.
+- In dimension two, `P(z)=1−az+qz²` has the factor `qz²` in its reflection; replacing it by `z²` loses the pairing similitude.
+- Weight-one eigenvalues give roots strictly inside the unit disc for `q>1`; weight zero would instead put the roots on its boundary.
 
 (Source: [Yu](#ref-yu2023), Proposition6.1.1 proof p.43 and (6.2.5) p.46.)
 
@@ -2550,9 +2704,20 @@ Work under the following hypotheses. At infinity use the archimedean `GLₙ` par
 
 <a id="satake-factor-operations"></a>
 
-**Functorial operations on unramified factors.** For invertible semisimple Satake operators with eigenvalues `α_i` and `β_j`, direct sum multiplies P, tensor product has `P(T)=∏_(i,j)(1−α_iβ_jT)`, dual has `P(T)=∏_i(1−α_i^(−1)T)`, and scalar twist c has `P_c(T)=P(cT)`. Coefficient embeddings commute with these polynomial identities. These are factor comparisons, not assertions of automorphic transfers.
+**Functorial operations on unramified factors.** For invertible semisimple Satake operators with eigenvalues `α_i` and `β_j`, direct sum multiplies P, tensor product has `P(T)=∏_(i,j)(1−α_iβ_jT)`, dual has `P(T)=∏_i(1−α_i^(−1)T)`, and scalar twist c has `P_c(T)=P(cT)`. Coefficient embeddings commute with these polynomial identities. The signatures `AL4.LGroupLocalFactor.scalar_twist`,
+`AL4.LGroupLocalFactor.tensor`, `AL4.LGroupLocalFactor.dual` and
+`AL4.LGroupLocalFactor.coefficient_embedding` state these operations on the native
+matrix and polynomial carriers. The tensor formula applies to arbitrary complex
+matrices and counts eigenvalues with multiplicity; duality requires invertibility. These are factor comparisons, not
+assertions of automorphic transfers.
 
 Work under the following hypotheses. Actual L-group representations and normalized Satake classes are supplied; dual requires invertibility.
+
+**Checks.**
+
+- Tensoring by a line multiplies every Satake root by its scalar.
+- Dualizing twice recovers the original factor for an invertible parameter.
+- A zero root gives a constant factor one and cannot be inverted without the invertibility hypothesis.
 
 (Source: [Borel](#ref-borel1979), §13.1 pp.49–50, local representation factor.)
 
@@ -2624,7 +2789,15 @@ Require the following API.
 
 **The leading term of a finite Euler correction.** Let E and L be holomorphic near `s₀, E` have finite vanishing order m and L have finite order r. Then EL has order `m+r` and leading Taylor coefficient the product of the two leading coefficients. In particular if `E(s₀)=0, E′(s₀)≠0` and `L(s₀)≠0`, (EL)′(s₀)=E′(s₀)L(s₀). For `E(s)=1−a q^(−s)` with a `q^(−s₀)=1, E′(s₀)=log q`.
 
+The signature `AL5.EulerCorrectionLeadingTerm.taylor` states the finite-order conclusion through vanishing lower derivatives and the first nonzero factorial-normalized derivative; `AL5.EulerCorrectionLeadingTerm.euler_zero` gives the logarithmic derivative of a removed Euler zero.
+
 Work under the following hypotheses. `q>1`; zero functions require separate infinite-order cases. This is complex analytic comparison, not a p-adic exceptional-zero formula.
+
+**Checks.**
+
+- A simple correction zero times a nonzero L-value gives a simple product zero.
+- Two simple zeros give a double zero with leading coefficient the product of the first derivatives.
+- An identically zero factor has infinite vanishing order and fails the finite-order hypotheses.
 
 (Source: [Cogdell, Fields lectures](#ref-cogdellfields), Lecture 9 §7, pp.74–75, finite-factor identity; leading term follows by analytic multiplication.)
 
