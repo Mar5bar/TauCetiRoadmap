@@ -457,6 +457,32 @@ residue-disc bounds. Layer 5 combines compatible reductions in a finite sieve. L
 quadratic Chabauty formulas and complete example lists under their displayed input hypotheses. The
 Lean companion records only signatures expressible over its existing carriers; all geometric targets retain their full mathematical specification below.
 
+### Representative Lean milestones
+
+The companion states the following milestones on the pinned scalar, matrix, group,
+power-series and finite-set carriers. Each signature carries the hypotheses of the
+indicated target.
+
+| Targets | Representative statements in Suggested.lean |
+| --- | --- |
+| Root isolation and Hensel distance (§§0.3, 0.5) | `ED0.exists_isolating_box`, `ED0.hensel_distance` |
+| Closed ellipsoid enumeration and real exclusion (§§1.7–1.8, 1.11) | `ED1.finite_ellipsoid`, `ED1.mem_fpEnumeration`, `ED1.linear_form_excluded` |
+| Logarithm errors and reduction chains (§§2.1, 2.6, 2.8) | `realLogPartialSum_error`, `padicLog_tail_precision`, `ED2.ExponentReductionChain.sound` |
+| Exact elliptic heights, independence and saturation (§§3.13–3.14, 3.17) | `ED3.canonicalHeight_mem_doubling_interval`, `ED3.independent_of_gram_det_pos`, `ED3.index_eq_one_of_forall_isPSaturated` |
+| Finite-index logarithm extension and residue-disc zero bounds (§§4.2, 4.11) | `ED4.formalLogExtension_unique`, `ED4.ker_formalLogExtension`, `ED4.dominant_of_residue_bounds` |
+| Sieve completeness and iteration (§§5.10, 5.16) | `ED5.Sieve.complete_of_unique_fibres`, `ED5.Sieve.siftChain_eq_admissibleClasses` |
+| Conditional complete lists and candidate comparison (§§6.1–6.2) | `ED6.FiniteSolutionSet.coe_eq_setOf`, `ED6.FiniteSolutionSet.mem_iff`, `ED6.candidates_eq_known` |
+
+The exact Thue, Thue–Mahler and S-unit list theorems (§§2.20, 2.28, 2.33) use
+the complete arithmetic data and validity predicates specified in Layer 2. The
+Chabauty–Coleman and quadratic Chabauty endpoints (§§4.12–4.14, 4.18, 6.4) use
+the curve, relative Jacobian, integration and residue-disc constructions. The
+geometric root matching of §6.16 uses analytic multiplicities over completed
+`ℂ_p`. The worked point lists in Layers 3–6 carry their specified model,
+arithmetic-input and completeness hypotheses. These full targets are specified
+in their sections; the scalar and finite-set signatures above supply the
+corresponding precision, exclusion and comparison results.
+
 ## Layer 0: Exact algebraic values and scalar precision
 
 Every approximate value is tied to an exact scalar. Construct rational witnesses for the indicated
