@@ -393,6 +393,13 @@ example : ¬ IsClosed {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}} 
 example (S : Type) [TopologicalSpace S] (h : C(S, Type → ZMod 2)) :
     IsClosed (h ⁻¹' {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}}) := sorry
 
+-- Check `s4_11_large_profinite_quotient`: a finite union of chart-small subsets misses an
+-- element of the large compact Boolean group. Its constant section obstructs a finite
+-- epimorphic subfamily of the charted product cover in README D4.11 (Berkeley, proof of
+-- Lemma 18.1.2, p. 162, with the chart-universe hypothesis).
+example (n : ℕ) (A : Fin n → Set (Type → ZMod 2)) (hA : ∀ i, Small.{0} (A i)) :
+    ∃ g : Type → ZMod 2, ∀ i, g ∉ A i := sorry
+
 /-! ## Layer D5: spatial geometry and Hausdorff reduction -/
 
 /-- Finite-subset product diagrams have a total arrow type small in the chart universe exactly

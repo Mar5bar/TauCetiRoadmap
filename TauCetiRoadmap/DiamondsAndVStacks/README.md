@@ -174,9 +174,8 @@ General canonical compactification (Scholze's §18) belongs to the étale cohomo
 imports this roadmap; D3 proves only the elementary special construction needed for its descent
 argument, D4.11 defines proper maps of v-stacks ([ECD] Definition 18.1) without it, and D5
 establishes the early minimal-plus-ring extension used in its spatial reduction directly from its
-earlier inputs. Ordinary profinite sheaves and ordinary ultrafilter stalks belong to D0; their
-infinity-valued and hypercomplete enhancements belong to the enhanced derived-sheaf roadmap that
-consumes these foundations. The comparison of integral pre-adic diamondification with the
+earlier inputs. Ordinary profinite sheaves and ordinary ultrafilter stalks belong to D0.
+The comparison of integral pre-adic diamondification with the
 adic-coefficient functors of schemes and integral divisor geometry consume D6 and are not targets
 here.
 
@@ -7031,9 +7030,11 @@ SchemeAndStackFoundations §1.20, and neither the six operations nor the canonic
 is needed for it. Prove: closed immersions are proper; proper maps compose and are stable under base
 change; `f` is proper iff it is 0-truncated, quasicompact and quasiseparated, and every map
 `Spa(K, K⁺) → Y` together with a lift of its restriction to `Spa(K, O_K)` admits a unique lift
-([ECD] Remark 18.2, Proposition 18.3, p. 101); for a profinite group `G` acting on a small v-sheaf
-`X`, the quotient map `X → X/G̲` is quasicompact and universally closed ([Berkeley] proof of Lemma
-18.1.2, p. 162). *Needs:* D3.8; D4.7; D4.8; D4.10.
+([ECD] Remark 18.2, Proposition 18.3, p. 101); for `G : ProfiniteGrp.{0}` with a continuous sheaf
+action of `G̲` on a small v-sheaf `X`, the quotient map `X → X/G̲` is quasicompact and universally
+closed ([Berkeley] proof of Lemma 18.1.2, p. 162). The group lies in the ring universe of the
+charts, as in D3.10 and D4.10; a bound below a cutoff in `Cardinal.{1}` alone does not imply this
+hypothesis. *Needs:* D3.8; D4.7; D4.8; D4.10.
 
 **Checks.**
 
@@ -7044,8 +7045,23 @@ change; `f` is proper iff it is 0-truncated, quasicompact and quasiseparated, an
   valuative criterion fails as well.
 - `s4_11_discrete_naturals` (non-example) — `ℕ̲ × S → S` for discrete `ℕ` and nonempty `S` is
   separated and not quasicompact, hence not proper (D5.10).
+- `s4_11_charted_profinite_translation` — for `G : ProfiniteGrp.{0}` and
+  `P = Spa(C, O_C)` with `C : Type` algebraically closed and perfectoid of characteristic `p`,
+  translation on `G̲ × h_P` has quotient `h_P`. Its projection is quasicompact and universally
+  closed, including for infinite `G`; the source is the charted affinoid product of D3.10.
+- `s4_11_large_profinite_quotient` (non-example) — let `G = Type → ZMod 2` with its compact
+  product topology and take `P` as above. Translation on `F = G̲ × h_P` is a free continuous
+  sheaf action with quotient `h_P`. The charted affinoid products `A̲ × P`, for all closed
+  `Small.{0}` subsets `A ⊆ G`, jointly cover `F`: a continuous map from an affinoid test has
+  small compact image in the Hausdorff group `G`. Their `Type 1`-indexed disjoint union is a
+  charted perfectoid atlas, so `F` is a small v-sheaf. No finite subfamily is epimorphic:
+  its union is still `Small.{0}` and misses an element of `G`, whose constant section over
+  `P` cannot lift even v-locally. Thus `F` is not quasicompact and `F → h_P` is not
+  quasicompact, as in D5.3's large-index Check. The Lean example with this name states the
+  finite-union obstruction.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: the finite-union Check `s4_11_large_profinite_quotient`; the geometric statements are
+specified in the README only.
 
 ### Examples
 
@@ -9588,9 +9604,9 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 
 ### D6.7 The integral Galois quotient
 
-**Integral Galois quotient.** (*integral-galois-quotient*) Let `K` be a complete nonarchimedean
-field with a nontrivial rank-one valuation in which `p` is topologically nilpotent, `C` a completed
-algebraic closure and `G_K = Gal(K^sep/K)`, a profinite group. Then `Spd O_C → Spd O_K` is a
+**Integral Galois quotient.** (*integral-galois-quotient*) Let `K : Type` be a complete nonarchimedean
+field with a nontrivial rank-one valuation in which `p` is topologically nilpotent, `C : Type` a completed
+algebraic closure and `G_K = Gal(K^sep/K)` in `ProfiniteGrp.{0}`. Then `Spd O_C → Spd O_K` is a
 v-cover, proper in the sense of D4.11 (separated since source and target are, quasicompact and
 universally closed as a quotient map by the profinite group `G_K`), and `(Spd O_C)/G̲_K ≅ Spd O_K`.
 This is a quotient in v-sheaves. It does not assert a `G_K`-torsor on the integral special fibre or
@@ -9606,7 +9622,7 @@ establishes the proper v-cover and the effective quotient through the integral m
 D6.6, with profinite products and the closed projection of D5.10 ([Berkeley] Lecture 18, §18.1, Lem.
 18.1.2 and proof, pp. 161–162 (PDF pp. 171–172), which proves that `Spd O_C → Spd O_K` is a proper
 v-cover inducing `Spd O_C/G_K ≅ Spd O_K`, properness being separatedness together with
-quasicompactness and universal closedness of `X → X/G` for a profinite group `G`). *Needs:* D6.6;
+quasicompactness and universal closedness of `X → X/G` for `G : ProfiniteGrp.{0}`). *Needs:* D6.6;
 D5.10; D4.11.
 
 **Checks.**
@@ -10465,9 +10481,7 @@ Fargues–Fontaine curve. PerfectoidTowers is a consumer, by subsection: its P8 
 D6.4 for quotients and spatial presentations, and its P9 uses D2.5, D2.9, D3.10 and D6.9, with P9.8
 and P9.12 the tower specialisations of D2.9 and of D6.9's seminormal comparison. D2.9 and D6.9 use
 the rigid pro-étale basis of PerfectoidSpaces P7.16. AdicEtaleGeometry A4.2–A4.5 and A4.7 and
-PerfectoidSpaces P6.15–P6.17 supply the presentations used in D6. EnhancedDerivedSheaves
-consumes D0.22, “Ordinary sheaves on profinite sets”, including its ultrafilter stalks, and the sites
-of D2 as the inputs to their infinity-valued and hypercomplete enhancements. For both
+PerfectoidSpaces P6.15–P6.17 supply the presentations used in D6. For both
 EnhancedDerivedSheaves and DiamondEtaleCohomology, the generic qcqs and algebraic-topos input is
 AdicSpacesPartII R0.19.10, “Quasicompact and quasiseparated objects; algebraic topoi”. The generic
 filtered-colimit cohomology theorem is SchemeAndStackFoundations §2.5's
