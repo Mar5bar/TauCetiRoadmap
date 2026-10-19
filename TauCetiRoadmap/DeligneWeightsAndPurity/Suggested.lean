@@ -617,12 +617,16 @@ end PunctualCore
 
 Its input is the nonzero characteristic-root multiset at one closed stalk.
 The supplied q is its residue cardinality in K; v(q) must be finite positive.
-The vertices below determine the piecewise-linear polygon. No F-isocrystal
-category or specialization theorem is assumed by this numeric construction.
+The vertices below present the finite heights of NewtonPolygons §§0.6–0.7's
+shared ConvexPolygon carrier. README 5.13's stalkNewtonPolygon_toPolygon uses
+its finite slope data, the rational-to-real embedding and infinity outside the
+finite domain. No F-isocrystal category is assumed by this numeric construction.
 -/
 section NewtonCore
 variable {K : Type*} [Field K]
 
+/-- The normalized cumulative-slope vertices of a stalk. The common geometric
+polygon is supplied by the slope-data adapter in README 5.13. -/
 noncomputable def stalkNewtonPolygon (v : AddValuation K (WithTop ℚ)) (q : K)
     (s : Multiset K) : List (ℕ × ℚ) := by
   classical
@@ -1562,10 +1566,29 @@ section LefschetzDecomposition
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
-/-- The primitive part `P^{n−r} = V^{n−r} ∩ ker λ^{r+1}` of a graded operator, indexed by `ℤ`. -/
+/-- Extend a natural-number grading by zero in negative degrees (README 9.7). -/
+def intGradingOfNat (𝒱 : ℕ → Submodule K V) (j : ℤ) : Submodule K V :=
+  if 0 ≤ j then 𝒱 j.toNat else ⊥
+
+/-- Extension by zero preserves the internal direct sum of a natural grading. -/
+theorem intGradingOfNat_isInternal (𝒱 : ℕ → Submodule K V)
+    (h𝒱 : DirectSum.IsInternal 𝒱) :
+    DirectSum.IsInternal (intGradingOfNat 𝒱) := by sorry
+
+/-- The arbitrary-field primitive kernel `P^{n−r} = V^{n−r} ∩ ker λ^{r+1}`.
+README 9.7 supplies this common core to naturally graded Lefschetz structures
+through intGradingOfNat; no characteristic-zero or sl₂ hypothesis is needed. -/
 def primitivePiece (𝒱 : ℤ → Submodule K V) (lam : V →ₗ[K] V) (n : ℤ) (r : ℕ) :
     Submodule K V :=
   𝒱 (n - r) ⊓ LinearMap.ker (lam ^ (r + 1))
+
+/-- In natural degree `j ≤ n`, the primitive kernel has exponent `n-j+1`.
+This identifies the primitive part of StandardConjectures' LefschetzStructure
+with the common arbitrary-field primitivePiece (README 9.7). -/
+theorem primitivePiece_intGradingOfNat (𝒱 : ℕ → Submodule K V)
+    (lam : V →ₗ[K] V) (n j : ℕ) (hj : j ≤ n) :
+    primitivePiece (intGradingOfNat 𝒱) lam n (n - j) =
+      𝒱 j ⊓ LinearMap.ker (lam ^ (n - j + 1)) := by sorry
 
 /-- Deligne (1968) (1.5)–(1.6): for a grading `V = ⊕ V^j` (`V^j = 0` outside `[0, 2n]`) and a
 degree-2 operator `λ` with `λ^r : V^{n−r} ≅ V^{n+r}` for `0 ≤ r ≤ n`, each `V^{n−r}` is the
