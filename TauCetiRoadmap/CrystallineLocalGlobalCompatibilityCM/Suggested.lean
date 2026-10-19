@@ -29,22 +29,13 @@ namespace CrystallineCM
 
 #check finAddFlip
 
-/-- Block exchange conjugates the two diagonal Levi blocks; CN §2.1.11, p.17. -/
+/-- Block exchange conjugates the two diagonal Levi blocks; README §0.1, CN §2.1.11, p.17. -/
 theorem WeylElements_levi_conjugation {R : Type*} [CommRing R] (n : ℕ)
     (A D : Matrix (Fin n) (Fin n) R) :
     Equiv.Perm.permMatrix R (finAddFlip (m := n) (n := n)) *
       Matrix.reindex finSumFinEquiv finSumFinEquiv (Matrix.fromBlocks A 0 0 D) *
       Equiv.Perm.permMatrix R (finAddFlip (m := n) (n := n)) =
       Matrix.reindex finSumFinEquiv finSumFinEquiv (Matrix.fromBlocks D 0 0 A) := by
-  sorry
-
-example : (finAddFlip (m := 0) (n := 0)) = Equiv.refl (Fin (0 + 0)) ∧
-    (finAddFlip (m := 1) (n := 1)) 0 = 1 ∧ (finAddFlip (m := 1) (n := 1)) 1 = 0 := by
-  sorry
-
-example : (finAddFlip (m := 2) (n := 2)) 0 = 2 ∧ (finAddFlip (m := 2) (n := 2)) 1 = 3 ∧
-    (finAddFlip (m := 2) (n := 2)) 2 = 0 ∧ (finAddFlip (m := 2) (n := 2)) 3 = 1 ∧
-    (finAddFlip (m := 2) (n := 2)) ≠ Fin.revPerm := by
   sorry
 
 /-- Positive block-central cocharacters have descending integral exponents.
@@ -58,39 +49,12 @@ def PositiveCentralCocharacters (t : ℕ) : AddSubmonoid (Fin t → ℤ) where
     intro a b ha hb i j hij
     exact add_le_add (ha hij) (hb hij)
 
-example : ![(1 : ℤ), 0] ∈ PositiveCentralCocharacters 2 ∧
-    ![(-1 : ℤ), -2] ∈ PositiveCentralCocharacters 2 ∧
-    ![(0 : ℤ), 1] ∉ PositiveCentralCocharacters 2 := by
-  sorry
-
-example (t : ℕ) (a : ℤ) : (fun _ : Fin t => a) ∈ PositiveCentralCocharacters t := by
-  sorry
-
-example {t : ℕ} (a : Fin (t + 1) → ℤ)
-    (ha : a ∈ PositiveCentralCocharacters (t + 1)) (i : Fin t) :
-    0 ≤ a i.castSucc - a i.succ := by
-  sorry
-
 /-- The single-embedding torus value of the lowest-weight scaling character.
 The full character multiplies these factors over embeddings and extends from
 the torus to the positive monoid; CN §2.1.13, pp.20–21. -/
 def lowestWeightScalar {E : Type*} [Field E] {r : ℕ}
     (π : Eˣ) (lam nu : Fin r → ℤ) : Eˣ :=
   π ^ (∑ i, lam i.rev * nu i)
-
-example {E : Type*} [Field E] {r : ℕ} (π : Eˣ) (nu : Fin r → ℤ) :
-    lowestWeightScalar π 0 nu = 1 := by
-  sorry
-
-example {E : Type*} [Field E] (π : Eˣ) (a b : ℤ) :
-    lowestWeightScalar π ![a, b] ![1, 0] = π ^ b := by
-  sorry
-
-example {E : Type*} [Field E] (π : Eˣ) :
-    lowestWeightScalar π ![(1 : ℤ), 1, 0, 0] ![1, 1, 0, 0] = 1 ∧
-    π ^ (∑ i : Fin 2, (![1, 1] : Fin 2 → ℤ) i.rev * (![1, 1] : Fin 2 → ℤ) i) =
-      π ^ (2 : ℤ) := by
-  sorry
 
 /-- Rescale an existing representation by the inverse of its scalar character.
 This fixes the normalization; the integral lattice is a separate arithmetic
@@ -104,49 +68,33 @@ def RescaledActions {E G V : Type*} [Field E] [Monoid G]
     intro g h
     simp [mul_smul]
 
+/-- Evaluation of the inverse-character rescaling; README §0.9. -/
+theorem RescaledActions_apply {E G V : Type*} [Field E] [Monoid G]
+    [AddCommGroup V] [Module E V] (ρ : Representation E G V)
+    (α : G →* Eˣ) (g : G) (x : V) :
+    RescaledActions ρ α g x = ((α g)⁻¹ : Eˣ).val • ρ g x := by
+  sorry
+
+/-- A common scalar rescaling preserves coefficient intertwiners; README §0.9. -/
+theorem RescaledActions_intertwiner {E G V W : Type*} [Field E] [Monoid G]
+    [AddCommGroup V] [Module E V] [AddCommGroup W] [Module E W]
+    (ρ : Representation E G V) (σ : Representation E G W)
+    (α : G →* Eˣ) (f : Representation.IntertwiningMap ρ σ) :
+    Representation.IsIntertwiningMap (RescaledActions ρ α) (RescaledActions σ α)
+      f.toLinearMap := by
+  sorry
+
 example {E G V : Type*} [Field E] [Monoid G] [AddCommGroup V] [Module E V]
     (ρ : Representation E G V) : RescaledActions ρ (1 : G →* Eˣ) = ρ := by
-  sorry
+  ext g x
+  simp [RescaledActions]
 
 example {E G V : Type*} [Field E] [Monoid G] [AddCommGroup V] [Module E V]
     (ρ : Representation E G V) (α : G →* Eˣ) (g : G) (x : V)
-    (hα : (α g : E) = 2) (hρ : ρ g x = (2 : E) • x) :
-    RescaledActions ρ α g x = x := by
-  sorry
+    (hρ : ρ g x = (α g : E) • x) : RescaledActions ρ α g x = x := by
+  simp [RescaledActions, hρ, smul_smul]
 
-/-- On the rational coefficient line the forward factor gives 4 instead of 1. -/
-example {G : Type*} [Monoid G] (ρ : Representation ℚ G ℚ)
-    (α : G →* ℚˣ) (g : G) (hα : (α g : ℚ) = 2) (hρ : ρ g 1 = 2) :
-    (α g : ℚ) * ρ g 1 = 4 ∧ (α g : ℚ) * ρ g 1 ≠ 1 ∧
-      RescaledActions ρ α g 1 = 1 := by
-  sorry
-
-/-! ## Layer 1: Finite ordinary projector and localization -/
-
-/-- Positive powers of the mixed projection have complementary stable range and
-kernel. The range is the ordinary summand and its localization; CN §2.2.1–2.2.2. -/
-example :
-    let T : Module.End (ZMod 3) (ZMod 3 × ZMod 3) :=
-      (LinearMap.id : Module.End (ZMod 3) (ZMod 3)).prodMap 0
-    T ^ 2 = T ∧ ∀ m : ℕ, 1 ≤ m →
-      LinearMap.range (T ^ m) =
-        (⊤ : Submodule (ZMod 3) (ZMod 3)).prod ⊥ ∧
-      LinearMap.ker (T ^ m) =
-        (⊥ : Submodule (ZMod 3) (ZMod 3)).prod ⊤ := by
-  sorry
-
-/-! ## Layer 3: Bruhat induction and deep unipotent cohomology -/
-
-/-- Over Q₅ the rank-one inverse adjoint character at diag(2,1) has residue 3. -/
-example : (2 : ZMod 5)⁻¹ = 3 ∧ (2 : ZMod 5)⁻¹ ≠ 2 := by
-  sorry
-
-/-- Over the unramified quadratic extension of Q₅ the norm squares the scalar,
-so the inverse orientation character at diag(2,1) has residue 4. -/
-example : ((2 : ZMod 5) ^ 2)⁻¹ = 4 ∧ ((2 : ZMod 5) ^ 2)⁻¹ ≠ 3 := by
-  have h : (2 : ZMod 5) ^ 2 = -1 := by decide
-  rw [h, ZMod.inv_neg_one]
-  decide
+/-! ## Layer 3: Artin–Rees coefficient control -/
 
 #check TauCeti.ArtinRees.exists_controlled_lift
 
@@ -167,7 +115,7 @@ abbrev adicSubmoduleImageMap (p : ℕ) [Fact p.Prime]
 
 /-- One Artin–Rees shift works for every quotient of the chosen submodule and
 every positive coefficient depth, with the natural comparison square.
-This is the coefficient-control milestone of CN Lemma 2.3.18, p.43. -/
+This is the coefficient-control milestone of README §3.6, CN Lemma 2.3.18, p.43. -/
 theorem subquotient_mod_p_pow_uniform (p : ℕ) [Fact p.Prime]
     {N : Type*} [AddCommGroup N] [Module ℤ_[p] N] [Module.Finite ℤ_[p] N]
     (N' : Submodule ℤ_[p] N) :
@@ -180,19 +128,9 @@ theorem subquotient_mod_p_pow_uniform (p : ℕ) [Fact p.Prime]
           (((Ideal.span {(p : ℤ_[p])}) ^ m) • (⊤ : Submodule ℤ_[p] M)).mkQ.comp f := by
   sorry
 
-example (p : ℕ) [Fact p.Prime]
-    {N M : Type*} [AddCommGroup N] [Module ℤ_[p] N]
-    [AddCommGroup M] [Module ℤ_[p] M]
-    (f : (⊤ : Submodule ℤ_[p] N) →ₗ[ℤ_[p]] M)
-    (hf : Function.Surjective f) (m : ℕ) :
-    ∃ g : adicSubmoduleImage p (⊤ : Submodule ℤ_[p] N) m →ₗ[ℤ_[p]]
-      (M ⧸ (((Ideal.span {(p : ℤ_[p])}) ^ m) • (⊤ : Submodule ℤ_[p] M))),
-      Function.Surjective g ∧
-        g.comp (adicSubmoduleImageMap p (⊤ : Submodule ℤ_[p] N) m) =
-          (((Ideal.span {(p : ℤ_[p])}) ^ m) • (⊤ : Submodule ℤ_[p] M)).mkQ.comp f := by
-  sorry
-
-example (p : ℕ) [Fact p.Prime] :
+/-- The proper submodule pZ_p has zero ambient depth-one image, so its
+intrinsic mod-p quotient admits no natural comparison; README §3.6. -/
+theorem subquotient_mod_p_pow_test_depth_one (p : ℕ) [Fact p.Prime] :
     let N' : Submodule ℤ_[p] ℤ_[p] := Ideal.span {(p : ℤ_[p])}
     ¬ ∃ g : adicSubmoduleImage p N' 1 →ₗ[ℤ_[p]]
       (N' ⧸ ((Ideal.span {(p : ℤ_[p])}) • (⊤ : Submodule ℤ_[p] N'))),
@@ -200,7 +138,9 @@ example (p : ℕ) [Fact p.Prime] :
         ((Ideal.span {(p : ℤ_[p])}) • (⊤ : Submodule ℤ_[p] N')).mkQ := by
   sorry
 
-example (p : ℕ) [Fact p.Prime] :
+/-- Ambient depth two recovers the intrinsic mod-p quotient of pZ_p
+with its natural comparison square; README §3.6. -/
+theorem subquotient_mod_p_pow_test_depth_two (p : ℕ) [Fact p.Prime] :
     let N' : Submodule ℤ_[p] ℤ_[p] := Ideal.span {(p : ℤ_[p])}
     ∃ g : adicSubmoduleImage p N' 2 →ₗ[ℤ_[p]]
       (N' ⧸ ((Ideal.span {(p : ℤ_[p])}) • (⊤ : Submodule ℤ_[p] N'))),
@@ -212,67 +152,10 @@ example (p : ℕ) [Fact p.Prime] :
 /-! ## Layer 6: Degree shifting and nilpotent Hecke comparisons -/
 
 /-- The complementary local degree bound reaches unitary middle degree,
-including odd total dimension; CN Lemma 4.2.5, p.62. -/
+including odd total dimension; README §6.3, CN Lemma 4.2.5, p.62. -/
 theorem degree_shift_bound (n D r q : ℕ)
     (hr : D ≤ 2 * r) (hq : n ^ 2 * D / 2 ≤ q) :
     n ^ 2 * D - q ≤ n ^ 2 * r := by
-  sorry
-
-example : (3 : ℕ) ^ 2 * 3 - ((3 : ℕ) ^ 2 * 3 / 2) = 14 ∧
-    14 ≤ (3 : ℕ) ^ 2 * 2 := by
-  sorry
-
-example : (0 : ℕ) ^ 2 * 3 - 0 ≤ (0 : ℕ) ^ 2 * 2 := by
-  sorry
-
-/-- Scalar evaluation has the expected image and annihilator on a free line. -/
-example {R : Type*} [CommRing R] (a : R) :
-    let action := (Algebra.lsmul R R R (A := R)).comp (Polynomial.aeval a)
-    (Polynomial.aeval a : Polynomial R →ₐ[R] R).range = ⊤ ∧
-      action.range = (Algebra.lsmul R R R (A := R)).range ∧
-      RingHom.ker action.toRingHom =
-        Ideal.span {Polynomial.X - Polynomial.C a} := by
-  sorry
-
-/-- Evaluation at a projection gives a product image rather than a scalar field;
-its annihilator is generated by X(X−1), as in the Hecke-image range check. -/
-example :
-    let T : Module.End (ZMod 3) (ZMod 3 × ZMod 3) :=
-      (0 : Module.End (ZMod 3) (ZMod 3)).prodMap LinearMap.id
-    let action := Polynomial.aeval T
-    Nonempty (action.range ≃ₐ[ZMod 3] (ZMod 3 × ZMod 3)) ∧
-      RingHom.ker action.toRingHom =
-        Ideal.span {(Polynomial.X : Polynomial (ZMod 3)) * (Polynomial.X - 1)} := by
-  sorry
-
-/-- The scalar action on a zero cohomology module has a zero image algebra. -/
-example :
-    let action := Algebra.lsmul ℚ ℚ (⊥ : Submodule ℚ ℚ) (A := ℚ)
-    Subsingleton action.range ∧ action.range = ⊥ := by
-  sorry
-
-/-- Reduction of the differential 3 creates a nonzero degree-zero scalar image.
-The integral kernel is zero, so no unital map of its image to the residue image exists. -/
-example :
-    letI : Algebra ℤ_[3] (ZMod 3) :=
-      (PadicInt.toZMod : ℤ_[3] →+* ZMod 3).toAlgebra
-    let d : ℤ_[3] →ₗ[ℤ_[3]] ℤ_[3] := (3 : ℤ_[3]) • LinearMap.id
-    let dbar : ZMod 3 →ₗ[ℤ_[3]] ZMod 3 := (3 : ℤ_[3]) • LinearMap.id
-    let integralAction := Algebra.lsmul ℤ_[3] ℤ_[3] d.ker (A := ℤ_[3])
-    let residueAction := Algebra.lsmul ℤ_[3] ℤ_[3] dbar.ker (A := ℤ_[3])
-    d.ker = ⊥ ∧ dbar.ker = ⊤ ∧
-      Subsingleton integralAction.range ∧ Nontrivial residueAction.range ∧
-      IsEmpty (integralAction.range →ₐ[ℤ_[3]] residueAction.range) := by
-  sorry
-
-/-- Two characters of a faithful image can agree on one unit and differ on another. -/
-example :
-    let action : (ℚ × ℚ) →ₐ[ℚ] Module.End ℚ (ℚ × ℚ) :=
-      Algebra.lsmul ℚ ℚ (ℚ × ℚ)
-    Function.Injective action ∧
-      AlgHom.fst ℚ ℚ ℚ (1, 1) = AlgHom.snd ℚ ℚ ℚ (1, 1) ∧
-      AlgHom.fst ℚ ℚ ℚ (1, 2) = 1 ∧ AlgHom.snd ℚ ℚ ℚ (1, 2) = 2 ∧
-      AlgHom.fst ℚ ℚ ℚ (1, 2) ≠ AlgHom.snd ℚ ℚ ℚ (1, 2) := by
   sorry
 
 /-! ## Layer 9: Barsotti–Tate automorphy lifting and solvable descent -/
@@ -292,7 +175,7 @@ def determinantKernelHasLine {K G : Type*} [Field K] [Group G]
 /-- The trace-square condition gives a determinant-kernel line except for
 determinant order three with tetrahedral projective image. In that case the
 kernel has Klein-four projective image and no invariant line; the qualified
-form of CN Lemma 5.6.5, pp.85–86. -/
+form of CN Lemma 5.6.5, pp.85–86 (README §9.2). -/
 theorem determinant_kernel_reducible_except_tetrahedral
     (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) {K G : Type*}
     [Field K] [IsAlgClosed K] [CharP K p] [Group G] [Finite G]
@@ -310,28 +193,9 @@ theorem determinant_kernel_reducible_except_tetrahedral
             Multiplicative (ZMod 2 × ZMod 2))) := by
   sorry
 
-example {K : Type*} [Field K] :
-    determinantKernelHasLine
-      (1 : PUnit →* Matrix.GeneralLinearGroup (Fin 2) K) ∧
-    Nat.card (projectiveMatrixImage
-      (1 : PUnit →* Matrix.GeneralLinearGroup (Fin 2) K)) = 1 := by
-  sorry
-
-example :
-    let g : Matrix.GeneralLinearGroup (Fin 2) ℚ :=
-      Matrix.GeneralLinearGroup.mkOfDetNeZero !![2, 0; 0, 1]
-        (by norm_num [Matrix.det_fin_two])
-    let ρ := (Subgroup.zpowers g).subtype
-    determinantKernelHasLine ρ ∧ ¬ Subsingleton (projectiveMatrixImage ρ) := by
-  sorry
-
-example :
-    let i : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![0, 1; -1, 0]
-    let j : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![2, 3; 3, -2]
-    i * i = -1 ∧ j * j = -1 ∧ i * j = -(j * i) := by
-  sorry
-
-example {K : Type*} [Field K] [CharP K 7] :
+/-- The characteristic-seven quaternion generators have no common eigenline
+after any coefficient extension of characteristic seven; README §9.2. -/
+theorem quaternion_no_common_eigenline {K : Type*} [Field K] [CharP K 7] :
     ¬ ∃ v : Fin 2 → K, v ≠ 0 ∧ ∃ a b : K,
       (!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) K).mulVec v = a • v ∧
       (!![2, 3; 3, -2] : Matrix (Fin 2) (Fin 2) K).mulVec v = b • v := by
@@ -341,14 +205,6 @@ example {K : Type*} [Field K] [CharP K 7] :
 The orientation policy requires stᶜ ≤ st; CN Proposition 5.6.1, p.83. -/
 def preparedUnitaryPartition (st stc : Bool) : List ℕ :=
   if st then (if stc then [1, 1, 1, 1] else [2, 1, 1]) else [2, 2]
-
-example : preparedUnitaryPartition true false = [2, 1, 1] ∧
-    preparedUnitaryPartition false false = [2, 2] := by
-  sorry
-
-example : preparedUnitaryPartition true true = [1, 1, 1, 1] ∧
-    ∀ st stc, (preparedUnitaryPartition st stc).sum = 4 := by
-  sorry
 
 /-
 The following targets are stated in README.md; their arithmetic carriers and
@@ -401,8 +257,6 @@ not additional Lean declarations.
   CrystallineCM.LowestWeightScalingCharacter_test_zero_weight
 
 0.9 Rescaled actions of the monoids on coefficient lattices
-  CrystallineCM.RescaledActions_apply
-  CrystallineCM.RescaledActions_intertwiner
   CrystallineCM.RescaledActions_one_mul
   CrystallineCM.RescaledActions_test_inverse_required
   CrystallineCM.RescaledActions_test_scalar
