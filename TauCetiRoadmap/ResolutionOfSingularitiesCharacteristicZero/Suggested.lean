@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.MvPolynomial.OrderAt
 
 /-!
 # Resolution of singularities in characteristic zero: representative target signatures
@@ -31,6 +32,22 @@ implies order `⊤`; the converse needs Noetherianity (Krull intersection). -/
 noncomputable def idealOrderAt (I : Ideal R) (p : PrimeSpectrum R) : ℕ∞ :=
   ⨆ n : ℕ, if I.map (algebraMap R (Localization.AtPrime p.asIdeal)) ≤
     (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)) ^ n then (n : ℕ∞) else 0
+
+/-- At a rational coordinate point, localized principal-ideal order equals the supplied
+polynomial Taylor order, in every characteristic. -/
+theorem idealOrderAt_span_eq_orderAt {k : Type u} [Field k] {σ : Type u} [Finite σ]
+    (f : MvPolynomial σ k) (a : σ → k) :
+    idealOrderAt (Ideal.span {f})
+      (PrimeSpectrum.comap (MvPolynomial.eval a) ⟨⊥, inferInstance⟩) =
+        MvPolynomial.orderAt f a := sorry
+
+/-- At a rational coordinate point, the order of a finitely generated polynomial ideal is
+the minimum of its generators' Taylor orders. An empty family gives order `⊤`. -/
+theorem idealOrderAt_span_eq_iInf_orderAt {k : Type u} [Field k]
+    {σ ι : Type u} [Finite σ] [Finite ι] (f : ι → MvPolynomial σ k) (a : σ → k) :
+    idealOrderAt (Ideal.span (Set.range f))
+      (PrimeSpectrum.comap (MvPolynomial.eval a) ⟨⊥, inferInstance⟩) =
+        ⨅ i, MvPolynomial.orderAt (f i) a := sorry
 
 /-- `IdealOrderChecks.unit`: the unit ideal has order zero at every prime. -/
 example (p : PrimeSpectrum R) : idealOrderAt (⊤ : Ideal R) p = 0 := sorry
@@ -270,6 +287,17 @@ example (d : ℕ) (hd : 0 < d) : (MarkedIdeal.mk (⊤ : Ideal R) d hd).cosupport
 /-! ## Layer 2: derivative ideals and contact -/
 
 variable {k : Type u} [Field k] {σ : Type u}
+
+/-- `PolynomialOrderChecks.derivatives`: the localized principal-ideal order threshold at a
+rational point is detected by the supplied iterated-partial-derivative criterion in
+characteristic zero. -/
+example [Finite σ] [CharZero k] (f : MvPolynomial σ k) (a : σ → k) (n : ℕ) :
+    (n : ℕ∞) ≤ idealOrderAt (Ideal.span {f})
+      (PrimeSpectrum.comap (MvPolynomial.eval a) ⟨⊥, inferInstance⟩) ↔
+      ∀ l : List σ, l.length < n →
+        MvPolynomial.eval a (l.foldl (fun q i ↦ MvPolynomial.pderiv i q) f) = 0 := by
+  rw [idealOrderAt_span_eq_orderAt]
+  exact MvPolynomial.le_orderAt_iff_eval_foldl_pderiv
 
 /-- The derivative ideal `D(I) = I + (∂f/∂xᵢ : f ∈ I)` of an ideal of a polynomial ring. -/
 noncomputable def derivativeIdeal (I : Ideal (MvPolynomial σ k)) : Ideal (MvPolynomial σ k) :=
