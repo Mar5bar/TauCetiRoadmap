@@ -1,7 +1,5 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.Fibers
 import TauCeti.LinearAlgebra.GeneralLinearGroup.Unipotent
-import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.StableReduction.Suggested
 
 /-!
@@ -14,9 +12,10 @@ the roadmap.
 
 Nearby and vanishing cycles, Lefschetz pencils, perverse sheaves, semistable models and the other
 geometric objects of the roadmap have no carriers in the pinned Mathlib and Tau Ceti: they are
-targets of the README, with their intended signatures there, and do not appear here. The signatures below
-provide the linear and commutative algebra used by the geometric targets, in their
-corresponding README layers.
+targets of the README, with their intended signatures there. The headline signatures give the
+Kazhdan–Margulis theorem for closed symplectic matrix groups and the spectral-separation step
+of local invariant cycles. The remaining signatures provide the linear and commutative algebra
+of the corresponding README layers.
 
 Design choices made explicit here:
 * over a field, an ordinary quadratic form is Mathlib's `QuadraticMap.Nondegenerate` on a nonzero
@@ -51,6 +50,46 @@ namespace TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
 universe u
 
+open scoped Matrix
+
+/-! ## Headline theorems on pinned carriers -/
+
+/-- Kazhdan–Margulis for a closed subgroup of a finite-dimensional symplectic group over
+`ℚ_ℓ`: topological generation by transvections and absence of proper nonzero invariant
+subspaces imply openness in the isometry group. Dimension zero is included. README 5.8. -/
+theorem LefschetzPencil.kazhdanMargulis_linear (ℓ : ℕ) [Fact ℓ.Prime] (d : ℕ)
+    (B : LinearMap.BilinForm ℚ_[ℓ] (Fin d → ℚ_[ℓ]))
+    (hB : LinearMap.IsAlt B) (hBnd : B.Nondegenerate)
+    (H : Subgroup (Matrix.GeneralLinearGroup (Fin d) ℚ_[ℓ]))
+    (hclosed : IsClosed (H : Set (Matrix.GeneralLinearGroup (Fin d) ℚ_[ℓ])))
+    (hpres : ∀ g ∈ H, ∀ x y, B ((g : Matrix _ _ _) *ᵥ x) ((g : Matrix _ _ _) *ᵥ y) = B x y)
+    (hirr : ∀ W : Submodule ℚ_[ℓ] (Fin d → ℚ_[ℓ]),
+      (∀ g ∈ H, ∀ w ∈ W, (g : Matrix _ _ _) *ᵥ w ∈ W) → W = ⊥ ∨ W = ⊤)
+    {ι : Type*} (T : ι → Matrix.GeneralLinearGroup (Fin d) ℚ_[ℓ])
+    (δ : ι → (Fin d → ℚ_[ℓ])) (c : ι → ℚ_[ℓ]) (hc : ∀ i, c i ≠ 0)
+    (hT : ∀ i, (Matrix.GeneralLinearGroup.toLin (T i) : Module.End ℚ_[ℓ] (Fin d → ℚ_[ℓ])) =
+      LinearMap.transvection (c i • B.flip (δ i)) (δ i))
+    (hgen : (Subgroup.closure (Set.range T)).topologicalClosure = H) :
+    IsOpen {g : {g : Matrix.GeneralLinearGroup (Fin d) ℚ_[ℓ] //
+        ∀ x y, B ((g : Matrix _ _ _) *ᵥ x) ((g : Matrix _ _ _) *ᵥ y) = B x y} |
+      g.val ∈ H} := by
+  sorry
+
+/-- Spectral separation (README 7b.5): in an exact cross `L → M → C`, `M ↠ B` of
+finite-dimensional spaces over an algebraically closed field, equivariant for endomorphisms of
+`M`, `C` and `B`, if no eigenvalue on `B` is an eigenvalue on `C` then `L → B` is surjective. This
+is the step of Weil II 3.6.1 that the weight bounds feed. -/
+theorem InvariantCycles.surjective_of_disjoint_spectra {K L M C B : Type*} [Field K] [IsAlgClosed K]
+    [AddCommGroup L] [Module K L] [AddCommGroup M] [Module K M] [FiniteDimensional K M]
+    [AddCommGroup C] [Module K C] [FiniteDimensional K C]
+    [AddCommGroup B] [Module K B] [FiniteDimensional K B]
+    (f : L →ₗ[K] M) (g : M →ₗ[K] C) (p : M →ₗ[K] B) (hfg : Function.Exact f g)
+    (hp : Function.Surjective p) (FM : Module.End K M) (FC : Module.End K C)
+    (FB : Module.End K B) (hg : g ∘ₗ FM = FC ∘ₗ g) (hpF : p ∘ₗ FM = FB ∘ₗ p)
+    (hdisj : ∀ μ : K, FB.HasEigenvalue μ → ¬ FC.HasEigenvalue μ) :
+    Function.Surjective (p ∘ₗ f) := by
+  sorry
+
 /-! ## Layer LPV.0: Underlying variation and Galois conjugation -/
 
 namespace VanishingCycles
@@ -79,6 +118,21 @@ end VanishingCycles
 namespace VanishingCycles
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+
+/-- Every nilpotent endomorphism has a unique finite increasing monodromy filtration
+centred at `c`. The map/comap equalities express bijectivity of `N^r` on opposite graded
+quotients without choosing quotient isomorphisms. The last equality is strictness of `N`.
+README 1.3–1.4. -/
+theorem exists_monodromyFiltration [FiniteDimensional K V] (N : Module.End K V)
+    (hN : IsNilpotent N) (c : ℤ) :
+    ∃! M : ℤ → Submodule K V,
+      Monotone M ∧ (∃ a b : ℤ, M a = ⊥ ∧ M b = ⊤) ∧
+      (∀ i : ℤ, (M i).map N ≤ M (i - 2)) ∧
+      (∀ r : ℕ,
+        (M (c + (r : ℤ))).map (N ^ r) ⊔ M (c - (r : ℤ) - 1) = M (c - (r : ℤ)) ∧
+        M (c + (r : ℤ)) ⊓ (M (c - (r : ℤ) - 1)).comap (N ^ r) = M (c + (r : ℤ) - 1)) ∧
+      (∀ i : ℤ, (M (i + 2)).map N = LinearMap.range N ⊓ M i) := by
+  sorry
 
 section GradedSl2Checks
 
@@ -131,49 +185,6 @@ theorem maximalNilpotent_conj {W : Type*} [AddCommGroup W] [Module K W] (e : V �
     IsMaximallyNilpotent ((e : V →ₗ[K] W) ∘ₗ N ∘ₗ (e.symm : W →ₗ[K] V)) := by
   sorry
 
-/-- README check `maximal_three_block`: the size-three Jordan block is maximally nilpotent. -/
-example : IsMaximallyNilpotent
-    (Matrix.toLin' !![(0 : ℚ), 1, 0; 0, 0, 1; 0, 0, 0] : Module.End ℚ (Fin 3 → ℚ)) := by
-  sorry
-
-/-- README check `maximal_not_two_plus_one`: a size-two Jordan block plus a trivial line is not
-maximally nilpotent. -/
-example : ¬ IsMaximallyNilpotent
-    (Matrix.toLin' !![(0 : ℚ), 1, 0; 0, 0, 0; 0, 0, 0] : Module.End ℚ (Fin 3 → ℚ)) := by
-  sorry
-
-/-- README check `maximal_zero_dimension_excluded`: the zero space is excluded from the
-definition. -/
-example : ¬ IsMaximallyNilpotent (0 : Module.End ℚ (Fin 0 → ℚ)) := by
-  sorry
-
-/-- Zero on a line is maximally nilpotent. README `maximal_one_dimension`. -/
-example : IsMaximallyNilpotent (0 : Module.End ℚ ℚ) := by
-  sorry
-
-/-- Identity on a line is maximally unipotent. README `maximal_one_dimension`. -/
-example : IsMaximallyUnipotent (1 : LinearMap.GeneralLinearGroup ℚ ℚ) := by
-  sorry
-
-/-- The automorphism with matrix `1+J₃` is maximal. README `maximal_unipotent_three_block`. -/
-example (T : LinearMap.GeneralLinearGroup ℚ (Fin 3 → ℚ))
-    (hT : (T : Module.End ℚ (Fin 3 → ℚ)) =
-      Matrix.toLin' !![(1 : ℚ), 1, 0; 0, 1, 1; 0, 0, 1]) :
-    IsMaximallyUnipotent T := by
-  sorry
-
-/-- The automorphism with matrix `1+(J₂⊕0)` is not maximal.
-README `maximal_unipotent_not_two_plus_one`. -/
-example (T : LinearMap.GeneralLinearGroup ℚ (Fin 3 → ℚ))
-    (hT : (T : Module.End ℚ (Fin 3 → ℚ)) =
-      Matrix.toLin' !![(1 : ℚ), 1, 0; 0, 1, 0; 0, 0, 1]) :
-    ¬ IsMaximallyUnipotent T := by
-  sorry
-
-/-- Identity in dimension two is not maximal. README `maximal_unipotent_identity_two`. -/
-example : ¬ IsMaximallyUnipotent (1 : LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ)) := by
-  sorry
-
 end VanishingCycles
 
 /-! ## Layer LPV.2: Ordinary quadratic singularities and the Picard–Lefschetz formula -/
@@ -199,13 +210,13 @@ theorem isOrdinaryOverField_iff_polar_nondegenerate [Invertible (2 : K)] [Nontri
 is ordinary: the polar form has kernel the line of `e₂`, on which the form does not vanish, so the
 conic `xy = z²` is smooth, although the form is not polar-nondegenerate. This is also the
 characteristic-two cone of README 2.7 after the quadratic base change `t = z²` in `xy = t`. -/
-example [CharP K 2] : IsOrdinaryOverField
+theorem isOrdinary_xy_add_sq_char_two [CharP K 2] : IsOrdinaryOverField
     (QuadraticMap.proj 0 1 + QuadraticMap.proj 2 2 : QuadraticForm K (Fin 3 → K)) := by
   sorry
 
 /-- README check `not_isOrdinary_sum_sq_char_two`: over any field of characteristic two,
 `x² + y² = (x + y)²` is not ordinary: `(1, 1)` lies in the radical. -/
-example [CharP K 2] : ¬ IsOrdinaryOverField
+theorem not_isOrdinary_sum_sq_char_two [CharP K 2] : ¬ IsOrdinaryOverField
     (QuadraticMap.proj 0 0 + QuadraticMap.proj 1 1 : QuadraticForm K (Fin 2 → K)) := by
   sorry
 
@@ -239,15 +250,23 @@ theorem isOrdinaryQuadraticGerm_cone {r : ℕ} (hr : 0 < r) (Q : QuadraticForm K
       (MvPowerSeries (Fin r) K ⧸ Ideal.span {quadraticSeries Q}) r := by
   sorry
 
-/-- For the product of two coordinates the expansion is the monomial `X i * X j`, including the
-case `i = j`. README 2.4, `quadraticSeries_proj`. -/
-example : quadraticSeries (QuadraticMap.proj 0 1 : QuadraticForm ℚ (Fin 2 → ℚ)) =
-    MvPowerSeries.X 0 * MvPowerSeries.X 1 := by
+/-- The coordinate expansion sends every product of two coordinate projections to the
+corresponding power-series monomial, including squares and characteristic two. README 2.4. -/
+theorem quadraticSeries_proj {r : ℕ} (i j : Fin r) :
+    quadraticSeries (QuadraticMap.proj i j : QuadraticForm K (Fin r → K)) =
+      MvPowerSeries.X i * MvPowerSeries.X j := by
   sorry
 
-/-- The diagonal case: `x₀²` expands to `X 0 ^ 2`, with no factor of two. -/
-example : quadraticSeries (QuadraticMap.proj 0 0 : QuadraticForm ℚ (Fin 2 → ℚ)) =
-    MvPowerSeries.X 0 ^ 2 := by
+/-- For a finite free module of positive even rank over a commutative ring, a perfect polar
+pairing makes the even Clifford centre finite étale of rank two and the even Clifford algebra
+Azumaya over its centre. No invertibility of two is required. README 2.2. -/
+theorem center_even_etale_azumaya {R W : Type*} [CommRing R] [Nontrivial R]
+    [AddCommGroup W] [Module R W] [Module.Free R W] [Module.Finite R W]
+    (Q : QuadraticForm R W) (hQ : Function.Bijective Q.polarBilin)
+    (hpos : 0 < Module.finrank R W) (heven : Even (Module.finrank R W)) :
+    Algebra.Etale R (Subalgebra.center R (CliffordAlgebra.even Q)) ∧
+      Module.finrank R (Subalgebra.center R (CliffordAlgebra.even Q)) = 2 ∧
+      IsAzumaya (Subring.center (CliffordAlgebra.even Q)) (CliffordAlgebra.even Q) := by
   sorry
 
 /-- For an ordinary form of even rank the centre `Z(Q)` of the even Clifford algebra has
@@ -261,46 +280,7 @@ theorem finrank_center_even [FiniteDimensional K V] (Q : QuadraticForm K V)
     Module.finrank K (Subalgebra.center K (CliffordAlgebra.even Q)) = 2 := by
   sorry
 
-/-- The rank-one square is ordinary. README `isOrdinary_rank_one`. -/
-example : IsOrdinaryOverField
-    (QuadraticMap.proj 0 0 : QuadraticForm ℚ (Fin 1 → ℚ)) := by
-  sorry
-
-/-- Rank zero is excluded. README `isOrdinary_zero_rank_excluded`. -/
-example : ¬ IsOrdinaryOverField (0 : QuadraticForm ℚ (Fin 0 → ℚ)) := by
-  sorry
-
-/-- The characteristic-two expansion of `xy+z²` keeps the mixed term.
-README 2.4, `quadraticSeries`. -/
-example [CharP K 2] : quadraticSeries
-    (QuadraticMap.proj 0 1 + QuadraticMap.proj 2 2 : QuadraticForm K (Fin 3 → K)) =
-    MvPowerSeries.X 0 * MvPowerSeries.X 1 + (MvPowerSeries.X 2) ^ 2 := by
-  sorry
-
 end Quadric
-
-namespace VanishingCycles
-
-/-- README 2.6 coefficient-compatible local variation: doubling loses a coefficient
-at modulus two, so the ramified comparison requires the integral local lift. -/
-example : (0 : ZMod 2) ≠ 1 ∧ 2 * (0 : ZMod 2) = 2 * (1 : ZMod 2) := by
-  decide
-
-/-- README 2.6 and 2.7: the distinct coefficients `1` and `-1` have the same double
-modulo four; the original node coefficient is the reduction of integral `-1`. -/
-example : (1 : ZMod 4) ≠ -1 ∧ 2 * (1 : ZMod 4) = 2 * (-1 : ZMod 4) := by
-  decide
-
-/-- README 2.6: cancellation is valid on an integral local scalar line over `ℤ₂`. -/
-example (c d : ℤ_[2]) (h : (2 : ℤ_[2]) * c = 2 * d) : c = d := by
-  exact mul_left_cancel₀ (by norm_num : (2 : ℤ_[2]) ≠ 0) h
-
-/-- README 2.6: in residue characteristic two the admissible odd coefficient ring
-`ℤ/3` permits division by two without introducing `ℤ/6`. -/
-example : IsUnit (2 : ZMod 3) := by
-  decide
-
-end VanishingCycles
 
 /-! ## Layer LPV.4: Global vanishing cycles -/
 
@@ -322,58 +302,6 @@ theorem fixedSpace_localTransvections {ι : Type*} (B : LinearMap.BilinForm K V)
       B.orthogonal (Submodule.span K (Set.range δ)) := by
   sorry
 
-/-- README check `fixedSpace_reflection`: on `ℚ²` with the dot product, the reflection in
-`δ = (1, -1)` swaps the coordinates. -/
-example : localTransvection (Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ)) (-1) ![1, -1]
-    ![1, 0] = ![0, 1] := by
-  sorry
-
-/-- README `wild_twisted_cubic`: the transported differences span a plane in the
-three-point permutation representation, while a single chosen difference spans a line. -/
-example : Module.finrank ℚ
-      (Submodule.span ℚ {(![1, -1, 0] : Fin 3 → ℚ), ![1, 0, -1]}) = 2 ∧
-    Module.finrank ℚ (Submodule.span ℚ {(![1, -1, 0] : Fin 3 → ℚ)}) = 1 := by
-  sorry
-
-/-- README 5.3: the orthogonal of the full transported root span is the diagonal
-invariant line of the three-point permutation representation. -/
-example : (Matrix.toBilin' (1 : Matrix (Fin 3) (Fin 3) ℚ)).orthogonal
-      (Submodule.span ℚ {(![1, -1, 0] : Fin 3 → ℚ), ![1, 0, -1]}) =
-    Submodule.span ℚ {(![1, 1, 1] : Fin 3 → ℚ)} := by
-  sorry
-
-/-- The coordinate-swap reflection fixes exactly the diagonal line.
-README `fixedSpace_reflection`. -/
-example : LinearMap.ker
-    (localTransvection (Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ)) (-1) ![1, -1] - 1) =
-    Submodule.span ℚ {![1, 1]} := by
-  sorry
-
-/-- Reflections in an `A₂` pair of roots of square two with pairing `-1`: the composite has trace
-`-1 = dim E - 4 + (δ, δ')²`, the identity used in README 5.10 (Weil II, p. 230, prints the
-constant `2` in place of `4`, which would give `1` here). -/
-example : LinearMap.trace ℚ (Fin 2 → ℚ)
-    (localTransvection (Matrix.toBilin' !![(2 : ℚ), -1; -1, 2]) (-1) ![1, 0] ∘ₗ
-      localTransvection (Matrix.toBilin' !![(2 : ℚ), -1; -1, 2]) (-1) ![0, 1]) = -1 := by
-  sorry
-
-/-- A plane symplectic transvection fixes precisely its isotropic line.
-README `fixedSpace_symplectic_plane`. -/
-example : LinearMap.ker
-    (localTransvection (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) 1 ![1, 0] - 1) =
-    Submodule.span ℚ {![1, 0]} := by
-  sorry
-
-/-- A zero vanishing vector gives identity. README `fixedSpace_symplectic_plane`. -/
-example : localTransvection (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) 1
-    (0 : Fin 2 → ℚ) = 1 := by
-  sorry
-
-/-- A zero coefficient gives identity even for a nonzero vector.
-README `fixedSpace_needs_nonzero_coefficient`. -/
-example : localTransvection (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) 0 ![1, 0] = 1 := by
-  sorry
-
 /-- The radical `E ∩ E^⊥` of the restriction of `B` to `E`, as a submodule of `E`. README 4.4. -/
 def vanishingRadical (B : LinearMap.BilinForm K V) (E : Submodule K V) : Submodule K E :=
   (B.orthogonal E).comap E.subtype
@@ -389,91 +317,23 @@ theorem exists_vanishingForm (B : LinearMap.BilinForm K V) (hB : B.IsRefl) (E : 
       ∀ x y : E, ψ (Submodule.mkQ _ x) (Submodule.mkQ _ y) = B x y := by
   sorry
 
+/-- The radical quotient inherits an alternating form from an alternating pairing,
+with the pairing on representatives unchanged. README 4.4. -/
+theorem exists_alternating_vanishingForm (B : LinearMap.BilinForm K V)
+    (hB : LinearMap.IsAlt B) (E : Submodule K V) :
+    ∃ ψ : LinearMap.BilinForm K (vanishingQuotient B E),
+      ψ.Nondegenerate ∧ LinearMap.IsAlt ψ ∧
+      ∀ x y : E, ψ (Submodule.mkQ _ x) (Submodule.mkQ _ y) = B x y := by
+  sorry
+
 /-- The standard symplectic form on `ℚ⁴` with `B(e₀, e₁) = B(e₂, e₃) = 1`. -/
 def stdSymplectic4 : LinearMap.BilinForm ℚ (Fin 4 → ℚ) :=
   Matrix.toBilin' !![0, 1, 0, 0; -1, 0, 0, 0; 0, 0, 0, 1; 0, 0, -1, 0]
 
-/-- The radical is the line of `e₂` inside the three-dimensional subspace.
-README `vanishingQuotient_radical`. -/
-example : let E : Submodule ℚ (Fin 4 → ℚ) :=
-      Submodule.span ℚ {Pi.single 0 1, Pi.single 1 1, Pi.single 2 1}
-    vanishingRadical stdSymplectic4 E =
-      (Submodule.span ℚ {Pi.single 2 1}).comap E.subtype := by
-  sorry
-
-/-- The zero vanishing subspace has zero-dimensional radical quotient.
-README `vanishingQuotient_zero`. -/
-example : Module.finrank ℚ (vanishingQuotient stdSymplectic4 ⊥) = 0 := by
-  sorry
-
 /-- README check `vanishingQuotient_radical`: `E = span(e₀, e₁, e₂)` has radical `ℚ e₂` and a
 two-dimensional radical quotient. -/
-example : Module.finrank ℚ (vanishingQuotient stdSymplectic4
+theorem vanishingQuotient_radical : Module.finrank ℚ (vanishingQuotient stdSymplectic4
     (Submodule.span ℚ {Pi.single 0 1, Pi.single 1 1, Pi.single 2 1})) = 2 := by
-  sorry
-
-/-- README check `vanishingQuotient_radical`, second half: the totally isotropic `span(e₀, e₂)` has
-zero radical quotient. -/
-example : Module.finrank ℚ (vanishingQuotient stdSymplectic4
-    (Submodule.span ℚ {Pi.single 0 1, Pi.single 2 1})) = 0 := by
-  sorry
-
-/-- The conic-pencil radical quotient is a line. README `vanishingQuotient_conic`. -/
-example : Module.finrank ℚ (vanishingQuotient
-    (Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ))
-    (Submodule.span ℚ {![1, -1]})) = 1 := by
-  sorry
-
-/-- The conic generator has square two. README `vanishingQuotient_conic`. -/
-example : Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) ![1, -1] ![1, -1] = 2 := by
-  sorry
-
-/-- The two-point conic fibre has rank-two degree-zero cohomology, the source of its trace.
-README 4.4, conic trace check. -/
-example : Module.finrank ℚ (Fin 2 → ℚ) = 2 := by
-  simp
-
-/-- The sum trace on the two-point conic fibre is invariant under swapping the points.
-README 4.4, conic trace check. -/
-example (x : Fin 2 → ℚ) :
-    (![x 1, x 0] : Fin 2 → ℚ) 0 + (![x 1, x 0] : Fin 2 → ℚ) 1 = x 0 + x 1 := by
-  simp [add_comm]
-
-/-- Componentwise cup product followed by sum trace gives the conic dot-product pairing.
-README 4.4, conic trace check. -/
-example (x y : Fin 2 → ℚ) :
-    Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) x y = x 0 * y 0 + x 1 * y 1 := by
-  simp [Matrix.toBilin'_apply, Fin.sum_univ_two, Matrix.one_apply]
-
-/-- The conic cup-trace pairing is invariant under the coordinate-swap monodromy.
-README 4.4, conic trace check. -/
-example (x y : Fin 2 → ℚ) :
-    Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) ![x 1, x 0] ![y 1, y 0] =
-      Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) x y := by
-  simp [Matrix.toBilin'_apply, Fin.sum_univ_two, Matrix.one_apply, add_comm]
-
-/-- The first ordered basis pairing fixes the sign of `stdSymplectic4`. README 4.4. -/
-example : stdSymplectic4 (Pi.single 0 1) (Pi.single 1 1) = 1 := by
-  sorry
-
-/-- Reversing the basis pair reverses its sign. README 4.4. -/
-example : stdSymplectic4 (Pi.single 1 1) (Pi.single 0 1) = -1 := by
-  sorry
-
-/-- The matrix of `stdSymplectic4` has determinant one. README 4.4. -/
-example : Matrix.det (!![(0 : ℚ), 1, 0, 0; -1, 0, 0, 0;
-    0, 0, 0, 1; 0, 0, -1, 0] : Matrix (Fin 4) (Fin 4) ℚ) = 1 := by
-  sorry
-
-/-- The standard four-dimensional symplectic form is nondegenerate. README 4.4. -/
-example : stdSymplectic4.Nondegenerate := by
-  sorry
-
-/-- The hyperbolic plane is nondegenerate and has a nonzero isotropic vector.
-README 5.10. -/
-example : (Matrix.toBilin' !![(0 : ℚ), 1; 1, 0]).Nondegenerate ∧
-    Matrix.toBilin' !![(0 : ℚ), 1; 1, 0] ![1, 0] ![1, 0] = 0 ∧
-    (![1, 0] : Fin 2 → ℚ) ≠ 0 := by
   sorry
 
 /-! ## Layer LPV.5: Conjugacy, monodromy and the open image theorem -/
@@ -494,53 +354,6 @@ theorem eq_skewAdjoint_of_generated [CharZero K] [FiniteDimensional K V]
       (Set.range fun i => symplecticTransvectionGenerator B (δ i)) = L)
     [LieModule.IsIrreducible K L V] :
     L = skewAdjointLieSubalgebra B := by
-  sorry
-
-/-- The two plane generators generate the full symplectic Lie algebra. README 5.6. -/
-example : LieSubalgebra.lieSpan ℚ (Module.End ℚ (Fin 2 → ℚ))
-    (Set.range fun i : Fin 2 => symplecticTransvectionGenerator
-      (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) (Pi.single i 1)) =
-    skewAdjointLieSubalgebra (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) := by
-  sorry
-
-/-- Transvection generators scale quadratically and square to zero. README 5.6. -/
-example (c : ℚ) (δ : Fin 2 → ℚ) :
-    symplecticTransvectionGenerator (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) (c • δ) =
-      c ^ 2 • symplecticTransvectionGenerator (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) δ ∧
-    (symplecticTransvectionGenerator (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) δ) ^ 2 = 0 ∧
-    symplecticTransvectionGenerator (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) δ ∈
-      skewAdjointLieSubalgebra (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) := by
-  sorry
-
-/-- A single plane generator spans a one-dimensional Lie algebra and fails simplicity.
-README 5.6. -/
-example : let L := (LieSubalgebra.lieSpan ℚ (Module.End ℚ (Fin 2 → ℚ))
-      {symplecticTransvectionGenerator (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) ![1, 0]})
-    Module.finrank ℚ L = 1 ∧ ¬ LieModule.IsIrreducible ℚ L (Fin 2 → ℚ) := by
-  sorry
-
-/-- A continuous integer degree on a compact space has finite image. README 5.11. -/
-example {P : Type*} [TopologicalSpace P] [CompactSpace P]
-    (degree : P → ℤ) (hdegree : Continuous degree) :
-    (Set.range degree).Finite := by
-  sorry
-
-/-- The native profinite lift is continuous, sends degree one to its base, and agrees with
-integer powers. For README 5.11 its target is the profinite unit group of a finite local field. -/
-example {P : Type*} [Group P] [TopologicalSpace P] [IsTopologicalGroup P]
-    [CompactSpace P] [TotallyDisconnectedSpace P] (a : P) (k : ℤ) :
-    Continuous (TauCeti.zHat.lift a : TauCeti.zHat → P) ∧
-      TauCeti.zHat.lift a TauCeti.zHat.gen = a ∧
-      TauCeti.zHat.lift a (TauCeti.zHat.ofInt (Multiplicative.ofAdd k)) = a ^ k := by
-  sorry
-
-/-- A continuous unit character of profinite degree makes the eigenvalue determinant
-condition closed. README 5.11. -/
-example {R G : Type*} [CommRing R] [TopologicalSpace R] [IsTopologicalRing R] [T2Space R]
-    [TopologicalSpace G] (d : ℕ) (A : G → Matrix (Fin d) (Fin d) R) (hA : Continuous A)
-    (degree : G → TauCeti.zHat) (hdegree : Continuous degree)
-    (θ : TauCeti.zHat →ₜ* Rˣ) :
-    IsClosed {g : G | (A g - (θ (degree g) : R) • (1 : Matrix (Fin d) (Fin d) R)).det = 0} := by
   sorry
 
 end LefschetzPencil
@@ -574,50 +387,36 @@ theorem normalizationDifferential_constant (Γ : DualGraph) (c : Λ) :
     normalizationDifferential Γ (fun _ => c) = 0 := by
   sorry
 
-/-- README check `normalization_loop_test`: on the graph with one vertex and one loop, `d = 0`, so
-the edge quotient is `Λ`, not zero: a loop is a cycle of the dual graph. -/
-example : normalizationDifferential (Λ := ℚ)
-    ({ Vertex := Unit, Edge := Unit, endpoint := fun _ _ => (), genus := fun _ => 0,
-       connected := fun _ _ => .refl } : DualGraph) = 0 := by
-  sorry
-
-/-- A tree has surjective normalization differential and zero edge quotient.
-README `normalization_tree_test`. -/
-example : let Γ : DualGraph :=
-      { Vertex := Fin 2, Edge := Unit, endpoint := fun _ i => i,
-        genus := fun _ => 0, connected := by sorry }
-    (∀ a b : ℚ, normalizationDifferential Γ ![a, b] = fun _ => a - b) ∧
-      Module.finrank ℚ ((Γ.Edge → ℚ) ⧸ LinearMap.range (normalizationDifferential (Λ := ℚ) Γ)) = 0 := by
-  sorry
-
-/-- Parallel edges remain two coordinates and give a rank-one quotient.
-README `normalization_parallel_test`. -/
-example : let Γ : DualGraph :=
-      { Vertex := Fin 2, Edge := Fin 2, endpoint := fun _ i => i,
-        genus := fun _ => 0, connected := by sorry }
-    (∀ a b : ℚ, normalizationDifferential Γ ![a, b] = ![a - b, a - b]) ∧
-      Module.finrank ℚ ((Γ.Edge → ℚ) ⧸ LinearMap.range (normalizationDifferential (Λ := ℚ) Γ)) = 1 := by
+/-- The edge cokernel of a connected dual graph has dimension its first Betti number;
+loops and parallel edges retain their separate coordinates. README 7a.1. -/
+theorem normalizationCokernel_finrank {K : Type*} [Field K] (Γ : DualGraph) :
+    Module.finrank K ((Γ.Edge → K) ⧸ LinearMap.range (normalizationDifferential (Λ := K) Γ)) =
+      Fintype.card Γ.Edge + 1 - Fintype.card Γ.Vertex := by
   sorry
 
 /-- Illusie's negative thickness-weighted edge form `u₋(a, b) = -Σ_e n_e a_e b_e`. README 7a.3. -/
 def negEdgePairing [Fintype Ed] [DecidableEq Ed] (n : Ed → ℕ) : LinearMap.BilinForm Λ (Ed → Λ) :=
   Matrix.toBilin' (-(Matrix.diagonal fun e => (n e : Λ)))
 
-/-- For the two-edge cycle of unit thickness the graph cycle `(1, -1)` has `u₋`-norm `-2`. -/
-example : negEdgePairing (Λ := ℚ) (fun _ : Fin 2 => 1) ![1, -1] ![1, -1] = -2 := by
+/-- The edge pairing is the negative sum of thickness-weighted coordinate products,
+fixing the residue-coordinate sign used in the curve monodromy factorization. README 7a.3. -/
+theorem negEdgePairing_apply [Fintype Ed] [DecidableEq Ed] (n : Ed → ℕ) (a b : Ed → Λ) :
+    negEdgePairing n a b = -∑ e, (n e : Λ) * a e * b e := by
   sorry
 
-/-- A thickness-three edge has norm minus three. README 7a.3, `negEdgePairing`. -/
-example : negEdgePairing (Λ := ℚ) (fun _ : Fin 1 => 3) ![1] ![1] = -3 := by
-  sorry
-
-/-- Distinct edges are orthogonal in the negative edge form. README 7a.3. -/
-example : negEdgePairing (Λ := ℚ) (fun _ : Fin 2 => 3) ![1, 0] ![0, 1] = 0 := by
-  sorry
-
-/-- Doubling thicknesses doubles the form. README 7a.3. -/
-example [Fintype Ed] [DecidableEq Ed] (n : Ed → ℕ) (a b : Ed → Λ) :
-    negEdgePairing (fun e => 2 * n e) a b = 2 * negEdgePairing n a b := by
+/-- A nodal-curve monodromy factorization through a perfect graph pairing gives
+square-zero monodromy, its kernel and image, and its graph rank. The maps are the
+specialization quotient and cospecialization injection. README 7a.3. -/
+theorem monodromy_factorization {K V M W : Type*} [Field K]
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    [AddCommGroup M] [Module K M] [FiniteDimensional K M]
+    [AddCommGroup W] [Module K W]
+    (c : V →ₗ[K] M) (c' : W →ₗ[K] V) (u : M ≃ₗ[K] W)
+    (hc : Function.Surjective c) (hc' : Function.Injective c') (hcc' : c ∘ₗ c' = 0) :
+    let N := c' ∘ₗ (u : M →ₗ[K] W) ∘ₗ c
+    N ^ 2 = 0 ∧ LinearMap.ker N = LinearMap.ker c ∧
+      LinearMap.range N = LinearMap.range c' ∧
+      Module.finrank K (LinearMap.range N) = Module.finrank K M := by
   sorry
 
 end Semistable
@@ -632,92 +431,20 @@ noncomputable def invariantSpecialization {G k W V : Type*} [Group G] [CommRing 
     (h : ∀ w, sp w ∈ ρ.invariants) : W →ₗ[k] ρ.invariants :=
   LinearMap.codRestrict ρ.invariants sp h
 
-/-- Identity specialization onto a trivial line is onto the invariants.
-README `invariant_sp_identity_test`. -/
-example (h : ∀ x : ℚ, x ∈ (Representation.trivial ℚ Unit ℚ).invariants) :
-    Function.Surjective (invariantSpecialization (Representation.trivial ℚ Unit ℚ)
-      LinearMap.id h) := by
-  sorry
-
-/-- Zero specialization onto a trivial line is not onto the invariants.
-README `invariant_sp_zero_test`. -/
-example (h : ∀ x : ℚ, (0 : ℚ →ₗ[ℚ] ℚ) x ∈
-    (Representation.trivial ℚ Unit ℚ).invariants) :
-    ¬ Function.Surjective (invariantSpecialization (Representation.trivial ℚ Unit ℚ) 0 h) := by
-  sorry
-
-/-- The shear invariants are its fixed line; identity does not corestrict.
-README `invariant_sp_unipotent_test`. -/
-example : let ρ : Representation ℚ (Multiplicative ℤ) (Fin 2 → ℚ) :=
-      { toFun := fun t => Matrix.toLin' !![(1 : ℚ), ((Multiplicative.toAdd t : ℤ) : ℚ); 0, 1]
-        map_one' := by sorry
-        map_mul' := by sorry }
-    let sp : ℚ →ₗ[ℚ] (Fin 2 → ℚ) := LinearMap.pi fun i => if i = 0 then LinearMap.id else 0
-    (∃ h : ∀ x, sp x ∈ ρ.invariants, Function.Surjective (invariantSpecialization ρ sp h)) ∧
-      ¬ (∀ v : Fin 2 → ℚ, (LinearMap.id : Module.End ℚ (Fin 2 → ℚ)) v ∈ ρ.invariants) := by
-  sorry
-
-/-- Spectral separation (README 7b.5): in an exact cross `L → M → C`, `M ↠ B` of
-finite-dimensional spaces over an algebraically closed field, equivariant for endomorphisms of
-`M`, `C` and `B`, if no eigenvalue on `B` is an eigenvalue on `C` then `L → B` is surjective. This
-is the step of Weil II 3.6.1 that the weight bounds feed. -/
-theorem surjective_of_disjoint_spectra {K L M C B : Type*} [Field K] [IsAlgClosed K]
-    [AddCommGroup L] [Module K L] [AddCommGroup M] [Module K M] [FiniteDimensional K M]
-    [AddCommGroup C] [Module K C] [FiniteDimensional K C]
-    [AddCommGroup B] [Module K B] [FiniteDimensional K B]
-    (f : L →ₗ[K] M) (g : M →ₗ[K] C) (p : M →ₗ[K] B) (hfg : Function.Exact f g)
-    (hp : Function.Surjective p) (FM : Module.End K M) (FC : Module.End K C)
-    (FB : Module.End K B) (hg : g ∘ₗ FM = FC ∘ₗ g) (hpF : p ∘ₗ FM = FB ∘ₗ p)
-    (hdisj : ∀ μ : K, FB.HasEigenvalue μ → ¬ FC.HasEigenvalue μ) :
-    Function.Surjective (p ∘ₗ f) := by
+/-- Specialization corestricted to invariants is surjective exactly when its underlying
+image is the invariant submodule. README 7b.1. -/
+theorem invariantSpecialization_range {G k W V : Type*} [Group G] [CommRing k]
+    [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W]
+    (ρ : Representation k G V) (sp : W →ₗ[k] V) (h : ∀ w, sp w ∈ ρ.invariants) :
+    Function.Surjective (invariantSpecialization ρ sp h) ↔ LinearMap.range sp = ρ.invariants := by
   sorry
 
 /-- Overlapping spectra do not force surjectivity. README `separation_needed`. -/
-example : let f : (Fin 0 → ℂ) →ₗ[ℂ] ℂ := 0
+theorem separation_needed : let f : (Fin 0 → ℂ) →ₗ[ℂ] ℂ := 0
     let g : ℂ →ₗ[ℂ] ℂ := LinearMap.id
     let p : ℂ →ₗ[ℂ] ℂ := LinearMap.id
     Function.Exact f g ∧ Function.Surjective p ∧
       (1 : Module.End ℂ ℂ).HasEigenvalue 1 ∧ ¬ Function.Surjective (p ∘ₗ f) := by
-  sorry
-
-/-- A zero upper term leaves an onto map to the right term.
-README `separation_trivial_C`. -/
-example : let f : ℂ →ₗ[ℂ] ℂ := LinearMap.id
-    let g : ℂ →ₗ[ℂ] (Fin 0 → ℂ) := 0
-    let p : ℂ →ₗ[ℂ] ℂ := LinearMap.id
-    Function.Exact f g ∧
-      (∀ μ : ℂ, ¬ (0 : Module.End ℂ (Fin 0 → ℂ)).HasEigenvalue μ) ∧
-      Function.Surjective (p ∘ₗ f) := by
-  sorry
-
-/-- Distinct coordinate eigenvalues separate the exact cross.
-README `separation_two_eigenvalues`. -/
-example (q : ℂ) (hq : q ≠ 1) :
-    let f : ℂ →ₗ[ℂ] (Fin 2 → ℂ) := LinearMap.pi fun i => if i = 0 then LinearMap.id else 0
-    let g : (Fin 2 → ℂ) →ₗ[ℂ] ℂ := LinearMap.proj 1
-    let p : (Fin 2 → ℂ) →ₗ[ℂ] ℂ := LinearMap.proj 0
-    let F : Module.End ℂ (Fin 2 → ℂ) := Matrix.toLin' !![(1 : ℂ), 0; 0, q]
-    Function.Exact f g ∧ g ∘ₗ F = (q • LinearMap.id) ∘ₗ g ∧
-      p ∘ₗ F = p ∧
-      (∀ μ : ℂ, (1 : Module.End ℂ ℂ).HasEigenvalue μ →
-        ¬ (q • LinearMap.id : Module.End ℂ ℂ).HasEigenvalue μ) ∧
-      Function.Surjective (p ∘ₗ f) := by
-  sorry
-
-/-- One transported pair difference kills a vector outside the diagonal line, so its map
-on the global relative quotient is not injective. README `local_obstruction_single_transport`. -/
-example :
-    (![1, 1, 0] : Fin 3 → ℚ) ∉ Submodule.span ℚ {(![1, 1, 1] : Fin 3 → ℚ)} ∧
-    (((LinearMap.proj 0 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 1 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) ![1, 1, 0] = 0 := by
-  sorry
-
-/-- The kernels of all transported pair differences intersect in the diagonal line,
-so the family detects the global relative quotient. README `local_obstruction_all_transports`. -/
-example :
-    (LinearMap.ker (((LinearMap.proj 0 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 1 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) ⊓
-      LinearMap.ker (((LinearMap.proj 0 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 2 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) ⊓
-      LinearMap.ker (((LinearMap.proj 1 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 2 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) =
-    Submodule.span ℚ {(![1, 1, 1] : Fin 3 → ℚ)} := by
   sorry
 
 end InvariantCycles
@@ -730,7 +457,7 @@ stated there only, with their intended signatures: absolute purity (0.10); the t
 the exact `OrientedFibreTopos.geometricGenericRestriction` functor `U`, `Ψ`, `RΨ`, `RΦ`, the
 underlying variation and its naturality and Galois conjugation covariance, and their
 functoriality (0.2–0.8), and the nearby–Betti adapter (0.8a); Grothendieck's monodromy theorems, the twisted
-operator `N`, the monodromy filtration in an abelian category and its primitive decomposition, the
+operator `N`, the monodromy filtration in a general abelian category and its primitive decomposition, the
 relative filtration, `can` and `var`, the filtered derived category and the two-component
 semistable complex, and the semisimple trace (1.1–1.10); quadrics, their cohomology, ordinary
 quadratic points over a base, standard degenerations and the Picard–Lefschetz theory (2.1–2.8);
@@ -738,7 +465,7 @@ Lefschetz pencils, Veronese embeddings, dual varieties, existence of pencils and
 specialization of full global monodromy (3.1–3.6); the
 direct images of a pencil, the vanishing subspace and the blow-up formulas (4.1–4.5); Bertini,
 conjugacy, generation, irreducibility, the middle-degree reduction, compact `ℓ`-adic subgroups, the
-Kazhdan–Margulis theorem, the orthogonal and characteristic-two branches and the gcd lemma
+geometric Kazhdan–Margulis theorem, the orthogonal and characteristic-two branches and the gcd lemma
 (5.1–5.11); Gabber's perversity theorems and the coherent nearby-cycle diagram criterion (6.1–6.6); nodal curves, the
 Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the invariant-cycle theorems
 (7b.1–7b.11). The canonical graded action of 1.4 includes zero monodromy; its native
@@ -770,7 +497,8 @@ The README names of the local targets' API and checks, by namespace:
   `pointwisePure_descent`, `RPhi_eq_zero_iff_locallyAcyclic`, `RPhi_node`, `RPhi_smooth`, `RPsi_stalk`,
   `RPsi_trait`, `equivSheavesOnTrait_constant`, `equivSheavesOnTrait_degenerate`,
   `equivSheavesOnTrait_jPushforward`, `filtrationFrobenius_mk`, `filtrationRepresentation_mk`,
-  `gradedN_mk`, `maximalLog_iff`, `maximal_one_dimension`, `monodromyFiltration_conj`,
+  `gradedN_mk`, `maximalLog_iff`, `maximal_one_dimension`, `maximal_three_block`,
+  `maximal_not_two_plus_one`, `maximal_zero_dimension_excluded`, `monodromyFiltration_conj`,
   `monodromyFiltration_eq_vectorSpace`, `monodromyFiltration_lowering`, `monodromyFiltration_mono`,
   `monodromyFiltration_not_kernel_filtration`, `monodromyFiltration_scalar`,
   `monodromyFiltration_three_block`, `monodromyFiltration_two_block`, `monodromyFiltration_zero`,
@@ -811,7 +539,7 @@ The README names of the local targets' API and checks, by namespace:
   `vanishingSubspace_eq_bot_of_no_singular_fibre`, `vanishingSubspace_quadric_surface`,
   `vanishingSubspace_stable`, `veronese_hyperplane`, `veronese_isClosedImmersion`.
 * `Semistable`: `normalizationDifferential_apply`, `normalizationDifferential_ker`,
-  `normalizationDifferential_reverse`, `normalization_parallel_test`, `normalization_tree_test`,
+  `normalizationDifferential_reverse`, `normalization_loop_test`, `normalization_parallel_test`, `normalization_tree_test`,
   `weightSpectralSequence_abutment`, `weightSpectralSequence_e1`, `weightSpectralSequence_e2`,
   `weightSpectralSequence_reindex`, `weight_ss_curve_test`, `weight_ss_nonproper_test`,
   `weight_ss_smooth_test`.

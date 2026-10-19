@@ -1070,6 +1070,10 @@ to `ker N^d / im N^d` with the induced endomorphism. Uniqueness uses the same ex
 Scalar invariance: the defining conditions are unchanged by `N ↦ aN`, `a` invertible. (Weil II,
 1.6.1–1.6.7 and 1.6.14, pp. 165–170.) *Needs:* ArithmeticGaloisRepresentations Layer 2, §2.6; Mathlib
 abelian categories (`CategoryTheory.Abelian`), images and kernels; EtaleCohomologyFoundations §F.0 (Tate twists).
+*Lean:* `VanishingCycles.exists_monodromyFiltration` states existence, uniqueness and strictness for every
+nilpotent endomorphism of a finite-dimensional space over any field. For each `r ≥ 0`,
+`N^r M_(c+r) + M_(c−r−1) = M_(c−r)` expresses graded surjectivity and
+`M_(c+r) ∩ (N^r)⁻¹ M_(c−r−1) = M_(c+r−1)` expresses graded injectivity.
 
 **Checks.**
 
@@ -1185,7 +1189,7 @@ dimensions. (Qian 2023, published Definition 3.6, PDF p. 21.) *Needs:* Tau Ceti
 `LinearMap.GeneralLinearGroup.IsUnipotent`; ArithmeticGaloisRepresentations Layer 2, §2.4 (logarithm);
 1.4 (Jordan blocks as `N`-strings). *Lean:* `Suggested.lean` declares `VanishingCycles.IsMaximallyNilpotent`,
 `VanishingCycles.IsMaximallyUnipotent`, `IsMaximallyUnipotent.isUnipotent`, `maximalNilpotent_kernel_rank` and
-`maximalNilpotent_conj`, with the three-block, two-plus-one and zero-dimensional checks as examples.
+`maximalNilpotent_conj`.
 
 **Checks.**
 
@@ -1476,7 +1480,8 @@ AlgebraicModuliForArithmeticGeometry Layer 1, §1.1 (projective bundles); Scheme
 0 (§0.8 smoothness, §§0.12–0.14 henselization); Mathlib's Jacobian criterion (`Algebra.IsStandardSmooth`,
 `Algebra.IsSmoothAt.exists_notMem_isStandardSmooth`). *Lean:* `Suggested.lean` declares the field case,
 `Quadric.IsOrdinaryOverField` (`Nontrivial V ∧ Q.Nondegenerate`) and `isOrdinaryOverField_iff_polar_nondegenerate`,
-with the two characteristic-two checks as examples over an arbitrary field of characteristic two.
+and the named boundary theorems `Quadric.isOrdinary_xy_add_sq_char_two` and
+`Quadric.not_isOrdinary_sum_sq_char_two` over every field of characteristic two.
 
 **Checks.**
 
@@ -1538,7 +1543,9 @@ Mathlib `CliffordAlgebra.even`, `Subalgebra.center`; Tau Ceti `CliffordAlgebra.a
 case with two invertible); SchemeAndStackFoundations Layers 0 (§0.8, étale localization) and 1 (§1.1, descent of
 quasi-coherent modules). *Lean:* `Suggested.lean` states the field case of `center_even_isEtale` as
 `Quadric.finrank_center_even` (dimension two for an ordinary form of even rank over a field, characteristic two
-included).
+included). The finite-free ring statement `Quadric.center_even_etale_azumaya` states
+étaleness, rank two and the Azumaya property over the centre when the polar map is bijective
+and the module has positive even rank; it includes characteristic two.
 
 **Checks.**
 
@@ -1678,9 +1685,9 @@ because `f` has no linear term, and ordinarity is invariant under both. Polar-no
 2.1 for the form in `n + 1` variables. (SGA 7 II, Exposé XV, Définition 1.2.1, p. 4; 1.2.2, pp. 4–5;
 Exemple 1.2.4, p. 5.) *Needs:* 2.1; Mathlib `MvPowerSeries`, `MvPowerSeries.order`, `AdicCompletion`
 (completed local rings); TauCetiRoadmap ModularCurves Layer 4D. *Lean:* `Suggested.lean` declares `Quadric.quadraticSeries`,
-the field formal-germ form `Quadric.IsOrdinaryQuadraticGerm` and `isOrdinaryQuadraticGerm_cone`, with the
-`quadraticSeries_proj` check (both the mixed and the diagonal case) as examples; "order at least three" is Mathlib's
-`3 ≤ MvPowerSeries.order R`.
+the field formal-germ form `Quadric.IsOrdinaryQuadraticGerm` and `isOrdinaryQuadraticGerm_cone`,
+and the characterizing theorem `Quadric.quadraticSeries_proj`, for all coordinate products
+including squares in every characteristic; "order at least three" is Mathlib's `3 ≤ MvPowerSeries.order R`.
 
 **Checks.**
 
@@ -2627,8 +2634,7 @@ an isotropic `δ_s`, the same computation for a reflection), iff `(x, δ_s) = 0`
 Mathlib `LinearMap.transvection`, `LinearEquiv.transvection`,
 `LinearEquiv.mem_fixedSubmodule_transvection_iff`, `LinearMap.BilinForm.orthogonal`. *Lean:* `Suggested.lean` declares
 the operator `LefschetzPencil.localTransvection B c δ` and the theorem for arbitrary indexing,
-with the transported three-point span and invariant-line checks, the reflection check and the `A₂` trace check
-of 5.10 as examples.
+with the nonzero-coefficient hypothesis used to identify each fixed space.
 
 **Checks.**
 
@@ -2673,7 +2679,8 @@ EtaleCohomologyFoundations §0.8 (`ClassicalAlgebraic.finiteTrace`) for dimensio
 Mathlib `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`,
 `Submodule.mkQ`. *Lean:* `Suggested.lean` declares the linear-algebra core: `LefschetzPencil.vanishingRadical`,
 `LefschetzPencil.vanishingQuotient`, `exists_vanishingForm` (a reflexive form descends to a nondegenerate form on the
-radical quotient) and the four-dimensional symplectic checks on `stdSymplectic4`.
+radical quotient), `LefschetzPencil.exists_alternating_vanishingForm` (including alternation),
+and the named boundary theorem `LefschetzPencil.vanishingQuotient_radical` on `stdSymplectic4`.
 
 **Checks.**
 
@@ -2684,7 +2691,7 @@ radical quotient) and the four-dimensional symplectic checks on `stdSymplectic4`
 - For the conic pencil with `n = 0` and `p ≠ 2`, the source of the relative trace has rank two:
   `H⁰(X_u,ℚ_ℓ) = ℚ_ℓ²`. The trace `(a,b) ↦ a+b` is invariant under the coordinate swap.
   Cup product is componentwise, so `Tr(x ∪ y) = x₁y₁+x₂y₂`, the dot-product pairing,
-  also invariant under the swap. `Suggested.lean` gives these coordinate checks over `ℚ`.
+  also invariant under the swap.
 - `LefschetzPencil.vanishingForm_on_E_degenerate`: The restriction of the standard symplectic form of `ℚ⁴` to `span(e₀, e₁, e₂)` is degenerate, whereas the induced form on the quotient is nondegenerate.
 
 ### 4.5 The cohomology of the total space
@@ -2994,7 +3001,13 @@ allowed (`Sp(0)` is trivial). *Proof sketch.* `H = ρ(π_1(U, u))` is compact; l
 `s` maps onto `{exp(aN_s) : a ∈ ℤ_ℓ}`, `N_s = ±N(δ_s)`, since `t_ℓ` is onto `ℤ_ℓ(1)`, so `N_s ∈ 𝔏`. Let `𝔤_S ⊂ 𝔏` be generated by the
 `N_s`. A `𝔤_S`-stable subspace is stable under each `N_s`, hence under `T_s = exp(±N_s)`, hence under the closed group
 they generate, which is `H` (5.3); by 5.4 it is `0` or `V`. Lemma 5.6 gives `𝔤_S = 𝔰𝔭(V, ψ)`, so `𝔏 = 𝔰𝔭(V, ψ)` and `H` is open
-by 5.7. (Weil I, §5, Théorème (5.10) and its proof, p. 293.) *Needs:* EtaleCohomologyFoundations §F.3a, 4.4, 5.3, 5.4, 5.6, 5.7.
+by 5.7. (Weil I, §5, Théorème (5.10) and its proof, p. 293; Milne, *Lectures on Étale Cohomology*,
+Lemmas 32.7–32.8, pp. 191–192.) *Lean:* `LefschetzPencil.kazhdanMargulis_linear` states the
+closed-subgroup theorem on `Matrix.GeneralLinearGroup (Fin d) ℚ_[ℓ]`, for every prime `ℓ`
+and every dimension `d`. A nondegenerate alternating form, preservation of the form,
+topological generation by transvections with nonzero coefficients, and absence of proper
+nonzero invariant subspaces imply openness in the form-preserving subgroup. The geometric
+image satisfies these hypotheses by compactness, 5.3 and 5.4; dimension zero is included. *Needs:* EtaleCohomologyFoundations §F.3a, 4.4, 5.3, 5.4, 5.6, 5.7.
 
 **Checks.**
 
@@ -3463,7 +3476,8 @@ Its target-minus-source boundary satisfies `∂ᵗ = −d` in these branch coord
 StableReduction Layer 1 (nodes, normalization, dual graphs);
 NeronModelsAndSemistableAbelianVarieties §4.2 (integral boundary, cycle lattice and dual); Mathlib `LinearMap.ker`, `LinearMap.range`. *Lean:*
 `Suggested.lean` declares `Semistable.normalizationDifferential Γ` on StableReduction's `DualGraph` and
-`normalizationDifferential_constant`, with the loop check as an example.
+`normalizationDifferential_constant` and `Semistable.normalizationCokernel_finrank`: over every field,
+the dimension of the edge cokernel of a connected graph is `#edges + 1 − #vertices`.
 
 **Checks.**
 
@@ -3569,8 +3583,11 @@ sketch.* Factor `σ − 1` through the local variations (0.4 and the sign lemma)
 with the graph lattices through the specialization sequence and its dual; sum the local maps; `Σ n_e a_e²` is positive
 definite on `H_1(Γ, ℚ)`. (Illusie 1991, §§2.1–2.2, (2.1.3), (2.2.3); (2.6.5)–2.7.) *Needs:* 7a.2, 1.2;
 NeronModelsAndSemistableAbelianVarieties Layer 4, §4.2; Mathlib `LinearMap.ker`, `LinearMap.range`, `Module.finrank`.
-*Lean:* `Suggested.lean` declares the form `Semistable.negEdgePairing n` (`Matrix.toBilin'` of `−diag(n)`), with the
-two-edge cycle check `u₋((1, −1), (1, −1)) = −2` as an example.
+*Lean:* `Suggested.lean` declares `Semistable.negEdgePairing n` (`Matrix.toBilin'` of `−diag(n)`),
+`Semistable.negEdgePairing_apply` (the negative weighted-sum formula over every coefficient ring),
+and `Semistable.monodromy_factorization`, the linear-algebra statement for a surjective `c`, an injective `c′`,
+an isomorphism `u₋` and `c ∘ c′ = 0`: `N² = 0`, `ker N = ker c`, `im N = im c′`,
+and `rank N = dim M`. Tate coordinates identify the twists in this statement.
 
 **Checks.**
 
@@ -3857,7 +3874,8 @@ surjectivity is a theorem only under the hypotheses of 7b.5, 7b.6 and 7b.8.
 *Source.* Weil II, introduction to §3.6, p. 212, and 6.2.9. *Needs:* 0.6; Mathlib `Representation.invariants`,
 `Representation.mem_invariants`, `Representation.trivial`, `LinearMap.codRestrict`; ArithmeticGaloisDuality Layer R02.1
 (continuous coefficients); DerivedModuleAlgebra §1.T.1 (inverse limits); EtaleCohomologyFoundations §§F.1–F.2. *Lean:* `Suggested.lean`
-declares the linear-algebra core `InvariantCycles.invariantSpecialization ρ sp h`.
+declares `InvariantCycles.invariantSpecialization ρ sp h` and
+`InvariantCycles.invariantSpecialization_range`, with the image-in-invariants hypothesis explicit.
 
 **Checks.**
 
@@ -3969,7 +3987,8 @@ Wang sequence of 7b.2, keeping all maps and arithmetic actions. (Weil II, proof 
 **Lemma (spectral separation).** Let `F` act compatibly on an exact cross of finite-dimensional vector spaces over an
 algebraically closed field: `L → M → C` exact at `M`, and `M → B → 0` exact, with `F`-equivariant maps. If no eigenvalue of `F` on
 `B` is an eigenvalue of `F` on `C`, then the composite `L → B` is surjective. *Lean:* `Suggested.lean`
-states the lemma as `InvariantCycles.surjective_of_disjoint_spectra`. *Proof sketch.* Taking the sum of the generalized eigenspaces of `F`
+states the lemma as `InvariantCycles.surjective_of_disjoint_spectra` in its opening headline block;
+`InvariantCycles.separation_needed` states the overlapping-spectrum boundary case. *Proof sketch.* Taking the sum of the generalized eigenspaces of `F`
 for the eigenvalues of `F` on `B` is an exact functor on finite-dimensional `F`-modules; it is all of `B`, kills `C`, and so the
 corresponding part of `M` maps into the image of `L` and onto `B`. (The argument of Weil II, final paragraph of the proof of
 3.6.1, p. 214, with exact weight filtrations replaced by generalized eigenspaces.) *Needs:* Mathlib
@@ -4400,6 +4419,8 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
   https://publications.ias.edu/sites/default/files/Number12.pdf
 - [Weil I] P. Deligne, La conjecture de Weil. I, *Publ. Math. IHÉS* 43 (1974), 273–307.
   https://www.numdam.org/article/PMIHES_1974__43__273_0.pdf
+- [Milne] J. S. Milne, *Lectures on Étale Cohomology*, version 2.21 (2013),
+  Lemmas 32.7–32.8, pp. 191–192. https://www.jmilne.org/math/CourseNotes/LEC.pdf
 - [Weil II] P. Deligne, La conjecture de Weil. II, *Publ. Math. IHÉS* 52 (1980), 137–252.
   https://www.numdam.org/article/PMIHES_1980__52__137_0.pdf
 - [Illusie 1991] L. Illusie, Réalisation ℓ-adique de l'accouplement de monodromie, d'après A. Grothendieck,
