@@ -1,7 +1,7 @@
 import Mathlib.Data.List.Permutation
 import Mathlib.Data.List.Rotate
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
-import TauCetiRoadmap.AlgebraicCodingTheory.Suggested
+import Completed.AlgebraicCodingTheory.Suggested
 
 /-!
 # Rank-24 lattice constructions: target signatures
