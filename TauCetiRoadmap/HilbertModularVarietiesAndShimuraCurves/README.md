@@ -276,7 +276,7 @@ Its API:
 - `traceFamily_zero`: The `a=0` form is zero, hence is not declared nondegenerate.
 - `traceFamily_ramified`: For `F=ℚ(√2)`, the second summand uses `d⁻¹=(2√2)⁻¹O`, preventing a false O² self-duality assertion.
 
-In [Suggested.lean](Suggested.lean): `integralTraceFamily`, `integralTraceFamily_integral`.
+In [Suggested.lean](Suggested.lean): `integralTraceFamily`, `integralTraceFamily_alternating`, `integralTraceFamily_integral`.
 
 (Source: [BHW23](#references) Notation 5.1(3), p.1740; compare DP §2.12.)
 
@@ -772,7 +772,7 @@ Its API:
 - `squareImage_positive`: Every image element lies in NumberField.totallyPositiveIntegerUnits F by the pinned square-positivity theorem.
 - `squareImage_root`: For `F=ℚ(√2), M=12, ε⁸` is not in `S_12` although `ε⁸≡1` modulo 12: its only roots `±ε⁴` both fail the congruence.
 
-In [Suggested.lean](Suggested.lean): `congruenceUnitSquares`.
+In [Suggested.lean](Suggested.lean): `congruenceUnitSquares`, `congruenceUnitSquares_missingRoot` (the `squareImage_root` Check).
 
 (Source: [BHW23](#references) Proposition 8.4 and Lemma 8.12, pp.1766,1771.)
 
@@ -1766,7 +1766,7 @@ Its API:
 - `DrinfeldHalfPlane.scalarAction`: Every central scalar in `GL₂(K)` acts trivially.
 - `DrinfeldHalfPlane.algebraicComplement`: Removing finitely many K-rational points is insufficient: all P¹(K) must be excluded.
 
-In [Suggested.lean](Suggested.lean): `DrinfeldHalfPlane.points`, `DrinfeldHalfPlane.affineChart`.
+In [Suggested.lean](Suggested.lean): `DrinfeldHalfPlane.points`, `DrinfeldHalfPlane.affineChart`, `DrinfeldHalfPlane.infinity`.
 
 (Source: [BC91](#references) Part I §§1–2, pp.49–53; [CDN20](#references) §1.2, pp.12–13.)
 
@@ -3044,9 +3044,9 @@ Its API:
 - `LiftableReductionImage.signAtTwo`: The `Z_2` sign representation of `C₂` has zero liftable image but one-dimensional residual invariants.
 - `LiftableReductionImage.trivialAction`: For a trivial `C₂` action on `Z_2` the liftable image is the full `F_2`.
 - `LiftableReductionImage.oddIsotropy`: For `C₃` over `Z_2` averaging makes every residual invariant liftable. The native mirror `LiftableReductionImage.cyclicPermutation` acts on `ℤ³` by a cyclic coordinate shift; both integral and mod-two invariants are diagonal, and every residual diagonal has an integral invariant lift.
-- `LiftableReductionImage.directSum`: For the direct sum of the trivial and sign `Z_2` characters the liftable subspace has dimension one while residual invariants have dimension two.
+- `LiftableReductionImage.directSum`: For the direct sum of the trivial and sign `Z_2` characters the liftable subspace has dimension one while residual invariants have dimension two. The integral mirror on `ℤ²` has liftable image `{(a,0):a∈F_2}` under coordinatewise reduction.
 
-In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidueImage`.
+In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidueImage`, `LiftableReductionImage.directSum`, `LiftableReductionImage.oddIsotropy`.
 
 (Source: [KW09](#references) Lemma 7.4(1) and proof, pp.64–65 (The comparison is between images of integral reduction, not all residual forms); [Tay06](#references) Corollary 1.2, p.739 (Prime-to-p isotropy is the stronger situation where arbitrary base change is available))
 
