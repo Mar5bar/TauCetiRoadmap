@@ -58,17 +58,21 @@ Design choices made explicit here:
   finite-group norm/Tate package. The README’s local names specialize these through
   EnhancedDerivedSheaves’ concrete-spectrum and coherent-tower comparisons. The mod-two
   characterization of `twoAdicEquivalence` is a consequence proved here from the supplied tower;
-* `ringKTheoryModels` specializes the native finite-projective category to right modules,
-  encoded over the opposite ring. AlgebraicKTheory supplies its matrix realization, stable
-  GL/elementary groups, matrix K₁, Steinberg K₂ and Milnor boundary before the higher comparisons.
-  This roadmap owns the common Q/S, Γ-space and Bass/Schlichting spectrum comparisons and
-  `plusConstructionComparison`, including degree zero, one and two, ring maps, stabilization,
-  Morita, opposite rings and boundary compatibility.
+* GeneralAlgebraicKTheory supplies ordinary Q/S, nonconnective and ring models, plus/Q and
+  Bass/Schlichting comparisons, finite-filtration dévissage and ordinary finite-field K-groups.
+  Their local README names are consumer aliases. `ringKTheoryModels` compares its left-projective
+  models with right modules over the opposite ring and the common hermitian spectrum category.
+  It retains dualization, inverse transpose, degree zero/one/two, ring maps, stabilization, Morita
+  and the Laurent normalization `∂[t]=[R]`. AlgebraicKTheory supplies the low-degree matrix and
+  Milnor interfaces; its first-to-second clutching u corresponds to the ordinary supplier's
+  second-to-first parameter u⁻¹, including the boundary sign. `plusConstructionComparison`
+  retains an additional arbitrary-target factorization theorem beyond that supplier's export.
 * `DerivedCoefficientLine` retains arbitrary action-swapping involutions with square one;
   signed integral and Dedekind-domain specializations choose the signs. Multiplication by
   three on `ZMod 8` supplies a coefficient involution distinct from both signs.
-* the finite-field K branch consumes TopologicalKTheory's complex classifier and Bott theorem,
-  with its CW/Milnor extension and BU-level Adams maps specified in the README;
+* the ordinary finite-field K branch comes from GeneralAlgebraicKTheory §§13.8a–13.8c;
+  `bottAdamsOperations` compares its represented KU, rank-zero BU and Adams maps with
+  TopologicalKTheory's complex classifier and Bott conventions;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
   `Functor.IsInvolutiveDual` with exactness of the duality functor.
 -/
@@ -946,7 +950,8 @@ theorem orthogonalArchimedeanConstant_odd_step (r : ℕ) :
       orthogonalArchimedeanConstant r true * (Nat.factorial (2 * r + 1) : ℝ) /
         (2 * Real.pi) ^ (2 * (r + 1)) := by sorry
 
-/-- The volume `∏_{j=2}^n 2π^{j/2}/Γ(j/2)` of `SO(n)` for the skew-orthonormal metric. -/
+/-- Consumer spelling of IntegralLattices §7E's volume product for `SO(n)`, with
+`E_ij−E_ji` orthonormal and empty product one. -/
 def orthogonalSkewBasisVolume (n : ℕ) : ℝ :=
   ∏ k ∈ Finset.range (n - 1),
     2 * Real.pi ^ (((k + 2 : ℕ) : ℝ) / 2) / Real.Gamma (((k + 2 : ℕ) : ℝ) / 2)
@@ -955,7 +960,8 @@ def orthogonalSkewBasisVolume (n : ℕ) : ℝ :=
 def orthogonalMassGaugeScale (n : ℕ) : ℝ :=
   if n % 2 = 1 then (2 : ℝ)⁻¹ ^ (n / 2) else 1
 
-/-- The sphere-fibration recurrence `V_{n+1} = V_n · area(S^n)`. -/
+/-- Consumer form of IntegralLattices §7E's sphere-fibration recurrence
+`V_{n+1} = V_n · area(S^n)` for the skew-orthonormal metric. -/
 theorem orthogonalSkewBasisVolume_step (n : ℕ) (hn : 1 ≤ n) :
     orthogonalSkewBasisVolume (n + 1) = orthogonalSkewBasisVolume n *
       (2 * Real.pi ^ (((n + 1 : ℕ) : ℝ) / 2) / Real.Gamma (((n + 1 : ℕ) : ℝ) / 2)) := by sorry
@@ -2483,12 +2489,14 @@ end LLL
 section C2NormMaps
 variable {A : Type*} [AddCommGroup A]
 
-/-- Period-two consumer spelling of ComplexTori Milestone 4's period-two `cyclicNormHom`, with
-endomorphism formula `1 + σ` under the involution hypothesis. -/
+/-- Consumer spelling of ComplexTori Milestone 4's `cyclicNormHom σ 2` for an involution.
+On any additive commutative group its formula is `1 + σ`; the supplied short complexes
+`Rep.FiniteCyclicGroup.normHomCompSub` and `subCompNormHom` retain both zero composites. -/
 def c2Norm (σ : A →+ A) : A →+ A := AddMonoidHom.id A + σ
 
-/-- Period-two consumer spelling of ComplexTori Milestone 4's `oneSubPow` at exponent one, with
-endomorphism formula `1 - σ` under the involution hypothesis. -/
+/-- Consumer spelling of ComplexTori Milestone 4's `oneSubPow σ 1` for an involution.
+The formula `1 - σ` negates Mathlib's `σ - 1` in the shared short complexes; the norm/difference
+comparisons and both zero composites apply also to additive groups with 2-torsion. -/
 def c2Difference (σ : A →+ A) : A →+ A := AddMonoidHom.id A - σ
 
 end C2NormMaps
@@ -2979,7 +2987,9 @@ sources are in the README.
 * Layer 6: `stableIndBoundedTStructure`, `prespectrumToSharedSpectrum`, `stableMappingSpectrum`,
   `bottAdamsOperations`, `brauerLift`, `brauerLift_homotopyEquivalence`, `finiteFieldKGroups`,
   `PerfectDerivedInfinity` and `perfectDerivedHom` on the supplied EnhancedDerivedSheaves,
-  BordismFormalGroups F6.5 and TopologicalKTheory carriers; `stableIndCompletion` is the
+  BordismFormalGroups F6.5, GeneralAlgebraicKTheory and TopologicalKTheory carriers;
+  the ordinary finite-field names alias GeneralAlgebraicKTheory §§13.8a–13.8c, with the
+  Bott convention comparison specified in the README. `stableIndCompletion` is the
   space-valued Ind-completion of a stable category supplied by BordismFormalGroups F6.5
   (quotient/Ind sub-lane), with EnhancedDerivedSheaves E5:presentability.1's
   `indCompactComparison`. `finiteSemisimpleIsotypicDecomposition` and
