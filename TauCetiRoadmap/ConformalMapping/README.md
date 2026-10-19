@@ -322,6 +322,110 @@ consumes these containment and separation results for winding and Green's area i
 Isoperimetry I6 consumes the full two-component theorem. Absolute-continuity/trace and area
 comparisons remain with their geometric owners.
 
+### L5 continuous Jordan index and boundary injectivity
+
+Extend the contour owner's off-trace index to arbitrary continuous closed
+loops, using existing `Path`s or continuous maps on a compact parameter
+interval, with explicit endpoint equality and avoidance of the test point.
+Construct the integer-valued topological index in the contour namespace;
+do not evaluate the derivative-based principal-value `windingNumber` on a
+nonrectifiable curve and call that value its topological index. Transport
+along increasing affine changes of parameter to the unit interval. Follow
+the circle-covering API of Mathlib's
+[`AddCircle.windingNumber` and `windingNumber_eq_div`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/Covering/FundamentalGroupCircle.html):
+normalize `gamma(t)-w` to the unit circle, identify it with
+`AddCircle (2*pi)`, and compute the integer by the endpoint difference of
+a continuous real argument lift divided by `2*pi`. Build the required
+adapter and covering/lifting results here at the pinned library when that
+public interface is absent; adopt matching Mathlib declarations when
+available. Prove independence of the argument lift and basepoint choice,
+homotopy invariance for continuous closed loops avoiding w, additivity,
+reversal, normalization on the counterclockwise circle, local constancy
+off the trace, and vanishing on the unbounded component.
+
+Provide an equivalent construction by endpoint-preserving smooth
+approximation. A continuous loop avoiding w has positive distance from w.
+Consume `TauCeti.Contour.exists_contDiff_eq_endpoints_dist_lt`; choose a
+smooth approximant within less than one third of that distance. Its
+native integral winding number is an integer. Prove independence using
+the native piecewise-C1 proximity theorem for two such approximants,
+then prove equality with the argument-lift index by subdividing into
+local argument charts. Compactness of an avoiding homotopy supplies one
+positive distance and a finite chain of nearby time slices. This proves
+invariance without requiring differentiability of its intermediate loops.
+Prove the full pointwise proximity criterion for continuous closed loops:
+`dist(delta(t),gamma(t)) < dist(gamma(t),w)` implies equal indices, by the
+avoiding straight-line homotopy. For piecewise-C1 loops, prove equality
+of the integer index, cast to complex, with the existing integral/PV
+winding number under its actual avoidance hypotheses. For AC loops,
+consume DifferentialGeometry 5.6.1's integral/proximity comparison and
+prove the same equality by smooth approximation. The construction of
+the continuous index and the Jordan theorem below precedes, and does
+not use, that AC comparison, Green's theorem or GMT G6.
+
+For every Jordan parametrization `gamma : S1 -> C`, a homeomorphism onto
+the Jordan curve C with no length or differentiability premise, prove
+there is one sign `sigma in {-1,1}` such that its topological index is
+sigma at every point of `filledHull C \ C` and zero on the unbounded
+component. This sign depends on the parametrization, and is a conclusion,
+not an extra hypothesis. Prove transport by a circle homeomorphism:
+it has degree +1 or -1, and precomposition multiplies the index by that
+degree. Construct the real lifts and their strict increasing/decreasing
+alternative, with period increment respectively +2*pi or -2*pi; do not
+infer the degree from an arbitrary continuous circle self-map.
+
+Use the following proof route for the full Jordan index theorem. First
+consume the full ambient separation target above to obtain the bounded
+Jordan domain Omega with frontier C. The existing Jordan-domain simple
+connectivity theorem and L3 Riemann mapping give a holomorphic bijection
+of the disc onto Omega. Consume L5's closed-disc homeomorphism for that
+chosen map F. Its boundary circle parametrizes C. For w in Omega, use
+L0's analytic argument principle on interior circles of radii r<1 that
+enclose the unique preimage of w. Injectivity gives multiplicity one.
+Uniform continuity on the closed disc and boundary avoidance identify
+these indices with the continuous boundary index for all sufficiently
+large r, hence give +1. Relate an arbitrary gamma to this boundary
+parametrization by a circle homeomorphism and apply the proved degree
+alternative. Local constancy and the unbounded-component theorem give
+the exterior value. This route uses the native analytic circle theorem,
+not a Jordan-boundary argument principle or an area identity. No simple
+polygon approximation or smoothness of a general Jordan curve is assumed.
+
+Prove the continuous-boundary argument principle as an application. For
+a bounded Jordan domain Omega, f continuous on its closure and holomorphic
+on Omega, and w outside `f '' frontier Omega`, the topological index of
+the positively oriented continuous boundary loop under f equals the
+number of zeros of f-w in Omega, with analytic multiplicity. Nonvanishing
+on the compact boundary and continuity isolate those zeros in a compact
+subset of Omega; prove finiteness and rule out the identically-zero case.
+Pull back by the same closed-disc homeomorphism, use L0 on interior
+circles enclosing those finitely many zeros, and pass to the boundary
+by uniform continuity/proximity. Transport multiplicities through the
+conformal bijection. This is an integer zero count on continuous loops,
+not an unsupported boundary line integral.
+
+Deduce the boundary-injectivity theorem: if, in addition, f is injective
+on `frontier Omega`, then f is a holomorphic bijection from Omega onto
+the bounded component of the complement of `f '' frontier Omega`, and
+its continuous closure map is a homeomorphism of the two closures.
+The image boundary is Jordan by compact-to-Hausdorff embedding. Its
+index sign must be +1 because the preceding zero count is nonnegative;
+the count is exactly one inside and zero outside. Prove that no interior
+point maps onto the image boundary: open mapping and the two-sided
+frontier property would otherwise give an exterior value in the image.
+Thus every interior fibre has total multiplicity one, and interior and
+boundary fibres are disjoint. Prove the closure range and inverse
+continuity, as well as the interior inverse's holomorphy. This supplies
+the Darboux boundary-injectivity application for arbitrary continuous
+Jordan frontiers. Distinguish the open image from its closure and do
+not infer a source's ambiguous closure mark from this corrected theorem.
+
+GMT G6 consumes the full Jordan index here and its separate DG 5.6.1
+AC integral comparison for arclength curves; it retains ownership of
+the perimeter, normal and signed-boundary-measure comparisons. The
+piecewise-C1 Jordan-contour applications below are specializations,
+and are not prerequisites for the continuous-loop construction above.
+
 ### L4/L5 integration: extension across analytic boundary arcs
 
 Prove the analytic-boundary extension adapter for a chosen Riemann map. Let `Ω` be a bounded Jordan
@@ -531,7 +635,7 @@ None of those geometric comparisons is an additional regularity hypothesis for L
 
 This roadmap depends on and feeds neighboring areas. Its L1 milestone consumes the GH0
 holomorphic-function-space contract at
-[GH0](../GlobalHolomorphicFunctions/README.md#gh0-holomorphic-function-space): the
+[GH0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ca9d1e118dd92419d281602eabd6a6f70f04b85/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh0-holomorphic-function-space): the
 native analytic-map carrier, its compact-open uniformity induced from continuous maps,
 and the adapter identifying convergence with `TendstoLocallyUniformlyOn` on representatives.
 L1 then supplies Montel and Vitali. GH0 needs no new conformal-mapping or Montel result;
