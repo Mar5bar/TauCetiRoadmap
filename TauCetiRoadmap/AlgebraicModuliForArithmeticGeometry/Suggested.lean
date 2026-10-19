@@ -120,8 +120,8 @@ example (k : Type u) [Field k] :
     Module.length (DualNumber k)
       (MvPolynomial.homogeneousSubmodule (Fin 1) (DualNumber k) 0) = 2 := sorry
 
-/-- `HilbertLengthChecks.dualNumbers`: the constant piece of the residue-field polynomial ring
-has length one over the dual numbers, acting through the augmentation. -/
+/-- `HilbertLengthChecks.dualNumbersResidueField`: the constant piece of the residue-field
+polynomial ring has length one over the dual numbers, acting through the augmentation. -/
 example (k : Type u) [Field k] :
     letI : Algebra (DualNumber k) k := (TrivSqZeroExt.fstHom k k k).toRingHom.toAlgebra
     Module.length (DualNumber k)
@@ -188,8 +188,8 @@ def coefficientFrobeniusCutoff (R : Type u) [CommRing R] (p N : ℕ) :
     if i.val = p * j.val then (1 : R) else 0)
 
 /-- A coefficient `t` in degree `j` is carried unchanged to degree `p j`, including when
-`t^p ≠ t`. -/
-theorem coefficientFrobeniusLattice (R : Type u) [CommRing R] (p N : ℕ)
+`t^p ≠ t` and when `p = 0` (all source exponents then have the same image). -/
+theorem coefficientFrobeniusCutoff_single (R : Type u) [CommRing R] (p N : ℕ)
     (j : Fin N) (t : R) :
     coefficientFrobeniusCutoff R p N (Pi.single j t) =
       fun i => if i.val = p * j.val then t else 0 := sorry
@@ -209,6 +209,11 @@ constant coefficient of the cutoff image is `t`, not `t^p`. -/
 example (p : ℕ) (hp : p.Prime) (k : Type u) [Field k] [CharP k p]
     (t : k) (h : t ^ p ≠ t) :
     coefficientFrobeniusCutoff k p 1 (fun _ => t) 0 ≠ t ^ p := sorry
+
+/-- `CoefficientFrobeniusTests.collapsedExponents`: at `p = 0`, both source exponents map to
+zero and their coefficients add in the one-dimensional target. -/
+example (R : Type u) [CommRing R] (a b : R) :
+    coefficientFrobeniusCutoff R 0 2 ![a, b] = fun _ => a + b := sorry
 
 end ProjectiveBundles
 
@@ -370,10 +375,14 @@ def IsNeutral (F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}) (S : C)
     (_hS : Limits.IsTerminal S) : Prop :=
   Nonempty (Neutralization F S)
 
-/-- `NeutralizationTests.automorphisms`: a neutralization `x` still has automorphism group
-`A(S)`; choosing a point does not remove the inertia. -/
-example (b : AbelianBanding F J A) (S : C) (x : Neutralization F S) :
-    Nonempty (Multiplicative (A.obj.obj (op S)) ≃* Aut x.obj) := sorry
+/-- `NeutralizationTests.nonterminal`: the constant `B(ℤ/3)` diagram on the two-object
+discrete site has an object over `true`, but neither site object is terminal. A fibre object
+alone does not supply the terminal-object witness required by `IsNeutral`. -/
+example :
+    let F := ((Functor.const (Discrete Bool)ᵒᵖ).obj
+      (Cat.of (SingleObj (Multiplicative (ZMod 3))))).toPseudofunctor'
+    Nonempty (Neutralization F (Discrete.mk true)) ∧
+      ∀ S : Discrete Bool, IsEmpty (Limits.IsTerminal S) := sorry
 
 variable [IsGerbe G J]
 
@@ -405,7 +414,7 @@ theorem BandPreserving.comp
 (Olsson's stacks lectures, notes by Geraschenko, Várilly, Carter, Shiu et al., Lemma 31.3, p. 122):
 faithful by the banding, full by Hom-sheaf descent and essentially surjective by gluing local
 preimages. -/
-theorem band_morphism_equivalence
+theorem band_morphism_componentEquivalence
     (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
     (η : Pseudofunctor.StrongTrans F G) [BandPreserving bF bG η] (U : C) :
     (η.app (.mk (op U))).toFunctor.IsEquivalence := sorry
@@ -489,8 +498,8 @@ equivalent to the single stage, for any unit data of `Φ`. -/
 example (Φ : LocallyDiscrete (Discrete PUnit) ⥤ᵖ Cat.{v', u'}) :
     Nonempty (GerbeLimitFamily Φ ≌ Φ.obj (.mk (Discrete.mk PUnit.unit))) := sorry
 
-/-- `LimitFamilyTests.cyclic`: the constant diagram with value `B(ℤ/3)` has one isomorphism class
-of compatible families, whose automorphism group has three elements: the arrows of the groupoid
+/-- `LimitFamilyTests.classesInsufficient`: the constant diagram with value `B(ℤ/3)` has one
+isomorphism class of compatible families, whose automorphism group has three elements: the arrows of the groupoid
 are retained, not only its isomorphism classes. -/
 example :
     let Φ := ((Functor.const (Discrete PUnit)).obj

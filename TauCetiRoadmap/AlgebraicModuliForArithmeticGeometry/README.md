@@ -96,13 +96,12 @@ quasi-coherent cohomology of projective space and Serre vanishing (§2.6),
 duality (§§2.18–2.21), Picard groupoids, Picard torsors and Picard stacks of curves (§§3.4,
 3.6–3.7), the Artinian coefficient category, deformation functors, hulls, obstruction theories and
 formal geometry (§§4.2–4.10), generic flatness and Chow's lemma (§4.12), Hilbert and Quot schemes
-and the Hom and Isom schemes of projective flat families (`hilbert_quot_schemes`, §4.14, which owns
-the regularity bound and Grassmannian embedding inside its proof and imports nothing from this
-roadmap). Its named export `hilbert_quot_schemes`, including the projective representing scheme
+and the Hom and Isom schemes of projective flat families (`hilbert_quot_schemes`, §4.14). Its named
+export `hilbert_quot_schemes`, including the projective representing scheme
 and universal quotient, supplies §1.5's `uniformQuotientRegularity`: that specialization extracts
 a bound from the universal family by relative Serre vanishing and identifies it with
 `ProjectiveBundles.IsCMRegular`. The kernel, extension-field and finite-polynomial clauses are
-consequences proved here; the hyperplane induction remains part of the supplier's Quot construction.
+consequences proved here using the universal family.
 The same supplier provides strict normal crossings divisors (§4.17), Chern classes and the
 projective bundle of a locally free sheaf in the lines convention (§§5.3–5.4).
 ResolutionOfSingularitiesCharacteristicZero supplies the marked-ideal, Samuel-presentation and
@@ -217,7 +216,7 @@ quasi-coherent pullback `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_pullba
 scalars followed by tilde; `unit_tildeFunctorCompPullbackIso_hom_app` sends `m` to `1 ⊗ m`),
 `AlgebraicGeometry.Scheme.Modules.fittingIdeal`, `CategoryTheory.CommMon.relativeSpec` and
 `TauCeti.AlgebraicGeometry.relativeSpec`. Cohomology: `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
-`cohomologyZeroEquiv`, `TauCeti.AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, and the
+`cohomologyZeroEquiv`, `AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, and the
 exactness lemmas `CategoryTheory.Sheaf.H.exact_map_δ` and `CategoryTheory.Sheaf.H.exact_δ_map`.
 Further: the affine blowup charts `TauCeti.AlgebraicGeometry.affineBlowupι`, invariant quotients of
 affine schemes `TauCeti.AffineInvariantQuotient.quotient`, Cartier duality
@@ -317,8 +316,9 @@ The API gives `ProjectiveBundles.projectiveBundle.projection`: The structure map
 
 **Checks.**
 
-- `ProjectiveBundleTests.rankOne`: For every invertible L, `P(L)≅S`; the `O(1)=L` comparison is additionally tested under `TwistingSheafTests.rankOne`.
-- `ProjectiveBundleTests.zero`: `P(0)≅∅`.
+- `ProjectiveBundleTests.rankOne`: the identity quotient of an invertible `L` gives `P(L) = S`.
+- `ProjectiveBundleTests.zero`: no invertible quotient of the zero module exists on a nonempty test
+  scheme, so `P(0)` is empty. In Lean this is an `example` on `LineQuotient`.
 - `ProjectiveBundleTests.rankTwo`: Over `Spec R`, points over the identity of `P(O²)` correspond to rank-one quotient Grassmannian data for `R²`.
 - `ProjectiveBundleTests.baseChange`: A nonflat base change also gives `P(f*E)≅P(E)×_S T`.
 
@@ -336,7 +336,8 @@ The API gives `ProjectiveBundles.projectiveBundle.twistingSheaf.zero`: `O(0)≅O
 
 - `TwistingSheafTests.zero`: `O(0)` is the structure-sheaf unit.
 - `TwistingSheafTests.inverse`: `O(1)⊗O(-1)≅O`.
-- `TwistingSheafTests.rankOne`: On `P(L)≅S`, `O(1)≅L`, rather than L inverse.
+- `TwistingSheafTests.rankOne`: on `P(L)`, the universal quotient line is `L`, fixing the quotient
+  convention against its dual.
 
 Prove `rankOneGrassmannComparison`. Identify `P(E)` with the rank-one quotient Grassmannian, including the actual universal quotient, structure map and arbitrary base change. On finite locally free E this compares with ModularCurves §0G; on general finite-type E it uses the coherent extension below.
 
@@ -726,7 +727,7 @@ Here k a field; projective X and coherent F; ample L. For degree relative to an 
 
 The API gives `hilbertPolynomial.eval_euler`: For every integer m and any valid cohomological cutoff, evaluation at m equals the finite alternating Euler sum; `hilbertPolynomial.add`: A short exact sequence of coherent sheaves adds Hilbert polynomials; `hilbertPolynomial.twist`: Twisting by `L^a` translates the variable by a.
 
-*Needs:* `hilbertSerre`, `serreGeneration`, `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, JacobianChallenge Layer B, `amplePowersAndFixedTwists`, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §5.3.
+*Needs:* `hilbertSerre`, `serreGeneration`, `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, Tau Ceti `AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, JacobianChallenge Layer B, `amplePowersAndFixedTwists`, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §5.3.
 
 **Checks.**
 
@@ -765,7 +766,7 @@ Prove `uniformQuotientRegularity` as the regularity specialization of SchemeAndS
 
 Here Fixed E and P; coherent quotient and kernel; no characteristic-zero hypothesis.
 
-([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, where the auxiliary index is `m₂ = m₁ + h¹(J(m₁)) + 1`; §3, Theorem 3.7, pp.16–17, and §5, Theorem 5.1, p.24, for cohomological base change and projective Quot; [Jarod Alper](https://sites.math.washington.edu/~jarod/moduli-versions/moduli-8-19-24.pdf), §1.3, Theorem 1.3.8 proof, pp.57–58, where the bound on h¹ is `p·binom(n+t,n) − P_J(t)`).
+([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, whose proof gives vanishing of `H¹(F(m))` once `m ≥ m₀ + h¹(F(m₀))`, and hence `(m₀ + h¹(F(m₀)) + 1)`-regularity; §3, Theorem 3.7, pp.16–17, and §5, Theorem 5.1, p.24, for cohomological base change and projective Quot; [Jarod Alper](https://sites.math.washington.edu/~jarod/moduli-versions/moduli-8-19-24.pdf), §1.3, Theorem 1.3.8 proof, pp.57–58, for the kernel estimate: if `J⊂O^p`, `t≥0` and `Hⁱ(J(t))=0` for `i≥2`, then `h¹(J(t)) = h⁰(J(t)) − P_J(t) ≤ p·binom(n+t,n) − P_J(t)`).
 
 Use the projective k-scheme `Q = Quot^P_E` and its universal quotient `E_Q→U` supplied by `hilbert_quot_schemes`; Q is Noetherian and quasi-compact. Both U and its coherent kernel J are Q-flat, since `E_Q` is Q-flat and U is Q-flat. Apply `relativeSerre` and coherent cohomology and base change to U and J over Q. If all their fibre twists `r≥b` have vanishing positive cohomology, `m₀=b+n` makes `Hⁱ(F(m₀−i))` and `Hⁱ(ker(E_K→F)(m₀−i))` vanish for `1≤i≤n`; higher degrees vanish by dimension. This is the defining condition of `ProjectiveBundles.IsCMRegular`. Every extension-field quotient is a K-point of the same Q, so the bound is independent of K. An empty Q imposes no condition; take a maximum for finitely many P. These consequences and the comparison with our regularity predicate are proved here using the supplier's representing scheme and universal family.
 
@@ -781,7 +782,7 @@ Prove `familyRegularity`. For a coherent S-flat F on `Pⁿ_S` with S Noetherian,
 
 Here Noetherian base for a global finite bound; flat F for locally free pushforward and arbitrary cohomological base change.
 
-([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, where the auxiliary index is `m₂ = m₁ + h¹(J(m₁)) + 1`; [Alexander Grothendieck](https://www.numdam.org/item/SB_1960-1961__6__249_0.pdf), §2, Theorem 2.1 corrected by the 1962 erratum, exposé p.6 and erratum p.302).
+([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, whose proof gives vanishing of `H¹(F(m))` once `m ≥ m₀ + h¹(F(m₀))`, and hence `(m₀ + h¹(F(m₀)) + 1)`-regularity; [Jarod Alper](https://sites.math.washington.edu/~jarod/moduli-versions/moduli-8-19-24.pdf), §1.3, Theorem 1.3.8 proof, pp.57–58, for the kernel h¹ estimate; [Alexander Grothendieck](https://www.numdam.org/item/SB_1960-1961__6__249_0.pdf), §2, Theorem 2.1 corrected by the 1962 erratum, exposé p.6 and erratum p.302).
 
 For F, apply `relativeSerre` and coherent cohomology and base change over the quasi-compact Noetherian base, then increase the twist bound by n to obtain fibrewise regularity. For quotients of `E_s` with polynomial P, apply the same argument to the flat universal quotient on the relative projective `Quot^P_E` of SchemeAndStackFoundations §4.14; its parameter scheme is Noetherian and quasi-compact even when E is not flat. Its field-fibre specialization is `uniformQuotientRegularity`. Fibrewise higher vanishing gives finite locally free high pushforward and arbitrary base change by StableReduction Layer 2. Surjectivity of evaluation and multiplication follows fibrewise from `cmRegularity`, then by Nakayama.
 
@@ -806,8 +807,9 @@ Proposition 58.7, pp. 136–137.)
 - `HilbertFunctionChecks.cancelledDenominator`: the presentations `1/(1−T)` and
   `(1−T)/(1−T)²` for the Hilbert series of `k[x]` give the same rational polynomial, also
   when k has positive characteristic.
-- `HilbertLengthChecks.dualNumbers`: over `k[ε]/ε²` the coefficient ring has length `2` and the
-  residue field has length `1`, so lengths, not ranks, are the right coefficients.
+- `HilbertLengthChecks.dualNumbers`: over `k[ε]/ε²` the coefficient ring has length `2`.
+- `HilbertLengthChecks.dualNumbersResidueField`: the residue field has length `1` as a module over
+  the dual numbers acting through the augmentation.
 - `HilbertLengthChecks.field`: `k` has length `1` as a `k`-module.
 - `HilbertLengthChecks.zero`: the zero module has length `0` even over the zero ring.
 
@@ -860,7 +862,7 @@ Prove `chowOpenAndEmbedding`. Let Y be a complex variety open and dense in its f
 
 Here Y locally closed; first replace Ybar by its closure so Y is open there. Fixed finite-type projective closure and fixed dimensions.
 
-([Laura DeMarco, Niki Myrto Mavraki, Hexi Ye](https://arxiv.org/pdf/2405.17343v3), §2.5, p.10; [James Freitag, Wei Li, Thomas Scanlon](https://math.berkeley.edu/~scanlon/papers/differential-chow-varieties-22apr15.pdf), §3, Proposition 3.4, p.15; [Stacks](https://stacks.math.columbia.edu/download/varieties.pdf), §45, Definition 45.3 and Lemmas 45.4–45.9 and Definition 45.10, pp.103–104).
+([Laura DeMarco, Niki Myrto Mavraki, Hexi Ye](https://arxiv.org/pdf/2405.17343v3), §2.5, p.10; [James Freitag, Wei Li, Thomas Scanlon](https://math.berkeley.edu/~scanlon/papers/differential-chow-varieties-22apr15.pdf), §3, Proposition 3.4, p.14; [Stacks](https://stacks.math.columbia.edu/download/varieties.pdf), §45, Definition 45.3 and Lemmas 45.4–45.9 and Definition 45.10, pp.103–104).
 
 For the proof, the complementary locus is the closed Chow locus of cycles supported in Ybar minus Y, obtained by the support-in-closed construction. Use its complement for the support-meets-open condition; then for very ample `L₁`,`L₂`, choose m so `A=L₁^m` tensor `L₂` inverse is very ample. The mixed intersection numbers of SchemeAndStackFoundations §5.3 are positive for ample factors, and multilinearity expands `(m c₁(L₁))^r=(c₁(L₂)+c₁(A))^r`. Every term is nonnegative, so `deg_L₂ Z≤m^r deg_L₁ Z` for each integral r-component. Add component multiplicities and reverse the roles for the other bound. No informal comparison of chosen hyperplanes is needed.
 
@@ -960,19 +962,21 @@ For the proof, describe τ on the finite monomial basis by `u^j↦u^(pj)`; its m
 
 **Checks.**
 
-- `CoefficientFrobeniusTests.zero`: The coefficient-linear cutoff map carries the zero vector to zero.
-- `CoefficientFrobeniusTests.monomial`: A coefficient t at exponent j is carried unchanged to exponent pj in the larger target cutoff.
-- `CoefficientFrobeniusTests.nonFixedCoefficient`: In characteristic p with `t^p≠t`, the constant coefficient of the cutoff image is t and differs from `t^p`.
+- `CoefficientFrobeniusTests.zero`: the zero vector maps to zero.
+- `CoefficientFrobeniusTests.monomial`: for `p=3`, `N=3`, `j=2` and coefficient 5 over ℤ, the image is supported exactly at exponent 6 with coefficient 5. In general `p>0` keeps distinct source exponents distinct.
+- `CoefficientFrobeniusTests.nonFixedCoefficient`: when `t^p` differs from t, the constant coefficient is t, so this map differs from absolute Frobenius.
 
 ### 1.7a Finite coefficient transport
 
-`ProjectiveBundles.coefficientFrobeniusCutoff p N` is the coefficient-linear map from N coefficients to pN+1 coefficients obtained by placing coefficient j at exponent pj and summing if exponents coincide. It is an `R`-linear map, so additivity, scalar compatibility and the value on `0` are Mathlib's linear-map API; for `p > 0` its value on a monomial is `ProjectiveBundles.coefficientFrobeniusLattice`, which fixes the coefficient and changes the exponent. This finite linear map is the coefficient form of `ProjectiveBundles.coefficientFrobeniusLattice`; it is separate from absolute Frobenius on the coefficient ring. The full lattice stability target uses a sufficiently large target cutoff and an actual quotient map. (The coefficient formula gives the proof directly; ModularCurves §0G supplies its zero-map locus.)
+`ProjectiveBundles.coefficientFrobeniusCutoff R p N` is the coefficient-linear map from N coefficients to pN+1 coefficients obtained by placing coefficient j at exponent pj and summing if exponents coincide. It is an `R`-linear map, so additivity, scalar compatibility and the value on `0` are Mathlib's linear-map API; for every `p : ℕ` its value on a monomial is `ProjectiveBundles.coefficientFrobeniusCutoff_single`, which fixes the coefficient and changes the exponent. This finite linear map supplies the coefficient formula for `coefficientFrobeniusLattice`; it is separate from absolute Frobenius on the coefficient ring. At `p = 0` all source exponents map to degree zero, so the image coefficient is their sum; for `N = 0` the source is zero. The full lattice stability target uses a sufficiently large target cutoff and an actual quotient map. (The coefficient formula gives the proof directly; ModularCurves §0G supplies its zero-map locus.)
 
 **Checks.**
 
 - `CoefficientFrobeniusTests.zero`: the zero vector maps to zero.
 - `CoefficientFrobeniusTests.monomial`: for `p=3`, `N=3`, `j=2` and coefficient 5 over ℤ, the image is supported exactly at exponent 6 with coefficient 5. In general `p>0` keeps distinct source exponents distinct.
 - `CoefficientFrobeniusTests.nonFixedCoefficient`: when `t^p` differs from t, the constant coefficient is t, so this map differs from absolute Frobenius.
+- `CoefficientFrobeniusTests.collapsedExponents`: at `p=0`, the vector `(a,b)` with two source
+  coefficients maps to the sole target coefficient `a+b`; the single-monomial formula still holds.
 
 ### Examples
 
@@ -1761,7 +1765,7 @@ The API gives `IsGerbe.toIsStack`: A gerbe is an instance of the `F.IsStack J`; 
 - `GerbeSampleTests.compatibleLimit`: For the specified small cofiltered finite-gerbe diagram and coherent presentation, an object of its fpqc 2-limit over T consists of finite-stage objects and compatible transition isomorphisms with unit/composition laws; arrows are compatible families, not only isomorphism classes.
 - `GerbeSampleTests.profiniteNotFinitePresentation`: Over a field k, the fpqc classifying gerbe of `G=lim_m (Z/m!Z)_k` is a profinite étale gerbe but not an algebraic stack of finite presentation: its trivial-object stabilizer G is not of finite type.
 
-Prove `equivalenceInvariance`. If `E:F≃G` is an equivalence over `(C,J)`, IsGerbe(F,J) iff IsGerbe(G,J).
+Prove `IsGerbe.equivalence_iff`. If `E:F≃G` is an equivalence over `(C,J)`, IsGerbe(F,J) iff IsGerbe(G,J).
 
 ([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.2).
 
@@ -1826,7 +1830,7 @@ The API gives `AbelianBanding.autEquiv`: For every U,x there is `A(U)≃Aut(x)` 
 - `BandingTests.conjugation`: Changing a local trivialization by an object isomorphism leaves the identified element of A unchanged.
 - `BandingTests.nonabelian`: The constant S3 automorphism group cannot have a fixed-sheaf banding satisfying conjugation compatibility with every automorphism.
 
-Prove `abelianAutCommute`. For an A-banded gerbe every `Aut(x)` is commutative; equivalently `b(a)b(a′)=b(a′)b(a)`.
+Prove `banded_aut_commute`. For an A-banded gerbe every `Aut(x)` is commutative; equivalently `b(a)b(a′)=b(a′)b(a)`.
 
 Here A specified site `(C,J)`, with fixed object and morphism universes; all stacks have groupoid fibres.
 
@@ -1916,7 +1920,7 @@ For the proof, for `z∈G(U)` locally choose `y∈F` and an isomorphism `η(y)�
 
 *Needs:* `BandPreserving`, `band_morphism_full_faithful`, Mathlib `CategoryTheory.Pseudofunctor.isEquivalence_toDescentData`, `GerbeMorphismDescent.global_preimage`, `GerbeMorphismDescent.componentEssSurj`.
 
-Prove `band_morphism_equivalence`. Every band-preserving morphism of A-gerbes is a pseudonatural equivalence over the site, with a band-preserving inverse.
+Prove `band_morphism_equivalence`. Every band-preserving morphism of A-gerbes is a pseudonatural equivalence over the site, with a band-preserving inverse. Its fibrewise statement is `band_morphism_componentEquivalence` in the Lean file: for every site object U the component functor `η_U` is an equivalence of fibre categories. The pseudonatural inverse is `CoherentInverse.inverse` (§4.21), with band preservation given by `GerbeBandEquivalence.inverse_preserving`.
 
 Here A specified site `(C,J)`, with fixed object and morphism universes; all stacks have groupoid fibres.
 
@@ -1944,9 +1948,9 @@ The API gives `ClassifyingGerbe.band`: BA carries the canonical A-banding; `Clas
 - `ClassifyingGerbeTests.point`: For algebraically closed k and A constant `Z/3Z`, BA(k) has one isomorphism class with automorphism group `Z/3Z`.
 - `ClassifyingGerbeTests.inertia`: BA for nonzero A is not equivalent to the sheaf of its isomorphism classes.
 
-Define `Neutralization`. For a chosen terminal object S of `(C,J)`, a neutralization of an A-gerbe F is an object `x∈F(S)`; its morphisms are the isomorphisms between such objects. Write IsNeutral(F) for nonemptiness of this groupoid. A neutralization induces, rather than assumes, an equivalence F≃BA preserving the band. Distinct neutralizations need not be uniquely isomorphic.
+Define `Neutralization`. For any site object S and `Cat`-valued pseudofunctor F, this carrier records an object `x∈F(S)`. For an A-gerbe its morphisms are the fibre isomorphisms. When S is a chosen terminal object, write `IsNeutral F S hS` for nonemptiness of this groupoid, retaining the terminal-object witness hS. A neutralization over a terminal object induces an equivalence F≃BA preserving the band. Distinct neutralizations need not be uniquely isomorphic.
 
-Here the site has a fixed terminal object S; F is an A-banded gerbe.
+Here the carrier permits any S; the neutrality assertion and the equivalence with BA require a fixed terminal object S and an A-banded gerbe F.
 
 ([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark 31.5, p.123).
 
@@ -1958,7 +1962,10 @@ The API gives `Neutralization.obj`: A neutralization gives an object of `F(S)`; 
 
 - `NeutralizationTests.BA`: The trivial A-torsor neutralizes BA.
 - `NeutralizationTests.root`: The nth-root gerbe of `O(1)` on P1 has no neutralization for `n>1` invertible in the algebraically closed ground field.
-- `NeutralizationTests.automorphisms`: A neutralization x has automorphism group `A(S)`; a chosen point does not remove this group.
+- `NeutralizationTests.nonterminal`: on the two-object discrete site with the minimal topology
+  and the constant `B(C₃)` diagram, `Neutralization F (Discrete.mk true)` is nonempty, but
+  neither site object has an `IsTerminal` witness. This fibre object alone does not supply
+  the witness required by `IsNeutral`; neutrality over the terminal sheaf is a separate condition.
 
 Prove `neutralizationEquivalence`. For `x∈F(S)`, the functor `y↦Isom(x|U,y)` is a band-preserving equivalence F≃BA; its quasi-inverse twists x by the A-torsor, with descent.
 
@@ -2158,13 +2165,13 @@ The API gives `FiniteEtaleGerbe.presentation`: There is a presentation by a fini
 - `FiniteGerbeTests.constant`: BG for a finite constant group G is a finite étale gerbe, including nonabelian G.
 - `FiniteGerbeTests.muP`: In characteristic p, Bμp is a finite fppf gerbe but is not a finite étale gerbe.
 
-Define `GerbeLimitFamily`. Fix a small cofiltered partially ordered index set I and a pseudofunctor Γ from I to fpqc stacks. An object of its 2-limit over T is a family xi∈Γi(T) and isomorphisms θa:Γa(xj)≅xi for each `a:j→i`, with unit and composition equations using the pseudofunctor constraints. A morphism is a family of component isomorphisms commuting with every θa.
+Define `GerbeLimitFamily`. For a small index category `I` and a `Cat`-valued pseudofunctor `Φ` on `I`, a compatible family consists of objects `x_i∈Φ(i)` and isomorphisms `θ_a:Φ(a)(x_j)≅x_i` for each `a:j→i`, with unit and composition equations using the pseudofunctor constraints. A morphism is a family of component arrows commuting with every `θ_a`. For a diagram of fpqc stacks Γ evaluated at T, these form its 2-limit fibre; its arrows are isomorphisms because the stage fibres are groupoids. The affine-gerbe applications use cofiltered index categories, in particular cofiltered posets.
 
-Here A specified site `(C,J)`, with fixed object and morphism universes; all geometric stack fibres are groupoids; A small ordinary cofiltered index category (in particular a cofiltered poset) for the compatible-family carrier. The separate Boolean 2-category model additionally needs index 2-arrow coherence.
+Here `I` is any small ordinary category; the compatible-family carrier imposes no cofilteredness or groupoid hypothesis. For geometric stack fibres use the specified site `(C,J)` with fixed object and morphism universes and groupoid fibres. The separate Boolean 2-category model additionally needs index 2-arrow coherence.
 
 ([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), §3 Definitions3.2–3.5, pp.4–6).
 
-The API gives `GerbeLimitFamily.component`: The family has an object xi at each finite stage; `GerbeLimitFamily.transition`: Each index arrow has a specified transition isomorphism satisfying the coherence laws; `GerbeLimitFamily.hom_ext`: Two compatible-family arrows are equal iff all their component arrows agree; `GerbeLimitFamily.pullback`: A supplied strong transformation `η:Φ⇒Ψ` between same-universe index diagrams induces a functor on compatible families, applying η at every component and using its naturality isomorphisms on transitions. Site restriction `T′→T` must first supply this strong transformation; that geometric diagram and its coherence are the subject of §4.23; `GerbeLimitFamily.category`: Compatible component arrows form a category with componentwise identity and composition; its Hom type is the displayed compatibility-square carrier; `GerbeLimitFamily.evaluation`: Evaluation at i is a functor to `Φ(i)`, taking objects and arrows to their i-components; `GerbeLimitFamily.isIso_of_components`: A compatible-family arrow is invertible when every component is invertible; its inverse is the componentwise inverse in the same category; `GerbeLimitFamily.pullback_component`: The i-component of the family induced by η is exactly `η_i(x_i)`.
+The API gives `GerbeLimitFamily.component`: The family has an object xi at each index; `GerbeLimitFamily.transition`: Each index arrow has a specified transition isomorphism satisfying the coherence laws; `GerbeLimitFamily.hom_ext`: Two compatible-family arrows are equal iff all their component arrows agree; `GerbeLimitFamily.pullback`: A supplied strong transformation `η:Φ⇒Ψ` between same-universe index diagrams induces a functor on compatible families, applying η at every component and using its naturality isomorphisms on transitions. Site restriction `T′→T` must first supply this strong transformation; that geometric diagram and its coherence are the subject of §4.23; `GerbeLimitFamily.category`: Compatible component arrows form a category with componentwise identity and composition; its Hom type is the displayed compatibility-square carrier; `GerbeLimitFamily.evaluation`: Evaluation at i is a functor to `Φ(i)`, taking objects and arrows to their i-components; `GerbeLimitFamily.isIso_of_components`: A compatible-family arrow is invertible when every component is invertible; its inverse is the componentwise inverse in the same category; `GerbeLimitFamily.pullback_component`: The i-component of the family induced by η is exactly `η_i(x_i)`.
 
 *Needs:* Mathlib `CategoryTheory.Pseudofunctor.StrongTrans`, Mathlib `CategoryTheory.Pseudofunctor.StrongTrans.Modification`, Mathlib `CategoryTheory.Pseudofunctor`, Mathlib `CategoryTheory.IsCofiltered`, Mathlib `CategoryTheory.SingleObj.category`, Mathlib `CategoryTheory.SingleObj.groupoid`, Mathlib `CategoryTheory.Skeleton`.
 
@@ -2698,7 +2705,7 @@ Here C is a fixed small category with topology J; F is the existing Cat-valued p
 
 For the proof, locally choose an object of the gerbe. There `c_b` is an isomorphism because both coefficient sheaves identify with the same automorphism sheaf by evaluation; then use existing sheaf-locality of isomorphisms from SF1, or glue its locally defined inverse using Hom descent for sheaves. The sheaf condition retains the local inverse on every section; then the characterization fixes every central component; `bandCenterExt` proves uniqueness of the comparison, including its inverse; then changing b by a nonidentity automorphism of A changes `c_b` by that automorphism; then the new chosen-band coefficient equivalence constructs the local-to-global sectionwise inverse and proves its restriction and arbitrary-local-object recovery laws. Combine with the existing central-section sheaf and componentwise natural-isomorphism packaging; the separately required SF1 descended-slice comparison is not supplied by this coefficient calculation; then the present fixed-band comparison supplies the full sheaf isomorphism. Its forward map is exactly the coefficient transformation, and the all-arrow evaluation characterization determines it uniquely. Apply these leaves to the existing central-section sheaf with its reflexive underlying-presheaf equality; the actual SF1 descended-slice comparison remains separate.
 
-*Needs:* `bandCenterFromBanding`, `bandCenterSheaf`, `bandCenterEvaluationEquivalence`, `bandCenterExt`, `abelianAutCommute`, `bandCenterFromBandingInjective`, `IntrinsicBandSections.fromBandingEquiv`, `IntrinsicBandSections.fromBandingSheafIso`, `IntrinsicBandSections.fromBandingSheafIso_unique`.
+*Needs:* `bandCenterFromBanding`, `bandCenterSheaf`, `bandCenterEvaluationEquivalence`, `bandCenterExt`, `banded_aut_commute`, `bandCenterFromBandingInjective`, `IntrinsicBandSections.fromBandingEquiv`, `IntrinsicBandSections.fromBandingSheafIso`, `IntrinsicBandSections.fromBandingSheafIso_unique`.
 
 Prove `bandCenterGluedComparison`. The slice sheaf over U obtained by gluing local automorphism sheaves in the construction `intrinsicAbelianBand` is uniquely compatibly isomorphic to `A_F` restricted to `C/U`. Source: Stacks, Lemma 8.11.8, final omitted varying-U step.
 
@@ -2923,9 +2930,9 @@ the arrow, not on the proof that it lies in the sieve).
 
 **Checks.**
 
-- `BandCenterTests.C3`: a one-component cyclic-three fibre has three central sections and bijective evaluation.
-- `BandCenterTests.identity`: the trivial-group fibre has a single central section.
-- `BandCenterTests.S3`: the symmetric-three fibre has trivial centre and evaluation is not onto its full automorphism group.
+- `BandCenterTests.C3`: On the one-object point-site gerbe `B(C3)`, there are three central sections, with evaluation recovering all of C3.
+- `BandCenterTests.identity`: For the terminal fibre groupoid, the group of compatible central sections is trivial.
+- `BandCenterTests.S3`: For `B(S3)` on a point, sections form the trivial center of S3, rather than all six automorphisms. Thus evaluation onto inertia fails without abelian inertia.
 - `IntrinsicBandChecks.composition`: successive restriction equals restriction along the composite slice arrow.
 - `IntrinsicBandChecks.conjugation`: changing the object transports evaluation by conjugation.
 - `IntrinsicBandChecks.coefficient`: the nonidentity cyclic-three coefficient survives evaluation.
@@ -4233,10 +4240,10 @@ The API gives `BandedIsom.act_one`: act(p,1)=p; multiplicative one is additive z
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.zeroAction`: The additive-zero coefficient fixes an arbitrary actual isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.actionOrder`: Two successive actions use the automorphism multiplication order.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.precomposition`: Postcomposition and precomposition use the same band coefficient.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.composition`: Composition with y to z preserves the same action coefficient.
+- `BandedIsom.Tests.zeroAction`: The additive-zero coefficient fixes an arbitrary actual isomorphism.
+- `BandedIsom.Tests.actionOrder`: Two successive actions use the automorphism multiplication order.
+- `BandedIsom.Tests.precomposition`: Postcomposition and precomposition use the same band coefficient.
+- `BandedIsom.Tests.composition`: Composition with y to z preserves the same action coefficient.
 
 ### 4.8a Fixture indexing and restriction maps
 
@@ -4244,21 +4251,21 @@ The API gives `BandedIsom.act_one`: act(p,1)=p; multiplicative one is additive z
 
 **Checks.**
 
-- `BandCenterTests.C3`: one component and `C₃` give exactly three sections.
-- `BandCenterTests.identity`: a trivial automorphism group gives one section.
-- `BandPointTests.disconnectedCardinality`: on the point site, `B(C₃)`⊔`B(C₃)` has nine sections, and `B(S₃)`⊔`B(C₃)` has three. Both fail gerbe local isomorphism, so neither satisfies the gerbe hypotheses of the cardinality examples.
-- `ConnectedBandTests.cardinality`: two codiscretely connected indices with `C₃` give three sections.
+- `BandCenterTests.C3`: On the one-object point-site gerbe `B(C3)`, there are three central sections, with evaluation recovering all of C3.
+- `BandCenterTests.identity`: For the terminal fibre groupoid, the group of compatible central sections is trivial.
+- `BandPointTests.mixedDisconnectedCardinality`: on the point site, `B(C₃)`⊔`B(C₃)` has nine sections, and `B(S₃)`⊔`B(C₃)` has three. Both fail gerbe local isomorphism, so neither satisfies the gerbe hypotheses of the cardinality examples.
+- `ConnectedBandTests.cardinality`: The actual compatible-section type for that two-object C3 gerbe has exactly three elements.
 
 `RestrictionBandFixtures.reduction` is `C₄→C₂`. `RestrictionBandFixtures.chainGroups` is `C₄→C₂→C₂`; `RestrictionBandFixtures.ChainSite` is the opposite three-object chain; `RestrictionBandFixtures.chainPresheaf` and `RestrictionBandFixtures.chainF` are its group presheaf and one-object groupoid pseudofunctor. `RestrictionBandFixtures.U₀`, `RestrictionBandFixtures.U₁`, `RestrictionBandFixtures.U₂` name its three objects and `RestrictionBandFixtures.f₀₁`, `RestrictionBandFixtures.f₁₂`, `RestrictionBandFixtures.f₀₂` the reduction arrow, identity restriction arrow and their composite. The API `chain_generator_restrict`, `chain_generator_comp`, `chain_two_killed` computes their actual coordinate maps. `RestrictionBandFixtures.TwoChainSite` is the disjoint union of two such sites; `RestrictionBandFixtures.twoChainPresheaf` and `RestrictionBandFixtures.twoChainF` repeat the construction on both components. Their API `twoChains_no_terminal`, `twoChains_sections_equiv`, `twoChains_gerbe` proves the absence of a terminal object, the sectionwise band computation and gerbe locality. Each indexing abbreviation is determined by these objects, arrows and composite computations; it introduces no additional carrier. (Direct finite-category and cyclic-group calculations.)
 
 **Checks.**
 
-- `RestrictionBandTests.sheafRestrictionGenerator`: the `C₄` generator restricts to the `C₂` generator.
-- `RestrictionBandTests.restrictionNotInjective`: the element two of `C₄` is killed, so restriction is not injective.
-- `RestrictionBandTests.noTerminal`: neither component can supply a terminal object for both chains.
-- `RestrictionBandTests.leftChainSourceCard`: the left source band has four sections.
-- `RestrictionBandTests.rightChainTargetCard`: the right target band has two sections.
-- `RestrictionBandTests.terminalFreeGerbe`: the two-chain diagram is a gerbe on the minimal topology without a terminal site object.
+- `RestrictionBandTests.sheafRestrictionGenerator`: The additive band-sheaf restriction sends the C4 generator section to the C2 generator section.
+- `RestrictionBandTests.restrictionNotInjective`: The actual compatible-section restriction is not injective.
+- `RestrictionBandTests.noTerminal`: No object of the actual two-chain site is terminal.
+- `RestrictionBandTests.leftChainSourceCard`: The actual section type at the left C4 source has four elements.
+- `RestrictionBandTests.rightChainTargetCard`: The actual section type at the right C2 target has two elements.
+- `RestrictionBandTests.terminalFreeGerbe`: The actual two-chain varying diagram is a gerbe despite the absence of a terminal site object.
 
 ### 4.9 Isom torsors and their actions
 
@@ -4294,9 +4301,9 @@ The API gives `BandedIsom.act_difference`: act(p,difference(p,q))=q; `BandedIsom
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.differenceZero`: An actual isomorphism has zero self-difference.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.differenceRecovery`: The computed difference recovers the actual target isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.differenceCocycle`: Three actual isomorphisms satisfy the ordered difference cocycle.
+- `BandedIsom.Tests.differenceZero`: An actual isomorphism has zero self-difference.
+- `BandedIsom.Tests.differenceRecovery`: The computed difference recovers the actual target isomorphism.
+- `BandedIsom.Tests.differenceCocycle`: Three actual isomorphisms satisfy the ordered difference cocycle.
 
 Prove `BandedIsom.act_difference`. act(p,difference(p,q))=q.
 
@@ -4360,9 +4367,9 @@ The API gives `BandedIsom.principalEquiv_apply`: principalEquiv sends `(p,a)` ex
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalGenerator`: On `B(C₃)` with its canonical band, the forward map sends `(p,a)=(0,1)` to (0,1).
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalSum`: In the same fixture, it sends `(p,a)=(1,2)` to (1,0).
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalInverse`: Its inverse sends `(p,q)=(1,0)` to (1,2).
+- `BandedIsom.Tests.principalGenerator`: On `B(C₃)` with its canonical band, the forward map sends `(p,a)=(0,1)` to (0,1).
+- `BandedIsom.Tests.principalSum`: In the same fixture, it sends `(p,a)=(1,2)` to (1,0).
+- `BandedIsom.Tests.principalInverse`: Its inverse sends `(p,q)=(1,0)` to (1,2).
 
 The two round-trip identities and existence without an anchor are API laws of this equivalence. For every actual p,q, `BandedIsom.difference` gives the unique coefficient sending p to q.
 
@@ -4378,9 +4385,9 @@ The API gives `BandedIsom.act_mul`: act(p,`a*c`)=act(act(p,c),a), retaining the 
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.torsorDivision`: For actual p and q the torsor division coefficient acts on q to give p.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.nonzeroMoves`: Every nonzero coefficient moves every actual isomorphism; the action is not trivial.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.zeroBandUnique`: When the coefficient group at U is subsingleton, any two actual isomorphisms coincide.
+- `BandedIsom.Tests.torsorDivision`: For actual p and q the torsor division coefficient acts on q to give p.
+- `BandedIsom.Tests.nonzeroMoves`: Every nonzero coefficient moves every actual isomorphism; the action is not trivial.
+- `BandedIsom.Tests.zeroBandUnique`: When the coefficient group at U is subsingleton, any two actual isomorphisms coincide.
 
 Define `BandedIsom.coordinateEquiv`. An actual anchor `p:x≅y` gives the equivalence `A(U)` to `Isom(x,y)`, a mapped to act(p,a), with inverse difference(p,-).
 
@@ -4394,10 +4401,10 @@ The API gives `BandedIsom.coordinate_apply`: coordinateEquiv(p)`(a)`=act(p,a); `
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.selfCoefficient`: For the identity anchor on x, the coordinate image of a is the actual band automorphism `b_x(a)`.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.selfZero`: The identity anchor sends zero to the actual identity isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.changedAnchor`: The difference from p to q is the coordinate of q in the trivialization based at p.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.nonzeroMoves`: Every nonzero coefficient moves every actual isomorphism; the action is not trivial.
+- `BandedIsom.Tests.selfCoefficient`: For the identity anchor on x, the coordinate image of a is the actual band automorphism `b_x(a)`.
+- `BandedIsom.Tests.selfZero`: The identity anchor sends zero to the actual identity isomorphism.
+- `BandedIsom.Tests.changedAnchor`: The difference from p to q is the coordinate of q in the trivialization based at p.
+- `BandedIsom.Tests.nonzeroMoves`: Every nonzero coefficient moves every actual isomorphism; the action is not trivial.
 
 Prove `BandedIsom.coordinate_one`. coordinateEquiv(p)`(1)=p`.
 
@@ -4451,9 +4458,9 @@ The API gives `BandedIsom.homPrincipalEquiv`: Transport the isomorphism principa
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.homUsesActualArrow`: The `Hom-Isom` equivalence sends p to its actual hom arrow.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.homComparison`: The Hom principal map is actual postcomposition, not a separately chosen arrow.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalWithoutAnchor`: The principal equivalence exists without a Nonempty hypothesis on the global isomorphism type.
+- `BandedIsom.Tests.homUsesActualArrow`: The `Hom-Isom` equivalence sends p to its actual hom arrow.
+- `BandedIsom.Tests.homComparison`: The Hom principal map is actual postcomposition, not a separately chosen arrow.
+- `BandedIsom.Tests.principalWithoutAnchor`: The principal equivalence exists without a Nonempty hypothesis on the global isomorphism type.
 
 Define `BandedIsom.homAct`. For an actual fibre arrow `p:x→y`, homAct(p,a)=p composed with the hom of `b_y(a)`.
 
@@ -4467,10 +4474,10 @@ The API gives `BandedIsom.homPrincipalEquiv_apply`: The Hom comparison sends `(p
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.homComparison`: The Hom principal map is actual postcomposition, not a separately chosen arrow.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.restrictionAction`: Restriction acts on both the isomorphism and its actual coefficient.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.precomposition`: Postcomposition and precomposition use the same band coefficient.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.restrictionDifference`: Restriction carries the difference coefficient to the difference of the restricted arrows.
+- `BandedIsom.Tests.homComparison`: The Hom principal map is actual postcomposition, not a separately chosen arrow.
+- `BandedIsom.Tests.restrictionAction`: Restriction acts on both the isomorphism and its actual coefficient.
+- `BandedIsom.Tests.precomposition`: Postcomposition and precomposition use the same band coefficient.
+- `BandedIsom.Tests.restrictionDifference`: Restriction carries the difference coefficient to the difference of the restricted arrows.
 
 Define `BandedIsom.homPrincipalEquiv`. Transport the isomorphism principal equivalence through the `Hom-Isom` equivalence to obtain `Hom(x,y)×A(U)` equivalent to `Hom(x,y)×Hom(x,y)`.
 
@@ -4484,9 +4491,9 @@ The API gives `BandedIsom.homPrincipalEquiv_apply`: The Hom comparison sends `(p
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.homComparison`: The Hom principal map is actual postcomposition, not a separately chosen arrow.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.homUsesActualArrow`: The `Hom-Isom` equivalence sends p to its actual hom arrow.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalRight`: The inverse followed by the principal comparison fixes every pair of isomorphisms.
+- `BandedIsom.Tests.homComparison`: The Hom principal map is actual postcomposition, not a separately chosen arrow.
+- `BandedIsom.Tests.homUsesActualArrow`: The `Hom-Isom` equivalence sends p to its actual hom arrow.
+- `BandedIsom.Tests.principalRight`: The inverse followed by the principal comparison fixes every pair of isomorphisms.
 
 Prove `BandedIsom.homPrincipalEquiv_apply`. The Hom comparison sends `(p,a)` to (p,p composed with `b_y(a)`), retaining the existing fibre arrow.
 
@@ -4520,9 +4527,9 @@ The API gives `BandedIsom.pair_isSheaf`: The pair presheaf is a sheaf for J over
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.pairSheafNative`: The actual Hom-pair presheaf satisfies the sheaf condition on J over U.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.noPointCreated`: If the actual global isomorphism type is empty, its product with coefficients remains empty.
+- `BandedIsom.Tests.pairSheafNative`: The actual Hom-pair presheaf satisfies the sheaf condition on J over U.
+- `BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
+- `BandedIsom.Tests.noPointCreated`: If the actual global isomorphism type is empty, its product with coefficients remains empty.
 
 Define `BandedIsom.actionPresheaf`. On the same slice category, sections over `f:V→U` are a Hom section together with a coefficient of `A(V)`. Maps use Hom restriction and the actual coefficient restriction.
 
@@ -4536,9 +4543,9 @@ The API gives `BandedIsom.principalPresheafIso`: The Hom principal equivalences 
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.actionSheafNative`: The actual Hom-times-band presheaf satisfies the sheaf condition.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
+- `BandedIsom.Tests.actionSheafNative`: The actual Hom-times-band presheaf satisfies the sheaf condition.
+- `BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
+- `BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
 
 Define `BandedIsom.principalPresheafIso`. The Hom principal equivalences assemble into a natural isomorphism from the Hom-times-band presheaf to the Hom-pair presheaf. Naturality uses `pullHom_act`, including all pseudofunctor coherence maps.
 
@@ -4552,9 +4559,9 @@ The API gives `BandedIsom.action_isSheaf`: Transport the proved Hom-pair sheaf p
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
+- `BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
+- `BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
+- `BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
 
 Prove `BandedIsom.pair_isSheaf`. The pair presheaf is a sheaf for J over U by the already built tensor-product sheaf result applied to the sheafHom twice..
 
@@ -4588,9 +4595,9 @@ The API gives `BandedIsom.pair_isSheaf`: The pair presheaf is a sheaf for J over
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.pairSheafNative`: The actual Hom-pair presheaf satisfies the sheaf condition on J over U.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
+- `BandedIsom.Tests.pairSheafNative`: The actual Hom-pair presheaf satisfies the sheaf condition on J over U.
+- `BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
+- `BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
 
 Define `BandedIsom.actionSheaf`. Package the actual Hom-times-band presheaf with its proved sheaf property in the same existing Sheaf category.
 
@@ -4604,9 +4611,9 @@ The API gives `BandedIsom.action_isSheaf`: Transport the proved Hom-pair sheaf p
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.actionSheafNative`: The actual Hom-times-band presheaf satisfies the sheaf condition.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
+- `BandedIsom.Tests.actionSheafNative`: The actual Hom-times-band presheaf satisfies the sheaf condition.
+- `BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
+- `BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
 
 Define `BandedIsom.principalSheafIso`. The principal comparison is an isomorphism in the Sheaf category on J over U, between the Hom-times-band sheaf and the Hom-pair sheaf. Its underlying presheaf map is the specified principal map.
 
@@ -4620,9 +4627,9 @@ The API gives `BandedIsom.principalSheafIso_hom`: The underlying presheaf morphi
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
+- `BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
+- `BandedIsom.Tests.sheafRight`: Its inverse followed by the morphism is the identity on the pair sheaf.
+- `BandedIsom.Tests.sheafUnderlying`: The underlying presheaf morphism is the actual principal morphism, with explicit carrier transport.
 
 Prove `BandedIsom.hom_localNonempty`. There is a J-covering sieve R on U such that every arrow `f:V→U` in R has a section of Hom(x restricted to V,y restricted to V). This is obtained from local isomorphism and does not assert a global section.
 
@@ -4648,11 +4655,11 @@ Here A specified arbitrary site `(C,J)`, Cat-valued pseudofunctors F,G with IsGe
 
 **Checks.**
 
-- `BandedIsom.Tests.noPointCreated`: an empty isomorphism set stays empty after product with the band; principal comparison does not manufacture a global object.
-- `BandedIsom.Tests.homUsesActualArrow`: the Hom–Isom comparison sends p to its actual arrow `p.hom`.
-- `BandedIsom.Tests.changedAnchor`: the difference coefficient transports the first anchor to the second, with positive band translation.
-- `BandedIsom.Tests.pairSheafNative`: the Hom square is a sheaf on the slice.
-- `BandedIsom.Tests.sheafLeft`: the principal sheaf comparison followed by its inverse is identity.
+- `BandedIsom.Tests.noPointCreated`: If the actual global isomorphism type is empty, its product with coefficients remains empty.
+- `BandedIsom.Tests.homUsesActualArrow`: The `Hom-Isom` equivalence sends p to its actual hom arrow.
+- `BandedIsom.Tests.changedAnchor`: The difference from p to q is the coordinate of q in the trivialization based at p.
+- `BandedIsom.Tests.pairSheafNative`: The actual Hom-pair presheaf satisfies the sheaf condition on J over U.
+- `BandedIsom.Tests.sheafLeft`: The principal sheaf morphism followed by its inverse is the identity on the action sheaf.
 
 ### 4.10 Banded transformations and composition
 
@@ -4672,7 +4679,7 @@ Prove `BandedMorphism.map_act`. For the fibre functor ηU, mapIso(actF(p,a))=act
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.preservesAction`: Mapping an acted isomorphism keeps exactly the same fixed-band coefficient.
+- `BandedMorphism.Tests.preservesAction`: Mapping an acted isomorphism keeps exactly the same fixed-band coefficient.
 
 Prove `BandedMorphism.map_difference`. differenceG(mapIso(p),mapIso(q))=differenceF(p,q) for actual p,`q:x≅y`. Apply map_act to actF(p,differenceF(p,q))=q and then the target difference cancellation law.
 
@@ -4682,7 +4689,7 @@ Prove `BandedMorphism.map_difference`. differenceG(mapIso(p),mapIso(q))=differen
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.preservesDifference`: The source and target difference coefficients agree exactly.
+- `BandedMorphism.Tests.preservesDifference`: The source and target difference coefficients agree exactly.
 
 Prove `BandedMorphism.mapIso_injective`. For every fibre and pair x,y, the actual mapIso of ηU is injective, including when the source Isom type is empty. Equal images have difference coefficient one; action cancellation recovers equality.
 
@@ -4698,7 +4705,7 @@ Prove `BandedMorphism.faithful`. Every component functor ηU is Faithful. All so
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.separatesArrows`: Two actual fibre arrows with equal images are equal, without a global anchor assumption.
+- `BandedMorphism.Tests.separatesArrows`: Two actual fibre arrows with equal images are equal, without a global anchor assumption.
 
 Define `BandedMorphism.preimageIso`. Given an actual `p:x≅y` and target q:ηU(x)≅ηU(y), preimageIso(p,q)=actF(p,differenceG(mapIso(p),q)). The anchor is required data, never inferred from local nonemptiness.
 
@@ -4710,10 +4717,10 @@ The API gives `BandedMorphism.map_preimageIso`: mapIso(preimageIso(p,q))=q, by a
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.inverseLeft`: Applying the anchored inverse to the actual mapped source isomorphism recovers that source isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.inverseRight`: Mapping the anchored inverse of an arbitrary actual target isomorphism recovers that target isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.independentAnchor`: Two actual source anchors give the same preimage of every target isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.emptySourceNotFilled`: An empty global source Isom type supplies no actual anchor for the surjectivity construction.
+- `BandedMorphism.Tests.inverseLeft`: Applying the anchored inverse to the actual mapped source isomorphism recovers that source isomorphism.
+- `BandedMorphism.Tests.inverseRight`: Mapping the anchored inverse of an arbitrary actual target isomorphism recovers that target isomorphism.
+- `BandedMorphism.Tests.independentAnchor`: Two actual source anchors give the same preimage of every target isomorphism.
+- `BandedMorphism.Tests.emptySourceNotFilled`: An empty global source Isom type supplies no actual anchor for the surjectivity construction.
 
 Prove `BandedMorphism.map_preimageIso`. mapIso(preimageIso(p,q))=q, by action compatibility and the target difference-action cancellation. This works for every target isomorphism once the actual source anchor is supplied.
 
@@ -4737,9 +4744,9 @@ The API gives `BandedMorphism.isomEquiv_apply`: isomEquiv(p)`(q)`=ηU.mapIso(q),
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.equivLeft`: The Isom equivalence has its left inverse law on every actual source isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.equivRight`: The Isom equivalence has its right inverse law on every actual target isomorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.equivUsesMap`: The forward equivalence is the actual fibre functor mapIso, rather than an arbitrary bijection.
+- `BandedMorphism.Tests.equivLeft`: The Isom equivalence has its left inverse law on every actual source isomorphism.
+- `BandedMorphism.Tests.equivRight`: The Isom equivalence has its right inverse law on every actual target isomorphism.
+- `BandedMorphism.Tests.equivUsesMap`: The forward equivalence is the actual fibre functor mapIso, rather than an arbitrary bijection.
 
 Prove `BandedMorphism.hom_surjective_of_anchor`. Given actual `p:x≅y`, ηU.map:`(x→y)→(ηU(x)→ηU(y))` is surjective. A target arrow is invertible by the target IsGerbe; take the hom of preimageIso(p,asIso(q)). This is conditional fullness for that pair, not a global source anchor.
 
@@ -4757,11 +4764,11 @@ The API gives `BandedMorphism.autEquiv_apply`: autEquiv(x)`(a)`=ηU.mapAut(x)`(a
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.autLeft`: The group equivalence has its left inverse law on every actual source automorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.autRight`: The group equivalence has its right inverse law on every actual target automorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.autUsesMap`: The forward group equivalence is the actual fibre functor mapAut.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.nonzeroRetained`: A band coefficient other than multiplicative one cannot map to the identity automorphism.
-- `TauCeti.AlgebraicGeometry.BandedMorphism.Tests.changedCoefficientRejected`: If the actual fibre map sends bF(a) to bG(`a′`) with `a≠a′`, that transformation cannot be band-preserving. This rejects inversion at a non-two-torsion coefficient.
+- `BandedMorphism.Tests.autLeft`: The group equivalence has its left inverse law on every actual source automorphism.
+- `BandedMorphism.Tests.autRight`: The group equivalence has its right inverse law on every actual target automorphism.
+- `BandedMorphism.Tests.autUsesMap`: The forward group equivalence is the actual fibre functor mapAut.
+- `BandedMorphism.Tests.nonzeroRetained`: A band coefficient other than multiplicative one cannot map to the identity automorphism.
+- `BandedMorphism.Tests.changedCoefficientRejected`: If the actual fibre map sends bF(a) to bG(`a′`) with `a≠a′`, that transformation cannot be band-preserving. This rejects inversion at a non-two-torsion coefficient.
 
 Prove `BandedMorphism.locallyIsomEquiv`. For every x,y over U, there is `R∈J(U)` such that for every `f:V→U` in R there is an actual equivalence between `Isom(F(f)x,F(f)y)` and `Isom(ηV(F(f)x),ηV(F(f)y))`, whose forward map is ηV.mapIso. The locallyIsomorphic field supplies each actual anchor. Strong naturality identifies the target with `G(f)(ηU(x),ηU(y))`; the inverse maps glue by anchor independence.
 
@@ -4783,9 +4790,9 @@ The API gives `GerbeMorphismPullback.comparison_native`: The component agrees ex
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.nativeComparison`: The component agrees exactly with `Cat.Hom.toNatIso`(η.naturality(f)).app(x).
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.zeroComparison`: The inverse comparison followed by its forward comparison is the identity arrow.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.comparisonBand`: Conjugation by `c_f(x)` preserves the specified target-band coefficient.
+- `GerbeMorphismPullback.Tests.nativeComparison`: The component agrees exactly with `Cat.Hom.toNatIso`(η.naturality(f)).app(x).
+- `GerbeMorphismPullback.Tests.zeroComparison`: The inverse comparison followed by its forward comparison is the identity arrow.
+- `GerbeMorphismPullback.Tests.comparisonBand`: Conjugation by `c_f(x)` preserves the specified target-band coefficient.
 
 Define `GerbeMorphismPullback.mapIso`. For `p:F(f)x≅F(f)y` define `M_f(p)=c_f(y)` ∘ ηV(p) ∘ `c_f(x)`⁻¹, an isomorphism `G(f)`(ηUx)≅`G(f)`(ηUy). Source: Olsson 2007 (Math 274 notes), §31, Definition 31.1 and Lemma 31.3, pp. 122–123.
 
@@ -4799,9 +4806,9 @@ The API gives `GerbeMorphismPullback.mapIso_hom`: For actual local `p:F(f)x≅F(
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.reflexiveImage`: The image of the actual identity isomorphism is the identity at `G(f)`(ηUx).
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.actualHomImage`: The hom arrow of the transported Isom image equals the transported Hom image.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.globalIsoRestriction`: For global actual `p:x≅y`, `M_f(F(f)p)=G(f)(ηU(p))`.
+- `GerbeMorphismPullback.Tests.reflexiveImage`: The image of the actual identity isomorphism is the identity at `G(f)`(ηUx).
+- `GerbeMorphismPullback.Tests.actualHomImage`: The hom arrow of the transported Isom image equals the transported Hom image.
+- `GerbeMorphismPullback.Tests.globalIsoRestriction`: For global actual `p:x≅y`, `M_f(F(f)p)=G(f)(ηU(p))`.
 
 Define `GerbeMorphismPullback.homMap`. For `p:F(f)x→F(f)y`, `h_f(p)=c_f(x)`.inv ≫ ηV.map(p) ≫ `c_f(y)`.hom lands in `G(f)`(ηUx)→`G(f)`(ηUy). Source: Olsson 2007 (Math 274 notes), §31, Definition 31.1 and Lemma 31.3, pp. 122–123.
 
@@ -4815,9 +4822,9 @@ The API gives `GerbeMorphismPullback.homMap_restrict`: For any global actual arr
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.sliceHomCarrier`: On the point-site cyclic group of order three, the transported Hom map for the identity transformation preserves the nonidentity generator 1. A constant-identity Hom map fails this computed arrow value.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.identityHomImage`: The actual identity arrow maps to the actual target identity arrow.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.globalHomRestriction`: For a global actual arrow `p:x→y`, `h_f(F(f)p)=G(f)(ηU(p))`.
+- `GerbeMorphismPullback.Tests.sliceHomCarrier`: On the point-site cyclic group of order three, the transported Hom map for the identity transformation preserves the nonidentity generator 1. A constant-identity Hom map fails this computed arrow value.
+- `GerbeMorphismPullback.Tests.identityHomImage`: The actual identity arrow maps to the actual target identity arrow.
+- `GerbeMorphismPullback.Tests.globalHomRestriction`: For a global actual arrow `p:x→y`, `h_f(F(f)p)=G(f)(ηU(p))`.
 
 Prove `GerbeMorphismPullback.mapIso_hom`. For actual local `p:F(f)x≅F(f)y`, the hom arrow of `M_f(p)` is exactly `h_f`(`p.hom`), including both strong-naturality comparison components.
 
@@ -4901,9 +4908,9 @@ The API gives `GerbeMorphismPullback.map_preimageIso`: For fixed-band η and an 
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.targetRoundTrip`: Mapping `P_f(p,q)` returns the supplied actual target q.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.anchorRecovered`: `P_f(p,M_f(p))` returns exactly the supplied anchor p.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.differentAnchors`: Any two actual local anchors yield the same inverse on every target q.
+- `GerbeMorphismPullback.Tests.targetRoundTrip`: Mapping `P_f(p,q)` returns the supplied actual target q.
+- `GerbeMorphismPullback.Tests.anchorRecovered`: `P_f(p,M_f(p))` returns exactly the supplied anchor p.
+- `GerbeMorphismPullback.Tests.differentAnchors`: Any two actual local anchors yield the same inverse on every target q.
 
 Prove `GerbeMorphismPullback.map_preimageIso`. For fixed-band η and an actual local anchor p, `M_f(P_f(p,q))=q` for every actual target q.
 
@@ -4947,9 +4954,9 @@ The API gives `GerbeMorphismPullback.isomEquiv_apply`: `E_f(p)(q)=M_f(q)` for ev
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.forwardOrientation`: The forward map uses `c_f(x)` inverse, the actual component mapIso, and `c_f(y)` forward.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.reverseOrientation`: The inverse transports q using `c_f(x)` forward and `c_f(y)` inverse before the component preimage.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.actedImage`: The equivalence retains every coefficient of the actual `A(V)` action.
+- `GerbeMorphismPullback.Tests.forwardOrientation`: The forward map uses `c_f(x)` inverse, the actual component mapIso, and `c_f(y)` forward.
+- `GerbeMorphismPullback.Tests.reverseOrientation`: The inverse transports q using `c_f(x)` forward and `c_f(y)` inverse before the component preimage.
+- `GerbeMorphismPullback.Tests.actedImage`: The equivalence retains every coefficient of the actual `A(V)` action.
 
 Prove `GerbeMorphismPullback.homMap_surjective_of_anchor`. For fixed-band η and actual local `p:F(f)x≅F(f)y`, `h_f` is surjective on the actual Hom carrier. The target arrows are invertible by IsGerbe(G,J), so the transported Isom inverse provides their actual preimage hom arrows.
 
@@ -5013,10 +5020,10 @@ The API gives `GerbeMorphismPullback.homPresheafMap_app`: At every `T∈C/U`, th
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.presheafIdentity`: The identity StrongTrans induces exactly the identity of the Hom presheaf.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.deeperArrow`: For an arbitrary local p and composable f,g, `h_(f∘g)` of `pullHom_F(p)` equals `pullHom_G(h_f(p))`; p need not descend from a global arrow.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.identitySlice`: At id U, the map agrees with the actual fibre functor through the two presheafHomObjHomEquiv maps.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.pointNonzero`: On the one-point constant SingleObj(Multiplicative(`Z/2Z`)) fixture, the identity transformation preserves the actual nonidentity arrow represented by additive 1.
+- `GerbeMorphismPullback.Tests.presheafIdentity`: The identity StrongTrans induces exactly the identity of the Hom presheaf.
+- `GerbeMorphismPullback.Tests.deeperArrow`: For an arbitrary local p and composable f,g, `h_(f∘g)` of `pullHom_F(p)` equals `pullHom_G(h_f(p))`; p need not descend from a global arrow.
+- `GerbeMorphismPullback.Tests.identitySlice`: At id U, the map agrees with the actual fibre functor through the two presheafHomObjHomEquiv maps.
+- `GerbeMorphismPullback.Tests.pointNonzero`: On the one-point constant SingleObj(Multiplicative(`Z/2Z`)) fixture, the identity transformation preserves the actual nonidentity arrow represented by additive 1.
 
 Prove `GerbeMorphismPullback.homPresheafMap_app`. At every `T∈C/U`, the new Hom-presheaf component sends p to the existing homMap `η T.hom x y p`.
 
@@ -5050,10 +5057,10 @@ The API gives `GerbeMorphismPullback.homSheafMap_hom`: The underlying natural tr
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.bandHypothesisNeeded`: The constant-unit monoid endomorphism of Multiplicative(`Z/2Z`) induces a one-object functor that is not Full. A morphism of underlying groupoids without the band condition need not have the claimed conclusion.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.nativeSheafMap`: Forgetting the new Hom-sheaf morphism gives exactly the constructed natural transformation between the existing Hom presheaves.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.separatesLocalArrows`: Two arbitrary local source arrows with equal images under the actual Hom-sheaf map are equal.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.noGlobalAnchor`: If the actual source Hom type `x→y` is empty, the target Hom type ηUx→ηUy is empty. The theorem does not smuggle in a global source anchor.
+- `GerbeMorphismPullback.Tests.bandHypothesisNeeded`: The constant-unit monoid endomorphism of Multiplicative(`Z/2Z`) induces a one-object functor that is not Full. A morphism of underlying groupoids without the band condition need not have the claimed conclusion.
+- `GerbeMorphismPullback.Tests.nativeSheafMap`: Forgetting the new Hom-sheaf morphism gives exactly the constructed natural transformation between the existing Hom presheaves.
+- `GerbeMorphismPullback.Tests.separatesLocalArrows`: Two arbitrary local source arrows with equal images under the actual Hom-sheaf map are equal.
+- `GerbeMorphismPullback.Tests.noGlobalAnchor`: If the actual source Hom type `x→y` is empty, the target Hom type ηUx→ηUy is empty. The theorem does not smuggle in a global source anchor.
 
 Prove `GerbeMorphismPullback.homSheafMap_hom`. The underlying natural transformation of homSheafMap is exactly homPresheafMap.
 
@@ -5127,10 +5134,10 @@ The API gives `GerbeMorphismPullback.homSheafIso_hom`: The hom of homSheafIso is
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.inverseRoundtrip`: The inverse Hom-sheaf component applied after the forward component returns every actual local source arrow.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.forwardRoundtrip`: The forward component applied after the inverse returns every actual local target arrow.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.arbitraryInverseRestriction`: For every slice arrow and arbitrary target section, the inverse commutes with the actual restriction, with no supplied global arrow or anchor.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.inverseBandCoordinate`: On the identity slice, the inverse returns the source automorphism with precisely the supplied band coordinate a from the target automorphism with that coordinate.
+- `GerbeMorphismPullback.Tests.inverseRoundtrip`: The inverse Hom-sheaf component applied after the forward component returns every actual local source arrow.
+- `GerbeMorphismPullback.Tests.forwardRoundtrip`: The forward component applied after the inverse returns every actual local target arrow.
+- `GerbeMorphismPullback.Tests.arbitraryInverseRestriction`: For every slice arrow and arbitrary target section, the inverse commutes with the actual restriction, with no supplied global arrow or anchor.
+- `GerbeMorphismPullback.Tests.inverseBandCoordinate`: On the identity slice, the inverse returns the source automorphism with precisely the supplied band coordinate a from the target automorphism with that coordinate.
 
 Prove `GerbeMorphismPullback.homSheafIso_hom`. The hom of homSheafIso is homSheafMap exactly.
 
@@ -5176,9 +5183,9 @@ The API gives `GerbeMorphismDescent.componentFullyFaithful_map_preimage`: Mappin
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.arrowRoundTrip`: Every arbitrary arrow between image objects is recovered by mapping the preimage.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.sourceRoundTrip`: For any source arrow p, preimage of ηU.map(p) is p; a constant inverse on Hom types fails this test.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.nonidentityAutomorphism`: A nonidentity source endomorphism remains nonidentity under ηU; forgetting a nontrivial stabilizer fails this test.
+- `GerbeMorphismDescent.Tests.arrowRoundTrip`: Every arbitrary arrow between image objects is recovered by mapping the preimage.
+- `GerbeMorphismDescent.Tests.sourceRoundTrip`: For any source arrow p, preimage of ηU.map(p) is p; a constant inverse on Hom types fails this test.
+- `GerbeMorphismDescent.Tests.nonidentityAutomorphism`: A nonidentity source endomorphism remains nonidentity under ηU; forgetting a nontrivial stabilizer fails this test.
 
 Prove `GerbeMorphismDescent.componentFullyFaithful_map_preimage`. Mapping `componentFullyFaithful.preimage(p)` by ηU gives p for every arrow between actual image objects.
 
@@ -5202,9 +5209,9 @@ The API gives `GerbeMorphismDescent.localImageSieve_mem`: Membership f∈Lz is e
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.membershipData`: At every base arrow, membership retains both a source object and an actual target isomorphism.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.deeperImage`: A local-image arrow stays in the sieve after every precomposition, including arrows not selected in the initial cover.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.identityImage`: Membership of id U is a global object-and-isomorphism witness through `G.mapId`; being covering alone is not used.
+- `GerbeMorphismDescent.Tests.membershipData`: At every base arrow, membership retains both a source object and an actual target isomorphism.
+- `GerbeMorphismDescent.Tests.deeperImage`: A local-image arrow stays in the sieve after every precomposition, including arrows not selected in the initial cover.
+- `GerbeMorphismDescent.Tests.identityImage`: Membership of id U is a global object-and-isomorphism witness through `G.mapId`; being covering alone is not used.
 
 Prove `GerbeMorphismDescent.localImageSieve_mem`. Membership f∈Lz is equivalent to existence of x in `F(V)` and Nonempty(ηV(x)≅`G(f)z`).
 
@@ -5240,9 +5247,9 @@ The API gives `GerbeMorphismDescent.targetOverlapIso_formula`: The target overla
 
 - `GerbeMorphismDescentTests.localNotGlobal`: over ℝ, `B1→B(C₂)` has covering local-image sieve for the torsor `Spec ℂ`, but no global preimage: its only image is the trivial torsor. The morphism does not preserve a common band.
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.selfOverlap`: For the same local index and base arrow, the complete five-factor target comparison cancels to the identity.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.tripleOverlap`: Three distinct local lifts over a common test object satisfy the ordered target cocycle.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.reverseTargetOverlap`: Interchanging the two local lifts reverses the complete target overlap isomorphism.
+- `GerbeMorphismDescent.Tests.selfOverlap`: For the same local index and base arrow, the complete five-factor target comparison cancels to the identity.
+- `GerbeMorphismDescent.Tests.tripleOverlap`: Three distinct local lifts over a common test object satisfy the ordered target cocycle.
+- `GerbeMorphismDescent.Tests.reverseTargetOverlap`: Interchanging the two local lifts reverses the complete target overlap isomorphism.
 
 Prove `GerbeMorphismDescent.targetOverlapIso_formula`. The target overlap is `c_a(x_i)`, then `G(a)(e_i)`, then the ofObj(z) overlap, then `G(b)(e_j)` inverse, then `c_b(x_j)` inverse.
 
@@ -5286,9 +5293,9 @@ The API gives `GerbeMorphismDescent.liftedOverlapIso_map`: ηY.mapIso of the lif
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.liftedImage`: Mapping the chosen lifted isomorphism gives the entire target overlap with both comparisons present.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.reflectedCocycle`: The lifted overlap satisfies the actual triple cocycle; lifting arrows independently without faithfulness fails this test.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.reverseLiftedOverlap`: Interchanging source local indices gives the inverse lifted isomorphism, not another arbitrary preimage.
+- `GerbeMorphismDescent.Tests.liftedImage`: Mapping the chosen lifted isomorphism gives the entire target overlap with both comparisons present.
+- `GerbeMorphismDescent.Tests.reflectedCocycle`: The lifted overlap satisfies the actual triple cocycle; lifting arrows independently without faithfulness fails this test.
+- `GerbeMorphismDescent.Tests.reverseLiftedOverlap`: Interchanging source local indices gives the inverse lifted isomorphism, not another arbitrary preimage.
 
 Prove `GerbeMorphismDescent.liftedOverlapIso_map`. ηY.mapIso of the lifted overlap equals the specified target overlap as an actual isomorphism.
 
@@ -5342,9 +5349,9 @@ The API gives `GerbeMorphismDescent.liftedDescentData_obj`: The object field of 
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.retainedLocalObject`: Every object field of the descent datum is the supplied `x_i`, so discarding the local objects fails.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.retainedLocalArrow`: Every overlap morphism is the specified lifted forward arrow, with all base equality witnesses retained.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.varyingBaseDescent`: The lifted datum obeys pullHom under an arbitrary deeper base arrow; a record with only the identity and triple-cocycle laws fails.
+- `GerbeMorphismDescent.Tests.retainedLocalObject`: Every object field of the descent datum is the supplied `x_i`, so discarding the local objects fails.
+- `GerbeMorphismDescent.Tests.retainedLocalArrow`: Every overlap morphism is the specified lifted forward arrow, with all base equality witnesses retained.
+- `GerbeMorphismDescent.Tests.varyingBaseDescent`: The lifted datum obeys pullHom under an arbitrary deeper base arrow; a record with only the identity and triple-cocycle laws fails.
 
 Prove `GerbeMorphismDescent.liftedDescentData_obj`. The object field of liftedDescentData at i is `x_i`.
 
@@ -5378,9 +5385,9 @@ The API gives `GerbeMorphismDescent.imageLocalIso_hom`: The forward arrow of ima
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.forwardGluingImage`: The local image starts with the inverse strong comparison, then the image of the forward gluing component, then `e_i`.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.inverseGluingImage`: The inverse local image starts with `e_i` inverse, then `η_i` of the inverse gluing component, then the forward strong comparison.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.nativeImageComm`: The chart image isomorphisms obey exactly the target `DescentData.isoMk` comm equation on arbitrary common test objects.
+- `GerbeMorphismDescent.Tests.forwardGluingImage`: The local image starts with the inverse strong comparison, then the image of the forward gluing component, then `e_i`.
+- `GerbeMorphismDescent.Tests.inverseGluingImage`: The inverse local image starts with `e_i` inverse, then `η_i` of the inverse gluing component, then the forward strong comparison.
+- `GerbeMorphismDescent.Tests.nativeImageComm`: The chart image isomorphisms obey exactly the target `DescentData.isoMk` comm equation on arbitrary common test objects.
 
 Prove `GerbeMorphismDescent.imageLocalIso_hom`. The forward arrow of imageLocalIso at i is `c_(f_i)(y)` inverse, followed by `η_i`.map(`r.hom.hom(i)`), followed by `e_i.hom`.
 
@@ -5414,9 +5421,9 @@ The API gives `GerbeMorphismDescent.globalImageIso_restrict`: Restricting `globa
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.globalRestriction`: The actual global forward arrow restricts to every prescribed chartwise image arrow.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.uniquenessForLocalData`: A second isomorphism with exactly the same local forward arrows equals the reconstructed global image isomorphism.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.emptyCoverEffectivity`: When the empty family is explicitly covering, the target stack still yields an actual isomorphism; the covering hypothesis is not dropped.
+- `GerbeMorphismDescent.Tests.globalRestriction`: The actual global forward arrow restricts to every prescribed chartwise image arrow.
+- `GerbeMorphismDescent.Tests.uniquenessForLocalData`: A second isomorphism with exactly the same local forward arrows equals the reconstructed global image isomorphism.
+- `GerbeMorphismDescent.Tests.emptyCoverEffectivity`: When the empty family is explicitly covering, the target stack still yields an actual isomorphism; the covering hypothesis is not dropped.
 
 Prove `GerbeMorphismDescent.global_preimage`. For every U and z in `G(U)`, there exists y in `F(U)` together with Nonempty(ηU `y≅z`).
 
@@ -5768,9 +5775,9 @@ The API gives `BandedIsom.fibreAction_apply`: For a in Multiplicative(`A(U)`) an
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.FibreActionTests.actual_coefficient`: On an actual `p:x≅y`, coefficient a acts by p followed by the prescribed `b_y(a)`.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.empty_sections`: A supplied empty Isom section set is still the carrier of a valid bundled action and remains empty.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.multiplication_order`: The coefficient action satisfies rho(ac)=rho(c) followed by rho(a), matching End multiplication.
+- `FibreActionTests.actual_coefficient`: On an actual `p:x≅y`, coefficient a acts by p followed by the prescribed `b_y(a)`.
+- `FibreActionTests.empty_sections`: A supplied empty Isom section set is still the carrier of a valid bundled action and remains empty.
+- `FibreActionTests.multiplication_order`: The coefficient action satisfies rho(ac)=rho(c) followed by rho(a), matching End multiplication.
 
 Define `BandedIsom.postcomposeActionIso`. For `q:y≅z`, postcomposition `p ↦ p` followed by q is an isomorphism fibreAction(b,x,y) ≅ fibreAction(b,x,z) in the action category. Source: Olsson 2007 (Math 274 notes), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, p. 122–123.
 
@@ -5784,9 +5791,9 @@ The API gives `BandedIsom.postcomposeActionIso_apply`: For `q:y≅z` and `p:x≅
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.FibreActionTests.postcompose_forward`: The forward function on p is p followed by the supplied q.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.postcompose_roundtrip`: Forward postcomposition by q and inverse postcomposition by q inverse return the original p.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.postcompose_composition`: Postcomposition by q followed by r equals composing the two action isomorphisms.
+- `FibreActionTests.postcompose_forward`: The forward function on p is p followed by the supplied q.
+- `FibreActionTests.postcompose_roundtrip`: Forward postcomposition by q and inverse postcomposition by q inverse return the original p.
+- `FibreActionTests.postcompose_composition`: Postcomposition by q followed by r equals composing the two action isomorphisms.
 
 Define `BandedMorphism.componentIso`. For a arrow `m:X→Y` in HomCategory(bF,bG), its component at U and x is the fibre isomorphism `X_U(x)≅Y_U(x)` obtained by asIso from `m_U(x)`. Source: Olsson 2007 (Math 274 notes), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, p. 122–123.
 
@@ -5800,9 +5807,9 @@ The API gives `BandedMorphism.componentIso_hom`: The forward arrow of componentI
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.FibreActionTests.native_component`: The forward fibre arrow is exactly the component of the given modification.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.native_component_inverse`: Evaluation of the modification inverse is the inverse of the evaluated component isomorphism.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.native_component_composition`: Evaluation of actual vertical modification composition agrees with composition of fibre isomorphisms.
+- `FibreActionTests.native_component`: The forward fibre arrow is exactly the component of the given modification.
+- `FibreActionTests.native_component_inverse`: Evaluation of the modification inverse is the inverse of the evaluated component isomorphism.
+- `FibreActionTests.native_component_composition`: Evaluation of actual vertical modification composition agrees with composition of fibre isomorphisms.
 
 Prove `BandedMorphism.componentIso_hom`. The forward arrow of componentIso(m,U,x) is exactly the component of the actual modification m, with no quotient or replacement carrier.
 
@@ -5846,9 +5853,9 @@ The API gives `BandedMorphism.fibreIsomActionFunctor_obj`: The carrier of the ac
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.FibreActionTests.functor_actual_carrier`: The functor object has the actual carrier `Isom_G(U)(y,X_U(x))`.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.functor_coefficient_naturality`: Every modification map commutes with each coefficient action, in the `Action.Hom` equation.
-- `TauCeti.AlgebraicGeometry.FibreActionTests.functor_native_inverse`: The inverse modification maps to the inverse of postcomposition by the evaluated component.
+- `FibreActionTests.functor_actual_carrier`: The functor object has the actual carrier `Isom_G(U)(y,X_U(x))`.
+- `FibreActionTests.functor_coefficient_naturality`: Every modification map commutes with each coefficient action, in the `Action.Hom` equation.
+- `FibreActionTests.functor_native_inverse`: The inverse modification maps to the inverse of postcomposition by the evaluated component.
 
 Define `BandedMorphism.selfTransportActionIso`. For X in HomCategory(b,b) and `e:x≅x′`, construct an isomorphism between the action on `Isom(x,X_U(x))` and the action on `Isom(x′,X_U(x′))`. Source: Olsson 2007 (Math 274 notes), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, p. 122–123.
 
@@ -5862,9 +5869,9 @@ The API gives `BandedMorphism.selfTransportActionIso_apply`: The forward underly
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SelfTransportTests.actual_arrow_transport`: The forward function sends p to e inverse followed by p followed by `X_U(e)`.
-- `TauCeti.AlgebraicGeometry.SelfTransportTests.no_chosen_arrow`: Two arbitrary connecting isomorphisms e,f give the same action isomorphism for an actual band-preserving X.
-- `TauCeti.AlgebraicGeometry.SelfTransportTests.identity_transport`: Using `Iso.refl(x)` gives the identity action isomorphism.
+- `SelfTransportTests.actual_arrow_transport`: The forward function sends p to e inverse followed by p followed by `X_U(e)`.
+- `SelfTransportTests.no_chosen_arrow`: Two arbitrary connecting isomorphisms e,f give the same action isomorphism for an actual band-preserving X.
+- `SelfTransportTests.identity_transport`: Using `Iso.refl(x)` gives the identity action isomorphism.
 
 Prove `BandedMorphism.selfTransportActionIso_id`. Transport by `Iso.refl(x)` is the identity isomorphism of the self-morphism action.
 
@@ -5898,9 +5905,9 @@ The API gives `BandedMorphism.selfTransportNatIso_app`: At X, the natural isomor
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SelfTransportTests.modification_naturality`: For every modification m the action-functor maps commute with the natural transport components.
-- `TauCeti.AlgebraicGeometry.SelfTransportTests.natural_composition`: Transport along e followed by f agrees as a natural isomorphism with composing the two transports.
-- `TauCeti.AlgebraicGeometry.SelfTransportTests.natural_independence`: Arbitrary e,f between the same objects produce equal natural isomorphisms.
+- `SelfTransportTests.modification_naturality`: For every modification m the action-functor maps commute with the natural transport components.
+- `SelfTransportTests.natural_composition`: Transport along e followed by f agrees as a natural isomorphism with composing the two transports.
+- `SelfTransportTests.natural_independence`: Arbitrary e,f between the same objects produce equal natural isomorphisms.
 
 Prove `BandedMorphism.selfTransportActionIso_independent`. For X in HomCategory(b,b) and any two actual isomorphisms e,`f:x≅x′`, selfTransportActionIso(X,e) equals selfTransportActionIso(X,f). No choice of a connecting arrow is retained.
 
@@ -5936,9 +5943,9 @@ The API gives `BandedIsom.restrictActionHom_apply`: The underlying function of r
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.empty_source`: An empty source Isom set still admits the constructed equivariant restriction arrow; the constructor requires no global section.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.band_coefficient`: Restriction of p followed by `b_y(a)` equals restricted p followed by the target band evaluated at the actual coefficient `A(f)(a)`.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.restricted_unit`: Restricting the identity isomorphism gives the identity of the pulled-back object.
+- `RestrictionActionTests.empty_source`: An empty source Isom set still admits the constructed equivariant restriction arrow; the constructor requires no global section.
+- `RestrictionActionTests.band_coefficient`: Restriction of p followed by `b_y(a)` equals restricted p followed by the target band evaluated at the actual coefficient `A(f)(a)`.
+- `RestrictionActionTests.restricted_unit`: Restricting the identity isomorphism gives the identity of the pulled-back object.
 
 Define `BandedMorphism.restrictionIso`. For a band-preserving strong transformation `X:F→G`, define `c(X,f,x):G(f)(X(U)x)≅X(V)(F(f)x)` as the inverse object component of `X.naturality(f)`. Source: Olsson 2007 (Math 274 notes), Olsson31.1–31.5, p. 122–123; Groechenig–Wyss–Ziegler 2020 Definition 2.6 and §2.2.1, p. 514–515.
 
@@ -5952,9 +5959,9 @@ The API gives `BandedMorphism.restrictionIso_naturality`: For `e:x≅x′`, `G(f
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.comparison_roundtrip`: The inverse strong comparison followed by the original comparison component is the identity.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.comparison_identity`: The identity-arrow comparison retains both `G.mapId` and the inverse `F.mapId` component.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.comparison_composition`: On two composable site arrows, the strong comparison includes `G.mapComp`, both intermediate comparisons and the inverse `F.mapComp`.
+- `RestrictionActionTests.comparison_roundtrip`: The inverse strong comparison followed by the original comparison component is the identity.
+- `RestrictionActionTests.comparison_identity`: The identity-arrow comparison retains both `G.mapId` and the inverse `F.mapId` component.
+- `RestrictionActionTests.comparison_composition`: On two composable site arrows, the strong comparison includes `G.mapComp`, both intermediate comparisons and the inverse `F.mapComp`.
 
 Define `BandedMorphism.fibreIsomRestriction`. For `X:F→G`, `x∈F(U)` and `y∈G(U)`, define `R(X,f,x,y):Isom(y,X(U)x)→Isom(G(f)y,X(V)(F(f)x))` by `p↦G(f)(p)` followed by `c(X,f,x)`. Source: Olsson 2007 (Math 274 notes), Olsson31.1–31.5, p. 122–123; Groechenig–Wyss–Ziegler 2020 Definition 2.6 and §2.2.1, p. 514–515.
 
@@ -5968,9 +5975,9 @@ The API gives `BandedMorphism.fibreIsomRestriction_apply`: `R(X,f,x,y)(p)` is ex
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.actual_transport`: The constructed `Action.Hom` sends p to `G(f)(p)` followed by the inverse strong comparison.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.semilinear_transport`: Transport of p acted on by a equals transported p acted on by `A(f)(a)`, at the changed target `X(V)(F(f)x)`.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.transport_identity`: Restricting along the identity uses the two endpoint identifications; it does not assert an ill-typed strict identity.
+- `RestrictionActionTests.actual_transport`: The constructed `Action.Hom` sends p to `G(f)(p)` followed by the inverse strong comparison.
+- `RestrictionActionTests.semilinear_transport`: Transport of p acted on by a equals transported p acted on by `A(f)(a)`, at the changed target `X(V)(F(f)x)`.
+- `RestrictionActionTests.transport_identity`: Restricting along the identity uses the two endpoint identifications; it does not assert an ill-typed strict identity.
 
 Prove `BandedMorphism.fibreIsomRestriction_apply`. `R(X,f,x,y)(p)` is exactly `G(f)(p)` followed by `c(X,f,x)`, on the original Isom carrier.
 
@@ -6004,9 +6011,9 @@ The API gives `BandedMorphism.fibreIsomRestrictionNatTrans_app`: The component o
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.natural_component`: The component at X is the actual equivariant fibre restriction, with unchanged source Isom carrier.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.modification_square`: A modification commutes with the restriction transformation as an equality of equivariant maps.
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.inverse_modification_square`: The same restriction square holds for the inverse modification, with both component isomorphisms inverted.
+- `RestrictionActionTests.natural_component`: The component at X is the actual equivariant fibre restriction, with unchanged source Isom carrier.
+- `RestrictionActionTests.modification_square`: A modification commutes with the restriction transformation as an equality of equivariant maps.
+- `RestrictionActionTests.inverse_modification_square`: The same restriction square holds for the inverse modification, with both component isomorphisms inverted.
 
 Prove `BandedMorphism.restrictionIso_naturality`. For `e:x≅x′`, `G(f)(X(U)(e))` followed by `c(X,f,x′)` equals `c(X,f,x)` followed by `X(V)(F(f)(e))`.
 
@@ -6070,7 +6077,7 @@ For the proof, evaluate both arrows on `p:x≅X(U)x` and expand the local-object
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.restricted_choice_independence`: Two connecting local isomorphisms e,`e′` give the same restricted equivariant self-transport map.
+- `RestrictionActionTests.restricted_choice_independence`: Two connecting local isomorphisms e,`e′` give the same restricted equivariant self-transport map.
 
 Prove `BandedMorphism.selfTransportNatIso_restriction`. The natural isomorphism selfTransportNatIso(e), followed by the restriction transformation at `x′`, equals the restriction transformation at x followed by the right whiskering of selfTransportNatIso(`F(f)(e)`) with `Action.res(A(f))`.
 
@@ -6084,7 +6091,7 @@ For the proof, use natural-transformation extensionality on every X and apply th
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.RestrictionActionTests.local_object_square`: The complete natural-transformation square for changing a local object commutes after action restriction.
+- `RestrictionActionTests.local_object_square`: The complete natural-transformation square for changing a local object commutes after action restriction.
 
 Define `BandedMorphism.fibreHomSheaf`. For `x∈F(U)`, `y∈G(U)` and a fixed-band strong morphism `X:F→G`, set `H_X=G.sheafHom(J,y,X_U(x))` on (Over U,`J.over U`). Source: Olsson 2007 (Math 274 notes), Remark 31.5, p. 123; Groechenig–Wyss–Ziegler 2020 §2.2.1, p. 515.
 
@@ -6098,9 +6105,9 @@ The API gives `BandedMorphism.fibreHomSheaf_locallyNonempty`: For every `t:T→U
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.actual_hom_sheaf`: The underlying presheaf is exactly the existing `G.presheafHom`, rather than a wrapper assumed to satisfy descent.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.local_sections`: Over every actual slice object there is a covering sieve with a section over each composite restriction.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.actual_sheaf_property`: The constructed carrier satisfies the actual `Presheaf.IsSheaf` condition on the Over topology.
+- `SheafAssemblyTests.actual_hom_sheaf`: The underlying presheaf is exactly the existing `G.presheafHom`, rather than a wrapper assumed to satisfy descent.
+- `SheafAssemblyTests.local_sections`: Over every actual slice object there is a covering sieve with a section over each composite restriction.
+- `SheafAssemblyTests.actual_sheaf_property`: The constructed carrier satisfies the actual `Presheaf.IsSheaf` condition on the Over topology.
 
 Define `BandedMorphism.fibreHomSectionIsoEquiv`. For `t:T→U`, `H_X(t)` is equivalent to `Isom(G(t)y,G(t)(X_U(x)))`. Source: Olsson 2007 (Math 274 notes), Remark 31.5, p. 123; Groechenig–Wyss–Ziegler 2020 §2.2.1, p. 515.
 
@@ -6114,9 +6121,9 @@ The API gives `BandedMorphism.fibreHomSectionIsoEquiv_hom`: The hom of sectionIs
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.iso_roundtrip`: Sending an actual Hom section to its isomorphism and back recovers the section.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.iso_inverse_roundtrip`: The reverse Hom/isomorphism conversion recovers every actual isomorphism.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.iso_actual_arrow`: The isomorphism conversion retains exactly the original section arrow.
+- `SheafAssemblyTests.iso_roundtrip`: Sending an actual Hom section to its isomorphism and back recovers the section.
+- `SheafAssemblyTests.iso_inverse_roundtrip`: The reverse Hom/isomorphism conversion recovers every actual isomorphism.
+- `SheafAssemblyTests.iso_actual_arrow`: The isomorphism conversion retains exactly the original section arrow.
 
 Define `BandedMorphism.fibreHomSheafMap`. For a Mathlib modification `m:X⇒Y`, define `H(m):H_X→H_Y` by `p↦p` followed by `G(t)(m_U(x))` at `t:T→U`. Source: Olsson 2007 (Math 274 notes), Remark 31.5, p. 123; Groechenig–Wyss–Ziegler 2020 §2.2.1, p. 515.
 
@@ -6130,9 +6137,9 @@ The API gives `BandedMorphism.fibreHomSheafMap_apply`: `H(m)_t(p)=p` followed by
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.actual_modification`: The sheaf map postcomposes p with the pulled-back actual component `m_U(x)`.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.modification_restriction`: The map on an actual modification commutes with every Over-site restriction as an equality of Type arrows.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.identity_section_map`: The identity modification map fixes every section over every slice object.
+- `SheafAssemblyTests.actual_modification`: The sheaf map postcomposes p with the pulled-back actual component `m_U(x)`.
+- `SheafAssemblyTests.modification_restriction`: The map on an actual modification commutes with every Over-site restriction as an equality of Type arrows.
+- `SheafAssemblyTests.identity_section_map`: The identity modification map fixes every section over every slice object.
 
 Define `BandedMorphism.fibreHomSheafFunctor`. `X↦H_X` and `m↦H(m)` form a functor from Mathlib's fixed-band HomCategory(bF,bG) to Sheaf(`J.over U`,Type `v'`). Source: Olsson 2007 (Math 274 notes), Remark 31.5, p. 123; Groechenig–Wyss–Ziegler 2020 §2.2.1, p. 515.
 
@@ -6146,9 +6153,9 @@ The API gives `BandedMorphism.fibreHomSheafFunctor_obj`: The image of X under fi
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.identity_functor`: The identity modification gives the identity of the actual sheaf.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.composed_modifications`: Two modifications give the composite of their two sheaf maps.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.functor_carrier`: The functor object is the precise existing Hom sheaf.
+- `SheafAssemblyTests.identity_functor`: The identity modification gives the identity of the actual sheaf.
+- `SheafAssemblyTests.composed_modifications`: Two modifications give the composite of their two sheaf maps.
+- `SheafAssemblyTests.functor_carrier`: The functor object is the precise existing Hom sheaf.
 
 Define `BandedMorphism.fibreHomSheafMapIso`. Every modification m yields a Mathlib isomorphism `H_X≅H_Y` by applying the sheaf functor to homIso(m). Source: Olsson 2007 (Math 274 notes), Remark 31.5, p. 123; Groechenig–Wyss–Ziegler 2020 §2.2.1, p. 515.
 
@@ -6162,9 +6169,9 @@ The API gives `BandedMorphism.fibreHomSheafMapIso_hom`: The hom of fibreHomSheaf
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.inverse_modification`: The inverse sheaf map is obtained from the inverse modification.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.inverse_modification_roundtrip`: The actual forward and inverse modification sheaf maps compose to the identity.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.forward_modification`: The isomorphism forward arrow is the actual modification sheaf map.
+- `SheafAssemblyTests.inverse_modification`: The inverse sheaf map is obtained from the inverse modification.
+- `SheafAssemblyTests.inverse_modification_roundtrip`: The actual forward and inverse modification sheaf maps compose to the identity.
+- `SheafAssemblyTests.forward_modification`: The isomorphism forward arrow is the actual modification sheaf map.
 
 Prove `BandedMorphism.fibreHomSheaf_locallyNonempty`. For every `t:T→U` there is a sieve `R∈J(T)` such that for every `g:V→T` in R the actual set `H_X`(g followed by t) is nonempty. This asserts local sections and does not assert a global section of `H_X`.
 
@@ -6188,10 +6195,10 @@ The API gives `BandedMorphism.fibreHomSectionAction_apply`: The section action s
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.empty_sections_allowed`: A conditionally empty Hom section carrier still has the constructed band action, with no nonemptiness hypothesis.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.unique_band_difference`: Any two actual sections have a unique band coefficient relating them.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.semilinear_restriction`: The actual pullHom restriction transports the coefficient along `A(g)`; both endpoint composition comparisons remain.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.modification_equivariance`: The actual modification section map respects the band action at both target objects.
+- `SheafAssemblyTests.empty_sections_allowed`: A conditionally empty Hom section carrier still has the constructed band action, with no nonemptiness hypothesis.
+- `SheafAssemblyTests.unique_band_difference`: Any two actual sections have a unique band coefficient relating them.
+- `SheafAssemblyTests.semilinear_restriction`: The actual pullHom restriction transports the coefficient along `A(g)`; both endpoint composition comparisons remain.
+- `SheafAssemblyTests.modification_equivariance`: The actual modification section map respects the band action at both target objects.
 
 Prove `BandedMorphism.fibreHomSectionAction_freeTransitive`. For any p,`q∈H_X(t)` there exists exactly one a∈Multiplicative `A(T)` with a acting on p equal to q. The assertion is conditional on the two given sections and allows `H_X(t)` itself to be empty.
 
@@ -6225,9 +6232,9 @@ The API gives `BandedMorphism.fibreHomTransportIsoEquiv_apply`: The transport eq
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.transport_roundtrip`: The transported `Hom/Isom` comparison and its stated inverse recover a section.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.transport_modification`: The transported sheaf modification map agrees with the modification component at the restricted source object.
-- `TauCeti.AlgebraicGeometry.SheafAssemblyTests.inverse_transport_formula`: The inverse transported comparison is postcomposition by the inverse strong restriction comparison, followed by hom.
+- `SheafAssemblyTests.transport_roundtrip`: The transported `Hom/Isom` comparison and its stated inverse recover a section.
+- `SheafAssemblyTests.transport_modification`: The transported sheaf modification map agrees with the modification component at the restricted source object.
+- `SheafAssemblyTests.inverse_transport_formula`: The inverse transported comparison is postcomposition by the inverse strong restriction comparison, followed by hom.
 
 Prove `BandedMorphism.fibreHomTransportIsoEquiv_modification`. Converting `H(m)_t(p)` to the transported `Y Isom` equals the transported `X Isom` of p followed by componentIso(m,T,`F(t)x`). This identifies the sheaf functor maps with the preceding fibre-Isom modification maps.
 
@@ -6253,9 +6260,9 @@ The API gives `BandedMorphism.selfHomSheafTransport_apply`: `T_e` at t sends p t
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.automorphism_trivial`: Transport around any supplied automorphism of x is the identity actual sheaf map; the isomorphism parameter cannot inject artificial monodromy.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.modification_square`: An actual modification commutes with the two actual local-object transport maps as a sheaf square.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.scalar_compatibility`: Transport commutes with the same actual band coefficient on the two section carriers.
+- `SheafTransportTests.automorphism_trivial`: Transport around any supplied automorphism of x is the identity actual sheaf map; the isomorphism parameter cannot inject artificial monodromy.
+- `SheafTransportTests.modification_square`: An actual modification commutes with the two actual local-object transport maps as a sheaf square.
+- `SheafTransportTests.scalar_compatibility`: Transport commutes with the same actual band coefficient on the two section carriers.
 
 Prove `BandedMorphism.selfHomSheafTransport_id`. For every X, `T_id_x` is the identity morphism of `H_x(X)`.
 
@@ -6289,9 +6296,9 @@ The API gives `BandedMorphism.selfHomSheafTransportIso_hom`: The hom field of se
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.inverse_roundtrip`: The displayed forward sheaf map followed by its displayed inverse recovers every supplied section.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.empty_sections`: If the actual Hom section set at a slice object is empty for x, it is empty for `x′`; no artificial global section is introduced.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.iso_choice_independence`: Two supplied connecting isomorphisms induce equal sheaf isomorphisms, including their inverse data.
+- `SheafTransportTests.inverse_roundtrip`: The displayed forward sheaf map followed by its displayed inverse recovers every supplied section.
+- `SheafTransportTests.empty_sections`: If the actual Hom section set at a slice object is empty for x, it is empty for `x′`; no artificial global section is introduced.
+- `SheafTransportTests.iso_choice_independence`: Two supplied connecting isomorphisms induce equal sheaf isomorphisms, including their inverse data.
 
 Prove `BandedMorphism.selfHomSheafTransport_transport`. At `t:T→U`, applying fibreHomTransportIsoEquiv to `T_e(p)` equals applying the preceding selfTransportActionIso along `F(t)`.mapIso(e) to the transported Isom of p. The strong-transformation restriction comparison is retained.
 
@@ -6335,9 +6342,9 @@ The API gives `BandedMorphism.selfHomSheafTransportNatIso_app`: The component at
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.inverse_modification`: The natural transport square also holds for the actual inverse of any modification.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.three_objects`: Three composable connecting isomorphisms obey the iterated natural-isomorphism cocycle equation.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.actual_restriction`: The actual section transport commutes with every supplied Over-arrow restriction on the Hom sheaves.
+- `SheafTransportTests.inverse_modification`: The natural transport square also holds for the actual inverse of any modification.
+- `SheafTransportTests.three_objects`: Three composable connecting isomorphisms obey the iterated natural-isomorphism cocycle equation.
+- `SheafTransportTests.actual_restriction`: The actual section transport commutes with every supplied Over-arrow restriction on the Hom sheaves.
 
 Prove `BandedMorphism.selfHomSheafTransportNatIso_independent`. For any e,`f:x≅x′`, the two natural isomorphisms of sheaf-valued functors are equal.
 
@@ -6391,9 +6398,9 @@ The API gives `BandedMorphism.selfHomSheafObjectFunctor_obj`: The value at a cor
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.nonfaithful_with_parallel_arrows`: If two distinct parallel core arrows are supplied, the actual local-object functor is not faithful because their images agree.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.native_object`: Evaluating the object functor at x and X has exactly the presheafHom carrier.
-- `TauCeti.AlgebraicGeometry.SheafTransportTests.native_composition`: The functor image of a composite core arrow evaluates to the composite actual sheaf maps at every X.
+- `SheafTransportTests.nonfaithful_with_parallel_arrows`: If two distinct parallel core arrows are supplied, the actual local-object functor is not faithful because their images agree.
+- `SheafTransportTests.native_object`: Evaluating the object functor at x and X has exactly the presheafHom carrier.
+- `SheafTransportTests.native_composition`: The functor image of a composite core arrow evaluates to the composite actual sheaf maps at every X.
 
 Prove `BandedMorphism.selfHomSheafObjectFunctor_parallel`. For any parallel core arrows e,`f:x→y`, selfHomSheafObjectFunctor(U).map(e)=selfHomSheafObjectFunctor(U).map(f). This gives uniqueness of the induced comparison, not faithfulness or global descent.
 
@@ -6417,20 +6424,20 @@ The API gives `BandedMorphism.fibreHomBaseChangeIso_apply`: At `t:T→V`, the fo
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.inverse_roundtrip`: The displayed forward comparison followed by its actual inverse recovers every supplied section, at arbitrary `t:T→V`.
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.empty_sections`: If the actual Hom section set at t≫f is empty, its compared carrier at t is empty. The construction cannot create a global or local section.
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.unit_coefficient`: The identity coefficient acts trivially before comparison, and the resulting section is the comparison of the original supplied section.
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.deeper_slice`: Comparison commutes with restriction along every supplied Over-arrow `g:W→T` over V, using `Over.map(f)(g)` on the source and the actual pullHom restrictions.
-- `TauCeti.AlgebraicGeometry.SheafCoherenceTests.unit_inverse`: The corrected identity comparison has exactly the inverse of the slice pullback identity component; inverse factors occur in reverse order.
-- `TauCeti.AlgebraicGeometry.SheafCoherenceTests.composite_inverse`: Both composite paths have equal actual inverse sheaf arrows, with the inverse Over comparison and inverse object transport in the correct order.
-- `TauCeti.AlgebraicGeometry.SheafCoherenceTests.endpoint_choice`: Any supplied isomorphism `F(g≫f)x≅F(g)F(f)x` can replace the target comparison in the complete sheaf composition law.
-- `TauCeti.AlgebraicGeometry.SheafCoherenceTests.coefficient_composite`: Two successive restriction comparisons preserve the same arbitrary coefficient a∈Multiplicative `A(T)`; no incorrect restriction of a along f or g is inserted.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.unit_inverse_order`: For every actual section, the inverse endpoint map is applied before the inverse identity-base map, and their value equals the Over identity inverse.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.composition_inverse_round_trip`: The iterated forward map followed by the three reversed coherent factors is the identity actual sheaf map.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.same_actual_coefficient`: Two successive comparisons preserve the same supplied a∈Multiplicative `A(T)`, using the actual section actions.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.unbalanced_unit_endpoint`: After the correctly endpoint-adjusted identity-base comparison, an independently added target-endpoint automorphism that remains nonidentity under `G(t)` changes every supplied section. It cannot be erased from the general two-object formula.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.empty_iterated_sections`: If the original section carrier over the twice-mapped Over object is empty, the twice-restricted carrier is empty by the actual inverse maps; no section is selected.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.diagonal_composition`: Specializing `F=G`, bF=bG and `y=x` recovers exactly the existing selfHomSheafTransportIso composition equality.
+- `SheafBaseChangeTests.inverse_roundtrip`: The displayed forward comparison followed by its actual inverse recovers every supplied section, at arbitrary `t:T→V`.
+- `SheafBaseChangeTests.empty_sections`: If the actual Hom section set at t≫f is empty, its compared carrier at t is empty. The construction cannot create a global or local section.
+- `SheafBaseChangeTests.unit_coefficient`: The identity coefficient acts trivially before comparison, and the resulting section is the comparison of the original supplied section.
+- `SheafBaseChangeTests.deeper_slice`: Comparison commutes with restriction along every supplied Over-arrow `g:W→T` over V, using `Over.map(f)(g)` on the source and the actual pullHom restrictions.
+- `SheafCoherenceTests.unit_inverse`: The corrected identity comparison has exactly the inverse of the slice pullback identity component; inverse factors occur in reverse order.
+- `SheafCoherenceTests.composite_inverse`: Both composite paths have equal actual inverse sheaf arrows, with the inverse Over comparison and inverse object transport in the correct order.
+- `SheafCoherenceTests.endpoint_choice`: Any supplied isomorphism `F(g≫f)x≅F(g)F(f)x` can replace the target comparison in the complete sheaf composition law.
+- `SheafCoherenceTests.coefficient_composite`: Two successive restriction comparisons preserve the same arbitrary coefficient a∈Multiplicative `A(T)`; no incorrect restriction of a along f or g is inserted.
+- `GeneralBaseCoherenceTests.unit_inverse_order`: For every actual section, the inverse endpoint map is applied before the inverse identity-base map, and their value equals the Over identity inverse.
+- `GeneralBaseCoherenceTests.composition_inverse_round_trip`: The iterated forward map followed by the three reversed coherent factors is the identity actual sheaf map.
+- `GeneralBaseCoherenceTests.same_actual_coefficient`: Two successive comparisons preserve the same supplied a∈Multiplicative `A(T)`, using the actual section actions.
+- `GeneralBaseCoherenceTests.unbalanced_unit_endpoint`: After the correctly endpoint-adjusted identity-base comparison, an independently added target-endpoint automorphism that remains nonidentity under `G(t)` changes every supplied section. It cannot be erased from the general two-object formula.
+- `GeneralBaseCoherenceTests.empty_iterated_sections`: If the original section carrier over the twice-mapped Over object is empty, the twice-restricted carrier is empty by the actual inverse maps; no section is selected.
+- `GeneralBaseCoherenceTests.diagonal_composition`: Specializing `F=G`, bF=bG and `y=x` recovers exactly the existing selfHomSheafTransportIso composition equality.
 
 Prove `BandedMorphism.fibreHomBaseChangeIso_apply`. At `t:T→V`, the forward map is the Hom-presheaf base-change comparison followed by `G(t)` of the hom of `c(X,f,x)`.
 
@@ -6474,13 +6481,13 @@ The API gives `BandedMorphism.fibreHomBaseChangeNatIso_app`: The component at X 
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.inverse_modification`: The actual inverse modification obeys the forward comparison naturality square; inverse arrows and their components remain part of the carrier.
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.composite_modifications`: Two composable modifications commute with the restriction natural isomorphism after applying both genuine sheaf maps, on both sides of the comparison.
-- `TauCeti.AlgebraicGeometry.SheafBaseChangeTests.local_object_square`: The natural-isomorphism components commute with the actual local-object transport along e and its pulled-back isomorphism `F(f)e`.
-- `TauCeti.AlgebraicGeometry.SheafCoherenceTests.native_modification`: Every modification commutes with the iterated restriction natural isomorphism on actual sheaf arrows.
-- `TauCeti.AlgebraicGeometry.SheafCoherenceTests.third_pullback`: The complete two-step coherence equality remains valid after applying the sheaf pullback along a third arbitrary arrow. This checks stability under a third pullback, not a separately established full descent pentagon.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.iterated_modifications`: Every actual modification commutes with the iterated natural comparison over f and g.
-- `TauCeti.AlgebraicGeometry.GeneralBaseCoherenceTests.third_pullback_stability`: The complete two-arrow comparison equality remains equal after a third arbitrary pullback; this check does not claim the full descent pentagon.
+- `SheafBaseChangeTests.inverse_modification`: The actual inverse modification obeys the forward comparison naturality square; inverse arrows and their components remain part of the carrier.
+- `SheafBaseChangeTests.composite_modifications`: Two composable modifications commute with the restriction natural isomorphism after applying both genuine sheaf maps, on both sides of the comparison.
+- `SheafBaseChangeTests.local_object_square`: The natural-isomorphism components commute with the actual local-object transport along e and its pulled-back isomorphism `F(f)e`.
+- `SheafCoherenceTests.native_modification`: Every modification commutes with the iterated restriction natural isomorphism on actual sheaf arrows.
+- `SheafCoherenceTests.third_pullback`: The complete two-step coherence equality remains valid after applying the sheaf pullback along a third arbitrary arrow. This checks stability under a third pullback, not a separately established full descent pentagon.
+- `GeneralBaseCoherenceTests.iterated_modifications`: Every actual modification commutes with the iterated natural comparison over f and g.
+- `GeneralBaseCoherenceTests.third_pullback_stability`: The complete two-arrow comparison equality remains equal after a third arbitrary pullback; this check does not claim the full descent pentagon.
 
 Prove `BandedMorphism.fibreHomBaseChangeIso_equivariant`. For a∈Multiplicative `A(T)` and a supplied section p at t≫f, the forward comparison carries a acting on p to a acting on its image at t. Both section carriers lie over T, so the coefficient is the same actual element of `A(T)`; no coefficient restriction along f is inserted into this comparison.
 
@@ -6586,9 +6593,9 @@ The API gives `BandedMorphism.fibreHomEndpointTransport_apply`: For every suppli
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.actual_endpoint_formula`: On every actual Hom section, transport has exactly the inverse y-endpoint and forward `X(x)`-endpoint factors.
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.arbitrary_slice_arrow`: The map commutes with restriction along every supplied Over arrow, retaining the real presheaf maps.
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.unbalanced_endpoint_is_not_identity`: For a target-endpoint automorphism whose inverse remains nonidentity after the actual `G(t)` pullback, transport with identity x-endpoint changes every supplied Hom section. Independent endpoint choices cannot be suppressed as in the diagonal self-gerbe case.
+- `EndpointTransportTests.actual_endpoint_formula`: On every actual Hom section, transport has exactly the inverse y-endpoint and forward `X(x)`-endpoint factors.
+- `EndpointTransportTests.arbitrary_slice_arrow`: The map commutes with restriction along every supplied Over arrow, retaining the real presheaf maps.
+- `EndpointTransportTests.unbalanced_endpoint_is_not_identity`: For a target-endpoint automorphism whose inverse remains nonidentity after the actual `G(t)` pullback, transport with identity x-endpoint changes every supplied Hom section. Independent endpoint choices cannot be suppressed as in the diagonal self-gerbe case.
 
 Prove `BandedMorphism.fibreHomEndpointTransport_id`. `T_X`(`id_x`,`id_y`) is the identity morphism of the sheaf `H_U(x,y;X)`.
 
@@ -6622,9 +6629,9 @@ The API gives `BandedMorphism.fibreHomEndpointTransportIso_hom`: The hom of the 
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.empty_sections_reflected`: If the old actual section carrier is empty, the new one is empty by the explicit inverse; no section is selected or created.
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.inverse_uses_both_reversed_endpoints`: The inverse sends p to `G(t)(d)`≫p≫`G(t)(X_U(e⁻¹))`; both endpoint factors reverse.
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.diagonal_agrees_with_native_self_transport`: On the diagonal `F=G` with `e=d`, the actual isomorphism agrees exactly with the earlier selfHomSheafTransportIso.
+- `EndpointTransportTests.empty_sections_reflected`: If the old actual section carrier is empty, the new one is empty by the explicit inverse; no section is selected or created.
+- `EndpointTransportTests.inverse_uses_both_reversed_endpoints`: The inverse sends p to `G(t)(d)`≫p≫`G(t)(X_U(e⁻¹))`; both endpoint factors reverse.
+- `EndpointTransportTests.diagonal_agrees_with_native_self_transport`: On the diagonal `F=G` with `e=d`, the actual isomorphism agrees exactly with the earlier selfHomSheafTransportIso.
 
 Prove `BandedMorphism.fibreHomEndpointTransport_modification`. For each modification `m:X⇒Y`, `H(m)` at `(x,y)`, followed by `T_Y(e,d)`, equals `T_X(e,d)` followed by `H(m)` at `(x′,y′)`. The equality is of actual sheaf morphisms, not isomorphism classes.
 
@@ -6648,9 +6655,9 @@ The API gives `BandedMorphism.fibreHomEndpointTransportNatIso_app`: The componen
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.modifications_retained`: Every actual modification satisfies the natural-transformation square for the endpoint comparison.
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.separate_endpoint_composition`: Independent composable source and target endpoint pairs satisfy the actual natural-isomorphism composition law.
-- `TauCeti.AlgebraicGeometry.EndpointTransportTests.native_base_restriction_square`: The arbitrary slice pullback square retains the separate `F(f)e` and `G(f)d` endpoint maps.
+- `EndpointTransportTests.modifications_retained`: Every actual modification satisfies the natural-transformation square for the endpoint comparison.
+- `EndpointTransportTests.separate_endpoint_composition`: Independent composable source and target endpoint pairs satisfy the actual natural-isomorphism composition law.
+- `EndpointTransportTests.native_base_restriction_square`: The arbitrary slice pullback square retains the separate `F(f)e` and `G(f)d` endpoint maps.
 
 Prove `BandedMorphism.fibreHomEndpointBaseChange_square`. For `f:V→U`, pull back `T_X(e,d)` by the slice-sheaf functor and then apply fibreHomBaseChangeIso at `(x′,y′)`. This equals the comparison at `(x,y)`, followed by `T_X(F(f)e,G(f)d)`. The equality is of actual sheaf morphisms over V, retaining the Over functor and both strong/pseudofunctor comparison maps.
 
@@ -6686,11 +6693,11 @@ The API gives `GerbeLocalCovers.objectCover_mem`: Membership of `f:V→U` in obj
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.object_refined_member`: A member of the common refinement of an arbitrary covering sieve and objectCover supplies an actual object in its source fibre, and this refinement is covering.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.object_empty_global_fibre`: With a gerbe and an explicitly empty fibre `F(U)`, objectCover still covers U but its identity arrow is absent. This is a parameterized assertion, not a constructed nonneutral geometric fixture.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.object_iterated_restriction`: Pulling the actual canonical object sieve back along two arbitrary arrows equals the canonical object sieve at the final base.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.constant_empty_objects`: For the actual constant pseudofunctor with fibre Discrete PEmpty on Discrete PUnit, objectCover is the empty sieve. No gerbe or covering hypothesis is asserted for this fixture.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.constant_inhabited_objects`: For the actual constant pseudofunctor with fibre Discrete Bool on Discrete PUnit, objectCover is maximal, using a concrete local object.
+- `LocalCoverTests.object_refined_member`: A member of the common refinement of an arbitrary covering sieve and objectCover supplies an actual object in its source fibre, and this refinement is covering.
+- `LocalCoverTests.object_empty_global_fibre`: With a gerbe and an explicitly empty fibre `F(U)`, objectCover still covers U but its identity arrow is absent. This is a parameterized assertion, not a constructed nonneutral geometric fixture.
+- `LocalCoverTests.object_iterated_restriction`: Pulling the actual canonical object sieve back along two arbitrary arrows equals the canonical object sieve at the final base.
+- `LocalCoverTests.constant_empty_objects`: For the actual constant pseudofunctor with fibre Discrete PEmpty on Discrete PUnit, objectCover is the empty sieve. No gerbe or covering hypothesis is asserted for this fixture.
+- `LocalCoverTests.constant_inhabited_objects`: For the actual constant pseudofunctor with fibre Discrete Bool on Discrete PUnit, objectCover is maximal, using a concrete local object.
 
 Define `GerbeLocalCovers.isomCover`. For x,`y∈F(U)`, construct Mathlib's sieve of `f:V→U` admitting an isomorphism `F(f)x≅F(f)y`. Source: Stacks, Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are.
 
@@ -6704,11 +6711,11 @@ The API gives `GerbeLocalCovers.isomCover_mem`: An arrow `f:V→U` belongs to is
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.distinct_discrete_objects`: For the actual constant Discrete Bool fibre, the isomorphism sieve between false and true is empty. A nonempty fibre does not imply local connectedness; this fixture is not claimed to be a gerbe.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.equal_discrete_objects`: For the actual constant Discrete Bool fibre, the isomorphism sieve of false with itself is maximal.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.isom_iterated_refinement`: For a gerbe, the actual local-isomorphism cover remains covering after two arbitrary base restrictions.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.isom_native_comparison`: A supplied isomorphism between iterated restrictions gives an actual isomorphism between direct composite restrictions, with both composition comparisons retained.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.isom_common_cover`: The common refinement of an arbitrary covering sieve and the actual local-isomorphism sieve is covering.
+- `LocalCoverTests.distinct_discrete_objects`: For the actual constant Discrete Bool fibre, the isomorphism sieve between false and true is empty. A nonempty fibre does not imply local connectedness; this fixture is not claimed to be a gerbe.
+- `LocalCoverTests.equal_discrete_objects`: For the actual constant Discrete Bool fibre, the isomorphism sieve of false with itself is maximal.
+- `LocalCoverTests.isom_iterated_refinement`: For a gerbe, the actual local-isomorphism cover remains covering after two arbitrary base restrictions.
+- `LocalCoverTests.isom_native_comparison`: A supplied isomorphism between iterated restrictions gives an actual isomorphism between direct composite restrictions, with both composition comparisons retained.
+- `LocalCoverTests.isom_common_cover`: The common refinement of an arbitrary covering sieve and the actual local-isomorphism sieve is covering.
 
 Define `GerbeLocalCovers.overlapCover`. For `i:T→V`, `j:T→W` and local objects `x∈F(V)`, `y∈F(W)`, construct the sieve on T on which `F(i)x` and `F(j)y` become isomorphic. The construction needs neither fibre products nor a terminal object. Source: Stacks, Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are.
 
@@ -6722,10 +6729,10 @@ The API gives `GerbeLocalCovers.overlapCover_mem`: Membership of `q:S→T` in ov
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_member_maximal_pullback`: Pulling the overlap sieve back along a member makes it maximal, by sieve closure.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_swap_refinement`: After any further restriction, exchanging the local charts preserves the exact overlap sieve.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_further_cover`: The common refinement of any cover on S and a restricted overlap cover is covering, without a fibre-product hypothesis.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_direct_endpoints`: An overlap member supplies an actual isomorphism between direct `F(q≫i)x` and `F(q≫j)y` endpoints.
+- `LocalCoverTests.overlap_member_maximal_pullback`: Pulling the overlap sieve back along a member makes it maximal, by sieve closure.
+- `LocalCoverTests.overlap_swap_refinement`: After any further restriction, exchanging the local charts preserves the exact overlap sieve.
+- `LocalCoverTests.overlap_further_cover`: The common refinement of any cover on S and a restricted overlap cover is covering, without a fibre-product hypothesis.
+- `LocalCoverTests.overlap_direct_endpoints`: An overlap member supplies an actual isomorphism between direct `F(q≫i)x` and `F(q≫j)y` endpoints.
 
 Prove `GerbeLocalCovers.overlapCover_mem`. Membership of `q:S→T` in overlapCover(F,i,j,x,y) is exactly nonemptiness of `F(q)F(i)x≅F(q)F(j)y`, in the actual fibre `F(S)`.
 
@@ -6749,10 +6756,10 @@ The API gives `GerbeLocalCovers.overlapIso_hom`: The forward arrow of overlapIso
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_iso_round_trip`: Postcomposing any actual arrow into the source endpoint by the chosen overlap hom and its inverse returns that arrow.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_iso_inverse_round_trip`: Postcomposing any actual arrow into the target endpoint by the chosen overlap inverse and hom returns that arrow.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_iso_restriction`: Every further restriction of the actual chosen overlap isomorphism still satisfies the hom/inverse round-trip equation.
-- `TauCeti.AlgebraicGeometry.LocalCoverTests.overlap_same_base_path`: If i≫`f=j`≫g describes an actual overlap over U, the two deeper paths `(q≫i)`≫f and `(q≫j)`≫g remain equal. This does not assert a descent cocycle for chosen isomorphisms.
+- `LocalCoverTests.overlap_iso_round_trip`: Postcomposing any actual arrow into the source endpoint by the chosen overlap hom and its inverse returns that arrow.
+- `LocalCoverTests.overlap_iso_inverse_round_trip`: Postcomposing any actual arrow into the target endpoint by the chosen overlap inverse and hom returns that arrow.
+- `LocalCoverTests.overlap_iso_restriction`: Every further restriction of the actual chosen overlap isomorphism still satisfies the hom/inverse round-trip equation.
+- `LocalCoverTests.overlap_same_base_path`: If i≫`f=j`≫g describes an actual overlap over U, the two deeper paths `(q≫i)`≫f and `(q≫j)`≫g remain equal. This does not assert a descent cocycle for chosen isomorphisms.
 
 Define `BandedMorphism.selfHomChartTransition`. For `i:T→U`, `j:T→V`, `x∈F(U)`, `y∈F(V)`, and an `e:F(i)x≅F(j)y`, construct a natural isomorphism from `H_U(x,x;−)` followed by slice pullback i⁎ to `H_V(y,y;−)` followed by j⁎, on the category HomCategory(b,b). Source: Stacks, Section 8.11/tag06NY, Definition 8.11.1 and Lemma 8.11.8 proof.
 
@@ -6766,10 +6773,10 @@ The API gives `BandedMorphism.selfHomChartTransition_app`: At X∈HomCategory(b,
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.nonidentity_loop`: For a supplied nonidentity automorphism of `F(i)x`, retain its nonidentity witness while its induced chart transition equals identity. This parameterized check does not assert the existence of such an automorphism on every gerbe.
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.independent_inverse`: An arbitrary independently chosen reverse transition composed after the forward transition gives the identity actual sheaf map at every X; no inverse relation between the chosen fibre isomorphisms is assumed.
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.empty_sections`: If the source sheaf has empty sections on `R→T`, the target section type is empty via the actual inverse transition; no global or local section is chosen.
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.four_charts`: Three successive transitions among four charts at a common base equal the transition formed using any independently supplied direct isomorphism from the first restricted object to the fourth.
+- `ChartTransitionTests.nonidentity_loop`: For a supplied nonidentity automorphism of `F(i)x`, retain its nonidentity witness while its induced chart transition equals identity. This parameterized check does not assert the existence of such an automorphism on every gerbe.
+- `ChartTransitionTests.independent_inverse`: An arbitrary independently chosen reverse transition composed after the forward transition gives the identity actual sheaf map at every X; no inverse relation between the chosen fibre isomorphisms is assumed.
+- `ChartTransitionTests.empty_sections`: If the source sheaf has empty sections on `R→T`, the target section type is empty via the actual inverse transition; no global or local section is chosen.
+- `ChartTransitionTests.four_charts`: Three successive transitions among four charts at a common base equal the transition formed using any independently supplied direct isomorphism from the first restricted object to the fourth.
 
 Prove `BandedMorphism.selfHomChartTransition_app`. At X∈HomCategory(b,b), the local-chart transition is the actual sheaf isomorphism `BC_i(X,x,x)`, then diagonal selfHomSheafTransportIso(X,e), then `BC_j(X,y,y)` inverse. The target base-change factor is inverted.
 
@@ -6793,10 +6800,10 @@ The API gives `BandedMorphism.selfHomOverlapTransition_eq`: The chosen overlap t
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.covered_triple`: On the covering intersection of an arbitrary cover and three pairwise overlap covers, every member retains the arbitrary-cover membership and satisfies the actual chosen-transition cocycle.
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.chosen_versus_supplied`: At each fixed-band self-transformation, the chosen overlap transition equals the explicit three-factor sheaf comparison formed with any supplied direct endpoint isomorphism.
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.overlap_coefficient`: The chosen overlap transition carries the action of each actual coefficient section a on a source section to the action of exactly the same a on its image, including nontrivial and nonfaithful base restrictions.
-- `TauCeti.AlgebraicGeometry.ChartTransitionTests.modifications_on_overlap`: The chosen overlap comparison commutes with the composite of two arbitrary fixed-band modifications. Both pullback functors and all modification components remain in the equation.
+- `ChartTransitionTests.covered_triple`: On the covering intersection of an arbitrary cover and three pairwise overlap covers, every member retains the arbitrary-cover membership and satisfies the actual chosen-transition cocycle.
+- `ChartTransitionTests.chosen_versus_supplied`: At each fixed-band self-transformation, the chosen overlap transition equals the explicit three-factor sheaf comparison formed with any supplied direct endpoint isomorphism.
+- `ChartTransitionTests.overlap_coefficient`: The chosen overlap transition carries the action of each actual coefficient section a on a source section to the action of exactly the same a on its image, including nontrivial and nonfaithful base restrictions.
+- `ChartTransitionTests.modifications_on_overlap`: The chosen overlap comparison commutes with the composite of two arbitrary fixed-band modifications. Both pullback functors and all modification components remain in the equation.
 
 Prove `BandedMorphism.selfHomSheafTransportIso_baseChange`. For `q:S→T`, X in HomCategory(b,b) and `e:x≅y` in `F(T)`, q-pullback of the actual diagonal transport isomorphism followed by `BC_q(y,y)` equals `BC_q(x,x)` followed by transport along `F(q)(e)`. Both sides are actual sheaf isomorphisms on `C/S`.
 
@@ -6830,14 +6837,14 @@ The API gives `BandedMorphism.selfHomChartRefinement_app`: At each X in HomCateg
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.native_inverse`: The actual forward refinement followed by its inverse is identity, and the inverse component is exactly the slice-pullback composition inverse.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.empty_sections`: Empty sections of the iterated pullback force empty sections of the direct pullback via the actual inverse refinement; no section is chosen.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.arbitrary_section`: An arbitrary section on an arbitrary object of `C/S` satisfies the refinement square with an independently chosen deep overlap map.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.independent_choice`: Retain a supplied witness `d≠a` for two deep fibre isomorphisms, while their induced chart transitions agree and either gives the full refinement square. This conditional test does not construct distinct isomorphisms in every gerbe.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.covered_refinement`: Actual original overlap membership implies the next overlap sieve is maximal; for every r it supplies membership and the complete chosen-transition refinement square.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.natural_modifications`: The refinement commutes with the composite of two arbitrary fixed-band modifications, retaining all three actual pullback maps.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.nonidentity_loop`: Retain a supplied nonidentity chart automorphism while its pulled-back transition followed by refinement equals refinement. Existence of nonidentity automorphisms on every gerbe is not claimed.
-- `TauCeti.AlgebraicGeometry.ChartRefinementTests.refined_cocycle`: Pulling back the composite of two chart transitions and then refining the last chart equals refining the first chart and using an independently chosen direct deep transition.
+- `ChartRefinementTests.native_inverse`: The actual forward refinement followed by its inverse is identity, and the inverse component is exactly the slice-pullback composition inverse.
+- `ChartRefinementTests.empty_sections`: Empty sections of the iterated pullback force empty sections of the direct pullback via the actual inverse refinement; no section is chosen.
+- `ChartRefinementTests.arbitrary_section`: An arbitrary section on an arbitrary object of `C/S` satisfies the refinement square with an independently chosen deep overlap map.
+- `ChartRefinementTests.independent_choice`: Retain a supplied witness `d≠a` for two deep fibre isomorphisms, while their induced chart transitions agree and either gives the full refinement square. This conditional test does not construct distinct isomorphisms in every gerbe.
+- `ChartRefinementTests.covered_refinement`: Actual original overlap membership implies the next overlap sieve is maximal; for every r it supplies membership and the complete chosen-transition refinement square.
+- `ChartRefinementTests.natural_modifications`: The refinement commutes with the composite of two arbitrary fixed-band modifications, retaining all three actual pullback maps.
+- `ChartRefinementTests.nonidentity_loop`: Retain a supplied nonidentity chart automorphism while its pulled-back transition followed by refinement equals refinement. Existence of nonidentity automorphisms on every gerbe is not claimed.
+- `ChartRefinementTests.refined_cocycle`: Pulling back the composite of two chart transitions and then refining the last chart equals refining the first chart and using an independently chosen direct deep transition.
 
 Prove `BandedMorphism.selfHomChartRefinement_app`. At each X in HomCategory(b,b), the refinement isomorphism is exactly overMapPullbackComp(q,i) evaluated at the actual fibreHomSheaf(b,b,U,x,x,X).
 
@@ -6903,9 +6910,9 @@ The API gives `BandedMorphism.selfHomOrbit_mk_eq`: The classes of arbitrary pair
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.transport_chain`: Two consecutive actual transports give the same quotient class as the initial representative.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.unequal_arrows`: A supplied pair of distinct isomorphisms at the same chart remains distinct in the raw quotient; existence of such a pair on every gerbe is not asserted.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.empty_fibre`: An empty fibre forces an empty raw presheaf section carrier. No emptiness of its sheafification is asserted.
+- `GlobalHomTests.transport_chain`: Two consecutive actual transports give the same quotient class as the initial representative.
+- `GlobalHomTests.unequal_arrows`: A supplied pair of distinct isomorphisms at the same chart remains distinct in the raw quotient; existence of such a pair on every gerbe is not asserted.
+- `GlobalHomTests.empty_fibre`: An empty fibre forces an empty raw presheaf section carrier. No emptiness of its sheafification is asserted.
 
 Prove `BandedMorphism.selfHomOrbit_mk_eq`. The classes of arbitrary pairs `(x,p)` and `(y,q)` in the quotient are equal if and only if some `e:x≅y` transports p to q. This is an existence statement and chooses no isomorphism.
 
@@ -6939,9 +6946,9 @@ The API gives `BandedMorphism.selfHomOrbitRestrict_mk`: Restriction of the class
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.two_restrictions`: The actual presheaf restriction through two arrows agrees with restriction along their composite on arbitrary quotient sections.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.change_representative`: Restrict two representatives related by an arbitrary fibre isomorphism; their explicit restricted representatives define the same class.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.identity_comparison`: The explicitly restricted pair over the identity gives the original class although its object is F(id)(x), retaining the actual pseudofunctor identity comparison.
+- `GlobalHomTests.two_restrictions`: The actual presheaf restriction through two arrows agrees with restriction along their composite on arbitrary quotient sections.
+- `GlobalHomTests.change_representative`: Restrict two representatives related by an arbitrary fibre isomorphism; their explicit restricted representatives define the same class.
+- `GlobalHomTests.identity_comparison`: The explicitly restricted pair over the identity gives the original class although its object is F(id)(x), retaining the actual pseudofunctor identity comparison.
 
 Prove `BandedMorphism.selfHomOrbitRestrict_id`. Restriction along the identity of U is the identity function on all chart-pair classes, even when the pseudofunctor identity comparison is not a definitional equality.
 
@@ -6975,9 +6982,9 @@ The API gives `BandedMorphism.selfHomOrbitRestrict_mk`: Restriction of the class
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.empty_fibre`: An empty fibre forces an empty raw presheaf section carrier. No emptiness of its sheafification is asserted.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.two_restrictions`: The actual presheaf restriction through two arrows agrees with restriction along their composite on arbitrary quotient sections.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.change_representative`: Restrict two representatives related by an arbitrary fibre isomorphism; their explicit restricted representatives define the same class.
+- `GlobalHomTests.empty_fibre`: An empty fibre forces an empty raw presheaf section carrier. No emptiness of its sheafification is asserted.
+- `GlobalHomTests.two_restrictions`: The actual presheaf restriction through two arrows agrees with restriction along their composite on arbitrary quotient sections.
+- `GlobalHomTests.change_representative`: Restrict two representatives related by an arbitrary fibre isomorphism; their explicit restricted representatives define the same class.
 
 Define `BandedMorphism.selfHomOrbitMap`. For any fixed-band modification `m:X→Y`, send `[(x,p)]` over U to [(x,p followed by `m_x`)], using the component isomorphism. This defines a function between the two chart-pair quotients. Source: Stacks, Section 8.11/tag 06NY, Definition 8.11.1 and Lemma 8.11.8; exact.
 
@@ -6991,9 +6998,9 @@ The API gives `BandedMorphism.selfHomOrbitMap_mk`: The map for `m:X→Y` sends t
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.inverse_modification`: The actual orbit-presheaf natural transformation for a modification followed by its inverse recovers each section.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.modification_restriction`: Two arbitrary modifications interleaved with two restrictions agree with the composite modification after composite restriction.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.nonidentity_modification`: If an actual modification changes a supplied fibre isomorphism by postcomposition, its raw quotient map changes that represented class; it is not silently collapsed to identity.
+- `GlobalHomTests.inverse_modification`: The actual orbit-presheaf natural transformation for a modification followed by its inverse recovers each section.
+- `GlobalHomTests.modification_restriction`: Two arbitrary modifications interleaved with two restrictions agree with the composite modification after composite restriction.
+- `GlobalHomTests.nonidentity_modification`: If an actual modification changes a supplied fibre isomorphism by postcomposition, its raw quotient map changes that represented class; it is not silently collapsed to identity.
 
 Prove `BandedMorphism.selfHomOrbitMap_mk`. The map for `m:X→Y` sends the represented class `(x,p)` exactly to the class (x,p followed by componentIso(m,U,x)).
 
@@ -7047,9 +7054,9 @@ The API gives `BandedMorphism.selfHomOrbitMap_restrict`: For `m:X→Y` and `f:V�
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.inverse_modification`: The actual orbit-presheaf natural transformation for a modification followed by its inverse recovers each section.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.modification_restriction`: Two arbitrary modifications interleaved with two restrictions agree with the composite modification after composite restriction.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.global_composition`: Composition holds as equality of actual presheaf natural transformations and of actual global sheaf morphisms.
+- `GlobalHomTests.inverse_modification`: The actual orbit-presheaf natural transformation for a modification followed by its inverse recovers each section.
+- `GlobalHomTests.modification_restriction`: Two arbitrary modifications interleaved with two restrictions agree with the composite modification after composite restriction.
+- `GlobalHomTests.global_composition`: Composition holds as equality of actual presheaf natural transformations and of actual global sheaf morphisms.
 
 Define `BandedMorphism.selfHomGlobalSheafFunctor`. Construct a functor HomCategory(b,b)→Sheaf(J,Type(max(u,v,`u′`,`v′`))) by composing the orbit-presheaf functor, postcomposition with ULift, and Mathlib presheafToSheaf. Source: Stacks, Section 7.49/tag 00ZG, Theorem 7.49.3, Definition 7.49.4 and Proposition 7.49.5.
 
@@ -7063,12 +7070,12 @@ The API gives `BandedMorphism.selfHomGlobalSheafFunctor_obj`: The global candida
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.unit_restriction`: On arbitrary raw quotient sections, the actual global sheaf restriction commutes with the ULift sheafification unit.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.unit_modification`: The global sheaf map on the image of an explicit pair under the unit is the unit image of postcomposition by the actual modification component.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.universal_target`: For an arbitrary sheaf target, every map out of the lifted orbit presheaf has a unique actual sheaf-morphism extension along the unit.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.generator_ext`: Agreement on the unit images of every represented pair at every U implies equality of actual sheaf morphisms to any target sheaf, by quotient induction and the universal property.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.global_inverse`: Apply the inverse global map and then the forward map to an arbitrary sheafified section; it returns the section, without assuming a representative or unit surjectivity.
-- `TauCeti.AlgebraicGeometry.GlobalHomTests.global_composition`: Composition holds as equality of actual presheaf natural transformations and of actual global sheaf morphisms.
+- `GlobalHomTests.unit_restriction`: On arbitrary raw quotient sections, the actual global sheaf restriction commutes with the ULift sheafification unit.
+- `GlobalHomTests.unit_modification`: The global sheaf map on the image of an explicit pair under the unit is the unit image of postcomposition by the actual modification component.
+- `GlobalHomTests.universal_target`: For an arbitrary sheaf target, every map out of the lifted orbit presheaf has a unique actual sheaf-morphism extension along the unit.
+- `GlobalHomTests.generator_ext`: Agreement on the unit images of every represented pair at every U implies equality of actual sheaf morphisms to any target sheaf, by quotient induction and the universal property.
+- `GlobalHomTests.global_inverse`: Apply the inverse global map and then the forward map to an arbitrary sheafified section; it returns the section, without assuming a representative or unit surjectivity.
+- `GlobalHomTests.global_composition`: Composition holds as equality of actual presheaf natural transformations and of actual global sheaf morphisms.
 
 Prove `BandedMorphism.selfHomOrbit_mk_transport`. For every `e:x≅y` in `F(U)`, the class represented by `(x,p)` equals the class represented by (y,`transport_e(p)`). The witness is the supplied e itself.
 
@@ -7102,10 +7109,10 @@ The API gives `BandedMorphism.selfHomChartToOrbit_apply`: At `T→U` the chart-t
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.raw_distinct`: Two supplied distinct sections of the same local Hom sheaf remain distinct in the raw orbit image; their existence on every chart is not asserted.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.cover_of_arbitrary_class`: For an arbitrary lifted quotient section over a slice object, the image sieve of the chart map covers; no global representative on the chosen chart is assumed.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.restriction_square`: The explicit chart map commutes with restriction along every slice arrow, with the actual local Hom restriction and global orbit restriction.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.transport_choice`: Two different supplied chart-object isomorphisms give the same raw orbit image of a local section.
+- `ChartGlobalTests.raw_distinct`: Two supplied distinct sections of the same local Hom sheaf remain distinct in the raw orbit image; their existence on every chart is not asserted.
+- `ChartGlobalTests.cover_of_arbitrary_class`: For an arbitrary lifted quotient section over a slice object, the image sieve of the chart map covers; no global representative on the chosen chart is assumed.
+- `ChartGlobalTests.restriction_square`: The explicit chart map commutes with restriction along every slice arrow, with the actual local Hom restriction and global orbit restriction.
+- `ChartGlobalTests.transport_choice`: Two different supplied chart-object isomorphisms give the same raw orbit image of a local section.
 
 Prove `BandedMorphism.selfHomChartToOrbit_injective`. At every T of Over U, the lifted chart-to-orbit component is injective. Equality is tested at the same pulled-back object, so no local or global choice of isomorphism is required.
 
@@ -7139,10 +7146,10 @@ The API gives `BandedMorphism.selfHomChartToGlobal_isIso`: Assuming the explicit
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.two_transports`: Two successive actual changes of chart object followed by the global comparison give the original global comparison as sheaf morphisms.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.two_modifications`: Two successive local modification maps followed by the global comparison equal the original comparison followed by the actual composite global modification.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.refined_base_change`: The global comparison respects local base change after an additional arbitrary slice restriction, retaining the `Over.map` and fibreHomBaseChangeIso.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.matched_universes`: When F has the same fibre object and morphism universes as the base category, the instance proves IsIso for the actual chart map with no WEqualsLocallyBijective hypothesis in the test statement; the coefficient universe stays independent.
+- `ChartGlobalTests.two_transports`: Two successive actual changes of chart object followed by the global comparison give the original global comparison as sheaf morphisms.
+- `ChartGlobalTests.two_modifications`: Two successive local modification maps followed by the global comparison equal the original comparison followed by the actual composite global modification.
+- `ChartGlobalTests.refined_base_change`: The global comparison respects local base change after an additional arbitrary slice restriction, retaining the `Over.map` and fibreHomBaseChangeIso.
+- `ChartGlobalTests.matched_universes`: When F has the same fibre object and morphism universes as the base category, the instance proves IsIso for the actual chart map with no WEqualsLocallyBijective hypothesis in the test statement; the coefficient universe stays independent.
 
 Prove `BandedMorphism.selfHomChartToGlobal_isIso`. Assuming the explicit class `J.WEqualsLocallyBijective`(Type(max(u,v,`u′`,`v′`))), the local chart-to-global sheaf morphism is an isomorphism. The instance supplies this assumption automatically when the fibre object and morphism universes are u and v. No unconditional larger-universe instance is asserted.
 
@@ -7166,10 +7173,10 @@ The API gives `BandedMorphism.selfHomChartGlobalIso_hom`: The forward morphism o
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.arbitrary_global_section`: With the explicit local-bijectivity class, every section of the restricted global sheaf has an actual local Hom-section preimage under the comparison, without assuming that the global section is represented in the raw quotient.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.distinct_after_sheafification`: Under the same explicit class, two supplied distinct sections on one chart remain distinct under the actual global sheaf comparison. No global injectivity of the raw sheafification unit is claimed.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.empty_local_carrier`: Under the same explicit class, an empty local Hom-section carrier forces an empty restricted global-sheaf section carrier at that slice object. The chart object itself is still supplied.
-- `TauCeti.AlgebraicGeometry.ChartGlobalTests.matched_universes`: When F has the same fibre object and morphism universes as the base category, the instance proves IsIso for the actual chart map with no WEqualsLocallyBijective hypothesis in the test statement; the coefficient universe stays independent.
+- `ChartGlobalTests.arbitrary_global_section`: With the explicit local-bijectivity class, every section of the restricted global sheaf has an actual local Hom-section preimage under the comparison, without assuming that the global section is represented in the raw quotient.
+- `ChartGlobalTests.distinct_after_sheafification`: Under the same explicit class, two supplied distinct sections on one chart remain distinct under the actual global sheaf comparison. No global injectivity of the raw sheafification unit is claimed.
+- `ChartGlobalTests.empty_local_carrier`: Under the same explicit class, an empty local Hom-section carrier forces an empty restricted global-sheaf section carrier at that slice object. The chart object itself is still supplied.
+- `ChartGlobalTests.matched_universes`: When F has the same fibre object and morphism universes as the base category, the instance proves IsIso for the actual chart map with no WEqualsLocallyBijective hypothesis in the test statement; the coefficient universe stays independent.
 
 ### 4.18a Orbit and modification carriers
 
@@ -7177,10 +7184,10 @@ The API gives `BandedMorphism.selfHomChartGlobalIso_hom`: The forward morphism o
 
 **Checks.**
 
-- `GlobalHomTests.unequal_arrows`: distinct actual arrows at a fixed object remain distinct in the raw orbit set.
-- `GlobalHomTests.empty_fibre`: an empty global fibre has an empty raw orbit set, even if local fibres are inhabited.
-- `GlobalHomTests.inverse_modification`: an inverse modification reverses the orbit action.
-- `ChartGlobalTests.matched_universes`: at matched fibre/site universes the actual chart morphism is an isomorphism.
+- `GlobalHomTests.unequal_arrows`: A supplied pair of distinct isomorphisms at the same chart remains distinct in the raw quotient; existence of such a pair on every gerbe is not asserted.
+- `GlobalHomTests.empty_fibre`: An empty fibre forces an empty raw presheaf section carrier. No emptiness of its sheafification is asserted.
+- `GlobalHomTests.inverse_modification`: The actual orbit-presheaf natural transformation for a modification followed by its inverse recovers each section.
+- `ChartGlobalTests.matched_universes`: When F has the same fibre object and morphism universes as the base category, the instance proves IsIso for the actual chart map with no WEqualsLocallyBijective hypothesis in the test statement; the coefficient universe stays independent.
 - `GerbeLimitChecks.composition`: composition of compatible families is componentwise composition.
 
 ### 4.19 Affine stabilizer quotients
@@ -7291,7 +7298,7 @@ For a locally full map `f:Γ→Δ`, the synchronized index records a locally ful
 The Lean file states `IsGerbe`, `AbelianBanding`, `Neutralization`, `IsNeutral`, `BandPreserving`,
 `GerbeLimitFamily` with its category, and `intrinsicBandSectionSubgroup`, together with
 `IsGerbe.equivalence_iff`, `banded_aut_commute`, `BandPreserving.id`, `BandPreserving.comp` and
-`band_morphism_equivalence`. The other carriers of this layer (the intrinsic band presheaf and
+`band_morphism_componentEquivalence`. The other carriers of this layer (the intrinsic band presheaf and
 sheaf with its evaluation and banding, the cover comparisons and conjugation transport, the
 constant, connected and restriction test diagrams, the Isom torsors and their actions, the pullback,
 descent and coherent inverse of banded morphisms, the fibre Hom sheaves with their transport,
@@ -8987,7 +8994,7 @@ For the proof, construct versal deformation hulls, retaining infinitesimal autom
 
 - `SubsetImageChecks.empty`: the image of the empty set is empty.
 - `SubsetImageChecks.unit`: the image of `{1}` is `{1}`, including a map between different rings.
-- `StrongGluingTests.subsetFailure`: for the two augmentations `Q[ε]/ε²→Q`, the diagonal subset and the full pullback have the same projection images; `(ε,0)` distinguishes them.
+- `StrongGluingTests.subsetFailure`: The functor R↦Set(R), with direct-image maps, fails RS*. For both maps `Q[ε]/ε²→Q`, the diagonal subset and the whole pullback have the same two projections but are distinct: `(ε,0)` is in the latter only. Thus the comparison is not injective even for a square-zero surjection.
 
 ### 7.2 Perfect-complex rank loci
 
@@ -9421,7 +9428,7 @@ Prove `properSpaceNormalizationExcellent`. An algebraic space of finite type ove
 ### 7.6.3 Polarized Isom comparison
 
 Prove `polarisedIsomScheme`. Let S be locally Noetherian, X, `Y → S` projective flat, L on X and M on Y invertible, and assume the fppf relative Picard functor `Pic_{Y/S}` is represented by a separated S-scheme (for instance by ComplexComparisonPartII §C3.2d.2 `relative_picard_algebraicSpace` when that space is a scheme, or by Kleiman for projective flat families with geometrically integral fibres). Then the subfunctor of `Isom_S(X,Y)` of φ for which the relative Picard classes of `φ^*M` and L agree is represented by a closed subscheme `Isom_S((X,L),(Y,M))`, the pullback of the diagonal of `Pic_{Y/S}` along `φ ↦ [(φ^{-1})^*L]` and `φ ↦ [M]`; `Aut_S((X,L))` is a closed subgroup scheme of `Aut_S(X)`. No statement is made without separatedness of `Pic_{Y/S}`. Checks: `Isom_k((P¹,O(1)),(P¹,O(1))) = PGL_2`; `Isom((E,O(p)),(E,O(p)))` is the finite group `Aut(E,p)`.
-(Kleiman, The Picard scheme, arXiv:math/0504020, Theorem 4.8, pp. 28–29 (published numbering 9.4.8); Mathlib `AlgebraicGeometry.IsSeparated`.)
+(Kleiman, The Picard scheme, arXiv:math/0504020, Theorem 4.8, pp. 27–28 (published numbering 9.4.8); Mathlib `AlgebraicGeometry.IsSeparated`.)
 *Needs:* §2.1, SchemeAndStackFoundations §3.4, Tau Ceti `TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`.
 Equality of classes means equality after fppf sheafification. A global formula `φ^*M ≅ L ⊗ f_T^*N` follows when `O_T ≅ f_{T*}O_{X_T}` universally (the kernel theorem below); it is not part of the assertion for arbitrary projective flat families. `PolarisedIsomTests.sheafEquality` distinguishes this local condition from a chosen global line-bundle isomorphism.
 
@@ -10192,8 +10199,10 @@ theory).
 
 ## Downstream consumers
 
-ModularCurvesPartII uses the graph parameters, rigidification, finite correspondence descent and
-completed deformation comparisons. AbelianSchemesAndArithmeticModuli uses the Picard sheaves
+ModularCurvesPartII uses rigidification (§5.1), finite correspondence descent (§5.3), closures
+and normalization (§5.4), `picard_infinitesimal_lifting` (§7.3),
+`arithmetic_normalization_genericallyEtale` (§7.5) and
+`completedAtlasPresentation_equivalence` (§8.3). AbelianSchemesAndArithmeticModuli uses the Picard sheaves
 and section rigidifications of §7.6.1, framed deformations, polarized boundedness,
 `rigidLevelStructure` for its abelian level instances, and the finite-source restriction exports
 of Layer 3 under their names here:
