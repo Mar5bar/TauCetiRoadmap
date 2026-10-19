@@ -12,7 +12,9 @@ targets. Archimedean expressions distinguish meromorphic cancellation from point
 total Gamma functions; lift parameters encode only the numerical restrictions of the four
 Khare–Wintenberger lift types consumed from ClassicalSerreModularity `I.3/prescribed-lifts`.
 The rational finiteness and point comparisons use its `I.2/full-kw-global-finiteness`;
-family and classical-link comparisons use its `I.3/families-through-prescribed-lifts` and
+the auxiliary-to-minimal Böckle comparison consumes its I.2 and R26.1 deduction with
+the chosen quotient maps, reduced finite flat Hecke algebras and conductor comparison.
+Family and classical-link comparisons use its `I.3/families-through-prescribed-lifts` and
 `I.3/residual-links-and-modularity-transfer`. The additional strict-family and de Rham transfer
 conclusions have the hypotheses specified in the README.
 -/
@@ -591,6 +593,14 @@ Layer 10: `bockle_presentation`, `Presentations.finite_presentation_complete_int
 Layer 11: `alpha_beta_from_residual_modularity`, `rational_field_modularity_lifting`.
 Layer 12: `brauerSystem`, `brauerOverlapHomCharacters`, `almost_strict_compatibility`, `strict_brauer_system`, `exists_family_through_required_lift`, `dieulefait_families`.
 Layer 13: `residual_members`, `local_compatibility_at_the_coefficient_prime`, `linked_systems_modularity_transfer`.
+`bockle_minimal_r_equals_t` compares the canonical minimal map with the deduction owned by
+ClassicalSerreModularity I.2 and R26.1. It retains the auxiliary integral isomorphism as a
+hypothesis, the actual quotient square, reduced finite flat Hecke algebras and Carayol's
+conductor comparison.
+`DefiniteUnitaryTwo.heckeGaloisRepresentation` factors locally through the ordinary image ring:
+for domain coefficients A its stable full flag is over an algebraic closure of Frac(A).
+At algebraically closed characteristic-zero specializations the ordered graded characters
+restrict on inertia to the specialized universal inertial characters of Λ_ṽ.
 The rational comparisons `kwMinimalRingFiniteOverAuxiliaryField`, `kwGlobalFiniteness` and
 `exists_lift_of_required_type` consume ClassicalSerreModularity `I.2/full-kw-global-finiteness`,
 including its integral point extraction. `RequiredLiftType` and the four named lift-existence
@@ -602,6 +612,8 @@ the selected member and applies the all-place strictness upgrade of §12.3.
 hypotheses of GL2ModularityLifting, including LC for the Pan alternative.
 Taylor/HBAV branches carry the ordered polarization norm witnesses of §§3.2–3.3;
 dyadic local constructions consume `dyadicAuxiliaryModuli` with its polarization hypotheses.
+The dyadic determinant normalization in §12.5 uses `ρ̄₀=ρ̄⊗η⁻¹` with `η²=det ρ̄` and η
+unramified at 2; twisting the modular witness back by the Teichmüller lift of η recovers ρ̄.
 The niveau-two construction uses joint prime levels and polarization descent from §3.5;
 `auxiliary_modularity_transfer` permits ramified coefficient primes and proves its crystalline
 rank-two Hodge assertion via rational coefficient summands. Its lifting step uses the nonminimal
