@@ -75,6 +75,20 @@ theorem ModelField.isDiscreteValuationRing {K : Type u} [Field K] [ValuativeRel 
 example {K : Type u} [Field K] [ValuativeRel K] (h : ¬ ValuativeRel.IsNontrivial K) :
     ¬ ModelField K := fun hK => h hK.nontrivial
 
+/-! ## Milestone: duality of root-datum automorphisms -/
+
+namespace LanglandsDual
+
+/-- The automorphism equivalence of `dual-based-root-datum` preserves root indices and sends the
+weight action to the inverse transpose on the dual lattice (Buzzard–Gee, §2.1, p. 5). -/
+theorem exists_autFlip {ι X Y : Type*} [AddCommGroup X] [Module ℤ X]
+    [AddCommGroup Y] [Module ℤ Y] (Ψ : RootPairing ι ℤ X Y) :
+    ∃ e : RootPairing.Aut Ψ ≃* RootPairing.Aut Ψ.flip,
+      (∀ f, (e f).indexEquiv = f.indexEquiv) ∧
+      ∀ f, (e f).weightEquiv = f.coweightEquiv.symm := sorry
+
+end LanglandsDual
+
 /-! ## Layer RG2.0: topologies on rational points -/
 
 namespace PointTopology
