@@ -575,6 +575,16 @@ The representative namespace `GeometricStatistics` uses `cyclicGaps θ : List �
 
 - The eigenangles of `x² + 5` are `π/2` and `3π/2`.
 
+- `eigenangles ((X − 1)^3) = {0,0,0}`: repeated roots retain their multiplicities.
+
+- `eigenangles (X + 1) = {π}`: the negative real root has angle `π`.
+
+- `cyclicGaps ∅ = []`.
+
+- `cyclicGaps {0} = [2π]`: a singleton retains the full wrap-around gap.
+
+- `cyclicGaps {0,π/2,π} = [π/2,π/2,π]`: the list follows sorted-angle order.
+
 <a id="zero-gap-mass-from-repeated-angles"></a>
 
 **Zero gap mass from repeated angles.** Let `θ` be a multiset of `N ≥ 1` angles in `[0, 2π)` containing two distinct values `s ≠ t` each with multiplicity at least `h`. Then the normalized spacing measure satisfies `μ(θ)({0}) ≥ 2(h − 1)/N`, with subtraction taken in `ℝ`.
@@ -716,6 +726,10 @@ The required API is:
 - `A = 0: m_A(L) = 1` for every `L` (the unique map is surjective).
 
 - For `A ≠ 0` of odd order, `m_A(L)` is even.
+
+- For `L = 𝔽₃(t)(√(t³+t²+2))`, the smooth genus-one model has three rational points, so `Cl(O_L) ≅ C₃`. Thus `ClassGroupSurjectionPair` has two elements for `A = C₃` and none for `A = C₉`; the corresponding moments are 2 and 0.
+
+- For `L = 𝔽₇(t)(√(t³+2))`, the smooth genus-one model has nine rational points and every affine point is killed by 3, so `Cl(O_L) ≅ C₃²`. There are eight surjection pairs to `A = C₃`, hence `m_A(L) = 8`. In both examples the unique rational point at infinity identifies the ideal class group with the elliptic-curve group.
 
 <a id="involution-quotient-of-the-unramified-pro-l-group"></a>
 
@@ -1287,6 +1301,12 @@ The required API is:
 
 - The set of prime powers coprime to `m` belongs to `A_m`, and `A_m ≤` atTop (every cofinite set of integers belongs to `A_m`).
 
+- `{q | Odd q} ∈ allowedPrimePowers 2`: coprimality to 2 forces oddness.
+
+- `{q | Odd q} ∉ allowedPrimePowers 3`: the unbounded powers `2^k`, `k ≥ 1`, are allowed and even.
+
+- `{q | IsSquare q} ∉ allowedPrimePowers 1`: arbitrarily large primes are allowed and are not squares.
+
 - `A₀=⊥` because no prime power is coprime to zero. Consequently every function converges to every target along `A₀`; uniqueness and `liminf` consequences must require `m≠0`.
 
 <a id="imaginary-per-component-unit-moment"></a>
@@ -1533,6 +1553,12 @@ The required API is:
 
 - With `N₀ = 0` the boundary remainder is 0 for every `q`.
 
+- For `N = 2, d = 2, N₀ = 1`, take `C_(2,0) = 2, C_(1,1) = 5, C_(0,2) = 0` and `M = 2`. Then `stableCount = 5`, `boundaryRemainder = 1` and `profile = 7/2`.
+
+- With the same counts and `M = 1`, `boundaryRemainder = 2`: the normaliser divides the boundary count as well as the stable count.
+
+- For `N = 2, d = 2, N₀ = 1`, take `C_(2,0) = C_(0,2) = 0, C_(1,1) = 5` and `M = 2`. Then `boundaryRemainder = 0` and `profile = 5/2`.
+
 - For `N = 2, d = 4, N₀ = 1` the stable multidegrees are `(1,3), (2,2), (3,1)`: three of them.
 
 - `(0, 4)` is a multidegree of total degree 4 but not a stable one for `N₀ = 1`.
@@ -1541,7 +1567,7 @@ The required API is:
 
 <a id="complete-stable-range-component-sum"></a>
 
-**Complete stable range component sum.** Let `F = G′, c = ⊔_{i ≤ N} c_i` its outside involution classes, `A = H₂(F, c), g ∈ c ∪ {1}, q` odd coprime to `|F|` and `N₀` a stable threshold. For a set `S ⊆ {0,1}^N` of surviving parity vectors (those compatible with `[g]` in `F^ab` and with `v₂(q − 1) ≥ t_A(b(g, ε)) + 1`, Wood Proposition 4.1 and Remark 4.2, with the infinity conventions of Part I's [ArithmeticStatisticsPartI §0.19][part-14]), define `Σ_stable(d) := Σ_{ε ∈ S} #{m : m_i ≥ N₀, m_i ≡ ε_i (mod 2), Σ m_i = d}`. Then `C_{stable,d}^g(q)/|A[q − 1]| = Σ_stable(d)`: each surviving parity class of stable multidegrees contributes exactly `|A[q − 1]|` Frobenius-fixed components per multidegree, the others none. The boundary remainder is not included.
+**Complete stable range component sum.** Let `F = G′, c = ⊔_{i ≤ N} c_i` its outside involution classes, `A = H₂(F, c), g ∈ c ∪ {1}, q` odd coprime to `|F|` and `N₀` a stable threshold. Choose representatives `c_i` and lifts `ĉ_i` in the reduced Schur cover, and a lift `ĝ` of `g`, taking `ĝ = 1` when `g = 1`. For `ε ∈ {0,1}^N` put `b(g, ε) := ĝ² ∏_i ĉ_i^(−2ε_i) ∈ A`; the squared lifts are central because `g` and the `c_i` have order dividing two. A parity vector survives exactly when `Σ_i ε_i[c_i] = [g]` in `F^ab` and `b(g, ε)^((q − 1)/2) ∈ A^(q − 1)`, where `A^(q − 1) = {a^(q − 1) : a ∈ A}`. These conditions define `S ⊆ {0,1}^N`, with the infinity conventions of Part I's [ArithmeticStatisticsPartI §0.19][part-14]. Define `Σ_stable(d) := Σ_{ε ∈ S} #{m : m_i ≥ N₀, m_i ≡ ε_i (mod 2), Σ m_i = d}`. Then `C_{stable,d}^g(q)/|A[q − 1]| = Σ_stable(d)`: each surviving parity class of stable multidegrees contributes exactly `|A[q − 1]|` Frobenius-fixed components per multidegree, the others none. The boundary remainder is not included.
 
 The required API is:
 
@@ -1555,13 +1581,19 @@ The required API is:
 
 - `parityMultidegreeCount_eq`: The stars-and-bars formula of [stable parity multidegree count](#stable-parity-multidegree-count).
 
-*Proof.* Define the parity-class count ([stable parity multidegree count](#stable-parity-multidegree-count)) and sum it over `S`. For each stable `m`, the Frobenius-fixed components are the `q^{−1}`-fixed lifting invariants over `(g, m)` (Theorem 4.5(3): item IG-b); their number is `|A[q − 1]|` if the parity vector of `m` survives and 0 otherwise (item IG-b; for the unramified-`∞` marking this is the *General rational-class fixed-fiber formula* of §IG.5.6). The survival criterion depends only on `m mod 2`, so the stable count is `|A[q − 1]|` times `Σ_stable(d)`.
+*Proof.* Define the parity-class count ([stable parity multidegree count](#stable-parity-multidegree-count)) and sum it over `S`. For each stable `m`, the Frobenius-fixed components are the `q^{−1}`-fixed lifting invariants over `(g, m)` (Theorem 4.5(3): item IG-b); their number is `|A[q − 1]|` if the parity vector of `m` survives and 0 otherwise (item IG-b; for the unramified-`∞` marking this is the *General rational-class fixed-fiber formula* of §IG.5.6). Explicitly, write the lift over `g` as `ĝh`, `h ∈ A`. Wood's equation (6) makes fixedness equivalent to `h^(1 − q) = (ĝ² ∏_i ĉ_i^(−2m_i))^((q − 1)/2)`. A solution exists precisely when the right side is a `(q − 1)`-th power in `A`, and each nonempty solution set is a torsor under `A[q − 1]`. Replacing `m_i` by `ε_i + 2k_i` changes that right side by `∏_i (ĉ_i²)^(−k_i(q − 1))`, a `(q − 1)`-th power. Changing any lift similarly multiplies it by a `(q − 1)`-th power; conjugating a class representative leaves its squared lift unchanged by centrality. Thus survival is independent of these choices and depends only on `m mod 2`, so the stable count is `|A[q − 1]|` times `Σ_stable(d)`.
 
 *Needs:* [stable parity multidegree count](#stable-parity-multidegree-count), [boundary component remainder](#boundary-component-remainder), InverseGaloisAndArithmeticFundamentalGroups Layer IG.5, [ArithmeticStatisticsPartV: embedded types and signature representations][part-22].
 
-([[50]](#ref-50), Remark 4.2, p.19 (arXiv v2; Duke 168, p.401).)
+([[50]](#ref-50), Proposition 4.1, equation (6) and Remark 4.2, pp.18–19 (arXiv v2; Duke 168, pp.400–401).)
 
 **Checks.**
+
+- For the central condition alone, `A = C₂, b = 1` survives for every odd `q`.
+
+- For `A = C₂` and nontrivial `b`, the central condition holds exactly when `q ≡ 1 (mod 4)`.
+
+- For `A = C₄` and `b` a generator, the central condition holds exactly when `q ≡ 1 (mod 8)`. These three controls test the power equation in `A`; the abelianisation condition is a separate requirement.
 
 - `stableRangeComponentSum N N₀ d ∅ = 0`.
 

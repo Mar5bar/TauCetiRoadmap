@@ -129,6 +129,24 @@ example :
 example : eigenangles ((Polynomial.X : ℂ[X]) ^ 2 + Polynomial.C 5) =
     ↑([Real.pi / 2, 3 * Real.pi / 2] : List ℝ) := by sorry
 
+/-- A triple positive root contributes three zero eigenangles. -/
+example : eigenangles (((Polynomial.X : ℂ[X]) - 1) ^ 3) =
+    ↑([0, 0, 0] : List ℝ) := by sorry
+
+/-- A negative real root contributes the angle `π`. -/
+example : eigenangles ((Polynomial.X : ℂ[X]) + 1) =
+    ↑([Real.pi] : List ℝ) := by sorry
+
+/-- An empty multiset has no cyclic gaps. -/
+example : cyclicGaps 0 = [] := by simp [cyclicGaps]
+
+/-- A singleton contributes the full wrap-around gap. -/
+example : cyclicGaps (↑([0] : List ℝ)) = [2 * Real.pi] := by sorry
+
+/-- Sorted angles give two quarter-period gaps followed by the half-period gap. -/
+example : cyclicGaps (↑([0, Real.pi / 2, Real.pi] : List ℝ)) =
+    [Real.pi / 2, Real.pi / 2, Real.pi] := by sorry
+
 /-- Supremum CDF distance on the existing probability-measure carrier. -/
 def kolmogorovDist (μ ν : ProbabilityMeasure ℝ) : ℝ :=
   ⨆ x : ℝ, |cdf (μ : Measure ℝ) x - cdf (ν : Measure ℝ) x|
@@ -294,6 +312,15 @@ example (m : ℕ) (c : ℕ → ℝ) : EventualDegreeLargeQLimit m (fun _ n => c 
 example (m : ℕ) :
     {q | IsPrimePow q ∧ Nat.Coprime q m} ∈ allowedPrimePowers m ∧
       allowedPrimePowers m ≤ atTop := by sorry
+
+/-- Prime powers coprime to two are odd. -/
+example : {q : ℕ | Odd q} ∈ allowedPrimePowers 2 := by sorry
+
+/-- Unbounded powers of two prevent eventual oddness at modulus three. -/
+example : {q : ℕ | Odd q} ∉ allowedPrimePowers 3 := by sorry
+
+/-- Unbounded primes prevent eventual squareness at modulus one. -/
+example : {q : ℕ | IsSquare q} ∉ allowedPrimePowers 1 := by sorry
 
 /-- `n / (n + q)` has eventual-degree large-`q` limit `0`, although for each fixed `q` it
 tends to `1` in the degree. -/
