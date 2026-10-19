@@ -18,49 +18,6 @@ universe u v
 
 /-! ## Layer 0: integral perfectoid algebra -/
 
-/-! ### §0.0: concrete witnesses for the Tor and δ-extension Checks
-
-The full theorems need the suppliers' derived, perfectoid and δ carriers and
-are stated in the README. These examples retain actual polynomial and Witt
-carriers; they do not replace a derived tensor or a p-derivation by a predicate.
--/
-
--- perfectoidTensorHypothesis: the free resolution differential is injective
--- before specializing X to zero; after specialization the differential is zero.
-example : Function.Injective (fun f : Polynomial (ZMod 2) => Polynomial.X * f) := by sorry
-
-example :
-    (Polynomial.evalRingHom (0 : ZMod 2)) (Polynomial.X : Polynomial (ZMod 2)) = 0 ∧
-      (1 : ZMod 2) ≠ 0 := by sorry
-
--- fontaineSquareCharP: the characteristic-p Fontaine resolution stays exact.
-example (p : ℕ) [Fact p.Prime] (k : Type*) [CommRing k]
-    [CharP k p] [PerfectRing k p] :
-    Function.Injective (fun x : WittVector p k => (p : WittVector p k) * x) := by sorry
-
--- deltaEtaleIdentity: the canonical Witt Frobenius fixes 2, and δ(2)=-1.
--- This is the numerator identity, without pretending there is a pinned δ carrier.
-example :
-    WittVector.frobenius (2 : WittVector 2 (ZMod 2)) = 2 ∧
-      (2 : WittVector 2 (ZMod 2)) - 2 ^ 2 = 2 * (-1) := by sorry
-
--- deltaEtaleHypothesis: two lifts agree modulo 2 but differ over the integers.
-example :
-    (Polynomial.X ^ 2 : Polynomial ℤ) ≠ Polynomial.X ^ 2 + 2 ∧
-      Polynomial.map (Int.castRingHom (ZMod 2))
-        (Polynomial.X ^ 2 : Polynomial ℤ) =
-      Polynomial.map (Int.castRingHom (ZMod 2))
-        (Polynomial.X ^ 2 + 2 : Polynomial ℤ) := by sorry
-
--- deltaWittKernel: V(C) need not be square zero in mixed characteristic.
-example :
-    ((WittVector.verschiebung (1 : WittVector 2 ℤ)) ^ 2).coeff 1 = 2 := by sorry
-
--- The truncated Witt ring is not its pair of ghost coordinates over F₂.
-example :
-    (2 : TruncatedWittVector 2 2 (ZMod 2)) ≠ 0 ∧
-      (2 : TruncatedWittVector 2 2 (ZMod 2)) ^ 2 = 0 := by sorry
-
 section IntegralAlgebra
 variable (p : ℕ) [Fact p.Prime]
 variable (R : Type u) [CommRing R]
@@ -83,25 +40,6 @@ theorem witt_isUnit_iff [PerfectRing R p] (x : WittVector p R) :
 theorem witt_mul_coeff_one (x y : WittVector p R) :
     (x * y).coeff 1 = x.coeff 0 ^ p * y.coeff 1 +
       x.coeff 1 * y.coeff 0 ^ p := by sorry
-
--- wittPNonunit
-example [PerfectRing R p] : ¬ IsUnit (p : WittVector p R) := by sorry
--- wittOnePlusPUnit
-example [PerfectRing R p] : IsUnit (1 + p : WittVector p R) := by sorry
--- tiltUnit
-example (x : Perfection R p) (h : Perfection.coeff R p 0 x = 1) :
-    IsUnit x := by sorry
-/-- At p=2 the first two coordinates of p are (0,1), and p² has coordinate one zero. -/
-example :
-    (2 : WittVector 2 (ZMod 2)).coeff 0 = 0 ∧
-      (2 : WittVector 2 (ZMod 2)).coeff 1 = 1 ∧
-      ((2 : WittVector 2 (ZMod 2)) ^ 2).coeff 1 = 0 := by sorry
-
-/-- The Witt coordinate of p[T] is T², while its first Teichmüller digit is T. -/
-example :
-    let A := PerfectClosure (Polynomial (ZMod 2)) 2
-    let t : A := PerfectClosure.of (Polynomial (ZMod 2)) 2 Polynomial.X
-    ((2 : WittVector 2 A) * WittVector.teichmuller 2 t).coeff 1 = t ^ 2 := by sorry
 
 end Units
 
@@ -147,68 +85,57 @@ theorem theta_natural (x : WittVector p (PreTilt R p)) :
       WittVector.fontaineTheta S p (WittVector.map (Perfection.map p g) x) := by sorry
 end Naturality
 
-/-- The length-zero Witt ring has only the zero element. -/
-example (x : TruncatedWittVector 2 0 ℤ) : x = 0 := by sorry
-
-/-- The length-two Frobenius convention uses x₀^p + p x₁, whose value is 3 on (1,1) over ℤ at p=2. -/
-example :
-    (WittVector.frobenius (WittVector.mk 2 (fun n => if n < 2 then (1 : ℤ) else 0))).coeff 0 = 3 := by sorry
-
-/-- The same coefficient formula over F₂ discards the second coordinate. -/
-example :
-    (WittVector.frobenius (WittVector.mk 2 (fun n => if n = 1 then (1 : ZMod 2) else 0))).coeff 0 = 0 := by sorry
-
--- finiteThetaSharpConvention
-/-- The Teichmüller representative of T has coordinates (T,0), as does θ₂([a]) when a♯=T. -/
-example :
-    let A := PerfectClosure (Polynomial (ZMod 2)) 2
-    let t : A := PerfectClosure.of (Polynomial (ZMod 2)) 2 Polynomial.X
-    (WittVector.teichmuller 2 t).coeff 0 = t ∧
-      (WittVector.teichmuller 2 t).coeff 1 = 0 := by sorry
-
-/-- A generator with sharp equal to 2 fixes the minus sign in [a]−2: changing it to plus gives 4. -/
-example [CharZero R] (a : PreTilt R 2) [Fact (¬ IsUnit (2 : R))]
-    [IsAdicComplete (Ideal.span {(2 : R)}) R] (ha : a.untilt = 2) :
-    WittVector.fontaineTheta R 2 (WittVector.teichmuller 2 a - 2) = 0 ∧
-      WittVector.fontaineTheta R 2 (WittVector.teichmuller 2 a + 2) = 4 ∧
-      (4 : R) ≠ 0 := by sorry
-
 end IntegralAlgebra
 
 namespace Witt
 variable (p : ℕ) [Fact p.Prime]
 variable {k : Type*} [CommRing k] [CharP k p] [PerfectRing k p]
 
-/-- All p-power torsion in this quotient is killed by p. -/
+/-- The §0.3 Witt quotient torsion bound: a unit coordinate one forces all p-power torsion to be killed by p. -/
 theorem witt_principal_quotient_p_torsion (xi : WittVector p k)
     (hxi : IsUnit (xi.coeff 1)) (n : ℕ)
     (x : WittVector p k ⧸ Ideal.span {xi})
     (hx : (p : WittVector p k ⧸ Ideal.span {xi}) ^ n * x = 0) :
     (p : WittVector p k ⧸ Ideal.span {xi}) * x = 0 := by sorry
 
--- witt_torsion_prime_detection
-example (g : WittVector p k) :
-    ((p : WittVector p k) ^ 2 ∣ (p : WittVector p k) * g) ↔
-      (p : WittVector p k) ∣ g := by sorry
+/-- The §0.3 divisibility criterion detects a factor of p from a product divisible by p². -/
+theorem witt_p_sq_dvd_mul_detects_p (xi g : WittVector p k)
+    (hxi : IsUnit (xi.coeff 1))
+    (h : (p : WittVector p k) ^ 2 ∣ xi * g) :
+    (p : WittVector p k) ∣ g := by sorry
 
--- witt_torsion_quotient_by_prime
-example (x : WittVector p k ⧸ Ideal.span {(p : WittVector p k)}) :
-    (p : WittVector p k ⧸ Ideal.span {(p : WittVector p k)}) * x = 0 := by sorry
+/-- The §0.3 principal ideal saturation lowers p²-divisibility to p-divisibility. -/
+theorem witt_principal_p_saturation (xi f : WittVector p k)
+    (hxi : IsUnit (xi.coeff 1))
+    (h : (p : WittVector p k) ^ 2 * f ∈ Ideal.span {xi}) :
+    (p : WittVector p k) * f ∈ Ideal.span {xi} := by sorry
 
--- Negative control: omitting the first-coordinate condition admits W(F_2)/(4).
--- witt_torsion_hypothesis_required
-example [Fact (Nat.Prime 2)] :
+/-- The §0.3 boundary witt_torsion_hypothesis_required: without a unit coordinate one, the torsion bound fails in W(F₂)/(4). -/
+theorem witt_torsion_hypothesis_required :
     let A := WittVector 2 (ZMod 2)
     let I : Ideal A := Ideal.span {(2 : A) ^ 2}
     (2 : A ⧸ I) ^ 2 * (1 : A ⧸ I) = 0 ∧
       (2 : A ⧸ I) * (1 : A ⧸ I) ≠ 0 := by sorry
 
-
 end Witt
 
+section Annihilators
+variable (p : ℕ) [Fact p.Prime] (R : Type u) [CommRing R] [IsReduced R]
+
+/-- The §0.4 compatible-root annihilators agree in every reduced ring. -/
+theorem compatible_root_annihilator (a : ℕ → R)
+    (ha : ∀ n, a (n + 1) ^ p = a n) (n : ℕ) (x : R) :
+    a n * x = 0 ↔ a 0 * x = 0 := by sorry
+
+/-- The §0.4 power-torsion identity: in a reduced ring all a-power torsion is killed by a. -/
+theorem compatible_root_power_torsion (a x : R) :
+    (∃ n : ℕ, a ^ n * x = 0) ↔ a * x = 0 := by sorry
+
+end Annihilators
+
 section ClosureAndOperations
-variable (p : ℕ) [Fact p.Prime]
-/-- The infimum formulation equals the successive root-adjunction union. -/
+variable (p : ℕ)
+/-- The smallest ambient subring containing A and closed under pth roots. -/
 def pIntegralClosure (B : Type u) [CommRing B] (A : Subring B) : Subring B :=
   sInf {C : Subring B | A ≤ C ∧ ∀ b : B, b ^ p ∈ C → b ∈ C}
 
@@ -224,29 +151,23 @@ theorem pIntegralClosure.isClosed (b : B) (h : b ^ p ∈ pIntegralClosure p B A)
 theorem pIntegralClosure.minimal (C : Subring B) (hAC : A ≤ C)
     (hC : ∀ b : B, b ^ p ∈ C → b ∈ C) : pIntegralClosure p B A ≤ C := by sorry
 
--- pClosureIdentity
-example (h : ∀ b : B, b ^ p ∈ A → b ∈ A) : pIntegralClosure p B A = A := by sorry
--- pClosureZero
-example : pIntegralClosure p (ZMod 1) ⊥ = ⊤ := by sorry
--- pClosureExponentZero
-example : pIntegralClosure 0 B A = ⊤ := by sorry
+/-- Taking the §0.5 ambient root closure twice gives the same subring. -/
+theorem pIntegralClosure.idempotent :
+    pIntegralClosure p B (pIntegralClosure p B A) = pIntegralClosure p B A := by sorry
 
-/-- The actual polynomial subring F₂[T^n] inside F₂[T]. -/
-private def powerPolynomialSubring (n : ℕ) : Subring (Polynomial (ZMod 2)) :=
-  (Polynomial.eval₂RingHom (Polynomial.C : ZMod 2 →+* Polynomial (ZMod 2))
-    (Polynomial.X ^ n)).range
+/-- The §0.5 ambient root closure preserves inclusions of source subrings. -/
+theorem pIntegralClosure.mono (C : Subring B) (hAC : A ≤ C) :
+    pIntegralClosure p B A ≤ pIntegralClosure p B C := by sorry
 
--- pClosureRoot
-/-- The subring generated by T¹ already contains every polynomial; this fixes the ambient polynomial model. -/
-example : powerPolynomialSubring 1 = ⊤ := by sorry
+/-- For a positive exponent, the §0.5 ambient root closure lies in the ordinary integral closure. -/
+theorem pIntegralClosure.le_integralClosure (hp : 0 < p) :
+    pIntegralClosure p B A ≤ (integralClosure A B).toSubring := by sorry
 
-example : pIntegralClosure 2 (Polynomial (ZMod 2)) (powerPolynomialSubring 2) = ⊤ := by sorry
--- pClosureNotOrdinary
-example :
-    pIntegralClosure 2 (Polynomial (ZMod 2)) (powerPolynomialSubring 3) =
-      powerPolynomialSubring 3 ∧
-    (integralClosure (powerPolynomialSubring 3) (Polynomial (ZMod 2))).toSubring = ⊤ ∧
-    powerPolynomialSubring 3 ≠ ⊤ := by sorry
+-- The fixed-point Check pClosureIdentity for ambient root closure.
+example (h : ∀ b : B, b ^ p ∈ A → b ∈ A) : pIntegralClosure p B A = A := by
+  apply le_antisymm
+  · exact sInf_le ⟨le_rfl, h⟩
+  · exact le_sInf fun C hC => hC.1
 
 end ClosureAndOperations
 
@@ -261,61 +182,7 @@ theorem perfectoid_p_integral_closedness (π : R)
         b ^ p ∈ (algebraMap R (Localization.Away π)).range →
         b ∈ (algebraMap R (Localization.Away π)).range := by sorry
 
-/-- At π=1 all representatives satisfy the quotient-kernel condition and localization changes nothing. -/
-example :
-    (∀ x : ℤ, (1 : ℤ) ^ 2 ∣ x ^ 2 → (1 : ℤ) ∣ x) ∧
-    (∀ b : Localization.Away (1 : ℤ),
-      b ^ 2 ∈ (algebraMap ℤ (Localization.Away (1 : ℤ))).range →
-      b ∈ (algebraMap ℤ (Localization.Away (1 : ℤ))).range) := by sorry
-
-/-- At π=0 over F₂ the power map modulo zero is the identity. -/
-example : Function.Bijective (fun x : ZMod 2 => x ^ 2) := by sorry
-
--- quotientPowerDirection
-/-- The class of T modulo T² has no square preimage over F₂, so the cross-quotient power map is not surjective. -/
-example :
-    let R := Polynomial (ZMod 2)
-    let I : Ideal R := Ideal.span {(Polynomial.X : R) ^ 2}
-    ¬ ∃ f : R, Ideal.Quotient.mk I (f ^ 2) =
-      Ideal.Quotient.mk I Polynomial.X := by sorry
-
 end RootClosure
-
--- rootQuotientUnitGenerator
--- quotientPowerZero
-/-- A root of X²+X+1 in characteristic two is a unit whose square is ω+1, distinct from ω. -/
-example {k : Type*} [Field k] [CharP k 2] (ω : k)
-    (hω : ω ^ 2 + ω + 1 = 0) :
-    IsUnit ω ∧ ω ^ 2 = ω + 1 ∧ ω ^ 2 ≠ ω := by sorry
-
-/-- In cohomological notation M[1] has M in degree −1 and zero in degree 0. -/
-example :
-    let M := ModuleCat.of ℤ ℤ
-    let K := (HomologicalComplex.single (ModuleCat ℤ) (ComplexShape.up ℤ) 0).obj M
-    ((CochainComplex.shiftFunctor (ModuleCat ℤ) 1).obj K).X (-1) = M ∧
-      CategoryTheory.Limits.IsZero (((CochainComplex.shiftFunctor (ModuleCat ℤ) 1).obj K).X 0) := by sorry
-
-/-! ## Layer 1: relative covers and almost root extensions -/
-
--- rootNeighborhoodZeroRadiusIndex
-/-- Two elements of the nonarchimedean unit ball differ by an element of the unit ball, giving U₀=Y. -/
-example {K : Type*} [NormedField K] [IsUltrametricDist K]
-    (x y : K) (hx : ‖x‖ ≤ 1) (hy : ‖y‖ ≤ 1) :
-    ‖x - y‖ ≤ 1 := by sorry
-
-/-- At a rank-one point T=t, the radii t and t² put U₂ inside U₁. -/
-example {K : Type*} [NormedField K] (t : K) (hpos : 0 < ‖t‖) (hlt : ‖t‖ < 1) :
-    0 < ‖t‖ ^ 2 ∧ ‖t‖ ^ 2 < ‖t‖ := by sorry
-
-/-- At g=1, the point T=0 lies outside the radius-‖t‖ neighborhood. -/
-example {K : Type*} [NormedField K] (t : K) (hlt : ‖t‖ < 1) :
-    ¬ ‖(0 : K) - 1‖ ≤ ‖t‖ := by sorry
-
-/-- A monic-root assertion excludes the degree-zero monic polynomial 1. -/
-example : ¬ ∃ x : ZMod 3, Polynomial.eval x (1 : Polynomial (ZMod 3)) = 0 := by sorry
-
-/-- Compatible cube roots do not supply roots of all monic polynomials: X²+1 has no root in F₃. -/
-example : (∀ x : ZMod 3, x ^ 3 = x) ∧ ¬ ∃ x : ZMod 3, x ^ 2 + 1 = 0 := by sorry
 
 /-! ## Layer 2: characteristic-p quotients and radicals -/
 
@@ -330,7 +197,7 @@ omit hchar in
 theorem quotient_pow_surjective (h : Function.Surjective (fun x : R => x ^ p))
     (I : Ideal R) : Function.Surjective (fun x : R ⧸ I => x ^ p) := by sorry
 
-/-- A quotient of a perfect characteristic-p ring is perfect exactly for radical ideals, including the unit ideal. -/
+/-- The §2.1 radical criterion: a quotient of a perfect characteristic-p ring is perfect exactly for radical ideals, including the unit ideal. -/
 theorem quotient_perfect_iff_radical [PerfectRing R p] (I : Ideal R) :
     PerfectRing (R ⧸ I) p ↔ I.IsRadical := by sorry
 
@@ -341,39 +208,10 @@ theorem radical_quotient_universal (I : Ideal R)
     (f : R →+* T) (hf : I ≤ RingHom.ker f) :
     ∃! g : R ⧸ I.radical →+* T, g.comp (Ideal.Quotient.mk I.radical) = f := by sorry
 
-/-- The unit ideal gives a zero perfect quotient, without a CharP instance on that quotient. -/
-example [PerfectRing R p] : PerfectRing (R ⧸ (⊤ : Ideal R)) p := by sorry
-
-/-- The zero ideal recovers the original perfect ring. -/
-example [PerfectRing R p] : PerfectRing (R ⧸ (⊥ : Ideal R)) p := by sorry
-
-/-- A nonradical defining ideal gives a quotient with noninjective Frobenius. -/
-example [PerfectRing R p] (I : Ideal R) (h : ¬ I.IsRadical) :
-    ¬ PerfectRing (R ⧸ I) p := by sorry
-
--- EnhancedDerivedSheaves §E1.6 supplies frobeniusRootIdeal_radical.
--- Its zero, unit and quotient cases have concrete pinned-carrier witnesses.
--- rootZero
-example [PerfectRing R p] :
-    Ideal.span (Set.range (fun n : ℕ => ((frobeniusEquiv R p).symm^[n]) (0 : R))) = ⊥ := by sorry
--- rootOne
-example [PerfectRing R p] :
-    Ideal.span (Set.range (fun n : ℕ => ((frobeniusEquiv R p).symm^[n]) (1 : R))) = ⊤ := by sorry
--- rootKilled
-example [PerfectRing R p] (f : R) (n : ℕ) :
-    Ideal.Quotient.mk (Ideal.span {f}).radical
-      (((frobeniusEquiv R p).symm^[n]) f) = 0 := by sorry
 end Quotients
-/-- The first three roots go in the inverse-Frobenius direction: r₀=t, r₁²=t, r₂⁴=t. -/
-example :
-    let A := PerfectClosure (Polynomial (ZMod 2)) 2
-    let t : A := PerfectClosure.of (Polynomial (ZMod 2)) 2 Polynomial.X
-    (((frobeniusEquiv A 2).symm^[0]) t) = t ∧
-      (((frobeniusEquiv A 2).symm^[1]) t) ^ 2 = t ∧
-      (((frobeniusEquiv A 2).symm^[2]) t) ^ 4 = t := by sorry
 
-/-- The nonradical quotient kills t but retains its nonzero square-zero root. -/
-example :
+/-- The §2.1 boundary nonradicalRootClass: the quotient by T retains a nonzero square-zero root of T. -/
+theorem nonradicalRootClass :
     let A := PerfectClosure (Polynomial (ZMod 2)) 2
     let t : A := PerfectClosure.of (Polynomial (ZMod 2)) 2 Polynomial.X
     let I := Ideal.span {t}
@@ -394,14 +232,11 @@ CrystallineCohomology §CR.4.4's truncatedFrobenius,
 frobenius_surjectivity_equivalences, theta_generator_iff_unit_coeff_one,
 theta_generator_nonzerodivisor, theta_generator_normal_form,
 theta_map_preserves_generator;
-§0.3 Witt.witt_p_sq_dvd_mul_detects_p, Witt.witt_principal_p_saturation,
-perfectoid_p_torsion_killed_by_p, perfectoid_cotangent_mod_p_vanishes,
+§0.3 perfectoid_p_torsion_killed_by_p, perfectoid_cotangent_mod_p_vanishes,
 perfectoid_absolute_cotangent;
-§0.4 compatible_root_annihilator, compatible_root_power_torsion,
-perfectoid_torsion_free_quotient with tilt and fibre-product comparisons,
+§0.4 perfectoid_torsion_free_quotient with tilt and fibre-product comparisons,
 perfectoid_compatible_roots_iterated_frobenius;
-§0.5 pIntegralClosure.idempotent, pIntegralClosure.mono,
-pIntegralClosure.le_integralClosure, quotientPowerMap with its representative
+§0.5 quotientPowerMap with its representative
 formula and Checks, completion_pIntegralClosure_perfectoid, and the ordinary
 integral-closure completion criterion completion_integrally_closed_perfectoid;
 §0.6 perfectoid_completely_etale_henselization,

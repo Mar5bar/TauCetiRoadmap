@@ -363,12 +363,13 @@ supplier contracts above and states its extra conclusion explicitly.
 
 [Suggested.lean](Suggested.lean) records the light ambient root-closure
 definition, independent statements on existing Witt, quotient, localization
-and perfection carriers, and their representative checks in
+and perfection carriers, and the proved root-closure fixed-point Check in
 `TauCetiRoadmap.PerfectoidQuotients`. Targets using the supplier's integral
 predicate, prisms, finite Witt maps, derived or almost carriers remain full
 README targets. Those carriers are not defined by placeholder data in Lean.
-The closing comment names these targets. Elaboration with `sorry` checks
-types and does not supply mathematical proofs.
+The closing comment names these targets. The Witt torsion and nonradical
+quotient boundary Checks are named theorem targets in Suggested.lean.
+Elaboration with `sorry` checks types and does not supply mathematical proofs.
 
 ## Layer 0: integral perfectoid algebra
 
@@ -423,7 +424,6 @@ pp.78–79; its input is BS17 Lemma 3.16, p.14, owned by E1.
   factors are `𝔽_p` via `X↦0`, the resolution with differential multiplication
   by X becomes a zero differential after tensoring. Its `H^(−1)=𝔽_p` survives
   `p`-completion. Thus even perfect factors do not permit an arbitrary base.
-  The polynomial differential and its specialization are Lean witnesses.
 
 **Fontaine base change** (`fontaine_tor_independence`). For any map `R → S`
 of integral perfectoid rings, the natural map
@@ -528,7 +528,6 @@ complete étale theorem to P4.15.1.
 
 - `deltaEtaleIdentity` — For `B=A` with A derived I-complete, the only
   extension is the given δ. On `A=ℤ₂`, `φ=id` forces `δ(2)=−1`.
-  The corresponding Witt arithmetic and Frobenius identity are Lean witnesses.
 - `deltaEtaleProduct` — For derived I-complete A and `B=A×A`, δ is coordinatewise and is preserved by
   the projections. For a perfect prism the lifted prism is the product prism;
   this checks naturality and the ideal extension, not just existence.
@@ -541,12 +540,11 @@ complete étale theorem to P4.15.1.
 - `deltaEtaleHypothesis` — On `ℤ₂⟨X⟩`, the two continuous lifts
   `φ₀(X)=X²` and `φ₁(X)=X²+2` give different δ-structures over `ℤ₂`,
   with `δ₀(X)=0` and `δ₁(X)=1`. Their reductions agree modulo 2; this
-  algebra is completely smooth, not completely étale. The polynomial images
-  and their equal reductions are Lean witnesses to the failed uniqueness.
+  algebra is completely smooth, not completely étale, so uniqueness fails.
 - `deltaWittKernel` — Over `ℤ`, `V(1)²` has coordinate one p, so the full
   Verschiebung ideal is not square zero. Over `𝔽₂`, `W₂(𝔽₂)` has a
   nonzero element 2 with square zero; replacing it by the product of ghost
-  coordinates would give the wrong ring. Both p=2 computations are in Lean.
+  coordinates would give the wrong ring.
 
 ### 0.1 Integral rings, units and characteristic p
 
