@@ -10,7 +10,11 @@ states the light definitions and the milestones whose carriers exist at the pinn
 Ceti. The compatible-system carriers, Skolem data, rigidified Picard functors, moduli applications, deformation rings, Hecke algebras and modularity theorems are README
 targets. Archimedean expressions distinguish meromorphic cancellation from pointwise division in the
 total Gamma functions; lift parameters encode only the numerical restrictions of the four
-Khare–Wintenberger lift types.
+Khare–Wintenberger lift types consumed from ClassicalSerreModularity `I.3/prescribed-lifts`.
+The rational finiteness and point comparisons use its `I.2/full-kw-global-finiteness`;
+family and classical-link comparisons use its `I.3/families-through-prescribed-lifts` and
+`I.3/residual-links-and-modularity-transfer`. The additional strict-family and de Rham transfer
+conclusions have the hypotheses specified in the README.
 -/
 
 universe u
@@ -481,9 +485,10 @@ end Presentations
 
 namespace LiftParameters
 
-/-- Numerical part of the four KW lift prescriptions (KW I Theorem 5.1, pp. 9–10).
-The arithmetic `RequiredLiftType` additionally records its representation, determinant,
-residual local shape and deformation conditions; this parameter type does not replace it. -/
+/-- Numerical labels for the four prescriptions supplied by ClassicalSerreModularity
+`I.3/prescribed-lifts` (KW I Theorem 5.1, pp. 9–10). The comparison `RequiredLiftType`
+also retains the supplied full residual representation, stable lattice, determinant,
+local shape and deformation conditions. -/
 inductive RequiredLiftParameters (p k : ℕ) where
   | minimalCrystalline (dyadic : p = 2 → k = 2)
   | weightTwo
@@ -580,12 +585,21 @@ Layer 3: `exists_cm_character_with_local_reductions`, `TaylorAuxiliaryData`, `lo
 Layer 4: `dyadicAuxiliaryModuli`, `auxiliary_tateModule_ordinary_shape`, `quaternionic_hecke_galois_realisation`, `local_residual_inertial_shape`, `skinner_wiles_level_adjustment`, `taylor_crystalline_lifting`, `taylorMinimalREqualsT`, `taylorNonminimalREqualsT`, `auxiliary_modularity_transfer`, `taylor_ordinary_potential_residual`, `taylor_niveau_two_potential_residual`, `weight_reduction_hecke_surjection`, `weightShift`, `weight_and_level_potential_residual`, `taylor_serre_weight_potential_residual`, `kw_potential_residual`, `kw_ordinary_potential_residual`, `snowdenCMSeed`, `snowdenWeightTwoLifting`, `snowdenWeightTwoRingFiniteness`, `snowdenPrescribedWeightTwoLift`, `snowdenResidualSolubleDescent`, `snowden_potential_residual`, `bcgp_potential_residual`.
 Layer 5: `potential_modularity_given_lift`.
 Layer 6: `controlled_extension`, `bcgp_local_data`.
-Layer 8: `AuxiliaryField`, `kwGlobalFiniteness`, `DefiniteUnitaryTwo.ordinaryHeckeAlgebra`, `DefiniteUnitaryTwo.heckeGaloisRepresentation`, `rank_two_ordinary_patching`, `rank_two_ordinary_automorphy_and_finiteness`, `ordinary_global_finiteness`, `cgRingFiniteness`.
+Layer 8: `AuxiliaryField`, `kwMinimalRingFiniteOverAuxiliaryField`, `kwGlobalFiniteness`, `DefiniteUnitaryTwo.ordinaryHeckeAlgebra`, `DefiniteUnitaryTwo.heckeGaloisRepresentation`, `rank_two_ordinary_patching`, `rank_two_ordinary_automorphy_and_finiteness`, `ordinary_global_finiteness`, `cgRingFiniteness`.
 Layer 9: `exists_lift_of_required_type`, `newton_thorne_point`.
 Layer 10: `bockle_presentation`, `Presentations.finite_presentation_complete_intersection`, `bockle_minimal_r_equals_t`, `exists_minimally_ramified_lift`, `RequiredLiftType`, `exists_minimal_crystalline_lift`, `exists_minimal_weight_two_lift`, `exists_lift_level_one_type_at_q`, `exists_lift_level_two_type_at_q`, `requiredLiftType_applications`, `modern_prescribed_type_lifts`.
 Layer 11: `alpha_beta_from_residual_modularity`, `rational_field_modularity_lifting`.
 Layer 12: `brauerSystem`, `brauerOverlapHomCharacters`, `almost_strict_compatibility`, `strict_brauer_system`, `exists_family_through_required_lift`, `dieulefait_families`.
 Layer 13: `residual_members`, `local_compatibility_at_the_coefficient_prime`, `linked_systems_modularity_transfer`.
+The rational comparisons `kwMinimalRingFiniteOverAuxiliaryField`, `kwGlobalFiniteness` and
+`exists_lift_of_required_type` consume ClassicalSerreModularity `I.2/full-kw-global-finiteness`,
+including its integral point extraction. `RequiredLiftType` and the four named lift-existence
+targets compare its `I.3/prescribed-lifts` with the local interfaces here.
+`exists_family_through_required_lift` consumes `I.3/families-through-prescribed-lifts`, preserves
+the selected member and applies the all-place strictness upgrade of §12.3.
+`linked_systems_modularity_transfer` compares the classical branch with
+`I.3/residual-links-and-modularity-transfer`; its additional de Rham branches carry the
+hypotheses of GL2ModularityLifting, including LC for the Pan alternative.
 Taylor/HBAV branches carry the ordered polarization norm witnesses of §§3.2–3.3;
 dyadic local constructions consume `dyadicAuxiliaryModuli` with its polarization hypotheses.
 The niveau-two construction uses joint prime levels and polarization descent from §3.5;

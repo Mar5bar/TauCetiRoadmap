@@ -4,7 +4,7 @@
 
 The generic family objects and their operations are developed independently of potential modularity. They contain actual continuous semisimple representations at coefficient places, common Frobenius polynomials and labeled Hodge data. Automorphic and geometric families then instantiate those objects. In rank two, keep the Khare–Wintenberger local compatibility conditions separate from the BLGGT conditions: an assertion away from the coefficient characteristic cannot replace an assertion at that characteristic.
 
-The endpoints are controlled residual potential modularity, potential modularity of given lifts with the specified local types, finite unframed global rings, lifts of the four required Khare–Wintenberger types, and compatible families through those lifts. Higher-rank systems, monodromy, density-one residual irreducibility, polarized operations and their L-functions are included as reusable infrastructure. General regular de Rham potential modularity, full modularity-lifting theorems and the global proof of Serre's conjecture have their own owners.
+The endpoints are controlled residual potential modularity, potential modularity of given lifts with the specified local types, compatible-system operations and strict-family upgrades. The rational unframed-ring finiteness, point extraction, four prescribed Khare–Wintenberger lifts and almost-strict families are consumed from ClassicalSerreModularity I.2–I.3 through the comparisons below. Higher-rank systems, monodromy, density-one residual irreducibility, polarized operations and their L-functions are included as reusable infrastructure. General regular de Rham potential modularity, full modularity-lifting theorems and the global proof of Serre's conjecture have their own owners.
 
 ## Scope and ownership
 
@@ -17,6 +17,7 @@ A prerequisite names its roadmap and section or target label, with all hypothese
 | GlobalNumberFields Layers 1, 9–10; ClassFieldTheory Layers 7, 11–12; AutomorphicGaloisRepresentationsPartII AG2.0; AutomorphicGaloisRepresentations §3.13; Chebotarev Layer 10 | Algebraic Hecke characters, units and approximation, reciprocity, algebraic-character Galois avatars and their geometric converse, and Frobenius prime selection |
 | SmallRamificationAndAbelianVarietyBaseCases §5.0d; AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”; AutomorphicGaloisRepresentations §7.1 | Shared raw family data and operations, weak and all-place strict compatibility with their transport, and the rank-two Dieulefait–Pacetti almost-strict predicate |
 | ArithmeticGaloisRepresentations Layers 1–5, §§7.4, 7.6 and 7.9; PadicHodgeTheory Layers 3–6; LocalGaloisDeformationRings §§1.3, 1.6, 1.9, 1.13 and Layers 2–8 | Continuous representations and operations, finite residual image, stable lattices, local Euler and ε-factors, polarized representations with multipliers and signs, Zariski closures, adequacy, local WD and Hodge comparisons, Fontaine–Laffaille and ordinary local rings |
+| ClassicalSerreModularity `I.2/full-kw-global-finiteness` (including characteristic-zero point extraction), `I.3/prescribed-lifts`, `I.3/families-through-prescribed-lifts` and `I.3/residual-links-and-modularity-transfer` | Rational Khare–Wintenberger finiteness, integral points, the four lifts, almost-strict families and classical residual-link transfer; §§8.2, 9.1, 10.5–10.9, 12.4 and 13.3 identify these exports with this roadmap’s interfaces. Potential modularity over larger fields, compatible-system operations, all-place strictness and transfers with additional de Rham hypotheses remain here. |
 | GlobalGaloisDeformations §§3.3–3.8, §4.2, §§5.1, 5.7, 6.1–6.4 and 8.1–8.5; ArithmeticGaloisRepresentations §5.10; DeformationAndDerivedPatchingAlgebra Layers 3–6 | Global deformation problems, Taylor–Wiles data and primes, finiteness of restriction, local-condition quotients, framed/unframed comparison, presentations and finite-image criteria; Carayol's trace theorem; finite-flat complete intersections and characteristic-zero integral points |
 | GL2AutomorphicRepresentationsAndTransfer §R16.1.8 and Layers R17.3–R17.6 | Prescribed finite Hecke characters, Jacquet–Langlands, soluble base change and descent, quadratic induction and potential-modularity interfaces, with invariance and cuspidality hypotheses |
 | SchemeAndStackFoundations §5.11; InverseGaloisAndArithmeticFundamentalGroups IG.2.5; WeightsInEtaleCohomology Layer R34.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4, R07.3.7 and R07.5.9–R07.5.10 | The smooth proper curve Weil bound, bounded-family Lang–Weil estimates and eigenform purity; Fontaine–Laffaille filtered modules and torsion realization; Savitt's residual types |
@@ -1596,19 +1597,17 @@ The sources are [KW II][kw-serre-modularity-II], §2.7 and Propositions 2.10–2
 <a id="target-kw-ii-theorem-10-1-finiteness-of-the-unframed-global-ring"></a>
 ### 8.2 Finiteness of the KW unframed ring
 
-Under the residual-image, determinant and A/B/C local-condition hypotheses of KW II Theorem 10.1, prove that the fixed-determinant **unframed** global ring `R̄_S^ψ` is finite as a ℤ_p-module. Restrict its universal mod-p representation to the auxiliary F, apply the appropriate `R=T` finiteness over F, and deduce that the universal residual image over `ℚ` is finite. The finite-image criterion then yields module finiteness. Equivalently, since `ρ̄|G_F` is absolutely irreducible, restriction makes the global ring over `ℚ` a finite module over the ring over F (GlobalGaloisDeformations §4.2), and the latter is finite over `ℤ_p` by the `R=T` theorem over F. The framed ring is a formal power-series enlargement by `4|S|−1` variables and is not asserted module-finite.
+Consume ClassicalSerreModularity `I.2/full-kw-global-finiteness`, including its matching Hilbert finiteness comparisons. Let `ρ̄:G_ℚ→GL₂(k)` be S-type, with `2≤k(ρ̄)≤p+1` and cyclotomic absolute irreducibility for odd p, or nonsoluble image for `p=2`. Fix the coefficient DVR O, residual coefficient embedding, finite set S and arithmetic determinant `ψχ_p` of that export. Use its nonempty local quotients: crystalline weight k, prescribed potentially crystalline weight two, or semistable noncrystalline weight two at residual weight `p+1`; dyadically use crystalline weight two at residual weight two or the specified ordinary semistable weight-two condition at residual weight four. Retain oddness at infinity and the selected away-p local conditions.
 
-Assume S-type, the odd-prime weight interval `2≤k≤p+1` and cyclotomic absolute irreducibility, or nonsoluble image at `p=2`. The local conditions are those of KW II Theorem 3.1; for `p>2` condition C is used only when `k=p+1`. Over F use minimal odd deformations unramified away from p with determinant `ψ_Fχ_p` and the uniform A/B/C condition at p.
+The comparison `kwGlobalFiniteness` identifies the fixed-determinant unframed ring `R̄_S^ψ` here with the image of the universal unframed ring in the local-quotient base change of the framed ring in the owner's export. Identify the universal representations, trace subrings, local quotient maps and coefficient algebra structures; the supplied finiteness then gives O-finiteness and hence ℤ_p-finiteness here. This comparison includes weight `k=p`. It does not require residual modularity over `ℚ`.
 
-The local comparison with KW II §9.1 is as follows. The chosen quotient at each finite v is a domain flat over O, with regular generic fibre and relative dimension `3+[F_v:ℚ_p]` at p, and 3 away from p; the odd infinite-place quotient has relative dimension 2. If `k(ρ̄)=p` and the residual restriction is unramified, the auxiliary field trivializes that restriction, as required by §3.2.5 for the domain assertion. After allowable soluble base change, both `[F:ℚ]` and the number of finite quaternionic ramification places are even. Type A uses the weight-k, maximal-level witness; B uses the weight-two witness with the prescribed p-level; C puts the p-places in the quaternion algebra's ramification set. At `p=2,k=4` use C and the stated semistable quotient, rather than a crystalline type-A witness. Lemma 9.1 gives the surjection from the unframed deformation ring to the localized finite Hecke algebra: characteristic-zero points factor through the selected local quotients, and flat reducedness of the Hecke algebra turns this into a ring factorization. The Eichler–Shimura traces give surjectivity.
+The comparison `kwMinimalRingFiniteOverAuxiliaryField` identifies the auxiliary-field ring used in that export with the minimal odd ring over the field of §8.1, when its local quotients, determinant, modular Hecke witness and parity data match the export's Hilbert comparison. Its O-finiteness is the supplied conclusion of KW II Proposition 9.2(II) or 9.3(II), rather than a new patching construction. Retain the dyadic torus action with determinant transformation `d(tx)=t²d(x)`. The framed enlargement has `4|S_F|−1` variables; no finiteness over O is asserted for that enlargement, and no integral `R=T` is inferred from a p-power-torsion kernel.
 
-Now import **Proposition 9.2(II)** for p odd and **Proposition 9.3(II)** for `p=2`, with precisely this lifting datum. They assert that the unframed ring over F is finite over O and that its framed enlargement is finite over O⟦y₁,…,y_j⟧, `j=4|S_F|−1`. In the dyadic proof, patch non-fixed determinants and retain the free torus action and the determinant transformation `d(tx)=t²d(x)` of 9.3(I)(3); division by two cannot replace that step. Parts (III) give only a p-power-torsion kernel for the deformation-to-Hecke map. Neither an integral `R=T` assertion nor all regular de Rham lifting is needed for this finiteness deduction.
-
-The API `kwMinimalRingFiniteOverAuxiliaryField` takes the checked local quotients, modular Hecke witness and parity data to O-finiteness, using the odd or dyadic patching proposition. `kwGlobalFiniteness` then uses the restriction map or the universal-mod-p finite-image criterion to return finiteness over the original field. **Checks.** Keeping a framing variable gives O⟦X⟧, which fails O-finiteness. Omitting the modular witness gives no nonzero Hecke module to patch. The dyadic torus formula with exponent one fails to encode fixed determinant. At `p=2,k=4` the crystalline witness is rejected. These tests distinguish the exact patching output from the stronger and unnecessary integral `R=T` claim.
+**Checks.** Keeping a framing variable gives `O⟦X⟧`, which fails O-finiteness. Omitting the matching modular witness fails the auxiliary-field comparison's hypotheses. The dyadic torus formula with exponent one fails to encode fixed determinant. At `p=2,k=4` the crystalline witness is rejected. At `k=p` the full-range export applies even though the Annals minimal crystalline theorem excludes that weight.
 
 The sources are [KW II][kw-serre-modularity-II], §9.1 setup and Lemma 9.1, pp.78–81; Proposition 9.2(II), pp.81–83; Proposition 9.3(I)–(III), pp.83–84 with proof through p.88; Theorem 10.1 and proof, pp.90–92.
 
-*Needs:* GlobalGaloisDeformations §6.1; GlobalGaloisDeformations §6.2; [Layer 8, The auxiliary field for global finiteness](#target-auxiliary-totally-real-field-for-the-finiteness-argument); DeformationAndDerivedPatchingAlgebra Layer 4; GL2ModularityLifting §5.4; GL2ModularityLifting §6.15; GL2ModularityLifting §3.6 (odd-prime KW II 9.2(II)) and §6.14 (dyadic KW II 9.3(II)); AutomorphicGaloisRepresentations Layer 6; GlobalGaloisDeformations §4.2.
+*Needs:* ClassicalSerreModularity `I.2/full-kw-global-finiteness`; [Layer 8, The auxiliary field for global finiteness](#target-auxiliary-totally-real-field-for-the-finiteness-argument); GlobalGaloisDeformations §§6.1–6.2 and §4.2; LocalGaloisDeformationRings Layer 8.
 
 <a id="target-rank-two-definite-unitary-ordinary-hecke-algebra"></a>
 ### 8.3 Definite unitary groups in two variables and their ordinary Hecke algebras
@@ -1764,7 +1763,7 @@ A framed ring adds formal variables and fails the asserted unframed finiteness c
 
 ### Dependencies
 
-This layer uses the Tau Ceti roadmaps AdelicAlgebraicGroups, Chebotarev and IntegralHeckeAndGaloisDeterminants; the roadmaps ArithmeticGaloisDuality, ArithmeticGaloisRepresentations, AutomorphicFormsOnReductiveGroups, AutomorphicGaloisRepresentations, AutomorphicGaloisRepresentationsPartII, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, GL2AutomorphicRepresentationsAndTransfer, GL2ModularityLifting, GlobalGaloisDeformations, LocalGaloisDeformationRings, OrdinaryAutomorphicFormsAndModularityLifting, PadicFamilies and SerreWeightAndLevelOptimisation; and Layers 2, 4 and 6 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
+This layer uses the Tau Ceti roadmaps AdelicAlgebraicGroups, Chebotarev and IntegralHeckeAndGaloisDeterminants; the roadmaps ClassicalSerreModularity, ArithmeticGaloisDuality, ArithmeticGaloisRepresentations, AutomorphicFormsOnReductiveGroups, AutomorphicGaloisRepresentations, AutomorphicGaloisRepresentationsPartII, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, GL2AutomorphicRepresentationsAndTransfer, GL2ModularityLifting, GlobalGaloisDeformations, LocalGaloisDeformationRings, OrdinaryAutomorphicFormsAndModularityLifting, PadicFamilies and SerreWeightAndLevelOptimisation; and Layers 2, 4 and 6 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
 
 <a id="layer-r24-2"></a>
 ## Layer 9: Characteristic-zero points
@@ -1777,11 +1776,13 @@ Combine a dimension lower bound and finiteness to obtain an integral coefficient
 
 For a nonzero complete noetherian local fixed-determinant global ring `R̄_S^ψ` that is finite over O and has absolute Krull dimension at least one, use the characteristic-zero-point theorem to obtain a continuous map `R̄_S^ψ → O′` for the integers of a finite extension of Frac O. Specialize the universal representation: it lifts `ρ̄`, has determinant `ψχ_p` and satisfies the chosen local conditions at every place. The local A/B/C classifications identify its required type. Finiteness alone is insufficient: a nonzero finite O-algebra of dimension zero can be killed by a power of the uniformizer and have empty characteristic-zero fibre.
 
-Prove it as `exists_lift_of_required_type`.
+For the rational KW problems, `exists_lift_of_required_type` is the comparison with the characteristic-zero point extraction in ClassicalSerreModularity `I.2/full-kw-global-finiteness`: identify the ring and its local point characterization before specializing the supplied integral point. The same interface over larger base fields uses the generic point theorem with the displayed finiteness and dimension hypotheses; it does not assert new rational KW lifts.
+
+**Checks.** `O/(π)` is finite but has dimension zero and no characteristic-zero point. The ring O has its identity integral point. A point of a different local quotient does not supply the prescribed type.
 
 The sources are [KW II][kw-serre-modularity-II], proof of Proposition 4.5, p. 43, proof of Proposition 4.5, p. 45, Corollary 4.7 and proof, pp. 45-46, 10.3.1, p. 92, Corollary 4.7, p. 45.
 
-*Needs:* LocalGaloisDeformationRings §8.17; LocalGaloisDeformationRings §8.18; [Layer 8, Finiteness of the KW unframed ring](#target-kw-ii-theorem-10-1-finiteness-of-the-unframed-global-ring); GlobalGaloisDeformations §6.1; GlobalGaloisDeformations §6.2; GlobalGaloisDeformations §3.8; DeformationAndDerivedPatchingAlgebra §§4.1–4.2; GlobalGaloisDeformations §6.3.
+*Needs:* ClassicalSerreModularity `I.2/full-kw-global-finiteness` (characteristic-zero point extraction); LocalGaloisDeformationRings §8.17; LocalGaloisDeformationRings §8.18; [Layer 8, Finiteness of the KW unframed ring](#target-kw-ii-theorem-10-1-finiteness-of-the-unframed-global-ring); GlobalGaloisDeformations §6.1; GlobalGaloisDeformations §6.2; GlobalGaloisDeformations §3.8; DeformationAndDerivedPatchingAlgebra §§4.1–4.2; GlobalGaloisDeformations §6.3.
 
 <a id="target-newton-thorne-khare-wintenberger-extraction"></a>
 ### 9.2 Points on prescribed Newton–Thorne components
@@ -1808,7 +1809,7 @@ The nontrivial special fibre and the chosen local component control point extrac
 
 ### Dependencies
 
-This layer uses the roadmaps DeformationAndDerivedPatchingAlgebra, GlobalGaloisDeformations, LocalGaloisDeformationRings and OrdinaryAutomorphicFormsAndModularityLifting; and Layer 8 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
+This layer uses the roadmaps ClassicalSerreModularity, DeformationAndDerivedPatchingAlgebra, GlobalGaloisDeformations, LocalGaloisDeformationRings and OrdinaryAutomorphicFormsAndModularityLifting; and Layer 8 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
 
 <a id="layer-r24-3"></a>
 ## Layer 10: Prescribed lifts
@@ -1877,7 +1878,7 @@ The sources are [KW Annals][kw-annals-2009], Theorem 3.3, printed p. 239, Introd
 <a id="target-required-lift-types"></a>
 ### 10.5 The four required lift types
 
-Fix an S-type `ρ̄`, with cyclotomic absolute irreducibility and `2≤k(ρ̄)≤p+1` for `p>2`, or nonsoluble image for `p=2`. A lift of required type is an O′-point of the fixed-determinant global ring for one of the following local prescriptions.
+Consume ClassicalSerreModularity `I.3/prescribed-lifts`. Fix an S-type `ρ̄:G_ℚ→GL₂(k)`, with cyclotomic absolute irreducibility and `2≤k(ρ̄)≤p+1` for `p>2`, or nonsoluble image for `p=2`. The interface `RequiredLiftType` identifies its four prescriptions with the owner's four cases, including the full residual representation, chosen stable lattice, coefficient embedding, determinant and minimality. A lift of required type is an O′-point of the corresponding fixed-determinant global ring. The prescriptions being compared are:
 
 1. It is minimal at all `l≠p` and crystalline of weight `k(ρ̄)` at p. Require `k=2` when `p=2`.
 2. It is minimal at all `l≠p` and has weight two at p, with inertial WD parameter `(ω_p^(k−2)⊕1,0)`. At `k=p+1` replace this by (id,N) with `N≠0` nilpotent; the dyadic exceptional weight is `k=4`.
@@ -1888,12 +1889,12 @@ The numerical part is `LiftParameters.RequiredLiftParameters`, with the four con
 
 Minimality uses Diamond's condition and the dyadic version from KW II §3.3.1, imported through LocalGaloisDeformationRings Layer 8. In type 4 the distinct inertia characters split any characteristic-zero extension. If q∥N(ρ̄) and `p∤q−1`, a geometric lift with q∥N(ρ) is automatically minimal there; this explains the divisibility hypothesis of type 3.
 
-The construction has the following API:
+The comparison has the following API, using the owner’s prescriptions and the supplied deformation rings:
 
-- `RequiredLiftType`: the case (1)–(4) with its auxiliary data `(q, χ′)` and the fixed character `ψ`
+- `RequiredLiftType`: the case (1)–(4) of ClassicalSerreModularity `I.3/prescribed-lifts`, with its auxiliary data `(q, χ′)` and the fixed character `ψ`
 - `RequiredLiftType.localCondition`: the local condition `X_v` of LocalGaloisDeformationRings Layer 8 at each `v ∈ S`
 - `RequiredLiftType.ring`: the ring `R̄^ψ_S` of GlobalGaloisDeformations R04.6 for these conditions
-- `RequiredLiftType.points_iff`: 𝒪′-points of the ring ↔ lifts of the required type
+- `RequiredLiftType.points_iff`: identify the owner’s local point characterization with 𝒪′-points of this ring ↔ lifts of the required type
 - `RequiredLiftType.det`: every lift of the type has determinant `ψχ_p`
 
 **Checks.**
@@ -1906,51 +1907,59 @@ The construction has the following API:
 
 The sources are [KW I][kw-serre-modularity-I], Theorem 5.1, p. 9 of the preprint, Theorem 5.1(4), p. 10 of the preprint, Remark after Theorem 5.1, p. 10.
 
-*Needs:* LocalGaloisDeformationRings §§8.2 and 8.19; GlobalGaloisDeformations §6.1; GlobalGaloisDeformations §6.3; AlgebraicModularFormsAndSerreWeights Layer R15.6; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 2.
+*Needs:* ClassicalSerreModularity `I.3/prescribed-lifts`; LocalGaloisDeformationRings §§8.2 and 8.19; GlobalGaloisDeformations §6.1; GlobalGaloisDeformations §6.3; AlgebraicModularFormsAndSerreWeights Layer R15.6; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 2.
 
 <a id="target-theorem-5-1-part-1-minimal-crystalline"></a>
 ### 10.6 Minimal crystalline lifts
 
-With the common hypotheses of the required-type definition, obtain a type-1 lift, minimal away from p and crystalline of weight k at p. At `p=2` require `k=2`. The odd-prime case includes `k=p`, using the KW II local rings and finiteness argument that extend beyond the Annals theorem.
+With the common hypotheses of §10.5, identify case (1) of ClassicalSerreModularity `I.3/prescribed-lifts` with a type-1 lift here, minimal away from p and crystalline of weight k at p. The comparison retains the stable lattice reducing to the full `ρ̄` and the matching determinant; existence is the owner's export. At `p=2` require `k=2`. The odd-prime case includes `k=p` through the full KW export.
+
+**Checks.** Dyadic residual weight two admits the crystalline weight-two prescription. Dyadic weight four fails this prescription. Odd `k=p` is included, although the Annals variant excludes it.
 
 Prove it as `exists_minimal_crystalline_lift`.
 
 The sources are [KW I][kw-serre-modularity-I], Theorem 5.1(1), p. 9 of the preprint; [KW II][kw-serre-modularity-II], §10.3.1, p. 92 of the preprint.
 
-*Needs:* [Layer 10, The four required lift types](#target-required-lift-types); LocalGaloisDeformationRings §8.18; GlobalGaloisDeformations §3.8; GlobalGaloisDeformations §6.3; [Layer 8](#layer-r24-1); [Layer 9](#layer-r24-2).
+*Needs:* ClassicalSerreModularity `I.3/prescribed-lifts`; [Layer 10, The four required lift types](#target-required-lift-types).
 
 <a id="target-theorem-5-1-part-2-weight-two"></a>
 ### 10.7 Minimal weight-two lifts
 
-With the common required-type hypotheses, obtain a type-2 weight-two lift, minimal away from p. Its inertial WD parameter is `(ω^(k−2)⊕1,0)`, or `(id,N≠0)` in the exceptional `k=p+1` branch. At `p=2,k=4` use the semistable noncrystalline weight-two condition C.
+With the common hypotheses of §10.5, identify case (2) of ClassicalSerreModularity `I.3/prescribed-lifts` with a type-2 weight-two lift here, minimal away from p. Retain its determinant and chosen full residual reduction. Its inertial WD parameter is `(ω^(k−2)⊕1,0)`, or `(id,N≠0)` in the exceptional odd `k=p+1` branch. At `p=2,k=4` use the semistable noncrystalline weight-two condition C. Existence is supplied by the owner.
+
+**Checks.** At `k=2` the potentially crystalline prescription has trivial inertial type and `N=0`. At odd `k=p+1` the weight-two prescription has nonzero N. Dyadic weight four also has nonzero N; it is not the crystalline weight-four lift.
 
 Prove it as `exists_minimal_weight_two_lift`.
 
 The sources are [KW I][kw-serre-modularity-I], Theorem 5.1(2), p. 9 of the preprint; [KW II][kw-serre-modularity-II], §10.3.1, p. 92 of the preprint.
 
-*Needs:* [Layer 10, The four required lift types](#target-required-lift-types); LocalGaloisDeformationRings §8.18; GlobalGaloisDeformations §3.8; GlobalGaloisDeformations §6.3; [Layer 8](#layer-r24-1); [Layer 9](#layer-r24-2).
+*Needs:* ClassicalSerreModularity `I.3/prescribed-lifts`; [Layer 10, The four required lift types](#target-required-lift-types).
 
 <a id="target-theorem-5-1-part-3-level-one-type-at-q"></a>
 ### 10.8 A level-one type at q
 
-Under the common hypotheses and the complete type-3 local prescription, construct a lift with the chosen level-one inertia character `χ′=ω_q^i` at q and the specified weight-two p-type. The character parity at `p=2`, q∥N(ρ̄) and `p|(q−1)` remain essential. Once this lift lies in a system, an irreducible residual q-member has normalized Serre weight `i+2` or `q+1−i` up to twist, as determined by its coefficient-prime type.
+Under the common hypotheses and the complete type-3 local prescription of §10.5, compare case (3) of ClassicalSerreModularity `I.3/prescribed-lifts` with this interface. The supplied lift has the chosen level-one inertia character `χ′=ω_q^i` at q, the specified weight-two p-type, matching determinant and full residual reduction. Character parity at `p=2`, q∥N(ρ̄) and `p|(q−1)` remain essential. The residual-q weight comparison is the application in §12.4, rather than an additional lift construction.
+
+**Checks.** At `p=2,q=5`, exponent one is excluded by parity. Exponent two meets that parity condition. At `p=3,q=5`, the condition `p|(q−1)` fails regardless of the chosen exponent.
 
 Prove it as `exists_lift_level_one_type_at_q`.
 
 The sources are [KW I][kw-serre-modularity-I], Theorem 5.1(3), p. 9 of the preprint; [KW II][kw-serre-modularity-II], §10.3.1, p. 92 of the preprint.
 
-*Needs:* [Layer 10, The four required lift types](#target-required-lift-types); LocalGaloisDeformationRings §8.18; GlobalGaloisDeformations §3.8; GlobalGaloisDeformations §6.3; [Layer 8](#layer-r24-1); [Layer 9](#layer-r24-2); LocalGaloisDeformationRings §8.8.
+*Needs:* ClassicalSerreModularity `I.3/prescribed-lifts`; [Layer 10, The four required lift types](#target-required-lift-types).
 
 <a id="target-theorem-5-1-part-4-level-two-type-at-q"></a>
 ### 10.9 A level-two type at q
 
-Under the common hypotheses and the type-4 residual shape, divisibility `p|(q+1)`, genuine level-two p-power character and dyadic parity restrictions, construct the prescribed lift. This prescription supplies the good dihedral prime used by the applications listed under Downstream consumers. The exceptional `p=2,v₂(q+1)=1` case cannot be supplied with the required character.
+Under the common hypotheses and the type-4 residual shape of §10.5, compare case (4) of ClassicalSerreModularity `I.3/prescribed-lifts` with this interface. Retain `p|(q+1)`, the genuine level-two p-power character, its compatible reduction, the dyadic parity restrictions and the prescribed determinant. The owner supplies the lift; its use at an auxiliary dihedral prime is an application of that export.
+
+**Checks.** At `p=2,q=7`, exponent pair `(6,0)` gives order eight and genuine level two. At `p=2,q=5`, no character meets all the order, parity and niveau restrictions. A character fixed by the q-power operation is niveau one and fails this prescription even if its order is a p-power.
 
 Prove it as `exists_lift_level_two_type_at_q`.
 
 The sources are [KW I][kw-serre-modularity-I], Theorem 5.1(4), p. 10 of the preprint; [KW II][kw-serre-modularity-II], §10.3.1, p. 92 of the preprint.
 
-*Needs:* [Layer 10, The four required lift types](#target-required-lift-types); LocalGaloisDeformationRings §8.18; GlobalGaloisDeformations §3.8; GlobalGaloisDeformations §6.3; [Layer 8](#layer-r24-1); [Layer 9](#layer-r24-2); LocalGaloisDeformationRings §8.8.
+*Needs:* ClassicalSerreModularity `I.3/prescribed-lifts`; [Layer 10, The four required lift types](#target-required-lift-types).
 
 <a id="target-modern-prescribed-type-lifts"></a>
 ### 10.10 Prescribed-type local-to-global lifting
@@ -1994,7 +2003,7 @@ The `q=5` and `q=7` dyadic checks distinguish the two inertial character types. 
 
 ### Dependencies
 
-This layer uses Mathlib; the roadmaps AlgebraicModularFormsAndSerreWeights, ArithmeticGaloisRepresentations, AutomorphicGaloisRepresentations, DeformationAndDerivedPatchingAlgebra, GL2ModularityLifting, GlobalGaloisDeformations and LocalGaloisDeformationRings; and Layers 8 and 9 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
+This layer uses Mathlib; the roadmaps ClassicalSerreModularity, AlgebraicModularFormsAndSerreWeights, ArithmeticGaloisRepresentations, AutomorphicGaloisRepresentations, DeformationAndDerivedPatchingAlgebra, GL2ModularityLifting, GlobalGaloisDeformations and LocalGaloisDeformationRings; and Layers 8 and 9 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
 
 <a id="layer-r24-4"></a>
 ## Layer 11: Rational-field modularity lifting
@@ -2101,19 +2110,21 @@ The sources are [KW II][kw-serre-modularity-II], §10.3.2, pp.93–94; [Skinner]
 <a id="target-kw-theorem-5-1-systems"></a>
 ### 12.4 Families through the four required lifts
 
-For an S-type residual representation satisfying the common KW I Theorem 5.1 hypotheses, and for each of the four lift types with its extra local conditions, obtain an E-rational odd irreducible almost-strict family whose selected p-member lifts `ρ̄` with that type. In type 3, an irreducible residual q-member has weight `i+2` or `q+1−i` up to twist. In type 4 for odd q, it has weight `q+1−(i−j)` or `i−j` when `i>j+1`, and weight q when `i=j+1`. These computations use Savitt's reductions of tame potentially Barsotti–Tate types (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5, `savitt-residual-types`).
+Consume ClassicalSerreModularity `I.3/families-through-prescribed-lifts`, with its common S-type hypotheses and the extra conditions of each case of `I.3/prescribed-lifts`. The comparison `exists_family_through_required_lift` identifies the supplied E-rational odd irreducible family and its selected p-member with the interfaces of §§1.2 and 10.5. Preserve the selected lift, stable lattice, full residual reduction, coefficient embeddings, determinant, good polynomials and Hodge pair. The owner's DP almost-strict predicate implies KW almost strictness by `CompatibleSystem.dpAlmostStrict_implies_kwAlmostStrict`; its all-member de Rham clause is retained. Both rational interfaces use arithmetic Frobenius and positive cyclotomic Hodge labels, so this comparison preserves the representations without dualizing them. The BLGGT normalization uses the separate comparison of §1.1.
 
-Split the local argument according to the actual lattice reduction at q. When its G_(ℚ_q)-endomorphism ring is the residue field, apply corrected Savitt Corollary 6.15; local absolute irreducibility is one sufficient case. Global irreducibility alone does not imply this condition. For nonscalar local endomorphisms, use Theorems 6.11–6.12 and Remark 6.17 for the semisimplified characters; if the characteristic-zero local representation splits, reduce its two characters directly. These computations are independent of the choice of stable lattice after local semisimplification. Recover extension-sensitive weight restrictions separately: a split extension is peu ramifiée; in a nonsplit cyclotomic-ratio case the lattice is finite flat over the tame extension making the representation Barsotti–Tate. Savitt Lemma 6.13 excludes a très ramifiée extension because that would force q to divide the tame ramification index. Apply the Serre-weight rule to this actual local extension, retaining the equality-of-characters boundary. No classification of all nonscalar-endomorphism lattices is required. In the boundary case `i=1` of Theorem 6.12, the two displayed characters in part (4) coincide and have niveau one; the nonsplit lattice needed for the scalar-endomorphism assertion comes from the added part (5). A test that treats those equal characters as a niveau-two irreducible pair fails.
+The further target here upgrades these supplied families to all-place strictness through §12.3, retaining the chosen p-member. Its local comparison transports the owner's inertial-type, weight and ramification assertions to the interfaces here. In type 3, an irreducible residual q-member has weight `i+2` or `q+1−i` up to twist. In type 4 for odd q, it has weight `q+1−(i−j)` or `i−j` when `i>j+1`, and weight q when `i=j+1`. These computations use Savitt's reductions of tame potentially Barsotti–Tate types (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5, `savitt-residual-types`).
+
+For this local comparison, distinguish the actual lattice reduction at q. When its G_(ℚ_q)-endomorphism ring is the residue field, apply corrected Savitt Corollary 6.15; local absolute irreducibility is one sufficient case. Global irreducibility alone does not imply this condition. For nonscalar local endomorphisms, use Theorems 6.11–6.12 and Remark 6.17 for the semisimplified characters; if the characteristic-zero local representation splits, reduce its two characters directly. These computations are independent of the choice of stable lattice after local semisimplification. Recover extension-sensitive weight restrictions separately: a split extension is peu ramifiée; in a nonsplit cyclotomic-ratio case the lattice is finite flat over the tame extension making the representation Barsotti–Tate. Savitt Lemma 6.13 excludes a très ramifiée extension because that would force q to divide the tame ramification index. Apply the Serre-weight rule to this actual local extension, retaining the equality-of-characters boundary. No classification of all nonscalar-endomorphism lattices is required. In the boundary case `i=1` of Theorem 6.12, the two displayed characters in part (4) coincide and have niveau one; the nonsplit lattice needed for the scalar-endomorphism assertion comes from the added part (5). A test that treats those equal characters as a niveau-two irreducible pair fails.
 
 **Checks.** A split local sum of two distinct characters has a nonscalar diagonal projection, even when the global residual member is irreducible; use the split/semisimplified calculation. A cyclotomic-ratio très ramifiée extension cannot be finite flat over a tame splitting field, so it is excluded from the peu-ramifiée weight branch. At i=1 the repeated niveau-one characters require the corrected lattice calculation, and give no niveau-two irreducibility.
 
-The `q=2` order-three application has its separate KW argument giving residual weight two; Savitt's theorem is not applied there. Diamond's allowed pairs `j=m(q+1)/p^r−1` and `i=q−1−j, 0<m<p^r/2`, exclude `i=j+1` in that selection. The good polynomials lie in one finite coefficient field. For these constructed families, the full coefficient-prime theorem upgrades almost strictness to strictness and supplies purity with the stated geometric normalization.
+The `q=2` order-three application has its separate KW argument giving residual weight two; Savitt's theorem is not applied there. Diamond's allowed pairs `j=m(q+1)/p^r−1` and `i=q−1−j, 0<m<p^r/2`, exclude `i=j+1` in that selection. The good polynomials retain the owner’s finite coefficient field. The additional full coefficient-prime comparison of §12.3 supplies strictness and purity with the stated geometric normalization.
 
-Prove it as `exists_family_through_required_lift`.
+State this comparison and strictness upgrade as `exists_family_through_required_lift`.
 
 The sources are [KW I][kw-serre-modularity-I], Theorem 5.1, p. 9 of the preprint, Remark after Theorem 5.1, p. 10, Proof of Theorem 9.1, pp. 18–19 of the preprint; [KW II][kw-serre-modularity-II], §10.3.2, p. 94; [Savitt, corrected][savitt-corrected], Theorems 6.11–6.12, pp.35–37, Lemma 6.13, p.38, Corollary 6.15, pp.38–39, Remark 6.17, p.39; [Savitt's corrigendum][savitt-corrigendum], pp. 1–3.
 
-*Needs:* [Layer 10, Minimal crystalline lifts](#target-theorem-5-1-part-1-minimal-crystalline); [Layer 10, Minimal weight-two lifts](#target-theorem-5-1-part-2-weight-two); [Layer 10, A level-one type at q](#target-theorem-5-1-part-3-level-one-type-at-q); [Layer 10, A level-two type at q](#target-theorem-5-1-part-4-level-two-type-at-q); [Layer 12, Genuine families from Brauer induction](#target-brauer-induction-system); [Layer 12, The historical almost-strict comparison](#target-almost-strict-compatibility); AlgebraicModularFormsAndSerreWeights Layer R15.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.5.9–R07.5.10; [Layer 12, All-place strictness of the Hilbert–Brauer family](#target-strict-brauer-system).
+*Needs:* ClassicalSerreModularity `I.3/prescribed-lifts` and `I.3/families-through-prescribed-lifts`; [Layer 1, Rank-two plain, almost-strict and strict families](#target-compatible-system); [Layer 10, The four required lift types](#target-required-lift-types); AlgebraicModularFormsAndSerreWeights Layer R15.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.5.9–R07.5.10; [Layer 12, All-place strictness of the Hilbert–Brauer family](#target-strict-brauer-system).
 
 <a id="target-dieulefait-families"></a>
 ### 12.5 Families through given lifts
@@ -2148,7 +2159,7 @@ A positive virtual dimension alone cannot make a Brauer combination genuine. Pai
 
 ### Dependencies
 
-This layer uses the Tau Ceti roadmap RepresentationTheory; the roadmaps AlgebraicModularFormsAndSerreWeights, ArithmeticGaloisRepresentations, AutomorphicGaloisRepresentations, FiniteFlatGroupsAndIntegralPadicHodgeTheory, GL2AutomorphicRepresentationsAndTransfer, GL2ModularityLifting, PadicHodgeTheory and WeightsInEtaleCohomology; and Layers 1, 2, 4, 5, 6 and 10 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
+This layer uses the Tau Ceti roadmap RepresentationTheory; the roadmaps ClassicalSerreModularity, AlgebraicModularFormsAndSerreWeights, ArithmeticGaloisRepresentations, AutomorphicGaloisRepresentations, FiniteFlatGroupsAndIntegralPadicHodgeTheory, GL2AutomorphicRepresentationsAndTransfer, GL2ModularityLifting, PadicHodgeTheory and WeightsInEtaleCohomology; and Layers 1, 2, 4, 5, 6 and 10 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
 
 <a id="layer-r24-6"></a>
 ## Layer 13: Residual members and linked systems
@@ -2183,13 +2194,15 @@ The sources are [KW I][kw-serre-modularity-I], §5, p. 8 of the preprint; [Dieul
 <a id="target-linked-systems-modularity-transfer"></a>
 ### 13.3 Links and modularity transfer
 
-If one characteristic-zero member of a rank-two family agrees with the member of a newform f, comparison of the common good Frobenius polynomials and Chebotarev–Brauer–Nesbitt recognition identify every member with f's family after a common coefficient extension. Define a link between two systems at `λ` by an isomorphism of their selected semisimplified residual members. Given a link to a modular family, apply the imported KW I Theorem 4.1 only after checking its local and image hypotheses: nonsoluble residual image at 2, cyclotomic absolute irreducibility at odd characteristic, and the required local lift type. The systems may have different conductors and weights. The Pan residually reducible de Rham transfer assumes LC and the applicable LL1–LL3 and CC1–CC5 of GL2ModularityLifting §12.3 (see Conditional inputs); the KW alternative retains its stated hypotheses.
+Consume ClassicalSerreModularity `I.3/residual-links-and-modularity-transfer` for the classical rational branch. The comparison `linked_systems_modularity_transfer` identifies its link with an isomorphism of the selected semisimplified residual members here over a common residue field, preserving the places, lattices and coefficient embeddings. Symmetry and invariance under coefficient extension are the supplied link operations. Its classical modularity transfer applies with the exact hypotheses of the owner's I.1 or I.2 lifting theorem on each selected member: in the KW branch retain nonsoluble residual image at 2, normalized residual weight and cyclotomic absolute irreducibility at odd characteristic, and the required local lift type. The systems may have different conductors and weights. Once a member is modular, the supplied Frobenius recognition identifies the whole system with the newform family after a common coefficient extension.
 
-Prove it as `linked_systems_modularity_transfer`.
+The additional transfer here applies GL2ModularityLifting §§12.1–12.3 to continuous, odd, irreducible, finitely ramified selected members, de Rham with weights `{0,k−1}` and `{0,k′−1}`, `k,k′≥2`. The odd cyclotomically absolutely irreducible alternative assumes LL1–LL3 and CC4–CC5; the dyadic nonsoluble alternative assumes CC1 and CC4–CC5. The Pan residually reducible alternative assumes CC1–CC5 and LC, with `p≥5`, or `p=3` outside its cyclotomic-ratio exclusion (see Conditional inputs). Establish de Rhamness using the family's actual local comparison as in §13.2. These hypotheses are additional to the classical export; the residual isomorphism alone supplies none of them.
+
+**Checks.** A family is linked to itself, and reversing the residual isomorphism reverses the link. Equal residual traces give only a semisimplified link, not a lattice realizing a prescribed full residual representation. A link between different local Hodge types permits transfer only when each member meets its own lifting theorem. A reducible residual member in an abstract KW almost-strict family need not be de Rham at a ramified coefficient prime, so it cannot by itself enter the Pan alternative.
 
 The sources are [KW I][kw-serre-modularity-I], §8.2, p. 15 of the preprint; [Dieulefait–Pacetti v2][dieulefait-pacetti], Remark 4, p. 7 of the arXiv version.
 
-*Needs:* GL2ModularityLifting §12.3 (LC and the applicable LL1–LL3 and CC1–CC5 for the Pan alternative); [Layer 1, Rank-two plain, almost-strict and strict families](#target-compatible-system); ArithmeticGaloisRepresentations §§1.7–1.9 and Layer 5; [Layer 11, The full rational-field lifting theorem](#target-kw-theorem-4-1); AutomorphicGaloisRepresentations §7.3; GL2ModularityLifting §12.3; GL2ModularityLifting §12.2; GL2ModularityLifting §12.1.
+*Needs:* ClassicalSerreModularity `I.3/residual-links-and-modularity-transfer` (with I.1 or I.2 for the classical lifting alternative); GL2ModularityLifting §12.3 (LC and the applicable LL1–LL3 and CC1–CC5 for the Pan alternative); [Layer 1, Rank-two plain, almost-strict and strict families](#target-compatible-system); ArithmeticGaloisRepresentations §§1.7–1.9 and Layer 5; [Layer 11, The full rational-field lifting theorem](#target-kw-theorem-4-1); AutomorphicGaloisRepresentations §7.3; GL2ModularityLifting §12.3; GL2ModularityLifting §12.2; GL2ModularityLifting §12.1.
 
 ### Examples
 
@@ -2197,11 +2210,11 @@ Residual weight comparisons exclude the two exceptional cyclotomic-restriction w
 
 ### Dependencies
 
-This layer uses the roadmaps AlgebraicModularFormsAndSerreWeights, ArithmeticGaloisRepresentations, AutomorphicGaloisRepresentations, GL2ModularityLifting and PadicHodgeTheory; and Layers 1, 11 and 12 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
+This layer uses the roadmaps ClassicalSerreModularity, AlgebraicModularFormsAndSerreWeights, ArithmeticGaloisRepresentations, AutomorphicGaloisRepresentations, GL2ModularityLifting and PadicHodgeTheory; and Layers 1, 11 and 12 of this roadmap. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
 
 ## Downstream consumers
 
-ClassicalSerreModularity consumes the presentations, required lifts, good-dihedral-prime prescriptions, Brauer families and linked-family transfers (Layers 10–13). PotentialAutomorphyInfrastructure, WeightZeroCrystallineAutomorphyLifting and ModularityAndLanglandsExtensions consume the field-selection results of Layer 2 and the higher-rank compatible-system interfaces of Layer 1, and EllipticCurveModularityPartIIGL2TypeAbelianVarieties the rank-two families. These are applications, not suppliers to this roadmap.
+ClassicalSerreModularity owns the rational finiteness and point extraction in `I.2/full-kw-global-finiteness`, the four lifts in `I.3/prescribed-lifts`, families in `I.3/families-through-prescribed-lifts` and classical transfer in `I.3/residual-links-and-modularity-transfer`; §§8.2, 9.1, 10.5–10.9, 12.4 and 13.3 consume them through the named comparisons. The additional larger-field potential-modularity results, compatible-system operations, all-place strictness upgrades and transfers with additional de Rham hypotheses are owned here. PotentialAutomorphyInfrastructure, WeightZeroCrystallineAutomorphyLifting and ModularityAndLanglandsExtensions consume the field-selection results of Layer 2 and the higher-rank compatible-system interfaces of Layer 1, and EllipticCurveModularityPartIIGL2TypeAbelianVarieties the rank-two families. These are applications, not suppliers to this roadmap.
 
 ## References
 
