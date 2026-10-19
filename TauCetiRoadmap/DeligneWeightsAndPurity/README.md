@@ -772,13 +772,13 @@ Its API includes:
 - `IsWeilNumber.weight_unique`: For `q>1` a nonzero Weil number has a unique integer weight.
 
 #### Checks
-- `isWeilNumber_roots_T2_sub_T_add_two`: The roots of `T² − T + 2` are Weil `2`-numbers of weight `1`: the discriminant is `−7`, so the roots `(1 ± i√7)/2` are complex conjugate with product `2`.
+- The roots of `T² − T + 2` are Weil `2`-numbers of weight `1`: the discriminant is `−7`, so the roots `(1 ± i√7)/2` are complex conjugate with product `2`.
 
-- `not_isWeilNumber_one_add_sqrt_two`: `1 + √2` is a Weil `q`-number for no `q > 1` and no `n`. Its conjugates `1 ± √2` have absolute values with product `1`, forcing `n = 0`, while `|1 + √2| ≠ 1`. It has absolute value `q^{1/2}` at one real embedding for `q = (1 + √2)²`, so one embedding does not suffice.
+- `1 + √2` is a Weil `q`-number for no `q > 1` and no `n`. Its conjugates `1 ± √2` have absolute values with product `1`, forcing `n = 0`, while `|1 + √2| ≠ 1`. It has absolute value `q^{1/2}` at one real embedding for `q = (1 + √2)²`, so one embedding does not suffice.
 
-- `isWeilNumber_inv_not_isIntegral`: For an integer `q ≥ 2`, `q⁻¹ ∈ ℚ` is a Weil `q`-number of weight `−2` and is not integral over `ℤ`: purity and integrality are separate predicates.
+- For an integer `q ≥ 2`, `q⁻¹ ∈ ℚ` is a Weil `q`-number of weight `−2` and is not integral over `ℤ`: purity and integrality are separate predicates.
 
-- `isWeilNumber_rootOfUnity`: A root of unity is a Weil `q`-number of weight `0` for every `q > 1`; `0` is a Weil `q`-number of no weight.
+- A root of unity is a Weil `q`-number of weight `0` for every `q > 1`; `0` is a Weil `q`-number of no weight.
 
 *Needs:* [minpoly.algHom_eq](#input-b1), [IsAlgClosed.lift](#input-b2).
 
@@ -832,13 +832,13 @@ Its API includes:
 - `IsWeilNumber.isIotaPure`: A Weil number is `ι`-pure of its integer weight for every complex embedding.
 
 #### Checks
-- `iotaWeight_q`: For `q ∈ ℚ` with `q > 1` and every `ι: w_{ι,q}(q) = 2` and `w_{ι,q}(q⁻¹) = −2`. So `ℚ_ℓ(1)`, on which geometric Frobenius acts by `q⁻¹`, has weight `−2`.
+- For `q ∈ ℚ` with `q > 1` and every `ι: w_{ι,q}(q) = 2` and `w_{ι,q}(q⁻¹) = −2`. So `ℚ_ℓ(1)`, on which geometric Frobenius acts by `q⁻¹`, has weight `−2`.
 
-- `iotaWeight_depends_on_iota`: For `E = ℚ(√2)` and `q = 2`, `α = 1 + √2` has `ι`-weight `2 log₂(1 + √2)` at one real embedding and `−2 log₂(1 + √2)` at the other: the `ι`-weight depends on `ι`.
+- For `E = ℚ(√2)` and `q = 2`, `α = 1 + √2` has `ι`-weight `2 log₂(1 + √2)` at one real embedding and `−2 log₂(1 + √2)` at the other: the `ι`-weight depends on `ι`.
 
-- `iotaWeight_transcendental`: For `E=ℚ(t)`, choose a transcendental complex number `z` of modulus `√2` and send `t` to `z`. Then the `ι`-weight of `t` relative to `2` is `1`, an integer, although `t` is not algebraic. The numeric test accepts the supplied transcendence and modulus conditions; no Lindemann–Weierstrass theorem is assumed.
+- For `E=ℚ(t)`, choose a transcendental complex number `z` of modulus `√2` and send `t` to `z`. Then the `ι`-weight of `t` relative to `2` is `1`, an integer, although `t` is not algebraic. The numeric test accepts the supplied transcendence and modulus conditions; no Lindemann–Weierstrass theorem is assumed.
 
-- `iotaWeight_rootOfUnity`: `w_{ι,q}(ζ) = 0` for every root of unity `ζ ∈ E` and every `ι`.
+- `w_{ι,q}(ζ) = 0` for every root of unity `ζ ∈ E` and every `ι`.
 
 *Needs:* [0.1](#target-0-1).
 
@@ -892,15 +892,15 @@ Its API includes:
 - `IsPure.isIotaPureEnd`: Integer purity implies real `ι`-purity for every `ι`.
 
 #### Checks
-- `isPure_jordanBlock`: `F = [[q, 1], [0, q]]` on `E²` is pure of weight `2` relative to `q` and is not semisimple: purity does not see Jordan blocks.
+- `F = [[q, 1], [0, q]]` on `E²` is pure of weight `2` relative to `q` and is not semisimple: purity does not see Jordan blocks.
 
-- `eigenvalues_rotation`: `F = [[0, −q], [1, 0]]` on `ℚ²` has characteristic polynomial `T² + q`, no eigenvalue in `ℚ`, `eigenvalues ±i√q` in `ℚ̄`, and is pure of weight `1`.
+- `F = [[0, −q], [1, 0]]` on `ℚ²` has characteristic polynomial `T² + q`, no eigenvalue in `ℚ`, `eigenvalues ±i√q` in `ℚ̄`, and is pure of weight `1`.
 
-- `not_isPure_diag`: `F = diag(1, q)` is not pure; its weights are `{0, 2}`.
+- `F = diag(1, q)` is not pure; its weights are `{0, 2}`.
 
-- `isPure_zero_space`: On `V = 0`, `F` is pure of every weight and has no weights.
+- On `V = 0`, `F` is pure of every weight and has no weights.
 
-- `iotaWeights_singular_twist_rejection`: On a one-dimensional zero endomorphism `F=0`, the total `log`-based numeric `iotaWeights` core yields `{0}`. Multiplication by `b=2` leaves `F=0`, so shifting by `w₂(2)=2` would falsely give `{2}`. All `iotaWeights_twist` assertions therefore require invertible `F`; purity itself rejects the zero eigenvalue.
+- On a one-dimensional zero endomorphism `F=0`, the total `log`-based numeric `iotaWeights` core yields `{0}`. Multiplication by `b=2` leaves `F=0`, so shifting by `w₂(2)=2` would falsely give `{2}`. All `iotaWeights_twist` assertions therefore require invertible `F`; purity itself rejects the zero eigenvalue.
 
 *Needs:* [0.1](#target-0-1), [0.4](#target-0-4), [LinearMap.charpoly_baseChange](#input-b9), [Module.End.hasEigenvalue_iff_isRoot_charpoly](#input-b10), [LinearMap.finrank_maxGenEigenspace_eq](#input-b11), [Module.End.iSup_maxGenEigenspace_eq_top](#input-b12), [Module.End.independent_maxGenEigenspace](#input-b13).
 
@@ -1008,13 +1008,13 @@ Its API includes:
 - `twist_twist`: Two successive scalar twists equal the twist by the product.
 
 #### Checks
-- `tateTwist_weight`: `ℚ_ℓ(1) = E^{(q⁻¹)}` is pure of weight `−2`, and `ℚ_ℓ(r)` of weight `−2r`.
+- `ℚ_ℓ(1) = E^{(q⁻¹)}` is pure of weight `−2`, and `ℚ_ℓ(r)` of weight `−2r`.
 
 - `twist_one`: `twist 1 F = F`, and `V(0) = V`.
 
-- `halfTwist_depends_on_sqrt`: The half twist depends on the square root: for `V = E` and `F = 1`, the choices `q^{1/2}` and `−q^{1/2}` give `eigenvalues q^{−1/2}` and `−q^{−1/2}`, non-isomorphic Frobenius modules, both of weight `−1`.
+- The half twist depends on the square root: for `V = E` and `F = 1`, the choices `q^{1/2}` and `−q^{1/2}` give `eigenvalues q^{−1/2}` and `−q^{−1/2}`, non-isomorphic Frobenius modules, both of weight `−1`.
 
-- `twist_nonintegral_weight`: For `b` with `w_{ι,q}(b) = 1/2`, for instance `b` transcendental with `|ι(b)| = q^{1/4}`, `E^{(b)}` is `ι`-pure of the non-integral weight `1/2` and is not pure in the sense of Weil numbers.
+- For `b` with `w_{ι,q}(b) = 1/2`, for instance `b` transcendental with `|ι(b)| = q^{1/4}`, `E^{(b)}` is `ι`-pure of the non-integral weight `1/2` and is not pure in the sense of Weil numbers.
 
 *Needs:* [0.4](#target-0-4), [0.2](#target-0-2), [0.13](#target-0-13), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)](#input-e14).
 
@@ -1106,7 +1106,7 @@ different predicates for general `N`.
   `M_(−2)=0`, `M_(−1)=M_0=Ee₁` and `M_1=V`. The grades `−1` and `1` have ordinary
   weights `−2` and `0`, respectively, so the pair is Weil–Deligne-pure of weight
   `−1`. Its underlying Frobenius module has weights `{0,−2}` and is pure of no
-  weight. Suggested.lean gives the two induced operators at `q=2`.
+  weight. The target `spTwo_purity_grades` gives the two induced operators at `q=2`.
 - At `q=1`, `α=1` satisfies the supplier's scalar predicate at every integer
   weight, while `IsWeilNumber 1 w (1 : ℚ)` is false. Thus the scalar
   comparison requires its base-size hypothesis.
@@ -1723,11 +1723,11 @@ Its API includes:
 - `WeilGroup.baseExtension`: Over `𝔽_(qᵃ)`, the Weil group is the subgroup of degrees divisible by `a`, with the new degree divided by a.
 
 #### Checks
-- `weilGroup_point`: For `Spec 𝔽_q`, `W=ℤ` with degree the identity and trivial geometric kernel.
+- For `Spec 𝔽_q`, `W=ℤ` with degree the identity and trivial geometric kernel.
 
-- `weilGroup_degree_sign`: A pullback element `w=(g,e)`, using the specified geometric/arithmetic quotient maps, has Weil II degree `e` and Weil I arithmetic coordinate `−e`; in particular degree-one geometric Frobenius has coordinates `1` and `−1`.
+- A pullback element `w=(g,e)`, using the specified geometric/arithmetic quotient maps, has Weil II degree `e` and Weil I arithmetic coordinate `−e`; in particular degree-one geometric Frobenius has coordinates `1` and `−1`.
 
-- `weilGroup_base_extension_two`: For `Spec 𝔽_(q²)` over `𝔽_q`, arithmetic degrees lie in `2ℤ`; degree-one relative Frobenius maps to degree `2`.
+- For `Spec 𝔽_(q²)` over `𝔽_q`, arithmetic degrees lie in `2ℤ`; degree-one relative Frobenius maps to degree `2`.
 
 *Needs:* [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [MonoidHom.eqLocus](#input-b27).
 
@@ -1795,13 +1795,13 @@ Its API includes:
 - `mixed_iff_finite_filtration`: Mixedness is precisely a finite subsheaf filtration with pure quotients, with no strictness or canonical splitting built into the predicate.
 
 #### Checks
-- `punctual_tate_line`: `ℚ̄_ℓ(1)` is pure of weight `−2`.
+- `ℚ̄_ℓ(1)` is pure of weight `−2`.
 
-- `punctual_zero_weights`: The zero sheaf is pure of every weight, mixed, and has empty actual weight set.
+- The zero sheaf is pure of every weight, mixed, and has empty actual weight set.
 
-- `mixed_two_tate_weights`: `ℚ̄_ℓ⊕ℚ̄_ℓ(−1)` on `Spec 𝔽_q` is mixed with actual weights `{0,2}`, and is not pure of any weight.
+- `ℚ̄_ℓ⊕ℚ̄_ℓ(−1)` on `Spec 𝔽_q` is mixed with actual weights `{0,2}`, and is not pure of any weight.
 
-- `punctual_jordan`: The rank-two unipotent Jordan Frobenius on a point is pure of weight `0` although arithmetic Frobenius is not semisimple.
+- The rank-two unipotent Jordan Frobenius on a point is pure of weight `0` although arithmetic Frobenius is not semisimple.
 
 - A one-point Weil line with nonzero transcendental scalar `b` and `|ιb|=2^(1/4)` is punctually `ι`-pure of real weight `1/2` and is integer-pure of no weight. Use a finite coefficient model containing `b` and a compatible embedding on its algebraic closure.
 
@@ -1829,11 +1829,11 @@ Its API includes:
 - `pure_real_envelope`: The reciprocal-normalized dual direct sum of a punctually pure lisse sheaf is real and contains the original as a direct summand.
 
 #### Checks
-- `real_nonreal_roots`: A point module with polynomial `T²−T+2` is totally real, although its roots are nonreal.
+- A point module with polynomial `T²−T+2` is totally real, although its roots are nonreal.
 
-- `real_zero`: The zero object has local polynomial `1` and is totally real.
+- The zero object has local polynomial `1` and is totally real.
 
-- `real_envelope_line`: A pure weight-zero line with scalar `(3+4i)/5` has real envelope polynomial `T²−(6/5)T+1`.
+- A pure weight-zero line with scalar `(3+4i)/5` has real envelope polynomial `T²−(6/5)T+1`.
 
 - The point line with scalar `√2` has polynomial `T−√2`, whose coefficients are totally real but not all rational.
 
@@ -2076,7 +2076,7 @@ Its API includes:
 - `stalkNewtonPolygon_tateTwist`: Twisting by a adds `−a` to every normalized slope.
 
 #### Checks
-- `newton_two_slopes`: The point module `diag(1,q)` has vertices `(0,0)`,`(1,0)`,`(2,1)`.
+- The point module `diag(1,q)` has vertices `(0,0)`,`(1,0)`,`(2,1)`.
 
 - `newton_empty`: Rank zero has only `(0,0)`.
 
@@ -2084,7 +2084,7 @@ Its API includes:
   zero and `∞` elsewhere; it is distinct from the all-`∞` empty polygon. Repeated
   slopes give collinear vertices representing the same height function after compression.
 
-- `newton_base_extension`: Replacing `diag(1,q)` by `diag(1,q²)` over `𝔽_(q²)` retains slopes `0`,`1`, not `0`,`2`.
+- Replacing `diag(1,q)` by `diag(1,q²)` over `𝔽_(q²)` retains slopes `0`,`1`, not `0`,`2`.
 
 *Needs:* [0.13](#target-0-13), [AddValuation](#input-b25), [Multiset.sort](#input-b26), [0.14](#target-0-14), [NewtonPolygons §§0.6–0.7 (slope data and the common polygon carrier)](#input-newton).
 
@@ -2462,15 +2462,15 @@ Its API includes:
 - `IsIntegralSheaf.constant`: The constant sheaf `ℚ̄_ℓ` is integral; so is every sheaf `ℱ` whose Frobenius traces at all closed points of all finite extensions are algebraic integers.
 
 #### Checks
-- `isIntegralEnd_tate_neg_one`: On `Spec 𝔽_q`, `ℚ̄_ℓ(−1)` (`F` acts by `q`) is integral: `q` is an algebraic integer.
+- On `Spec 𝔽_q`, `ℚ̄_ℓ(−1)` (`F` acts by `q`) is integral: `q` is an algebraic integer.
 
-- `not_isIntegralEnd_tate_one`: On `Spec 𝔽_q`, `ℚ̄_ℓ(1)` (`F` acts by `q⁻¹`) is not integral although it is punctually pure of weight `−2`: purity does not imply integrality.
+- On `Spec 𝔽_q`, `ℚ̄_ℓ(1)` (`F` acts by `q⁻¹`) is not integral although it is punctually pure of weight `−2`: purity does not imply integrality.
 
-- `not_isIntegralEnd_weight_zero`: For `ℓ ≠ 5`, the rank-one Weil sheaf on `Spec 𝔽_q` on which `F` acts by `b = (3 + 4i)/5` is punctually pure of weight `0` (every complex conjugate of `b` has absolute value `1`) but not integral: `b` is not an algebraic integer. A definition '`integral = weights ≥ 0`' fails this test.
+- For `ℓ ≠ 5`, the rank-one Weil sheaf on `Spec 𝔽_q` on which `F` acts by `b = (3 + 4i)/5` is punctually pure of weight `0` (every complex conjugate of `b` has absolute value `1`) but not integral: `b` is not an algebraic integer. A definition '`integral = weights ≥ 0`' fails this test.
 
-- `isIntegralEnd_zero`: The zero sheaf, and the zero Frobenius module, are integral.
+- The zero sheaf, and the zero Frobenius module, are integral.
 
-- `isIntegralEnd_jordan`: The Frobenius module `(ℚ̄_ℓ², [[q, 1], [0, q]])` is integral: integrality reads the characteristic polynomial `(T − q)²`, not a diagonal form.
+- The Frobenius module `(ℚ̄_ℓ², [[q, 1], [0, q]])` is integral: integrality reads the characteristic polynomial `(T − q)²`, not a diagonal form.
 
 *Needs:* [0.7](#target-0-7), [0.9](#target-0-9), [0.11](#target-0-11), [0.13](#target-0-13), [0.2](#target-0-2), [7.1](#target-7-1).
 
@@ -2628,13 +2628,13 @@ Its API includes:
 #### Checks
 - `newtonCouple_fst_add_snd`: `r + s = n` for every valuation `v` with `v(q) = 1` and every nonzero `α`.
 
-- `newtonCouple_supersingular`: `q = p`, `α = √−p` (weight `1`, a root of `T² + p`): at the unique place above `p` of `ℚ(√−p)`, `(r, s) = (1/2, 1/2)`.
+- `q = p`, `α = √−p` (weight `1`, a root of `T² + p`): at the unique place above `p` of `ℚ(√−p)`, `(r, s) = (1/2, 1/2)`.
 
-- `newtonCouple_ordinary`: `q = 5`, `α = 1 + 2i` (weight `1`, `|α|² = 5`): at the place `v` of `ℚ(i)` with `v(1 + 2i) = 1` (normalised `v(5) = 1`), `(r, s) = (1, 0)`; at the conjugate place `(r, s) = (0, 1)`.
+- `q = 5`, `α = 1 + 2i` (weight `1`, `|α|² = 5`): at the place `v` of `ℚ(i)` with `v(1 + 2i) = 1` (normalised `v(5) = 1`), `(r, s) = (1, 0)`; at the conjugate place `(r, s) = (0, 1)`.
 
-- `newtonCouple_tate`: `α = q^m` (weight `2m`): `(r, s) = (m, m)` at every place above `p`.
+- `α = q^m` (weight `2m`): `(r, s) = (m, m)` at every place above `p`.
 
-- `newtonCouple_nonintegral`: `α = q⁻¹` (weight `−2`): `(r, s) = (−1, −1)`; the nonnegativity of `r` and `s` genuinely needs integrality.
+- `α = q⁻¹` (weight `−2`): `(r, s) = (−1, −1)`; the nonnegativity of `r` and `s` genuinely needs integrality.
 
 - `newtonCouple_zero_base`: In the raw valuation definition, with `q=0`, `α=β=1`, `n=1` and `m=−1`, the couple at `n+m=0` is `(0,0)`, while the sum of the two couples is `(0,∞)`. Thus the multiplication API requires `q ≠ 0`.
 
@@ -2941,13 +2941,13 @@ Its API includes:
 - `geometricMonodromyGroup_conjugate`: An isomorphism of stalk representations conjugates the geometric monodromy image; changing the geometric base point gives this conjugacy, so geometric semisimplicity is independent of the base point.
 
 #### Checks
-- `isGeometricallySemisimple_jordan`: On `Spec 𝔽_q` the rank-two Weil sheaf on which `F` acts by `[[1, 1], [0, 1]]` is geometrically semisimple (the geometric group is trivial) but not arithmetically semisimple: purity of weight `0` does not give semisimple Frobenius.
+- On `Spec 𝔽_q` the rank-two Weil sheaf on which `F` acts by `[[1, 1], [0, 1]]` is geometrically semisimple (the geometric group is trivial) but not arithmetically semisimple: purity of weight `0` does not give semisimple Frobenius.
 
-- `not_isGeometricallySemisimple_kummer`: On `𝔾_m` over `𝔽_q`, the Kummer extension `0 → ℚ̄_ℓ(1) → ℒ → ℚ̄_ℓ → 0` classified by the Kummer class of the coordinate in `H¹(𝔾_m, ℚ̄_ℓ(1))` is not geometrically semisimple: its geometric class in `H¹(𝔾_{m,𝔽̄_q}, ℚ̄_ℓ(1)) ≅ ℚ̄_ℓ` is nonzero.
+- On `𝔾_m` over `𝔽_q`, the Kummer extension `0 → ℚ̄_ℓ(1) → ℒ → ℚ̄_ℓ → 0` classified by the Kummer class of the coordinate in `H¹(𝔾_m, ℚ̄_ℓ(1))` is not geometrically semisimple: its geometric class in `H¹(𝔾_{m,𝔽̄_q}, ℚ̄_ℓ(1)) ≅ ℚ̄_ℓ` is nonzero.
 
-- `isGeometricallySemisimple_point`: Every lisse sheaf on `Spec 𝔽_q` is geometrically semisimple; so is the zero sheaf on any `X₀`.
+- Every lisse sheaf on `Spec 𝔽_q` is geometrically semisimple; so is the zero sheaf on any `X₀`.
 
-- `isGeometricallySemisimple_of_semisimple`: For a finite-dimensional representation `ρ` of a group `W` over a field and a normal subgroup `G`, if `ρ` is semisimple then `ρ|G` is semisimple (Clifford), so arithmetic semisimplicity implies geometric semisimplicity.
+- For a finite-dimensional representation `ρ` of a group `W` over a field and a normal subgroup `G`, if `ρ` is semisimple then `ρ|G` is semisimple (Clifford), so arithmetic semisimplicity implies geometric semisimplicity.
 
 *Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [Representation](#input-b30), [IsSemisimpleModule](#input-b33), [Representation.asModule](#input-b31), [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](#input-b41), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
 

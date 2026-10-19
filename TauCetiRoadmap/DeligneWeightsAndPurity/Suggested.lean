@@ -1,41 +1,4 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.FieldTheory.IsAlgClosed.Classification
-import Mathlib.Analysis.SpecialFunctions.Log.Base
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
-import Mathlib.FieldTheory.Minpoly.Field
-import Mathlib.LinearAlgebra.Charpoly.Basic
-import Mathlib.LinearAlgebra.Trace
-import Mathlib.LinearAlgebra.Dual.Defs
-import Mathlib.LinearAlgebra.Eigenspace.Basic
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
-import Mathlib.LinearAlgebra.TensorProduct.Basic
-import Mathlib.LinearAlgebra.ExteriorPower.Basis
-import Mathlib.RingTheory.Polynomial.Basic
-import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.RingTheory.PowerSeries.Derivative
-import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.Algebra.Group.Subgroup.Ker
-import Mathlib.RingTheory.Valuation.Basic
-import Mathlib.Data.Multiset.Sort
-import Mathlib.RepresentationTheory.Basic
-import Mathlib.RepresentationTheory.Invariants
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
-import Mathlib.LinearAlgebra.BilinearForm.Hom
-import Mathlib.LinearAlgebra.Matrix.ToLin
-import Mathlib.LinearAlgebra.TensorProduct.Map
-import Mathlib.LinearAlgebra.Quotient.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.RingTheory.IntegralClosure.IsIntegral.Basic
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Order.SupIndep
-import Mathlib.LinearAlgebra.TensorPower.Basic
-import Mathlib.LinearAlgebra.PiTensorProduct.Finite
-import Mathlib.LinearAlgebra.Charpoly.BaseChange
-import Mathlib.NumberTheory.Padics.PadicNumbers
-import Mathlib.LinearAlgebra.Semisimple
+import Mathlib
 
 import TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis
 import TauCeti.RepresentationTheory.Induction.Clifford.Basic
@@ -81,11 +44,9 @@ theorem isWeilNumber_natCast_iff (q : ℕ) (hq : 2 ≤ q) (n : ℤ) (α : K) :
       IsAlgebraic ℚ α ∧
         ∀ z ∈ (minpoly ℚ α).aroots ℂ, ‖z‖ = (q : ℝ) ^ ((n : ℝ) / 2) := by sorry
 
-/-- At `q = 1`, the canonical scalar condition holds for `1` at every weight,
-while the real-base adapter rejects it (README 0.19). -/
-example (n : ℤ) : ¬ IsWeilNumber 1 n (1 : ℚ) ∧
-    (IsAlgebraic ℚ (1 : ℚ) ∧
-      ∀ z ∈ (minpoly ℚ (1 : ℚ)).aroots ℂ, ‖z‖ = (1 : ℝ) ^ ((n : ℝ) / 2)) := by sorry
+/-- The real-base adapter rejects q = 1 even for the scalar 1. -/
+example (n : ℤ) : ¬ IsWeilNumber 1 n (1 : ℚ) := by
+  simp [IsWeilNumber]
 
 theorem IsWeilNumber.isAlgebraic {q : ℝ} {n : ℤ} {α : K} (h : IsWeilNumber q n α) : IsAlgebraic ℚ α := by sorry
 
@@ -105,15 +66,6 @@ theorem IsWeilNumber.ne_zero {q : ℝ} {n : ℤ} {α : K} (h : IsWeilNumber q n 
 
 theorem IsWeilNumber.weight_unique {q : ℝ} (hq : 1 < q) {n m : ℤ} {α : K} (hn : IsWeilNumber q n α)
     (hm : IsWeilNumber q m α) : n = m := by sorry
-
-/-- Test `isWeilNumber_roots_T2_sub_T_add_two`: the roots of `T² − T + 2` are Weil `2`-numbers of weight `1`. -/
-example {α : K} (hα : α ^ 2 - α + 2 = 0) : IsWeilNumber 2 1 α := by sorry
-
-/-- Test `isWeilNumber_inv_not_isIntegral`: `q⁻¹` has weight `−2` and is not integral over `ℤ` (here `q = 2`). -/
-example : IsWeilNumber 2 (-2) (2⁻¹ : ℚ) ∧ ¬ IsIntegral ℤ (2⁻¹ : ℚ) := by sorry
-
-/-- Test `isWeilNumber_rootOfUnity`: a root of unity has weight `0` for every `q > 1`. -/
-example {q : ℝ} (hq : 1 < q) {ζ : K} {k : ℕ} (hk : 0 < k) (hζ : ζ ^ k = 1) : IsWeilNumber q 0 ζ := by sorry
 
 end WeilNumber
 
@@ -168,13 +120,6 @@ theorem norm_eq_rpow_iotaWeight (ι : E →+* ℂ) {q : ℝ} (hq : 1 < q) {α : 
 theorem IsWeilNumber.isIotaPure [Algebra ℚ E] {q : ℝ} {n : ℤ} {α : E} (h : IsWeilNumber q n α) (ι : E →+* ℂ) :
     IsIotaPure ι q n α := by sorry
 
-/-- Test `iotaWeight_rootOfUnity`: every root of unity has ι-weight zero. -/
-example (ι : E →+* ℂ) (q : ℝ) {ζ : E} {k : ℕ} (hk : 0 < k) (hζ : ζ ^ k = 1) :
-    iotaWeight ι q ζ = 0 := by sorry
-
-/-- Test `iotaWeight_q` (for `q = 2`): `w_ι(2) = 2` and `w_ι(2⁻¹) = −2` for every `ι`. -/
-example [CharZero E] (ι : E →+* ℂ) : iotaWeight ι 2 2 = 2 ∧ iotaWeight ι 2 (2⁻¹) = -2 := by sorry
-
 /-- Rational bases are fixed by every coefficient embedding (README 0.4). -/
 theorem iotaWeight_rat [CharZero E] (ι : E →+* ℂ) (q : ℚ) (hq : 1 < q) :
     iotaWeight ι q (q : E) = 2 ∧ iotaWeight ι q (q⁻¹ : E) = -2 := by sorry
@@ -217,15 +162,6 @@ theorem IsPure.isIotaPureEnd [Algebra ℚ E] {q : ℝ} {n : ℤ} {F : V →ₗ[E
 theorem eigenvalues_map_aut (F : V →ₗ[E] V) (τ : AlgebraicClosure E ≃ₐ[E] AlgebraicClosure E) :
     (eigenvalues F).map τ = eigenvalues F := by sorry
 
-/-- Test `isPure_jordanBlock`: `[[q, 1], [0, q]]` is pure of weight `2` (here `q = 2`, over `ℚ`). -/
-example : IsPure (E := ℚ) 2 2 (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) ∧
-    ¬ Module.End.IsSemisimple (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) := by sorry
-
-/-- Test `not_isPure_diag`: `diag(1, 2)` is not pure relative to `2`. -/
-example : (∀ n : ℤ, ¬ IsPure (E := ℚ) 2 n (Matrix.toLin' !![(1 : ℚ), 0; 0, 2])) ∧
-    ∀ ι : AlgebraicClosure ℚ →+* ℂ,
-      iotaWeights ι 2 (Matrix.toLin' !![(1 : ℚ), 0; 0, 2]) = {0, 2} := by sorry
-
 end Endomorphism
 
 /-! ## Eigenvector and subquotient comparisons for arithmetic purity (README 0.19) -/
@@ -256,18 +192,9 @@ theorem isPure_subquotient_iff (q : ℝ) (n : ℤ) (F : V →ₗ[E] V)
         F.baseChange (AlgebraicClosure E) v - α • v ∈ U.baseChange (AlgebraicClosure E) →
         IsWeilNumber q n α := by sorry
 
-/-- For the pure Jordan block with `N = 0`, the sole monodromy grade has weight
-`2`, without semisimplicity (README 0.19). -/
-example : IsPure 2 2 (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) ∧
-    ¬ Module.End.IsSemisimple (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) := by sorry
-
-/-- On the Tate line with `N = 0`, the sole monodromy grade has weight `−2`
-for geometric Frobenius (README 0.19). -/
-example : IsPure 2 (-2) ((2⁻¹ : ℚ) • LinearMap.id : ℚ →ₗ[ℚ] ℚ) := by sorry
-
 /-- For `Sp(2)`, the grades `−1` and `1` have weights `−2` and `0`, giving
 pair weight `−1`; the underlying Frobenius module is pure of no weight (README 0.19). -/
-example :
+theorem spTwo_purity_grades :
     let F := Matrix.toLin' !![(1 : ℚ), 0; 0, 2⁻¹]
     let N := Matrix.toLin' !![(0 : ℚ), 0; 1, 0]
     ∃ hU : ∀ x ∈ LinearMap.ker N, F x ∈ LinearMap.ker N,
@@ -285,7 +212,6 @@ end ArithmeticPurityComparison
 section Stability
 
 variable {E V W : Type*} [Field E] [AddCommGroup V] [Module E V] [AddCommGroup W] [Module E W]
-
 
 variable [FiniteDimensional E V] [FiniteDimensional E W]
 
@@ -333,10 +259,12 @@ def tateTwist (q : Eˣ) (r : ℤ) (F : V →ₗ[E] V) : V →ₗ[E] V := twist (
 theorem twist_twist (b c : Eˣ) (F : V →ₗ[E] V) : twist b (twist c F) = twist (b * c) F := by sorry
 
 /-- Test `twist_one`: `twist 1 F = F`. -/
-example (F : V →ₗ[E] V) : twist 1 F = F := by sorry
+example (F : V →ₗ[E] V) : twist 1 F = F := by
+  simp [twist]
 
 /-- Test `twist_one` (Tate form): `V(0) = V`. -/
-example (q : Eˣ) (F : V →ₗ[E] V) : tateTwist q 0 F = F := by sorry
+example (q : Eˣ) (F : V →ₗ[E] V) : tateTwist q 0 F = F := by
+  simp [tateTwist, twist]
 
 theorem eigenvalues_twist [FiniteDimensional E V] (b : Eˣ) (F : V →ₗ[E] V) :
     eigenvalues (twist b F) = (eigenvalues F).map (algebraMap E (AlgebraicClosure E) (b : E) * ·) := by sorry
@@ -381,17 +309,6 @@ value at most `2√q`. -/
 theorem norm_add_conj_le {α : ℂ} {q : ℝ} (h : ‖α‖ = Real.sqrt q) :
     ‖α + (starRingEnd ℂ) α‖ ≤ 2 * Real.sqrt q := by sorry
 
-/-- The point count of `y² = x³ − x` over `𝔽₃` from its characteristic polynomial `X² + 3`: `P(1) = 4`. -/
-example : ((X ^ 2 + 3 : ℤ[X]).eval 1) = 4 := by sorry
-
-/-- The zeroth exterior factor uses reversal: its ordinary polynomial is X−1
-and its Euler polynomial is 1−X (README 1.5). -/
-example : (X - 1 : ℚ[X]).reverse = 1 - X := by sorry
-
-/-- The top elliptic exterior factor has Euler polynomial 1−qX, also for q=0
-as a polynomial identity (README 1.5). -/
-example (q : ℚ) : (X - C q).reverse = 1 - C q * X := by sorry
-
 end WeilEstimate
 
 /-! ## The algebraic power-family input of Weil I §6. -/
@@ -404,7 +321,6 @@ theorem multiset_eq_of_pow_eq {F : Type*} [Field F] [DecidableEq F] (K : Finset 
     (δ ε : Multiset F) (h : ∃ N, ∀ n ≥ N, (∀ k ∈ K, ¬ k ∣ n) → δ.map (· ^ n) = ε.map (· ^ n)) : δ = ε := by sorry
 
 end WeilI6
-
 
 /-! ## Numerical functoriality and purity. -/
 section NumericAPI
@@ -432,24 +348,6 @@ theorem eigenvalues_exteriorPower (F : V →ₗ[E] V) (k d : ℕ)
 theorem IsPure.exteriorPower {q : ℝ} (hq : 1 < q) {n : ℤ} {F : V →ₗ[E] V}
     (hF : IsPure q n F) (k : ℕ) :
     IsPure q ((k : ℤ) * n) (exteriorPower.map k F) := by sorry
-
-/-- Test `iotaWeights_singular_twist_rejection`: the total logarithm at zero has no weight shift. -/
-example (ι : AlgebraicClosure ℚ →+* ℂ) :
-    iotaWeights ι 2 (0 : ℚ →ₗ[ℚ] ℚ) = {0} ∧
-    iotaWeights ι 2 ((2 : ℚ) • (0 : ℚ →ₗ[ℚ] ℚ)) ≠ {2} := by sorry
-
-/-- Test `isPure_zero_space`: the zero-dimensional module has no eigenvalues. -/
-example (q : ℝ) (n : ℤ) (ι : AlgebraicClosure E →+* ℂ) :
-    IsPure q n (LinearMap.id : (Fin 0 → E) →ₗ[E] (Fin 0 → E)) ∧
-      iotaWeights ι q (LinearMap.id : (Fin 0 → E) →ₗ[E] (Fin 0 → E)) = ∅ := by sorry
-
-/-- Test `tateTwist_weight`: geometric q⁻¹ on a line has weight −2. -/
-example : IsPure 2 (-2) ((2⁻¹ : ℚ) • LinearMap.id : ℚ →ₗ[ℚ] ℚ) := by sorry
-
-/-- Half-weight modulus core: the two square roots differ by a weight-zero sign. -/
-example (q : ℝ) (hq : 1 < q) (b : ℂ) (hb : b ^ 2 = (q : ℂ)) :
-    IsIotaPure (RingHom.id ℂ) q (-1) b⁻¹ ∧
-    IsIotaPure (RingHom.id ℂ) q (-1) (-b)⁻¹ := by sorry
 
 /-- Characteristic roots of the inverse dual, in contrast to the ordinary transpose. -/
 theorem eigenvalues_contragredient (F : V ≃ₗ[E] V) :
@@ -521,10 +419,6 @@ def WeilGroup.baseExtension (d : G →* A) (geo : Multiplicative ℤ →* A) (a 
   WeilGroup (WeilGroup.degree d geo)
     { toFun := fun z => z ^ a, map_one' := by simp, map_mul' := by intros; simp [mul_pow] }
 
-/-- Test `weilGroup_point`: the point's Weil group is the graph of the identity of ℤ. -/
-example : Function.Bijective (WeilGroup.degree (MonoidHom.id (Multiplicative ℤ))
-    (MonoidHom.id (Multiplicative ℤ))) := by sorry
-
 /-- A pullback element has its geometric degree and the opposite arithmetic
 coordinate under the specified constant-field maps (README 5.1).
 The integer inversion step is `Multiplicative.toAdd_inv`. -/
@@ -535,21 +429,6 @@ theorem WeilGroup.arithmeticCoordinate (d : G →* A)
     (ha : d g = arith (Multiplicative.ofAdd a)) :
     Multiplicative.toAdd (WeilGroup.degree d geo
       ⟨(g, Multiplicative.ofAdd e), hg⟩) = e ∧ a = -e := by sorry
-
-/-- Test `weilGroup_degree_sign`: geometric Frobenius of degree one has
-arithmetic coordinate minus one in the actual pullback group. -/
-example (d : G →* A) (geo arith : Multiplicative ℤ →* A)
-    (harith : Function.Injective arith) (hquot : ∀ z, geo z = arith z⁻¹)
-    (g : G) (a : ℤ) (hg : d g = geo (Multiplicative.ofAdd 1))
-    (ha : d g = arith (Multiplicative.ofAdd a)) :
-    Multiplicative.toAdd (WeilGroup.degree d geo
-      ⟨(g, Multiplicative.ofAdd 1), hg⟩) = 1 ∧ a = -1 := by sorry
-
-/-- Test `weilGroup_base_extension_two`: original degree is twice relative degree. -/
-example (d : G →* A) (geo : Multiplicative ℤ →* A)
-    (w : WeilGroup.baseExtension d geo 2) :
-    Multiplicative.toAdd (WeilGroup.degree d geo w.val.1) =
-      2 * Multiplicative.toAdd w.val.2 := by sorry
 
 end WeilGroupCore
 
@@ -570,46 +449,6 @@ def IsPunctuallyPure (q : X → ℝ) (n : ℤ) (F : ∀ x, V x →ₗ[E] V x) : 
 
 def IsPunctuallyIotaPure (ι : AlgebraicClosure E →+* ℂ) (q : X → ℝ) (β : ℝ)
     (F : ∀ x, V x →ₗ[E] V x) : Prop := ∀ x, IsIotaPureEnd ι (q x) β (F x)
-
-/-- Actual weights on a point are computed from its genuine characteristic-root set. -/
-example : iotaWeights (E := ℚ) (IsAlgClosed.lift : AlgebraicClosure ℚ →ₐ[ℚ] ℂ).toRingHom 2
-    (Matrix.toLin' !![(1 : ℚ), 0; 0, 2]) = {0, 2} := by sorry
-
-/-- Test `punctual_tate_line`: one closed stalk with the Tate action. -/
-example : IsPunctuallyPure (E := ℚ) (X := Unit) (V := fun _ => ℚ) (fun _ => 2) (-2)
-    (fun _ => (2⁻¹ : ℚ) • LinearMap.id) := by sorry
-
-/-- Test `punctual_zero_weights`: every closed stalk is zero. -/
-example (q : X → ℝ) (n : ℤ) :
-    IsPunctuallyPure (E := E) (V := fun _ => Fin 0 → E) q n (fun _ => LinearMap.id) := by sorry
-
-/-- Test `mixed_two_tate_weights`: the actual root set is {0,2}, never one pure weight. -/
-example : ∀ n : ℤ, ¬ IsPunctuallyPure (X := Unit) (V := fun _ => Fin 2 → ℚ)
-    (fun _ => 2) n (fun _ => Matrix.toLin' !![(1 : ℚ), 0; 0, 2]) := by sorry
-
-/-- Test `punctual_jordan`: no arithmetic semisimplicity condition is added. -/
-example : IsPunctuallyPure (X := Unit) (V := fun _ => Fin 2 → ℚ)
-    (fun _ => 2) 0 (fun _ => Matrix.toLin' !![(1 : ℚ), 1; 0, 1]) := by sorry
-
-/-- A transcendental point scalar with the prescribed modulus has fixed-ι weight
-one half and no integer Weil weight (README 5.3). -/
-example (b : E) (hb : b ≠ 0) (htrans : ¬ IsAlgebraic ℚ b)
-    (ι : AlgebraicClosure E →+* ℂ)
-    (hnorm : ‖ι (algebraMap E (AlgebraicClosure E) b)‖ = (2 : ℝ) ^ (1 / 4 : ℝ)) :
-    IsPunctuallyIotaPure (E := E) (X := Unit) (V := fun _ => E) ι (fun _ => 2) (1 / 2)
-      (fun _ => b • LinearMap.id) ∧
-    ∀ n : ℤ, ¬ IsPunctuallyPure (E := E) (X := Unit) (V := fun _ => E) (fun _ => 2) n
-      (fun _ => b • LinearMap.id) := by sorry
-
-/-- Zero stalks satisfy fixed-ι punctual purity at every real weight (README 5.3). -/
-example (ι : AlgebraicClosure E →+* ℂ) (q : X → ℝ) (β : ℝ) :
-    IsPunctuallyIotaPure (V := fun _ => Fin 0 → E) ι q β
-      (fun _ => LinearMap.id) := by sorry
-
-/-- The two point weights 0 and 2 cannot equal one fixed real weight (README 5.3). -/
-example (ι : AlgebraicClosure ℚ →+* ℂ) :
-    ∀ β : ℝ, ¬ IsPunctuallyIotaPure (X := Unit) (V := fun _ => Fin 2 → ℚ)
-      ι (fun _ => 2) β (fun _ => Matrix.toLin' !![(1 : ℚ), 0; 0, 2]) := by sorry
 
 end PunctualCore
 
@@ -662,106 +501,12 @@ theorem stalkNewtonPolygon_tateTwist (v : AddValuation K (WithTop ℚ)) (q : K)
     stalkNewtonPolygon v q (s.map fun α => α * q ^ (-a)) =
       (stalkNewtonPolygon v q s).map fun p => (p.1, p.2 - (p.1 : ℚ) * (a : ℚ)) := by sorry
 
-/-- Test `newton_two_slopes`: the spectrum of diag(1,2), with v(2)=1. -/
-example (v : AddValuation ℚ (WithTop ℚ)) (hv : v 2 = 1) :
-    stalkNewtonPolygon v 2 {1, 2} = [(0, 0), (1, 0), (2, 1)] := by sorry
-
 /-- Test `newton_empty`: the polygon of the zero-dimensional stalk. -/
 example (v : AddValuation K (WithTop ℚ)) (q : K) :
-    stalkNewtonPolygon v q 0 = [(0, 0)] := by sorry
-
-/-- Test `newton_base_extension`: power both q and Frobenius, keeping slopes 0,1. -/
-example (v : AddValuation ℚ (WithTop ℚ)) (hv : v 2 = 1) :
-    stalkNewtonPolygon v 4 {1, 4} = [(0, 0), (1, 0), (2, 1)] := by sorry
+    stalkNewtonPolygon v q 0 = [(0, 0)] := by
+  simp [stalkNewtonPolygon]
 
 end NewtonCore
-
-/-! ## Counterexamples distinguishing integer and fixed-embedding purity. -/
-section NumericCounterexamples
-/-- Test `not_isWeilNumber_one_add_sqrt_two`: unequal conjugate moduli. -/
-example (q : ℝ) (hq : 1 < q) (n : ℤ) :
-    ¬ IsWeilNumber q n ((1 : ℝ) + Real.sqrt 2) := by sorry
-
-/-- Test `iotaWeight_depends_on_iota`: the two embeddings of ℚ(√2). -/
-example {E : Type*} [Field E] (s : E) (hs : s ^ 2 = 2)
-    (iotaPlus iotaMinus : E →+* ℂ) (hPlus : iotaPlus s = (Real.sqrt 2 : ℂ))
-    (hMinus : iotaMinus s = -(Real.sqrt 2 : ℂ)) :
-    iotaWeight iotaPlus 2 (1 + s) = 2 * Real.logb 2 (1 + Real.sqrt 2) ∧
-    iotaWeight iotaMinus 2 (1 + s) = -2 * Real.logb 2 (1 + Real.sqrt 2) := by sorry
-
-/-- Test `iotaWeight_transcendental`: a supplied transcendental image with this modulus.
-This tests the definition; it does not assume a Lindemann–Weierstrass theorem. -/
-example {E : Type*} [Field E] [Algebra ℚ E] (t : E) (ht : ¬ IsAlgebraic ℚ t)
-    (ι : E →+* ℂ) (hi : ‖ι t‖ = Real.sqrt 2) :
-    IsIotaPure ι 2 1 t ∧ ∀ n : ℤ, ¬ IsWeilNumber 2 n t := by sorry
-
-/-- Test `eigenvalues_rotation`: a rational operator need not split over ℚ. -/
-example : (Matrix.toLin' !![(0 : ℚ), -2; 1, 0]).charpoly = X ^ 2 + 2 ∧
-    IsPure (E := ℚ) 2 1 (Matrix.toLin' !![(0 : ℚ), -2; 1, 0]) := by sorry
-
-/-- Test `halfTwist_depends_on_sqrt`: distinct eigenvalues for the two choices. -/
-example (b : ℂ) (hb : b ^ 2 = 2) :
-    b⁻¹ ≠ (-b)⁻¹ ∧ IsWeilNumber 2 (-1) b⁻¹ ∧ IsWeilNumber 2 (-1) (-b)⁻¹ := by sorry
-
-/-- Test `twist_nonintegral_weight`: integer Weil purity requires algebraicity. -/
-example (b : ℂ) (hb : ¬ IsAlgebraic ℚ b) (hnorm : ‖b‖ = (2 : ℝ) ^ (1 / 4 : ℝ)) :
-    IsIotaPure (RingHom.id ℂ) 2 (1 / 2) b ∧ ∀ n : ℤ, ¬ IsWeilNumber 2 n b := by sorry
-
-/-- Test `isWeilNumber_rootOfUnity`, zero non-example. -/
-example {q : ℝ} (hq : 1 < q) (n : ℤ) : ¬ IsWeilNumber q n (0 : ℚ) := by sorry
-
-/-- Repeated roots remain repeated when a polynomial merges their values
-(README 0.11): squaring diag(2,-2) has two roots equal to 4. -/
-example : eigenvalues ((Matrix.toLin' !![(2 : ℚ), 0; 0, -2]) ^ 2) = {4, 4} := by sorry
-
-/-- A reciprocal pairing sees the full Jordan block, not just its eigenline
-(README 0.16). Here the scalar is 3 and the paired operator is 3 times the inverse transpose. -/
-example :
-    let F := Matrix.toLin' !![(2 : ℚ), 1; 0, 2]
-    let G := Matrix.toLin' !![(3 / 2 : ℚ), 0; -3 / 4, 3 / 2]
-    (∀ x y : Fin 2 → ℚ, (∑ i, F x i * G y i) = 3 * ∑ i, x i * y i) ∧
-      eigenvalues G = {3 / 2, 3 / 2} ∧
-      Module.finrank (AlgebraicClosure ℚ)
-        (Module.End.maxGenEigenspace (G.baseChange (AlgebraicClosure ℚ)) (3 / 2)) = 2 := by sorry
-
-/-- Distinct operators on the same line can pair perfectly without reciprocal
-symmetry of either spectrum (README 0.16). -/
-example :
-    (∀ x y : ℚ, (2 * x) * (3 * y) = 6 * (x * y)) ∧
-      eigenvalues ((2 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) = {2} ∧
-      eigenvalues ((3 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) = {3} ∧
-      (eigenvalues ((2 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ))).map
-        (fun α => 6 / α) ≠ eigenvalues ((2 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) := by sorry
-
-/-- Positive traces fail to determine the characteristic polynomial in characteristic
-p, even when dimensions agree (README 0.10). -/
-example (p : ℕ) [Fact p.Prime] :
-    let F : (Fin p → ZMod p) →ₗ[ZMod p] (Fin p → ZMod p) := LinearMap.id
-    let G : (Fin p → ZMod p) →ₗ[ZMod p] (Fin p → ZMod p) := 0
-    (∀ k : ℕ, 0 < k → LinearMap.trace (ZMod p) (Fin p → ZMod p) (F ^ k) =
-      LinearMap.trace (ZMod p) (Fin p → ZMod p) (G ^ k)) ∧ F.charpoly ≠ G.charpoly := by sorry
-
-/-- Purity of the zero space is vacuous but its zeroth exterior power is a line.
-This catches an exterior-purity statement that drops `q > 1` (README 0.14). -/
-example :
-    IsPure 1 0 (LinearMap.id : (Fin 0 → ℚ) →ₗ[ℚ] (Fin 0 → ℚ)) ∧
-      ¬ IsPure 1 0 (exteriorPower.map 0
-        (LinearMap.id : (Fin 0 → ℚ) →ₗ[ℚ] (Fin 0 → ℚ))) := by sorry
-
-/-- The rational operator with eigenvalues 1 ± √2 has no rational stable line;
-its fixed-ι weight lines therefore require coefficient extension (README 0.18). -/
-example :
-    let F := Matrix.toLin' !![(1 : ℚ), 2; 1, 1]
-    ∀ U : Submodule ℚ (Fin 2 → ℚ), (∀ x ∈ U, F x ∈ U) → Module.finrank ℚ U ≠ 1 := by sorry
-
-/-- Every complex embedding gives the repeated Jordan root weight two, while
-rotation roots have weight one (README 0.7). -/
-example (ι : AlgebraicClosure ℚ →+* ℂ) :
-    IsIotaPureEnd ι 2 2 (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) ∧
-      IsIotaPureEnd ι 2 1 (Matrix.toLin' !![(0 : ℚ), -2; 1, 0]) ∧
-      iotaWeights ι 2 (Matrix.toLin' !![(0 : ℚ), -2; 1, 0]) = {1} := by sorry
-
-end NumericCounterexamples
 
 /-! ## Stalkwise operations. A mixed subsheaf filtration still requires the genuine category. -/
 section PunctualOperations
@@ -814,42 +559,7 @@ theorem pure_real_envelope (ι : AlgebraicClosure E →+* ℂ) (q : X → ℝ) (
     IsIotaReal (ι.comp (algebraMap E (AlgebraicClosure E)))
       (fun x => LinearMap.prodMap (F x).toLinearMap (twist (b x) (F x).symm.toLinearMap.dualMap)) := by sorry
 
-/-- Test `real_nonreal_roots`: a real polynomial may have no real root. -/
-example : IsTotallyReal (X := Unit) (E := ℚ) (V := fun _ => Fin 2 → ℚ)
-    (fun _ => Matrix.toLin' !![(0 : ℚ), -2; 1, 1]) ∧
-    (∀ z : ℂ, z ^ 2 - z + 2 = 0 → z.im ≠ 0) := by sorry
-
-/-- Test `real_zero`: the zero stalk has characteristic polynomial one. -/
-example : IsTotallyReal (X := Unit) (E := ℚ) (V := fun _ => Fin 0 → ℚ)
-    (fun _ => LinearMap.id) := by sorry
-
-/-- Test `real_envelope_line`: the reciprocal-normalized pair has coefficient 6/5. -/
-example : IsIotaReal (X := Unit) (E := ℂ) (V := fun _ => Fin 2 → ℂ) (RingHom.id ℂ)
-    (fun _ => Matrix.toLin' !![((3 + 4 * Complex.I) / 5 : ℂ), 0;
-      0, (3 - 4 * Complex.I) / 5]) ∧
-    (Matrix.toLin' !![((3 + 4 * Complex.I) / 5 : ℂ), 0;
-      0, (3 - 4 * Complex.I) / 5]).charpoly = Polynomial.X ^ 2 - C (6 / 5) * Polynomial.X + 1 := by sorry
-
-/-- The point line with scalar √2 is totally real and has an irrational coefficient
-(README 5.4). -/
-example : IsTotallyReal (X := Unit) (E := ℝ) (V := fun _ => ℝ)
-    (fun _ => Real.sqrt 2 • LinearMap.id) ∧
-    ¬ ∃ r : ℚ, Real.sqrt 2 = (r : ℝ) := by sorry
-
-/-- The real cube root of 2 is real in the usual embedding but not totally real
-(README 5.4). -/
-example (s : ℝ) (hs : s ^ 3 = 2) :
-    IsIotaReal (X := Unit) (E := ℝ) (V := fun _ => ℝ) Complex.ofRealHom
-      (fun _ => s • LinearMap.id) ∧
-    ¬ IsTotallyReal (X := Unit) (E := ℝ) (V := fun _ => ℝ)
-      (fun _ => s • LinearMap.id) := by sorry
-
-/-- The point line with scalar i fails reality in the usual embedding (README 5.4). -/
-example : ¬ IsIotaReal (X := Unit) (E := ℂ) (V := fun _ => ℂ) (RingHom.id ℂ)
-    (fun _ => Complex.I • LinearMap.id) := by sorry
-
 end RealityCore
-
 
 /-! ## Spectral mapping and weight decomposition (DWP.0)
 -/
@@ -1292,7 +1002,6 @@ theorem twist_mapsTo_iff (b : Eˣ) (F : V →ₗ[E] V) (U : Submodule E V) :
 
 end FurtherSpectral
 
-
 section AllEmbeddingsEndomorphism
 variable {E V : Type} [Field E] [Algebra ℚ E] [AddCommGroup V] [Module E V]
     [FiniteDimensional E V]
@@ -1347,15 +1056,13 @@ end CharacteristicSeries
 
 end TauCeti.Weights
 
-
 namespace TauCeti.Weights
 
 /-! ## Integral Frobenius modules (`DeligneWeightsAndPurity:DWP.7/integral-sheaf`)
 
 A sheaf on a scheme of finite type over `ℤ[1/ℓ]` is integral when every Frobenius element at
 every closed point acts on the stalk with algebraic-integer eigenvalues; on `Spec 𝔽_q` a sheaf is
-a Frobenius module and the predicate is `IsIntegralEnd` of the geometric Frobenius. The tests are
-stated on rational models of the Frobenius modules. -/
+a Frobenius module and the predicate is `IsIntegralEnd` of the geometric Frobenius. -/
 
 section IntegralEnd
 
@@ -1389,25 +1096,6 @@ theorem IsIntegralEnd.tensor {W : Type*} [AddCommGroup W] [Module E W] [FiniteDi
     IsIntegralEnd (TensorProduct.map F G) := by sorry
 
 end IntegralEnd
-
-/-- Test `isIntegralEnd_tate_neg_one`: `ℚ̄_ℓ(−1)` on `Spec 𝔽_q` (here `q = 2`), where `F` acts
-by `q`, is integral. -/
-example : IsIntegralEnd ((2 : ℚ) • LinearMap.id : ℚ →ₗ[ℚ] ℚ) := by sorry
-
-/-- Test `not_isIntegralEnd_tate_one`: `ℚ̄_ℓ(1)` (`F` acts by `q⁻¹`, `q = 2`) is pure of weight
-`−2` but not integral. -/
-example : ¬ IsIntegralEnd ((2 : ℚ)⁻¹ • LinearMap.id : ℚ →ₗ[ℚ] ℚ) := by sorry
-
-/-- Test `not_isIntegralEnd_weight_zero`: the rotation with eigenvalues `(3 ± 4i)/5` (all
-complex absolute values `1`, weight `0`) is not integral. -/
-example : ¬ IsIntegralEnd (Matrix.toLin' !![(3 / 5 : ℚ), -4 / 5; 4 / 5, 3 / 5]) := by sorry
-
-/-- Test `isIntegralEnd_zero`: the zero Frobenius module is integral. -/
-example : IsIntegralEnd (0 : (Fin 0 → ℚ) →ₗ[ℚ] (Fin 0 → ℚ)) := by sorry
-
-/-- Test `isIntegralEnd_jordan`: the Jordan block `[[2, 1], [0, 2]]` is integral; integrality
-reads the characteristic polynomial `(T − 2)²`. -/
-example : IsIntegralEnd (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) := by sorry
 
 /-! ## The p-adic couple of a pure number (`DeligneWeightsAndPurity:DWP.7/newton-couples-3-3-7`) -/
 
@@ -1449,38 +1137,12 @@ theorem newtonCouple_div_pow (v : AddValuation K (WithTop ℚ)) {q : K} (hq : v 
 
 end NewtonCouple
 
-/-- Test `newtonCouple_fst_add_snd`: for `v q = 1` and `α ≠ 0`, `r + s = n`. -/
-example {K : Type*} [Field K] (v : AddValuation K (WithTop ℚ)) (q α : K) (hq : v q = 1)
-    (hα : α ≠ 0) :
-    (newtonCouple v q 1 α).1 + (newtonCouple v q 1 α).2 = ((1 : ℚ) : WithTop ℚ) := by sorry
-
-/-- Test `newtonCouple_supersingular`: if `α² = −p` and `v p = 1`, the couple of `α` (weight
-`1`, `q = p`) is `(1/2, 1/2)`. -/
-example {K : Type*} [Field K] (v : AddValuation K (WithTop ℚ)) (p α : K) (hp : v p = 1)
-    (hα : α ^ 2 = -p) :
-    newtonCouple v p 1 α = (((1 / 2 : ℚ) : WithTop ℚ), ((1 / 2 : ℚ) : WithTop ℚ)) := by sorry
-
-/-- Test `newtonCouple_ordinary`: `q = 5`, `α = 1 + 2i` with `v α = 1` at the place over `5`
-dividing it: the couple is `(1, 0)`. -/
-example {K : Type*} [Field K] (v : AddValuation K (WithTop ℚ)) (α : K) (h5 : v 5 = 1)
-    (hα : v α = 1) (hα0 : α ≠ 0) :
-    newtonCouple v 5 1 α = (((1 : ℚ) : WithTop ℚ), ((0 : ℚ) : WithTop ℚ)) := by sorry
-
-/-- Test `newtonCouple_tate`: `α = q^m` (weight `2m`) has couple `(m, m)`. -/
-example {K : Type*} [Field K] (v : AddValuation K (WithTop ℚ)) (q : K) (hq : v q = 1)
-    (hq0 : q ≠ 0) (m : ℕ) :
-    newtonCouple v q (2 * m) (q ^ m) = (((m : ℚ) : WithTop ℚ), ((m : ℚ) : WithTop ℚ)) := by sorry
-
-/-- Test `newtonCouple_nonintegral`: `α = q⁻¹` (weight `−2`) has couple `(−1, −1)`. -/
-example {K : Type*} [Field K] (v : AddValuation K (WithTop ℚ)) (q : K) (hq : v q = 1)
-    (hq0 : q ≠ 0) :
-    newtonCouple v q (-2) q⁻¹ = (((-1 : ℚ) : WithTop ℚ), ((-1 : ℚ) : WithTop ℚ)) := by sorry
-
 /-- Test `newtonCouple_zero_base`: the multiplication formula fails for a zero base and
-integer weights `1` and `−1`. This catches the missing `q ≠ 0` hypothesis. -/
+integer weights `1` and `−1`, exhibiting the necessity of `q ≠ 0`. -/
 example {K : Type*} [Field K] (v : AddValuation K (WithTop ℚ)) :
     newtonCouple v 0 (1 + (-1)) (1 * 1) ≠
-      newtonCouple v 0 1 1 + newtonCouple v 0 (-1) 1 := by sorry
+      newtonCouple v 0 1 1 + newtonCouple v 0 (-1) 1 := by
+  simp [newtonCouple]
 
 /-! ## Geometric semisimplicity (`DeligneWeightsAndPurity:DWP.8/geometric-semisimplicity`)
 
@@ -1496,7 +1158,6 @@ variable {E W V : Type*} [Field E] [Group W] [AddCommGroup V] [Module E V]
 def IsGeometricallySemisimple (ρ : Representation E W V) (G : Subgroup W) : Prop :=
   IsSemisimpleModule (MonoidAlgebra E G) (Representation.asModule (ρ.comp G.subtype))
 
-
 /-- A finite-dimensional semisimple representation restricts semisimply to a normal subgroup.
 The irreducible case already exists at the Tau Ceti pin as
 `TauCeti.Representation.isSemisimpleRepresentation_comp_subtype` in
@@ -1507,32 +1168,6 @@ theorem IsGeometricallySemisimple.of_isSemisimple [FiniteDimensional E V] (ρ : 
     IsGeometricallySemisimple ρ G := by sorry
 
 end GeometricSemisimplicity
-
-/-- Test `isGeometricallySemisimple_jordan`: on `Spec 𝔽_q` (trivial geometric group) the Weil
-sheaf on which `F` acts by `[[1, 1], [0, 1]]` is geometrically semisimple but not arithmetically
-semisimple. -/
-example (ρ : Representation ℚ (Multiplicative ℤ) (Fin 2 → ℚ))
-    (hρ : ρ (Multiplicative.ofAdd 1) = Matrix.toLin' !![(1 : ℚ), 1; 0, 1]) :
-    IsGeometricallySemisimple ρ ⊥ ∧
-      ¬ IsSemisimpleModule (MonoidAlgebra ℚ (Multiplicative ℤ)) ρ.asModule := by sorry
-
-/-- Test `not_isGeometricallySemisimple_kummer`: a geometric monodromy group generated by a
-nontrivial unipotent element (the Kummer extension of `ℚ̄_ℓ` by `ℚ̄_ℓ(1)` on `𝔾_m`) is not
-semisimple. -/
-example (ρ : Representation ℚ (Multiplicative ℤ) (Fin 2 → ℚ))
-    (hρ : ρ (Multiplicative.ofAdd 1) = Matrix.toLin' !![(1 : ℚ), 1; 0, 1]) :
-    ¬ IsGeometricallySemisimple ρ ⊤ := by sorry
-
-/-- Test `isGeometricallySemisimple_point`: with trivial geometric group every representation is
-geometrically semisimple. -/
-example {W V : Type*} [Group W] [AddCommGroup V] [Module ℚ V] (ρ : Representation ℚ W V) :
-    IsGeometricallySemisimple ρ ⊥ := by sorry
-
-/-- Test `isGeometricallySemisimple_of_semisimple`: semisimple implies semisimple on a normal
-subgroup. -/
-example {W V : Type*} [Group W] [AddCommGroup V] [Module ℚ V] [FiniteDimensional ℚ V]
-    (ρ : Representation ℚ W V) (G : Subgroup W) [G.Normal]
-    (h : IsSemisimpleModule (MonoidAlgebra ℚ W) ρ.asModule) : IsGeometricallySemisimple ρ G := by sorry
 
 end TauCeti.Weights
 
@@ -1553,14 +1188,6 @@ theorem restrict_invariants_nondegenerate (ρ : Representation K G V)
     (B.restrict ρ.invariants).Nondegenerate := by sorry
 
 end InvariantForm
-
-/-- Complete reducibility is necessary in (4.1.4): for the unipotent
-action of `ℤ` on `ℚ²` and `B = det`, the invariant line is isotropic. -/
-example (ρ : Representation ℚ (Multiplicative ℤ) (Fin 2 → ℚ))
-    (hρ : ρ (Multiplicative.ofAdd 1) = Matrix.toLin' !![(1 : ℚ), 1; 0, 1])
-    (B : LinearMap.BilinForm ℚ (Fin 2 → ℚ)) (hB : ∀ x y, B x y = x 0 * y 1 - x 1 * y 0) :
-    ¬ (B.restrict ρ.invariants).Nondegenerate := by sorry
-
 
 section LefschetzDecomposition
 
@@ -1677,31 +1304,12 @@ theorem injOn_lefschetzDecomposition (𝒱 : ℤ → Submodule K V)
     Set.InjOn (lam ^ k) (primitivePiece 𝒱 lam n (r + 2 * k)) ∧
       Set.InjOn (lam ^ (r + k)) (primitivePiece 𝒱 lam n (r + 2 * k)) := by sorry
 
-/-- On a three-step Lefschetz chain, only the bottom vector is primitive.
-The upper decomposition sends it to degree four by λ² (README 9.7). -/
-example :
-    let 𝒱 : ℤ → Submodule ℚ (Fin 3 → ℚ) := fun j =>
-      if j = 0 then Submodule.span ℚ {![1, 0, 0]} else
-      if j = 2 then Submodule.span ℚ {![0, 1, 0]} else
-      if j = 4 then Submodule.span ℚ {![0, 0, 1]} else ⊥
-    let lam := Matrix.toLin' !![(0 : ℚ), 0, 0; 1, 0, 0; 0, 1, 0]
-    primitivePiece 𝒱 lam 2 2 = 𝒱 0 ∧
-      primitivePiece 𝒱 lam 2 0 = ⊥ ∧
-      (primitivePiece 𝒱 lam 2 2).map (lam ^ 2) = 𝒱 4 := by sorry
-
-/-- The primitive kernel has exponent r+1: replacing it by r discards the
-bottom vector of this length-three chain. -/
-example :
-    let 𝒱 : ℤ → Submodule ℚ (Fin 3 → ℚ) := fun j =>
-      if j = 0 then Submodule.span ℚ {![1, 0, 0]} else ⊥
-    let lam := Matrix.toLin' !![(0 : ℚ), 0, 0; 1, 0, 0; 0, 1, 0]
-    primitivePiece 𝒱 lam 2 2 ≠ 𝒱 0 ⊓ LinearMap.ker (lam ^ 2) := by sorry
-
 /-- The primitive construction uses the specified degree even when the operator
 is zero: only degree zero exists in this one-dimensional grading. -/
 example :
     let 𝒱 : ℤ → Submodule ℚ ℚ := fun j => if j = 0 then ⊤ else ⊥
-    primitivePiece 𝒱 0 0 0 = ⊤ ∧ primitivePiece 𝒱 0 0 1 = ⊥ := by sorry
+    primitivePiece 𝒱 0 0 0 = ⊤ ∧ primitivePiece 𝒱 0 0 1 = ⊥ := by
+  simp [primitivePiece]
 
 end LefschetzDecomposition
 
