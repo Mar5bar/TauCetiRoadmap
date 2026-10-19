@@ -476,7 +476,10 @@ that detect loss of a local or global condition.
 ### Rational endomorphisms, including geometric complex multiplication
 
 Prove that for every elliptic curve E over ℚ, every ℚ-defined endomorphism is
-multiplication by a unique integer, so `End_ℚ(E) ≃+* ℤ`. Use the action on the
+multiplication by a unique integer, so `End_ℚ(E) ≃+* ℤ`.
+The milestone `rationalEndomorphisms_eq_int` uses the pinned
+`TauCeti.AlgebraicGeometry.AbelianVariety.End` ring for any abelian variety A over ℚ
+with `A.dim = 1`. Use the action on the
 one-dimensional rational invariant-differential line to embed `End_ℚ(E)` into ℚ:
 in characteristic zero a nonzero elliptic endomorphism is separable and has nonzero
 differential. Every endomorphism is integral over ℤ (the degree/dual-isogeny quadratic
@@ -518,6 +521,8 @@ but rationality of a chosen generator does not.
   degree three. It is stable even though it has no rational nonzero generator:
   `AddSubgroup.torsionBy curveIsogenyOnly.toAffine.Point (7 : ℤ) = ⊥`.
   Its good reduction at 5 has six points, excluding rational seven-torsion.
+  The named boundary target `rationalCyclicSubgroup_without_rational_generator`
+  asserts the stable order-7 subgroup and the absence of rational seven-torsion together.
 
 ### The exceptional set
 
@@ -543,7 +548,9 @@ quantify over every prime at which the displayed model has a denominator, nor ov
 bad reduction types.
 
 The API has the following assertions. `exceptionalPrimes_finite` states that `Σ_E`
-is finite. `irreducible_of_not_mem` states that, for a prime `p∉Σ_E`, `E[p]`
+is finite. Its consequence `nonexceptionalPrimes_infinite` states that
+`{p : ℕ | p.Prime ∧ p ∉ exceptionalPrimes E}` is infinite.
+`irreducible_of_not_mem` states that, for a prime `p∉Σ_E`, `E[p]`
 is irreducible over `𝔽_p`. `goodReduction_of_not_mem` gives good reduction at
 `p`, and `not_dvd_conductor_of_not_mem` presents its equivalent arithmetic form. The
 first two names above give the defining set and the rational-subgroup predicate; users
@@ -628,10 +635,12 @@ target. The formulas are those of Silverman, AEC III.1 and Mathlib's
 
 ### Checks of all four exceptional-set clauses
 
-The following Checks assume the displayed reduction, point and subgroup data for the
-concrete nonsingular equations. They specify mathematical implications of those inputs,
-not separate targets to compute the data. They distinguish the
-small-prime, bad-reduction, valuation, and rational-isogeny clauses; membership alone in
+The named boundary targets `exceptionalPrimes_valuation_only` and
+`exceptionalPrimes_isogeny_only` establish membership together with good reduction at 7
+and the absence of the competing clause: no rational 7-isogeny in the first case, and
+no multiplicative valuation divisible by 7 in the second. The remaining Checks assume
+the displayed reduction, point and subgroup data for the concrete nonsingular equations.
+They distinguish the small-prime, bad-reduction, valuation, and rational-isogeny clauses; membership alone in
 an example satisfying two clauses does not test either one separately.
 
 * `exceptionalPrimes_11a1`: for
@@ -671,7 +680,8 @@ an example satisfying two clauses does not test either one separately.
   test detects deletion of the rational-isogeny clause, and also
   distinguishes a rational subgroup from a rational generator.
 
-The displayed arithmetic values are explicit hypotheses of these worked Checks.
+Apart from the named boundary targets, the displayed arithmetic values are explicit
+hypotheses of these worked Checks.
 The roadmap does not ask for tables, point-enumeration procedures or an algorithm for
 recognizing modular curves. Their mathematical interpretation uses the curve invariant
 and point-group APIs. The
@@ -737,6 +747,10 @@ containing `p`. Its residue field has characteristic `p`. The operation
 `serreWitness E hp h` selects these data for a prime `p` with primality proof `hp`
 and `h : p∉Σ_E`, using ClassicalSerreModularity §R27.6. It has no residual modularity
 input; no selection is asserted at an exceptional prime.
+The milestone `exists_serreWitness_family` states its statable projection: there is one
+positive level N and, for every prime outside `Σ_E`, a `SerreWitness N p` with trivial
+character and all trace congruences away from Np. The conductor comparison identifies
+this same N with `N_E`; it is independent of p.
 
 The character and comparison properties are accessed through the API:
 
@@ -790,6 +804,9 @@ if `ζ≠1`, the sum of the `m` powers is zero, but its reduction is `m`, which 
 nonzero in characteristic `p`. This proof also makes the prime-to-`p` condition
 explicit.
 
+The milestone `character_eq_one_of_sub_mem` gives the character consequence for any
+finite group G: an algebraic-integer-valued unit character reducing to 1 at a prime
+above p is trivial if p does not divide `#G`.
 Consequently, if a character `ε` of `(ℤ/Nℤ)^×` takes
 algebraic-integer root-of-unity values, reduces to 1 at a prime above `p`, and
 `p∤φ(N)`, then `ε=1`. The order of every value divides `φ(N)`.
@@ -1621,7 +1638,8 @@ the acceptance condition for this equivalence.
 
 `LSeriesSummable (fun n => (lCoeff E n : ℂ)) s`.
 
-Establish `|a_n(E)| ≤ d(n)√n` for `n≥1`, where `d(n)` counts positive divisors.
+The milestone `lCoeff_abs_le_divisor_sqrt` establishes
+`|a_n(E)| ≤ d(n)√n` for `n≥1`, where `d(n) = n.divisors.card` counts positive divisors.
 At a good prime ℓ, Hasse's bound makes the roots α, β of `X²-a_ℓ(E)X+ℓ`
 have absolute value `√ℓ`. The R29.4 recurrence gives
 `a_(ℓ^m)(E)=∑_(i=0)^m α^i β^(m-i)`, hence
@@ -1653,8 +1671,10 @@ bound and summability deduction are targets here. Use Mathlib
 
 Put `F_E = newformOf E`.
 `LFunction_eq E` gives equality of the formal Dirichlet coefficients of `E` and `F_E`.
-The selected-form continuation theorem `exists_entire_completed_LSeries E`
-is unconditional; the attached-form version
+The continuation theorem `exists_entire_completed_LSeries E`
+is unconditional; its pinned signature exhibits a positive level N together with an
+attached form and the entire completed function using N. The exact-conductor comparison
+identifies N with `N_E`. The attached-form version
 `IsNewformOf.exists_entire_completed_LSeries` instead takes attachment directly.
 By the local factor theorem of R29.4, their Euler products include identical factors at
 bad primes as well as good primes. By `lCoeff_LSeriesSummable` and the all-coefficient
