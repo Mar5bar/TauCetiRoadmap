@@ -254,6 +254,52 @@ example : IsParallelWeight (fun (τ : Fin 2) (i : Fin 2) =>
   simp only [IsParallelWeight, parallelWeight]
   decide
 
+/-- A singleton set of embeddings imposes no comparison between different weights (README §4.18). -/
+example (wt : Fin 1 → Fin 2 → ℤ) : IsParallelWeight wt := by
+  simp [IsParallelWeight]
+
+/-- Two conjugate pairs can have common purity sum and unequal weight differences (README §4.18). -/
+example :
+    let wt : Fin 4 → Fin 2 → ℤ := ![![0, 0], ![0, 0], ![1, -1], ![1, -1]]
+    (wt 0 0 + wt 1 1 = 0 ∧ wt 1 0 + wt 0 1 = 0) ∧
+    (wt 2 0 + wt 3 1 = 0 ∧ wt 3 0 + wt 2 1 = 0) ∧ ¬ IsParallelWeight wt := by
+  dsimp only
+  simp only [IsParallelWeight]
+  decide
+
+/-- The order-two determinant component contains a matrix outside SU₂ (README §4.39). -/
+example :
+    (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ∈ Matrix.unitaryGroup (Fin 2) ℂ ∧
+    Matrix.det (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ^ 2 = 1 ∧
+    (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ∉
+      Matrix.specialUnitaryGroup (Fin 2) ℂ := by
+  constructor
+  · rw [Matrix.mem_unitaryGroup_iff]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      norm_num [Matrix.mul_apply, Fin.sum_univ_two, Matrix.star_apply]
+  · norm_num [Matrix.mem_specialUnitaryGroup_iff, Matrix.det_fin_two]
+
+/-- The same determinant is excluded from the order-three group (README §4.39). -/
+example : Matrix.det (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ^ 3 ≠ 1 := by
+  norm_num [Matrix.det_fin_two]
+
+/-- A cubic root gives an order-three determinant component (README §4.39). -/
+example (ζ : ℂ) (hζ : IsPrimitiveRoot ζ 3) :
+    (!![ζ, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ∈ Matrix.unitaryGroup (Fin 2) ℂ ∧
+    Matrix.det (!![ζ, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ^ 3 = 1 := by
+  have hn : ‖ζ‖ = 1 := Complex.norm_eq_one_of_pow_eq_one hζ.pow_eq_one (by decide)
+  have hc : ζ * (starRingEnd ℂ) ζ = 1 := by
+    rw [Complex.mul_conj]
+    rw [Complex.normSq_eq_norm_sq, hn]
+    norm_num
+  constructor
+  · rw [Matrix.mem_unitaryGroup_iff]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.star_apply, hc]
+  · simpa [Matrix.det_fin_two] using hζ.pow_eq_one
+
 end SymmetricPower
 
 /-! ## Numerical convention witnesses -/
@@ -322,9 +368,6 @@ example : (((1 - 3 : ℤ) : ZMod 2) = (2 : ZMod 2)) ∧
     (((1 - 3 : ℤ) : ZMod 2) ≠ (1 : ZMod 2)) ∧
     ((1 + 1 : ℤ), (0 + 2 : ℤ)) = (2, 2) := by decide
 
-/-- The Adams–Johnson weak good range includes a zero root pairing and excludes `-1` (README §3.20). -/
-example : (0 : ℤ) ≤ 0 ∧ ¬ (0 : ℤ) ≤ -1 := by decide
-
 /-- Nonpositive pole orders summing to `-1` are `(-1, 0)` or `(0, -1)`: boundary nonvanishing rules
 out cancellation of a higher pole by a zero (README §3.3). -/
 example (a b : ℤ) (ha : a ≤ 0) (hb : b ≤ 0) (hab : a + b = -1) :
@@ -344,6 +387,56 @@ example : (-1 : ℤ) ^ (2 - 1) = -1 ∧ (-1 : ℤ) ^ (5 - 1) = 1 := by decide
 /-- The normalized Jacquet factor and the spectrum twist are different powers (README §4.3). -/
 example : (Real.sqrt ((9 : ℝ)⁻¹))⁻¹ = 3 ∧ (((9 : ℝ)⁻¹)⁻¹) = 9 := by
   norm_num
+
+/-- The double-root quotient retains a nonzero nilpotent (README §1.8, with a=1). -/
+example :
+    let f := (Polynomial.X - 1 : Polynomial ℚ) ^ 2
+    let e := AdjoinRoot.root f - 1
+    e ^ 2 = 0 ∧ e ≠ 0 := by
+  dsimp only
+  constructor
+  · have h := AdjoinRoot.mk_self (f := (Polynomial.X - 1 : Polynomial ℚ) ^ 2)
+    rw [map_pow, map_sub, AdjoinRoot.mk_X, map_one] at h
+    exact h
+  · have hmon : ((Polynomial.X - 1 : Polynomial ℚ) ^ 2).Monic :=
+      (Polynomial.monic_X_sub_C 1).pow 2
+    have hne : (Polynomial.X - 1 : Polynomial ℚ) ≠ 0 := by
+      simpa only [Polynomial.C_1] using Polynomial.X_sub_C_ne_zero (1 : ℚ)
+    have hdeg : (Polynomial.X - 1 : Polynomial ℚ).natDegree <
+        ((Polynomial.X - 1 : Polynomial ℚ) ^ 2).natDegree := by
+      have hd : (Polynomial.X - 1 : Polynomial ℚ).natDegree = 1 := by
+        simpa only [Polynomial.C_1] using Polynomial.natDegree_X_sub_C (1 : ℚ)
+      rw [Polynomial.natDegree_pow, hd]
+      norm_num
+    simpa using AdjoinRoot.mk_ne_zero_of_natDegree_lt hmon hne hdeg
+
+/-- The six exterior-square diagonal entries have determinant the cube of the original
+four-dimensional determinant, including noninvertible inputs (README §1.14). -/
+example (a b c d : ℚ) :
+    Matrix.det (Matrix.diagonal ![a*b, a*c, a*d, b*c, b*d, c*d]) =
+      Matrix.det (Matrix.diagonal ![a, b, c, d]) ^ 3 := by
+  simp only [Matrix.det_diagonal, Fin.prod_univ_succ, Matrix.cons_val_zero,
+    Matrix.cons_val_succ, Fin.prod_univ_zero, mul_one]
+  ring
+
+/-- The rational point of the first exceptional conic (README §2.30). -/
+example : (3 : ℚ)^2 + 3 * 2^2 + 6 * 2 - 33 = 0 := by norm_num
+
+/-- Binary-place weights have distinct subset sums; the consecutive triple collides
+(README §2.45). -/
+example :
+    Function.Injective (fun b : Fin 3 → Fin 2 =>
+      ∑ i, (![1, 2, 4] : Fin 3 → ℕ) i * (b i : ℕ)) ∧
+    ¬ Function.Injective (fun b : Fin 3 → Fin 2 =>
+      ∑ i, (![1, 2, 3] : Fin 3 → ℕ) i * (b i : ℕ)) := by decide
+
+/-- The binary-polyhedral irreducible dimensions give the group orders (README §4.13). -/
+example :
+    (([1, 1, 1, 2, 2, 2, 3] : List ℕ).map (fun d => d^2)).sum = 24 := by decide
+
+example : (([1, 1, 2, 2, 2, 3, 3, 4] : List ℕ).map (fun d => d^2)).sum = 48 := by decide
+
+example : (([1, 2, 2, 3, 3, 4, 4, 5, 6] : List ℕ).map (fun d => d^2)).sum = 120 := by decide
 
 /-!
 The README also specifies the automorphic realization, accessible refinements,
