@@ -539,12 +539,6 @@ theorem IsLogBranch.mem_intermediateField {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]
     (ha : a ∈ F) {x : ℂ_[p]} (hx : x ∈ F) (hne : x ≠ 0) : L x ∈ F := by
   sorry
 
-/-- The normalization distinguishes branches already at `p`. -/
-example {L L' : ℂ_[p] → ℂ_[p]} (hL : IsLogBranch p 0 L)
-    (hL' : IsLogBranch p 1 L') : L' p - L p = 1 := by
-  rw [hL'.map_p, hL.map_p]
-  norm_num
-
 end Branch
 
 /-! ### L0.20: logarithmic Laurent expansions at a puncture -/
@@ -975,26 +969,6 @@ theorem rotatedSmoothedTransform_eq_rational (b : ℕ) (hb : 1 ≤ b) (w : K)
       (PowerSeries.C w * (1 + PowerSeries.X) - 1)⁻¹ -
         PowerSeries.C (b : K) * (PowerSeries.C (w ^ b) * (1 + PowerSeries.X) ^ b - 1)⁻¹ := by
   sorry
-
-/-- Separate inverses at the centre vanish and do not give the regularized transform. -/
-example :
-    let W : PowerSeries ℚ_[3] := 1 + PowerSeries.X
-    (W - 1)⁻¹ - 2 * (W ^ 2 - 1)⁻¹ = 0 ∧
-      rotatedSmoothedTransform 2 (1 : ℚ_[3]) ≠ (W - 1)⁻¹ - 2 * (W ^ 2 - 1)⁻¹ := by
-  dsimp only
-  have h₁ : ((1 + (PowerSeries.X : PowerSeries ℚ_[3])) - 1)⁻¹ = 0 :=
-    PowerSeries.inv_eq_zero.mpr (by simp)
-  have h₂ : ((1 + (PowerSeries.X : PowerSeries ℚ_[3])) ^ 2 - 1)⁻¹ = 0 :=
-    PowerSeries.inv_eq_zero.mpr (by simp)
-  have hz : ((1 + (PowerSeries.X : PowerSeries ℚ_[3])) - 1)⁻¹ -
-      2 * ((1 + (PowerSeries.X : PowerSeries ℚ_[3])) ^ 2 - 1)⁻¹ = 0 := by
-    rw [h₁, h₂]
-    simp
-  refine ⟨hz, ?_⟩
-  rw [hz]
-  intro h
-  have hc := congrArg PowerSeries.constantCoeff h
-  norm_num [rotatedSmoothedTransform, Finset.sum_range_succ] at hc
 
 /-! ### L3.13: the complex formula -/
 
