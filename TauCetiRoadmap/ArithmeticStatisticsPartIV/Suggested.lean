@@ -22,11 +22,34 @@ namespace TauCetiRoadmap.ArithmeticStatisticsPartIV
 def classGroupTorsionCard (K : Type*) [Field K] [NumberField K] (m : ℕ) : ℕ :=
   Nat.card {c : ClassGroup (𝓞 K) // c ^ m = 1}
 
-example (K : Type*) [Field K] [NumberField K] :
+/-- The trivial ideal class supplies positive torsion cardinality. -/
+theorem classGroupTorsionCard_pos (K : Type*) [Field K] [NumberField K] (m : ℕ) :
+    1 ≤ classGroupTorsionCard K m := by sorry
+
+/-- Torsion cardinality divides the class number. -/
+theorem classGroupTorsionCard_dvd_classNumber (K : Type*) [Field K] [NumberField K]
+    (m : ℕ) : classGroupTorsionCard K m ∣ NumberField.classNumber K := by sorry
+
+/-- Coprime torsion orders give independent factors in the class group. -/
+theorem classGroupTorsionCard_mul_of_coprime (K : Type*) [Field K] [NumberField K]
+    {m n : ℕ} (h : m.Coprime n) :
+    classGroupTorsionCard K (m * n) = classGroupTorsionCard K m * classGroupTorsionCard K n :=
+  by sorry
+
+/-- The one-torsion consists of the trivial ideal class. -/
+theorem classGroupTorsionCard_one (K : Type*) [Field K] [NumberField K] :
     classGroupTorsionCard K 1 = 1 := by sorry
-example (K : Type*) [Field K] [NumberField K] :
+
+/-- Wide two-torsion has the cardinality of the elementary two-quotient. -/
+theorem classGroupTorsionCard_two_eq_elementaryTwoQuotient
+    (K : Type*) [Field K] [NumberField K] :
     classGroupTorsionCard K 2 =
       Nat.card (TauCeti.ClassGroup.ElementaryTwoQuotient (𝓞 K)) := by sorry
+
+/-- Rational algebra isomorphisms preserve class-group torsion counts. -/
+theorem classGroupTorsionCard_congr (K L : Type*) [Field K] [NumberField K]
+    [Field L] [NumberField L] (e : K ≃ₐ[ℚ] L) (m : ℕ) :
+    classGroupTorsionCard K m = classGroupTorsionCard L m := by sorry
 
 /-- Gaussian polynomials with natural coefficients and a separate zero column. -/
 def gaussBinomPoly : ℕ → ℕ → ℕ[X]
@@ -40,22 +63,48 @@ def gaussBinomPoly : ℕ → ℕ → ℕ[X]
 def gaussBinom {R : Type*} [CommSemiring R] (t : R) (n k : ℕ) : R :=
   (gaussBinomPoly n k).eval₂ (Nat.castRingHom R) t
 
-example : gaussBinom (2 : ℕ) 4 2 = 35 := by sorry
-example : gaussBinom (1 : ℕ) 5 2 = 10 := by sorry
-example : gaussBinom (2 : ℕ) 3 1 = 7 := by sorry
-example : gaussBinom (2 : ℕ) 2 1 = 3 := by sorry
-example {R : Type*} [CommSemiring R] (t : R) (n : ℕ) :
+/-- Gaussian coefficients have constant zero column. -/
+theorem gaussBinom_zero_right {R : Type*} [CommSemiring R] (t : R) (n : ℕ) :
     gaussBinom t n 0 = 1 := by sorry
-example {R : Type*} [CommSemiring R] (t : R) : gaussBinom t 0 0 = 1 := by sorry
-example {R : Type*} [CommSemiring R] (t : R) (k : ℕ) :
-    gaussBinom t 0 (k + 1) = 0 := by sorry
-example {R : Type*} [CommSemiring R] (t : R) {n k : ℕ} (hk : n < k) :
-    gaussBinom t n k = 0 := by sorry
-example {R : Type*} [CommSemiring R] (t : R) {n k : ℕ} (hk : k ≤ n) :
-    gaussBinom t n k = gaussBinom t n (n - k) := by sorry
-example {R : Type*} [CommSemiring R] (t : R) :
-    gaussBinom t 1 1 = gaussBinom t 0 0 + t * gaussBinom t 0 1 := by sorry
-example : gaussBinom (2 : ℕ) 3 4 = 0 ∧ gaussBinom (2 : ℕ) 3 (3 - 4) = 1 := by sorry
+
+/-- The top-dimensional Gaussian coefficient is one. -/
+theorem gaussBinom_self {R : Type*} [CommSemiring R] (t : R) (n : ℕ) :
+    gaussBinom t n n = 1 := by sorry
+
+/-- Gaussian coefficients vanish above the dimension range. -/
+theorem gaussBinom_eq_zero_of_lt {R : Type*} [CommSemiring R] (t : R)
+    {n k : ℕ} (h : n < k) : gaussBinom t n k = 0 := by sorry
+
+/-- Gaussian coefficients satisfy the successor recursion after evaluation. -/
+theorem gaussBinom_succ_succ {R : Type*} [CommSemiring R] (t : R) (n k : ℕ) :
+    gaussBinom t (n + 1) (k + 1) = gaussBinom t n k + t ^ (k + 1) *
+      gaussBinom t n (k + 1) := by sorry
+
+/-- Gaussian coefficients have the product formula away from its vanishing denominators. -/
+theorem gaussBinom_eq_prod {F : Type*} [Field F] (t : F) {n k : ℕ}
+    (hk : k ≤ n) (ht : ∀ i : ℕ, 1 ≤ i → i ≤ n → t ^ i ≠ 1) :
+    gaussBinom t n k = ∏ i ∈ Finset.range k,
+      (1 - t ^ (n - k + i + 1)) / (1 - t ^ (i + 1)) := by sorry
+
+/-- Complementary dimensions have equal Gaussian coefficients within range. -/
+theorem gaussBinom_symm {R : Type*} [CommSemiring R] (t : R) {n k : ℕ}
+    (hk : k ≤ n) : gaussBinom t n k = gaussBinom t n (n - k) := by sorry
+
+/-- Evaluation at one recovers ordinary binomial coefficients. -/
+theorem gaussBinom_one {R : Type*} [CommSemiring R] (n k : ℕ) :
+    gaussBinom (1 : R) n k = (n.choose k : R) := by sorry
+
+/-- Gaussian coefficients at the field cardinality count subspaces of each dimension. -/
+theorem card_submodules_finrank_eq_gaussBinom (F : Type*) [Field F] [Fintype F]
+    (n k : ℕ) :
+    Nat.card {W : Submodule F (Fin n → F) // Module.finrank F W = k} =
+      gaussBinom (Fintype.card F) n k := by sorry
+
+/-- Cauchy's finite q-binomial identity holds as a polynomial identity over any commutative ring. -/
+theorem cauchy_qBinomial {R : Type*} [CommRing R] (t : R) (n : ℕ) :
+    (∏ i ∈ Finset.range n, (1 + C (t ^ i) * X) : R[X]) =
+      ∑ k ∈ Finset.range (n + 1),
+        C (t ^ (k * (k - 1) / 2) * gaussBinom t n k) * X ^ k := by sorry
 
 /-- Euler's positive q-binomial series sums to its convergent infinite product. -/
 theorem euler_qBinomial_sum {q : ℝ} (hq0 : 0 < q) (hq1 : q < 1) :
@@ -68,12 +117,31 @@ theorem euler_qBinomial_sum {q : ℝ} (hq0 : 0 < q) (hq1 : q < 1) :
 def surjCard (X A : Type*) [AddCommGroup X] [AddCommGroup A] : ℕ :=
   Nat.card {f : X →+ A // Function.Surjective f}
 
-example {p : ℕ} (hp : p.Prime) : surjCard (ZMod (p ^ 2)) (ZMod p) = p - 1 := by sorry
-example {p : ℕ} (hp : p.Prime) :
-    surjCard (ZMod p × ZMod p) (ZMod p) = p ^ 2 - 1 := by sorry
-example : surjCard (ZMod 5) (ZMod 1) = 1 := by sorry
-example {p : ℕ} (hp : p.Prime) : surjCard (ZMod p) (ZMod (p ^ 2)) = 0 := by sorry
-example {p : ℕ} (hp : p.Prime) : Nat.card (ZMod p →+ ZMod (p ^ 2)) = p := by sorry
+/-- Additive isomorphisms of both groups preserve the surjection count. -/
+theorem surjCard_congr {X X' A A' : Type*} [AddCommGroup X] [AddCommGroup X']
+    [AddCommGroup A] [AddCommGroup A'] (e : X ≃+ X') (f : A ≃+ A') :
+    surjCard X A = surjCard X' A' := by sorry
+
+/-- Surjective endomorphisms of a finite group are exactly its automorphisms. -/
+theorem surjCard_self_eq_card_aut (A : Type*) [AddCommGroup A] [Finite A] :
+    surjCard A A = Nat.card (A ≃+ A) := by sorry
+
+/-- The finite surjection count is bounded by the homomorphism count. -/
+theorem surjCard_le_card_hom (X A : Type*) [AddCommGroup X] [Finite X]
+    [AddCommGroup A] [Finite A] : surjCard X A ≤ Nat.card (X →+ A) := by sorry
+
+/-- There is exactly one surjection to the trivial additive group. -/
+theorem surjCard_punit (X : Type*) [AddCommGroup X] : surjCard X PUnit = 1 := by sorry
+
+/-- A smaller finite group cannot surject onto a larger one. -/
+theorem surjCard_eq_zero_of_card_lt (X A : Type*) [AddCommGroup X] [Finite X]
+    [AddCommGroup A] [Finite A] (h : Nat.card X < Nat.card A) :
+    surjCard X A = 0 := by sorry
+
+/-- Partition counts grow more slowly than the exponential tail in the odd-prime argument. -/
+theorem partition_tail_domination {ℓ : ℕ} (hℓ : 3 ≤ ℓ) (m : ℕ) :
+    Tendsto (fun s : ℕ => (Nat.card (Nat.Partition (s + m)) : ℝ) /
+      (ℓ - 1 : ℝ) ^ s) atTop (𝓝 0) := by sorry
 
 /-- The rational probability of a specified right-kernel dimension for a uniform matrix. -/
 def matrixKernelLaw (F : Type*) [Field F] [Fintype F] (m n j : ℕ) : ℚ :=
@@ -81,81 +149,31 @@ def matrixKernelLaw (F : Type*) [Field F] [Fintype F] (m n j : ℕ) : ℚ :=
     Module.finrank F (LinearMap.ker M.mulVecLin) = j} : ℚ) /
     (Fintype.card F : ℚ) ^ (m * n)
 
-example : matrixKernelLaw (ZMod 2) 1 1 0 = 1 / 2 := by sorry
-example : matrixKernelLaw (ZMod 2) 1 1 1 = 1 / 2 := by sorry
-example : matrixKernelLaw (ZMod 2) 2 2 0 = 6 / 16 := by sorry
-example : matrixKernelLaw (ZMod 2) 2 2 1 = 9 / 16 := by sorry
-example : matrixKernelLaw (ZMod 2) 2 2 2 = 1 / 16 := by sorry
-example : matrixKernelLaw (ZMod 2) 0 0 0 = 1 := by sorry
+/-- The finite-field right-kernel law has total mass one. -/
+theorem sum_matrixKernelLaw (F : Type*) [Field F] [Fintype F] (m n : ℕ) :
+    ∑ j ∈ Finset.range (n + 1), matrixKernelLaw F m n j = 1 := by sorry
 
-example (n : ℕ) : Nat.card {M : Matrix (Fin n) (Fin n) (ZMod 2) // M.rank = n} =
-    Nat.card (Matrix.GeneralLinearGroup (Fin n) (ZMod 2)) := by sorry
-example : Nat.card {M : Matrix (Fin 2) (Fin 2) (ZMod 2) // M.rank = 1} = 9 := by sorry
-example : Nat.card {M : Matrix (Fin 0) (Fin 0) (ZMod 2) // M.rank = 0} = 1 := by sorry
+/-- Rank-nullity bounds the support of the right-kernel law. -/
+theorem matrixKernelLaw_eq_zero_of_lt (F : Type*) [Field F] [Fintype F]
+    (m n j : ℕ) (h : j < n - m ∨ n < j) : matrixKernelLaw F m n j = 0 := by sorry
 
-example : (∑ j ∈ Finset.range 1, matrixKernelLaw (ZMod 2) 0 0 j /
-    ((2 : ℚ) ^ 0 * (2 ^ (j + 1) - 1))) = 1 := by sorry
-example : (∑ j ∈ Finset.range 2, matrixKernelLaw (ZMod 2) 1 1 j /
-    ((2 : ℚ) * (2 ^ (j + 1) - 1))) = 1 / 3 := by sorry
-example : (∑ j ∈ Finset.range 3, matrixKernelLaw (ZMod 2) 2 2 j /
-    ((2 : ℚ) ^ 2 * (2 ^ (j + 1) - 1))) = 1 / 7 := by sorry
-example : (∑ j ∈ Finset.range 4, matrixKernelLaw (ZMod 2) 3 3 j /
-    ((2 : ℚ) ^ 3 * (2 ^ (j + 1) - 1))) = 1 / 15 := by sorry
-example {m : ℕ} (hm : m ≤ 11) :
+/-- The zero-kernel mass of square matrices is the general linear group proportion. -/
+theorem matrixKernelLaw_zero_eq_card_GL (F : Type*) [Field F] [Fintype F] (n : ℕ) :
+    matrixKernelLaw F n n 0 = (Nat.card (Matrix.GeneralLinearGroup (Fin n) F) : ℚ) /
+      (Fintype.card F : ℚ) ^ (n * n) := by sorry
+
+/-- Rank counts factor into a choice of column space and an onto map to that space. -/
+theorem matrix_rank_count (F : Type*) [Field F] [Fintype F] (m n r : ℕ)
+    (hr : r ≤ min m n) :
+    (Nat.card {M : Matrix (Fin m) (Fin n) F // M.rank = r} : ℚ) =
+      gaussBinom (Fintype.card F : ℚ) m r *
+        ∏ i ∈ Finset.range r, ((Fintype.card F : ℚ) ^ n - (Fintype.card F : ℚ) ^ i) :=
+  by sorry
+
+/-- The finite binary kernel law satisfies the normalized Koymans–Pagano identity. -/
+theorem koymansPaganoRankIdentity (m : ℕ) :
     (∑ j ∈ Finset.range (m + 1), matrixKernelLaw (ZMod 2) m m j /
       ((2 : ℚ) ^ m * (2 ^ (j + 1) - 1))) = 1 / ((2 : ℚ) ^ (m + 1) - 1) := by sorry
-example (j : Fin 4) : matrixKernelLaw (ZMod 2) 3 3 j =
-    (![168, 294, 49, 1] j : ℚ) / 512 := by sorry
-example : (Nat.card {T : Matrix (Fin 1) (Fin 2) (ZMod 2) //
-    Function.Surjective T.mulVecLin ∧ T.mulVecLin ![1, 0] = 0} : ℚ) /
-    Nat.card {T : Matrix (Fin 1) (Fin 2) (ZMod 2) // Function.Surjective T.mulVecLin} =
-      1 / 3 := by sorry
-example : (Nat.card {TU : Matrix (Fin 1) (Fin 2) (ZMod 2) ×
-    Matrix (Fin 1) (Fin 2) (ZMod 2) // Function.Surjective TU.1.mulVecLin ∧
-      TU.1.mulVecLin ![1, 0] = 0 ∧ TU.2.mulVecLin ![1, 0] = 0} : ℚ) /
-    Nat.card {TU : Matrix (Fin 1) (Fin 2) (ZMod 2) × Matrix (Fin 1) (Fin 2) (ZMod 2) //
-      Function.Surjective TU.1.mulVecLin} = 1 / 6 := by sorry
-example : (Nat.card {Ux : Matrix (Fin 1) (Fin 2) (ZMod 2) × (Fin 2 → ZMod 2) //
-    Ux.2 ≠ 0 ∧ Ux.1.mulVecLin Ux.2 = 0 ∧ Ux.1 = 0} : ℚ) /
-    Nat.card {Ux : Matrix (Fin 1) (Fin 2) (ZMod 2) × (Fin 2 → ZMod 2) //
-      Ux.2 ≠ 0 ∧ Ux.1.mulVecLin Ux.2 = 0} = 1 / 2 := by sorry
-example : (1 : ℚ) / Nat.card (Matrix (Fin 1) (Fin 2) (ZMod 2)) = 1 / 4 := by sorry
-
-example (v : Fin 2 → ZMod 2) :
-    v ∈ LinearMap.range (0 : Matrix (Fin 2) (Fin 2) (ZMod 2)).mulVecLin ↔ v = 0 := by sorry
-example : LinearMap.range (Matrix.mulVecLin ![![(0 : ZMod 2), 1], ![1, 0]]) = ⊤ := by sorry
-example (S : Matrix (Fin 0) (Fin 0) (ZMod 2)) (v : Fin 0 → ZMod 2) :
-    v ∈ LinearMap.range S.mulVecLin := by sorry
-example (a : ZMod 2) :
-    Matrix.rank (![![(0 : ZMod 2), 0], ![0, a]]) = if a = 0 then 0 else 1 := by sorry
-example (x : Fin 2 → ZMod 2) :
-    dotProduct x (Matrix.mulVec (![![(0 : ZMod 2), 1], ![1, 0]]) x) = 0 := by sorry
-example (a : ZMod 2) :
-    Matrix.rank (![![(0 : ZMod 2), 1], ![1, a]]) = 2 := by sorry
-example (a : ZMod 2) :
-    Matrix.rank (![![(1 : ZMod 2), 1], ![1, a]]) = if a = 1 then 1 else 2 := by sorry
-example (x : Fin 2 → ZMod 2) (a : ZMod 2) :
-    (Matrix.fromBlocks (![![0, 1], ![1, 0]] : Matrix (Fin 2) (Fin 2) (ZMod 2))
-      (fun i (_ : Fin 1) => Matrix.mulVec (![![0, 1], ![1, 0]]) x i)
-      (fun (_ : Fin 1) j => Matrix.mulVec (![![0, 1], ![1, 0]]) x j)
-      (fun _ _ => a)).rank = if a = 0 then 2 else 3 := by sorry
-
-example (k : Fin 3) : Nat.card {va : (Fin 2 → ZMod 2) × ZMod 2 //
-    Matrix.rank (![![0, 0, va.1 0], ![0, 0, va.1 1], ![va.1 0, va.1 1, va.2]]) = k} =
-    ![1, 1, 6] k := by sorry
-example (k : Fin 3) : Nat.card {va : (Fin 2 → ZMod 3) × ZMod 3 //
-    Matrix.rank (![![1, 0, va.1 0], ![0, 0, va.1 1], ![va.1 0, va.1 1, va.2]]) = k.val + 1} =
-    ![3, 6, 18] k := by sorry
-example (F : Type*) [Field F] [Fintype F] (n : ℕ) :
-    Nat.card {va : (Fin n → F) × F //
-      (Matrix.fromBlocks (1 : Matrix (Fin n) (Fin n) F)
-        (fun i (_ : Fin 1) => va.1 i) (fun (_ : Fin 1) j => va.1 j) (fun _ _ => va.2)).rank = n + 2} = 0 := by sorry
-example (F : Type*) [Field F] [Fintype F] (n : ℕ)
-    (S : Matrix (Fin n) (Fin n) F) (hS : S.IsSymm) :
-    (∑ k ∈ Finset.range (n + 2), Nat.card {va : (Fin n → F) × F //
-      (Matrix.fromBlocks S (fun i (_ : Fin 1) => va.1 i)
-        (fun (_ : Fin 1) j => va.1 j) (fun _ _ => va.2)).rank = k}) =
-      Fintype.card F ^ (n + 1) := by sorry
 
 /-- The rational kernel law for uniform symmetric matrices, including their diagonal entries. -/
 def symmetricKernelLaw (F : Type*) [Field F] [Fintype F] (r n : ℕ) : ℚ :=
@@ -163,40 +181,98 @@ def symmetricKernelLaw (F : Type*) [Field F] [Fintype F] (r n : ℕ) : ℚ :=
     Module.finrank F (LinearMap.ker M.mulVecLin) = n} : ℚ) /
     (Fintype.card F : ℚ) ^ (r * (r + 1) / 2)
 
-example : symmetricKernelLaw (ZMod 2) 2 0 = 1 / 2 := by sorry
-example : symmetricKernelLaw (ZMod 2) 2 1 = 3 / 8 := by sorry
-example : symmetricKernelLaw (ZMod 2) 2 2 = 1 / 8 := by sorry
-example : symmetricKernelLaw (ZMod 2) 0 0 = 1 := by sorry
-example : matrixKernelLaw (ZMod 2) 2 2 0 < symmetricKernelLaw (ZMod 2) 2 0 := by sorry
-example (r : ℕ) : symmetricKernelLaw (ZMod 2) r r = 1 / (2 : ℚ) ^ (r * (r + 1) / 2) :=
-  by sorry
+/-- The symmetric kernel law has total mass one, including in characteristic two. -/
+theorem sum_symmetricKernelLaw (F : Type*) [Field F] [Fintype F] (r : ℕ) :
+    ∑ n ∈ Finset.range (r + 1), symmetricKernelLaw F r n = 1 := by sorry
 
-example (F : Type*) [Field F] (k : ℕ) :
-    Nat.card {M : Matrix (Fin 0) (Fin 0) F // M.IsSymm ∧ M.rank = k} =
-      if k = 0 then 1 else 0 := by sorry
-example (k : Fin 2) : Nat.card {M : Matrix (Fin 1) (Fin 1) (ZMod 2) //
-    M.IsSymm ∧ M.rank = k} = 1 := by sorry
-example (k : Fin 3) : Nat.card {M : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-    M.IsSymm ∧ M.rank = k} = ![1, 3, 4] k := by sorry
-example (k : Fin 4) : Nat.card {M : Matrix (Fin 3) (Fin 3) (ZMod 2) //
-    M.IsSymm ∧ M.rank = k} = ![1, 7, 28, 28] k := by sorry
-example : Nat.card {M : Matrix (Fin 3) (Fin 3) (ZMod 2) //
-    M.IsSymm ∧ M.rank = 2} = 28 := by sorry
-example (k : Fin 3) : Nat.card {M : Matrix (Fin 2) (Fin 2) (ZMod 3) //
-    M.IsSymm ∧ M.rank = k} = ![1, 8, 18] k := by sorry
-example (F : Type*) [Field F] [Fintype F] (k : Fin 2) :
-    Nat.card {M : Matrix (Fin 1) (Fin 1) F // M.IsSymm ∧ M.rank = k} =
-      if k = 0 then 1 else Fintype.card F - 1 := by sorry
-example (F : Type*) [Field F] [Fintype F] (n k : ℕ)
-    (hn : (Fintype.card F = 2 ∧ n ≤ 5) ∨ (Fintype.card F = 3 ∧ n ≤ 4) ∨
-      (Fintype.card F ∈ ({4, 5, 7, 8} : Finset ℕ) ∧ n ≤ 3)) (hk : k ≤ n) :
-    (Nat.card {M : Matrix (Fin n) (Fin n) F // M.IsSymm ∧ M.rank = k} : ℚ) =
+/-- The zero matrix is the unique symmetric matrix with full-dimensional kernel. -/
+theorem symmetricKernelLaw_self (F : Type*) [Field F] [Fintype F] (r : ℕ) :
+    symmetricKernelLaw F r r = 1 / (Fintype.card F : ℚ) ^ (r * (r + 1) / 2) := by sorry
+
+/-- A symmetric matrix has no kernel dimension exceeding its size. -/
+theorem symmetricKernelLaw_eq_zero_of_lt (F : Type*) [Field F] [Fintype F]
+    {r n : ℕ} (h : r < n) : symmetricKernelLaw F r n = 0 := by sorry
+
+/-- A column is in the image of a symmetric matrix precisely when it annihilates its kernel. -/
+theorem symmetric_image_obstruction (F : Type*) [Field F] (n : ℕ)
+    (S : Matrix (Fin n) (Fin n) F) (hS : S.IsSymm) (v : Fin n → F) :
+    v ∈ LinearMap.range S.mulVecLin ↔
+      ∀ z ∈ LinearMap.ker S.mulVecLin, dotProduct v z = 0 := by sorry
+
+/-- An image column gives a symmetric border whose rank depends on one scalar corner. -/
+theorem symmetric_border_rank_in_image (F : Type*) [Field F] (n : ℕ)
+    (S : Matrix (Fin n) (Fin n) F) (hS : S.IsSymm) (x : Fin n → F) (a : F) :
+    let B := Matrix.fromBlocks S (fun i (_ : Fin 1) => S.mulVec x i)
+      (fun (_ : Fin 1) j => S.mulVec x j) (fun _ _ => a)
+    (a = dotProduct x (S.mulVec x) → B.rank = S.rank) ∧
+      (a ≠ dotProduct x (S.mulVec x) → B.rank = S.rank + 1) := by sorry
+
+/-- A column outside the image increases symmetric border rank by two for every corner. -/
+theorem symmetric_border_rank_outside_image (F : Type*) [Field F] (n : ℕ)
+    (S : Matrix (Fin n) (Fin n) F) (hS : S.IsSymm) (v : Fin n → F)
+    (hv : v ∉ LinearMap.range S.mulVecLin) (a : F) :
+    (Matrix.fromBlocks S (fun i (_ : Fin 1) => v i)
+      (fun (_ : Fin 1) j => v j) (fun _ _ => a)).rank = S.rank + 2 := by sorry
+
+/-- Symmetric border rank fibers have three possible sizes, over every finite field. -/
+theorem symmetric_border_rank_fibers (F : Type*) [Field F] [Fintype F] (n k : ℕ)
+    (S : Matrix (Fin n) (Fin n) F) (hS : S.IsSymm) :
+    Nat.card {va : (Fin n → F) × F //
+      (Matrix.fromBlocks S (fun i (_ : Fin 1) => va.1 i)
+        (fun (_ : Fin 1) j => va.1 j) (fun _ _ => va.2)).rank = k} =
+      if k = S.rank then Fintype.card F ^ S.rank
+      else if k = S.rank + 1 then (Fintype.card F - 1) * Fintype.card F ^ S.rank
+      else if k = S.rank + 2 then Fintype.card F ^ (n + 1) - Fintype.card F ^ (S.rank + 1)
+      else 0 := by sorry
+
+/-- Symmetric matrix counts satisfy the border recurrence without negative rank indices. -/
+theorem symmetric_rank_count_recurrence (F : Type*) [Field F] [Fintype F] (n k : ℕ) :
+    Nat.card {M : Matrix (Fin (n + 1)) (Fin (n + 1)) F // M.IsSymm ∧ M.rank = k} =
+      ∑ r ∈ Finset.range (n + 1),
+        Nat.card {M : Matrix (Fin n) (Fin n) F // M.IsSymm ∧ M.rank = r} *
+          (if k = r then Fintype.card F ^ r
+           else if k = r + 1 then (Fintype.card F - 1) * Fintype.card F ^ r
+           else if k = r + 2 then Fintype.card F ^ (n + 1) - Fintype.card F ^ (r + 1)
+           else 0) := by sorry
+
+/-- The rational symmetric-rank product satisfies the border recurrence for all integer bases. -/
+theorem symmetric_rank_product_recurrence {q : ℕ} (hq : 2 ≤ q) (n k : ℕ) :
+    let P : ℕ → ℕ → ℚ := fun s t =>
+      (∏ i ∈ Finset.range (t / 2), (q : ℚ) ^ (2 * (i + 1)) /
+        ((q : ℚ) ^ (2 * (i + 1)) - 1)) *
+      ∏ i ∈ Finset.range t, ((q : ℚ) ^ (s - i) - 1)
+    P (n + 1) k = ∑ r ∈ Finset.range (n + 1), P n r *
+      ((if k = r then q ^ r
+        else if k = r + 1 then (q - 1) * q ^ r
+        else if k = r + 2 then q ^ (n + 1) - q ^ (r + 1)
+        else 0 : ℕ) : ℚ) := by sorry
+
+/-- MacWilliams's product counts symmetric matrices of each rank in every characteristic. -/
+theorem macwilliams_symmetric_rank_count (F : Type*) [Field F] [Fintype F]
+    (s k : ℕ) (hk : k ≤ s) :
+    (Nat.card {M : Matrix (Fin s) (Fin s) F // M.IsSymm ∧ M.rank = k} : ℚ) =
       (∏ i ∈ Finset.range (k / 2),
         (Fintype.card F : ℚ) ^ (2 * (i + 1)) /
           ((Fintype.card F : ℚ) ^ (2 * (i + 1)) - 1)) *
-      ∏ i ∈ Finset.range k, ((Fintype.card F : ℚ) ^ (n - i) - 1) := by sorry
-example : Matrix.IsSymm (![![(0 : ZMod 2), 1], ![1, 0]]) ∧
-    Matrix.rank (![![(0 : ZMod 2), 1], ![1, 0]]) = 2 := by sorry
+      ∏ i ∈ Finset.range k, ((Fintype.card F : ℚ) ^ (s - i) - 1) := by sorry
+
+/-- Binary symmetric kernel masses converge to the odd Euler-product law. -/
+theorem tendsto_symmetricKernelLaw (n : ℕ) :
+    Tendsto (fun r : ℕ => (symmetricKernelLaw (ZMod 2) r n : ℝ)) atTop
+      (𝓝 ((∏' j : ℕ, (1 - (2 : ℝ)⁻¹ ^ (2 * j + 1))) /
+        ∏ i ∈ Finset.range n, ((2 : ℝ) ^ (i + 1) - 1))) := by sorry
+
+/-- The binary symmetric kernel limit has an explicit error bound for every positive size. -/
+theorem symmetricKernelLaw_error (n r : ℕ) (hr : 1 ≤ r) :
+    |(symmetricKernelLaw (ZMod 2) r n : ℝ) -
+      (∏' j : ℕ, (1 - (2 : ℝ)⁻¹ ^ (2 * j + 1))) /
+        ∏ i ∈ Finset.range n, ((2 : ℝ) ^ (i + 1) - 1)| ≤
+          (2 : ℝ) ^ ((n : ℤ) + 1 - (r : ℤ)) := by sorry
+
+/-- The limiting binary symmetric kernel masses sum to one. -/
+theorem hasSum_symmetricKernelLimit :
+    HasSum (fun n : ℕ => (∏' j : ℕ, (1 - (2 : ℝ)⁻¹ ^ (2 * j + 1))) /
+      ∏ i ∈ Finset.range n, ((2 : ℝ) ^ (i + 1) - 1)) 1 := by sorry
 
 namespace FieldStatistics
 
@@ -204,13 +280,31 @@ namespace FieldStatistics
 def powerRank (A : Type*) [CommGroup A] [Finite A] (p k : ℕ) : ℕ :=
   Nat.log p (Nat.card {a : A // (∃ b : A, b ^ (p ^ (k - 1)) = a) ∧ a ^ p = 1})
 
+/-- Power-image torsion and the adjacent power quotient give the same rank. -/
+theorem powerRank_eq_log_quotient (A : Type*) [CommGroup A] [Finite A]
+    {p k : ℕ} (hp : p.Prime) (hk : 1 ≤ k) :
+    powerRank A p k = Nat.log p
+      (Nat.card ((powMonoidHom (α := A) (p ^ (k - 1))).range ⧸
+        (powMonoidHom (α := (powMonoidHom (α := A) (p ^ (k - 1))).range) p).range)) :=
+  by sorry
+
+/-- Group isomorphisms preserve power-image ranks. -/
+theorem powerRank_congr (A B : Type*) [CommGroup A] [Finite A] [CommGroup B] [Finite B]
+    (e : A ≃* B) (p k : ℕ) : powerRank A p k = powerRank B p k := by sorry
+
+/-- Successive power images have nonincreasing prime-power ranks. -/
+theorem powerRank_antitone (A : Type*) [CommGroup A] [Finite A]
+    {p k : ℕ} (hp : p.Prime) (hk : 1 ≤ k) :
+    powerRank A p (k + 1) ≤ powerRank A p k := by sorry
+
+/-- The first binary power rank measures the elementary two-quotient. -/
+theorem powerRank_one_eq_elementaryTwo (A : Type*) [CommGroup A] [Finite A] :
+    2 ^ powerRank A 2 1 = Nat.card (A ⧸ (powMonoidHom (α := A) 2).range) := by sorry
+
 /-- Adjacent power-image ranks add under direct products. -/
 theorem powerRank_prod (A B : Type*) [CommGroup A] [Finite A] [CommGroup B] [Finite B]
     {p k : ℕ} (hp : p.Prime) (hk : 1 ≤ k) :
     powerRank (A × B) p k = powerRank A p k + powerRank B p k := by sorry
-
-example : powerRank (Multiplicative (ZMod 2)) 2 2 = 0 := by sorry
-example : powerRank (Multiplicative (ZMod 4)) 2 2 = 1 := by sorry
 
 /-- Binary coordinates for the Fouvry–Klüners finite quadratic calculation. -/
 abbrev FKSpace (k : ℕ) := Fin k → ZMod 2 × ZMod 2
@@ -227,49 +321,53 @@ def fkLinked {k : ℕ} (u v : FKSpace k) : Prop := fkPhase u v + fkPhase v u = 1
 def fkGoodPlanes (k : ℕ) : Set (Submodule (ZMod 2) (FKSpace k)) :=
   {U | Module.finrank (ZMod 2) U = k ∧
     ∀ u ∈ U, ∀ v ∈ U, (∑ j, (u j).1 * ((v j).1 + (v j).2)) = 0}
+
+/-- The ordered FK phase vanishes on the diagonal. -/
+theorem fkPhase_diagonal {k : ℕ} (u : FKSpace k) : fkPhase u u = 0 := by sorry
+
+/-- Symmetrizing the ordered phase gives the quadratic expression at the sum of its arguments. -/
+theorem fkPhase_linked_iff {k : ℕ} (u v : FKSpace k) :
+    fkPhase u v + fkPhase v u = fkQuadratic (u + v) := by sorry
+
+/-- Translating both indices preserves FK linkage. -/
+theorem fkLinked_translate {k : ℕ} (u v c : FKSpace k) :
+    fkLinked (u + c) (v + c) ↔ fkLinked u v := by sorry
+
+/-- Good planes have the specified dimension and annihilate the full directed pairing. -/
+theorem mem_fkGoodPlanes {k : ℕ} (U : Submodule (ZMod 2) (FKSpace k)) :
+    U ∈ fkGoodPlanes k ↔ Module.finrank (ZMod 2) U = k ∧
+      ∀ u ∈ U, ∀ v ∈ U, (∑ j, (u j).1 * ((v j).1 + (v j).2)) = 0 := by sorry
+
+/-- The set of good planes is finite. -/
+theorem finite_fkGoodPlanes (k : ℕ) : (fkGoodPlanes k).Finite := by sorry
+
 /-- The FK good k-planes are counted by all subspaces of F₂^k. -/
 theorem fk_good_subspace_bijection (k : ℕ) :
     Nonempty ({U // U ∈ fkGoodPlanes k} ≃ Submodule (ZMod 2) (Fin k → ZMod 2)) := by sorry
 
-example : fkPhase (fun _ : Fin 1 => (1, 0)) 0 = 1 ∧
-    fkPhase 0 (fun _ : Fin 1 => (1, 0)) = 0 := by sorry
-example : fkQuadratic (fun _ : Fin 1 => (1, 0)) = 1 ∧
-    fkQuadratic (fun _ : Fin 1 => (1, 1)) = 0 := by sorry
-example : fkLinked (fun _ : Fin 1 => (1, 0)) 0 := by sorry
-example : Nat.card (FKSpace 0) = 1 ∧ Nat.card (FKSpace 1) = 4 := by sorry
-example : (fkGoodPlanes 2).ncard = 5 := by sorry
-example : powerRank (Multiplicative (ZMod 4)) 2 1 = 1 ∧
-    powerRank (Multiplicative (ZMod 2)) 2 1 = 1 := by sorry
-example : powerRank Unit 2 1 = 0 := by sorry
-example : Nat.card (FKSpace 2) = 16 := by sorry
-example : fkPhase (0 : FKSpace 0) 0 = 0 ∧ fkQuadratic (0 : FKSpace 0) = 0 ∧
-    ¬ fkLinked (0 : FKSpace 0) 0 := by sorry
-example : fkPhase (fun _ : Fin 1 => (1, 0)) (fun _ => (1, 1)) = 0 ∧
-    fkPhase (fun _ : Fin 1 => (1, 1)) (fun _ => (1, 0)) = 0 := by sorry
-example : fkQuadratic (fun _ : Fin 1 => (0, 1)) = 0 := by sorry
-example : ¬ fkLinked (fun _ : Fin 1 => (1, 0)) (fun _ => (1, 1)) := by sorry
-example : fkLinked (fun _ : Fin 1 => (0, 1)) (fun _ => (1, 1)) := by sorry
-example : (fkGoodPlanes 0).ncard = 1 := by sorry
-example : (fkGoodPlanes 1).ncard = 2 := by sorry
-example : Submodule.span (ZMod 2)
-    {fun _ : Fin 1 => ((1 : ZMod 2), (0 : ZMod 2))} ∉ fkGoodPlanes 1 := by sorry
-example : powerRank (Multiplicative (ZMod 8)) 2 3 = 1 ∧
-    powerRank (Multiplicative (ZMod 8)) 2 4 = 0 := by sorry
-example : ¬ fkLinked (fun _ : Fin 1 => (1, 1)) 0 ∧
-    fkPhase (fun _ : Fin 1 => (1, 1)) 0 = 1 ∧
-    fkPhase 0 (fun _ : Fin 1 => (1, 1)) = 1 := by sorry
+/-- Gaussian coefficients sum to the number of FK good planes. -/
+theorem fkGoodPlanes_ncard (k : ℕ) :
+    (fkGoodPlanes k).ncard = ∑ d ∈ Finset.range (k + 1), gaussBinom (2 : ℕ) k d := by sorry
 
-example : ({U : Submodule (ZMod 2) (FKSpace 2) |
-    Module.finrank (ZMod 2) U = 2 ∧
-    ∀ u ∈ U, ∀ v ∈ U,
-      (∑ j, (u j).1 * ((v j).1 + (v j).2)) +
-      (∑ j, (v j).1 * ((u j).1 + (u j).2)) = 0} : Set _).ncard = 15 := by sorry
-example : ({U : Submodule (ZMod 2) (FKSpace 1) |
-    U ∈ fkGoodPlanes 1 ∧ ∀ u ∈ U, (u 0).1 + (u 0).2 = 0} : Set _).ncard = 1 := by sorry
-example : ({U : Submodule (ZMod 2) (FKSpace 1) |
-    U ∈ fkGoodPlanes 1 ∧ ∀ u ∈ U, (u 0).1 = 0} : Set _).ncard = 1 := by sorry
+/-- Each nonempty FK coordinate constraint reduces the good-plane count by one dimension. -/
+theorem fkGoodPlanes_linear_constraint {k : ℕ} (hk : 1 ≤ k)
+    (Γ : Finset (Fin k)) (hΓ : Γ.Nonempty) :
+    ({U : Submodule (ZMod 2) (FKSpace k) | U ∈ fkGoodPlanes k ∧
+      ∀ u ∈ U, (∑ j ∈ Γ, ((u j).1 + (u j).2)) = 0} : Set _).ncard =
+        ∑ d ∈ Finset.range k, gaussBinom (2 : ℕ) (k - 1) d ∧
+    ({U : Submodule (ZMod 2) (FKSpace k) | U ∈ fkGoodPlanes k ∧
+      ∀ u ∈ U, (∑ j ∈ Γ, (u j).1) = 0} : Set _).ncard =
+        ∑ d ∈ Finset.range k, gaussBinom (2 : ℕ) (k - 1) d := by sorry
 
 end FieldStatistics
+
+/-- Prime torsion in a class group is a prime power measured by its first power-image rank. -/
+theorem classGroupTorsionCard_prime_eq_pow_rank (K : Type*) [Field K] [NumberField K]
+    {p : ℕ} (hp : p.Prime) :
+    classGroupTorsionCard K p =
+      Nat.card (ClassGroup (𝓞 K) ⧸ (powMonoidHom (α := ClassGroup (𝓞 K)) p).range) ∧
+    classGroupTorsionCard K p = p ^ FieldStatistics.powerRank (ClassGroup (𝓞 K)) p 1 :=
+  by sorry
 
 namespace Distributions
 /-- Wood's separating product on a finite partition grid.
@@ -282,6 +380,20 @@ def woodGridSeparator (m p : ℕ) (b : Fin (m + 1) → ℕ)
         ((∑ k : Fin (m + 1) with k.val ≤ i.val + 1, b k) + 1)
         ((∑ k : Fin (m + 1) with k.val ≤ i.val, b k) + b i.castSucc),
         (1 - z i.succ / (p : ℂ) ^ j)
+
+/-- The separator has value one at the zero vector. -/
+theorem woodGridSeparator_zero (m p : ℕ) (b : Fin (m + 1) → ℕ) :
+    woodGridSeparator m p b 0 = 1 := by sorry
+
+/-- A length-one grid has only the infinite-product head. -/
+theorem woodGridSeparator_one_variable (p : ℕ) (b : Fin 1 → ℕ) (z : Fin 1 → ℂ) :
+    woodGridSeparator 0 p b z = ∏' j : ℕ, (1 - z 0 / (p : ℂ) ^ (b 0 + 1 + j)) :=
+  by sorry
+
+/-- The Wood separator is entire on its finite-dimensional complex coordinate space. -/
+theorem woodGridSeparator_entire {m p : ℕ} (hp : p.Prime)
+    (b : Fin (m + 1) → ℕ) (hb : Antitone b) :
+    AnalyticOnNhd ℂ (woodGridSeparator m p b) Set.univ := by sorry
 
 /-- The separator vanishes on a partition lexicographically greater than its target. -/
 theorem woodGridSeparator_upper {m p : ℕ} (hp : p.Prime)
@@ -296,18 +408,37 @@ theorem woodGridSeparator_diagonal {m p : ℕ} (hp : p.Prime)
     woodGridSeparator m p b
       (fun i => (p : ℂ) ^ (∑ j : Fin (m + 1) with j ≤ i, b j)) ≠ 0 := by sorry
 
+/-- The separator has an absolutely convergent monomial expansion with a quadratic head bound
+and finite degree in the remaining coordinates. -/
+theorem woodGridSeparator_coefficient_bound {m p : ℕ} (hp : p.Prime)
+    (b : Fin (m + 1) → ℕ) (hb : Antitone b) :
+    ∃ (E : ℝ) (a : (Fin (m + 1) → ℕ) → ℂ), 0 < E ∧
+      (∀ z : Fin (m + 1) → ℂ,
+        Summable (fun d => ‖a d * ∏ i, z i ^ d i‖) ∧
+        HasSum (fun d => a d * ∏ i, z i ^ d i) (woodGridSeparator m p b z)) ∧
+      (∀ d, ‖a d‖ ≤ E / (p : ℝ) ^ (b 0 * d 0 + d 0 * (d 0 + 1) / 2)) ∧
+      (∀ d, b 0 - b (Fin.last m) < ∑ i : Fin m, d i.succ → a d = 0) := by sorry
 
-example : woodGridSeparator 0 2 (fun _ => 0) 0 = 1 := by sorry
-example : woodGridSeparator 0 2 (fun _ => 0) (fun _ => 2) = 0 := by sorry
-example : woodGridSeparator 0 2 (fun _ => 0) (fun _ => 1) ≠ 0 := by sorry
+/-- The one-variable separator has the explicit signed coefficient formula. -/
+theorem woodGridSeparator_head_expansion {p : ℕ} (hp : p.Prime) (b : ℕ) (z : ℂ) :
+    HasSum (fun n : ℕ => ((-1 : ℂ) ^ n /
+      ((p : ℂ) ^ (b * n) * ∏ j ∈ Finset.range n, ((p : ℂ) ^ (j + 1) - 1))) * z ^ n)
+      (woodGridSeparator 0 p (fun _ => b) (fun _ => z)) := by sorry
 
-example : woodGridSeparator 0 2 (fun _ => 1) (fun _ => 4) = 0 ∧
-    woodGridSeparator 0 2 (fun _ => 1) (fun _ => 2) ≠ 0 := by sorry
-
-example : woodGridSeparator 1 2 ![2, 0] ![4, 8] = 0 ∧
-    woodGridSeparator 1 2 ![2, 0] ![4, 4] ≠ 0 := by sorry
-example : ¬ ∃ L : ℂ, Tendsto (fun N : ℕ =>
-    ∏ j ∈ Finset.range N, (1 - (3 : ℂ) / (1 : ℂ) ^ (0 + 1 + j))) atTop (𝓝 L) := by sorry
+/-- Finite exponential moments with Wood's quadratic growth bound determine every profile mass
+for any finite set of distinct primes. -/
+theorem wood_grid_uniqueness {s : ℕ} (p m : Fin s → ℕ)
+    (hp : ∀ j, (p j).Prime) (hp_distinct : Function.Injective p) (hm : ∀ j, 1 ≤ m j) :
+    let M := (j : Fin s) → {v : Fin (m j) → ℕ // Antitone v}
+    ∀ (x y C : M → ℝ) (F : ℝ), 0 < F →
+      (∀ μ, 0 ≤ x μ) → (∀ μ, 0 ≤ y μ) →
+      (∀ lam, HasSum (fun μ : M => x μ *
+        ∏ j, (p j : ℝ) ^ (∑ i, (lam j).val i * (μ j).val i)) (C lam)) →
+      (∀ lam, HasSum (fun μ : M => y μ *
+        ∏ j, (p j : ℝ) ^ (∑ i, (lam j).val i * (μ j).val i)) (C lam)) →
+      (∀ lam, C lam ≤ ∏ j, F ^ m j *
+        (p j : ℝ) ^ (∑ i, (lam j).val i * ((lam j).val i - 1) / 2)) →
+      ∀ μ, x μ = y μ := by sorry
 
 end Distributions
 
@@ -320,23 +451,8 @@ p-adic matrix Haar measure, padicCokernel and cokernelLaw; the finite product
 Cohen–Lenstra measure. Their full APIs,
 checks and end theorems remain in the README.
 
-The following API signatures are also specified in the README:
-classGroupTorsionCard_pos; classGroupTorsionCard_dvd_classNumber;
-classGroupTorsionCard_mul_of_coprime; classGroupTorsionCard_prime_eq_pow_rank;
-classGroupTorsionCard_congr; gaussBinom_zero_right; gaussBinom_self;
-gaussBinom_succ_succ; gaussBinom_eq_prod; gaussBinom_symm; gaussBinom_one;
-card_submodules_finrank_eq_gaussBinom;
-surjCard_congr; surjCard_toGroup_self; surjCard_le_card_hom; surjCard_punit;
-surjCard_eq_zero_of_card_lt; sum_matrixKernelLaw; matrixKernelLaw_eq_zero_of_lt;
-matrixKernelLaw_zero_eq_card_GL; sum_symmetricKernelLaw; symmetricKernelLaw_self;
-symmetricKernelLaw_eq_zero_of_lt; tendsto_symmetricKernelLaw;
-FieldStatistics.powerRank_eq_log_quotient; FieldStatistics.powerRank_congr;
-FieldStatistics.powerRank_antitone; FieldStatistics.powerRank_one_eq_elementaryTwo;
-FieldStatistics.fkPhase_diagonal; FieldStatistics.fkPhase_linked_iff;
-FieldStatistics.fkLinked_translate; FieldStatistics.mem_fkGoodPlanes;
-FieldStatistics.finite_fkGoodPlanes; FieldStatistics.fkGoodPlanes_ncard;
-FieldStatistics.fkGoodPlanes_linear_constraint;
-Distributions.woodGridSeparator_zero; Distributions.woodGridSeparator_one_variable.
+The representative-group specialization surjCard_toGroup_self additionally uses
+FinAbPGroupClass.toGroup and FinAbPGroupClass.autCard from the README.
 -/
 
 end TauCetiRoadmap.ArithmeticStatisticsPartIV

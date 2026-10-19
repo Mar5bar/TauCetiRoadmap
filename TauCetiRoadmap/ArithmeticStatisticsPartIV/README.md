@@ -106,6 +106,8 @@ The required API is:
 - `classGroupTorsionCard_dvd_classNumber`: `h_m(K)` divides `NumberField.classNumber K`.
 - `classGroupTorsionCard_mul_of_coprime`: For coprime `m`, m': `h_{mm'}(K) = h_m(K) h_{m'}(K)`.
 - `classGroupTorsionCard_prime_eq_pow_rank`: For `p` prime, `h_p(K) = #(Cl(K)/Cl(K)^p) = p^{rk_p Cl(K)}` with `rk_p A = dim_{F_p} A/pA`.
+- `classGroupTorsionCard_one`: `h₁(K) = 1`.
+- `classGroupTorsionCard_two_eq_elementaryTwoQuotient`: `h₂(K) = #(Cl(K)/Cl(K)^2)` on Tau Ceti’s elementary-two-quotient carrier.
 - `classGroupTorsionCard_congr`: A `ℚ`-algebra isomorphism `K ≃ K'` gives `h_m(K) = h_m(K')`.
 
 Define `h_m(K)` as `Nat.card` of the subtype `{c : ClassGroup (𝓞 K) // c ^ m = 1}`; it is the kernel of the m-th power endomorphism of the finite abelian group `Cl(K)`. For a finite abelian group `A, #A[m] = #(A/mA) = #Hom(A, ℤ/mℤ)` (duality of finite abelian groups), and for `m = p` prime `#A[p] = p^{rk_p A}`. For coprime `m`, m': `A[mm'] ≅ A[m] × A[m']`, so `h_{mm'} = h_m h_{m'}`; and `h_m(K)` divides `h(K) = NumberField.classNumber K` by Lagrange.
@@ -139,6 +141,7 @@ The required API is:
 - `gaussBinom_self`: `[n n]_t = 1`.
 - `gaussBinom_succ_succ`: `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t`.
 - `gaussBinom_eq_prod`: For `k≤n`, when no `t^i (1 ≤ i ≤ n)` equals `1: [n k]_t = ∏_{i=1}^{k}(1 − t^{n−k+i})/(1 − t^i)`.
+- `gaussBinom_eq_zero_of_lt`: `[n k]_t = 0` for `n < k`.
 - `gaussBinom_symm`: `[n k]_t = [n n−k]_t` for `k ≤ n`.
 - `gaussBinom_one`: `[n k]_1 = Nat.choose n k`.
 - `card_submodules_finrank_eq_gaussBinom`: For a finite field `K` with `q` elements, `#{W ≤ K^n : dim W = k} = [n k]_q`.
@@ -161,7 +164,7 @@ Define `[n k]_t` by the recursion in `ℕ[t]`, and evaluate at `t` using the nat
 
 <a id="cauchy-q-binomial-theorem"></a>
 
-**Cauchy q binomial theorem.** For an element `t` of a commutative ring and `n ≥ 0`, in the polynomial ring in `z: ∏_{i=0}^{n−1} (1 + t^{i} z) = Σ_{k=0}^{n} t^{k(k−1)/2} [n k]_t z^{k}`.
+**Cauchy q binomial theorem.** `cauchy_qBinomial`: for an element `t` of a commutative ring and `n ≥ 0`, in the polynomial ring in `z: ∏_{i=0}^{n−1} (1 + t^{i} z) = Σ_{k=0}^{n} t^{k(k−1)/2} [n k]_t z^{k}`.
 
 `n ≥ 0; t` arbitrary
 
@@ -234,6 +237,7 @@ The required API is:
 
 - `surjCard`: `|Sur(X, A)|` as a natural number.
 - `surjCard_congr`: Isomorphisms `X ≅ X', A ≅ A'` give `|Sur(X, A)| = |Sur(X', A')|`.
+- `surjCard_self_eq_card_aut`: For every finite additive abelian group `A`, `|Sur(A,A)| = #(A ≃+ A)`.
 - `surjCard_toGroup_self`: `|Sur(A_λ, A_λ)| = |Aut(A_λ)|`.
 - `surjCard_le_card_hom`: `|Sur(X, A)| ≤ |Hom(X, A)|` for finite `X, A`.
 - `surjCard_punit`: `|Sur(X, 0)| = 1`.
@@ -511,7 +515,7 @@ Since `X ↠ A, x_i ≥ a_i` for all `i` ([exact surjection count formula](#exac
 
 <a id="partition-tail-domination"></a>
 
-**Partition tail domination.** For an integer `ℓ ≥ 3` and fixed `m ≥ 0, p(s + m)(ℓ − 1)^{−s}` `→ 0` as `s → ∞`, where `p(n)` is the number of partitions of `n`.
+**Partition tail domination.** `partition_tail_domination`: for an integer `ℓ ≥ 3` and fixed `m ≥ 0, p(s + m)(ℓ − 1)^{−s}` `→ 0` as `s → ∞`, where `p(n)` is the number of partitions of `n`.
 
 Choose `r` with `(ℓ − 1)^{−1} < r < 1` (possible since `ℓ − 1 ≥ 2`). Expand finite Euler products with nonnegative coefficients and use monotone convergence to obtain `Σ_n p(n)r^n=∏_{j≥1}(1−r^j)⁻¹<∞`. Positivity and nonvanishing of the product follow from `Σ_j r^j<∞`. The formal partition identity identifies the coefficients, but its formal topology alone does not justify evaluation at nonzero `r`. Hence `p(n)r^n→0`. `p(s + m)(ℓ − 1)^{−s}` `= p(s + m) r^{s+m} · r^{−m} · (r(ℓ − 1))^{−s} → 0`.
 
@@ -523,6 +527,7 @@ Choose `r` with `(ℓ − 1)^{−1} < r < 1` (possible since `ℓ − 1 ≥ 2`).
 
 - `ℓ = 3, m = 0: p(s)/2^s → 0 (p(20) = 627 < 2^{20})`.
 - `ℓ = 2` is excluded: `p(s)·1^{−s} → ∞`.
+- The tail bound also applies at composite `ℓ=4`: this supporting estimate needs `ℓ≥3`, rather than primality.
 
 <a id="finite-enlargement-domination-of-tails"></a>
 
@@ -728,7 +733,7 @@ Define the ratio of the cardinality of the subtype of matrices with finrank of k
 
 <a id="rank-count-of-matrices-over-a-finite-field"></a>
 
-**Rank count of matrices over a finite field.** For a finite field `F` with `q` elements and `r ≤ min(m, n), #{M ∈ M_{m×n}(F) : rank M = r} = ∏_{i=0}^{r−1} (q^m − q^i)(q^n − q^i)/(q^r − q^i) = [m choose r]_q ∏_{i=0}^{r−1}(q^n − q^i)`. Hence, for `n − min(m,n) ≤ j ≤ n, P_F(m, n, j) = q^{−mn} ∏_{i=0}^{n−j−1} (q^m − q^i)(q^n − q^i)/(q^{n−j} − q^i)`. Outside that range `P_F(m,n,j)=0`.
+**Rank count of matrices over a finite field.** `matrix_rank_count`: for a finite field `F` with `q` elements and `r ≤ min(m, n), #{M ∈ M_{m×n}(F) : rank M = r} = ∏_{i=0}^{r−1} (q^m − q^i)(q^n − q^i)/(q^r − q^i) = [m choose r]_q ∏_{i=0}^{r−1}(q^n − q^i)`. Hence, for `n − min(m,n) ≤ j ≤ n, P_F(m, n, j) = q^{−mn} ∏_{i=0}^{n−j−1} (q^m − q^i)(q^n − q^i)/(q^{n−j} − q^i)`. Outside that range `P_F(m,n,j)=0`.
 
 A rank-r matrix is determined by its column space `W ⊆ F^m (dim r)` and a surjective linear map `F^n ↠ W`. The number of r-dimensional subspaces is the Gaussian binomial `[m choose r]_q` ([gaussian binomial coefficient](#gaussian-binomial-coefficient)). Surjections `F^n ↠ F^r` are counted by choosing `r` linearly independent rows: `∏_{i<r}(q^n − q^i)` (as in Mathlib `Matrix.card_GL_field / card_linearIndependent`).
 
@@ -795,7 +800,7 @@ Use the normalized kernel-weight identity below; the independent-(T,U) condition
 
 <a id="symmetric-image-obstruction"></a>
 
-**Symmetric image obstruction.** For a field `F, n ≥ 0`, a symmetric matrix `S` in `M_n(F)`, and `v` in `F^n, v` belongs to `im S` if and only if `v·z = 0` for every `z` in `ker S`. The pairing is the ordinary bilinear coordinate dot product, without conjugation.
+**Symmetric image obstruction.** `symmetric_image_obstruction`: for a field `F, n ≥ 0`, a symmetric matrix `S` in `M_n(F)`, and `v` in `F^n, v` belongs to `im S` if and only if `v·z = 0` for every `z` in `ker S`. The pairing is the ordinary bilinear coordinate dot product, without conjugation.
 
 If `v=Sx` and `Sz=0`, symmetry gives `v·z=x·Sz=0`. For the converse use the native dual-annihilator criterion for `W=im S`. Every functional `φ` vanishing on `W` is a dot product `z·(−)`: take `z_i=φ(e_i)` and expand with the coordinate basis and its finite reconstruction theorem. Vanishing on each `S e_i` says `Sᵀz=0`, hence `Sz=0` by symmetry. The assumed annihilation gives `φ(v)=z·v=0`. The dual-annihilator criterion implies `v∈W`. This argument does not identify bilinear forms with quadratic forms and uses no division by two.
 
@@ -811,7 +816,7 @@ If `v=Sx` and `Sz=0`, symmetry gives `v·z=x·Sz=0`. For the converse use the na
 
 <a id="symmetric-border-rank-in-image"></a>
 
-**Symmetric border rank in image.** For a field `F` and symmetric `S` in `M_n(F)`, let `x∈F^n, v=Sx, a∈F`, and `B=[[S,v],[vᵀ,a]]` on `F^n⊕F`. Then `rank B = rank S` if `a=x·Sx`, and `rank B = rank S+1` otherwise, equivalently `rank S` plus the indicator of `a≠x·Sx`.
+**Symmetric border rank in image.** `symmetric_border_rank_in_image`: for a field `F` and symmetric `S` in `M_n(F)`, let `x∈F^n, v=Sx, a∈F`, and `B=[[S,v],[vᵀ,a]]` on `F^n⊕F`. Then `rank B = rank S` if `a=x·Sx`, and `rank B = rank S+1` otherwise, equivalently `rank S` plus the indicator of `a≠x·Sx`.
 
 Put `c=a−x·Sx`. The invertible coordinate change `(y,t)↦(y+tx,t)` identifies `ker B` with `ker S × {t∈F : ct=0}`. Indeed `B(y,t)=0` is equivalent to `S(y+tx)=0` and `ct=0`, since `vᵀy=xᵀSy`. When `c=0` the second factor is `F` and adds one to the kernel dimension; when `c≠0` it is zero-dimensional. Use native finrank invariance, the product-dimension identity and rank-nullity in dimension `n+1`. The scalar `x·Sx` is independent of the chosen preimage of `v`: two preimages differ by an element of `ker S` and `v` annihilates that kernel.
 
@@ -827,7 +832,7 @@ Put `c=a−x·Sx`. The invertible coordinate change `(y,t)↦(y+tx,t)` identifie
 
 <a id="symmetric-border-rank-outside-image"></a>
 
-**Symmetric border rank outside image.** For a field `F`, a symmetric matrix `S` in `M_n(F), v∈F^n` outside `im S`, and every `a∈F`, the symmetric border `B=[[S,v],[vᵀ,a]]` has `rank S+2`.
+**Symmetric border rank outside image.** `symmetric_border_rank_outside_image`: for a field `F`, a symmetric matrix `S` in `M_n(F), v∈F^n` outside `im S`, and every `a∈F`, the symmetric border `B=[[S,v],[vᵀ,a]]` has `rank S+2`.
 
 The top block equation `Sy+tv=0` forces `t=0`, since a nonzero `t` would put `v` in `im S`. Thus `ker B` is linearly isomorphic to `{y∈ker S : v·y=0}` via `y↦(y,0)`. The image-obstruction lemma says `y↦v·y` is a nonzero linear functional on `ker S`. Apply the native codimension-one kernel theorem to this restricted functional. Rank-nullity for `S` and `B` now gives `rank B=(n+1)−(dim ker S−1)=rank S+2`. The nonzero restricted functional also ensures dim `ker S≥1`, so no negative dimension or truncated subtraction is used.
 
@@ -843,7 +848,7 @@ The top block equation `Sy+tv=0` forces `t=0`, since a nonzero `t` would put `v`
 
 <a id="symmetric-border-rank-fibers"></a>
 
-**Symmetric border rank fibers.** Let `F` have `q` elements and `S∈M_n(F)` be symmetric of `rank r`. For every `k≥0`, the number of pairs `(v,a)∈F^n×F` for which `[[S,v],[vᵀ,a]]` has `rank k` is `q^r` if `k=r; (q−1)q^r` if `k=r+1; q^(n+1)−q^(r+1)` if `k=r+2`; and zero otherwise. The diagonal entry a is unrestricted.
+**Symmetric border rank fibers.** `symmetric_border_rank_fibers`: let `F` have `q` elements and `S∈M_n(F)` be symmetric of `rank r`. For every `k≥0`, the number of pairs `(v,a)∈F^n×F` for which `[[S,v],[vᵀ,a]]` has `rank k` is `q^r` if `k=r; (q−1)q^r` if `k=r+1; q^(n+1)−q^(r+1)` if `k=r+2`; and zero otherwise. The diagonal entry a is unrestricted.
 
 The image of `S` has `q^r` elements by the native finite-vector-space cardinality theorem and the definition of `Matrix.rank`. For each column in the image the in-image rank lemma gives exactly one corner preserving rank and `q−1` other corners increasing it by one. Count columns `v`, not preimages `x`; the invariant corner value was proved independent of the preimage. There are `q^n−q^r` columns outside the image, and every one of their `q` corners increases rank by two. The outside-image rank lemma excludes all other ranks. The bound `r≤n` ensures each natural subtraction is exact. Sum the disjoint finite fibers.
 
@@ -860,7 +865,7 @@ The image of `S` has `q^r` elements by the native finite-vector-space cardinalit
 
 <a id="symmetric-rank-count-recurrence"></a>
 
-**Symmetric rank count recurrence.** Let `F` have `q` elements, and let `N_F(n,k)` count symmetric matrices in `M_n(F)` of `rank k`, using the existing native finite subtype. Define the numerical coefficient `c_q(n,r,k)` to be `q^r` when `k=r, (q−1)q^r` when `k=r+1, q^(n+1)−q^(r+1)` when `k=r+2`, and zero otherwise. Then for every `n,k≥0, N_F(n+1,k)=Σ_{r=0}^n N_F(n,r)c_q(n,r,k)`. This notation introduces no new carrier or separately defined library object.
+**Symmetric rank count recurrence.** `symmetric_rank_count_recurrence`: let `F` have `q` elements, and let `N_F(n,k)` count symmetric matrices in `M_n(F)` of `rank k`, using the existing native finite subtype. Define the numerical coefficient `c_q(n,r,k)` to be `q^r` when `k=r, (q−1)q^r` when `k=r+1, q^(n+1)−q^(r+1)` when `k=r+2`, and zero otherwise. Then for every `n,k≥0, N_F(n+1,k)=Σ_{r=0}^n N_F(n,r)c_q(n,r,k)`. This notation introduces no new carrier or separately defined library object.
 
 Reindex `Fin(n+1)` by `Fin n` plus a singleton. Reading the principal block, the extra column and the corner is a bijection from symmetric matrices to triples (S,v,a); writing the symmetric block matrix is its inverse. Native reindexing preserves rank. Group the finite count first by the principal block `S` and then by its `rank r`, using the native dependent-sum cardinality theorem. Every rank lies in 0,…,n by the native width bound. Substitute the border-fiber formula. The sum version states the boundary cases without negative rank indices or negative exponents; for `2≤k≤n+1` it becomes `N_F(n+1,k)=q^kN_F(n,k)+(q−1)q^(k−1)N_F(n,k−1)+(q^(n+1)−q^(k−1))N_F(n,k−2)`.
 
@@ -876,7 +881,7 @@ Reindex `Fin(n+1)` by `Fin n` plus a singleton. Reading the principal block, the
 
 <a id="symmetric-rank-product-recurrence"></a>
 
-**Symmetric rank product recurrence.** For natural `q≥2` and `s,t≥0`, let `P_q(s,t)=[∏_{i=1}^{⌊t/2⌋} q^(2i)/(q^(2i)−1)]·∏_{i=0}^{t−1}(q^(s−i)−1)`, interpreted in `ℚ`; natural `s−i` is truncated at zero. Thus `P_q(s,0)=1` and `P_q(s,t)=0` for `t>s`. With `c_q(n,r,k)` as in symmetric-rank-count-recurrence, `P_q(n+1,k)=Σ_{r=0}^n P_q(n,r)c_q(n,r,k)` for all `n,k≥0`. `P` is local mathematical notation for the displayed expression, not a new library definition.
+**Symmetric rank product recurrence.** `symmetric_rank_product_recurrence`: for natural `q≥2` and `s,t≥0`, let `P_q(s,t)=[∏_{i=1}^{⌊t/2⌋} q^(2i)/(q^(2i)−1)]·∏_{i=0}^{t−1}(q^(s−i)−1)`, interpreted in `ℚ`; natural `s−i` is truncated at zero. Thus `P_q(s,0)=1` and `P_q(s,t)=0` for `t>s`. With `c_q(n,r,k)` as in symmetric-rank-count-recurrence, `P_q(n+1,k)=Σ_{r=0}^n P_q(n,r)c_q(n,r,k)` for all `n,k≥0`. `P` is local mathematical notation for the displayed expression, not a new library definition.
 
 All denominators `q^(2i)−1` are nonzero since `i≥1` and `q≥2`. Empty products give the `k=0` case. For `k=1` use `q(q^n−1)+(q−1)=q^(n+1)−1`, with the empty-size boundary included. For `2≤k≤n+1` put `D=P_q(n,k−2), a=q^(k−1), t=q^(n−k+2)`. Cancel the common nonzero `D`. If `k` is even put `C=qa/(qa−1)`. The ratios `P_q(n,k)/D, P_q(n,k−1)/D` and `P_q(n+1,k)/D` are respectively `C(t−1)(t/q−1), t−1` and `C(at−1)(t−1)`. The recurrence reduces to `qa·C(t−1)(t/q−1)+(q−1)a(t−1)+a(t−1)=C(at−1)(t−1)`. If `k` is odd, `k≥3`; put `C=a/(a−1)`. The same three ratios are `C(t−1)(t/q−1), C(t−1)` and `C(at−1)(t−1)`. The reduced identity is `qa·C(t−1)(t/q−1)+(q−1)a·C(t−1)+a(t−1)=C(at−1)(t−1)`. Both identities follow after multiplying by their displayed nonzero denominators and ordinary polynomial algebra. When `k=n+2` the only possibly contributing term is `r=n`, whose coefficient `q^(n+1)−q^(n+1)` is zero. For `k>n+2` there are no contributing terms. The factor with `i=s` makes every `P_q(s,k)` with `k>s` vanish, so these cases agree with the left side. Cast the natural coefficients to `ℚ` using `r≤n` before distributing subtraction.
 
@@ -894,7 +899,7 @@ All denominators `q^(2i)−1` are nonzero since `i≥1` and `q≥2`. Empty produ
 
 <a id="macwilliams-symmetric-rank-count"></a>
 
-**Macwilliams symmetric rank count.** For a finite field `F` with `q` elements and `0 ≤ k ≤ s`, writing `k = 2h` or `2h + 1`, the number of symmetric `s × s` matrices of `rank k` is `N(s, k) = ∏_{i=1}^{h} q^{2i}/(q^{2i} − 1) · ∏_{i=0}^{k−1} (q^{s−i} − 1)`.
+**Macwilliams symmetric rank count.** `macwilliams_symmetric_rank_count`: for a finite field `F` with `q` elements and `0 ≤ k ≤ s`, writing `k = 2h` or `2h + 1`, the number of symmetric `s × s` matrices of `rank k` is `N(s, k) = ∏_{i=1}^{h} q^{2i}/(q^{2i} − 1) · ∏_{i=0}^{k−1} (q^{s−i} − 1)`.
 
 Use the native subtype count `N_F(n,k)`, with `N_F(0,0)=1` and `N_F(0,k)=0` for `k>0`: the empty matrix is unique and its image has dimension zero. For `k>n` the count is zero by the native rank-width bound. The characteristic-free symmetric-rank-count-recurrence gives every next row from the preceding row; its finite sum also covers `k=0,1` and `k>n+1`. The rational product has the same initial row and satisfies symmetric-rank-product-recurrence. Induction on `n`, simultaneously for every `k`, equates the natural count cast to `ℚ` with the product. Specialize to `k≤s` and write `k=2h` or `2h+1` to obtain the stated product. Characteristic two uses precisely the same border kernels; alternating matrices are included with their unrestricted symmetric-matrix companions.
 
@@ -926,7 +931,7 @@ Apply the finite Cauchy identity at `t=z=q`. Extend its summands by zero for `n>
 
 <a id="limit-of-the-symmetric-kernel-law"></a>
 
-**Limit of the symmetric kernel law.** Over `𝔽₂`, for every `n ≥ 0: lim_{r→∞} P_Sym(r, n) = P_Sym(∞, n) := ∏_{j≥0}(1 − 2^{−(2j+1)}) / ∏_{i=1}^{n}(2^i − 1)`, and `|P_Sym(r, n) − P_Sym(∞, n)| ≤ 2^{n+1−r}` for all `r ≥ 1`. The limits sum to 1.
+**Limit of the symmetric kernel law.** `tendsto_symmetricKernelLaw`, `symmetricKernelLaw_error` and `hasSum_symmetricKernelLimit`: over `𝔽₂`, for every `n ≥ 0: lim_{r→∞} P_Sym(r, n) = P_Sym(∞, n) := ∏_{j≥0}(1 − 2^{−(2j+1)}) / ∏_{i=1}^{n}(2^i − 1)`, and `|P_Sym(r, n) − P_Sym(∞, n)| ≤ 2^{n+1−r}` for all `r ≥ 1`. The limits sum to 1.
 
 If `r=n=0`, the finite mass is 1 and the limiting mass lies in `[0,1]`, so the error is at most `1≤2`. If `n>r`, the finite kernel mass is zero and the target limit lies in `[0,1]`, while `2^{n+1−r}≥1`, so the stated bound is immediate. Assume henceforth `n≤r`. By [macwilliams symmetric rank count](#macwilliams-symmetric-rank-count) with `k = r − n = 2h` or `2h + 1: P_Sym(r, n) = 2^{−n(n+1)/2} ∏_{i=1}^{h}(1 − 2^{−2i})^{−1} ∏_{j=n+1}^{r}(1 − 2^{−j})` (the exponent kr − `k(k−1)/2 − r(r+1)/2` simplifies to `−n(n+1)/2`). Letting `r → ∞: P_Sym(∞, n) = 2^{−n(n+1)/2}∏_{i≥1}(1 − 2^{−2i})^{−1}∏_{j≥n+1}(1 − 2^{−j}) = ∏_{j odd}(1 − 2^{−j})/∏_{i=1}^{n}(2^i − 1)`. Rate: `P_Sym(r, n) = P_Sym(∞, n)·R` with R `= ∏_{i>h}(1 − 2^{−2i})/∏_{j>r}(1 − 2^{−j})`; since `2h + 2 ≥ r − n + 1, 1 − (2/3)2^{n−r} ≤` R `≤ 1 + 2^{1−r}`, and `P_Sym(∞, n) ≤ 1`. Explicitly, the omitted even-factor tail is at most `(4/3)2^{−2h−2}≤(2/3)2^{n−r}`; the denominator tail is at least `1−2^{−r}`, and `(1−2^{−r})⁻¹≤1+2^{1−r}` for `r≥1`. `Σ_n P_Sym(∞, n) = ∏_{j odd}(1 − 2^{−j}) Σ_n 2^{−n(n+1)/2}/∏_{i≤n}(1 − 2^{−i}) = ∏_{j odd}(1 − 2^{−j})∏_{i≥1}(1 + 2^{−i}) = 1` by [euler q-binomial sum](#euler-q-binomial-sum) at `q=1/2` and cancellation of the even and odd factors of the convergent nonzero Euler product.
 
@@ -1033,6 +1038,8 @@ Use the displayed change of basis to express `L` as the perfect `X×Y` pairing. 
 
 The required API is:
 
+- `Distributions.woodGridSeparator`: the displayed product on the complex coordinate space.
+- `Distributions.woodGridSeparator_entire`: the separator is analytic on the whole coordinate space.
 - `Distributions.woodGridSeparator_zero`: At `z=0` the value is 1.
 - `Distributions.woodGridSeparator_one_variable`: When `m=0` only the one-variable infinite product remains.
 - `Distributions.woodGridSeparator_upper`: At the grid point of any antitone `f` lexicographically greater than `b`, the value is zero.
@@ -1054,7 +1061,7 @@ Use the infinite product only in coordinate zero, and finite polynomials in the 
 
 <a id="refinement-wood-coefficient-bound"></a>
 
-**Wood coefficient bound.** Let `p` be prime and `b∈ℕ^(m+1)` antitone. The separator `H_b` is entire and its Taylor coefficients `a_d` satisfy `|a_d|≤E_b p^(−b₀d₀−d₀(d₀+1)/2)` for one `E_b>0`; coefficients vanish unless `Σ_{i=1}^m d_i≤b₀−b_m (hence≤b₀)`. The infinite-product head has coefficient `c_n=(−1)^n p^(−b₀n)/∏_{j=1}^n(p^j−1)`. Absolute values are necessary for exchanging signed sums.
+**Wood coefficient bound.** `Distributions.woodGridSeparator_coefficient_bound`: let `p` be prime and `b∈ℕ^(m+1)` antitone. The separator `H_b` is entire and its Taylor coefficients `a_d` satisfy `|a_d|≤E_b p^(−b₀d₀−d₀(d₀+1)/2)` for one `E_b>0`; coefficients vanish unless `Σ_{i=1}^m d_i≤b₀−b_m (hence≤b₀)`. `Distributions.woodGridSeparator_head_expansion` gives the infinite-product head coefficient `c_n=(−1)^n p^(−b₀n)/∏_{j=1}^n(p^j−1)`. Absolute values are necessary for exchanging signed sums.
 
 Prove locally uniform convergence of the head product on compact subsets of `ℂ`. Its functional equation `G(pz)=(1−z/p^b₀)G(z)` gives the exact coefficient recurrence. Bound the reciprocal product by `∏_{j≥1}(1−p^(−j))^(−1)` and multiply by the maximum absolute coefficient of the finite polynomial.
 
@@ -1065,6 +1072,8 @@ Prove locally uniform convergence of the head product on compact subsets of `ℂ
 **Checks.**
 
 - The first head coefficient is `−p^(−b₀)/(p−1)`, so the absolute-value estimate is essential rather than a positivity assertion.
+- For a constant profile `b`, all finite intervals are empty: every coefficient with positive degree outside coordinate zero vanishes.
+- For `m=1,b=(2,0)`, the finite factor has degree two and top coefficient `p^(−7)`; the support bound `b₀−b_m=2` is attained.
 
 <a id="refinement-wood-subgroup-bound"></a>
 
@@ -1082,7 +1091,7 @@ Use the exact subgroup count by conjugate partition, retaining the Gaussian-bino
 
 <a id="refinement-wood-grid-uniqueness"></a>
 
-**Wood grid uniqueness.** Let `p₁,…,p_s` be distinct primes, `m_j≥1`, and `M` the product of antitone nonnegative integer profiles of lengths `m_j`. Let `x_µ,y_µ≥0` have finite equal exponential moments for every `λ∈M`, given by `C_λ=Σ_µ x_µ∏_j p_j^(Σ_i λ_ji µ_ji)=Σ_µ y_µ∏_j p_j^(Σ_i λ_ji µ_ji)`. Assume `C_λ≤∏_j F^(m_j)p_j^(Σ_i λ_ji(λ_ji−1)/2)` for some `F>0`. Then `x_µ=y_µ` for every `µ`. The finite-moment and summability hypotheses are part of the statement.
+**Wood grid uniqueness.** `Distributions.wood_grid_uniqueness`: let `p₁,…,p_s` be distinct primes, `m_j≥1`, and `M` the product of antitone nonnegative integer profiles of lengths `m_j`. Let `x_µ,y_µ≥0` have finite equal exponential moments for every `λ∈M`, given by `C_λ=Σ_µ x_µ∏_j p_j^(Σ_i λ_ji µ_ji)=Σ_µ y_µ∏_j p_j^(Σ_i λ_ji µ_ji)`. Assume `C_λ≤∏_j F^(m_j)p_j^(Σ_i λ_ji(λ_ji−1)/2)` for some `F>0`. Then `x_µ=y_µ` for every `µ`. The finite-moment and summability hypotheses are part of the statement.
 
 For each profile `ν` expand the product of grid separators in its Taylor coefficients. The absolute coefficient bound and moment growth make the interchange of the coefficient and mass sums absolutely convergent. Use well-founded lexicographic induction on the finite concatenation of the nonnegative integer profiles. Lexicographic order on a fixed finite power of `ℕ` is a well-order, and restricting to antitone profiles preserves well-foundedness. The triangular separator vanishes above the chosen profile; the absolutely convergent sum over lower profiles is already determined by induction.
 
@@ -1093,6 +1102,8 @@ For each profile `ν` expand the product of grid separators in its Taylor coeffi
 **Checks.**
 
 - With no selected primes the profile carrier is a singleton and equality of the zero moment determines its mass.
+- At one prime with length one and support in `{0,1}`, the zero and first moments give `x₀+x₁=y₀+y₁` and `x₀+p x₁=y₀+p y₁`; since `p>1` these determine both masses.
+- For any selected primes and lengths, the unit mass at the zero profile has every moment equal to one and satisfies the bound with `F=1`.
 
 <a id="refinement-wood-bounded-moment-limit"></a>
 
