@@ -2,10 +2,11 @@
 
 The finite subgroups of `SU(2)` give an unusually concrete meeting point of finite-group
 representations, affine ADE diagrams, quadratic algebras, and curved homological algebra.  This
-roadmap formalizes that **algebraic prerequisite package**, including the complete finite-subgroup
-classification and conjugacy. It constructs named models, proves the generic McKay-matrix theorem
-for every finite subgroup, identifies the associated basic skew-group algebras, and reaches the
-curved complex and duplex functors of Frenkel--Khovanov--Schiffmann (FKS).
+roadmap constructs the complete finite-subgroup classification and conjugacy, the generic McKay matrix,
+its finite geometric correspondence, and the full algebraic skew-group prerequisite package. It
+constructs named models and actual invariant-quotient/resolution/representation-component maps,
+identifies basic skew-group algebras, and reaches the curved complex and duplex functors of
+Frenkel--Khovanov--Schiffmann (FKS).
 
 The regular dimension vector `δ` is constructed and the ordinary affine root lattice is quotiented by `ℤδ`, but no
 category is quotiented by `δ` and no categorified analogue of that quotient is asserted.
@@ -15,6 +16,9 @@ native interfaces.
 The first retains the full relative-quadratic, CBH and FKS targets; the companion supplies
 pole/conjugacy, canonical-complex McKay, weighted/marked-root and cyclic-presentation APIs.
 The trace-control companion pins the CBH normalization through finite module invariants.
+`GeometricMcKayTargets.lean` imports the classification companion and records Layer7’s actual
+coordinate/invariant algebras, quotient maps, cluster families, resolution, tautological and lattice
+interfaces. The importing direction is one-way; Suggested does not import its companions.
 The README is definitive. Named irreducible models are coordinate presentations of the native
 simple-object skeleton, and named affine labels transport the native `AffineDynkinType` data.
 
@@ -342,8 +346,9 @@ proof is a premise of the generic tensor/Laplacian argument.
 | `binaryIcosahedralSU2` | 120 | `Ẽ₈` | `1,2,2,3,3,4,4,5,6` |
 
 Handle cyclic `n=2` as the multiplicity-two affine `Ã₁` matrix rather than forcing it into a
-simple graph.  It participates only in the McKay-matrix and representation-ring layers: all
-simple-graph zigzag corners below require cyclic `n ≥ 3`, and the FKS graph functors further
+simple graph.  It participates in the matrix/root and actual skew/relative-quadratic layers and in Layer7’s
+finite geometric `A₁` comparison. All simple-graph zigzag corners below require cyclic `n ≥ 3`,
+and the FKS graph functors further
 require a bipartite graph, so even cyclic `n ≥ 4`.  Under the existing
 `affineE8Graph` numbering (central vertex `0`, arms of edge lengths
 `1,2,5`), the required vector is `(6,3,4,2,5,4,3,2,1)` and vertex `8` is the trivial/affine node.
@@ -652,6 +657,92 @@ transport is [FKS05, §§8.1--8.2 and §9.3].
 Only the algebraic material in FKS §§2--4, 6, 8.1--8.2 and 9.3 is in scope.  Their variety and
 sheaf interpretations are not.
 
+## Layer 7: finite geometric McKay and the actual comparison maps
+
+This phase treats every finite subgroup of SU(2) and, through Layer0's specified conjugator, every finite subgroup of SL₂(ℂ). It follows Layers0–2 and the independently constructed finite ADE surface library in NilpotentOrbits N6–N8. Layers3–6 retain their complete algebraic and FKS scope; geometric McKay is not a premise of those layers or of NilpotentOrbits. All schemes, actions, morphisms, inverse maps and sheaves below are constructed on the stated carriers, including nonreduced base schemes in the cluster functor. Results about complex points are not substituted for identities of schemes or arbitrary-ring points.
+
+Consume these precise lower contracts:
+
+- [NilpotentOrbits N6–N8](../NilpotentOrbits/README.md#n8-ade-surfaces-and-exceptional-intersection-lattices): the particular ADE hypersurfaces, explicit resolutions, completed subregular-slice comparisons, exceptional curves and their normal-bundle/local intersection API. This remains the surface-resolution owner.
+- [ReflectionInvariantTheory §1](../ReflectionInvariantTheory/README.md#1-finite-group-invariant-algebra-used-by-both-branches), [GroebnerGeometry G1](../GroebnerGeometry/README.md#g1-ideals-normal-forms-and-elimination): the actual contragredient polynomial action, nonmodular Reynolds/Molien/Noether bounds and exact generator/kernel/normal-form certificates.
+- [SchemeAndStackFoundations §§1.17,4.14,5.1–5.3,5.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f36405c227a5c8d6bbb732036b37a391e3652ffc/TauCetiRoadmap/SchemeAndStackFoundations/README.md): generic quotients, projective Hilbert/Quot representability, cycles/proper-curve degree/Chern and coherent/perfect classes. The A²-open Γ-cluster locus, its universal ideals and concrete comparisons are consumer constructions here. No general nonaffine quotient or new Hilbert engine is commissioned.
+- [AlgebraicVectorBundles L0](../AlgebraicVectorBundles/README.md#l0a--sheaves-of-modules): actual finite locally free sheaves, ranks, tensor/Hom, averaging images, pullback, determinants and affine finite-projective comparison. Consume native `TauCeti.AffineInvariantQuotient` and `RootPairing.GeckConstruction` directly.
+- [KacMoody KM0–1](../KacMoody/README.md): the separate full affine realization and central/degree/loop comparison, rather than applying a finite nondegenerate root construction to a singular matrix.
+
+### 7.0. Actual quotient and conjugation maps
+
+Let Γ be any finite subgroup of the actual native SU₂, or a finite subgroup of SL₂(ℂ) with the specified unitarizing conjugacy. Let V=ℂ² with its restricted actual defining representation and S=Sym_ℂ(V*) with contragredient action `(g·f)(v)=f(g⁻¹v)`. Construct the coordinate equivalence with native `MvPolynomial (Fin2) ℂ`, preserving the actual two linear coordinate functions. Use native `FixedPoints.subalgebra` / `FixedPoints.subring` and `TauCeti.AffineInvariantQuotient.quotient S Γ` for X_Γ, with its actual projection q and Spec-map equations. Do not introduce a new quotient carrier. The existing algebraic owner uses Sym(V) in its skew/Koszul lane. Consume its actual determinant-form equivariant V≃V* and the induced symmetric-algebra equivalence to compare that carrier with these coordinate functions; extend it with the identity onΓ to a left skew-algebra equivalence. This is an explicit duality/action adapter, not an implicit equality of Sym(V) and O(V).
+
+Consume native integrality, surjectivity, finiteness under finite-type-over-ℂ and prime-orbit fiber statements. Consume RIT1's finite-generation, nonmodular Reynolds, Molien and Noether bounds with these actual action maps. Construct the complex-point finite-orbit and affine quotient dictionary; native affine-target descent is not yet a universal property against arbitrary non-affine targets. The inverse-element equation for the native contravariant spectrum action is essential.
+
+Prove that Γ acts freely away from0: a finite-order complex2×2 matrix is diagonalizable; determinant1 and an eigenvalue1 force both eigenvalues1 and hence the identity. Construct on that free locus the actual scheme torsor comparison Γ×V°→V°×_(X°)V° and prove it is an isomorphism. One elementary construction chooses a polynomial separating the finite orbit, inverts its orbit discriminant, and applies the Chinese remainder and finite étale descent calculations on those invariant principal opens. Prove all flatness/étale/degree statements only there. The projection at0 is not assumed flat or étale. Prove normality/finite type of the invariant ring and that X_Γ has no other singular points; the explicit presentation below separately establishes singularity at0 for nontrivial Γ.
+
+Every actual GL₂ conjugator induces a specified graded algebra isomorphism on invariants, a quotient-scheme isomorphism and commuting square with q. Transport the defining representation, not merely Γ's abstract group type. Include identity/composition/inverse and the coordinate-change independence comparison. No compact normalizer splitting is used.
+
+### 7.1. All-family invariant presentations with certificates
+
+Produce actual invariant polynomials and mutually inverse ℂ-algebra maps between S^Γ and the following rings, matched to the finite type obtained by deleting the marked trivial vertex in the actual McKay matrix. Construct the maps with the following equations and type-index comparisons.
+
+| Γ model | Quotient hypersurface | finite type |
+| --- | --- | --- |
+| cyclic order n≥1 | XY−Zⁿ | A_(n−1), with n1 smooth |
+| binary dihedral order4m,m≥2 | X²+Y²Z+Z^(m+1) | D_(m+2) |
+| binary tetrahedral | X²+Y³+Z⁴ | E₆ |
+| binary octahedral | X²+Y³+YZ³ | E₇ |
+| binary icosahedral | X²+Y³+Z⁵ | E₈ |
+
+For cyclic Γ, take X=xⁿ,Y=yⁿ,Z=xy (the two characters may be interchanged by the contragredient dictionary). A monomial xᵃyᵇ is invariant exactly when a−b≡0 mod n. Its two normal forms in X,Z or Y,Z prove generation and independence of the standard monomial basis of the displayed quotient. Thus the exact algebra maps are justified, including n1, where Z eliminates and the quotient is ℂ[x,y], and n2, where the surface is A₁. No finite n0 or affineA0 is invented.
+
+Pin exactly Layer0's r=diag(exp(πi/m),exp(−πi/m)) and s=[[0,1],[-1,0]]. On point columns s acts by(x,y)↦(y,−x); on our left contragredient coordinate functions it acts by(x,y)↦(−y,x). Let A=x^(2m), B=y^(2m), w=xy. The cyclic subgroup invariants satisfy AB=w^(2m); this actual second generator therefore swaps A,B and sends w↦−w. A symmetric i-swap matrix is a different coordinate model: its induced swap has factors(−1)^m on A,B. One must first transport by the explicit diagonal conjugator diag(exp(πi/4),exp(−πi/4)) and its polynomial pullback/phases before importing the displayed invariant formulas; no such alternate model is silently used here. Consequently Y=A+B, Z=w², X=w(A−B) are invariant, and
+
+`X²=Z(Y²−4Z^m)`.
+
+The even symmetric and odd antisymmetric decomposition in A,B gives generation; a standard-monomial/normal-form argument gives the kernel. Explicit nonzero complex scalar rescalings put the relation in the indicated NilN8 form. The m1 degenerate presentation is cyclic C₄ and must be transported to A₃, not counted again as a valid D₃ family. The ordinary Q₈ boundary m2 gives D₄.
+
+For the three exceptional coordinate groups, construct the actual invariant triples of degrees (6,8,12), (8,12,18) and (12,20,30), respectively, from the named finite matrices/quaternion-coordinate models already owned in Layer0. Return exact finite polynomial relation and coefficient certificates, with all coordinate-field algebraicity/embedding data. RIT1's Reynolds images of monomials through the Noether bound supply a terminating finite search space; GG1 supplies exact elimination/standard-monomial verification. Prove algebraic independence of the chosen two parameters and the independence of1 and the remaining generator over their polynomial algebra, or supply equivalent explicit normal-form kernel certificates. Compare the resulting graded Hilbert series with the actual Molien expression degreewise to finish surjectivity only after those actual maps/kernel statements are proved. A rational series or a degree list alone does not establish an algebra isomorphism. Coefficient normalization to the ADE equation is an explicit invertible coordinate change. Construct all three concrete triples, relation checks, inverse maps and generation certificates; none is an input certificate assuming the desired isomorphism.
+
+### 7.2. Resolution through the existing finite surface owner
+
+For the actual global quotient algebra isomorphisms from 7.1, pull back NilN8's explicit resolution of the corresponding hypersurface to obtain π_Γ:Y_Γ→X_Γ. Provide the actual cartesian maps and inverse transport. Consume its smooth source, proper birational morphism, exceptional P¹s, incidence, normal-bundle degree−2 and intersection lattice; prove the transported morphism is an isomorphism off0 and minimal. For the trivial Γ set Y=X=ℂ² and π=id, with empty exceptional set and zero root lattice.
+
+Keep global quotient presentations distinct from NilN8's separate completed-local comparison between a hypersurface and a subregular Slodowy slice. To compare with that slice, compose the actual completed-local algebra isomorphisms and their lifted completed resolved-neighborhood maps. Identify exceptional components and first infinitesimal neighborhoods before transporting their degree/intersection data. Do not infer a global polynomial Slodowy-slice isomorphism from a formal germ calculation.
+
+The proof may use the already specified generic Rees/blowup maps, but it does not reconstruct a second general surface-resolution theorem. The nonproper total surface Y is not made projective to invoke a surface intersection theorem. Exceptional curves are proper; their normal-bundle degrees and supported local intersections are exactly the finite surface API already owned by NilN8.
+
+### 7.3. Representation labels must be actual geometric maps
+
+First construct a bijection from nontrivial actual irreducible indices to actual exceptional irreducible components, and prove under it
+
+`E_i·E_j=−(2δ_ij−M_ij)` for i,j nontrivial.
+
+It must commute with the chosen finite-root index/pinning maps and actual subgroup-conjugation transport. Repeated type names or equal cardinalities do not supply it. One complete constructive route is the following finite Γ-cluster comparison, consuming the existing generic Hilbert/Quot contract rather than asserting a new Hilbert engine.
+
+Start with length|Γ| Hilbert subschemes of P² supported inside the chosen A², via the actual support-disjoint-from-infinity open subfunctor. Impose Γ-stability and require the finite flat algebra to have the regular Γ-representation: its isotypic ranks are the numbers d_i. Construct this representing locally closed/union-of-components locus with its universal finite flat family. Define the coherent component as the reduced closure of the free-orbit locus; do not assume every Γ-cluster is on it. The invariant rank-one summand is generated by1 and gives the actual map to X_Γ.
+
+On the explicit Y_Γ charts from 7.2, construct and glue Γ-stable ideals in O_Y⊗S whose quotient is locally free of rank|Γ| with the regular isotypic ranks, and prove compatibility with π_Γ. Build the morphism Y_Γ→Γ-Hilb, construct its inverse on a covering by actual finite Hilbert charts, and prove both composites. Prove that these charts exhaust all regular Γ-clusters, so the full Γ-Hilb equals its coherent component in this dimension-two determinant-one scope. Construct both that equality and the reduced-closure comparison; do not silently replace either by the other. Neither a dimension count nor generic birationality is an inverse. Construct the finite-type chart equations, covering and inverse maps; generic representability alone does not supply them.
+
+Let R=p_*O_Z be the actual universal-family algebra on Y; finite flat p gives its locally free underlying sheaf. Use the existing canonical irreducibles and exact finite-group averaging to construct
+
+`R ≅ ⊕_i ρ_i ⊗ T_i`,  `T_i=Hom_Γ(ρ_i,R)`, `rank T_i=d_i`, `T_trivial=O_Y`.
+
+Use AVB's actual tensor/Hom/LF and base-change APIs. For this universal quotient algebra R=(O_Y⊗S)/I and the stated HomΓ convention, prove that every T_i is globally generated. Since Y is quasi-compact and R is finite locally free, select finitely many polynomial sections generating R on a finite open cover, and take their finite Γ-orbits to obtain a finite-dimensional Γ-stable polynomial subspace W⊂S with W⊗O_Y→R surjective. Finite-group averaging over ℂ makes HomΓ exact, hence gives a surjection HomΓ(ρ_i,W)⊗O_Y→T_i. Exterior powers show det(T_i) is globally generated, so its degree on every proper exceptional P¹ is nonnegative. This establishes the positive degree direction for this actual convention; dualizing the bundle changes the convention and its degrees, rather than leaving an arbitrary sign in the target.
+
+Compute det(T_i) on the explicit resolution charts, its transition functions and degrees on all exceptional curves. Construct an explicit bijection b from nontrivial canonical irreducible indices to exceptional components, and prove the positive equations `deg_(b(j)) det(T_i)=δ_ij`. These exact delta equations, including zero off-diagonal and degree one on the matched component, remain material chart calculations; global generation alone does not prove them. No degree-matrix or component-bijection conclusion is assumed as an input certificate. Pin the native ρ/ρ* and component-index dictionary by the actual universal-family calculations; do not guess it from an unlabeled picture. These equations construct and characterize the irrep/component map, and its adjacency compatibility is a further theorem, not an assignment of labels by dimension.
+
+Then construct the integral pairing-preserving map from the EXISTING Layer2 quotient R_ℂ(Γ)/ℤ[regular] to the free exceptional-curve lattice. On nontrivial simple classes it sends[ρ_i] to E_i and sends the trivial class to−Σ_(i≠0)d_i E_i, since d_trivial=1. Its inverse uses the nontrivial basis. The McKay form2I−M becomes minus the intersection form. Prove the comparison with the native finite ADE simple roots/coroots, respecting the perfect ambient root-datum pairing; the integral root lattice with its Cartan form is not automatically its own unimodular dual.
+
+Give the dimension labels a precise geometric interpretation: for Γ≠1 prove that the finite coefficients d_i form the minimal nonzero effective anti-nef exceptional cycle (coefficientwise minimal among nonzero effective anti-nef cycles). Construct it from the actual finite ADE intersection matrix, with the iterative curve-addition/termination and minimality proof; do not identify it merely by the words “highest root”. For Γ=1 the exceptional set is empty and the cycle is zero; no positive-cycle theorem is asserted there.
+
+Do not turn this root-lattice quotient into a categorical quotient or quotient of K₀(Y) by the tautological regular bundle. The latter has rank|Γ|, hence is not zero in ordinary K₀. The tautological assignment is at most an additive K₀ map until a separately stated multiplication comparison is proved; it is not automatically a representation-ring isomorphism.
+
+### 7.4. The Lie and source-diagram comparison
+
+For the actual finite ADE root pairing and base produced by Layer1–2, extend the chosen integral/rational root data to ℂ and consume native `RootPairing.GeckConstruction.lieAlgebra`, `basis`, `equivRootSystem` and `equivLieAlgebra` with their actual hypotheses. The native Basis module already proves simplicity over algebraically closed characteristic0 for nonempty irreducible data. The trivial group uses the zero Lie algebra, not a simple rank0 object. TauCeti's rational pinned `rationalRootSystemEquiv` fixes simple-root and inverse-coweight maps. The common graph/divisor-root index maps above must commute with these actual root-system equivalences; no second generic Lie-existence or Serre theorem is commissioned.
+
+Compare the marked affine matrix separately with the existing KacMoody KM0–1 full singular Cartan realization, including its central and degree directions and loop comparison. This is distinct from the finite Lie algebra obtained after deleting the trivial node. Do not feed the singular affine matrix into the finite Geck construction, identify dependent −θ with the independent affine root δ_aff−θ, or form a Lie/category quotient by the ordinary representation-lattice vector δ. The trivial singleton matrix is not a GCM or an affine A0; order two retains the genuine affine A1 double edge. Formal-current completions and level categories remain AffineLieAlgebras consumers.
+
+Export the complete commuting diagram: the actual subgroup and its defining representation give the marked tensor matrix and finite ADE root/Lie model; its invariant quotient gives the specified hypersurface, resolution and exceptional root lattice; the actual index, degree and intersection maps intertwine these constructions. Preserve conjugation, coordinate-change, dual-index and chosen-root-base comparison equations.
+
 ## Worked targets
 
 The examples are theorem-level integration tests, not prose illustrations.
@@ -684,14 +775,19 @@ finiteness, higher-gluing, or categorified-`δ` claims to it.
 
 ## Explicit exclusions
 
-Finite-subgroup classification and conjugacy are in Layer0. This roadmap does not formalize invariant
-theory of Kleinian surface singularities, GIT quotients, minimal resolutions, exceptional curves,
-McKay or preprojective moduli spaces, Nakajima quiver varieties, sheaves on resolutions,
-geometric/derived McKay correspondence, or FKS's geometric realization.  It also does not prove
-homological finiteness or higher-gluing assertions for exceptional categorifications, construct an
-exceptional categorification of the affine-to-finite lattice quotient, or assert a categorical
-quotient by `δ`.
+Finite-subgroup classification/conjugacy is in Layer0 and the finite geometric comparison is in
+Layer7. The Γ-cluster Hilbert locus, its universal finite flat family, explicit chart exhaustion,
+resolution, tautological bundles and irrep/component maps are included there. Generic Hilbert,
+invariant-ring, ADE-resolution, vector-bundle, root and Lie foundations remain with their cited
+owners. This roadmap does not include arbitrary GIT quotients, Nakajima quiver varieties,
+preprojective moduli beyond that Γ-cluster construction, a derived McKay equivalence, or FKS’s
+geometric realization. None of those is an unnamed premise of Layer7. In particular no
+Fourier–Mukai equivalence is inferred from the classical component bijection.
 
+It does not prove homological finiteness or higher-gluing assertions for exceptional
+categorifications, construct an exceptional categorification of the affine-to-finite lattice
+quotient, or assert a categorical quotient by δ. Existing algebraic FKS and ZigzagPreprojective
+boundaries remain unchanged.
 ## Completion criteria
 
 The roadmap is complete when:
@@ -722,7 +818,13 @@ The roadmap is complete when:
    category are constructed, the three acceptance tests of Layer 6 hold, and on bipartite zigzag
    duplexes the reflection functors built from the literal kernel satisfy the cited square, inverse
    and braid equations; and
-8. the cyclic, binary-dihedral and binary-icosahedral integration tests elaborate and compute.
+8. the cyclic, binary-dihedral and binary-icosahedral integration tests elaborate and compute; and
+9. Layer7 constructs every actual finite geometric comparison: invariant generators and inverse
+   algebra maps, quotient and conjugation maps, transported ADE resolutions and completed germ
+   comparisons, the full Γ-cluster representing scheme and universal-family chart equivalence,
+   positive tautological determinant degree/index equations, intersection/root-lattice maps and
+   fundamental cycles with the trivial zero boundary. The native finite Lie and separate affine
+   realization maps commute with the common indices.
 
 ## Published sources
 

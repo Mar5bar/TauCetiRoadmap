@@ -2831,4 +2831,8 @@ theorem affineE8_zigzag_dimension :
 canonical-complex McKay, weighted/marked finite-root and cyclic-corner interface. It is a separate
 companion to avoid importing a module from its own prerequisite. -/
 
+/-! `GeometricMcKayTargets.lean` imports the classification companion for the finite geometric
+phase. It consumes the existing quotient, Hilbert, vector-bundle and ADE-surface owners; no
+reverse import or geometric premise is added to Layers0–6. -/
+
 end TauCetiRoadmap.McKaySkewGroup
