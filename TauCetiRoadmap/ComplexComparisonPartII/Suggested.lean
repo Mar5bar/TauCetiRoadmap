@@ -147,13 +147,10 @@ What is recorded here:
   chart maps and the intrinsic saturation adapter (C5.5), and the residue-strip and monodromy
   conventions (C5.6);
 * end theorems and layer milestones whose carriers exist at the pins: the several-variable
-  Montel theorem, the Banach case of Schwartz's finiteness theorem, connectedness of
+  Montel theorem, Schwartz's finiteness theorem for Fréchet spaces and its Banach specialization,
+  the additive sheaf–singular comparison for arbitrary abelian coefficients, connectedness of
   punctured Riemann surfaces, the pointwise form of the semipositive wedge inequality and the
-  Fubini–Study normalisation;
-* `example`s fixing the period, Laplacian, residue and log normalisations:
-  `∮ dz/z = 2πi`, `Δ_Hodge(x₁²) = −2` in `ℝ³`, residue representatives in `0 ≤ Re < 1` and
-  monodromy `exp(−2πia)`, `ℕ → ℂ, 1 ↦ 0` for the standard log point, and intrinsic saturation
-  for `⟨2, 3⟩ ⊆ ℤ` and `2ℕ ⊆ ℤ`.
+  Fubini–Study normalisation.
 
 Design choices made explicit: analytification of modules is Mathlib's pullback of sheaves of
 modules, so coherent modules are `SheafOfModules.IsFinitePresentation` over the structure sheaf;
@@ -184,6 +181,34 @@ open scoped TensorProduct ContDiff Manifold Topology ZeroObject
 universe u
 
 noncomputable section
+
+/-! ## Milestones on the pinned carriers -/
+
+/-- **C1.6, `schwartzFiniteness`.** A compact perturbation of a continuous complex-linear
+surjection between Fréchet spaces has closed range of finite codimension. Compactness is
+Mathlib's neighbourhood-of-zero condition; the kernel of the surjection need not be finite.
+This is the functional-analytic finiteness theorem used for coherent cohomology. -/
+theorem schwartzFiniteness {E F : Type*}
+    [AddCommGroup E] [UniformSpace E] [IsUniformAddGroup E] [Module ℂ E]
+    [Module ℝ E] [IsScalarTower ℝ ℂ E] [ContinuousSMul ℂ E]
+    [LocallyConvexSpace ℝ E] [TopologicalSpace.MetrizableSpace E] [T2Space E] [CompleteSpace E]
+    [AddCommGroup F] [UniformSpace F] [IsUniformAddGroup F] [Module ℂ F]
+    [Module ℝ F] [IsScalarTower ℝ ℂ F] [ContinuousSMul ℂ F]
+    [LocallyConvexSpace ℝ F] [TopologicalSpace.MetrizableSpace F] [T2Space F] [CompleteSpace F]
+    (g h : E →L[ℂ] F) (hg : Function.Surjective g) (hh : IsCompactOperator h) :
+    IsClosed (LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F) : Set F) ∧
+      FiniteDimensional ℂ (F ⧸ LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F)) := sorry
+
+/-- **C5.1, `sheafSingularComparison`.** Constant-sheaf cohomology and singular cohomology
+with arbitrary abelian coefficients are additively isomorphic on a semilocally contractible
+space, without Hausdorff or paracompactness assumptions. The coefficient `ULift ℤ` is the
+free rank-one integral module in the space's universe. -/
+theorem sheafSingularComparison (T : TopCat.{u}) (hT : LocallyContractibleSpace T)
+    (A : AddCommGrpCat.{u}) (q : ℕ) :
+    Nonempty
+      (Sheaf.H.{u}
+        ((constantSheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}).obj A) q
+        ≃+ T.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) q) := sorry
 
 /-! Library declarations this roadmap builds on. -/
 
@@ -268,21 +293,6 @@ instance (X : LocallyRingedSpace.{u}) (M : CoherentAnalyticModule X) :
     M.obj.IsFinitePresentation :=
   M.property
 
-/-- The free rank-one object uses the pinned finite-presentation supplier. -/
-example (X : LocallyRingedSpace.{u}) :
-    (SheafOfModules.unit (TauCeti.SheafOfModules.ringCatSheaf X.sheaf)).IsFinitePresentation := by
-  let := TauCeti.SheafOfModules.monoidalCategory X.sheaf
-  exact (TauCeti.SheafOfModules.isMonoidal_isFinitePresentation (R := X.sheaf)).prop_unit
-
-/-- The zero sheaf is finitely presented. -/
-example (X : LocallyRingedSpace.{u}) :
-    (0 : SheafOfModules (TauCeti.SheafOfModules.ringCatSheaf X.sheaf)).IsFinitePresentation := sorry
-
-/-- Every finite free sheaf is finitely presented, including rank zero. -/
-example (X : LocallyRingedSpace.{u}) (r : ℕ) :
-    (SheafOfModules.free (R := TauCeti.SheafOfModules.ringCatSheaf X.sheaf)
-      (ULift.{u} (Fin r))).IsFinitePresentation := sorry
-
 end C0
 
 /-! ## Layer C1: Analytic coherent cohomology -/
@@ -315,10 +325,6 @@ theorem frechetOpenMapping {E F : Type*}
     [LocallyConvexSpace ℝ F] [TopologicalSpace.MetrizableSpace F] [T2Space F] [CompleteSpace F]
     (g : E →L[ℂ] F) (hg : Function.Surjective g) : IsOpenMap g := sorry
 
-/-- The surjective coordinate shift is open for the complete product topology on `ℂ^ℕ`,
-as in the `frechetOpenMapping` check. -/
-example : IsOpenMap (fun z : ℕ → ℂ => fun n => z (n + 1)) := sorry
-
 /-- **C1.6, `schwartzFiniteness`, Banach case.** A compact perturbation of a continuous linear
 surjection between complex Banach spaces has closed range of finite codimension. The README states
 the theorem for Fréchet spaces, the generality its coherent-cohomology application needs; this is
@@ -329,32 +335,7 @@ theorem schwartzFiniteness_banach {E F : Type*} [NormedAddCommGroup E] [NormedSp
     IsClosed (LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F) : Set F) ∧
       FiniteDimensional ℂ (F ⧸ LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F)) := sorry
 
-/-- Negative control for `schwartzFiniteness_banach`: compactness of the perturbation is needed.
-For `h = −g` on an infinite-dimensional space the range of `g + h` is `0`, whose quotient is not
-finite-dimensional. -/
-example {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
-    (hE : ¬ FiniteDimensional ℂ E) :
-    ¬ FiniteDimensional ℂ
-      (E ⧸ LinearMap.range (((ContinuousLinearMap.id ℂ E) + (-ContinuousLinearMap.id ℂ E) :
-        E →L[ℂ] E) : E →ₗ[ℂ] E)) := sorry
-
-/-! ### C1.2 Zero-dimensional orientation and the sign of the Hodge Laplacian -/
-
-/-- The positive zero-dimensional volume form is `+1`, so the defining wedge identity in
-C1.2 gives `*1 = 1`. -/
-example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    [FiniteDimensional ℝ E] [Fact (Module.finrank ℝ E = 0)] :
-    (positiveOrientation : Orientation ℝ E (Fin 0)).volumeForm =
-      AlternatingMap.constLinearEquivOfIsEmpty (1 : ℝ) :=
-  Orientation.volumeForm_zero_pos
-
-/-- The negative zero-dimensional volume form is `−1`, so the defining wedge identity in
-C1.2 gives `*1 = −1`. -/
-example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    [FiniteDimensional ℝ E] [Fact (Module.finrank ℝ E = 0)] :
-    (-positiveOrientation : Orientation ℝ E (Fin 0)).volumeForm =
-      -AlternatingMap.constLinearEquivOfIsEmpty (1 : ℝ) :=
-  Orientation.volumeForm_zero_neg
+/-! ### C1.2 The sign of the Hodge Laplacian -/
 
 section HodgeLaplacianSign
 
@@ -366,19 +347,6 @@ def hodgeLaplacianFun {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ 
     [FiniteDimensional ℝ E] (f : E → ℝ) : E → ℝ :=
   -(Δ f)
 
-/-- Constant functions have zero Hodge Laplacian. -/
-example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    [FiniteDimensional ℝ E] (c : ℝ) (x : E) :
-    hodgeLaplacianFun (fun _ : E => c) x = 0 := sorry
-
-/-- Every function on the zero-dimensional Euclidean space has zero Hodge Laplacian. -/
-example (f : EuclideanSpace ℝ (Fin 0) → ℝ) (x : EuclideanSpace ℝ (Fin 0)) :
-    hodgeLaplacianFun f x = 0 := sorry
-
-/-- C1.2: in `ℝ³`, `Δ_Hodge(x₁²) = −2`. -/
-example (x : EuclideanSpace ℝ (Fin 3)) :
-    hodgeLaplacianFun (fun y : EuclideanSpace ℝ (Fin 3) => (y 0) ^ 2) x = -2 := sorry
-
 end HodgeLaplacianSign
 
 end C1
@@ -388,18 +356,11 @@ end C1
 section C4
 
 /-- **C4.5, `puncturedRiemannSurfaceConnected`.** Removing finitely many points from a connected
-Riemann surface leaves a path-connected set. The real dimension two matters: the analogue for a
-real interval is false (see the example below). -/
+Riemann surface leaves a path-connected set. Removing a point from a real interval can disconnect
+it, so the real dimension two hypothesis matters. -/
 theorem puncturedRiemannSurfaceConnected {M : Type*} [TopologicalSpace M] [T2Space M]
     [ChartedSpace ℂ M] [IsManifold 𝓘(ℂ) ω M] [ConnectedSpace M] {D : Set M} (hD : D.Finite) :
     IsPathConnected Dᶜ := sorry
-
-/-- `P¹ ∖ {0, ∞} ⊇ ℂ ∖ {0}`: the punctured plane is path connected. -/
-example : IsPathConnected ({0}ᶜ : Set ℂ) := sorry
-
-/-- Negative control: a real interval minus an interior point is disconnected, so
-`puncturedRiemannSurfaceConnected` needs complex dimension one, not real dimension one. -/
-example : ¬ _root_.IsConnected ({0}ᶜ : Set ℝ) := sorry
 
 end C4
 
@@ -445,92 +406,7 @@ universe u
 
 noncomputable section
 
-section DifferentialOperators
-
-open TauCetiRoadmap.FormalConnectionsOpers
-
-variable (k : Type*) {A M N : Type*} [CommRing k] [CommRing A] [Algebra k A]
-  [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M]
-  [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
-
-/-- Multiplication maps have order zero. -/
-example (a : A) : IsDifferentialOperator k (A := A) 0
-    ((a • LinearMap.id : M →ₗ[A] M).restrictScalars k) := sorry
-
-/-- Any `A`-linear map is an order-zero differential operator. -/
-example (D : M →ₗ[A] N) : IsDifferentialOperator k (A := A) 0 (D.restrictScalars k) := sorry
-
-/-- The zero map has order zero on any coefficient modules. -/
-example : IsDifferentialOperator k (A := A) 0 (0 : M →ₗ[k] N) := sorry
-
-/-- Order bounds include the zero map at every order. -/
-example (m : ℕ) : IsDifferentialOperator k (A := A) m (0 : M →ₗ[k] N) := sorry
-
-open Polynomial in
-/-- `d/dz` on `ℂ[z]` has order `≤ 1`. -/
-example : IsDifferentialOperator ℂ (A := ℂ[X]) 1
-    ((Polynomial.derivative (R := ℂ)).restrictScalars ℂ : ℂ[X] →ₗ[ℂ] ℂ[X]) := sorry
-
-open Polynomial in
-/-- `DifferentialOperatorAnalytification.nonLinearOverO`: `d/dz` is not `ℂ[z]`-linear
-(`D(z · 1) − z D(1) = 1`), so it is not of order `0`. -/
-example : ¬ IsDifferentialOperator ℂ (A := ℂ[X]) 0
-    ((Polynomial.derivative (R := ℂ)).restrictScalars ℂ : ℂ[X] →ₗ[ℂ] ℂ[X]) := sorry
-
-open Polynomial in
-/-- The commutator with the coordinate evaluates to one on the constant polynomial one. -/
-example : commutatorWith ℂ (A := ℂ[X]) X
-    ((Polynomial.derivative (R := ℂ)).restrictScalars ℂ : ℂ[X] →ₗ[ℂ] ℂ[X]) 1 = 1 := sorry
-
-end DifferentialOperators
-
-/-! ### C5.2 Horizontal frames and Artin coefficients -/
-
-/-- The connection `d + dz` has the same horizontal frame `exp(−z)` on the K4 and
-sheafified CR.1 carriers under `holomorphicConnectionDictionary`; the frame transports
-the coefficient Poincaré contraction in `analyticFlatConnectionLocalSystem`. -/
-example (z : ℂ) :
-    deriv (fun w : ℂ => Complex.exp (-w)) z + Complex.exp (-z) = 0 ∧
-      Complex.exp (-z) ≠ 0 := sorry
-
-/-- The frame for `d_z + t dz` is normalized at zero and depends holomorphically on the
-parameter; differentiation here is in the fibre variable, with `t` fixed. -/
-example (t z : ℂ) :
-    deriv (fun w : ℂ => Complex.exp (-(t * w))) z +
-        t * Complex.exp (-(t * z)) = 0 ∧
-      Complex.exp (-(t * z)) ≠ 0 ∧ Complex.exp (-(t * 0)) = 1 := sorry
-
-/-- In `relativeDeRhamBetti` the connection on `L ⊗ O` differentiates the second factor.
-For the identity family on `A¹` in degree zero, `1 ⊗ t` gives `1 ⊗ 1` as the coefficient
-of `dt`, which tensor symmetry places in `dt ⊗ (1 ⊗ 1)`. -/
-example :
-    TensorProduct.map (LinearMap.id : ℂ →ₗ[ℂ] ℂ) (Polynomial.derivative (R := ℂ))
-      ((1 : ℂ) ⊗ₜ[ℂ] (Polynomial.X : Polynomial ℂ)) =
-        (1 : ℂ) ⊗ₜ[ℂ] (1 : Polynomial ℂ) := by
-  simp
-
-/-- The coefficient algebra for the `artinDeRhamBetti` check on `P¹` has length two;
-its degree-zero and degree-two cohomology modules each identify with this algebra. -/
-example : Module.length (DualNumber ℂ) (DualNumber ℂ) = 2 := sorry
-
-/-! ### C5.4 Current coefficients, positivity and the Chern normalisation -/
-
-section CurrentCoefficients
-
-/-- The K5a distributional operator action in `CurrentCalculus` uses Mathlib's
-negative-transpose derivative on each chart coefficient, paired with real-valued tests. -/
-example (Ω : TopologicalSpace.Opens ℂ) (T : Distribution Ω ℂ ⊤) (v : ℂ)
-    (φ : TestFunction Ω ℝ ⊤) :
-    Distribution.lineDerivCLM v T φ = -T (TestFunction.lineDerivCLM ℝ v φ) :=
-  Distribution.lineDerivCLM_apply
-
-/-- The point current in `CurrentCalculus` evaluates a test function equal to one at the point
-to one, fixing its unit mass normalization. -/
-example (Ω : TopologicalSpace.Opens ℂ) (a : ℂ) (φ : TestFunction Ω ℝ ⊤)
-    (hφ : φ a = 1) : Distribution.delta a φ = 1 :=
-  hφ
-
-end CurrentCoefficients
+/-! ### C5.4 Positivity and the Chern normalisation -/
 
 section Positivity
 
@@ -542,11 +418,6 @@ open scoped ComplexOrder
 theorem det_le_det_of_posSemidef {n : Type*} [Fintype n] [DecidableEq n]
     {A B : Matrix n n ℂ} (hB : B.PosSemidef) (hAB : (A - B).PosSemidef) :
     B.det.re ≤ A.det.re := sorry
-
-/-- The scalar case `α = tω`, `β = sω` with `t ≥ s ≥ 0` in dimension `2`: `s² ≤ t²`. -/
-example (s t : ℝ) (hs : 0 ≤ s) (hst : s ≤ t) :
-    (Matrix.diagonal (fun _ : Fin 2 => (s : ℂ))).det.re ≤
-      (Matrix.diagonal (fun _ : Fin 2 => (t : ℂ))).det.re := sorry
 
 /-- **C5.4, `chernFubiniStudyIntersection`, the normalisation on a line.** The shared integral
 class `integralLineBundleChernClass O(1)` agrees with the inverse-character Hopf class
@@ -563,20 +434,11 @@ end Positivity
 
 section LogCharts
 
-/-- With trivial logs on the analytic affine line, `AnalyticLogDifferentials` uses
-`d_hol(exp z) = exp z · dz`, the holomorphic cotangent relation. -/
-example (z : ℂ) : deriv Complex.exp z = Complex.exp z :=
-  congrFun Complex.deriv_exp z
-
 /-- **The standard log point** `ℕ → ℂ`, `n ↦ 0ⁿ` (so `1 ↦ 0`): a prelog structure that is not
 a log structure; its logification is `ℂˣ × ℕ`. Restricting prelog targets to units would
 exclude it. This is the chart map for `LogCrystalline.PrelogRing`, not a log-structure carrier. -/
 def standardLogPoint : Multiplicative ℕ →* ℂ :=
   powersHom ℂ 0
-
-/-- The generator of the standard log point maps to `0`, and the unit maps to `1`. -/
-example : standardLogPoint (Multiplicative.ofAdd 1) = 0 ∧
-    standardLogPoint (Multiplicative.ofAdd 0) = 1 := sorry
 
 /-- **Saturation** of a submonoid `Q` of an abelian group, measured in the subgroup `Q^gp` that
 `Q` generates (its group completion): an element `x` of `Q^gp` with `n • x ∈ Q` for some `n > 0`
@@ -584,20 +446,6 @@ lies in `Q`. This Mathlib adapter agrees with CrystallineCohomology's
 `LogCrystalline.IsSaturatedMonoid` for `Multiplicative Q`; it measures roots in `Q^gp`. -/
 def IsSaturatedSubmonoid {G : Type*} [AddCommGroup G] (Q : AddSubmonoid G) : Prop :=
   (Q.comap (AddSubgroup.closure (Q : Set G)).subtype).NSMulSaturated
-
-/-- The rank-one free monoid is saturated in its group completion `ℤ`. -/
-example : IsSaturatedSubmonoid (AddSubmonoid.closure ({1} : Set ℤ)) := sorry
-
-/-- The rank-zero free monoid is saturated in its trivial group completion. -/
-example : IsSaturatedSubmonoid (⊥ : AddSubmonoid ℤ) := sorry
-
-/-- The submonoid generated by `2` and `3` is not saturated: its group completion contains `1`,
-whose double lies in the submonoid although `1` does not. -/
-example : ¬ IsSaturatedSubmonoid (AddSubmonoid.closure ({2, 3} : Set ℤ)) := sorry
-
-/-- Saturation is intrinsic: `2ℕ ⊆ ℤ` is a copy of `ℕ` and is saturated, although `2 • 1 ∈ 2ℕ`
-and `1 ∉ 2ℕ`; a condition quantifying over all of `ℤ` would wrongly call it unsaturated. -/
-example : IsSaturatedSubmonoid (AddSubmonoid.closure ({2} : Set ℤ)) := sorry
 
 end LogCharts
 
@@ -615,22 +463,6 @@ theorem residueStripRep_mem (a : ℂ) :
     0 ≤ (residueStripRep a).re ∧ (residueStripRep a).re < 1 ∧
       ∃ n : ℤ, residueStripRep a = a - n := sorry
 
-/-- The lower strip endpoint represents itself. -/
-example : residueStripRep 0 = 0 := sorry
-
-/-- The upper strip endpoint is represented by zero. -/
-example : residueStripRep 1 = 0 := sorry
-
-/-- A negative real residue is moved into the half-open strip. -/
-example : residueStripRep (-1 / 4) = 3 / 4 := sorry
-
-/-- Removing an integer from a residue preserves its imaginary part. -/
-example (a : ℂ) : (residueStripRep a).im = a.im := sorry
-
-/-- `CanonicalLogExtension.tensorCarry`: residues `3/4` and `3/4` add to `3/2`, whose strip
-representative is `1/2`; the canonical extension is not an unadjusted tensor functor. -/
-example : residueStripRep (3 / 4 + 3 / 4) = 1 / 2 := sorry
-
 /-- The monodromy `exp(−2πia)` along the positive loop of the rank-one connection
 `d + a dz/z` (equivalently, of a logarithmic extension with residue `a`). -/
 def localMonodromy (a : ℂ) : ℂ :=
@@ -640,25 +472,7 @@ def localMonodromy (a : ℂ) : ℂ :=
 theorem localMonodromy_add_int (a : ℂ) (n : ℤ) : localMonodromy (a + n) = localMonodromy a :=
   sorry
 
-/-- Residue zero gives identity scalar monodromy. -/
-example : localMonodromy 0 = 1 := by simp [localMonodromy]
-
-/-- Every integer residue gives identity scalar monodromy. -/
-example (n : ℤ) : localMonodromy (n : ℂ) = 1 := sorry
-
-/-- `CanonicalLogExtension.rankOne`: residue `1/2` has monodromy `−1`; the sign of the exponent is
-invisible here and fixed by the next example. -/
-example : localMonodromy (1 / 2) = -1 := sorry
-
-/-- The sign convention `exp(−2πia)`: residue `1/4` has monodromy `−i`, not `i`. -/
-example : localMonodromy (1 / 4) = -Complex.I := sorry
-
 end Residues
-
-/-! ### C5.1, C5.7 The period of `dz/z` -/
-
-/-- `HolomorphicDeRham.torusPeriod`: the positively oriented unit circle gives `∮ dz/z = 2πi`. -/
-example : (∮ z in C(0, 1), z⁻¹) = 2 * Real.pi * Complex.I := sorry
 
 /-! ### C6.1 Finite fibres in the native local-coefficient category -/
 
@@ -673,13 +487,6 @@ instance (Λ : Type u) [CommRing Λ] (T : TopCat.{u})
     (L : FiniteModuleLocalSystem Λ T) (x : FundamentalGroupoid T) :
     Finite (L.obj.obj x) :=
   L.property x
-
-/-- Positive-loop transport 2 and its dual transport 3 are distinct over `𝔽₅`;
-the direct-cochain first face uses reverse-edge transport. -/
-example : (2 : ZMod 5)⁻¹ = 3 ∧ (2 : ZMod 5) ≠ 3 := by
-  constructor
-  · exact ZMod.inv_eq_of_mul_eq_one 5 2 3 (by decide)
-  · decide
 
 end
 
