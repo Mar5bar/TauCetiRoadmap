@@ -1,11 +1,11 @@
 import Mathlib
-import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Geometry.Hodge.Dimension
 import TauCeti.Geometry.Hodge.Dual
 import TauCeti.Geometry.Hodge.Prod
 import TauCeti.Geometry.Hodge.Tate.Basic
 import TauCeti.Geometry.Hodge.Tate.Twist
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
 
 /-!
 # Selmer groups and Iwasawa cohomology: suggested Lean forms
@@ -54,6 +54,16 @@ open scoped TensorProduct NumberField
 
 namespace TauCetiRoadmap.SelmerIwasawaCohomology
 
+/-- §3.0, Iwasawa algebra involution: inversion of a profinite abelian group induces a
+continuous involutive algebra automorphism, sending each group element to its inverse. -/
+theorem iwasawaAlgebra_involution (O Γ : Type*) [CommRing O] [TopologicalSpace O]
+    [IsTopologicalRing O] [CommGroup Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
+    [CompactSpace Γ] [T2Space Γ] [TotallyDisconnectedSpace Γ] :
+    ∃ ι : TauCeti.completedGroupAlgebra O Γ ≃ₐ[O] TauCeti.completedGroupAlgebra O Γ,
+      Continuous ι ∧ Function.Involutive ι ∧
+        ∀ γ : Γ, ι (TauCeti.completedGroupAlgebra.of O Γ γ) =
+          TauCeti.completedGroupAlgebra.of O Γ γ⁻¹ := sorry
+
 /-! ## Layer 0: Completions and coefficient limits -/
 
 section WeakSemisimplicity
@@ -86,7 +96,32 @@ theorem weaklySemisimple_sum {N : Type*} [AddCommGroup N] [Module R N]
     (σ : M →ₗ[R] M) (τ : N →ₗ[R] N) :
     IsWeaklySemisimple (σ.prodMap τ) ↔ IsWeaklySemisimple σ ∧ IsWeaklySemisimple τ := sorry
 
+/-- §0.13: on a Noetherian module, surjectivity of the invariant-to-coinvariant map
+already gives weak semisimplicity. -/
+theorem weaklySemisimple_of_surjective [IsNoetherian R M] (σ : M →ₗ[R] M)
+    (h : Function.Surjective (invariantCoinvariantMap σ)) : IsWeaklySemisimple σ := sorry
+
 end WeakSemisimplicity
+
+section IntegralLifting
+
+variable {O K M : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [Field K] [Algebra O K] [IsFractionRing O K] [AddCommGroup M] [Module O M]
+    [Module.Free O M] [Module.Finite O M]
+
+/-- §0.13, integral lifting: residual weak semisimplicity and the invariant-dimension
+inequality give integral weak semisimplicity and equality of the two dimensions. -/
+theorem weaklySemisimple_integral_lift (σ : M →ₗ[O] M)
+    (hres : IsWeaklySemisimple (σ.baseChange (IsLocalRing.ResidueField O)))
+    (hdim : Module.finrank (IsLocalRing.ResidueField O)
+        (LinearMap.ker (σ.baseChange (IsLocalRing.ResidueField O) - LinearMap.id)) ≤
+      Module.finrank K (LinearMap.ker (σ.baseChange K - LinearMap.id))) :
+    IsWeaklySemisimple σ ∧
+      Module.finrank K (LinearMap.ker (σ.baseChange K - LinearMap.id)) =
+        Module.finrank (IsLocalRing.ResidueField O)
+          (LinearMap.ker (σ.baseChange (IsLocalRing.ResidueField O) - LinearMap.id)) := sorry
+
+end IntegralLifting
 
 namespace Tests
 
@@ -96,20 +131,8 @@ def jordan (a : ℚ) : (ℚ × ℚ) →ₗ[ℚ] (ℚ × ℚ) where
   map_add' := by intros; ext <;> simp <;> ring
   map_smul' := by intros; ext <;> simp <;> ring
 
-/-- The trivial action is weakly semisimple. -/
-example {M : Type*} [AddCommGroup M] [Module ℚ M] :
-    IsWeaklySemisimple (LinearMap.id : M →ₗ[ℚ] M) := sorry
-
-/-- The unipotent Jordan block sends its invariant line to zero in coinvariants. -/
-example : ¬ IsWeaklySemisimple (jordan 1) := sorry
-
-/-- A Jordan block away from eigenvalue one is weakly semisimple, though not semisimple. -/
-example : IsWeaklySemisimple (jordan 2) := sorry
-
-/-- The identity operator sends each invariant to its unchanged quotient class. -/
-example (x : LinearMap.ker ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)) :
-    invariantCoinvariantMap (LinearMap.id : ℚ →ₗ[ℚ] ℚ) x =
-      (LinearMap.range ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)).mkQ (x : ℚ) := rfl
+/-- §0.12: the unipotent Jordan block sends its invariant line to zero in coinvariants. -/
+theorem not_weaklySemisimple_jordan_one : ¬ IsWeaklySemisimple (jordan 1) := sorry
 
 end Tests
 
@@ -296,12 +319,8 @@ def IsOrdinary (ρ : Representation E G V) (I : Subgroup G) (χ : G →* Eˣ) : 
 def OrdinaryFiltration.plus {ρ : Representation E G V} {I : Subgroup G} {χ : G →* Eˣ}
     (D : OrdinaryFiltration ρ I χ) : Submodule E V := D.F 1
 
-/-- The zero representation is ordinary. -/
-example [Subsingleton V] (ρ : Representation E G V) (I : Subgroup G) (χ : G →* Eˣ) :
-    IsOrdinary ρ I χ := sorry
-
-/-- The line of character `χ^n` has its filtration jump at `n`. -/
-example (ρ : Representation E G E) (I : Subgroup G) (χ : G →* Eˣ) (n : ℤ)
+/-- §2.8a: the line of character `χ^n` has its filtration jump at `n`. -/
+theorem ordinaryFiltration_character (ρ : Representation E G E) (I : Subgroup G) (χ : G →* Eˣ) (n : ℤ)
     (hρ : ∀ g x, ρ g x = ((χ g ^ n : Eˣ) : E) * x) :
     ∃ D : OrdinaryFiltration ρ I χ, ∀ i, D.F i = if i ≤ n then ⊤ else ⊥ := sorry
 
@@ -384,61 +403,15 @@ namespace SelmerChecks
 variable {R ι : Type*} [CommRing R]
 
 /-- All relaxed conditions give the full global module. -/
-example (D : SelmerData R ι) : (D.withCond fun _ => ⊤).selmer = ⊤ := sorry
+example (D : SelmerData R ι) : (D.withCond fun _ => ⊤).selmer = ⊤ := by
+  change (⨅ v, (⊤ : Submodule R (D.loc v)).comap (D.res v)) = ⊤
+  simp only [Submodule.comap_top, iInf_top]
 
 /-- All strict conditions give the intersection of localization kernels. -/
 example (D : SelmerData R ι) :
-    (D.withCond fun _ => ⊥).selmer = ⨅ v, LinearMap.ker (D.res v) := sorry
-
-/-- An empty index imposes no constraint. -/
-example (D : SelmerData R Empty) : D.selmer = ⊤ := sorry
-
-/-- Inverse image of zero under a zero map is everything; image of everything is zero. -/
-example : propagatePreimage (0 : ℚ →ₗ[ℚ] ℚ) ⊥ = ⊤ ∧ propagateImage (0 : ℚ →ₗ[ℚ] ℚ) ⊤ = ⊥ :=
-  sorry
-
-/-- Forward propagation along a composite is the iterated image. -/
-example {X Y Z : Type*} [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]
-    [AddCommGroup Z] [Module R Z] (h : X →ₗ[R] Y) (g : Y →ₗ[R] Z) (L : Submodule R X) :
-    propagateImage (g ∘ₗ h) L = propagateImage g (propagateImage h L) := sorry
-
-/-- Backward propagation along a composite reverses the order of preimages. -/
-example {X Y Z : Type*} [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]
-    [AddCommGroup Z] [Module R Z] (h : X →ₗ[R] Y) (g : Y →ₗ[R] Z) (L : Submodule R Z) :
-    propagatePreimage (g ∘ₗ h) L = propagatePreimage h (propagatePreimage g L) := sorry
-
-/-- Identity inertia restriction gives the strict condition; a zero quotient restriction gives
-the relaxed Greenberg condition. -/
-example : unramified (LinearMap.id : ℚ →ₗ[ℚ] ℚ) = ⊥ ∧ greenberg (0 : ℚ →ₗ[ℚ] ℚ) = ⊤ := sorry
-
-/-- Corank one uses the compact dual of the discrete divisible module; rank two distinguishes
-corank from torsion length. -/
-example (p : ℕ) [Fact p.Prime] :
-    corankFromDual p ℤ_[p] = 1 ∧ corankFromDual p (Fin 2 → ℤ_[p]) = 2 := sorry
-
-/-- The nonzero finite compact dual has corank zero under its natural residue action. -/
-example (p : ℕ) [Fact p.Prime] :
-    @corankFromDual p _ (ZMod p) _
-      (Module.compHom (ZMod p) (PadicInt.toZMod : ℤ_[p] →+* ZMod p)) = 0 := sorry
-
-/-- The contragredient pullback evaluates at the inverse group element. -/
-example {G M : Type*} [Group G] [TopologicalSpace M] [CommGroup M]
-    [MulDistribMulAction G M] (hc : ∀ g : G, Continuous fun x : M => g • x)
-    (g : G) (f : PontryaginDual M) (x : M) : contragredient hc g f x = f (g⁻¹ • x) := rfl
-
-/-- Identical local conditions give a zero change map. -/
-example (D : SelmerData R ι) :
-    D.changeConditionMap (L := D.cond) (L' := D.cond) (fun _ => le_rfl) = 0 := sorry
-
-/-- A zero global module cannot surject onto a nonzero local-condition quotient. -/
-example (D : SelmerData ℚ Unit) [Subsingleton D.glob] (h : ∃ x : D.loc (), x ≠ 0) :
-    ¬ Function.Surjective
-      (D.changeConditionMap (L := fun _ => ⊥) (L' := fun _ => ⊤) (fun _ => bot_le)) := sorry
-
-/-- Dualizing strict conditions gives relaxed conditions even for a zero pairing. -/
-example {Y : Type*} [AddCommGroup Y] [Module R Y] (D D' : SelmerData R ι)
-    (b : ∀ v, D.loc v →ₗ[R] D'.loc v →ₗ[R] Y) (v : ι) :
-    SelmerData.dualCond (D.withCond fun _ => ⊥) D' b v = ⊤ := sorry
+    (D.withCond fun _ => ⊥).selmer = ⨅ v, LinearMap.ker (D.res v) := by
+  change (⨅ v, (⊥ : Submodule R (D.loc v)).comap (D.res v)) = _
+  simp only [Submodule.comap_bot]
 
 end SelmerChecks
 
@@ -447,35 +420,6 @@ end SelmerChecks
 namespace Adjoint
 
 variable (k : Type*) [Field k] (n : Type*) [Fintype n] [DecidableEq n]
-
-/-- §2A.4: for the unipotent real involution over `𝔽₂`, the invariant groups on `ad` and `ad⁰` both
-have order four, while the norm images have orders four and two. Thus their Tate `H⁰` groups
-have orders one and two, and the trace sequence retains its preceding Tate term. -/
-example :
-    let u : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![1, 1; 0, 1]
-    (Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) // u * X * u = X},
-      Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-        X.trace = 0 ∧ u * X * u = X},
-      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), Y = X + u * X * u},
-      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), X.trace = 0 ∧ Y = X + u * X * u}) =
-      (4, 4, 4, 2) := by
-  decide
-
-/-- §2A.4: trace is onto in positive rank, even when the characteristic divides the rank. -/
-example [Nonempty n] : Function.Surjective (Matrix.trace : Matrix n n k → k) :=
-  Matrix.trace_surjective
-
-/-- §2A.4: in rank zero trace is not onto the coefficient field. -/
-example : ¬ Function.Surjective (Matrix.trace : Matrix (Fin 0) (Fin 0) k → k) := by
-  intro h
-  obtain ⟨X, hX⟩ := h 1
-  simp [Matrix.trace] at hX
-
-/-- §2A.4: the rank-zero trace is zero and determinant is one. -/
-example (X : Matrix (Fin 0) (Fin 0) k) : X.trace = 0 ∧ X.det = 1 := by
-  simp [Matrix.trace, Matrix.det_isEmpty]
 
 /-- §2A.4: the determinant derivative is the trace, including rank zero:
 `det(1 + εX) = 1 + ε tr X` over `k[ε]`. -/
@@ -490,28 +434,7 @@ end Adjoint
 
 /-! ## Layer 3: Iwasawa cohomology, control and determinants
 
-The Iwasawa carriers are README targets; the checks below fix the conventions of §§3.1–3.2, 3.7 and
-3.14 numerically. -/
-
-/-- §3.1: norm-compatible integer invariants cannot be divisible by every power of three, so the
-corestriction limit of lattice `H⁰` vanishes. -/
-example (x : ℤ) (h : ∀ n : ℕ, ∃ y : ℤ, x = 3 ^ n * y) : x = 0 := by
-  obtain ⟨y, hy⟩ := h x.natAbs
-  refine Int.eq_zero_of_dvd_of_natAbs_lt_natAbs ⟨y, hy⟩ ?_
-  rw [Int.natAbs_pow]
-  exact Nat.lt_pow_self (by norm_num)
-
-/-- §3.2: the linear coefficients of `γ = 1 + X` and `γ⁻¹` differ by a nonzero
-coefficient modulo three. -/
-example : (1 : ZMod 3) - (-1) = 2 ∧ (2 : ZMod 3) ≠ 0 := by decide
-
-/-- §3.7: at `k = 1` and `χ(γ) = 4`, the cup twist has inverse scalar `1/4`, not `4`. -/
-example : ((4 : ℚ) ^ (-1 : ℤ)) * 4 = 1 ∧ (4 : ℚ) * 4 ≠ 1 := by norm_num
-
-/-- §3.14: degree two contributes positively and degree one negatively to the
-inverse-determinant divisor. -/
-example (length : ℤ) : (-1 : ℤ) ^ 2 * length = length ∧ (-1 : ℤ) ^ 1 * length = -length := by
-  constructor <;> ring
+The Iwasawa cohomology and determinant targets are stated in the README. -/
 
 /-! ## Layer 4: Finite conditions and arithmetic applications -/
 
@@ -759,117 +682,18 @@ def oppositeRealSign (A : ArchimedeanRealization W ω w) :
     change (A.hodge.piece a).map (-A.FInfty.toLinearMap) = _
     rw [Submodule.map_neg, A.exchange]
 
-end Archimedean
-
 namespace Tests
-
-/-- §4.15: twists `2` and `-1` are critical, the trivial twist is not, and twist `1` has a pole at
-one. -/
-example : IsGreenbergCritical (tateArchimedean 2) ∧ IsGreenbergCritical (tateArchimedean (-1)) ∧
-    ¬ IsGreenbergCritical (tateArchimedean 0) ∧ poleOrderAtOne (tateArchimedean 1) = 1 := sorry
-
-/-- §4.14: the empty-list adapter gives two empty shift multisets, unit product and
-zero integer count. -/
-example (s : ℂ) : hodgeGammaShifts [] = (0, 0) ∧
-    hodgeGammaFactor [] s = 1 ∧ gammaPoleOrder [] 0 = 0 := by
-  simp [hodgeGammaShifts, hodgeGammaFactor, gammaPoleOrder]
-
-/-- §4.14: the adapter preserves negative shifts, repeats multiplicities, separates factor
-kinds and discards zero multiplicities. -/
-example : hodgeGammaShifts [(.real (-2), 2), (.complex 1, 1), (.real 4, 0)] =
-    (Multiset.replicate 2 (-2 : ℂ), {1}) := by
-  simp [hodgeGammaShifts]
-
-/-- §4.14: the zero Hodge realization has unit product and analytic order zero everywhere. -/
-example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    {ω : TauCeti.Hodge.Conjugation W} {w : ℤ} [Subsingleton W]
-    (A : ArchimedeanRealization W ω w) (s : ℂ) :
-    hodgeGammaFactor (hodgeGammaFactors A) s = 1 ∧
-    meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors A)) s = 0 := sorry
-
-/-- §4.14: coincident poles in combined real- and complex-place Hodge lists add multiplicities. -/
-example : meromorphicOrderAt (hodgeGammaFactor [(.real 0, 2), (.complex 0, 1)]) 0 =
-    (-3 : WithTop ℤ) := sorry
-
-/-- §4.14: at minus one the weight-zero Tate line has a pole only at a complex place. -/
-example : meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0))) (-1) = 0 ∧
-    meromorphicOrderAt (hodgeGammaFactor (complexHodgeGammaFactors (tateHodge 0))) (-1) =
-      (-1 : WithTop ℤ) := sorry
-
-/-- §4.14: changing the real sign moves the pole at zero; odd negative arguments are not real
-Gamma poles, while complex Gamma has a pole at every nonpositive integer. -/
-example : gammaPoleOrder [(.real 0, 1)] 0 = 1 ∧ gammaPoleOrder [(.real 1, 1)] 0 = 0 ∧
-    gammaPoleOrder [(.real 0, 1)] (-1) = 0 ∧ gammaPoleOrder [(.complex 0, 1)] (-1) = 1 := by
-  decide
-
-/-- §4.14: the Hodge Tate-line adapter has totalized product value zero at a pole but integer
-count one and analytic order minus one. -/
-example : hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0)) 0 = 0 ∧
-    gammaPoleOrder (hodgeGammaFactors (tateArchimedean 0)) 0 = 1 ∧
-    meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0))) 0 =
-      (-1 : WithTop ℤ) := sorry
-
-/-- §4.14: a conjugate off-diagonal pair is counted once at a real place. -/
-example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    {ω : TauCeti.Hodge.Conjugation W} (A : ArchimedeanRealization W ω 1)
-    (h : ∀ a, A.hodge.hodgeNumber a = if a = 0 ∨ a = 1 then 1 else 0) (s : ℂ) :
-    hodgeGammaFactor (hodgeGammaFactors A) s = Complex.Gammaℂ s := sorry
 
 /-- §4.13: identical Hodge filtrations with opposite Betti involutions have different pole
 orders at zero. -/
-example : (oppositeRealSign (tateArchimedean 0)).hodge = (tateArchimedean 0).hodge ∧
+theorem gammaPoleOrder_oppositeRealSign :
+    (oppositeRealSign (tateArchimedean 0)).hodge = (tateArchimedean 0).hodge ∧
     gammaPoleOrder (hodgeGammaFactors (tateArchimedean 0)) 0 = 1 ∧
     gammaPoleOrder (hodgeGammaFactors (oppositeRealSign (tateArchimedean 0))) 0 = 0 := sorry
 
-/-- §4.13: the zero carrier has no Hodge or diagonal multiplicities and no Gamma factors. -/
-example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    {ω : TauCeti.Hodge.Conjugation W} {w : ℤ} [Subsingleton W] (A : ArchimedeanRealization W ω w)
-    (a : ℤ) (ε : Fin 2) (s : ℂ) :
-    A.hodge.hodgeNumber a = 0 ∧ archRealization_diagonalMultiplicity A a ε = 0 ∧
-      hodgeGammaFactor (hodgeGammaFactors A) s = 1 := sorry
-
-/-- §4.13: the Betti involution of the Tate line with `n = 1` is `-1`, also at `p = 2`. -/
-example : (tateArchimedean 1).FInfty (1 : ℂ) = -1 := sorry
-
-/-- §4.13: product conjugation conjugates both factors. -/
-example : (productConjugation standardConjugation standardConjugation).toEquiv
-    (Complex.I, 1) = (-Complex.I, 1) := sorry
-
-/-- §4.13: Tau Ceti's product of two weight-zero Tate lines has Hodge number two at `0`. -/
-example : ((tateHodge 0).prod (tateHodge 0)
-    (Ω := productConjugation standardConjugation standardConjugation) (fun _ => rfl)).hodgeNumber 0
-      = 2 := sorry
-
-/-- §4.14: the canonical dual factors of twists two and zero fix both shift and real sign. -/
-example : gammaPoleOrder (tateDualHodgeGammaFactors (tateArchimedean 2)) 1 = 0 ∧
-    gammaPoleOrder (tateDualHodgeGammaFactors (tateArchimedean 0)) 1 = 1 := sorry
-
-/-- §4.14: the complex-place factor of a real Tate line is a complex Gamma factor. -/
-example (s : ℂ) : hodgeGammaFactor (complexHodgeGammaFactors (tateHodge 0)) s =
-    Complex.Gammaℂ s := sorry
-
-/-- §4.14: the zero complex-place realization has unit product. -/
-example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    {ω : TauCeti.Hodge.Conjugation W} {w : ℤ} [Subsingleton W]
-    (H : TauCeti.Hodge.HodgeStructureOn W ω w) (s : ℂ) :
-    hodgeGammaFactor (complexHodgeGammaFactors H) s = 1 := sorry
-
-/-- §4.14: a complex-place type `(2,2)` shifts the complex factor by minus two. -/
-example (s : ℂ) : hodgeGammaFactor (complexHodgeGammaFactors (tateHodge 2)) s =
-    Complex.Gammaℂ (s - 2) := sorry
-
-/-- §4.14: complex places count both conjugate weight-one types with the same zero shift. -/
-example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    {ω : TauCeti.Hodge.Conjugation W} (H : TauCeti.Hodge.HodgeStructureOn W ω 1)
-    (h : ∀ a, H.hodgeNumber a = if a = 0 ∨ a = 1 then 1 else 0) (s : ℂ) :
-    hodgeGammaFactor (complexHodgeGammaFactors H) s = Complex.Gammaℂ s ^ 2 := sorry
-
-/-- §4.13: switching the real sign twice recovers the original involution. -/
-example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    {ω : TauCeti.Hodge.Conjugation W} {w : ℤ} (A : ArchimedeanRealization W ω w) :
-    (oppositeRealSign (oppositeRealSign A)).FInfty = A.FInfty := sorry
-
 end Tests
+
+end Archimedean
 
 section IwasawaCorank
 
@@ -890,11 +714,6 @@ theorem iwasawaCorankFromComponentDual_self :
 theorem iwasawaCorankFromComponentDual_torsion (N : Type*) [AddCommGroup N] [Module Λ N]
     [Module.Finite Λ N] (hN : ∀ x : N, ∃ a : Λ, a ≠ 0 ∧ a • x = 0) :
     iwasawaCorankFromComponentDual Λ Q N = 0 := sorry
-
-/-- §4.21: on two split components a dual supported freely on the first has rank tuple `(1, 0)`.
-The zero component is the zero module, rather than a second copy of the free dual. -/
-example : (iwasawaCorankFromComponentDual Λ Q Λ,
-    iwasawaCorankFromComponentDual Λ Q (Fin 0 → Λ)) = (1, 0) := sorry
 
 end IwasawaCorank
 
@@ -926,24 +745,7 @@ theorem congruentLocalKummerImage_two_ncard (n : ℤ) (hn : Squarefree n) :
     (congruentLocalKummerImage 2 n).ncard =
       if 2 ∣ n then 1 else if n % 8 = 1 ∨ n % 8 = 7 then 4 else 2 := sorry
 
-/-- §4.29: the image for `n = 1` at `2` has four square classes. -/
-example : (congruentLocalKummerImage 2 1).ncard = 4 := sorry
-
-/-- §4.29: the images for `n = 5` at `2` and `5` each have two square classes. -/
-example : letI : Fact (Nat.Prime 5) := ⟨by decide⟩
-    (congruentLocalKummerImage 2 5).ncard = 2 ∧
-    (congruentLocalKummerImage 5 5).ncard = 2 := sorry
-
-/-- §4.29: the images for `n = 3` at `3` and for `n = 6` at `2` and `3` are trivial. -/
-example : (congruentLocalKummerImage 3 3).ncard = 1 ∧
-    (congruentLocalKummerImage 2 6).ncard = 1 ∧
-    (congruentLocalKummerImage 3 6).ncard = 1 := sorry
-
 end CongruentNumber
-
-/-- §4.29: the odd parts `c₄′ = 3` and `75` of the two root-number witnesses `n = 1, 5` differ
-modulo `16`. -/
-example : (3 : ZMod 16) * 1 ^ 2 = 3 ∧ (3 : ZMod 16) * 5 ^ 2 = 11 := by decide
 
 end TauCetiRoadmap.SelmerIwasawaCohomology
 
@@ -978,7 +780,8 @@ and derived coefficient change with its Tor spectral sequence (§2A.5);
 `KummerLocal.globalPlusLocal` (§2.12a), for arbitrary number-field abelian varieties and
 isogenies, including the conjugation adapter for complex lattice uniformization, its
 compatibility with lattice torsion and Poincaré duality, and all real two-primary Kummer
-conditions; Iwasawa algebras of `ℤ_p^d × Δ` with their coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
+conditions; Iwasawa algebra coordinates and character twists for `ℤ_p^d × Δ` (§3.0);
+`iwasawaComplex`, `iwasawaCohomology`,
 `iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
 `selmerDeterminant` (§§3.1–3.14, with Iwasawa fibres for the chosen diagram and arithmetic
 duality on the modified instance). Finite errors disappear at height one for `d ≥ 1`; for

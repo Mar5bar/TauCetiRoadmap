@@ -283,7 +283,7 @@ The named operations and identities are:
 **Checks.**
 
 - The trivial action is weakly semisimple, with `can=id`.
-- The linear invariants-to-coinvariants criterion fails for `σ=[[1,1],[0,1]]` on `ℚ²` (`Tests.jordan 1`); its invariant line maps to zero. The same computation holds over `ℚ_p²` with the continuous procyclic unipotent action.
+- The linear invariants-to-coinvariants criterion fails for `σ=[[1,1],[0,1]]` on `ℚ²` (`Tests.jordan 1`); its invariant line maps to zero (`Tests.not_weaklySemisimple_jordan_one`). The same computation holds over `ℚ_p²` with the continuous procyclic unipotent action.
 - The linear criterion holds for `σ=[[2,1],[0,2]]` on `ℚ²` because `σ−1` is invertible, although `σ` is not semisimple. The same computation applies over `ℚ_p` for `p` odd.
 
 *Needs:* ArithmeticGaloisDuality §R02.3.0a (Comparison of the multiplicative completion with Mathlib adic completion).
@@ -293,6 +293,13 @@ The named operations and identities are:
 For finite-type integral `M` with procyclic `Γ: M_Γ=0` implies `M^Γ=0`; surjectivity of `can:M^Γ→M_Γ` implies bijectivity. Weak semisimplicity is preserved by equivariant subquotients and finite sums. If `M` is a free O-lattice, `M/λM` is weakly semisimple and `dim_E(M⊗E)^Γ≥dim_k(M/λM)^Γ`, then equality holds and `M` is weakly semisimple.
 
 `O` the integers of `E/ℚ_p`; `λ` a uniformizer; `M` free for the last assertion.
+
+The endomorphism form `weaklySemisimple_of_surjective` holds on any Noetherian module
+over a commutative ring. The integral lifting statement `weaklySemisimple_integral_lift`
+holds for a finite free module over any DVR `O`, with fraction field `K` and residue field
+`k`: for an endomorphism `σ`, assume that its scalar extension to `k` is weakly semisimple
+and that `dim_k ker(σ_k−1) ≤ dim_K ker(σ_K−1)`. Then `σ` is weakly semisimple over `O`
+and these dimensions agree. Scalar extension uses Mathlib's `LinearMap.baseChange`.
 
 Prove this as follows. For coinvariants zero, `σ−1` is a surjective endomorphism of a Noetherian module, hence injective. Apply this to the image summand to prove the surjective-can criterion. Use the induced invariant/image splitting for subquotients and finite sums. Reduction bounds the invariant rank above by the residual invariant dimension; the assumed opposite inequality forces equality. Lift the invariant summand and apply Nakayama to its complement, following Lemma 2.1.5.
 
@@ -521,7 +528,7 @@ Give Tate-twist, direct-sum and dual-filtration operations. On `V(n)` put `Fil^i
 **Checks.**
 
 - The zero representation has the zero filtration and is ordinary.
-- For `ℚ_p(n), Fil^i=V` for `i≤n` and zero for `i>n`; its only graded piece has inertia `χ_cyc^n`. In particular `Fil¹` is `V` for `n≥1` and zero for `n≤0`.
+- For `ℚ_p(n), Fil^i=V` for `i≤n` and zero for `i>n`; its only graded piece has inertia `χ_cyc^n`. The algebraic character-line statement is `ordinaryFiltration_character`, for a line acted on by the n-th power of the supplied character. In particular `Fil¹` is `V` for `n≥1` and zero for `n≤0`.
 - The good supersingular curve `y²=x³−x` over `ℚ₃` has no ordinary filtration on `V₃E`: its residual inertia characters have niveau two, rather than integral cyclotomic powers. Good reduction alone does not imply ordinarity.
 
 *Needs:* §2.1 (Compact and rational Selmer data); TauCetiRoadmap.LocalGaloisGroups Layer 5 (cyclotomic character); Mathlib `Representation`, `Submodule`.
@@ -1306,6 +1313,10 @@ Let `R` be a complete Noetherian local ring with finite residue field of charact
 
 **Involution and twists.** Prove `iwasawaAlgebra_involution`: inversion on the abelian group `Γ` induces a continuous O-algebra involution `ι` of `Λ` with `ι(γ) = γ^{−1}` (Tau Ceti `completedGroupAlgebra.map`). For a continuous character `κ : Γ → O^×`, prove `iwasawaAlgebra_twist`: there is a unique continuous O-algebra automorphism `Tw_κ` of `Λ` with `Tw_κ(γ) = κ(γ)γ` (from `completedGroupAlgebra.lift` applied to `γ ↦ κ(γ)γ`), with `Tw_1 = id, Tw_κ ∘ Tw_{κ′} = Tw_{κκ′}` and `ι ∘ Tw_κ ∘ ι = Tw_{κ^{−1}}`. With the cyclotomic character `χ_cyc` of the Conventions, `Tw_k := Tw_{χ_cyc^{−k}}`, so `Tw_k(γ) = χ_cyc(γ)^{−k}γ`. For a G-module `M` on which `Λ` acts compatibly, and the tautological character `χ_Γ : G → Γ ⊂ Λ^×`, define the twisted module `M⟨n⟩` (same `Λ`-module, `G` acting by `χ_Γ(g)^n g`) and `M^ι` (same G-module, `Λ` acting through `ι`); then `M⟨n⟩^ι = M^ι⟨−n⟩`.
 
+The involution statement on `TauCeti.completedGroupAlgebra O Γ` holds for every
+topological commutative ring `O` and profinite abelian group `Γ`; it uses the continuous
+group inversion and the supplier's `completedGroupAlgebra.domCongr`.
+
 (Nekovář, *Selmer complexes*, §8.4.1–8.4.2, pp. 204–205 (Numdam PDF pp. 213–214); §8.4.8.1, p. 214, for the regular sequence.)
 
 **Checks.**
@@ -1975,7 +1986,7 @@ The named operations and identities are:
 **Checks.**
 
 - Zero Hodge structure gives zero diagonal and off-diagonal multiplicities.
-- Two weight-zero rank-one structures with the same Hodge filtration and opposite `F∞` give different real Gamma factors.
+- Two weight-zero rank-one structures with the same Hodge filtration and opposite `F∞` give different real Gamma factors; `Tests.gammaPoleOrder_oppositeRealSign` distinguishes their pole counts at zero.
 - For `ℚ_p(n)` in the RJW convention, the type is `(n,n)` and `F∞=(-1)^n`; using type `(−n,−n)` without changing `L(V,s)` gives the wrong criticality.
 
 *Needs:* §2.10 (Pontryagin duals with the contragredient action); Tau Ceti `TauCeti.Hodge.HodgeStructureOn.dual`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.finrank_dual_piece`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.tateTwist`; Tau Ceti `TauCeti.Hodge.tate`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`.
