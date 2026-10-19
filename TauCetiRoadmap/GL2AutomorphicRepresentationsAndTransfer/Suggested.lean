@@ -1,10 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus
-import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 import TauCeti.RepresentationTheory.ClassicalGroups.SymmetricPower
 import TauCeti.RepresentationTheory.CharacterTwist
-import TauCeti.RepresentationTheory.ProjectiveRepresentation.SchurMultiplier
-import TauCeti.Algebra.Quaternion.Split
 
 /-!
 # GL₂ automorphic representations and transfer: representative target signatures
@@ -64,7 +61,7 @@ normalized twisted distributions, weak isobaric base change, descent, fibres and
 tower operations. R17.2 identifies the rank-two local conventions and six-term
 ledger with those supplied objects. R17.4 strengthens the same weak outputs to
 all-place WD compatibility after the Artin construction. The matrix-power
-fixtures below represent the supplied rank-two Satake substitution.
+definition below represents the supplied rank-two Satake substitution.
 
 QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 supplies classical coefficient
 conventions, canonical definite form spaces and the opposite-Hecke action.
@@ -96,23 +93,6 @@ theorem finite_character_extension_iff
       (Set.range Ψ).Finite ∧
       (∀ g : G, Ψ g ^ Monoid.exponent (G ⧸ N) = 1)) ↔
     ∀ h : H, (h : G) ∈ N → χ h = 1 := by sorry
-
-example {G : Type*} [CommGroup G] [TopologicalSpace G] [IsTopologicalGroup G]
-    (H : Subgroup G) :
-    ∃ Ψ : ContinuousMonoidHom G ℂˣ,
-      (∀ h : H, Ψ h = 1) ∧ (∀ g : G, Ψ g = 1) ∧ (Set.range Ψ).Finite := by sorry
-
-example {G : Type*} [CommGroup G] [Finite G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [DiscreteTopology G] (H : Subgroup G) (χ : H →* ℂˣ) :
-    ∃ Ψ : ContinuousMonoidHom G ℂˣ,
-      (∀ h : H, Ψ h = χ h) ∧ (Set.range Ψ).Finite := by sorry
-
-example {G : Type*} [CommGroup G] [TopologicalSpace G] [IsTopologicalGroup G]
-    (H N : Subgroup G) [N.FiniteIndex] (hN : IsOpen (N : Set G))
-    (χ : H →* ℂˣ) (h : H) (hh : (h : G) ∈ N) (hne : χ h ≠ 1) :
-    ¬ ∃ Ψ : ContinuousMonoidHom G ℂˣ,
-      (∀ h : H, Ψ h = χ h) ∧ (∀ n ∈ N, Ψ n = 1) ∧ (Set.range Ψ).Finite ∧
-      (∀ g : G, Ψ g ^ Monoid.exponent (G ⧸ N) = 1) := by sorry
 
 section ArithmeticCharacterPrescription
 open NumberField IsDedekindDomain TauCeti.GlobalNumberFields
@@ -231,18 +211,6 @@ theorem iwahoriOldforms
         U w ∈ Representation.invariants (π.comp I.subtype) ∧
           U (U w) - lam • U w + ((A.card : ℂ) * c) • w = 0) := by sorry
 
-omit hK hI in
-example : (!![(2 : ℂ), 1; -1, 0] - 1) ^ 2 = 0 ∧
-    !![(2 : ℂ), 1; -1, 0] - 1 ≠ 0 := by sorry
-
-omit hK hI in
-example : !![(5 : ℂ), 6; -1, 0] ^ 2 -
-    5 • !![(5 : ℂ), 6; -1, 0] + 6 • (1 : Matrix (Fin 2) (Fin 2) ℂ) = 0 := by sorry
-
-omit hK hI in
-example : !![(5 : ℂ), 6; -1, 0] ^ 2 -
-    5 • !![(5 : ℂ), 6; -1, 0] + 3 • (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ 0 := by sorry
-
 /-- For the supplied integral and Iwahori subgroups, an unramified determinant
 character has both invariant spaces equal to the whole ℂ line.
 This calculation also applies to nontrivial χ. No genericity is assumed. -/
@@ -255,14 +223,6 @@ theorem iwahoriDeterminantCharacter
       Representation.invariants (π.comp I.subtype) = ⊤ ∧
       Module.finrank ℂ (Representation.invariants (π.comp K.subtype)) = 1 ∧
       Module.finrank ℂ (Representation.invariants (π.comp I.subtype)) = 1 := by sorry
-
-example (χ : Fˣ →* ℂˣ)
-    (hχ : ∀ u : 𝒪[F]ˣ, χ (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) = 1)
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) ℂ)
-    (hπ : ∀ g z, π g z = (χ (GeneralLinearGroup.det g) : ℂ) * z)
-    (g : GeneralLinearGroup (Fin 2) F) (hg : χ (GeneralLinearGroup.det g) ≠ 1) :
-    π g (1 : ℂ) ≠ 1 ∧
-      Module.finrank ℂ (Representation.invariants (π.comp I.subtype)) ≠ 2 := by sorry
 
 end IwahoriOldforms
 
@@ -344,6 +304,29 @@ theorem localSteinbergTwist_quotient (χ : ℚ_[p]ˣ →* ℂˣ)
         (localPrincipalSeriesRep (localNormCharacter p (-(1/2)))
           (localNormCharacter p (1/2)) g f) := by sorry
 
+/-- Smooth normalized principal series is irreducible exactly away from
+the two norm-character ratios. -/
+theorem localPrincipalSeries_irreducible_iff (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
+    (hχ₁ : IsOpen (χ₁.ker : Set ℚ_[p]ˣ))
+    (hχ₂ : IsOpen (χ₂.ker : Set ℚ_[p]ˣ)) :
+    Representation.IsIrreducible (localPrincipalSeriesRep χ₁ χ₂) ↔
+      χ₁ * χ₂⁻¹ ≠ localNormCharacter p 1 ∧
+        χ₁ * χ₂⁻¹ ≠ localNormCharacter p (-1) := by sorry
+
+/-- The central character of normalized principal series is the product
+of its two inducing characters. -/
+theorem localPrincipalSeries_central (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
+    (z : ℚ_[p]ˣ) :
+    localPrincipalSeriesRep χ₁ χ₂ (GeneralLinearGroup.scalar (Fin 2) z) =
+      ((χ₁ z : ℂ) * (χ₂ z : ℂ)) •
+        (1 : Module.End ℂ (localPrincipalSeriesSpace χ₁ χ₂)) := by sorry
+
+/-- The flag-function quotient with any smooth determinant twist
+is an irreducible Steinberg representation. -/
+theorem localSteinbergTwist_irreducible (χ : ℚ_[p]ˣ →* ℂˣ)
+    (hχ : IsOpen (χ.ker : Set ℚ_[p]ˣ)) :
+    Representation.IsIrreducible (localSteinbergTwist χ) := by sorry
+
 -- The AL.2 last-row family, characterized on the integral matrix image.
 variable (K₁ : ℕ → Subgroup (GeneralLinearGroup (Fin 2) ℚ_[p]))
     (hK₁ : ∀ n g, g ∈ K₁ n ↔ ∃ k : GeneralLinearGroup (Fin 2) 𝒪[ℚ_[p]],
@@ -351,7 +334,9 @@ variable (K₁ : ℕ → Subgroup (GeneralLinearGroup (Fin 2) ℚ_[p]))
         k.val 1 0 ∈ 𝓂[ℚ_[p]] ^ n ∧ k.val 1 1 - 1 ∈ 𝓂[ℚ_[p]] ^ n)
 include hK₁
 
-example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
+/-- The unramified irreducible induced function model has a nonzero last-row fixed vector
+and least fixed level zero. -/
+theorem localPrincipalSeries_unramified_conductor (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
     (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
       χ₁ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1 ∧
       χ₂ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
@@ -361,14 +346,18 @@ example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
       ((localPrincipalSeriesRep χ₁ χ₂).comp (K₁ n).subtype), v ≠ 0),
       @Nat.find _ (Classical.decPred _) hex = 0 := by sorry
 
-example (χ : ℚ_[p]ˣ →* ℂˣ)
+/-- An unramified Steinberg twist has a nonzero last-row fixed vector
+and least fixed level one. -/
+theorem localSteinbergTwist_unramified_conductor (χ : ℚ_[p]ˣ →* ℂˣ)
     (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1) :
     ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
       ((localSteinbergTwist χ).comp (K₁ n).subtype), v ≠ 0),
       @Nat.find _ (Classical.decPred _) hex = 1 := by sorry
 
-example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
+/-- A character of positive conductor a gives a Steinberg twist with
+a nonzero last-row fixed vector and least fixed level 2a. -/
+theorem localSteinbergTwist_ramified_conductor (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 0 < a)
     (hdepth : ∀ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ a →
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
     (hminimal : ∃ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ (a - 1) ∧
@@ -384,6 +373,14 @@ section Spherical
 /-- The complete homogeneous polynomial Σᵢ αⁱβᵐ⁻ⁱ; it is defined also when the Satake roots collide. -/
 def sphericalValues (α β : ℂ) (m : ℕ) : ℂ :=
   ∑ i ∈ Finset.range (m + 1), α ^ i * β ^ (m - i)
+
+/-- The normalized spherical polynomial starts at one. -/
+theorem sphericalValues_zero (α β : ℂ) : sphericalValues α β 0 = 1 := by sorry
+
+/-- Interchanging the two Satake roots preserves the spherical polynomial. -/
+theorem sphericalValues_swap (α β : ℂ) (m : ℕ) :
+    sphericalValues α β m = sphericalValues β α m := by sorry
+
 /-- The nonsingular GL₂ spherical recurrence. -/
 theorem sphericalValues_recurrence (α β : ℂ) (m : ℕ) :
     sphericalValues α β (m + 2) = (α + β) * sphericalValues α β (m + 1) -
@@ -392,12 +389,6 @@ theorem sphericalValues_recurrence (α β : ℂ) (m : ℕ) :
 /-- At equal Satake roots the value is (m+1)αᵐ. -/
 theorem sphericalValues_equal (α : ℂ) (m : ℕ) :
     sphericalValues α α m = (m + 1) * α ^ m := by sorry
-
-example (α β : ℂ) : sphericalValues α β 1 = α + β := by sorry
-
-example (α β : ℂ) : sphericalValues α β 2 = α^2 + α*β + β^2 := by sorry
-
-example : sphericalValues 1 1 2 = 3 := by sorry
 
 end Spherical
 
@@ -456,17 +447,6 @@ theorem steinbergParameter (q α : ℂ) (hq : q ≠ 0) (hα : α ≠ 0) :
     let R : Matrix (Fin 2) (Fin 2) ℂ := !![α / q, 0; 0, α * q]
     N ^ 2 = 0 ∧ N ≠ 0 ∧ R * N = (q ^ 2)⁻¹ • (N * R) := by sorry
 
-#check Matrix.det_smul
-#check Complex.Gammaℝ_def
-#check Complex.Gammaℂ_def
-#check Complex.Gammaℝ_mul_Gammaℝ_add_one
-
-example : Complex.Gammaℂ 1 = (Real.pi : ℂ)⁻¹ := by sorry
-
-example : Complex.Gammaℝ 1 * Complex.Gammaℝ 2 = Complex.Gammaℂ 1 := by sorry
-
-example : Complex.Gammaℂ 2 = (2 * (Real.pi : ℂ)^2)⁻¹ := by sorry
-
 end Parameters
 
 /-! ## Layer R16.4: Global cuspidal representations -/
@@ -477,6 +457,10 @@ section Global
 def nonCM (H P : Type*) [Group H] [MulAction H P] : Set P :=
   {π | ∀ χ : H, χ • π = π → χ = 1}
 
+/-- Membership in the non-CM subset means that every stabilizing character is trivial. -/
+theorem nonCM_iff {H P : Type*} [Group H] [MulAction H P] (π : P) :
+    π ∈ nonCM H P ↔ ∀ χ : H, χ • π = π → χ = 1 := Iff.rfl
+
 /-- Character translation preserves the trivial-stabilizer condition. -/
 theorem nonCM_twist {H P : Type*} [Group H] [MulAction H P]
     (π : P) (hπ : π ∈ nonCM H P) (χ : H) : χ • π ∈ nonCM H P := by sorry
@@ -485,21 +469,6 @@ theorem nonCM_twist {H P : Type*} [Group H] [MulAction H P]
 theorem nonCM_self_twist_square {H P : Type*} [CommGroup H] [MulAction H P]
     (central : P → H) (hcentral : ∀ χ π, central (χ • π) = χ ^ 2 * central π)
     (π : P) (χ : H) (hχ : χ • π = π) : χ ^ 2 = 1 := by sorry
-
-example {H : Type*} [Group H] (π : H) : π ∈ nonCM H H := by sorry
-
-section TrivialCyclicAction
-local instance : MulAction (Multiplicative (ZMod 3)) PUnit where
-  smul _ _ := PUnit.unit
-  one_smul _ := rfl
-  mul_smul _ _ _ := rfl
-
-example : PUnit.unit ∉ nonCM (Multiplicative (ZMod 3)) PUnit := by sorry
-end TrivialCyclicAction
-
-example {H P : Type*} [Group H] [MulAction H P] (π : P) (χ : H)
-    (hne : χ ≠ 1) (hsquare : χ ^ 2 = 1) (hfix : χ • π = π) :
-    π ∉ nonCM H P := by sorry
 
 /-! ## Layer R16.5: Whittaker integrals and analytic recognition -/
 
@@ -512,17 +481,6 @@ end Global
 /-! ## Layer R16.6: Classical and Hilbert weights -/
 
 section Classical
-
-example {M N d : ℕ} [NeZero M] [NeZero N] [NeZero d] {k : ℤ}
-    (f : HeckeRing.GL2.Newform M k) (hd : d * M ∣ N) (hMN : M < N) :
-    CuspForm.levelRaise d (TauCeti.Gamma1_map_le_conjAct_scaleGL_of_dvd hd)
-        f.toCuspForm ∈ TauCeti.cuspFormsOld N k ∧
-      ∀ g : HeckeRing.GL2.Newform N k,
-        CuspForm.levelRaise d (TauCeti.Gamma1_map_le_conjAct_scaleGL_of_dvd hd)
-          f.toCuspForm ≠ g.toCuspForm := by sorry
-
-example {N : ℕ} [NeZero N] {k : ℤ} (f : HeckeRing.GL2.Newform N k)
-    (c : ℂ) (hc : c ≠ 1) : c * (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff 1 ≠ 1 := by sorry
 
 /-- Scaling a supplied Satake pair converts its trace and determinant.
 At a good prime, the hypotheses come from AutomorphicFormsOnReductiveGroups §7.3,
@@ -595,40 +553,6 @@ theorem hilbertWeightRepresentation_base_change (K L : Type) [Field K] [Field L]
           hilbertWeightRepresentation L k m
             (fun i => GeneralLinearGroup.map (algebraMap K L) (g i)) (e (a ⊗ₜ[K] v)) := by sorry
 
-example (g : Fin 1 → GeneralLinearGroup (Fin 2) ℂ) :
-    Module.finrank ℂ (HilbertWeightSpace ℂ (fun _ : Fin 1 => 2)) = 1 ∧
-      hilbertWeightRepresentation ℂ (fun _ : Fin 1 => 2) (fun _ => 0) g = 1 := by sorry
-
-example (u : ℂˣ) :
-    Module.finrank ℂ (HilbertWeightSpace ℂ (fun _ : Fin 1 => 3)) = 2 ∧
-      hilbertWeightRepresentation ℂ (fun _ : Fin 1 => 3) (fun _ => 1)
-          (fun _ => GeneralLinearGroup.scalar (Fin 2) u) =
-        (u : ℂ) ^ 3 • (1 : Module.End ℂ (HilbertWeightSpace ℂ (fun _ : Fin 1 => 3))) := by sorry
-
-example : ¬ ∃ m₁ m₂ w : ℤ, 2 + 2 * m₁ = w ∧ 3 + 2 * m₂ = w := by sorry
-
-example (u : ℂˣ) :
-    hilbertWeightFactor ℂ 2 (-1) (GeneralLinearGroup.scalar (Fin 2) u) =
-      (u : ℂ) ^ (-2 : ℤ) • (1 : Module.End ℂ (Sym[ℂ]^0 (Fin 2 → ℂ))) ∧
-    hilbertWeightRepresentation ℂ (fun _ : Fin 1 => 2) (fun _ => -1)
-        (fun _ => GeneralLinearGroup.scalar (Fin 2) u) =
-      (u : ℂ) ^ (-2 : ℤ) •
-        (1 : Module.End ℂ (HilbertWeightSpace ℂ (fun _ : Fin 1 => 2))) := by sorry
-
-example (u : Fin 2 → ℂˣ) :
-    let k : Fin 2 → ℕ := ![2, 4]
-    let m : Fin 2 → ℤ := ![1, 0]
-    Module.finrank ℂ (HilbertWeightSpace ℂ k) = 3 ∧
-      (∀ i, (k i : ℤ) + 2 * m i = 4) ∧
-      hilbertWeightRepresentation ℂ k m
-          (fun i => GeneralLinearGroup.scalar (Fin 2) (u i)) =
-        ((u 0 : ℂ) ^ 2 * (u 1 : ℂ) ^ 2) •
-          (1 : Module.End ℂ (HilbertWeightSpace ℂ k)) := by sorry
-
-example (g : Fin 0 → GeneralLinearGroup (Fin 2) ℂ) :
-    Module.finrank ℂ (HilbertWeightSpace ℂ (fun _ : Fin 0 => 2)) = 1 ∧
-      hilbertWeightRepresentation ℂ (fun _ : Fin 0 => 2) (fun _ => 0) g = 1 := by sorry
-
 end Weight
 
 /-- The scalar conversion of the two good-prime roots. -/
@@ -692,31 +616,12 @@ theorem quaternionAlgEquivOfLocalSplitting (a b c d : Kˣ)
     Nonempty (QuaternionAlgebra K (a : K) 0 (b : K) ≃ₐ[K]
       QuaternionAlgebra K (c : K) 0 (d : K)) := by sorry
 
-example : Nonempty (QuaternionAlgebra K 1 0 1 ≃ₐ[K]
-    Matrix (Fin 2) (Fin 2) K) := by sorry
-
-example (v : HeightOneSpectrum (𝓞 K)) :
-    ¬ ((∀ w ∈ (∅ : Finset (InfinitePlace K)), w.IsReal) ∧
-      Even (({v} : Finset (HeightOneSpectrum (𝓞 K))).card +
-        (∅ : Finset (InfinitePlace K)).card)) := by sorry
-
-example (v : HeightOneSpectrum (𝓞 K)) (w : InfinitePlace K) (hw : w.IsReal) :
-    (∀ z ∈ ({w} : Finset (InfinitePlace K)), z.IsReal) ∧
-      Even (({v} : Finset (HeightOneSpectrum (𝓞 K))).card +
-        ({w} : Finset (InfinitePlace K)).card) := by sorry
-
 end QuaternionRamification
 
 /-- Exchanging one member and one nonmember of a finite ramification set preserves even cardinality. -/
 theorem quaternionSwap {V : Type*} [DecidableEq V] (S : Finset V)
     (v τ : V) (hv : v ∉ S) (hτ : τ ∈ S) (hvt : v ≠ τ) :
     Even S.card → Even (insert v (S.erase τ)).card := by sorry
-
-example : Even (insert (2 : ℕ) (({0, 1} : Finset ℕ).erase 0)).card := by sorry
-
-example : ¬ Even (insert (2 : ℕ) ({0, 1} : Finset ℕ)).card := by sorry
-
-example : ¬ Even ({0} : Finset ℕ).card := by sorry
 
 end Quaternion
 
@@ -734,16 +639,6 @@ theorem spectralCircle_fibre_countable (T : ℝ) (x : AddCircle T) :
 theorem spectralCircle_density_singleton (T : ℝ) [Fact (0 < T)]
     (d : ℝ → ℝ≥0∞) (x : AddCircle T) :
     ((volume.withDensity d).map (fun t : ℝ => (t : AddCircle T))) {x} = 0 := by sorry
-
-example (d : ℝ → ℝ≥0∞) :
-    ((volume.withDensity d).map (fun t : ℝ => (t : AddCircle (1 : ℝ)))) {0} = 0 := by sorry
-
-example (d : ℝ → ℝ≥0∞) :
-    ((volume.withDensity d).map (fun t : ℝ => (t : AddCircle (1 : ℝ))))
-      {((1 / 2 : ℝ) : AddCircle (1 : ℝ))} = 0 := by sorry
-
-example :
-    ((Measure.dirac (0 : ℝ)).map (fun t : ℝ => (t : AddCircle (1 : ℝ)))) {0} = 1 := by sorry
 
 end SpectralCircle
 
@@ -765,26 +660,28 @@ unramified place of residue degree `f`. The formal value at zero is the identity
 def unramifiedBaseChange (A : GeneralLinearGroup (Fin 2) K)
     (f : ℕ) : GeneralLinearGroup (Fin 2) K := A ^ f
 
+/-- Residue degree one fixes the supplied Satake representative. -/
+theorem unramifiedBaseChange_one (A : GeneralLinearGroup (Fin 2) K) :
+    unramifiedBaseChange A 1 = A := by sorry
+
+/-- Changing a Satake representative by conjugation conjugates its base change. -/
+theorem unramifiedBaseChange_conjugate (A P : GeneralLinearGroup (Fin 2) K) (f : ℕ) :
+    unramifiedBaseChange (P * A * P⁻¹) f = P * unramifiedBaseChange A f * P⁻¹ := by sorry
+
+/-- The determinant follows the residue-degree power rule. -/
+theorem unramifiedBaseChange_det (A : GeneralLinearGroup (Fin 2) K) (f : ℕ) :
+    GeneralLinearGroup.det (unramifiedBaseChange A f) = GeneralLinearGroup.det A ^ f := by sorry
+
+/-- Mapping coefficients commutes with unramified base change. -/
+theorem unramifiedBaseChange_map (φ : K →+* L) (A : GeneralLinearGroup (Fin 2) K) (f : ℕ) :
+    GeneralLinearGroup.map φ (unramifiedBaseChange A f) =
+      unramifiedBaseChange (GeneralLinearGroup.map φ A) f := by sorry
+
 /-- Successive residue degrees in the supplied canonical base-change tower
 give the same matrix representative as their product. -/
 theorem unramifiedBaseChange_tower (A : GeneralLinearGroup (Fin 2) K) (f g : ℕ) :
     unramifiedBaseChange (unramifiedBaseChange A f) g =
       unramifiedBaseChange A (f * g) := by sorry
-
-example (A : GeneralLinearGroup (Fin 2) K) : unramifiedBaseChange A 1 = A := by sorry
-
-example (f : ℕ) : unramifiedBaseChange (1 : GeneralLinearGroup (Fin 2) K) f = 1 := by sorry
-
-example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
-    (unramifiedBaseChange A 2).val = !![4, 0; 0, 9] ∧
-    (unramifiedBaseChange A 2).val.trace = 13 ∧
-    (unramifiedBaseChange A 2).val.det = 36 := by sorry
-
-example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
-    unramifiedBaseChange A 2 ≠ unramifiedBaseChange A 1 := by sorry
-
-example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
-    (unramifiedBaseChange (unramifiedBaseChange A 2) 3).val = !![64, 0; 0, 729] := by sorry
 
 end Satake
 
@@ -795,26 +692,23 @@ variable {K : Type*} [Field K]
 def adjointSatakeDiagonal (α β : K) : Matrix (Fin 3) (Fin 3) K :=
   diagonal ![α / β, 1, β / α]
 
-example : adjointSatakeDiagonal (2 : ℚ) 3 =
-    !![2/3, 0, 0; 0, 1, 0; 0, 0, 3/2] := by sorry
-
-example (a : K) (ha : a ≠ 0) : adjointSatakeDiagonal a a = 1 := by sorry
+/-- Nonzero Satake roots give adjoint determinant one. -/
+theorem adjointSatakeDiagonal_det (α β : K) (hα : α ≠ 0) (hβ : β ≠ 0) :
+    (adjointSatakeDiagonal α β).det = 1 := by sorry
 
 /-- A common nonzero scalar twist leaves the adjoint Satake matrix unchanged. -/
 theorem adjointSatakeDiagonal_twist (α β u : K) (hu : u ≠ 0) :
     adjointSatakeDiagonal (u * α) (u * β) = adjointSatakeDiagonal α β := by sorry
 
-example : adjointSatakeDiagonal (2 : ℚ) 3 ≠ diagonal ![4, 6, 9] := by sorry
-
-/-- The norm-character Satake parameters at the complementary-series boundary
-have adjoint exponents +1/2, 0, -1/2. The Whittaker-type bridge in README uses
-an attached induced module at this boundary, with its prescribed L-factors. -/
-example (p : ℕ) [Fact p.Prime] (u : ℚ_[p]ˣ) :
+/-- Opposite norm exponents t and -t give adjoint exponents 2t, 0 and -2t;
+at t=1/4 these are the exponents of the reducible attached induction. -/
+theorem adjointSatakeDiagonal_normCharacter (p : ℕ) [Fact p.Prime]
+    (t : ℝ) (u : ℚ_[p]ˣ) :
     adjointSatakeDiagonal
-        (GL2Blueprint.localNormCharacter p (1/4) u : ℂ)
-        (GL2Blueprint.localNormCharacter p (-(1/4)) u : ℂ) =
-      diagonal ![(GL2Blueprint.localNormCharacter p (1/2) u : ℂ), 1,
-        (GL2Blueprint.localNormCharacter p (-(1/2)) u : ℂ)] := by sorry
+        (GL2Blueprint.localNormCharacter p t u : ℂ)
+        (GL2Blueprint.localNormCharacter p (-t) u : ℂ) =
+      diagonal ![(GL2Blueprint.localNormCharacter p (2*t) u : ℂ), 1,
+        (GL2Blueprint.localNormCharacter p (-(2*t)) u : ℂ)] := by sorry
 
 end AdjointMatrix
 
@@ -847,57 +741,7 @@ theorem pureCubicPhase_negative (a b c : ℚ) :
     pureCubicNorm (-1+a) b c - 3*(-1+a) =
       2 - pureCubicQuadratic a b c + pureCubicNorm a b c := by sorry
 
-example : pureCubicMatrix 0 1 0 ^ 3 = (2 : ℚ) • (1 : Matrix (Fin 3) (Fin 3) ℚ) := by sorry
-
-example : pureCubicMatrix 1 0 0 = 1 := by sorry
-
-example (a b c : ℚ) : (pureCubicMatrix a b c) 2 1 = b := by sorry
-
-example : pureCubicNorm 1 1 1 = 1 := by sorry
-
-example : pureCubicQuadratic 1 0 0 = 3 := by sorry
-
-example : pureCubicNorm 0 1 0 = 2 := by sorry
-
-example : pureCubicNorm 0 0 1 = 4 := by sorry
-
-example : pureCubicQuadratic 1 1 1 = -3 := by sorry
-
-example : pureCubicQuadratic 0 1 0 = 0 := by sorry
-
-example : (Matrix.det (!![3, 0, 0; 0, 0, -3; 0, -3, 0] :
-    Matrix (Fin 3) (Fin 3) ℚ)) = (-108 : ℚ) / 4 := by sorry
-
-example : ¬ ∃ x : ZMod 8, x^2 = 5 := by sorry
-
 end PureCubicPhase
-
-section CubicExceptionFixtures
-
-example : (!![0, -1; 1, -1] : Matrix (Fin 2) (Fin 2) ℤ)^3 = 1 := by sorry
-
-example : (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ)^2 = 1 := by sorry
-
-example :
-    (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) * !![0, -1; 1, -1] *
-      !![0, 1; 1, 0] = (!![0, -1; 1, -1])^2 := by sorry
-
-example : Matrix.mulVec (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ)
-    ![1, 1] = ![1, 1] := by sorry
-
-example : Matrix.mulVec (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ)
-    ![1, -1] = ![-1, 1] := by sorry
-
-example : Matrix.det (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) = -1 := by sorry
-
-end CubicExceptionFixtures
-
-section QuadraticInduction
-
-example {K : Type*} [CommRing K] (a b : K) :
-    (!![0, a; b, 0] : Matrix (Fin 2) (Fin 2) K).det = -(a * b) := by sorry
-
-end QuadraticInduction
 
 /-- Finite ramification has the parity of the number of ramified real places. -/
 theorem indefinite_parity (d t : ℕ) (hd : 1 ≤ d) (h : Even ((d - 1) + t)) :
@@ -926,24 +770,6 @@ theorem solvable_finite_image_integral_lift
         RingHom.ker f = IsLocalRing.maximalIdeal (Localization.AtPrime v.asIdeal) ∧
         ∀ g : Γ, r g = P * GeneralLinearGroup.map f (ρ g) * P⁻¹ := by sorry
 
-section CharacteristicTwoLiftFixture
-local instance : Fact (Nat.Prime 2) := ⟨by decide⟩
-
-example :
-    ∃ (E : Type) (_ : Field E) (_ : NumberField E)
-      (v : HeightOneSpectrum (𝓞 E)),
-      letI : v.asIdeal.IsPrime := v.isPrime
-      ∃ (f : Localization.AtPrime v.asIdeal →+* AlgebraicClosure (ZMod 2))
-        (ρ : GeneralLinearGroup (Fin 2) (ZMod 2) →*
-          GeneralLinearGroup (Fin 2) (Localization.AtPrime v.asIdeal))
-        (P : GeneralLinearGroup (Fin 2) (AlgebraicClosure (ZMod 2))),
-        RingHom.ker f = IsLocalRing.maximalIdeal (Localization.AtPrime v.asIdeal) ∧
-        ∀ g, GeneralLinearGroup.map
-            (algebraMap (ZMod 2) (AlgebraicClosure (ZMod 2))) g =
-          P * GeneralLinearGroup.map f (ρ g) * P⁻¹ := by sorry
-
-end CharacteristicTwoLiftFixture
-
 section OddReductionTests
 
 /-- The integral diagonal involution with eigenvalues +1 and −1. -/
@@ -959,21 +785,31 @@ private def mixedSignInvolution : GeneralLinearGroup (Fin 2) ℤ where
 
 local instance : Fact (Nat.Prime 3) := ⟨by decide⟩
 
-example : mixedSignInvolution ^ 2 = 1 := by sorry
+/-- An involution over a domain with odd residual determinant has determinant -1. -/
+theorem involution_det_eq_neg_one_of_reduction
+    {R k : Type*} [CommRing R] [NoZeroDivisors R] [Field k]
+    (f : R →+* k) (h2 : (2 : k) ≠ 0)
+    (A : GeneralLinearGroup (Fin 2) R) (hA : A ^ 2 = 1)
+    (hodd : GeneralLinearGroup.det (GeneralLinearGroup.map f A) = (-1 : kˣ)) :
+    GeneralLinearGroup.det A = (-1 : Rˣ) := by sorry
 
-example : mixedSignInvolution ≠ GeneralLinearGroup.scalar (Fin 2) (-1 : ℤˣ) := by sorry
+/-- Oddness of an involution lifts through reduction of a representation. -/
+theorem involution_odd_of_reduction
+    {G R k : Type*} [Group G] [CommRing R] [NoZeroDivisors R] [Field k]
+    (f : R →+* k) (h2 : (2 : k) ≠ 0)
+    (ρ : G →* GeneralLinearGroup (Fin 2) R) (c : G) (hc : c ^ 2 = 1)
+    (hodd : GeneralLinearGroup.det (GeneralLinearGroup.map f (ρ c)) = (-1 : kˣ)) :
+    GeneralLinearGroup.det (ρ c) = (-1 : Rˣ) := by sorry
 
-example : GeneralLinearGroup.det mixedSignInvolution = (-1 : ℤˣ) := by sorry
-
-example : GeneralLinearGroup.det
-    (GeneralLinearGroup.map (Int.castRingHom (ZMod 3))
-      (GeneralLinearGroup.scalar (Fin 2) (-1 : ℤˣ))) = 1 := by sorry
-
-example : (1 : GeneralLinearGroup (Fin 2) ℤ) ^ 2 = 1 ∧
-    GeneralLinearGroup.det
-      (GeneralLinearGroup.map (Int.castRingHom (ZMod 2))
-        (1 : GeneralLinearGroup (Fin 2) ℤ)) = (-1 : (ZMod 2)ˣ) ∧
-    GeneralLinearGroup.det (1 : GeneralLinearGroup (Fin 2) ℤ) ≠ (-1 : ℤˣ) := by sorry
+/-- A residual change of basis preserves the determinant test for an involution. -/
+theorem involution_det_eq_neg_one_of_residual_conjugacy
+    {R k : Type*} [CommRing R] [NoZeroDivisors R] [Field k]
+    (f : R →+* k) (h2 : (2 : k) ≠ 0)
+    (A : GeneralLinearGroup (Fin 2) R) (hA : A ^ 2 = 1)
+    (B P : GeneralLinearGroup (Fin 2) k)
+    (hcomp : B = P * GeneralLinearGroup.map f A * P⁻¹)
+    (hodd : GeneralLinearGroup.det B = (-1 : kˣ)) :
+    GeneralLinearGroup.det A = (-1 : Rˣ) := by sorry
 
 /-- Oddness transfers across a specified residual representation isomorphism. -/
 theorem involution_odd_of_residual_conjugacy
@@ -986,23 +822,6 @@ theorem involution_odd_of_residual_conjugacy
     (c : G) (hc : c ^ 2 = 1)
     (hodd : GeneralLinearGroup.det (rbar c) = (-1 : kˣ)) :
     GeneralLinearGroup.det (ρ c) = (-1 : Rˣ) := by sorry
-
-example (P : GeneralLinearGroup (Fin 2) (ZMod 3)) :
-    GeneralLinearGroup.det
-      (P * GeneralLinearGroup.map (Int.castRingHom (ZMod 3)) mixedSignInvolution * P⁻¹) =
-        (-1 : (ZMod 3)ˣ) := by sorry
-
-example (P : GeneralLinearGroup (Fin 2) (ZMod 3)) :
-    GeneralLinearGroup.det
-      (P * GeneralLinearGroup.map (Int.castRingHom (ZMod 3))
-        (GeneralLinearGroup.scalar (Fin 2) (-1 : ℤˣ)) * P⁻¹) = 1 := by sorry
-
-example (P : GeneralLinearGroup (Fin 2) (ZMod 2)) :
-    (1 : GeneralLinearGroup (Fin 2) ℤ) ^ 2 = 1 ∧
-    GeneralLinearGroup.det
-      (P * GeneralLinearGroup.map (Int.castRingHom (ZMod 2))
-        (1 : GeneralLinearGroup (Fin 2) ℤ) * P⁻¹) = (-1 : (ZMod 2)ˣ) ∧
-    GeneralLinearGroup.det (1 : GeneralLinearGroup (Fin 2) ℤ) ≠ (-1 : ℤˣ) := by sorry
 
 end OddReductionTests
 
@@ -1026,25 +845,11 @@ local instance : Fact (Nat.Prime 2) := ⟨by decide⟩
 def quadraticDirichletFive : DirichletCharacter ℂ 5 :=
   (quadraticChar (ZMod 5)).ringHomComp (Int.castRingHom ℂ)
 
-example : quadraticDirichletFive 0 = 0 := by sorry
-
-example : quadraticDirichletFive 2 = -1 := by sorry
-
-example : quadraticDirichletFive (-1) = 1 := by sorry
-
 /-- The order-four additive character of ZMod 4 taking one to i. -/
 def quarticCharacter : AddChar (ZMod 4) ℂ where
   toFun a := Complex.I ^ a.val
   map_zero_eq_one' := by sorry
   map_add_eq_mul' := by sorry
-
-example : quarticCharacter 1 = Complex.I := by sorry
-
-example : quarticCharacter 2 = -1 := by sorry
-
-example : quarticCharacter 3 = -Complex.I := by sorry
-
-example : quarticCharacter ^ 4 = 1 ∧ quarticCharacter ^ 2 ≠ 1 := by sorry
 
 /-- Extending the nontrivial character on the order-two subgroup forces order growth. -/
 theorem characterExtensionOrder_square_ne_one (χ : AddChar (ZMod 4) ℂ)
@@ -1060,28 +865,12 @@ def unramifiedQuadraticTwo : ContinuousMonoidHom ℚ_[2]ˣ ℂˣ where
   map_mul' := by sorry
   continuous_toFun := by sorry
 
-example : unramifiedQuadraticTwo twoUnit = -1 := by sorry
-
-example (u : ℤ_[2]ˣ) :
-    unramifiedQuadraticTwo (Units.map PadicInt.Coe.ringHom.toMonoidHom u) = 1 := by sorry
-
-example (u : ℚ_[2]ˣ) (hu : IsOfFinOrder u) :
-    unramifiedQuadraticTwo u = 1 := by sorry
-
-example : unramifiedQuadraticTwo (-1) = 1 := by sorry
-
 end CharacterPrescriptionFixtures
 
 section FiniteSection
 
 /-- Reduction modulo λ = (1 + √−2): ℤ[√−2] → F₃, sending √−2 to −1. -/
 def redSqrtNegTwo : ℤ√(-2) →+* ZMod 3 := Zsqrtd.lift ⟨-1, by decide⟩
-
-example : redSqrtNegTwo (⟨0, 1⟩ : ℤ√(-2)) = -1 := by sorry
-
-example : redSqrtNegTwo (⟨1, 1⟩ : ℤ√(-2)) = 0 := by sorry
-
-example : redSqrtNegTwo (⟨-1, 1⟩ : ℤ√(-2)) = 1 := by sorry
 
 /-- The section used by the octahedral mod-3 application (Darmon–Diamond–Taylor,
 Theorem 3.14(a)): an injective homomorphism GL₂(F₃) → GL₂(ℤ[√−2]) reducing to the
@@ -1104,15 +893,6 @@ theorem ramification_contraction {R : Type*} [CommRing R] (I : Ideal R)
     {a d : ℕ} (ha : 0 < a) (had : a < d) :
     I ^ d ≤ I ^ a ∧ ∃ n : ℕ, 0 < n ∧ (I ^ d) ^ n ≤ (I ^ a) ^ (n + 1) := by sorry
 
-example {R : Type*} [CommRing R] (I : Ideal R) {d : ℕ} (hd : 1 < d) :
-    I ^ d ≤ I ^ 1 ∧ ∃ n : ℕ, 0 < n ∧ (I ^ d) ^ n ≤ (I ^ 1) ^ (n + 1) := by sorry
-
-example {R : Type*} [CommRing R] (I : Ideal R) : (I ^ 3) ^ 2 ≤ (I ^ 2) ^ 3 := by sorry
-
-example : ¬ ∃ n : ℕ, 0 < n ∧
-    ((Ideal.span ({(2 : ℤ)} : Set ℤ)) ^ 1) ^ n ≤
-      ((Ideal.span ({(2 : ℤ)} : Set ℤ)) ^ 1) ^ (n + 1) := by sorry
-
 end RamifiedCurveIdeals
 
 section CharacteristicTwo
@@ -1124,6 +904,18 @@ theorem determinant_untwist (r : G →* GeneralLinearGroup (Fin 2) k)
     ∃ ξ : G →* kˣ, Set.Finite (Set.range ξ) ∧
       ∀ g, ξ g ^ 2 = GeneralLinearGroup.det (r g) ∧
         GeneralLinearGroup.det (GeneralLinearGroup.scalar (Fin 2) (ξ g)⁻¹ * r g) = 1 := by sorry
+
+/-- A finite irreducible rank-two representation in characteristic two
+with solvable projective image has odd dihedral projective image. -/
+theorem solvable_characteristicTwo_projective_dihedral [IsAlgClosed k]
+    (r : G →* GeneralLinearGroup (Fin 2) k)
+    (hfinite : Set.Finite (Set.range r))
+    (hsolv : Group.IsSolvable (ProjGenLinGroup.mk.comp r).range)
+    (hirr : Representation.IsIrreducible
+      ((Units.coeHom (Module.End k (Fin 2 → k))).comp
+        (GeneralLinearGroup.toLin.toMonoidHom.comp r))) :
+    ∃ n : ℕ, 3 ≤ n ∧ Odd n ∧
+      Nonempty ((ProjGenLinGroup.mk.comp r).range ≃* DihedralGroup n) := by sorry
 
 /-- The four dyadic exponent consequences of the discriminant and conductor identity. -/
 theorem teichmuller_conductor (D : ℤ) (normF N ν : ℕ) (hN : Odd N)
@@ -1142,6 +934,18 @@ theorem disjoint_irreducibility (i : H →* G)
     (r : G →* GeneralLinearGroup (Fin 2) K)
     (hdisj : i.range ⊔ (ProjGenLinGroup.mk.comp r).ker = ⊤) :
     Set.range (ProjGenLinGroup.mk.comp (r.comp i)) = Set.range (ProjGenLinGroup.mk.comp r) := by sorry
+
+/-- Restriction surjective modulo the projective kernel preserves
+irreducibility in every finite rank. -/
+theorem disjoint_restriction_irreducible (n : ℕ) (i : H →* G)
+    (r : G →* GeneralLinearGroup (Fin n) K)
+    (hdisj : i.range ⊔ (ProjGenLinGroup.mk.comp r).ker = ⊤)
+    (hirr : Representation.IsIrreducible
+      ((Units.coeHom (Module.End K (Fin n → K))).comp
+        (GeneralLinearGroup.toLin.toMonoidHom.comp r))) :
+    Representation.IsIrreducible
+      ((Units.coeHom (Module.End K (Fin n → K))).comp
+        (GeneralLinearGroup.toLin.toMonoidHom.comp (r.comp i))) := by sorry
 
 /-- The index-two induction restriction criterion over an algebraically closed field, including characteristic two. -/
 theorem quadratic_restriction {Γ k : Type*} [Group Γ] [Field k] [IsAlgClosed k]
@@ -1181,12 +985,10 @@ brauerCharacter, brauerCharacter_conjugate, brauerCharacter_one, brauerCharacter
 cdtVexingType, cdtVexingType_lattice, cdtVexingType_restrict, cdtVexingType_unramified.
 The CDT type and both vexing selector branches require a(θ/θ^σ) = a(θ) = n ≥ 1
 for the unramified quadratic character; regularity alone does not supply this input.
-involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, nonCM_iff.
 quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
-sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
+steinbergProjectorDifference.
 steinbergProjectorDifference_central, steinbergProjectorDifference_eval, steinbergProjectorDifference_twist, tamelyDihedral.
-tamelyDihedral_parameter, tamelyDihedral_unramified_twist, unramifiedBaseChange_conjugate.
-unramifiedBaseChange_det, unramifiedBaseChange_map, unramifiedBaseChange_one.
+tamelyDihedral_parameter, tamelyDihedral_unramified_twist.
 Their intended signatures, hypotheses, source locators and Checks are specified
 in the corresponding README sections.
 -/

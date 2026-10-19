@@ -602,6 +602,15 @@ upper-Borel covariance `δ_B^(1/2)χ₁χ₂` and an open subgroup of right inva
 `localSteinbergTwist` is its quotient representation with the determinant twist, and
 `localSteinbergTwist_quotient` identifies that quotient action. These use the same smooth
 induction and subquotient constructions, rather than a finite-group principal series.
+The characterizing milestones `localPrincipalSeries_irreducible_iff`,
+`localPrincipalSeries_central` and `localSteinbergTwist_irreducible` state the
+irreducibility criterion, product central character and irreducibility of the
+Steinberg quotient. The irreducibility statements take smooth inducing characters.
+`localPrincipalSeries_unramified_conductor` and
+`localSteinbergTwist_unramified_conductor` identify the least fixed levels in the
+unramified models. `localSteinbergTwist_ramified_conductor` identifies that level
+as 2a for a character of any positive conductor a, with triviality on `1+p^a`
+and nontriviality on `1+p^(a−1)` as hypotheses.
 
 **Checks.** The unramified generic induced function model has conductor zero; its
 flag-function quotient for an unramified character has conductor one; a character trivial on
@@ -611,7 +620,10 @@ quotient model, followed by the stated least level; a zero model fails the exist
 
 *Needs:* R16.1/iwasawa-cartan; SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals. The conductor Checks consume AL.2/GL₂ newvectors after the analytic classification.
 
-*Source:* [casselman73], p. 305, principal/special classification.
+*Source:* [casselman73], p. 305, principal/special classification; [bh06], §9.10,
+exact sequence (9.10.3), p. 68, and §9.11, irreducibility criterion and classification,
+p. 69. The least-level comparisons use [casselman73], Theorem 1, p. 302 and the
+epsilon remark, p. 307, through AL.2/GL₂ newvectors.
 
 AutomorphicLFunctionsAndLocalFactors AL.2 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors)
 supplies existence of a nonzero last-row fixed level, its least conductor exponent,
@@ -1136,6 +1148,7 @@ Define `HilbertWeightSpace`, `hilbertWeightFactor` and `hilbertWeightRepresentat
 
 Prove the following API.
 - `hilbertWeightRepresentation_scalar`: A scalar at τ acts by `z^{k_τ−2+2m_τ}`; for cohomological weight this is `z^{w−2}`.
+- `hilbertWeightRepresentation_pure`: A common weight `k_τ+2m_τ=w` gives scalar exponent `w−2` at every embedding.
 - `hilbertWeightRepresentation_dimension`: `dim V=∏τ(k_τ−1)`.
 - `hilbertWeightRepresentation_dual`: Dualizing inverts the scalar central character and agrees with the R16.4/cohomological-rationality local-system convention.
 - `hilbertWeightRepresentation_base_change`: Extension of characteristic-zero coefficients commutes with the tensor construction.
@@ -1870,6 +1883,10 @@ Conclude that `⊗′Π_v` is cuspidal automorphic and that complementary expone
 cannot occur in π. This bound is an output of the argument. For input with a nontrivial
 self-twist use quadratic induction and [gj78] §3.7’s isobaric decomposition instead.
 
+The matrix comparison `adjointSatakeDiagonal_normCharacter` gives exponents
+2t,0,−2t for opposite norm characters at every real t; its t=1/4 specialization
+records the attached induction's boundary exponents.
+
 **Checks.** At a finite place `π_v=I(ν^{1/4},ν^{-1/4})` is irreducible unitary generic,
 but its adjoint spherical quotient is nongeneric; `ξ_v=I(ν^{1/2},1,ν^{-1/2})` is reducible.
 For any local character χ its prescribed L-factor is
@@ -1905,7 +1922,7 @@ Prove the following API.
 - `adjointLift_central`: The central character of Ad(π) is trivial.
 
 **Checks.**
-- The diagonal formula `adjointSatakeDiagonal (α β : K) : Matrix (Fin 3) (Fin 3) K` is diag(α/β,1,β/α). Its scalar, determinant and twist formulas use α≠0 and β≠0; `adjointSatakeDiagonal_twist` also assumes u≠0. The diagonal formula `adjointSatakeDiagonal (α β : K) : Matrix (Fin 3) (Fin 3) K` is diag(α/β,1,β/α). Its scalar, determinant and twist formulas use α≠0 and β≠0; `adjointSatakeDiagonal_twist` also assumes u≠0. The Satake class diag(2,3) gives diag(2/3,1,3/2) in GL₃(Q).
+- The diagonal formula `adjointSatakeDiagonal (α β : K) : Matrix (Fin 3) (Fin 3) K` is diag(α/β,1,β/α). Its scalar, determinant and twist formulas use α≠0 and β≠0; `adjointSatakeDiagonal_twist` also assumes u≠0. `adjointSatakeDiagonal_det` gives determinant one for nonzero roots. The Satake class diag(2,3) gives diag(2/3,1,3/2) in GL₃(Q).
 - Scalar Satake input diag(a,a), a≠0, gives the identity class.
 - Multiplying both input eigenvalues by any u≠0 does not change the three adjoint eigenvalues.
 - For diag(2,3), the adjoint output differs from diag(4,6,9); forgetting `ω^{-1}` gives the wrong lift.
@@ -2414,10 +2431,19 @@ Global reciprocity identifies ξ with an odd-order Dirichlet character. The modu
 A continuous absolutely irreducible `r̄:G_ℚ→GL₂(F̄₂)` with solvable projective image has image `D_n`, n≥3 odd, projectively. Apply ArithmeticGaloisRepresentations Layer 4: PGL₂(F̄₂)≅SL₂(F̄₂); a nontrivial normal two-subgroup fixes a unique line, excluding Borel groups, V₄ and A₄, and odd cyclic groups are reducible. S₄ cannot embed, since its Sylow-two group is nonabelian whereas these two-subgroups are elementary abelian. A dihedral rotation subgroup has odd order. Determinant-untwist removes scalars and gives linear image `D_n`. This is an application of the existing classification. Characteristic-two determinant oddness does not ensure an odd complex lift.
 
 The coefficient field is discrete, so continuity gives finite image. ArithmeticGaloisRepresentations Layer 4 supplies the characteristic-two finite-subgroup classification.
+`solvable_characteristicTwo_projective_dihedral` states the algebraic conclusion
+for any finite-image irreducible rank-two representation over an algebraically
+closed field of characteristic two whose projective image is solvable: that image
+is isomorphic to `DihedralGroup n` for odd n≥3.
+
+**Checks.** The natural representation of GL₂(F₂) gives n=3. A cyclic projective
+image over algebraically closed coefficients fails irreducibility. A finite scalar
+twist preserves the dihedral projective image, although its linear image can
+contain additional scalars.
 
 *Needs:* ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 4; R17.6/determinant-untwist.
 
-*Source:* [wiese04], Introduction, p. 123; [rt97], §2, first paragraph, p. 306; Introduction, p. 299.
+*Source:* [wiese04], Introduction, p. 123; [rt97], §2, first paragraph, p. 306; Introduction, p. 299. [ddt], Theorem 2.47(b), p. 81, supplies the finite-subgroup alternatives.
 
 <a id="r17-6-teichmuller-conductor"></a>
 
@@ -2556,6 +2582,17 @@ At an odd ℓ the factor `ℓ^(k−1)` is one modulo two, so the Hasse shift pre
 ### R17.6.15 Residual irreducibility under disjoint base change
 
 For continuous absolutely irreducible `r̄:G_F→GL₂(k̄)` with finite projective image, let M be its projective-kernel field. Any finite E/F linearly disjoint from M preserves the projective image and absolute irreducibility. Disjointness from the linear-kernel field L⊃M also suffices. E need not be Galois or solvable; solvability alone is insufficient. The extension E and the stated linear disjointness are explicit hypotheses of the representation criterion.
+The matrix statement `disjoint_irreducibility` preserves the projective range;
+`disjoint_restriction_irreducible` gives the irreducibility conclusion in every
+finite rank. For a homomorphism i:H→G its hypothesis is
+`i(H) ker(Pρ)=G`. Every ρ(G)-action then differs from a restricted action by a
+scalar, so the two representations have the same invariant subspaces.
+
+**Checks.** Disjointness from the linear-kernel field implies the projective
+hypothesis. A projective scalar in the linear image does not require disjointness
+from that larger kernel field. Restricting a dihedral representation to its
+rotation subgroup is reducible, showing that solvability of the extension alone
+is insufficient.
 
 *Needs:* ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 4.
 
