@@ -56,6 +56,8 @@ AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4�
 
 The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
+The p-adic signatures use the native quotient module `padicCokernel` and normalized `padicMatrixHaar` directly: `surjectionMoment_cokernelLaw` states the exact Haar moment, `tendsto_cokernelLaw` the rectangular Friedman–Washington limit, and `tendsto_translation_cokernelLaw` its square `1 − F` form. Their target is any finite additive abelian group `A` with `IsPGroup p (Multiplicative A)`, and their measurable structure on `ℤ_p` is Borel. The partition-indexed measures and their group-valued moment uniqueness and convergence theorems require the isomorphism-class carrier specified in §3.3.
+
 ## Layer 3: Finite groups, matrix laws and moment tools
 
 The finite laws are independent of their arithmetic interpretations. For the all-prime theorem in §3.5, first establish §3.11's bounded moment limit; the odd-prime contraction argument has its own inputs.
@@ -651,6 +653,7 @@ A surjection `coker M ↠ A` is a surjection `F : ℤ_p^n ↠ A` with F∘M `= 0
 
 - `n = 0: coker = 0` and the moment is 1 at `A = 0`, 0 otherwise.
 - `u = 0, A = ℤ/p: E(p^{rk coker} − 1) = 1 − p^{−n}`.
+- For `n=1,u=1,A=ℤ/p`, the moment is `(p−1)/p²`; the two columns each impose a factor `1/p`.
 
 <a id="friedman-washington-cokernel-law"></a>
 
@@ -666,10 +669,11 @@ The finite-cokernel argument is that of [the finite-n cokernel law](#cokernel-la
 
 - `n = 1, u = 0: P(coker ≅ ℤ/p) = (1 − 1/p)/p`, and `P(coker = 0) = |GL_n(F_p)|/p^{n²} → c_{p,0}`.
 - Wood 2019 Theorem 1.3 proves the same limit for any `ε-balanced` independent entries (universality); the Haar case is Friedman–Washington's.
+- At `p=2,u=1,A=ℤ/2`, the limiting mass is `c_{2,1}/2`; both the column excess and the binary prime are retained.
 
 <a id="friedman-washington-translation-form"></a>
 
-**Friedman washington translation form.** Let `ℓ` be prime. For `F ∈ End_g(ℤ_ℓ) = M_g(ℤ_ℓ)` Haar-random, `P(coker(1 − F) ≅ A) → μ_{ℓ,0}(A)` as `g → ∞`, for every `A`.
+**Friedman washington translation form.** `tendsto_translation_cokernelLaw`: let `ℓ` be prime. For `F ∈ End_g(ℤ_ℓ) = M_g(ℤ_ℓ)` Haar-random, `P(coker(1 − F) ≅ A) → μ_{ℓ,0}(A)` as `g → ∞`, for every finite abelian ℓ-group `A`.
 
 The map `F ↦ 1 − F` is a measure-preserving homeomorphism of `M_g(ℤ_ℓ)` (Haar measure is invariant under translation and under negation), so `coker(1 − F)` has the law of `coker(F)`. Apply [friedman washington cokernel law](#friedman-washington-cokernel-law) with `u = 0`.
 
@@ -681,6 +685,7 @@ The map `F ↦ 1 − F` is a measure-preserving homeomorphism of `M_g(ℤ_ℓ)` 
 
 - `g = 1: P(coker(1 − F) = 0) = P(F ≢ 1 mod ℓ)` `= 1 − 1/ℓ`.
 - Lipnowski–Tsimerman use this as the model for `A(F_p)_ℓ = coker(1 − Frob | T_ℓ A)`.
+- At `ℓ=2,g=1`, the mass of `ℤ/2` is `P(v₂(1−F)=1)=1/4`; translating the matrix preserves this finite-level mass as well as the limit.
 
 <a id="cohen-lenstra-measure-over-a-finite-set-of-primes"></a>
 

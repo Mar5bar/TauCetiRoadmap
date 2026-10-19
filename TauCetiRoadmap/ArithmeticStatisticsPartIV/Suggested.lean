@@ -6,17 +6,69 @@ import TauCeti.NumberTheory.ClassGroup.ElementaryTwoQuotient
 
 The accompanying README is the full specification, with source locators and exact
 supplier contracts. This file gives suggested forms, not an exhaustive checklist: light definitions and
-selected milestones statable against the pinned APIs. Counts retain the specified cutoffs and denominators; orbit and arithmetic
-probability constructions remain README targets.
+selected milestones statable against the pinned APIs. Counts retain the specified cutoffs and
+denominators; orbit and isomorphism-class probability constructions remain README targets.
 -/
 
 noncomputable section
-open scoped BigOperators Topology NumberField
-open Polynomial Filter
+open scoped BigOperators Topology NumberField ENNReal
+open Polynomial Filter MeasureTheory
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartIV
 
 /-! ## Layer 3: Finite groups, matrix laws and moment tools -/
+
+/-- The number of surjective additive homomorphisms, finite for finite source and target. -/
+def surjCard (X A : Type*) [AddCommGroup X] [AddCommGroup A] : ℕ :=
+  Nat.card {f : X →+ A // Function.Surjective f}
+
+/-- The quotient module underlying the p-adic matrix cokernel of §3.6. -/
+abbrev padicCokernel {p : ℕ} [Fact p.Prime] {n m : ℕ}
+    (M : Matrix (Fin n) (Fin m) ℤ_[p]) :=
+  (Fin n → ℤ_[p]) ⧸ LinearMap.range M.mulVecLin
+
+/-- Additive matrix Haar measure with total mass one, as used in §3.6. -/
+def padicMatrixHaar (p n m : ℕ) [Fact p.Prime]
+    [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]] :
+    MeasureTheory.Measure (Matrix (Fin n) (Fin m) ℤ_[p]) :=
+  MeasureTheory.Measure.addHaarMeasure (G := Fin n → Fin m → ℤ_[p]) ⊤
+
+/-- Haar matrix cokernel surjection moments (§3.6) are the free-source surjection count
+divided by one target cardinality for each column. -/
+theorem surjectionMoment_cokernelLaw {p : ℕ} [Fact p.Prime]
+    [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]] (n u : ℕ)
+    (A : Type*) [AddCommGroup A] [Finite A] (hA : IsPGroup p (Multiplicative A)) :
+    (∫⁻ M : Matrix (Fin n) (Fin (n + u)) ℤ_[p],
+      (surjCard (padicCokernel M) A : ℝ≥0∞) ∂(padicMatrixHaar p n (n + u))) =
+      (surjCard (Fin n → ℤ_[p]) A : ℝ≥0∞) / (Nat.card A : ℝ≥0∞) ^ (n + u) := by sorry
+
+/-- The Friedman–Washington cokernel law (§3.6) gives the Cohen–Lenstra mass for every
+finite abelian p-group and every nonnegative column excess. -/
+theorem tendsto_cokernelLaw {p : ℕ} [Fact p.Prime]
+    [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]] (u : ℕ)
+    (A : Type*) [AddCommGroup A] [Finite A] (hA : IsPGroup p (Multiplicative A)) :
+    Tendsto (fun n : ℕ => padicMatrixHaar p n (n + u)
+      {M | Nonempty (padicCokernel M ≃+ A)}) atTop
+      (𝓝 (ENNReal.ofReal ((∏' j : ℕ, (1 - (p : ℝ)⁻¹ ^ (j + u + 1))) /
+        ((Nat.card A : ℝ) ^ u * (Nat.card (A ≃+ A) : ℝ))))) := by sorry
+
+/-- The Friedman–Washington translation form (§3.6) gives the square-matrix limit
+for the cokernel of one minus a Haar-random endomorphism. -/
+theorem tendsto_translation_cokernelLaw {p : ℕ} [Fact p.Prime]
+    [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]]
+    (A : Type*) [AddCommGroup A] [Finite A] (hA : IsPGroup p (Multiplicative A)) :
+    Tendsto (fun n : ℕ => padicMatrixHaar p n n
+      {F | Nonempty (padicCokernel (1 - F) ≃+ A)}) atTop
+      (𝓝 (ENNReal.ofReal ((∏' j : ℕ, (1 - (p : ℝ)⁻¹ ^ (j + 1))) /
+        (Nat.card (A ≃+ A) : ℝ)))) := by sorry
+
+/-- The normalization of p-adic matrix Haar measure assigns mass one to all matrices. -/
+theorem padicMatrixHaar_univ (p n m : ℕ) [Fact p.Prime]
+    [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]] :
+    padicMatrixHaar p n m Set.univ = 1 := by
+  change MeasureTheory.Measure.addHaarMeasure (G := Fin n → Fin m → ℤ_[p]) ⊤ Set.univ = 1
+  simpa only [TopologicalSpace.PositiveCompacts.coe_top] using
+    (MeasureTheory.Measure.addHaarMeasure_self (G := Fin n → Fin m → ℤ_[p]) (K₀ := ⊤))
 
 /-- The cardinality of the m-torsion in the wide ideal class group. -/
 def classGroupTorsionCard (K : Type*) [Field K] [NumberField K] (m : ℕ) : ℕ :=
@@ -112,10 +164,6 @@ theorem euler_qBinomial_sum {q : ℝ} (hq0 : 0 < q) (hq1 : q < 1) :
       HasSum (fun n : ℕ => q ^ (n * (n + 1) / 2) /
         ∏ i ∈ Finset.range n, (1 - q ^ (i + 1)))
         (∏' i : ℕ, (1 + q ^ (i + 1))) := by sorry
-
-/-- The number of surjective additive homomorphisms, finite for finite source and target. -/
-def surjCard (X A : Type*) [AddCommGroup X] [AddCommGroup A] : ℕ :=
-  Nat.card {f : X →+ A // Function.Surjective f}
 
 /-- Additive isomorphisms of both groups preserve the surjection count. -/
 theorem surjCard_congr {X X' A A' : Type*} [AddCommGroup X] [AddCommGroup X']
@@ -446,8 +494,8 @@ end Distributions
 reciprocal-automorphism weight; the
 partition-indexed FinAbPGroupClass representatives, conjugate partitions,
 multiplicities and automorphism counts; the Cohen–Lenstra constants,
-weights and measures; surjectionMoment; IsEnlargement and enlargements; normalized
-p-adic matrix Haar measure, padicCokernel and cokernelLaw; the finite product
+weights and measures; surjectionMoment; IsEnlargement and enlargements; the
+isomorphism-class cokernelLaw; the finite product
 Cohen–Lenstra measure. Their full APIs,
 checks and end theorems remain in the README.
 
