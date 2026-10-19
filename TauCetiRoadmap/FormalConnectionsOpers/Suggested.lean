@@ -1,4 +1,13 @@
 import Mathlib.Algebra.LieRinehartAlgebra.Defs
+import Mathlib.Algebra.Polynomial.Laurent
+import Mathlib.LinearAlgebra.TensorProduct.Map
+import Mathlib.LinearAlgebra.Quotient.Defs
+import Mathlib.GroupTheory.Coset.Defs
+import Mathlib.GroupTheory.SemidirectProduct
+import Mathlib.LinearAlgebra.RootSystem.WeylGroup
+import Mathlib.LinearAlgebra.RootSystem.Base
+import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.RingTheory.Kaehler.Basic
 import Mathlib.RingTheory.LaurentSeries
 import Mathlib.RingTheory.PowerSeries.Derivative
@@ -473,4 +482,200 @@ example : LieRinehartAlgebra.Hom (AlgHom.id k A) L (Derivation k A A) :=
 
 example (x : L) (a : A) : LieRinehartAlgebra.anchor k A L x a = ⁅x, a⁆ := rfl
 end NativeAlgebroid
+
+/-! ## F2 elementary operators and actual principal-parts quotient
+These are characteristic-free ordinary algebraic targets. The existing `Connection`
+above is the vector-field presentation, not CR.1.3's ordinary form carrier. -/
+section OrdinaryOperators
+variable (k : Type u) {A M N P : Type u} [CommRing k] [CommRing A] [Algebra k A]
+  [AddCommGroup M] [Module k M] [Module A M] [IsScalarTower k A M]
+  [AddCommGroup N] [Module k N] [Module A N] [IsScalarTower k A N]
+  [AddCommGroup P] [Module k P] [Module A P] [IsScalarTower k A P]
+
+/-- Multiplication by an actual scalar, restricted to the base ring. -/
+def scalarOperator (a : A) : M →ₗ[k] M :=
+  (a • (LinearMap.id : M →ₗ[A] M)).restrictScalars k
+
+/-- The shared sign/order is D(a m) - a D(m). -/
+def commutatorWith (a : A) (D : M →ₗ[k] N) : M →ₗ[k] N :=
+  D.comp (scalarOperator k a) - (scalarOperator k a).comp D
+
+theorem commutatorWith_apply (a : A) (D : M →ₗ[k] N) (m : M) :
+    commutatorWith k a D m = D (a • m) - a • D m := rfl
+
+/-- At-most order, including zero operators and arbitrary commutative base rings. -/
+def IsDifferentialOperator : ℕ → (M →ₗ[k] N) → Prop
+  | 0, D => ∀ (a : A) (m : M), D (a • m) = a • D m
+  | n + 1, D => ∀ a : A, IsDifferentialOperator n (commutatorWith k a D)
+
+theorem differentialOperator_order_zero (D : M →ₗ[k] N) :
+    IsDifferentialOperator (A := A) k 0 D ↔
+      ∀ (a : A) (m : M), D (a • m) = a • D m := Iff.rfl
+
+theorem differentialOperator_mono (n m : ℕ) (h : n ≤ m) (D : M →ₗ[k] N)
+    (hD : IsDifferentialOperator (A := A) k n D) :
+    IsDifferentialOperator (A := A) k m D := by sorry
+
+theorem differentialOperator_comp (m n : ℕ) (D : M →ₗ[k] N) (E : N →ₗ[k] P)
+    (hD : IsDifferentialOperator (A := A) k m D)
+    (hE : IsDifferentialOperator (A := A) k n E) :
+    IsDifferentialOperator (A := A) k (m + n) (E.comp D) := by sorry
+
+/-- The two tensor factors carry the actual left/right scalar difference. -/
+def principalPartsDelta (a : A) : A ⊗[k] M →ₗ[k] A ⊗[k] M :=
+  TensorProduct.map (scalarOperator k (M := A) a) LinearMap.id -
+    TensorProduct.map LinearMap.id (scalarOperator k (M := M) a)
+
+/-- Actual (n+1)-fold difference relations; no admitted replacement carrier. -/
+def principalPartsRelations (n : ℕ) : Submodule A (A ⊗[k] M) :=
+  Submodule.span A {z | ∃ (a : Fin (n + 1) → A) (b : A) (m : M),
+    z = (List.ofFn a).foldr (fun c v => principalPartsDelta k c v) (b ⊗ₜ[k] m)}
+
+abbrev PrincipalParts (n : ℕ) := (A ⊗[k] M) ⧸ principalPartsRelations k (A := A) (M := M) n
+
+/-- The actual universal jet is the quotient class of 1 tensor m. -/
+def principalJet (n : ℕ) : M →ₗ[k] PrincipalParts k (A := A) (M := M) n :=
+  ((principalPartsRelations k (A := A) (M := M) n).mkQ.restrictScalars k).comp
+    (TensorProduct.mk k A M 1)
+
+/-- Its inverse is the universal factorization target; n is retained inside the Pi. -/
+def principalPartsHomEquiv : (n : ℕ) →
+    ((PrincipalParts k (A := A) (M := M) n →ₗ[A] N) ≃
+      {D : M →ₗ[k] N // IsDifferentialOperator (A := A) k n D}) := by sorry
+
+theorem principalPartsHomEquiv_apply (n : ℕ)
+    (f : PrincipalParts k (A := A) (M := M) n →ₗ[A] N) :
+    (principalPartsHomEquiv k n f).val =
+      (f.restrictScalars k).comp (principalJet k n) := by sorry
+
+/-- The order transition is tied to the named quotient and universal jets. -/
+def principalPartsTransition : (n m : ℕ) → n ≤ m →
+    PrincipalParts k (A := A) (M := M) m →ₗ[A]
+      PrincipalParts k (A := A) (M := M) n := by sorry
+
+theorem principalPartsTransition_jet (n m : ℕ) (h : n ≤ m) (x : M) :
+    principalPartsTransition k (A := A) n m h (principalJet k (A := A) m x) =
+      principalJet k (A := A) n x := by sorry
+end OrdinaryOperators
+
+/-! ## F3A polynomial/formal interfaces on the same native Hopf points -/
+section PolynomialLoops
+variable (k H R : Type u) [CommRing k] [CommRing H] [HopfAlgebra k H]
+  [CommRing R] [Algebra k R]
+
+abbrev PolynomialLoopPoints :=
+  TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of k (LaurentPolynomial R))
+
+abbrev PositivePolynomialLoopPoints :=
+  TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of k (Polynomial R))
+
+/-- Defined native value-algebra pushforward; no independent group law. -/
+def polynomialPositiveInclusion :
+    PositivePolynomialLoopPoints k H R →* PolynomialLoopPoints k H R :=
+  TauCeti.AlgHom.mapValue (H := H) ((Polynomial.toLaurentAlg :
+    Polynomial R →ₐ[R] LaurentPolynomial R).restrictScalars k)
+
+/-- The invertible formal parameter used by native Laurent evaluation. -/
+def formalParameterUnit : (LaurentSeries R)ˣ where
+  val := HahnSeries.single 1 1
+  inv := HahnSeries.single (-1) 1
+  val_inv := by simp [HahnSeries.single_mul_single]
+  inv_val := by simp [HahnSeries.single_mul_single]
+
+/-- The actual Laurent-polynomial coefficient inclusion, not an admitted map. -/
+def polynomialCoefficientInclusion : LaurentPolynomial R →ₐ[R] LaurentSeries R :=
+  { LaurentPolynomial.eval₂ (algebraMap R (LaurentSeries R))
+      (formalParameterUnit R) with
+    commutes' := by
+      intro r
+      change LaurentPolynomial.eval₂ (algebraMap R (LaurentSeries R))
+        (formalParameterUnit R) (LaurentPolynomial.C r) = _
+      exact LaurentPolynomial.eval₂_C _ _ r }
+
+theorem polynomialCoefficientInclusion_coeff (f : LaurentPolynomial R) (j : ℤ) :
+    (polynomialCoefficientInclusion R f).coeff j = f.coeff j := by sorry
+
+def polynomialLoopToFormal : PolynomialLoopPoints k H R →* LoopPoints k H R :=
+  TauCeti.AlgHom.mapValue (H := H)
+    { (polynomialCoefficientInclusion R).toRingHom with
+      commutes' := by
+        intro a
+        change (polynomialCoefficientInclusion R)
+          (algebraMap k (LaurentPolynomial R) a) = algebraMap k (LaurentSeries R) a
+        simp [polynomialCoefficientInclusion, LaurentPolynomial.algebraMap_apply,
+          HahnSeries.algebraMap_apply', PowerSeries.algebraMap_apply] }
+
+def positivePolynomialToFormal :
+    PositivePolynomialLoopPoints k H R →* PositiveLoopPoints k H R :=
+  TauCeti.AlgHom.mapValue (H := H) ((Polynomial.coeToPowerSeries.algHom R).restrictScalars k)
+
+theorem polynomialFormal_inclusion_square :
+    (polynomialLoopToFormal k H R).comp (polynomialPositiveInclusion k H R) =
+      (positiveLoopInclusion k H R).comp (positivePolynomialToFormal k H R) := by sorry
+
+abbrev PolynomialGrassmannianPoints :=
+  PolynomialLoopPoints k H R ⧸ (polynomialPositiveInclusion k H R).range
+
+abbrev FormalGrassmannianPoints :=
+  LoopPoints k H R ⧸ (positiveLoopInclusion k H R).range
+
+/-- A defined coset map: positive subgroups are not assumed normal. -/
+def polynomialFormalCosetMap :
+    PolynomialGrassmannianPoints k H R → FormalGrassmannianPoints k H R :=
+  Quotient.map' (polynomialLoopToFormal k H R) (by sorry)
+
+theorem polynomialFormalCosetMap_mk (g : PolynomialLoopPoints k H R) :
+    polynomialFormalCosetMap k H R
+      (Quotient.mk (QuotientGroup.leftRel (polynomialPositiveInclusion k H R).range) g) =
+    Quotient.mk (QuotientGroup.leftRel (positiveLoopInclusion k H R).range)
+      (polynomialLoopToFormal k H R g) := rfl
+
+/-- Evaluation is a native point map; the specified Borel is an actual subgroup input. -/
+def polynomialEvaluationZero :
+    PositivePolynomialLoopPoints k H R →* TauCeti.HopfAlgebra.points (H := H)
+      (CommAlgCat.of k R) :=
+  TauCeti.AlgHom.mapValue (H := H) ((Polynomial.aeval (R := R) (0 : R)).restrictScalars k)
+
+def polynomialIwahori (B : Subgroup (TauCeti.HopfAlgebra.points (H := H)
+    (CommAlgCat.of k R))) : Subgroup (PositivePolynomialLoopPoints k H R) :=
+  B.comap (polynomialEvaluationZero k H R)
+
+theorem mem_polynomialIwahori (B : Subgroup (TauCeti.HopfAlgebra.points (H := H)
+    (CommAlgCat.of k R))) (g : PositivePolynomialLoopPoints k H R) :
+    g ∈ polynomialIwahori k H R B ↔ polynomialEvaluationZero k H R g ∈ B := Iff.rfl
+end PolynomialLoops
+
+/-- The actual native reductive predicate includes smoothness and geometric connectedness.
+This selected signature uses small-universe complex algebras; F3A states the natural
+functor comparison in general universes. No arbitrary loop group is assumed reductive. -/
+theorem polynomialFormalCosetMap_bijective
+    (H : TauCeti.FiniteTypeCommHopfAlgCat ℂ)
+    (hG : TauCeti.reductiveCommHopfAlgProperty ℂ H)
+    (R : Type) [CommRing R] [Algebra ℂ R] :
+    Function.Bijective (polynomialFormalCosetMap ℂ H R) := by sorry
+
+/-! ## Full cocharacter action: native opposite action is explicitly inverted -/
+section ExtendedWeyl
+variable {ι X Y : Type u} [AddCommGroup X] [Module ℤ X]
+  [AddCommGroup Y] [Module ℤ Y]
+
+/-- Conversion of the native contravariant coweight hom to the ordinary action.
+The complete root pairing is retained as data, inside the admitted Pi. -/
+def cocharacterAction : (P : RootPairing ι ℤ X Y) →
+    P.weylGroup →* MulAut (Multiplicative Y) := by sorry
+
+theorem cocharacterAction_apply (P : RootPairing ι ℤ X Y)
+    (w : P.weylGroup) (y : Y) :
+    cocharacterAction P w (Multiplicative.ofAdd y) =
+      Multiplicative.ofAdd (RootPairing.Equiv.coweightEquiv (w : RootPairing.Aut P)⁻¹ y) := by sorry
+
+abbrev ExtendedWeyl (P : RootPairing ι ℤ X Y) :=
+  SemidirectProduct (Multiplicative Y) P.weylGroup (cocharacterAction P)
+
+def corootLattice (P : RootPairing ι ℤ X Y) : AddSubgroup Y :=
+  AddSubgroup.closure (Set.range P.coroot)
+
+def dominantCocharacters (P : RootPairing ι ℤ X Y) (base : P.Base) : Set Y :=
+  {y | ∀ i ∈ base.support, 0 ≤ P.root' i y}
+end ExtendedWeyl
 end TauCetiRoadmap.FormalConnectionsOpers
