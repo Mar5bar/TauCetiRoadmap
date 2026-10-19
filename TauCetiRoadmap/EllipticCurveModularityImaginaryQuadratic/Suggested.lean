@@ -22,9 +22,38 @@ noncomputable section
 open Polynomial
 open scoped Matrix
 
+/-! ## Layer 0: Trace identity and cyclotomic preparation -/
+
 /-- Uniform integral nilpotence cannot be deduced from a coefficient-torsion
-annihilator, even with a unit auxiliary Hecke factor (README §0.1). -/
+annihilator, even with a unit auxiliary Hecke factor (supplied inputs in
+README §0.1). -/
 example : ((3 : ZMod 9) * 1)^2 = 0 ∧ (1 : ZMod 9)^2 ≠ 0 := by
+  decide
+
+/-- The trace identity forces an eigenvalue ratio equal to the determinant
+or its inverse, over any field. This supplies the cyclotomic branch of
+README §0.1's preparation dichotomy. -/
+theorem trace_identity_eigenvalue_ratio {K : Type*} [Field K] (α β : Kˣ)
+    (h : ((α : K) + (β : K)) ^ 2 = (1 + (α : K) * (β : K)) ^ 2) :
+    (α : K) / (β : K) = (α : K) * (β : K) ∨
+      (α : K) / (β : K) = ((α : K) * (β : K))⁻¹ := by
+  sorry
+
+/-- The determinant-kernel quaternion matrices square to minus the identity
+and anticommute (README §0.1's cubic tetrahedral boundary). -/
+example :
+    let I : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![0, 1; 6, 0]
+    let J : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![2, 3; 3, 5]
+    I * I = -1 ∧ J * J = -1 ∧ I * J = -(J * I) := by
+  decide
+
+/-- The cubic-quotient generator and its square have determinants four and
+two, and each satisfies the trace identity (README §0.1). -/
+example :
+    let H : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![4, 2; 0, 1]
+    H.det = 4 ∧ (H * H).det = 2 ∧
+      H.trace ^ 2 = (1 + H.det) ^ 2 ∧
+      (H * H).trace ^ 2 = (1 + (H * H).det) ^ 2 := by
   decide
 
 /-! ## Layer 1: The point divisor of the cyclic cover -/

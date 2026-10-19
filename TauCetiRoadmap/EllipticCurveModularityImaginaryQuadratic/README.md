@@ -33,7 +33,18 @@ fields wherever their proofs permit. Imaginary quadraticity enters the final
 choice of a CM cyclotomic extension and its descent, not the definition of the
 covers.
 
-Layer 0 and §§5.2–5.3 supply the precise CM lifting and residual modularity theorems from the lower deformation, Hecke and automorphic interfaces. Jacobians, semistable abelian varieties, vanishing cycles,
+CrystallineLocalGlobalCompatibilityCM owns CN's integral local–global
+comparison, fixed-determinant refinement, non-neat PGL₂ complexes, prepared
+patching and qualified lifting theorem. Layer 0 retains the distinct AKT
+GL₂/dyadic and general-weight ordinary inputs and the independent elliptic
+seed. Its preparation dichotomy supplies the additional cyclotomic branch
+used to recover unrestricted lifting in §5.2. Section 0.3 owns the
+prescribed-type elliptic construction, including its cohomological and
+non-CM outputs; §5.1 owns large-prime existence for arbitrary non-CM
+elliptic curves over number fields. ModularityAndLanglandsExtensions
+§§2.18 and 2.29 are downstream adapters of these outputs, retaining
+that roadmap's additional ordinary-prime density and progression arguments.
+Jacobians, semistable abelian varieties, vanishing cycles,
 Hilbert irreducibility, Galois representations, local Langlands and automorphic
 transfer also retain their existing owners. A generic cyclic-cover theorem or
 a general potential-modularity theorem is not rebuilt here. The mathematical
@@ -41,7 +52,7 @@ work here proves the hypotheses of those interfaces for this family and
 transports the resulting realization to the next coefficient prime.
 
 The starting theorem for an auxiliary elliptic curve is the residual criterion
-of Caraiani–Newton §6.1, proved in §5.3; their exceptional modular-curve analysis in §7 is not
+of Caraiani–Newton §6.1, assembled from these suppliers in §5.3; their exceptional modular-curve analysis in §7 is not
 used. In particular the auxiliary curve's modularity is proved before the
 three new lifts, independently of the desired modularity of E.
 
@@ -114,8 +125,9 @@ The named outputs below are consumed with their hypotheses. Roadmap interfaces a
 | `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant. Section 5.1 owns Serre’s non-CM elliptic large-prime existence theorem; Layer 7 owns the simultaneous all-character specialization. |
 | `FaltingsFinitenessAndIsogenyTheorems`, R28.4 and §§R28.6.2–R28.6.3 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands. |
 | `AutomorphicGaloisRepresentations` §3.13, `geometricCharacter_isHeckeAvatar`, and `AutomorphicGaloisRepresentationsPartII` AG2.0, `AlgHeckeChar.galoisChar` | A continuous rank-one character over a finite extension of Q_ℓ, finitely ramified and de Rham above ℓ, is an algebraic Hecke-character avatar; conversely such avatars have the prescribed labelled Hodge degrees and local class-field parameters. Together with CM endomorphism eigenspaces and common Frobenius polynomials, this supplies the CM comparison in §8.6. No higher-rank Fontaine–Mazur assertion is consumed. |
-| LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the integral arithmetic complexes and maps; §5.2 proves the full CN Theorem 5.2 from them. |
-| ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7, ALS.4.9 and ALS.5a.6; ModularCurves §0E and §5C; ModularCurvesPartII §§5.13–5.14 | Equivariant Hecke complexes and compactified full-level twists for rational representations and their base changes. Layer 0 supplies non-neat non-Eisenstein perfectness, arbitrary-number-field paired twists, rationality and the independent AKT seed. Section 5.3 proves the CN residual criterion from these and §5.2. |
+| `CrystallineLocalGlobalCompatibilityCM` §§7.5–7.6, 8.7 and 9.1–9.12 | CN's general-rank integral deformation factorization and fixed-determinant refinement; non-neat PGL₂ perfectness and derived augmentation; prepared deformation–Hecke maps with uniform nilpotence, paired support and prepared lifting. The §9.12 export retains `[F(ζ_p):F] ≠ 3` or projective image different from A₄. Section 0.1 supplies the additional preparation branch, and §5.2 consumes that qualified export without copying its arithmetic construction. |
+| LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the distinct AKT ordinary and dyadic arithmetic inputs on these interfaces. |
+| ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7, ALS.4.9 and ALS.5a.6; ModularCurves §0E and §5C; ModularCurvesPartII §§5.13–5.14 | Equivariant Hecke complexes and compactified full-level twists for rational representations and their base changes. Layer 0 supplies GL₂ non-neat non-Eisenstein perfectness, arbitrary-number-field paired twists, rationality and the independent AKT seed. |
 | PadicHodgeTheory §3.6 and §§8.1–8.2, 9.1–9.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.19, R07.5 and R07.6.1 | Labelled ordinary flags, proper-smooth/semistable comparisons and the Kummer crystalline criterion. The independent CM ordinary/dihedral lifting proofs are §0.1; §8.1 proves the automorphic ordinary calculation for all quadratic Steinberg twists. |
 | `AutomorphicGaloisRepresentationsPartII`, AG2.4–AG2.7 | Attached semisimple Galois representations, common good-place polynomials and Varma's underlying semisimplified Weil comparison at v∤ℓ. Full ramified nonselfdual N equality is not an input for an arbitrary intermediate π. Layer 8 derives precisely what it needs. |
 | `InverseGaloisAndArithmeticFundamentalGroups`, IG.0 arithmetic fundamental groups and IG.2 “Hilbert specialization with local conditions” | Hilbert subsets are dense in finite products of local opens on affine space. Apply also to connected finite covers with a constant field. Layer 7 identifies the finite quotient and its constant-field kernel. No Hilbert theorem for an arbitrary variety is assumed. |
@@ -129,6 +141,14 @@ The named outputs below are consumed with their hypotheses. Roadmap interfaces a
 The shared carrier’s good polynomials
 do not force descent of a λ-adic representation to M_λ: the specified finite
 realization extension is retained. No comparison is asserted by raw data alone.
+
+The prerequisites include AbelianSchemesAndArithmeticModuli,
+FiniteFlatGroupsAndIntegralPadicHodgeTheory,
+SmallRamificationAndAbelianVarietyBaseCases and PadicHodgeTheory,
+with the contracts above, as well as
+CrystallineLocalGlobalCompatibilityCM. These suppliers precede this
+roadmap in the supplier order. Its typed elliptic and general large-prime
+exports are inputs to the downstream modularity extensions.
 
 The pinned ingredients in `Suggested.lean` are Mathlib
 `Finsupp.single`, `Finsupp.sum`, `RatFunc.mk`, `RatFunc.eval`, `Polynomial.C`,
@@ -180,7 +200,7 @@ scheme of a curve without a rational point used in §4.2.
 
 | Layer | Output used next |
 |---|---|
-| 0 | Independent integral CM patching, arbitrary-number-field paired twists, the AKT elliptic seed and its all-coefficient elliptic comparison. |
+| 0 | Supplied CN arithmetic inputs, AKT ordinary/dyadic additions, cyclotomic preparation, paired twists, the independent elliptic seed and prescribed-type outputs. |
 | 1 | Normalized cyclic covers of the twist, with compatible quotient maps and reflection. |
 | 2 | Compact-type fiber E^m and the second nodal fiber with m smoothing-order-one nodes. |
 | 3 | Integral regular-module marking and two opposite monodromies in a common basis. |
@@ -199,78 +219,73 @@ the route can change primes at Layer 4.
 
 ## Layer 0: Independent lifting and arithmetic bridges
 
-### 0.1 Independent integral CM lifting inputs
+### 0.1 Supplied CN arithmetic and independent AKT lifting inputs
 
-The direct lifting prerequisites are LocalGaloisDeformationRings,
-DeformationAndDerivedPatchingAlgebra and the representation and locally
-symmetric suppliers in Exact supplier contracts. This section owns the arithmetic inputs
-to their general deformation and patching interfaces. Write O for the ring of integers
-of a sufficiently large finite extension of ℚp, with uniformizer ϖ and
-residue field k. Derived Hecke algebras mean the commutative images of the stated Hecke operators in
-derived endomorphisms, with their coefficient and level maps.
+CrystallineLocalGlobalCompatibilityCM §§7.5–7.6 supplies
+`CrystallineCM.integral_local_global_deformation_factorization` and
+`CrystallineCM.fixed_determinant_factorization` in general rank n, with
+its finite conjugation-stable ramification set T, parabolic alternatives,
+non-Eisenstein decomposed-generic localization, invertible positive central
+Hecke operators and local degree inequality. Use its integral derived Hecke
+image, coefficient reductions and one nilpotence exponent depending only
+on n and [F⁺:ℚ], uniformly in weight, level and coefficient length. The
+fixed-determinant refinement requires p∤n and a crystalline determinant
+with the specified labelled Hodge weights. For the weight-zero GL₂
+application this is εp⁻¹ of labelled weight 1 at odd p. These are supplied
+arithmetic theorems, rather than consequences of generic patching algebra.
+(CN, Theorem 4.2.15 and Corollary 4.2.16, pp.71–72.)
 
-**`cm_torsion_local_deformation_hecke`** — Let n≥1, F be CM containing an
-imaginary quadratic subfield in which p splits, and T a finite
-conjugation-stable set of finite places containing Sp. For every v∉T of
-residue characteristic ℓ,
-require either that ℓ is unramified in F and no ℓ-adic place lies in T, or
-that ℓ splits in an imaginary quadratic subfield of F. Let K be a good GLn
-level, hyperspecial outside T, and λ a dominant weight. Choose distinct
-places a,b|p of F⁺ with
-`Σ_{w|p, w≠a,b} [F⁺_w:ℚp] ≥ [F⁺:ℚ]/2`.
-Use CN's parahoric level at a, and a non-Eisenstein, decomposed-generic maximal
-ideal m supporting the cohomology. All positive central Hecke operators for
-the chosen parabolic at a are units at m. Construct a continuous
-`ρ_m:G_F,T→GLn(T_K/J)` with the unramified Hecke polynomials, where
-`T_K = T^{Q_a,{a-ord}}(RΓ(X_K,V_λ)_m)` and `J^δ=0` for a δ depending only
-on n and [F⁺:ℚ]. The same bound applies for every coefficient quotient O/ϖʳ,
-weight and allowed level for this fixed finite T; retain compatible coefficient
-reductions and the integral inverse-limit comparison.
+CrystallineLocalGlobalCompatibilityCM §§8.7, 9.4 and 9.6 supplies the
+non-neat PGL₂ perfect complexes and Hecke-equivariant derived
+Taylor–Wiles augmentation; retain odd p, ζp∈F, an absolutely irreducible
+residual localization and a coefficient system trivial modulo ϖ.
+Sections 9.1–9.10 supply the prepared CN datum and
+`CrystallineCM.prepared_barsotti_tate_lifting`. Use all fifteen preparation
+hypotheses of its §9.1: in particular the imaginary-quadratic splitting
+conditions, the local degree distribution, residual triviality at p and R,
+the crystalline/ordinary partition, and either ζp∈F with S=Sp∪R or the
+two auxiliary smooth places. Its deformation–Hecke maps, compatible
+coefficient diagrams and paired residual complexes have a single uniform
+nilpotence exponent at every Taylor–Wiles level. Their augmentation is a
+derived isomorphism; their support bridge relates the two residual generics
+to a common auxiliary component, without asserting uniqueness of that
+component. (CN, Propositions 5.6.1–5.6.3 and Lemma 5.6.4, pp.82–85.)
 
-The induced local framed maps factor through the prescribed rings: for
-partition (n,1,…,1) of 2n, ordinary at the chosen place ã|a and crystalline
-at ãᶜ; for the Borel of GL₂n, ordinary at both; for the Siegel parabolic,
-crystalline at both. These are the three cases of CN, with λ's labeled
-weights, not arbitrary potentially semistable conditions. If p∤n and a quotient
-of T_K/J has determinant ψ valued in Oˣ, crystalline at every p-adic place
-with labeled weights `Σ_i (λ_{τ,i}+n−i)`, its local maps factor through the
-fixed-determinant ψ quotients. (CN, Theorem 4.2.15 and Corollary 4.2.16,
-pp.71–72.)
+**Checks on the supplied inputs.**
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7;
-LocalGaloisDeformationRings Layers 1–6; ArithmeticLocallySymmetricSpaces
-ALS.1–ALS.4; DeformationAndDerivedPatchingAlgebra §7.9 for the nilpotent
-kernel from derived endomorphisms to cohomology actions.
+- A coefficient-torsion annihilator is insufficient: in ℤ/9ℤ the unit
+  ideal J has `(3J)²=0` but `J²≠0`, even with a unit auxiliary Hecke factor.
+  The corresponding Lean example distinguishes integral nilpotence.
+- The ideals (t) in k[t]/(t^N) have increasing nilpotence exponents;
+  the inverse-limit ideal in k[[t]] is not nilpotent. The supplied exponent
+  is independent of coefficient length and Taylor–Wiles level.
+- At Q empty the derived augmentation recovers the original complex and
+  its Hecke action. Agreement only on top cohomology cannot replace it.
+- A support bridge through one auxiliary component gives no transfer
+  between residual generics on different auxiliary components.
 
-**Checks.**
-
-- Taking T to be all finite places is excluded: it would leave no away-T
-  Frobenius Hecke operators for the stated construction.
-- For n=2 and odd p, determinant εp⁻¹ has labeled weight 1, as required
-  for the weight-zero fixed-determinant Barsotti–Tate application.
-- The mixed partition (2,1,1) gives an ordinary/crystalline pair; imposing
-  crystallinity at both places would exclude the semistable ordinary branch.
-- In ℤ/9ℤ the unit ideal J satisfies `(3J)²=0` but `J²≠0`. A bound on
-  `(T_n² p^N₂ J)^N₁` with T_n invertible therefore does not give the
-  integral nilpotence bound here. Coefficient-prime characteristic-zero
-  comparison alone cannot supply this target.
+Write O for the ring of integers of a sufficiently large finite extension
+of ℚp, with uniformizer ϖ and residue field k. Derived Hecke algebras below
+are the commutative images of the specified Hecke operators in derived
+endomorphisms, with their coefficient and level maps. The GL₂ perfectness
+and AKT ordinary arithmetic constructions below are additional targets here.
 
 **`cm_nonneat_perfect_augmentation`** — For a CM number field F, let G be
-GL₂ or PGL₂ and U a product compact level, hyperspecial outside a finite S
+GL₂ and U a product compact level, hyperspecial outside a finite S
 containing Sp. Let A(U,M) and C(U,M∨) be equivariant cohomology and homology,
 not the cohomology of the coarse quotient. Take R=O or O/ϖʳ and an R-finite
 free smooth coefficient system M with `M⊗_R k≅k` as a level representation.
 Suppose m is a non-Eisenstein Hecke maximal ideal with residue field k and
-absolutely irreducible residual representation. Require ζp∈F; for PGL₂
-require odd p, and for GL₂ require that `U∩Z_G(F)` contains no nontrivial
-p-torsion. Then `H^i(A(U,M)_m)=0` outside `[0,dim_ℝ X_G]`, and this
+absolutely irreducible residual representation. Require ζp∈F and that
+`U∩Z_G(F)` contains no nontrivial p-torsion. Then `H^i(A(U,M)_m)=0` outside `[0,dim_ℝ X_G]`, and this
 localized complex is R-perfect. For V normal in U with abelian p-power
 quotient Δ, construct the residual-matching localization n and an
 R[Δ]-perfect homology complex with its Hecke-equivariant derived augmentation
 `C(U/V,M∨)_n ⊗ᴸ_{R[Δ]} R ≅ C(U,M∨)_m`.
 Retain coefficient reduction, trace and localization compatibilities, and the
-corresponding dual perfect complexes. (AKT, Theorem 5.11, pp.46–47;
-CN, Proposition 5.5.3, p.81, and Lemma 5.6.4, p.85.)
+corresponding dual perfect complexes. The PGL₂ version is consumed from
+CrystallineLocalGlobalCompatibilityCM §§8.7 and 9.6. (AKT, Theorem 5.11,
+pp.46–47.)
 
 *Needs:* ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7 and ALS.4.9;
 ArithmeticGaloisRepresentations Layers 1–4;
@@ -285,86 +300,84 @@ DeformationAndDerivedPatchingAlgebra Layer 7 for perfect-complex algebra.
 - At neat level the usual free-cell perfect model agrees with this
   localized complex; at non-neat level with p-torsion stabilizers there is
   no averaging by the quotient order.
-- At p=2 the PGL₂ assertion is unavailable. AKT's GL₂ level U(c₀,c)
-  removes central 2-torsion and permits the dyadic application; replacing
-  it by U(1,c) without that restriction loses a hypothesis.
+- AKT's GL₂ level U(c₀,c) removes central 2-torsion and permits the
+  dyadic application; replacing it by U(1,c) without that restriction
+  loses a hypothesis. The supplied odd-p PGL₂ theorem does not cover p=2.
 
-**`cm_integral_patch_data`** — For the prepared weight-zero setting of CN
-§5.6(1)–(15), construct the finite complex patch datum of
-DeformationAndDerivedPatchingAlgebra §8.2. Explicitly, take odd p, a CM F,
-`Sp=S_p^cr ⊔ S_p^st`, a finite S⊃Sp and R⊂S∖Sp, and a residual-matching
-weight-zero cuspidal π on PGL₂. Each rational prime ramifying in F or below S
-splits in an imaginary quadratic subfield of F. For every a|p of F⁺ require
-a distinct b|p with `Σ_{w≠a,b} [F⁺_w:ℚp] > [F⁺:ℚ]/2`, and residue fields
-at p strictly larger than 𝔽p. Require π unramified off `R∪S_p^st`, with
-Iwahori invariants on that set and ordinary noncrystalline attachment at
-`S_p^st`. If S=Sp∪R require ζp∈F; otherwise S∖(Sp∪R) contains two places
-of distinct residue characteristics. At each v in that complement require
-v∉Rᶜ and `H²(F_v,ad⁰ρ̄)=0`. Require ρ̄ decomposed generic, absolutely
-irreducible on GF(ζp), trivial at Sp∪R, and the p=5 projective-field
-exclusion stated in `cm_ordinary_lifting`.
+**`cm_lifting_preparation_dichotomy`** — Let K be CM, p odd and
+r:G_K→GL₂(Q̄_p) a continuous finitely ramified lift with determinant εp⁻¹, decomposed
+generic residual representation ρ̄ absolutely irreducible on G_K(ζp),
+and a residual-matching regular algebraic cuspidal π of PGL₂(𝔸_K). Assume either the
+general-weight ordinary hypotheses of `cm_ordinary_lifting` or the
+weight-zero local alternatives of `potentiallySemistableCM`, including
+their p=5 projective-field condition. Construct a finite Galois soluble
+CM extension F/K satisfying the prepared CN or AKT ordinary hypotheses,
+and descent, with the following alternatives. (CN, end of the proof of
+Theorem 5.2, pp.85–87; AKT, proof of Theorem A.14, pp.94–95;
+DDT, Lemma 4.11, p.119.)
 
-For every tuple χ of residue characters at R trivial modulo ϖ, use determinant
-εp⁻¹, Barsotti–Tate local rings at `S_p^cr`, ordinary weight-zero rings at
-`S_p^st`, and the χ-level-raising rings at R. The other local rings have
-fixed determinant and are unrestricted. For Taylor–Wiles data Q take distinct
-residual Frobenius eigenvalues, `q_v≡1 mod p^N`, and residue characteristics
-split in imaginary quadratic subfields of F. Construct compatible surjections
-`R_{Sχ}↠T_χ/J_χ` and `R_{Sχ,Q}↠T_{χ,Q}/J_{χ,Q}`, the second over O[Δ_Q],
-with unramified Hecke polynomials and `J_χ^δ=J_{χ,Q}^δ=0` for one δ depending
-only on [F:ℚ]. At p use `cm_torsion_local_deformation_hecke`, including its
-fixed-determinant refinement; away from p prove the specified inertia and
-Taylor–Wiles character conditions. At Q the deformation and diamond actions
-must agree. Use `cm_nonneat_perfect_augmentation` when the levels are not neat.
-For the dual localized complexes retain
-`C_{χ,Q}⊗ᴸ_{O[Δ_Q]}O≅C_χ`, including the chosen-eigenvalue level-lowering
-comparison. (CN, Propositions 5.6.2–5.6.3 and Lemma 5.6.4, pp.83–85.)
+If ζp∈K, use the prepared branch without the two auxiliary smooth places.
+Otherwise set G=im ρ̄. If some g∈G has det(g)≠1 and
+`tr(g)² ≠ (1+det(g))²`, preserve G and its determinant character during
+residual-disjoint preparation. Chebotarev then supplies two auxiliary
+degree-one places of distinct residue characteristics, outside R∪Rᶜ,
+with `q_v ≠ 1 mod p` and `H²(F_v,ad⁰ρ̄)=0`, as in the cited proofs.
 
-Choose Q_N of fixed cardinality killing the dual Selmer group, with
-`ker(ℤp^q↠Δ_{Q_N})⊂p^Nℤp^q`, and construct framed presentation surjections
-from a common power-series extension of the local deformation ring. Supply
-the augmentation isomorphisms of deformation rings, compatible Hecke maps
-surjective after the base error quotient, and all coefficient diagrams in §8.2.
-For χ=1 and a fixed χ with χ_v²≠1, prove the paired residual ring and derived
-complex identifications, equality of residual derived Hecke images, and
-agreement of deformation maps after quotient by the sum of residual error
-images. Derive a common finite residual amplitude and rank profile from the
-actual augmented perfect complexes. (CN, §5.6, pp.84–85; AKT, Proposition A.6,
-p.87 and the paired construction on pp.92–93.)
+If every g with det(g)≠1 satisfies that trace identity, every
+rational decomposed-generic witness q satisfies `q ≡ 1 mod p`. Indeed,
+for eigenvalues α,β with αβ=det(g), the identity forces
+`α/β ∈ {det(g),det(g)⁻¹}`. This is the algebraic implication
+`trace_identity_eigenvalue_ratio`, over any field; applying it at any
+place over q contradicts genericity when q≠1 mod p. Thus q splits
+completely in K_c=K(ζp), since it already splits in K. Make this preliminary
+cyclotomic base change, then perform residual-disjoint preparation over
+K_c. The all-places witness survives, and
+`ρ̄(G_K_c)=ρ̄(G_K(ζp))` is exactly the original absolutely irreducible
+cyclotomic image. Subsequent preparation preserves that image. Since the
+prepared field contains ζp, its prepared lifting theorem requires neither
+of the two auxiliary smooth places. No reducibility assertion for the
+determinant kernel is used in this branch.
 
-Apply generic patching only to these data. Verify the dimension and component
-conditions of CN Assumption 5.4.1 from its Propositions 5.3.2 and Lemmas
-5.3.3–5.3.4 and the supplied local rings. The characteristic-zero π seed has
-cohomology in the required cuspidal interval. Prove the pairwise support
-transport of CN Proposition 5.4.2 and Corollary 5.4.3 using the spectral
-support and divisor-length interfaces: the residual generics under the seed
-component and the desired component must generalize to the same auxiliary
-component. There can be several auxiliary components, one for each choice at
-p; global uniqueness is not assumed. For a lift of determinant εp⁻¹ which is
-Barsotti–Tate on `S_p^cr`, with the same ordinarity there as π, noncrystalline
-of shape `(1,*;0,εp⁻¹)` on `S_p^st`, unipotently ramified at R and unramified
-outside S, this proves survival of its point in the augmented Hecke support.
-The characteristic-zero Hecke/automorphic comparison then proves the prepared
-lifting statement. (CN, Proposition 5.6.1 and proof, pp.82–85.)
+In both branches compare the attached representation of each automorphic
+base change with the restriction of the specified seed. Residual
+irreducibility preserves cuspidality throughout the soluble tower.
+Transport each local crystalline/noncrystalline and potential-ordinary
+alternative and automorphic ordinarity. For AKT retain the ordinary flags,
+pull back each labelled weight by restriction of embeddings, and reach
+the prepared compatibility
+`∏_τ τ(u)^(λ_τ−μ_τ)=1` for every local p-power root of unity u.
+Use AKT's weight-control preparation for this condition after the
+cyclotomic step; its set V preserves the new cyclotomic residual image
+and every place over q. After prepared lifting, soluble descent with the
+cyclic-descent character correction recovers r itself and, in the ordinary
+case, its original weight and ordinarity. This supplies both full lifting
+exports without changing their hypotheses.
 
-*Needs:* `cm_torsion_local_deformation_hecke`,
-`cm_nonneat_perfect_augmentation`; GlobalGaloisDeformations R04.3–R04.6;
-LocalGaloisDeformationRings Layers 1–6 and 8;
-DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7;
-AutomorphicGaloisRepresentationsPartII AG2.5–AG2.7;
-ArithmeticGaloisRepresentations Layers 1–4.
+*Needs:* CrystallineLocalGlobalCompatibilityCM §§9.1–9.3 and 9.10–9.12;
+PotentialModularityAndCompatibleSystems §§2.12–2.16;
+PotentialAutomorphyInfrastructure §§2.3 and 2.5;
+ArithmeticGaloisRepresentations §§4.2–4.7;
+GL2AutomorphicRepresentationsAndTransfer R17.4;
+PadicHodgeTheory §3.6.
 
 **Checks.**
 
-- For Q empty the ring and derived-complex augmentations recover Sχ and Cχ;
-  an equality of top cohomology quotients alone is insufficient.
-- Characters χ_v≡1 modulo ϖ identify the paired residual coefficient systems,
-  but the Hecke actions and deformation diagrams must agree as well.
-- Growing error exponents do not suffice: the ideals (t) in k[t]/(t^N)
-  are individually nilpotent, while their inverse-limit ideal (t) in k[[t]]
-  is not. The same δ is required at every Taylor–Wiles level.
-- If two residual generics lie on different auxiliary components, the
-  pairwise support bridge supplies no transfer between them.
+- Over 𝔽₇ take `I=[[0,1],[6,0]]`, `J=[[2,3],[3,5]]` and
+  `H=[[4,2],[0,1]]`. Their group has order 24 and determinant image
+  {1,2,4}; its determinant kernel is ⟨I,J⟩≅Q₈. The traces at determinant
+  2 are ±3 and at determinant 4 are ±2, so the trace identity holds
+  outside the kernel. Yet `I²=J²=−Id` and `IJ=−JI` exclude an invariant
+  line even over 𝔽̄₇: the two invertible scalar restrictions would
+  anticommute in odd characteristic. This is the cubic/A₄ boundary and
+  uses the cyclotomic branch. The matrix relations also occur in Lean.
+- A split witness q≠1 mod p would have forbidden eigenvalue ratio q or
+  q⁻¹ under the trace identity. Merely preserving one place over q would
+  not preserve decomposed genericity; all its places are retained.
+- If ζp∈K already, the cyclotomic step is the identity. In particular the
+  three lifts over K(μ₃p) at p,3,p need no auxiliary trace-violating element.
+- Nonzero dominant ordinary weights remain in scope: their pulled-back
+  flags and the p-power-root compatibility are retained, not replaced by
+  a weight-zero calculation.
 
 **`cm_ordinary_integral_patch_data`** — Construct the corresponding ordinary
 integral arithmetic inputs for both AKT lifting proofs, retaining the general
@@ -413,13 +426,16 @@ Theorem 6.8, Corollary 6.9 and §6.2, pp.53–66.)
 
 For each branch verify its local dimension/component bounds and nonzero
 characteristic-zero cuspidal seed before applying patching and spectral
-support transport. The soluble CM base changes in AKT §7 and §A.4 preserve
-the generic witness and required residual image, reach these prepared data,
-and permit automorphic descent. These constructions, and the prepared CN
-construction above, use no switching or imaginary-quadratic modularity endpoint.
+support transport. The dyadic soluble CM preparation and descent are those
+of AKT §7. The odd-p preparation uses `cm_lifting_preparation_dichotomy`,
+retaining labelled weights and root-of-unity compatibility. These
+AKT constructions use no geometric switching or imaginary-quadratic
+modularity endpoint.
 
-*Needs:* `cm_nonneat_perfect_augmentation`; GlobalGaloisDeformations
-R04.3–R04.6; LocalGaloisDeformationRings Layers 1–6 and 8;
+*Needs:* `cm_nonneat_perfect_augmentation`;
+CrystallineLocalGlobalCompatibilityCM §§7.5–7.6, 8.7 and 9.6;
+GlobalGaloisDeformations R04.3–R04.6;
+LocalGaloisDeformationRings Layers 1–6 and 8;
 DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7;
 AutomorphicGaloisRepresentationsPartII AG2.5–AG2.7;
 GL2AutomorphicRepresentationsAndTransfer R17.4.
@@ -469,8 +485,12 @@ residual representation must exclude ζ5. The conclusion is a cuspidal
 PGL₂ representation Π of weight ιλ, ι-ordinary, with rΠ,ι≅ρ.
 Section 0.3 uses its weight-zero specialization together with the dyadic theorem;
 both general lifting theorems are targets here, independent of the switching endpoints.
+The odd-p proof uses `cm_lifting_preparation_dichotomy` before applying the
+prepared ordinary theorem, with its general labelled weights and root-of-unity
+condition. The cubic/A₄ trace-identity branch passes first to K(ζp).
 
-*Needs:* `cm_ordinary_integral_patch_data`; GL2AutomorphicRepresentationsAndTransfer R17.4.
+*Needs:* `cm_ordinary_integral_patch_data`; `cm_lifting_preparation_dichotomy`;
+GL2AutomorphicRepresentationsAndTransfer R17.4.
 
 **Checks.**
 
@@ -630,6 +650,16 @@ The general CM dihedral 2-adic and ordinary odd-prime lifting theorems are prove
 
 No condition at places above 5 occurs; changing the 5-adic reduction does not affect this seed. The residue characteristic two hypothesis is dihedral, not nonsolvable; a nonsolvable dyadic lifting theorem does not supply it.
 
+**Checks for `seed_modular`.**
+
+- The Tate conditions at 2 and 3 are simultaneous; the specified valuation
+  classes supply different square and cube constraints for the coupling.
+- The residual image and all-place genericity are imposed over
+  M=K(ζ12,(Δ/Δc)^(1/6)), not just over K. Restriction can otherwise
+  destroy the residual hypothesis used by ordinary lifting.
+- No condition at 5 is required. Its ordinary or supersingular reduction
+  is independent of this seed.
+
 **`hilbert_local_selection`** — For the twist over L constructed by §0.2 `fixed_pairing_twist`, use `fixed_pairing_twist_rational` to identify Yρ̄ with an open subcurve of ℙ¹L after `solvable_preparation`. Then, given nonempty open subsets Ωw⊂Yρ̄(Lw) at all the finitely many selected places and the finite covers encoding auxiliary large mod-3 or mod-5 image, there is an L-point in every Ωw outside the relevant thin exceptional sets. In the p=5 construction impose the AKT 9.7 discriminant-conjugacy, Tate valuation and large mod-3 conditions for seed_modular; independently choose at every w|5 ordinary, supersingular or split multiplicative local prototypes according to the prescribed partition. In the p=3 construction impose Tate reduction at every place above 5 for the ordinary mod-5 seed without constraining the prescribed 3-adic ordinary/supersingular/multiplicative choices. (CN, §6.1, proofs of Propositions 6.1.5–6.1.6, pp.89–90; AKT §9, Lemma 9.7, pp.75–76, Propositions 9.13 and 9.15 and Corollary 9.14, pp.79–81.)
 
 *Needs:* §0.2 `fixed_pairing_twist`, §0.2 `fixed_pairing_twist_rational`, §0.3 `solvable_preparation`, GlobalNumberFields Layer 1, InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7, EllipticCurves Layer 4.
@@ -763,15 +793,18 @@ an exceptional modular curve.
 
 ### Dependencies
 
-The lifting inputs use ArithmeticLocallySymmetricSpaces ALS.1–ALS.4,
+CrystallineLocalGlobalCompatibilityCM §§7.5–7.6, 8.7 and 9.1–9.12 supplies
+the CN integral arithmetic and qualified lifting inputs. The additional
+AKT lifting inputs use ArithmeticLocallySymmetricSpaces ALS.1–ALS.4,
 AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7,
 GlobalGaloisDeformations R04.3–R04.6, LocalGaloisDeformationRings Layers 1–6
 and 8, and DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7.
 The seed geometry uses ModularCurves §0E and §5C, ModularCurvesPartII §§5.13–5.14,
 EllipticCurves Layers 1–4, JacobianChallenge Layers B and D, and
-InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7. All arithmetic
-maps, nilpotence bounds and discriminant comparisons above are targets of this
-layer, rather than hypotheses on the final elliptic curve.
+InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7. The AKT
+arithmetic maps and uniform bounds, the exceptional cyclotomic preparation
+and the discriminant comparisons remain targets here. None is a hypothesis
+on the final elliptic curve.
 
 ## Layer 1: Cyclic covers of a family of quadratic twists
 
@@ -786,7 +819,8 @@ quadratic twists from EllipticCurves; the displayed equation is their
 coordinate presentation. Define **`markedTwistFamily`** as this elliptic
 scheme with its two sections over U. (OpenAI §3, before Lemma 3.1, p.5.)
 
-To prove nonemptiness, pull back along `E→A¹`, `(t,s)↦t`. The equation
+To prove nonemptiness, use the x-coordinate morphism
+`E ∖ {O} → A¹`, `(t,s)↦t`, restricted to h(t)≠0. The equation
 identifies B_t with the constant E by `(x,y)↦(x,sy)`, sending R_t to the
 parameter R=(t,s). Coincidences among the five sections force R into the
 kernels of [2], [n], [2n], [n−1] or [n+1]; all are finite in characteristic
@@ -808,6 +842,10 @@ These identifications commute with finite extensions of k.
 - Changing s to −s changes the constant-family isomorphism by [−1]. The
   twist and its origin remain defined over k; no global square root of h(t)
   is assumed in U(k).
+- If a proper open U′⊊U omits a point satisfying the two guards, that point
+  still belongs to `switchParameterOpen` and has the functions and smooth
+  cover fibers of §§1.2–1.3. Restriction to U′ does not change the canonical
+  membership characterization.
 
 ### 1.2 The normalized principal function
 
@@ -817,15 +855,23 @@ divisors; the geometric comparison uses divisors on B_t. Its degree is zero
 and its Abel sum is `2S−2nR`. In the family S=[n]R, Abel's criterion on a
 genus-one curve makes it principal. There is a unique function **`coverFunction`**
 on B_t with this divisor and value 1 at O. Since all the data and O are
-k-rational, uniqueness descends the function to k, and works relatively after
-shrinking U. (OpenAI Lemma 3.1 and proof, p.5.)
+k-rational, uniqueness descends the function to k. Over the entire canonical
+U, the relative degree-zero divisor has zero class in Pic⁰(B/U); its
+rigidification at O trivializes the pullback line bundle from U. This gives
+a normalized relative function with exactly the stated horizontal divisor.
+Equivalently, spread out the normalized generic-fiber function: inversion
+preserves every integral fiber and negates its divisor, so every vertical
+valuation is zero. No further shrinking of U is needed. (OpenAI Lemma 3.1
+and proof, p.5; JacobianChallenge Layer D.)
 
 **API.** `coverDivisor_degree`, `coverDivisor_abel` and
 `coverDivisor_abel_mul` give degree, Abel sum and its vanishing for S=[n]R.
 `coverFunction.divisor` and `coverFunction.at_origin` specify f and its scalar;
 `coverFunction.negation` proves `f(−Z)=f(Z)⁻¹` by comparing divisors and
 values at O. `coverFunction.baseChange` identifies the normalized functions
-under field extension and the constant-family pullback of §1.1. This is
+under field extension, restriction to an open of U and the constant-family
+pullback of §1.1. These are restrictions of the function on the same
+canonical U. This is
 principality of this divisor, not the assertion that all degree-zero divisors
 are principal.
 
@@ -867,8 +913,14 @@ smooth proper B_t in `k(B_t)[Y]/(Y^m−f)`, and its map to B_t. The ±S
 valuations of f are ±1, while the ±R valuations are multiples of m. Thus
 there are exactly two totally ramified branch sections, the cover is
 geometrically connected and Riemann–Hurwitz gives genus m. Spread this
-construction to a smooth proper family C_m→U, shrinking the common U for
-the finitely many m if necessary. The construction and the reflection
+construction to a smooth proper family C_m→U over the entire canonical
+`switchParameterOpen`. Near ±R remove a local parameter to the power ±n/m
+from Y, leaving an étale Kummer equation for a unit. Near ±S, after an
+étale root of that unit, the equation is the m-th root of a transverse
+parameter. Away from these sections the cover is étale. Since m is
+invertible in characteristic zero, these charts prove relative smoothness
+at every point over U; finite normalization gives properness. The
+construction and the reflection
 `w(Z,Y)=(−Z,Y⁻¹)` are over k. The rotations `u_ζ(Z,Y)=(Z,ζY)` are defined
 over k(μ_m). They satisfy `w²=1` and `wu_ζw=u_ζ⁻¹`.
 (OpenAI Lemma 3.1, pp.5–6.)
@@ -1400,7 +1452,9 @@ with the quadratic K is at most two; Q(ζ₅) would require index four.
 
 ### 5.2 The exact lifting theorem applied at three and p
 
-Prove **`potentiallySemistableCM`**, the full CN Theorem 5.2, from the integral arithmetic inputs of §0.1 and the supplied deformation and patching algebra. Its hypotheses are:
+Prove **`potentiallySemistableCM`**, the unrestricted CN Theorem 5.2,
+using CrystallineLocalGlobalCompatibilityCM's qualified lifting export and
+the preparation dichotomy of §0.1. Its hypotheses are:
 L is CM, ℓ is odd, and
 `r:G_L→GL₂(Q̄_ℓ)` is continuous, finitely ramified, determinant ε_ℓ⁻¹,
 and potentially semistable at every v|ℓ with all labelled weights {0,1}.
@@ -1416,9 +1470,28 @@ At each v|ℓ require one of:
 
 Then r is realized by a cuspidal weight-zero regular algebraic Π of
 PGL₂(𝔸_L). (OpenAI Theorem 6.2, p.15; CN Theorem 5.2 and Remarks
-5.2.1–5.2.3, pp.73–74.) The proof uses the local component comparisons of CN §5.3, the paired support argument of §§5.4–5.5 and the prepared integral complexes of §0.1, then the soluble CM preparation and descent of CN §5.6, pp.85–86. Preserve a generic split prime and the cyclotomic residual image in that preparation. No cyclotomic-degree-three / A₄ qualification is imposed: the stated theorem is CN’s full result. The geometric switch applies it only at ℓ=3 or p>100; the seed proof also uses its ℓ=5 branch with the stated projective-field condition. ℓ=3 is
-included, even with residual SL₂(F₃); no additional adequacy, enormousness,
-polarization or scalar-outside-cyclotomic condition is inserted.
+5.2.1–5.2.3, pp.73–74.) When `[L(ζ_ℓ):L] ≠ 3` or the projective
+residual image is not A₄, apply
+`CrystallineCM.potentially_barsotti_tate_lifting_qualified` directly.
+For the remaining cases use `cm_lifting_preparation_dichotomy`: a
+trace-violating element supplies the auxiliary smooth places, while the
+trace-identity branch first passes to L(ζ_ℓ), retaining the all-places
+generic witness and the absolutely irreducible cyclotomic image. Apply
+`CrystallineCM.prepared_barsotti_tate_lifting` over the prepared field
+and descend to the specified r. Thus no unrestricted finite-group
+reducibility criterion is needed. The supplier retains its qualification;
+the additional preparation argument supplies the full statement here.
+
+The geometric switch applies the theorem at ℓ=p,3,p over F=K(μ₃p),
+which already contains the corresponding roots of unity. The elliptic
+seed uses only 3 and 5, whose cyclotomic degrees divide 2 and 4 and
+hence satisfy the supplier's qualification. No additional adequacy,
+enormousness, polarization or scalar-outside-cyclotomic hypothesis is
+inserted, including at residual SL₂(F₃).
+
+*Needs:* CrystallineLocalGlobalCompatibilityCM §§9.10–9.12;
+§0.1 `cm_lifting_preparation_dichotomy`;
+GL2AutomorphicRepresentationsAndTransfer R17.4.
 
 The target **`switch_lifting_hypotheses`** is the application interface:
 for two systems in one adjacent row of §4.4, suppose the residual conditions
@@ -1469,7 +1542,10 @@ criterion supplies a cuspidal seed; its independent proof and the full lifting t
 
 ### Dependencies
 
-Layer 4 supplies the systems and congruences. Layer 0 supplies the integral CM patching and independent elliptic seed. The local–global, deformation and automorphic suppliers in the exact supplier table provide the underlying carriers and comparisons. Section 5.1 owns large-prime existence;
+Layer 4 supplies the systems and congruences. Layer 0 consumes the CN
+arithmetic and prepared patching exports, supplies the additional
+cyclotomic preparation and AKT inputs, and retains the independent elliptic
+seed and prescribed-type construction. The local–global, deformation and automorphic suppliers in the exact supplier table provide the underlying carriers and comparisons. Section 5.1 owns large-prime existence;
 ArithmeticGaloisRepresentations §§4.2–4.7 supplies restriction and the
 perfectness of SL₂(F_p). No small
 modular-curve point computation is a prerequisite.
@@ -2179,7 +2255,8 @@ existence statement.
 ### Dependencies
 
 Layers 4–7 supply all systems, congruences, local types and simultaneous
-residual conditions. Section 5.2 supplies the three lifts from Layer 0’s integral CM inputs; §5.3 supplies the initial elliptic seed independently. The automorphic Galois and local Langlands suppliers give
+residual conditions. Section 5.2 supplies the three lifts using the CN supplier and Layer 0's
+preparation; §5.3 supplies the initial elliptic seed independently. The automorphic Galois and local Langlands suppliers give
 coefficient changes and the local comparisons. R17.4 supplies cyclic
 descent, twisting and quadratic induction. CM eigenspaces use the
 endomorphism/realization interface A6, the geometric-character theorem
@@ -2196,6 +2273,20 @@ analytic and representation-theoretic behavior. The geometric outputs are
 also reusable independently: the integral group-ring marking and its
 residue-prime character evaluation supply congruences even where rational
 character projectors are not integral.
+
+ModularityAndLanglandsExtensions §2.29's
+`CMResidual.modular_curve_with_types` is a downstream adapter of
+`switch_five` and `switch_three`, with the same symplectic pairing,
+avoidance extension, reduction partition and all-places genericity.
+Duality changes the determinant from ε̄p to ε̄p⁻¹ for its cohomological
+form; the p=3 adapter retains ζ₅∉F. Its elliptic residual criterion uses
+`cm_modularity`; its additional height-density argument remains there.
+Its §2.18 rational-curve large-image assertion specializes
+`nonCM_elliptic_large_residual_primes` to E/ℚ over a number field L.
+For sufficiently large p unramified in L, `L∩ℚ(ζp)=ℚ`; cyclotomic
+determinant surjectivity upgrades the SL₂ inclusion to full GL₂ image.
+That roadmap combines this with ordinary-prime density and progressions;
+the general large-prime existence theorem has the single owner §5.1 here.
 
 The natural larger modularity target is over totally real fields and CM
 fields not containing ζ₅. Le Hung's discussion draft, Theorem 1.1, p.2,
@@ -2237,6 +2328,7 @@ not as a replacement proof of the imaginary quadratic endpoint.
 - **Le Hung.** Bao V. Le Hung, *A geometric prime switch for elliptic curves over totally real and CM fields*, discussion draft dated 7 October 2026, `hexagon:2610.00156v1`. Theorem 1.1 p.2; geometric inputs §2 pp.4–5; totally real reflection construction §3 pp.6–7; simultaneous conjugate genericity §4.4 p.8; CM seed-before-base-change argument §4.6 and Remark 4.2 p.9. Attribution follows the supplied discussion draft; no claim of a refereed publication is made.
 - **CN.** Ana Caraiani and James Newton, [On the modularity of elliptic curves over imaginary quadratic fields](https://arxiv.org/pdf/2301.10509v3), arXiv:2301.10509v3, 27 March 2025. Theorem 5.2 and Remarks 5.2.1–5.2.3 pp.73–74; Theorem 6.1 pp.87,90; Lemma 6.1.3 p.88; residual constructions Lemmas 6.1.4, 6.1.7 and Propositions 6.1.5–6.1.6 pp.88–90. The exceptional modular-curve analysis of §7 is outside the proof route here.
 - **AKT.** Patrick B. Allen, Chandrashekhar Khare and Jack A. Thorne, [Modularity of GL₂(F_p)-representations over CM fields](https://arxiv.org/pdf/1910.12986v2), arXiv:1910.12986v2, 2 September 2022. Theorems 7.1 and 8.1 pp.67,71–72; independent elliptic seed Proposition 9.12 p.79 and prescribed-type constructions in §9 pp.73–81. Their independent lifting and elliptic seed arguments are the targets of Layer 0.
+- **DDT.** Henri Darmon, Fred Diamond and Richard Taylor, [Fermat's Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 4.11, p.119. Its determinant-character trace criterion retains the degree-three projective-A₄ alternative; §0.1 supplies a cyclotomic preparation branch for that case.
 - **Serre.** Jean-Pierre Serre, [Propriétés galoisiennes des points d’ordre fini des courbes elliptiques](https://wstein.org/sage_summer/bsd_comp/Serre-properties_galoisiennes_des_points_dordre_fini_des_courbes_elliptiques.pdf), Inventiones mathematicae 15 (1972), 259–331; §4.2, Théorème 2, p.294. This is the non-CM elliptic large-prime input of §5.1.
 - **Varma.** Ila Varma, [Local-global compatibility for regular algebraic cuspidal automorphic representations when ℓ is different from p](https://arxiv.org/pdf/1411.2520v1), arXiv:1411.2520v1. Theorem (1ss), p.1, gives the underlying semisimplified Weil compatibility; Theorem (1), on the same page, bounds monodromy. Its application in OpenAI Lemma 9.2 is the local comparison used here, without an unproved general monodromy equality.
 - **ACC+.** P. B. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm, B. V. Le Hung, J. Newton, P. Scholze, R. Taylor and J. A. Thorne, [Potential automorphy over CM fields](https://arxiv.org/pdf/1812.09999v2), arXiv:1812.09999v2, 16 June 2022; published in Annals of Mathematics 197 (2023), 897–1113. The cited PDF's §7.1 pp.189–190 specifies compatible-system data and predicates. The shared carrier's single owner is SmallRamificationAndAbelianVarietyBaseCases §5.0d.
