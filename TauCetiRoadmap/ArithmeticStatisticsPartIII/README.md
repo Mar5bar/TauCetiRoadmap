@@ -85,6 +85,8 @@ Start with compact semialgebraic counts and then average arithmetic fundamental 
 
 **Chebyshev bounds for prime sums.** (a) There is an absolute constant `C` such that `π(x) ≤ C·x/log x` for every real `x ≥ 2`, where `π(x)` is the number of primes `p ≤ x`. (b) For every real `s > 1` there is a constant `C_s` such that `Σ_{p prime, p > N} p^{−s} ≤ C_s·N^{1−s}/log N` for every real `N ≥ 2`. (c) Consequently, for every integer `k ≥ 2` there is `C_k` with `Σ_{p prime, M < p ≤ r} r^n/p^k ≤ C_k·r^n/(M^{k−1} log M)` for all reals `2 ≤ M ≤ r` and every `n ≥ 0`.
 
+`Counting.prime_count_bound`, `Counting.prime_tail_bound` and `Counting.prime_sieve_sum_bound` state (a), (b) and (c) on Mathlib’s prime-counting and prime carriers; the tail statement also asserts summability.
+
 `x, N, M ≥ 2` so that the logarithms are positive; the sums run over rational primes The constants are absolute `(C)` or depend only on `s (C_s)` or `k (C_k)`; in particular they are independent of `N, M, r` and `n`
 
 For the proof, (a) Split the primes `p ≤ x` at `√x`. Every prime in `(√x, x]` has `log p > (1/2) log x`, so `π(x) − π(√x) ≤ 2θ(x)/log x ≤ 2 log 4 · x/log x` by Chebyshev's bound `θ(x) ≤ (log 4)x` (`Chebyshev.theta_le_log4_mul_x`, with `θ` written as a sum over primes by `Chebyshev.theta_eq_sum_primesLE`); and `π(√x) ≤ √x ≤ 2x/log x` for `x ≥ 2`. (b) Decompose `(N, ∞)` into dyadic blocks `(2^j N, 2^{j+1} N], j ≥ 0`. By (a) the block contains at most `C·2^{j+1}N/log(2^{j+1}N) ≤ 2C·2^j N/log N` primes, each contributing at most `(2^j N)^{−s}`. Summing the geometric series `Σ_j 2^{j(1−s)} = (1 − 2^{1−s})^{−1}` gives `C_s = 2C/(1 − 2^{1−s})`. (c) is (b) with `s = k`, multiplied by `r^n`, after dropping the upper limit `r`.
@@ -96,6 +98,8 @@ For the proof, (a) Split the primes `p ≤ x` at `√x`. Every prime in `(√x, 
 **Checks.**
 
 - Order check: the bounds are exactly what the proofs of Bhargava-Shankar Theorem 2.20 (`O(X^{1/6}/log X)` primes below `X^{1/6}` and `Σ_{p > X^{1/6}} p^{−2} = O(1/(X^{1/6} log X))`) and of the geometric sieve (16) use; the trivial bound `Σ_{p > N} p^{−2} ≤ 1/(N − 1)` would lose the logarithm and make the error term in Theorem 2.20 of the same order `X^{5/6}` as the main term.
+
+- At `s=1` the prime reciprocal series diverges, so the strict hypothesis `s>1` is essential; at `k=2` the weighted tail is `O(r^n/(M log M))`.
 
 - Numerical sanity check: `π(10^6) = 78498 ≤ 2 log 4 · 10^6/log 10^6 + 10^3` `≈ 201,700`.
 
@@ -493,7 +497,7 @@ For the proof, Iwasawa: Gram-Schmidt on the rows of `g` gives `g =` (lower unitr
 
 **Hyperbolic area of the modular fundamental domain.** For the invariant measure on the upper half-plane (Mathlib's volume on `ℍ`, density `1/(Im z)^2` with respect to Lebesgue measure), `volume(ModularGroup.fd) = π/3`.
 
-The measure is Mathlib's MeasureSpace instance on `ℍ`
+`Counting.modular_fd_volume` states this value using Mathlib’s measure on `ℍ` and `ENNReal.ofReal(π/3)`.
 
 For the proof, By `UpperHalfPlane.volume_eq_lintegral, volume(fd) = ∫∫ y^{−2} dy dx` over `{|x| ≤ 1/2, y ≥ √(1 − x^2)}`. The inner integral is `∫_{√(1−x^2)}^∞ y^{−2} dy = (1 − x^2)^{−1/2}`. `∫_{−1/2}^{1/2} (1 − x^2)^{−1/2} dx = arcsin(1/2) − arcsin(−1/2) = π/3` by the fundamental theorem of calculus (`intervalIntegral.integral_deriv_eq_sub` with `Real.hasDerivAt_arcsin`; the integrand is continuous on `[−1/2, 1/2]`).
 
@@ -506,6 +510,8 @@ For the proof, By `UpperHalfPlane.volume_eq_lintegral, volume(fd) = ∫∫ y^{�
 - The value refines Tau Ceti's `ModularGroup.volume_fd_lt_top` (finiteness only).
 
 - `π/3 = 2ζ(2)/π`, the form in which the value enters the volume computations.
+
+- The open and closed modular domains have the same volume: their difference lies in the two vertical sides and circular boundary arc, which have invariant measure zero.
 
 <a id="covolume-of-pgl2-z"></a>
 
@@ -1281,7 +1287,7 @@ Prove the local estimates by enumerating multiplicatively closed index lattices 
 
 - At `k=1` the unique suborder is `O_L`.
 - For `O_L=Z⁴` there are six index-`p` suborders, one for each pair of equal residue coordinates, and exactly `6^omega(k)` index-`k` suborders for squarefree `k`. The global `k^epsilon` loss absorbs these factors; a constant bound at all squarefree indices would fail.
-- For every prime `p` and `[a:b]∈P¹(F_p)`, the subring `R_[a:b]={(x,y,z,w)∈Z⁴: x≡y≡z mod p, a(x−z)+b(y−z)≡0 mod p²}` has index `p³`. The last condition is independent of the integer lifts of `a,b`. These are `p+1` distinct suborders, so `s_(Q⁴)(p³)≥p+1`; they contribute at least `(p+1)/p⁶` to the weighted local series. Suggested.lean mirrors the subring/index assertion and this lower bound on the native `Subring` carrier.
+- For every prime `p` and `[a:b]∈P¹(F_p)`, the subring `R_[a:b]={(x,y,z,w)∈Z⁴: x≡y≡z mod p, a(x−z)+b(y−z)≡0 mod p²}` has index `p³`. The last condition is independent of the integer lifts of `a,b`. These are `p+1` distinct suborders, so `s_(Q⁴)(p³)≥p+1`; they contribute at least `(p+1)/p⁶` to the weighted local series. `Counting.split_quartic_suborder` states the subring/index assertion; `Counting.split_quartic_suborders_lower_bound` states finiteness and the lower bound on the native `Subring` carrier.
 - For `L=Q⁴`, the order `Z+pO_L` has index `p³` and content `p`, hence `p+1` resolvent structures over the fixed order. Its content-series weight is `(p+1)/p⁶`, even when the primitive index `j=1`; the suborder count alone does not count pair orbits.
 
 <a id="quartic-class-group-and-conductor-inputs"></a>
@@ -1686,6 +1692,8 @@ For the proof, Lift weak forms to marked distinguished slices with preserved inv
 <a id="refinement-monic-summed-tail"></a>
 
 **Monic summed tail.** For every `n>=2` and `epsilon>0`, the sum over squarefree `m>M` of `# {monic weighted-box f : Delta(f) nonzero, m^2 divides Delta(f)}` is `O_{n,epsilon}(X^(D+epsilon)/sqrt(M)+X^(D−1/5+epsilon))`, for `X>=2,M>=1`.
+
+`Counting.monicWeightedBox(n,X)` is the same strict coefficient box on `ℤ[X]`: monic degree `n` polynomials whose descending coefficient `a_i` satisfies `|a_i|<X^i`. `Counting.monicWeightedBox_finite` gives its finiteness. `Counting.monic_summed_tail` states the bound as the sum of `Counting.squareDivisorMultiplicity` over this box, using Mathlib’s `Polynomial.discr`. For a real cutoff `M≥1`, the natural cutoff is `floor(M)`; these select exactly the same integral moduli. Finiteness of the box and the nonzero-discriminant divisor sets makes this sum equal to the displayed sum over moduli.
 
 For the proof, Factor the squarefree `m` into strong and weak parts; one exceeds `sqrt(M)`. Sum nonzero-invariant divisor multiplicities with an `epsilon` loss. Use dyadic ranges and uniform strong/weak estimates, with the preceding degree-two monic weak tail when `n=2`. Nonzero `Delta` bounds `m` and makes the exchange of sums finite. The degree-two input is the preceding named target.
 
