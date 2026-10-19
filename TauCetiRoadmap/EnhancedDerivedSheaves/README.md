@@ -540,9 +540,9 @@ Section 0.2, `ClassicalDerived.replacements`, supplies functorial K-injective re
 **Checks.**
 
 - A quasi-isomorphism between supplied K-injective models is a homotopy equivalence.
-- A flat module in any single integer degree is K-flat; over `ℤ, (ℤ/p)[0]` for p prime is not, as the acyclic cone of `[ℤ →p ℤ] → (ℤ/p)[0]` detects.
+- A flat module in any single integer degree is K-flat (`isKFlat_single_of_flat`); over `ℤ, (ℤ/p)[0]` for p prime is not, as the acyclic cone of `[ℤ →p ℤ] → (ℤ/p)[0]` detects.
 - The cardinal controls the whole functorial model, including unbounded complexes, rather than being chosen separately for each map.
-- Over `A = ℤ/4`, `zmodFourTwoComplex` has `Pⁱ = A` and every successive differential multiplication by 2. It is acyclic and termwise free, but not K-flat: `P ⊗_A (A/2)[0]` has zero differentials and nonzero cohomology in every degree. An acyclic K-flat complex tensors acyclically with every complex, so this tensor detects the failure (DerivedModuleAlgebra §0.2, `test_derived_tensor_unbounded_flat`).
+- Over `A = ℤ/4`, `zmodFourTwoComplex` has `Pⁱ = A` and every successive differential multiplication by 2. It is acyclic and termwise free, but not K-flat (`zmodFourTwoComplex_not_isKFlat`): `P ⊗_A (A/2)[0]` has zero differentials and nonzero cohomology in every degree. An acyclic K-flat complex tensors acyclically with every complex, so this tensor detects the failure (DerivedModuleAlgebra §0.2, `test_derived_tensor_unbounded_flat`).
 
 *Needs:* `sheafComplexDG`; `dgNerve_rightMappingSpaceIso`; Section 0.2 (`ClassicalDerived.replacements`); DerivedModuleAlgebra §0.2 (module K-flat models); Mathlib `CochainComplex.IsKInjective`, `CategoryTheory.IsGrothendieckAbelian`.
 
@@ -741,7 +741,7 @@ Provide `frobeniusRootIdeal`, `frobeniusRootIdeal_radical` `(J_f = √(f))`, `fr
 
 *Needs:* `frobeniusRootIdeal`; `derivedTensor` (on the point topos); Mathlib `CategoryTheory.Tor`.
 
-**Finite Tor dimension for perfect presentations** (`perfectPresentation_torDimension_le`). If R is perfect and S is the perfection of `R[X₁, …, X_n]/(f₁, …, f_m)`, then S has Tor dimension at most m over R; in particular every perfectly finitely presented map of perfect rings has finite Tor dimension. Likewise `R/√(f₁, …, f_m)` has Tor dimension at most m over R. (BS17 Remark 3.17, p. 14; Proposition 11.29, pp. 47–48.)
+**Finite Tor dimension for perfect presentations** (`perfectPresentation_torDimension_le`). If R is perfect and S is the perfection of `R[X₁, …, X_n]/(f₁, …, f_m)`, then S has Tor dimension at most m over R; in particular every perfectly finitely presented map of perfect rings has finite Tor dimension. The signature `perfectPresentation_torDimension_le` states this bound by vanishing of all Tor groups above m against arbitrary R-modules, realizing S as the quotient of the perfect polynomial algebra by the radical of the equations. Likewise `R/√(f₁, …, f_m)` has Tor dimension at most m over R. (BS17 Remark 3.17, p. 14; Proposition 11.29, pp. 47–48.)
 
 **Checks.**
 
@@ -753,7 +753,7 @@ Provide `frobeniusRootIdeal`, `frobeniusRootIdeal_radical` `(J_f = √(f))`, `fr
 
 *Needs:* `frobeniusRootIdeal`; `perfectRing_tor_eq_zero`; `derivedTensor`.
 
-**Finite global dimension after perfection** (`perfect_projectiveDimension_le`). Let `k = (k₀)_perf` with `k₀` a regular Noetherian `𝔽_p`-algebra of finite Krull dimension, and let R be perfectly finitely presented over k. Choose a surjection `P = (P₀)_perf → R` with `P₀` regular Noetherian of dimension d. Then every R-module has projective dimension at most `d + 1` (Mathlib's `HasProjectiveDimensionLE`). The number d belongs to the chosen regular presentation, not to R. (BS17 Proposition 11.31 and Remark 11.32, p. 48.)
+**Finite global dimension after perfection** (`perfect_projectiveDimension_le`). Let `k = (k₀)_perf` with `k₀` a regular Noetherian `𝔽_p`-algebra of finite Krull dimension, and let R be perfectly finitely presented over k. Choose a surjection `P = (P₀)_perf → R` with `P₀` regular Noetherian of dimension d. Then every R-module has projective dimension at most `d + 1` (Mathlib's `HasProjectiveDimensionLE`). The number d belongs to the chosen regular presentation, not to R. The bound uses only this surjective regular presentation and perfectness of R; the signature `perfect_projectiveDimension_le` carries precisely those hypotheses. (BS17 Proposition 11.31 and Remark 11.32, p. 48.)
 
 **Checks.**
 
@@ -1408,7 +1408,7 @@ Provide `IsProZero`, `IsProIsomorphism`, `pMultiplicationTower` (the tower `ℤ 
 
 - The zero tower is pro-zero.
 - An arbitrary family of nonzero modules with zero transitions is pro-zero.
-- For p prime, `ℤ ←p ℤ ←p ⋯` is not pro-zero although its limit is zero. For `p = 0` it is pro-zero; for `p = 1` it is the constant identity tower with limit `ℤ`.
+- For p prime, `ℤ ←p ℤ ←p ⋯` is not pro-zero although its limit is zero (`pMultiplicationTower_not_isProZero`). For `p = 0` it is pro-zero; for `p = 1` it is the constant identity tower with limit `ℤ`.
 - Identity morphisms of towers are pro-isomorphisms.
 - The map `0 → (ℤ ←0 ℤ ←0 ⋯)` is a pro-isomorphism but is not an isomorphism at any level. A finite-prefix error also gives a pro-isomorphism without a levelwise isomorphism.
 - Neither `0 → (ℤ ←id ℤ ←id ⋯)` nor `(ℤ ←p ℤ ←p ⋯) → 0` for p prime is a pro-isomorphism.
@@ -2598,7 +2598,7 @@ The point-site predicate `IsDerivedComplete` is the elementary telescope criteri
 **Checks.**
 
 - Objects killed by a power of I, and limits of such objects, are complete.
-- `⊕_ℕ ℤ_p` is not p-complete over `ℤ_p`, although each summand is.
+- `⊕_ℕ ℤ_p` is not p-complete over `ℤ_p`, although each summand is (`derivedComplete_directSum_counterexample`).
 - On `Set` the product `∏_ℕ ℤ_p` is derived p-complete, contrasting with the countable direct sum.
 
 *Needs:* `DerivedCompleteSheaves`; `derivedTowerLimit`; `IsReplete.milnor`; `enhancedDerived`.
@@ -2694,7 +2694,7 @@ where the transition from m to `n (m ≥ n)` is the identity in degree zero and 
 - For `X = Set, ℤ_p` is classically and derived p-complete.
 - A module M with `pM = 0` is derived p-complete and separated, and `M → lim M/p^n M` is the identity.
 - `ℤ[0]` over `ℤ` is p-adically separated but not derived p-complete, and `ℤ → ℤ_p` is not an isomorphism; both conditions on the right are needed.
-- Over `ℤ_p`, let N be the p-adic completion of `⊕_{n≥0} ℤ_p e_n`; its elements are sequences tending to zero. The linear map `ψ : N → N`, `ψ(b) = −(Σ_{n≥1} b_n)e₀ + Σ_{n≥1} pⁿb_n e_n`, is well defined by p-adic convergence. Its cokernel M is derived p-complete by `derivedCompleteModules_weakSerre`, since N is classically complete. But `ē₀ ≠ 0`: the positive coordinates of `ψ(b) = e₀` force every `b_n = 0` for `n ≥ 1`, contradicting its zeroth coordinate. For every `k ≥ 1`, `e₀ − pᵏe_k = −ψ(e_k)`, so `ē₀ ∈ pᵏM`. Thus M is not separated, and the separatedness hypothesis is necessary (BS-proet Remark 3.4.3).
+- Over `ℤ_p`, let N be the p-adic completion of `⊕_{n≥0} ℤ_p e_n`; its elements are sequences tending to zero. The linear map `ψ : N → N`, `ψ(b) = −(Σ_{n≥1} b_n)e₀ + Σ_{n≥1} pⁿb_n e_n`, is well defined by p-adic convergence. Its cokernel M is derived p-complete by `derivedCompleteModules_weakSerre`, since N is classically complete. But `ē₀ ≠ 0`: the positive coordinates of `ψ(b) = e₀` force every `b_n = 0` for `n ≥ 1`, contradicting its zeroth coordinate. For every `k ≥ 1`, `e₀ − pᵏe_k = −ψ(e_k)`, so `ē₀ ∈ pᵏM`. Thus M is not separated, and the separatedness hypothesis is necessary (`derivedComplete_not_separated`; BS-proet Remark 3.4.3).
 
 *Proof route.* Classical completeness presents M as the limit of its epimorphic quotient tower, which repleteness identifies with the derived limit; nilpotent quotients are complete. Conversely use `koszulCompletionTower` locally and the Milnor sequence in degree zero to see that M maps onto its classical completion; separatedness gives injectivity.
 

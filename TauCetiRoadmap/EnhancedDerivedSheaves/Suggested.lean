@@ -45,20 +45,9 @@ complex. Termwise flatness is not the definition. The sheaf version replaces `Mo
 def IsKFlat (R : Type u) [CommRing R] (P : CochainComplex (ModuleCat.{u} R) ℤ) : Prop :=
   ∀ A : CochainComplex (ModuleCat.{u} R) ℤ, A.Acyclic → (A ⊗ P).Acyclic
 
-/-- The unit complex `R[0]` is K-flat. -/
-example (R : Type u) [CommRing R] :
-    IsKFlat R ((HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.up ℤ) 0).obj
-      (ModuleCat.of R R)) := by
-  sorry
-
-/-- `(ℤ/p)[0]` is not K-flat over `ℤ` (Section E1.2, Checks). -/
-example (p : ℕ) (hp : p.Prime) :
-    ¬ IsKFlat ℤ ((HomologicalComplex.single (ModuleCat.{0} ℤ) (ComplexShape.up ℤ) 0).obj
-      (ModuleCat.of ℤ (ZMod p))) := by
-  sorry
-
-/-- A flat module concentrated in any integer degree is K-flat. -/
-example (R : Type u) [CommRing R] (M : Type u) [AddCommGroup M] [Module R M]
+/-- A flat module concentrated in any integer degree is K-flat
+(`isKFlat_single_of_flat`, README E1.2). -/
+theorem isKFlat_single_of_flat (R : Type u) [CommRing R] (M : Type u) [AddCommGroup M] [Module R M]
     [Module.Flat R M] (n : ℤ) :
     IsKFlat R ((HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.up ℤ) n).obj
       (ModuleCat.of R M)) := by
@@ -82,8 +71,9 @@ noncomputable def zmodFourTwoComplex : CochainComplex (ModuleCat.{0} (ZMod 4)) �
         have htwo : (2 : ZMod 4) * 2 = 0 := by decide
         rw [smul_smul, htwo, zero_smul] }
 
-/-- The unbounded termwise free complex with differential `2` over `ℤ/4` is not K-flat. -/
-example : ¬ IsKFlat (ZMod 4) zmodFourTwoComplex := by
+/-- The unbounded termwise free complex with differential `2` over `ℤ/4` is not K-flat
+(`zmodFourTwoComplex_not_isKFlat`, README E1.2). -/
+theorem zmodFourTwoComplex_not_isKFlat : ¬ IsKFlat (ZMod 4) zmodFourTwoComplex := by
   sorry
 
 end KFlat
@@ -119,51 +109,6 @@ theorem isRegular_of_frobenius_flat (R : Type u) [CommRing R] (p : ℕ) [Fact p.
     [CharP R p] [IsNoetherianRing R] (h : (frobenius R p).Flat) : IsRegularRing R := by
   sorry
 
-/-- Every vector space has projective dimension zero. -/
-example (k : Type u) [Field k] (M : ModuleCat.{u} k) : HasProjectiveDimensionLE M 0 := by
-  sorry
-
-/-- Every abelian group has projective dimension at most one. -/
-example (M : ModuleCat.{0} ℤ) : HasProjectiveDimensionLE M 1 := by
-  sorry
-
-/-- A prime residue module over the integers is not projective. -/
-example (p : ℕ) (hp : p.Prime) :
-    ¬ HasProjectiveDimensionLE (ModuleCat.of ℤ (ZMod p)) 0 := by
-  sorry
-
-/-- The residue field at the polynomial origin has projective dimension exactly the
-number of variables, including the zero-variable case. -/
-example (k : Type u) [Field k] (d : ℕ) :
-    letI : Algebra (MvPolynomial (Fin d) k) k :=
-      (MvPolynomial.constantCoeff : MvPolynomial (Fin d) k →+* k).toAlgebra
-    ∀ n : ℕ, HasProjectiveDimensionLE (ModuleCat.of (MvPolynomial (Fin d) k) k) n ↔ d ≤ n := by
-  sorry
-
-/-- The residue field of the dual numbers has infinite projective dimension. -/
-example (k : Type u) [Field k] (n : ℕ) :
-    ¬ HasProjectiveDimensionLE
-      (ModuleCat.of (DualNumber k) (ResidueField (DualNumber k))) n := by
-  sorry
-
-/-- Dual numbers over a field are not regular, despite their zero Krull dimension. -/
-example (k : Type u) [Field k] : ¬ IsRegularRing (DualNumber k) := by
-  sorry
-
-/-- Frobenius on a perfect field is flat. -/
-example (k : Type u) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] [PerfectRing k p] :
-    (frobenius k p).Flat := by
-  sorry
-
-/-- Frobenius on the prime field is flat. -/
-example (p : ℕ) [Fact p.Prime] : (frobenius (ZMod p) p).Flat := by
-  sorry
-
-/-- Frobenius on the dual numbers over the prime field is not flat. -/
-example (p : ℕ) [Fact p.Prime] (B : Type u) [CommRing B] [CharP B p]
-    (e : B ≃+* DualNumber (ZMod p)) : ¬ (frobenius B p).Flat := by
-  sorry
-
 end RegularRings
 
 section PerfectRings
@@ -179,16 +124,6 @@ def frobeniusRootIdeal (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime] [CharP
 theorem frobeniusRootIdeal_radical (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
     [CharP R p] [PerfectRing R p] (f : R) :
     frobeniusRootIdeal R p f = (Ideal.span {f}).radical := by
-  sorry
-
-/-- `J_1 = R`. -/
-example (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p] :
-    frobeniusRootIdeal R p 1 = ⊤ := by
-  sorry
-
-/-- `J_0 = 0` in a perfect ring, which is reduced. -/
-example (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p] :
-    frobeniusRootIdeal R p 0 = ⊥ := by
   sorry
 
 /-- The `p^n`-th roots of `f` lie in `J_f` (`frobeniusRootIdeal_root_mem`). -/
@@ -216,13 +151,30 @@ theorem perfectRing_tor_eq_zero (A B C : Type u) [CommRing A] [CommRing B] [Comm
       (ModuleCat.of A C)) := by
   sorry
 
-/-- In the perfect polynomial ring, the first root of the variable lies in its root
-ideal and does not lie in its principal ideal. -/
-example (p : ℕ) [Fact p.Prime] :
-    let R := PerfectClosure (MvPolynomial (Fin 1) (ZMod p)) p
-    let t : R := PerfectClosure.of (MvPolynomial (Fin 1) (ZMod p)) p (MvPolynomial.X 0)
-    (iterateFrobeniusEquiv R p 1).symm t ∈ frobeniusRootIdeal R p t ∧
-      (iterateFrobeniusEquiv R p 1).symm t ∉ Ideal.span {t} := by
+/-- The quotient of a perfect polynomial algebra by the radical of `m` equations has
+Tor dimension at most `m` over the base (`perfectPresentation_torDimension_le`, README E1.6;
+BS17 Proposition 11.29). -/
+theorem perfectPresentation_torDimension_le (R : Type u) [CommRing R]
+    (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p]
+    (n m : ℕ) (f : Fin m → MvPolynomial (Fin n) R) (M : ModuleCat.{u} R) (i : ℕ) :
+    let P := PerfectClosure (MvPolynomial (Fin n) R) p
+    letI : Algebra R P :=
+      ((PerfectClosure.of (MvPolynomial (Fin n) R) p).comp MvPolynomial.C).toAlgebra
+    let S := P ⧸ (Ideal.span (Set.range
+      (fun j => PerfectClosure.of (MvPolynomial (Fin n) R) p (f j)))).radical
+    IsZero (((CategoryTheory.Tor (ModuleCat.{u} R) (m + i + 1)).obj
+      (ModuleCat.of R S)).obj M) := by
+  sorry
+
+/-- Every module over a perfect quotient of the perfection of a regular ring of
+dimension at most `d` has projective dimension at most `d + 1`
+(`perfect_projectiveDimension_le`, README E1.6; BS17 proof of Proposition 11.31). -/
+theorem perfect_projectiveDimension_le (P₀ R : Type u) [CommRing P₀] [CommRing R]
+    (p : ℕ) [Fact p.Prime] [CharP P₀ p] [CharP R p] [PerfectRing R p]
+    [IsRegularRing P₀] (d : ℕ) (hd : ringKrullDim P₀ ≤ d)
+    [Algebra (PerfectClosure P₀ p) R]
+    (hsurj : Function.Surjective (algebraMap (PerfectClosure P₀ p) R))
+    (M : ModuleCat.{u} R) : HasProjectiveDimensionLE M (d + 1) := by
   sorry
 
 end PerfectRings
@@ -248,35 +200,6 @@ def IsValuationSaturated (V : Type u) [CommRing V] (m : Ideal V)
     (M : Type v) [AddCommGroup M] [Module V M] : Prop :=
   Function.Bijective (valuationSaturationMap V m M)
 
-/-- The zero module is saturated. -/
-example (V : Type u) [CommRing V] (m : Ideal V) : IsValuationSaturated V m PUnit.{v + 1} := by
-  sorry
-
-/-- Saturation with respect to the unit ideal holds for every module. -/
-example (V : Type u) [CommRing V] (M : Type v) [AddCommGroup M] [Module V M] :
-    IsValuationSaturated V ⊤ M := by
-  sorry
-
-/-- Saturation with respect to the zero ideal characterizes zero modules. -/
-example (V : Type u) [CommRing V] (M : Type v) [AddCommGroup M] [Module V M] :
-    IsValuationSaturated V ⊥ M ↔ Subsingleton M := by
-  sorry
-
-/-- The valuation ring of a discretely valued p-adic field is not saturated for its
-maximal ideal. -/
-example (p : ℕ) [Fact p.Prime] :
-    ¬ IsValuationSaturated ℤ_[p] (Ideal.span {(p : ℤ_[p])}) ℤ_[p] := by
-  sorry
-
-/-- Principal lattices for a valuation with full real value group are saturated,
-including the zero lattice. -/
-example (K : Type u) [Field K] (val : Valuation K NNReal) (hval : Function.Surjective val)
-    (a : K) :
-    IsValuationSaturated val.valuationSubring
-      (IsLocalRing.maximalIdeal val.valuationSubring)
-      (Submodule.span val.valuationSubring {a}) := by
-  sorry
-
 end ValuationModules
 
 /-! ## Layer E2:towers: Coherent towers and pro-towers -/
@@ -294,6 +217,14 @@ def IsProIsomorphism {A : Type u} [Category.{v} A] [Abelian A]
     {F G : ℕᵒᵖ ⥤ A} (f : F ⟶ G) : Prop :=
   IsProZero (kernel f) ∧ IsProZero (cokernel f)
 
+/-- Cofinal monotone reindexing preserves and reflects pro-zero towers
+(`proZero_cofinal`, README E2:towers.2). -/
+theorem proZero_cofinal {A : Type u} [Category.{v} A] [HasZeroMorphisms A]
+    (F : ℕᵒᵖ ⥤ A) (φ : ℕ → ℕ) (hφ : Monotone φ)
+    (hcofinal : ∀ n, ∃ m, n ≤ φ m) :
+    IsProZero (hφ.functor.op ⋙ F) ↔ IsProZero F := by
+  sorry
+
 /-- Pro-isomorphisms compose (`proIso_comp`). -/
 theorem proIso_comp {A : Type u} [Category.{v} A] [Abelian A]
     {F G H : ℕᵒᵖ ⥤ A} {f : F ⟶ G} {g : G ⟶ H}
@@ -310,48 +241,10 @@ example (A : Type u) [Category.{v} A] [Abelian A] (F : ℕᵒᵖ ⥤ A)
     (hF : ∀ n, F.map (homOfLE (Nat.le_succ n)).op = 0) : IsProZero F :=
   fun n => ⟨n + 1, Nat.le_succ n, hF n⟩
 
-/-- Multiplication by a prime `p` on `ℤ` is not pro-zero, although its limit is zero. -/
-example (p : ℕ) (hp : p.Prime) : ¬ IsProZero (pMultiplicationTower p) := by
-  sorry
-
-/-- The zero tower is pro-zero. -/
-example (A : Type u) [Category.{v} A] [Abelian A] :
-    IsProZero (0 : ℕᵒᵖ ⥤ A) := by
-  sorry
-
-/-- Multiplication by zero gives a pro-zero tower with nonzero terms. -/
-example : IsProZero (pMultiplicationTower 0) := by
-  sorry
-
-/-- Multiplication by one gives the constant identity tower. -/
-example : Nonempty (pMultiplicationTower 1 ≅
-    (Functor.const ℕᵒᵖ).obj (ModuleCat.of ℤ ℤ)) := by
-  sorry
-
-/-- The identity morphism of a tower is a pro-isomorphism. -/
-example (A : Type u) [Category.{v} A] [Abelian A] (F : ℕᵒᵖ ⥤ A) :
-    IsProIsomorphism (𝟙 F) := by
-  sorry
-
-/-- A zero-transition error gives a pro-isomorphism that is not a levelwise isomorphism. -/
-example : IsProIsomorphism
-    (0 : (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) ⟶ pMultiplicationTower 0) := by
-  sorry
-
-/-- A finite-prefix error is invisible to pro-isomorphism. -/
-example (F : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) (N : ℕ)
-    (hF : ∀ n ≥ N, IsZero (F.obj (op n))) :
-    IsProIsomorphism (0 : (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) ⟶ F) := by
-  sorry
-
-/-- The constant identity tower on the integers is not pro-zero. -/
-example : ¬ IsProIsomorphism
-    (0 : (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) ⟶ pMultiplicationTower 1) := by
-  sorry
-
-/-- Prime-multiplication errors are not pro-isomorphisms, although their limits vanish. -/
-example (p : ℕ) (hp : p.Prime) : ¬ IsProIsomorphism
-    (0 : pMultiplicationTower p ⟶ (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ)) := by
+/-- Multiplication by a prime `p` on `ℤ` is not pro-zero, although its limit is zero
+(`pMultiplicationTower_not_isProZero`, README E2:towers.2). -/
+theorem pMultiplicationTower_not_isProZero (p : ℕ) (hp : p.Prime) :
+    ¬ IsProZero (pMultiplicationTower p) := by
   sorry
 
 end ProTowers
@@ -360,9 +253,35 @@ end ProTowers
 
 section Replete
 
+/-- Slices of a replete topos are replete (`IsReplete.over`, README E2.1;
+BS-proet Lemma 3.1.2). -/
+theorem IsReplete.over {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
+    (hJ : IsReplete (Sheaf J (Type u))) (U : Sheaf J (Type u)) :
+    IsReplete (Over U) := by
+  sorry
+
+/-- Repleteness descends from the slice over a cover of the terminal object
+(`IsReplete.of_over_epi`, README E2.1; BS-proet Lemma 3.1.3). -/
+theorem IsReplete.of_over_epi {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
+    (U : Sheaf J (Type u)) [Epi (terminal.from U)] (hU : IsReplete (Over U)) :
+    IsReplete (Sheaf J (Type u)) := by
+  sorry
+
 /-- Repleteness is invariant under equivalence (`IsReplete.of_equivalence`, Section E2.1). -/
 theorem IsReplete.of_equivalence {C : Type u} [Category.{v} C]
     {D : Type w} [Category.{z} D] (e : C ≌ D) (hC : IsReplete C) : IsReplete D := by
+  sorry
+
+/-- A relatively epimorphic map of towers induces an epimorphism of limits
+(`IsReplete.lim_map_epi`, README E2.1; BS-proet Lemma 3.1.8). The initial map and
+each map to the relative matching pullback are epimorphic. -/
+theorem IsReplete.lim_map_epi {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
+    (hJ : IsReplete (Sheaf J (Type u))) {F G : ℕᵒᵖ ⥤ Sheaf J (Type u)} (f : F ⟶ G)
+    (hzero : Epi (f.app (op 0)))
+    (hstep : ∀ n : ℕ, Epi (pullback.lift
+      (F.map (homOfLE (Nat.le_succ n)).op) (f.app (op (n + 1)))
+      (f.naturality (homOfLE (Nat.le_succ n)).op))) :
+    Epi (lim.map f) := by
   sorry
 
 /-- **Countable products in a replete topos** (`IsReplete.countableProduct_epi`,
@@ -373,18 +292,6 @@ theorem IsReplete.countableProduct_epi {C : Type u} [SmallCategory C]
     {X Y : ℕ → Sheaf J (Type u)} (f : ∀ n, X n ⟶ Y n) (hf : ∀ n, Epi (f n)) :
     Epi (Limits.Pi.map f) := by
   sorry
-
-/-- Sets form a replete topos. -/
-example : IsReplete (Type u) := by
-  sorry
-
-/-- Every slice of the topos of sets is replete, including the slice over two elements. -/
-example (U : Type u) : IsReplete (Over U) := by
-  sorry
-
-/-- Choice makes every set a projective object in the topos of sets. -/
-example (U : Type u) : CategoryTheory.Projective U := by
-  infer_instance
 
 end Replete
 
@@ -422,21 +329,10 @@ example {R : Type u} [CommRing R] (M : Type v) [AddCommGroup M] [Module R M] :
   simp only [zero_smul, sub_zero]
   exact Function.bijective_id
 
-/-- `ℤ` is not derived `p`-complete. -/
-example (p : ℕ) (hp : p.Prime) : ¬ IsDerivedComplete (Ideal.span {(p : ℤ)}) ℤ := by
-  sorry
-
-/-- `ℤ_[p]` is derived `p`-complete. -/
-example (p : ℕ) [Fact p.Prime] : IsDerivedComplete (Ideal.span {(p : ℤ_[p])}) ℤ_[p] := by
-  sorry
-
-/-- A countable direct sum of p-adic integers is not derived p-complete. -/
-example (p : ℕ) [Fact p.Prime] :
+/-- A countable direct sum of p-adic integers is not derived p-complete
+(`derivedComplete_directSum_counterexample`, README E4.1). -/
+theorem derivedComplete_directSum_counterexample (p : ℕ) [Fact p.Prime] :
     ¬ IsDerivedComplete (Ideal.span {(p : ℤ_[p])}) (ℕ →₀ ℤ_[p]) := by
-  sorry
-
-/-- A module killed by `p` is derived `p`-complete. -/
-example (p : ℕ) [Fact p.Prime] : IsDerivedComplete (Ideal.span {(p : ℤ)}) (ZMod p) := by
   sorry
 
 /-- **Classical and derived completeness** (`isAdicComplete_iff_derivedComplete_separated`,
@@ -458,8 +354,8 @@ theorem derivedCompleteModules_weakSerre {R : Type u} [CommRing R] (I : Ideal R)
 
 /-- A derived `p`-complete module need not be `p`-adically separated (BS-proet Remark 3.4.3):
 the cokernel of `b ↦ −(Σ_{n≥1} b_n)e₀ + Σ_{n≥1} pⁿb_n e_n` on the p-adic completion of
-`⊕_{n≥0} ℤ_[p]`. -/
-example (p : ℕ) [Fact p.Prime] :
+`⊕_{n≥0} ℤ_[p]` (`derivedComplete_not_separated`, README E4.3). -/
+theorem derivedComplete_not_separated (p : ℕ) [Fact p.Prime] :
     ∃ (M : Type) (_ : AddCommGroup M) (_ : Module ℤ_[p] M),
       IsDerivedComplete (Ideal.span {(p : ℤ_[p])}) M ∧
         ¬ IsHausdorff (Ideal.span {(p : ℤ_[p])}) M := by
@@ -518,7 +414,7 @@ The README also specifies API beyond the representative statements above:
   unit-adjoined localization, with no cofibrant-unit assumption on that model.
 * E1.6: `frobeniusRootIdeal_radical` and `frobeniusRootIdeal_colimit` identify the root ideal
   with the radical and its sequential colimit presentation.
-* E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,
+* E2.2–E2.3: `IsReplete.rlim_amplitude`,
   `IsReplete.rlim_eq_zero_of_proZero` and `IsReplete.postnikov_counit` are the cover,
   derived-limit and enhanced Postnikov targets.
 * E2:towers.1: `derivedLimitFiltration` filters the mapping groups `[z[n], lim X]`
