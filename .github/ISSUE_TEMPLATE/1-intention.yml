@@ -19,55 +19,90 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
-        - AlgebraicCodingTheory
+        - AdicSpacesPartII
+        - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
+        - AmenableGroups
         - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
+        - BanachSpaceTheory
         - BelyiMaps
+        - BordismFormalGroups
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
+        - ClassicalArithmeticCompletion
+        - ClassifyingSpaces
         - CombinatorialHeegaardFloer
+        - CompactOperators
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
+        - DerivedModuleAlgebra
+        - DifferentialGeometry
+        - DiophantineApproximationAndTranscendence
         - EllipticCurves
         - Exchangeability
+        - FormalLaurentPuiseux
+        - FreeProbability
         - FuchsianOrbifolds
+        - GeneralizedCohomology
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
+        - GraphConnectivityAndFlows
         - GrothendieckEulerForms
         - HeegaardFloer
-        - HodgeStructures
+        - HeightsAndUnits
         - HopfRinow
+        - InfinitaryLogic
         - IntegralLattices
+        - Isoperimetry
         - JacobianChallenge
+        - KhovanovHomology
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - MassFormula
         - ModularCurves
         - ModularForms
-        - Multiquadratic
+        - MorseNovikov
+        - MorseTheory
+        - NewtonPolygons
+        - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorAlgebraDynamics
+        - OperatorTheory
         - OptimalTransport
+        - Orbifolds
         - OrthogonalSpinGroups
         - PDE
+        - PadicFunctionalAnalysis
+        - PadicMeasuresIwasawaAlgebras
         - PeripheralActions
+        - PivotalSpherical
         - PolynomialGaloisGroups
+        - PositiveScalarCurvature
         - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - QuantumGroups
         - RealAlgebraicGeometry
         - ReductiveGroups
+        - Regularity
         - RepresentationTheory
-        - RestrictedProducts
+        - RestrictedPowerSeries
+        - RigidAnalyticGeometry
+        - SchemeAndStackFoundations
+        - SpinGeometry
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Yamabe
         - ZigzagPreprojective
     validations:
       required: true
