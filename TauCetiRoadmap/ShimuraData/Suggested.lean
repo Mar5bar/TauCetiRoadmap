@@ -51,11 +51,6 @@ theorem hilbertAdelicPoints :
       ∀ x : F, e (1 ⊗ₜ x) = algebraMap F _ x := by
   sorry
 
-/-- Equal signs do not imply equal determinants. -/
-example : (0 : ℝ) < (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ).det ∧
-    (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ).det ≠
-      (1 : Matrix (Fin 2) (Fin 2) ℝ).det := by
-  sorry
 end HilbertPoints
 
 /-! ## Layer 1: rational weight, Mumford–Tate groups and Hodge genericity -/
@@ -89,12 +84,15 @@ theorem mumfordTateFiniteType (n : ℕ)
 /-- An injective coordinate map has no nonzero killed Hopf ideal, as in the Tate example. -/
 example (n : ℕ) (φ : (GeneralLinear.coordinateHopfAlgebra ℚ n : Type) →ₐ[ℚ] B)
     (hφ : Function.Injective φ) : mumfordTateHopfIdeal n φ = ⊥ := by
-  sorry
+  apply le_antisymm ?_ bot_le
+  apply sSup_le
+  intro I hI
+  rw [TauCeti.HopfIdeal.le_def]
+  intro x hx
+  apply TauCeti.HopfIdeal.mem_bot.mpr
+  apply hφ
+  simpa using hI x hx
 
-/-- The trivial action gives the augmentation ideal, rather than the whole GL₁. -/
-example : (mumfordTateHopfIdeal 1 (GeneralLinear.counit ℚ 1)).toIdeal =
-    RingHom.ker (GeneralLinear.counit ℚ 1) := by
-  sorry
 end MumfordTate
 
 /-! ## Layer 2: uniqueness of the complex structure
@@ -106,16 +104,6 @@ with tangent signs and product/restriction-of-scalars comparisons as in README �
 -/
 
 /-! ## Layer 3: variations, compact duals and integral flags -/
-
-/-- A complex scalar preserving a weight-zero filtration need not preserve its rational form. -/
-example : ¬ ∃ q : ℚ, (q : ℝ) = Real.sqrt 2 := by
-  sorry
-
-/-- For `μ(t)=diag(1,t)`, the filtration-preserving upper unipotent contracts under `μ⁻¹`. -/
-example (t : ℂ) (ht : t ≠ 0) :
-    (!![1, 0; 0, t⁻¹] : Matrix (Fin 2) (Fin 2) ℂ) * !![1, 1; 0, 1] * !![1, 0; 0, t] =
-      !![1, t; 0, 1] := by
-  sorry
 
 section Kostant
 variable {B W : Type*} [Group W] {M : CoxeterMatrix B} (cs : CoxeterSystem M W)
@@ -155,11 +143,23 @@ theorem kostantInvolution (J : Set B) (w₀ w₀J : W) (h₀ : ∀ v, cs.length 
       cs.length (w₀J * w * w₀) + cs.length w + cs.length w₀J = cs.length w₀ := by
   sorry
 
+/-- With no Levi simple roots, every Weyl element is a Kostant representative. -/
 example : kostantRepresentatives cs ∅ = Set.univ := by
-  sorry
+  ext w
+  simp [kostantRepresentatives, CoxeterSystem.IsMinimalCosetRep, cs.parabolic_empty]
 
+/-- The whole-group parabolic has only the identity representative. -/
 example : kostantRepresentatives cs Set.univ = {1} := by
-  sorry
+  ext w
+  change cs.IsMinimalCosetRep Set.univ w⁻¹ ↔ w = 1
+  constructor
+  · intro hw
+    have hlen := hw w (by rw [cs.parabolic_univ]; trivial)
+    simpa only [inv_mul_cancel, cs.length_one, Nat.le_zero, cs.length_eq_zero_iff,
+      inv_eq_one] using hlen
+  · rintro rfl
+    intro v _
+    simp
 end Kostant
 
 /-! ## Layer 4: types, additional axioms and distinguished data
@@ -179,30 +179,14 @@ section GenusTwo
 is the similitude exponent. -/
 abbrev CGWeight : Type := ℤ × ℤ × ℤ
 
-example : ((0, 0, 1) : CGWeight).2.2 = 1 := by
-  sorry
-
 /-- The supplied positive-root table transported to the CG upper-triangular convention. -/
 abbrev cgRoots : Fin 4 → CGWeight := ![(1, -1, 0), (0, 2, -1), (1, 1, -1), (2, 0, -1)]
-
-example : cgRoots 1 = (0, 2, -1) := by
-  sorry
 
 /-- Coroots in the order of `cgRoots`. -/
 def cgCoroots : Fin 4 → CGWeight := ![(1, -1, 0), (0, 1, 0), (1, 1, 0), (1, 0, 0)]
 
-example : cgCoroots 1 = (0, 1, 0) := by
-  sorry
-
 /-- The weight/coweight dot pairing in these coordinates. -/
 def cgPair (χ μ : CGWeight) : ℤ := χ.1 * μ.1 + χ.2.1 * μ.2.1 + χ.2.2 * μ.2.2
-
-example : ∀ i, cgPair (0, 0, 1) (cgCoroots i) = 0 := by
-  sorry
-
-/-- The dot pairing retains the central coordinate even though every coroot has central zero. -/
-example : cgPair (0, 0, 1) (0, 0, 1) = 1 := by
-  sorry
 
 /-- The supplied root table has the C₂ pairings and half-sum in the CG presentation.
 The comparison with the Shimura filtration uses the transported root matrices of README §5.9. -/
@@ -214,27 +198,11 @@ theorem gsp4CgRoots :
 /-- Coordinate presentation of the supplied split-to-compact parity conversion. -/
 abbrev cgToPilloni (χ : CGWeight) : CGWeight := (χ.1, χ.2.1, χ.1 + χ.2.1 + 2 * χ.2.2)
 
-example : cgToPilloni (0, 0, 1) = (0, 0, 2) := by
-  sorry
-
-example : cgToPilloni (1, 0, 0) = (1, 0, 1) ∧
-    cgToPilloni (0, 0, 0) = (0, 0, 0) := by
-  sorry
-
-example : ¬ ∃ χ : CGWeight, cgToPilloni χ = (1, 0, 0) := by
-  sorry
-
 /-- CG coordinate actions of the four `GSp₄` minimal left representatives supplied by
 AutomorphicFormsOnReductiveGroups §6.7, including the similitude exponent. -/
 def gsp4KostantAction : Fin 4 → CGWeight → CGWeight :=
   ![fun χ ↦ χ, fun χ ↦ (χ.1, -χ.2.1, χ.2.1 + χ.2.2), fun χ ↦ (χ.2.1, -χ.1, χ.1 + χ.2.2),
     fun χ ↦ (-χ.2.1, -χ.1, χ.1 + χ.2.1 + χ.2.2)]
-
-example : gsp4KostantAction 1 (2, 1, 0) = (2, -1, 1) := by
-  sorry
-
-example : gsp4KostantAction 2 (3, 2, 1) = (2, -3, 4) := by
-  sorry
 
 /-- The `g = 2` specialization of the supplied Siegel indices has CG opposition `i ↦ 3-i`.
 The Levi swap and full longest action are distinguished. -/
@@ -253,18 +221,6 @@ abbrev gsp4Chamber : Fin 4 → Set (ℝ × ℝ × ℝ) :=
   ![{x | x.1 ≥ x.2.1 ∧ x.2.1 ≥ 0}, {x | x.1 ≥ -x.2.1 ∧ -x.2.1 ≥ 0},
     {x | -x.2.1 ≥ x.1 ∧ x.1 ≥ 0}, {x | -x.2.1 ≥ -x.1 ∧ -x.1 ≥ 0}]
 
-example : (2, 1, 7) ∈ gsp4Chamber 0 ∧ (2, 1, 7) ∉ gsp4Chamber 3 := by
-  sorry
-
-example : (-1, -2, 7) ∈ gsp4Chamber 3 := by
-  sorry
-
-example : (2, 1, -17) ∈ gsp4Chamber 0 ∧ (2, 1, 23) ∈ gsp4Chamber 0 := by
-  sorry
-
-example : ∀ c : ℝ, (1, 0, c) ∈ gsp4Chamber 0 ∩ gsp4Chamber 1 := by
-  sorry
-
 /-- CG specialization of AutomorphicFormsOnReductiveGroups §6.3's chamber duality by minus
 the Levi longest element, indexed by §6.7's genus-two representatives as in README §5.11. -/
 theorem gsp4ConeReversal (i : Fin 4) :
@@ -272,8 +228,8 @@ theorem gsp4ConeReversal (i : Fin 4) :
       gsp4Chamber (Fin.rev i) := by
   sorry
 
-/-- Minus the full longest element preserves each chamber. -/
-example (i : Fin 4) :
+/-- Minus the full longest element preserves each CG chamber (README §5.11). -/
+theorem gsp4FullLongestPreservesChamber (i : Fin 4) :
     (fun x : ℝ × ℝ × ℝ ↦ (x.1, x.2.1, -x.1 - x.2.1 - x.2.2)) ''
       gsp4Chamber i = gsp4Chamber i := by
   sorry
@@ -281,24 +237,9 @@ example (i : Fin 4) :
 /-- The anti-diagonal two-by-two block in the CG symplectic form. -/
 def cgS : Matrix (Fin 2) (Fin 2) ℝ := !![0, 1; 1, 0]
 
-example : cgS * cgS = 1 := by
-  sorry
-
-example : cgS.det = -1 := by
-  sorry
-
-example : cgS.mulVec ![1, 0] = ![0, 1] := by
-  sorry
-
 /-- The matrix `J=h(i)` for the Siegel specialization of the supplied Hermitian datum
 in the CG basis. -/
 def cgJ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℝ := Matrix.fromBlocks 0 cgS (-cgS) 0
-
-example : cgJ * cgJ = -1 := by
-  sorry
-
-example : cgJ.transpose = -cgJ := by
-  sorry
 
 /-- The CG matrix characterization of the Siegel `hodgeStabilizer` supplied by
 AutomorphicFormsOnReductiveGroups §6.1, including positive similitude. -/
@@ -312,18 +253,6 @@ by its positive split centre, as identified in README §5.12. -/
 def kInfinityOne : Set (Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℝ) :=
   {k | k.transpose * k = 1 ∧ k * cgJ = cgJ * k}
 
-example : cgJ ∈ kInfinityOne := by
-  sorry
-
-/-- An orthogonal negative similitude is excluded. -/
-example : Matrix.fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℝ) 0 0 (-1) ∉ kInfinityOne := by
-  sorry
-
-example :
-    let D := Matrix.fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℝ) 0 0 (-1)
-    D.transpose * D = 1 ∧ D.transpose * cgJ * D = -cgJ := by
-  sorry
-
 /-- The CG matrix model of the supplied Siegel compact quotient is in bijection with U(2).
 README §5.13 identifies the quotient and refines this bijection to a Lie-group isomorphism. -/
 theorem gsp4Unitary :
@@ -333,25 +262,8 @@ theorem gsp4Unitary :
           Complex.I • (cgS * k.1.toBlocks₁₂).map (algebraMap ℝ ℂ) := by
   sorry
 
-/-- The centralizer block parametrization respects matrix multiplication. -/
-example (A B A' B' : Matrix (Fin 2) (Fin 2) ℝ) :
-    Matrix.fromBlocks (cgS * A * cgS) (cgS * B) (-(B * cgS)) A *
-        Matrix.fromBlocks (cgS * A' * cgS) (cgS * B') (-(B' * cgS)) A' =
-      Matrix.fromBlocks (cgS * (A * A' - B * B') * cgS) (cgS * (A * B' + B * A'))
-        (-((A * B' + B * A') * cgS)) (A * A' - B * B') := by
-  sorry
-
 /-- Coordinate presentation of the supplied compact character lattice as a parity subset. -/
 abbrev compactCartanCharacter : Set CGWeight := {χ | (χ.1 + χ.2.1 - χ.2.2) % 2 = 0}
-
-example : (1, 0, 1) ∈ compactCartanCharacter := by
-  sorry
-
-example : (1, 0, 0) ∉ compactCartanCharacter := by
-  sorry
-
-example : (0, 1, 1) ∈ compactCartanCharacter ∧ (0, 0, 2) ∈ compactCartanCharacter := by
-  sorry
 
 /-- The coordinate conversion presents the supplied split/compact lattice equivalence.
 README §5.14 identifies this lattice with the characters of the actual compact Cartan. -/
@@ -375,30 +287,10 @@ theorem gsp4ExpKernel (t₁ t₂ z : ℂ) :
         z = Real.pi * Complex.I + 2 * Real.pi * Complex.I * k) := by
   sorry
 
-/-- The simultaneous odd half-period maps to the sign kernel and is not an even period. -/
-example : Complex.exp ((Real.pi : ℂ) * Complex.I) = -1 ∧
-    ¬ ∃ m : ℤ, (Real.pi : ℂ) = 2 * Real.pi * m := by
-  sorry
-
-/-- One odd angle and one even angle do not give the simultaneous-sign kernel. -/
-example : ¬ ((Complex.exp ((Real.pi : ℂ) * Complex.I) = 1 ∧
-      Complex.exp ((0 : ℂ) * Complex.I) = 1 ∧ Complex.exp (Real.pi * Complex.I) = 1) ∨
-    (Complex.exp ((Real.pi : ℂ) * Complex.I) = -1 ∧
-      Complex.exp ((0 : ℂ) * Complex.I) = -1 ∧ Complex.exp (Real.pi * Complex.I) = -1)) := by
-  sorry
-
 /-- The CG Cayley matrix `C = [[I, −iS], [−iS, I]]` realizing the eigenspaces of the
 Siegel `h` underlying AutomorphicFormsOnReductiveGroups §6.1's Hermitian datum. -/
 def gsp4CayleyBasis : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℂ :=
   Matrix.fromBlocks 1 (-Complex.I • cgS.map (algebraMap ℝ ℂ)) (-Complex.I • cgS.map (algebraMap ℝ ℂ)) 1
-
-example : gsp4CayleyBasis (Sum.inr 1) (Sum.inl 0) = -Complex.I := by
-  sorry
-
-example : (Matrix.fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℂ)
-    (Complex.I • cgS.map (algebraMap ℝ ℂ))
-    (-Complex.I • cgS.map (algebraMap ℝ ℂ)) 1).det = 0 := by
-  sorry
 
 /-- The inverse Cayley matrix. -/
 theorem cayleyInverse :
@@ -434,12 +326,6 @@ theorem gsp4CayleyAction (A B : Matrix (Fin 2) (Fin 2) ℝ) :
 /-- The actual Cayley coordinate change, with a sign change on both angular coordinates. -/
 def cgToCompact (χ : CGWeight) : CGWeight := (-χ.1, -χ.2.1, χ.1 + χ.2.1 + 2 * χ.2.2)
 
-example : cgToCompact (0, -2, 1) = (0, 2, 0) := by
-  sorry
-
-example : cgToCompact (0, 0, 1) = (0, 0, 2) := by
-  sorry
-
 /-- The lower triangular roots become the positive compact-coordinate roots. -/
 theorem gsp4CayleyCompactCoordinates :
     (Finset.univ.image fun i ↦ cgToCompact (-cgRoots i)) =
@@ -473,25 +359,9 @@ theorem localEigenvalueBound (ℓ : ℕ) (hℓ : v (ℓ : K) = 1) (f : Polynomia
     ((1 / 4 : ℚ) : WithTop ℚ) ≤ v (lam - 1) := by
   sorry
 
-/-- At odd residue characteristic, `−1` lies outside the positive-distance ball. -/
-example (h₂ : v (2 : K) = 0) : v ((-1 : K) - 1) = 0 := by
-  sorry
-
-/-- At residue characteristic two, the distance bound permits the torsion eigenvalue `−1`. -/
-example (h₂ : v (2 : K) = 1) : v ((-1 : K) - 1) = 1 := by
-  sorry
-
 /-- The units within `v(x − 1) ≥ 1/4` form a subgroup. -/
 theorem localProductsBound (S : Set Kˣ) (hS : ∀ u ∈ S, ((1 / 4 : ℚ) : WithTop ℚ) ≤ v ((u : K) - 1)) :
     ∀ x ∈ Subgroup.closure S, ((1 / 4 : ℚ) : WithTop ℚ) ≤ v ((x : K) - 1) := by
-  sorry
-
-example [CharZero K] (h₇ : v (7 : K) = 1) (h₂ : v (2 : K) = 0) (h₃ : v (3 : K) = 0) :
-    v ((8 : K) * (-6) - 1) = 2 := by
-  sorry
-
-example [CharZero K] (h₇ : v (7 : K) = 1) (h₂ : v (2 : K) = 0) (h₃ : v (3 : K) = 0) :
-    v ((8 : K) / (-6) - 1) = 1 := by
   sorry
 
 /-- The local torsion-free conclusion for a family of quartic eigenvalues. The all-places
@@ -507,17 +377,9 @@ theorem iwahoriNeat (ℓ : ℕ) (hℓ5 : 5 < ℓ) (hℓprime : ℓ.Prime) (hℓ 
 def eigenvalueGroup {n : Type*} [Fintype n] [DecidableEq n] (g : GL n K) : Subgroup Kˣ :=
   Subgroup.closure {u | g.val.charpoly.eval (u : K) = 0}
 
-example : eigenvalueGroup (1 : GL (Fin 2) ℚ) = ⊥ := by
-  sorry
-
-example : eigenvalueGroup (1 : GL (Fin 0) ℚ) = ⊥ := by
-  sorry
-
-example : (eigenvalueGroup (-1 : GL (Fin 2) ℚ) : Set ℚˣ) = {1, -1} := by
-  sorry
-
-/-- Both diagonal eigenvalues have infinite order, but their product is torsion. -/
-example (g : GL (Fin 2) ℚ) (hg : g.val = !![2, 0; 0, -(1 / 2)]) :
+/-- The eigenvalue group of `diag(2, −1/2)` contains nontrivial torsion, although
+its two eigenvalues have infinite order (README §5.1). -/
+theorem eigenvalueGroupProductTorsion (g : GL (Fin 2) ℚ) (hg : g.val = !![2, 0; 0, -(1 / 2)]) :
     (-1 : ℚˣ) ∈ eigenvalueGroup g := by
   sorry
 end LocalNeatness
@@ -533,11 +395,12 @@ def adelicNeat (Sg : Set Nat.Primes) (g : ∀ ℓ, GL n (Kℓ ℓ)) : Prop :=
   ∀ ζ : (AlgebraicClosure ℚ)ˣ, IsOfFinOrder ζ →
     (∀ ℓ ∉ Sg, Units.map (ι ℓ).toMonoidHom ζ ∈ eigenvalueGroup (g ℓ)) → ζ = 1
 
-example : adelicNeat Kℓ ι ∅ (fun ℓ ↦ (1 : GL (Fin 2) (Kℓ ℓ))) := by
-  sorry
-
-example (Sg : Set Nat.Primes) :
-    ¬ adelicNeat Kℓ ι Sg (fun ℓ ↦ (-1 : GL (Fin 2) (Kℓ ℓ))) := by
+/-- Torsion freeness at one retained prime implies simultaneous adelic neatness
+(README §5.21), in every finite-dimensional faithful matrix realization. -/
+theorem adelicNeatOfLocalTorsionFree (Sg : Set Nat.Primes) (g : ∀ ℓ, GL n (Kℓ ℓ))
+    (ℓ : Nat.Primes) (hℓ : ℓ ∉ Sg)
+    (hlocal : ∀ x ∈ eigenvalueGroup (g ℓ), IsOfFinOrder x → x = 1) :
+    adelicNeat Kℓ ι Sg g := by
   sorry
 
 /-- A rational invertible matrix satisfying the simultaneous condition is rationally neat. -/
