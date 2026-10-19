@@ -676,7 +676,7 @@ Prove the following API.
 - π and π⊗ξdet for unramified ξ have equal Θ(θ) occurrence multiplicity.
 - At x=5, ℓ=3, let θ₀ be inflated from a character of exact order eight on 𝔽₂₅×, with θ₀(5)=1, and let λ:ℚ₅×→μ₅ have conductor exponent two. For `θ=θ₀(λ∘N_{E/ℚ₅})`, `a(θ)=2` but `θ/θ^σ=θ₀^(−4)` has conductor exponent one. It is regular and its residual induction satisfies the vexing-prime conditions, but it is excluded by the selector’s conductor hypothesis.
 
-*Needs:* R16.2/henniart-unicity; R16.0/local-langlands; ArithmeticGaloisRepresentations §1.6, Stable lattices (`exists_stable_lattice_iff`): embed the finite characteristic-zero type in a p-adic coefficient field, apply the compact-closure criterion, and descend the finite orbit span to the specified coefficient DVR.
+*Needs:* R16.2/henniart-unicity; R16.0/local-langlands; EtaleCohomologyFoundations §F.4.0, Stable lattices (`exists_stable_lattice_iff`, realized in ArithmeticGaloisRepresentations §1.6): embed the finite characteristic-zero type in a p-adic coefficient field, apply the compact-closure criterion, and descend the finite orbit span to the specified coefficient DVR.
 
 *Source:* [cdt99], §§3.1–3.2 (the character and conductor hypotheses), Lemma 3.2.1 and §5.1 p. 18 (the two selectors); [cg18], §3.9.2 construction Wσx.
 
