@@ -348,7 +348,7 @@ middle map with the commutator class is Wood (2021), §2.1, p. 2.
   `ker (π)ᵃᵇ` has order two; `τ = 0` does not force a splitting.
 - `extensionFiveTerm_test_3` (stem): for `C₂ → D₈ → C₂ × C₂`, `(inl)ᵃᵇ = 0`, `τ` is onto and `(π)ᵃᵇ`
   is bijective. A statement claiming injectivity of `(inl)ᵃᵇ` in general fails here.
-- `extensionFiveTerm_test_4` (centrality needed for the middle terms): for `C₃ → C₃ ⋊ C₂ → C₂` with
+- extensionFiveTerm_test_4 (centrality needed for the middle terms): for `C₃ → C₃ ⋊ C₂ → C₂` with
   inversion (the symmetric group `S₃`), the kernel is not central, `(inl)ᵃᵇ = 0` because
   `[t, a] = a⁻² = a` generates `C₃`, and `(π)ᵃᵇ` is bijective; the tail exactness holds without
   centrality, and no class map is defined.
@@ -388,7 +388,7 @@ trivial subgroup in the proof of Corollary 1.7.16, pp. 64–65.
 - `integralHomology_test_2` (cyclic): `H_(2k+1)(C₂, ℤ) ≅ C₂` and `H_(2k+2)(C₂, ℤ) = 0` for `k ≥ 0`
   (Mathlib's `Rep.FiniteCyclicGroup.groupHomologyIsoOdd`, `groupHomologyIsoEven`); this rejects a
   degree shift and a claim that all positive-degree homology of a finite group vanishes.
-- `integralHomology_test_3` (degree zero excluded): `H₀(C₂, ℤ) ≅ ℤ` is infinite and `2 • [1] ≠ 0`
+- integralHomology_test_3 (degree zero excluded): `H₀(C₂, ℤ) ≅ ℤ` is infinite and `2 • [1] ≠ 0`
   there (`groupHomology.H0IsoOfIsTrivial`).
 
 ### RS.0.3 Hall coinvariants of the multiplier
@@ -404,6 +404,12 @@ Write `ϖ` for the primes dividing `|H|`. Prove `multiplier_hallPart`: corestric
 For a split extension `G=H⋊Γ`, compose this isomorphism with the primary/complement
 comparison supplied by IG.3.4 to obtain `M(H⋊Γ)≅M(H)_Γ⊕M(Γ)`, with the inclusion and projection
 as the displayed maps. The new target is the identification of the Hall part with coinvariants.
+
+The native signature takes a representation `ρ` on `Multiplier H` whose value at each `g∈G`
+is the homology map induced by `MulAut.conjNormal g`. It identifies its coinvariants with the
+range of inclusion-induced homology and sends each coinvariant class to that inclusion image.
+This range consists exactly of elements killed by some power of `|H|`, specifying the Hall
+primary part without a separate carrier.
 
 *Proof sketch.* `M(G)` is finite of exponent dividing `|G|` (RS.0.2), so it splits into its primary
 parts (Mathlib's finite abelian primary decomposition). Write `m = [G : H]`. Corestriction after
@@ -425,13 +431,13 @@ transfer, pp. 63–64; for the spectral-sequence route, Theorem 3.2.12, p. 123, 
 
 **Checks.**
 
-- `multiplier_hallPart_test_1` (trivial complement): for `Γ = 1` the inclusion `H → H ⋊ 1` induces a
+- multiplier_hallPart_test_1 (trivial complement): for `Γ = 1` the inclusion `H → H ⋊ 1` induces a
   bijection on multipliers; the map, not only the orders, is tested.
-- `multiplier_hallPart_test_2` (action on the multiplier): `H = C₃ × C₃` with `Γ = C₂` acting by
+- multiplier_hallPart_test_2 (action on the multiplier): `H = C₃ × C₃` with `Γ = C₂` acting by
   inversion. Then `M(H) ≅ Λ²H ≅ C₃` and inversion acts on `Λ²H` by `(−1)² = 1`, so the coinvariants
   are `C₃` and `M(H ⋊ C₂) ≅ C₃`. Replacing the induced action on `M(H)` by inversion would wrongly
   give `0`.
-- `multiplier_hallPart_test_3` (coprimality needed): with trivial action on `C₂ × C₂`, both factor
+- multiplier_hallPart_test_3 (coprimality needed): with trivial action on `C₂ × C₂`, both factor
   multipliers vanish but `M(C₂ × C₂) ≅ C₂`; the inclusion of the first factor is not onto the kernel
   of the projection to the second, so the statement fails without coprime orders.
 
@@ -521,6 +527,11 @@ The API:
 - `localClassNormalization_fixed`: If `π_c(e)∈{1,c₀}, z(e)=e`.
 - `localClassNormalization_mul_kernel`: For `a∈kerπ_c` and allowed `e, z(ae)=a·z(e)`; central
   multiplication transports the unique conjugate over `c₀`.
+
+The native theorem `localClassNormalization_unique` states the characterizing existence and
+uniqueness for any extension whose projection is injective on the conjugacy class of the given
+element `e`, assuming its image is conjugate to `c₀`. The supplied reduced cover satisfies this
+class-injectivity hypothesis over `c`.
 
 *Needs:* IG.3.4 (conjugacy-class bijection).
 
@@ -662,10 +673,10 @@ extensions* (2024), §12, published version pp. 104–105; arXiv v2 pp. 47–48.
 
 **Checks.**
 
-- `boundedDegreeSlice_test_1` (degenerate): For `D` empty, the slice is singleton at `n=0` and empty at
+- boundedDegreeSlice_test_1 (degenerate): For `D` empty, the slice is singleton at `n=0` and empty at
   every `n≠0`, including `n=−1`.
-- `boundedDegreeSlice_test_2` (computation): For `|D|=2,n=3,M=1`, the slice consists of (1,2),(2,1).
-- `boundedDegreeSlice_test_3` (non-example): For nonempty `D,n=0,M=1`, the slice is empty; it is never
+- boundedDegreeSlice_test_2 (computation): For `|D|=2,n=3,M=1`, the slice consists of (1,2),(2,1).
+- boundedDegreeSlice_test_3 (non-example): For nonempty `D,n=0,M=1`, the slice is empty; it is never
   declared a group containing zero.
 
 ### RS.3.4 Power-fixed degree lattice
@@ -692,10 +703,10 @@ PDF p.50.
 
 **Checks.**
 
-- `powerFixedDegree_test_1` (degenerate): At q≡1 modulo the exponent of `G, L_{≡q}=L`.
-- `powerFixedDegree_test_2` (computation): For the two nontrivial classes of `C₃` and `q=2`,
+- powerFixedDegree_test_1 (degenerate): At q≡1 modulo the exponent of `G, L_{≡q}=L`.
+- powerFixedDegree_test_2 (computation): For the two nontrivial classes of `C₃` and `q=2`,
   `L_{≡q}={(a,a):a∈ℤ}`; total degree is 2a.
-- `powerFixedDegree_test_3` (non-example): For this `C₃` example with `M = 0`, the fixed slice of total
+- powerFixedDegree_test_3 (non-example): For this `C₃` example with `M = 0`, the fixed slice of total
   degree 1 is empty (2a `= 1` has no solution), while the unconstrained slice contains (1,0) and
   (0,1).
 
@@ -760,6 +771,9 @@ below are algebraic consequences developed here, with their deductions given exp
 Prove `involution_square_central`: for any reduced cover `S_c→G` and any `x∈G` with `x²=1`, every
 lift `X∈S_c` has `X²∈A=M(G,c)`, hence `X²` commutes with `S_c`. This elementary statement requires
 neither `x∈c` nor generation by `c`; the later fiber theorems retain the layer's standing hypotheses.
+
+The native signature states both kernel membership and centrality for any central extension
+and any lift `X` whose projected square is one.
 
 *Proof sketch.* Project `X²` to `x²=1`; apply centrality of the kernel.
 
@@ -868,6 +882,10 @@ its inverse have the same fixed set. For an arbitrary finite central marked mode
 finite-kernel hypothesis and count the fixed subset of the actual (g,m) fiber. Its cardinality is
 zero when degree compatibility or power-image membership fails.
 
+The native theorem `all_fixed_fibers_power_count` states the power-equation count for any finite
+abelian `A`, `b∈A` and natural `r`, including zero: the solutions of `h^{2r}=b^{−r}` number
+`|A[2r]|` when `b` is a square times an `r`-torsion element, and zero otherwise.
+
 *Needs:* RS.4.3; InverseGaloisAndArithmeticFundamentalGroups IG.5.6, **General rational-class
 fixed-fiber formula**; `MonoidHom.fiberEquivKer` (Mathlib).
 
@@ -944,10 +962,10 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 
 **Checks.**
 
-- `torsionImageFiltration_test_1` (degenerate): For `A` of odd order, `B_t=0=B` for every `t`.
-- `torsionImageFiltration_test_2` (computation): For `A=C₈`, the filtration is zero at `t=0,1,2` and all
+- torsionImageFiltration_test_1 (degenerate): For `A` of odd order, `B_t=0=B` for every `t`.
+- torsionImageFiltration_test_2 (computation): For `A=C₈`, the filtration is zero at `t=0,1,2` and all
   `C₂` at `t=3`.
-- `torsionImageFiltration_test_3` (non-example): In `C₈`, the nontrivial 2-torsion element is a
+- torsionImageFiltration_test_3 (non-example): In `C₈`, the nontrivial 2-torsion element is a
   square, so its image in `B_1` is zero; the quotient is not the torsion subgroup.
 
 ### RS.4.9 Two-primary obstruction threshold
@@ -974,10 +992,10 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 
 **Checks.**
 
-- `obstructionThreshold_test_1` (degenerate): `t_A(1)=0`.
-- `obstructionThreshold_test_2` (computation): For `b=(generator,identity)` in `C₄ × C₈`, the
+- obstructionThreshold_test_1 (degenerate): `t_A(1)=0`.
+- obstructionThreshold_test_2 (computation): For `b=(generator,identity)` in `C₄ × C₈`, the
   threshold is 2; for `b=(identity,generator)` it is 3.
-- `obstructionThreshold_test_3` (non-example): For a generator in `C₈` the threshold is 3, not 1
+- obstructionThreshold_test_3 (non-example): For a generator in `C₈` the threshold is 3, not 1
   despite its nonzero image in a one-dimensional square quotient.
 
 ### RS.4.10 Two-adic criterion for fiber survival
@@ -1030,6 +1048,11 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 Prove `lift_square_columns`: For each involution class `c_i`, the class `s_i` of `X_i²` in `B=A/A²` is
 independent of both the lift and the representative in `c_i`.
 
+The native statement uses an arbitrary central extension with abelian kernel, two lifts with
+conjugate images, and kernel elements mapping to their squares. It equates those elements'
+images in `TauCeti.ElementaryTwoQuotient A`; the square-lift hypotheses already imply that the
+projected elements square to one.
+
 *Proof sketch.* Lift changes insert squares of central factors; conjugation fixes the central lift
 square.
 
@@ -1068,7 +1091,7 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 
 **Checks.**
 
-- `paritySquareMap_test_1` (basis columns): On `V=B=F₂²`, prescribe `s₁=e₁` and `s₂=e₂`.
+- paritySquareMap_test_1 (basis columns): On `V=B=F₂²`, prescribe `s₁=e₁` and `s₂=e₂`.
   The free linear extension satisfies `s(e₁+e₂)=e₁+e₂`.
 - `paritySquareMap_test_2` (computation): For `S₃` transpositions and its identity reduced cover,
   `V=F₂`, `Additive(Gᵃᵇ)≅F₂`, `a=id`, `B=0` and `s=0`.
@@ -1132,11 +1155,11 @@ developed here, rather than separately numbered results in that paper.
 
 **Checks.**
 
-- `jointParityMap_test_1` (coordinates): On `V=F₂²`, let `a` and `s` be the first and second
+- jointParityMap_test_1 (coordinates): On `V=F₂²`, let `a` and `s` be the first and second
   coordinate projections and `W=0`. Then `L(e₁)=(1,0)` and `L(e₂)=(0,1)` in `F₂ × (F₂/0)`.
-- `jointParityMap_test_2` (computation): For `a=0,s=id` on `F₂` and `B_t=0, kerL_t=0`; when `B_t=B`,
+- jointParityMap_test_2 (computation): For `a=0,s=id` on `F₂` and `B_t=0, kerL_t=0`; when `B_t=B`,
   `kerL_t=F₂`.
-- `jointParityMap_test_3` (non-example): For `a=id` and `s=0` on `F₂, kerL_t=0` for every `B_t`.
+- jointParityMap_test_3 (non-example): For `a=id` and `s=0` on `F₂, kerL_t=0` for every `B_t`.
   Keeping only the square-obstruction coordinate would incorrectly give all of `F₂`; keeping
   only a fails the preceding test with `a=0` and `s=id`.
 
@@ -1154,6 +1177,11 @@ nonempty exactly when `ε(m)+v_g∈ker L_t`. The fixed subset then has cardinali
 specializes to the reduced-cover model, where `A` is the reduced multiplier; it also holds for any
 finite central marked model. The conditions are `q>1`, q odd, and q coprime to a positive common
 exponent `n` of the cover and `G`. No upper bound `q<n` is required.
+
+The native linear-algebra statement `surviving_parities_linear` identifies
+`{v : a(v)=a(v_g), s(v−v_g)∈W}` with `v_g+ker(jointParityMap a s W)` for arbitrary binary
+modules, linear maps `a,s` and obstruction subspace `W`. The fixed-fiber assertion uses the
+actual class and lift-square maps described above.
 
 *Needs:* RS.4.15; RS.4.14; RS.4.10.
 
@@ -1184,6 +1212,9 @@ ordinary natural-number subtraction gives the stated histogram. Translation iden
 counts for any two signatures, independently of the chosen representative lifts. The linear-algebra
 milestone is stated in Lean for any finite `F₂`-module `V`, any `F₂`-module `W`, any linear map `L:V→W`
 and any translate `v₀`: the coset `v₀+kerL` has `2^{dimV−dim(rangeL)}` elements.
+
+The native theorem `rank_parity_threshold_count` gives the difference of these rank counts
+for the translated kernels of `jointParityMap a s W` and `jointParityMap a s W'` when `W≤W'`.
 
 *Needs:* RS.4.16; `LinearMap.finrank_range_add_finrank_ker` (Mathlib); `Module.card_eq_pow_finrank`
 (Mathlib).
@@ -1263,6 +1294,9 @@ compatibility with `ε(m)=v_g`. The square-obstruction class is then zero, and f
 actual fixed fiber is nonempty with `|A[q−1]|` elements. Generation, valid class representatives,
 finiteness of `A`, and the common exponent hypotheses remain explicit; independence does not replace
 any of them.
+
+The native consequence `independent_classes_linear` takes a bijective binary linear map `a`
+and any linear square map `s`: the fiber of `a(v_g)` is `{v_g}` and `s(v_g−v_g)=0`.
 
 *Needs:* RS.4.13; RS.4.14; RS.4.16.
 
@@ -1356,6 +1390,11 @@ group-generating set of its centralizer.
 
 *Proof sketch.* At fixed `x` the commutator-of-lifts map `C_G(x)→A` is a homomorphism because its values
 are central. Conjugating both arguments preserves the central result.
+
+The native signature states the equality of the generated subgroups inside the total group
+`E`. Injectivity of the kernel inclusion identifies it with the equality inside `A`. The
+representatives lie in `c` and meet every class in `c`, the sets `T_d` generate the actual
+centralizers in `G`, and the chosen lifts project to their indexed elements.
 
 *Needs:* IG.3.4 (lift commutators); IG.3.4 (class-compatible marking); RS.6.2.
 
@@ -1629,6 +1668,10 @@ When `G` is perfect, `sumKernelModel G` is all of `W(G)` (the *full wreath model
 outside involutions are the elements (g, t) with `t ≠ 1` and `θ(g) = g⁻¹`. For finite `G` it has order
 2|G|.
 
+The native theorem `graphModel_embedding` constructs an injective homomorphism from
+`G ⋊[φ] C₂` into `SwapWreath G` for any `C₂`-action `φ`. With `θ=φ(swap)`, its value is
+`(g,t) ↦ ((g,θ(g)),t)`, and its outside involutions satisfy `θ(g)=g⁻¹`.
+
 The API:
 
 - `sumKernelModel_mem`, `sumKernelModel_card`, `sumKernelModel_outside`,
@@ -1644,12 +1687,12 @@ condition), and §8.2, Table 2, p. 419.
 
 **Checks.**
 
-- `sumKernelModel_test_1` (sum, not difference): in `W(C₃)` the pair ((1,2),1) (additive residues)
+- sumKernelModel_test_1 (sum, not difference): in `W(C₃)` the pair ((1,2),1) (additive residues)
   lies in the sum kernel and ((1,1),1) does not.
-- `sumKernelModel_test_2` (orders): `|sumKernelModel A₄|=2·12·4=96` (row 8, equal to the model
+- sumKernelModel_test_2 (orders): `|sumKernelModel A₄|=2·12·4=96` (row 8, equal to the model
   of RS.6.6), `|sumKernelModel SL₂(𝔽₃)|=2·24·8=384` (row 17), and for `G=C₇⋊C₃` the order
   is `2·21·7=294` (row 13).
-- `sumKernelModel_test_3` (perfect): for `G = A₅` the sum kernel is all of `W(A₅)`, of order 7200 (row
+- sumKernelModel_test_3 (perfect): for `G = A₅` the sum kernel is all of `W(A₅)`, of order 7200 (row
   29).
 - `graphModel_test_1` (symmetric groups): for `G=A_n` with `n=4` or `n=5` and `θ` conjugation
   by a transposition `τ`, the map `(a,t) ↦ aτ^t` identifies `G⋊_θC₂` with `S_n` and carries
