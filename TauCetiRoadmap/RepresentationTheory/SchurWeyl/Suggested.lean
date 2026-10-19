@@ -25,6 +25,7 @@ import TauCeti.RepresentationTheory.Symmetric.TensorAction.Faithful
 import TauCeti.Combinatorics.Enumerative.PerfectMatching
 import TauCeti.Combinatorics.Brauer.Associativity
 import TauCeti.Combinatorics.Brauer.Relations
+import TauCeti.Combinatorics.Brauer.PropagatingNumber
 import TauCeti.RepresentationTheory.ClassicalGroups.BrauerGenerators.Symplectic
 import TauCeti.RepresentationTheory.ClassicalGroups.BrauerGenerators.Orthogonal.TensorPower
 
@@ -52,7 +53,7 @@ via the Brauer algebra (Layer 9). `README.md` remains the definitive document.
 
 namespace TauCetiRoadmap.RepresentationTheory.SchurWeyl
 
-open scoped TensorProduct
+open scoped TensorProduct DirectSum
 open CategoryTheory
 
 /-! ## Layer 0: partitions, diagrams, tableaux, and orders -/
@@ -576,13 +577,19 @@ theorem middleLoopCount_assoc {k : ℕ} (D₁ D₂ D₃ : brauerDiagram k) :
 vertical stacking of diagrams weighted by `δ^{#closed loops}` (the `δ`-power loop rule). A unital associative
 `ℂ`-algebra of dimension `(2k-1)!!`. Pinned opaquely with its `Ring`/`Algebra` structure; the loop-rule
 multiplication and its associativity are the load-bearing combinatorics (see `README.md`). -/
-def brauerAlgebra (δ : ℂ) (k : ℕ) : Type := sorry
+def brauerAlgebra : (δ : ℂ) → (k : ℕ) → Type := sorry
 
-noncomputable instance (δ : ℂ) (k : ℕ) : Ring (brauerAlgebra δ k) := sorry
-noncomputable instance (δ : ℂ) (k : ℕ) : Algebra ℂ (brauerAlgebra δ k) := sorry
+noncomputable def brauerAlgebraRing : (δ : ℂ) → (k : ℕ) → Ring (brauerAlgebra δ k) := sorry
+
+noncomputable instance (δ : ℂ) (k : ℕ) : Ring (brauerAlgebra δ k) :=
+  brauerAlgebraRing δ k
+noncomputable def brauerAlgebraAlgebra : (δ : ℂ) → (k : ℕ) → Algebra ℂ (brauerAlgebra δ k) := sorry
+
+noncomputable instance (δ : ℂ) (k : ℕ) : Algebra ℂ (brauerAlgebra δ k) :=
+  brauerAlgebraAlgebra δ k
 
 /-- **The diagram basis** of `B_k(δ)`, indexed by Brauer diagrams; hence `finrank = (2k-1)!!`. -/
-noncomputable def brauerBasis (δ : ℂ) (k : ℕ) :
+noncomputable def brauerBasis : (δ : ℂ) → (k : ℕ) →
     Module.Basis (brauerDiagram k) ℂ (brauerAlgebra δ k) := sorry
 
 /-- The explicit loop-weighted basis product constrains the algebra structure. -/
@@ -596,7 +603,7 @@ theorem brauerBasis_one (δ : ℂ) (k : ℕ) :
 /-- **The action of `B_k(n)` on `V^{⊗k}`** for `V = ℂⁿ` orthogonal (nondegenerate symmetric form,
 loop value `δ = n = dim V`): through-strands permute tensor factors, bottom arcs contract a pair of slots
 against the form (cap) and top arcs expand against its inverse (cup). -/
-noncomputable def brauerActionOrth (n k : ℕ) :
+noncomputable def brauerActionOrth : (n k : ℕ) →
     brauerAlgebra (n : ℂ) k →ₐ[ℂ]
       Module.End ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) := sorry
 
@@ -633,16 +640,15 @@ theorem brauerActionOrth_reverse_centralizer (n k : ℕ) :
       = Algebra.adjoin ℂ
           (Set.range fun g : complexOrthogonalGroup n => (orthAction n k g)) := sorry
 
-/-- **The harmonic (traceless) tensors** in `V^{⊗k}`: the common kernel of the contraction (trace) maps
+/- **The harmonic (traceless) tensors** in `V^{⊗k}`: the common kernel of the contraction (trace) maps
 `V^{⊗k} → V^{⊗(k-2)}` that cap a pair of slots against the invariant form. These are not themselves one
 irreducible; the irreducible `O(V)`-module `E_λ` is the trace-free part of the shape-`λ` Schur piece (the
 range of `c_t` intersected with `harmonicTensors`), and the cups rebuild the rest from lower tensor powers. -/
-noncomputable def harmonicTensors (n k : ℕ) :
-    Submodule ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) := sorry
+-- Defined from the actual contraction kernels in the selected interfaces below.
 
 /-- **The symmetric group as the no-arcs subalgebra** `ℂ[Sₖ] ↪ B_k(δ)` (the permutation diagrams,
 those with only through-strands). This exhibits Layer 8's `Sₖ` inside the Brauer algebra. -/
-noncomputable def permutationDiagramAlgHom (δ : ℂ) (k : ℕ) :
+noncomputable def permutationDiagramAlgHom : (δ : ℂ) → (k : ℕ) →
     MonoidAlgebra ℂ (Equiv.Perm (Fin k)) →ₐ[ℂ] brauerAlgebra δ k := sorry
 
 theorem permutationDiagramAlgHom_single (δ : ℂ) (k : ℕ) (σ : Equiv.Perm (Fin k)) :
@@ -670,7 +676,7 @@ the cap/cup of each pair must be given a definite ordering; with the standard al
 ordering fixed, the loop value is `δ = -2l = -dim V` (an ordered closed loop evaluates to the trace of the
 alternating pairing). That this is an algebra map is the check of the Brauer generator relations
 `s² = 1`, `e² = δ e`, `s e = e`, the braid, and the mixed relations at `δ = -2l`. -/
-noncomputable def brauerActionSymp (l k : ℕ) :
+noncomputable def brauerActionSymp : (l k : ℕ) →
     brauerAlgebra (-(2 * l : ℂ)) k →ₐ[ℂ]
       Module.End ℂ (⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ)) := sorry
 
@@ -705,5 +711,267 @@ sharp; use Rui, A criterion on the semisimple Brauer algebras, Theorem 1.2,
 and prove the k = 0 and k = 1 cases directly. -/
 theorem brauerAlgebra_isSemisimple_of_large_abs (δ : ℤ) (k : ℕ) (h : (2 * k - 2 : ℤ) ≤ |δ|) :
     IsSemisimpleRing (brauerAlgebra (δ : ℂ) k) := sorry
+
+/-! ### Explicit contraction positions, trace filtration, and cup relations
+
+The README gives the full classification/evaluation and cell-head comparison. These selected
+interfaces pin actual tensor spaces, native diagrams, quotient maps, and the small-rank obstruction.
+All newly admitted data families have their meaningful parameters inside the admitted Pi type.
+-/
+
+abbrev OrthTensor (n k : ℕ) := ⨂[ℂ] (_ : Fin k), (Fin n → ℂ)
+abbrev SympTensor (l k : ℕ) := ⨂[ℂ] (_ : Fin k), ((Fin l ⊕ Fin l) → ℂ)
+
+/-- No repeated slots and a fixed order for alternating contractions. -/
+abbrev ContractionPosition (k : ℕ) := {p : Fin k × Fin k // p.1 < p.2}
+
+/-- The increasing complement of the two chosen slots; the equations below fix this choice. -/
+noncomputable def unpairedSlot : (k : ℕ) → (p : ContractionPosition k) →
+    Fin (k - 2) ↪ Fin k := by sorry
+
+theorem unpairedSlot_strictMono (k : ℕ) (p : ContractionPosition k) :
+    StrictMono (unpairedSlot k p) := by sorry
+
+theorem unpairedSlot_range (k : ℕ) (p : ContractionPosition k) :
+    Set.range (unpairedSlot k p) = {i | i ≠ p.1.1 ∧ i ≠ p.1.2} := by sorry
+
+noncomputable def orthContraction : (n k : ℕ) → (p : ContractionPosition k) →
+    OrthTensor n k →ₗ[ℂ] OrthTensor n (k - 2) := by sorry
+
+noncomputable def sympContraction : (l k : ℕ) → (p : ContractionPosition k) →
+    SympTensor l k →ₗ[ℂ] SympTensor l (k - 2) := by sorry
+
+theorem orthContraction_tprod (n k : ℕ) (p : ContractionPosition k)
+    (v : Fin k → (Fin n → ℂ)) :
+    orthContraction n k p (PiTensorProduct.tprod ℂ v) =
+      (∑ i : Fin n, v p.1.1 i * v p.1.2 i) •
+        PiTensorProduct.tprod ℂ (fun i => v (unpairedSlot k p i)) := by sorry
+
+theorem sympContraction_tprod (l k : ℕ) (p : ContractionPosition k)
+    (v : Fin k → ((Fin l ⊕ Fin l) → ℂ)) :
+    sympContraction l k p (PiTensorProduct.tprod ℂ v) =
+      TauCeti.stdSymplecticBilinForm ℂ l (v p.1.1) (v p.1.2) •
+        PiTensorProduct.tprod ℂ (fun i => v (unpairedSlot k p i)) := by sorry
+
+/-- The original orthogonal name is now defined by the actual contraction kernels. -/
+noncomputable def harmonicTensors (n k : ℕ) : Submodule ℂ (OrthTensor n k) :=
+  ⨅ p : ContractionPosition k, LinearMap.ker (orthContraction n k p)
+
+noncomputable def harmonicTensorsSymp (l k : ℕ) : Submodule ℂ (SympTensor l k) :=
+  ⨅ p : ContractionPosition k, LinearMap.ker (sympContraction l k p)
+
+/-- Native propagating number specifies the contraction ideal, including its zero tail. -/
+noncomputable def brauerTraceIdeal (δ : ℂ) (k j : ℕ) : Submodule ℂ (brauerAlgebra δ k) :=
+  Submodule.span ℂ {b | ∃ D : brauerDiagram k,
+    D.propagatingNumber + 2 * j ≤ k ∧ b = brauerBasis δ k D}
+
+theorem brauerTraceIdeal_mul_left (δ : ℂ) (k j : ℕ) (a b : brauerAlgebra δ k)
+    (hb : b ∈ brauerTraceIdeal δ k j) : a * b ∈ brauerTraceIdeal δ k j := by sorry
+
+theorem brauerTraceIdeal_mul_right (δ : ℂ) (k j : ℕ) (a b : brauerAlgebra δ k)
+    (hb : b ∈ brauerTraceIdeal δ k j) : b * a ∈ brauerTraceIdeal δ k j := by sorry
+
+theorem brauerTraceIdeal_zero_tail (δ : ℂ) (k j : ℕ) (h : k < 2 * j) :
+    brauerTraceIdeal δ k j = ⊥ := by sorry
+
+noncomputable def orthTraceFiltration (n k j : ℕ) : Submodule ℂ (OrthTensor n k) :=
+  Submodule.span ℂ {w | ∃ b ∈ brauerTraceIdeal (n : ℂ) k j,
+    ∃ v : OrthTensor n k, w = brauerActionOrth n k b v}
+
+noncomputable def sympTraceFiltration (l k j : ℕ) : Submodule ℂ (SympTensor l k) :=
+  Submodule.span ℂ {w | ∃ b ∈ brauerTraceIdeal (-(2 * l : ℂ)) k j,
+    ∃ v : SympTensor l k, w = brauerActionSymp l k b v}
+
+theorem orthTraceFiltration_succ_le (n k j : ℕ) :
+    orthTraceFiltration n k (j + 1) ≤ orthTraceFiltration n k j := by sorry
+
+theorem sympTraceFiltration_succ_le (l k j : ℕ) :
+    sympTraceFiltration l k (j + 1) ≤ sympTraceFiltration l k j := by sorry
+
+/-- Comap gives the literal submodule of F_j used in the quotient F_j/F_(j+1). -/
+abbrev OrthTraceGrade (n k j : ℕ) :=
+  letI : HasQuotient ↥(orthTraceFiltration n k j) (Submodule ℂ ↥(orthTraceFiltration n k j)) :=
+    Submodule.hasQuotient (R := ℂ) (M := ↥(orthTraceFiltration n k j))
+  ↥(orthTraceFiltration n k j) ⧸
+    Submodule.comap (orthTraceFiltration n k j).subtype (orthTraceFiltration n k (j + 1))
+
+abbrev SympTraceGrade (l k j : ℕ) :=
+  letI : HasQuotient ↥(sympTraceFiltration l k j) (Submodule ℂ ↥(sympTraceFiltration l k j)) :=
+    Submodule.hasQuotient (R := ℂ) (M := ↥(sympTraceFiltration l k j))
+  ↥(sympTraceFiltration l k j) ⧸
+    Submodule.comap (sympTraceFiltration l k j).subtype (sympTraceFiltration l k (j + 1))
+
+/-- The true finite combinatorics of disjoint pairs, not a number of independent summands. -/
+abbrev CupPlacement (k j : ℕ) :=
+  {P : Finset (Fin k × Fin k) // P.card = j ∧
+    (∀ p ∈ P, p.1 < p.2) ∧
+    ∀ p ∈ P, ∀ q ∈ P, p ≠ q →
+      p.1 ≠ q.1 ∧ p.1 ≠ q.2 ∧ p.2 ≠ q.1 ∧ p.2 ≠ q.2}
+
+instance cupPlacement_finite (k j : ℕ) : Finite (CupPlacement k j) := inferInstance
+
+/-- Insertion of inverse-form cups; pure-tensor coefficients and free-slot order are in the README. -/
+noncomputable def orthCupExpansion : (n k j : ℕ) → CupPlacement k j →
+    OrthTensor n (k - 2 * j) →ₗ[ℂ] OrthTensor n k := by sorry
+
+noncomputable def sympCupExpansion : (l k j : ℕ) → CupPlacement k j →
+    SympTensor l (k - 2 * j) →ₗ[ℂ] SympTensor l k := by sorry
+
+/-- The j=1 two-strand insertion really consumes the native copairing. -/
+theorem orthCupExpansion_two (n : ℕ) (P : CupPlacement 2 1) :
+    orthCupExpansion n 2 1 P
+        (PiTensorProduct.tprod ℂ (fun i : Fin 0 => Fin.elim0 i)) =
+      TauCeti.orthogonalCup ℂ n 1 := by sorry
+
+theorem sympCupExpansion_two (l : ℕ) (P : CupPlacement 2 1) :
+    sympCupExpansion l 2 1 P
+        (PiTensorProduct.tprod ℂ (fun i : Fin 0 => Fin.elim0 i)) =
+      TauCeti.symplecticCup ℂ l 1 := by sorry
+
+noncomputable def orthHarmonicCupSum (n k j : ℕ) :
+    (⨁ _ : CupPlacement k j, harmonicTensors n (k - 2 * j)) →ₗ[ℂ] OrthTensor n k :=
+  DirectSum.toModule ℂ _ _ fun P =>
+    (orthCupExpansion n k j P).comp (harmonicTensors n (k - 2 * j)).subtype
+
+noncomputable def sympHarmonicCupSum (l k j : ℕ) :
+    (⨁ _ : CupPlacement k j, harmonicTensorsSymp l (k - 2 * j)) →ₗ[ℂ] SympTensor l k :=
+  DirectSum.toModule ℂ _ _ fun P =>
+    (sympCupExpansion l k j P).comp (harmonicTensorsSymp l (k - 2 * j)).subtype
+
+noncomputable def orthHarmonicCupToGrade : (n k j : ℕ) →
+    (⨁ _ : CupPlacement k j, harmonicTensors n (k - 2 * j)) →ₗ[ℂ]
+      OrthTraceGrade n k j := by sorry
+
+noncomputable def sympHarmonicCupToGrade : (l k j : ℕ) →
+    (⨁ _ : CupPlacement k j, harmonicTensorsSymp l (k - 2 * j)) →ₗ[ℂ]
+      SympTraceGrade l k j := by sorry
+
+/-- The graded map is the quotient of the actual ambient cup map, not an unrelated surjection. -/
+theorem orthHarmonicCupToGrade_spec (n k j : ℕ)
+    (x : ⨁ _ : CupPlacement k j, harmonicTensors n (k - 2 * j)) :
+    ∃ hx : orthHarmonicCupSum n k j x ∈ orthTraceFiltration n k j,
+      orthHarmonicCupToGrade n k j x =
+        Submodule.Quotient.mk (R := ℂ) (⟨orthHarmonicCupSum n k j x, hx⟩ : orthTraceFiltration n k j) := by sorry
+
+theorem sympHarmonicCupToGrade_spec (l k j : ℕ)
+    (x : ⨁ _ : CupPlacement k j, harmonicTensorsSymp l (k - 2 * j)) :
+    ∃ hx : sympHarmonicCupSum l k j x ∈ sympTraceFiltration l k j,
+      sympHarmonicCupToGrade l k j x =
+        Submodule.Quotient.mk (R := ℂ) (⟨sympHarmonicCupSum l k j x, hx⟩ : sympTraceFiltration l k j) := by sorry
+
+theorem orthHarmonicCupToGrade_surjective (n k j : ℕ) (h : 2 * j ≤ k) :
+    Function.Surjective (orthHarmonicCupToGrade n k j) := by sorry
+
+theorem sympHarmonicCupToGrade_surjective (l k j : ℕ) (h : 2 * j ≤ k) :
+    Function.Surjective (sympHarmonicCupToGrade l k j) := by sorry
+
+/-- Actual relations: ambient cup sums lying in the next filtration term. -/
+noncomputable def orthCupRelations (n k j : ℕ) := LinearMap.ker (orthHarmonicCupToGrade n k j)
+noncomputable def sympCupRelations (l k j : ℕ) := LinearMap.ker (sympHarmonicCupToGrade l k j)
+
+theorem orthHarmonicCupToGrade_injective_stable (n k j : ℕ)
+    (hj : 2 * j ≤ k) (hn : 2 * k ≤ n) :
+    Function.Injective (orthHarmonicCupToGrade n k j) := by sorry
+
+theorem sympHarmonicCupToGrade_injective_stable (l k j : ℕ)
+    (hj : 2 * j ≤ k) (hl : k ≤ l) :
+    Function.Injective (sympHarmonicCupToGrade l k j) := by sorry
+
+/-- The lower tensor degree is part of the index itself. -/
+abbrev HarmonicIndex (k : ℕ) := Σ j : {j : ℕ // 2 * j ≤ k}, (k - 2 * j.1).Partition
+
+def OrthAdmissible {q : ℕ} (n : ℕ) (shape : q.Partition) : Prop :=
+  (diagramOf shape).colLen 0 + (diagramOf shape).colLen 1 ≤ n
+
+def SympAdmissible {q : ℕ} (l : ℕ) (shape : q.Partition) : Prop :=
+  (diagramOf shape).colLen 0 ≤ l
+
+/-- A chosen tableau is explicit; the README requires its choice-independence comparison. -/
+noncomputable def orthShapeSpace (n : ℕ) {q : ℕ} (shape : q.Partition)
+    (t : YoungTableau (diagramOf shape)) : Submodule ℂ (OrthTensor n (diagramOf shape).card) :=
+  LinearMap.range ((permAction n (diagramOf shape).card).asAlgebraHom
+    (TauCeti.YoungTableau.youngSymmetrizerOver ℂ t)) ⊓ harmonicTensors n (diagramOf shape).card
+
+noncomputable def sympShapeSpace (l : ℕ) {q : ℕ} (shape : q.Partition)
+    (t : YoungTableau (diagramOf shape)) : Submodule ℂ (SympTensor l (diagramOf shape).card) :=
+  LinearMap.range ((sympPermAction l (diagramOf shape).card).asAlgebraHom
+    (TauCeti.YoungTableau.youngSymmetrizerOver ℂ t)) ⊓ harmonicTensorsSymp l (diagramOf shape).card
+
+/-- Defined intertwiner space; no private irreducible or multiplicity carrier. -/
+abbrev OrthMultiplicity {q : ℕ} (n k : ℕ)
+    (E : Subrepresentation (orthAction n q)) :=
+  Representation.IntertwiningMap E.toRepresentation (orthAction n k)
+
+abbrev SympMultiplicity {q : ℕ} (l k : ℕ)
+    (E : Subrepresentation (sympAction l q)) :=
+  Representation.IntertwiningMap E.toRepresentation (sympAction l k)
+
+/-- Postcomposition is the actual commuting Brauer action on this native Hom space. -/
+noncomputable def orthMultiplicityAction : (n k q : ℕ) →
+    (E : Subrepresentation (orthAction n q)) → brauerAlgebra (n : ℂ) k →ₐ[ℂ]
+      Module.End ℂ (OrthMultiplicity n k E) := by sorry
+
+noncomputable def sympMultiplicityAction : (l k q : ℕ) →
+    (E : Subrepresentation (sympAction l q)) → brauerAlgebra (-(2 * l : ℂ)) k →ₐ[ℂ]
+      Module.End ℂ (SympMultiplicity l k E) := by sorry
+
+theorem orthMultiplicityAction_apply (n k q : ℕ) (E : Subrepresentation (orthAction n q))
+    (b : brauerAlgebra (n : ℂ) k) (f : OrthMultiplicity n k E) (v : E.toSubmodule) :
+    orthMultiplicityAction n k q E b f v = brauerActionOrth n k b (f v) := by sorry
+
+theorem sympMultiplicityAction_apply (l k q : ℕ) (E : Subrepresentation (sympAction l q))
+    (b : brauerAlgebra (-(2 * l : ℂ)) k) (f : SympMultiplicity l k E) (v : E.toSubmodule) :
+    sympMultiplicityAction l k q E b f v = brauerActionSymp l k b (f v) := by sorry
+
+/-! ### Sp₂ at tensor degree three: a concrete relation, not independent cups -/
+abbrev SpTwo := (Fin 1 ⊕ Fin 1) → ℂ
+
+def spTwoE : SpTwo := Pi.single (Sum.inl 0) 1
+def spTwoF : SpTwo := Pi.single (Sum.inr 0) 1
+
+noncomputable def spTwoCup12 : SpTwo →ₗ[ℂ] SympTensor 1 3 :=
+  (LinearMap.proj (Sum.inl (0 : Fin 1))).smulRight
+      (PiTensorProduct.tprod ℂ ![spTwoE, spTwoF, spTwoE] - PiTensorProduct.tprod ℂ ![spTwoF, spTwoE, spTwoE]) +
+    (LinearMap.proj (Sum.inr (0 : Fin 1))).smulRight
+      (PiTensorProduct.tprod ℂ ![spTwoE, spTwoF, spTwoF] - PiTensorProduct.tprod ℂ ![spTwoF, spTwoE, spTwoF])
+noncomputable def spTwoCup13 : SpTwo →ₗ[ℂ] SympTensor 1 3 :=
+  (LinearMap.proj (Sum.inl (0 : Fin 1))).smulRight
+      (PiTensorProduct.tprod ℂ ![spTwoE, spTwoE, spTwoF] - PiTensorProduct.tprod ℂ ![spTwoF, spTwoE, spTwoE]) +
+    (LinearMap.proj (Sum.inr (0 : Fin 1))).smulRight
+      (PiTensorProduct.tprod ℂ ![spTwoE, spTwoF, spTwoF] - PiTensorProduct.tprod ℂ ![spTwoF, spTwoF, spTwoE])
+noncomputable def spTwoCup23 : SpTwo →ₗ[ℂ] SympTensor 1 3 :=
+  (LinearMap.proj (Sum.inl (0 : Fin 1))).smulRight
+      (PiTensorProduct.tprod ℂ ![spTwoE, spTwoE, spTwoF] - PiTensorProduct.tprod ℂ ![spTwoE, spTwoF, spTwoE]) +
+    (LinearMap.proj (Sum.inr (0 : Fin 1))).smulRight
+      (PiTensorProduct.tprod ℂ ![spTwoF, spTwoE, spTwoF] - PiTensorProduct.tprod ℂ ![spTwoF, spTwoF, spTwoE])
+
+theorem spTwoCup12_apply (v : SpTwo) :
+    spTwoCup12 v = PiTensorProduct.tprod ℂ ![spTwoE, spTwoF, v] -
+      PiTensorProduct.tprod ℂ ![spTwoF, spTwoE, v] := by sorry
+
+theorem spTwoCup13_apply (v : SpTwo) :
+    spTwoCup13 v = PiTensorProduct.tprod ℂ ![spTwoE, v, spTwoF] -
+      PiTensorProduct.tprod ℂ ![spTwoF, v, spTwoE] := by sorry
+
+theorem spTwoCup23_apply (v : SpTwo) :
+    spTwoCup23 v = PiTensorProduct.tprod ℂ ![v, spTwoE, spTwoF] -
+      PiTensorProduct.tprod ℂ ![v, spTwoF, spTwoE] := by sorry
+
+theorem spTwoCup_relation : spTwoCup12 - spTwoCup13 + spTwoCup23 = 0 := by sorry
+
+noncomputable def spTwoCupSum : (SpTwo × SpTwo × SpTwo) →ₗ[ℂ] SympTensor 1 3 :=
+  spTwoCup12.comp (LinearMap.fst ℂ SpTwo (SpTwo × SpTwo)) +
+    spTwoCup13.comp ((LinearMap.fst ℂ SpTwo SpTwo).comp
+      (LinearMap.snd ℂ SpTwo (SpTwo × SpTwo))) +
+    spTwoCup23.comp ((LinearMap.snd ℂ SpTwo SpTwo).comp
+      (LinearMap.snd ℂ SpTwo (SpTwo × SpTwo)))
+
+theorem spTwoCupSum_finrank_range : Module.finrank ℂ (LinearMap.range spTwoCupSum) = 4 := by sorry
+
+theorem harmonicTensorsSymp_one_three_finrank :
+    Module.finrank ℂ (harmonicTensorsSymp 1 3) = 4 := by sorry
+
+theorem brauer_three_neg_two_not_semisimple :
+    ¬ IsSemisimpleRing (brauerAlgebra (-2 : ℂ) 3) := by sorry
 
 end TauCetiRoadmap.RepresentationTheory.SchurWeyl

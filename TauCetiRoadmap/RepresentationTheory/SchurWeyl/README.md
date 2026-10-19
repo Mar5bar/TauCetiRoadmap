@@ -15,7 +15,7 @@ monomial symmetric functions, including their partition-indexed products `esymmP
 permutation representation `Representation.ofMulAction` and its `Rep.ofMulAction` packaging, induction
 along a group homomorphism `Representation.ind` (`RepresentationTheory/Induced.lean`), `FDRep` with
 `FDRep.character` and `char_conj`, irreducibility `Representation.IsIrreducible` (with
-`isIrreducible_iff_isSimpleModule`), Maschke's theorem `IsSemisimpleRing k[G]`, Schur's lemma, and the
+`Representation.irreducible_iff_isSimpleModule_asModule`), Maschke's theorem `IsSemisimpleRing k[G]`, Schur's lemma, and the
 first orthogonality relation `char_orthonormal`. The tensor-power infrastructure is present:
 `PiTensorProduct` with `reindex`, `congr`, and `map`/`mapMonoidHom`, plus `TensorPower` and
 `SymmetricPower`.
@@ -74,7 +74,7 @@ and `Combinatorics/Young/`.
   `k[Sₙ] = MonoidAlgebra k (Equiv.Perm (Fin n))`, its modules, `Representation.character`, and
   `Representation.IsIrreducible`, because the Young symmetrizers and Specht modules are literally left
   ideals of `k[Sₙ]`. Keep the `FDRep`/`CategoryTheory.Simple` mirror in step through
-  `isIrreducible_iff_isSimpleModule`, and state the classification in both languages. Permutation modules
+  `Representation.irreducible_iff_isSimpleModule_asModule`, and state the classification in both languages. Permutation modules
   `M^λ` are `Rep.ofMulAction k Sₙ (Sₙ ⧸ youngSubgroup λ)`, reusing Mathlib's `ofMulAction`.
 - **Tableaux are bijective fillings; keep the three tableau notions distinct.** Index every tableau notion
   by a `YoungDiagram μ` and tie the size to `μ.card`, so no free `n` floats loose from the diagram. A
@@ -111,7 +111,7 @@ and `Combinatorics/Young/`.
   `RepresentationTheory/Rep/Basic.lean` (`Rep`, `Rep.ofMulAction`, `Rep.trivial`),
   `RepresentationTheory/Induced.lean` (`Representation.ind`, `Rep.ind` along a `φ : G →* H`).
 - **Irreducibility, characters, semisimplicity:** `RepresentationTheory/Irreducible.lean`
-  (`Representation.IsIrreducible`, `isIrreducible_iff_isSimpleModule`),
+  (`Representation.IsIrreducible`, `Representation.irreducible_iff_isSimpleModule_asModule`),
   `RepresentationTheory/FDRep.lean` (`FDRep`, `FDRep.character`), `RepresentationTheory/Character.lean`
   (`char_conj`, `char_orthonormal`), `RepresentationTheory/Maschke.lean` (`IsSemisimpleRing k[G]`),
   and Schur's lemma (`finrank_hom_simple_simple`).
@@ -619,33 +619,165 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   Everything is **image-level** and the partner of `O(V)` is the **image** algebra `(brauerActionOrth n k).range`,
   not the abstract `B_k(n)` (the Brauer action is not faithful in small dimension). The symplectic mirror uses
   `Sp(V) = Matrix.symplecticGroup (Fin l) ℂ` (Mathlib's honest form-symplectic submonoid) with `B_k(-2l)`. A
-  separate clean-module-decomposition theorem then uses semisimplicity where it genuinely holds. This is the
+  separate evaluation decomposition uses complete reducibility of the geometric group
+  representation and semisimplicity of these image algebras, in every dimension. This is the
   orthogonal/symplectic analogue of Layer 8's `GLₔ × Sₙ` double-centralizer theorem and the point of contact
   with [../ClassicalGroups](../ClassicalGroups/README.md).
-- **Harmonic tensors and the trace maps.** The **contraction (trace) maps** `V^{⊗k} → V^{⊗(k-2)}` (cap one
-  pair of slots against the form, in all `C(k,2)` positions) have a common kernel, the **harmonic**
-  (traceless) tensors `harmonicTensors n k`. The harmonic tensors are **not** a single irreducible and do
-  not by themselves "carry the irreducible `O(V)`-pieces": the irreducible `O(V)`-module `E_λ` is the
-  **trace-free part of the shape-`λ` Schur/Weyl piece** -- apply the Young symmetrizer `c_t` to `V^{⊗k}` and
-  then intersect with `harmonicTensors` -- with `λ` restricted by the orthogonal (resp. symplectic)
-  truncation condition on its column lengths. The horizontal-arc diagrams build the non-harmonic part from
-  cups on lower tensor powers, giving first a **trace filtration** of `V^{⊗k}` whose subquotients are the
-  `harmonicTensors n (k-2j)` re-expanded by `j` cups. Only **under semisimplicity / large dimension** does
-  this filtration split as a direct sum, giving `V^{⊗k} ≅ ⊕_λ E_λ ⊗ G_λ` as an `O(V) × B_k(n)`-representation
-  (`G_λ` the corresponding irreducible Brauer module), the sum over the surviving partitions. This refines
-  Layer 8's multiplicity-free `⊕_λ S^λ ⊗ 𝕊^λ` by the trace filtration: the cups and caps are exactly the
-  extra generators beyond `Sₖ`.
-- **Semisimplicity of `B_k(δ)`.** For **generic** `δ` the Brauer algebra is semisimple, with irreducibles
-  indexed by partitions of `k, k-2, k-4, …`. The concrete bound `|δ| ≥ 2k - 2` is a **sufficient, not sharp**
-  range from [Rui's criterion, Theorem 1.2](https://math.ecnu.edu.cn/preprint/2004-012.pdf),
-  with k=0 and k=1 proved directly, and
-  it is stated in terms of `|δ|` so that it covers **both** geometric values: the orthogonal `δ = n` and the
-  symplectic `δ = -2l`. Pin it accordingly as a single `|δ|`-hypothesis theorem
-  `brauerAlgebra_isSemisimple_of_large_abs`, instantiated at `δ = n` and at `δ = -2l`. Outside the semisimple
-  range the algebra can fail to be semisimple, and its cell theory (Brauer is a cellular algebra, exactly as
-  [Temperley–Lieb](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58) Layer 5 develops for `TL_k`) governs the modular
-  behaviour. The semisimple range is what makes the `⊕_λ E_λ ⊗ G_λ` decomposition clean and forces the
-  multiplicities.
+- **Harmonic tensors and ordinary Young shapes.** Write `T^q=V^{⊗q}` on the native
+  `PiTensorProduct` carrier. For every ordered pair `a<b` of slots define
+  `cap_ab : T^q → T^(q−2)` by the invariant form and the increasing order of the
+  remaining slots. Define `H^q=⋂_(a<b) ker(cap_ab)`; for q=0,1 this empty
+  intersection is all of `T^q`. In the symplectic case the cap is alternating,
+  the cup is the native inverse-form cup, and all permutations mentioned in
+  the **Young-shape** construction are the ordinary, unsigned permutation action.
+  For a partition λ of q choose the native row-superstandard tableau and define
+  `E_λ=range(c_t:T^q→T^q) ∩ H^q`, with `c_t=a_t b_t` as in Layer 2.
+  Prove invariance, independence up to group-intertwining equivalence of the
+  chosen tableau, and the harmonic classification. For the full orthogonal
+  group its nonzero ordinary shapes are exactly `λ′₁+λ′₂≤n`; for `Sp_(2l)`
+  they are exactly `length(λ)=λ′₁≤l`. These are different conditions. The
+  orthogonal theorem is for the full disconnected `O_n`, with its determinant
+  extensions, rather than a silent replacement by `SO_n`. Each `E_λ` is
+  constructed at degree **q=|λ|**, independently of a later ambient degree k.
+  For positive-dimensional V the admissible `E_λ` are pairwise inequivalent
+  irreducibles, and
+  `H^q ≅ ⊕_(λ⊢q, admissible) E_λ ⊗ S^λ` for the group and the ordinary
+  symmetric-group action. Include the empty partition at q=0. If V=0 then
+  `T^0=ℂ`, `T^q=0` for q>0; state this separately, so a formal empty-shape
+  index does not assert a nonzero summand in a positive tensor degree.
+
+- **The diagram ideals and the trace filtration.** Consume native
+  `BrauerDiagram.propagatingNumber`, its parity and composition bounds from
+  `Combinatorics/Brauer/PropagatingNumber.lean`. For each j≥0 let `I_j⊆B_k(δ)`
+  be the linear span of diagrams with at least j bottom caps (equivalently
+  at least j top cups), namely `propagatingNumber(D)+2j≤k`. Prove these spans
+  are two-sided ideals, `I_0=B_k`, `I_(j+1)⊆I_j`, and `I_j=0` if 2j>k.
+  For the actual geometric action ρ put
+  `F_j=span{ρ(b)v : b∈I_j, v∈T^k}` and
+  `gr_j=F_j/F_(j+1)`. These are group- and Brauer-stable subspaces and quotient
+  modules, `F_0=T^k`, and `I_(j+1)` annihilates `gr_j`.
+  On the coordinate tensor basis, use the positive Hermitian product:
+  the Hermitian adjoint of each cap is its inserted cup, with a uniform
+  minus sign in the symplectic convention. Thus common cap kernels are the
+  orthogonal complement of the sum of cup images. Prove that this sum is
+  F_1, obtaining `T^q=H^q ⊕ F_1(T^q)` as group modules and identifying the
+  natural map `H^q→T^q/F_1(T^q)` with an isomorphism. The positivity is
+  Hermitian coordinate linear algebra; it is not positivity of the complex
+  bilinear invariant form and uses no averaging over an infinite group.
+  For complete reducibility of the whole geometric action consume
+  [ReductiveGroups Layer 6](../../ReductiveGroups/README.md)'s characteristic-zero
+  reductive theorem for Sp and SO. For O in dimension n≥1, turn an SO-equivariant
+  projection onto an O-submodule into an O-equivariant one by averaging its
+  two conjugates over O/SO; the order-two scalar is invertible over ℂ.
+  Prove this finite-component extension using the component quotient of
+  ReductiveGroups Layer 3. O in dimension zero is the trivial boundary case.
+  These dependencies do not assume abstract Brauer semisimplicity.
+
+- **Cup expansion, its relations, and the graded action.** Let `P_(k,j)` be
+  the finite set of j disjoint unordered pairs of slots, each pair written
+  increasingly, and order the k−2j unpaired slots increasingly. Inserting
+  j copies of the specified copairing and leaving these other slots in
+  order defines actual group-intertwining maps
+  `cup_P:T^(k−2j)→T^k`. Explicitly, on a lower pure tensor, sum over two
+  basis indices a_p,b_p for each pair p, with coefficient
+  `∏_p (B^(-1))_(a_p,b_p)`; put the basis vectors e_(a_p),e_(b_p)
+  into the two ordered slots of p and put the lower tensor entries into
+  the increasingly ordered free slots. Here B is the coordinate dot-product
+  matrix or the fixed alternating matrix J, respectively; its copairing
+  matrices are 1 and −J. This finite formula is multilinear in the lower
+  inputs and so descends by `PiTensorProduct.lift`. Prove its independence
+  of enumerating the set of pairs and its two-strand agreement with the
+  native cups. Put q=k−2j and form the direct-sum map
+  `C_j: ⊕_(P∈P_(k,j)) H^q → T^k`. Prove its image is contained in `F_j` and
+  the composite `Ψ_j` to `gr_j` is surjective for `0≤j≤⌊k/2⌋`.
+  The proof factors each diagram of I_j into its top partial matching,
+  through-strand permutation and bottom contractions; replacing the resulting
+  lower tensor by its H^q part changes the output by F_(j+1).
+  Define the relation space explicitly as
+  `R_j={x : C_j(x)∈F_(j+1)}=ker Ψ_j` and construct the canonical equivalence
+  `(⊕_P H^q)/R_j ≅ gr_j`. Thus this quotient specifies the relations in every
+  dimension, including small dimensions. It does not count placements as
+  independent. Give the Brauer action on the domain by stacking, discarding
+  terms with more than j top pairs and applying the resulting signed/unsigned
+  free-slot permutation to H^q; prove the relation space stable and Ψ_j
+  intertwining. Shape-wise this constructs the multiplicity quotient below.
+  As a separate sufficient stability theorem, prove Ψ_j injective when
+  **n≥2k in the orthogonal case, or l≥k in the symplectic case**. In this
+  range R_j=0 and `dim gr_j = |P_(k,j)| dim H^q`, where
+  `|P_(k,j)|=k!/(2^j j! (k−2j)!)`. Prove this by the diagram-cell basis and
+  its nonsingular Gram form in this range, or an independent leading-term
+  argument. This stable independence is stronger than existence of a
+  geometric decomposition. Require the cup maps and quotient actions to
+  commute with relabelling, and identify F_j with the sum of the j-cup and
+  higher-cup components in the valence decomposition.
+
+- **Multiplicity modules and the two label conventions.** For every k set
+  `J_k={(j,λ):0≤j≤⌊k/2⌋, λ⊢k−2j}` and impose the relevant admissibility
+  condition above. Define
+  `G_(k,λ)=Hom_G(E_λ,T^k)` as the actual linear space of group intertwiners,
+  with Brauer action `b·f=ρ(b)∘f`. Prove evaluation gives the simultaneous
+  group/Brauer equivalence
+  `⊕_((j,λ)∈J_k, admissible) E_λ⊗G_(k,λ) ≅ T^k`.
+  Zero multiplicity spaces contribute zero, in particular for V=0 and k>0.
+  For positive-dimensional V prove the displayed admissible multiplicities
+  nonzero, and identify which of them occur in each `gr_j`: precisely
+  `|λ|=k−2j`. Construct the comparison with Ψ_j on every Young isotypic
+  component; an abstract direct-sum dimension count does not identify the maps.
+
+  Fix **standard Brauer labels** by constructing the diagram cell module
+  `Δ_(k,μ)=ℂ[P_(k,j)]⊗S^μ` for μ⊢k−2j: diagram stacking acts on free slots
+  by the ordinary Specht action, and the j=0 module is S^μ via
+  `B_k/I_1≅ℂ[S_k]`. Prove the stacking rule, contravariant Gram pairing
+  and its radical API, and denote its nonzero simple head by D_(k,μ).
+  In the geometric range identify G with that head (with the same
+  left-action convention; reflection of diagrams transports a right-module
+  source convention to this one). Then
+  `G^O_(k,λ)≅D_(k,λ)` and **`G^Sp_(k,λ)≅D_(k,λ′)`**.
+  The second comparison uses `S^λ⊗sign≅S^(λ′)` on the free slots, because
+  the symplectic Brauer crossing is minus the ordinary flip. It does not
+  transpose the group-module Young shape. Construct these comparisons and
+  their evaluation/cup compatibility, and prove simplicity over the actual
+  image algebra. At zero dimension use the preceding boundary statements
+  rather than asserting a nonzero cell head for the empty label at every k.
+
+- **Three separate semisimplicity statements.** Over ℂ the finite-dimensional
+  rational tensor representations of O and Sp are completely reducible;
+  disconnected O is handled by its finite component group in characteristic
+  zero. Hence their endomorphism commutants are products of full matrix
+  algebras. After the FFT surjection, the **Brauer image** is semisimple in
+  every dimension. This proves the image-level evaluation decomposition and
+  equivariant splitting of the F_j filtration even if the abstract Brauer
+  algebra is not semisimple. Cup-placement independence is the separate
+  stability theorem above. Finally retain the abstract-algebra theorem:
+  for generic δ, B_k(δ) is split semisimple with simples indexed by the
+  partitions of k,k−2,…; for integer δ the bound `|δ|≥2k−2` is sufficient,
+  not sharp, with k=0,1 proved directly. Prove the stated sufficient bound
+  from [Rui's criterion, Theorem 1.2](https://math.ecnu.edu.cn/preprint/2004-012.pdf)
+  as `brauerAlgebra_isSemisimple_of_large_abs`, at both n and −2l.
+  This abstract criterion is used to obtain a nonsingular cell Gram form
+  and stable diagram-module dimensions where those stronger conclusions
+  are required; it is not a hypothesis of the geometric decomposition.
+  Outside it the cell radical and the tensor-action kernel must be
+  distinguished; full modular/nonsemisimple cellular theory remains the
+  programme described by the retained Temperley–Lieb comparison, rather
+  than a premise silently assumed here.
+
+- **Low-rank acceptance examples and cup relations.** For Sp₂ at k=2,
+  H²=Sym²(ℂ²) has dimension 3, ordinary shape (2), while the native
+  crossing acts by −1 and its cap-cup generator by zero. Its Brauer
+  multiplicity label is therefore (1,1), including in the semisimple
+  equality case `|−2|=2k−2`. At k=3 let θ=e⊗f−f⊗e and define D₁₂,D₁₃,D₂₃
+  by inserting θ in those slots. Prove on e,f that
+  `D₁₂−D₁₃+D₂₃=0`; native inverse-form cups negate all three maps and
+  preserve this relation. Each map has rank 2, their sum has rank **4**,
+  H³=Sym³(ℂ²) has dimension **4**, and
+  `(ℂ²)^{⊗3}≅Sym³(ℂ²)⊕(ℂ²⊗ℂ²_mult)` as Sp₂ modules (the second ℂ²
+  is the two-dimensional multiplicity space with trivial Sp₂ action),
+  equivalently Sym³V⊕V⊕V. Construct the cup-kernel comparison, not a
+  fictitious sum of three independent V's. Prove B₃(−2) is not semisimple,
+  for example from the singular j=1 cell Gram matrix (diagonal −2,
+  off-diagonal 1 after a consistent cell-basis sign change), while its
+  geometric image is semisimple. These examples test all three distinctions.
 
 ---
 
