@@ -1000,6 +1000,66 @@ algebra by its Killing-semisimple part.
    in bad characteristic is a separate assertion. The9B group and9C distribution
    comparisons consume this construction and are not premises for its Lie laws.
 
+   **9A.1a-L. The group of all kernel-fixing ADE cover lifts.**
+   On the actual ordered cover of9A.1a, let A be the group of integral Gram
+   isometries preserving its norm2 shell. Construct the subgroup of
+   `MulAut(Cover) × A` consisting of pairs `(φ,g)` with
+   `φ∘ι=ι` and `π∘φ=g∘π`, where `ι:ℤˣ→Cover` and π are the actual extension
+   maps. Use native `GroupExtension.Equiv` for extension transport and its
+   existing section-ratio/quotient APIs for the corresponding comparison laws.
+   Prove closure, inverse and identity by these equations and use the
+   native subgroup group structure. Export its cover action, projection to A,
+   conjugation/change-of-order maps, and the literal action on simple lifts,
+   section values, τ, products, inverses and root fibers. This is the group of
+   **all** compatible lifts, not one silently selected lift per root isometry.
+
+   The quadratic-coboundary construction above supplies a lift of every g,
+   hence surjectivity onto A. Prove that the kernel is the character group
+   `Hom(Q,{±1})`: χ acts by `(a,s)↦(a,sχ(a))`; for any kernel lift, the ratio
+   of its value on a lift over a to that lift lies in ι({±1}), is independent
+   of the lift, and is multiplicative in a. Give both inverse maps and all
+   evaluation equations, injectivity/exactness and a native
+   [`GroupExtension`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/GroupExtension/Defs.lean#L73-L83).
+   For a general central extension first project onto the actual subgroup of
+   liftable automorphisms; only the proved ADE coboundary theorem makes that
+   subgroup all of A. Choosing normalized set sections gives arbitrary
+   normalized sign functions, whereas the difference of two homomorphic
+   cover lifts of the same g is a character. Do not conflate these categories.
+
+   For `(φ,g)` and the fixed section `u_a`, define the actual sign
+   `s_φ(a)` by `φ(u_a)=ι(s_φ(a))u_(ga)`. On the signed integral Lie carrier
+   construct `H_h↦H_(gh)` and `x_a↦s_φ(a)x_(ga)`, extending through the
+   sign quotient. Prove root indexing, additivity/scalars, bracket and
+   inverse/composition equations on the actual Cartan/root basis. In particular
+   `[x_a,x_(-a)]` and the inverse-lift normalization must be transported,
+   not guessed from negative-section labels. Kernel characters fix Cartan and
+   multiply each root line by χ(a). Prove this action faithful over ℤ, using
+   the simple root basis and cover normal words. Construct scalar-extension
+   actions and their comparison diagrams; characteristic2 can collapse sign
+   characters, so faithfulness is not asserted after every base change.
+   State composition through native Lie-equivalence composition or actual
+   action equations, without assuming an undeclared `Group` instance on
+   endomorphism `LieEquiv`s. The companion `CoverLiftTargets.lean` consumes
+   `SignedADETargets.lean`; it does not import back into that lower carrier.
+
+   After9A.1b, compare its pinned **based** diagram lift with this full lift group
+   and its simple-generator equations. For an unbased root automorphism use
+   [RootSystems4A](../RepresentationTheory/RootSystems/README.md)'s actual
+   Weyl/based factorization, while retaining the character ambiguity and
+   any multiplication defect of separately chosen lifts. Export transport
+   under every specified order/section and full-Y comparison. Full-Y maps
+   require the actual compatible Y action; no integral central splitting is
+   inferred. Include empty/reducible ADE, rank1, A2's negative-section test,
+   component permutations and D4 triality. This signed ADE extension, a
+   compact finite Tits lift, `N_K(T)→W`, and a topological covering group have
+   different bases/kernels. None is identified with another by a “double
+   cover” label, and no VOA or compact normalizer section is a premise here.
+
+   Prove finiteness of the positive-definite lattice isometry group by its faithful permutation
+   action on the finite norm-two root set, which spans the lattice, and finiteness of the lift
+   group from this image and its finite character kernel. The kernel has order `2^rank(Q)`;
+   this counts characters of the actual free root lattice, not arbitrary sign functions.
+
    **9A.1b. Pinned fixed Lie algebras and signed ADE folding.**
    Starting from9A.1a, construct the fixed Lie algebra of each finite ADE diagram
    automorphism, its actual integral fixed lattice, its split characteristic-zero

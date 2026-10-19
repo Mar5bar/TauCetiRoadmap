@@ -1,5 +1,6 @@
 import TauCeti.RepresentationTheory.Induction.FiniteDimensional.Basic
 import Mathlib
+import Mathlib.GroupTheory.GroupExtension.Basic
 
 /-!
 # Reductive algebraic groups: target signatures
@@ -75,3 +76,80 @@ FoldingADETargets.lean, which imports SignedADETargets.lean. This pointer adds n
 /- Lie-algebra spectral quotients, finite Weyl arrangements and based monodromy
 are prototyped in SpectralWeylTargets.lean. That companion imports this file;
 this comment adds no reverse import or dependency on Layer11. -/
+
+/-! ## Kernel-fixing lifts of an actual central extension
+
+These generic definitions use native GroupExtension. The ADE existence/Lie action
+is in CoverLiftTargets, importing the actual lower signed carrier without a cycle. -/
+namespace TauCetiRoadmap.ReductiveGroups.CoverLifts
+
+universe uC vC wC
+variable {E : Type uC} {Q : Type vC} {A : Type wC} [Group E] [Group Q] [Group A]
+
+def liftSubgroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
+    Subgroup (MulAut E × A) where
+  carrier := {p | (∀ s, p.1 (S.inl s) = S.inl s) ∧
+    ∀ e, S.rightHom (p.1 e) = ρ p.2 (S.rightHom e)}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+abbrev LiftGroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) := liftSubgroup S ρ
+
+def projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
+    LiftGroup S ρ →* A where
+  toFun l := l.val.2
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+def coverAutomorphism (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
+    LiftGroup S ρ →* MulAut E where
+  toFun l := l.val.1
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+def coverAction (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (l : LiftGroup S ρ) (e : E) : E := coverAutomorphism S ρ l e
+
+theorem coverAction_projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (l : LiftGroup S ρ) (e : E) :
+    S.rightHom (coverAction S ρ l e) = ρ (projection S ρ l) (S.rightHom e) := l.property.2 e
+
+/-- Actual character twist; only the group laws use centrality. -/
+def characterTwist (S : GroupExtension ℤˣ E Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) (χ : Q →* ℤˣ) : MulAut E where
+  toFun e := S.inl (χ (S.rightHom e)) * e
+  invFun e := S.inl (χ (S.rightHom e))⁻¹ * e
+  left_inv := by sorry
+  right_inv := by sorry
+  map_mul' := by sorry
+
+def characterInclusion (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) : (Q →* ℤˣ) →* LiftGroup S ρ where
+  toFun χ := ⟨(characterTwist S hc χ, 1), by sorry⟩
+  map_one' := by sorry
+  map_mul' := by sorry
+
+/-- Honest whole family: neither extension, action nor centrality inputs are erased. -/
+noncomputable def characterKernelEquiv : (S : GroupExtension ℤˣ E Q) →
+    (ρ : A →* MulAut Q) → (hc : ∀ s e, S.inl s * e = e * S.inl s) →
+    (Q →* ℤˣ) ≃* (projection S ρ).ker := by sorry
+
+theorem characterKernelEquiv_value (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) (χ : Q →* ℤˣ) (e : E) :
+    coverAction S ρ (characterKernelEquiv S ρ hc χ).val e =
+      S.inl (χ (S.rightHom e)) * e := by sorry
+
+def liftableExtension (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) :
+    GroupExtension (Q →* ℤˣ) (LiftGroup S ρ) (projection S ρ).range where
+  inl := characterInclusion S ρ hc
+  rightHom := (projection S ρ).rangeRestrict
+  inl_injective := by sorry
+  range_inl_eq_ker_rightHom := by sorry
+  rightHom_surjective := by sorry
+
+end TauCetiRoadmap.ReductiveGroups.CoverLifts
+
+/- The actual signed ADE instantiation, root-line and native Lie action are in
+CoverLiftTargets.lean. This file stays below IntegralRational/SignedADETargets. -/
