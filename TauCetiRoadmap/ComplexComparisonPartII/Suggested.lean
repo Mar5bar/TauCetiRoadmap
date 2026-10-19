@@ -29,6 +29,13 @@ Chow and the algebraization of morphisms using supplied scheme compactifications
 logarithmic structures and regular singular connections (C5), and stratified topology,
 Riemann existence and finite/adic Artin comparison (C6).
 
+C−1.4's `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` provide
+the analytic charts from ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4's
+`sncBoundary`, `sncCompactification` and `sncCoordinates`: the compactification preserves
+the given smooth quasi-projective open and has globally smooth labelled boundary components;
+the supplied étale equations are `t₁⋯t_b=0`. Analytification and the analytic inverse-function
+theorem give the polydisc charts for any smooth finite-type complex SNC pair, without compactness.
+
 C3.2a's `spaceDerivedLimits` obtains intrinsic quasi-coherent products and limits by
 applying `spaceQuasiCoherator` to EnhancedDerivedSheaves §§0.1–0.4's shared ringed-site
 products and coherent limits, retaining their projections and transition maps. C3.2b's

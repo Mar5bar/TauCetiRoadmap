@@ -133,6 +133,7 @@ The analytic ownership and stage order are:
 | --- | --- | --- |
 | Scalar compact-support Cauchy–Green and finite-rank Runge | GlobalHolomorphicFunctions GH0.3 (GH0 preparatory calculus and finite-rank Runge paragraphs) | ComplexKahlerGeometry K2 supplies the parameter-dependent extension to C1.1 |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
+| Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 / `sncBoundary`, `sncCompactification`, `sncCoordinates` | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C−1.4 supplies `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
 | Scheme analytification and its algebraic-to-holomorphic prefix | ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2 | FormalConnectionsOpers F2.4 uses the same complex points, ring sheaf, open restrictions, fibre products, smooth charts and étale local isomorphisms. F2.4 retains fixed-model maximal atlases, second countability, tangent/derivation, toric, group and gauge comparisons; these use the prefix without proper GAGA |
 | Ordinary algebraic differential operators and all-order principal parts | FormalConnectionsOpers F2.2 | C5.1 uses the characteristic-free commutator, order, localization and principal-parts interfaces specified in C5.1, and owns their analytic comparison. F2.4 applications use that analytic adapter; Lie–Rinehart PBW assumes projectivity, while its identification with ordinary operators also uses smoothness and characteristic zero |
 | Fixed-rank bundle–sheaf equivalence, holomorphic connections and absolute flat correspondence | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 assembles clopen rank strata; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers and absolute unit, evaluation and monodromy maps, and adds all horizontal morphisms and holomorphic parameters |
@@ -195,10 +196,11 @@ roadmaps; they do not impose a strict merge order on whole roadmap specification
   C5.5 analytic adapters → C5.6–C5.7 comparisons. No supplier uses C5's GAGA or Hodge theory
   to construct these cores; the supplier section order between the crystalline and derived
   roadmaps is retained.
-- *AlgebraicModuliForArithmeticGeometry, Layer 9, §§9.1–9.7.* Algebraic resolution,
-  labelled SNC boundaries and `sncCompactification`: a smooth quasi-projective variety in
-  characteristic zero embeds densely in a smooth projective variety with SNC complement.
-  §C−1.4 supplies its analytic polydisc charts.
+- *ResolutionOfSingularitiesCharacteristicZero, §§1.3, 6.2, 6.4.* `sncBoundary`,
+  `sncCompactification` and `sncCoordinates`: a smooth quasi-projective finite-type variety
+  in characteristic zero embeds unchanged as a dense open in a smooth projective variety
+  with reduced strict-SNC complement, globally smooth labelled components and local étale
+  equations `t₁⋯t_b=0`. §C−1.4 supplies the analytic polydisc charts from this algebraic datum.
 - *AlgebraicModuliForArithmeticGeometry, Layers 1–3.* Algebraic projective bundles, twisting sheaves and relative Serre
   generation and vanishing (Layer 1); coherent dévissage `coherentDevissage` and
   `devissageViaChow` (Layer 2, §2.3); effective étale descent on algebraic spaces and the
@@ -853,19 +855,27 @@ For the proof, import the analytic/algebraic completed-stalk identification from
 
 ### C−1.4 Holomorphic SNC coordinates
 
+Consume ResolutionOfSingularitiesCharacteristicZero §§6.2, 6.4's `sncCompactification`
+and `sncCoordinates`. For a smooth quasi-projective finite-type complex variety `U`,
+the former supplies a smooth projective compactification containing the given `U`
+unchanged, with reduced strict-SNC boundary and globally smooth labelled components.
+The latter supplies étale coordinates with boundary equation `t₁⋯t_b=0`, with each
+incident label assigned to a distinct `t_i`; it applies to any smooth finite-type
+complex scheme with a labelled strict-SNC divisor, without a compactness hypothesis.
+
 Prove `analyticPolydisc`. For the complex analytification of a smooth finite-type complex variety with a labelled algebraic strict-SNC divisor, every point a has a biholomorphic neighbourhood chart onto a polydisc `Δⁿ`, sending a to 0, in which the boundary components through a are exactly `z₁=0,…,z_r=0` and other components miss the neighbourhood. Its intersection with the complement is `(Δ*)ʳ×Δ^(n−r)`. The number `r` is the number of incident labels and `r≤n`. This is a local chart result, not an algebraization theorem or a Borel extension theorem.
 
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), §3.1–3.5, pp. 231–233; SNC coordinate convention, p. 213; deduction using the analytic inverse-function theorem).
+([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), §3.1–3.5, pp. 231–233 and SNC coordinate convention, p. 213, for the analytic deduction from the supplied algebraic coordinates using the inverse-function theorem).
 
-For the proof, use the SNC étale coordinate chart and the analytification of its invertible Jacobian; then apply the complex analytic inverse-function theorem and shrink its image to a product of sufficiently small discs; then use the labelled component equations to identify the punctured factors; shrink away from nonincident components.
+For the proof, analytify the étale coordinate chart supplied by `sncCoordinates` and its invertible Jacobian; then apply the complex analytic inverse-function theorem and shrink its image to a product of sufficiently small discs; then use the supplied labelled component equations to identify the punctured factors; shrink away from nonincident components.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §§9.1–9.7 (`sncBoundary`, `sncCompactification`); §C−1.1; Mathlib `OpenPartialHomeomorph.hasFPowerSeriesAt_symm`, Tau Ceti `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 (`sncBoundary`, `sncCompactification`, `sncCoordinates`); §C−1.1; Mathlib `OpenPartialHomeomorph.hasFPowerSeriesAt_symm`, Tau Ceti `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
 
 Do not define a new analytic inverse-function theorem. At the Mathlib pin, `AnalyticAt.hasStrictFDerivAt` gives the strict derivative of an analytic map; `HasStrictFDerivAt.toOpenPartialHomeomorph`, `HasStrictFDerivAt.mem_toOpenPartialHomeomorph_source`, `HasStrictFDerivAt.eventually_left_inverse` and `HasStrictFDerivAt.eventually_right_inverse` provide its local inverse when the derivative is a continuous linear equivalence. `OpenPartialHomeomorph.analyticAt_symm'` proves that this inverse is analytic. The linear equivalence and the complete normed-space assumptions are material. These declarations apply to finite-dimensional complex coordinates with their normed-space structures. Inverse uniqueness lets the resulting analytic germs glue. A nonzero derivative is required in dimension one; in dimension `n` the full Jacobian must be invertible.
 
 Define `sncPolydiscChart` for a smooth finite-type complex scheme or locally separated space `M`, a finite ordered SNC divisor `E`, a point `x`, and the `b` distinct components of `E` through `x`. Its data are an analytic neighbourhood of `x`, positive radii `r_i`, and a biholomorphism to a polydisc in `ℂⁿ` taking `x` to zero and the labelled boundary components to `z₁=0,…,z_b=0`. In particular `b≤n`. The API `sncPolydiscChart.boundary`, `sncPolydiscChart.complement`, `sncPolydiscChart.restrict`, `sncPolydiscChart.permuteLabels`, `sncPolydiscChart.etalePullback` states equality of the reduced boundary, the complement isomorphism, restriction to smaller positive radii, equivariance under relabelling, and transport along an étale chart. Define the punctured polydisc using the product of open metric balls and the inequalities `z_i≠0` for `i<b`. No separate competing notion of a complex manifold or polydisc is introduced.
 
-Prove `snc_exists_polydiscChart`: the algebraic SNC condition gives, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §`ℂ`−1.2. The existence assertion is local and assumes no compactness. Compactification uses the separate finite-type characteristic-zero resolution and algebraic projective-closure targets. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; Mathlib's analytic inverse APIs just cited.)
+Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §6.4's `sncCoordinates` supplies, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §`ℂ`−1.2. The existence assertion is local and assumes no compactness. For smooth quasi-projective varieties, the compactification is supplied by that roadmap's §6.2 `sncCompactification` and retains the given smooth open unchanged. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; Mathlib's analytic inverse APIs just cited.)
 
 **Checks.**
 
@@ -875,7 +885,7 @@ Prove `snc_exists_polydiscChart`: the algebraic SNC condition gives, on an étal
 - `SNCChartChecks.triangular`: `(u,v)↦(u+v²,v)` has inverse `(u,v)↦(u−v²,v)`; both composites give `(u,v)`. The nonlinear sign is detected by this two-term coordinate witness.
 - `SNCChartChecks.singularAmbient`: `xy=0` as the ambient curve is singular at zero; it is not a smooth two-dimensional SNC ambient chart. The definition distinguishes the boundary divisor from its ambient space.
 
-*Needs:* §§C−1.1–C−1.3; AlgebraicModuliForArithmeticGeometry §§9.1–9.7 for algebraic SNC boundaries, compactifications and étale coordinate charts; Mathlib analytic inverse APIs cited above.
+*Needs:* §§C−1.1–C−1.3; ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 (`sncBoundary`, `sncCompactification`, `sncCoordinates`) for algebraic SNC boundaries, compactifications and étale coordinate charts; Mathlib analytic inverse APIs cited above.
 
 <a id="c0"></a>
 
