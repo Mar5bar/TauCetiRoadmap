@@ -87,26 +87,6 @@ def ArisesFrom {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
           φ ⟨f.dirichletLift ℓ, Subring.subset_closure (Or.inr ⟨ℓ, rfl⟩)⟩ *
             (ℓ : FpBar p) ^ (k.toNat - 1)
 
-/-- Finiteness at `p`: a finite coefficient model has a finite flat commutative group scheme
-model over `ℤ_[p]`. Its coordinate Hopf algebra has the specified geometric points, equivariantly
-for a chosen embedding into `ℚ̄_p`. For `p ≥ 5`, Raynaud's full faithfulness extends the finite
-coefficient action to this model. -/
-def IsFiniteAt {p : ℕ} [Fact p.Prime] (ρ : GQ →* GL (Fin 2) (FpBar p)) : Prop :=
-  ∃ (K : IntermediateField (ZMod p) (FpBar p)), Finite K ∧
-    ∃ ρ₀ : GQ →* GL (Fin 2) K,
-      (Matrix.GeneralLinearGroup.map K.val.toRingHom).comp ρ₀ = ρ ∧
-      ∃ (ι : AlgebraicClosure ℚ →+* AlgebraicClosure ℚ_[p])
-        (A : Type) (cA : CommRing A), letI := cA
-        ∃ hA : HopfAlgebra ℤ_[p] A, letI := hA
-        Coalgebra.IsCocomm ℤ_[p] A ∧ Module.Finite ℤ_[p] A ∧ Module.Flat ℤ_[p] A ∧
-        ∃ e : Multiplicative (Fin 2 → K) ≃*
-            WithConv (A →ₐ[ℤ_[p]] AlgebraicClosure ℚ_[p]),
-          ∀ (σ : AlgebraicClosure ℚ_[p] ≃ₐ[ℚ_[p]] AlgebraicClosure ℚ_[p]) (g : GQ),
-            (∀ x, ι (g x) = σ (ι x)) → ∀ (v : Fin 2 → K) (a : A),
-              (e (Multiplicative.ofAdd
-                ((ρ₀ g : Matrix (Fin 2) (Fin 2) K).mulVec v))).ofConv a =
-                σ ((e (Multiplicative.ofAdd v)).ofConv a)
-
 /-! ## Headline modularity theorems -/
 
 /-- `R33.5/qualitative-serre-theorem` and `R33.6/modern-and-classical-modularity-agree`:
@@ -137,18 +117,6 @@ theorem khare_level_one {p : ℕ} [Fact p.Prime]
       2 ≤ k ∧ k ≤ (if p = 2 then 4 else (p : ℤ) ^ 2 - 1) ∧ ArisesFrom ρ f := by
   sorry
 
-/-- `R27.6/finite-flat-weight-two-export`: finiteness at p and cyclotomic determinant give
-weight two, prime-to-p level and trivial character. The determinant is expressed through the
-p-th roots of unity. The README identifies the level with the residual conductor. -/
-theorem finite_flat_weight_two {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p)
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (hρ : IsSType ρ) (hfinite : IsFiniteAt ρ)
-    (ζ : AlgebraicClosure ℚ) (hζ : IsPrimitiveRoot ζ p)
-    (hdet : ∀ σ : GQ, Matrix.det (ρ σ : Matrix (Fin 2) (Fin 2) (FpBar p)) =
-      algebraMap (ZMod p) (FpBar p) (hζ.autToPow ℚ σ : ZMod p)) :
-    ∃ (N : ℕ) (_ : NeZero N) (f : Newform N 2),
-      N.Coprime p ∧ f.χ = 1 ∧ ArisesFrom ρ f := by
-  sorry
-
 /-- `R27.6/odd-artin-weight-one-modularity`: every odd irreducible Artin representation
 is attached to a weight-one newform, including its determinant character and all good-prime
 traces. Open kernel expresses finite-image continuity on the Krull Galois group. -/
@@ -176,12 +144,6 @@ theorem character_mem_coefficientRing {N : ℕ} [NeZero N] {k : ℤ}
 theorem ArisesFrom.conjugate {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
     (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k) (B : GL (Fin 2) (FpBar p)) :
     ArisesFrom ((MulAut.conj B).toMonoidHom.comp ρ) f ↔ ArisesFrom ρ f := by
-  sorry
-
-/-- Finite-flat realizability is unchanged by a change of basis. -/
-theorem IsFiniteAt.conjugate {p : ℕ} [Fact p.Prime]
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (B : GL (Fin 2) (FpBar p)) :
-    IsFiniteAt ((MulAut.conj B).toMonoidHom.comp ρ) ↔ IsFiniteAt ρ := by
   sorry
 
 /-- `R27.6/finite-flat-weight-two-export`: residual attachment has an integral coefficient
