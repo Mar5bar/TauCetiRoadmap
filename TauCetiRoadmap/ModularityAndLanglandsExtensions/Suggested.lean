@@ -304,6 +304,47 @@ end SymmetricPower
 
 /-! ## Numerical convention witnesses -/
 
+/-- Constant terms distinguish a polynomial that can cut out finite slope from `X`
+(README §1.8). -/
+example : (Polynomial.X : Polynomial ℚ).eval 0 = 0 ∧
+    (Polynomial.X - 1 : Polynomial ℚ).eval 0 = -1 ∧
+    (Polynomial.X - 1 : Polynomial ℚ).eval 0 ≠ 0 := by norm_num
+
+/-- Strictly decreasing weights can have colliding exterior-square pair sums (README §1.14). -/
+example :
+    let pairSums := fun a b c d : ℤ => [a + b, a + c, a + d, b + c, b + d, c + d]
+    pairSums 3 2 1 0 = [5, 4, 3, 3, 2, 1] ∧ ¬ (pairSums 3 2 1 0).Nodup ∧
+    pairSums 8 4 1 0 = [12, 9, 8, 5, 4, 1] ∧ (pairSums 8 4 1 0).Nodup := by decide
+
+/-- The balanced central coordinate gives the four spin exponents and their sum
+(README §3.32). -/
+example :
+    let w : ℚ := -6
+    let spin := [(3 + 3 - 3 + w) / 2, (3 - 3 + 1 + w) / 2,
+      (-3 + 3 - 1 + w) / 2, (-3 - 3 + 3 + w) / 2]
+    spin = [-3 / 2, -5 / 2, -7 / 2, -9 / 2] ∧ spin.sum = -12 := by norm_num
+
+/-- The rank-three auxiliary-prime congruence has the prime witness 577 (README §4.8). -/
+example : Nat.Prime 577 ∧ 577 % 288 = 1 := by norm_num
+
+/-- Tensor-weight multisets retain multiplicity and distinguish regular from repeated
+weights (README §4.23). -/
+example :
+    (([0, 1] : List ℤ).flatMap (fun a => [0, 2].map (fun b => a + b))).Perm
+        [0, 1, 2, 3] ∧
+    (([0, 1] : List ℤ).flatMap (fun a => [0, 1].map (fun b => a + b))).Perm
+        [0, 1, 1, 2] := by decide
+
+/-- The weight-two coefficient bound uses residue norm nine rather than prime three
+(README §4.26). -/
+example : 2 * Real.sqrt 9 = 6 ∧ 2 * Real.sqrt 9 ≠ 2 * Real.sqrt 3 := by
+  constructor
+  · norm_num
+  · have hs := Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 3)
+    norm_num
+    intro h
+    nlinarith
+
 /-- The symmetric Heisenberg cocycle becomes the polarized law under `z = t + xy/2`
 (README §3.1); doubling the cocycle already fails on the two coordinate vectors. -/
 example (x y x' y' t t' : ℚ) :
