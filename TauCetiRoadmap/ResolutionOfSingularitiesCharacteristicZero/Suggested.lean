@@ -11,9 +11,10 @@ signatures statable against the pinned Mathlib and Tau Ceti APIs. `sorry` marks 
 Orders are computed at prime localizations in `ℕ∞`; marks are positive; a marked sum raises
 both ideals to the opposite mark. Multiplicativity of order requires regular localizations.
 The global quasi-excellent resolution functor, formal algebraization, boundaries and their
-compatibilities are README targets. The scheme quasi-excellence and regular-morphism carriers
-of SchemeAndStackFoundations are specified in its README; the field theorem here is the Lean
-milestone for the general non-embedded resolution theorem.
+compatibilities are README targets. SchemeAndStackFoundations supplies scheme excellence
+predicates and `Excellence.RegularAlgebraMap`. README §7.0 constructs the shared scheme predicate
+`regularMorphism` and its affine comparison from that ring API. The field theorem here is the
+Lean milestone for the general non-embedded resolution theorem.
 -/
 
 universe u
