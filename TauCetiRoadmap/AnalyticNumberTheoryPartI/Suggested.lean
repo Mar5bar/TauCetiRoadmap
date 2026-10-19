@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.NormCoeff
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.EulerProduct.Analytic
 
 /-!
 # AnalyticNumberTheoryPartI: representative target signatures
@@ -19,14 +19,12 @@ open scoped BigOperators nonZeroDivisors NumberField
 
 namespace TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-/-! ## Layer 0: Entire functions and quantitative prime estimates -/
+/-! ## Conventions
 
-section AN2
-
-/-- The Chebyshev sum `θ(x; a, q)` over primes `p ≤ x` with `p ≡ a mod q`,
-inclusive real cutoff. No coprimality is built in; asymptotic theorems assume it. -/
-def thetaAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
-  ∑ p ∈ (Finset.Ioc 0 ⌊x⌋₊).filter (fun p : ℕ => p.Prime ∧ (p : ZMod q) = a), Real.log p
+Arithmetic sums use inclusive real cutoffs. Smooth counts include 1. The pretentious distance
+uses prime values in the unit disc. Moment integrals use Mathlib's continued zeta function;
+the explicit second-moment bounds carry the finite divisor inequalities they require.
+-/
 
 /-- The von Mangoldt sum `ψ(x; a, q)` over `n ≤ x` with `n ≡ a mod q`. -/
 def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
@@ -35,6 +33,182 @@ def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
 /-- The number `π(x; a, q)` of primes `p ≤ x` with `p ≡ a mod q`. -/
 def primeCountAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℕ :=
   ((Finset.Ioc 0 ⌊x⌋₊).filter fun p : ℕ => p.Prime ∧ (p : ZMod q) = a).card
+
+/-- `D(f, g; x)`, a distance on prime data. -/
+def pretentiousDist (f g : ℕ → ℂ) (x : ℝ) : ℝ :=
+  Real.sqrt (∑ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 - (f p * starRingEnd ℂ (g p)).re) / (p : ℝ))
+
+/-- `Ψ(x, y)`, the number of `1 ≤ n ≤ x` with every prime factor `≤ y`. -/
+def smoothCount (x y : ℝ) : ℕ :=
+  ((Finset.Icc 1 ⌊x⌋₊).filter fun n : ℕ => ∀ p ∈ n.primeFactors, (p : ℝ) ≤ y).card
+
+/-- The inclusive summatory divisor function, using the native finite divisor set. -/
+def divisorSummatory (x : ℝ) : ℝ :=
+  ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, (n.divisors.card : ℝ)
+
+/-- The usual inclusive divisor remainder; the analytic statements assume `x ≥ 1`. -/
+def divisorError (x : ℝ) : ℝ :=
+  divisorSummatory x - x * (Real.log x + 2 * Real.eulerMascheroniConstant - 1)
+
+/-- The coprime-divisor error obtained from the ordinary error by finite Möbius inversion. -/
+def divisorCoprimeError (D : ℕ) (x : ℝ) : ℝ :=
+  ∑ δ ∈ D.divisors, (ArithmeticFunction.moebius δ : ℝ) * divisorError (x / (δ : ℝ) ^ 2)
+
+/-- The integrated coprime-divisor error; its analytic domain has positive D and T. -/
+def divisorRemainderIntegral (D : ℕ) (T σ : ℝ) : ℝ :=
+  ∫ u : ℝ in (1 : ℝ)..T, divisorCoprimeError D u * u ^ (-σ)
+
+/-- Exact finite divisor and integral inequalities used in the BBR analytic estimates. -/
+def BBRFiniteInput : Prop :=
+  let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
+    8 * Real.eulerMascheroniConstant - 20
+  let κ₃ : ℝ := 2 * (riemannZeta (1 / 2)).re ^ 2 +
+    4 * Real.eulerMascheroniConstant - 6
+  (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 10 → |divisorError x| ≤ 0.961 * Real.sqrt x) ∧
+  (∀ x : ℝ, 9995 ≤ x → x ≤ (10 : ℝ) ^ 10 →
+    |divisorError x| ≤ 0.764 * x ^ (1 / 3 : ℝ) * Real.log x) ∧
+  (∀ x : ℝ, 3 ≤ x → x ≤ (10 : ℝ) ^ 6 →
+    |divisorError x| ≤ 1.146 * x ^ (1 / 3 : ℝ) * Real.log x) ∧
+  (∀ x : ℝ, 4033 ≤ x → x ≤ (10 : ℝ) ^ 10 →
+    |divisorError x| ≤ 0.475 * Real.sqrt x) ∧
+  (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 7 →
+    |divisorCoprimeError 2 x| ≤ 0.883 * Real.sqrt x ∧
+    |divisorCoprimeError 6 x| ≤ 0.927 * Real.sqrt x) ∧
+  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 5 →
+    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.302) ∧
+  (∀ T : ℝ, 1260 ≤ T → T ≤ (10 : ℝ) ^ 7 →
+    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.00979) ∧
+  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 7 →
+    |divisorRemainderIntegral 1 T (7 / 4)| ≤ 0.4077 ∧
+    |divisorRemainderIntegral 1 T (3 / 2)| ≤ κ₃ ∧
+    |divisorRemainderIntegral 2 T (7 / 4)| ≤ 0.902 ∧
+    |divisorRemainderIntegral 6 T (7 / 4)| ≤ 0.0945 ∧
+    |divisorRemainderIntegral 6 T (3 / 2)| ≤ 0.131) ∧
+  |divisorRemainderIntegral 6 ((10 : ℝ) ^ 7) (3 / 2) + 0.056667| ≤ (10 : ℝ) ^ (-6 : ℤ)
+
+namespace zetaSecondMoment
+
+/-- The second-moment error with the full `2π` and Euler-constant normalization. -/
+def error (T : ℝ) : ℝ :=
+  (∫ t : ℝ in (0 : ℝ)..T, ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
+    T * Real.log (T / (2 * Real.pi)) - (2 * Real.eulerMascheroniConstant - 1) * T
+
+end zetaSecondMoment
+
+/-! ## Headline theorems
+
+These state the quantitative prime estimates, explicit formula, arithmetic Euler-series
+comparison, bounded-degree Brauer–Siegel estimate, multiplicative mean bound, smooth-number
+limit and zeta moments specified in the README.
+-/
+
+section Headlines
+
+open _root_.NumberField
+
+/-- Siegel–Walfisz in ψ form, uniformly for q ≤ (log x)^B; the constant can be ineffective. -/
+theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
+    ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
+      ∀ a : ZMod q, IsUnit a →
+        |psiAP q a x - x / q.totient| ≤ C * x * Real.log x ^ (-A) := by
+  sorry
+
+/-- Siegel–Walfisz transfers to prime counts with the logarithmic-integral main term. -/
+theorem siegel_walfisz_primeCount (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
+    ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
+      ∀ a : ZMod q, IsUnit a →
+        |(primeCountAP q a x : ℝ) - (∫ t : ℝ in (2 : ℝ)..x, 1 / Real.log t) / q.totient| ≤
+          C * x * Real.log x ^ (-A) := by
+  sorry
+
+/-- The subtracted explicit formula counts zeros with analytic multiplicity and inclusive height. -/
+theorem half_interval_explicit_formula : ∃ C > 0,
+    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), χ.IsPrimitive → χ ≠ 1 →
+    ∀ k : ℕ, 4 ≤ k → ∀ T : ℝ, 2 ≤ T → T ≤ k →
+      ‖(∑ n ∈ Finset.Icc (k / 2 + 1) k,
+          χ n * (ArithmeticFunction.vonMangoldt n : ℂ)) +
+        ∑ᶠ z : {z : ℂ // 0 < z.re ∧ z.re < 1 ∧ |z.im| ≤ T ∧
+          DirichletCharacter.LFunction χ z = 0},
+          ((analyticOrderAt (DirichletCharacter.LFunction χ) z.val).toNat : ℂ) *
+            (((k : ℂ) ^ z.val - ((k : ℂ) / 2) ^ z.val) / z.val)‖ ≤
+        C * ((k : ℝ) * Real.log (q * (k : ℝ)) ^ 2 / T + Real.log (q * (k : ℝ)) ^ 2) := by
+  sorry
+
+/-- Bounded-degree local polynomials with unit-disc inverse roots have multiplicative ideal
+coefficients, absolutely convergent norm series and the prescribed reciprocal Euler product.
+Zero inverse roots include missing inertia factors and deleted primes. -/
+theorem artin_euler_series_eq (K : Type*) [Field K] [NumberField K] (d : ℕ)
+    (P : IsDedekindDomain.HeightOneSpectrum (𝓞 K) → Polynomial ℂ)
+    (hP : ∀ v, ∃ α : Fin d → ℂ, (∀ i, ‖α i‖ ≤ 1) ∧
+      P v = ∏ i, (1 - Polynomial.C (α i) * Polynomial.X)) :
+    ∃ D : _root_.TauCeti.EulerProductData K,
+      (∀ v, D.localPowerSeries v * (P v).toPowerSeries = 1) ∧
+      ∀ s : ℂ, 1 < s.re →
+        Summable (_root_.TauCeti.idealTerm K D.toIdealArithmeticFunction s) ∧
+        LSeriesSummable (_root_.TauCeti.normCoeff K D.toIdealArithmeticFunction) s ∧
+        HasProd (fun v => ((P v).eval
+          ((Ideal.absNorm v.asIdeal : ℂ) ^ (-s)))⁻¹)
+          (LSeries (_root_.TauCeti.normCoeff K D.toIdealArithmeticFunction) s) := by
+  sorry
+
+/-- In fixed degree, hR has discriminant exponent one half, with any positive power loss. -/
+theorem bounded_degree_brauer_siegel (n : ℕ) {ε : ℝ} (hε : 0 < ε) :
+    ∃ C > 0, ∀ (L : Type) [Field L] [NumberField L], Module.finrank ℚ L = n →
+      C⁻¹ * |(discr L : ℝ)| ^ (1 / 2 - ε) ≤ classNumber L * Units.regulator L ∧
+        classNumber L * Units.regulator L ≤ C * |(discr L : ℝ)| ^ (1 / 2 + ε) := by
+  sorry
+
+/-- Halász's bound uses the infimum over twists and allows ordinary multiplicativity. -/
+theorem halasz_mean : ∃ C > 0, ∀ f : ArithmeticFunction ℂ, f.IsMultiplicative →
+    (∀ n : ℕ, 0 < n → ‖f n‖ ≤ 1) → ∀ x T : ℝ, 2 ≤ x → 1 ≤ T →
+    let M := sInf {m : ℝ | ∃ t ∈ Set.Icc (-2 * T) (2 * T),
+      m = pretentiousDist f (fun n => (n : ℂ) ^ (I * (t : ℂ))) x ^ 2}
+    ‖∑ n ∈ Finset.Icc 1 ⌊x⌋₊, f n‖ / x ≤
+      C * ((1 + M) * Real.exp (-M) + T ^ (-1 / 2 : ℝ)) := by
+  sorry
+
+/-- The normalized smooth count tends to the delay-equation solution for each fixed u. -/
+theorem smoothCount_dickman (ρ : ℝ → ℝ)
+    (hinit : ∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1)
+    (hcont : ContinuousOn ρ (Set.Ici 0))
+    (hdelay : ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u) {u : ℝ} (hu : 0 < u) :
+    Tendsto (fun x : ℝ => (smoothCount x (x ^ (1 / u)) : ℝ) / x) atTop (𝓝 (ρ u)) := by
+  sorry
+
+namespace zetaSecondMoment
+
+/-- The BBR finite input supplies the explicit second-moment bound at the stated endpoint. -/
+theorem atkinson_bound (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) :
+    |error T| ≤ 110 * Real.sqrt T * Real.log T := by
+  sorry
+
+/-- The second-moment asymptotic from the BBR finite input has an absolute constant. -/
+theorem mean_square (hBBR : BBRFiniteInput) : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) := by
+  sorry
+
+end zetaSecondMoment
+
+namespace zetaFourthMoment
+
+/-- The fourth moment has leading coefficient one over twice pi squared. -/
+theorem asymptotic :
+    (fun T : ℝ => (∫ t : ℝ in (0 : ℝ)..T,
+      ‖riemannZeta (1 / 2 + (t : ℂ) * I)‖ ^ 4) - T * Real.log T ^ 4 / (2 * Real.pi ^ 2))
+        =O[atTop] (fun T => T * Real.log T ^ 3) := by
+  sorry
+
+end zetaFourthMoment
+
+end Headlines
+
+/-! ## Layer 0: Entire functions and quantitative prime estimates -/
+
+section AN2
+
+/-- The Chebyshev sum `θ(x; a, q)` over primes `p ≤ x` with `p ≡ a mod q`,
+inclusive real cutoff. No coprimality is built in; asymptotic theorems assume it. -/
+def thetaAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
+  ∑ p ∈ (Finset.Ioc 0 ⌊x⌋₊).filter (fun p : ℕ => p.Prime ∧ (p : ZMod q) = a), Real.log p
 
 /-- At level one the progression sum is Mathlib's `θ`. -/
 theorem thetaAP_one (x : ℝ) : thetaAP 1 0 x = Chebyshev.theta x := by
@@ -88,13 +262,6 @@ theorem riemannXi_one_sub (s : ℂ) : riemannXi (1 - s) = riemannXi s := by
 /-- The other former pole has the same analytic value. -/
 example : riemannXi 1 = 1 / 2 := by
   norm_num [riemannXi]
-
-/-- Siegel–Walfisz in ψ form, uniformly for q ≤ (log x)^B; the constant can be ineffective. -/
-theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
-    ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
-      ∀ a : ZMod q, IsUnit a →
-        |psiAP q a x - x / q.totient| ≤ C * x * Real.log x ^ (-A) := by
-  sorry
 
 /-- Finite-range theta inequalities below the analytic cutoff `exp 10000`. -/
 def SchoenfeldFiniteRangeInput : Prop :=
@@ -170,14 +337,6 @@ theorem mertens_second : ∃ B : ℝ,
 theorem mertens_third :
     (fun x : ℝ => (∏ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 - (p : ℝ)⁻¹)⁻¹) -
       Real.exp Real.eulerMascheroniConstant * Real.log x) =O[atTop] (fun _ => (1 : ℝ)) := by
-  sorry
-
-/-- Siegel–Walfisz transfers to prime counts with the logarithmic-integral main term. -/
-theorem siegel_walfisz_primeCount (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
-    ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
-      ∀ a : ZMod q, IsUnit a →
-        |(primeCountAP q a x : ℝ) - (∫ t : ℝ in (2 : ℝ)..x, 1 / Real.log t) / q.totient| ≤
-          C * x * Real.log x ^ (-A) := by
   sorry
 
 /-- A finite upper order gives a canonical product with polynomial exponential factor. -/
@@ -280,19 +439,6 @@ theorem davenport_moebius {A : ℝ} (hA : 0 < A) :
         Complex.exp (I * ((n : ℝ) * α : ℝ))‖ ≤ C * y * Real.log y ^ (-A) := by
   sorry
 
-/-- The subtracted explicit formula counts zeros with analytic multiplicity and inclusive height. -/
-theorem half_interval_explicit_formula : ∃ C > 0,
-    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), χ.IsPrimitive → χ ≠ 1 →
-    ∀ k : ℕ, 4 ≤ k → ∀ T : ℝ, 2 ≤ T → T ≤ k →
-      ‖(∑ n ∈ Finset.Icc (k / 2 + 1) k,
-          χ n * (ArithmeticFunction.vonMangoldt n : ℂ)) +
-        ∑ᶠ z : {z : ℂ // 0 < z.re ∧ z.re < 1 ∧ |z.im| ≤ T ∧
-          DirichletCharacter.LFunction χ z = 0},
-          ((analyticOrderAt (DirichletCharacter.LFunction χ) z.val).toNat : ℂ) *
-            (((k : ℂ) ^ z.val - ((k : ℂ) / 2) ^ z.val) / z.val)‖ ≤
-        C * ((k : ℝ) * Real.log (q * (k : ℝ)) ^ 2 / T + Real.log (q * (k : ℝ)) ^ 2) := by
-  sorry
-
 open scoped Classical in
 /-- Selberg's primitive-character density estimate includes every exceptional zero. -/
 theorem selberg_zero_density {ε : ℝ} (hε : 0 < ε) :
@@ -327,13 +473,6 @@ theorem partialIdealZetaCoeff_eq_card (A : ClassGroup (𝓞 K)) (n : ℕ) :
         Ideal.absNorm (I : Ideal (𝓞 K)) = n ∧ ClassGroup.mk0 I = A} : ℂ) := by
   sorry
 
-/-- In fixed degree, hR has discriminant exponent one half, with any positive power loss. -/
-theorem bounded_degree_brauer_siegel (n : ℕ) {ε : ℝ} (hε : 0 < ε) :
-    ∃ C > 0, ∀ (L : Type) [Field L] [NumberField L], Module.finrank ℚ L = n →
-      C⁻¹ * |(discr L : ℝ)| ^ (1 / 2 - ε) ≤ classNumber L * Units.regulator L ∧
-        classNumber L * Units.regulator L ≤ C * |(discr L : ℝ)| ^ (1 / 2 + ε) := by
-  sorry
-
 /-- Every primitive quadratic Dirichlet character has root number one, including conductor one. -/
 theorem rootNumber_eq_one_of_isPrimitive_of_sq_eq_one {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) (hχ : χ.IsPrimitive) (hsq : χ ^ 2 = 1) :
@@ -366,20 +505,12 @@ end AN4
 
 section AN5
 
-/-- `D(f, g; x)`, a distance on prime data. -/
-def pretentiousDist (f g : ℕ → ℂ) (x : ℝ) : ℝ :=
-  Real.sqrt (∑ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 - (f p * starRingEnd ℂ (g p)).re) / (p : ℝ))
-
 /-- The prime-data distance satisfies the multiplicative triangle inequality for disk-valued functions. -/
 theorem pretentiousDist_mul_le (f₁ f₂ g₁ g₂ : ℕ → ℂ) (x : ℝ)
     (hf₁ : ∀ p, p.Prime → ‖f₁ p‖ ≤ 1) (hf₂ : ∀ p, p.Prime → ‖f₂ p‖ ≤ 1)
     (hg₁ : ∀ p, p.Prime → ‖g₁ p‖ ≤ 1) (hg₂ : ∀ p, p.Prime → ‖g₂ p‖ ≤ 1) :
     pretentiousDist (f₁ * f₂) (g₁ * g₂) x ≤ pretentiousDist f₁ g₁ x + pretentiousDist f₂ g₂ x := by
   sorry
-
-/-- `Ψ(x, y)`, the number of `1 ≤ n ≤ x` with every prime factor `≤ y`. -/
-def smoothCount (x y : ℝ) : ℕ :=
-  ((Finset.Icc 1 ⌊x⌋₊).filter fun n : ℕ => ∀ p ∈ n.primeFactors, (p : ℝ) ≤ y).card
 
 /-- Comparison with Mathlib's strict-cutoff `smoothNumbers`. -/
 theorem smoothCount_eq (x y : ℝ) (hy : 0 ≤ y) :
@@ -403,23 +534,6 @@ theorem existsUnique_dickman : ∃! ρ : ℝ → ℝ,
     (∀ u < 0, ρ u = 0) ∧ (∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1) ∧
     ContinuousOn ρ (Set.Ici 0) ∧
     ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u := by
-  sorry
-
-/-- The normalized smooth count tends to the delay-equation solution for each fixed u. -/
-theorem smoothCount_dickman (ρ : ℝ → ℝ)
-    (hinit : ∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1)
-    (hcont : ContinuousOn ρ (Set.Ici 0))
-    (hdelay : ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u) {u : ℝ} (hu : 0 < u) :
-    Tendsto (fun x : ℝ => (smoothCount x (x ^ (1 / u)) : ℝ) / x) atTop (𝓝 (ρ u)) := by
-  sorry
-
-/-- Halász's bound uses the infimum over twists and allows ordinary multiplicativity. -/
-theorem halasz_mean : ∃ C > 0, ∀ f : ArithmeticFunction ℂ, f.IsMultiplicative →
-    (∀ n : ℕ, 0 < n → ‖f n‖ ≤ 1) → ∀ x T : ℝ, 2 ≤ x → 1 ≤ T →
-    let M := sInf {m : ℝ | ∃ t ∈ Set.Icc (-2 * T) (2 * T),
-      m = pretentiousDist f (fun n => (n : ℂ) ^ (I * (t : ℂ))) x ^ 2}
-    ‖∑ n ∈ Finset.Icc 1 ⌊x⌋₊, f n‖ / x ≤
-      C * ((1 + M) * Real.exp (-M) + T ^ (-1 / 2 : ℝ)) := by
   sorry
 
 /-- For each positive exponent, the divisor count has a uniform subpower bound. -/
@@ -488,53 +602,9 @@ theorem BeurlingPrimeSystem.pnt_iff_integerCount (P : BeurlingPrimeSystem)
         =O[atTop] (fun x => x / Real.log x ^ m) := by
   sorry
 
-/-- The inclusive summatory divisor function, using the native finite divisor set. -/
-def divisorSummatory (x : ℝ) : ℝ :=
-  ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, (n.divisors.card : ℝ)
-
-/-- The usual inclusive divisor remainder; the analytic statements assume `x ≥ 1`. -/
-def divisorError (x : ℝ) : ℝ :=
-  divisorSummatory x - x * (Real.log x + 2 * Real.eulerMascheroniConstant - 1)
-
 /-- The inclusive divisor average has a square-root remainder. -/
 theorem divisorError_isBigO : divisorError =O[atTop] (fun x : ℝ => Real.sqrt x) := by
   sorry
-
-/-- The coprime-divisor error obtained from the ordinary error by finite Möbius inversion. -/
-def divisorCoprimeError (D : ℕ) (x : ℝ) : ℝ :=
-  ∑ δ ∈ D.divisors, (ArithmeticFunction.moebius δ : ℝ) * divisorError (x / (δ : ℝ) ^ 2)
-
-/-- The integrated coprime-divisor error; its analytic domain has positive D and T. -/
-def divisorRemainderIntegral (D : ℕ) (T σ : ℝ) : ℝ :=
-  ∫ u : ℝ in (1 : ℝ)..T, divisorCoprimeError D u * u ^ (-σ)
-
-/-- Exact finite divisor and integral inequalities used in the BBR analytic estimates. -/
-def BBRFiniteInput : Prop :=
-  let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
-    8 * Real.eulerMascheroniConstant - 20
-  let κ₃ : ℝ := 2 * (riemannZeta (1 / 2)).re ^ 2 +
-    4 * Real.eulerMascheroniConstant - 6
-  (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 10 → |divisorError x| ≤ 0.961 * Real.sqrt x) ∧
-  (∀ x : ℝ, 9995 ≤ x → x ≤ (10 : ℝ) ^ 10 →
-    |divisorError x| ≤ 0.764 * x ^ (1 / 3 : ℝ) * Real.log x) ∧
-  (∀ x : ℝ, 3 ≤ x → x ≤ (10 : ℝ) ^ 6 →
-    |divisorError x| ≤ 1.146 * x ^ (1 / 3 : ℝ) * Real.log x) ∧
-  (∀ x : ℝ, 4033 ≤ x → x ≤ (10 : ℝ) ^ 10 →
-    |divisorError x| ≤ 0.475 * Real.sqrt x) ∧
-  (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 7 →
-    |divisorCoprimeError 2 x| ≤ 0.883 * Real.sqrt x ∧
-    |divisorCoprimeError 6 x| ≤ 0.927 * Real.sqrt x) ∧
-  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 5 →
-    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.302) ∧
-  (∀ T : ℝ, 1260 ≤ T → T ≤ (10 : ℝ) ^ 7 →
-    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.00979) ∧
-  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 7 →
-    |divisorRemainderIntegral 1 T (7 / 4)| ≤ 0.4077 ∧
-    |divisorRemainderIntegral 1 T (3 / 2)| ≤ κ₃ ∧
-    |divisorRemainderIntegral 2 T (7 / 4)| ≤ 0.902 ∧
-    |divisorRemainderIntegral 6 T (7 / 4)| ≤ 0.0945 ∧
-    |divisorRemainderIntegral 6 T (3 / 2)| ≤ 0.131) ∧
-  |divisorRemainderIntegral 6 ((10 : ℝ) ^ 7) (3 / 2) + 0.056667| ≤ (10 : ℝ) ^ (-6 : ℤ)
 
 /-- Finite Möbius inversion at D equal to one recovers the ordinary divisor error. -/
 example (x : ℝ) : divisorCoprimeError 1 x = divisorError x := by
@@ -802,11 +872,6 @@ end atkinson
 
 namespace zetaSecondMoment
 
-/-- The second-moment error with the full `2π` and Euler-constant normalization. -/
-def error (T : ℝ) : ℝ :=
-  (∫ t : ℝ in (0 : ℝ)..T, ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
-    T * Real.log (T / (2 * Real.pi)) - (2 * Real.eulerMascheroniConstant - 1) * T
-
 /-- The moment error uses the continuous value zero at the lower endpoint. -/
 theorem error_zero : error 0 = 0 := by
   simp [error]
@@ -837,27 +902,7 @@ theorem atkinson_remainder_budget (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : 
       95 * Real.log T ^ 2 + 275 * Real.log T + 73 * (10 : ℝ) ^ 17 := by
   sorry
 
-/-- The BBR finite input supplies the explicit second-moment bound at the stated endpoint. -/
-theorem atkinson_bound (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) :
-    |error T| ≤ 110 * Real.sqrt T * Real.log T := by
-  sorry
-
-/-- The second-moment asymptotic from the BBR finite input has an absolute constant. -/
-theorem mean_square (hBBR : BBRFiniteInput) : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) := by
-  sorry
-
 end zetaSecondMoment
-
-namespace zetaFourthMoment
-
-/-- The fourth moment has leading coefficient one over twice pi squared. -/
-theorem asymptotic :
-    (fun T : ℝ => (∫ t : ℝ in (0 : ℝ)..T,
-      ‖riemannZeta (1 / 2 + (t : ℂ) * I)‖ ^ 4) - T * Real.log T ^ 4 / (2 * Real.pi ^ 2))
-        =O[atTop] (fun T => T * Real.log T ^ 3) := by
-  sorry
-
-end zetaFourthMoment
 
 end AN5
 

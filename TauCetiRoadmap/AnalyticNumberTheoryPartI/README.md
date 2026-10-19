@@ -2,6 +2,8 @@
 
 **Summary.** Quantitative primes, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
+The headline signatures in `Suggested.lean` are `siegel_walfisz` and `siegel_walfisz_primeCount` (§0.32), `half_interval_explicit_formula` (§1.4), `artin_euler_series_eq` (§2.18, including the degree-one Euler series in §2.3), `bounded_degree_brauer_siegel` (§2.32), `halasz_mean` (§3.33), `smoothCount_dickman` (§3.34), `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` (§3.23, assuming `BBRFiniteInput`), and `zetaFourthMoment.asymptotic` (§3.24). Their definitions and conventions precede the headline statements; the auxiliary signatures follow them.
+
 ## Scope and ownership
 
 This part owns Layers 0–3: quantitative refinement and arithmetic comparison. It consumes ArithmeticDirichletSeries Layers 1–10, LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8 for order-one growth, Gamma estimates, degree-one zeros, rational explicit formulas and prime-number estimates.
@@ -1427,11 +1429,14 @@ For `P(0)=1` recursively set `a₀=1, a_(n+1)=−Σ_(j=0)^nP_(j+1)a_(n−j)`, an
 - `artin_euler_series.series`: The absolutely convergent Euler product equals the norm-regrouped coefficient `LSeries` on `Re s>1`.
 - `artin_euler_series.deleted`: Omitting a finite bad-prime set multiplies `L_K` by exactly `∏_{p bad}P_p((Np)^−s)`.
 
+The signature `artin_euler_series_eq` constructs native `TauCeti.EulerProductData` from polynomials `P_v(T)=∏_(i<d)(1−α_(v,i)T)` with `|α_(v,i)|≤1`. Its local power series is the formal reciprocal of `P_v`; its ideal series and norm-regrouped `LSeries` converge absolutely on `Re s>1`, and the latter is the unrestricted product of `P_v((Nv)^(−s))⁻¹`. For finite-image Artin representations, use the inertia-invariant Frobenius eigenvalues and pad to the common dimension with zeros. For unitary Hecke characters use `d=1`, with zero at a deleted prime. This states the coefficient construction and analytic comparison without a carrier for the supplier's canonical continued Artin or Hecke function; the full arithmetic identification remains the target above and in §2.3. The signature admits all bounded-degree unit-disc inverse-root systems, independently of a representation.
+
 **Checks.**
 
 - The one-dimensional trivial representation gives the convergent Dedekind series, including ramified primes.
-- The zero representation gives1.
+- The zero representation gives1: take `d=0`, so every local polynomial and its reciprocal series are 1.
 - A one-dimensional character ramified at `p` contributes local factor1 there.
+- For `P_v(T)=(1−T)²`, the local coefficients are `a_(v^n)=n+1`; in particular `a_(v²)=3≠a_v²=4`. The native coefficient carrier permits ordinary multiplicativity.
 
 See [53][R53], §22.2 pp.127–128 incomplete Euler product and ramified-factor prescription.
 
