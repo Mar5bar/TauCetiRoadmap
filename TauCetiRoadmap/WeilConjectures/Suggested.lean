@@ -270,14 +270,36 @@ theorem rational_series_descent {K L : Type*} [Field K] [Field L] [Algebra K L]
     ∃ P Q : Polynomial K, Q.coeff 0 ≠ 0 ∧ (Q : PowerSeries K) * f = (P : PowerSeries K) := by
   sorry
 
-/-- Specialization of DeligneWeightsAndPurity §4.4's local Fatou helper to
-`ℚ_ℓ`, at any prime including the geometric characteristic. -/
+/-- WC.1 local Fatou theorem over `ℚ_ℓ`, at any prime including the geometric
+characteristic. -/
 theorem local_fatou_normalization (ℓ : ℕ) [Fact ℓ.Prime]
     (f : PowerSeries (Padic ℓ)) (P Q : Polynomial (Padic ℓ))
     (hf : ∀ n : ℕ, ‖f.coeff n‖ ≤ 1) (hf0 : f.coeff 0 = 1)
     (hP : P.coeff 0 = 1) (hQ : Q.coeff 0 = 1) (hpq : IsCoprime P Q)
     (heq : (Q : PowerSeries (Padic ℓ)) * f = (P : PowerSeries (Padic ℓ))) :
     (∀ n : ℕ, ‖P.coeff n‖ ≤ 1) ∧ (∀ n : ℕ, ‖Q.coeff n‖ ≤ 1) := by
+  sorry
+
+-- The denominator of the geometric series attains the norm-one boundary.
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    let f : PowerSeries (Padic ℓ) := PowerSeries.mk (fun _ => 1)
+    let Q : Polynomial (Padic ℓ) := 1 - X
+    (Q : PowerSeries (Padic ℓ)) * f = 1 ∧ ‖Q.coeff 1‖ = 1 := by
+  sorry
+
+-- The numerator of the polynomial series also attains that boundary.
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    let P : Polynomial (Padic ℓ) := 1 - X
+    (∀ n : ℕ, ‖(P : PowerSeries (Padic ℓ)).coeff n‖ ≤ 1) ∧
+      ‖P.coeff 1‖ = 1 := by
+  sorry
+
+-- A common nonintegral factor defeats the conclusion without coprimality.
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    let P : Polynomial (Padic ℓ) := 1 - C ((ℓ : Padic ℓ)⁻¹) * X
+    P.coeff 0 = 1 ∧
+      (P : PowerSeries (Padic ℓ)) * 1 = (P : PowerSeries (Padic ℓ)) ∧
+      ‖P.coeff 1‖ = (ℓ : ℝ) ∧ 1 < ‖P.coeff 1‖ := by
   sorry
 
 /-- WC.1 integer Möbius core; actual nonnegative point counts give divisibility. -/
@@ -782,6 +804,18 @@ example (q a : ℚ) :
       1 - C a * X + C q * X ^ 2 := by
   sorry
 
+-- Spec k has chi=1 and epsilon=-1.
+example :
+    let t : RatFunc ℚ := algebraMap ℚ[X] (RatFunc ℚ) X
+    (1 - t⁻¹)⁻¹ = -t * (1 - t)⁻¹ := by
+  sorry
+
+-- For a fixed point a degree-two extension still has sign -1.
+example :
+    (-1 : ℚ) ^ ((2 + 1) * 1 : ℕ) * (-1) ^ (2 : ℕ) = -1 ∧
+      (-1 : ℚ) ^ (2 : ℕ) ≠ -1 := by
+  sorry
+
 -- Algebraic substitution in Z(P^2/F_2,T): the sign is negative.
 -- Here t is the existing transcendental rational function, so no denominator vanishes.
 example :
@@ -850,6 +884,15 @@ example :
 -- A nonsplit quadric exchanges its rulings: eigenvalues 2,-2.
 example : (!![0, 2; 2, 0] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
     1 - C 4 * X ^ 2 := by
+  sorry
+
+-- On P^1 x P^1, (a,b).(c,d)=ad+bc tests both ruling intersections.
+example :
+    let D : Fin 2 → ℤ := ![1, -1]
+    let H : Fin 2 → ℤ := ![1, 1]
+    D 0 * H 1 + D 1 * H 0 = 0 ∧
+      D 0 * (0 : ℤ) + D 1 * 1 = -1 ∧
+      D 0 * (1 : ℤ) + D 1 * 0 = 1 ∧ D ≠ 0 := by
   sorry
 
 -- P^1 x P^1/F_2 has two middle classes of scalar 2, via tensor Kunneth.

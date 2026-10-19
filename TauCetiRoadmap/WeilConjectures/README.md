@@ -10,7 +10,8 @@ There are two routes for curves. The general route imports purity and then takes
 
 This roadmap owns finite groupoid mass, signed Frobenius configurations, their
 inverse-zeta and sieve applications, the general finite-spectrum moment criteria,
-arbitrary-field rational-series descent, finite-Galois factor-extraction adapters,
+arbitrary-field rational-series descent, local Fatou normalization over `ℚ_ℓ`,
+finite-Galois factor-extraction adapters,
 signed functional-equation assembly and its arithmetic
 sign descent, polynomial-count and equivariant Tate conclusions, and the geometric
 comparisons in WC.0–WC.7. It preserves the distinction between a theorem about
@@ -22,8 +23,8 @@ Frobenius and base change are supplied by EtaleCohomologyFoundations §§`F`.0�
 `F`.10.1–`F`.10.5. Geometric trace identities belong to
 InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
 DeligneWeightsAndPurity §1.10 supplies finite-field zeta rationality; §4.4
-supplies normalized integral rational-series presentations, their local and global
-Fatou helpers and `degreeFactorExtraction`; §§4.4 and 7.15 supply projective and
+supplies normalized integral rational-series presentations and
+`degreeFactorExtraction`; §§4.4 and 7.15 supply projective and
 smooth proper canonical factors. Its §§10.2 and 8.24 supply component bounds and
 smooth proper DM purity, respectively. The targets below identify these supplied objects
 with integral Euler expansions and with the counting and sign interfaces here;
@@ -104,15 +105,15 @@ Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an i
 | EtaleCohomologyFoundations §§`F`.5–`F`.7, 0.9–0.11 | Exceptional inverse image and duality, the smooth trace, cycle maps with Tate orientation, projective bundles and weak Lefschetz. Use the Frobenius-equivariant perfect pairing, not only equality of Betti numbers. |
 | InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 | Curve/Jacobian realization and graph trace, finite and rational constructible Grothendieck–Lefschetz, and constant-sheaf counts for every extension with compact support. §IG.0.T4 supplies the independent affine/projective-space and multiplicative-group cohomology comparisons. |
 | DeligneWeightsAndPurity §§0.1, 0.10–0.16, 1.6–1.10 | All-conjugates Weil numbers, characteristic power series, powers, tensor products and reciprocal pairings; curve purity and the coefficient Euler product/rational zeta construction `finiteFieldZetaRationality`. |
-| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations, local/global Fatou helpers and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; `dmStack_etaleCohomology`, `dmStack_smoothProper_purity`, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares its finite-Galois algebraic extraction with these canonical factors. |
+| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; `dmStack_etaleCohomology`, `dmStack_smoothProper_purity`, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares its finite-Galois algebraic extraction with these canonical factors. |
 | EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
 | ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
 | AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layers 7, 10, 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons, Artin–Schreier different and Hurwitz formula. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
 | ReductiveGroupsPartII §RG2.3 | Lang torsor triviality for connected smooth linear algebraic groups over finite fields; disconnected groups retain their torsor forms. |
 | ArithmeticGaloisRepresentations §§5.1, 5.3 | Frobenius density and characteristic-zero semisimple recognition from density-one traces, for the actual continuous generic Galois representations. |
-| PadicHodgeTheory §§5.3, 8.1; NumberFieldArithmetic Layer 6 | Potential semistability and good-reduction crystallinity, and the global everywhere-unramified number-field consequence. WC.5 proves the required extension-splitting implication, with the hypotheses of van den Bogaart–Edixhoven Lemma 4.2. |
+| PadicHodgeTheory §§5.3, 8.1; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`) | Potential semistability and good-reduction crystallinity; the Mathlib theorem makes each finite Galois extension cut out by a finite image quotient of an everywhere-unramified representation have degree one. WC.5 proves the required extension-splitting implication, with the hypotheses of van den Bogaart–Edixhoven Lemma 4.2. |
 | PadicDifferentialEquationsAndRigidCohomology §§RD.7.1–RD.7.9 | The linear `q`-Frobenius comparison and equality of rigid/crystalline/étale degree factors, with explicit coefficient maps. |
-| ClassicalArithmeticCompletion §6.44; LocalFieldsRamification Layer 0 | The Hankel criterion for rational series; finite extensions and norms for the supplied local Fatou specialization. |
+| ClassicalArithmeticCompletion §6.44; LocalFieldsRamification Layer 0 | The Hankel criterion for rational series; finite extensions and norms for WC.1's local Fatou theorem. |
 | EllipticCurves Layer 3 | The independent Hasse theorem and Weierstrass normalization. |
 | NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2 | `GenusOneFibration`, relative minimality and model/base-change API; `rationalSurface_commonBlowup`, `blowup_Picard_intersection`, `rationalSurface_coherent_vanishing`, `pointBlowup_ellAdicCohomology`, `rationalSurface_cycleClass` and the rank-ten Picard-constancy criterion. WC.7 generalizes the rank and the Jacobian genus-one restriction and agrees with these specializations. |
 
@@ -277,18 +278,28 @@ A proof may use eventual recurrences, finite Hankel rank and descent of the resu
 
 ### Local Fatou normalization
 
-Specialize DeligneWeightsAndPurity §4.4's local Fatou helper to `ℚ_ℓ`.
+Prove the following local Fatou theorem over `ℚ_ℓ`; DeligneWeightsAndPurity
+§4.4 supplies the global normalized integral rational-series presentation used below.
 Let `ℓ` be any prime. If `f ∈ 1 + Tℤ_ℓ[[T]]` and `P,Q ∈ ℚ_ℓ[T]` are coprime with `P(0) = Q(0) = 1` and `Qf = P`, every coefficient of `P` and `Q` has ℓ-adic norm **at most** one. Thus both polynomials are integral. The coefficient norm hypothesis is inclusive at one.
 
 In a splitting field, a denominator reciprocal root of norm greater than one would give a zero of `Q` in the convergence disc of `f`. Evaluating `Qf = P` there contradicts coprimality. Apply the argument to `f⁻¹` as well for the numerator. This local statement applies even when `ℓ = p`, although `p` cannot be used as the coefficient prime in the étale trace formula.
 
-*Needs:* DeligneWeightsAndPurity §4.4 local Fatou helper; local fields and their finite extensions from **LocalFieldsRamification, Layer 0**; norm comparison for series, `Summable.of_norm_bounded`, geometric-series summability, and `PowerSeries.ext`. **Source:** Milne, Lemma 27.10 and proof, p. 158. Suggested name: `TauCeti.PointCounting.local_fatou_normalization`.
+*Needs:* local fields and their finite extensions from **LocalFieldsRamification, Layer 0**; norm comparison for series, `Summable.of_norm_bounded`, geometric-series summability, and `PowerSeries.ext`. **Source:** Milne, Lemma 27.10 and proof, p. 158. Suggested name: `TauCeti.PointCounting.local_fatou_normalization`.
+
+**Checks.**
+
+- The geometric series `f=1/(1−T)` has `P=1`, `Q=1−T`; its denominator's
+  linear coefficient has norm exactly one, so a strict bound would fail.
+- For `f=1−T`, `P=1−T` and `Q=1`, the numerator's linear coefficient also
+  has norm one. The conclusion controls both polynomials.
+- Without coprimality, `f=1` and `P=Q=1−ℓ⁻¹T` satisfy the normalized series
+  identity, but their linear coefficient has norm `ℓ>1`.
 
 ### The normalized integral rational presentation
 
 For separated finite-type `X/k`, let `Z_X = U/V` be the reduced rational presentation over `ℚ`, normalized by `U(0) = V(0) = 1`. Then `U,V` belong to `ℤ[T]` and are coprime over `ℚ`. Their expansion is exactly the integral Euler series. Normalization, reduction, numerator and denominator commute with field embeddings.
 
-Compare the integral Euler series and determinant expression here with the normalized integral presentation supplied by DeligneWeightsAndPurity §4.4. Its global Fatou helper applies the local result at every rational prime. Uniqueness of the reduced normalized pair identifies the supplied numerator and denominator with this counting presentation. No weight statement enters; the reduced `U` and `V` are parity products after cancellations, rather than individual degree factors.
+Compare the integral Euler series and determinant expression here with the normalized integral presentation supplied by DeligneWeightsAndPurity §4.4. Its global integral-series theorem applies to the Euler series. Uniqueness of the reduced normalized pair identifies the supplied numerator and denominator with this counting presentation. No weight statement enters; the reduced `U` and `V` are parity products after cancellations, rather than individual degree factors.
 
 *Needs:* the cohomological and Euler comparisons; DeligneWeightsAndPurity §§1.10 and 4.4 normalized integral rational-series presentation; Mathlib `padicNorm` and rational arithmetic. **Source:** Milne, Proposition 27.11 and proof, p. 158; Deligne I, proof of (1.7) ⇒ (1.6), p. 276. Suggested name: `TauCeti.PointCounting.normalized_integral_zeta_presentation`.
 
@@ -560,7 +571,7 @@ with `q` replaced by `q^r` in the functional equation. In particular, raising `�
 
 *Needs:* WC.0 Frobenius extension compatibility and the preceding multiplier descent. **Source:** Deligne I, §2.6, pp. 281–282, together with the base-extension argument in §7.2 ⇒ §1.7, p. 301. Suggested name: `TauCeti.PointCounting.functional_equation_base_extension`.
 
-A geometric point has `χ = 1` and `ε = −1`. The projective plane has `χ = 3` and multiplier `−q³T³`. A genus-two curve has `χ = −2` and multiplier `q⁻¹T⁻²`. These are checks of the same rational-function identity. The equivariant coefficientwise duality application appears after the polynomial-count theorem in WC.5.
+A geometric point has `χ = 1` and `ε = −1`; its sign is still `−1` after a degree-two extension, whereas `ε² = +1`. The projective plane has `χ = 3` and multiplier `−q³T³`. A genus-two curve has `χ = −2` and multiplier `q⁻¹T⁻²`. These are checks of the same rational-function identity. The equivariant coefficientwise duality application appears after the polynomial-count theorem in WC.5.
 
 ### Examples
 
@@ -937,11 +948,11 @@ H^odd = 0,    H^(2j)(X_ℚ̄, ℚ_ℓ) ≃ ℚ_ℓ(−j)^(C_j)
 
 as actual continuous Galois representations. The unique count polynomial is `Σ_j C_jT^j` and is palindromic. This is stronger than the open-`U` result.
 
-To remove semisimplification, twist each even-degree representation to weight zero. Good reduction gives unramifiedness away from `ℓ`, and local potential semistability at `ℓ` is supplied by PadicHodgeTheory §§5.3 and 8.1. The local extension theorem used in van den Bogaart–Edixhoven's Lemma 4.2 makes successive extensions of trivial representations unramified at `ℓ`. The global absence of nontrivial everywhere-unramified extensions of `ℚ` then splits the resulting representation. Explicitly prove `tateExtension_unramified`: for `n≥1`, a potentially semistable representation `V` in an exact sequence `0→ℚ_ℓ^n→V→ℚ_ℓ→0` of `G_ℚℓ`-representations is unramified (van den Bogaart–Edixhoven, Lemma 4.2, pp. 8–10). For a global representation unramified at every finite prime, the compact image has no nontrivial finite quotient by the number-field discriminant theorem, and is therefore trivial. Induct on the dimension of the global representation after its Tate twist: the invariant codimension-one subrepresentation is trivial by induction, so this exact-sequence lemma applies at `ℓ`. The all-Spec-`ℤ` hypothesis is necessary for this argument. The reverse implication is the all-power trace formula at each prime with a different coefficient prime.
+To remove semisimplification, twist each even-degree representation to weight zero. Good reduction gives unramifiedness away from `ℓ`, and local potential semistability at `ℓ` is supplied by PadicHodgeTheory §§5.3 and 8.1. The local extension theorem used in van den Bogaart–Edixhoven's Lemma 4.2 makes successive extensions of trivial representations unramified at `ℓ`. The global absence of nontrivial everywhere-unramified extensions of `ℚ` then splits the resulting representation. Explicitly prove `tateExtension_unramified`: for `n≥1`, a potentially semistable representation `V` in an exact sequence `0→ℚ_ℓ^n→V→ℚ_ℓ→0` of `G_ℚℓ`-representations is unramified (van den Bogaart–Edixhoven, Lemma 4.2, pp. 8–10). For a global representation unramified at every finite prime, its compact image is profinite. Each continuous finite quotient cuts out a finite Galois extension of `ℚ` unramified at every finite prime. Apply Mathlib's `NumberField.finrank_eq_one_of_unramified` to that extension and its ring of integers: its degree is one. Thus every such quotient is trivial, and so is the compact image. Induct on the dimension of the global representation after its Tate twist: the invariant codimension-one subrepresentation is trivial by induction, so this exact-sequence lemma applies at `ℓ`. The all-Spec-`ℤ` hypothesis is necessary for this argument. The reverse implication is the all-power trace formula at each prime with a different coefficient prime.
 
 The DM version has the same conclusion only with the stack extension of the comparison and local p-adic inputs, as well as trace, purity and duality. The theorem does not infer that extension from the scheme case.
 
-*Needs:* exact polynomial count; the open-`U` theorem; **PadicHodgeTheory §§5.3 and 8.1**; **NumberFieldArithmetic, Layer 6** for the global ramification consequence, supported by `NumberField.abs_discr_gt_two`; WC.1 stack comparison contracts when applicable. **Source:** van den Bogaart–Edixhoven, Theorem 2.1 last clause, p. 3, Lemma 4.2 and the end of the proof, pp. 8–10; Bergström–Faber–Payne, §3, p. 1330, and Proposition 9.3, p. 1352. Suggested name: `TauCeti.PointCounting.polynomial_counts_over_z_tate_cohomology`.
+*Needs:* exact polynomial count; the open-`U` theorem; **PadicHodgeTheory §§5.3 and 8.1**; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`), applied to the finite Galois extensions cut out by finite image quotients; WC.1 stack comparison contracts when applicable. **Source:** van den Bogaart–Edixhoven, Theorem 2.1 last clause, p. 3, Lemma 4.2 and the end of the proof, pp. 8–10; Bergström–Faber–Payne, §3, p. 1330, and Proposition 9.3, p. 1352. Suggested name: `TauCeti.PointCounting.polynomial_counts_over_z_tate_cohomology`.
 
 ### Equivariant polynomial counts
 
@@ -997,7 +1008,7 @@ Hodge index gives `|N_r − 1 − q^r| ≤ 2gq^{r/2}`. SchemeAndStackFoundations
 
 Take the WC.1 integral degree-`2g` numerator `Π_C`, which was constructed without a root bound. Its trace formula and the surface estimate give `|Σ_jα_j^r| ≤ 2gq^{r/2}` for every positive `r`. The finite-spectrum converse gives `|α_j| ≤ √q`. The purity-independent reciprocal pairing from WC.2 then forces equality.
 
-Since `Π_C` has rational integral coefficients, its full reciprocal-root multiset includes every complex conjugate with multiplicity. This establishes the all-conjugates curve RH statement and agrees with the same numerator and functional equation. This route has no dependence on DeligneWeightsAndPurity §1, DeligneWeightsAndPurity §§4.3–4.4, WC.3 projective purity, or the Weil estimate earlier in WC.5.
+Since `Π_C` has rational integral coefficients, its full reciprocal-root multiset includes every complex conjugate with multiplicity. This establishes the all-conjugates curve RH statement and agrees with the same numerator and functional equation. This route does not use the curve-purity results of DeligneWeightsAndPurity §§1.1–1.9, projective purity in §§4.3–4.4, WC.3 projective purity, or the earlier WC.5 Weil estimate. It does use the purity-free zeta rationality and formal-series compatibility of DeligneWeightsAndPurity §1.10 through WC.1.
 
 *Needs:* surface all-extension bound; WC.1 curve numerator and trace formula; WC.2 duality; finite-spectrum converse and reciprocal-pairing equality. **Source:** Mustață, Remark 3.7, Lemma 3.8 and Theorem 3.6, pp. 21–22. Suggested name: `TauCeti.PointCounting.curve_rh_from_surface_bound`.
 
@@ -1007,7 +1018,7 @@ The finite-spectrum checks above retain cancellation and repeated roots. On `ℙ
 
 ### Dependencies
 
-*Needs:* WC.0–WC.4; DeligneWeightsAndPurity §§1.6–1.7, 7.15, 8.24; EtaleDualityAndPerverseSheaves §§4.3, 4.7; SchemeAndStackFoundations §5.11; ArithmeticGaloisRepresentations §§5.1, 5.3; PadicHodgeTheory §§5.3, 8.1; NumberFieldArithmetic Layer 6.
+*Needs:* WC.0–WC.4; DeligneWeightsAndPurity §§1.6–1.7, 7.15, 8.24; EtaleDualityAndPerverseSheaves §§4.3, 4.7; SchemeAndStackFoundations §5.11; ArithmeticGaloisRepresentations §§5.1, 5.3; PadicHodgeTheory §§5.3, 8.1; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`), applied to the finite Galois extensions cut out by finite image quotients.
 
 ## Layer WC.6: Smooth proper and mixed extensions
 
