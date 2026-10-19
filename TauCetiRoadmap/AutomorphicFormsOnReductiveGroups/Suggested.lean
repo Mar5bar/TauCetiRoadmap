@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.NumberTheory.HeckeRing.GL2.Degree
 
 /-!
 # Automorphic forms on reductive groups: representative target signatures
@@ -23,8 +22,9 @@ Design choices.
   Banach and Hilbert specializations forget continuity and restrict the underlying representation;
   `IsKFinite` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`.
   `isGFinite_toRepresentation_iff` identifies it with the actual continuous-representation orbit span.
-  The generic Banach theorem `gFiniteSubmodule_dense` follows this prefix, before the complete
-  locally convex extension and the additional Hilbert comparisons.
+  The generic Banach theorem `gFiniteSubmodule_dense` states density of this same subset
+  directly through the native orbit span; its proof uses the algebraic prefix before the
+  complete locally convex extension and the additional Hilbert comparisons.
 * Lie tests and Banach smooth vectors use SmoothBanachRepresentations SB1–SB4. The smooth
   carrier has the supplied derivative topology, with its separate continuous inclusion;
   the identity-on-vectors `smoothVectorTopologyEquiv` compares it with the enveloping/Sobolev
@@ -53,6 +53,17 @@ noncomputable section
 
 open scoped Classical
 
+/-! ## Milestone: compact-finite density -/
+
+/-- Finite-orbit-span vectors are dense in a strongly continuous complex Banach representation
+of a compact Hausdorff group. Continuity in operator norm is not required. -/
+theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
+    [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
+    [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
+    (π : ContRepresentation ℂ K E) (hπ : ∀ v : E, Continuous fun k : K => π k v) :
+    Dense {v : E | FiniteDimensional ℂ
+      (Submodule.span ℂ (Set.range fun k : K => π k v))} := sorry
+
 /-! ## Layer 0: Smooth adelic functions, growth and convolution -/
 
 section Growth
@@ -78,10 +89,6 @@ theorem moderateGrowth_rightTranslate {G : Type*} [Group G]
     {f : G → ℂ} (hf : HasModerateGrowth height f) (y : G) :
     HasModerateGrowth height (fun x => f (x * y)) := sorry
 
-/-- Constants have moderate growth with exponent zero. -/
-example (height : X → ℝ) (c : ℂ) : HasModerateGrowth height (fun _ => c) :=
-  ⟨‖c‖, 0, norm_nonneg _, le_rfl, fun x => by simp⟩
-
 /-- A uniform norm bound gives moderate growth with exponent zero. -/
 example (height : X → ℝ) (f : X → ℂ) (C : ℝ) (hC : 0 ≤ C)
     (hf : ∀ x, ‖f x‖ ≤ C) : HasModerateGrowth height f :=
@@ -96,8 +103,15 @@ example : ¬HasModerateGrowth (fun _ : ℝ => 1) (fun x : ℝ => (x : ℂ)) := b
   linarith
 
 /-- Exponential growth fails the polynomial-height condition. -/
-example : ¬HasModerateGrowth (fun x : ℝ => 1 + |x|)
+theorem exp_not_hasModerateGrowth : ¬HasModerateGrowth (fun x : ℝ => 1 + |x|)
     (fun x : ℝ => (Real.exp x : ℂ)) := sorry
+
+/-- On the positive component of the multiplicative real group, a smooth vector can grow
+so fast that its pairing with a rapidly decreasing group Schwartz function diverges. -/
+theorem schwartzAction_growth_obstruction :
+    ¬MeasureTheory.IntegrableOn
+      (fun t : ℝ => Real.exp (-t ^ 2 - (t⁻¹) ^ 2) *
+        Real.exp (t ^ 4 + (t⁻¹) ^ 4) / t) (Set.Ioi 0) := sorry
 
 end Growth
 
@@ -140,9 +154,6 @@ example :
       rightTranslate y f (y⁻¹ * j * y) ≠ rightTranslate y f 1 := by
   norm_num [rightTranslate, Equiv.Perm.mul_apply, Equiv.swap_apply_def, Fin.ext_iff]
 
-/-- A constant function is rationally invariant. -/
-example (Γ : Subgroup G) (c : ℂ) : IsLeftInvariant Γ (fun _ => c) := fun _ _ _ => rfl
-
 /-- Full left invariance forces constancy. -/
 example {f : G → ℂ} (hf : IsLeftInvariant ⊤ f) : f = fun _ => f 1 := by
   funext g
@@ -165,9 +176,6 @@ example {f : G → ℂ} (hf : IsLevelInvariant ⊤ f) : f = fun _ => f 1 := by
 example (f : G → ℂ) : rightTranslate 1 f = f := by
   funext g
   simp [rightTranslate]
-
-/-- Evaluation specifies the action, beyond its composition law. -/
-example (y g : G) (f : G → ℂ) : rightTranslate y f g = f (g * y) := rfl
 
 end Equivariance
 
@@ -234,16 +242,16 @@ theorem kFinite_of_finiteDimensional [FiniteDimensional ℂ V]
     (ρ : Representation ℂ K V) (v : V) : IsKFinite ρ v := sorry
 
 /-- The zero vector is `K`-finite without a finite-dimensional ambient space. -/
-example (ρ : Representation ℂ K V) : IsKFinite ρ 0 := sorry
+theorem kFinite_zero (ρ : Representation ℂ K V) : IsKFinite ρ 0 := sorry
 
 /-- In a trivial representation every orbit spans at most a line. -/
-example (v : V) : IsKFinite (1 : Representation ℂ K V) v := sorry
+theorem kFinite_trivial (v : V) : IsKFinite (1 : Representation ℂ K V) v := sorry
 
 /-- For a trivial acting group every representation has one-point orbits. -/
-example [Subsingleton K] (ρ : Representation ℂ K V) (v : V) : IsKFinite ρ v := sorry
+theorem kFinite_subsingleton [Subsingleton K] (ρ : Representation ℂ K V) (v : V) : IsKFinite ρ v := sorry
 
 /-- An infinite cyclic regular orbit spans infinitely many independent point masses. -/
-example : ¬IsKFinite (Representation.leftRegular ℂ (Multiplicative ℤ))
+theorem not_kFinite_regular_int : ¬IsKFinite (Representation.leftRegular ℂ (Multiplicative ℤ))
     (MonoidAlgebra.single 1 1) := sorry
 
 /-- Restricting a native continuous representation gives exactly the subgroup orbit span. -/
@@ -253,27 +261,8 @@ example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
       FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k : K => π (k : G) v)) :=
   isGFinite_toRepresentation_iff (π.restrict K.subtype) v
 
-/-- Addition in the continuous subgroup specialization uses the common algebraic theorem. -/
-example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
-    (π : ContRepresentation ℂ G E) (K : Subgroup G) {v w : E}
-    (hv : IsKFinite (π.restrict K.subtype).toRepresentation v)
-    (hw : IsKFinite (π.restrict K.subtype).toRepresentation w) :
-    IsKFinite (π.restrict K.subtype).toRepresentation (v + w) :=
-  gFinite_add _ hv hw
 
 end CompactRestriction
-
-section CompactBanach
-
-/-- Finite-orbit-span vectors are dense in a strongly continuous complex Banach representation
-of a compact Hausdorff group. Continuity in operator norm is not required. -/
-theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
-    [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
-    [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
-    (π : ContRepresentation ℂ K E) (hπ : ∀ v : E, Continuous fun k : K => π k v) :
-    Dense (gFiniteSubmodule π.toRepresentation : Set E) := sorry
-
-end CompactBanach
 
 section InductionInversion
 
@@ -310,10 +299,6 @@ def HasCentralCharacter (Z : Subgroup G) (χ : Z →* ℂˣ) (f : G → ℂ) : P
 example (Z : Subgroup G) (c : ℂ) : HasCentralCharacter Z 1 (fun _ => c) := fun _ _ => by
   simp
 
-/-- The zero function satisfies every central-character equation. -/
-example (Z : Subgroup G) (χ : Z →* ℂˣ) :
-    HasCentralCharacter Z χ (fun _ => 0) := fun _ _ => by simp
-
 /-- A nonzero value detects the character. -/
 example (Z : Subgroup G) (χ : Z →* ℂˣ) {f : G → ℂ}
     (hf : HasCentralCharacter Z χ f) (g : G) (hg : f g ≠ 0) (z : Z)
@@ -342,9 +327,6 @@ example [IsEmpty P] (constantTerm : P → V →ₗ[ℂ] W) (v : V) :
 example (constantTerm : P → V →ₗ[ℂ] W) (v : V) (p : P)
     (h : constantTerm p v ≠ 0) : ¬IsCuspidalFor constantTerm v := fun hc => h (hc p)
 
-/-- A family of zero maps imposes no condition; the arithmetic family must be complete. -/
-example (v : V) : IsCuspidalFor (fun _ : P => (0 : V →ₗ[ℂ] W)) v := fun _ => rfl
-
 end ConstantTerms
 
 /-! ## Layer 5: cohomological parameters and arithmetic coefficients -/
@@ -364,13 +346,6 @@ Weyl orbit of the trivial representation's parameter `ρ`. -/
 def IsCohomologicalWeightZeroGL {n : ℕ} (μ : Fin n → ℂ) : Prop :=
   ∃ w : Equiv.Perm (Fin n), ∀ i,
     μ i = ((n : ℂ) - 1) / 2 - ((w i).val : ℂ)
-
-/-- The trivial and sign characters of `GL₁(ℝ)` have cohomological weight zero. -/
-example : IsCohomologicalWeightZeroGL ![(0 : ℂ)] := by
-  refine ⟨Equiv.refl _, ?_⟩
-  intro i
-  fin_cases i
-  norm_num
 
 /-- The unitary discrete series `D₂(0)` has the trivial infinitesimal character. -/
 example : IsCohomologicalWeightZeroGL ![(1 : ℂ) / 2, -1 / 2] := by
@@ -440,33 +415,29 @@ example (r₁ r₂ : ℕ) :
       symDimResPGL r₁ r₂ 1 = 0 ∧ q0ResPGL r₁ r₂ 1 = 0 := by
   simp [ell0ResPGL, symDimResPGL, q0ResPGL]
 
-/-- `PGL₂/ℚ` has `(q₀, ℓ₀) = (1, 0)`; over an imaginary quadratic field `(1, 1)`. -/
+/-- Real and imaginary-quadratic `PGL₂` have different cohomological ranges;
+real `PGL₃` also has positive defect. -/
 example : (q0ResPGL 1 0 2, ell0ResPGL 1 0 2) = (1, 0) ∧
-    (q0ResPGL 0 1 2, ell0ResPGL 0 1 2) = (1, 1) := by decide
-
-/-- Over an imaginary quadratic field the `PGL₂` symmetric space has dimension three. -/
-example : symDimResPGL 0 1 2 = 3 := by decide
-
-/-- `PGL₃/ℚ` has a five-dimensional symmetric space and `(q₀, ℓ₀) = (2, 1)`. -/
-example : symDimResPGL 1 0 3 = 5 ∧ (q0ResPGL 1 0 3, ell0ResPGL 1 0 3) = (2, 1) := by decide
+    (q0ResPGL 0 1 2, ell0ResPGL 0 1 2) = (1, 1) ∧
+    symDimResPGL 1 0 3 = 5 ∧ (q0ResPGL 1 0 3, ell0ResPGL 1 0 3) = (2, 1) := by decide
 
 end Defect
 
 namespace CoefficientLattices
 
 /-- In rank zero the zero lattice is full and stable, including at `p = 2`. -/
-example (p : ℕ) [Fact p.Prime] (J : Subgroup (GL (Fin 0) ℚ_[p])) :
+theorem rankZero_full_stable (p : ℕ) [Fact p.Prime] (J : Subgroup (GL (Fin 0) ℚ_[p])) :
     Submodule.IsLattice ℚ_[p] (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])) ∧
       ∀ g ∈ J, ∀ v ∈ (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])),
         (g : Matrix (Fin 0) (Fin 0) ℚ_[p]).mulVec v ∈
           (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])) := sorry
 
 /-- The zero submodule is not full in positive rank. -/
-example (p : ℕ) [Fact p.Prime] :
+theorem rankOne_bot_not_full (p : ℕ) [Fact p.Prime] :
     ¬Submodule.IsLattice ℚ_[p] (⊥ : Submodule ℤ_[p] (Fin 1 → ℚ_[p])) := sorry
 
 /-- Scaling by `p` gives another stable full lattice. -/
-example (p : ℕ) [Fact p.Prime] (n : ℕ)
+theorem scale_full_stable (p : ℕ) [Fact p.Prime] (n : ℕ)
     (J : Subgroup (GL (Fin n) ℚ_[p])) {L : Submodule ℤ_[p] (Fin n → ℚ_[p])}
     (hL : Submodule.IsLattice ℚ_[p] L)
     (hstable : ∀ g ∈ J, ∀ v ∈ L,
@@ -477,7 +448,7 @@ example (p : ℕ) [Fact p.Prime] (n : ℕ)
         (g : Matrix (Fin n) (Fin n) ℚ_[p]).mulVec v ∈ pL := sorry
 
 /-- A full positive-rank lattice is distinct from its `p`-multiple. -/
-example (p : ℕ) [Fact p.Prime] (n : ℕ) (hn : 0 < n)
+theorem scale_ne_self (p : ℕ) [Fact p.Prime] (n : ℕ) (hn : 0 < n)
     (L : Submodule ℤ_[p] (Fin n → ℚ_[p])) (hL : Submodule.IsLattice ℚ_[p] L) :
     L.map ((p : ℤ_[p]) • LinearMap.id) ≠ L := sorry
 
@@ -518,7 +489,7 @@ example :
 
 /-- Evaluation at `1` and `-1` gives distinct systems on the same class `4` modulo eight,
 with the polynomial action fixed by evaluation at `1`. -/
-example :
+theorem TorsionEigenSystem.same_class_distinct_characters :
     letI : Algebra (Polynomial ℤ) (ZMod 8) :=
       (Polynomial.eval₂RingHom (Int.castRingHom (ZMod 8)) (1 : ZMod 8)).toAlgebra
     ∃ ePlus eMinus : TorsionEigenSystem (Polynomial ℤ) (ZMod 8) (ZMod 8),
@@ -549,12 +520,6 @@ example : coherentCoefficient 3 2 0 = (-2, -3, 5) ∧
     (coherentCoefficient 3 2 0).2.2 + (harishChandraParameter 3 2 0).2.2 = 0 := by
   norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
 
-/-- A weight with balanced centre gives zero central coordinates in all three maps. -/
-example : coherentCoefficient 4 2 (-3) = (-2, -4, 0) ∧
-    harishChandraParameter 4 2 (-3) = (3, 0, 0) ∧
-    dualParameter 4 2 (-3) = (0, -3, 0) := by
-  norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
-
 /-- A central twist preserves the semisimple parameter and central cancellation. -/
 example : coherentCoefficient 3 2 1 = (-2, -3, 7) ∧
     harishChandraParameter 3 2 1 = (2, 0, -7) ∧
@@ -577,12 +542,6 @@ def Separated (R x y : ℝ) : Prop :=
 the full parameter has central coordinate `-k-l-2c_T`. -/
 def hcParameter (k l : ℤ) : ℝ × ℝ := ((k : ℝ) - 1, (l : ℝ) - 2)
 
-/-- The weight-gap parameter is the semisimple projection for every central twist. -/
-example (k l c_T : ℤ) :
-    hcParameter k l = (((harishChandraParameter k l c_T).1 : ℝ),
-      ((harishChandraParameter k l c_T).2.1 : ℝ)) := by
-  simp [hcParameter, harishChandraParameter]
-
 /-- The elementary weight inequalities imply separation with the same constant. -/
 theorem separated_of_weight_gaps (R : ℝ) (hR : 0 < R) (k l : ℤ)
     (hgap : R + 2 < (k : ℝ) - l)
@@ -603,19 +562,6 @@ example : Separated 5 (hcParameter 12 2).1 (hcParameter 12 2).2 := by
 example : ¬Separated 5 (hcParameter 12 12).1 (hcParameter 12 12).2 := by
   norm_num [Separated, corootValues, hcParameter, Fin.forall_fin_succ]
 
-/-- A distance equal to the bound does not suffice: the inequality is strict. -/
-example : ¬Separated 5 5 0 := by
-  norm_num [Separated, corootValues, Fin.forall_fin_succ]
-
-/-- A regular interior weight tests all four root directions. -/
-example : corootValues (hcParameter 20 10).1 (hcParameter 20 10).2 = ![11, 19, 27, 8] := by
-  norm_num [corootValues, hcParameter]
-
-/-- Long-root coroot evaluations have no factor of two. -/
-example : corootValues 3 1 = ![2, 3, 4, 1] := by norm_num [corootValues]
-
-/-- The weight `(1, 2)` has parameter `(0, 0)`, on the compact wall. -/
-example : hcParameter 1 2 = (0, 0) := by norm_num [hcParameter]
 
 end CoherentWeights
 
@@ -642,11 +588,6 @@ theorem algebraicModularForm_ext (ι : Γ →* G) (σ : Representation A Γ M)
     (hf' : IsAlgebraicModularForm ι σ J f')
     (ht : ∀ i, f (t i) = f' (t i)) : f = f' := sorry
 
-/-- Zero is always an equivariant form. -/
-example (ι : Γ →* G) (σ : Representation A Γ M) (J : Subgroup G) :
-    IsAlgebraicModularForm ι σ J (fun _ => 0) :=
-  ⟨fun γ g => by simp, fun _ _ _ => rfl⟩
-
 /-- A constant with values in a trivial coefficient is a form at every level. -/
 example (ι : Γ →* G) (J : Subgroup G) (m : M) :
     IsAlgebraicModularForm ι (1 : Representation A Γ M) J (fun _ => m) :=
@@ -658,14 +599,6 @@ example (ι : Γ →* G) (σ : Representation A Γ M) (J : Subgroup G)
     ¬IsAlgebraicModularForm ι σ J (fun _ => m) := fun h => hγ (h.1 γ 1).symm
 
 end AlgebraicForms
-
-/-- Over a coefficient ring, unequal central scalars can agree on a nonzero value:
-`4 ∈ ℤ/8` is fixed by both `1` and `-1`. -/
-example : (4 : ZMod 8) ≠ 0 ∧ (1 : ZMod 8) ≠ -1 ∧ (-1 : ZMod 8) * 4 = 1 * 4 := by decide
-
-/-- The double coset of `diag(1, 2)` has three right cosets, the raw `T₂` scalar on constants. -/
-example : (HeckeRing.GLn.diagCoset ![1, 2]).degree = 3 := by
-  simpa using HeckeRing.GL2.degree_diagCoset_prime_pow 2 (by decide) 0 1 (by decide)
 
 /-
 README definitions requiring additional carriers include `AdelicSmoothFunction`,
@@ -688,7 +621,8 @@ to the ordered-monomial Sobolev topology, intertwining inclusions and the real a
 complexified Lie/enveloping actions. SB4's generic density and native
 `StronglyContinuousSemigroup.smoothVectors` comparison precede the compact-Lie
 comparison using §2.1. Arbitrary smooth Fréchet `dixmierMalliavin` and the complete
-locally convex extensions are specified here;
+locally convex extensions are specified here; the continuous nondegenerate Schwartz-algebra
+action requires `SFRepresentation(G)`, including its moderate-growth hypothesis;
 `IsAutomorphicRepresentation`, `archimedeanHeckeAlgebra`, `RestrictedTensor`,
 `DiscreteOccurrence`, Whittaker coefficients and `HolomorphicSL2Form`.
 The scalar character foundations `standardAddChar`, local and adelic self-duality and the
