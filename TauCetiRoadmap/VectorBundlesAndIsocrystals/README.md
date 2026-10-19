@@ -350,6 +350,12 @@ Finite separable coefficient extension needs both tensor–restriction adjunctio
 
 For finite separable `E′/E` of residue degree f, ramification degree e and total degree `n=ef`, identify the coefficient fields compatibly. Pull D to `D⊗_{L_E}L_E′` with Frobenius `Φ^f⊗σ_E′`; induction is the f cyclic conjugate copies of restriction of scalars, with wraparound given by `Φ′`. Pull and induction are adjoint in both directions: `Hom(Pull D,D′)≅Hom(D,Ind D′)` and `Hom(Ind D′,D)≅Hom(D′,Pull D)`. The reverse adjunction uses the perfect separable trace pairing and the identification of finite cyclic induction with coinduction; no division by n is required. Pull preserves rank and scales slopes by n; induction multiplies rank by n and divides isoclinic slopes by n. At the bundle stage they compare to pullback/pushforward along the finite étale coefficient curve map, with its two trace adjunctions.
 
+**Checks.**
+
+- For `E′=E`, Pull and induction are naturally isomorphic to the identity functor, including on the zero object.
+- For an unramified degree-two extension, with the same uniformizer, `Pull D_E(−1,1)≅D_E′(−2,1)` has rank one and `Ind D_E′(−1,1)≅D_E(−1,2)` has rank two. Their slopes are respectively `−2` and `−1/2`.
+- In equal characteristic, an unramified extension of degree p has `Tr_{E′/E}(1)=0` but a nondegenerate separable trace pairing. Both adjunctions hold without division by p.
+
 ([FF][FF], 8.2.3 after Proposition 8.2.8, p. 238; [SW][SW], Theorem 13.5.7, proof, printed p. 114 (PDF p. 124).)
 
 *Needs:* [Finite isocrystals over the completed maximal unramified coefficient field](#isocrystal-category-and-standard-block); [Dieudonné–Manin classification of finite isocrystals](#dieudonne-manin-isocrystals); LocalFieldsRamification / layer 2 unramified extensions and frobenius; SchemeAndStackFoundations §§1.1 and 1.24.
@@ -1419,7 +1425,7 @@ A sympathetic Vector Space W admits a finite Banach–Colmez presentation when s
 
 **Checks.**
 
-- `BCPresentationTest.additive`: The tautological presentation of `V_d` has Dimension (d,0).
+- `BCPresentationTest.additive`: The tautological presentation of `V_d` has Dimension (d,0). In the categorical prototype an additive constant functor supplies the zero finite endpoints, giving a presentation with `dim=d` and height zero for every d.
 - `BCPresentationTest.constant`: A finite `ℚ_p` vector space of dimension h has Dimension (0,h).
 - `BCPresentationTest.quotient`: The cokernel `V₁/ℚ_p` of a nonzero `ℚ_p→V₁` map has Dimension `(1,−1)`.
 - `BCPresentationTest.stabilize`: Increasing both finite `ℚ_p` dimensions by one leaves height unchanged.
@@ -1510,7 +1516,7 @@ For a supplied abelian category and additive object `Ga`, the light predicate `A
 **Checks.**
 
 - `BCCurvatureTest.rational`: `ℚ_p` has strict negative curvature and height one.
-- `BCCurvatureTest.affine`: `V₁` has curvature zero and height zero.
+- `BCCurvatureTest.affine`: `V₁` has curvature zero and height zero. In the categorical prototype the generator `Ga` belongs to `AffineClosure Ga` by its one-step filtration.
 - `BCCurvatureTest.shifted`: `H¹(O(−1))` has positive curvature and height `−1`.
 - `BCCurvatureTest.otherPoint`: At `x≠∞`, `U₁/ℚ_p t_x` has height zero and positive curvature but not curvature zero.
 - `BCCurvatureTest.zero`: The zero object satisfies all five predicates; strict height inequalities require nonzero objects.
@@ -1648,7 +1654,7 @@ For every coherent sheaf F on the geometric curve, `ht(H⁰(X,F))−ht(H¹(X,F))
 
 #### Artinian property of BC
 
-Every descending chain `W₀ ⊇ W₁ ⊇ ⋯` of BC subobjects stabilizes. In the dimension-height argument, `dim(W_n)` first becomes constant; the quotients `W_N/W_n` then have dimension zero and come from the maximal finite `ℚ_p` quotient of `W_N`, so their heights are bounded and eventually constant. A second argument reduces via a presentation to `V_d` and inducts on d: a proper subobject of `V₁` is finite-dimensional over `ℚ_p`. The latter argument also proves the artinian property for almost C-representations.
+Every descending chain `W₀ ⊇ W₁ ⊇ ⋯` of BC subobjects stabilizes. In the dimension-height argument, `dim(W_n)` first becomes constant; the quotients `W_N/W_n` then have dimension zero and come from the maximal finite `ℚ_p` quotient of `W_N`, so their heights are bounded and eventually constant. A second argument reduces via a presentation to `V_d` and inducts on d: a proper subobject of `V₁` is finite-dimensional over `ℚ_p`.
 
 ([CN (author copy)][CN-author], Remark 3.15, p. 16.)
 
@@ -1742,7 +1748,7 @@ Negative/nonpositive curvature is preserved by sub-BCs; positive/nonnegative cur
 
 #### Height of torsion period subobjects
 
-For any BC inclusion `U⊂W` with W a torsion `B⁺_dR-Module`, `ht(U)` is nonnegative. Equality holds precisely when U is itself a torsion `B⁺_dR-Module`. An alternative to HN theory is induction on the length of W: subobjects of `V₁` are `V₁` or finite-dimensional `ℚ_p-spaces`, and the period-module class is extension closed. With Proposition 2.5, the same induction applies to almost C-representations.
+For any BC inclusion `U⊂W` with W a torsion `B⁺_dR-Module`, `ht(U)` is nonnegative. Equality holds precisely when U is itself a torsion `B⁺_dR-Module`. An alternative to HN theory is induction on the length of W: subobjects of `V₁` are `V₁` or finite-dimensional `ℚ_p-spaces`, and the period-module class is extension closed.
 
 ([CN (author copy)][CN-author], Remark 3.22, p. 19.)
 
@@ -1864,7 +1870,7 @@ For a `φ^a`-module M over `ℛ̃_R`, write `M_r` for its radius-r model. A basi
 
 #### Pure models and purity loci
 
-Choose integers `c,d` with `d>0` and `a|d`. For a `φ^a`-module M, let `A₀=W(R)` when M has `ℰ̃_R` coefficients, and `A₀=ℛ̃^int_R` for bounded or full Robba coefficients. A `(c,d)`-pure model is an `A₀-submodule M₀⊂M` satisfying three conditions: there exist a finitely generated `A₀-submodule N₀⊂M` and `n≥0` with `p^nM₀⊂N₀` and `p^nN₀⊂M₀`; extension from `A₀` to the coefficient ring identifies `M₀` with M; and the Frobenius on M restricts to an isomorphism `(p^cφ^d)^*M₀≅M₀`. Thus boundedness means commensurability with a finitely generated submodule, and the required stability is under `φ^d` after inverting p, without imposing `φ^a-stability` at this point (Remark 7.3.2). Such a model implies pointwise slope `c/d`. The adjectives free and locally free refer to finite free and finite locally free `A₀`-modules; finite presentation implies local freeness. A local model at `β` is a model after rational localization `R→R′` through a neighborhood of `β`. Lemma 7.3.3 equates existence of free and locally free local models, and for bounded Robba coefficients allows this existence test after extension to `ℰ̃_R`. Define purity of slope s at `β` by existence of a locally free local model with `c/d=s`; for nonzero rank `s=μ(M,β)`, while rank zero is pure of every slope. Purity means this condition at every `β`; compactness then gives finitely many local models. Étaleness is slope-zero purity, and an étale model has `c=0`. Global purity requires a locally free model over the original base. Distinguish five properties: (a) global purity; (b) existence of a pure model; (c) purity; (d) existence of local pure models; (e) pointwise purity. For `ℰ̃_R` and `ℛ̃^bd_R`, properties (b),(c),(d),(e) are equivalent, whereas (a) is stronger. For `ℛ̃_R`, the equivalent properties are (c),(d),(e), with (b) stronger and (a) stronger still. KL Corollaries 7.3.9 and 8.5.14 supply the equivalences. Examples 8.5.17 and 8.5.18 distinguish the global conditions, with the stronger bounded-ring interpretation of the nodal example requiring its own patching argument. Extension from `ℛ̃^bd_R` to `ℛ̃_R` does not detect purity over the bounded coefficient ring.
+Choose integers `c,d` with `d>0` and `a|d`. For a `φ^a`-module M, let `A₀=W(R)` when M has `ℰ̃_R` coefficients, and `A₀=ℛ̃^int_R` for bounded or full Robba coefficients. A `(c,d)`-pure model is an `A₀-submodule M₀⊂M` satisfying three conditions: there exist a finitely generated `A₀-submodule N₀⊂M` and `n≥0` with `p^nM₀⊂N₀` and `p^nN₀⊂M₀`; extension from `A₀` to the coefficient ring identifies `M₀` with M; and the Frobenius on M restricts to an isomorphism `(p^cφ^d)^*M₀≅M₀`. Thus boundedness means commensurability with a finitely generated submodule, and the required stability is under `φ^d` after inverting p, without imposing `φ^a-stability` at this point (Remark 7.3.2). Such a model implies pointwise slope `c/d`. The adjectives free and locally free refer to finite free and finite locally free `A₀`-modules; finite presentation implies local freeness. A local model at `β` is a model after rational localization `R→R′` through a neighborhood of `β`. Lemma 7.3.3 equates existence of free and locally free local models, and for bounded Robba coefficients allows this existence test after extension to `ℰ̃_R`. Define purity of slope s at `β` by existence of a locally free local model with `c/d=s`; for nonzero rank `s=μ(M,β)`, while rank zero is pure of every slope. Purity means this condition at every `β`; compactness then gives finitely many local models. Étaleness is slope-zero purity, and an étale model has `c=0`. Global purity requires a locally free model over the original base. Distinguish five properties: (a) global purity; (b) existence of a pure model; (c) purity; (d) existence of local pure models; (e) pointwise purity. The comparison of (a)–(e) fixes one rational slope s on every nonzero fibre: all models, local or global, use parameters with `c/d=s`. For `ℰ̃_R` and `ℛ̃^bd_R`, properties (b),(c),(d),(e) are equivalent, whereas (a) is stronger. For `ℛ̃_R`, the equivalent properties are (c),(d),(e), with (b) stronger and (a) stronger still. KL Corollaries 7.3.9 and 8.5.14 supply the equivalences. Examples 8.5.17 and 8.5.18 distinguish the global conditions, with the stronger bounded-ring interpretation of the nodal example requiring its own patching argument. Extension from `ℛ̃^bd_R` to `ℛ̃_R` does not detect purity over the bounded coefficient ring. For unqualified purity with varying slopes, apply the comparison separately on the finite clopen slope partition of the nonzero-rank locus; the rank-zero locus is clopen and pure of every slope. Finiteness follows from compactness and local constancy of rank and degree (KL Lemma 7.2.2 and Definition 7.2.3).
 
 **API.**
 
@@ -1882,6 +1888,7 @@ For the lattice obstruction `no_bounded_stable_lattice`, let `R` be a commutativ
 - `PureModelTest.zero`: The zero module is pure of every slope; it has no distinguished numeric slope.
 - `PureModelTest.scaled`: A rank-one action `φ^d=p^{−c}` with standard lattice is `(c,d)`-pure, detecting the sign of `p^c`.
 - `PureModelTest.localNotGlobal`: The perfected Tate-curve local system with p monodromy is locally étale but has no global integral étale model.
+- For `a=1`, `R=F×F` with F a characteristic-p perfectoid field, and the rank-one module with `Φ(e)=(1,p⁻¹)e`, the two fibres are pure of slopes 0 and 1. The module is locally and pointwise pure, but no single `(c,d)`-pure model generates it over both components.
 
 ([KL][KL], §7.3, Definitions 7.3.1 and 7.3.4, Lemma 7.3.3 and Remarks 7.3.2, 7.3.5, 7.3.11, pp. 147–152.)
 
@@ -2211,9 +2218,15 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### The positive line of an untilt
 
-Under Hypothesis 8.7.1 (`a ≥ 1` an integer, `q = p^a`; `(A,A⁺)` a perfectoid adic Banach algebra over `ℚ_p` and `(R,R⁺)` the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it by Theorem 3.6.5; X a perfectoid adic space over `ℚ_p` and X′ the perfect uniform adic space over `𝔽_p` corresponding to it by Theorem 8.3.5) with `X = Spa(A,A⁺)`, write `z = [z̄] + p z₁`. Let M be the `φ^a`-module over `ℛ̃_R` free on one generator v with `φ^a(v) = z₁⁻¹ z v`; it is globally étale. The convergent product `u = ∏_{n≥0} φ^{an}(1 + p⁻¹ z₁⁻¹[z̄]) ∈ ℛ̃⁺_R` satisfies `φ^a(u) = p z₁ z⁻¹ u` in `ℛ̃_R`, so `uv` defines an inclusion `ℛ̃_R → M(1)` of `φ^a`-modules, and `M(1)` is the `φ^a`-module corresponding to `L_X`. Hence the `φ^a`-module corresponding to `L_X` is globally pure of slope `1/a`, i.e. globally `(1,a)`-pure (with the `φ^a-normalized` slope rather than the printed unnormalized slope 1).
+Under Hypothesis 8.7.1 (`a ≥ 1` an integer, `q = p^a`; `(A,A⁺)` a perfectoid adic Banach algebra over `ℚ_p` and `(R,R⁺)` the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it by Theorem 3.6.5; X a perfectoid adic space over `ℚ_p` and X′ the perfect uniform adic space over `𝔽_p` corresponding to it by Theorem 8.3.5) with `X = Spa(A,A⁺)`, let `D_X` be the corresponding untilt Cartier divisor and define `L_X=O(D_X)` with its canonical section, as in KL Definition 8.8.18 and the [marked untilt Cartier construction](#relative-untilt-divisors). Choose `z∈W(R⁺)` primitive of degree one generating `ker(θ:W(R⁺)→A⁺)`, as in KL Remark 8.7.2, and write `z=[z̄]+pz₁`; then `z₁` is a unit. Let M be the `φ^a`-module over `ℛ̃_R` free on one generator v with `φ^a(v) = z₁⁻¹ z v`; it is globally étale. The convergent product `u = ∏_{n≥0} φ^{an}(1 + p⁻¹ z₁⁻¹[z̄]) ∈ ℛ̃⁺_R` satisfies `φ^a(u) = p z₁ z⁻¹ u` in `ℛ̃_R`, so `uv` defines an inclusion `ℛ̃_R → M(1)` of `φ^a`-modules, and `M(1)` is the `φ^a`-module corresponding to `L_X`. Hence the `φ^a`-module corresponding to `L_X` is globally pure of slope `1/a`, i.e. globally `(1,a)`-pure (with the `φ^a-normalized` slope rather than the printed unnormalized slope 1).
 
-([KL][KL], §8.8, Lemma 8.8.19 and its proof, p. 186 (arXiv 1301.0792v5).)
+**Checks.**
+
+- The canonical section of `L_X` cuts out `D_X`; changing the primitive generator by a unit preserves the divisor and line bundle.
+- On a nonempty geometric base, `z=p` has `z̄=0` and `z₁=1` but does not generate the untilt theta kernel. Its displayed module has slope `−1/a` and `M(1)` is trivial, so the decomposition alone does not give the untilt line.
+- For `a=2`, the untilt line has integer Picard degree one and KL slope `1/2`; the globally étale module M has slope zero before the twist.
+
+([KL][KL], Remark 8.7.2, p. 177; §8.8, Definition 8.8.18 and Lemma 8.8.19 with its proof, p. 186 (arXiv 1301.0792v5).)
 
 *Needs:* [Closed Cartier norm criterion](#relative-untilt-divisors); [Pure models and purity loci](#pure-models); [Ampleness on the relative curve](#relative-ampleness).
 

@@ -464,6 +464,11 @@ theorem stabilize [constant.Additive] (P : BCPresentation constant V W) (T : Mod
       Module.finrank K Q.V₂ = Module.finrank K P.V₂ + Module.finrank K T := by
   sorry
 
+/-- The additive object has a presentation with zero finite endpoints and height zero. -/
+example [constant.Additive] (d : ℕ) :
+    ∃ P : BCPresentation constant V (V d), P.dim = d ∧ P.height = 0 := by
+  sorry
+
 /-- A common one-dimensional stabilization leaves the height unchanged. -/
 example (P Q : BCPresentation constant V W)
     (h₁ : Module.finrank K Q.V₁ = Module.finrank K P.V₁ + 1)
@@ -510,6 +515,10 @@ example (Ga BdRplus : C) (powers : ℕ → C)
     BCCurvature.positive Ga (0 : C) ∧ BCCurvature.nonnegative BdRplus (0 : C) ∧
       BCCurvature.affine Ga (0 : C) ∧ BCCurvature.negative powers (0 : C) ∧
       BCCurvature.nonpositive forget (0 : C) := by
+  sorry
+
+/-- The additive generator is affine via its one-step filtration. -/
+example (Ga : C) : BCCurvature.affine Ga Ga := by
   sorry
 
 /-- An additive generator with nonzero identity has no strictly positive curvature. -/
