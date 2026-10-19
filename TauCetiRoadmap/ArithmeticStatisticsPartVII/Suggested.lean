@@ -84,6 +84,22 @@ example : (Nat.card {x : ZMod 2 // -x = x} : ℝ)⁻¹ = 1 / 2 := by sorry
 /-- At an odd prime the sign action has only its zero fixed point. -/
 example : (Nat.card {x : ZMod 3 // -x = x} : ℝ)⁻¹ = 1 := by sorry
 
+/-- One dyadic scalar has invertible one minus its square. -/
+example : Nat.card {F : Matrix (Fin 1) (Fin 1) (ZMod 2) //
+    IsUnit (1 - F ^ 2).det} = 1 := by sorry
+
+/-- Six dyadic size-two matrices have invertible one minus their square. -/
+example : Nat.card {F : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+    IsUnit (1 - F ^ 2).det} = 6 := by sorry
+
+/-- Over the field with three elements only the zero scalar avoids both eigenvalues. -/
+example : Nat.card {F : Matrix (Fin 1) (Fin 1) (ZMod 3) //
+    IsUnit (1 - F ^ 2).det} = 1 := by sorry
+
+/-- Over the field with five elements 365 size-two matrices avoid both eigenvalues. -/
+example : Nat.card {F : Matrix (Fin 2) (Fin 2) (ZMod 5) //
+    IsUnit (1 - F ^ 2).det} = 365 := by sorry
+
 /-- The split binary quadratic form retains quadratic vanishing in characteristic two. -/
 def binaryHyperbolic : QuadraticForm (ZMod 2) (Fin 2 → ZMod 2) :=
   QuadraticMap.proj 0 1
@@ -95,6 +111,19 @@ def binaryAnisotropic : QuadraticForm (ZMod 2) (Fin 2 → ZMod 2) :=
 /-- The split quadratic form on four coordinates over the field with two elements. -/
 def quaternaryHyperbolic : QuadraticForm (ZMod 2) (Fin 4 → ZMod 2) :=
   QuadraticMap.proj 0 1 + QuadraticMap.proj 2 3
+
+/-- The first coordinate pair contributes its product. -/
+example : quaternaryHyperbolic ![1, 1, 0, 0] = 1 := by sorry
+
+/-- The second coordinate pair contributes its product. -/
+example : quaternaryHyperbolic ![0, 0, 1, 1] = 1 := by sorry
+
+/-- Coordinates from different pairs have zero quadratic value. -/
+example : quaternaryHyperbolic ![1, 0, 1, 0] = 0 := by sorry
+
+/-- The split dyadic plane has exactly two quadratic-isotropic lines. -/
+example : Nat.card {W : Submodule (ZMod 2) (Fin 2 → ZMod 2) //
+    Module.finrank (ZMod 2) W = 1 ∧ ∀ v ∈ W, binaryHyperbolic v = 0} = 2 := by sorry
 
 /-- The diagonal is polar-self-orthogonal but has a nonzero quadratic value. -/
 example :
@@ -118,6 +147,35 @@ example : Nat.card {A : Matrix (Fin 4) (Fin 4) (ZMod 2) //
 example : Nat.card {A : Matrix (Fin 4) (Fin 4) (ZMod 2) //
     (∀ i, A i i = 0) ∧ A.transpose = -A ∧ IsUnit A.det} = 28 := by sorry
 
+/-- Exactly 35 dyadic alternating size-four matrices have nullity two. -/
+example : Nat.card {A : Matrix (Fin 4) (Fin 4) (ZMod 2) //
+    (∀ i, A i i = 0) ∧ A.transpose = -A ∧
+      Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = 2} = 35 := by sorry
+
+/-- Exactly seven dyadic alternating size-three matrices have nullity one. -/
+example : Nat.card {A : Matrix (Fin 3) (Fin 3) (ZMod 2) //
+    (∀ i, A i i = 0) ∧ A.transpose = -A ∧
+      Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = 1} = 7 := by sorry
+
+/-- Without alternation the dyadic size-three nullity-one count is 294. -/
+example : Nat.card {A : Matrix (Fin 3) (Fin 3) (ZMod 2) //
+    Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = 1} = 294 := by sorry
+
+/-- Only the zero symmetric size-two matrix over the field with three elements has rank zero. -/
+example : Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 3) //
+    A.transpose = A ∧
+      Module.finrank (ZMod 3) (LinearMap.range (Matrix.toLin' A)) = 0} = 1 := by sorry
+
+/-- Eight symmetric size-two matrices over the field with three elements have rank one. -/
+example : Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 3) //
+    A.transpose = A ∧
+      Module.finrank (ZMod 3) (LinearMap.range (Matrix.toLin' A)) = 1} = 8 := by sorry
+
+/-- Eighteen symmetric size-two matrices over the field with three elements have rank two. -/
+example : Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 3) //
+    A.transpose = A ∧
+      Module.finrank (ZMod 3) (LinearMap.range (Matrix.toLin' A)) = 2} = 18 := by sorry
+
 /-- Nullities zero and two each have probability one half for dyadic size-two alternation. -/
 example (j : ℕ) (hj : j = 0 ∨ j = 2) :
     (Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 2) //
@@ -125,6 +183,12 @@ example (j : ℕ) (hj : j = 0 ∨ j = 2) :
         Module.finrank (ZMod 2) (LinearMap.ker (Matrix.toLin' A)) = j} : ℚ) /
     (Nat.card {A : Matrix (Fin 2) (Fin 2) (ZMod 2) //
       (∀ i, A i i = 0) ∧ A.transpose = -A} : ℚ) = 1 / 2 := by sorry
+
+/-- The two generators of the cyclic group of order four give its two injective endomorphisms. -/
+example : Nat.card {f : ZMod 4 →+ ZMod 4 // Function.Injective f} = 2 := by sorry
+
+/-- A group killed by two admits no injection from the cyclic group of order four. -/
+example : Nat.card {f : ZMod 4 →+ (Fin 2 → ZMod 2) // Function.Injective f} = 0 := by sorry
 
 /-- Exponent two allows quadratic values of order four, even with a metabolic diagonal. -/
 example : ∃ Q : QuadraticMap ℤ (Fin 2 → ZMod 2) (AddCircle (1 : ℝ)),
