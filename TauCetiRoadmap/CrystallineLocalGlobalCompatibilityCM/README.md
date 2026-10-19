@@ -22,7 +22,7 @@ The characteristic-zero Young-symmetrizer construction [`TauCeti.YoungTableau.we
 
 Arithmetic locally symmetric spaces, their Borel–Serre compactifications, finite-level local systems, cochain models and finite-cover descent belong to **ArithmeticLocallySymmetricSpaces, Layers ALS.1–ALS.6**. **CompletedCohomologyPartII, Layers 0–2, 4, 6–7** owns assembly of those objects into arithmetic towers, their smooth level colimits, completion, completed equivariant chain models, continuous descent and the completed boundary triangle. Smooth representation categories, general induction, derived invariants and local Hecke algebras belong to **SmoothRepresentationsOfLocalGroups, SR.0, SR.0d, SR.2 and SR.4**. Continuous profinite cohomology belongs to Tau Ceti's **ProfiniteCohomology, Layers 10–11** roadmap. General Koszul complexes belong to **DerivedModuleAlgebra, §0.K.1**; abstract derived patching and length arguments belong to **DeformationAndDerivedPatchingAlgebra, Layers 8–9**. These objects enter here through their supplier interfaces.
 
-**AutomorphicGaloisRepresentationsPartII, AG2.4–AG2.7** owns the Galois representations of characteristic-zero automorphic representations and their required local comparisons. **IgusaVarietiesAndTorsionConcentration, IG.7** owns the middle-degree concentration result. **IntegralHeckeAndGaloisDeterminants, Layers IHG.1–IHG.5** owns determinants, uniform nilpotent Galois interpolation and compatible local reconstruction. **PadicHodgeTheory, §§3.2–3.6 and 5.3–5.4**, **LocalGaloisDeformationRings, §§3.13–3.14, 4.14–4.15 and 6.6** and **GlobalGaloisDeformations, Layers R04.3 and R04.5** own the p-adic Hodge-theoretic categories, local lifting rings, deformation functors and conditional Taylor–Wiles selection. CL.9.3 proves the CM small-image detection, prime selection and relative presentation needed here. This roadmap applies those theories with the coefficient, weight, determinant and dimension conventions fixed here.
+**AutomorphicGaloisRepresentationsPartII, AG2.2–AG2.7** owns the characteristic-zero GL constituent representations and their local comparisons; CL.4.4a constructs their unitary transfer assembly and local identification. **IgusaVarietiesAndTorsionConcentration, IG.7** owns the middle-degree concentration result. **IntegralHeckeAndGaloisDeterminants, Layers IHG.1–IHG.5** owns determinants, uniform nilpotent Galois interpolation and compatible local reconstruction. **PadicHodgeTheory, §§3.2–3.6 and 5.3–5.4**, **LocalGaloisDeformationRings, §§3.13–3.14, 4.14–4.15 and 6.6** and **GlobalGaloisDeformations, Layers R04.3 and R04.5** own the p-adic Hodge-theoretic categories, local lifting rings, deformation functors and conditional Taylor–Wiles selection. CL.9.3 proves the CM small-image detection, prime selection and relative presentation needed here. This roadmap applies those theories with the coefficient, weight, determinant and dimension conventions fixed here.
 
 Solvable CM preparation uses **PotentialModularityAndCompatibleSystems, §§2.12–2.16**, and **PotentialAutomorphyInfrastructure, §2.5**; automorphic base change/descent uses **PotentialAutomorphyInfrastructure, §2.3**. This roadmap owns CN Theorem 4.2.15/Corollary 4.2.16, Propositions 5.5.3 and 5.6.1–5.6.3, Lemma 5.6.4 and the qualified lifting endpoint of §9.12. **EllipticCurveModularityImaginaryQuadratic** is a downstream consumer of these integral local deformation, non-neat perfectness and prepared patching exports; it owns independent AKT seeds and elliptic geometry. No elliptic-curve geometry is a target here. For characteristic-zero CM spherical crystallinity, reuse **AutomorphicGaloisRepresentationsPartII, AG2.6**, `allCMCrystallineIwahoriAdmissibility`; §7.7 owns the remaining totally real specialization.
 
@@ -102,11 +102,11 @@ These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
-**AutomorphicGaloisRepresentationsPartII:AG2.4** (used in CL.4, CL.7). HLTT existence for unpolarized regular algebraic cuspidal `GL_n` over CM fields, applied to stable base change from quasi-split `U(n,n)` for the `2n`-dimensional `r_ι(π)`. Retain the exact unitary weight dictionary and determinant normalization. The coefficient-prime comparisons over arbitrary CM fields are the AG2.6 targets below, rather than the restricted field hypotheses of CN Theorem 2.1.19(3).
+**AutomorphicGaloisRepresentationsPartII:AG2.4** (used in CL.7) supplies HLTT existence for unpolarized regular algebraic cuspidal `GL_n` over CM and totally real fields. For the unitary representation in CL.4, use **AG2.2** `DiscreteAssembly` and **AG2.3**, “Arbitrary regular conjugate-self-dual existence”, on every cuspidal constituent of the discrete transfer. CL.4.4a constructs `CrystallineCM.unitary_characteristic_zero_comparison`, including the algebraic twists, full rank and labelled weights. Its local identification uses ACC+ Theorem 2.3.3(2) under the hypothesis that the rational prime `p` splits in an imaginary quadratic subfield of `F`; splitting only in `F/F⁺` does not replace this hypothesis. The transfer can have several discrete constituents.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
-**AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (used in CL.4, CL.7). For every regular algebraic cuspidal representation over a CM field, `allCMCoefficientPrimeComparison` supplies de Rhamness, labelled Hodge weights and semisimplified Weil–Deligne comparison at `p`; `nonselfdualCoefficientPrimeMonodromyBound` supplies the monodromy upper bound; `allCMCrystallineIwahoriAdmissibility` supplies spherical crystallinity and Iwahori semistability. Use their arithmetic wrapper `NonselfdualComparisonExport` from AG2.7, transporting labelled weights to `HT(ε_p⁻¹)=+1`. These exports require no residual irreducibility or decomposed genericity. **AG2.5** separately supplies away-p monodromy/type bounds for the `χ_v` and unipotent deformation conditions in CN Propositions 5.6.2–3; unramified traces alone do not give full monodromy equality.
+**AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (used in CL.4, CL.7). For every regular algebraic cuspidal representation over a CM field, `allCMCoefficientPrimeComparison` supplies de Rhamness, labelled Hodge weights and semisimplified Weil–Deligne comparison at `p`; `nonselfdualCoefficientPrimeMonodromyBound` supplies the monodromy upper bound; `allCMCrystallineIwahoriAdmissibility` supplies spherical crystallinity and Iwahori semistability. Use their arithmetic wrapper `NonselfdualComparisonExport` from AG2.7, transporting labelled weights to `HT(ε_p⁻¹)=+1`. These exports require no residual irreducibility or decomposed genericity. CL.4.4a applies them to the cuspidal constituents and assembles their special blocks and monodromy bounds; they do not directly assert local comparison for a unitary representation. **AG2.5** separately supplies away-p monodromy/type bounds for the `χ_v` and unipotent deformation conditions in CN Propositions 5.6.2–3; unramified traces alone do not give full monodromy equality.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
@@ -453,7 +453,7 @@ The required interface is:
 
 - `CrystallineCM.POrdinaryFiniteLevel_test_unit`: For `U=id` the whole arithmetic coefficient complex is ordinary.
 - `CrystallineCM.POrdinaryFiniteLevel_test_zero`: For `U=0` the ordinary summand is zero.
-- `CrystallineCM.POrdinaryFiniteLevel_test_mixed`: For `diag(1,0)` on `F₃²` in degree zero, the ordinary part is the first coordinate, in agreement with Mathlib Fitting range/ker.
+- `CrystallineCM.POrdinaryFiniteLevel_test_mixed`: For `T=diag(1,0)` on `F₃²` in degree zero, `T²=T`; for every `m≥1`, `range(T^m)=F₃×0` and `ker(T^m)=0×F₃`. The ordinary part is the first coordinate, in agreement with Mathlib Fitting range/ker and §1.3's localization comparison.
 
 (CN, §2.2.1, pp.25–26.)
 
@@ -505,7 +505,7 @@ The required interface is:
 
 - `CrystallineCM.OrdinaryMonoidLocalization_test_id`: Localization under `U=id` is `π` itself.
 - `CrystallineCM.OrdinaryMonoidLocalization_test_nilpotent`: If `U^r=0`, ord `π=0` even when `π` is infinite-dimensional.
-- `CrystallineCM.OrdinaryMonoidLocalization_test_finite`: On a finite module it agrees with the imported finite ordinary projector; for `diag(1,0)` it is the first coordinate.
+- `CrystallineCM.OrdinaryMonoidLocalization_test_finite`: On a finite module it agrees with the imported finite ordinary projector. For `T=diag(1,0)` on `F₃²`, the positive-power ranges and kernels are `F₃×0` and `0×F₃` as in §1.1; localization retains the first coordinate and kills the second.
 
 (CN, §2.2.2, p.26.)
 
@@ -736,7 +736,7 @@ The required interface is:
 **Checks.**
 
 - `CrystallineCM.ChiCharacter_test_identity`: `χ(1)=1`.
-- `CrystallineCM.ChiCharacter_test_rank_one_unit`: For `GL₂` and `m=diag(a,d)` with `a/d∈Z_p×, χ(m)=d/a`. At `p=5` and `m=diag(2,1)`, its residue is `2⁻¹=3` in `F₅`, whereas the direct adjoint character has residue `2`. This fixes the inverse orientation on H¹.
+- `CrystallineCM.ChiCharacter_test_rank_one_unit`: For `GL₂` over `L=Q_p` and `m=diag(a,d)` with `a/d∈Z_p×`, `χ(m)=d/a`. At `p=5`, `L=Q₅` and `m=diag(2,1)`, its residue is `2⁻¹=3` in `F₅`, whereas the direct adjoint character has residue `2`. For `[L:Q_p]=d_L` and `a/d∈Z_p×`, the norm instead gives `χ(m)=(d/a)^{d_L}`. Over the unramified quadratic extension of `Q₅`, `diag(2,1)` therefore has residue `(2²)⁻¹=4≠3`.
 - `CrystallineCM.ChiCharacter_test_uniformizer`: For `L=Q_p` and `m=diag(p,1), χ(m)=1` because the determinant inverse and absolute-value denominator cancel.
 
 (CN, §2.3.1, p.37.)
@@ -991,13 +991,31 @@ The required interface is:
 
 *Needs:* §4.1; **ArithmeticLocallySymmetricSpaces:ALS.5** (automorphic comparison); §4.3.
 
+### 4.4a Characteristic-zero unitary transfer and Galois comparison
+
+Prove `CrystallineCM.unitary_characteristic_zero_comparison`. Let `F` contain a fixed imaginary quadratic subfield `F₀` in which the rational prime `p` splits, and let `π` be a cuspidal representation of the quasi-split `U(n,n)(𝔸_{F⁺})` cohomological for the dominant coefficient weight `λ̃`. Construct the full discrete transfer of ACC+ Theorem 2.3.3, with its cohomological infinitesimal character and local identification with `π_{v̄}` at every `v̄|p`. This identification uses rational splitting in `F₀`. The transfer is a finite isobaric sum of discrete GL representations, each written as its cuspidal constituent with all the shifted copies specified by the residual classification.
+
+Use AG2.2 `DiscreteAssembly`: write `2n=Σ_i a_i b_i`, with conjugate-self-dual cuspidal `Π̃_i` of rank `a_i`, and attach `r_i` to the cohomological twist `Π_i=Π̃_i|det|^{(a_i+b_i−1)/2}` using AG2.3. Form `r_ι(π)=⊕_i⊕_{j=0}^{b_i−1} r_i⊗ε_p^{−n−j}`, in the supplier's normalization. Prove continuity, rank `2n`, the good-place unitary Hecke polynomial and independence up to isomorphism of the attached constituent representatives. Its labelled Hodge multiset is `{λ̃_{τ,i}+2n−i:1≤i≤2n}`, with `HT(ε_p⁻¹)=+1` as here.
+
+Apply AG2.6's de Rham and semisimplified coefficient-prime comparison to each cuspidal constituent, transporting algebraic twists, then assemble the comparisons through direct sums. At a parahoric selected p-place, prove semistability and identify the assembled semisimple Weil parameter with `rec^T(π_{v̄}∘ι_v)`. Assemble the special-block monodromy upper bounds, retaining each shifted copy and each Jordan-block multiplicity; use ACC+ Theorem 2.3.3(c), equivalently CN Theorem 2.1.19(3), for the full Frobenius-semisimple local identification under rational splitting in `F₀`. These comparisons supply the local input to §4.2 before the Q-ordinary block argument. A single cuspidal GL existence theorem does not construct this sum.
+
+**Checks.**
+
+- With one constituent and `b₁=1`, the assembly has rank `a₁=2n` and is `r₁⊗ε_p^{−n}`, with the cohomological twist undone; omitting this twist changes its Frobenius polynomial.
+- A rank-one constituent repeated with `b₁=2` at `n=1` contributes `r₁ε_p⁻¹⊕r₁ε_p⁻²`, of rank two and with both labelled weights. Retaining only one copy gives the wrong rank and parameter.
+- `F=Q(ζ₅)` has split places over `11` in `F/F⁺` but no imaginary quadratic subfield. Such local splitting alone does not satisfy this adapter's rational splitting hypothesis.
+
+(CN, Theorem 2.1.19, pp.21–22, and proof of Theorem 3.1.2, pp.44–45; ACC+ Theorem 2.3.3 and proof, published pp.935–937; AG2.2 `DiscreteAssembly`, HLTT Proposition 1.2 and Corollary 1.3, p.31.)
+
+*Needs:* **AutomorphicGaloisRepresentationsPartII:AG2.2** (`DiscreteAssembly`); **AutomorphicGaloisRepresentationsPartII:AG2.3** (arbitrary regular conjugate-self-dual existence); **AutomorphicGaloisRepresentationsPartII:AG2.6** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`); **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2** (special blocks and normalized induction). The unitary transfer and its local identification with the full discrete sum are targets of this section, using ACC+ Theorem 2.3.3 and its proof.
+
 ### 4.5 Galois representations of Q-ordinary automorphic representations
 
-Prove `CrystallineCM.q_ordinary_crystalline_blocks`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι : Q̄_p ≅ C, v̄` a p-adic place of `F⁺` with `π ι-Q_{v̄}-ordinary` of weight `λ̃`. Then: `(1) r_ι(π)|_{G_{F_v}}` is conjugate to a block upper-triangular representation with diagonal blocks `r_j(π) : G_{F_v} → GL_{n_j}(Q̄_p) (j =` 1,…,t), each crystalline (3.1.1); `(2)` the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬}_{v̄}` is one-dimensional; `(3)` the `τ-Hodge–Tate` weights of the `r_j(π)` are obtained by decomposing `λ̃_{τ,2n} < λ̃_{τ,2n−1} + 1` < … < `λ̃_{τ,1} + 2n − 1` according to `(n₁,…,n_t); (4) ∏_{j=1}^k det r_j(π)(Art_{F_v}(u)) = ∏_{i=1}^{n₁+…+n_k} ∏_{τ:F_v↪Q̄_p} τ(u)^{−λ̃_{τ,2n−i+1}−i+1}` for `u ∈ O^×_{F_v}`, and `∏_{j=1}^k det r_j(π)(Art_{F_v}(ϖ_v))` equals `ε_p^{Σ_{i=1}^{n₁+…+n_k}(1−i)}(Art_{F_v}(ϖ_v))` times the eigenvalue of `Ũ^k_v` on the `Q_{v̄}-ordinary` subspace.
+Prove `CrystallineCM.q_ordinary_crystalline_blocks`. Assume the rational prime `p` splits in an imaginary quadratic subfield `F₀⊂F`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι : Q̄_p ≅ C, v̄` a p-adic place of `F⁺` with `π ι-Q_{v̄}-ordinary` of weight `λ̃`, and use the representation `r_ι(π)` of §4.4a. Then: `(1) r_ι(π)|_{G_{F_v}}` is conjugate to a block upper-triangular representation with diagonal blocks `r_j(π) : G_{F_v} → GL_{n_j}(Q̄_p) (j =` 1,…,t), each crystalline (3.1.1); `(2)` the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬}_{v̄}` is one-dimensional; `(3)` the `τ-Hodge–Tate` weights of the `r_j(π)` are obtained by decomposing `λ̃_{τ,2n} < λ̃_{τ,2n−1} + 1` < … < `λ̃_{τ,1} + 2n − 1` according to `(n₁,…,n_t); (4) ∏_{j=1}^k det r_j(π)(Art_{F_v}(u)) = ∏_{i=1}^{n₁+…+n_k} ∏_{τ:F_v↪Q̄_p} τ(u)^{−λ̃_{τ,2n−i+1}−i+1}` for `u ∈ O^×_{F_v}`, and `∏_{j=1}^k det r_j(π)(Art_{F_v}(ϖ_v))` equals `ε_p^{Σ_{i=1}^{n₁+…+n_k}(1−i)}(Art_{F_v}(ϖ_v))` times the eigenvalue of `Ũ^k_v` on the `Q_{v̄}-ordinary` subspace.
 
 (CN, Theorem 3.1.2, pp.43–44.)
 
-*Needs:* §4.4; §4.2; **AutomorphicGaloisRepresentationsPartII:AG2.4**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`, `NonselfdualComparisonExport`); **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
+*Needs:* §4.4; §4.4a; §4.2; **AutomorphicGaloisRepresentationsPartII:AG2.2–AG2.3**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`, `NonselfdualComparisonExport`); **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
 
 ### Examples
 
@@ -1005,7 +1023,7 @@ For the partition (n,n), the partial operators are the Siegel and central operat
 
 ### Dependencies
 
-**ArithmeticLocallySymmetricSpaces:ALS.5**; **AutomorphicGaloisRepresentationsPartII:AG2.4**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`, `NonselfdualComparisonExport`); Layer 0; **PadicFamilies, Layer 0a**; **PadicHodgeTheory, §§3.2–3.6**; **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
+**ArithmeticLocallySymmetricSpaces:ALS.5**; **AutomorphicGaloisRepresentationsPartII:AG2.2–AG2.3**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`, `NonselfdualComparisonExport`); Layer 0; **PadicFamilies, Layer 0a**; **PadicHodgeTheory, §§3.2–3.6**; **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
 
 ## Layer 5: The localized completed Siegel boundary
 
@@ -1228,7 +1246,7 @@ The required interface is:
 
 - `CrystallineCM.HeckeImagesA_test_zero_cohomology`: For `H^q_m=0,` A is the zero endomorphism algebra; it is not the nonzero abstract Hecke algebra.
 - `CrystallineCM.HeckeImagesA_test_scalar_image`: If a polynomial Hecke algebra acts by evaluating `T` at `a∈O` on an O-line, its image is `O` and kernel is (T−a).
-- `CrystallineCM.HeckeImagesA_test_range`: For an available module action, A is exactly AlgHom.range, including its image membership statement.
+- `CrystallineCM.HeckeImagesA_test_range`: For `H=F₃[T]` acting on `F₃²` by `T=diag(0,1)`, polynomial evaluation at this projection has image `A≅F₃×F₃` and kernel `(T(T−1))`. Thus a nonzero Hecke image need not be a scalar field.
 
 (CN, §4.2.1, p.61.)
 
@@ -1344,7 +1362,7 @@ For all-unit Q-localized non-Eisenstein torsion Hecke systems, produce local fin
 
 ### 7.1 Residual determinants of the blocks of a Q-ordinary Galois representation
 
-Prove `CrystallineCM.residual_block_determinants`. Let `v̄` be p-adic, `m ⊂ T^{Q^{w₀^P}_{v̄},v̄-ord}_{w₀^P}` non-Eisenstein in the support of some `H^*(X_K, V_λ), m̃ := (𝒮^{w₀^P})^*(m), v | v̄` with `Ũ^k_v ∉ m̃ (1 ≤ k ≤ t)`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι-Q^{w₀^P}_{v̄}-ordinary` of weight `λ̃`, whose Hecke eigenvalues on `(ι^{−1}π^∞)^{K̃, Q^{w₀^P}-ord}` come from `f : T̃^{Q^{w₀^P}_{v̄}-ord}_{m̃} → Q̄_p`; with `r_ι(π)|_{G_{F_ṽ}} ≅ (R₁(π)` ∗; `0 R₂(π)`) the two rank-n Siegel blocks grouping respectively the first and second size-n segments of the refined flag in §4.5 (whose individual rank-`n_j` blocks remain `r_j`) and `R̄_i(π)` the semisimplified reductions: det `R̄₁(π)(Art_{F_v}(ϖ_v)) = det ρ̄_m(Art_{F_v}(ϖ_v))` and det `R̄₂(π)(Art_{F_v}(ϖ_v)) = det(ρ̄_m^{∨,c}(1−2n))(Art_{F_v}(ϖ_v))`.
+Prove `CrystallineCM.residual_block_determinants`. Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.4a–§4.5. Let `v̄` be p-adic, `m ⊂ T^{Q^{w₀^P}_{v̄},v̄-ord}_{w₀^P}` non-Eisenstein in the support of some `H^*(X_K, V_λ), m̃ := (𝒮^{w₀^P})^*(m), v | v̄` with `Ũ^k_v ∉ m̃ (1 ≤ k ≤ t)`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι-Q^{w₀^P}_{v̄}-ordinary` of weight `λ̃`, whose Hecke eigenvalues on `(ι^{−1}π^∞)^{K̃, Q^{w₀^P}-ord}` come from `f : T̃^{Q^{w₀^P}_{v̄}-ord}_{m̃} → Q̄_p`; with `r_ι(π)|_{G_{F_ṽ}} ≅ (R₁(π)` ∗; `0 R₂(π)`) the two rank-n Siegel blocks grouping respectively the first and second size-n segments of the refined flag in §4.5 (whose individual rank-`n_j` blocks remain `r_j`) and `R̄_i(π)` the semisimplified reductions: det `R̄₁(π)(Art_{F_v}(ϖ_v)) = det ρ̄_m(Art_{F_v}(ϖ_v))` and det `R̄₂(π)(Art_{F_v}(ϖ_v)) = det(ρ̄_m^{∨,c}(1−2n))(Art_{F_v}(ϖ_v))`.
 
 **Checks.**
 
@@ -1358,7 +1376,7 @@ Prove `CrystallineCM.residual_block_determinants`. Let `v̄` be p-adic, `m ⊂ T
 
 ### 7.2 Semisimplicity and automorphy of Q-ordinary middle-degree cohomology
 
-Prove `CrystallineCM.q_ordinary_automorphic_characters`. Let `m ⊂ T^T` be non-Eisenstein, `v̄ ∈ S̄_p, Q_{v̄} ⊂ P_{v̄}, m̃` a maximal ideal of `T̃^{Q_{v̄},{v̄}-ord}` extending `𝒮^*(m), K̃` good with `m̃` in the support of `H^*(X̃_{K̃}, V_λ̃)^{ord}` for a CTG weight `λ̃`, and `Ũ^k_v ∉ m̃` for `1 ≤ k ≤ t; d = n²[F⁺ : Q]`. Then `H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}[1/p]` is a semisimple `T̃^{Q_{v̄},{v̄}-ord}[1/p]-module`, and for every `f : T̃^{Q_{v̄},{v̄}-ord}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) → Q̄_p` and `ι` there is a cuspidal `π` of `G̃(𝔸_{F⁺}), ι-Q_{v̄}-ordinary` of weight `λ̃`, whose eigenvalues on `(ι^{−1}π^∞)^{K̃,Q_{v̄}-ord}` give `f`.
+Prove `CrystallineCM.q_ordinary_automorphic_characters`. Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.5. Let `m ⊂ T^T` be non-Eisenstein, `v̄ ∈ S̄_p, Q_{v̄} ⊂ P_{v̄}, m̃` a maximal ideal of `T̃^{Q_{v̄},{v̄}-ord}` extending `𝒮^*(m), K̃` good with `m̃` in the support of `H^*(X̃_{K̃}, V_λ̃)^{ord}` for a CTG weight `λ̃`, and `Ũ^k_v ∉ m̃` for `1 ≤ k ≤ t; d = n²[F⁺ : Q]`. Then `H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}[1/p]` is a semisimple `T̃^{Q_{v̄},{v̄}-ord}[1/p]-module`, and for every `f : T̃^{Q_{v̄},{v̄}-ord}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) → Q̄_p` and `ι` there is a cuspidal `π` of `G̃(𝔸_{F⁺}), ι-Q_{v̄}-ordinary` of weight `λ̃`, whose eigenvalues on `(ι^{−1}π^∞)^{K̃,Q_{v̄}-ord}` give `f`.
 
 (CN, Proposition 4.2.11, p.67.)
 
@@ -1538,7 +1556,7 @@ At `PGL₂` level, the scalar `GL₂` Hecke coset acts as identity, giving `X²�
 
 ## Layer 9: Barsotti–Tate automorphy lifting and solvable descent
 
-State the fifteen prepared CM lifting hypotheses, define fixed-determinant `χ-type` and Taylor–Wiles deformation problems, and construct deformation-to-derived-Hecke surjections and diamond-compatible perfect complexes. Use AKT small-image Taylor–Wiles prime selection with its `p=5` exception, check `q₀=l₀=[F⁺:Q]` and patch the two coefficient systems to prove prepared BT lifting. Prove solvable preparation and descent preserving the full residual/cyclotomic field. Export potentially BT automorphy under the original hypotheses plus `d_cyc≠3` or projective residual image not `A₄`; retain the cubic-tetrahedral limitation of the finite-image argument. Construct the prepared `PGL₂` level with pro-v Iwahori auxiliary components, choose the three unitary parabolic branches and the residual ordinary Hecke ideal. The non-enormous AKT Selmer-detection and CM relative generator-count inputs belong to GlobalGaloisDeformations:R04.5.
+State the fifteen prepared CM lifting hypotheses, define fixed-determinant `χ-type` and Taylor–Wiles deformation problems, and construct deformation-to-derived-Hecke surjections and diamond-compatible perfect complexes. Use AKT small-image Taylor–Wiles prime selection with its `p=5` exception, check `q₀=l₀=[F⁺:Q]` and patch the two coefficient systems to prove prepared BT lifting. Prove solvable preparation and descent preserving the full residual/cyclotomic field. Export potentially BT automorphy under the original hypotheses plus `d_cyc≠3` or projective residual image not `A₄`; retain the cubic-tetrahedral limitation of the finite-image argument. Construct the prepared `PGL₂` level with pro-v Iwahori auxiliary components, choose the three unitary parabolic branches and the residual ordinary Hecke ideal. CL.9.3 constructs the non-enormous AKT Selmer detection and CM relative generator count from the conditional selection and general presentation framework of GlobalGaloisDeformations. Construct §9.8 immediately after §9.5, before §9.6, so that the ordered eigenline, diamond group and Taylor–Wiles level datum precede the perfect homology model.
 
 ### 9.1 The data and hypotheses (1)–(15) of the special case of Theorem 5.2
 
@@ -1580,12 +1598,12 @@ The two light specializations also apply to a general group and field: `projecti
 
 ### 9.3 Taylor–Wiles data for GL₂ over CM fields without enormous image (Allen–Khare–Thorne)
 
-Prove `CrystallineCM.small_image_taylor_wiles_prime_selection`. Let `F` be an imaginary CM field, `p` odd, and `ρ̄ : G_F → GL₂(k)` continuous with `ρ̄|_{G_{F(ζ_p)}}` absolutely irreducible and, if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is `PSL₂(F₅)`, the field cut out by the projective image of `ρ̄` not containing `ζ₅`. Then for every `N ≥ 1` there is a Taylor–Wiles datum `(Q_N, (α_v)_{v∈Q_N})` of level `N` (Definition 5.3.5) of size `q` independent of `N`, killing the relevant dual Selmer group ([AKT23, Prop. A.6]), used with [ACC+18, §6.4] as in the proof of [AKT23, Thm. A.7]. Fix `T=S`, choose `q≥dim_k H¹_{S⊥,S}(ad⁰ρ̄(1))` with `g=q−3[F⁺:Q]−1+|S|≥0`; then there is a surjection `A_S^S[[X₁,…,X_g]]→R_{S_{Q_N}}^S`, and the places can have degree one over `Q` with underlying rational primes split in the chosen imaginary quadratic subfield. The local deformation datum is that of AKT Appendix A.2. The standing local deformation datum is AKT A.2: determinant lifting `detρ̄`, specified local deformation quotients `R_v` over `Λ_v, Λ=completed` tensor of `Λ_v`, nonempty `S⊇S_p`, and the finite coefficient field large enough for all residual eigenvalues. Choose `F₀` as the CM subfield appearing in A.6 and require `F=F⁺F₀`.
+Prove `CrystallineCM.small_image_taylor_wiles_prime_selection`. Fix an imaginary quadratic subfield `F₀⊂F` of the imaginary CM field `F`, and write `F=F⁺F₀`. Let `p` be odd, and `ρ̄ : G_F → GL₂(k)` continuous with `ρ̄|_{G_{F(ζ_p)}}` absolutely irreducible and, if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is `PSL₂(F₅)`, the field cut out by the projective image of `ρ̄` not containing `ζ₅`. Then for every `N ≥ 1` there is a Taylor–Wiles datum `(Q_N, (α_v)_{v∈Q_N})` of level `N` (Definition 5.3.5) of size `q` independent of `N`, killing the relevant dual Selmer group ([AKT23, Prop. A.6]), used with [ACC+18, §6.4] as in the proof of [AKT23, Thm. A.7]. Fix `T=S`, choose `q≥dim_k H¹_{S⊥,S}(ad⁰ρ̄(1))` with `g=q−3[F⁺:Q]−1+|S|≥0`; then there is a surjection `A_S^S[[X₁,…,X_g]]→R_{S_{Q_N}}^S`, and the places can have degree one over `Q` with underlying rational primes split in the chosen imaginary quadratic subfield. The local deformation datum is that of AKT Appendix A.2. The standing local deformation datum is AKT A.2: determinant lifting `detρ̄`, specified local deformation quotients `R_v` over `Λ_v, Λ=completed` tensor of `Λ_v`, nonempty `S⊇S_p`, and the finite coefficient field large enough for all residual eigenvalues. Degree-one places have underlying rational primes split in the quadratic field `F₀`, after excluding its ramified primes.
 
 Construct the following inputs in this section:
 
 - `CrystallineCM.small_image_dual_selmer_detection`: Under the residual and local-datum hypotheses above, for every `N≥1` and cocycle κ representing a nonzero dual-Selmer class, find `σ∈G_{F(ζ_{p^N})}` with distinct residual eigenvalues and `κ(σ)∉(σ−1)ad⁰ρ̄(1)`. Also construct a nonempty admissible distinct-eigenvalue class for padding when the dual Selmer group is zero. These are the detection and padding inputs in AKT Lemma A.5, pp.86–87.
-- `CrystallineCM.small_image_taylor_wiles_prime_selection`: Apply conditional Chebotarev selection of GlobalGaloisDeformations §5.6 using that detection, producing exactly q degree-one primes away from the fixed bad set, of level N and split in the chosen CM subfield `F₀`. This is AKT Proposition A.6, p.87.
+- `CrystallineCM.small_image_taylor_wiles_prime_selection`: Apply conditional Chebotarev selection of GlobalGaloisDeformations §5.6 using that detection, producing exactly q degree-one primes away from the fixed bad set, of level N, whose underlying rational primes split in the fixed imaginary quadratic field `F₀`. This is AKT Proposition A.6, p.87.
 - `CrystallineCM.cm_taylor_wiles_relative_presentation`: For `T=S`, compute the relative tangent dimension using GlobalGaloisDeformations §§3.6–3.7 and dual-Selmer vanishing. Each complex place contributes three, each selected prime contributes one, and `H⁰(F,ad⁰ρ̄(1))=0`. Obtain the displayed surjection with `g=q−3[F⁺:Q]−1+|S|`, as in AKT Propositions A.4 and A.6, pp.86–87.
 
 **Checks.**
@@ -1594,6 +1612,7 @@ Construct the following inputs in this section:
 - The exceptional `p=5`, projective `PSL₂(F₅)` case retains the projective-field exclusion; irreducibility alone does not discharge detection there.
 - If the dual Selmer group is zero, its detection condition is vacuous but a padding class is still required. For q above its dimension, padding gives exactly q primes for every N; the count and g are independent of N.
 - For `[F⁺:Q]=1`, `|S|=1`, `q=3`, the CM formula gives `g=0`, rather than the totally real Gee count.
+- `F=Q(ζ₅)` has only the real quadratic subfield `Q(√5)` and is outside this selection target, even at `p=7` for the standard `S₃` representation from `x³−2`, which remains absolutely irreducible over `F(ζ₇)`. Residual irreducibility does not supply `F₀`.
 
 (AKT, Proposition A.6, p.87; Lemma A.5 and Proposition A.4, p.86; CN, Proof of Proposition 5.6.1, p.85.)
 
@@ -1659,7 +1678,7 @@ Under §9.4's level hypotheses and §9.8's distinct-eigenvalue datum, construct 
 
 (CN, Lemma 5.6.4, pp.84–85; AKT, Theorem 5.11(2), pp.46–47, and Lemma 3.2.)
 
-*Needs:* §8.7; **ArithmeticLocallySymmetricSpaces:ALS.6** (finite level descent); **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**; §9.4.
+*Needs:* §9.8; §9.4; §8.7; **ArithmeticLocallySymmetricSpaces:ALS.6** (finite level descent); **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**.
 
 ### 9.7 Hecke-valued Galois representations satisfy the deformation problem 𝒮_χ
 
