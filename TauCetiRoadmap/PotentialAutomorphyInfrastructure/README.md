@@ -6,7 +6,7 @@ This roadmap builds the arithmetic comparisons that let torsion cohomology produ
 
 The constructions retain coefficient rings, levels, twists, labelled weights and degree shifts. Each patching application exhibits its algebraic data. Support describes primes at which a module is nonzero; it does not identify integral deformation and Hecke rings. Rank-one characters and the stated higher-rank `p`-bounds remain distinct branches.
 
-The suggested file states the light definitions that the pinned libraries can already carry — equivariant retracts, the unitary weight dictionary, Siegel Kostant shuffles, the CTG predicate, the weight-zero and oddness conditions, the positive torus monoid, the lowest-weight and ordinary characters in unit/valuation coordinates, the Iwahori and Taylor–Wiles congruence levels, relative Bruhat cells and the orientation character — with discriminating examples, and the milestones whose carriers exist there: `shifted_partition_recovery`, `simple_galois_composita`, the minimal-representative property of Kostant shuffles, the two diamond quotients and the Taylor–Wiles index. Every arithmetic definition and theorem is stated in this document only, because its carriers (arithmetic cohomology, Hecke algebras, Galois representations of number fields, automorphic representations, deformation rings, patched complexes, integral dual Weyl modules) are require the arithmetic APIs specified below.
+The suggested file states the light definitions that the pinned libraries can already carry — equivariant retracts, the unitary weight dictionary, Siegel Kostant shuffles, the CTG predicate, the weight-zero and oddness conditions, the positive torus monoid, the lowest-weight and ordinary characters in unit/valuation coordinates, the Iwahori and Taylor–Wiles congruence levels, relative Bruhat cells and the orientation character — with discriminating examples, and the milestones whose carriers exist there: `shifted_partition_recovery`, `simple_galois_composita`, the minimal-representative property of Kostant shuffles, the two diamond quotients, the Taylor–Wiles index, the character prescriptions and their coordinate change, and the longest-cell lengths. Every arithmetic definition and theorem is stated in this document only, because its carriers (arithmetic cohomology, Hecke algebras, Galois representations of number fields, automorphic representations, deformation rings, patched complexes, integral dual Weyl modules) require the arithmetic APIs specified below.
 
 ## Scope and ownership
 
@@ -277,7 +277,7 @@ For ALS.5b.8 instantiate `GaloisInput.GL(F,m)` for every `1≤m≤n` using AG2.4
 
 - `arithmetic_finite_cell_models.cover`: a base cell with coefficient lattice `O²` lifts to `|Δ|` cells and a free `O[Δ]-term` of rank 2. Monodromy changes the differentials, not this rank. If `V=0` the perfect complex is zero; perfectness alone does not give the nonzero input of Layer 5.
 - `arithmetic_finite_cell_models.stabilizer`: a point with stabilizer `C_p` has mod-p group cohomology in arbitrarily high degrees, so compactness without neatness cannot supply the finite free assertion. For a noncompact smooth manifold, smooth triangulability alone does not imply a finite triangulation.
-- `arithmetic_franke_inputs.eisenstein`: for `GL₂` with trivial coefficients, unnormalized induction from trivial Levi characters has polynomial `(X−q_v)(X−1)`, with Hecke trace `1+q_v`. Omitting the cyclotomic twist gives `(X−1)²`. At `q_v=5` their traces are 6 and 2. This eigensystem is excluded only after the non-Eisenstein hypothesis is imposed.
+- For `GL₂` with trivial coefficients, unnormalized induction from trivial Levi characters has polynomial `(X−q_v)(X−1)`, with Hecke trace `1+q_v`. Omitting the cyclotomic twist gives `(X−1)²`. At `q_v=5` their traces are 6 and 2. This eigensystem is excluded only after the non-Eisenstein hypothesis is imposed.
 - `arithmetic_franke_inputs.siegel`: for `U(1,1)` the only proper parabolic is Siegel; its two rank-one Galois pieces satisfy the two-constituent condition. The separate Kostant-weight exclusion is therefore necessary even at rank one.
 
 <a id="equivariant-retract"></a>
@@ -301,7 +301,7 @@ Its interface includes:
 **Checks.**
 
 - `EquivariantRetract.identity` (degenerate): Identity maps on A give an equivariant retract of A into itself.
-- `EquivariantRetract.forget_identity` (compatibility): The forgotten retract of the identity construction is Mathlib Retract.refl.
+- The forgotten retract of the identity construction is Mathlib Retract.refl.
 - `EquivariantRetract.incompatible_actions` (non-example): Identity inclusion/retraction cannot form an equivariant retract between `Z` with multiplication-by-1 and multiplication-by-2 as the same indexed operator.
 
 <a id="unitary-levi-weight-dictionary"></a>
@@ -321,9 +321,9 @@ Its interface includes:
 
 **Checks.**
 
-- `UnitaryLeviWeight.rank_one` (computation): For `λ_τ=(2), λ_{τc}=(−3)`, the unitary row is (3,2).
-- `UnitaryLeviWeight.zero` (degenerate): Zero Levi rows give the zero unitary row.
-- `UnitaryLeviWeight.rank_two` (computation): For `λ_τ=(2,1), λ_{τc}=(−3,−4)`, the unitary row is (4,3,2,1).
+- For `λ_τ=(2), λ_{τc}=(−3)`, the unitary row is (3,2).
+- Zero Levi rows give the zero unitary row.
+- For `λ_τ=(2,1), λ_{τc}=(−3,−4)`, the unitary row is (4,3,2,1).
 - `UnitaryLeviWeight.non_dominant`: For `n=1` and both Levi rows `(1)`, the unitary row is `(−1,1)` and is not dominant. Its induced `GL₂` module is zero, whereas the Levi module has rank one, so no coefficient embedding exists.
 
 **Integral dual Weyl modules and Hecke algebras of positive monoids**
@@ -588,10 +588,10 @@ Its interface includes:
 
 **Checks.**
 
-- `KostantShuffle.rank_one` (computation): For `n=1` the two shuffles have lengths 0 and 1.
-- `KostantShuffle.rank_zero` (degenerate): For `n=0` the unique shuffle has length 0.
-- `KostantShuffle.block_swap` (computation): The permutation exchanging the two blocks, preserving order inside each block, is a shuffle of length `n²`.
-- `KostantShuffle.internal_swap` (non-example): For `n=2` the transposition (0 1) is not a shuffle.
+- For `n=1` the two shuffles have lengths 0 and 1.
+- For `n=0` the unique shuffle has length 0.
+- The permutation exchanging the two blocks, preserving order inside each block, is a shuffle of length `n²`.
+- For `n=2` the transposition (0 1) is not a shuffle.
 
 <a id="integral-kostant-decomposition"></a>
 
@@ -653,7 +653,7 @@ Its interface includes:
 **Checks.**
 
 - `CTGWeight.zero` (non-example): For nonempty `W` and `n>0` the zero table is not CTG.
-- `CTGWeight.empty_w` (degenerate): With `W` empty the predicate is true.
+- With `W` empty the predicate is true.
 - `CTGWeight.rank_one_pair` (computation): For `n=1`, one `w` and embeddings `a,aᶜ,b,bᶜ`, with `μ(a)=0, μ(aᶜ)=0, μ(b)=1, μ(bᶜ)=0`, the table is CTG: the conjugate sums are 0 and 1.
 
 <a id="ctg-one-embedding-perturbation"></a>
@@ -972,7 +972,7 @@ The comparison target `rational_abelian_is_locally_algebraic` has the following 
 
 - `rational_abelian_is_locally_algebraic.repeated``: 1⊕1` is abelian, semisimple and Q-rational; it gives two identical weak character systems, both of Hodge–Tate weight 0. No distinct-character hypothesis is allowed.
 - `rational_abelian_is_locally_algebraic.finite`: a finite-order abelian representation is locally constant at `ℓ`, hence locally algebraic of weight 0, even if it is ramified at `ℓ`. Crystalline at every place is not a conclusion.
-- `rank_two_reducibility_dichotomy.metadata`: for `1⊕ε`, geometric good Frobenius polynomials are `(X−1)(X−q_v⁻¹)` and the true weights are `{0,−1}`. The extremely weak metadata `{2,−3}` has the same sum `−1` and is allowed, but is not the true Hodge multiset. The character systems recover the representations, not this arbitrary table.
+- For `1⊕ε`, geometric good Frobenius polynomials are `(X−1)(X−q_v⁻¹)` and the true weights are `{0,−1}`. The extremely weak metadata `{2,−3}` has the same sum `−1` and is allowed, but is not the true Hodge multiset. The character systems recover the representations, not this arbitrary table.
 - `rational_abelian_is_locally_algebraic.rationality`: continuity alone is insufficient. Choose `a∈Z₅` such that `11^a` is transcendental over `Q`; this is possible because exponentiation by 11 has uncountable image. The cyclotomic principal-unit character `⟨ε⟩^a` of `G_Q` is continuous and unramified away from 5, but its value at geometric Frobenius at 11 is the transcendental number `11^{−a}`. It fails the number-field rationality hypothesis; an arbitrary 5-adic exponent is not an algebraic Hecke weight.
 
 <a id="rank-two-system-trichotomy"></a>
@@ -1045,7 +1045,7 @@ Strong irreducibility forces each rank-two connected projection to contain `SL�
 
 **Checks.**
 
-- `extremely_weak_rational_maximality.coefficients`: for `M=Q(√2)` and `Q_v=X²−√2` X+1, the rationalized polynomial is `(X²−√2 X+1)(X²+√2 X+1)=X⁴+1`. Its degree is 4 at both split and inert `ℓ`. Using `Q_v` as a rational polynomial fails.
+- For `M=Q(√2)` and `Q_v=X²−√2` X+1, the rationalized polynomial is `(X²−√2 X+1)(X²+√2 X+1)=X⁴+1`. Its degree is 4 at both split and inert `ℓ`. Using `Q_v` as a rational polynomial fails.
 - `extremely_weak_rational_maximality.centre`: for a finite-image character the connected monodromy and its simply connected derived cover are trivial. Maximality there is automatic; it does not assert that the character's original image is a maximal compact subgroup of `G_m`.
 - `rank_two_large_residual_image.small_prime``: SL₂(F₂)≅S₃` and `SL₂(F₃)` have nontrivial abelianization. The perfection argument is used only after excluding `ℓ≤3`; no uniform assertion at every prime is made.
 - `rank_two_large_residual_image.prime_field`: when the coefficient residue field is `F_{ℓ²}`, a conjugate of `SL₂(F_ℓ)` is a proper subgroup of `SL₂(F_{ℓ²})`. The conclusion retains exactly the first subgroup.
@@ -1192,9 +1192,9 @@ Its interface includes:
 
 **Checks.**
 
-- `RankTwoWeightZero.standard` (computation): The constant table {0,1} has weight zero.
-- `RankTwoWeightZero.repeated_zero` (non-example): The constant table {0,0} does not have weight zero.
-- `RankTwoWeightZero.reversed` (compatibility): The table presented as {1,0} has weight zero because the weights are a multiset.
+- The constant table {0,1} has weight zero.
+- The constant table {0,0} does not have weight zero.
+- The table presented as {1,0} has weight zero because the weights are a multiset.
 
 <a id="rank-two-odd"></a>
 
@@ -1213,9 +1213,9 @@ Its interface includes:
 
 **Checks.**
 
-- `RankTwoOdd.split_involution` (computation): `diag(1,−1)` is odd.
-- `RankTwoOdd.identity` (non-example): The identity matrix over `Q` is not odd.
-- `RankTwoOdd.empty_real_places` (degenerate): An empty real-place family satisfies the determinant condition.
+- `diag(1,−1)` is odd.
+- The identity matrix over `Q` is not odd.
+- An empty real-place family satisfies the determinant condition.
 
 <a id="rank-two-member-irreducibility-equivalence"></a>
 
@@ -1279,8 +1279,8 @@ Its interface includes:
 **Checks.**
 
 - `IwahoriLevelTower.base` (computation): `K(0,1)=K`.
-- `IwahoriLevelTower.zero_b` (degenerate): For `b=0` the diamond quotient is trivial.
-- `IwahoriLevelTower.deep_unipotent` (non-example): For `b=1` a diagonal unit not congruent to 1 modulo `varpi_v` is excluded even though it belongs to `K(0,c)`.
+- For `b=0` the diamond quotient is trivial.
+- For `b=1` a diagonal unit not congruent to 1 modulo `varpi_v` is excluded even though it belongs to `K(0,c)`.
 - Over a field, nonzero `ϖ` generates the unit ideal and the congruence levels are the whole matrix group; arithmetic uniformizers are nonunits.
 
 <a id="smooth-monoid-modules"></a>
@@ -1322,9 +1322,9 @@ Its interface includes:
 
 **Checks.**
 
-- `PositiveTorusMonoid.rank_one` (degenerate): For `n=1` all diagonal torus elements are positive.
-- `PositiveTorusMonoid.rank_two_positive` (computation): The exponent row (1,0) is positive.
-- `PositiveTorusMonoid.rank_two_negative` (non-example): The exponent row (0,1) is not positive for the upper-triangular Borel.
+- For `n=1` all diagonal torus elements are positive.
+- The exponent row (1,0) is positive.
+- The exponent row (0,1) is not positive for the upper-triangular Borel.
 
 <a id="arithmetic-ordinary-summand"></a>
 
@@ -1364,9 +1364,9 @@ Its interface includes:
 
 **Checks.**
 
-- `LowestWeightCharacter.zero` (degenerate): The zero weight gives the trivial character.
-- `LowestWeightCharacter.rank_one_square` (computation): For one embedding, rank one and weight 2, a unit `u` acts by `τ(u)²`.
-- `LowestWeightCharacter.uniformizer_normalization` (non-example): Even for nonzero `λ`, chosen uniformizers act by 1, not by their algebraic `λ-power`.
+- The zero weight gives the trivial character.
+- For one embedding, rank one and weight 2, a unit `u` acts by `τ(u)²`.
+- Even for nonzero `λ`, chosen uniformizers act by 1, not by their algebraic `λ-power`.
 
 <a id="ordinary-galois-characters"></a>
 
@@ -1385,9 +1385,9 @@ Its interface includes:
 
 **Checks.**
 
-- `OrdinaryGaloisCharacters.rank_one` (computation): For `n=1, χ₁(Art(varpi_v))=U_{v,1}`.
+- For `n=1, χ₁(Art(varpi_v))=U_{v,1}`.
 - `OrdinaryGaloisCharacters.determinant` (characterisation): The product of the `n` uniformizer values is `ε^{n(1−n)/2}U_{v,n}`.
-- `OrdinaryGaloisCharacters.weight_reversal` (non-example): For rank 2 with `λ=(2,0)`, the algebraic unit factors are 1 for `χ₁` and `u^{-2}` for `χ₂` before `ε` and diamonds; using `λ_i` instead of `λ_{n−i+1}` reverses them.
+- For rank 2 with `λ=(2,0)`, the algebraic unit factors are 1 for `χ₁` and `u^{-2}` for `χ₂` before `ε` and diamonds; using `λ_i` instead of `λ_{n−i+1}` reverses them.
 
 **Local ordinary functors and derived invariants**
 
@@ -1664,9 +1664,9 @@ Its interface includes:
 
 **Checks.**
 
-- `RelativeBruhatCells.rank_one` (computation): A single split `GL₂` factor has relative cell lengths 0 and 1.
-- `RelativeBruhatCells.identity_cell` (degenerate): The identity representative has both lengths zero.
-- `RelativeBruhatCells.degree_two_place` (non-example): For one `p`-adic place of local degree 2 and `n=1`, longest relative length is 1 but absolute length is 2.
+- A single split `GL₂` factor has relative cell lengths 0 and 1.
+- The identity representative has both lengths zero.
+- For one `p`-adic place of local degree 2 and `n=1`, longest relative length is 1 but absolute length is 2.
 
 <a id="bruhat-cell-induction"></a>
 
@@ -1783,9 +1783,9 @@ Its interface includes:
 
 **Checks.**
 
-- `BruhatOrientationCharacter.zero_lie` (degenerate): For a zero-dimensional unipotent Lie space, `χ_w=1`.
-- `BruhatOrientationCharacter.one_unit` (computation): For a one-dimensional rational root with Ad scalar `u∈Z_p×, χ_w(u)=u^{-1}`.
-- `BruhatOrientationCharacter.one_uniformizer` (computation): For the same rational root with scalar `p, χ_w(p)=1` because the `p`-adic norm factor cancels `p^{-1}`.
+- For a zero-dimensional unipotent Lie space, `χ_w=1`.
+- For a one-dimensional rational root with Ad scalar `u∈Z_p×, χ_w(u)=u^{-1}`.
+- For the same rational root with scalar `p, χ_w(p)=1` because the `p`-adic norm factor cancels `p^{-1}`.
 - At `p=2`, the rational unit `−1` gives `χ_w(−1)=−1`; reduction modulo 2 would lose this sign.
 
 <a id="ordinary-unipotent-degree-shift"></a>
@@ -2044,8 +2044,8 @@ For `σ=ι⁻¹Sp_n(ψ_v|·|_v^{(1−n)/2})`, the unnormalized Jacquet module is
 
 - For `n = 1` the criterion is `IotaOrdinary.gl_one`: an unramified character `ψ_v` with the displayed valuation is `ι-ordinary`.
 - With `c_τ = 0` the hypothesis is `val_l(ι^{-1}ψ_v(ϖ_v)^n) = 0`, which the central-character identity gives automatically (`r_{l,ι}(φ_π)` then has Hodge–Tate weight 0); this recovers the weight-zero Steinberg remark of BLGGT §2.1 (Geraghty Lemma 5.1.5). Complex unitarity of `ψ_v` alone does not give the `l`-adic condition.
-- `twisted_steinberg_ordinarity_criterion.modulus`: for `GL₂(Q₅), j=1` and `ψ_v(5)=1, δ_B(diag(5,1))=1/5`. The Jacquet scalar 1/5 is multiplied by 5 to give `U^{(1)}=1`. Omitting `δ_B⁻¹` gives valuation `−1` and incorrectly excludes the weight-zero Steinberg representation.
-- `twisted_steinberg_ordinarity_criterion.weight`: for `GL₂(Q₅), c=2` and `ψ_v(5)=25`, the eigenvalues are `U^{(1)}=25` and `U^{(2)}=625`. The normalized values are `5⁻²·25=1` and `5⁻⁴·625=1`. Reversing the sign of the weight factor gives 625 and 390625, both nonunits.
+- For `GL₂(Q₅), j=1` and `ψ_v(5)=1, δ_B(diag(5,1))=1/5`. The Jacquet scalar 1/5 is multiplied by 5 to give `U^{(1)}=1`. Omitting `δ_B⁻¹` gives valuation `−1` and incorrectly excludes the weight-zero Steinberg representation.
+- For `GL₂(Q₅), c=2` and `ψ_v(5)=25`, the eigenvalues are `U^{(1)}=25` and `U^{(2)}=625`. The normalized values are `5⁻²·25=1` and `5⁻⁴·625=1`. Reversing the sign of the weight factor gives 625 and 390625, both nonunits.
 
 <a id="iota-ordinary-soluble-base-change"></a>
 
@@ -2065,8 +2065,8 @@ For descent, this slope calculation alone is insufficient: one must first produc
 
 - If `E/F` is split at every `p`-adic place, `ι-ordinarity` of `π` at `v` and of `π_E` at each `w | v` coincide.
 - No `ι-ordinarity` is asserted for a base change that is not cuspidal; irreducibility of `r_ι(π)|G_E` is a hypothesis of the supplier theorem.
-- `iota_ordinary_soluble_base_change.unramified`: in an unramified quadratic extension of `Q₅` the residue degree is 2. A character slope a and weight slope `b` become `2a` and `2b; 2(a−b)=0` exactly when `a−b=0`. For `a=b=2` the normalized value `5⁻²·25=1` becomes `5⁻⁴·625=1`.
-- `iota_ordinary_soluble_base_change.ramified`: in a totally ramified quadratic extension of `Q₅, f=1`. Each extended embedding contributes half the original uniformizer valuation and there are two of them; the total weight slope and the character norm slope are unchanged. Replacing the scaling factor by `[E_w:F_v]=2` would give the wrong individual slopes.
+- In an unramified quadratic extension of `Q₅` the residue degree is 2. A character slope a and weight slope `b` become `2a` and `2b; 2(a−b)=0` exactly when `a−b=0`. For `a=b=2` the normalized value `5⁻²·25=1` becomes `5⁻⁴·625=1`.
+- In a totally ramified quadratic extension of `Q₅, f=1`. Each extended embedding contributes half the original uniformizer valuation and there are two of them; the total weight slope and the character norm slope are unchanged. Replacing the scaling factor by `[E_w:F_v]=2` would give the wrong individual slopes.
 
 <a id="ordinary-automorphic-galois-flag"></a>
 
@@ -2173,9 +2173,9 @@ Its interface includes:
 
 **Checks.**
 
-- `WeightIndependentHidaTwist.rank_one_zero` (degenerate): For `n=1, μ=0, ν=0` so the twist is trivial.
-- `WeightIndependentHidaTwist.rank_two_zero` (computation): For `n=2, μ=0, ν=(0,1)` and the twist is `O(0,1)^{-1}`, not the trivial character.
-- `WeightIndependentHidaTwist.rank_two_weight` (computation): For `μ=(2,0), ν+w₀μ=(0,3)`, fixing both the reversal and `ν` shift.
+- For `n=1, μ=0, ν=0` so the twist is trivial.
+- For `n=2, μ=0, ν=(0,1)` and the twist is `O(0,1)^{-1}`, not the trivial character.
+- For `μ=(2,0), ν+w₀μ=(0,3)`, fixing both the reversal and `ν` shift.
 - `WeightIndependentHidaTwist.torsion_component`: take `Λ₁=O[C_p]`, generator `t`, a primitive `ζ_p∈O`, `κ(t)=ζ_p`, `Λ=Λ₁/(t−ζ_p)` and `A₁=Λ₁`. In `B=(A₁⊗O(κ))⊗^L_{Λ₁}Λ`, `t` acts by `ζ_p`. In `(A₁⊗^L_{Λ₁}Λ)⊗O(κ)` with diagonal action it acts by `ζ_p²≠ζ_p`, so that action does not factor through the same quotient. Power-series variables do not change the test.
 - For `κ=1` the automorphism is the identity, and the two orders of specialization coincide.
 
@@ -2274,9 +2274,9 @@ Its interface includes:
 
 **Checks.**
 
-- `TaylorWilesArithmeticLevels.empty` (degenerate): For `Q=∅` both levels equal `K` and the diamond group is trivial.
-- `TaylorWilesArithmeticLevels.single_prime` (computation): For `Q={v}, n=2` and `p>2` the trace scalar is 2 modulo `p`, hence a unit.
-- `TaylorWilesArithmeticLevels.old_bad_place` (non-example): At `v∈S` outside `Q` the original local factor must be retained; leaving it unspecified does not define a level.
+- For `Q=∅` both levels equal `K` and the diamond group is trivial.
+- For `Q={v}, n=2` and `p>2` the trace scalar is 2 modulo `p`, hence a unit.
+- At `v∈S` outside `Q` the original local factor must be retained; leaving it unspecified does not define a level.
 
 <a id="taylor-wiles-selected-ideals"></a>
 
@@ -2314,7 +2314,7 @@ Part (1) holds because at `q = 1` the quadratic relation of the finite Hecke alg
 - For `n = 1` the algebra `H_B ⊗ k` is the group algebra `k[ℤ]` and (2) is the identity.
 - For `n = 2` the index [K:B] `= q + 1 ≡ 2 mod p`, a unit for odd `p`; for `q ≢ 1 mod p`, (1) fails because `T_s² = q + (q−1)T_s` does not reduce to `T_s² = 1`.
 - The square-root choice fixes the residual eigenvalue labels. For `n = 2` and `k = 𝔽₅`, using the other lift `q^{1/2} ≡ −1` gives `e₁(t) = −T₁`. If the spherical eigenvalues are `e₁(1,2) = 3` and `e₂(1,2) = 2`, the torus roots are then `−1` and `−2`, rather than 1 and 2. The condition `q^{1/2} ≡ 1` makes the labels in (4) agree with the Bernstein normalization.
-- `taylor_wiles_residual_iwahori_hecke.integral_normalization`: for `n=2,q=11,p=5` choose `a=q^{1/2}≡1 mod 5`. On the normalized principal series with Satake parameters `1,1`, `T₁` acts by `2a`, so `a⁻¹T₁` acts by 2 while `aT₁` acts by 22. These integral scalars differ although their reductions agree.
+- For `n=2,q=11,p=5` choose `a=q^{1/2}≡1 mod 5`. On the normalized principal series with Satake parameters `1,1`, `T₁` acts by `2a`, so `a⁻¹T₁` acts by 2 while `aT₁` acts by 22. These integral scalars differ although their reductions agree.
 - The zero module has empty support and satisfies every condition quantified over that support, but `[K]0 = 0`. Part (5) therefore requires `M ≠ 0`.
 - Splitting over `k` is essential for the last two comparisons. Take `n = 2, q = 11, k = 𝔽₅` and `M = 𝔽₂₅ = 𝔽₅[γ]` with `γ² = 2`. Let `t₁` and `t₂` act by `γ` and `−γ`, and let the transposition act by Frobenius `x ↦ x⁵`. This is a module over `k[ℤ² ⋊ S₂]`, with the single central polynomial `X² − 2`, separable but irreducible over `k`. The torus maximal ideal is fixed by `S₂, M_𝔪 = M` has dimension 2, and `k[S₂] ⊗_k M_𝔪` has dimension 4. The map `[K] = 1 +` Frobenius has image `𝔽₅` of dimension 1, so neither comparison is an isomorphism. After extending to `𝔽₂₅` the two ordered-root localizations are exchanged and the split-root comparison applies.
 
