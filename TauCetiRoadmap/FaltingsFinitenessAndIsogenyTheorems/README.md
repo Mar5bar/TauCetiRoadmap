@@ -225,8 +225,9 @@ metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties ove
   relative to it. `Suggested.lean` contains the light definitions with real bodies and the
   statements whose carriers exist at the pinned Mathlib and Tau Ceti: the degree of a metrized
   fractional ideal, the quaternion construction, sums of four squares in `ℤ_l`, the finiteness of
-  Weil polynomials and of stable lattices, and the elliptic-curve statements over Tau Ceti's
-  homomorphisms of Weierstrass curves. Every other target is specified in this README only.
+  Weil polynomials and of stable lattices, integral idempotent and direct-factor finiteness,
+  and the elliptic-curve statements over Tau Ceti's homomorphisms of Weierstrass curves and
+  rational Tate representations. The other targets are specified in this README only.
 
 ## Exact supplier contracts
 
@@ -1722,7 +1723,7 @@ preserves `W` and `W^⊥`. Every element of `W_1` is `(x + y, v(x − y))`, whic
 - For `(a, b, c, d) = (2, 3, 5, 7)` over `ℤ`, `v·vᵀ = 87·1`
   (`87 = 4 + 9 + 25 + 49`); a sign error in any off-diagonal entry breaks this.
 - The quadruple `(0, 0, 0, 0)` gives zero; `(1, 0, 0, 0)` gives the identity.
-- `right_multiplication_sign`: `(0, 1, 0, 0)` sends `(x₁, x₂, x₃, x₄)` to
+- Right multiplication by `(0, 1, 0, 0)` sends `(x₁, x₂, x₃, x₄)` to
   `(−x₂, x₁, x₄, −x₃)`. In particular the third basis vector goes to minus the fourth, fixing
   right multiplication rather than left multiplication.
 - The identity matrix fixes a nonzero vector supported in the first coordinate.
@@ -1741,8 +1742,9 @@ preserves `W` and `W^⊥`. Every element of `W_1` is `(x + y, v(x − y))`, whic
 - For `W = 0`, `W_1` is the graph of `−v` on `V^4`; for `W = V`, the graph of `v`.
 - For `dim V = 2` and `W` a line (so `W^⊥ = W`), `W_1 = W^4 × W^4`, an 8-dimensional
   isotropic subspace of the 16-dimensional `V^8`.
-- `not_isotropic_identity`: with `v` replaced by the identity (`v·vᵀ = +1`) the graph `{(x, x)}` is not isotropic
-  when `e ≠ 0`, since `e((x, x), (x', x')) = 2e(x, x')`; the condition `v·vᵀ = −1` is essential.
+- `QuaternionIsotropic.not_isotropic_identity`: over a field with `2 ≠ 0`, the identity
+  graph pairs a symplectic pair to `2`, so it is not isotropic. The condition `v·vᵀ = −1`
+  is essential; the identity matrix has `v·vᵀ = +1`.
 
 ### R28.4.3 Zarhin's lemma for maximal isotropic subspaces
 
@@ -2300,7 +2302,9 @@ finite-index changes of arithmetic subgroup.
 **Integral idempotents.** Prove `IntegralOrder.finite_idempotentConjugacyClasses`: for a
 `ℤ`-order `O` in a finite-dimensional semisimple `ℚ`-algebra `E`, its integral idempotents
 have finitely many conjugacy classes under `O^×` (Milne, I Proposition 15.4 and
-Application 15.8, pp. 65–67). Use the preceding adapter. After splitting `E`, idempotents
+Application 15.8, pp. 65–67). Equivalently, take a finite free `ℤ`-algebra `O` with
+semisimple rational algebra `ℚ ⊗_ℤ O`; its scalar map embeds `O` as a full order in that algebra.
+Use the preceding adapter. After splitting `E`, idempotents
 have finitely many rank vectors. Each corresponding geometric orbit is closed: in each
 matrix block it is cut out by `e² = e` and `tr(e) = r`, since characteristic is zero and
 idempotents are diagonalizable. Thus no projectivity assertion about the space of images
@@ -2504,7 +2508,9 @@ NeronModelsAndSemistableAbelianVarieties §6.5 `EquationGoodComparison`; Tau Cet
 
 Prove `elliptic_semisimple` (Faltings 1983, §5, Satz 3 for `g = 1`, p. 360; Milne, *Abelian varieties*, IV Theorem
 1.2, p. 131): for an elliptic curve `E/K` and a prime `l`, `V_l(E)` is a semisimple `ℚ_l[π]`-module: irreducible, or the
-sum of two `π`-stable lines.
+sum of two `π`-stable lines. Use `ellipticRationalRepresentation` for the scalar extension
+of `WeierstrassCurve.tateModuleGaloisRepresentation` to
+`ℚ_l ⊗_{ℤ_l} TauCeti.TateModule l (E⁄K̄).toAffine.Point`, with `K̄ = AlgebraicClosure K`.
 
 *Proof route.* Transport R28.4.5 along R28.6.1; a semisimple two-dimensional representation is irreducible or a
 sum of two lines.
@@ -2539,6 +2545,8 @@ Prove `elliptic_tate_hom_iso` (Faltings 1983, §5, Korollar 1 for `g = 1`, p. 36
 Prove `elliptic_isogenous_iff_ap` (Faltings 1983, §5, Korollar 2 for `g = 1`, p. 361): elliptic curves `E, E'` over `K`
 are `K`-isogenous if and only if `V_l(E) ≅ V_l(E')` as `π`-modules for one (equivalently every) prime `l`, if and only
 if `a_v(E) = a_v(E')` for almost all places `v` of good reduction of both.
+The equivalence with rational Tate representations at each prime `l` is
+`elliptic_isogenous_iff_rationalTateModule`.
 
 *Proof route.* Transport R28.4.7 along R28.6.1; at a place of good reduction `L_v(E, s)^{−1} = 1 − a_v Nv^{−s} + Nv^{1−2s}`, so
 equality of local factors is equality of `a_v`.
@@ -2660,7 +2668,8 @@ characteristic zero); Tau Ceti
   quotient argument uses no such polarization; `l²λ` would have different descent data.
 - With a `β_j` of degree divisible by `l`, its torsion map need not be invertible, so
   `im(f β_j)` need not equal `W`; these primes are excluded explicitly.
-- `order_centralizer_reduce` needs separability: let `O = ℤ_l[ε]/(ε²)` act on `ℤ_l²`
+- `order_centralizer_reduce_counterexample`: `order_centralizer_reduce` needs separability.
+  Let `O = ℤ_l[ε]/(ε²)` act on `ℤ_l²`
   by `ε = lE₁₂`. Its integral centralizer consists of `(a b; 0 a)`, whereas modulo `l`
   the action of `ε` is zero and the centralizer is all `M₂(𝔽_l)`. Saturation of an
   unrelated Tate map cannot give the missing reduction theorem.
