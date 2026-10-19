@@ -289,8 +289,8 @@ theorem SuzukiReeIndex.isLongSimpleRoot_lengthPerm (e : SuzukiReeIndex) (i : Fin
 def SuzukiReeIndex.exponent (e : SuzukiReeIndex) : Fin e.1.rank → ℕ := sorry
 
 /-- **The exponent convention**, stated once against `DynkinType.IsLongSimpleRoot` rather than as a
-table per family: `1` on the long simple roots. Attaching `1` to long and `p` to short is a genuine
-choice, since the opposite assignment also squares to `Frob_p`. -/
+table per family: `1` on the long simple roots. The assignment is forced: the torus relations give
+`q(short) = 2 q(long)` (README L2), so the reversed assignment does not define an endomorphism. -/
 theorem SuzukiReeIndex.exponent_of_isLongSimpleRoot (e : SuzukiReeIndex) (i : Fin e.1.rank)
     (h : e.1.dynkinType.IsLongSimpleRoot i) : e.exponent i = 1 := sorry
 
