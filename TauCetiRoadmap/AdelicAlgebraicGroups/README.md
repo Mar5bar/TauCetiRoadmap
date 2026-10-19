@@ -252,7 +252,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. |
 | Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
-| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: `arakelovMulHeight`, `arakelovMulHeight_eq_height2`, and relative extension-power transport from `height2_baseExtension`; prototype namespace `TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation` in that roadmap's `Suggested.lean` | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
+| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**; use `TauCeti.height2`, `TauCeti.arakelovMulHeight` and `TauCeti.arakelovMulHeight_eq_height2`, with `[Finite ι]`, from [TauCeti/NumberTheory/Height/Arakelov/Basic.lean](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/NumberTheory/Height/Arakelov/Basic.lean). DAT supplies `height2_baseExtension` and relative extension-power transport; its `Suggested.lean` gives prototype signatures in `TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation`. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Brauer and monomial character induction | RepresentationTheory/InductionRestriction, layer 6; pinned `TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`: `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`, `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`; `TauCeti/GroupTheory/Elementary.lean`: `TauCeti.IsElementary.isNilpotent`; `TauCeti/RepresentationTheory/Induction/Monomial.lean`: `FDRep.exists_character_eq_indClassFun_of_isNilpotent`; `TauCeti/RepresentationTheory/Induction/ClassFunction.lean`: `TauCeti.indClassFun_indClassFun_subgroupOf` | For a finite group over an algebraically closed characteristic-zero field, write every character as an integral combination of characters induced from linear characters of subgroups. AA.2.4 owns the ramified local Artin-factor induction identity, one-dimensional Artin–Hecke comparison and analytic assembly. |
 | Finite-order Hecke analysis | [LFunctions, Layer 5 for continuation and Layer 7 for nonvanishing](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
 | One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
@@ -1120,8 +1120,9 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   algebraic groups `φ : G → G′` over `F` (a Hopf algebra map `φ* : H′ → H`), define
   `φ_𝔸 : AdelicPoints H →* AdelicPoints H′`, `x ↦ x ∘ φ*`. Prove
   that `φ_𝔸` is continuous, that the identity induces the identity,
-  that `(φ ∘ ψ)_𝔸 = ψ_𝔸 ∘ φ_𝔸` for Hopf algebra maps
-  (contravariance on Hopf algebras), that `φ_𝔸 (diagonal g) = diagonal (φ g)` and that `p_v ∘ φ_𝔸 = φ_v ∘ p_v`. Under
+  that `(φ ∘ ψ)_𝔸 = φ_𝔸 ∘ ψ_𝔸` for composable group morphisms `ψ : G₀ → G`,
+  `φ : G → G′` (with `(φ ∘ ψ)* = ψ* ∘ φ*` on Hopf algebras), that
+  `φ_𝔸 (diagonal g) = diagonal (φ g)` and that `p_v ∘ φ_𝔸 = φ_v ∘ p_v`. Under
   *restricted-product-comparison* it is the restricted product of the local maps `φ_v`, which
   send `𝓗(𝒪_v)` into `𝓗′(𝒪_v)` for almost all `v` ([Borel], §1.3, p. 7). *Needs:* AA.1.1; Tau
   Ceti `TauCeti.CommHopfAlgCat.pointsFunctor`; AA.1.2; Mathlib
@@ -1718,7 +1719,6 @@ restriction of scalars.
     measure lives on `G(F)\G(𝔸)`.
   - For `GL_1`, the norm-one quotient has finite volume while the split component `ℝ_{>0}` is
     not compact, so `ℚ^×\𝔸^×` has infinite volume.
-  - For `GL₁/ℚ`, the normalized idele measure gives the norm-one quotient total mass `1`.
   - The idele `u_∞ = −1`, `u_p = 1` for every finite prime has norm one and is not principal:
     a rational element with all finite components `1` must be `1`, whose real component is `1`.
     Thus `[1]·u ≠ [1]` (`GL1.normOne_archimedean_sign`).
@@ -1806,8 +1806,9 @@ restriction of scalars.
   `∏_{w|∞} |ω|_w` on `G(F ⊗ ℝ)` is a Haar measure, a scalar `c ∈ F` multiplies it by
   `∏_w |c|_w`, squared at complex places, and for `G_a` it is
   `Adeles.infiniteAdeleHaar`. These clauses determine the measures attached to `G_a` and to `G_m`; for
-  a general group the constant is fixed by the chart construction or by Weil's formula below, which
-  is stated only for `GL_n` at finite places. *Needs:* AA.2.4; ReductiveGroupsPartII, RG2.0 (point topology);
+  a general group the constant is fixed by the chart construction or, at finite places, by
+  Weil's formula below for smooth integral models, with `GL_n` as a normalization check.
+  The archimedean constant comes from the chart construction. *Needs:* AA.2.4; ReductiveGroupsPartII, RG2.0 (point topology);
   RG2.0 *smooth-group-analytic-charts*, as specified in the local analytic supplier contract.
   *Lean:* none; specified in the README only.
 
@@ -1834,6 +1835,8 @@ restriction of scalars.
   *Lean:* none; specified in the README only.
 
   **Checks.**
+  - For `G_a/𝒪_v` with `ω = dT`, the formula gives `q_v · q_v⁻¹ = 1`.
+  - For `G_m/𝒪_v` with `ω = dT/T`, it gives `(q_v − 1) q_v⁻¹ = 1 − q_v⁻¹`.
   - For `GL₂` at `q_v = 2`, `|ω|_v(GL₂(𝒪_v)) = 6/16 = 3/8`; a measure
     normalized by `vol(GL₂(𝒪_v)) = 1` satisfies the other clauses and gives `1`.
 - **Convergence factors from the character module.** (*convergence-factors*) For `G = Spec H`
@@ -2015,16 +2018,10 @@ restriction of scalars.
 
   **Checks.**
   - For the trivial group `τ = 1`.
-  - `τ(G_m) = 1`: with the convergence factors `λ_v = (1 − q_v^{−1})^{−1}` of the preceding
-    bullet, the gauge form `dx/x`, the archimedean normalisations of the Conventions and the
-    measure `[F:ℚ] dt/t` on the diagonal scalar parameter of `A_{G_m}(ℝ)^0 = ℝ_{>0}`, the volume of
-    `F^×\𝔸_F^1` is `1` (Weil; this is the residue formula
-    `res_{s=1} ζ_F = 2^{r₁}(2π)^{r₂} h R / (w |d_F|^{1/2})` in measure-theoretic form). For
-    `F = ℚ(i)` (`r₂ = 1`, `|d_F| = 4`, `h = R = 1`, `w = 4`) the residue is `π/4` and the idele
-    volume of `F^×\𝔸_F^1` is `π/2`, so `τ = (1/2)(4/π)(π/2) = 1`; omitting `|d_F|^{−1/2}` gives `2`
-    and omitting the factor `2` at the complex place gives `1/2`. Over `ℚ`
-    neither omission changes the value, so `ℚ` alone does not test these conventions; omitting the
-    convergence factors gives the zero measure over every field.
+  - Replacing the auxiliary gauge form by twice that form leaves `τ(G)` unchanged:
+    its local scaling factors have product one.
+  - Replacing the Lebesgue measure on `a_G` by twice that measure divides the induced
+    norm-one quotient measure by two; the lattice normalization excludes this change.
   - `vol(G_m(F)\G_m(𝔸)) = ∞` because the split component `ℝ_{>0}` is not compact; `τ` uses the
     norm-one quotient.
 
@@ -2157,7 +2154,9 @@ gauge forms and the global discriminant; these are not supplied by the linear la
   *Lean:* none; specified in the README only.
 
   **Checks.**
-  - `τ(Res_{E/F} G_m) = τ(G_m) = 1` although `Res_{E/F} G_m` has dimension `[E : F]`.
+  - `E = F` gives the identity transport on measures and character spaces.
+  - Restriction of the trivial group preserves its one-point measure of mass one.
+  - `τ(Res_{E/F} G_m) = τ(G_m)` although `Res_{E/F} G_m` has dimension `[E : F]`.
     Without the factors `|d|^{−d/2}` the two sides would be multiplied by
     `|d_F|^{[E:F]/2}` and `|d_E|^{1/2}`, which are `1` and `2` for `ℚ(i)/ℚ`.
 
@@ -2175,11 +2174,12 @@ the idele normalization by `1 − p⁻¹`, `τ_{G_a}` of `[0,1) × ℤ̂` for `G
 Layers AA.0 and AA.1; Mathlib's group-like elements, modular character, Riesz representation,
 fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; Tau Ceti's geometric
 characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics
-and Euler product; ReductiveGroups, layer 4; ReductiveGroupsPartII, RG2.0 and RG2.1;
+and Euler product; ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII,
+RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
 LFunctions, Layer 5 for primitive finite-order Hecke continuation using ThetaSeries and Layer 7 for nonvanishing;
 ClassFieldTheory reciprocity;
-RepresentationTheory/CompactGroups, layer 5.
+RepresentationTheory/InductionRestriction, layer 6 (Brauer and monomial induction).
 
 ## Layer 3: reduction and arithmetic quotients
 
@@ -2956,8 +2956,9 @@ in the standard integral level.
   `G(F_∞)` through the diagonal. Prove `Reduction.levelArithmetic_discrete` (its image in
   `G(F_∞)` is discrete), that
   `levelArithmetic (γ x u) U = γ (levelArithmetic x U) γ⁻¹` for `γ ∈ G(F)`, `u ∈ U`, and
-  that for `U′ ≤ U`, `levelArithmetic x U′` has finite
-  index in `levelArithmetic x U`; for all `x, x′` and compact open `U, U′` the groups `Γ_{x,U}`
+  that for compact open `U′ ≤ U`, `levelArithmetic x U′` has finite
+  index in `levelArithmetic x U` (`Reduction.levelArithmetic_finiteRelIndex`);
+  for all `x, x′` and compact open `U, U′` the groups `Γ_{x,U}`
   and `Γ_{x′,U′}` are commensurable (`Reduction.levelArithmetic_commensurable`) ([Milne], Lemma 5.13, p. 57). *Needs:* AA.1.3; AA.1.5; AA.1.2.
   Discreteness needs only compactness of `U`, as in the Lean signature; the finite-index and
   commensurability applications here use compact open levels.
@@ -2965,7 +2966,7 @@ in the standard integral level.
   states the imaginary-quadratic Bianchi special case, reconciled with this theorem by the
   integral-level and finite-centre adapter in **Downstream consumers**.
   *Lean:* in `Reduction`: `levelArithmetic`, `levelArithmetic_discrete`,
-  `levelArithmetic_commensurable`.
+  `levelArithmetic_finiteRelIndex`, `levelArithmetic_commensurable`.
 
   **Checks.**
   - For `GL_2/ℚ`, `levelArithmetic 1 GL_2(ℤ̂) = GL_2(ℤ)`.
@@ -2973,6 +2974,9 @@ in the standard integral level.
     the place `p`, `levelArithmetic x GL_2(ℤ̂) = diag(p,1) GL_2(ℤ) diag(p,1)⁻¹ ≠ GL_2(ℤ)`.
   - For `GL₁/ℚ`, the level `ℤ̂^×` gives rational arithmetic group `{±1}`; the
     principal congruence level of modulus `3` gives `{1}`.
+  - For `G_a/ℚ`, `x = 1` (the identity), `U = ℤ̂` and the compact non-open subgroup
+    `U′ = {0}`, the rational intersections are `ℤ` and `{0}`. Their index is infinite,
+    so compactness of `U′` alone does not give finite index.
   - At `x = 1` membership is the finite diagonal condition (`Reduction.level_identity`), and the
     whole finite group as level gives all rational points (`Reduction.level_full`).
 
@@ -3167,8 +3171,9 @@ cannot replace the reduced norm in the defining equation.
   `height2_baseExtension`: for an embedding `f : F → E` of number fields and any finite tuple `y`,
   `arakelovMulHeight (f ∘ y) = arakelovMulHeight y ^ [E:F]`, including at zero.
   The supplier is DiophantineApproximationAndTranscendence §2.5,
-  **Relative Euclidean projective normalization**, with the prototype namespace in the
-  supplier table. This comparison uses its relative height and the formula of *adelic-height*.
+  **Relative Euclidean projective normalization**. Use the `TauCeti` tuple-height carrier
+  and `[Finite ι]` interface in the supplier table; DAT supplies the extension transport.
+  This comparison uses its relative height and the formula of *adelic-height*.
   *Needs:* DiophantineApproximationAndTranscendence §2.5, **Relative Euclidean projective
   normalization**; AA.3.5 (*adelic-height*).
   *Lean:* none; specified in the README only.
@@ -3210,7 +3215,7 @@ cannot replace the reduced norm in the defining equation.
   `∏_v max(1, |a₁|_v, …, |a_d|_v) ≤ R` is at most `C R^N`, for constants `C, N` depending only on
   `F, d` ([Arthur], §13, p. 70). *Needs:* GlobalNumberFields, layer 6.
   *Lean:* none; specified in the README only.
-- **Height functions on `G(𝔸)`.** (*adelic-height*) For a connected reductive group `G` over `F`,
+- **Height functions on `G(𝔸)`.** (*adelic-height*) For an affine algebraic group `G` over the number field `F`,
   choose a faithful `F`-algebraic representation `r : G → GL_m` containing a representation and
   its dual (and, if needed, a trivial summand), so the resulting height is proper and each local
   norm is at least `1`; arbitrary abstract faithful point representations do not suffice. Define
@@ -3227,7 +3232,10 @@ cannot replace the reduced norm in the defining equation.
   *Lean:* none; specified in the README only.
 
   Arthur's formulas (13.2)–(13.4), p. 70, use a matrix height over `ℚ`.
-  The number-field version here is an owned extension via restriction of scalars;
+  The extension here to affine algebraic groups uses closed immersions and polynomial
+  expressions in matrix entries and inverse entries; properness and rational counting are
+  supplied by the preceding targets for affine groups. Restriction of scalars gives the
+  number-field version;
   adjoining the dual fixes inversion symmetry, and normalized local absolute values
   supply the stated exponents. These normalizations are part of the height formula, rather
   than a quotation of Arthur's chosen embedding.
@@ -3242,6 +3250,9 @@ cannot replace the reduced norm in the defining equation.
     places only would be bounded on `G(F_∞)` and fail the compactness of height balls.
   - For `GL₂/ℚ` with the standard representation, `‖1‖ = √4 = 2`; `‖·‖²`
     satisfies all the inequalities above and gives `4`.
+  - For `G_a/ℚ` embedded by `t ↦ [[1,t],[0,1]]`, the dual-augmented local factors are
+    `sqrt(4 + 2t²)` at infinity and `max(1, |t|_p)` at finite places. This nonreductive
+    group has the same proper-height construction and polynomial comparison.
 - **Comparison of heights.** For any affine algebraic group `G` over the number field `F` and two proper
   `F`-algebraic height representations `r, r′` satisfying *adelic-height* (both algebraic and
   defining proper heights controlling their inverses), prove that there are `C, N > 0` with
@@ -4070,9 +4081,9 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* `Neat.IsNeatLevel`.
 
   **Checks.**
-  - The level `U(3) ⊂ GL_2(ℤ̂)` is neat: every `GL_2(ℚ) ∩ xU(3)x⁻¹` (`x ∈ GL_2(𝔸_f)`) is neat by
+  - The level `K(3) ⊂ GL_2(ℤ̂)` is neat: every `GL_2(ℚ) ∩ xK(3)x⁻¹` (`x ∈ GL_2(𝔸_f)`) is neat by
     *neat-criterion-one-prime* at `p = 3`.
-  - For `x = 1` this group is `Γ(3) = SL_2(ℤ) ∩ U(3)`, since a determinant in `{±1}` congruent to
+  - For `x = 1` this group is `Γ(3) = SL_2(ℤ) ∩ K(3)`, since a determinant in `{±1}` congruent to
     `1` mod `3` equals `1`.
   - `GL_2(ℤ̂)` is not neat: it contains `−1 ∈ GL_2(ℤ)`.
 - **Stable lattices for compact p-adic matrix groups.** For a prime `p`, `n ≥ 1` and a compact
@@ -4379,16 +4390,14 @@ quaternion norms and compact abelian Fourier limits.
     stabilizer `O₂(ℤ)`, the dihedral group of order eight. With `h = diag(1,−1)` and
     `r = [[0,−1],[1,0]]`, conjugation by `h` fixes the noncentral element `h` and sends
     `r` to `r⁻¹ ≠ r`.
+  - For `GL₂/ℚ`, `U = GL₂(ℤ̂)` and `K∞ = ℝ_{>0}SO(2)`, the objects over `i` and
+    `ρ = −1/2 + (√3/2)i` have automorphism groups of orders `4` and `6`.
+    The latter uses the conjugate of `K∞` by `[[√3/2,−1/2],[0,1]]`.
+    With `K∞ = ℝ_{>0}O(2)` the orders are instead `8` and `12`.
+    The central element `−1` is retained; the effective `PSL₂` stabilizers in the
+    `SO(2)` case have orders `2` and `3`. At neat level the full automorphism group is trivial.
 
 ### 4.5 Hecke correspondences, volumes and abelianization
-
-
-  **Checks.** At full integral `GL₂` level, the object over `i` has automorphism group
-  of order `4`, and the object over
-  `ρ = −1/2 + (√3/2)i` has order `6`. The latter uses the conjugate of
-  `ℝ_{>0}SO(2)` by `[[√3/2,−1/2],[0,1]]`. The central element `−1` is retained; the
-  effective `PSL₂` stabilizers instead have orders `2` and `3`. At neat level the full
-  automorphism group is trivial.
 
 - **Degree of a Hecke correspondence.** For compact open `U` and `g ∈ G(𝔸_f)`, prove that `UgU`
   is the disjoint union of `[U : U ∩ gUg⁻¹]` cosets of the form `x·U` (left cosets in the
@@ -4498,17 +4507,21 @@ quaternion norms and compact abelian Fourier limits.
   Hausdorff, second countable abelian group with its Borel sigma algebra, so that Mathlib's Haar
   uniqueness `isMulLeftInvariant_eq_smul` applies, `π : G → C` a
   continuous surjective homomorphism, `T ≤ G` a closed subgroup with `Λ ≤ T` discrete, `Λ\T`
-  compact (as for `[T(𝔸)]` with `T` anisotropic modulo the centre) and `π(Λ) = 1`, and `μ` the
+  compact (for example, `T(F)\T(𝔸_F)` for an `F`-anisotropic torus `T`) and `π(Λ) = 1`, and `μ` the
   `T`-invariant probability measure on `Λ\T g`. Prove that `π_*μ` is the Haar probability
   measure of the coset `π(T)·π(g)` of the closed subgroup `π(T)` ([Khayutin], Definition 3.1,
   arXiv v3 p. 22; Annals p. 169). *Needs:* AA.4.6; Mathlib
   `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
   *Lean:* none; specified in the README only.
-  **Checks.** The source quotient carries its Borel sigma algebra. On a two-point
-  discrete space, the identity from the trivial sigma algebra to the full sigma algebra
-  is not measurable; an arbitrary measurable-space instance does not suffice.
-
   **Checks.**
+  - For `G_m/ℚ`, the quotient by the algebraic centre is trivial, but
+    `ℚ^×\𝔸_ℚ^×` is noncompact: the idele norm descends by the product formula to a
+    continuous surjection onto `ℝ_{>0}`. An idele with real component `t > 0` and all
+    finite components `1` has norm `t`. Anisotropy modulo the centre therefore does
+    not imply compactness of the unreduced quotient.
+  - The source quotient carries its Borel sigma algebra. On a two-point discrete space,
+    the identity from the trivial sigma algebra to the full sigma algebra is not measurable;
+    an arbitrary measurable-space instance does not suffice.
   - For `G = C₄`, `π = id`, `T = Λ = {1}` and translating by `1 ∈ ℤ/4`, the pushforward
     is a point mass.
   - With `T = C₄` and `Λ = {1}`, its singleton masses are `1/4`.
@@ -4544,7 +4557,7 @@ quaternion norms and compact abelian Fourier limits.
 
 `μ_2` over `ℚ` fails weak approximation at `{∞, 2}` and `G_m` over `ℚ` fails strong approximation
 at `{∞}`, while `G_a` has both. `diag(2, 1/2)` is neat and the order-`3` element of `SL_2(ℤ)` is
-not; `U(3)` is a neat level and `GL_2(ℤ̂)` is not. The `SL_2/ℚ` level quotient with `K∞ = 1` is
+not; `K(3)` is a neat `GL₂` level and `GL_2(ℤ̂)` is not. The `SL_2/ℚ` level quotient with `K∞ = 1` is
 `SL_2(ℤ)\SL_2(ℝ)`; with `K∞ = SO(2)`, the groupoid over `i` has automorphism group of order `4`. For
 `g = diag(p, 1)` the correspondences `T_g` and `T_{g⁻¹}` differ at `K∞ = SO(2)` and agree once
 `K∞ ⊇ ℝ_{>0}`. The positive scalar direction disappears in idele classes modulo squares,

@@ -740,6 +740,18 @@ theorem levelArithmetic_discrete [Algebra.FiniteType F H] (x : FiniteAdelicPoint
     DiscreteTopology ((levelArithmetic F H x U).map (infiniteDiagonal F H)) := by
   sorry
 
+/-- Nested compact open levels give a finite-index inclusion of their rational intersections
+([Milne], Lemma 5.13, p. 57, and compactness of the larger level). -/
+theorem levelArithmetic_finiteRelIndex [Algebra.FiniteType F H]
+    (x : FiniteAdelicPoints F H) (U U' : Subgroup (FiniteAdelicPoints F H))
+    (h : U' ≤ U)
+    (hUc : IsCompact (U : Set (FiniteAdelicPoints F H)))
+    (hUo : IsOpen (U : Set (FiniteAdelicPoints F H)))
+    (hU'c : IsCompact (U' : Set (FiniteAdelicPoints F H)))
+    (hU'o : IsOpen (U' : Set (FiniteAdelicPoints F H))) :
+    (levelArithmetic F H x U').IsFiniteRelIndex (levelArithmetic F H x U) := by
+  sorry
+
 /-- The groups `Γ_{x,U}` for all `x` and compact open `U` are commensurable ([Milne], Lemma 5.13,
 p. 57). -/
 theorem levelArithmetic_commensurable [Algebra.FiniteType F H]
