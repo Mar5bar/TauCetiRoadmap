@@ -43,7 +43,7 @@ theorem canonicalForm_inChart [FiniteDimensional ℝ E]
   sorry
 
 /-- Liouville read in cotangent chart coordinates is the existing linear Liouville form. -/
-theorem liouville_inChart [FiniteDimensional ℝ E]
+theorem liouville_inChart [I.Boundaryless] [FiniteDimensional ℝ E]
     (z₀ : Cotangent I M) (w : E × (E →L[ℝ] ℝ))
     (hw : w ∈ (extChartAt (cotangentModel I) z₀).target)
     (v : E × (E →L[ℝ] ℝ)) :

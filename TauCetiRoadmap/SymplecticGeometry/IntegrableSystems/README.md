@@ -250,7 +250,10 @@ prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent t
   orbit r=ℓ²/(mκ(1+e cos(θ−θ₀))) and collision domain, elliptic bounded noncollision invariant tori, radial action
   I_r=κ√(m/(−2E))−|ℓ| for ℓ≠0 and −mκ²/(2ℓ²)<E<0, with I_r=0 at the circular endpoint.
   Prove H=−mκ²/(2(I_r+|I_θ|)²) and period T=2π√(m/κ)a^(3/2),
-  a=κ/(−2E); frequency equality and the displayed extra-integral relation prove superintegrability. Isotropic oscillator
+  a=κ/(−2E). With the signed angular action `I_θ=L`, prove
+  `Ω_r=mκ²/(I_r+|I_θ|)³` and `Ω_θ=sgn(I_θ)Ω_r` on each component `L≠0`.
+  The frequency magnitudes agree, with signed resonance `1:±1`; this and the
+  displayed extra-integral relation prove superintegrability. Isotropic oscillator
   V=½mν²r² gives closed bounded noncollision orbits and radial action I_r=(E/ν−|ℓ|)/2. This is a
   comparison of two examples, not an unproved general classification of closed central orbits.
 - Spherical pendulum, normalized mass/length/gravity one, on

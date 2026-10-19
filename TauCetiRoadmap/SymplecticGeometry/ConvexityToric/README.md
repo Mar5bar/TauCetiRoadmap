@@ -125,10 +125,26 @@ coadjoint-orbit, closed-chamber and centralizer theorems, including
 `k*/K≅z(k)*×t*_(ss,+)`, on LieGroups Layer6 and RootSystems Layer4. Maximal-torus
 conjugacy, Weyl uniqueness and this quotient are inputs from those owners. Construct the symplectic cross-section
 and prove its moment-map and stabilizer comparisons. Prove Kirwan by cross-sections
-and the local-to-global theorem. Also build the norm-square moment stratification, including
-minimal-degeneracy, gradient-flow convergence and strata; these are additional specified targets
-using Lerman’s convergence theorem, not consequences of scalar Morse–Bott or prerequisites to
-the chosen convexity proof. Keep stabilizer/central directions in the lattice conventions.
+and the local-to-global theorem. Also build the norm-square moment stratification,
+including minimal degeneracy and strata. Before its convergence theorem, prove the
+specialized degenerate gradient inequality for the transverse MGS polynomial
+`p(η,v)=‖ν+η+μ_V(v)‖²`: near a critical point of value b there are
+`c>0` and `0<θ<1` with `‖∇p‖≥c|p−b|^θ`. Transport it through the
+slice coordinates, compare the chosen smooth metric with Euclidean norms on
+relatively compact charts, and obtain constants near each compact critical
+component by a finite cover, restricting `|f−b|<1` when combining exponents.
+For `f=‖μ‖²` construct the negative-gradient semiflow, using compactness of M
+for forward existence. Prove trapping neighborhoods and eventual entry on its
+stable stratum, the finite-length bound
+`∫_[t₀,∞) ‖∇f(φ_t x)‖ dt ≤ (f(φ_t₀ x)−b)^(1−θ)/(c(1−θ))`,
+and tails locally uniform on that stratum, hence uniform on its compact subsets.
+Construct the single-point limit and the continuous strong deformation
+retraction of the stable stratum onto its critical component. Use the
+Lerman–Duistermaat route with these explicit targets; an energy band alone
+need not lie near one critical component. These analytic and stratification
+targets are independent of the chosen convexity proof and do not assume a
+nondegenerate Morse estimate. Keep stabilizer/central directions in the lattice
+conventions.
 
 Prove Kostant **compact coadjoint-orbit projection convexity**, `pr_t*(K·ν)=conv(W·ν)` for ν∈t*;
 this is the precise version meant here, not the different nonlinear Iwasawa projection theorem.
