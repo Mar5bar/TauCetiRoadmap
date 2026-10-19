@@ -60,7 +60,7 @@ From ArithmeticStatisticsPartIV require [ArithmeticStatisticsPartIV: number fiel
 
 ## How to read the build
 
-This README specifies every target with hypotheses, source locator, API and Checks. `Suggested.lean` gives representative light definitions and signatures on pinned carriers; new arithmetic and geometric carriers are README targets. Source counts retain their strict or inclusive cutoffs and denominators.
+This README specifies every target with hypotheses, source locator, API and Checks. `Suggested.lean` gives representative light definitions and signatures on pinned carriers; new arithmetic and geometric carriers are README targets. Source counts retain their strict or inclusive cutoffs and denominators. The field-count signatures use finite-support sums on Mathlib's carrier `{K : IntermediateField F (AlgebraicClosure F) // FiniteDimensional F K}`. Hermite finiteness makes their discriminant sublevels finite. Weight `#Aut(K/F)/n` on embedded degree-`n` fields gives one per isomorphism class; weight `1/n` gives `1/#Aut(K/F)` per class. Quadratic fields each have a single embedded representative. Normal-closure degree `n!` is equivalent to full `S_n` on the `n` embeddings. These are expressions on the supplier carriers, with the counting interface owned by Part IV.
 
 The thematic section numbers are stable locators. The supporting targets occur before their consumers in the following build order.
 
@@ -234,7 +234,7 @@ Proof: Every element of an order `R ⊆ K` is integral over `ℤ` (`R` is a fini
 
 <a id="davenport-heilbronn-count-of-cubic-fields"></a>
 
-**Davenport heilbronn count of cubic fields.** Let `N₃(ξ, η) = N₃(⊤; ξ, η)` be the number of cubic fields `K` up to isomorphism with `ξ < Disc(K) < η` ([ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), `n = 3`, no Galois-group restriction: cyclic cubic fields are included). Then `N₃(0, X) = X/(12ζ(3)) + o(X)` and `N₃(−X, 0) = X/(4ζ(3)) + o(X)` as `X → ∞`. More precisely, for `i ∈ {0, 1}` with `n₀ = 6 = #Aut_ℝ(ℝ³)` and `n₁ = 2 = #Aut_ℝ(ℝ ⊕ ℂ), lim_{X→∞} N(U ∩ V_Z^{(i)}; X)/X = (π²/(12 n_i)) ∏_p (1 − p^{−2})(1 − p^{−3}) = 1/(2 n_i ζ(3))`. The same method gives, for any finite set of primes and prescribed splitting types at them, the count multiplied by the product of the corresponding relative local densities (the finite-condition case of [density of cubic orders with local specifications](#density-of-cubic-orders-with-local-specifications)).
+**Davenport heilbronn count of cubic fields.** `FieldStatistics.davenportHeilbronn_cubicFields` states both signed asymptotics with the isomorphism-class normalization. Let `N₃(ξ, η) = N₃(⊤; ξ, η)` be the number of cubic fields `K` up to isomorphism with `ξ < Disc(K) < η` ([ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function), `n = 3`, no Galois-group restriction: cyclic cubic fields are included). Then `N₃(0, X) = X/(12ζ(3)) + o(X)` and `N₃(−X, 0) = X/(4ζ(3)) + o(X)` as `X → ∞`. More precisely, for `i ∈ {0, 1}` with `n₀ = 6 = #Aut_ℝ(ℝ³)` and `n₁ = 2 = #Aut_ℝ(ℝ ⊕ ℂ), lim_{X→∞} N(U ∩ V_Z^{(i)}; X)/X = (π²/(12 n_i)) ∏_p (1 − p^{−2})(1 − p^{−3}) = 1/(2 n_i ζ(3))`. The same method gives, for any finite set of primes and prescribed splitting types at them, the count multiplied by the product of the corresponding relative local densities (the finite-condition case of [density of cubic orders with local specifications](#density-of-cubic-orders-with-local-specifications)).
 
 The count is by isomorphism classes of fields, ordered by the signed discriminant; the total is `N₃(X) ~ X/(3ζ(3))` Cyclic cubic fields are included but number `O(X^{1/2})` (every ramified prime is totally ramified, so `Disc = f²` with `f` the conductor), so the same asymptotic holds for `S₃`-cubic fields The error term is only `o(X)`; power savings are in the second-order node [roberts second order term for cubic fields](#roberts-second-order-term-for-cubic-fields)
 
@@ -360,7 +360,7 @@ Proof: Quadratic fields up to isomorphism correspond bijectively to fundamental 
 
 <a id="davenport-heilbronn-mean-of-three-torsion"></a>
 
-**Davenport heilbronn mean of three torsion.** `Σ_{0<Disc(K)<X} h₃(K) = (4/3) Σ_{0<Disc(K)<X} 1 + o(X)` and `Σ_{−X<Disc(K)<0} h₃(K) = 2 Σ_{−X<Disc(K)<0} 1 + o(X)`, the sums over quadratic fields `K` up to isomorphism ordered by discriminant, `h₃(K) = #Cl(K)[3]`. Equivalently `lim_{X→∞} (Σ_{0<±Disc(K)<X} h₃(K)) / N₂(⊤; 0 < ±Disc < X) = 4/3` (real) and 2 (imaginary).
+**Davenport heilbronn mean of three torsion.** `FieldStatistics.davenportHeilbronn_threeTorsion` states both ordinary three-torsion means on quadratic intermediate fields. `Σ_{0<Disc(K)<X} h₃(K) = (4/3) Σ_{0<Disc(K)<X} 1 + o(X)` and `Σ_{−X<Disc(K)<0} h₃(K) = 2 Σ_{−X<Disc(K)<0} 1 + o(X)`, the sums over quadratic fields `K` up to isomorphism ordered by discriminant, `h₃(K) = #Cl(K)[3]`. Equivalently `lim_{X→∞} (Σ_{0<±Disc(K)<X} h₃(K)) / N₂(⊤; 0 < ±Disc < X) = 4/3` (real) and 2 (imaginary).
 
 Quadratic fields are ordered by `|Disc|` and weighted equally; the averages are over all quadratic fields of the given sign The proof sieves to `V = ∩_p V_p`, defined by infinitely many congruence conditions, and needs the uniform tail bound for `Z_p = W_p ⊔ Y_p` No Cohen-Lenstra hypothesis is used; the theorem is the case `p = 3, α = 1` of the moment prediction [cohen lenstra moment prediction](#cohen-lenstra-moment-prediction), which it confirms
 
@@ -474,7 +474,7 @@ Proof: Each nondegenerate `GL₂(ℤ_p)`-orbit is open, and the complement of a 
 
 <a id="roberts-second-order-term-for-cubic-fields"></a>
 
-**Roberts second order term for cubic fields.** `N₃(0, X) = X/(12ζ(3)) + (4ζ(1/3)/(5Γ(2/3)³ζ(5/3))) X^{5/6} + O_ε(X^{5/6−1/48+ε})` and `N₃(−X, 0) = X/(4ζ(3)) + (√3 · 4ζ(1/3)/(5Γ(2/3)³ζ(5/3))) X^{5/6} + O_ε(X^{5/6−1/48+ε})`, for every `ε > 0`.
+**Roberts second order term for cubic fields.** `FieldStatistics.roberts_cubicFieldsSecondary` states both signed secondary terms with the displayed error exponent. `N₃(0, X) = X/(12ζ(3)) + (4ζ(1/3)/(5Γ(2/3)³ζ(5/3))) X^{5/6} + O_ε(X^{5/6−1/48+ε})` and `N₃(−X, 0) = X/(4ζ(3)) + (√3 · 4ζ(1/3)/(5Γ(2/3)³ζ(5/3))) X^{5/6} + O_ε(X^{5/6−1/48+ε})`, for every `ε > 0`.
 
 The second main term has order `X^{5/6}`; the error `O_ε(X^{5/6−1/48+ε})` is a power saving over it when `ε<1/48` Use cusp slicing and smoothing, the secondary `p`-adic index integrals and the three-range sieve in Layer 2.
 
@@ -495,7 +495,7 @@ Proof: Count forms in dyadic ranges of the discriminant with the second-order co
 
 <a id="second-order-term-for-the-mean-of-three-torsion"></a>
 
-**Second order term for the mean of three torsion.** `Σ_{0<D<X} #Cl₃(D) = (4/3) Σ_{0<D<X} 1 + (8ζ(1/3)/(5Γ(2/3)³)) ∏_p (1 − (p^{1/3} + 1)/(p(p + 1))) X^{5/6} + O_ε(X^{5/6−1/48+ε})` and `Σ_{−X<D<0} #Cl₃(D) = 2 Σ_{−X<D<0} 1 + (√3 · 8ζ(1/3)/(5Γ(2/3)³)) ∏_p (1 − (p^{1/3} + 1)/(p(p + 1))) X^{5/6} + O_ε(X^{5/6−1/48+ε})`, the sums over fundamental discriminants `D` of quadratic fields.
+**Second order term for the mean of three torsion.** `FieldStatistics.davenportHeilbronn_threeTorsionSecondary` states the signed three-torsion sums with their secondary Euler-product constant and error. `Σ_{0<D<X} #Cl₃(D) = (4/3) Σ_{0<D<X} 1 + (8ζ(1/3)/(5Γ(2/3)³)) ∏_p (1 − (p^{1/3} + 1)/(p(p + 1))) X^{5/6} + O_ε(X^{5/6−1/48+ε})` and `Σ_{−X<D<0} #Cl₃(D) = 2 Σ_{−X<D<0} 1 + (√3 · 8ζ(1/3)/(5Γ(2/3)³)) ∏_p (1 − (p^{1/3} + 1)/(p(p + 1))) X^{5/6} + O_ε(X^{5/6−1/48+ε})`, the sums over fundamental discriminants `D` of quadratic fields.
 
 The second main term has order `X^{5/6}`; the error `O_ε(X^{5/6−1/48+ε})` is a power saving over it when `ε<1/48` Use cusp slicing and smoothing, the secondary `p`-adic index integrals and the three-range sieve in Layer 2.
 
@@ -782,7 +782,7 @@ Proof: Apply the relative cyclic-cubic and quartic-resolvent character fibres. B
 
 <a id="bhargava-count-of-quartic-fields"></a>
 
-**Bhargava count of quartic fields.** For `r₂ ∈ {0, 1, 2}` let `N₄^{(r₂)}(X)` be the number of isomorphism classes of quartic fields `K` with Galois group `S₄` (the Galois group of the normal closure, as a permutation group on the four embeddings, is `S₄`), with `r₂` pairs of complex embeddings and `|Disc(K)| < X`, i.e. `N₄(S₄ ∧ (r₂(K) = r₂); −X, X)` in the notation of [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function). Then `N₄^{(0)}(X) ~ (1/48) c₄ X, N₄^{(1)}(X) ~ (1/8) c₄ X` and `N₄^{(2)}(X) ~ (1/16) c₄ X`, where `c₄ = ∏_p (1 + p^{−2} − p^{−3} − p^{−4})`; in total `N₄(S₄; X) ~ (5/24) c₄ X`.
+**Bhargava count of quartic fields.** `FieldStatistics.bhargava_quarticQuinticFields` states the signature-specific rational counts in degrees four and five. For `r₂ ∈ {0, 1, 2}` let `N₄^{(r₂)}(X)` be the number of isomorphism classes of quartic fields `K` with Galois group `S₄` (the Galois group of the normal closure, as a permutation group on the four embeddings, is `S₄`), with `r₂` pairs of complex embeddings and `|Disc(K)| < X`, i.e. `N₄(S₄ ∧ (r₂(K) = r₂); −X, X)` in the notation of [ArithmeticStatisticsPartIV: number field counting function](../ArithmeticStatisticsPartIV/README.md#number-field-counting-function). Then `N₄^{(0)}(X) ~ (1/48) c₄ X, N₄^{(1)}(X) ~ (1/8) c₄ X` and `N₄^{(2)}(X) ~ (1/16) c₄ X`, where `c₄ = ∏_p (1 + p^{−2} − p^{−3} − p^{−4})`; in total `N₄(S₄; X) ~ (5/24) c₄ X`.
 
 The Galois group restriction is essential: `D₄`-quartic fields also number `≍ X` (Cohen-Diaz y Diaz-Olivier) and are not included The archimedean constants are `1/(2 #Aut_ℝ(K ⊗ ℝ)): #Aut(ℝ⁴) = 24, #Aut(ℝ² ⊕ ℂ) = 4, #Aut(ℂ²) = 8` Use the quartic ring/resolvent dictionary, cusp count and maximal-order sieve of Layers 1–2.
 
@@ -802,7 +802,7 @@ Proof: Source route: BSW Theorem 2 with `F = ℚ, n = 4` and `Σ_∞` one real a
 
 <a id="bhargava-count-of-quintic-fields"></a>
 
-**Bhargava count of quintic fields.** For `r₂ ∈ {0, 1, 2}` let `N₅^{(r₂)}(X)` be the number of isomorphism classes of quintic fields `K` with Galois group `S₅, r₂` pairs of complex embeddings and `|Disc(K)| < X`. Then `N₅^{(0)}(X) ~ (1/240) c₅ X, N₅^{(1)}(X) ~ (1/24) c₅ X` and `N₅^{(2)}(X) ~ (1/16) c₅ X`, where `c₅ = ∏_p (1 + p^{−2} − p^{−4} − p^{−5})`; in total `N₅(S₅; X) ~ (13/120) c₅ X`.
+**Bhargava count of quintic fields.** `FieldStatistics.bhargava_quarticQuinticFields` includes all three quintic signatures. For `r₂ ∈ {0, 1, 2}` let `N₅^{(r₂)}(X)` be the number of isomorphism classes of quintic fields `K` with Galois group `S₅, r₂` pairs of complex embeddings and `|Disc(K)| < X`. Then `N₅^{(0)}(X) ~ (1/240) c₅ X, N₅^{(1)}(X) ~ (1/24) c₅ X` and `N₅^{(2)}(X) ~ (1/16) c₅ X`, where `c₅ = ∏_p (1 + p^{−2} − p^{−4} − p^{−5})`; in total `N₅(S₅; X) ~ (13/120) c₅ X`.
 
 The archimedean constants are `1/(2 #Aut_ℝ(K ⊗ ℝ)): #Aut(ℝ⁵) = 120, #Aut(ℝ³ ⊕ ℂ) = 12, #Aut(ℝ ⊕ ℂ²) = 8` Use the quintic ring/sextic-resolvent dictionary and the 40-dimensional counts of Layers 1–2.
 
@@ -818,9 +818,11 @@ Proof: Source route: BSW Theorem 2 with `F = ℚ, n = 5`, as for the quartic cou
 
 - Local factor at `p = 2: 1 + 1/4 − 1/16 − 1/32 = 37/32`.
 
+- A cyclic quintic field has normal-closure degree 5 rather than 120 and is excluded from the `S₅` count; a positive discriminant alone does not impose the Galois-group condition.
+
 <a id="bhargava-shankar-wang-counts-over-number-fields"></a>
 
-**Bhargava shankar wang counts over number fields.** Let `F` be a number field with `r₁` real and `r₂` complex places, and `n ∈ {2, 3, 4, 5}`. Let `N_n(F, X)` be the number of isomorphism classes of degree-`n` extensions `L/F` whose normal closure has Galois group `S_n`, weighted by `1/#Aut(L/F)`, with `N_{F/ℚ}(Disc(L/F)) ≤ X`, where `N_{F/ℚ}(Disc(L/F)) = |Disc(L)|/|Disc(F)|^n`. Then `lim_{X→∞} N_n(F, X)/X = (1/2) Res_{s=1} ζ_F(s) · (#S_n[2]/n!)^{r₁} (1/n!)^{r₂} ∏_{𝔭} Σ_{k=0}^{n} (q(k, n − k) − q(k − 1, n − k + 1)) N𝔭^{−k}`, where `Res_{s=1} ζ_F(s) = 2^{r₁}(2π)^{r₂} h_F R_F/(w_F √|Disc F|)` is Mathlib's `NumberField.dedekindZeta_residue` `F, #S_n[2]` is the number of elements of order dividing 2 in `S_n`, and `q(k, m)` is the number of partitions of `k` into at most `m` parts.
+**Bhargava shankar wang counts over number fields.** `FieldStatistics.bhargavaShankarWang_numberFieldCount` states the number-field formula in all four degrees, with inclusive relative-discriminant norm cutoff and inverse automorphism weights. Let `F` be a number field with `r₁` real and `r₂` complex places, and `n ∈ {2, 3, 4, 5}`. Let `N_n(F, X)` be the number of isomorphism classes of degree-`n` extensions `L/F` whose normal closure has Galois group `S_n`, weighted by `1/#Aut(L/F)`, with `N_{F/ℚ}(Disc(L/F)) ≤ X`, where `N_{F/ℚ}(Disc(L/F)) = |Disc(L)|/|Disc(F)|^n`. Then `lim_{X→∞} N_n(F, X)/X = (1/2) Res_{s=1} ζ_F(s) · (#S_n[2]/n!)^{r₁} (1/n!)^{r₂} ∏_{𝔭} Σ_{k=0}^{n} (q(k, n − k) − q(k − 1, n − k + 1)) N𝔭^{−k}`, where `Res_{s=1} ζ_F(s) = 2^{r₁}(2π)^{r₂} h_F R_F/(w_F √|Disc F|)` is Mathlib's `NumberField.dedekindZeta_residue` `F, #S_n[2]` is the number of elements of order dividing 2 in `S_n`, and `q(k, m)` is the number of partitions of `k` into at most `m` parts.
 
 The weight `1/#Aut(L/F)` is 1 for `n ≥ 3` and `1/2` for `n = 2` The residue is used only through its value; Mathlib states it as the real right limit of `(s − 1)ζ_F(s)`, which is all this statement needs Use the global-field orbit count and independent local mass specifications of Layers 1–2.
 
@@ -840,7 +842,7 @@ Proof: for `F = ℚ: Res = 1, r₁ = 1, r₂ = 0`, and the formula gives `(1/2)(
 
 <a id="bhargava-mean-of-two-torsion-in-cubic-class-groups"></a>
 
-**Bhargava mean of two torsion in cubic class groups.** Over `S₃`-cubic fields `K` ordered by `|Disc(K)|`: the average of `h₂(K) = #Cl(K)[2]` is `5/4` over totally real fields and `3/2` over complex cubic fields; the average of `#Cl⁺(K)[2]` (narrow class group) is 2 over totally real fields and `3/2` over complex ones. More generally (BSW Theorem 6 `(b)` over a number field `F` with an acceptable, archimedean-pure `Σ`): the mean of `h₂(L/F)` is `1 + 2^{−r₁−2r₂−α₃(Σ)}` and of `h₂⁺(L/F)` is `1 + 2^{−r₁−2r₂+α₃(Σ)}, α₃(Σ)` being the number of real places of `F` at which `Σ` prescribes `ℝ³`; for `F = ℚ, r₁ = 1, r₂ = 0` and `α₃ = 1` (totally real) or 0 (complex).
+**Bhargava mean of two torsion in cubic class groups.** `FieldStatistics.bhargava_cubicTwoTorsionMean` states the ordinary and narrow means over rational `S₃`-cubic fields of each signature. Over `S₃`-cubic fields `K` ordered by `|Disc(K)|`: the average of `h₂(K) = #Cl(K)[2]` is `5/4` over totally real fields and `3/2` over complex cubic fields; the average of `#Cl⁺(K)[2]` (narrow class group) is 2 over totally real fields and `3/2` over complex ones. More generally (BSW Theorem 6 `(b)` over a number field `F` with an acceptable, archimedean-pure `Σ`): the mean of `h₂(L/F)` is `1 + 2^{−r₁−2r₂−α₃(Σ)}` and of `h₂⁺(L/F)` is `1 + 2^{−r₁−2r₂+α₃(Σ)}, α₃(Σ)` being the number of real places of `F` at which `Σ` prescribes `ℝ³`; for `F = ℚ, r₁ = 1, r₂ = 0` and `α₃ = 1` (totally real) or 0 (complex).
 
 The family is `S₃`-cubic fields (cyclic cubic fields have density zero); the averages are archimedean-pure (fixed signature) Use the quartic-pair count together with the relative class-field correspondence.
 
@@ -972,7 +974,7 @@ The coefficient bound and completion of the square give `M(a^k)≤C' a^{(k+α)²
 
 <a id="fouvry-kluners-moments-of-four-ranks"></a>
 
-**Fouvry kluners moments of four ranks.** Let `C_D` be the narrow class group of the quadratic field of fundamental discriminant `D` and `rk₄(C_D) = rk₂(C_D²)` its `4-rank`. For every integer `k ≥ 0` and `ε > 0`, with `N(k, 2)` the number of `𝔽₂`-subspaces of `𝔽₂^k` and `R(X, ε, k) = X(log X)^{−2^{−k}+ε}: Σ_{0<−D<X} 2^{k·rk₄(C_D)} = N(k, 2) Σ_{0<−D<X} 1 + O_{ε,k}(R(X, ε, k))` and `Σ_{0<D<X} 2^{k·rk₄(C_D)} = 2^{−k}(N(k + 1, 2) − N(k, 2)) Σ_{0<D<X} 1 + O_{ε,k}(R(X, ε, k))` (and the same within each of the classes `D ≡ 1 (mod 4), 0 (mod 8), 4 (mod 8)`). Equivalently (FK Theorem 1) the moment prediction `Conj^±(2, α)` holds for every `α ≥ 0`, and (FK Theorem 3) for every `r ≥ 0` the density of negative fundamental discriminants with `rk₄(C_D) = r` is `2^{−r²} η_∞(2) η_r(2)^{−2}` and of positive ones `2^{−r(r+1)} η_∞(2) η_r(2)^{−1} η_{r+1}(2)^{−1}`, where `η_k(t) = ∏_{j=1}^{k} (1 − t^{−j})`.
+**Fouvry kluners moments of four ranks.** `FieldStatistics.fouvryKluners_fourRankMoments` states the logarithmic error bound for both signs and all six congruence families, expressing `2^{rk₄}` as the cardinality of the two-torsion in the square subgroup of `NumberField.NarrowClassGroup`; `FieldStatistics.fouvryKluners_fourRankLaw` states the resulting arithmetic rank probabilities in the same families. Let `C_D` be the narrow class group of the quadratic field of fundamental discriminant `D` and `rk₄(C_D) = rk₂(C_D²)` its `4-rank`. For every integer `k ≥ 0` and `ε > 0`, with `N(k, 2)` the number of `𝔽₂`-subspaces of `𝔽₂^k` and `R(X, ε, k) = X(log X)^{−2^{−k}+ε}: Σ_{0<−D<X} 2^{k·rk₄(C_D)} = N(k, 2) Σ_{0<−D<X} 1 + O_{ε,k}(R(X, ε, k))` and `Σ_{0<D<X} 2^{k·rk₄(C_D)} = 2^{−k}(N(k + 1, 2) − N(k, 2)) Σ_{0<D<X} 1 + O_{ε,k}(R(X, ε, k))` (and the same within each of the classes `D ≡ 1 (mod 4), 0 (mod 8), 4 (mod 8)`). Equivalently (FK Theorem 1) the moment prediction `Conj^±(2, α)` holds for every `α ≥ 0`, and (FK Theorem 3) for every `r ≥ 0` the density of negative fundamental discriminants with `rk₄(C_D) = r` is `2^{−r²} η_∞(2) η_r(2)^{−2}` and of positive ones `2^{−r(r+1)} η_∞(2) η_r(2)^{−1} η_{r+1}(2)^{−1}`, where `η_k(t) = ∏_{j=1}^{k} (1 − t^{−j})`.
 
 The narrow class group is used; for `D < 0` it equals the class group, and FK's Corollary 1 transfers the statements to the ordinary class group `Cl_D` The error term saves only a power of `log X`; the theorem is an unconditional limit, not a heuristic Use the Rédei-matrix, linked character-sum and good-subspace targets of this layer.
 
@@ -1798,7 +1800,7 @@ Proof: Use the trace-zero integral lattice and its covolume, then Minkowski’s 
 
 <a id="schmidt-field-count-bound"></a>
 
-**Schmidt field count bound.** For `n≥2` the number of degree-`n ℚ`-isomorphism classes with absolute discriminant `≤X` is `O_n(X^{(n+2)/4})`. For a fixed number-field base `k` the same exponent holds for relative degree `n` and relative discriminant norm `≤X`, with constant depending on `k,n`. The uniform absolute-discriminant form has the following quantifiers: for fixed integers `m≥1,n≥2`, there is `C(m,n)` such that for every degree-`m` number field `M` and every `T≥1`, the number of `M`-isomorphism classes `E/M` with `[E:M]=n` and `|Disc E|≤T` is at most `C(m,n)T^((n+2)/4)`. The constant is chosen before `M`; the cutoff is the absolute discriminant of the top field.
+**Schmidt field count bound.** `FieldStatistics.schmidt_fieldCount_uniform` states the absolute-discriminant bound with its constant chosen before the base field. For `n≥2` the number of degree-`n ℚ`-isomorphism classes with absolute discriminant `≤X` is `O_n(X^{(n+2)/4})`. For a fixed number-field base `k` the same exponent holds for relative degree `n` and relative discriminant norm `≤X`, with constant depending on `k,n`. The uniform absolute-discriminant form has the following quantifiers: for fixed integers `m≥1,n≥2`, there is `C(m,n)` such that for every degree-`m` number field `M` and every `T≥1`, the number of `M`-isomorphism classes `E/M` with `[E:M]=n` and `|Disc E|≤T` is at most `C(m,n)T^((n+2)/4)`. The constant is chosen before `M`; the cutoff is the absolute discriminant of the top field.
 
 Proof: for primitive fields count the trace-zero coefficient boxes. For imprimitive fields choose a maximal chain of intermediate fields and apply the relative primitive estimate at each step. Use the discriminant tower identity and sum dyadic base-discriminant intervals; retain the base-discriminant saving that makes the sum converge. For the uniform form use Schmidt [101], (1.2), p.189 and §3, pp.192–195: the lattice and coefficient estimates depend only on the degrees, with explicit saving in the base discriminant. There are only finitely many relative degree chains of product `n`; their largest step degree is at most `n`. Dropping their discriminant-saving factors gives the stated `C(m,n)`, uniformly over the degree-`m` bases. Converting an absolute cutoff to a relative-norm cutoff for fixed `k` introduces the permitted dependence on `|Disc k|`.
 
@@ -1842,7 +1844,7 @@ The differential specialization proves the induction from the three ranks at `(m
 
 <a id="lemke-oliver-thorne-field-bound"></a>
 
-**Lemke oliver thorne field bound.** For every `n≥6` the degree-`n` field count is `O_n(X^{1.564(log n)²})`; for every `c>1/(4(log2)²)` there is `n₀(c)` such that exponent `c(log n)²` works for `n≥n₀`. More precisely the mixed-trace bound gives exponent dr when `3≤r≤n` and `binomial(d+r−1,r−1)>` rn. The two-generator version gives `2d−d(d−1)(d+4)/(6n)`, where `d` is least with `binomial(d+2,2)≥2n+1`. The explicit comparison with Schmidt starts at `n=95`.
+**Lemke oliver thorne field bound.** `FieldStatistics.lemkeOliverThorne_fieldCount` states the explicit, asymptotic, mixed-trace and least-degree two-generator exponents on the isomorphism-class count. For every `n≥6` the degree-`n` field count is `O_n(X^{1.564(log n)²})`; for every `c>1/(4(log2)²)` there is `n₀(c)` such that exponent `c(log n)²` works for `n≥n₀`. More precisely the mixed-trace bound gives exponent dr when `3≤r≤n` and `binomial(d+r−1,r−1)>` rn. The two-generator version gives `2d−d(d−1)(d+4)/(6n)`, where `d` is least with `binomial(d+2,2)≥2n+1`. The explicit comparison with Schmidt starts at `n=95`.
 
 Proof: Use the ring-of-integers largest-minimum bound to choose a basis of size `O_n(D_K^{1/n})`. Avoid the finite-fibre hypersurface and the first-element discriminant hypersurface by bounded integer combinations of that basis. The first element generates `K`; count the integer mixed traces and bound their fibre multiplicity. Optimize `d,r` using Stirling and prove the inequalities giving the constant1.564 and threshold95.
 
@@ -2270,7 +2272,7 @@ Proof: construct the quotient-algebra basis and its embedding Gram matrix, count
 
 <a id="squarefree-field-discriminant-sn"></a>
 
-**Squarefree field discriminant sn.** If `K/ℚ` has degree `n≥2` and squarefree absolute field discriminant, its normal-closure permutation group is `S_n`. Unlike the supplied order-maximality criterion, this target identifies the normal-closure group. Its polynomial and binary-form applications require the corresponding order and discriminant identity.
+**Squarefree field discriminant sn.** `FieldStatistics.squarefree_discriminant_fullSymmetric` states the normal-closure degree `n!`, equivalent to the full permutation group in degree `n`. If `K/ℚ` has degree `n≥2` and squarefree absolute field discriminant, its normal-closure permutation group is `S_n`. Unlike the supplied order-maximality criterion, this target identifies the normal-closure group. Its polynomial and binary-form applications require the corresponding order and discriminant identity.
 
 Proof: the tame discriminant exponent1 at each ramified prime means inertia acts by a transposition. The normal subgroup generated by all finite inertia has fixed field unramified at every finite prime over `ℚ`, hence trivial by the Minkowski discriminant bound (even if real places ramify). A transitive subgroup generated by transpositions is the full symmetric group. The order-to-field discriminant comparison is the supplied boundary stated above.
 
@@ -2280,7 +2282,9 @@ Proof: the tame discriminant exponent1 at each ramified prime means inertia acts
 
 **Checks.**
 
-- `X³−X−1` has discriminant `−23` and yields `S₃; X³−4X+1` has discriminant 229 and gives the totally real `S₃` case. `X³−2` has discriminant `−108` and is outside the squarefree hypothesis, despite also having group `S₃`.
+- `X³−X−1` has discriminant `−23` and yields `S₃`; `X³−4X+1` has discriminant 229 and gives the totally real `S₃` case.
+- `X³−2` has discriminant `−108` and is outside the squarefree hypothesis, despite also having group `S₃`.
+- The cyclic cubic field of discriminant 49 has normal-closure degree 3 rather than 6. Its nonsquarefree field discriminant prevents it from satisfying the criterion.
 
 <a id="monic-polynomial-sieve-counts"></a>
 
@@ -2408,7 +2412,7 @@ The determinant identity used here is `Matrix.det_vandermonde` and its injectivi
 
 <a id="monogenic-field-lower-bound-target"></a>
 
-**Monogenic field lower bound.** For every fixed `n≥2`, the number of monogenic `S_n` number fields with squarefree discriminant of absolute value `<X` is `≫_n X^(1/2+1/n)`. Separately, the number having an integral degree-`n` generator with all conjugates of norm `≤Y` is `≫_n Y^((n−1)(n+2)/2)`. Both bounds hold for each fixed signature and each fixed congruence specification satisfying the positivity hypothesis of the regular monic sieve. The constants may depend on those choices.
+**Monogenic field lower bound.** `FieldStatistics.monogenicField_lowerBound` states the discriminant lower bound in every degree and signature, using the pinned `TauCeti.NumberField.IsMonogenic` predicate. `FieldStatistics.monogenicField_shortGenerator_lowerBound` states the short-generator lower bound with monogenicity and squarefree discriminant retained. For every fixed `n≥2`, the number of monogenic `S_n` number fields with squarefree discriminant of absolute value `<X` is `≫_n X^(1/2+1/n)`. Separately, the number having an integral degree-`n` generator with all conjugates of norm `≤Y` is `≫_n Y^((n−1)(n+2)/2)`. Both bounds hold for each fixed signature and each fixed congruence specification satisfying the positivity hypothesis of the regular monic sieve. The constants may depend on those choices.
 
 Proof: count `D_Y B` by the regular monic sieve and divide by the separated-generator multiplicity `C_B Y`. Since `|Δ(f)|≤C'_B Y^(n(n−1))`, choose `Y=(X/(2C'_B))^(1/(n(n−1)))`. The field exponent is `(n(n+1)/2−1)/(n(n−1))=1/2+1/n`. For the generator bound replace `Y` by `Y/C`. These are two consequences of the same full-dimensional regular region, with no use of the trace-restricted sieve or strong-reduction ring-fibre theorem.
 
@@ -2580,7 +2584,7 @@ Proof: apply the signature-specific binary field lower bound with `r₂=0` for t
 
 <a id="all-fields-degree-at-most-five"></a>
 
-**All fields degree at most five.** For every fixed `n∈{2,3,4,5}` the total degree-`n ℚ`-field count is asymptotic to `c_nX` with `c_n>0`. For degree4 the `D₄` contribution is linear and must be included alongside the imported `S₄` constant; `C₄` and `V₄` contributions are smaller. For degree5 the nonsymmetric transitive groups are lower order. Thus summing `S₄/S₅` asymptotics alone is not a proof of the all-field statement.
+**All fields degree at most five.** `FieldStatistics.allFields_degree_le_five` states the positive linear asymptotic for the full isomorphism-class count in each of these degrees. For every fixed `n∈{2,3,4,5}` the total degree-`n ℚ`-field count is asymptotic to `c_nX` with `c_n>0`. For degree4 the `D₄` contribution is linear and must be included alongside the imported `S₄` constant; `C₄` and `V₄` contributions are smaller. For degree5 the nonsymmetric transitive groups are lower order. Thus summing `S₄/S₅` asymptotics alone is not a proof of the all-field statement.
 
 Proof: use the imported quadratic/cubic counts and their cyclic remainder bounds. For degree4 add the Cohen–Diaz `y` Diaz–Olivier `D₄` contribution with its tower normalization, then bound the abelian groups. For degree5 use the stronger common remainder target `FieldStatistics.quintic_nonSymmetric_negligible`: the number of all nonsymmetric quintic fields, including `A₅`, is `o(X)`. Its direct supplier is Bhargava [142], Lemma14 and §3.2, pp.1587–1588; Theorems1 and4, pp.1559–1561, use the same absolute discriminant and `ℚ`-isomorphism convention.
 
