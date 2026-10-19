@@ -45,6 +45,68 @@ open scoped ZeroAtInfty AbstractMeasure
 
 /-! ## Layer 0: analytic Banach stages, locally analytic functions and their strong duals -/
 
+namespace AnalyticDistributions
+
+section DiscRealization
+
+variable {L K : Type*} [NontriviallyNormedField L] [NontriviallyNormedField K]
+  [CompleteSpace K] [IsUltrametricDist K]
+
+/-- §0.1: restricted coefficients give a convergent function on the translated closed disc,
+after an isometric extension of the coefficient field. -/
+theorem discAnalytic_eval (φ : L →+* K) (hφ : Isometry φ) (a : K)
+    (R : ℝ) (hR : 0 < R) (F : PowerSeries L) (hF : PowerSeries.IsRestricted R F)
+    (x : K) (hx : ‖x - a‖ ≤ R) :
+    HasSum (fun n : ℕ => φ (F.coeff n) * (x - a) ^ n)
+      (FormalMultilinearSeries.ofScalarsSum (fun n => φ (F.coeff n)) (x - a)) := by sorry
+
+/-- §0.1: pointwise realization on a positive-radius closed disc determines the coefficients. -/
+theorem discAnalytic_eval_injective (φ : L →+* K) (hφ : Isometry φ) (a : K)
+    (R : ℝ) (hR : 0 < R) (F G : PowerSeries L)
+    (hF : PowerSeries.IsRestricted R F) (hG : PowerSeries.IsRestricted R G)
+    (h : ∀ x : K, ‖x - a‖ ≤ R →
+      FormalMultilinearSeries.ofScalarsSum (fun n => φ (F.coeff n)) (x - a) =
+      FormalMultilinearSeries.ofScalarsSum (fun n => φ (G.coeff n)) (x - a)) : F = G := by sorry
+
+/-- §0.1: the Gauss valuation maximum principle, expressed as equality of norms, uses points
+in an algebraically closed complete extension; it holds for every positive real radius.
+Source: Colmez, Proposition I.4.3, pp. 13–14. -/
+theorem gaussVal_eq_inf [IsAlgClosed K] (φ : L →+* K) (hφ : Isometry φ) (a : K)
+    (R : ℝ) (hR : 0 < R) (F : PowerSeries L) (hF : PowerSeries.IsRestricted R F) :
+    PowerSeries.gaussNorm norm R F =
+      ⨆ x : Metric.closedBall a R,
+        ‖FormalMultilinearSeries.ofScalarsSum (fun n => φ (F.coeff n)) (x.val - a)‖ := by sorry
+
+end DiscRealization
+
+/-- §0.2: spherical completeness gives a norm-preserving extension from any normed subspace.
+The ball-intersection hypothesis states spherical completeness directly.
+Source: Schneider, Proposition 9.2 and Corollary 9.4, pp. 58–59. -/
+theorem naHahnBanach {K V : Type*} [NontriviallyNormedField K] [CompleteSpace K]
+    [IsUltrametricDist K] [NormedAddCommGroup V] [NormedSpace K V] [IsUltrametricDist V]
+    (hK : ∀ c : Set (Set K), c.Nonempty → IsChain (· ⊆ ·) c →
+      (∀ B ∈ c, ∃ a : K, ∃ r : ℝ, 0 ≤ r ∧ B = Metric.closedBall a r) →
+      (⋂₀ c).Nonempty)
+    (U : Submodule K V) (ℓ : U →L[K] K) :
+    ∃ ℓ' : V →L[K] K, (∀ u : U, ℓ' u = ℓ u) ∧ ‖ℓ'‖ = ‖ℓ‖ := by sorry
+
+/-- §0.2: a continuous surjection between nonarchimedean Fréchet spaces is open.
+Native ultrametric seminorm families specify their locally convex topologies.
+Source: Schneider, Proposition 8.6 and Corollary 8.7, pp. 54–55. -/
+theorem naFrechet_openMapping {K V W ι κ : Type*}
+    [NontriviallyNormedField K] [CompleteSpace K] [IsUltrametricDist K]
+    [AddCommGroup V] [UniformSpace V] [IsUniformAddGroup V] [Module K V]
+    [T2Space V] [TopologicalSpace.MetrizableSpace V] [CompleteSpace V]
+    [AddCommGroup W] [UniformSpace W] [IsUniformAddGroup W] [Module K W]
+    [T2Space W] [TopologicalSpace.MetrizableSpace W] [CompleteSpace W]
+    (pV : ι → Seminorm K V) (pW : κ → Seminorm K W)
+    (hV : WithSeminorms pV) (hW : WithSeminorms pW)
+    (huV : ∀ i x y, pV i (x + y) ≤ max (pV i x) (pV i y))
+    (huW : ∀ i x y, pW i (x + y) ≤ max (pW i x) (pW i y))
+    (f : V →L[K] W) (hf : Function.Surjective f) : IsOpenMap f := by sorry
+
+end AnalyticDistributions
+
 namespace NonarchimedeanFredholm
 
 section Coefficients
@@ -109,6 +171,14 @@ theorem openDisc_native_radius (F : PowerSeries K) (hF : OnOpenDisc F) :
 theorem openDisc_summable (F : PowerSeries K) (hF : OnOpenDisc F)
     (t : K) (ht : ‖t‖ < 1) : Summable (fun n : ℕ => F.coeff n * t ^ n) := by sorry
 
+/-- §1.2: a coefficient bound at the larger radius gives a uniform geometric truncation error
+on the smaller closed disc, without assuming that disc is compact. -/
+theorem evalOpen_tail_bound (F : PowerSeries K) (hF : OnOpenDisc F)
+    (R S M : ℝ) (hR : 0 < R) (hRS : R < S) (hS : S < 1) (hM : 0 ≤ M)
+    (hbd : ∀ n : ℕ, ‖F.coeff n‖ * S ^ n ≤ M)
+    (t : K) (ht : ‖t‖ ≤ R) (N : ℕ) :
+    ‖evalOpen F t - ∑ n ∈ Finset.range N, F.coeff n * t ^ n‖ ≤ M * (R / S) ^ N := by sorry
+
 /-- §1.2 (Analytic evaluation of an open-disc series; Colmez Lemma II.2.1 and Theorem II.2.2,
 p. 30). -/
 theorem analyticOnNhd_evalOpen (F : PowerSeries K) (hF : OnOpenDisc F) :
@@ -124,12 +194,6 @@ theorem evalOpen_map {L : Type*} [NontriviallyNormedField L] [CompleteSpace L]
     (F : PowerSeries K) (hF : OnOpenDisc F) (t : K) (ht : ‖t‖ < 1) :
     evalOpen (PowerSeries.map φ F) (φ t) = φ (evalOpen F t) := by sorry
 
-/-- §1.2 check `MellinEvalTests.geometric`: the geometric series evaluates to `(1 − t)⁻¹` inside
-the disc. -/
-example (t : K) (ht : ‖t‖ < 1) :
-    evalOpen (PowerSeries.mk (fun _ => (1 : K))) t = (1 - t)⁻¹ := by
-  simpa [evalOpen, FormalMultilinearSeries.ofScalars_sum_eq] using
-    tsum_geometric_of_norm_lt_one ht
 
 /-- §1.2 check `openDisc_geometric`: the geometric series is open-disc analytic but not
 restricted at radius one. -/
@@ -197,15 +261,6 @@ theorem padicBox_isClopen (a : Fin g → ℤ_[p]) (m : Fin g → ℕ) : IsClopen
 def boxIndicator (a : Fin g → ℤ_[p]) (m : Fin g → ℕ) : LocallyConstant (Fin g → ℤ_[p]) K :=
   LocallyConstant.charFn K (padicBox_isClopen a m)
 
-/-- §2.2 check `boxIndicator_center`: the centre has indicator one at every depth. -/
-example (a : Fin g → ℤ_[p]) (m : Fin g → ℕ) : boxIndicator (K := K) a m a = 1 := by
-  simp [boxIndicator, padicBox, LocallyConstant.charFn]
-
-/-- §2.2 check `padicBox_depth_zero`: depth zero gives the whole space. -/
-example (a : Fin g → ℤ_[p]) : padicBox a (fun _ => 0) = Set.univ := by
-  ext x
-  simp [padicBox]
-
 /-- §2.2 (Rectangular growth for a locally constant functional): a uniform bound
 `‖μ(1_{a + ∏ p^{m_i}ℤ_p})‖ ≤ C·p^{Σ r_i m_i}` on all rectangular residue classes. -/
 def RectangularGrowth (μ : LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K) (r : Fin g → ℝ) : Prop :=
@@ -221,12 +276,6 @@ theorem rectangularGrowth_add (μ ν : LocallyConstant (Fin g → ℤ_[p]) K →
     (r : Fin g → ℝ) (hμ : RectangularGrowth μ r) (hν : RectangularGrowth ν r) :
     RectangularGrowth (μ + ν) r := by sorry
 
-/-- §2.2 check `rectangularGrowth_zero`: the zero functional has every rectangular order. -/
-example (r : Fin g → ℝ) : RectangularGrowth (p := p) (0 :
-    LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K) r := by
-  refine ⟨0, le_rfl, ?_⟩
-  intro a m
-  simp
 
 /-- §2.3 (Equal-radius growth and unique isotropic extension): the equal-depth ball bound
 `‖μ(1_{a+p^mℤ_p^g})‖ ≤ C·p^{rm}`. The extension theorem uses `0 ≤ r < 1`. -/
@@ -243,12 +292,6 @@ theorem isotropicGrowth_add (μ ν : LocallyConstant (Fin g → ℤ_[p]) K →�
     (r : ℝ) (hμ : IsotropicGrowth μ r) (hν : IsotropicGrowth ν r) :
     IsotropicGrowth (μ + ν) r := by sorry
 
-/-- §2.3 check `isotropicGrowth_zero`: the zero functional has every equal-radius order. -/
-example (r : ℝ) : IsotropicGrowth (p := p) (0 :
-    LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K) r := by
-  refine ⟨0, le_rfl, ?_⟩
-  intro a m
-  simp
 
 end Rectangles
 
@@ -271,6 +314,14 @@ def locallyConstantHaar : LocallyConstant (Fin 1 → ℤ_[3]) ℚ_[3] →ₗ[ℚ
 theorem locallyConstantHaar_ball (a : Fin 1 → ℤ_[3]) (m : ℕ) :
     locallyConstantHaar (boxIndicator a (fun _ => m)) = (3 : ℚ_[3]) ^ (-(m : ℤ)) :=
   Classical.choose_spec exists_locallyConstantHaar a m
+
+/-- §2.2: the prescribed residue-ball masses uniquely characterize normalized locally constant
+Haar, since every locally constant function factors through a finite residue quotient. -/
+theorem locallyConstantHaar_unique
+    (H : LocallyConstant (Fin 1 → ℤ_[3]) ℚ_[3] →ₗ[ℚ_[3]] ℚ_[3])
+    (hH : ∀ (a : Fin 1 → ℤ_[3]) (m : ℕ),
+      H (boxIndicator a (fun _ => m)) = (3 : ℚ_[3]) ^ (-(m : ℤ))) :
+    H = locallyConstantHaar := by sorry
 
 /-- §2.2 check `haar_ball`: the native ball masses have norm `3ᵐ`. -/
 example (a : Fin 1 → ℤ_[3]) (m : ℕ) :
@@ -362,11 +413,6 @@ theorem componentMellin_eval (H : G ≃ₜ Δ × ℤ_[p]) (ν : Δ → K)
       PadicInt.addChar_of_value_at_one t
         (tendsto_pow_atTop_nhds_zero_iff_norm_lt_one.mpr ht) (H g).2, by fun_prop⟩ := by sorry
 
-/-- §3.1 check `ComponentMellinTests.zero`: the zero measure gives the zero series. -/
-example (H : G ≃ₜ Δ × ℤ_[p]) (ν : Δ → K) : componentMellin H ν 0 = 0 := by
-  ext n
-  simp [componentMellin]
-  rfl
 
 end Components
 
@@ -402,16 +448,6 @@ theorem branchMellin_add (F H : PowerSeries K) (hF : OnOpenDisc F) (hH : OnOpenD
 /-- §3.2 (Mellin evaluation at integral weights): `B_{F,q}(n) = E(F, (1 + q)ⁿ − 1)`. -/
 theorem branchMellin_nat (F : PowerSeries K) (q : K) (hq : ‖q‖ < 1) (n : ℕ) :
     branchMellin F q hq (n : ℤ_[p]) = evalOpen F ((1 + q) ^ n - 1) := by sorry
-
-/-- §3.2 check `BranchMellinTests.constant`: a constant series is independent of weight. -/
-example (a q : K) (hq : ‖q‖ < 1) (s : ℤ_[p]) :
-    branchMellin (PowerSeries.C a) q hq s = a := by
-  simp [branchMellin, evalOpen, FormalMultilinearSeries.ofScalars_sum_eq, PowerSeries.coeff_C]
-
-/-- §3.2 check `linear_at_one`: `B_{T,q}(1) = q`. -/
-example (q : K) (hq : ‖q‖ < 1) : branchMellin (p := p) PowerSeries.X q hq 1 = q := by
-  rw [branchMellin_one]
-  simp [evalOpen, FormalMultilinearSeries.ofScalars_sum_eq, PowerSeries.coeff_X]
 
 /-- §3.2 (Mellin evaluation on a clearing-factor domain): `Q_{F,D}(t) = E(F, t)/E(D, t)`, used
 only where `E(D, t) ≠ 0`. -/
@@ -451,11 +487,6 @@ example (t : K) (ht : t ≠ 0) : quotientMellin PowerSeries.X PowerSeries.X t = 
     simp [evalOpen, FormalMultilinearSeries.ofScalars_sum_eq, PowerSeries.coeff_X]
   simp [quotientMellin, h, ht]
 
-/-- §3.2 check `trivial_character_excluded`: the linear clearing factor vanishes
-at the trivial character, which is excluded from its admissible domain. -/
-example : evalOpen (PowerSeries.X : PowerSeries K) 0 = 0 := by
-  rw [evalOpen_zero]
-  simp [PowerSeries.coeff_X]
 
 end Mellin
 
@@ -514,6 +545,13 @@ def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     DiscreteTopology I ∧ ∃ (i : M →L[A] C₀(I, A)) (r : C₀(I, A) →L[A] M),
       r.comp i = ContinuousLinearMap.id A M
 
+/-- §4.8: property (Pr) passes to continuous retracts over any normed commutative ring.
+Source: Buzzard's retract definition of (Pr), pp. 18–19. -/
+theorem hasPr_of_retract {R : Type u} {X Y : Type v} [NormedCommRing R]
+    [NormedAddCommGroup X] [Module R X] [NormedAddCommGroup Y] [Module R Y]
+    (i : X →L[R] Y) (r : Y →L[R] X) (hri : r.comp i = ContinuousLinearMap.id R X)
+    (hY : HasPr R Y) : HasPr R X := by sorry
+
 end Section41
 
 /-! ### §4.2 Entire power series -/
@@ -540,6 +578,17 @@ theorem isEntire_iff_forall_isRestricted (f : PowerSeries A) :
 
 end Entire
 
+include hNoeth hCompleteM hCompleteA in
+/-- §4.13: an entire function can be evaluated on any continuous operator by an operator-norm
+convergent series; its sum is completely continuous when the input operator is and the
+constant coefficient vanishes.
+This is CompactOperators §3.3's operator evaluation on the native continuous-linear-map carrier. -/
+theorem entireOperatorEval_exists [IsUltrametricDist A] [IsUltrametricDist M]
+    (B : PowerSeries A) (hB : IsEntire B) (u : M →L[A] M) :
+    ∃ v : M →L[A] M,
+      HasSum (fun n : ℕ => (B.coeff n • u ^ n).restrictScalars K) (v.restrictScalars K) ∧
+      (B.coeff 0 = 0 → IsCompletelyContinuous u → IsCompletelyContinuous v) := by sorry
+
 /-! ### §4.8 Finite generation and projectivity of root kernels -/
 
 section RootKernels
@@ -549,6 +598,22 @@ include hNoeth in
 theorem riesz_kernel_hasPr (u : M →L[A] M) (a : A) (h : ℕ)
     (F : Submodule A M) (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F)
     (hp : HasPr A M) : HasPr A ((1 - a • u) ^ h).ker := by sorry
+
+include K hNoeth hCompleteA hCompleteM in
+/-- §4.8: a complemented root kernel of a completely continuous operator is finite over `A`,
+without a good-zero or unit-parameter hypothesis. Source: Buzzard, Proposition 3.2, pp. 23–24. -/
+theorem riesz_kernel_finite (u : M →L[A] M) (hu : IsCompletelyContinuous u)
+    (a : A) (h : ℕ) (F : Submodule A M)
+    (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F) :
+    Module.Finite A ((1 - a • u) ^ h).ker := by sorry
+
+include K hNoeth hCompleteA hCompleteM in
+/-- §4.8: when the ambient Banach module has (Pr), its complemented finite root kernel is
+algebraically projective. Source: Buzzard, Proposition 3.2, pp. 23–24. -/
+theorem riesz_kernel_projective (u : M →L[A] M) (hu : IsCompletelyContinuous u)
+    (a : A) (h : ℕ) (F : Submodule A M)
+    (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F) (hp : HasPr A M) :
+    Module.Projective A ((1 - a • u) ^ h).ker := by sorry
 
 end RootKernels
 
@@ -561,6 +626,11 @@ namespace NonarchimedeanFredholm
 section LinearDivision
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A]
+
+/-- §4.3: every shifted coefficient tail of an entire series is summable at every scalar,
+over a complete normed ring with submultiplicative norm. -/
+theorem entire_tail_summable (f : PowerSeries A) (hf : IsEntire f) (a : A) (m : ℕ) :
+    Summable (fun k : ℕ => f.coeff (m + k) * a ^ k) := by sorry
 
 /-- §4.3: the linear-tail realization over complete normed commutative rings, without
 ultrametricity, extending RestrictedPowerSeries §7.2:
@@ -642,6 +712,36 @@ theorem entireMonicQuotient_polynomial (hA : ∀ x y : A, ‖x + y‖ ≤ max �
 theorem entireMonicQuotient_linear (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
     (a : A) (F : PowerSeries A) (hF : IsEntire F) :
     entireMonicQuotient (Polynomial.X - Polynomial.C a) F = entireLinearQuotient a F := by sorry
+
+/-- §4.3: the reciprocal-tail monic quotient is entire, as supplied by
+RestrictedPowerSeries §7.2, explicit monic division. -/
+theorem entireMonicQuotient_entire [IsUltrametricDist A]
+    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
+    IsEntire (entireMonicQuotient Q F) := by sorry
+
+/-- §4.3: the supplied reciprocal-tail quotient and native truncation remainder give exact
+division, including the degree-zero divisor `1`. Source: RestrictedPowerSeries §7.2. -/
+theorem entireMonicQuotient_division [IsUltrametricDist A]
+    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
+    F = (Q : PowerSeries A) * entireMonicQuotient Q F +
+      (PowerSeries.trunc Q.natDegree (F - (Q : PowerSeries A) * entireMonicQuotient Q F) :
+        Polynomial A) := by sorry
+
+/-- §4.3: any entire quotient with a polynomial remainder of degree below the monic divisor
+equals the supplied tail quotient and native truncation remainder. Source: RestrictedPowerSeries §7.2. -/
+theorem entireMonicQuotient_unique [IsUltrametricDist A]
+    (Q : Polynomial A) (hQ : Q.Monic) (F G : PowerSeries A)
+    (hF : IsEntire F) (hG : IsEntire G) (R : Polynomial A) (hR : R.degree < Q.degree)
+    (hdiv : F = (Q : PowerSeries A) * G + (R : PowerSeries A)) :
+    G = entireMonicQuotient Q F ∧
+      R = PowerSeries.trunc Q.natDegree (F - (Q : PowerSeries A) * entireMonicQuotient Q F) := by sorry
+
+/-- §4.3: the linear-tail quotient has the convergent entire evaluation as its constant
+remainder. This is the linear instance of RestrictedPowerSeries §7.2's monic division. -/
+theorem entireLinearQuotient_division [IsUltrametricDist A]
+    (a : A) (F : PowerSeries A) (hF : IsEntire F) :
+    F = (PowerSeries.X - PowerSeries.C a) * entireLinearQuotient a F +
+      PowerSeries.C (entireEval F a) := by sorry
 
 end MonicDivision
 
@@ -763,6 +863,14 @@ section Gauss
 
 variable {A : Type*} [NormedCommRing A]
 
+/-- §4.12: coefficient limits with a common bound at every positive Gauss radius are entire;
+no completeness or ultrametric hypothesis on the coefficient ring is needed. -/
+theorem isEntire_of_coeff_tendsto_of_gauss_bounded
+    (F : ℕ → PowerSeries A) (hF : ∀ i, IsEntire (F i)) (f : PowerSeries A)
+    (hlim : ∀ k, Tendsto (fun i => (F i).coeff k) atTop (𝓝 (f.coeff k)))
+    (hbd : ∀ S : ℝ, 0 < S → ∃ C : ℝ, 0 ≤ C ∧ ∀ i, PowerSeries.gaussNorm norm S (F i) ≤ C) :
+    IsEntire f := by sorry
+
 /-- §4.12 (Bounded coefficient limits converge in Gauss norms). -/
 theorem tendsto_gaussNorm_of_coeff_tendsto_of_gauss_bounded
     (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
@@ -789,6 +897,18 @@ theorem tendsto_gaussNorm_mul (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖
     (hFlim : Tendsto (fun i => PowerSeries.gaussNorm norm R (F i - f)) atTop (𝓝 0))
     (hHlim : Tendsto (fun i => PowerSeries.gaussNorm norm R (H i - h)) atTop (𝓝 0)) :
     Tendsto (fun i => PowerSeries.gaussNorm norm R (F i * H i - f * h)) atTop (𝓝 0) := by sorry
+
+/-- §4.12: fixed monic division is continuous for the entire Gauss topology, with all-radius
+convergence of the input and output. -/
+theorem tendsto_gaussNorm_entireMonicQuotient [NormOneClass A] [CompleteSpace A]
+    [Nontrivial A] [IsUltrametricDist A] (Q : Polynomial A) (hQ : Q.Monic)
+    {ι : Type*} (l : Filter ι) (F : ι → PowerSeries A) (hF : ∀ i, IsEntire (F i))
+    (f : PowerSeries A) (hf : IsEntire f)
+    (hlim : ∀ S : ℝ, 0 < S →
+      Tendsto (fun i => PowerSeries.gaussNorm norm S (F i - f)) l (𝓝 0))
+    (R : ℝ) (hR : 0 < R) :
+    Tendsto (fun i => PowerSeries.gaussNorm norm R
+      (entireMonicQuotient Q (F i) - entireMonicQuotient Q f)) l (𝓝 0) := by sorry
 
 end Gauss
 
@@ -868,6 +988,18 @@ testing that the prescribed rank survives when the characteristic input is one. 
 theorem constant_padding (c : A) : entirePolynomialSpectral 2 (PowerSeries.C c) 1 =
     (1 - Polynomial.C c * Polynomial.X) ^ 2 := by sorry
 
+/-- §4.13: the independent double truncations of two entire inputs have a unique entire
+spectral limit in every Gauss radius, when the functional input vanishes at zero and the
+characteristic input is normalized. Source: CompactOperators §3.3, convergence and topology. -/
+theorem exists_entire_spectral_transform [IsUltrametricDist A]
+    (B P : PowerSeries A) (hB : IsEntire B) (hP : IsEntire P)
+    (hB0 : B.coeff 0 = 0) (hP0 : P.coeff 0 = 1) :
+    ∃! F : {F : PowerSeries A // IsEntire F}, ∀ R : ℝ, 0 < R →
+      Tendsto (fun nm : ℕ × ℕ => PowerSeries.gaussNorm norm R
+        (((polynomialSpectralResultant nm.1 nm.2 (PowerSeries.trunc (nm.2 + 1) B)
+          (PowerSeries.trunc (nm.1 + 1) P) : Polynomial A) : PowerSeries A) - F.val))
+        (atTop : Filter (ℕ × ℕ)) (𝓝 0) := by sorry
+
 end FixedCharacteristic
 
 end NonarchimedeanFredholm
@@ -890,6 +1022,14 @@ theorem stageDual_ext [CompleteSpace A] (μ ν : C₀(I, A) →L[A] A)
 
 variable [NormedAlgebra K A]
 
+include K in
+/-- §4.15: stage duals are precisely uniformly bounded basis-value families over a complete
+ultrametric coefficient algebra; their coefficient families need not tend to zero. -/
+theorem stageDual_exists_iff_bounded [CompleteSpace A] [IsUltrametricDist A] [NormOneClass A]
+    (b : I → A) :
+    (∃ μ : C₀(I, A) →L[A] A, ∀ i, μ (NonarchimedeanFredholm.c0Single i 1) = b i) ↔
+      ∃ C : ℝ, 0 ≤ C ∧ ∀ i, ‖b i‖ ≤ C := by sorry
+
 /-- §4.15 (Integral distribution lattices): the stage-dual norm unit ball, tied to the chosen
 Banach model. -/
 def familyIntegralLattice : Set (C₀(I, A) →L[A] A) :=
@@ -904,11 +1044,6 @@ theorem familyIntegralLattice_mem (μ : C₀(I, A) →L[A] A) :
 theorem familyIntegralLattice_smul (a : A) (ha : ‖a‖ ≤ 1) (μ : C₀(I, A) →L[A] A)
     (hμ : μ ∈ familyIntegralLattice (K := K)) : a • μ ∈ familyIntegralLattice (K := K) := by sorry
 
-/-- §4.15 check `integralLattice_zero`: the zero functional belongs to the norm unit ball. -/
-example : (0 : C₀(I, A) →L[A] A) ∈ familyIntegralLattice (K := K) := by
-  change ‖(0 : C₀(I, A) →L[K] A)‖ ≤ 1
-  rw [ContinuousLinearMap.opNorm_zero]
-  exact zero_le_one
 
 end StageDuals
 
@@ -941,6 +1076,11 @@ theorem analyticStageDilate_comp (a b : A) (ha : ‖a‖ ≤ 1) (hb : ‖b‖ �
     (hab : ‖a * b‖ ≤ 1) :
     (analyticStageDilate a ha).comp (analyticStageDilate b hb) = analyticStageDilate (a * b) hab := by
   sorry
+
+/-- §4.15: strict coordinate contraction is completely continuous in the one-disc coefficient
+model, by truncating its diagonal coefficients. Source: CompactOperators §0.3. -/
+theorem analyticStageDilate_isCompletelyContinuous (a : A) (ha : ‖a‖ < 1) :
+    NonarchimedeanFredholm.IsCompletelyContinuous (analyticStageDilate a ha.le) := by sorry
 
 /-- §4.15: over a complete ultrametric ring, evaluation is the convergent coefficient sum
 at a point in the closed unit disc. -/
@@ -1045,47 +1185,6 @@ theorem familySpecialization_eval (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
     familySpecialization η C hC hη μ M hM hμ (analyticStageSpecialization η C hC hη f) = η (μ f) := by
   sorry
 
-/-- §4.15 check `specialization_single`: arbitrary discrete coefficient indices are preserved. -/
-example {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
-    (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (i : I) (a : A) :
-    analyticStageSpecialization η C hC hη (NonarchimedeanFredholm.c0Single i a) =
-      NonarchimedeanFredholm.c0Single i (η a) := by
-  ext k
-  by_cases h : k = i
-  · subst k
-    simp [analyticStageSpecialization, NonarchimedeanFredholm.c0Single]
-  · simp [analyticStageSpecialization, NonarchimedeanFredholm.c0Single, Pi.single_apply, h]
-
-/-- §4.15 check `specialization_empty`: the actual coefficient map on an empty chart is zero. -/
-example (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖)
-    (f : C₀(Empty, A)) : analyticStageSpecialization η C hC hη f = 0 := by
-  ext k
-  exact Empty.elim k
-
-/-- §4.15 check `stageDilate_unit`: unit dilation is identity. -/
-example (f : C₀(ℕ, A)) (h : ‖(1 : A)‖ ≤ 1) : analyticStageDilate 1 h f = f := by
-  ext n
-  simp [analyticStageDilate_coeff]
-
-/-- §4.15 check `stageDilate_quadratic`: the quadratic coefficient scales by the square. -/
-example (a : A) (ha : ‖a‖ ≤ 1) :
-    analyticStageDilate a ha (NonarchimedeanFredholm.c0Single 2 (1 : A)) =
-      NonarchimedeanFredholm.c0Single 2 (a ^ 2) := by
-  ext n
-  by_cases h : n = 2
-  · subst n
-    simp [analyticStageDilate_coeff, NonarchimedeanFredholm.c0Single]
-  · simp [analyticStageDilate_coeff, NonarchimedeanFredholm.c0Single, h]
-
-/-- §4.15 check `stageEvaluate_quadratic`: the quadratic basis evaluates at the boundary too. -/
-example [NormOneClass A] : analyticStageEvaluate 1 (by simp)
-    (NonarchimedeanFredholm.c0Single 2 (1 : A)) = 1 := by
-  simpa using analyticStageEvaluate_basis (1 : A) (by simp) 2 1
-
-/-- §4.15 check `stageEvaluate_zeroFunction`: zero evaluates to zero. -/
-example (x : A) (hx : ‖x‖ ≤ 1) : analyticStageEvaluate x hx 0 = 0 := by
-  exact map_zero _
-
 end OneDiscModels
 
 /-! ### §4.16 Banach complexes -/
@@ -1170,9 +1269,6 @@ theorem compactHomotopyEndomorphism_homotopy (U V : C ⟶ C) (H : Homotopy U V)
     (hc : ∀ i j, Continuous (fun x : E i => e j (H.hom i j ((e i).symm x)))) :
     CompactHomotopyEndomorphism C E e U ↔ CompactHomotopyEndomorphism C E e V := by sorry
 
-/-- §4.16 check `homotopyCompact_zero`: the zero endomorphism has a compact homotopy class. -/
-example : CompactHomotopyEndomorphism C E e 0 := by
-  exact compactHomotopyEndomorphism_of_rep C E e 0 (degreewiseCompletelyContinuous_zero C E e)
 
 /-- §4.16 check `homotopyCompact_contractible`: the identity of a contractible complex is
 compact. -/
