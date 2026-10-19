@@ -1,7 +1,4 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.VectorBundle.Functoriality
-import TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine.Quotient
-import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Spectral
 
 /-!
 # Isocrystals, vector bundles and Banach–Colmez spaces: representative target signatures
@@ -19,17 +16,6 @@ open CategoryTheory CategoryTheory.Limits
 open scoped ZeroObject TensorProduct
 
 universe u v w
-
-#check Rat.num
-#check Rat.den
-#check Rat.den_pos
-#check Rat.reduced
-#check WittVector.Isocrystal
-#check WittVector.IsocrystalHom
-#check WittVector.isocrystal_classification
-#check TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf
-#check TauCeti.FarguesFontaine.spaX
-#check TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition
 
 namespace TauCeti.FFBundles
 
@@ -81,26 +67,6 @@ theorem isocrystalEndDivision {D : FiniteIsocrystal L σ} [Nontrivial D.V]
       f.linearMap.comp g.linearMap = LinearMap.id := by
   sorry
 
-/-- Identity maps give genuine intertwiners. -/
-example (D : FiniteIsocrystal L σ) :
-    ∃ f : Hom D D, f.linearMap = LinearMap.id := by
-  sorry
-
--- Check: finiteIsocrystal_zero
-/-- The rank-zero object is admitted, despite the bijectivity condition. -/
-example : ∃ D : FiniteIsocrystal L σ, Module.finrank L D.V = 0 := by
-  sorry
-
--- Check: finiteIsocrystal_requires_bijective
-/-- A zero Frobenius on a nonzero field cannot define an isocrystal. -/
-example : ¬ Function.Bijective (fun _ : L => (0 : L)) := by
-  sorry
-
-/-- Isocrystal equivalences preserve rank and admit an intertwining inverse. -/
-example (D D' : FiniteIsocrystal L σ) (e : Equiv D D') :
-    Module.finrank L D.V = Module.finrank L D'.V ∧ Nonempty (Equiv D' D) := by
-  sorry
-
 end FiniteIsocrystal
 
 namespace FiniteIsocrystal
@@ -139,24 +105,6 @@ theorem dieudonneManinIsocrystals
       Module.finrank (FractionRing (WittVector p k))
         (FiniteIsocrystal.ofWitt p k D.V).V =
           Module.finrank (FractionRing (WittVector p k)) D.V := by
-  sorry
-
--- Check: finiteIsocrystal_unramified_frobenius
-/-- A degree-two coefficient extension uses the squared coefficient automorphism. -/
-example {L : Type u} [Field L] (σ : L ≃+* L) (a : L) (ha : σ (σ a) ≠ σ a) :
-    let D : FiniteIsocrystal L (σ.trans σ) :=
-      { V := L, frobenius := (σ.trans σ).toSemilinearEquiv }
-    D.frobenius a = σ (σ a) ∧ D.frobenius a ≠ σ a := by
-  sorry
-
--- Check: slopeBlock_wraparound
-/-- The second iterate detects coefficient Frobenius as well as the inverse-uniformizer wrap. -/
-example {L : Type u} [Field L] (σ : L ≃+* L) {M : Type u}
-    [AddCommGroup M] [Module L M] (Φ : M ≃ₛₗ[σ.toRingHom] M)
-    (π a : L) (hπ : π ≠ 0) (ha : σ (σ a) ≠ a)
-    (e₀ e₁ : M) (he₀ : e₀ ≠ 0) (h₀ : Φ e₀ = e₁) (h₁ : Φ e₁ = π⁻¹ • e₀) :
-    Φ (Φ (a • e₀)) = (π⁻¹ * σ (σ a)) • e₀ ∧
-      Φ (Φ (a • e₀)) ≠ (π⁻¹ * a) • e₀ := by
   sorry
 
 /-! ## Layer VB1: algebraic Frobenius modules and cohomology -/
@@ -213,31 +161,6 @@ def isGloballyEtale (A : Type u) [CommRing A] [Algebra A R]
     (ψ : A ≃+* A) (D : RobbaPhiModule R φ) : Prop :=
   Nonempty (GlobalEtaleModel A ψ D)
 
--- Check: robbaPhi_trivial
-/-- The trivial integral line extends by multiplication, with inverse r ↦ r ⊗ 1. -/
-example (A : Type u) [CommRing A] [Algebra A R] (ψ : A ≃+* A)
-    (compatible : ∀ a, φ (algebraMap A R a) = algebraMap A R (ψ a)) :
-    ∃ e : R ⊗[A] A ≃ₗ[R] R,
-      (∀ r a, e (r ⊗ₜ[A] a) = r * algebraMap A R a) ∧
-      (∀ r, e.symm r = r ⊗ₜ[A] (1 : A)) ∧
-      (∀ r a, φ (e (r ⊗ₜ[A] a)) = e (φ r ⊗ₜ[A] ψ a)) ∧
-      ∃ N : GlobalEtaleModel A ψ (trivial R φ), N.integral = trivial A ψ := by
-  sorry
-
--- Check: robbaPhi_noninvertible
-/-- Zero linearization on a nonzero free rank-one module is not invertible. -/
-example [Nontrivial R] : ¬ Function.Bijective (0 : R →ₗ[R] R) := by
-  sorry
-
-/-- Finite projective modules over an absolute Bézout domain are free. -/
-example [IsDomain R] [IsBezout R] (D : RobbaPhiModule R φ) :
-    Module.Free R D.M := by
-  sorry
-
-/-- Identity maps are morphisms of finite projective Frobenius modules. -/
-example (D : RobbaPhiModule R φ) : ∃ f : Hom D D, f.linearMap = LinearMap.id := by
-  sorry
-
 end RobbaPhiModule
 
 section FrobeniusCohomology
@@ -249,27 +172,16 @@ def H0 (φ : M →ₗ[E] M) : Submodule E M := (φ - LinearMap.id).ker
 /-- Degree-one Frobenius coinvariants. -/
 abbrev H1 (φ : M →ₗ[E] M) : Type u := M ⧸ (φ - LinearMap.id).range
 
-/-- Identity Frobenius gives the full module in both degrees. -/
-example : Nonempty (H0 (LinearMap.id : M →ₗ[E] M) ≃ₗ[E] M) ∧
-    Nonempty (H1 (LinearMap.id : M →ₗ[E] M) ≃ₗ[E] M) := by
+/-- Intertwiners induce the kernel and quotient maps in the target
+"Two-term Frobenius complex for curve cohomology", with their vector formulas. -/
+theorem mapCohomology {N : Type u} [AddCommGroup N] [Module E N]
+    (φ : M →ₗ[E] M) (ψ : N →ₗ[E] N) (f : M →ₗ[E] N)
+    (intertwines : ∀ x, ψ (f x) = f (φ x)) :
+    ∃ f₀ : H0 φ →ₗ[E] H0 ψ, ∃ f₁ : H1 φ →ₗ[E] H1 ψ,
+      (∀ x, (f₀ x).val = f x.val) ∧
+      ∀ x : M, f₁ (Submodule.Quotient.mk x) = Submodule.Quotient.mk (f x) := by
   sorry
 
-/-- The zero module has zero Frobenius cohomology in both degrees. -/
-example (φ : (Fin 0 → E) →ₗ[E] (Fin 0 → E)) :
-    Subsingleton (H0 φ) ∧ Subsingleton (H1 φ) := by
-  sorry
--- Check: frobeniusComplex_double
-/-- Twice the identity has invertible differential and vanishing cohomology, in every characteristic. -/
-example [Nontrivial M] :
-    (2 • (LinearMap.id : M →ₗ[E] M) - LinearMap.id) = LinearMap.id ∧
-      H0 (2 • (LinearMap.id : M →ₗ[E] M)) = ⊥ ∧
-      Subsingleton (H1 (2 • (LinearMap.id : M →ₗ[E] M))) := by
-  sorry
-
-/-- The rank-one nonzero differential has neither invariants nor coinvariants. -/
-example : H0 (2 • (LinearMap.id : E →ₗ[E] E)) = ⊥ ∧
-    Subsingleton (H1 (2 • (LinearMap.id : E →ₗ[E] E))) := by
-  sorry
 end FrobeniusComplex
 end FrobeniusCohomology
 
@@ -286,24 +198,33 @@ concern those canonical Banach topologies. -/
 def TwistedInvariant (φ : M →ₗ[E] M) (π : E) (n : ℤ) : Submodule E M :=
   (φ - (π ^ n) • LinearMap.id).ker
 
--- Check: twistedInvariant_zero
-/-- Every weight space of the zero module is zero. -/
-example (φ : (Fin 0 → E) →ₗ[E] (Fin 0 → E)) (π : E) (n : ℤ) :
-    Subsingleton (TwistedInvariant φ π n) := by
-  sorry
-
 -- Check: twistedInvariant_n_zero
 /-- Weight zero agrees with ordinary Frobenius invariants. -/
 example (φ : M →ₗ[E] M) (π : E) :
     TwistedInvariant φ π 0 = FrobeniusComplex.H0 φ := by
-  sorry
+  simp [TwistedInvariant, FrobeniusComplex.H0]
 
 -- Check: twistedInvariant_sign
 /-- Multiplication by π has weight +1, fixing the sign of the twist. -/
 example (π : E) (hπ : π ≠ 0) (hπ2 : π ^ 2 ≠ 1) :
     TwistedInvariant (π • (LinearMap.id : E →ₗ[E] E)) π 1 = ⊤ ∧
       (π • (LinearMap.id : E →ₗ[E] E) - π⁻¹ • LinearMap.id).ker = ⊥ := by
-  sorry
+  constructor
+  · simp [TwistedInvariant]
+  · apply LinearMap.ker_eq_bot.mpr
+    intro x y hxy
+    have hne : π - π⁻¹ ≠ 0 := by
+      intro h
+      apply hπ2
+      have heq : π = π⁻¹ := sub_eq_zero.mp h
+      calc
+        π ^ 2 = π * π := pow_two π
+        _ = π * π⁻¹ := congrArg (π * ·) heq
+        _ = 1 := mul_inv_cancel₀ hπ
+    have hmul : (π - π⁻¹) * x = (π - π⁻¹) * y := by
+      simpa only [LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+        smul_eq_mul, sub_mul] using hxy
+    exact mul_left_cancel₀ hne hmul
 end TwistedInvariants
 
 section ContinuousActions
@@ -320,7 +241,8 @@ structure ContinuousPhiAction (φ : M ≃ₗ[E] M) where
   commutes : ∀ (g : G) (x : M), φ (action g x) = action g (φ x)
   continuous : Continuous (fun gx : G × M => action gx.1 gx.2)
 
-/-- The restricted action on every weight space is continuous in its induced topology. -/
+/-- The restriction in "Continuous profinite actions on Frobenius modules"
+is continuous on every weight space with its induced topology. -/
 theorem ContinuousPhiAction.restrictInvariants_continuous {φ : M ≃ₗ[E] M}
     (A : ContinuousPhiAction E R M G φ) (π : E) (n : ℤ) :
     ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π n ≃ₗ[E]
@@ -329,54 +251,6 @@ theorem ContinuousPhiAction.restrictInvariants_continuous {φ : M ≃ₗ[E] M}
       Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π n => ρ gx.1 gx.2) := by
   sorry
 
--- Check: continuousPhiAction_trivial
-/-- Trivial coefficient and module actions are jointly continuous and commute with Frobenius. -/
-example (φ : M ≃ₗ[E] M) :
-    ∃ A : ContinuousPhiAction E R M G φ, A.coefficients = 1 ∧ A.action = 1 := by
-  sorry
-
--- Check: continuousPhiAction_finite
-/-- Continuous automorphisms of a finite discrete group give a jointly continuous action. -/
-example [Finite G] [DiscreteTopology G] (φ : M ≃ₗ[E] M)
-    (c : G →* (R ≃ₐ[E] R)) (ρ : G →* (M ≃ₗ[E] M))
-    (semilinear : ∀ g a x, ρ g (a • x) = c g a • ρ g x)
-    (commutes : ∀ g x, φ (ρ g x) = ρ g (φ x))
-    (continuous : ∀ g, Continuous (ρ g : M → M)) :
-    ∃ A : ContinuousPhiAction E R M G φ, A.coefficients = c ∧ A.action = ρ := by
-  sorry
-
--- Check: continuousPhiAction_all_weights
-/-- Every integer weight has a continuous action agreeing on underlying vectors. -/
-example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (π : E) (n : ℤ) :
-    ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π n ≃ₗ[E]
-      TwistedInvariant φ.toLinearMap π n),
-      (∀ g x, (ρ g x).val = A.action g x.val) ∧
-      Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π n => ρ gx.1 gx.2) := by
-  exact A.restrictInvariants_continuous E R M G π n
-
-/-- Weight minus one retains both the vector formula and continuity. -/
-example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (π : E) :
-    ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π (-1) ≃ₗ[E]
-      TwistedInvariant φ.toLinearMap π (-1)),
-      (∀ g x, (ρ g x).val = A.action g x.val) ∧
-      Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π (-1) => ρ gx.1 gx.2) := by
-  exact A.restrictInvariants_continuous E R M G π (-1)
-
-/-- Weight zero retains both the vector formula and continuity. -/
-example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (π : E) :
-    ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π 0 ≃ₗ[E]
-      TwistedInvariant φ.toLinearMap π 0),
-      (∀ g x, (ρ g x).val = A.action g x.val) ∧
-      Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π 0 => ρ gx.1 gx.2) := by
-  exact A.restrictInvariants_continuous E R M G π 0
-
--- Check: continuousPhiAction_requires_commutation
-/-- Coordinate swap fails the Frobenius equation for diag(1,a) when a ≠ 1. -/
-example (a : E) (ha : a ≠ 1) :
-    ¬ ∀ x : Fin 2 → E,
-      (fun i : Fin 2 => if i = 0 then x 1 else a * x 0) =
-        (fun i : Fin 2 => if i = 0 then a * x 1 else x 0) := by
-  sorry
 end ContinuousActions
 
 structure HNPolygon where
@@ -405,25 +279,19 @@ def slopeMultiplicity (P : HNPolygon) (s : ℚ) : ℕ :=
 theorem endpoint (P : HNPolygon) : P.vertices.getLast! = (P.totalRank, P.totalDegree) := by
   sorry
 
--- Check: hnPolygon_zero
-/-- The empty polygon has a single vertex, zero endpoint and zero slope multiplicities. -/
-example : zero.vertices = [(0, 0)] ∧ zero.totalRank = 0 ∧ zero.totalDegree = 0 ∧
-    ∀ s, zero.slopeMultiplicity s = 0 := by
-  simp [zero, vertices, totalRank, totalDegree, slopeMultiplicity]
-
 -- Check: hnPolygon_half
 /-- A half-slope block has horizontal length two. -/
 example (P : HNPolygon) (h : P.pieces = [(2, 1)]) :
     P.vertices = [(0, 0), (2, 1)] ∧ P.totalRank = 2 ∧ P.totalDegree = 1 ∧
       P.slopeMultiplicity (1/2) = 2 := by
-  sorry
+  norm_num [vertices, totalRank, totalDegree, slopeMultiplicity, h]
 
 -- Checks: hnPolygon_split, hnPolygon_not_slope_only
 /-- Opposite rank-one slopes do not produce a horizontal polygon. -/
 example (P : HNPolygon) (h : P.pieces = [(1, 1), (1, -1)]) :
     P.vertices = [(0, 0), (1, 1), (2, 0)] ∧
       P.slopeMultiplicity 1 = 1 ∧ P.slopeMultiplicity 0 = 0 := by
-  sorry
+  norm_num [vertices, totalRank, totalDegree, slopeMultiplicity, h]
 end HNPolygon
 end TauCeti.FFBundles
 
@@ -456,7 +324,8 @@ namespace BCPresentation
 variable {constant : ModuleCat K ⥤ C} {V : ℕ → C} {W : C}
 def height (P : BCPresentation constant V W) : ℤ :=
   (Module.finrank K P.V₁ : ℤ) - (Module.finrank K P.V₂ : ℤ)
-/-- Stabilization preserves the two exact sequences and their dimension-height data. -/
+/-- The stabilization target of "Finite-Dimensional Banach–Colmez presentations"
+preserves both exact sequences and their dimension-height data. -/
 theorem stabilize [constant.Additive] (P : BCPresentation constant V W) (T : ModuleCat K)
     [FiniteDimensional K T] :
     ∃ Q : BCPresentation constant V W, Q.dim = P.dim ∧ Q.height = P.height ∧
@@ -464,22 +333,6 @@ theorem stabilize [constant.Additive] (P : BCPresentation constant V W) (T : Mod
       Module.finrank K Q.V₂ = Module.finrank K P.V₂ + Module.finrank K T := by
   sorry
 
-/-- The additive object has a presentation with zero finite endpoints and height zero. -/
-example [constant.Additive] (d : ℕ) :
-    ∃ P : BCPresentation constant V (V d), P.dim = d ∧ P.height = 0 := by
-  sorry
-
-/-- A common one-dimensional stabilization leaves the height unchanged. -/
-example (P Q : BCPresentation constant V W)
-    (h₁ : Module.finrank K Q.V₁ = Module.finrank K P.V₁ + 1)
-    (h₂ : Module.finrank K Q.V₂ = Module.finrank K P.V₂ + 1) :
-    Q.height = P.height := by
-  sorry
-
-/-- Equal finite endpoints give height zero, independently of the additive dimension. -/
-example (P : BCPresentation constant V W)
-    (h : Module.finrank K P.V₁ = Module.finrank K P.V₂) : P.height = 0 := by
-  sorry
 end BCPresentation
 end Presentations
 
@@ -501,6 +354,7 @@ def negative (powers : ℕ → C) (W : C) : Prop :=
 /-- BdRplus-modules and their restriction-of-scalars functor are supplied. -/
 def nonpositive {D : Type u} [Category.{v} D] (forget : D ⥤ C) (W : C) : Prop :=
   ∃ M : D, ∃ f : W ⟶ forget.obj M, Mono f
+/-- The isomorphism invariance target of "Curvature" preserves all five predicates. -/
 theorem iso (Ga BdRplus : C) (powers : ℕ → C)
     {D : Type u} [Category.{v} D] (forget : D ⥤ C) {X Y : C} (e : X ≅ Y) :
     (positive Ga X ↔ positive Ga Y) ∧
@@ -509,23 +363,9 @@ theorem iso (Ga BdRplus : C) (powers : ℕ → C)
     (negative powers X ↔ negative powers Y) ∧
     (nonpositive forget X ↔ nonpositive forget Y) := by sorry
 end BCCurvature
-/-- All curvature predicates include the zero object. -/
-example (Ga BdRplus : C) (powers : ℕ → C)
-    {D : Type u} [Category.{v} D] (forget : D ⥤ C) [Nonempty D] :
-    BCCurvature.positive Ga (0 : C) ∧ BCCurvature.nonnegative BdRplus (0 : C) ∧
-      BCCurvature.affine Ga (0 : C) ∧ BCCurvature.negative powers (0 : C) ∧
-      BCCurvature.nonpositive forget (0 : C) := by
-  sorry
 
-/-- The additive generator is affine via its one-step filtration. -/
-example (Ga : C) : BCCurvature.affine Ga Ga := by
-  sorry
-
-/-- An additive generator with nonzero identity has no strictly positive curvature. -/
-example (Ga : C) (h : 𝟙 Ga ≠ 0) : ¬ BCCurvature.positive Ga Ga := by
-  sorry
-
-/-- Monomorphisms preserve negative curvature; epimorphisms preserve positive curvature. -/
+/-- The strict-sign part of "Curvature subobjects and quotients": monomorphisms
+preserve negative curvature and epimorphisms preserve positive curvature. -/
 theorem CurvatureSubquotients (Ga : C) (powers : ℕ → C) {U W Q : C}
     (i : U ⟶ W) [Mono i] (q : W ⟶ Q) [Epi q] :
     (BCCurvature.negative powers W → BCCurvature.negative powers U) ∧
@@ -549,28 +389,13 @@ def positive : Submodule K (W.obj a) :=
   ⨅ (m : ℕ), ⨅ f : W ⟶ B (m + 1), LinearMap.ker (f.app a).hom
 def nonnegative : Submodule K (W.obj a) :=
   ⨅ f : W ⟶ D, LinearMap.ker (f.app a).hom
-/-- Natural maps preserve the intersections of kernels defining both parts. -/
-example (W' : S ⥤ ModuleCat K) (f : W ⟶ W') :
+/-- The map target of "Canonical curvature filtration": natural transformations
+preserve both intersections of kernels, componentwise. -/
+theorem map (W' : S ⥤ ModuleCat K) (f : W ⟶ W') :
     (positive W B a).map (f.app a).hom ≤ positive W' B a ∧
     (nonnegative W D a).map (f.app a).hom ≤ nonnegative W' D a := by
   sorry
 
-/-- Identity target maps force both intersections of kernels to be zero. -/
-example : positive W (fun _ => W) a = ⊥ ∧ nonnegative W W a = ⊥ := by
-  sorry
-
-/-- A zeroth identity target imposes no restriction when all positive targets vanish. -/
-example : positive W (fun m => if m = 0 then W else 0) a = ⊤ := by
-  sorry
-
-/-- Zero targets impose no kernel restriction. -/
-example : positive W (fun _ => 0) a = ⊤ ∧ nonnegative W 0 a = ⊤ := by
-  sorry
-
-/-- On a nonzero value, the whole module cannot precede zero in a nested filtration. -/
-example [Nontrivial (W.obj a)] :
-    ¬ ∃ F : BCCanonicalFiltration W a, F.positivePart = ⊤ ∧ F.nonnegativePart = ⊥ := by
-  sorry
 end BCCanonicalFiltration
 end Filtration
 
@@ -579,7 +404,8 @@ end Filtration
 section Contraction
 variable {X : Type u} [TopologicalSpace X] [QuasiSeparatedSpace X]
 
-/-- FS II.2.17, with the restriction of γ to its moved locus supplied as δ.
+/-- The target "Quotients by contracting automorphisms" (FS II.2.17),
+with the restriction of γ to its moved locus supplied as δ.
 Generalizations have the orientation y ⤳ x. The orbit relation and quotient topology
 are Mathlib's, and ℤ has its discrete topology. Quasiseparatedness together with the
 compact-closure hypothesis encodes tautness; AdicSpacesPartII R0.0 supplies local spectrality. -/
@@ -609,7 +435,8 @@ section LatticeMonodromy
 variable {R Kp V : Type u} [CommRing R] [NormedField Kp] [Algebra R Kp]
 variable [NormedAddCommGroup V] [NormedSpace Kp V]
 variable [Module R V] [IsScalarTower R Kp V] [Nontrivial V]
-/-- A scalar of nonunit norm cannot preserve a bounded spanning lattice. -/
+/-- The obstruction in "Pure models and purity loci": a scalar of nonunit norm
+cannot preserve a bounded spanning lattice. -/
 theorem no_bounded_stable_lattice (p : Kp) (hp : p ≠ 0) (hnorm : ‖p‖ ≠ 1) :
     ¬ ∃ N : Submodule R V, Bornology.IsBounded (N : Set V) ∧
       Submodule.span Kp (N : Set V) = ⊤ ∧

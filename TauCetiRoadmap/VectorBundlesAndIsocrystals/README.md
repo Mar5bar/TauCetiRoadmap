@@ -230,10 +230,10 @@ Construct the zero object, direct sums and tensor products with their genuine se
 
 **Checks.**
 
-- `finiteIsocrystal_zero`: The zero module has rank 0 and an invertible semilinear zero-to-zero map.
+- The zero module has rank 0 and an invertible semilinear zero-to-zero map.
 - `finiteIsocrystal_witt`: For `ℚ_p` the finite subcategory embeds fully faithfully into WittVector.IsocrystalHom and IsocrystalEquiv.
-- `finiteIsocrystal_requires_bijective`: The zero Frobenius map on nonzero L is not an isocrystal.
-- `finiteIsocrystal_unramified_frobenius`: For the unramified degree-two E′, the coefficient automorphism is `σ²`, not `σ`.
+- The zero Frobenius map on nonzero L is not an isocrystal.
+- For the unramified degree-two E′, the coefficient automorphism is `σ²`, not `σ`.
 
 ([FF][FF], 8.2.3, Definition 8.2.5, printed p. 236.)
 
@@ -257,7 +257,7 @@ For `E=ℚ_p` transport CrystallineCohomology §CR.4.7’s cyclic blocks through
 **Checks.**
 
 - `slopeBlock_half`: `D(1,2)` has rank 2 and isocrystal slope 1/2.
-- `slopeBlock_wraparound`: On `D(−1,2)`, `Φ²(e_0)=π⁻¹e_0` fixes the wrap sign. Choose `a∈L` with `σ²(a)≠a`; then `Φ²(ae_0)=π⁻¹σ²(a)e_0≠π⁻¹ae_0`, which excludes coefficient linearity. A Teichmüller lift from `𝔽_{q³}∖𝔽_q` supplies such an a.
+- On `D(−1,2)`, `Φ²(e_0)=π⁻¹e_0` fixes the wrap sign. Choose `a∈L` with `σ²(a)≠a`; then `Φ²(ae_0)=π⁻¹σ²(a)e_0≠π⁻¹ae_0`, which excludes coefficient linearity. A Teichmüller lift from `𝔽_{q³}∖𝔽_q` supplies such an a.
 - `slopeBlock_rankOne`: `D(−2,1)` is the pinned rank-one block with exponent `−2`.
 - `slopeBlock_not_simple`: `D(2,2)` has slope 1 and is not simple: it is two copies of `D(1,1)`.
 
@@ -463,8 +463,8 @@ For a coefficient map `A → R` with compatible automorphisms `φ_A, φ_R` and f
 
 **Checks.**
 
-- `robbaPhi_trivial`: The rank-one ring with its own Frobenius has its evident integral étale model.
-- `robbaPhi_noninvertible`: Zero linearization on a nonzero free module is excluded.
+- The rank-one ring with its own Frobenius has its evident integral étale model.
+- Zero linearization on a nonzero free module is excluded.
 - `robbaPhi_finite_projective`: Over an absolute field the module is free by the field Bézout theorem, while its definition remains finite projective.
 - `robbaPhi_unit_lattice`: A rank-one Frobenius multiplier that is an integral unit preserves an invertible rank-one integral model.
 
@@ -495,6 +495,7 @@ For a bundle V descended from M on `Y_S`, derived global sections on `X_S` ident
 - `FrobeniusComplex.H0`: `H⁰=ker(φ−1)`.
 - `FrobeniusComplex.H1`: `H¹=coker(φ−1)`.
 - `FrobeniusComplex.map`: A Frobenius-equivariant bundle morphism induces a cochain map.
+- `FrobeniusComplex.mapCohomology`: An E-linear intertwiner induces maps on the actual kernel and quotient, sending a fixed vector to its image and a coinvariant class to the class of its image.
 - `FrobeniusComplex.compareDerived`: For affinoid perfectoid S, the two-term ordinary-section complex is canonically quasi-isomorphic to `RΓ(X_S,V)`, compatible with affinoid perfectoid pullback. For arbitrary S use the derived homotopy fibre above.
 
 The construction includes `termIso`, identifying degrees zero and one with the section module and every other degree with zero. Prove `H0Iso` and `H1Iso` from categorical cohomology to the actual kernel and quotient by the image of `φ − 1`. Intertwiners induce cochain maps, respecting identity, composition and both cohomology identifications. These are isomorphisms of `E`-modules; scalar extension to an `L`-linear statement requires a separate fixed-scalar hypothesis. (FS §II.2 preamble, p. 57.)
@@ -503,7 +504,7 @@ The construction includes `termIso`, identifying degrees zero and one with the s
 
 - `frobeniusComplex_zero`: For the zero module both terms and both cohomology groups vanish.
 - `frobeniusComplex_identity`: For `φ=id` on a nonzero E-vector space the differential is zero, so `H⁰` and `H¹` both equal that space.
-- `frobeniusComplex_double`: On a nonzero E-space, `φ=2·id` has `φ−id=id`, so `H⁰=0` and `H¹=0`; in particular this holds in rank one, including characteristic two.
+- On a nonzero E-space, `φ=2·id` has `φ−id=id`, so `H⁰=0` and `H¹=0`; in particular this holds in rank one, including characteristic two.
 - `frobeniusComplex_nonaffinoid`: On a nonaffinoid perfectoid S, higher cohomology of `RΓ(Y_S,M)` must be retained; for the completed perfection of an ordinary abelian surface over an algebraically closed characteristic-p perfectoid field, `H²_proét(S,ℚ_p)≠0` and hence `H²(X_S,O)≠0`.
 - `frobeniusComplex_kernel`: `H⁰` consists precisely of `φ`-fixed vectors, not all vectors.
 - `frobeniusComplex_degree`: The cokernel occupies degree 1, and cannot represent `H⁰(V)` for an arbitrary V.
@@ -769,7 +770,7 @@ On ranked degree data write each piece as `(r_i,d_i)`, with `r_i > 0` and strict
 
 **Checks.**
 
-- `hnPolygon_zero`: The zero polygon has only (0,0).
+- The zero polygon has only (0,0).
 - `hnPolygon_half`: For `O(1/2)` the endpoint is (2,1), not (1,1/2).
 - `hnPolygon_split`: For `O(1)⊕O(−1)`, vertices are (0,0),(1,1),(2,0).
 - `hnPolygon_not_slope_only`: The polygon of `O(1)⊕O(−1)` is not the horizontal rank-two degree-zero segment.
@@ -882,7 +883,7 @@ For a finite projective tilted Robba Frobenius module M and each fixed integer n
 
 **Checks.**
 
-- `twistedInvariant_zero`: For `M=0` the invariant Banach space is zero.
+- For `M=0` the invariant Banach space is zero.
 - `twistedInvariant_n_zero`: At `n=0` the space is `ker(φ−1)`.
 - `twistedInvariant_change_radius`: Two admissible radii induce the same open subsets of `Γ_n`.
 - `twistedInvariant_not_exact_norm`: Rescaling the chosen module norm changes its numeric values but leaves the invariant topology unchanged.
@@ -909,10 +910,10 @@ Construct the trivial action, and the action from a finite discrete group when e
 
 **Checks.**
 
-- `continuousPhiAction_trivial`: The trivial group action is continuous and commutes with `φ`.
-- `continuousPhiAction_all_weights`: The criterion quantifies over all integers n, including negative and zero twists.
-- `continuousPhiAction_finite`: A finite discrete group acting by continuous semilinear automorphisms yields a continuous action.
-- `continuousPhiAction_requires_commutation`: A continuous module action that does not commute with `φ` does not restrict to the invariant spaces and is excluded.
+- The trivial group action is continuous and commutes with `φ`.
+- The criterion quantifies over all integers n, including negative and zero twists.
+- A finite discrete group acting by continuous semilinear automorphisms yields a continuous action.
+- A continuous module action that does not commute with `φ` does not restrict to the invariant spaces and is excluded.
 
 ([KL][KL], Definition 6.3.18, printed p. 143.)
 
