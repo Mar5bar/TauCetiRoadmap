@@ -103,21 +103,60 @@ example (D D' : FiniteIsocrystal L σ) (e : Equiv D D') :
 
 end FiniteIsocrystal
 
-/-- Dieudonné–Manin in the Witt specialization, expressed using a block-adapted basis.
-Each block has positive rank and coprime numerator and denominator. The general local-field
-coefficient theorem, including equal characteristic, is specified in VB0 of the README. -/
+namespace FiniteIsocrystal
+
+/-- The Witt specialization retains the supplied semilinear Frobenius on the same carrier. -/
+abbrev toWitt (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p]
+    [PerfectRing k p]
+    (D : FiniteIsocrystal (FractionRing (WittVector p k))
+      (WittVector.FractionRing.frobenius p k)) : WittVector.Isocrystal p k D.V where
+  toModule := inferInstance
+  frob := D.frobenius
+
+/-- A finite Witt isocrystal gives the general-coefficient bundled carrier. -/
+def ofWitt (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p]
+    [PerfectRing k p] (V : Type u) [AddCommGroup V] [WittVector.Isocrystal p k V]
+    [Module.Finite (FractionRing (WittVector p k)) V] :
+    FiniteIsocrystal (FractionRing (WittVector p k))
+      (WittVector.FractionRing.frobenius p k) where
+  V := V
+  frobenius := WittVector.Isocrystal.frobenius p k
+
+end FiniteIsocrystal
+
+-- Check: finiteIsocrystal_witt
+/-- The carrier comparison transports CrystallineCohomology §CR.4.7's Witt blocks and
+classification through the finite Witt specialization, preserving Frobenius and rank.
+The ramified-coefficient and equal-characteristic extensions are specified in VB0. -/
 theorem dieudonneManinIsocrystals
     (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p]
     [PerfectRing k p] [IsAlgClosed k]
     (D : FiniteIsocrystal (FractionRing (WittVector p k))
       (WittVector.FractionRing.frobenius p k)) :
-    ∃ (n : ℕ) (r : Fin n → ℕ) (s : Fin n → ℤ) (hr : ∀ i, 0 < r i),
-      (∀ i, Nat.Coprime (s i).natAbs (r i)) ∧
-      ∃ b : Module.Basis (Σ i : Fin n, Fin (r i)) (FractionRing (WittVector p k)) D.V,
-        ∀ (i : Fin n) (j : Fin (r i)),
-          D.frobenius (b ⟨i, j⟩) =
-            if h : j.val + 1 < r i then b ⟨i, ⟨j.val + 1, h⟩⟩
-            else (p : FractionRing (WittVector p k)) ^ s i • b ⟨i, ⟨0, hr i⟩⟩ := by
+    letI := D.toWitt p k
+    Nonempty (FiniteIsocrystal.Equiv D (FiniteIsocrystal.ofWitt p k D.V)) ∧
+      (WittVector.Isocrystal.frobenius p k : D.V → D.V) = D.frobenius ∧
+      Module.finrank (FractionRing (WittVector p k))
+        (FiniteIsocrystal.ofWitt p k D.V).V =
+          Module.finrank (FractionRing (WittVector p k)) D.V := by
+  sorry
+
+-- Check: finiteIsocrystal_unramified_frobenius
+/-- A degree-two coefficient extension uses the squared coefficient automorphism. -/
+example {L : Type u} [Field L] (σ : L ≃+* L) (a : L) (ha : σ (σ a) ≠ σ a) :
+    let D : FiniteIsocrystal L (σ.trans σ) :=
+      { V := L, frobenius := (σ.trans σ).toSemilinearEquiv }
+    D.frobenius a = σ (σ a) ∧ D.frobenius a ≠ σ a := by
+  sorry
+
+-- Check: slopeBlock_wraparound
+/-- The second iterate detects coefficient Frobenius as well as the inverse-uniformizer wrap. -/
+example {L : Type u} [Field L] (σ : L ≃+* L) {M : Type u}
+    [AddCommGroup M] [Module L M] (Φ : M ≃ₛₗ[σ.toRingHom] M)
+    (π a : L) (hπ : π ≠ 0) (ha : σ (σ a) ≠ a)
+    (e₀ e₁ : M) (he₀ : e₀ ≠ 0) (h₀ : Φ e₀ = e₁) (h₁ : Φ e₁ = π⁻¹ • e₀) :
+    Φ (Φ (a • e₀)) = (π⁻¹ * σ (σ a)) • e₀ ∧
+      Φ (Φ (a • e₀)) ≠ (π⁻¹ * a) • e₀ := by
   sorry
 
 /-! ## Layer VB1: algebraic Frobenius modules and cohomology -/
@@ -149,8 +188,45 @@ def trivial (R : Type u) [CommRing R] (φ : R ≃+* R) : RobbaPhiModule R φ whe
   M := R
   frobenius := φ.toSemilinearEquiv
 
-/-- The trivial rank-one module uses the coefficient automorphism itself. -/
-example : (trivial R φ).frobenius = φ.toSemilinearEquiv := by
+/-- Scalar extension has the compatible coefficient Frobenius and its inverse on pure tensors. -/
+theorem tensorFrobenius (A : Type u) [CommRing A] [Algebra A R] (ψ : A ≃+* A)
+    (compatible : ∀ a, φ (algebraMap A R a) = algebraMap A R (ψ a))
+    (N : RobbaPhiModule A ψ) :
+    ∃ F : (R ⊗[A] N.M) ≃ₛₗ[φ.toRingHom] (R ⊗[A] N.M),
+      (∀ r n, F (r ⊗ₜ[A] n) = φ r ⊗ₜ[A] N.frobenius n) ∧
+      (∀ r n, F.symm (r ⊗ₜ[A] n) = φ.symm r ⊗ₜ[A] N.frobenius.symm n) := by
+  sorry
+
+/-- An integral finite projective model with an intertwining scalar-extension equivalence.
+A is the specified integral coefficient ring, with its compatible automorphism ψ. -/
+structure GlobalEtaleModel (A : Type u) [CommRing A] [Algebra A R]
+    (ψ : A ≃+* A) (D : RobbaPhiModule R φ) where
+  compatible : ∀ a, φ (algebraMap A R a) = algebraMap A R (ψ a)
+  integral : RobbaPhiModule A ψ
+  scalarExtension : R ⊗[A] integral.M ≃ₗ[R] D.M
+  intertwines : ∀ r n,
+    D.frobenius (scalarExtension (r ⊗ₜ[A] n)) =
+      scalarExtension (φ r ⊗ₜ[A] integral.frobenius n)
+
+/-- Global étaleness is existence of the specified integral model. -/
+def isGloballyEtale (A : Type u) [CommRing A] [Algebra A R]
+    (ψ : A ≃+* A) (D : RobbaPhiModule R φ) : Prop :=
+  Nonempty (GlobalEtaleModel A ψ D)
+
+-- Check: robbaPhi_trivial
+/-- The trivial integral line extends by multiplication, with inverse r ↦ r ⊗ 1. -/
+example (A : Type u) [CommRing A] [Algebra A R] (ψ : A ≃+* A)
+    (compatible : ∀ a, φ (algebraMap A R a) = algebraMap A R (ψ a)) :
+    ∃ e : R ⊗[A] A ≃ₗ[R] R,
+      (∀ r a, e (r ⊗ₜ[A] a) = r * algebraMap A R a) ∧
+      (∀ r, e.symm r = r ⊗ₜ[A] (1 : A)) ∧
+      (∀ r a, φ (e (r ⊗ₜ[A] a)) = e (φ r ⊗ₜ[A] ψ a)) ∧
+      ∃ N : GlobalEtaleModel A ψ (trivial R φ), N.integral = trivial A ψ := by
+  sorry
+
+-- Check: robbaPhi_noninvertible
+/-- Zero linearization on a nonzero free rank-one module is not invertible. -/
+example [Nontrivial R] : ¬ Function.Bijective (0 : R →ₗ[R] R) := by
   sorry
 
 /-- Finite projective modules over an absolute Bézout domain are free. -/
@@ -182,6 +258,18 @@ example : Nonempty (H0 (LinearMap.id : M →ₗ[E] M) ≃ₗ[E] M) ∧
 example (φ : (Fin 0 → E) →ₗ[E] (Fin 0 → E)) :
     Subsingleton (H0 φ) ∧ Subsingleton (H1 φ) := by
   sorry
+-- Check: frobeniusComplex_double
+/-- Twice the identity has invertible differential and vanishing cohomology, in every characteristic. -/
+example [Nontrivial M] :
+    (2 • (LinearMap.id : M →ₗ[E] M) - LinearMap.id) = LinearMap.id ∧
+      H0 (2 • (LinearMap.id : M →ₗ[E] M)) = ⊥ ∧
+      Subsingleton (H1 (2 • (LinearMap.id : M →ₗ[E] M))) := by
+  sorry
+
+/-- The rank-one nonzero differential has neither invariants nor coinvariants. -/
+example : H0 (2 • (LinearMap.id : E →ₗ[E] E)) = ⊥ ∧
+    Subsingleton (H1 (2 • (LinearMap.id : E →ₗ[E] E))) := by
+  sorry
 end FrobeniusComplex
 end FrobeniusCohomology
 
@@ -192,9 +280,17 @@ section TwistedInvariants
 variable {E : Type u} [Field E] {M : Type u} [AddCommGroup M] [Module E M]
 
 /-- The algebraic kernel underlying Γ_n. Its Banach topology needs the annular
-norm theorem specified in the README; the algebraic construction does not assert it. -/
+norm theorem specified in the README; the algebraic construction does not assert it.
+The annular checks twistedInvariant_change_radius and twistedInvariant_not_exact_norm
+concern those canonical Banach topologies. -/
 def TwistedInvariant (φ : M →ₗ[E] M) (π : E) (n : ℤ) : Submodule E M :=
   (φ - (π ^ n) • LinearMap.id).ker
+
+-- Check: twistedInvariant_zero
+/-- Every weight space of the zero module is zero. -/
+example (φ : (Fin 0 → E) →ₗ[E] (Fin 0 → E)) (π : E) (n : ℤ) :
+    Subsingleton (TwistedInvariant φ π n) := by
+  sorry
 
 -- Check: twistedInvariant_n_zero
 /-- Weight zero agrees with ordinary Frobenius invariants. -/
@@ -233,11 +329,46 @@ theorem ContinuousPhiAction.restrictInvariants_continuous {φ : M ≃ₗ[E] M}
       Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π n => ρ gx.1 gx.2) := by
   sorry
 
--- Check: continuousPhiAction_all_weights
-/-- The action is semilinear over the specified coefficient action. -/
-example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (g : G) (a : R) (x : M) :
-    A.action g (a • x) = A.coefficients g a • A.action g x := by
+-- Check: continuousPhiAction_trivial
+/-- Trivial coefficient and module actions are jointly continuous and commute with Frobenius. -/
+example (φ : M ≃ₗ[E] M) :
+    ∃ A : ContinuousPhiAction E R M G φ, A.coefficients = 1 ∧ A.action = 1 := by
   sorry
+
+-- Check: continuousPhiAction_finite
+/-- Continuous automorphisms of a finite discrete group give a jointly continuous action. -/
+example [Finite G] [DiscreteTopology G] (φ : M ≃ₗ[E] M)
+    (c : G →* (R ≃ₐ[E] R)) (ρ : G →* (M ≃ₗ[E] M))
+    (semilinear : ∀ g a x, ρ g (a • x) = c g a • ρ g x)
+    (commutes : ∀ g x, φ (ρ g x) = ρ g (φ x))
+    (continuous : ∀ g, Continuous (ρ g : M → M)) :
+    ∃ A : ContinuousPhiAction E R M G φ, A.coefficients = c ∧ A.action = ρ := by
+  sorry
+
+-- Check: continuousPhiAction_all_weights
+/-- Every integer weight has a continuous action agreeing on underlying vectors. -/
+example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (π : E) (n : ℤ) :
+    ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π n ≃ₗ[E]
+      TwistedInvariant φ.toLinearMap π n),
+      (∀ g x, (ρ g x).val = A.action g x.val) ∧
+      Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π n => ρ gx.1 gx.2) := by
+  exact A.restrictInvariants_continuous E R M G π n
+
+/-- Weight minus one retains both the vector formula and continuity. -/
+example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (π : E) :
+    ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π (-1) ≃ₗ[E]
+      TwistedInvariant φ.toLinearMap π (-1)),
+      (∀ g x, (ρ g x).val = A.action g x.val) ∧
+      Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π (-1) => ρ gx.1 gx.2) := by
+  exact A.restrictInvariants_continuous E R M G π (-1)
+
+/-- Weight zero retains both the vector formula and continuity. -/
+example {φ : M ≃ₗ[E] M} (A : ContinuousPhiAction E R M G φ) (π : E) :
+    ∃ ρ : G →* (TwistedInvariant φ.toLinearMap π 0 ≃ₗ[E]
+      TwistedInvariant φ.toLinearMap π 0),
+      (∀ g x, (ρ g x).val = A.action g x.val) ∧
+      Continuous (fun gx : G × TwistedInvariant φ.toLinearMap π 0 => ρ gx.1 gx.2) := by
+  exact A.restrictInvariants_continuous E R M G π 0
 
 -- Check: continuousPhiAction_requires_commutation
 /-- Coordinate swap fails the Frobenius equation for diag(1,a) when a ≠ 1. -/
@@ -255,6 +386,12 @@ structure HNPolygon where
 
 namespace HNPolygon
 
+/-- The empty polygon records the rank-zero object. -/
+def zero : HNPolygon where
+  pieces := []
+  positive := by simp
+  decreasing := by simp
+
 def vertices (P : HNPolygon) : List (ℕ × ℤ) :=
   P.pieces.scanl (fun a b => (a.1 + b.1, a.2 + b.2)) (0, 0)
 
@@ -267,6 +404,12 @@ def slopeMultiplicity (P : HNPolygon) (s : ℚ) : ℕ :=
 /-- The polygon endpoint records total rank and total degree. -/
 theorem endpoint (P : HNPolygon) : P.vertices.getLast! = (P.totalRank, P.totalDegree) := by
   sorry
+
+-- Check: hnPolygon_zero
+/-- The empty polygon has a single vertex, zero endpoint and zero slope multiplicities. -/
+example : zero.vertices = [(0, 0)] ∧ zero.totalRank = 0 ∧ zero.totalDegree = 0 ∧
+    ∀ s, zero.slopeMultiplicity s = 0 := by
+  simp [zero, vertices, totalRank, totalDegree, slopeMultiplicity]
 
 -- Check: hnPolygon_half
 /-- A half-slope block has horizontal length two. -/
@@ -394,7 +537,7 @@ structure BCCanonicalFiltration where
 namespace BCCanonicalFiltration
 /-- Intersect kernels of *natural VS maps*, not all linear maps at C. -/
 def positive : Submodule K (W.obj a) :=
-  ⨅ m, ⨅ f : W ⟶ B m, LinearMap.ker (f.app a).hom
+  ⨅ (m : ℕ), ⨅ f : W ⟶ B (m + 1), LinearMap.ker (f.app a).hom
 def nonnegative : Submodule K (W.obj a) :=
   ⨅ f : W ⟶ D, LinearMap.ker (f.app a).hom
 /-- Natural maps preserve the intersections of kernels defining both parts. -/
@@ -405,6 +548,10 @@ example (W' : S ⥤ ModuleCat K) (f : W ⟶ W') :
 
 /-- Identity target maps force both intersections of kernels to be zero. -/
 example : positive W (fun _ => W) a = ⊥ ∧ nonnegative W W a = ⊥ := by
+  sorry
+
+/-- A zeroth identity target imposes no restriction when all positive targets vanish. -/
+example : positive W (fun m => if m = 0 then W else 0) a = ⊤ := by
   sorry
 
 /-- Zero targets impose no kernel restriction. -/
@@ -421,11 +568,12 @@ end Filtration
 /-! ## Layers VB3–VB4: contracting quotients and the lattice obstruction -/
 
 section Contraction
-variable {X : Type u} [TopologicalSpace X]
+variable {X : Type u} [TopologicalSpace X] [QuasiSeparatedSpace X]
 
 /-- FS II.2.17, with the restriction of γ to its moved locus supplied as δ.
 Generalizations have the orientation y ⤳ x. The orbit relation and quotient topology
-are Mathlib's, and ℤ has its discrete topology. -/
+are Mathlib's, and ℤ has its discrete topology. Quasiseparatedness together with the
+compact-closure hypothesis encodes tautness; AdicSpacesPartII R0.0 supplies local spectrality. -/
 theorem ContractingActionLemma (γ : X ≃ₜ X)
     (δ : {x : X // γ x ≠ x} ≃ₜ {x : X // γ x ≠ x})
     (restriction : ∀ x, (δ x).val = γ x.val)
@@ -460,13 +608,3 @@ theorem no_bounded_stable_lattice (p : Kp) (hp : p ≠ 0) (hnorm : ‖p‖ ≠ 1
 end LatticeMonodromy
 
 end TauCeti.BanachColmez
-
-/-!
-Further checks specified in the README:
-* VB0, finite isocrystals: finiteIsocrystal_witt,
-  finiteIsocrystal_unramified_frobenius.
-* VB1, HN polygons: hnPolygon_zero.
-* VB2, invariant Banach topology: twistedInvariant_zero, twistedInvariant_change_radius,
-  twistedInvariant_not_exact_norm; continuous actions: continuousPhiAction_trivial,
-  continuousPhiAction_finite.
--/
