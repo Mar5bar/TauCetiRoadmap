@@ -353,11 +353,15 @@ example :
 /-! ## Layer 6: cohomological correspondences and contracting trace formulas
 
 The geometric correspondence and trace-class constructions are specified in README.md.
+`CohCorr.restrictClosed` uses reduced support. For schematically invariant closed subschemes,
+the full scheme restriction has the same cohomological restriction and trace under étale
+nilpotent invariance.
 -/
 
 /-! ## Layer 7: tubular neighbourhoods and isolated local terms
 
 The fixed normal cone, ULA specialization and finite-jet constructions are specified in README.md.
+Normal cones and their vertices use the full scheme restriction, including Artin nilpotents.
 -/
 
 /-! ## Layer 8: Frobenius reciprocity from graded duality -/

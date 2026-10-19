@@ -59,7 +59,7 @@ Section F.7 supplies the ordinary and compact global blow-up decomposition, incl
 
 EnhancedDerivedSheaves §§0.1–0.4 supply the ringed-site enhancement, tensor–`Hom` and coherent derived limits. Section 0.4's `ClassicalDerived.functorCoherence` supplies the enhanced inverse-image/direct-image adjunction, exact extension by zero, adjunction mates and base-change/projection transformations; `ClassicalDerived.functorCoherence.coefficientComparison` supplies their coefficient-forgetting and coefficient-change maps. For a closed/open pair, this gives `j^* ⊣ Rj_*` and `j_! ⊣ j^*`; EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization` constructs `i^!` and both localization triangles for arbitrary coefficient rings. These ambient recollement data do not require self-injectivity. Section 0.2 proves bounded constructible preservation for noetherian coefficients; §2.2 records the resulting recollement.
 
-The unbounded scheme support functor used in §0.5 is EtaleCohomologyFoundations §F.2.3's `ClassicalAlgebraic.properSupports`, with the exceptional adjoint of §F.5. For separated finite-type field schemes and torsion `Λ`, its compactification `f=p∘j` satisfies the enhancement hypotheses: `j_!` is exact, proper geometric fibres have uniformly bounded torsion cohomology, and `Rp_*` commutes with direct sums. Proper base change and the projection formula give the exchange and projection equivalences. These supply finite cohomological amplitude and colimit preservation for the unbounded lift (Stacks Tags 0G2A, 0G29, 0F0C and 0GL5); §0.4 of EnhancedDerivedSheaves alone is not an unconditional proper-support theorem. The analytic and diamond applications retain the domains of their named geometric suppliers below. EnhancedDerivedSheaves §E4.5 supplies coefficient-system reconstruction and derived completeness. Limits of normalized systems below are taken in this enhancement; inverse limits of triangulated categories alone are insufficient.
+The unbounded scheme support functor used in §0.5 is EtaleCohomologyFoundations §0.8's `ClassicalAlgebraic.properSupports`, with the exceptional adjoint of §F.5. For separated finite-type field schemes and torsion `Λ`, its compactification `f=p∘j` satisfies the enhancement hypotheses: `j_!` is exact, proper geometric fibres have uniformly bounded torsion cohomology, and `Rp_*` commutes with direct sums. Proper base change and the projection formula give the exchange and projection equivalences. These supply finite cohomological amplitude and colimit preservation for the unbounded lift (Stacks Tags 0G2A, 0G29, 0F0C and 0GL5); §0.4 of EnhancedDerivedSheaves alone is not an unconditional proper-support theorem. The analytic and diamond applications retain the domains of their named geometric suppliers below. EnhancedDerivedSheaves §E4.5 supplies coefficient-system reconstruction and derived completeness. Limits of normalized systems below are taken in this enhancement; inverse limits of triangulated categories alone are insufficient.
 
 ### From geometric roadmaps
 
@@ -1412,9 +1412,12 @@ because truncations preserve the opposite aisle (BBD 1.3.4–1.3.5), and lift it
 Homological: BBD 1.3.6, second half (pp.31–32): first for triangles inside `t.ge 0` and inside `t.le 0` by
 representability, then the general case by the octahedral axiom.
 
-(b): truncations of an object of the heart are itself. (c): induction on `b − a` with the triangles `τ_{≤b−1}X → X → H^b_t(X)[−b]`; (d): BBD 1.3.7.
+(b): truncations of an object of the heart are itself. For (c), `a` is the upper bound and `b` the lower
+bound. If `a < b`, orthogonality makes `X` zero. If `a = b`, then `X ≅ H^a_t(X)[−a]`. For `a > b`, induct on
+`a − b` using `τ_{≤a−1}X → X → H^a_t(X)[−a]`; the first term lies in `t.le (a−1) ∩ t.ge b`.
+This proves zero detection; applying it to the appropriate truncation gives aisle detection. (d): BBD 1.3.7.
 
-Use [BBD-1982] Proposition 1.3.5 and Théorème 1.3.6, pp.30–32; Proposition 1.3.7, p.32.
+Use [BBD-1982] Proposition 1.3.5 and Théorème 1.3.6, pp.30–32; Proposition 1.3.7, pp.32–33.
 
 *Needs:* `CategoryTheory.Triangulated.TStructure`; `CategoryTheory.Triangulated.TStructure.truncLE`;
 `CategoryTheory.Triangulated.TStructure.truncGE`; `CategoryTheory.Functor.IsHomological`;
@@ -1429,6 +1432,10 @@ Use [BBD-1982] Proposition 1.3.5 and Théorème 1.3.6, pp.30–32; Proposition 1
 - `TauCeti.EtaleDuality.homologyZero_zero`: `H⁰_t(0) ≅ 0`, and for `X` in the heart `H^m_t X ≅ 0` for `m ≠ 0`.
 
 - `TauCeti.EtaleDuality.homology_canonical_compat`: For DerivedCategory.TStructure.t on `D(A), H^m_t ≅` DerivedCategory.homologyFunctor `A m` under heart `≌ A`.
+
+- In `D(ℚ)`, take `X = ℚ[0] ⊕ ℚ[−1]`, with upper bound `a=1` and lower bound `b=0`.
+  Its upper truncation triangle is `ℚ[0] → X → ℚ[−1] → ℚ[1]`. Truncating instead at `b−1=−1`
+  gives first term zero and third term `X`, which is not `H⁰(X)[0]` since `H¹(X)=ℚ`.
 
 - `TauCeti.EtaleDuality.homologyZero_not_triangulated`: `H⁰_t` does not commute with the shift: for `A ≠ 0` in `A, H⁰_t(A[1]) = 0` while `(H⁰_t A)[1]` is not zero; so `H⁰_t` is homological but not triangulated.
 
@@ -1820,9 +1827,11 @@ On a smooth equidimensional stratum `S` of dimension `e`, for complexes with loc
 pointwise conditions are the natural `t`-structure shifted by `e`: the stalk condition at the generic point gives
 `D^{≤−e}`, and smooth-pair purity (EtaleCohomologyFoundations §§0.10, F.6) gives `i_x^!L ≅ i_x^*L(−c)[−2c]` for `c = e − dim(x)`, so the costalk condition is implied by the one at the generic point (§2.4).
 
-Construction of the truncation triangle of a given `K` by noetherian induction on the reduced perfect-base change: take a dense open `U` on
-which the cohomology sheaves of `K` are lisse and `U` is smooth equidimensional, truncate there with the shifted
-natural truncation, glue with the perverse `t`-structure of the closed complement (induction) along the
+Construction of the truncation triangle of a given `K` by noetherian induction on the reduced perfect-base change:
+remove intersections of distinct irreducible components and shrink their smooth loci to obtain a dense open
+`U = ⊔_i U_i`, a finite disjoint union of smooth equidimensional opens on which the cohomology sheaves of `K`
+are lisse. On each `U_i` use natural truncation shifted by `dim U_i`, and assemble these triangles on `U`.
+Glue with the perverse `t`-structure of the closed complement (induction) along the
 open–closed recollement by the octahedral argument of §2.2 (BBD 1.4.10 and 2.1.3). For every noetherian `Λ`
 killed by `n` invertible in `k`, the ambient adjunction `j^* ⊣ Rj_*` and exact extension by zero are
 EnhancedDerivedSheaves §0.4's `ClassicalDerived.functorCoherence`; `i^!` and the localization triangles are
@@ -1868,6 +1877,9 @@ contract above.
 - `TauCeti.EtaleDuality.not_perverse_curve_constant`: For a nonempty smooth curve `C` and `Λ ≠ 0, Λ_C` (degree 0) lies in `pD^{≥1}` and not in `pD^{≤0}`.
 
 - `TauCeti.EtaleDuality.not_perverse_codimension_convention`: Assume `Λ≠0`. On `X = 𝔸² ⊔ 𝔸¹, Λ_{𝔸²}[2] ⊕ Λ_{𝔸¹}[1]` is perverse, while `Λ_{𝔸²}[2] ⊕ Λ_{𝔸¹}[2]` (every component shifted by `dim X`, as a codimension-based convention would do) is not: at the generic point of `𝔸¹` the costalk of `Λ_{𝔸¹}[2]` sits in degree `−2 < −1`, violating the lower condition.
+
+- Every dense open of `𝔸² ⊔ 𝔸¹` meets both components and has components of dimensions 2 and 1.
+  The truncation construction uses shifts 2 and 1 on these pieces; no equidimensional dense open exists.
 
 - On a nonempty smooth curve `C` over `k` with `Λ≠0`, `Λ_C[1]` lies in the heart and `Λ_C` (in degree 0) lies in `pD^{≥1}` but not in `pD^{≤0}`.
 
@@ -1946,7 +1958,12 @@ Use [BBD-1982] Définition 2.1.5, p.58; Proposition 2.1.20 and Corollaires 2.1.2
 
 - `Perv(Spec Ω, Λ) ≃` finitely generated `Λ`-modules for `Ω` separably closed.
 
-- On a nodal cubic `X` with normalization `ν : P¹ → X` and node `s: 0 → i_{s*}Λ → Λ_X[1] → ν_*Λ_{P¹}[1] → 0` is a short exact sequence of perverse sheaves.
+- On a nodal cubic `X` with normalization `ν : P¹_k → X` and node `i_s:s→X`, put
+  `ε = coker(Λ_s → i_s^*ν_*Λ_{P¹_k})`, retaining the Galois action on the two branches.
+  The ordinary normalization sequence `0 → Λ_X → ν_*Λ_{P¹_k} → i_{s*}ε → 0` rotates to the perverse
+  short exact sequence `0 → i_{s*}ε → Λ_X[1] → ν_*Λ_{P¹_k}[1] → 0`.
+  For a split rational node `ε≅Λ_s`; in general its geometric fibre is `Λ²/diag(Λ)` with the branch
+  permutation action (Stacks Tag 0CBW).
 
 **Shifted local systems on smooth schemes are perverse.** Let `X` be smooth over `k` of pure dimension `d` and `K ∈ D^b_c(X, Λ)` with locally constant cohomology sheaves. Then `K ∈ pD^{≤0}` iff `ℋ^m(K) = 0` for `m > −d`, and `K ∈ pD^{≥0}` iff `ℋ^m(K) = 0` for `m < −d`. In particular `L[d]` is perverse for every locally constant constructible
 sheaf `L` of `Λ`-modules, and on lisse complexes the perverse `t`-structure is the natural `t`-structure shifted by `d`.
@@ -2568,7 +2585,7 @@ Use [BBD-1982] Lemme 4.3.2 and Lemme 4.3.3, pp.112–113; Théorème 4.3.1 (ii),
 
 - `TauCeti.EtaleDuality.intersectionComplex_smoothCurve`: For a smooth curve `C, IC_C ≅ Λ_C[1]`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_nodalCurve`: For a nodal cubic `X` with normalisation `ν : P¹ → X, IC_X ≅ ν_*Λ_{P¹}[1]`, with stalk `Λ²` in degree `−1` at the node.
+- `TauCeti.EtaleDuality.intersectionComplex_nodalCurve`: For a nodal cubic `X` with normalisation `ν : P¹_k → X, IC_X ≅ ν_*Λ_{P¹_k}[1]`, with geometric stalk `Λ²` in degree `−1` at the node, carrying the branch permutation action.
 
 - `TauCeti.EtaleDuality.intersectionComplex_cuspidalCurve`: For a cuspidal cubic `X, IC_X ≅ Λ_X[1]` (the normalisation is a universal homeomorphism).
 
@@ -2578,9 +2595,20 @@ Use [BBD-1982] Lemme 4.3.2 and Lemme 4.3.3, pp.112–113; Théorème 4.3.1 (ii),
 
 - `TauCeti.EtaleDuality.intersectionComplex_restrict_compat`: `IC_X|_U ≅ Λ_U[d]`, not `Λ_U(d)[2d]` (the dualizing complex): the `IC` normalisation is the perverse shift.
 
-- `TauCeti.EtaleDuality.not_intersectionComplex_nodal_constant`: Assume `Λ≠0`. For a nodal cubic `X` with node `s, Λ_X[1]` is perverse but not `IC_X: 0 → i_{s*}Λ → Λ_X[1] → ν_*Λ_{P¹}[1] → 0` exhibits a nonzero subobject supported at the node.
+- `TauCeti.EtaleDuality.not_intersectionComplex_nodal_constant`: Assume `Λ≠0`. For a nodal cubic `X` with
+  normalization `ν:P¹_k→X` and node `i_s:s→X`, set `ε=coker(Λ_s→i_s^*ν_*Λ_{P¹_k})`.
+  Then `Λ_X[1]` is perverse but not `IC_X`: the perverse exact sequence
+  `0 → i_{s*}ε → Λ_X[1] → ν_*Λ_{P¹_k}[1] → 0` has a nonzero subobject supported at the node.
+  Its geometric fibre is `Λ²/diag(Λ)`; the sheaf `ε` is constant for a split rational node
+  (Stacks Tag 0CBW).
 
-- `IC` of a smooth curve is `Λ[1]`; `IC` of a nodal cubic is `ν_*Λ_{P¹}[1]`, whose stalk at the node is `Λ²` in degree `−1`.
+- Over `𝔽₇` with `Λ=𝔽₅`, the cubic `y²z=x²(x−z)` has rational node `[0:0:1]` and normalization
+  parameter `t=y/x`, with `(x,y)=(t²+1,t(t²+1))`. Its branches satisfy `t²+1=0` and Frobenius
+  exchanges them, so `ε` has Frobenius `−1` and `Hom_(G_𝔽₇)(Λ,ε)=0`. The punctual kernel is not constant.
+  After extending the base to `𝔽₄₉` it becomes constant; with coefficients `𝔽₂` the sign action is
+  already trivial over `𝔽₇`.
+
+- `IC` of a smooth curve is `Λ[1]`; `IC` of a nodal cubic is `ν_*Λ_{P¹}[1]`, whose geometric stalk at the node is `Λ²` in degree `−1`, with its branch permutation action.
 
 - `IC` of a cuspidal cubic `X` is `Λ_X[1]`, since its normalisation is a universal homeomorphism.
 
@@ -6355,6 +6383,13 @@ each `z ∈ Z` has an open neighbourhood `U` with `Z ∩ U c|_U`-invariant; for 
 invariant. (d) If `c₂` is quasi-finite and `x` is a closed point, `Fix(c|_x)` is finite and for `y ∈ Fix(c|_x)` the
 restriction `u_y : F_x → F_x` is the summand of `(c₂_!c₁^*F)_x → F_x` at `y`; `Tr(u_y)` is the naive local term.
 
+For schematically invariant `Z`, put `C_Z := c⁻¹(Z×Z) = c₂⁻¹Z` and form the full scheme restriction
+`c|Z:C_Z→Z×Z`, with cohomological restriction `u|Z` given by the cartesian
+right square. The reduction `r:(C_Z)_red→C_Z` identifies `c|_Z` with the reduced support of `c|Z`.
+Under the canonical identification `r^*≅r^!`, the pullback of `u|Z` is `u|_Z`.
+Normal cones and Artin fixed components in Layer 7 use `c|Z` and
+`u|Z`, retaining their full scheme carriers.
+
 Work with the following additional hypotheses. All schemes are separated of finite type over a field `k`
 (separably closed whenever trace maps, local terms or traces on cohomology occur); `ℓ` is invertible in `k`; `Λ` is
 a finite ring killed by a power of `ℓ`, or a finite extension of `ℤ_ℓ` or `ℚ_ℓ` (in the adic case `D^b_ctf` is the
@@ -6386,12 +6421,15 @@ EtaleCohomologyFoundations §§F.0–F.6) and étale base change (Varshavsky 1.1
 
 (c): the largest open `W(Z)` is the complement of the closure of `c₂^{−1}(Z) ∖ c₁^{−1}(Z)` (Varshavsky Lemma
 1.5.3(b)); invariance makes the inclusion of `c|_Z` cartesian up to nilpotents, so (a) applies (1.5.6).
+For schematic invariance the right square for `c|Z` is cartesian before reduction. Étale nilpotent
+invariance identifies `r^*`, `r^!` and the inverse of `r_*`; base-change coherence identifies the two
+cohomological restrictions without identifying the two support schemes.
 
 (d): for quasi-finite `c₂` the stalk `(c₂_!c₁^*F)_x` is the direct sum of the stalks of `c₁^*F` over `c₂^{−1}(x)`
 (Varshavsky 1.5.7).
 
 Use [Varshavsky-LV-2007] 1.1.8–1.1.9, p. 8; Definition 1.5.1, Example 1.5.2, Lemma 1.5.3, 1.5.6–1.5.8, pp.
-14–16 (arXiv v2).
+14–16 (arXiv v2); [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; [Stacks] Tag 03SI.
 
 *Needs:* §0.2; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
@@ -6402,11 +6440,19 @@ Use [Varshavsky-LV-2007] 1.1.8–1.1.9, p. 8; Definition 1.5.1, Example 1.5.2, L
 
 - `TauCeti.EtaleDuality.isInvariant_point_of_finite_fibre`: If `c₂^{−1}(x)` is finite, `{x}` is locally `c`-invariant (Varshavsky Example 1.5.2).
 
-- `TauCeti.EtaleDuality.restrictClosed_graph_compat`: For the graph-type correspondence of `g` with `g(Z) ⊆ Z`, restrictClosed gives the restriction `g|_Z^*(F|_Z) → F|_Z` of `u`.
+- `TauCeti.EtaleDuality.restrictClosed_graph_compat`: For the graph-type correspondence of `g` preserving
+  `Z` set-theoretically, restrictClosed gives `g|_(Z_red)^*(F|_(Z_red)) → F|_(Z_red)`.
+  If `g` also preserves `Z` schematically, this is the pullback of `u|Z:g|_Z^*(F|_Z) → F|_Z`.
 
 - `TauCeti.EtaleDuality.not_isInvariant_translation`: For the graph of translation by 1 on `𝔸¹` in characteristic 0, the closed point {0} is not invariant.
 
-- For `c` the graph-type correspondence of an automorphism `g` with `g(Z) = Z, Z` is `c`-invariant and `u|_Z` is the restricted equivariant structure on `F|_Z`.
+- For `c` the graph-type correspondence of an automorphism `g` with `g(Z) = Z` as sets, `u|_Z`
+  is the restricted equivariant structure on `F|_(Z_red)`. Under schematic invariance it is the
+  transport of the full restricted structure `u|Z` on `F|_Z`.
+
+- For `X=Z=Spec k[ε]/(ε²)` and `g=id`, `c|_Z` has carrier `Spec k`, while `c|Z` is the identity graph
+  on the full `Z`. Their fixed schemes are `Spec k` and `Z`, respectively. For constant `F=Λ` and
+  `u=id`, the cohomological restrictions both identify with `id_Λ` under the étale equivalence.
 
 - Example 1.5.2 of Varshavsky: a closed point `x` with `c₂^{−1}(x)` finite is locally `c`-invariant.
 
@@ -7038,8 +7084,9 @@ Layers 0, 1 and 3; EtaleCohomologyFoundations six operations and trace; SchemeAn
 ### 7.1 Punctured tubular fixed-point conditions
 
 **Fixed-point conditions in a punctured tubular neighbourhood.** For a self-correspondence `c:C→X×X` and closed
-`Z⊂X`, let `N_Z(c):N_(c⁻¹(Z×Z))C→N_ZX×N_ZX` be the induced conical correspondence and let `V=Fix(c|Z)` be its
-vertex. Define NoTubularFixed`(c,Z)` by `|Fix(N_Z(c))|∖|V|=∅`. Define NoAlmostTubularFixed`(c,Z)` by NoTubularFixed
+`Z⊂X`, use the full scheme restriction `c|Z:c⁻¹(Z×Z)→Z×Z` (§6.2).
+Let `N_Z(c):N_(c⁻¹(Z×Z))C→N_ZX×N_ZX` be the induced conical correspondence and `V=Fix(c|Z)` its full
+schematic vertex. Define NoTubularFixed`(c,Z)` by `|Fix(N_Z(c))|∖|V|=∅`. Define NoAlmostTubularFixed`(c,Z)` by NoTubularFixed
 together with finiteness of `{t∈k : |Fix((t·N_Z(c)₁,N_Z(c)₂))|∖|V|≠∅}`. In the comparison theorem `Z` is
 schematically `c`-invariant: `c₂⁻¹Z⊆c₁⁻¹Z`, equivalently `c₂⁻¹Z=c⁻¹(Z×Z)`. This is stronger than invariance only of
 underlying sets.
@@ -7080,9 +7127,9 @@ closed part of `Fix(c)` after reduction (Lemma 4.8).
 For a contracting correspondence restricted to a neighbourhood of its fixed points, the first cone leg has
 set-theoretic image in the vertex. Every scalar then has empty punctured fixed locus (Lemma 4.7).
 
-Use [Varshavsky-LocalTerms-2020] Definitions 4.3–4.4, Remarks 4.5–4.6 and Lemmas 4.7–4.8, pp.8–9 (v3).
+Use [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; Definitions 4.3–4.4, Remarks 4.5–4.6 and Lemmas 4.7–4.8, pp.8–9 (v3).
 
-*Needs:* §6.1; §6.4; §6.5.
+*Needs:* §6.1; §6.2; §6.4; §6.5.
 
 **Checks.**
 
@@ -7092,6 +7139,9 @@ Use [Varshavsky-LocalTerms-2020] Definitions 4.3–4.4, Remarks 4.5–4.6 and Le
 - `TauCeti.EtaleDuality.tubular_identity`: For the identity of `𝔸¹` at `Z={0}`, NoTubularFixed fails.
 
 - `TauCeti.EtaleDuality.tubular_whole_space`: For `Z=X` the normal cone has only its vertex, so both predicates hold with empty bad-scalar set.
+
+- For the identity on `X=Z=Spec k[ε]/(ε²)`, the normal cone and its fixed vertex are the full `Z`.
+  Both punctured-cone predicates hold. The reduced restriction of §6.2 instead has fixed scheme `Spec k`.
 
 - `TauCeti.EtaleDuality.tubular_singular_tame`: On `Spec k[x,y,z]/(x³+yz)` with `g=(x,−y,−z), char k≠2`, the origin is isolated in `X^g` but `N_0X=Spec k[x,y,z]/(yz)` has a fixed line. NoTubularFixed fails; tame order and isolated support alone are insufficient.
 
@@ -7145,6 +7195,11 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; §0
 over `k` is a connected component of `Fix(c)`, and `LT_β(u)=LT_β(u|Z)`. Part (b) requires no global
 NoAlmostTubularFixed assumption.
 
+The full restriction `c|Z` has the same étale trace as §6.2's reduced restriction `c|_Z`:
+the nilpotent closed immersion `r_Fix:Fix(c|_Z)→Fix(c|Z)` identifies dualizing cohomology and carries
+`Tr_(c|_Z)(u|_Z)` to `Tr_(c|Z)(u|Z)`. Integration over corresponding proper components gives equal
+local terms.
+
 Work with the following additional hypotheses. All schemes are separated of finite type over a field `k`
 (separably closed whenever trace maps, local terms or traces on cohomology occur); `ℓ` is invertible in `k`; `Λ` is
 a finite ring killed by a power of `ℓ`, or a finite extension of `ℤ_ℓ` or `ℚ_ℓ` (in the adic case `D^b_ctf` is the
@@ -7156,6 +7211,11 @@ although `X` and `C` need not be proper.
 Name the resulting statement `normalConeTraceComparison`.
 
 A proof proceeds as follows.
+
+For the full/reduced comparison, §6.2 identifies the cohomological restrictions under reduction of
+the support. Apply proper trace functoriality (§6.3) to this nilpotent closed immersion; its induced
+map `r_Fix` is also a nilpotent closed immersion, so étale nilpotent invariance makes the trace map
+on dualizing cohomology an isomorphism. Compatibility of proper integration gives the local-term equality.
 
 Use closed/open trace additivity to reduce to `F|Z=0`. Specialize `c,u,F` to the normal cone. The fixed family
 near the vertex is topologically constant, and the trace-specialization exchange identifies its trace with the
@@ -7173,11 +7233,11 @@ For (b) first isolate the proper component `β`. The quotient of the punctured f
 `β`. Its projection to the scalar line has closed image disjoint from 0, hence a finite image. This is Lemma 3.9
 and gives the required local no-almost condition; apply (a) and integrate the trace over `β`.
 
-Use [Varshavsky-LocalTerms-2020] Theorem 4.10, p.10; Lemma 3.9, pp.7–8; proof §6, pp.12–14 (v3); published
+Use [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; Theorem 4.10, p.10; Lemma 3.9, pp.7–8; proof §6, pp.12–14 (v3); published
 pp.995, 997–999; [Verdier-1983] §3, Definition 3.1 and criterion 3.2, pp.338–340; §5, Proposition 5.1,
-pp.341–343; §8, SP1 (p.352), SP5 (p.353) and proof (p.354).
+pp.341–343; §8, SP1 (p.352), SP5 (p.353) and proof (p.354); [Stacks] Tag 03SI.
 
-*Needs:* §7.1; §6.4; §6.3; LefschetzPencilsAndVanishingCycles §§0.5–0.8 and the specialization contract of
+*Needs:* §7.1; §6.2; §6.4; §6.3; LefschetzPencilsAndVanishingCycles §§0.5–0.8 and the specialization contract of
 §6.4; SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above.
 
 **Checks.**
@@ -7188,6 +7248,10 @@ pp.341–343; §8, SP1 (p.352), SP5 (p.353) and proof (p.354).
 - For contracting correspondences the no-almost predicate holds with no bad scalars and recovers the 2007 comparison.
 
 - For `Z=X` the restriction identity is tautological; removing properness of `β` does not leave a scalar-valued local term.
+
+- For `X=Z=Spec k[ε]/(ε²)`, `g=id`, `F=Λ` and `u=id`, the full restriction has fixed scheme `Z`
+  and the reduced restriction has fixed scheme `Spec k`. Their trace classes correspond to `1∈Λ`
+  and both integrated local terms are 1.
 
 ### 7.3 Tame fixed subschemes
 
@@ -7307,7 +7371,9 @@ components; local conormal calculations give the scheme assertion along `Z`.
 
 `Z` is finite Artin and therefore proper. Apply §7.2, Varshavsky Theorem 4.10(b), to the graph along `Z`; it
 requires no extra fixed points in the punctured cone and properness of the component. The restricted graph is
-the identity on `Z`. Nilpotent invariance of the étale site identifies its compact trace with the alternating
+the identity on the full `Z` under the `c|Z` convention of §7.1; its reduction is §6.2's `c|_Z`.
+The cohomological restriction comparison of §6.2 and trace comparison of §7.2 identify their local terms.
+Nilpotent invariance of the étale site identifies its compact trace with the alternating
 stalk trace at `x`. This yields the local-term equality. For proper `X` with finite fixed support, sum these
 equalities in Lefschetz–Verdier.
 
