@@ -53,6 +53,8 @@ The section and coefficient calculations use Mathlib's existing `PresheafOfModul
 
 For `p>0`, coefficient-linear `V` on `PowerSeries A` is Mathlib `PowerSeries.expand p hp`, with `hp : p ≠ 0`. Use `PowerSeries.coeff_expand`, `PowerSeries.coeff_expand_mul`, `PowerSeries.expand_C` and its `AlgHom` linearity. There is no separate `qV` definition or coefficient API. Mathlib `PowerSeries.derivative` supplies the formal derivation used to compare the series operation `q d/dq` with the geometric theta operator.
 
+Generic coefficient selection is owned by [TauCeti/RingTheory/PowerSeries/Cartier.lean](https://github.com/TauCetiProject/TauCeti/blob/a3a2f35c018d741d724b689c2a90aab4d6eecf68/TauCeti/RingTheory/PowerSeries/Cartier.lean#L32-L47). Its semiring-linear `PowerSeries.cartier A q r` selects coefficient `qn+r`. The modular-form-facing `qU p` is the residue-zero specialization `PowerSeries.cartier A p 0`; use this specialization as an abbreviation, `PowerSeries.coeff_cartier` for its coefficient equation, and the Cartier/expansion identities for its formal properties. Geometric preservation and Hecke comparison belong to R15.3.
+
 Tau Ceti `TauCeti.integralClosure.isDedekindDomain` is supplied by `TauCeti.RingTheory.DedekindDomain.IntegralClosure`. It takes a Dedekind domain `O`, a chosen fraction field `K`, a field extension `L` with compatible `O/K` algebra structures and `Module.Finite K L`; no separability or `O`-module finiteness of the normalization is assumed.
 
 ### From neighbouring roadmaps
@@ -739,7 +741,7 @@ The interface consists of:
 
 #### Coefficient-linear `U` and `V`
 
-On expansions use the coefficient-linear `V` of the exact Mathlib supplier contract, and define formal `U` by `U(Σa_mq^m)=Σa_(pm)q^m`. Its intended signature is `qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A` for every commutative ring `A`; its coefficient API is `qU_coefficient`. Then `UV=1` for `p>0`. The formal weight-one identity `seriesHecke_weightOne` is `seriesHecke(p,1,d,f)=U(f)+dV(f)`. Absolute Frobenius instead sends `f` to `f^p`, with coefficients `a_m^p`. These maps coincide only under the appropriate coefficient restriction; the field `𝔽₂(t)` distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
+On expansions use the coefficient-linear `V` of the exact Mathlib supplier contract and the residue-zero Cartier specialization `U(Σa_mq^m)=Σa_(pm)q^m`. Its intended signature is `qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A` for every commutative ring `A`; its coefficient API `qU_coefficient` specializes `PowerSeries.coeff_cartier`. Then `UV=1` for `p>0`. The formal weight-one identity `seriesHecke_weightOne` is `seriesHecke(p,1,d,f)=U(f)+dV(f)`. Absolute Frobenius instead sends `f` to `f^p`, with coefficients `a_m^p`. These maps coincide only under the appropriate coefficient restriction; the field `𝔽₂(t)` distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
 
 The theorem `seriesTheta_expand` gives `Θ(V(f))=p V(Θ(f))` over every commutative coefficient ring for `p>0`, where `Θ` is `seriesTheta`. Its characteristic-`p` specialization `seriesTheta_expand_charP` gives `Θ(V(f))=0`. The scalar `p` cannot be dropped for torsion coefficients.
 
@@ -747,7 +749,7 @@ The Hecke formula is `T_p=U+p^(k−1)⟨p⟩V`. In characteristic `p` it reduces
 
 The interface consists of:
 
-- `TauCeti.ModPModularForms.qU`: The coefficient-selection linear map on formal power series.
+- `TauCeti.ModPModularForms.qU`: The residue-zero Cartier linear map on formal power series.
 
 - `TauCeti.ModPModularForms.qU_qV`: `qU(p)(V(p)(f))=f` for `p>0`, with `V` supplied by `PowerSeries.expand`.
 
@@ -761,7 +763,9 @@ The interface consists of:
 
 - Over `ℤ`, `V(q²)=q^(2p)` and `Θ(V(q²))=2p q^(2p)=p V(Θ(q²))`; the identity holds for arbitrary series coefficient by coefficient.
 
-- `TauCeti.ModPModularForms.qU_constant` (degenerate): `U` fixes constants; `V` also fixes constants. For `p≥2`, `U(q)=0` although `q≠0` over a nonzero ring, so `U` is not injective.
+- `TauCeti.ModPModularForms.qU_constant` (degenerate): For `p>0`, `U` and `V` fix constants. For `p≥2`, `U(q)=0` although `q≠0` over a nonzero ring, so `U` is not injective.
+
+- At `p=0`, every coefficient of `qU 0 f` equals the constant coefficient of `f`, as for `PowerSeries.cartier A 0 0`; the expansion and left-inverse identities require `p>0`.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions); [EllipticCurves Layer 3](../EllipticCurves/README.md#layer-3-elliptic-curves-over-finite-fields--the-hasse-bound-aec-v1).
 
@@ -1109,7 +1113,7 @@ When `P_p` acts nontrivially, the fixed line `V^(P_p)` is stable under `G_(ℚ_p
 
 For `β=α+1` the extension class changes the answer. A peu ramifiée extension has `k=2+α(p+1)`. A très ramifiée extension has `k=(α+1)(p+1)` for odd `p` and `k=4` at `p=2`. The peu/très distinction uses the actual Kummer extension class, with the required valuation-divisibility condition, from FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.5; it is not a freely selected Boolean attached only to semisimplification.
 
-The ordered stable line, coefficient extension invariance and representation isomorphism invariance enter the API. Extensions with the same semisimplification can have weights 2 and `p+1`, or 2 and 4 in the dyadic case. The dyadic très case can have the extension parameter value `m=3` appearing in Edixhoven §8.5, so a classification restricted to `m=1,2` would lose a case.
+The ordered stable line, coefficient extension invariance and representation isomorphism invariance enter the API. Extensions with the same semisimplification can have weights 2 and `p+1`, or 2 and 4 in the dyadic case. In the dyadic très case, Serre's wild parameter is defined by `2^m=[K:K₀]=|ρ(P₂)|`, with `K₀=ℚ₂^nr`, and satisfies `m∈{1,2}`. The Kummer generators can be chosen in `ℚ₂×`; their square classes are generated by `−1,2,5`, and the class of 5 vanishes over `K₀` because `ℚ₂(√5)/ℚ₂` is unramified. Thus their span over `K₀` has dimension at most two. Edixhoven's broader bound `m∈{1,2,3}` does not assert attainment of 3.
 
 The interface consists of:
 
@@ -1127,9 +1131,11 @@ The interface consists of:
 
 - `TauCeti.SerreWeight.serreWeight_wild_p2` (degenerate): At `p = 2 (α = 0, β = 1)` the très ramifiée correction is `+2`, giving `k = 4`, not `+(p − 1) = +1`.
 
+- For `L=ℚ₂(√−1,√2,√5)`, the total degree is 8 but the ramification degree is 4: `L K₀=K₀(√−1,√2)` has degree 4 over `K₀`, so the wild parameter is `m=2`. The extension `K₀(√2)/K₀` gives `m=1`. Both très branches have classical weight 4.
+
 *Needs:* [Tame inertia alternatives](#target-tame-inertia-characters-of-a-local-residual-representation); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.5.5.
 
-([Serre](https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf), 2.4, (2.4.6)-(2.4.7), printed p. 186; [Serre](https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf), 2.4 `(ii_2)`, formula (2.4.9), printed p. 187; [Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Proposition 8.5, p. 28 of the DVI.)
+([Serre](https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf), 2.4, (2.4.6)-(2.4.7) and Remarque 1, printed p. 186; 2.4 `(ii_2)`, formula (2.4.9), printed p. 187; 2.6, printed p. 188; [Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Proposition 8.5, p. 28 of the DVI.)
 
 <a id="target-determinant-parity-and-weight-mod-p-minus-one"></a>
 
@@ -1618,7 +1624,7 @@ Prove lattice independence at a fixed place, coefficient extension and transport
 
 A residual modularity witness for `ρ̄` includes a normalized eigenform `f` with its actual weight and level, its coefficient number field `K_f`, a place `λ∣p`, the corresponding coefficient and residue embeddings, an attached `λ`-adic representation, a chosen stable rank-two integral lattice and an isomorphism from its semisimple reduction to `ρ̄` after passage to a common finite residue field. Each attachment and reduction is the actual one supplied by [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems) and ArithmeticGaloisRepresentations §§1.6–1.9, 5.7, rather than an unrelated matrix representation stored in the same record.
 
-Expose the form, weight, level, coefficient field and place projections. Brauer–Nesbitt gives independence of the stable lattice at the same place and attached characteristic-zero representation. Scalar extension preserves the witness, and coefficient conjugation transports its place and residue embedding. This does not assert that all unrelated coefficient places give the same fixed residual representation. Good-prime characteristic polynomials must match those of the chosen form, excluding unrelated valid representations as well. The intended signature is `Witness (ρ̄)` with projections to the normalized form, its coefficient field and place, the stable lattice, its attached representation and the residual semisimplification isomorphism; every compatibility listed here is part of the witness.
+Expose the form, weight, level, coefficient field and place projections. Brauer–Nesbitt gives independence of the stable lattice at the same place and attached characteristic-zero representation. Scalar extension preserves the witness. For a coefficient-field isomorphism `σ:K_f≃K′`, simultaneously transport `f` to `σf`, `λ` to `σ(λ)`, and the lattice and attachment along `σ`. The induced residue-field isomorphism `σ̄` satisfies `σ̄ ∘ red_λ = red_σ(λ) ∘ σ`; for a residue embedding `ι`, use `ι′=ι ∘ σ̄⁻¹` at the transported place. This does not assert that all unrelated coefficient places give the same fixed residual representation. Good-prime characteristic polynomials must match those of the chosen form, excluding unrelated valid representations as well. The intended signature is `Witness (ρ̄)` with projections to the normalized form, its coefficient field and place, the stable lattice, its attached representation and the residual semisimplification isomorphism; every compatibility listed here is part of the witness.
 
 The interface consists of:
 
@@ -1636,11 +1642,13 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.witness_scalar_extension` (compatibility): A witness extends to a larger finite residue field with the same weight and level.
 
-- `TauCeti.ResidualModularity.witness_place_sensitive` (characterisation): For conjugate coefficient places related by `σ`, `aₗ mod σ(λ)` equals `σ(aₗ mod λ)` under the transported residue embedding; equality with a fixed unrelated residue embedding is not asserted.
+- `TauCeti.ResidualModularity.witness_place_sensitive` (characterisation): Simultaneous transport of the form, place and residue embedding gives `aₗ(σf) mod σ(λ) = σ(aₗ(f)) mod σ(λ) = σ̄(aₗ(f) mod λ)`. Applying `ι′=ι ∘ σ̄⁻¹` recovers `ι(aₗ(f) mod λ)`.
+
+- For the weight-one form `47.1.b.a`, set `a=a₂(f)=(√5−1)/2`, so `a²+a−1=0`. At 11, let `λ=(11,a−3)` and `σ(a)=−1−a`, giving `σ(λ)=(11,a−7)`. The residue fields are `𝔽₁₁` and `σ̄` is the identity. Reducing the unchanged coefficient at the other place gives `7≠3`; conjugating it gives `σ(a) mod σ(λ)=−1−7=3`, as required.
 
 *Needs:* [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems); ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7.
 
-([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), Introduction, preprint pp.1–2.)
+([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), Introduction, preprint pp.1–2; [Horawa](https://people.maths.ox.ac.uk/horawa/Hilbert.pdf), “Weight one form of level 47”, printed p.57.)
 
 ### Modularity predicates and their comparisons
 

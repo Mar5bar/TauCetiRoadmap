@@ -118,15 +118,21 @@ variable {A : Type*} [CommRing A]
 noncomputable def seriesTheta (f : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk (fun n => (n : A) * PowerSeries.coeff n f)
 
-/-- `qU` selects coefficients; it does not assert geometric preservation. -/
+/-- The residue-zero Cartier operator selects coefficients at multiples of `p`.
+Its generic API belongs to `TauCeti.RingTheory.PowerSeries.Cartier`;
+geometric preservation is specified in R15.3. -/
 noncomputable def qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A where
   toFun f := PowerSeries.mk (fun n => PowerSeries.coeff (p*n) f)
   map_add' f g := by ext n; simp
   map_smul' a f := by ext n; simp
 
-/-- Coefficient selection by the formal `U` operator. -/
+/-- The residue-zero Cartier coefficient equation for the formal `U` operator. -/
 theorem qU_coefficient (p n : ℕ) (f : PowerSeries A) :
     PowerSeries.coeff n (qU p f) = PowerSeries.coeff (p*n) f := by sorry
+
+/-- At modulus zero the Cartier specialization repeats the constant coefficient. -/
+example (n : ℕ) (f : PowerSeries A) :
+    PowerSeries.coeff n (qU 0 f) = PowerSeries.coeff 0 f := by simp [qU]
 
 /-- Formal `U` is a left inverse of coefficient-linear `V` when `p>0`. -/
 theorem qU_qV (p : ℕ) (hp : 0 < p) (f : PowerSeries A) : qU p (PowerSeries.expand p (Nat.ne_of_gt hp) f) = f := by sorry
@@ -711,6 +717,11 @@ end TauCeti.ClassicalModularGalois
 
 /-! ## Layer R15.6: residual modularity and the classical target -/
 namespace TauCeti.ResidualModularity
+
+/-- The split roots at eleven distinguish place change from coefficient transport. -/
+example : (3 : ZMod 11)^2 + 3 - 1 = 0 ∧
+    (7 : ZMod 11)^2 + 7 - 1 = 0 ∧
+    (7 : ZMod 11) ≠ 3 ∧ (-1 - 7 : ZMod 11) = 3 := by decide
 
 /-- Determinant oddness is automatic for an involution in characteristic two. -/
 example {G K : Type*} [Group G] [Field K] [CharP K 2]
