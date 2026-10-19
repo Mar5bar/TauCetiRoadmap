@@ -1,5 +1,6 @@
 import Mathlib
-import TauCetiRoadmap.RepresentationTheory.RootSystems.Suggested
+import TauCeti.LinearAlgebra.RootSystem.RootLength
+import TauCetiRoadmap.ChevalleyGroups.Suggested
 
 /-!
 # A statement of the classification of finite simple groups: target signatures
@@ -14,14 +15,15 @@ The scope ends at the final named proposition: this roadmap defines the groups o
 enough to state that every finite simple group is isomorphic to one of them. It does not ask for
 proofs that the listed groups are finite or simple, or for a proof of the classification.
 
-This file imports the root-systems roadmap's targets rather than restating them. `DynkinType` and
-its pinned Bourbaki numbering are that roadmap's, and every Lie-type index here is required to name
-one, so that nothing downstream has to reconcile two numberings of the same diagram.
+This file uses Tau Ceti's native `TauCeti.DynkinType`, the type the root-systems roadmap's Layer 6
+landed as, with its pinned Bourbaki numbering, and imports the Chevalley groups roadmap's target
+signatures, so that `AmbientGroup` is literally that roadmap's `ChevalleyGroup` and nothing
+downstream has to reconcile two copies of the same diagram.
 -/
 
 namespace TauCetiRoadmap.CFSGStatement
 
-open TauCetiRoadmap.RepresentationTheory.RootSystems
+open TauCeti
 
 /-! ## Parameters and the groups of Lie type -/
 
@@ -311,20 +313,22 @@ against the identity. -/
 def fixedSubgroup {G : Type*} [Group G] (F : G →* G) : Subgroup G :=
   F.eqLocus (MonoidHom.id G)
 
-/-- The ambient group attached to the valid index `d`: the points over `d.Closure` of the simply
-connected Chevalley--Demazure group of `d.dynkinType`, `ChevalleyGroup` of the Chevalley groups
-roadmap. Every family of the same diagram, twisted or not, has this same ambient group. -/
-def ValidLieTypeIndex.AmbientGroup (_d : ValidLieTypeIndex) : Type := sorry
-
-/-- The group structure on the algebraic group's points. -/
-instance (d : ValidLieTypeIndex) : Group d.AmbientGroup := sorry
-
 /-- The algebraic closure of the prime field the ambient group is taken over, pinned to Mathlib's
 `AlgebraicClosure` of `ZMod p` rather than left as "an algebraic closure of `𝔽_p`". Its `Field`,
 `IsAlgClosed` and `CharP` instances then come from Mathlib rather than from this roadmap, and the
 `Fact` instance above is what makes `ZMod d.characteristic` a field in the first place. -/
 noncomputable abbrev ValidLieTypeIndex.Closure (d : ValidLieTypeIndex) : Type :=
   AlgebraicClosure (ZMod d.characteristic)
+
+/-- The ambient group attached to the valid index `d`: the points over `d.Closure` of the simply
+connected Chevalley--Demazure group of `d.dynkinType`, `ChevalleyGroup` of the Chevalley groups
+roadmap. Every family of the same diagram, twisted or not, has this same ambient group. -/
+abbrev ValidLieTypeIndex.AmbientGroup (d : ValidLieTypeIndex) : Type :=
+  ChevalleyGroups.ChevalleyGroup d.dynkinType d.dynkinType_valid d.Closure
+
+/-- The group structure on the algebraic group's points, from the Chevalley groups roadmap. -/
+noncomputable instance (d : ValidLieTypeIndex) : Group d.AmbientGroup :=
+  inferInstanceAs (Group (ChevalleyGroups.ChevalleyGroup d.dynkinType d.dynkinType_valid d.Closure))
 
 noncomputable example (d : ValidLieTypeIndex) : Field d.Closure := inferInstance
 example (d : ValidLieTypeIndex) : IsAlgClosed d.Closure := inferInstance
@@ -334,8 +338,10 @@ example (d : ValidLieTypeIndex) : CharP d.Closure d.characteristic := inferInsta
 the algebraic closure: `rootSubgroup` of the Chevalley groups roadmap at `DynkinType.simpleIndex`.
 The root subgroups for every root come from that roadmap; this is the piece the equations below are
 stated against, and the piece a pinning normalizes. -/
-def ValidLieTypeIndex.simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
-    (t : d.Closure) : d.AmbientGroup := sorry
+noncomputable def ValidLieTypeIndex.simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
+    (t : d.Closure) : d.AmbientGroup :=
+  ChevalleyGroups.rootSubgroup d.dynkinType d.dynkinType_valid d.Closure
+    (d.dynkinType.simpleIndex d.dynkinType_valid i) (.ofAdd t)
 
 /-- Each simple root subgroup is a homomorphism from the additive group of the closure. -/
 theorem ValidLieTypeIndex.simpleRootSubgroup_add (d : ValidLieTypeIndex) (i : Fin d.rank)
@@ -574,7 +580,7 @@ abbrev CFSGIndex.Group : CFSGIndex → Type
   | .lie index => index.Group
   | .sporadic name => name.Group
 
-instance : (i : CFSGIndex) → Group i.Group
+noncomputable instance : (i : CFSGIndex) → Group i.Group
   | .cyclic .. => inferInstance
   | .alternating .. => inferInstance
   | .lie .. => inferInstance

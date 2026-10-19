@@ -212,12 +212,12 @@ neither.
 | --- | --- | --- | --- |
 | I0: indices and numbered conventions | Mathlib, root systems Layer 6 | `PrimePower`, raw and valid Lie indices, the map to `DynkinType`, sporadic names, characteristic and field order, the pinned `Fin` permutations | range and duplicate examples reduce; `dynkinType_valid` is proved; 26-name check passes |
 | L0: the ambient group | I0; Chevalley groups C2 | `AmbientGroup`, its `Group` instance, `Closure`, and `simpleRootSubgroup` on every valid branch, all on the Chevalley group of the index's Dynkin type | every valid branch unfolds to `ChevalleyGroup d.dynkinType _ d.Closure` |
-| L1: ordinary and graph Steinberg maps | L0; Chevalley groups C5 | Frobenius and numbered diagram maps, and the root-datum Steinberg map | the simple-root-subgroup equations and the order relations are proved; the character map of `steinberg` is the weight map of `datumSteinberg` |
-| L2: Suzuki--Ree Steinberg maps | L0; Chevalley groups C5 | selection of the exceptional isogeny, and its odd powers | the exponent and length conventions are matched to the isogeny; `steinberg` unfolds on every branch; the character map of `steinberg` is the weight map of `datumSteinberg` |
+| L1: ordinary and graph Steinberg maps | L0; Chevalley groups C5 | Frobenius and numbered diagram maps, and the root-datum Steinberg map | the simple-root-subgroup equations and the order relations are proved; `IsCharacterMap d.steinberg (datumSteinberg d).weightMap` is proved |
+| L2: Suzuki--Ree Steinberg maps | L0; Chevalley groups C5 | selection of the exceptional isogeny, and its odd powers | the exponent and length conventions are matched to the isogeny; `steinberg` unfolds on every branch; `IsCharacterMap d.steinberg (datumSteinberg d).weightMap` is proved |
 | L3: fixed groups | L1 and L2 | fixed points, derived subgroup, central quotient | every valid branch has a `Group` instance |
 | L4: the Mathlib Suzuki identification | L3, Chevalley groups C6 (`G_sc(B₂) ≅ Sp₄`), Mathlib's `suzukiGroup` | `²B₂(2^(2m+1)) ≃* suzukiGroup m` for `m ≥ 1` | the isomorphism is proved, and the `suzuki` branch is unchanged by it |
 | L5: removal of the family-specific constructions | L0 to L3 | the per-family carriers, branches, and dispatchers listed under L5 deleted from Tau Ceti, with any general lemmas they hold moved to their proper homes | no Lie-type definition in Tau Ceti builds an ambient group other than the Chevalley group |
-| L6: every Steinberg map is on the list | L1, L2, Chevalley groups C5 | on the root datum and on the group, every Steinberg endomorphism in standard form is conjugate to a map of L1 or L2 | both classification theorems proved |
+| L6: every Steinberg map is on the list | L1, L2, Chevalley groups C5 | on the root datum, every based Steinberg isogeny is a map of L1 or L2 and every one is based after a Weyl correction; on the group, every based standard Steinberg endomorphism is conjugate to a map of L1 or L2 | both classification theorems and the `A₁` regression example proved |
 | S0: presentation format and sources | Mathlib only | relator expression type compiling to signed words, the compilation lemmas, and a 26-row source manifest | `Relator.toWord_toFreeGroup` is proved; every source is a full presentation, is locatable, and is proved to define its group |
 | S1: presentation data | S0 | complete relator words for all sporadics | relator counts match the manifest; independent transcription review; the cross-check below is recorded for every name it covers |
 | A0: assembly | I0, L3, S1 | `CFSGIndex.Group`, `ClassificationStatement`, `classificationStatement_of_zero` | named proposition elaborates with no placeholder carriers |
@@ -381,10 +381,12 @@ of it is scaling by a power of `q`, and, the point of having it, that it is what
 induces:
 
 ```text
-characterMap d.steinberg = (GraphTwistedIndex.datumSteinberg d).weightMap,
+IsCharacterMap d.steinberg (GraphTwistedIndex.datumSteinberg d).weightMap,
 ```
 
-with `characterMap` from C5 of the Chevalley groups roadmap. This is what ties the Steinberg map
+with `IsCharacterMap` from C5 of the Chevalley groups roadmap, composed from the character maps that
+roadmap proves for `Frob_q` and `γ`. The character map is checked data, not read off the abstract
+homomorphism, and over `d.Closure`, which is infinite, it is unique. This is what ties the Steinberg map
 on the group to the Steinberg map on the root datum, so that facts proved at either level apply at
 the other.
 
@@ -406,7 +408,7 @@ What L2 owns is everything between that isogeny and a finite group: selecting `�
 `SuzukiReeIndex`, checking that the upstream isogeny is the one this roadmap's conventions describe,
 taking the odd power, and the root-datum shadow `SuzukiReeIndex.datumSteinberg`, the odd power of
 `SuzukiReeIndex.datumSpecialIsogeny`, with
-`characterMap d.steinberg = (SuzukiReeIndex.datumSteinberg d).weightMap`. For the constructor
+`IsCharacterMap d.steinberg (SuzukiReeIndex.datumSteinberg d).weightMap`. For the constructor
 parameter `m`, define
 
 ```text
@@ -429,9 +431,14 @@ identifies it is its action on the numbered positive and negative simple root su
 ```
 
 The two exponents multiply to `p` along either composite, which is what makes `τ_X ^ 2 = Frob_p`
-come out. Attaching `1` to the long roots and `p` to the short ones is a genuine convention: the
-opposite assignment also squares to `Frob_p`, so leaving it to the implementor leaves the branch
-undetermined. Take the assignment above.
+come out. That square test does not determine the assignment, and the reversed one does not define
+an endomorphism. The torus relations force it: in `B₂`, with `α` long and `β` short, applying
+`τ_X` to `h_β(s) x_α(u) h_β(s)⁻¹ = x_α(s⁻² u)` requires `q(short) = 2 q(long)` as exponents of
+`s`. The assignment above gives `(1, 2)`. The reversed `(2, 1)` would need `s⁻¹ = s⁻⁴` for every
+`s ∈ kˣ`, false for `s` of order seven in `𝔽₈ˣ`. C5 of the Chevalley groups roadmap records this
+computation. Do not reverse the table to match the exponent stored in
+`DynkinType.b2SpecialIsogeny`: that exponent is indexed on the character-pullback side, which is
+why its long/short description looks opposite.
 
 Which simple roots are long is not restated here either. `DynkinType.IsLongSimpleRoot` in the
 root-systems roadmap pins it, and the convention above is stated against that predicate, as
@@ -543,42 +550,76 @@ those shapes. A0 does not depend on it; it is the theorem that the Lie-type half
 right list, which the index alone only asserts.
 
 **On the root datum.** Let `t` be a valid Dynkin type, `p` a prime, `P` the datum
-`DynkinType.simplyConnectedRootDatum t`, and `φ : RootPairingIsogeny P P` with
-`φ ^ n = RootPairingIsogeny.smulId P (p ^ k)` for some `n > 0` and `k > 0`, the shape of
-`ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`. Prove that `φ` is conjugate, by an
-automorphism of `P` in the group generated by the Weyl group and `DynkinType.diagramAut`, to one
-of:
+`DynkinType.simplyConnectedRootDatum t` with its pinned base `DynkinType.simplyConnectedBase`, and
+`φ : RootPairingIsogeny P P` with `φ ^ n = RootPairingIsogeny.smulId P (p ^ k)` for some `n > 0` and
+`k > 0`, the shape of `ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`. Call `φ` *based* if
+`φ.indexEquiv` maps every positive root of the pinned base to a positive root. Ordinary conjugacy is
+the wrong equivalence for unbased maps, and the statement has three parts.
 
-- `(q • id) ∘ (DynkinType.diagramAut σ)⁻¹` for `q = p ^ e` with `e > 0` and `σ` in
-  `DynkinType.diagramSymmetry t`, with `σ` determined up to conjugacy in `diagramSymmetry t`;
-- the `(2m + 1)`-st power, `m ≥ 0`, of `DynkinType.b2SpecialIsogeny`, `DynkinType.f4SpecialIsogeny`,
-  or `DynkinType.g2SpecialIsogeny`, for `(t, p)` equal to `(B₂, 2)`, `(F₄, 2)`, or `(G₂, 3)`.
+1. **Weyl correction.** There is a unique `w` in the Weyl group of `P` with
+   `RootPairingIsogeny.ofEquiv w * φ` based. `φ.indexEquiv` carries the positive system to a
+   positive system, and the Weyl group acts simply transitively on positive systems. This is
+   composition with a Weyl element. It is not conjugation, and it changes `φ`.
+2. **Based classification.** A based `φ` with `φ ^ n = smulId P (p ^ k)` is equal, not merely
+   conjugate, to exactly one of
+   - `(q • id) ∘ (DynkinType.diagramAut σ)⁻¹` for `q = p ^ e` with `e > 0` and `σ` in
+     `DynkinType.diagramSymmetry t`;
+   - the `(2m + 1)`-st power, `m ≥ 0`, of `DynkinType.b2SpecialIsogeny`, `DynkinType.f4SpecialIsogeny`,
+     or `DynkinType.g2SpecialIsogeny`, for `(t, p)` equal to `(B₂, 2)`, `(F₄, 2)`, or `(G₂, 3)`.
+
+   A based `φ` permutes the simple roots, `φ (α_i) = q_i α_{π i}`, and `π` preserves the Cartan
+   matrix up to the scalings `q_i`. Either all `q_i` are equal, and `φ` is a scaling composed with a
+   diagram automorphism, or `(t, p)` is one of the three special pairs, `π` is the length-exchanging
+   permutation, and the long and short `q_i` differ by the factor `p` that the Cartan matrix forces,
+   which is an odd power of the special isogeny. Conjugating by `DynkinType.diagramAut τ` preserves
+   basedness and replaces `σ` by `τ σ τ⁻¹`, so `σ` matters only up to conjugacy in
+   `diagramSymmetry t`. Steinberg, *Endomorphisms of linear algebraic groups*, 11.2 to 11.6, is the
+   source.
+3. **Regression example.** For `t = A₁`, let `s` be the nontrivial Weyl reflection and
+   `φ = RootPairingIsogeny.ofEquiv s * smulId P p`, whose weight map is `-p • id`. Prove that
+   `φ * φ = smulId P (p ^ 2)`, that `φ` is not based, that `ofEquiv s * φ = smulId P p` is based, and
+   that `φ` is not conjugate under `Aut(P)` to any map in the list. `Aut(P) = {±id}` is abelian, so
+   conjugation fixes `φ`, and the `A₁` part of the list consists of the positive scalings
+   `p ^ e • id`. This is why part 2 is stated for based maps.
 
 These are the maps `GraphTwistedIndex.datumSteinberg` and `SuzukiReeIndex.datumSteinberg` of L1 and
-L2, at raw parameters. The proof is Steinberg's classification of the endomorphisms of an
-irreducible root datum some power of which is a scaling (*Endomorphisms of linear algebraic
-groups*, 11.2 to 11.6): conjugate `φ` to preserve the positive system of the pinned base, after which it
-permutes the simple roots up to powers of `p`, and the Cartan matrix leaves only the listed shapes.
+L2, at raw parameters.
 
-**On the group.** Let `k` be an algebraically closed field of characteristic `p` and `F` a standard
-endomorphism of `ChevalleyGroup t ht k`, in the sense of C5 of the Chevalley groups roadmap, some
-positive power of which is `Frob_{p^r}` with `r > 0`. Prove that there are an automorphism `ψ`,
-the composite of an inner automorphism and a graph automorphism `γ_τ`, and a map `F₀` from the list
-above lifted by C5 (`γ_σ ∘ Frob_q` or `τ ^ (2m + 1)`), with `F = ψ ∘ F₀ ∘ ψ⁻¹`. Consequently
-`fixedSubgroup F ≃* fixedSubgroup F₀`, and the derived central quotients are isomorphic. The route:
-the character map of `F` is a `RootPairingIsogeny` of the shape above, because `F` permutes root
-subgroups and some power of it is a Frobenius; conjugate it into the list at the root-datum level,
-lift the conjugating element through `n_w` and `γ_τ` (C5 there); and conclude by rigidity up to
-the torus (C5 there).
+**On the group.** Let `k` be an algebraically closed field of characteristic `p` and `F` a *based*
+standard endomorphism of `ChevalleyGroup t ht k`, in the sense of C5 of the Chevalley groups roadmap:
+it carries an injective `φ` with `IsCharacterMap F φ`, maps root subgroups onto root subgroups, and
+maps positive root subgroups to positive ones, so it preserves the torus and the Borel subgroup.
+Assume some positive power of `F` is `Frob_{p^r}` with `r > 0`. Prove that there are a torus point
+`u`, a graph automorphism `γ_τ`, and a map `F₀` from the list above lifted by C5
+(`γ_σ ∘ Frob_q` or `τ ^ (2m + 1)`), with `F = ψ ∘ F₀ ∘ ψ⁻¹` for `ψ = Int(u) ∘ γ_τ`. Consequently
+`fixedSubgroup F ≃* fixedSubgroup F₀`, and the derived central quotients are isomorphic. The route,
+each step a named lemma:
+
+1. `φ ^ n = p ^ r • id`, from `F ^ n = Frob_{p^r}`, composition of character maps, and their
+   uniqueness over the infinite field `k`. `φ` is based because `F` preserves positivity.
+2. By part 2 on the root datum, `φ` is the character map `φ₀'` of `F₁ = γ_τ ∘ F₀ ∘ γ_τ⁻¹` for some
+   `τ` and a listed `F₀`, using how conjugation by `γ_τ` changes character maps (C5).
+3. Rigidity up to the torus (C5): `F = Int(s) ∘ F₁` for a torus point `s`.
+4. Lang's equation on the torus (C5, `exists_torus_eq_mul_inv`): `φ₀' ^ n = p ^ r • id`, so `1 - φ₀'`
+   is injective and `s = u F₁(u)⁻¹` for some torus point `u`. Then
+   `Int(u) ∘ F₁ ∘ Int(u)⁻¹ = Int(u F₁(u)⁻¹) ∘ F₁ = F`. Rigidity alone does not give this step.
 
 **Relation to the index.** When the parameters `(σ, q)` or `m` of `F₀` are those of a valid index
 `d`, `F₀` is `d.steinberg`. The parameters of no valid index are exactly the range exclusions and
 the duplicate representatives of I0, together with type `C` in characteristic two, which the list
 carries as type `B`. The isomorphisms behind the duplicate table and the `B`/`C` coincidence are
-not targets of this roadmap. The hypothesis that `F` is standard is part of the statement: that
-every endomorphism some power of which is a Frobenius is conjugate to a standard one uses the
-conjugacy of maximal tori and Borel subgroups (Steinberg, *Endomorphisms of linear algebraic
-groups*, 7.2 and 10.10), which this roadmap does not prove.
+not targets of this roadmap.
+
+The hypothesis that `F` is based is part of the statement, and it is not automatic for a standard
+`F`. On `SL₂`, `F = Int([[0, 1], [-1, 0]]) ∘ Frob_p` preserves the torus, exchanges the two root
+subgroups, has `F² = Frob_{p²}`, and acts on the torus by `-p`; it is the group form of the `A₁`
+example. It is conjugate to `Frob_p` in `SL₂(k)`, but only by an element outside the normalizer of
+the torus, found by Lang's theorem. Passing from an arbitrary endomorphism some power of which is a
+Frobenius to a based standard one uses an `F`-stable Borel subgroup and maximal torus in it
+(Steinberg, *Endomorphisms of linear algebraic groups*, 7.2 and 10.10) and the Lang–Steinberg
+theorem (10.1 there), and needs `F` to be a morphism of algebraic groups. This roadmap does not
+prove those and does not assume them; a consumer that needs the unbased statement names its
+supplier.
 
 ### S0: auditable presentation data and source selection
 

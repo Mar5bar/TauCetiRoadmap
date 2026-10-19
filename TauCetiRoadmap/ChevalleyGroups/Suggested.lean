@@ -15,7 +15,8 @@ completed definitions or proofs.
 The group scheme itself, the Chevalley datum structure, and the big-cell statements are specified in
 `README.md` against the existing generic toral-closure API; they are not displayed here. What is
 displayed is the interface on points that downstream roadmaps consume: root subgroups, the torus,
-the elementary subgroup, and the endomorphisms with their character maps.
+the elementary subgroup, and the endomorphisms with their character maps, which are checked data
+(`IsCharacterMap`) rather than a function of the endomorphism.
 -/
 
 namespace TauCetiRoadmap.ChevalleyGroups
@@ -37,7 +38,9 @@ instance (A : Type) [CommRing A] : Group (ChevalleyGroup t ht A) := sorry
 def rootSubgroup (A : Type) [CommRing A] (α : Fin t.numRoots) :
     Multiplicative A →* ChevalleyGroup t ht A := sorry
 
-/-- The split maximal torus, with coordinates indexed by the fundamental weights. -/
+/-- The split maximal torus `Hom(P, Aˣ)`, `P` the full weight lattice, with coordinates indexed by
+the fundamental weights: `s` is the point `χ ↦ ∏ i, s i ^ χ i`. For a general Chevalley datum the
+torus has character lattice the span `Λ(D)` of its weights instead (`README.md`, C2). -/
 def torus (A : Type) [CommRing A] : (Fin t.rank → Aˣ) →* ChevalleyGroup t ht A := sorry
 
 /-- The pinning equation `s x_α(u) s⁻¹ = x_α(α(s) u)`, with `α` read as a character in the weight
@@ -64,12 +67,51 @@ def titsSystem (k : Type) [Field k] : TitsSystem (elementary t ht k) := sorry
 
 /-! ## C5: endomorphisms and their character maps -/
 
-/-- The pullback of characters along an endomorphism mapping the torus into itself. Over an
-algebraically closed field the induced map on the torus is given by a unique integer matrix; over a
-finite field the torus can be trivial, so no such map is defined there. -/
-def characterMap {k : Type} [Field k] [IsAlgClosed k] (F : ChevalleyGroup t ht k →* ChevalleyGroup t ht k)
-    (hF : ∀ s, ∃ s', F (torus t ht k s) = torus t ht k s') :
-    (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ) := sorry
+/-- The value at a torus parameter `s` of the character `χ`, both in fundamental-weight
+coordinates: `χ(s) = ∏ i, s i ^ χ i`. -/
+def charEval {n : ℕ} {M : Type*} [CommGroup M] (χ : Fin n → ℤ) (s : Fin n → M) : M :=
+  ∏ i, s i ^ χ i
+
+/-- `φ` is a character map of `F`: `F` maps the torus into itself and pulls characters back along
+`φ`, so `χ (F (torus s)) = (φ χ) s`. This is data checked against `F`, not extracted from it: an
+abstract endomorphism of the points need not act on the torus through characters (entrywise complex
+conjugation on `SL₂(ℂ)`, or a non-integral element of `Gal(𝔽̄_p / 𝔽_p) ≅ Ẑ`). Over a finite field
+`φ` is not determined by `F`. -/
+def IsCharacterMap {k : Type} [Field k] (F : ChevalleyGroup t ht k →* ChevalleyGroup t ht k)
+    (φ : (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ)) : Prop :=
+  ∀ s, F (torus t ht k s) = torus t ht k (fun i => charEval (φ (Pi.single i 1)) s)
+
+/-- Character maps compose contravariantly. -/
+theorem IsCharacterMap.comp {k : Type} [Field k]
+    {F G : ChevalleyGroup t ht k →* ChevalleyGroup t ht k}
+    {φ ψ : (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ)}
+    (hF : IsCharacterMap t ht F φ) (hG : IsCharacterMap t ht G ψ) :
+    IsCharacterMap t ht (F.comp G) (ψ.comp φ) := sorry
+
+/-- Over an infinite field a character map is unique. -/
+theorem IsCharacterMap.unique {k : Type} [Field k] [Infinite k]
+    {F : ChevalleyGroup t ht k →* ChevalleyGroup t ht k}
+    {φ φ' : (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ)}
+    (h : IsCharacterMap t ht F φ) (h' : IsCharacterMap t ht F φ') : φ = φ' := sorry
+
+/-- A *standard* endomorphism over an algebraically closed field: it has an injective character
+map and maps each root subgroup onto a root subgroup. A *based* one also maps positive root
+subgroups to positive root subgroups; that refinement is specified in `README.md`, C5. -/
+def IsStandard {k : Type} [Field k] [IsAlgClosed k]
+    (F : ChevalleyGroup t ht k →* ChevalleyGroup t ht k) : Prop :=
+  (∃ φ : (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ),
+      Function.Injective φ ∧ IsCharacterMap t ht F φ) ∧
+    ∀ α, ∃ β, (F.comp (rootSubgroup t ht k α)).range = (rootSubgroup t ht k β).range
+
+/-- **Lang's equation on the torus.** If some positive power of a character map of `F` is a
+positive power of `p`, then every torus point has the form `u F(u)⁻¹`. This is the step that turns
+`F = Int(s) ∘ F₀` from rigidity into a conjugacy `F = Int(u) ∘ F₀ ∘ Int(u)⁻¹`. -/
+theorem exists_torus_eq_mul_inv {k : Type} [Field k] [IsAlgClosed k] (p : ℕ) [CharP k p]
+    (F : ChevalleyGroup t ht k →* ChevalleyGroup t ht k)
+    (φ : AddMonoid.End (Fin t.rank → ℤ)) (hF : IsCharacterMap t ht F φ)
+    {n r : ℕ} (hn : 0 < n) (hr : 0 < r) (hφ : φ ^ n = ((p ^ r : ℕ) : ℤ) • (1 : AddMonoid.End _))
+    (s : Fin t.rank → kˣ) :
+    ∃ u, torus t ht k s = torus t ht k u * (F (torus t ht k u))⁻¹ := sorry
 
 /-- The graph automorphism of a diagram symmetry, induced by the numbered symmetry of the
 full-weight module. -/

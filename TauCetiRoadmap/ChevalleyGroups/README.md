@@ -70,11 +70,13 @@ Chevalley group constructed here, proved from its construction?*
   `n_α(s) = x_α(s) x_{-α}(-s⁻¹) x_α(s)` and `h_α(s) = n_α(s) n_α(1)⁻¹`, following Steinberg,
   *Lectures on Chevalley Groups*, Chapter 3, Lemma 19, who writes `w_α` for `n_α`. The Weyl
   representative `n_α(1)` agrees with `kostantWeylPoints`.
-- **Characters.** The character lattice of the split torus of `G_sc(t)` is identified with the
-  weight lattice `Fin t.rank → ℤ` of `DynkinType.simplyConnectedRootDatum t` through the fundamental
-  weights, and the torus acts on the weight-`μ` part of the module through the character `μ`. The
-  map on characters induced by an endomorphism `F` preserving the torus is the pullback
-  `χ ↦ χ ∘ F`, in the same direction as `RootPairingIsogeny.weightMap`.
+- **Characters.** The torus of a Chevalley datum `D` is the split torus whose character lattice is
+  the lattice `Λ(D)` spanned by the weights of `D` (C2), and it acts on the weight-`μ` part of the
+  module through the character `μ`. For `G_sc(t)`, `Λ = Fin t.rank → ℤ`, identified with the weight
+  lattice of `DynkinType.simplyConnectedRootDatum t` through the fundamental weights. A character
+  map of an endomorphism `F` preserving the torus is a pullback `χ ↦ χ ∘ F`, in the same direction
+  as `RootPairingIsogeny.weightMap`. It is data attached to `F` together with a proof of the torus
+  compatibility equation (C5). It is not extracted from an arbitrary abstract homomorphism.
 - **Exceptional isogenies.** The exponent `e_i` is `1` on a long simple root and `p` on a short
   one, long and short as in `DynkinType.IsLongSimpleRoot`, and `σ` is the length-exchanging
   permutation of `DynkinType.IsSpecialNodePerm`, so that `τ (x_{±α_i}(u)) = x_{±α_{σ i}}(u ^ e_i)`
@@ -135,16 +137,22 @@ is the one missing input to that machinery, plus the theorems that make its outp
 | C6: Chevalley's comparison theorem | C3, C4 | homomorphisms between Chevalley group schemes determined by their weight lattices |
 | C7: exceptional isogenies of group schemes | C4, C5 | the exceptional isogenies as endomorphisms of the `𝔽_p`-group scheme `G_sc(t)_{𝔽_p}` |
 
-C0 to C2 are one lane and C3 to C7 build on it; C4 and C5 can proceed in parallel once C3 lands.
+C0 to C2 are one lane and C3 to C7 build on it. C4 needs C3; C5 and C6 can proceed in parallel
+once C4 lands; C7 needs C4 and C5. C5 does not use C7: the character maps of the exceptional
+isogenies are computed in C5 from their action on the root subgroups.
 
 ### C0: the Chevalley basis
 
 Beside the existence statement `DynkinType.exists_isChevalleySystem`, construct a named Chevalley
 system `DynkinType.chevalleySystem t ht` of `DynkinType.lieAlgebra t ht` for the involution
 `DynkinType.chevalleyInvolution`, with root vectors `e_α` for every `α : Fin t.numRoots`, built from
-Geck's basis rather than chosen from the existence theorem. Transport the root enumeration
-`Fin t.numRoots` to the roots `Weight ℚ H L` of `IsChevalleySystem` by a named equivalence, with
-`e_{α_i}` and `e_{-α_i}` the numbered generators of `DynkinType.lieBasis`. Prove that it is an
+Geck's basis rather than chosen from the existence theorem. `LieModule.Weight ℚ H L` contains the
+zero weight of the Cartan action (for `A₁` its elements are `0, α, -α`), so the roots are the subtype
+`{α : LieModule.Weight ℚ H L // α.IsNonZero}`. Transport the root enumeration `Fin t.numRoots` to
+that subtype by a named equivalence, with `e_{α_i}` and `e_{-α_i}` the numbered generators of
+`DynkinType.lieBasis`. `IsChevalleySystem` takes a family indexed by all of `Weight ℚ H L`, so
+provide a separate adapter that extends the root-vector family by a chosen value at the zero
+weight before calling that API. Prove that it is an
 `IsChevalleySystem` for the signed Geck involution, that its roots are those of
 `DynkinType.simplyConnectedRootDatum` under the fixed enumeration, and the structure-constant
 theorem: for roots `α, β` with `α + β` a root, `⁅e_α, e_β⁆ = N_{α,β} e_{α+β}` with
@@ -209,10 +217,22 @@ A **Chevalley datum** of type `t`, `DynkinType.ChevalleyDatum t ht`, is a finite
 faithful representation of `DynkinType.lieAlgebra t ht` over `ℚ` together with a lattice spanning
 it that is stable under the simple-generator Kostant form, and a weight basis of that lattice. Its
 **weight lattice** `Λ(D)` is the sublattice of `Fin t.rank → ℤ` spanned by its weights; it contains
-the root lattice. Its group scheme `ChevalleyDatum.groupScheme` is `kostantToralGroupScheme` on
-that data, with points `ChevalleyDatum.Points D A`. `scModule` with `scLattice` is a Chevalley datum
-with `Λ = Fin t.rank → ℤ`, and the Geck module is one with `Λ` the root lattice. Everything in C2
-and C3, except the two items marked as simply connected, is stated for every Chevalley datum.
+the root lattice and is free of rank `t.rank`. Fix a `ℤ`-basis `b_D : Basis (Fin t.rank) ℤ Λ(D)` and
+write each weight of the weight basis in `b_D`-coordinates. These coordinate weights span
+`Fin t.rank → ℤ` by the definition of `Λ(D)`. Its group scheme `ChevalleyDatum.groupScheme` is
+`kostantToralGroupScheme` on the module, lattice, and weight basis, with the coordinate weights as
+`wt`. Its points are `ChevalleyDatum.Points D A`. `scModule` with `scLattice` is a Chevalley datum
+with `Λ = Fin t.rank → ℤ` and `b_D` the standard basis, so the coordinate weights are the weights
+themselves. The Geck module is a datum with `Λ` the root lattice and `b_D` the simple roots.
+Everything in C2 and C3, except the two items marked as simply connected, is stated for every
+Chevalley datum.
+
+Do not use the weights themselves, read in `Fin t.rank → ℤ`, as `wt` for a datum with
+`Λ(D) ≠ Fin t.rank → ℤ`. That parametrizes the torus by `Hom(P, -)` for `P` the full weight lattice,
+and the resulting map to `GLₙ` has kernel the diagonalizable group with character group `P / Λ(D)`.
+For adjoint `A₁`, `Λ = 2ℤϖ`, the weights are `2ϖ, 0, -2ϖ`, and the map is
+`s ↦ diag(s², 1, s⁻²)`, with kernel `μ₂`. That map is not a closed immersion, and in characteristic
+two its kernel is nontrivial as a group scheme although its points over a field are trivial.
 
 Define
 
@@ -231,11 +251,24 @@ form, whose comparison with `G_sc(t)` is C6.
   powers preserving it: `α = w α_i` for a Weyl word `w` and a simple root `α_i`, and
   `e_α = ± Ad(n_w) e_{α_i}` for the Weyl representative `n_w`, so `x_α(u) = n_w x_{α_i}(± u) n_w⁻¹`.
   Record that identity, with its sign, as a theorem.
-- **The torus.** `DynkinType.chevalleyTorus`, the split torus `𝔾ₘ^{rank}` acting through the weight
-  basis, a closed immersion into `G_sc(t)` by the span statement of C1; the pinning equation
-  `t x_α(u) t⁻¹ = x_α(α(t) u)` for every root, with `α` read in
-  `DynkinType.simplyConnectedRootDatum`; and `h_α(s)` equal to the torus point of the coroot `α^∨`
-  evaluated at `s`.
+- **The torus.** For a datum `D`, `ChevalleyDatum.torus D`, the split torus `T_D` with character
+  lattice `Λ(D)`, realized as `TauCeti.GeneralLinear.weightTorus` on the coordinate weights above.
+  It is a closed immersion into `GLₙ`, hence into `G_D`, by
+  `TauCeti.GeneralLinear.isClosedImmersion_weightTorus`, because the coordinate weights span. Its
+  points over `A` are `Hom(Λ(D), Aˣ)`, which `b_D` identifies with `Fin t.rank → Aˣ`. Reuse the
+  existing diagonalizable-group and weight-torus API for this. No second abstract torus theory is
+  introduced. For `G_sc(t)` this is `DynkinType.chevalleyTorus`, a closed immersion by the span
+  statement of C1.
+- **Points of the torus against the image of the full-weight parametrization.** State the
+  difference between `T_D(A) = Hom(Λ(D), Aˣ)` and the range of `kostantTorusPoints` with the
+  weights read in `Fin t.rank → ℤ`. That range is the image of the restriction map
+  `Hom(P, Aˣ) → Hom(Λ(D), Aˣ)`, a proper subgroup in general. For adjoint `A₁` over `ℚ`, the
+  root subgroups and the full torus `T_D(ℚ) = ℚˣ` generate `PGL₂(ℚ)`, while the root subgroups and
+  that range generate only the image of `SL₂(ℚ)`, which misses the class of `diag(2, 1)`. For
+  `G_sc(t)` the two agree.
+- **The pinning equation** `t x_α(u) t⁻¹ = x_α(t(α) u)` for every root `α` and `t ∈ T_D(A)`, with
+  `α` read in `DynkinType.simplyConnectedRootDatum` and lying in the root lattice, hence in `Λ(D)`.
+  `h_α(s)` is the point `χ ↦ s ^ ⟨χ, α^∨⟩` of `T_D`.
 - **Generation of the torus (simply connected).** For `G_sc(t)`, over every commutative ring, the
   torus lies in the subgroup generated by the root subgroups: the simple coroots are a basis of the
   cocharacter lattice in the simply connected datum, so `t = ∏ h_{α_i}(s_i)`. This is the simply
@@ -247,18 +280,27 @@ form, whose comparison with `G_sc(t)` is C6.
 ### C3: the group over a field
 
 Let `k` be a field, `D` a Chevalley datum, and `E(k)` the subgroup of its points generated by the
-root subgroups and the torus `T(k)`; for `G_sc(t)` the torus is already in the subgroup generated by
-root subgroups, by C2. Following Steinberg's *Lectures on Chevalley Groups*, Chapters 3 and 6,
+root subgroups and the torus `T(k) = T_D(k) = Hom(Λ(D), kˣ)` of C2, not the smaller range of the
+full-weight parametrization. For `G_sc(t)` the torus is already in the subgroup generated by root
+subgroups, by C2. Following Steinberg's *Lectures on Chevalley Groups*, Chapters 3 and 6,
 which treat every admissible lattice. Steinberg's Chevalley group is the subgroup generated by the
 root subgroups alone; the torus normalizes it, and each statement below extends to `E(k)` by that
 normalization:
 
-- **The Chevalley commutator formula** for every pair of roots `α ≠ -β`:
-  `[x_α(u), x_β(v)] = ∏ x_{iα+jβ}(C_{ijαβ} (-v)^j u^i)`, the product over `i, j > 0` with `iα + jβ`
-  a root in increasing `i + j`, with the integers `C_{ijαβ}` expressed through the structure
-  constants of C0 (Steinberg, *Lectures*, Chapter 3, Lemma 15 and relation (R2)). The existing class-two, multiply-laced, and `G₂`
-  relations are the cases, and the formula is proved for all pairs of the root system, not only
-  for the simple ones.
+- **The Chevalley commutator formula** for every pair of linearly independent roots `α, β`, in
+  Steinberg's normalization, which is also Mathlib's `commutatorElement` and the one the existing
+  Kostant commutator lemmas use:
+  `⁅x_α(u), x_β(v)⁆ = x_α(u) x_β(v) x_α(u)⁻¹ x_β(v)⁻¹ = ∏ x_{iα+jβ}(c_{ijαβ} u^i v^j)`, the product
+  over `i, j > 0` with `iα + jβ` a root, in increasing `i + j`. The integers `c_{ijαβ}` are expressed
+  through the structure constants of C0 as in Steinberg, *Lectures*, Chapter 3, Lemma 15:
+  `c_{11} = N_{α,β}`, `c_{i1} = M_{α,β,i}`, `c_{1j} = (-1)^j M_{β,α,j}`, for
+  `M_{α,β,i} = (1/i!) N_{α,β} N_{α,α+β} ⋯ N_{α,(i-1)α+β}`, with the two remaining `G₂` coefficients
+  from the same lemma. Carter's convention `[x, y] = x⁻¹y⁻¹xy` with `(-t)^i` changes these signs; do
+  not mix the two. Fixed test, in `A₂` with `e_α = E₁₂`, `e_β = E₂₃`, `N_{α,β} = 1`:
+  `⁅x_α(u), x_β(v)⁆ = x_{α+β}(uv)`, and with the opposite convention the right side would be
+  `x_{α+β}(-uv)`. The existing class-two (`x_α(t) x_β(u) x_α(t)⁻¹ = x_β(u) x_{α+β}(c t u)`),
+  multiply-laced, and `G₂` relations are the cases, and the formula is proved for all pairs of the
+  root system, not only for the simple ones.
 - **The unipotent radical and Borel subgroup.** `U(k)` generated by the positive root subgroups,
   with unique expression `∏_{α > 0} x_α(u_α)` in any fixed order of the positive roots;
   `B(k) = U(k) T(k)` with `U(k)` normal; the opposite `U⁻(k)`; `U(k) ∩ B⁻(k) = 1`.
@@ -270,8 +312,9 @@ normalization:
   the simple reflections `s_{α_i}`.
 - **Centralizer and centre.** For `k` infinite, the centralizer of `T(k)` is `T(k)` and its
   normalizer is `N(k)`. For every field, the centre of `E(k)` is `{h ∈ T(k) : α(h) = 1 for every
-  root α}` (Steinberg, *Lectures*, Chapter 3, Lemma 28(d)), which in the simply connected datum is
-  `Hom(P/Q, k^×)` for `P` the weight lattice and `Q` the root lattice.
+  root α}` (Steinberg, *Lectures*, Chapter 3, Lemma 28(d), there for the subgroup generated by the
+  root subgroups), which is `Hom(Λ(D)/Q, k^×)` for `Q` the root lattice, and `Hom(P/Q, k^×)` in the
+  simply connected datum, `P` the weight lattice.
 - **Steinberg's presentation (simply connected).** For `G_sc(t)`, `E(k)` is presented by the
   generators `x_α(u)`, `α` a root and `u ∈ k`, subject to additivity in `u`, the commutator formula
   for `α ≠ -β`, and, writing `h_α(s)` for the word above, `h_α(st) = h_α(s) h_α(t)` for
@@ -288,48 +331,100 @@ The toral closure is defined over `ℤ`, and without further proof its base chan
 only contains the closed subgroup scheme that the root subgroups and torus generate over `k`. This
 milestone proves equality and identifies the points.
 
-- **Flatness.** The coordinate ring of `G_sc(t)` is torsion-free over `ℤ`, equivalently its defining
+Statements are for a Chevalley datum `D` with group scheme `G_D` and torus `T_D` of C2, and
+`G_sc(t)` is the case `D = (scModule, scLattice)`.
+
+- **Flatness.** The coordinate ring of `G_D` is torsion-free over `ℤ`, equivalently its defining
   Hopf ideal is the intersection of `O(GLₙ/ℤ)` with the defining ideal of the rational closure.
-  Hence `G_sc(t)` is flat over `ℤ` and is the schematic closure of its generic fibre.
-- **The big cell.** The multiplication morphism `U⁻ × T × U → G_sc(t)` is an open immersion over
-  `ℤ`, with image the non-vanishing locus of the product of the highest-weight matrix coefficients
-  `g ↦ ⟨v⁺_i*, g v⁺_i⟩`. Over an algebraically closed field this is Steinberg, *Lectures*,
-  Chapter 5, Theorem 7; the statement over `ℤ` is in Jantzen, *Representations of Algebraic
-  Groups*, and SGA 3. Here `U` and `U⁻` are the closed subgroup schemes whose points are the unique
-  products of C3, so they are isomorphic to affine space of dimension the number of positive
-  roots.
-- **Fibres.** `G_sc(t)` is covered by the translates of the big cell by the Weyl representatives,
+  Hence `G_D` is flat over `ℤ` and is the schematic closure of its generic fibre.
+- **The big cell.** Order the weights of `D` linearly, refining the dominance order (`μ` before `ν`
+  when `μ - ν` is a nonzero sum of positive roots), and order the weight basis compatibly, so the
+  weight spaces are consecutive blocks. Then `U` acts by block upper unitriangular matrices, `U⁻`
+  by block lower unitriangular ones, and `T_D` by diagonal ones. Let `GLₙ^{LDU}` be the open
+  subscheme of `GLₙ` over `ℤ` where the leading principal minors at the block boundaries are
+  invertible; block `LDU` factorization identifies it with (block lower unitriangular) ×
+  (block diagonal) × (block upper unitriangular). The big cell is `Ω_D = G_D ∩ GLₙ^{LDU}`, and the
+  multiplication morphism `U⁻ × T_D × U → Ω_D` is an isomorphism over `ℤ`, so `Ω_D` is open in
+  `G_D`. On points over a field the content is
+  `E(k) ∩ GLₙ^{LDU}(k) = U⁻(k) T_D(k) U(k)`: by the Bruhat decomposition of C3, conjugated by a
+  representative of the longest element, `g ∈ U⁻(k) T_D(k) n_w U(k)`. For `l` block lower
+  triangular and `u` block upper unitriangular, the leading block minors of `l n_w u` are invertible
+  exactly when those of `n_w` are. `n_w` maps the weight-`μ` block onto the weight-`wμ` block, so
+  its leading block minor at an initial segment `S` of weights is invertible
+  only if `wS = S`. If that holds for every initial segment, `w` fixes every weight. The weights
+  of a faithful representation span `Λ(D) ⊗ ℚ`, so `w = 1`. Over an algebraically closed field
+  this is Steinberg, *Lectures*, Chapter 5, Theorem 7. Over `ℤ`, with flatness, it follows from
+  the fibrewise statements by the fibrewise criterion for isomorphisms of finitely presented
+  schemes over a base with flat source (EGA IV₄, 17.9.5); Jantzen, *Representations of Algebraic
+  Groups*, Part II, and SGA 3 treat the same statement. `U` and `U⁻` are the closed subgroup
+  schemes whose points are the unique products of C3, so they are isomorphic to affine space of
+  dimension the number of positive roots.
+
+  For `G_sc(t)` the same open set is cut out by the product of the highest-weight matrix
+  coefficients `g ↦ ⟨v⁺_i*, g v⁺_i⟩` of the fundamental summands. That formula is specific to
+  `G_sc(t)` and is not used for a general datum: on `SL₂` the coefficient is the entry `a`, and
+  `g ↦ -g` changes its sign, so it does not descend to `PGL₂`. The block minors above are
+  polynomials in the matrix entries of `GLₙ` for every datum, so no descent is needed.
+- **Fibres.** `G_D` is covered by the translates of the big cell by the Weyl representatives,
   and is smooth over `ℤ` with geometrically connected fibres of dimension `t.rank + t.numRoots`.
-- **Points.** For every field `k`, every point over `k` lies in some translate `n_w Ω(k)` of the
-  big cell, and `Ω(k) = U⁻(k) T(k) U(k)`; hence the points over `k` are `E(k)`, generated by root
-  subgroups and the torus. For `G_sc(t)` they are generated by root subgroups alone:
-  `ChevalleyGroup t ht k = E(k)` for every field `k`. The base change of the group scheme to a field
-  `k` equals the closed subgroup scheme of `GLₙ` over `k` generated by the reduced root subgroups
-  and torus.
-- **Generality.** All results of this milestone are stated for every Chevalley datum of C2.
+- **Points.** For every field `k`, every point over `k` lies in some translate `n_w Ω_D(k)` of the
+  big cell, and `Ω_D(k) = U⁻(k) T_D(k) U(k)`; hence the points over `k` are `E(k)`, generated by
+  root subgroups and `T_D(k) = Hom(Λ(D), kˣ)`. For adjoint `A₁` over `ℚ` this is `PGL₂(ℚ)`. For
+  `G_sc(t)` they are generated by root subgroups alone: `ChevalleyGroup t ht k = E(k)` for every
+  field `k`. The base change of the group scheme to a field `k` equals the closed subgroup scheme
+  of `GLₙ` over `k` generated by the reduced root subgroups and torus.
 
 ### C5: endomorphisms and their character maps
 
-Work on `ChevalleyGroup t ht k` for a field `k`, which is `E(k)` by C4. For `k` algebraically
-closed and an endomorphism `F` mapping the torus into itself, `F ∘ torus` is `torus` composed with
-the map on `(k^×)^{rank}` given by a unique integer matrix, because homomorphisms of algebraic tori
-over an algebraically closed field are given by integer matrices; write
-`F.characterMap : (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ)` for the transpose of that matrix, the
-pullback of characters. It is defined only over algebraically closed fields: over a finite field
-the torus can be trivial. Prove `characterMap` is contravariant:
-`(F ∘ G).characterMap = G.characterMap ∘ F.characterMap`.
+Work on `ChevalleyGroup t ht k` for a field `k`, which is `E(k)` by C4. Write
+`torus s = ∏ h_{α_i}(s_i)` for `s : Fin t.rank → kˣ`, and `χ(s) = ∏ s_i ^ χ_i` for a character
+`χ : Fin t.rank → ℤ` in fundamental-weight coordinates, so `χ(torus s) = χ(s)`.
+
+**Character maps are data.** An abstract endomorphism of `ChevalleyGroup t ht k` that maps the torus
+into itself need not act on it through characters, even over an algebraically closed field.
+Complex conjugation, applied entrywise to `SL₂(ℂ)`, preserves the diagonal torus and every root
+subgroup, and acts on the torus coordinate by `z ↦ z̄`. If that were `z ↦ z^m`, `z = 2` would force
+`m = 1` and `z = i` would contradict it. The same happens for the ambient groups the CFSG roadmap
+uses: `Gal(𝔽̄_p / 𝔽_p) ≅ Ẑ`, and an element of `Ẑ` outside `ℤ` gives an automorphism of
+`𝔽̄_pˣ` that is not an integer power. The integer-matrix theorem is about morphisms of split tori as
+group schemes (Conrad, *Reductive group schemes*, proof of Theorem 1.1.19), not about homomorphisms
+of their groups of points. So a character map is supplied with `F` and checked.
+
+Define, over every field `k`, the predicate
+
+```text
+IsCharacterMap F φ  :↔  ∀ s, F (torus s) = torus (fun i => (φ (Pi.single i 1))(s)),
+```
+
+for `F` an endomorphism and `φ : (Fin t.rank → ℤ) →+ (Fin t.rank → ℤ)`. Equivalently
+`χ(F (torus s)) = (φ χ)(s)` for every character `χ`, which is the pullback `χ ↦ χ ∘ F`. Prove:
+
+- **Composition.** `IsCharacterMap F φ → IsCharacterMap G ψ → IsCharacterMap (F ∘ G) (ψ ∘ φ)`.
+- **Uniqueness over an infinite field.** If `k` is infinite, `IsCharacterMap F φ` and
+  `IsCharacterMap F φ'` give `φ = φ'`, since distinct characters are distinct functions on
+  `(kˣ)^{rank}`. Over a finite field `φ` is not determined by `F`, which is why it is data rather
+  than a function of `F`.
+- **Surjectivity on the torus.** If `k` is algebraically closed and `φ` is injective, `F` maps the
+  torus onto itself. `kˣ` is divisible, hence an injective `ℤ`-module, so the dual of an injective
+  `φ` is surjective on `Hom(Fin t.rank → ℤ, kˣ)`.
+
+Each of the three families below comes with its character map and a proof of `IsCharacterMap`,
+computed from its action on the root subgroups through `h_α(s) = n_α(s) n_α(1)⁻¹`. None of them
+uses C7.
 
 - **Field maps.** A field endomorphism `φ` of `k` induces an endomorphism of `ChevalleyGroup t ht k`
-  by functoriality, with `φ (x_α(u)) = x_α(φ u)` for every root. The `q`-power Frobenius over a
-  field of characteristic `p` has character map `q • id`.
+  by functoriality, with `φ (x_α(u)) = x_α(φ u)` for every root. Such a map has no character map
+  in general, and none is asserted. The `q`-power Frobenius over a field of characteristic `p`
+  satisfies `IsCharacterMap Frob_q (q • id)`, since `Frob_q (torus s) = torus (s ^ q)`.
 - **Graph automorphisms.** For `σ` in `DynkinType.diagramSymmetry t`, the automorphism
   `DynkinType.chevalleyGraphAut σ` of `G_sc(t)` induced by the numbered symmetry `θ_σ` of C1,
   with `γ_σ (x_{±α_i}(u)) = x_{±α_{σ i}}(u)` on the positive and negative simple roots and
   `γ_σ (x_α(u)) = x_{σ α}(ε_{σ,α} u)` with signs `ε_{σ,α} = ±1` on every root, the signs computed
   from the structure constants of C0 (Steinberg, *Lectures*, Chapter 10, Theorem 29);
-  `γ_σ γ_τ = γ_{στ}`; `γ_σ` commutes with every field map; and the character map of `γ_σ` is the
-  weight map of the inverse of `DynkinType.diagramAut σ`, which is the orientation fixed in the
-  standing conventions.
+  `γ_σ γ_τ = γ_{στ}`; `γ_σ` commutes with every field map; and
+  `IsCharacterMap γ_σ (DynkinType.diagramAut σ)⁻¹.weightMap`, from
+  `γ_σ (h_{α_i}(s)) = h_{α_{σ i}}(s)`. The inverse is the orientation fixed in the standing
+  conventions.
 - **Exceptional isogenies.** For `(t, p)` one of `(B₂, 2)`, `(F₄, 2)`, `(G₂, 3)` and `k` of
   characteristic `p`, the endomorphism `DynkinType.chevalleySpecialIsogeny` of `E(k)` with
   `τ (x_α(u)) = x_{ᾱ}(ε_α u^{q(α)})`, where `ᾱ` is the image of `α` under the length-exchanging map
@@ -337,26 +432,65 @@ the torus can be trivial. Prove `characterMap` is contravariant:
   the presentation of C3, checking that the relations are respected (Steinberg, *Lectures*,
   Chapter 10, Theorem 28, which also gives bijectivity for perfect `k`). Prove `τ ∘ τ = Frob_p`,
   that `τ` is bijective when `k` is perfect, the pinned equations on the positive and negative
-  simple root subgroups in the convention above, and that its character map is the weight map of
-  `DynkinType.b2SpecialIsogeny`, `DynkinType.f4SpecialIsogeny`, or `DynkinType.g2SpecialIsogeny`
-  respectively.
+  simple root subgroups in the convention above, and `IsCharacterMap τ φ_X` for `φ_X` the weight
+  map of `DynkinType.b2SpecialIsogeny`, `DynkinType.f4SpecialIsogeny`, or
+  `DynkinType.g2SpecialIsogeny` respectively. The proof is the computation
+  `τ (h_{α_i}(s)) = h_{ᾱ_i}(s ^ {q(α_i)})`, read from the images of `n_{α_i}(s)`, and then the
+  comparison of the resulting integer matrix with that weight map.
+
+  The exponents are forced and are not a free convention. Write `α` long and `β` short in `B₂`,
+  so `⟨α, β^∨⟩ = -2` and `⟨β, α^∨⟩ = -1`. Applying `τ` to
+  `h_β(s) x_α(u) h_β(s)⁻¹ = x_α(s ^ ⟨α, β^∨⟩ u)` gives
+  `q(β) ⟨ᾱ, β̄^∨⟩ = q(α) ⟨α, β^∨⟩` as exponents of `s`, that is `q(short) = 2 q(long)` for
+  `p = 2`. `(1, 2)` satisfies it. The reversed assignment `(2, 1)` would need `s⁻¹ = s⁻⁴` for every
+  `s ∈ kˣ`, false for `s` of order seven in `𝔽₈ˣ`, even though its formal square is also
+  `Frob_2`.
 - **Determination by simple root subgroups.** Two endomorphisms of `E(k)` that agree on the
   positive and negative simple root subgroups are equal. With the presentation, this gives the
   uniqueness that pins `γ_σ` and `τ` by their simple-root equations.
-- **Rigidity up to the torus.** For `k` algebraically closed, call an endomorphism *standard* if it
-  maps the torus into itself and each root subgroup onto a root subgroup. Two standard
-  endomorphisms `F`, `F'` with the same `characterMap` satisfy `F = Inn(s) ∘ F'` for a torus point
-  `s`. Both send `x_{±α_i}(u)` to `x_{±β_i}(c_{±i} u^{q_i})`, with `β_i` and `q_i` read from the
-  character map; the simple roots are linearly independent characters, so over an algebraically
-  closed field a torus point rescales the `c_i` to `1`; the relation `n_α(s)` of C2 forces
-  `c_{-i} = c_i⁻¹`; and determination by the simple root subgroups finishes. Also record how
-  conjugation by a Weyl representative `n_w` and by `γ_σ` changes the character map: by `w` and by
-  the diagram automorphism of `σ`.
+- **Standard and based endomorphisms.** For `k` algebraically closed, an endomorphism `F` with an
+  injective `φ` satisfying `IsCharacterMap F φ` is *standard* if it maps each root subgroup onto a
+  root subgroup, and *based* if moreover it maps each positive root subgroup onto a positive root
+  subgroup, that is, it preserves the Borel subgroup `B(k)` as well as the torus. For standard `F`
+  with `F (x_α(u)) = x_β(f(u))`, torus compatibility gives `f(α(t) u) = (φ β)(t) f(u)` for all
+  `t`. Taking `t` in the kernel of `α` shows `φ β` is trivial there, hence a rational multiple of
+  `α`. Since `α(T(k)) = kˣ`, `f = f(1) · g` for the field endomorphism `g` of `k` determined by
+  `g(α(t)) = (φ β)(t)`. `φ` is injective and the root system is reduced, so `φ` determines `β` up
+  to sign. It determines the sign too: if a second standard map with the same `φ` sent `x_α` into
+  `x_{-β}`, its field endomorphism `g'` would satisfy `g g' = 1` on `kˣ`, and expanding
+  `g(1 + c) g'(1 + c) = 1` gives `g(c)² + g(c) + 1 = 0` for every `c ≠ 0, -1`, so `g` takes at
+  most two values there, contradicting injectivity of `g` on the infinite field `k`. So the root
+  permutation of a standard map, and the field endomorphisms on its root subgroups, are read from
+  `φ`.
+- **Regression for basedness.** On `SL₂` over `𝔽̄_p`, let `n = [[0, 1], [-1, 0]]` and
+  `F = Int(n) ∘ Frob_p`. It preserves the diagonal torus, exchanges the two root subgroups, and
+  `F² = Frob_{p²}` because `n²` is central. `IsCharacterMap F (-p • id)` holds, so `F` is standard
+  and not based. Record this as an example. It is the group-level form of the `A₁` example in L6 of
+  the CFSG statement roadmap.
+- **Rigidity up to the torus.** For `k` algebraically closed, two standard endomorphisms `F`, `F'`
+  with `IsCharacterMap F φ` and `IsCharacterMap F' φ` for the same `φ` satisfy `F = Int(s) ∘ F'`
+  for a torus point `s`. By the previous item, they send `x_{±α_i}(u)` to
+  `x_{±β_i}(c_{±i} g_{±i}(u))` and `x_{±β_i}(c'_{±i} g_{±i}(u))`, with `β_i` and the field
+  endomorphisms `g_{±i}` read from `φ`. The `β_i` are linearly independent because `φ` is
+  injective, and `kˣ` is divisible, so there is `s` with
+  `β_i(s) = c_i / c'_i` for all `i`. `F` and `F'` map the torus onto itself (surjectivity above),
+  so they send `n_{α_i}(1)` into the normalizer of the torus, and the rank-one computation
+  `x_β(c) x_{-β}(-c₋) x_β(c) = [[1 - c c₋, c (2 - c c₋)], [-c₋, 1 - c c₋]]` shows that this forces
+  `c₋ = c⁻¹`, for `F` and for `F'`. Determination by the simple root subgroups finishes. Also
+  record how conjugation by a Weyl representative `n_w` and by `γ_σ` changes the character map: by
+  `w` and by the diagram automorphism of `σ`.
+- **Lang's equation on the torus.** Rigidity gives `F = Int(s) ∘ F'`, which is not yet
+  `F = Int(t) ∘ F' ∘ Int(t)⁻¹`. Since `Int(t) ∘ F' ∘ Int(t)⁻¹ = Int(t F'(t)⁻¹) ∘ F'`, the missing
+  step is solving `s = t F'(t)⁻¹` modulo the centre. Prove, as a named lemma, that for `k`
+  algebraically closed and `IsCharacterMap F' φ` with `φ ^ n = p ^ r • id` for some `n, r > 0`,
+  the homomorphism `t ↦ t F'(t)⁻¹` of `T(k)` is surjective. Its character map is `1 - φ`. Every
+  complex eigenvalue of `φ` has absolute value `p ^ (r / n) > 1`, so `1 - φ` is injective, and
+  `T(k) = Hom(Fin t.rank → ℤ, kˣ)` with `kˣ` divisible makes its dual surjective. This is the torus
+  case of the Lang–Steinberg theorem and needs nothing beyond that linear algebra.
 - **Steinberg endomorphisms.** For `F` a composite `γ_σ ∘ Frob_q` with `q = p^m`, `m > 0`, or an
-  odd power of `τ`, some
-  positive power of `F` is a Frobenius `Frob_{p^m}` with `m > 0`, and its character map is the
-  composite of the root-datum maps above. This is the group-level form of
-  `ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`.
+  odd power of `τ`, some positive power of `F` is a Frobenius `Frob_{p^m}` with `m > 0`, `F` is
+  based, and its character map is the composite of the root-datum maps above. This is the
+  group-level form of `ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`.
 
 ### C6: Chevalley's comparison theorem
 
@@ -367,8 +501,10 @@ the lattices are equal, it is an isomorphism. Prove the group-level statement on
 field first, following Steinberg, *Lectures*, Chapter 3, Corollary 5 to Theorem 4′: the relations
 (R) of that chapter together with the relations among the `h_α(t)` define the group (Corollaries 3
 and 4 there, consequences of the Bruhat decomposition of C3), and `Λ(D') ⊆ Λ(D)` gives the
-required map between the tori (Lemma 28(c) there). Then extend it to the schemes using the big cell
-of C4.
+required map between the tori (Lemma 28(c) there). On the tori of C2 that map is restriction of
+characters, `T_D = Hom(Λ(D), -) → Hom(Λ(D'), -) = T_{D'}`; on points over a field it need not be
+surjective, and for `G_sc(A₁) → PGL₂` over `ℚ` its cokernel is `ℚˣ / ℚˣ²`. Then extend the map to
+the schemes using the big cell of C4.
 
 Consequences to prove: every Chevalley datum of type `t` with full weight lattice has group scheme
 isomorphic to `G_sc(t)` by an isomorphism matching root subgroups, tori, and Frobenius, and
@@ -393,7 +529,8 @@ Layer 9.
 - `A₁`: the Chevalley datum of the standard representation of `sl₂` gives `SL₂`; prove
   `G_sc(A₁) ≅ SL₂` by C6, with root subgroups the upper and lower unipotent matrices; identify the
   adjoint form with `PGL₂`, whose points over `k` contain the image of `SL₂(k)` with index
-  `|k^× / k^{×2}|`.
+  `|k^× / k^{×2}|`. That index is the cokernel of `Hom(P, kˣ) → Hom(Q, kˣ)`, and it is visible only
+  because the adjoint torus of C2 has character lattice `Q`, so its points are all of `kˣ`.
 - `G₂`: the seven-dimensional module and the adjoint module are both full-weight, so C6 identifies
   their group schemes; check the commutator formula of C3 against the `G₂` relations already in
   `TauCeti/Algebra/Lie/UniversalEnveloping/Kostant/RootSubgroup/Commutator/G2/`.
