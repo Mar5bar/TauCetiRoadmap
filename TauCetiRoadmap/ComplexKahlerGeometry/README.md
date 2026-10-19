@@ -468,10 +468,13 @@ local bases to F. Prove the section/reconstruction equivalence, including
 morphisms and pullbacks, on these actual carriers. This fixed-model theorem
 does not identify a varying-rank sheaf with a single `VectorBundle ℂ F E`;
 the componentwise construction below supplies that full locally finite-rank scope.
-K4 supplies the holomorphic bundle and holomorphic-connection carriers for
-[FormalConnectionsOpers F2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c9f4ac867e9f22bbf6f71d6f5c4a361ab9f0e622/TauCetiRoadmap/FormalConnectionsOpers/README.md)'s analytification comparison. F2.4 owns the
-algebraic-to-holomorphic comparison, consuming K1's manifold inverse/implicit
-function theorem; K4 does not construct algebraic analytification.
+K4 supplies the holomorphic bundle and holomorphic-connection carriers to
+[ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e3c8536df9555dc6e7027bfb3d60daef8bf33586/TauCetiRoadmap/ComplexComparisonPartII/README.md#L130-L138),
+which own scheme analytification and the algebraic-to-holomorphic comparison
+prefix, using K1's manifold inverse/implicit function theorem.
+[FormalConnectionsOpers F2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/3a1938e24b0af64066e982fe1c0cb133c0338d44/TauCetiRoadmap/FormalConnectionsOpers/README.md)
+consumes that prefix for its fixed-model manifold, tangent/derivation, toric,
+group and gauge applications. K4 does not construct algebraic analytification.
 
 Prove existence and uniqueness of the Chern connection on a Hermitian holomorphic bundle,
 with `(0,1)` part ∂̄ and metric compatibility; prove the local formula and curvature type
