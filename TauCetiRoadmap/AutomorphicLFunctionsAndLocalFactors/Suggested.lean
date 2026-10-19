@@ -42,11 +42,14 @@ diagonal self-annihilator and common adelic Schwartz/Fourier/Poisson space are c
 ArithmeticGaloisRepresentations §2.7 Global inputs. Its `standard-test-function-evaluations`
 supplies `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and
 `archimedeanStandardEvaluation_complex`, including the Fourier values on those vectors.
-Its `hecke-zeta-integral-comparison`, `continuous-character-hecke-completion` and
-`root-number-product-formula` supply the standard-integral normalization, Hecke's classical
-equation with continuous infinity types and the product of local constants.
-AL.2 proves global matrix-integral continuation by Poisson summation for every n ≥ 1;
-AL.1 gives its n = 1 distribution specialisation and the Hecke normalization comparisons.
+Its `hecke-zeta-integral-comparison` and `finite-order-hecke-functional-equation` supply
+the finite-order/algebraic standard-integral normalization and Hecke equation. Its
+`local-constant-gauss-sum` defines `tateLocalConstant` arithmetically;
+`root-number-product-formula` is a finite-sum identity for the product of those constants.
+AL.2 proves global matrix-integral continuation and functional equations by Poisson
+summation for every n ≥ 1, including all unitary idele-class characters at n = 1.
+AL.1 gives its rank-one distribution and Hecke normalization comparisons, and specializes
+the local matrix equation through `rank-one-local-functional-equation`.
 The local equation for arbitrary Schwartz functions and eigendistribution uniqueness
 are targets here. The standard-function evaluations and `tateLocalConstant` belong to that
 supplier. The equality of the norm-one idele-class volume with Mathlib's Dedekind residue κ
@@ -541,6 +544,34 @@ theorem zetaIntegral_twist {G : Type*} [MeasurableSpace G]
     zetaIntegral μ a (fun x => ω x*(a x : ℂ)^t) s f =
       zetaIntegral μ a ω (s+t) f := by sorry
 
+/-- The rank-one matrix integral on the native measurable multiplicative carrier.
+For local Schwartz functions and quasi-characters it is used on its convergence
+half-plane; continuation is the n = 1 Godement–Jacquet continuation. -/
+abbrev localZetaIntegral {G : Type*} [MeasurableSpace G]
+    (μ : Measure G) (a : G → ℝ) (χ : G → ℂ) (s : ℂ) (f : G → ℂ) : ℂ :=
+  zetaIntegral μ a χ s f
+
+/-- The normalized rank-one matrix equation gives the gamma equation on
+punctured germs. In the local application Zdual is Z(fhat, chi inverse, 1-s),
+and Ldual is L(1-s, chi inverse); local L-factors are nonzero off their poles. -/
+theorem localZetaIntegral_functionalEquation
+    (Z Zdual L Ldual ε : ℂ → ℂ) (s₀ : ℂ)
+    (hL : ∀ᶠ s in 𝓝[≠] s₀, L s ≠ 0)
+    (hLdual : ∀ᶠ s in 𝓝[≠] s₀, Ldual s ≠ 0)
+    (hmat : (fun s => Zdual s / Ldual s) =ᶠ[𝓝[≠] s₀]
+      (fun s => ε s * (Z s / L s))) :
+    Zdual =ᶠ[𝓝[≠] s₀] (fun s => (ε s * Ldual s / L s) * Z s) := by sorry
+
+/-- A nonzero normalized standard-vector evaluation identifies the matrix epsilon
+with the arithmetic Gauss-sum constant, and hence identifies the gamma ratio.
+The hypotheses come from the matrix equation and the supplied standard evaluation;
+the arithmetic constant is evaluated at chi times the s-th norm power. -/
+theorem localGamma_eq_tateLocalConstant
+    (Z₀ Zdual₀ ε tateLocalConstant L Ldual : ℂ) (hZ : Z₀ ≠ 0)
+    (hmat : Zdual₀ = ε * Z₀) (hstd : Zdual₀ = tateLocalConstant * Z₀) :
+    ε = tateLocalConstant ∧
+      ε * Ldual / L = tateLocalConstant * Ldual / L := by sorry
+
 /-- Gamma equals epsilon times the quotient of dual and original local L-factors.
 At finite places the full local API identifies epsilon with the canonical supplied
 Tate local constant at the norm-twisted character and its self-dual measure. -/
@@ -598,7 +629,9 @@ example : localGaussSum Measure.count ({1} : Set (ZMod 2)) 2 0 1
 /-- Product notation for the unbalanced all-place factors on their convergence domain.
 The n = 1 Godement–Jacquet continuation is compared with Hecke's germ using
 ArithmeticGaloisRepresentations §2.7's `standard-test-function-evaluations`,
-`hecke-zeta-integral-comparison` and `continuous-character-hecke-completion`.
+`finite-order-hecke-functional-equation` and `hecke-zeta-integral-comparison` for
+finite-order/algebraic characters. General unitary-character continuation and functional
+equations are AL.2's `global-godement-jacquet` at n = 1.
 The algebraic norm-twist normalization agrees with LFunctions layers 0, 5–6. -/
 def completedHeckeL {ι : Type*} (L : ι → ℂ → ℂ) (s : ℂ) : ℂ := ∏' v, L v s
 
@@ -641,11 +674,14 @@ example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by 
 example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
 
 /-- Finite-product notation for the scalar epsilon factors in ArithmeticGaloisRepresentations
-§2.7's `root-number-product-formula` and `standard-test-function-evaluations`.
+§2.7's finite-sum identity `root-number-product-formula` and its
+`standard-test-function-evaluations`.
 The finite factors agree with the distribution scalar by epsilonFactor_eq_tateLocalConstant;
 the archimedean factors use the supplied real and complex evaluations. The rank-one
-Godement–Jacquet specialisation and Hecke comparison identify the Hecke root number and
-primitive conductor power, including continuous infinity types and complex norm twists. -/
+Godement–Jacquet specialisation supplies the analytic equation for general unitary
+characters; the finite-sum identity identifies its Gauss-sum root number and primitive
+conductor power. Finite-order/algebraic characters agree with LFunctions via the Hecke
+comparison, and complex norm twists translate the variable. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 
