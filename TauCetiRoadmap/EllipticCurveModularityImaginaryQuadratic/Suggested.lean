@@ -5,7 +5,7 @@ import Mathlib
 
 The README is the definitive roadmap and specifies its unconditional endpoint.
 These suggested forms are not an exhaustive checklist. They record the
-light divisor, rational-function, integral monodromy and normalization signatures
+arithmetic, divisor, rational-function, integral monodromy and normalization signatures
 over the pinned carriers. They suggest statements, with proofs left as `sorry`.
 The covers, relative Jacobians, compatible systems and automorphic realizations
 are README targets, using the supplier carriers named there.
@@ -22,13 +22,34 @@ noncomputable section
 open Polynomial
 open scoped Matrix
 
-/-! ## Layer 0: Trace identity and cyclotomic preparation -/
+/-! ## Arithmetic milestones -/
 
-/-- Uniform integral nilpotence cannot be deduced from a coefficient-torsion
-annihilator, even with a unit auxiliary Hecke factor (supplied inputs in
-README §0.1). -/
-example : ((3 : ZMod 9) * 1)^2 = 0 ∧ (1 : ZMod 9)^2 ≠ 0 := by
-  decide
+/-- The splitting field of X^n − a/conjugate(a) is a soluble CM extension
+and makes a an n-th power times a nonzero totally real element
+(README §0.2, `cm_discriminant_descent`; AKT Corollary 9.4, p.74). -/
+theorem cm_discriminant_descent {K L : Type*} [Field K] [NumberField K]
+    [NumberField.IsCMField K] [Field L] [NumberField L] [Algebra K L]
+    (n : ℕ) (hn : 2 ≤ n) (a : Kˣ)
+    [Polynomial.IsSplittingField K L
+      (X ^ n - C ((a : K) / NumberField.IsCMField.complexConj K (a : K)))] :
+    IsGalois K L ∧ Group.IsSolvable (L ≃ₐ[K] L) ∧ NumberField.IsCMField L ∧
+      ∃ z : Lˣ, (z : L) ∈ NumberField.maximalRealSubfield L ∧
+        ∃ b : Lˣ, algebraMap K L (a : K) / (z : L) = (b : L) ^ n := by
+  sorry
+
+/-- Adjoining the (3p)-th roots of unity to an imaginary quadratic field
+produces an abelian CM field containing no primitive fifth root
+(README §5.1, `cyclotomic_switch_field`; OpenAI §5, p.11). -/
+theorem cyclotomic_switch_field {K F : Type*} [Field K] [NumberField K]
+    [NumberField.IsTotallyComplex K] (hK : Module.finrank ℚ K = 2)
+    [Field F] [NumberField F] [Algebra K F]
+    (p : ℕ) (hp : p.Prime) (hlarge : 100 < p)
+    [IsCyclotomicExtension {3 * p} K F] :
+    IsAbelianGalois K F ∧ IsAbelianGalois ℚ F ∧ NumberField.IsCMField F ∧
+      ¬ ∃ ζ : F, IsPrimitiveRoot ζ 5 := by
+  sorry
+
+/-! ## Layer 0: Trace identity and cyclotomic preparation -/
 
 /-- The trace identity forces an eigenvalue ratio equal to the determinant
 or its inverse, over any field. This supplies the cyclotomic branch of
@@ -38,23 +59,6 @@ theorem trace_identity_eigenvalue_ratio {K : Type*} [Field K] (α β : Kˣ)
     (α : K) / (β : K) = (α : K) * (β : K) ∨
       (α : K) / (β : K) = ((α : K) * (β : K))⁻¹ := by
   sorry
-
-/-- The determinant-kernel quaternion matrices square to minus the identity
-and anticommute (README §0.1's cubic tetrahedral boundary). -/
-example :
-    let I : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![0, 1; 6, 0]
-    let J : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![2, 3; 3, 5]
-    I * I = -1 ∧ J * J = -1 ∧ I * J = -(J * I) := by
-  decide
-
-/-- The cubic-quotient generator and its square have determinants four and
-two, and each satisfies the trace identity (README §0.1). -/
-example :
-    let H : Matrix (Fin 2) (Fin 2) (ZMod 7) := !![4, 2; 0, 1]
-    H.det = 4 ∧ (H * H).det = 2 ∧
-      H.trace ^ 2 = (1 + H.det) ^ 2 ∧
-      (H * H).trace ^ 2 = (1 + (H * H).det) ^ 2 := by
-  decide
 
 /-! ## Layer 1: The point divisor of the cyclic cover -/
 
@@ -81,37 +85,6 @@ theorem coverDivisor_abel {G : Type*} [AddCommGroup G] [DecidableEq G]
 theorem coverDivisor_abel_mul {G : Type*} [AddCommGroup G] [DecidableEq G]
     (n : ℕ) (R : G) :
     (coverDivisor n R (n • R)).sum (fun P a => a • P) = 0 := by
-  sorry
-
-/-- n=1 collapses the divisor, outside the branched construction. -/
-example (R : ℤ) : coverDivisor 1 R R = 0 := by sorry
-
-/-- Four distinct support points fix the branch signs. -/
-example : coverDivisor 3 (1 : ℤ) 3 (3 : ℤ) = 1 ∧
-    coverDivisor 3 (1 : ℤ) 3 (-3 : ℤ) = -1 ∧
-    coverDivisor 3 (1 : ℤ) 3 (1 : ℤ) = -3 ∧
-    coverDivisor 3 (1 : ℤ) 3 (-1 : ℤ) = 3 := by sorry
-
-/-- Degree zero alone does not make the Abel sum zero. -/
-example : (coverDivisor 3 (1 : ℤ) 4).sum (fun P a => a * P) = 2 := by sorry
-
-/-- The normalized n=3 cover function on y²=x³−x+1 at three nonsupport
-points (README §1.2); these values distinguish its negative and reciprocal. -/
-example :
-    let f : ℚ → ℚ → ℚ := fun x y =>
-      ((y + 1 - x / 2) * (y + 1 - 15 * x / 2)) /
-        ((y - 1 + x / 2) * (y - 1 + 15 * x / 2))
-    f 1 1 = -11 / 5 ∧ f (-1) 1 = 19 / 3 ∧ f 1 (-1) = -5 / 11 := by
-  norm_num
-
-/-- The two quotient exponents in C_303 → C_3 and C_303 → C_101. -/
-example : 303 / 3 = (101 : ℕ) ∧ 303 / 101 = (3 : ℕ) := by sorry
-
-/-- A cubic rotation and its reflection pin the inversion convention. -/
-example :
-    (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) * !![0, -1; 1, -1] *
-      !![0, 1; 1, 0] = !![-1, 1; -1, 0] ∧
-    (!![0, -1; 1, -1] : Matrix (Fin 2) (Fin 2) ℤ) * !![-1, 1; -1, 0] = 1 := by
   sorry
 
 /-! ## Layer 2: The exceptional component -/
@@ -143,40 +116,7 @@ theorem exceptionalFunction_at_zero {K : Type*} [Field K] [CharZero K]
     RatFunc.eval (RingHom.id K) 0 (exceptionalFunction K n) = 1 := by
   sorry
 
-example : RatFunc.eval (RingHom.id ℚ) 0 (exceptionalFunction ℚ 3) = 1 := by sorry
-
-/-- A second value distinguishes the inverse convention. -/
-example : RatFunc.eval (RingHom.id ℚ) 2 (exceptionalFunction ℚ 3) = -27 / 5 := by sorry
-
-/-- Even n gives the opposite attaching value at zero. -/
-example : RatFunc.eval (RingHom.id ℚ) 0 (exceptionalFunction ℚ 2) = -1 := by sorry
-
-example : exceptionalFunction ℚ 1 = 1 := by sorry
-
-example : exceptionalFunction ℚ 0 = 1 ∧
-    RatFunc.eval (RingHom.id ℚ) 1 (exceptionalFunction ℚ 1) = 1 := by sorry
-
-/-- Odd n alone does not fix the attaching value in characteristic dividing n. -/
-example : RatFunc.eval (RingHom.id (ZMod 3)) 0 (exceptionalFunction (ZMod 3) 3) =
-    -1 := by sorry
-
 /-! ## Layer 3: The integral monodromy operator -/
-
-/-- Scaling one vector of a symplectic basis gives determinant four
-for the intersection form (README §3.1). -/
-example : (!![0, 2; -2, 0] : Matrix (Fin 2) (Fin 2) ℤ).det = 4 := by
-  norm_num [Matrix.det_fin_two]
-
-/-- The three adjacent differences have their required relation (README §3.2). -/
-example : (![1, -1, 0] : Fin 3 → ℤ) + ![0, 1, -1] + ![-1, 0, 1] = 0 := by
-  decide
-
-/-- The first two adjacent differences are independent (README §3.2). -/
-example (a b : ℤ) (h : (![a, -a + b, -b] : Fin 3 → ℤ) = 0) :
-    a = 0 ∧ b = 0 := by
-  have ha : a = 0 := by simpa using congrFun h 0
-  have hb : -b = 0 := by simpa using congrFun h 2
-  exact ⟨ha, neg_eq_zero.mp hb⟩
 
 /-- The integral operator 2−u−u⁻¹, using Mathlib's circulant matrix
 (OpenAI Theorem 4.5, pp.10–11). -/
@@ -199,34 +139,12 @@ theorem cyclicLaplacian_pairing (m : ℕ) [NeZero m] (x y : ZMod m → ℤ) :
       ∑ i, (x i - x (i + 1)) * (y i - y (i + 1)) := by
   sorry
 
-example : cyclicLaplacian 1 = 0 := by sorry
-
-/-- At m=2 both neighboring edges must be counted. -/
-example : cyclicLaplacian 2 0 0 = 2 ∧ cyclicLaplacian 2 0 1 = -2 := by sorry
-
-example : cyclicLaplacian 3 0 0 = 2 ∧ cyclicLaplacian 3 0 1 = -1 ∧
-    cyclicLaplacian 3 0 2 = -1 := by sorry
-
-example : let x : ZMod 3 → ℤ := fun i => if i = 0 then 1 else 0
-    ∑ i, x i * (cyclicLaplacian 3 *ᵥ x) i = 2 := by sorry
-
 /-- Constants are killed by the off-diagonal operator (README §3.3). -/
-example (a : ℤ) : cyclicLaplacian 3 *ᵥ (fun _ => a) = 0 := by
+example (m : ℕ) [NeZero m] (a : ℤ) : cyclicLaplacian m *ᵥ (fun _ => a) = 0 := by
   ext i
-  change (∑ j : ZMod 3, cyclicLaplacian 3 i j * a) = 0
+  change (∑ j : ZMod m, cyclicLaplacian m i j * a) = 0
   rw [← Finset.sum_mul, cyclicLaplacian_row_sum]
   simp
-
-/-! ## Layer 5: Exceptional residual primes -/
-
-/-- The rational two-torsion curve has nonintegral j-invariant
-(README §5.1). -/
-example :
-    let W : WeierstrassCurve ℚ := ⟨0, -1, 0, -1, 0⟩
-    W.Δ = 80 ∧ W.c₄ = 64 ∧ W.c₄ ^ 3 / W.Δ = 16384 / 5 := by
-  norm_num [WeierstrassCurve.Δ, WeierstrassCurve.c₄,
-    WeierstrassCurve.b₂, WeierstrassCurve.b₄,
-    WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 /-! ## Layer 7: Residual monodromy and simultaneous genericity -/
 
@@ -248,15 +166,6 @@ theorem switchCoefficient_inv {K : Type*} [Field K] (u : Kˣ) :
 theorem switchCoefficient_ne_zero {K : Type*} [Field K] (u : Kˣ) :
     switchCoefficient u ≠ 0 ↔ u ≠ 1 := by
   sorry
-
-example : switchCoefficient (1 : ℚˣ) = 0 := by sorry
-
-/-- These values fix the sign of the operator. -/
-example : switchCoefficient (Units.mk0 (2 : ℚ) (by norm_num)) = -1 / 2 ∧
-    switchCoefficient (-1 : ℚˣ) = 4 := by sorry
-
-example {K : Type*} [Field K] (u : Kˣ)
-    (hu : (u : K) ^ 2 + (u : K) + 1 = 0) : switchCoefficient u = 3 := by sorry
 
 /-- The word in the two opposite-root monodromies retains independent signs
 (OpenAI Lemma 8.1, p.21). -/
@@ -298,26 +207,6 @@ theorem opposite_unipotents_noncommute {K : Type*} [Field K] (a b : K)
       !![1, 0; b, 1] * !![1, a; 0, 1] := by
   sorry
 
-example :
-    (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) * !![1, 0; 1, 1] =
-      !![2, 1; 1, 1] ∧
-    (!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) * !![1, 1; 0, 1] =
-      !![1, 1; 1, 2] := by sorry
-
-example : Matrix.trace (switchMonodromyWord (3 : ℤ) 1 1 2) = 20 ∧
-    Matrix.trace (switchMonodromyWord (3 : ℤ) 1 (-1) 2) = -16 := by sorry
-
-example : Matrix.trace (switchMonodromyWord (3 : ZMod 5) 1 1 2) = 0 ∧
-    Matrix.trace (switchMonodromyWord (3 : ZMod 5) 1 (-1) 2) = 4 ∧
-    (0 : ZMod 5) ≠ 2 ∧ (0 : ZMod 5) ≠ -2 ∧
-    (4 : ZMod 5) ≠ 2 ∧ (4 : ZMod 5) ≠ -2 := by sorry
-
-/-- A single unipotent is not regular semisimple. -/
-example : Matrix.trace (switchMonodromyWord (3 : ℚ) 1 1 0) = 2 := by sorry
-
-example : Matrix.trace (switchMonodromyWord (1 : ZMod 2) 1 1 2) = 0 ∧
-    (2 : ZMod 2) = -2 := by sorry
-
 /-- The union bound for d conjugates (Le Hung §4.4, p.8;
 OpenAI Lemma 8.2, p.22, when d=2). -/
 theorem conjugate_trace_union_bound (d p : ℕ) (hd : 0 < d)
@@ -325,48 +214,13 @@ theorem conjugate_trace_union_bound (d p : ℕ) (hd : 0 < d)
     (2 * d * p : ℚ) / ((p : ℚ) ^ 2 - 1) < 1 := by
   sorry
 
-/-- The d=2 and d=1 bounds at p=101 (README §7.2). -/
-example : (404 : ℚ) / 10200 < 1 ∧ (202 : ℚ) / 10200 < 1 := by
-  norm_num
-
 /-! ## Layer 8: Cohomological and unitary normalization -/
-
-/-- The invariants of the type-III boundary curve (README §8.3). -/
-example :
-    let W : WeierstrassCurve ℤ := ⟨0, 0, 0, 103, 103 ^ 2⟩
-    W.Δ = -16 * 103 ^ 3 * 2785 ∧ W.c₄ = -48 * 103 := by
-  norm_num [WeierstrassCurve.Δ, WeierstrassCurve.c₄,
-    WeierstrassCurve.b₂, WeierstrassCurve.b₄,
-    WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
-/-- The good reduction at eleven has eight points including infinity
-(README §8.3). -/
-example : (Finset.univ.filter (fun P : ZMod 11 × ZMod 11 =>
-    P.2 ^ 2 = P.1 ^ 3 + 103 * P.1 + 103 ^ 2)).card + 1 = 8 := by
-  decide
-
-/-- Both Frobenius discriminants are nonsquares modulo 103 (README §8.3). -/
-example : (∀ x : ZMod 103, x ^ 2 ≠ 75) ∧
-    (∀ x : ZMod 103, x ^ 2 ≠ 67) := by
-  decide
-
-/-- A cubic scalar character needs its inverse in the descent correction. -/
-example : (2 : ZMod 7) * 4 = 1 ∧ (2 : ZMod 7) * 2 = 4 ∧
-    (4 : ZMod 7) ≠ 1 := by sorry
-
-/-- Dualizing reverses arithmetic Frobenius; replacing it by geometric
-Frobenius inverts it once more (README Conventions). -/
-example : (Matrix.diagonal ![(1 : ℚ), 4]).det = 4 ∧
-    (Matrix.diagonal ![(1 : ℚ), 1 / 4]).det = 1 / 4 := by sorry
 
 /-- At q=4, cohomological roots 2,2 correspond to unitary roots 1,1. -/
 theorem unitary_euler_shift_witness :
     ((1 - 2 * X) ^ 2 : Polynomial ℚ) = 1 - 4 * X + 4 * X ^ 2 ∧
     ((1 - X) ^ 2 : Polynomial ℚ).comp (2 * X) = (1 - 2 * X) ^ 2 := by
   sorry
-
-example : ((1 - X) ^ 2 : Polynomial ℚ).comp (2 * X) =
-    1 - 4 * X + 4 * X ^ 2 := by sorry
 
 /-- The unitary parameter of OpenAI Theorem 1.1, p.1, defined here as a matrix.
 Its totalized value at zero is outside the parameter's group domain. -/
@@ -389,13 +243,6 @@ theorem complexInfinityParameter_conj (z : ℂ) :
     complexInfinityParameter (star z) =
       Matrix.diagonal ![star z / (‖z‖ : ℂ), z / (‖z‖ : ℂ)] := by
   sorry
-
-example : complexInfinityParameter Complex.I = Matrix.diagonal ![Complex.I, -Complex.I] ∧
-    Matrix.trace (complexInfinityParameter Complex.I) = 0 := by sorry
-
-example : complexInfinityParameter 2 = 1 ∧ complexInfinityParameter (-1) = -1 := by sorry
-
-example : complexInfinityParameter 0 = 0 ∧ (complexInfinityParameter 0).det = 0 := by sorry
 
 /-
 The geometric definitions switchParameterOpen, markedTwistFamily, coverFunction,

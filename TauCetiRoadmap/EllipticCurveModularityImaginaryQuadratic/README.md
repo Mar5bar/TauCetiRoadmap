@@ -59,7 +59,7 @@ three new lifts, independently of the desired modularity of E.
 The definitions of smooth proper curves, relative Jacobians, continuous
 compatible systems and automorphic representations use the supplier carriers
 below. Their source-specific constructions are README targets on those geometric carriers. `Suggested.lean` records the
-light formulas on existing carriers, with representative milestones and discriminating examples for each retained definition. It does not
+arithmetic milestones and light formulas on existing carriers, with a proved test of the cyclic operator on constant vectors. It does not
 encode the endpoint by an arbitrary proposition or by postulating its witness
 as data.
 
@@ -92,7 +92,7 @@ as data.
   `⟨a_i,b_j⟩=δ_ij`. The two Picard–Lefschetz signs are independent
   σ_a,σ_b∈{1,−1}. All existence arguments work for all four choices.
   The scalar operator is `c(u)=2−u−u⁻¹`, with `c(2)=−1/2` and `c(−1)=4`
-  over Q; these computed signs are also Lean examples.
+  over Q.
 - Local ordinary, supersingular and multiplicative assertions are potential
   assertions unless an extension giving the stated reduction is specified.
   A supersingular elliptic curve has both normalized Newton slopes 1/2;
@@ -105,7 +105,7 @@ pp.16–19. At a split Tate place the covariant arithmetic Frobenius has roots
 argument i the unitary diagonal entries are i and −i, determinant one and
 trace zero. Explicitly, the arithmetic Frobenius matrices diag(1,4) on a
 split Tate module and diag(1,1/4) on its dual have determinants 4 and 1/4;
-geometric Frobenius inverts the second matrix. This Lean example pins the
+geometric Frobenius inverts the second matrix. These matrices pin the
 duality direction. The complex witness excludes replacing the conjugate
 entry by a second copy of z.
 
@@ -255,7 +255,6 @@ component. (CN, Propositions 5.6.1–5.6.3 and Lemma 5.6.4, pp.82–85.)
 
 - A coefficient-torsion annihilator is insufficient: in ℤ/9ℤ the unit
   ideal J has `(3J)²=0` but `J²≠0`, even with a unit auxiliary Hecke factor.
-  The corresponding Lean example distinguishes integral nilpotence.
 - The ideals (t) in k[t]/(t^N) have increasing nilpotence exponents;
   the inverse-limit ideal in k[[t]] is not nilpotent. The supplied exponent
   is independent of coefficient length and Taylor–Wiles level.
@@ -369,7 +368,7 @@ PadicHodgeTheory §3.6.
   outside the kernel. Yet `I²=J²=−Id` and `IJ=−JI` exclude an invariant
   line even over 𝔽̄₇: the two invertible scalar restrictions would
   anticommute in odd characteristic. This is the cubic/A₄ boundary and
-  uses the cyclotomic branch. The matrix relations also occur in Lean.
+  uses the cyclotomic branch.
 - A split witness q≠1 mod p would have forbidden eigenvalue ratio q or
   q⁻¹ under the trace identity. Merely preserving one place over q would
   not preserve decomposed genericity; all its places are retained.
@@ -890,7 +889,7 @@ is 1. Thus this formula is the constant-family `coverFunction`.
 **Checks.**
 
 - On the test group Z, n=3,R=1,S=3 gives coefficients 1,−1,−3,3 at
-  3,−3,1,−1 respectively, and Abel sum zero. All four values occur in Lean.
+  3,−3,1,−1 respectively, and Abel sum zero.
 - For n=3,R=1,S=4 the degree is still zero but the Abel sum is 2. This
   negative control rules out omitting S=[n]R from principality.
 - For n=1,S=R the formal divisor vanishes. The algebraic definition is
@@ -901,7 +900,7 @@ is 1. Thus this formula is the constant-family `coverFunction`.
 - In the same example f(−1,1)=19/3; this is another nonsupport point
   and also distinguishes the reciprocal function.
 - At the negative of (1,1), f(1,−1)=−5/11. Together these three rational
-  evaluations test both normalization and inversion; they also occur in Lean.
+  evaluations test both normalization and inversion.
 - Multiplying f by a constant a with a²≠1 preserves its divisor but destroys
   the relation `f(−Z)=f(Z)⁻¹`. Multiplication by −1 preserves that relation
   but changes f(O) to −1; value 1 at O fixes this remaining ambiguity.
@@ -939,12 +938,12 @@ quotient statement; it is not another branched cover of genus m.
   g=3. Taking an unramified cover instead would give genus one.
 - With n=3p and m=3p, the quotient to C₃ uses Y↦Y^p and the quotient to
   C_p uses Y↦Y³. Interchanging these exponents gives the wrong equations.
-  The Lean witness uses p=101: 303/3=101 and 303/101=3.
+  At p=101 the exponents are 303/3=101 and 303/101=3.
 - Reflection conjugates a rotation to its inverse, and is defined before
   adjoining μ_m. Commutation would be false for a primitive cubic rotation.
   The integral matrix witness `R=[[0,−1],[1,−1]]`, `W=[[0,1],[1,0]]`
-  gives `WRW=[[−1,1],[−1,0]]` and `R(WRW)=I`; both equalities occur in
-  Lean. It tests the dihedral convention, without replacing the curve maps.
+  gives `WRW=[[−1,1],[−1,0]]` and `R(WRW)=I`. It tests the dihedral
+  convention, without replacing the curve maps.
 - At m=1 the map is the identity of B_t; at m=2 the odd-degree geometry
   below is not asserted. Positive residue characteristic dividing m is not
   included in this characteristic-zero smooth-family statement.
@@ -1024,14 +1023,14 @@ number-field and odd-n hypotheses.
 - At n=m=3 the graph has four vertices and three edges: its first Betti
   number is zero and Pic⁰ is E³, an abelian variety of dimension three.
 - Over Q, the function at v=0 is 1 for n=3, but −1 for n=2. Its value
-  at v=2 for n=3 is −27/5, fixing both reciprocal choices. All are Lean examples.
+  at v=2 for n=3 is −27/5, fixing both reciprocal choices.
 - At n=1 the rational function cancels to 1. This algebraic boundary does
   not create a genus-one branched family with four distinct tangent positions.
   The n=0 function is also 1. At n=1,v=1, RatFunc evaluation after
   cancellation is 1; the displayed quotient formula requires v−1≠0.
   In characteristic three, n=3 gives value −1 at zero after cancellation,
   so the odd-n attaching-value theorem retains characteristic zero. These
-  cancellation and characteristic controls also occur in Lean.
+  controls distinguish reduced evaluation from the displayed quotient.
 - For n=3p,m=3 the exponent n/m is p. Replacing it by m/n does not cancel
   the n-th power, and misses the rational spine.
 
@@ -1183,11 +1182,12 @@ and trace tests. Its sign is retained rather than guessed.
 **Checks.**
 
 - For m=1 the matrix is zero. For m=2 its first row is (2,−2); for m=3
-  it is (2,−1,−1). All three are Lean examples and rule out losing the
-  repeated edge at m=2 or either minus sign.
+  it is (2,−1,−1). These rows rule out losing the repeated edge at m=2
+  or either minus sign.
 - On a vector with x₀=1 and all other x_i=0 at m=3, the quadratic value
   is 2, the sum of the two adjacent squared differences. Constants have
-  value zero and are fixed by both transformations.
+  value zero and are fixed by both transformations. The proved Lean example
+  shows that the cyclic operator kills constant vectors for every m>0.
 - At a primitive cubic root λ, `c(λ)=3`; the trivial character gives c=0.
   Irreducibility below excludes the trivial character and coefficient
   characteristic dividing the character order.
@@ -1423,7 +1423,6 @@ existence theorem, rather than its proof.
 - The non-CM curve y²=x³−x²−x over Q has rational two-torsion and
   c₄=64, Δ=80 and j=c₄³/Δ=16384/5, so its mod-2 image fixes a nonzero
   vector and is not SL₂(F₂). The finite exceptional set cannot be discarded.
-  These invariant calculations also occur in Lean.
 - After replacing k by its normal closure, geometric non-CM persists.
   Apply the theorem over that field and discard its finite exceptional set
   before imposing p>max{100,2[k:Q]+1}; an image assumption over k alone
@@ -1806,12 +1805,12 @@ the formula on arbitrary matrices alone does not assert geometric image.
 
 - For λ=1, c=0 and both matrices are the identity. This character is
   excluded from the geometric irreducibility statement. For λ=2 over Q,
-  c=−1/2; for λ=−1, c=4; a cubic root gives c=3. These are Lean examples.
+  c=−1/2; for λ=−1, c=4; a cubic root gives c=3.
 - The two k=2 traces at c=3 are 20 and −16. Modulo five these are 0 and
-  4, neither 2 nor −2. All four comparisons occur in Lean.
+  4, neither 2 nor −2.
 - k=0 leaves a single unipotent with trace 2, so it is not a regular word.
   In characteristic two, 2=−2 and the odd-characteristic reasoning cannot
-  be reused; a Lean example gives trace 0 for c=1,k=2.
+  be reused; for c=1,k=2 the trace is 0.
 - With upper and lower entries both 1, the products have diagonals (2,1)
   and (1,2). They do not commute, including in characteristic three.
   Nonzero entries on just one root would fail both the fixed-line and
@@ -2093,8 +2092,6 @@ At no point is the original E[3] or E[5] required to be irreducible.
   valuation is 6, with 102·3≡6 mod 12. Hence E remains bad but potentially
   good over F_v. The local splitting B_t≅E in §6.5 makes V₁ potentially
   crystalline but not crystalline over F_v.
-  The invariants, point count and nonsquareness of 75 and 67 modulo 103
-  also occur in Lean.
 
 ### 8.4 Descent of the same representation, then removal of the twist
 
@@ -2131,7 +2128,7 @@ split example h(t) a square the twist character is trivial. Without
 absolute irreducibility after restriction, the difference between two
 extensions need not be a single character; that hypothesis is retained.
 The cubic scalar witness modulo seven has δ=2 and δ⁻¹=4:
-`2·4=1`, whereas `2·2=4≠1`. This Lean example pins the correction's
+`2·4=1`, whereas `2·2=4≠1`. This scalar calculation pins the correction's
 inverse direction; the Hecke-character comparison itself uses the
 supplier's reciprocity convention.
 
@@ -2187,7 +2184,7 @@ actual supplier carriers.
   (i,i) would give determinant −1 and the wrong central character.
 - At z=2 the parameter is the identity; at z=−1 it is minus the identity.
   Its totalized matrix at z=0 is zero and has determinant zero, so the
-  group domain must be C×. All three controls are Lean examples.
+  group domain must be C×.
 - At a split Tate place N has rank one and its Euler factor has degree
   one. A potentially good bad place with nontrivial inertia has degree
   zero, whereas a good place has degree two. Equal Weil semisimplifications
