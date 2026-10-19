@@ -273,7 +273,7 @@ matrix groups.
 
 - **Schur polynomials (consumed, one owner).** The combinatorial Schur functions `schurPoly` and their
   identities (Jacobi-Trudi, the tableau sum, the bialternant, Pieri, Littlewood-Richardson) are **owned by
-  [`../SchurWeyl`](../SchurWeyl/README.md)**, which already builds them; this roadmap **consumes** them and
+  [SchurWeyl Layer7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk)**, which already builds them; this roadmap **consumes** them and
   does not re-define them, avoiding a second incompatible foundation. What is proved *here* is that they are
   `GLₙ` characters (next bullet) and that the Littlewood-Richardson structure constants are the
   tensor-product multiplicities of the `V_λ` (Layer 3). On the definitional order that matters for a Lean
@@ -281,6 +281,17 @@ matrix groups.
   (both immediate in `MvPolynomial.hsymm`); the **bialternant** `s_λ = det(x_i^{λ_j+n-j}) / det(x_i^{n-j})` is
   a *later theorem*, since the quotient is not itself an `MvPolynomial` and needs a Vandermonde-divisibility
   argument.
+
+  In particular consume that Layer7's finite skew LR-tableau carrier and its
+  weight-preserving tableau-product bijection, not a coefficient defined from this
+  roadmap's tensor decomposition. For inner λ, outer ν and content μ its count is
+  `Nat.card (LRTableau λ ν μ)`, with top-to-bottom/right-to-left reading and the
+  zero-indexed prefix inequalities `#(k+1)≤#k`. The supplied finite-alphabet identity
+  is `s_λ s_μ=∑_ν Nat.card (LRTableau λ ν μ)s_ν`, summing size |λ|+|μ| shapes
+  with at most n rows; taller shapes vanish in n variables. Its containment/size
+  zero conventions and empty/n=1 cases transport to the tensor multiplicities.
+  SchurWeyl owns this combinatorial proof; the character and group-multiplicity
+  comparison remains here.
 - **Characters are Schur polynomials.** The **summit of this layer**: for a partition `μ`,
   `char (irreducible n μ) (diagonal x) = schurPoly n μ (x)`, i.e. the character of the polynomial
   `GLₙ`-irreducible `V_μ`, restricted to the torus, is the Schur polynomial `s_μ`. This is the **Weyl
