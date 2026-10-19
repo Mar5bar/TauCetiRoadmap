@@ -418,7 +418,7 @@ In a normed specialization, `StripOrder(f,d,C)` is the displayed bound for every
 
 - A constant normed-valued function has strip order one on every right half-plane; the zero function permits the bound `M=0`.
 - The entire scalar family `exp(z²)` has finite strip order although it need not have polynomial growth in every direction. The definition controls vertical strips, rather than requiring a polynomial bound on `ℂ`.
-- On a strip through the imaginary axis, `exp(exp(−iz))` is not of finite strip order: at `z=it` its norm is `exp(exp(t))`, exceeding every bound `exp(|t|^d′)M`.
+- On a strip through the imaginary axis, `exp(exp(−iz))` is not of finite strip order (`not_finiteStripOrder_double_exp`): at `z=it` its norm is `exp(exp(t))`, exceeding every bound `exp(|t|^d′)M`.
 
 *Needs:* §0.12; §0.15.
 
@@ -679,7 +679,7 @@ Define `point_pair_invariant` as follows. `g(z, z′) = log(|z − z′|²/|z̄ 
 
 Prove the following API statements.
 - `invariant`: Simultaneous `PSL₂(ℝ)` action preserves `g_s` (`point_pair_invariant_invariant` on the `SL₂(ℝ)` cover).
-- `s_one`: At `s=1`, `−2Q₀(cosh dist)=log(|z−z′|²/|z−bar z′|²)`.
+- `point_pair_invariant_s_one`: At `s=1`, `−2Q₀(cosh dist)=log(|z−z′|²/|z−bar z′|²)` off the diagonal.
 - `laplace`: Off the diagonal, `Δ_GZ g_s=s(s−1)g_s` in either variable.
 
 **Checks.**
@@ -896,7 +896,7 @@ Prove the following API statements.
 - For `P=G` on `G(𝔸)¹`, `ρ_P=H_P=0` and `I_P` is right translation on the discrete inducing space.
 - The `GL₂` open-cell torus model acts by `r^(s+1/2)f(rx)`, and preserves the `L²` norm for purely imaginary `s`.
 - Dropping the half-modulus in the same dilation model, at `r=4` a nonzero vector has half its original norm.
-- For `SL₂/ℚ` with trivial Borel datum and spherical finite components, let `K_∞=SO(2)`, `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector `φ=1` is `K_∞`-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, `t≠0`, its translate on `k_θ` is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. This is smooth but not `K_∞`-finite: in `z=e^(iθ)` its denominator is the square of a Laurent polynomial with nonzero `z²` and `z⁻²` coefficients; only Laurent monomials are invertible Laurent polynomials. Thus `F_t` is not a trigonometric polynomial, and its rotation-orbit span is infinite-dimensional. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
+- For `SL₂/ℚ` with trivial Borel datum and spherical finite components, let `K_∞=SO(2)`, `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector `φ=1` is `K_∞`-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, `t≠0`, its translate on `k_θ` is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. The theorem `spherical_translate_not_k_finite` gives its smoothness and infinite-dimensional rotation-orbit span: in `z=e^(iθ)` its denominator is the square of a Laurent polynomial with nonzero `z²` and `z⁻²` coefficients; only Laurent monomials are invertible Laurent polynomials. Thus `F_t` is not a trigonometric polynomial. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
 
 ([Art05], §7 pp.32–34; [BK14], §2.4 (smooth-vector topology), §11 Theorem 11.6 and §12.1 (smooth and Hilbert compact pictures).)
 
@@ -1162,7 +1162,7 @@ Prove the following API statements.
 **Checks.**
 - Along the imaginary axis `E(iy,2)/y²` tends to one as `y` tends to infinity, testing the Eisenstein leading constant term.
 - Summing primitive pairs without `1/2` doubles `E`.
-- The critical-line value requires continuation and cannot be obtained by declaring the initial series convergent there.
+- At `s=1` the primitive-pair series diverges (`nonholomorphic_eisenstein_not_summable_at_one`). Critical-line values require continuation as well.
 
 ([DIT16], §5, (5.2), p.961.)
 
@@ -2603,9 +2603,9 @@ Require the following API.
 
 **Checks.**
 
-- `AL3.RsNormalizingScalar.genus_one`: At `g=1` the `q` prefactor is1.
+- At `g=1` the `q` prefactor is `1`.
 - `AL3.RsNormalizingScalar.one_root`: A simple reflection has exactly one root factor.
-- `AL3.RsNormalizingScalar.pole_not_value`: If the numerator has a pole at `z=1`, the scalar is compared as a rational function, not by substituting a totalized pole value.
+- If the numerator has a pole at `z=1`, compare the scalar as a rational function, retaining its numerator and denominator.
 
 (Source: [Yu22], §5.1.2 (5.1.1)–(5.1.3) pp.29–30.)
 

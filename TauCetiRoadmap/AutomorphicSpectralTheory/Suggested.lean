@@ -37,22 +37,36 @@ open scoped ENNReal NNReal Topology
 
 namespace TauCetiRoadmap.AutomorphicSpectralTheory
 
+/-- The invertible-point form of README §0.16's analytic_fredholm gives a meromorphic
+bounded inverse, isolated singularities, and finite-rank Laurent principal parts. -/
+theorem analytic_fredholm {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
+    [CompleteSpace V] (U : Set ℂ) (hU : IsOpen U) (hconn : IsConnected U)
+    (K : ℂ → V →L[ℂ] V) (hK : AnalyticOnNhd ℂ K U)
+    (hcompact : ∀ z ∈ U, IsCompactOperator (K z))
+    (z₀ : ℂ) (hz₀ : z₀ ∈ U) (hinv : IsUnit (1 - K z₀)) :
+    ∃ R : ℂ → V →L[ℂ] V, MeromorphicOn R U ∧
+      AnalyticOnNhd ℂ R {z ∈ U | IsUnit (1 - K z)} ∧
+      (∀ z ∈ U, IsUnit (1 - K z) →
+        R z * (1 - K z) = 1 ∧ (1 - K z) * R z = 1) ∧
+      (∀ z ∈ U, ∀ᶠ w in 𝓝[≠] z, IsUnit (1 - K w)) ∧
+      ∀ z ∈ U, ∃ n : ℕ, ∃ A : Fin n → V →L[ℂ] V,
+        (∀ j, Module.Finite ℂ (LinearMap.range (A j).toLinearMap)) ∧
+        ∃ g : ℂ → V →L[ℂ] V, AnalyticAt ℂ g z ∧
+          ∀ᶠ w in 𝓝[≠] z,
+            R w = g w + ∑ j, (((w - z) ^ (j.val + 1))⁻¹ • A j) := by sorry
+
 /-! ## Layer 0: Hilbert fields, vector analysis and rank-one kernels -/
 
-section IdealPowerChecks
-variable {A M : Type*} [CommRing A] [AddCommGroup M] [Module A M]
-
-example : Ideal.primaryComponent M (⊥ : Ideal A) = ⊤ := by sorry
-example : Ideal.primaryComponent M (⊤ : Ideal A) = ⊥ := by sorry
-
-example :
-    let N := (LinearMap.inl ℂ ℂ ℂ).comp (LinearMap.snd ℂ ℂ ℂ)
-    let V := Module.AEval' N
-    Ideal.primaryComponent V (Ideal.span ({Polynomial.X} : Set (Polynomial ℂ))) = ⊤ ∧
-      (∀ v : V, (Polynomial.X ^ 2 : Polynomial ℂ) • v = 0) ∧
-      (Polynomial.X : Polynomial ℂ) • Module.AEval'.of N (0, 1) = Module.AEval'.of N (1, 0) ∧
-      Module.AEval'.of N (1, 0) ≠ 0 := by sorry
-end IdealPowerChecks
+/-- README §0.4's Gram-preserving map extends uniquely to a closed-range linear isometry;
+density of the original image characterizes surjectivity. -/
+theorem isometric_integration_map {E H : Type*}
+    [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (D : Submodule ℂ E) (hD : Dense (D : Set E)) (W₀ : D →ₗ[ℂ] H)
+    (hgram : ∀ u v, inner ℂ (W₀ u) (W₀ v) = inner ℂ u v) :
+    ∃! W : E →ₗᵢ[ℂ] H,
+      (∀ u : D, W u = W₀ u) ∧ IsClosed (Set.range W) ∧
+        (Function.Surjective W ↔ Dense (Set.range W₀)) := by sorry
 
 section VectorAnalysis
 variable {V : Type*} [NormedAddCommGroup V]
@@ -67,6 +81,21 @@ def StripOrder (f : ℂ → V) (d C : ℝ) : Prop :=
 /-- An order exponent is common to all strips, while their bounding constants may differ. -/
 def FiniteStripOrder (f : ℂ → V) (C : ℝ) : Prop :=
   ∃ d : ℝ, 0 < d ∧ StripOrder f d C
+
+/-- README §0.18's strip-order bound persists when the order is increased. -/
+theorem StripOrder.mono_order (f : ℂ → V) (d e C : ℝ)
+    (hf : StripOrder f d C) (hde : d ≤ e) : StripOrder f e C := by sorry
+
+/-- README §0.18's sum has the larger of the two positive strip orders. -/
+theorem StripOrder.add (f g : ℂ → V) (d e C : ℝ) (hd : 0 < d) (he : 0 < e)
+    (hf : StripOrder f d C) (hg : StripOrder g e C) :
+    StripOrder (fun z => f z + g z) (max d e) C := by sorry
+
+/-- README §0.18's finite strip order is preserved by continuous linear postcomposition. -/
+theorem FiniteStripOrder.postcomp [NormedSpace ℂ V]
+    {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W]
+    (f : ℂ → V) (C : ℝ) (hf : FiniteStripOrder f C) (L : V →L[ℂ] W) :
+    FiniteStripOrder (fun z => L (f z)) C := by sorry
 
 /-- Native Banach-valued meromorphy is equivalent to local analytic regularization
 on balls in the open domain, independently of the value at the centre. -/
@@ -83,14 +112,8 @@ theorem meromorphicOn_postcomp [NormedSpace ℂ V]
     (U : Set ℂ) (f : ℂ → V) (hf : MeromorphicOn f U) (ell : V →L[ℂ] W) :
     MeromorphicOn (fun z => ell (f z)) U := by sorry
 
-example : StripOrder (fun z : ℂ => z ^ 3) 1 0 := by sorry
-example : StripOrder Complex.exp 1 0 := by sorry
-example : FiniteStripOrder (fun z : ℂ => Complex.exp (z ^ 2)) 0 := by sorry
-example : ¬ FiniteStripOrder (fun z : ℂ => Complex.exp (Complex.exp (-Complex.I * z))) (-1) := by sorry
-example : MeromorphicOn (fun z : ℂ => z⁻¹) Set.univ := by sorry
-example : MeromorphicOn (fun z : ℂ => z) Set.univ := by sorry
-example : MeromorphicOn (fun z : ℂ => (Complex.exp z - 1) / z) Set.univ := by sorry
-example : ¬ MeromorphicOn (fun z : ℂ => Complex.exp z⁻¹) Set.univ := by sorry
+/-- The double exponential in README §0.18 exceeds every finite vertical-strip order. -/
+theorem not_finiteStripOrder_double_exp : ¬ FiniteStripOrder (fun z : ℂ => Complex.exp (Complex.exp (-Complex.I * z))) (-1) := by sorry
 end VectorAnalysis
 
 namespace Herglotz
@@ -124,24 +147,12 @@ theorem herglotz_representation (F : ℂ → ℂ)
       ∀ z : ℂ, 0 < z.im → F z = (p.1 : ℂ) + (p.2.1 : ℂ) * z +
         ∫ t : ℝ, ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ) ∂p.2.2 := by sorry
 
-example : weightedMeasure (0 : Measure ℝ) = 0 := by sorry
-example (a b : ℝ) (mu : Measure ℝ) (hb : 0 ≤ b)
-    (hmu : Integrable (fun t : ℝ => (1 + t ^ 2)⁻¹) mu)
-    (hrep : ∀ z : ℂ, 0 < z.im → z = (a : ℂ) + (b : ℂ) * z +
-      ∫ t : ℝ, ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ) ∂mu) :
-    (a, b, mu) = (0, 1, 0) := by sorry
-example : weightedMeasure (Measure.dirac (2 : ℝ)) =
-    (5 : ℝ≥0∞) • Measure.dirac (2 : ℝ) := by sorry
 end Herglotz
 
 namespace SpecialFunctions
 
 /-- Real-logarithm complex power; the analytic formulas below require a positive base. -/
 def rpowC (x : ℝ) (s : ℂ) : ℂ := Complex.exp (s * (Real.log x : ℂ))
-
-example : rpowC 4 (1 / 2) = 2 := by sorry
-example : rpowC 4 (-1) = 1 / 4 := by sorry
-example (s : ℂ) : rpowC 1 s = 1 := by sorry
 
 -- The first-kind Bessel function and its integral-order symmetry are library suppliers.
 #check Complex.besselJ
@@ -171,16 +182,6 @@ theorem bessel_j_ode (nu : ℂ) (y : ℝ) (hy : 0 < y) :
 theorem bessel_i_ode (nu : ℂ) (y : ℝ) (hy : 0 < y) :
     (y : ℂ) ^ 2 * deriv (deriv (bessel_i nu)) y + (y : ℂ) * deriv (bessel_i nu) y -
       ((y : ℂ) ^ 2 + nu ^ 2) * bessel_i nu y = 0 := by sorry
-
-example (y : ℝ) (hy : 0 < y) :
-    Complex.besselJ (1 / 2) y = (Real.sqrt (2 / (Real.pi * y)) * Real.sin y : ℝ) := by sorry
-example (y : ℝ) (hy : 0 < y) :
-    bessel_i (1 / 2) y = (Real.sqrt (2 / (Real.pi * y)) * Real.sinh y : ℝ) := by sorry
-example : bessel_i 0 0 = 1 := by sorry
-example (y : ℝ) (hy : 0 < y) : bessel_i (-1) y = bessel_i 1 y := by sorry
-example : Complex.besselJ 0 0 = 1 := by sorry
-example (n : ℕ) (y : ℝ) (hy : 0 < y) :
-    Complex.besselJ (-(n : ℂ)) y = (-1 : ℂ) ^ n * Complex.besselJ n y := by sorry
 
 /-- M uses the entire regularized series, with gamma poles excluded from its analytic domain. -/
 def whittaker_m (mu nu : ℂ) (y : ℝ) : ℂ :=
@@ -214,14 +215,6 @@ theorem whittaker_asymptotics (mu nu : ℂ)
       (rpowC y (-mu) * Complex.exp ((y : ℂ) / 2)))
       atTop (𝓝 (Complex.Gamma (1 + 2 * nu) / Complex.Gamma (nu - mu + 1 / 2))) := by sorry
 
-example (y : ℝ) (hy : 0 < y) :
-    whittaker_m 0 (1 / 2) y = (2 * Real.sinh (y / 2) : ℝ) := by sorry
-example (y : ℝ) (hy : 0 < y) :
-    whittaker_m 1 (1 / 2) y = y * Complex.exp (-(y : ℂ) / 2) := by sorry
-example (t : ℝ) (ht : 0 < t) :
-    whittaker_m 0 (1 / 2) (2 * t * Real.sin (Real.pi / 2)) =
-      (2 * Real.sinh t : ℝ) := by sorry
-
 /-- Corrected sine-power integral; reciprocal gamma interprets exceptional denominator values. -/
 theorem sine_power_integral (nu beta : ℂ) (hnu : 0 < nu.re) :
     (∫ theta in (0 : ℝ)..Real.pi,
@@ -246,10 +239,6 @@ theorem legendre_q_asymptotics (s : ℝ) (hs : 1 < s) :
       ‖legendre_q s t + (1 / 2 * Real.log (t - 1) : ℝ)‖ ≤ C) ∧
     ∃ C : ℝ, ∀ t : ℝ, 2 ≤ t → ‖legendre_q s t‖ ≤ C * t ^ (-s) := by sorry
 
-example : legendre_q 1 3 = (1 / 2 * Real.log 2 : ℝ) := by sorry
-example : legendre_q 2 3 = (3 / 2 * Real.log 2 - 1 : ℝ) := by sorry
-example : Tendsto (fun t : ℝ => ‖legendre_q 1 t‖) (𝓝[>] 1) atTop := by sorry
-
 /-- The analytic point-pair kernel; the diagonal is excluded in its smooth API. -/
 def point_pair_invariant (s : ℂ) (z z' : UpperHalfPlane) : ℂ :=
   -2 * legendre_q s (1 + ‖(z : ℂ) - (z' : ℂ)‖ ^ 2 / (2 * z.im * z'.im))
@@ -259,11 +248,10 @@ theorem point_pair_invariant_invariant (s : ℂ)
     (g : Matrix.SpecialLinearGroup (Fin 2) ℝ) (z z' : UpperHalfPlane) :
     point_pair_invariant s (g • z) (g • z') = point_pair_invariant s z z' := by sorry
 
-example (z z' : UpperHalfPlane) (hne : z ≠ z') :
+/-- The point-pair kernel at order one is the logarithmic Green seed of README §0.37. -/
+theorem point_pair_invariant_s_one (z z' : UpperHalfPlane) (hne : z ≠ z') :
     point_pair_invariant 1 z z' = (Real.log (‖(z : ℂ) - (z' : ℂ)‖ ^ 2 /
       ‖star (z : ℂ) - (z' : ℂ)‖ ^ 2) : ℝ) := by sorry
-example (s : ℂ) (z z' : UpperHalfPlane) :
-    point_pair_invariant s z z' = point_pair_invariant s z' z := by sorry
 
 /-- Fourier integral V_s(t), absolutely convergent for Re(s)>1−k and k≥1. -/
 def archimedean_v_integral (k : ℕ) (s : ℂ) (t : ℝ) : ℂ :=
@@ -287,9 +275,6 @@ theorem archimedean_v_holomorphic (k : ℕ) (hk : 1 ≤ k) (t : ℝ) (ht : t ≠
     ∃ F : ℂ → ℂ, AnalyticOnNhd ℂ F Set.univ ∧
       ∀ s : ℂ, 1 - (k : ℝ) < s.re → F s = archimedean_v_integral k s t := by sorry
 
-example : archimedean_v_integral 1 1 0 = -Complex.I * Real.pi / 2 := by sorry
-example (k : ℕ) (hk : 1 ≤ k) : ¬ Integrable (fun x : ℝ =>
-    (((x : ℂ) + Complex.I) ^ (2 * k - 1) * rpowC (x ^ 2 + 1) (1 - k))⁻¹) := by sorry
 end SpecialFunctions
 
 /-! ## Layer 1: Normalized induction and convergent Eisenstein families -/
@@ -311,12 +296,6 @@ theorem weight_laplacian_power (k : ℝ) (s z : ℂ) (hz : 0 < z.im) :
     weight_laplacian k (fun w => rpowC w.im s) z =
       s * (1 - k - s) * rpowC z.im s := by sorry
 
-example (z : ℂ) : weight_laplacian 0 (fun w => (w.im ^ 2 : ℂ)) z = -2 * z.im ^ 2 := by sorry
-example (k : ℝ) (z : ℂ) : weight_laplacian k (fun _ => (1 : ℂ)) z = 0 := by sorry
-example (z : ℂ) (hz : 0 < z.im) :
-    weight_laplacian (1 / 2) (fun w => rpowC w.im (-1 / 4)) z =
-      (-3 / 16 : ℂ) * rpowC z.im (-1 / 4) := by sorry
-
 /-- The finite Kloosterman sum uses units modulo a positive modulus. -/
 def kloosterman_sum (m n : ℤ) (c : ℕ) [NeZero c] : ℂ :=
   ∑ d : (ZMod c)ˣ,
@@ -327,14 +306,9 @@ def kloosterman_sum (m n : ℤ) (c : ℕ) [NeZero c] : ℂ :=
 theorem kloosterman_sum_symm (m n : ℤ) (c : ℕ) [NeZero c] :
     kloosterman_sum m n c = kloosterman_sum n m c := by sorry
 
-example (m n : ℤ) : kloosterman_sum m n 1 = 1 := by sorry
-example (c : ℕ) [NeZero c] : kloosterman_sum 0 0 c = (Nat.totient c : ℂ) := by sorry
-example (p : ℕ) [NeZero p] (hp : p.Prime) (m : ℤ) :
-    kloosterman_sum m 0 p = if (p : ℤ) ∣ m then (p : ℂ) - 1 else -1 := by sorry
-
 /-- The SL₂ spherical translate at s = 2 is smooth and has an infinite-dimensional
 rotation-orbit span whenever the translating diagonal element is nontrivial. -/
-example (t : ℝ) (ht : t ≠ 0) :
+theorem spherical_translate_not_k_finite (t : ℝ) (ht : t ≠ 0) :
     let F : ℝ → ℂ := fun θ =>
       (((Real.exp (2 * t) * Real.sin θ ^ 2 +
         Real.exp (-2 * t) * Real.cos θ ^ 2 : ℝ) : ℂ) ^ 2)⁻¹
@@ -364,15 +338,12 @@ theorem nonholomorphic_eisenstein_eigenfunction (f : ℂ → ℂ)
     (hf : ∀ w : UpperHalfPlane, f w = nonholomorphic_eisenstein w s) :
     weight_laplacian 0 f z = s * (1 - s) * nonholomorphic_eisenstein z s := by sorry
 
-example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
-    (∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
-      rpowC z.im s * rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)) =
-        2 * nonholomorphic_eisenstein z s := by sorry
-example : Tendsto
-    (fun y : {y : ℝ // 0 < y} =>
-      nonholomorphic_eisenstein ⟨⟨0, y.val⟩, y.property⟩ 2 / (y.val : ℂ) ^ 2)
-    (Filter.comap Subtype.val atTop) (𝓝 1) := by sorry
-example (z : UpperHalfPlane) :
+/-- README §1.29's Eisenstein remainder is uniform in the real part of z at every real s > 1. -/
+theorem eisenstein_growth (s : ℝ) (hs : 1 < s) :
+    ∃ C Y : ℝ, 0 ≤ C ∧ 0 < Y ∧ ∀ z : UpperHalfPlane, Y ≤ z.im →
+      ‖nonholomorphic_eisenstein z s - rpowC z.im s‖ ≤ C * z.im ^ (1 - s) := by sorry
+/-- At s = 1 the primitive-pair series of README §1.14 fails to converge. -/
+theorem nonholomorphic_eisenstein_not_summable_at_one (z : UpperHalfPlane) :
     ¬ Summable (fun p : {p : ℤ × ℤ // p.1.gcd p.2 = 1} =>
       rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2)) := by sorry
 
@@ -393,10 +364,6 @@ theorem level_eisenstein_automorphy (N : ℕ) (hN : 0 < N)
     (g : CongruenceSubgroup.Gamma0 N) (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
     level_eisenstein N ((g : Matrix.SpecialLinearGroup (Fin 2) ℤ) • z) s = level_eisenstein N z s := by sorry
 
-example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
-    level_eisenstein 1 z s = nonholomorphic_eisenstein z s := by sorry
-example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
-    level_eisenstein 0 z s = rpowC z.im s := by sorry
 end Modular
 
 /-! ## Layer 2: Meromorphic continuation, local normalization and residues -/
@@ -423,12 +390,6 @@ theorem nonholomorphic_eisenstein_continuation :
       (∀ z, Tendsto (fun s => (s - 1) * E z s) (𝓝[≠] 1) (𝓝 (3 / Real.pi : ℂ))) := by sorry
 end Modular
 
-/-! ## Layer 3: Truncation, Maass–Selberg relations and wave packets -/
-
-/-! ## Layer 4: Automorphic spectral completeness -/
-
-/-! ## Layer 5: Weighted cohomology and cuspidal support -/
-
 /-! ## Layer 6: Paley–Wiener theory and trace distributions -/
 
 /-- The rank-one regularized sum retains the coroot-lattice covolume.
@@ -440,10 +401,6 @@ theorem gm_family_rank_one_limit (cPlus cMinus : ℂ → ℂ) (dPlus dMinus : �
     Tendsto (fun z : ℂ => cPlus z / (z / (v : ℂ)) + cMinus z / (-z / (v : ℂ)))
       (𝓝[≠] 0) (𝓝 ((v : ℂ) * (dPlus - dMinus))) := by sorry
 
--- Covolume two and wall-compatible members z and zero give regularized value two.
-example : Tendsto (fun z : ℂ => z / (z / 2) + 0 / (-z / 2))
-    (𝓝[≠] 0) (𝓝 2) := by sorry
-
 /-- The scalar rank-one weighted character is the negative logarithmic derivative
 times the scalar test operator. The reference chamber is P, R maps I_P to I_P̄,
 and the coroot coordinate z gives denominators z and −z with covolume one. -/
@@ -451,12 +408,6 @@ theorem weighted_character_rank_one_scalar (R : ℂ → ℂ) (lam R' a : ℂ)
     (hR : HasDerivAt R R' lam) (hne : R lam ≠ 0) :
     Tendsto (fun z : ℂ => (1 / z + (R lam)⁻¹ * R (lam + z) / (-z)) * a)
       (𝓝[≠] 0) (𝓝 (-(R lam)⁻¹ * R' * a)) := by sorry
-
--- Reference P has member 1; the opposite chamber has member exp z or 1.
-example : Tendsto (fun z : ℂ => 1 / z + Complex.exp z / (-z))
-    (𝓝[≠] 0) (𝓝 (-1)) := by sorry
-example : Tendsto (fun z : ℂ => 1 / z + 1 / (-z))
-    (𝓝[≠] 0) (𝓝 0) := by sorry
 
 /-! ## Layer 7: Cyclic transfer and degree-one comparison
 
@@ -642,7 +593,7 @@ normalized_intertwiner, continued_intertwiner, smooth_eisenstein_extension.
 The induced Hilbert family carries the full group action. Its K-finite carrier supports
 only the (𝔤∞, K∞) and finite-adelic actions in flat_section, right_equivariant and intertwines.
 Arbitrary translates of finite-dimensional test sections are holomorphic on the smooth
-compact-picture carrier and can leave the K-finite space, as the SL₂ example above shows.
+compact-picture carrier and can leave the K-finite space, as spherical_translate_not_k_finite shows.
 The smooth_eisenstein_extension target constructs continuous E and M maps, chamber seminorm
 bounds and local common pole-clearing products in the topology of uniform convergence on
 bounded source sets. It supplies full-group equivariance on smooth inputs and agreement
@@ -713,11 +664,6 @@ def RsNormalizingScalar (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ) :
   (Polynomial.C ((q : ℂ)^(((1 : ℤ)-(g : ℤ))*(Ni : ℤ)*(Nj : ℤ))) * P *
       Q.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X),
     Q * P.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X))
--- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.genus_one
-example (P Q : Polynomial ℂ) (q : ℝ) (Ni Nj : ℕ) :
-    RsNormalizingScalar P Q q 1 Ni Nj =
-      (P*Q.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X),
-        Q*P.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X)) := by sorry
 
 /-- Equality at regular points; the polynomial pair retains its pole data. -/
 theorem RsNormalizingScalar.root (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ)
@@ -727,15 +673,6 @@ theorem RsNormalizingScalar.root (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ
       (RsNormalizingScalar P Q q g Ni Nj).2.eval z =
       (q : ℂ)^(((1 : ℤ)-(g : ℤ))*(Ni : ℤ)*(Nj : ℤ)) *
       (P.eval z/Q.eval z)/(P.eval ((q : ℂ)⁻¹*z)/Q.eval ((q : ℂ)⁻¹*z)) := by sorry
-
--- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.pole_not_value
-example : (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).1.eval 1 = 1/2 ∧
-    (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).2.eval 1 = 0 := by sorry
-
-/-- Residual lengths two give shifts 1, 0, 0, −1, retaining the repeated middle factor. -/
-example (L : ℤ → ℂˣ) :
-    (∏ i : Fin 2, ∏ j : Fin 2, L (1-(i.val : ℤ)-j.val)) =
-      L 1 * (L 0)^2 * L (-1) := by sorry
 
 /-- The algebraic telescoping underlying residual Rankin–Selberg products. -/
 theorem ResidualRsTelescoping (L : ℤ → ℂˣ) (a : ℤ) (ν₁ ν₂ : ℕ) :
