@@ -273,7 +273,7 @@ Prove `CrystallineCM.coefficient_evaluation_surjective`. Let `P_{n,n} ⊂ GL_{2n
 
 *Needs:* **ArithmeticLocallySymmetricSpaces:ALS.1** (arithmetic local system); **PotentialAutomorphyInfrastructure, Layer 0** (unitary levi weight dictionary); **PotentialAutomorphyInfrastructure, Layer 0**.
 
-### 0.3 Parahoric levels P_{v̄}(b,c), Q_{v̄}, the operators Ũ and the monoids Δ̃
+### 0.3 Parahoric levels `P_{v̄}(b,c)`, `Q_{v̄}`, the operators `Ũ` and the monoids `Δ̃`
 
 Define `CrystallineCM.ParahoricPVBC`. For `c≥b≥0, c≥1`, under `ι_ṽ` define `P_{v̄}(b,c)⊂GL_{2n}(O_{F_ṽ})` by `C≡0` mod `ϖ_ṽ^c` in `g=(A B;C D), A≡D≡1_n` mod `ϖ_ṽ^b`. `P_{v̄}(0,1)` is the Siegel parahoric. For `Q⊂P` standard, `𝒬` is the inverse image of `Q(k_ṽ)` under reduction; its Levi intersection is `K_Q`. These are integral compact-open subgroups, with `b=0` imposing no diagonal congruence.
 
@@ -970,7 +970,7 @@ The required interface is:
 
 *Needs:* §4.1; Mathlib `Module.End.genEigenspace` and `Module.End.maxGenEigenspace`, in `Mathlib.LinearAlgebra.Eigenspace.Basic`.
 
-### 4.4 ι-Q_{v̄}-ordinary cuspidal representations
+### 4.4 `ι`-`Q_{v̄}`-ordinary cuspidal representations
 
 Define `CrystallineCM.IotaQOrdinary`. A cuspidal automorphic representation `π` of `G̃(𝔸_{F⁺})` is `ι-Q_{v̄}-ordinary` of weight `λ̃ (λ̃ ∈ (Z^{2n}₊)^{Hom(F⁺,Q̄_p)}` dominant, `ι : Q̄_p ≅ C`) if `π` is `ιV^∨_λ̃-cohomological` and the `λ̃-rescaled` operators `{Ũ^k_v : 1 ≤ k ≤ t}` have a simultaneous eigenvector with p-adic unit eigenvalues in `ι^{−1}π^{𝒬}`; the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬_{v̄}}_{v̄}` is the largest `H(Δ̃^Q, 𝒬)-submodule` on which the rescaled `Ũ^k_v` have only unit eigenvalues.
 
