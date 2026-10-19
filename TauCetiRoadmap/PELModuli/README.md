@@ -4083,10 +4083,13 @@ TauCetiRoadmap.ModularCurves §9E; Tau Ceti `WeierstrassCurve.j_quadraticTwist`,
 ShimuraCompactifications builds the
 toroidal and minimal compactifications of `M_H`, proves integral quasi-projectivity and the ampleness of
 the Hodge line on the minimal compactification. HilbertModularVarietiesAndShimuraCurves consumes
-M5.4's `hilbertIntegralDatum`, `hilbertRationalDatum`, principal inverse-different lattice and
+PELModuli M5.4's scalar-determinant PEL datum `hilbertIntegralDatum`, its rationalization
+`hilbertRationalDatum`, principal inverse-different lattice and
 `hilbertTraceEmbedding`, combining `hilbertConventionMap` with its row/column transpose comparison.
-It owns the full `Res_{F/ℚ} GL₂` datum with independent real signs, general polarization modules,
-nonprincipal lattices and models at ramified primes. IgusaVarietiesAndTorsionConcentration and
+It imports the full `Res_{F/ℚ} GL₂` datum with independent real signs from ShimuraData §5.3
+(HilbertModularVarietiesAndShimuraCurves §H0.0), and owns general polarization modules (§H1),
+nonprincipal integral lattices (§§H0.3–H0.5) and the Hilbert integral models stated in §H2,
+including at ramified primes. IgusaVarietiesAndTorsionConcentration and
 PerfectoidShimuraVarieties use the good models, the universal family and the Hecke action at
 `p`-power level. AutomorphicGaloisRepresentationsPartII and AutomorphicPadicLFunctions use the unitary
 data, the CM moduli schemes and the torus trace. FaltingsFinitenessAndIsogenyTheorems and
