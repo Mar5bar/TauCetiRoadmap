@@ -137,11 +137,11 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   lattice-torsion equivalence for the trivial action. A5.1 transports these to algebraic abelian
   varieties; A5.6 supplies the polarized Hodge interpretation and extensions to singular or
   nonreduced analytic bases; A5.8 supplies the Siegel period and symplectic formulas.
-- *RepresentationTheory/SemisimpleAlgebras.* Layers 4–5: Skolem–Noether; Layer 6,
-  *Real base field*: finite-dimensional central real division algebras are `ℝ` or `ℍ[ℝ]`.
-  Together with Mathlib's algebraically closed Wedderburn theorem over `ℂ`, these supply the
-  division-algebra factors in A6.15. The positive-involution normal form and its Rosati adapter
-  are A6.15 here.
+- *RepresentationTheory/SemisimpleAlgebras.* Layers 4–5 supply Skolem–Noether.
+  The real division-algebra classification is `realCentralDivisionAlgebra` in A6.15 here;
+  together with Mathlib's algebraically closed Wedderburn theorem over `ℂ`, it supplies the
+  division-algebra factors. The positive-involution normal form and its Rosati adapter
+  are also A6.15 here.
 - *OperatorTheory/PolarDecomposition, Part A.* PD-A11–PD-A19: finite self-adjoint spectral
   calculus on finite-dimensional real Hilbert spaces, including commutant preservation;
   PD-A20–PD-A28: positive square roots, their invertibility and uniqueness. A6.15 constructs the
@@ -1040,9 +1040,10 @@ JacobianChallenge Layer E.
 ### A2.6 Representatives and the graph bundle
 
 Prove `polarizationRepresentatives`. (1) For a polarization `λ` of `A/S`, the rigidified line
-bundles `L` with `φ_L = λ` form an fppf torsor under `A^∨`. Representatives exist fppf locally on
-`S`, and étale locally when `2` is invertible on `S`; the symmetric representatives form a torsor
-under `A^∨[2]`. Two representatives differ by a section of `A^∨`, which is a translate globally only
+bundles `L` with `φ_L = λ` form a torsor under the smooth group scheme `A^∨`, so representatives
+exist étale locally on every `S` (Faltings–Chai I.1.6). The symmetric representatives form a torsor
+under `A^∨[2]`, trivial fppf locally and étale locally when `2` is invertible on `S`.
+Two representatives differ by a section of `A^∨`, which is a translate globally only
 when that section lies in `λ(A(S))`, and fppf locally always. (2) Over an Artin local base, a
 representative on the closed fibre lifts together with a lift of the polarization. The proof uses
 the kernel of `L ↦ φ_L` (A2.3) and descent of the torsor; symmetry is the fixed locus of inversion,
@@ -1061,13 +1062,20 @@ base change and has no higher direct images. The single rank `d(6r)^g` and Hilbe
 `P(t) = d(6t)^g` assume constant relative dimension `g` and constant polarization degree `d`. The
 graph bundle needs no inversion of `2` and no chosen representative. The proof computes the Mumford
 map of the graph by A1.5, uses A2.4 for the fibrewise section rank (`χ(M_s^{3r}) = (3r)^{g(s)} · 2^{g(s)} · d(s)`), and the
-classical theorem that the cube of an ample line bundle on an abelian variety is very ample, promoted
-to the relative statement by coherent base change (Olsson, §2.1.4, pp. 298–299, and proof of
+classical theorem that the cube of an ample line bundle on an abelian variety is very ample.
+Over arbitrary `S`, apply EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward` to the proper,
+smooth, finitely presented `π`, with perfect coefficient `M^{3r}` and target-flat coefficient
+`O_A`. Its perfect pushforward commutes with arbitrary base change; fibrewise vanishing makes it
+locally free in degree zero. For `r = 1`, fibrewise generation makes evaluation surjective,
+and the induced proper map to `P_S(π_*M³)` is a closed immersion since every fibre map is one.
+Thus no Noetherian hypothesis is needed (Stacks, Lemma 36.30.1, tag 0A1H;
+Olsson, §2.1.4, pp. 298–299, and proof of
 Theorem 2.1.11, p. 302; Conrad, *Polarizations*, Example 2.2, p. 6, and the discussion of the `Pic⁰`
 kernel, p. 8; Milne 2008, §6, pp. 30–31, states the very ampleness of the cube and refers to Mumford
 for its proof, which is part of this target). The API is `graphBundle_baseChange`,
 `mumfordMap_graphBundle`, `graphBundle_eq_of_mumford`, `cubicVeryAmple`, `sectionRank` and
-`hilbertPolynomial`. *Needs:* A2.3, A2.4, A2.5; AlgebraicModuli Layer 1 (`amplePowersAndFixedTwists`).
+`hilbertPolynomial`. *Needs:* A2.3, A2.4, A2.5; AlgebraicModuli Layer 1
+(`relativeVeryAmple`); EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
 
 **Checks.**
 
@@ -1079,7 +1087,11 @@ for its proof, which is part of this target). The API is `graphBundle_baseChange
 - For `S = Spec ℂ ⊔ Spec ℂ`, `A = E ⊔ E` with polarizations `λ₀` and `2λ₀`, the degree
   function takes values `1, 2` and `π_*M³` has ranks `6, 12` on the two components.
 - `Polarization.graph_char_two`: over a field of characteristic `2` the graph bundle of a principal
-  polarization is defined although the torsor of symmetric representatives can be non-étale.
+  polarization is defined, and representatives exist étale locally, although the torsor of
+  symmetric representatives can be non-étale.
+- For `S = Spec ℂ[t₁,t₂,…]` and the constant principally polarized elliptic curve `E × S`,
+  the cubic graph bundle gives a closed immersion into `P⁵_S`; its pushforward is free of rank
+  `6`, with higher direct images zero after every base change, although `S` is not Noetherian.
 
 ### A2.7 Positivity of ample intersection numbers
 
@@ -1258,6 +1270,14 @@ its proof, pp. 13–14; Kass, Corollary 1, p. 3; Xie–Yuan §1.1, p. 3, and §5
 étale even in characteristic `p`. `Suggested.lean` states (1) as `mulBy_isAbelianIsogeny` and
 `etale_mulBy`, for the multiplication map `mulBy`, and (2) as `OverField.dense_primeToChar_torsion`.
 *Needs:* A1.1, A1.5, A2.4, A3.1; JacobianChallenge Layer E.
+
+**Checks.**
+
+- `mulBy_one`: `[1] = id_A`, including on positive-dimensional abelian schemes.
+- `mulBy_zero`: `[0]` is the zero homomorphism, the multiplicative unit `1` in the Hom group.
+- `mulBy_neg_one`: `[−1]` is the group inversion morphism.
+- `mulBy_add`: `[m + n]` is the pointwise sum of `[m]` and `[n]`, written as their product
+  in the multiplicative Hom group.
 
 ### A3.3 Quotients by finite locally free subgroups
 
@@ -1820,8 +1840,8 @@ The locally constant height `h = TruncatedBT.height G` is determined by `rk G[p]
 `TruncatedBT.cartierDual` with biduality, and `TruncatedBT.restrict` to `G[p^m]` for
 `1 ≤ m ≤ n`, preserving height. Upgrade `BarsottiTate.truncation` of A4.5 to this carrier,
 compatibly with base change, restriction and Cartier duality (Anschütz–Le Bras, §4.6,
-paragraph after Proposition 4.6.2 and facts (1)–(3), pp. 58–59, recalling Illusie's
-Definition 1.1 and §§1.3(e)–(f), 1.6; Stix, §8.5.2, pp. 45–47, especially Proposition 51,
+paragraph after Proposition 4.6.2 and facts (1)–(3), pp. 58–59, recalling Illusie 1985,
+Définition 1.1 and §§1.3(e)–(f), 1.6; Stix, §8.5.2, pp. 45–47, especially Proposition 51,
 for the finite-group Frobenius and Verschiebung and their agreement with the flat-affine construction).
 
 This is the shared input carrier for A4.12 and for
@@ -2494,6 +2514,11 @@ the invertibility assertion is what justifies the fractional formula there
 **Checks.**
 
 - For the identity block matrix, `siegelAction` returns `Ω`; swapping the block order fails.
+- The matrix `[[i, 1], [0, i]]` has positive definite imaginary part but is excluded from
+  `SiegelUpperHalfSpace 2` because it is not symmetric.
+- For `Ω = [[i, 1], [1, i]]` and the symplectic lower-unipotent matrix
+  `M = [[I, 0], [diag(1, 0), I]]`, `siegelAction M Ω` has entry `(2,1)` equal to
+  `1/(1+i)`. The left quotient has entry `1` there, distinguishing the side of multiplication.
 - In genus one, `[[1, 1], [0, 1]]` sends `τ` to `τ + 1`, while
   `[[0, −1], [1, 0]]` sends it to `−1/τ`; for `τ = i` the latter fixes `i`.
 - For `g = 0`, the unique empty matrix is fixed by the action and the determinant of
@@ -2840,6 +2865,26 @@ evaluation gives commutant compatibility. The same argument with `1/√z` gives 
   For the dimension-zero abelian variety, `E = 0`, positivity is vacuous and its unique element
   is its own square root and a unit.
 
+**Real division algebras.** Prove `realCentralDivisionAlgebra`: every associative
+finite-dimensional real division algebra is isomorphic as a real algebra to `ℝ`, `ℂ` or
+`ℍ[ℝ]`. If its centre is `ℝ`, only `ℝ` and `ℍ[ℝ]` occur; a finite-dimensional central
+division algebra over `ℂ` is `ℂ`. For the proof, the minimal polynomial of each element is
+irreducible over `ℝ`, so has degree at most two. A nonreal element gives a copy of `ℂ`;
+decomposition under conjugation by its imaginary unit separates commuting and anticommuting
+parts. The commuting part is `ℂ`, and the anticommuting part, when nonzero, is one-dimensional
+over `ℂ`. A generator has negative real square, so rescaling gives the Hamilton relations
+(Voight, v0.9.15, Theorem 3.5.1 and Corollary 3.5.9, pp. 36–37).
+*Needs:* Mathlib real-closedness of `ℝ`, finite-dimensional algebra and quaternion APIs;
+`IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed` for the complex-central case.
+
+**Checks.**
+
+- `ℍ[ℝ]` is a central real division algebra of dimension `4`.
+- `M₂(ℝ)` is central simple but has nonzero zero divisors, so it is excluded by the division
+  hypothesis.
+- `ℂ` has centre `ℂ` and real dimension `2`; it occurs in the general classification but
+  is not central over `ℝ`.
+
 **The real Rosati normal form and positivity comparison.** Prove `realRosatiDecomposition`:
 for `E` and `t` as above, construct a real-algebra isomorphism
 `E ≅ ∏ M_{r_i}(ℝ) × ∏ M_{c_j}(ℂ) × ∏ M_{h_k}(ℍ[ℝ])` that sends `†` to transpose on the real
@@ -2853,7 +2898,7 @@ self-adjoint matrix factor. On quaternionic columns, positive definiteness means
 In noncommutative applications, “totally positive” means this condition in every factor.
 
 The positive-involution normal form is proved here, using RepresentationTheory/SemisimpleAlgebras
-Layers 4–6 for Skolem–Noether and real central division algebras, and Mathlib
+Layers 4–5 for Skolem–Noether, `realCentralDivisionAlgebra` for the real classification, and Mathlib
 `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed` for complex central factors. The faithful regular
 representation carries `†` to the operator adjoint, so its regular trace is positive on `x x^†`;
 positivity forces semisimplicity and prevents the involution from exchanging simple factors.
@@ -2863,8 +2908,9 @@ square root to obtain the standard adjoint. In that normal form, the original `t
 multiple of the real matrix trace on each factor. This gives the intrinsic positivity comparison
 without identifying geometric trace with reduced trace (Voight, §8.4.5–§8.4.9, pp. 116–118;
 Lipnowski–Tsimerman, §4.3.2 and Proposition 4.10, pp. 19–20, for the resulting cones).
-*Needs:* the operator adapter and square-root target above; RepresentationTheory/SemisimpleAlgebras
-Layers 4–6; Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`.
+*Needs:* the operator adapter and square-root target above; `realCentralDivisionAlgebra`;
+RepresentationTheory/SemisimpleAlgebras Layers 4–5;
+Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`.
 
 **Checks.**
 
@@ -3170,7 +3216,8 @@ Define `localizedYoneda D A` on the category of all `S`-schemes, valued in `D`-m
 `A_D(T) = D ⊗_ℤ Hom_S(T, A)` and restriction by precomposition. This is a presheaf; no topology or
 sheafification enters its definition. The suggested signature `localizedYoneda_obj` identifies its
 value with this tensor product, and `localizedYoneda_map_tmul` specifies restriction on pure tensors.
-For `D = ℤ` it is the additive Yoneda sheaf, but localization need not preserve separation for infinite covers (Stacks, §17.16, tag 01CA, and §6.29, tag 009E).
+For `D = ℤ` it is the additive Yoneda sheaf, but localization need not preserve separation for
+infinite covers, as the disjoint-union example in A6.28 shows.
 Prove `LocalizedHom.yonedaComparison`: the action on these localized Yoneda presheaves
 identifies `Hom_D(A, B)` with their natural `D`-linear transformations. Evaluation at the identity
 of `A` gives a section with one denominator; additivity lets an invertible integer multiple of its
@@ -3604,6 +3651,8 @@ semisimplicity and `p`-adic libraries.
 - [Maculan] M. Maculan, *The universal vector extension of an abeloid variety*, arXiv:2212.05848v2.
 - [Illusie] L. Illusie, *Grothendieck at Pisa: crystals and Barsotti–Tate groups*,
   <https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf>.
+- [Illusie 1985] L. Illusie, *Déformations de groupes de Barsotti–Tate (d'après A. Grothendieck)*,
+  Astérisque 127 (1985), 151–198, <https://www.numdam.org/item/AST_1985__127__151_0/>.
 - [Stix] J. Stix, *A course on finite flat group schemes and p-divisible groups*, revised
   18 September 2012, §8.5.2, pp. 45–47,
   <https://www.math.uni-frankfurt.de/~stix/skripte/STIXfinflatGrpschemes20120918.pdf>.
@@ -3616,7 +3665,7 @@ semisimplicity and `p`-adic libraries.
   Bogomolov conjecture*, arXiv:1801.05762v3.
 - [Caro–Pasten] J. Caro and H. Pasten, *A Chabauty–Coleman bound for surfaces*, arXiv:2102.01055v2.
 - [Lipnowski–Tsimerman] M. Lipnowski and J. Tsimerman, *How large is `A_g(𝔽_q)`?*, arXiv:1511.02212v1.
-- [Voight] J. Voight, *Quaternion algebras*, v0.9.15, §8.4, pp. 116–118,
+- [Voight] J. Voight, *Quaternion algebras*, v0.9.15, §3.5, pp. 36–37, and §8.4, pp. 116–118,
   <https://jvoight.github.io/quat/quat-book-v0.9.15.pdf>.
 - [Kisin–Pappas] M. Kisin and G. Pappas, *Integral models of Shimura varieties with parahoric level
   structure*, Publ. Math. IHÉS 128 (2018), 121–218.
@@ -3641,4 +3690,4 @@ semisimplicity and `p`-adic libraries.
 - [Stacks] The Stacks Project, <https://stacks.math.columbia.edu>: tags 0BEV (Lemma 33.45.9), 081I
   (Lemma 29.26.16), 052A (Proposition 29.28.1), 02L2 (Lemma 35.23.17),
   047P (Lemma 39.8.4), 047N (Lemma 39.8.2), 05YF (Proposition 97.11.5), 05YC
-  (Lemma 97.11.2), 0D24 (§99.11), 0F14 (Lemma 59.97.2).
+  (Lemma 97.11.2), 0D24 (§99.11), 0F14 (Lemma 59.97.2), 0A1H (Lemma 36.30.1).

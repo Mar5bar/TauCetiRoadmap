@@ -220,6 +220,25 @@ isomorphism; a definition requiring positive dimension excludes this object (REA
 example (S : Scheme.{u}) (n : ℤ) : IsIso ((identity S).mulBy n) := by
   sorry
 
+/-- Multiplication by one is the identity morphism (README A3.2). -/
+theorem mulBy_one (A : AbelianScheme S) : A.mulBy 1 = 𝟙 A.toOver :=
+  zpow_one _
+
+/-- Multiplication by zero is the zero homomorphism, written as the Hom group's unit
+(README A3.2). -/
+theorem mulBy_zero (A : AbelianScheme S) : A.mulBy 0 = 1 :=
+  zpow_zero _
+
+/-- Multiplication by minus one is group inversion (README A3.2). -/
+theorem mulBy_neg_one (A : AbelianScheme S) : A.mulBy (-1) = ι[A.toOver] := by
+  simp [mulBy, CategoryTheory.Hom.inv_def]
+
+/-- Multiplication by a sum is the pointwise product of the multiplication morphisms
+in the multiplicative Hom group (README A3.2). -/
+theorem mulBy_add (A : AbelianScheme S) (m n : ℤ) :
+    A.mulBy (m + n) = A.mulBy m * A.mulBy n :=
+  zpow_add _ _ _
+
 /-- An **isogeny** of abelian schemes over `S`: a homomorphism whose scheme morphism is finite, flat and surjective
 (README A3.1). Over an affine base this is the condition of Tau Ceti's
 `TauCeti.GroupScheme.IsIsogeny`; local finite presentation follows. -/
@@ -370,6 +389,20 @@ example (Ω : Matrix (Fin 1) (Fin 1) ℂ) : Ω ∈ SiegelUpperHalfSpace 1 ↔ 0 
 /-- Check: a symmetric period matrix with singular imaginary part, here `0`, is not in `H_g` for
 `g ≥ 1`. -/
 example (g : ℕ) (hg : 0 < g) : (0 : Matrix (Fin g) (Fin g) ℂ) ∉ SiegelUpperHalfSpace g := by
+  sorry
+
+/-- Check: positive definite imaginary part does not admit a nonsymmetric period
+(README A5.8). -/
+example : !![Complex.I, 1; 0, Complex.I] ∉ SiegelUpperHalfSpace 2 := by
+  intro h
+  have hsym := congrArg (fun Ω : Matrix (Fin 2) (Fin 2) ℂ => Ω 0 1) h.1
+  norm_num [Matrix.transpose_apply] at hsym
+
+/-- Check: a genus-two lower-unipotent symplectic matrix acts by the right quotient;
+the left quotient has entry one in this position (README A5.8). -/
+example :
+    siegelAction (Matrix.fromBlocks 1 0 (Matrix.diagonal ![1, 0]) 1)
+      !![Complex.I, 1; 1, Complex.I] 1 0 = 1 / (1 + Complex.I) := by
   sorry
 
 /-- Check: the genus-one inversion matrix fixes the period `i`. -/
@@ -643,6 +676,14 @@ theorem localizedYoneda_obj {S : Scheme.{u}} (D : Subring ℚ)
     ((localizedYoneda D A).map f.op).hom (d ⊗ₜ[ℤ] Additive.ofMul x) =
       d ⊗ₜ[ℤ] Additive.ofMul (f ≫ x) :=
   rfl
+
+/-- Frobenius classification: an associative finite-dimensional real division algebra is
+real, complex or Hamilton quaternionic. The complex case has centre larger than the real
+scalars (README A6.15). -/
+theorem realCentralDivisionAlgebra (D : Type*) [DivisionRing D] [Algebra ℝ D]
+    [Module.Finite ℝ D] :
+    Nonempty (D ≃ₐ[ℝ] ℝ) ∨ Nonempty (D ≃ₐ[ℝ] ℂ) ∨ Nonempty (D ≃ₐ[ℝ] ℍ[ℝ]) := by
+  sorry
 
 section RealRosatiAlgebra
 
