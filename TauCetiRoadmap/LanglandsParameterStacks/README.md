@@ -22,6 +22,8 @@ The roadmap does not construct the stack `Bun_G`, the geometric Hecke action or 
 
 Let `E` be a nonarchimedean local field with residue characteristic `p` and residue cardinality `q`, and fix a prime `ℓ ≠ p`. `Ĥ` is a pinned split reductive group scheme over `ℤ_ℓ` (or over `ℤ[1/p]` when the integral scheme is meant), `Q` a finite group acting on `Ĥ` by pinning-preserving automorphisms, and `J = Ĥ ⋊ Q`. A homomorphism `η : Γ → Q` is fixed whenever `Γ` replaces the Weil group: a parameter into `J` lifts this `η`, and changing `η` changes the problem.
 
+Examples with `Ĥ = G_m` use `Q = 1` unless an action is explicitly specified.
+
 A crossed cocycle for an action `α` of `Γ` on `Ĥ` satisfies `c(γδ) = c(γ) α(γ)(c(δ))`, and gauge by `h` is `(h·c)(γ) = h c(γ) α(γ)(h)⁻¹`. The section attached to `c` is `γ ↦ (c(γ), η(γ))` into `Ĥ ⋊ Q`, and gauge corresponds to conjugation of the section by `(h, 1)`. Cocycles are homomorphisms only for the trivial action. In `Suggested.lean` parameters are written in the section form, as homomorphisms `Γ →* Ĥ ⋊[β] Q` whose composite with `SemidirectProduct.rightHom` is `η` (`ParameterLift`); the cocycle is the first coordinate (`ParameterLift.cocycleValue`), and this form is the one LP0.1's section equivalence identifies with `CrossedCocycle (β.comp η)`.
 
 For a `ℤ_ℓ`-algebra `Λ`, the coefficient object is the relatively discrete condensed algebra `Λ_disc ⊗_{ℤ_{ℓ,disc}} ℤ_ℓ`. Its sections over a profinite set `S` are the maps `S → Λ` that take values in a finitely generated `ℤ_ℓ`-submodule `M ⊂ Λ` and are continuous for the ℓ-adic topology of `M`. For an `𝔽_ℓ`-algebra this is the discrete condensed structure; for `Λ = ℚ_ℓ` it admits continuous characters of inertia with infinite image. A continuous map `S → Λ` for some topology on `Λ` does not by itself specify this condition.
@@ -215,7 +217,8 @@ Construct `IntegralCocycleScheme W Ĥ = Z¹(W, Ĥ)` over `ℤ[1/p]` for a finite
 **Checks.**
 
 - For `W = F_n` the scheme is `Ĥⁿ` with twisted diagonal conjugation; for `W = 1` it is the base.
-- For `Ĥ = G_m` with unramified action the tame scheme is `G_m × μ_{q−1}`; in the fibre at `2` for `q = 3`, the universal element `t − 1` is nonzero with square zero, so the scheme is not its reduction.
+- For `Ĥ = G_m` with trivial action the tame scheme is `G_m × μ_{q−1}`; in the fibre at `2` for `q = 3`, the universal element `t − 1` is nonzero with square zero, so the scheme is not its reduction.
+- For the unramified action with arithmetic Frobenius inverting `G_m`, the tame scheme is `G_m × μ_{q+1}`: its tame coordinate `b` satisfies `b⁻¹ = b^q`. For `q = 3` in characteristic `2`, `(b − 1)⁴ = 0` but `(b − 1)² ≠ 0`.
 - Its `ℤ_ℓ`-points on `ℤ_ℓ`-algebras agree with the finite-wild condensed parameters of LP0.3.
 
 ### LP1.2 Clopen finite-wild pieces
@@ -362,6 +365,9 @@ For `X = [Z¹(W_E, Ĥ)/Ĥ]` define `ParameterSingularities`, the relative singul
 - At the trivial torus parameter over `ℚ_ℓ`, `H⁰(W_E, ℚ_ℓ(1)) = 0` and the fibre is zero.
 - For `Ĥ = G_m` and `ℓ | q − 1`, the trivial `𝔽_ℓ`-parameter has a one-dimensional singularity fibre although the dual nilpotent cone of the torus is zero: nilpotent singular support is a real condition.
 - With a specified invariant perfect Lie pairing, the inclusion transports to the usual nilpotent cone; without one no identification is made.
+- Every perfect complex on `X` has nilpotent singular support, since its singular support lies in the zero section.
+- On the split tame torus component with `q = 3` and `ℓ = 2`, the residue sheaf at the trivial parameter, pushed forward from its residual gerbe, has the full singularity line as support. This line contains nonzero covectors, while the dual nilpotent cone is zero, so the sheaf does not have nilpotent singular support.
+- For split `GL₂` over a characteristic-zero `ℤ_ℓ`-field, at the parameter with trivial inertia and arithmetic Frobenius `diag(q,1)`, the structure sheaf of the residual gerbe, pushed forward to `X`, is nonperfect but has nilpotent singular support. Its singular support is the full obstruction line, contained in the dual nilpotent cone; in a transverse formal chart the singularity is `uv = 0`.
 
 ### LP1.14 Hochschild operators and singular support of parameter complexes
 
@@ -489,6 +495,7 @@ Define `ExcursionAlgebra Γ Ĥ = colim_{(n, F_n → Γ)} O(Z¹(F_n, Ĥ))^Ĥ` in 
 - For `Γ = F_n` the identity tuple is terminal, so `Exc(F_n, Ĥ) ≅ O(Z¹(F_n, Ĥ))^Ĥ`.
 - For a compatible cone `ξ`, `lift ξ ∘ ofFree u = ξ_u` for every `u`.
 - For a split torus with trivial action, `δ_a(t) = 1 ⊗ t` for every coordinate, so each invariant algebra is all of `T_a`; for `Ĥ = G_m` and `Γ = ℤ`, `Exc = ℤ_ℓ[t, t⁻¹]`.
+- For `Ĥ = G_m`, inversion action of `Q = C₂` and `η : ℤ → C₂` nontrivial at the generator, gauge sends the generator coordinate `t` to `h²t`. Its coaction invariants, and hence `Exc(ℤ, G_m)`, are just `ℤ_ℓ`, including when `ℓ = 2`.
 
 ### LP2e.10 The universal excursion relations
 
@@ -679,7 +686,7 @@ Let `G` be a split reductive group over a field `k`, with a Borel subgroup `B` a
 - For `G = GL₂` with the lower Borel, `∇_{(1,0)}` is the standard representation, `∇_{(0,−1)}` its dual, and `∇_{(0,1)} = 0`: a definition with the opposite Borel or the inverse character makes `(0, 1)` the nonzero case.
 - For a torus every module is a direct sum of characters, every `∇_λ` is one-dimensional and every module has a good filtration of dimension `0`.
 - For `G = SL₂` in characteristic `2`, the module `∇_2` has a good filtration but its submodule `L(2)` (the Frobenius twist of the standard representation) does not, because `Ext¹_G(Δ_0, L(2)) ≠ 0`: good filtrations are not inherited by submodules.
-- `O(G)` under conjugation is infinite-dimensional, with infinitely many factors `∇_0` already for a torus, and has a good filtration: a definition demanding finitely many factors would exclude every coordinate ring used below.
+- For a positive-dimensional torus, `O(G) = k[X^*(G)]` under conjugation is an infinite direct sum of copies of `∇_0` and has a one-step good filtration under the direct-sum convention. Requiring finitely many finite-dimensional factors would exclude it. For `G = 1`, `O(G) = k` has a one-step good filtration.
 
 ### LP3.1 Good-filtration t-structures
 
@@ -1000,6 +1007,7 @@ For `X = [Z¹(W, Ĥ)/Ĥ]` over a `ℤ_ℓ`-algebra and a finite set `I`, constru
 - The trivial representation acts as the identity on `Perf(X)`.
 - The fibre at a parameter `φ` is `V` with the `W`-action through `φ`.
 - The fibre of a tensor product is the tensor product of the two parameter representations, and for `Ĥ = G_m` the bundle of the standard character is the universal line bundle with the universal character as `W`-action.
+- For inversion action of `Q = C₂` on `G_m`, the standard weight-one character does not extend to `G_m ⋊ C₂`: conjugation by the involution changes weight `1` to weight `−1`. It therefore supplies no representation bundle by this construction.
 
 ### LP4.2 Perfect generation on parameter stacks
 
