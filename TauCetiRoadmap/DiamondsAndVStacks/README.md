@@ -158,8 +158,12 @@ normalized bounded spectrum for a Tate norm of radius `1/2`, then adds the quoti
 with its identification as the maximal Hausdorff quotient, and the extension from affinoids to small
 v-sheaves. The flat-cover refinement over a strictly henselian local ring used in the perfectoid
 ball argument is a lemma stated inside D3.2; D6.9 constructs the seminormalisation functor of rigid
-spaces with its universal property and proves the seminormal structure-sheaf comparison. D6.9 is
-the single owner of the shared affine seminormality, subintegrality and seminormal-reflection API:
+spaces with its universal property and proves the seminormal structure-sheaf comparison.
+ResolutionOfSingularitiesCharacteristicZero owns characteristic-zero resolution and its field,
+formal and regular-morphism comparisons. D6.9 consumes its `resolution_affinoid`, `qeResolution`
+and `qeResolution_regularFunctorial`; it owns the relative analytification and proper-surjective
+comparison, smooth completed-function recovery and seminormal analytic compatible-section descent.
+D6.9 is the single owner of the shared affine seminormality, subintegrality and seminormal-reflection API:
 the square–cube criterion, normal-domain and product comparisons, and the seminormalization of
 rings with its subintegral unit and restriction compatibility. Factorization-system applications
 consume this predicate and reflection and own their factorization-specific characterizations and
@@ -342,8 +346,9 @@ The pinned-declaration table lists Mathlib and Tau Ceti declarations used by `Su
 cited by the targets. The sibling-interface table lists roadmap prototypes; importing their
 `Suggested.lean` files supplies interfaces with suggested proofs. The remaining tables and
 paragraphs record the full supplier contracts. Names attributed to PerfectoidSpaces,
-AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII and SchemeAndStackFoundations are targets of
-those roadmaps under their suggested names; and the names of this roadmap's own carriers and
+AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII, SchemeAndStackFoundations and
+ResolutionOfSingularitiesCharacteristicZero are targets of those roadmaps under their suggested
+names; and the names of this roadmap's own carriers and
 theorems (`Geometry.*`, `Perf.*`, `Perfd.*`, `PreAdic.*`, `Rigid.*`, `Stack.*`, `Topos.*` and the
 like) are suggested names for targets specified in this README only. The generic qcqs predicates and
 their stability API use `TauCetiRoadmap.AdicSpacesPartII.Topos` (AdicSpacesPartII R0.19.10); local
@@ -868,6 +873,15 @@ import from the scheme roadmap is required by the statements of `Suggested.lean`
 | §2.3, Sheaf torsors and torsor classes (§1.15 for geometric torsors over schemes) | `NonabelianH1` | Specification | Torsor classes on a site; D0.18, D0.25 and D3.10 take their torsor classes here. |
 | §2.5, Slice sites, Godement resolutions, flasque sheaves, Grothendieck vanishing, filtered colimits | `flasque_cech_vanishing`, `cohomology_filtered_colimits` | Specification | Higher Čech vanishing for flasque abelian sheaves on spaces and filtered-colimit compatibility on coherent sites; used in D0.18–D0.21. |
 | §1.20, Algebraic stacks and separatedness | — | Not used | Separatedness there asks for a proper diagonal; separatedness here is the closed-immersion diagonal of D3.8. |
+
+ResolutionOfSingularitiesCharacteristicZero supplies the algebraic resolution inputs to D6.9.
+The analytic comparisons and compatible-section descent are targets here.
+
+| Resolution input | Supplier section and target names | Contract used here |
+|---|---|---|
+| Strong resolution and regular pullback | ResolutionOfSingularitiesCharacteristicZero §§7.5–7.6, `qeResolution`, `qeResolution_regularFunctorial` | Projective birational regular-source modifications of reduced noetherian quasi-excellent ℚ-schemes, preserving the entire regular locus; resolving sequences commute with regular pullback after empty steps are omitted. |
+| Field and formal comparisons | ResolutionOfSingularitiesCharacteristicZero §§7.1–7.4 and 7.8, `fieldResolution_regularPullback`, `qeLocalFormalReduction`, `supportedFormalTower_algebraizes`, `thickFibre_resolutionComparison`, `resolution_field` | Field resolving towers and their regular pullbacks; formal completion, supported-tower algebraization and independence of algebraization for rig-regular locally principal formal varieties. |
+| Affinoid resolution | ResolutionOfSingularitiesCharacteristicZero §7.8, `resolution_affinoid` | For reduced characteristic-zero affinoid A, a projective birational modification of `Spec A` with regular source, isomorphic over its entire regular locus; D6.9 proves its relative analytic comparison. |
 
 | Spectrum input | Declaration and supplier | Contract |
 |---|---|---|
@@ -9729,31 +9743,18 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 The closing targets are the seminormal structure-sheaf comparison and the one full-faithfulness
 statement of the roadmap, over a fixed base field and with a seminormal source.
 
-**Variety resolution with regular-morphism compatibility.** D6.9 owns the non-embedded
-resolution core for reduced schemes that are finite disjoint unions of finite-type schemes over
-characteristic-zero fields. Prove the existence of finite blowup towers `S_n → ⋯ → S_0 = S`
-with regular centres disjoint from the inverse image of the original regular locus, and
-regular final source.
-Require compatibility with every regular morphism between these schemes: pull back the tower
-and remove the steps with empty centre. A regular morphism is flat with geometrically regular
-fibres; it need not be of finite type or preserve a chosen ground field
-([Temkin-resolution] Theorem 2.3.5, p. 14; [BMT-resolution] Theorem 1.1, pp. 1–2).
-
-The mathematical inputs are targets here: marked ideals on smooth local embeddings with their
-controlled transforms and coefficient presentations; the Hilbert–Samuel resolution invariant
-with exceptional-divisor history; invariance under equivalent presentations; regularity of its
-maximum loci and existence of a finite resolving tower; and compatibility of those towers on
-overlapping embeddings and under smooth morphisms. These are the non-embedded core of
-[BM-resolution] Theorems 1.6 and 1.14, §§3–6 and §12.1. Prove also compatibility under
-ground-field extension and generic-fibre embeddings, and the regular-morphism factorization and
-approximation that extend this compatibility to all regular morphisms
-([BMT-resolution] Theorems 1.2 and 6.1, Addendum 6.1 and §7). The finite disjoint-union
-comparison synchronizes the blowup order on overlapping charts, as in
-[Temkin-resolution] Lemma 2.3.3 and §2.3.6, pp. 12–13. Prove that the ordered set of
-resolution invariants is countable by comparison with varieties over `ℚ`
-([Temkin-resolution] Theorem 2.3.5 and Remark 2.3.6, p. 14).
-*Needs:* SchemeAndStackFoundations §§0.21 and 4.13 (regular maps and regular loci),
-Layer 4 (blowups and strict transforms); Mathlib schemes, coherent ideals and local rings.
+**Variety resolution with regular-morphism compatibility.** Use
+ResolutionOfSingularitiesCharacteristicZero §7.8's `resolution_field` for reduced schemes that
+are finite disjoint unions of finite-type schemes over characteristic-zero fields, and §7.1's
+`fieldResolution_regularPullback` for the field-tower comparison. The supplied finite blowup
+towers have regular centres disjoint from the inverse image of the original regular locus and
+regular final source. The comparison identifies the tower pulled back along any regular
+morphism with the supplied field tower on its source, after empty-centre steps are removed.
+A regular morphism is flat with geometrically regular fibres; it need not be of finite type or
+preserve a chosen ground field ([Temkin-resolution] Theorem 2.3.5, p. 14;
+[BMT-resolution] Theorem 1.1, pp. 1–2).
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §§7.1 and 7.8
+(`fieldResolution_regularPullback`, `resolution_field`).
 
 **Checks.**
 
@@ -9764,37 +9765,19 @@ Layer 4 (blowups and strict transforms); Mathlib schemes, coherent ideals and lo
   `Spec ℚ(s)[u,v]/(uv)` gives the same branch separation. This generic-fibre embedding
   is regular and is not of finite type.
 
-**Formal comparison for resolution.** On AdicSpacesPartIII F0's noetherian formal schemes,
-define a formal variety to have closed fibre of finite type over a characteristic-zero field,
-and glue the reduced singularity ideals of `Spec A` on its affine formal charts `Spf A`
-([Temkin-resolution] §2.4.9, p. 15). Call it rig-regular when this ideal is open, meaning
-that it contains a power of an ideal of definition.
-For such a formal variety with invertible ideal of definition `I`,
-and finite disjoint unions of these pairs, prove local algebraizability by finite-type schemes
-and that completion of the variety resolution above gives a resolution independent of the
-algebraization. Require compatibility with regular morphisms of pairs satisfying
-`I' = I O_{X'}`
-([Temkin-resolution] §3.1.3 and Theorem 3.1.5, p. 18, proved in §3.4.1, p. 25).
-Here regularity of a formal morphism means regularity on affine adic charts.
-
-Include the proof inputs: quasi-excellence of completions of quasi-excellent `ℚ`-algebras,
-comparison of regular morphisms with their completions, and algebraization of blowup towers
-whose centres are supported on the closed fibre ([Temkin-resolution] Theorem 2.1.6,
-Lemmas 2.4.3–2.4.4 and Corollary 2.4.5, pp. 9, 15–16). Define formal blowups by the completed
-ordinary blowup charts and prove their gluing and compatibility with completion
-([Temkin-resolution] §§2.4.4–2.4.6, p. 15). Prove the Elkik algebraization and thick-fibre
-comparison for principal affine pairs `(V, I)` with `V` of finite type over a characteristic-zero field,
-`I` invertible and `Sing(V) ⊆ V(I)`. In particular, prove the compatibility of restrictions of
-resolution towers under regular maps between sufficiently thick fibres, with the loss of
-thickness under blowup specified in [Temkin-resolution] Proposition 3.3.5 and Lemma 3.3.3,
-pp. 23–24. This is a comparison of restricted towers, not uniqueness of a lift of an arbitrary
-truncated morphism. Finally, for a reduced noetherian quasi-excellent `S` and a Cartier divisor
-`Z` containing `Sing(S)` that is a finite disjoint union of characteristic-zero varieties,
-prove the regular-functorial resolution of the pair `(S,Z)` by completion and algebraization;
-pair morphisms require `Z' = S' ×_S Z` ([Temkin-resolution] Theorem 3.4.1, p. 26).
-*Needs:* the variety resolution above; SchemeAndStackFoundations §0.21 and Layer 4
-(regular maps and scheme blowups); AdicSpacesPartIII F0.1–F0.5 (adic rings, formal schemes
-and completions).
+**Formal comparison for resolution.** Use
+ResolutionOfSingularitiesCharacteristicZero §§7.2–7.4's `qeLocalFormalReduction`,
+`supportedFormalTower_algebraizes` and `thickFibre_resolutionComparison` on that supplier's
+formal-completion systems. For finite disjoint unions of rig-regular characteristic-zero formal
+varieties with a specified invertible ideal of definition `I`, the supplied comparison
+identifies the completed field resolving tower independently of the algebraization, field of
+definition and parameter generator. It is compatible with regular morphisms of pairs satisfying
+`I' = I O_{X'}`. The supplier's rig-regular condition requires the singularity ideal to contain
+a power of an ideal of definition; regularity of a formal morphism is tested on affine adic
+charts ([Temkin-resolution] §§2.4.9–2.4.11, p. 15, and Theorem 3.1.5, p. 18).
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §§7.1–7.4
+(`fieldResolution_regularPullback`, `qeLocalFormalReduction`,
+`supportedFormalTower_algebraizes`, `thickFibre_resolutionComparison`).
 
 **Checks.**
 
@@ -9806,24 +9789,31 @@ and completions).
   after inverting `t`; its singular locus is not supported on the closed fibre, so the
   formal-variety comparison does not apply to it.
 
-**Characteristic-zero resolution prerequisite.** D6.9 owns the generic theorem: every
-reduced noetherian quasi-excellent `ℚ`-scheme `S` admits a finite blowup tower with regular
-centres avoiding the inverse image of `Reg(S)`, regular final source `Y₀`, and projective
-birational composite `f₀ : Y₀ → S` that is an isomorphism over `Reg(S)`. The towers are
-compatible with all regular morphisms, after removing empty steps
-([Temkin-resolution] Theorem 1.2.1, pp. 2–3). Prove this from the two preceding targets,
-including extension and merging of blowup towers and their flat-base-change compatibility,
-and the compatible codimension filtration with its stabilization on each noetherian scheme
-([Temkin-resolution] Lemmas 4.1.3 and 4.2.1–4.2.5, §§4.1–4.3, pp. 26–30).
-No finite-type or finite-dimensional hypothesis on `S` is imposed.
+**Characteristic-zero resolution prerequisite.** Consume
+ResolutionOfSingularitiesCharacteristicZero §7.5's `qeResolution`: every reduced noetherian
+quasi-excellent `ℚ`-scheme `S` has a finite blowup tower with regular centres avoiding the inverse
+image of `Reg(S)`, regular final source `Y₀`, and projective birational composite
+`f₀ : Y₀ → S` isomorphic over the entire `Reg(S)`. Its §7.6 `qeResolution_regularFunctorial`
+supplies compatibility with every regular morphism after empty steps are removed. No finite-type
+or finite-dimensional hypothesis on `S` is imposed ([Temkin-resolution] Theorem 1.2.1, pp. 2–3).
 
-For `S = Spec A` with `A` a reduced `K`-affinoid algebra and
-`K ⊇ ℚ_p` complete, affinoid excellence permits its application. Prove that the relative
-analytification `Y = Y₀^an` is smooth over `K`, using regularity and characteristic zero, and that
-`f : Y → Spa(A, A°)` is proper and surjective ([KL16] Remark 8.1.2, p. 159).
-*Needs:* the variety and formal resolution targets above; SchemeAndStackFoundations §0.21
-and Layer 4 (excellence and modifications); RigidAnalyticGeometry §1.2
-(affinoid excellence, on main); AdicSpacesPartII R1 (relative analytification);
+For `S = Spec A` with `A` a reduced `K`-affinoid algebra and `K ⊇ ℚ_p` complete, use
+ResolutionOfSingularitiesCharacteristicZero §7.8's `resolution_affinoid` to choose `f₀`.
+D6.9 proves the analytic comparison: the relative analytification
+`Y = Y₀ ×_{Spec A} Spa(A, A°)` is smooth over `K`, and its map
+`f : Y → Spa(A, A°)` is proper and surjective, and is an isomorphism over the smooth locus of
+the target ([KL16] Remark 8.1.2, p. 159). For smoothness, use RigidAnalyticGeometry §8.1's
+relative completed-local-ring comparison: at classical points the completed local rings of `Y`
+agree with those of `Y₀` at the corresponding closed points. Their regularity and
+characteristic zero give analytic smoothness. Relative
+analytification preserves the supplied properness, surjectivity and isomorphism over the regular
+locus. This uses finite type over `A`, without treating `A` as an ordinary finite-type
+`K`-algebra.
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §§7.5–7.6 and 7.8
+(`qeResolution`, `qeResolution_regularFunctorial`, `resolution_affinoid`);
+AdicSpacesPartII R1 (*scheme-fibre-product-analytification*, *analytification-surjective*,
+*analytification-separated-proper*); RigidAnalyticGeometry §§1.1–1.2 and 8.1 (classical residue
+fields, excellence and relative completed local rings, on main);
 AdicSpacesPartIII R3.7, *proper-gaga*.
 
 **Checks.**
@@ -10443,10 +10433,12 @@ equivalence), layer P3 (étale-site tilting and étale almost acyclicity) and la
 limits of affinoid perfectoid spaces), with P2.12, P5.6, P6.2 and P6.4 in D6.6; PerfectoidSpaces
 P7.16 (D6.9, the affinoid perfectoid basis over a locally noetherian rigid base);
 D6.9 owns smooth completed-function recovery, its toric invariant and completed scalar Čech
-calculations, and seminormal analytic compatible-section descent. It also owns the quasi-excellent
-characteristic-zero resolution theorem and its variety and formal comparison inputs stated in
-D6.9. SchemeAndStackFoundations §0.21 supplies excellence and regular maps, Layer 4 supplies
-modifications, and §4.9 supplies the finite Stein factor and proper coherent direct images.
+calculations, seminormal analytic compatible-section descent, and the relative analytification
+and proper-surjective comparison for the resolution supplied by
+ResolutionOfSingularitiesCharacteristicZero §7.8 (`resolution_affinoid`). Its §§7.5–7.6
+(`qeResolution`, `qeResolution_regularFunctorial`) supply the general quasi-excellent theorem
+and regular-morphism compatibility; §§7.1–7.4 supply the field and formal comparisons of D6.9.
+SchemeAndStackFoundations §4.9 supplies the finite Stein factor and proper coherent direct images.
 AdicSpacesPartIII R3.3 and R3.7 supply
 coherent kernels and relative proper GAGA. RigidAnalyticGeometry §§1.1–1.2 on main supplies
 affinoid excellence, Jacobson and residue-field properties; AdicSpacesPartII R1 supplies
@@ -10506,10 +10498,6 @@ instead of pages.
 - [Temkin-resolution] Michael Temkin, Functorial desingularization of quasi-excellent schemes in
   characteristic zero: the non-embedded case. https://arxiv.org/pdf/0904.1592v2.
   Theorems 1.2.1, 2.3.5, 3.1.5 and 3.4.1; §§2–4.
-- [BM-resolution] Edward Bierstone and Pierre D. Milman, Canonical desingularization in
-  characteristic zero by blowing up the maximum strata of a local invariant.
-  https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf.
-  Inventiones Mathematicae 128 (1997), 207–302; Theorems 1.6 and 1.14, §§3–6 and §12.1.
 - [BMT-resolution] Edward Bierstone, Pierre D. Milman and Michael Temkin, Q-universal
   desingularization. https://arxiv.org/pdf/0905.3580v1.
   Theorems 1.1–1.2 and 6.1, Addendum 6.1 and §7.

@@ -22,6 +22,8 @@ this predicate, reflection carrier and unit; exchanging square–cube variables 
 Constructions that are themselves formalisation targets (pro-étale
 morphisms and sites, stackification, diamonds, their underlying spaces, spatial diamonds, marked
 untilts and `Spd`) are specified in the README only.
+The relative analytic comparison for supplied characteristic-zero resolutions, smooth
+completed-function recovery and seminormal compatible-section descent are also README targets.
 -/
 
 noncomputable section
