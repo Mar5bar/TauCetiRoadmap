@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
-import TauCeti.NumberTheory.DirichletCharacter.Basic
+import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
+import TauCeti.NumberTheory.ModularForms.EisensteinSeries.Normalized
 
 /-!
 # DirichletPadicLFunctions: representative target signatures
@@ -54,30 +55,53 @@ theorem exists_normalizedMellinContinuation (f : ℝ → ℂ)
         (-1 : ℂ) ^ n * iteratedDerivWithin n f (Set.Ici 0) 0) := by
   sorry
 
-example : iteratedDeriv 1 bernoulliKernel 0 = -1 / 2 := by
-  sorry
-example : iteratedDeriv 2 bernoulliKernel 0 = 1 / 6 := by
-  sorry
-example : smoothedMellinKernel 2 (Real.log 2) = 1 / 3 := by
-  sorry
+/-- The removable kernel retains one at the origin, where the raw field quotient is zero. -/
 example : bernoulliKernel 0 = 1 := by simp [bernoulliKernel]
-example : bernoulliKernel (Real.log 2) = Real.log 2 := by
-  sorry
-example : bernoulliKernel (-Real.log 2) = 2 * Real.log 2 := by
-  sorry
-example : smoothedMellinKernel 2 0 = 1 / 2 := by norm_num [smoothedMellinKernel]
-example : smoothedMellinKernel 0 0 = -1 / 2 := by norm_num [smoothedMellinKernel]
+/-- The identity smoothing parameter cancels the whole kernel. -/
 example (t : ℝ) : smoothedMellinKernel 1 t = 0 := by
   simp [smoothedMellinKernel]
-example : iteratedDeriv 3 (smoothedMellinKernel 2) 0 = 1 / 8 := by
-  sorry
-example : iteratedDeriv 3 (smoothedMellinKernel 6) 0 =
-    iteratedDeriv 3 (smoothedMellinKernel 2) 0 +
-      16 * iteratedDeriv 3 (smoothedMellinKernel 3) 0 := by
+/-- The normalized Bernoulli Mellin transform extends across zero with value one. -/
+theorem bernoulliKernel_normalizedMellin :
+    ∃ F : ℂ → ℂ, Differentiable ℂ F ∧
+      (∀ s : ℂ, 0 < s.re →
+        F s = mellin (fun t => (bernoulliKernel t : ℂ)) s / Complex.Gamma s) ∧
+      (∀ s : ℂ, s ≠ 0 → F s = s * riemannZeta (s + 1)) ∧ F 0 = 1 := by
   sorry
 
-/-- A quartic finite-unit character detects the inverse in the GL₁ Euler convention. -/
-example : (Complex.I)⁻¹ = -Complex.I := by simp
+/-- The divided-difference smoothing kernel is analytic for every real parameter. -/
+theorem analyticAt_smoothedMellinKernel (a t : ℝ) :
+    AnalyticAt ℝ (smoothedMellinKernel a) t := by
+  sorry
+
+/-- Smoothing derivatives give the ordinary Bernoulli moments with their index shift. -/
+theorem iteratedDeriv_smoothedMellinKernel (a : ℝ) (n : ℕ) :
+    iteratedDeriv n (smoothedMellinKernel a) 0 =
+      (1 - a ^ (n + 1)) * (bernoulli (n + 1) : ℝ) / (n + 1) := by
+  sorry
+
+/-- Multiplicative smoothing parameters satisfy the rescaled kernel cocycle. -/
+theorem smoothedMellinKernel_mul (a b t : ℝ) :
+    smoothedMellinKernel (a * b) t =
+      smoothedMellinKernel a t + a * smoothedMellinKernel b (a * t) := by
+  sorry
+
+/-- Positive smoothing removes the complex zeta pole and gives its entire Mellin continuation. -/
+theorem smoothedMellinKernel_normalizedMellin (a : ℝ) (ha : 0 < a) :
+    ∃ F : ℂ → ℂ, Differentiable ℂ F ∧
+      (∀ s : ℂ, 0 < s.re →
+        F s = mellin (fun t => (smoothedMellinKernel a t : ℂ)) s / Complex.Gamma s) ∧
+      (∀ s : ℂ, s ≠ 1 →
+        F s = (1 - (a : ℂ) ^ (1 - s)) * riemannZeta s) ∧
+      F 1 = (Real.log a : ℂ) := by
+  sorry
+
+/-- Complex embedding of the common generalized Bernoulli scalar gives the Dirichlet value. -/
+theorem algebraicDirichletValue_complex {F : Type*} [Field F] [Algebra ℚ F]
+    {N : ℕ} [NeZero N] (χ : DirichletCharacter F N) (ι : F →ₐ[ℚ] ℂ)
+    (k : ℕ) (hk : 0 < k) :
+    DirichletCharacter.LFunction (χ.ringHomComp (ι : F →+* ℂ)) (1 - (k : ℂ)) =
+      ι (-χ.generalizedBernoulli k / (k : F)) := by
+  sorry
 
 /-! ### The Iwasawa logarithm -/
 
@@ -149,6 +173,15 @@ theorem map_algHom [Fact p.Prime] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
     (x : K) : L' (σ x) = σ (L x) := by
   sorry
 
+/-- Iwasawa logarithms turn the relative field norm into the relative trace. -/
+theorem norm_eq_trace [Fact p.Prime] [NormedAlgebra ℚ_[p] K]
+    [FiniteDimensional ℚ_[p] K] {E : Type*} [NormedField E] [CharZero E]
+    [NormedAlgebra ℚ_[p] E] [NormedAlgebra K E] [IsScalarTower ℚ_[p] K E]
+    [FiniteDimensional K E] {L' : E → E} (hL : IsIwasawaLog p L)
+    (hL' : IsIwasawaLog p L') (x : E) (hx : x ≠ 0) :
+    L (Algebra.norm K x) = Algebra.trace K E (L' x) := by
+  sorry
+
 end IsIwasawaLog
 
 /-- Continuous field automorphisms of `ℂ_[p]` commute with its Iwasawa logarithm. -/
@@ -163,50 +196,9 @@ theorem IsIwasawaLog.mem_intermediateField {p : ℕ} [Fact p.Prime] {L : ℂ_[p]
     {x : ℂ_[p]} (hx : x ∈ F) : L x ∈ F := by
   sorry
 
-/-- Powers of `p` have logarithm zero. -/
-example {p : ℕ} [Fact p.Prime] {K : Type*} [NormedField K] [CharZero K] {L : K → K}
-    (hL : IsIwasawaLog p L) (k : ℕ) : L ((p : K) ^ k) = 0 := by
-  sorry
-
-/-- The normalization at `p` detects the factor `3²` of `63`. -/
-example {L : ℚ_[3] → ℚ_[3]} (hL : IsIwasawaLog 3 L) : L 63 = L 7 := by
-  have h3 : L 3 = 0 := by simpa using hL.2.1
-  have h63 : (63 : ℚ_[3]) = 3 * 3 * 7 := by norm_num
-  rw [h63, hL.2.2.1 _ _ (by norm_num) (by norm_num), hL.2.2.1 _ _ (by norm_num) (by norm_num),
-    h3]
-  ring
-
-example {L : ℚ_[2] → ℚ_[2]} (hL : IsIwasawaLog 2 L) : L (-1) = 0 := by
-  sorry
-
-/-- At `p = 2` the series itself vanishes at the root of unity `-1`. -/
-example : NormedSpace.logOneAdd ℚ_[2] ℚ_[2] (-2) = 0 := by
-  sorry
-
-/-- The product of the conjugates `1 ± 3i` is `10`. -/
-example {K : Type*} [NormedField K] [CharZero K] {L : K → K} (hL : IsIwasawaLog 3 L) (i : K)
-    (hi : i ^ 2 = -1) : L (1 + 3 * i) + L (1 - 3 * i) = L 10 := by
-  have hprod : (1 + 3 * i) * (1 - 3 * i) = 10 := by linear_combination (-9) * hi
-  have h10 : (10 : K) ≠ 0 := by norm_num
-  have h1 : 1 + 3 * i ≠ 0 := fun h => h10 (by rw [← hprod, h, zero_mul])
-  have h2 : 1 - 3 * i ≠ 0 := fun h => h10 (by rw [← hprod, h, mul_zero])
-  rw [← hprod, hL.2.2.1 _ _ h1 h2]
-
-/-- The logarithm of `4` in `ℚ_[3]` has the norm of `3`. -/
-example : ‖NormedSpace.logOneAdd ℚ_[3] ℚ_[3] 3‖ = 1 / 3 := by
-  sorry
-
-/-- The first two terms of the dyadic series for `log 3` cancel. -/
-example : ‖NormedSpace.logOneAdd ℚ_[2] ℚ_[2] 2‖ = 1 / 4 := by
-  sorry
-
 /-- A branch with value one at `p` is not the Iwasawa logarithm. -/
 example {p : ℕ} {K : Type*} [NormedField K] [CharZero K] {L : K → K} (h : L p = 1) :
     ¬ IsIwasawaLog p L := fun hL => one_ne_zero (h.symm.trans hL.2.1)
-
-/-- The pair `N = 2, m = 0` is admissible for `2` in `ℚ_[3]`. -/
-example : ‖(2 : ℚ_[3]) ^ 2 * (3 : ℚ_[3]) ^ (-(0 : ℤ)) - 1‖ < 1 := by
-  sorry
 
 /-- Positive ordinary moments separate unit measures over characteristic-zero coefficient
  domains, including a finite extension of `ℚ_[p]` and its integer ring. -/
@@ -270,79 +262,44 @@ theorem smoothedMeasure_moment (p : ℕ) [Fact p.Prime]
       (smoothingMoment a k : ℚ_[p]) := by
   sorry
 
-example : smoothedSeries ℚ 1 (by norm_num) = 0 := by
+/-- Every integral continuous test obeys the smoothing measure's norm bound. -/
+theorem smoothedMeasure_integral (p : ℕ) [Fact p.Prime]
+    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) (f : C(ℤ_[p], ℤ_[p])) :
+    ‖smoothedMeasure p a ha f‖ ≤ ‖f‖ := by
   sorry
-example : smoothingDenominator (ZMod 2) 2 = PowerSeries.X := by
+
+/-- Natural smoothing parameters satisfy the all-test measure cocycle. -/
+theorem smoothedMeasure_mul (p : ℕ) [Fact p.Prime] (a b : ℕ)
+    (ha : IsUnit (a : ℤ_[p])) (hb : IsUnit (b : ℤ_[p]))
+    (hab : IsUnit ((a * b : ℕ) : ℤ_[p])) (f : C(ℤ_[p], ℤ_[p])) :
+    smoothedMeasure p (a * b) hab f = smoothedMeasure p a ha f +
+      (a : ℤ_[p]) * smoothedMeasure p b hb
+        ⟨fun x => f ((a : ℤ_[p]) * x), by fun_prop⟩ := by
   sorry
-example (ha : IsUnit (3 : ℤ_[2])) :
-    algebraMap ℤ_[2] ℚ_[2] ((smoothedMeasure 2 3 ha) 1) = 1 := by
+
+/-- A unit-step cyclic recurrence and total mass determine all finite residue masses. -/
+theorem smoothingResidue_unique {K : Type*} [Field K] [CharZero K]
+    (q : ℕ) [NeZero q] (a : (ZMod q)ˣ) (c c' : ZMod q → K)
+    (hdiff : ∀ r, c (r - a.val) - c r = c' (r - a.val) - c' r)
+    (hsum : ∑ r, c r = ∑ r, c' r) : c = c' := by
   sorry
-example (ha : IsUnit (3 : ℤ_[2])) :
-    algebraMap ℤ_[2] ℚ_[2]
-      ((smoothedMeasure 2 3 ha) ⟨fun x => x, continuous_id⟩) = -2 / 3 := by
+
+/-- Integral numerator moments preserve the sup-norm bound of every finite power combination. -/
+theorem clearingMoment_kummer (p : ℕ) [Fact p.Prime] (a : ℕ)
+    (ha : IsUnit (a : ℤ_[p])) {ι : Type*} (s : Finset ι)
+    (c : ι → ℚ_[p]) (k : ι → ℕ) (hk : ∀ i ∈ s, 0 < k i)
+    (B : ℝ) (hB : 0 ≤ B)
+    (hbound : ∀ u : (ℤ_[p])ˣ,
+      ‖∑ i ∈ s, c i * ((u : ℤ_[p]) : ℚ_[p]) ^ k i‖ ≤ B) :
+    ‖∑ i ∈ s, c i * (clearingMoment p a (k i) : ℚ_[p])‖ ≤ B := by
   sorry
-example : smoothingDenominator ℤ 0 = 0 := by
-  sorry
-example : smoothingDenominator ℤ 1 = 1 := by
-  sorry
-example : smoothingDenominator ℤ 2 = 2 + PowerSeries.X := by
-  sorry
-example : smoothingTail ℤ 0 = 0 := by
-  sorry
-example : smoothingTail ℤ 1 = 0 := by
-  sorry
-example : smoothingTail ℤ 2 = 1 := by
-  sorry
-example : (smoothedSeries ℚ 2 (by norm_num)).coeff 0 = 1 / 2 := by
-  sorry
-example : (smoothedSeries ℚ 2 (by norm_num)).coeff 1 = -1 / 4 := by
-  sorry
-example : (smoothedSeries ℚ 2 (by norm_num)).coeff 2 = 1 / 8 := by
-  sorry
-example : (smoothedSeries ℚ 2 (by norm_num)).coeff 3 = -1 / 16 := by
-  sorry
-example (p : ℕ) [Fact p.Prime] (ha : IsUnit (1 : ℤ_[p])) :
-    smoothedMeasure p 1 ha = 0 := by
-  sorry
-example (p : ℕ) [Fact p.Prime] (ha : IsUnit (2 : ℤ_[p])) :
-    algebraMap ℤ_[p] ℚ_[p] ((smoothedMeasure p 2 ha) 1) = 1 / 2 := by
-  sorry
-example (p : ℕ) [Fact p.Prime] (ha : IsUnit (2 : ℤ_[p])) :
-    algebraMap ℤ_[p] ℚ_[p]
-      ((smoothedMeasure p 2 ha) ⟨fun x => x ^ 3, by fun_prop⟩) = 1 / 8 := by
-  sorry
-example : smoothingMoment 2 0 = 1 / 2 := by
-  norm_num [smoothingMoment, bernoulli_one]
-example : smoothingMoment 2 1 = -1 / 4 := by
-  norm_num [smoothingMoment, bernoulli_two]
-example : smoothingMoment 2 3 = 1 / 8 := by
-  sorry
-example : clearingMoment 3 2 1 = 0 := by norm_num [clearingMoment]
-example : clearingMoment 3 2 2 = 1 / 2 := by norm_num [clearingMoment, bernoulli_two]
-example : clearingMoment 2 3 2 = 2 / 3 := by norm_num [clearingMoment, bernoulli_two]
-example : smoothingResidueCandidate 2 3 0 0 = 1 / 2 := by
-  norm_num [smoothingResidueCandidate]
-example : smoothingResidueCandidate 2 3 1 2 = -1 / 2 := by
-  norm_num [smoothingResidueCandidate]
-example : smoothingResidueCandidate 3 2 1 1 = 0 := by
-  norm_num [smoothingResidueCandidate]
-example : smoothingResidueCandidate 2 1 0 0 = 1 / 2 := by
-  norm_num [smoothingResidueCandidate]
-example (h₂ : IsUnit (2 : ℤ_[3])) (h₄ : IsUnit (4 : ℤ_[3]))
-    (h₈ : IsUnit (8 : ℤ_[3])) :
-    (smoothedMeasure 3 8 h₈) ⟨fun x => x, continuous_id⟩ =
-      (smoothedMeasure 3 2 h₂) ⟨fun x => x, continuous_id⟩ +
-        4 * (smoothedMeasure 3 4 h₄) ⟨fun x => x, continuous_id⟩ := by
-  sorry
-example (F : PowerSeries ℚ) :
-    (((fun G : PowerSeries ℚ => (1 + PowerSeries.X) * PowerSeries.derivative G)^[3]) F).coeff 0 =
-      F.coeff 1 + 6 * F.coeff 2 + 6 * F.coeff 3 := by
-  sorry
-example :
-    (((fun G : PowerSeries ℚ => (1 + PowerSeries.X) * PowerSeries.derivative G)^[3])
-      (smoothedSeries ℚ 2 (by norm_num))).coeff 0 = 1 / 8 := by
-  sorry
-example : ¬ IsUnit (2 : ℤ_[2]) := by
+
+/-- The Kubota–Leopoldt positive moments cannot be the moments of a bounded field measure. -/
+theorem zeta_not_bounded_field_measure (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] :
+    ¬ ∃ μ : AbstractMeasure (ℤ_[p])ˣ K K, ∀ k : ℕ, 0 < k →
+      μ ⟨fun u => (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])) ^ k, by fun_prop⟩ =
+        algebraMap ℚ_[p] K ((-(1 - (p : ℚ) ^ (k - 1)) * bernoulli k / k : ℚ) : ℚ_[p]) := by
   sorry
 
 /-! ## Layer 2: finite character kernels -/
@@ -380,52 +337,64 @@ theorem tameSeries_same_prime_support {K : Type*} [Field K] {D N : ℕ}
     tameSeries (DirichletCharacter.changeLevel hDN η) hN = tameSeries η hD := by
   sorry
 
-example : tameNumerator (1 : DirichletCharacter ℚ 1) = 0 := by
+/-- Unit tame level and bounded character values give integral coefficients. -/
+theorem tameSeries_coeff_norm_le_one {K : Type*} [NormedField K] [IsUltrametricDist K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hD : IsUnit (D : K))
+    (hDnorm : ‖(D : K)‖ = 1) (hη : ∀ a, ‖η a‖ ≤ 1) (n : ℕ) :
+    ‖(tameSeries η hD).coeff n‖ ≤ 1 := by
   sorry
-example : tameNumerator (1 : DirichletCharacter ℚ 3) = -3 - PowerSeries.X := by
+
+/-- A uniform finite-character bound is preserved coefficientwise by the tame quotient. -/
+theorem tameSeries_character_variation {K : Type*} [NormedField K] [IsUltrametricDist K]
+    {D : ℕ} [NeZero D] (η₀ η₁ : DirichletCharacter K D) (hD : IsUnit (D : K))
+    (hDnorm : ‖(D : K)‖ = 1) (B : ℝ) (hB : 0 ≤ B)
+    (hη : ∀ a, ‖η₀ a - η₁ a‖ ≤ B) (n : ℕ) :
+    ‖(tameSeries η₀ hD - tameSeries η₁ hD).coeff n‖ ≤ B := by
   sorry
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    tameNumerator η = 1 + PowerSeries.X := by
+
+/-- The integral tame series has a unique integral measure with its full Amice transform. -/
+theorem existsUnique_integralTameMeasure (p : ℕ) [Fact p.Prime]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter ℤ_[p] D) (hD : IsUnit (D : ℤ_[p])) :
+    ∃! μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p], μ.amiceTransform = tameSeries η hD := by
   sorry
-example : tameSeries (1 : DirichletCharacter ℚ 1) (by norm_num) = 0 := by
+
+/-- The bounded tame kernel determines a unique field-valued measure over any complete p-adic coefficient field. -/
+theorem existsUnique_tameMeasure (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    [Algebra ℤ_[p] K] [IsScalarTower ℤ_[p] ℚ_[p] K] [ContinuousSMul ℤ_[p] K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hD : IsUnit (D : K))
+    (hDnorm : ‖(D : K)‖ = 1) (hη : ∀ a, ‖η a‖ ≤ 1) :
+    ∃! μ : AbstractMeasure ℤ_[p] K K, μ.amiceTransform = tameSeries η hD := by
   sorry
-example : tameSeries (1 : DirichletCharacter ℚ_[2] 1) (by norm_num) = 0 := by
+
+/-- The complex cyclotomic logarithm sum has the inverse-character Gauss normalization. -/
+def complexGaussLogValue {N : ℕ} [NeZero N] (θ : DirichletCharacter ℂ N) (ε : ℂ) : ℂ :=
+  -(∑ a : (ZMod N)ˣ, θ⁻¹ (a : ZMod N) * ε ^ (a : ZMod N).val)⁻¹ *
+    ∑ a : (ZMod N)ˣ, θ⁻¹ (a : ZMod N) * Complex.log (1 - ε ^ (a : ZMod N).val)
+
+/-- The principal complex logarithms of the canonical cyclotomic units give the value at one. -/
+theorem complexGaussLogValue_eq_LValue {N : ℕ} [NeZero N]
+    (θ : DirichletCharacter ℂ N) (hθ : θ.IsPrimitive) (hne : θ ≠ 1) :
+    complexGaussLogValue θ (Complex.exp (2 * Real.pi * Complex.I / N)) =
+      θ.LFunction 1 := by
   sorry
-example : IsUnit (3 : ℤ_[2]) := by
+
+/-- The cyclotomic arguments and inverse-Gauss character coefficients are algebraic, with nonzero arguments. -/
+theorem complexGaussLogValue_algebraic_inputs {N : ℕ} [NeZero N]
+    (θ : DirichletCharacter ℂ N) (ε : ℂ) (hε : IsPrimitiveRoot ε N) (hN : 1 < N) :
+    ∀ a : (ZMod N)ˣ,
+      (1 - ε ^ (a : ZMod N).val ≠ 0) ∧
+      IsAlgebraic ℚ (1 - ε ^ (a : ZMod N).val) ∧
+      IsAlgebraic ℚ (-(∑ b : (ZMod N)ˣ, θ⁻¹ (b : ZMod N) * ε ^ (b : ZMod N).val)⁻¹ *
+        θ⁻¹ (a : ZMod N)) := by
   sorry
-example : smoothingDenominator ℚ_[2] 3 =
-    3 + 3 * PowerSeries.X + PowerSeries.X ^ 2 := by
+
+/-- A nonzero cyclotomic logarithm combination is transcendental by Baker's theorem. -/
+theorem complexGaussLogValue_transcendental_of_ne_zero {N : ℕ} [NeZero N]
+    (θ : DirichletCharacter ℂ N) (ε : ℂ) (hε : IsPrimitiveRoot ε N) (hN : 1 < N)
+    (hne : complexGaussLogValue θ ε ≠ 0) :
+    Transcendental ℚ (complexGaussLogValue θ ε) := by
   sorry
-example : (tameSeries (1 : DirichletCharacter ℚ_[2] 3) (by norm_num)).coeff 0 = -1 := by
-  sorry
-example : (tameSeries (1 : DirichletCharacter ℚ_[2] 9) (by norm_num)).coeff 0 = -3 := by
-  sorry
-example (η : DirichletCharacter ℚ_[2] 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    tameSeries (DirichletCharacter.changeLevel (show 3 ∣ 9 by norm_num) η) (by norm_num) =
-      tameSeries η (by norm_num) := by
-  sorry
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    (tameSeries η (by norm_num)).coeff 0 = 1 / 3 := by
-  sorry
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    (tameSeries η (by norm_num)).coeff 1 = 0 := by
-  sorry
-example (η : DirichletCharacter ℚ_[3] 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    ‖(tameSeries η (by norm_num)).coeff 0‖ = 3 := by
-  sorry
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    (tameSeries η (by norm_num)).coeff 2 = -1 / 9 := by
-  sorry
-example {R : Type*} [CommMonoidWithZero R] {N d : ℕ} [NeZero N]
-    (χ : DirichletCharacter R N) (hd : d ∣ N) (hχ : ¬ χ.FactorsThrough d)
-    (u : (ZMod N)ˣ) :
-    ∃ v : (ZMod N)ˣ, ZMod.unitsMap hd v = ZMod.unitsMap hd u ∧
-      χ.toUnitHom v ≠ χ.toUnitHom u :=
-  DirichletCharacter.exists_alt_unit_in_coset_with_char_separation hd hχ u
-example (i A₁ A₂ A₃ A₄ : ℂ) :
-    A₁ + i * A₂ - i * A₃ - A₄ = A₁ - A₄ + i * (A₂ - A₃) := by ring
-example : (1 - (2 : ℚ) ^ (2 - 1)) * (-2 / 3) = 2 / 3 := by norm_num
-example : (1 - (3 : ℚ) ^ (2 - 1)) * (-1 / 12) = 1 / 6 := by norm_num
 
 /-! ## Layer 3: analytic branches and the residue -/
 
@@ -457,39 +426,6 @@ theorem cleared_branch_residue {K : Type*} [NontriviallyNormedField K]
     Tendsto (fun s => (s - 1) * (N s / d s)) (𝓝[≠] 1) (𝓝 (-N 1 / A)) := by
   sorry
 
-example {K : Type*} [NormedField K] (A : K) :
-    analyticDenominator (1 : K) A 1 = 0 := by simp [analyticDenominator]
-example : analyticDenominator (-1 : ℚ_[2]) 0 1 = -2 := by
-  norm_num [analyticDenominator]
-example {K : Type*} [NormedField K] (s : K) :
-    analyticDenominator (1 : K) 0 s = 0 := by simp [analyticDenominator]
-example {K : Type*} [NormedField K] (b L s : K) :
-    analyticNumerator (PowerSeries.C b) L s = b := by
-  sorry
-example {K : Type*} [NormedField K] (F : PowerSeries K) (L : K) :
-    analyticNumerator F L 1 = F.coeff 0 := by
-  sorry
-example {K : Type*} [NormedField K] (L s : K) :
-    analyticNumerator (PowerSeries.X : PowerSeries K) L s =
-      NormedSpace.exp ((1 - s) * L) - 1 := by
-  sorry
-example : analyticBranch (PowerSeries.C (1 : ℚ_[3])) 0 2 0 1 = 1 := by
-  sorry
-example : analyticBranch (PowerSeries.C (1 : ℚ_[3])) 0 1 0 1 = 0 := by
-  simp [analyticBranch, analyticDenominator]
-example {K : Type*} [NormedField K] (L s : K) :
-    analyticBranch (PowerSeries.X : PowerSeries K) L 0 0 s =
-      1 - NormedSpace.exp ((1 - s) * L) := by
-  sorry
-example : -(1 - (3 : ℚ)⁻¹) * (-1) = 2 / 3 := by norm_num
-example : (-(-(Complex.I * Real.pi / 3)) : ℂ) / (Complex.I * Real.sqrt 3) =
-    Real.pi / (3 * Real.sqrt 3) := by
-  have h : (Real.sqrt 3 : ℂ) ≠ 0 := by
-    exact_mod_cast (show Real.sqrt 3 ≠ 0 by positivity)
-  field_simp [Complex.I_ne_zero, h]
-example (p : ℕ) [Fact p.Prime] : ‖((1 : (ℤ_[p])ˣ) : ℤ_[p])‖ = 1 := by
-  simp
-
 /-- The powered cyclotomic logarithm sum on its nonzero-argument domain, normalized by
  the inverse-character Gauss sum. -/
 def cyclotomicPoweredLogConstant {K : Type*} [Field K] {D : ℕ} [NeZero D]
@@ -504,53 +440,49 @@ def cyclotomicLogConstant {K : Type*} [Field K] {D : ℕ} [NeZero D]
     (hdom : ∀ a : (ZMod D)ˣ, ε ^ (a : ZMod D).val ≠ 1) : K :=
   cyclotomicPoweredLogConstant η ε L 1 (by simpa using hdom)
 
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    cyclotomicPoweredLogConstant η 2 (fun x => x) 1 (by decide) = -1 := by
+/-- A coprime power of the cyclotomic arguments multiplies the normalized constant by the character. -/
+theorem cyclotomicPoweredLogConstant_coprime {K : Type*} [Field K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (ε : K) (hε : IsPrimitiveRoot ε D)
+    (L : K → K) (m : ℕ) (hm : m.Coprime D)
+    (hdom : ∀ a : (ZMod D)ˣ, ε ^ (a : ZMod D).val ≠ 1)
+    (hdomm : ∀ a : (ZMod D)ˣ, ε ^ (m * (a : ZMod D).val) ≠ 1) :
+    cyclotomicPoweredLogConstant η ε L m hdomm =
+      η m * cyclotomicLogConstant η ε L hdom := by
   sorry
 
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    cyclotomicPoweredLogConstant η 2 (fun x => x) 2 (by decide) = -6 := by
+/-- The actual inverse-coordinate smoothing integral gives the nonzero principal numerator mass. -/
+theorem principalNumerator_mass (p : ℕ) [Fact p.Prime]
+    (ha : IsUnit ((p + 1 : ℕ) : ℤ_[p])) (f : C(ℤ_[p], ℤ_[p]))
+    (hf : ∀ x, (IsUnit x → x * f x = 1) ∧ (¬IsUnit x → f x = 0)) :
+    ((smoothedMeasure p (p + 1) ha f : ℤ_[p]) : ℚ_[p]) =
+      -(1 - (p : ℚ_[p])⁻¹) * NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p]) := by
   sorry
 
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    cyclotomicPoweredLogConstant η 2 (fun x => x) 3 (by decide) = -28 := by
+/-- The canonical smoothing logarithm has the sharp odd-prime norm and the dyadic cancellation norm. -/
+theorem principalSmoothingLog_norm (p : ℕ) [Fact p.Prime] :
+    ‖NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])‖ =
+      if p = 2 then 1 / 4 else (p : ℝ)⁻¹ := by
   sorry
 
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    cyclotomicLogConstant η 2 (fun x => x) (by decide) = -1 := by
+/-- The intrinsic tame measure's mass is the normalized cyclotomic logarithm with its reciprocal Euler factor. -/
+theorem tameZetaMeasure_logarithmic_mass (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    [CharZero K] [Algebra ℚ K] [IsScalarTower ℚ ℚ_[p] K]
+    {D : ℕ} [NeZero D] (η : DirichletCharacter K D)
+    (hη : η.IsPrimitive) (hne : η ≠ 1) (hDp : D.Coprime p)
+    (ε : K) (hε : IsPrimitiveRoot ε D) (L : K → K) (hL : IsIwasawaLog p L)
+    (hdom : ∀ a : (ZMod D)ˣ, ε ^ (a : ZMod D).val ≠ 1)
+    (μ : AbstractMeasure (ℤ_[p])ˣ K K)
+    (hμ : ∀ k : ℕ, 0 < k →
+      μ ⟨fun u => (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])) ^ k, by fun_prop⟩ =
+        -(1 - η p * (p : K) ^ (k - 1)) * η.generalizedBernoulli k / k) :
+    μ 1 = (1 - η p / (p : K)) * cyclotomicLogConstant η ε L hdom := by
   sorry
 
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    cyclotomicLogConstant η 2 (fun x => x ^ 2) (by decide) = -4 := by
-  sorry
-
-example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
-    cyclotomicLogConstant η 2 (fun x => x ^ 3) (by decide) = -13 := by
-  sorry
-
-example {K : Type*} [NormedField K] [NormedAlgebra ℚ_[3] K] [CharZero K]
-    (η : DirichletCharacter K 5) (ε : K) (L : K → K)
-    (hdom : ∀ a : (ZMod 5)ˣ, ε ^ (a : ZMod 5).val ≠ 1) :
-    cyclotomicPoweredLogConstant η ε L 1 (by simpa using hdom) =
-      cyclotomicLogConstant η ε L hdom := rfl
-
-example {K : Type*} [NormedField K] [NormedAlgebra ℚ_[3] K] [CharZero K]
-    (η : DirichletCharacter K 5) (ε : K) (hε : IsPrimitiveRoot ε 5)
-    (h₁ : η 1 = 1) (h₂ : η 2 = -1) (h₃ : η 3 = -1) (h₄ : η 4 = 1)
-    (L : K → K) (hL : IsIwasawaLog 3 L)
-    (hdom₁ : ∀ a : (ZMod 5)ˣ, ε ^ (a : ZMod 5).val ≠ 1)
-    (hdom₂ : ∀ a : (ZMod 5)ˣ, ε ^ (2 * (a : ZMod 5).val) ≠ 1) :
-    cyclotomicPoweredLogConstant η ε L 2 hdom₂ =
-      -cyclotomicLogConstant η ε L hdom₁ := by
-  sorry
-
-example {K : Type*} [Field K] (ε : K) (hε : IsPrimitiveRoot ε 5) :
-    ¬ (∀ a : (ZMod 5)ˣ, ε ^ (5 * (a : ZMod 5).val) ≠ 1) := by
-  sorry
-
-example : ‖-(2 / 3 : ℚ_[3]) * NormedSpace.logOneAdd ℚ_[3] ℚ_[3] 3‖ = 1 := by
-  sorry
-example : ‖-(1 / 2 : ℚ_[2]) * NormedSpace.logOneAdd ℚ_[2] ℚ_[2] 2‖ = 1 / 2 := by
+/-- The positive even weight sequence recovers the principal residue from Bernoulli numbers. -/
+theorem bernoulliQuotient_tendsto (p : ℕ) [Fact p.Prime] :
+    Tendsto (fun r : ℕ => (bernoulli (2 * (p - 1) * p ^ r) : ℚ_[p]))
+      atTop (𝓝 (1 - (p : ℚ_[p])⁻¹)) := by
   sorry
 
 /-! ## Layer 4: signed Gamma and universal division -/
@@ -630,76 +562,133 @@ theorem ferreroGreenbergPermutationValue_congruence (p N B m : ℕ)
     Nat.ModEq B (N * ferreroGreenbergPermutationValue N B m) m := by
   sorry
 
-example (Γ : C(ℤ_[3], (ℤ_[3])ˣ))
-    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[3]) : ℤ_[3]) = (moritaNaturalValue 3 n : ℤ_[3])) :
-    (gammaDisc 3 Γ 0 1 : ℤ_[3]) = -1 := by
-  sorry
-example (Γ : C(ℤ_[3], (ℤ_[3])ˣ))
-    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[3]) : ℤ_[3]) = (moritaNaturalValue 3 n : ℤ_[3])) :
-    (gammaDisc 3 Γ 1 1 : ℤ_[3]) = -2 := by
-  sorry
-example (Γ : C(ℤ_[3], (ℤ_[3])ˣ))
-    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[3]) : ℤ_[3]) = (moritaNaturalValue 3 n : ℤ_[3])) :
-    (gammaDisc 3 Γ 2 1 : ℤ_[3]) = -2240 := by
-  sorry
-example : moritaMeanBound ℚ_[2] 2 1 = 16 := by
-  sorry
-example : moritaMeanBound ℚ_[3] 3 1 = 9 := by
-  sorry
-example : moritaMeanBound ℚ_[3] 3 27 = 27 := by
-  sorry
-example : moritaNaturalValue 2 0 = 1 := by decide
-example : moritaNaturalValue 2 1 = -1 := by decide
-example : moritaNaturalValue 3 4 = 2 := by decide
-example : moritaNaturalValue 2 5 = -3 := by decide
+/-- The binary modulus-four boundary excludes the unrestricted Gamma congruence. -/
 example : ¬ Int.ModEq 4 (moritaNaturalValue 2 1) (moritaNaturalValue 2 5) := by decide
-example : moritaModulus 2 = 4 := by norm_num [moritaModulus]
-example : moritaModulus 3 = 3 := by norm_num [moritaModulus]
-example : moritaModulus 5 = 5 := by norm_num [moritaModulus]
-example : moritaMeanLevel 2 3 0 = 12 := by norm_num [moritaMeanLevel, moritaModulus]
-example : moritaMeanLevel 2 3 1 = 48 := by norm_num [moritaMeanLevel, moritaModulus]
-example : moritaMeanLevel 3 1 1 = 9 := by norm_num [moritaMeanLevel, moritaModulus]
-example : moritaFiniteMean 2 (1 : DirichletCharacter ℚ 3) 0 (fun _ => 1) = 1 / 3 := by
+/-- The continuous signed Gamma interpolation satisfies its unit and nonunit recurrences. -/
+theorem moritaGamma_step (p : ℕ) [Fact p.Prime] (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (x : ℤ_[p]) :
+    (IsUnit x → (Γ (x + 1) : ℤ_[p]) = -x * (Γ x : ℤ_[p])) ∧
+      (¬IsUnit x → (Γ (x + 1) : ℤ_[p]) = -(Γ x : ℤ_[p])) := by
   sorry
-example (χ : DirichletCharacter ℚ 3) (h₁ : χ 1 = 1) (h₂ : χ 2 = -1) :
-    moritaFiniteMean 2 χ 0 (fun _ => 1) = 0 := by
+
+/-- Signed Morita Gamma admits a local analytic extension to the ambient p-adic field at every point. -/
+theorem moritaGamma_locallyAnalytic (p : ℕ) [Fact p.Prime] (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (x : ℤ_[p]) :
+    ∃ F : ℚ_[p] → ℚ_[p], AnalyticAt ℚ_[p] F (x : ℚ_[p]) ∧
+      ∀ᶠ y : ℤ_[p] in 𝓝 x, F (y : ℚ_[p]) = ((Γ y : ℤ_[p]) : ℚ_[p]) := by
   sorry
-example : moritaFiniteMean 3 (1 : DirichletCharacter ℚ 1) 0 (fun _ => 1) = 2 / 3 := by
+
+/-- Gamma at an integral rational with denominator dividing p-1 is algebraic over the rationals. -/
+theorem moritaGamma_rational_algebraic (p : ℕ) [Fact p.Prime]
+    (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (m : ℤ) (n : ℕ) (hn : 0 < n) (hdiv : n ∣ p - 1)
+    (u : (ℤ_[p])ˣ) (hu : (u : ℤ_[p]) = n) :
+    IsAlgebraic ℚ ((Γ ((m : ℤ_[p]) * (u⁻¹ : (ℤ_[p])ˣ)) : ℤ_[p]) : ℚ_[p]) := by
   sorry
-example : moritaFiniteMean 2 (1 : DirichletCharacter ℚ 1) 0 (fun _ => 1) = 1 / 2 := by
+
+/-- The native finite-field Gauss sum equals the signed Gamma orbit product in the Gross–Koblitz normalization. -/
+theorem grossKoblitz_formula (p f : ℕ) [Fact p.Prime] (hf : 0 < f)
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F] [Algebra (ZMod p) F] (hcard : Fintype.card F = p ^ f)
+    {E : Type*} [NormedField E] [NormedAlgebra ℚ_[p] E] [FiniteDimensional ℚ_[p] E]
+    (O : ValuationSubring E) (hO : ∀ x : E, x ∈ O ↔ ‖x‖ ≤ 1)
+    (res : O →+* F) (hres : ∀ x : O, res x = 0 ↔ ‖(x : E)‖ < 1)
+    (ω : Fˣ →* Oˣ) (hω : ∀ x : Fˣ, res (ω x : O) = (x : F))
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    (σ : E →ₐ[ℚ_[p]] K) (ζ π : K) (hζ : IsPrimitiveRoot ζ p)
+    (hπ : π ^ (p - 1) = -(p : K)) (hπζ : ‖π - (ζ - 1)‖ ≤ ‖ζ - 1‖ ^ 2)
+    (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (den : (ℤ_[p])ˣ) (hden : (den : ℤ_[p]) = (p ^ f - 1 : ℕ))
+    (a : ℕ) (ha : a < p ^ f - 1) :
+    -(∑ x : Fˣ, (σ ((ω x : O) : E)) ^ (-(a : ℤ)) *
+      ζ ^ (Algebra.trace (ZMod p) F (x : F)).val) =
+      π ^ grossKoblitzDigitSum p a f *
+        ∏ j ∈ Finset.range f,
+          algebraMap ℚ_[p] K
+            ((Γ ((p ^ j * a % (p ^ f - 1) : ℕ) * (den⁻¹ : (ℤ_[p])ˣ)) : ℤ_[p]) : ℚ_[p]) := by
   sorry
-example {K : Type*} [Field K] (p : ℕ) {f : ℕ} (χ : DirichletCharacter K f) (n : ℕ) :
-    moritaFiniteMean p χ n (fun _ => 0) = 0 := by simp [moritaFiniteMean]
-example : grossKoblitzDigitSum 3 5 2 = 3 := by norm_num [grossKoblitzDigitSum, Finset.sum_range_succ]
-example : grossKoblitzDigitSum 2 13 4 = 3 := by norm_num [grossKoblitzDigitSum, Finset.sum_range_succ]
-example : grossKoblitzDigitSum 2 0 1 = 0 := by norm_num [grossKoblitzDigitSum]
-example : gammaUnitCount 3 1 = 0 := by decide
-example : gammaUnitCount 3 4 = 2 := by decide
-example : gammaUnitCount 5 3 = 2 := by decide
-example : ferreroGreenbergPermutationValue 3 25 1 = 17 := by
-  norm_num [ferreroGreenbergPermutationValue]
-example : ferreroGreenbergPermutationValue 3 25 3 = 1 := by
-  norm_num [ferreroGreenbergPermutationValue]
-example : ferreroGreenbergPermutationValue 3 25 24 = 8 := by
-  norm_num [ferreroGreenbergPermutationValue]
-example : divisionRelator 1 0 (0 : ZMod 1) = 0 := by
+
+/-- The full-fiber quotient represents precisely the functions obeying the weighted root law. -/
+abbrev universalWeightedDistribution (X : Type*) [AddCommGroup X] (S : Set ℕ+) (w : ℕ)
+    [∀ m : ℕ+, ∀ a : X, Finite {b : X // (m : ℕ) • b = a}] :=
+  FreeAbelianGroup X ⧸ AddSubgroup.closure
+    {r | ∃ m : ℕ+, m ∈ S ∧ ∃ a : X, r = divisionRelator (m : ℕ) w a}
+
+/-- Every weighted distribution has a unique additive lift from the native universal quotient. -/
+theorem universalWeightedDistribution_lift {X A : Type*} [AddCommGroup X] [AddCommGroup A]
+    (S : Set ℕ+) (w : ℕ) [∀ m : ℕ+, ∀ a : X, Finite {b : X // (m : ℕ) • b = a}]
+    (f : X → A)
+    (hf : ∀ m : ℕ+, m ∈ S → ∀ a : X,
+      (FreeAbelianGroup.lift f) (divisionRelator (m : ℕ) w a) = 0) :
+    ∃! F : universalWeightedDistribution X S w →+ A,
+      ∀ x, F (QuotientAddGroup.mk (FreeAbelianGroup.of x)) = f x := by
   sorry
-example : divisionRelator 2 0 (0 : ZMod 2) = FreeAbelianGroup.of (1 : ZMod 2) := by
+
+/-- Every positive multiplication fiber on a rational torus is finite. -/
+theorem rationalTorus_finite_divisionFiber (d : ℕ) (m : ℕ+)
+    (a : Fin d → AddCircle (1 : ℚ)) :
+    Finite {b : Fin d → AddCircle (1 : ℚ) // (m : ℕ) • b = a} := by
   sorry
-example : divisionRelator 2 2 (0 : ZMod 1) = 3 • FreeAbelianGroup.of (0 : ZMod 1) := by
+
+/-- The image of a positive finite torus level in the ordinary quotient is free of the primitive-point rank. -/
+theorem ordinaryDistribution_finiteBasis (d N : ℕ) (hd : 0 < d) (hN : 0 < N) :
+    letI : ∀ m : ℕ+, ∀ a : Fin d → AddCircle (1 : ℚ),
+      Finite {b : Fin d → AddCircle (1 : ℚ) // (m : ℕ) • b = a} :=
+        fun m a => rationalTorus_finite_divisionFiber d m a
+    let Q := universalWeightedDistribution (Fin d → AddCircle (1 : ℚ)) Set.univ 0
+    let V : AddSubgroup Q := AddSubgroup.closure
+      (Set.range fun x : {x : Fin d → AddCircle (1 : ℚ) // N • x = 0} =>
+        (QuotientAddGroup.mk (FreeAbelianGroup.of x.val) : Q))
+    Module.Free ℤ V ∧ Module.rank ℤ V =
+      (Nat.card {x : Fin d → AddCircle (1 : ℚ) // addOrderOf x = N} : Cardinal) := by
   sorry
-example : divisionRelator 2 1 (0 : ZMod 1) = FreeAbelianGroup.of (0 : ZMod 1) := by
+
+/-- Every continuous p-adic function has a unique normalized continuous antidifference with no norm loss. -/
+theorem existsUnique_normalizedMahlerAntidifference (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    (f : C(ℤ_[p], K)) :
+    ∃! Λ : C(ℤ_[p], K), Λ 0 = 0 ∧ (∀ x, Λ (x + 1) - Λ x = f x) ∧ ‖Λ‖ ≤ ‖f‖ := by
   sorry
-example : divisionRelator 3 2 (0 : ZMod 1) = 8 • FreeAbelianGroup.of (0 : ZMod 1) := by
+
+/-- The normalized antidifference of the zero-extended unit logarithm equals log Gamma without a shift. -/
+theorem unitLogAntidifference_eq_logGamma (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CharZero K]
+    (L : K → K) (hL : IsIwasawaLog p L) (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (Λ : C(ℤ_[p], K)) (hzero : Λ 0 = 0)
+    (hdiff : ∀ x,
+      (IsUnit x → Λ (x + 1) - Λ x = L (algebraMap ℚ_[p] K (x : ℚ_[p]))) ∧
+      (¬IsUnit x → Λ (x + 1) - Λ x = 0))
+    (x : ℤ_[p]) :
+    Λ x = L (algebraMap ℚ_[p] K ((Γ x : ℤ_[p]) : ℚ_[p])) := by
   sorry
-example : (3 : ℤ) * 3 - 8 = 1 := by norm_num
-example : ((1 : ℤ) + 1) = 2 ∧ ((-1 : ℤ) + 1) = 0 := by norm_num
-example : (1 : ℚ) / 2 + (-1 / 2) = 0 := by norm_num
-example : (-1 : ℤ) ^ (1 + 1) = 1 ∧ (-1 : ℤ) ^ (1 + 0) = -1 := by norm_num
-example : -( (-1 : ℚ)) = 1 := by norm_num
-example : ((1 : ℚ) + 27) = 28 := by norm_num
-example : (1 : ℚ) - ((1 / 3 : ℚ) + 1 / 3 + 1 / 3) = 0 := by norm_num
-example : (1 / 6 : ℚ) = 2 * (1 / 6 + (-1 / 12)) := by norm_num
+
+/-- The logarithmic weight derivative of the tame Mellin family is the Ferrero–Greenberg Gamma sum. -/
+theorem ferreroGreenberg_derivative (p : ℕ) [Fact p.Prime]
+    {K : Type*} [NontriviallyNormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
+    [CharZero K] [Algebra ℚ K] [IsScalarTower ℚ ℚ_[p] K]
+    {N : ℕ} [NeZero N] (χ : DirichletCharacter K N) (hχ : χ.IsPrimitive)
+    (hodd : χ (-1) = -1) (hN : 1 < N) (hNp : N.Coprime p)
+    (L : K → K) (hL : IsIwasawaLog p L) (Γ : C(ℤ_[p], (ℤ_[p])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
+    (den : (ℤ_[p])ˣ) (hden : (den : ℤ_[p]) = N)
+    (μ : AbstractMeasure (ℤ_[p])ˣ K K)
+    (hμ : ∀ k : ℕ, 0 < k →
+      μ ⟨fun u => (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])) ^ k, by fun_prop⟩ =
+        -(1 - χ p * (p : K) ^ (k - 1)) * χ.generalizedBernoulli k / k)
+    (tests : K → C((ℤ_[p])ˣ, K))
+    (htests : ∀ᶠ s : K in 𝓝 0, ∀ u : (ℤ_[p])ˣ,
+      tests s u = algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p]) *
+        NormedSpace.exp (-s * L (algebraMap ℚ_[p] K ((u : ℤ_[p]) : ℚ_[p])))) :
+    HasDerivAt (fun s => μ (tests s))
+      ((∑ a : ZMod N, χ a *
+        L (algebraMap ℚ_[p] K
+          ((Γ ((a.val : ℤ_[p]) * (den⁻¹ : (ℤ_[p])ˣ)) : ℤ_[p]) : ℚ_[p]))) +
+        (1 - χ p) * χ.generalizedBernoulli 1 * L (N : K)) 0 := by
+  sorry
 
 /-! ## Layer 5: positive Eisenstein coefficients and shifted clearing -/
 
@@ -752,58 +741,55 @@ example : bernoulli 5 = 0 ∧ eisensteinPositiveMoment 2 1 4 = 1 := by
   · exact bernoulli_eq_zero_of_odd (by decide) (by decide)
   · decide
 
-example : unitPowerTest 2 0 (-1) = 1 := by simp [unitPowerTest]
-example : unitPowerTest 2 1 (-1) = -1 := by simp [unitPowerTest]
-example : unitPowerTest 2 2 (-1) = 1 := by simp [unitPowerTest]
-example (u : (ℤ_[3])ˣ) : unitPowerTest 3 0 u = 1 := by
-  simp [unitPowerTest]
-example (u : (ℤ_[3])ˣ) (hu : (u : ℤ_[3]) = 2) : unitPowerTest 3 1 u = 2 := by
-  have hcast : ((2 : ℤ_[3]) : ℚ_[3]) = 2 := rfl
-  simp [unitPowerTest, hu, hcast]
-example (u : (ℤ_[3])ˣ) (hu : (u : ℤ_[3]) = 2) : unitPowerTest 3 2 u = 4 := by
-  have hcast : ((2 : ℤ_[3]) : ℚ_[3]) = 2 := rfl
-  norm_num [unitPowerTest, hu, hcast]
-example (u : (ℤ_[3])ˣ) (hu : (u : ℤ_[3]) = 2) :
-    ‖(unitPowerTest 3 2 - unitPowerTest 3 0) u‖ = 1 / 3 := by
-  have hcast : ((2 : ℤ_[3]) : ℚ_[3]) = 2 := rfl
-  have h : (unitPowerTest 3 2 - unitPowerTest 3 0) u = (3 : ℚ_[3]) := by
-    norm_num [unitPowerTest, hu, hcast]
-  have hp : ‖(3 : ℚ_[3])‖ = (3 : ℝ)⁻¹ := Padic.norm_p
-  rw [h, hp]
-  norm_num
-example : ‖(1 / 6 : ℚ_[2])‖ = 2 := by
+/-- Native unit powers converge uniformly along the fixed-component weight sequence. -/
+theorem unitPowerSequence_tendsto (p : ℕ) [Fact p.Prime] (k : ℕ) :
+    Tendsto (fun r : ℕ => unitPowerTest p (k + (p - 1) * p ^ r)) atTop
+      (𝓝 (unitPowerTest p k)) := by
   sorry
-example : (-1 / 3 : ℚ) - 2 / 3 = -1 := by norm_num
-example : ((1 : ℚ) / 2) * (1 / 3) = 1 / 6 := by norm_num
-example : eisensteinPositiveMoment 5 2 7 - eisensteinPositiveMoment 5 2 3 = 120 := by
-  decide
-/-- The angular weight-four adapter retains the normalized constant and divisor coefficient. -/
-example : eisensteinPositiveMoment 5 2 3 = 9 ∧
-    (1 - (5 : ℚ) ^ 3) * ((1 / 120) / 2) = -31 / 60 := by
-  constructor
-  · decide
-  · norm_num
-example : eisensteinPositiveMoment 2 6 0 = 2 := by decide
-example : eisensteinPositiveMoment 2 6 3 = 28 := by decide
-example : eisensteinPositiveMoment 3 6 1 = 3 := by decide
-example : eisensteinPositiveMoment 2 4 3 = 1 := by decide
-example : eisensteinPositiveMoment 2 0 3 = 0 := by simp [eisensteinPositiveMoment]
-example : shiftedClearingValue (3 : ℚ) 3 = 160 := by norm_num [shiftedClearingValue]
-example : shiftedClearingValue (1 : ℤ) 0 = 0 := by norm_num [shiftedClearingValue]
-example : shiftedClearingValue (4 : ℤ) 0 = 6 := by norm_num [shiftedClearingValue]
-example : clearingMoment 2 3 4 = -14 / 3 := by
+
+/-- The retained divisor moments characterize a unique integral positive Eisenstein measure. -/
+theorem existsUnique_eisensteinPositiveMeasure (p : ℕ) [Fact p.Prime]
+    {R : Type*} [NormedCommRing R] [IsDomain R] [CharZero R] [Algebra ℤ_[p] R]
+    [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+    [ContinuousSMul ℤ_[p] R] (n : ℕ) (hn : 0 < n) :
+    ∃! μ : AbstractMeasure (ℤ_[p])ˣ R R,
+      (∀ f : C((ℤ_[p])ˣ, R), ‖μ f‖ ≤ ‖f‖) ∧
+      ∀ e : ℕ, μ ⟨fun u => (algebraMap ℤ_[p] R (u : ℤ_[p])) ^ e, by fun_prop⟩ =
+        (eisensteinPositiveMoment p n e : R) := by
   sorry
-example : ((-14 / 3 : ℚ) / 160) = -7 / 240 := by norm_num
-example : (1 - (2 : ℚ) ^ 3) * (1 / 240) = -7 / 240 := by norm_num
-example : (1 : ℤ) + 3 = 4 ∧ (-1 : ℤ) + 3 = 2 := by norm_num
-example : (-1 : ℤ) + 5 = 4 ∧ (1 : ℤ) - 5 = -4 := by norm_num
-example : (1 : ℚ) - (4 : ℚ)⁻¹ = 3 / 4 := by norm_num
+
+/-- The normalized character Eisenstein form has the arithmetic generalized Bernoulli constant. -/
+theorem characterEisenstein_constant {u v N k : ℕ} [NeZero u] [NeZero v] [NeZero N]
+    (ψ : DirichletCharacter ℂ u) (φ : DirichletCharacter ℂ v)
+    (hk : 3 ≤ (k : ℤ)) (huv : u * v ∣ N)
+    (hpar : ψ (-1) * φ (-1) = (-1) ^ (k : ℤ)) (hφ : φ.IsPrimitive) :
+    (UpperHalfPlane.qExpansion 1
+      (TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMF ψ φ hk huv)).coeff 0 =
+        if u = 1 then -φ.generalizedBernoulli k / (2 * (k : ℂ)) else 0 := by
+  sorry
+
+/-- The actual stabilized character Eisenstein form has the full Euler-deleted arithmetic q-expansion. -/
+theorem characterEisenstein_stabilized_qExpansion (p : ℕ) [Fact p.Prime]
+    {u v N k : ℕ} [NeZero u] [NeZero v] [NeZero N]
+    (ψ : DirichletCharacter ℂ u) (φ : DirichletCharacter ℂ v)
+    (hk : 3 ≤ (k : ℤ)) (huv : u * v ∣ N) (hpuv : p * (u * v) ∣ N)
+    (hpar : ψ (-1) * φ (-1) = (-1) ^ (k : ℤ)) (hφ : φ.IsPrimitive) (n : ℕ) :
+    (UpperHalfPlane.qExpansion 1
+      (TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMF ψ φ hk huv -
+        (φ p * (p : ℂ) ^ (k - 1)) •
+          TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMFRaise ψ φ p hk hpuv)).coeff n =
+      if n = 0 then
+        (1 - φ p * (p : ℂ) ^ (k - 1)) *
+          (if u = 1 then -φ.generalizedBernoulli k / (2 * (k : ℂ)) else 0)
+      else ∑ d ∈ n.divisors.filter (fun d => ¬p ∣ d),
+        ψ (n / d) * φ d * (d : ℂ) ^ (k - 1) := by
+  sorry
 
 /-
-The following README constructions use supplier interfaces or substantial arithmetic and
-remain there with their specifications and Checks:
+The following README constructions require the measure-algebra, locally analytic distribution or unramified-residue
+comparison interfaces and are specified there with their specifications and Checks:
 normalizedMellinContinuation, algebraicDirichletValue, tateTrivial_dedekind_comparison;
-iwasawaLog, localIwasawaLog, localIwasawaLog_norm_eq_trace, localIwasawaLog_exp,
+iwasawaLog, localIwasawaLog, localIwasawaLog_exp,
 arithmeticAngularCoordinate;
 unitSmoothedMeasure, smoothedNumerator, intrinsicNumerator, padicSmoothingDenominator,
 padicSmoothedSeries, padicSmoothedMeasure, padicSmoothedNumerator, padicIntrinsicNumerator,
@@ -813,7 +799,7 @@ integralTameSeries, integralTameMeasure, tameComplexKernel, smoothedCharacterKer
 tameZetaMeasure, intrinsicTameZetaMeasure, their integral counterparts, twistedTameMeasure,
 integralTameCharacterMeasure, tameCharacterField, tameCharacterInField;
 arithmeticBranchTest, arithmeticBranchNumerator, intrinsic analytic branches,
-inverseArithmeticCharacter, complexGaussLogValue, normalizedTameLogPrimitive,
+inverseArithmeticCharacter, normalizedTameLogPrimitive,
 tameLogPrimitive,
 cyclotomicLogDiscTrace, cyclotomicLogDiscComplement, wildSmoothedLogPrimitive,
 mixedCyclotomicLogConstant, principal pole-cleared germs;
@@ -822,7 +808,7 @@ moritaDerivativeTwist, moritaBlockPowerSum, convergent angular means,
 Gamma analytic models and their reciprocal coefficients; Dwork splitting coefficients,
 Robert factorial functions and scaled factorial series; normalized finite-field Gauss sums;
 moritaMultiplicationProduct, gammaOrbitLogSum, gammaOrbitPhi, gammaOrbitMean;
-universalWeightedDistribution and its normalized, parity and orbit quotients,
+the normalized, parity and orbit quotients of universalWeightedDistribution,
 distributionPrimitivePoints, distributionDistinguishedPoint, distributionAdmissibleDivisors,
 ordinaryDistributionBasisSet, primitiveTransfer, finiteCartanGroup, globalCartanGroup,
 cartanFullNorm, cartanNormLimit, finiteCartanValue, globalCartanValue,
