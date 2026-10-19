@@ -470,7 +470,15 @@ The interface consists of:
 
 A holomorphic congruence modular form with rational Fourier coefficients admits one integer `D≥1` clearing every coefficient denominator, including denominators at primes dividing its level. Prove the all-prime bounded-denominator theorem here by constructing the all-cusp integral form lattice on the compact integral level models and comparing its rational structure with ModularForms Layer 8. The comparison includes primes dividing the level, using the generalized-curve compactification and its finite proper rigidifying covers from ModularCurvesPartII §§3.2, 5.21. The symbol-side lattice alone does not supply this integral form lattice. The smooth `ℤ[1/N]` model alone cannot control the power of a denominator prime dividing `N`.
 
+The milestone `TauCeti.KatzModularForms.boundedDenominators` uses the existing analytic `ModularForm` carrier for any subgroup containing `Γ(N)`, with `N≥1` and integer weight. For rational coefficients `a_n` in its width-`N` expansion, it asserts `∃D≥1, ∀n, D a_n∈ℤ`.
+
 For a modular function `f` holomorphic on `Y(2N)`, choose `m` so `fΔ^m` is holomorphic at all cusps, clear that holomorphic form's denominators, and multiply its expansion by the integral Laurent series `Δ⁻m`. In the parameter `q=e^{πiτ}` used in the application, `Δ⁻¹=q⁻²∏_(j≥1)(1−q^(2j))⁻²⁴`. This yields the single denominator bound for `f` as a Laurent series. The input includes the level-prime integral comparison; it is not deduced merely by inverting those primes.
+
+**Checks.**
+
+- The integral expansion of `Δ` permits `D=1` at every level obtained by pullback.
+- At level 11 the form `Δ/11` requires a denominator divisible by 11 because its first nonzero coefficient is `1/11`; level primes remain in the denominator assertion.
+- Multiplication by the integral Laurent series `Δ⁻m` preserves a single denominator bound, even though the resulting modular function may have a pole at a cusp.
 
 *Needs:* [All-weight analytic comparison](#target-all-weight-analytic-comparison); [The integral cusp lattice and its reduction image](#target-integral-lattice-and-reduction-image); [ModularForms Layer 8](../ModularForms/README.md#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
 
@@ -703,6 +711,8 @@ For `p=2` or 3 the Hasse section has no holomorphic level-one characteristic-zer
 
 Define the series operation `seriesTheta (f : PowerSeries A) : PowerSeries A` by coefficient `n` equal to `n a_n` for a commutative ring `A`. Its API is the coefficient formula, the derivation law, vanishing on pth powers in characteristic `p`, and the formal weight-shifted Hecke relation `seriesTheta_hecke`: in characteristic `p` for prime `p`, `seriesHecke(ℓ,ℓ²c,d,seriesTheta(f))=ℓ seriesTheta(seriesHecke(ℓ,c,d,f))`. It agrees with `q` times Mathlib's formal derivative and is distinct from the geometric form operator with degree `p+1`. (Katz 1977, §II, pp.55–56; Edixhoven §3.1, author DVI p.7.)
 
+The named milestones `seriesTheta_coefficient`, `seriesTheta_eq_X_mul_derivative`, `seriesTheta_mul` and `seriesTheta_pow_charP` state these characterizing properties; the last carries prime `p` and `CharP A p` as hypotheses.
+
 **Checks.**
 
 - On `q²` over `ℤ` its value is `2q²`.
@@ -788,6 +798,8 @@ On the ordinary Igusa cover the tautological invariant differential a trivialize
 #### Ordinary weight congruences
 
 Define `ordinaryWeightDivisor (p m : ℕ) : ℕ` by the following displayed formulas for primes `p` and `m≥1`; the total arithmetic function uses the same expressions outside that range without a geometric interpretation. Its API computes the odd-prime and three dyadic branches and identifies the divisor with the exponent of `(ℤ/p^m)×`. (Katz 1973, §§4.4.1–4.4.2, pp.151–152.)
+
+The milestone `ordinaryWeightDivisor_eq_exponent` identifies it with Mathlib's `Monoid.exponent (ZMod (p^m))ˣ` for prime `p` and `m≥1`.
 
 **Checks.**
 
@@ -1025,6 +1037,8 @@ For an eigenform `f` of type `(N,k,ε)`, with `p∤N`, find an eigenform `g` of 
 
 At `N≥5` the proof uses the Hasse cohomology sequence, the weight-`(p+1)` supersingular periodicity with its Hecke twist and the boundary comparison `SS_k→S_(p+1−k)∨`. To extract eigenvectors, use support over the finite-dimensional commutative image algebra and its preservation by field duality; a semisimple Hecke action is unnecessary. Smaller levels are obtained through rigidifying covers and `G`-invariants only when `p∤#G`. The exceptional `N=1,p=2,3` cases require Serre's theorem in Astérisque 24–25, Theorem 3, as an additional source input. These form-theoretic operations do not themselves prove universal residual modularity or optimize the classical target.
 
+The algebraic milestone `TauCeti.EigenvalueLifting.dual_support` states this support comparison for a finite-dimensional commutative `κ`-algebra acting on a finite-dimensional `κ`-space and its field dual. The dual action is specified by transposing each operator.
+
 **Checks.**
 
 - At `p=2,N=5` the field sequence and twisted duality use `T₃^*`, and the reduced weight bound is `k′≤3`; no odd-`p` torsion package is required.
@@ -1201,6 +1215,8 @@ where finite means that its étale generic-fibre group of type (p,p) extends to 
 
 The arithmetic signature is `edixhovenWeight (p : ℕ) : LocalData → ℕ`: on tame branches it is `1+pa+b`; on wild data it is `1+p min(α,β)+max(α,β)`, plus `p−1` exactly when `β=α+1` and the extension is très ramifiée. Its API computes the normalized branches and the two exceptional comparisons with `serreWeight`. The local-representation definition composes this table with the actual classification and extension test. (Edixhoven Definition 4.3, author DVI p.10.)
 
+The milestone `edixhovenWeight_comparison` gives the complete comparison on normalized `LocalData`: its value is 1 on unramified niveau-one data, 3 on dyadic très data, and `serreWeight p d` on every other branch.
+
 **Checks.**
 
 - Unramified data at `p=5` have Edixhoven weight 1 and classical weight 5.
@@ -1234,6 +1250,14 @@ For the unipotent representation whose off-diagonal character cuts out `ℚ₂(�
 Let `p≥3` and `1≤r≤p−2`. For a rank-two residual Fontaine–Laffaille module over the unramified base `ℤ_p` with labeled weights {0,r}, use the supplier's contravariant `U_S` functor and convention `HT(χ_cyc)=+1`. Its rank-two extension-sensitive classification supplies either reducible inertia with semisimplification `χ̄_p^r⊕1` and ordered wild exponents `α=0,β=r`, or niveau-two characters `ψ^r,ψ′^r`. In the `r=1` extension branch the finite/peu assertion is part of that supplier classification.
 
 Applying the local recipe gives `k=r+1`. A semisimplification alone would not determine the ordered wild line or the finite/peu case, so those are indispensable hypotheses. The case `r=0` instead permits unramified classical weight `p`; `r=p−1` and `p=2` lie outside this comparison. This calculation uses the existing functor and local classification, independently of any modular-form existence theorem.
+
+The arithmetic milestones `fontaineLaffailleWeight` and `fontaineLaffailleWildWeight` cover the tame and ordered wild rows respectively; the wild row retains the peu hypothesis when `r=1`.
+
+**Checks.**
+
+- At `p=5,r=2`, the tame rows `(0,2)` and the ordered wild row `(0,2)` all give weight 3.
+- At `r=1` the peu wild row has weight 2; the très row has weight `p+1` for odd `p`, so omitting the peu condition would make the comparison false.
+- At `r=0` unramified data have classical weight `p`; at `p=2` the interval `1≤r≤p−2` is empty. Neither input asserts a Fontaine–Laffaille weight `r+1` here.
 
 *Needs:* [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [The weight-two criterion](#target-weight-two-iff-finite-flat-at-p); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layers R07.5 and R07.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.5.11.
 
@@ -1415,6 +1439,14 @@ On `O²` consider `T=[[0,ϖ],[0,0]]`. Reduction makes `T` zero, so the residual 
 
 The operator `[[0,ϖ],[1,0]]` satisfies `T²=ϖ·id`. Its residual eigenvalue is zero, but a generic eigenvalue must satisfy `λ²=ϖ`. Such a root need not lie in `K`, so a fraction-field extension is necessary. When `K` has characteristic two the extension can be inseparable; the character-lift formulation must allow that possibility. This example also tests the valuation-ring output rather than requiring an unramified coefficient extension.
 
+The named boundary theorem `TauCeti.EigenvalueLifting.uniformizer_requires_eigenvalue_extension` states that a uniformizer has no square root in the DVR fraction field and that this companion operator has no nonzero eigenvector over that field.
+
+**Checks.**
+
+- The valuation of a square in `K×` is even, whereas `v(ϖ)=1`; hence the eigenvalue cannot lie in `K`.
+- After adjoining `α` with `α²=ϖ`, the vector `(α,1)` has eigenvalue `α`, realizing the required extension.
+- For `O=𝔽₂[[t]]`, adjoining a root of `X²−t` is purely inseparable; separability would exclude this lifting instance.
+
 *Needs:* [Deligne–Serre eigenvalue lifting](#target-deligne-serre-eigenvalue-lifting-lemma).
 
 ([Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), Lemme 6.11 and its proof, printed p. 522.)
@@ -1503,6 +1535,8 @@ The API includes Parabolic realization commutes with extension of coefficient fi
 
 For a nonzero holomorphic form `f` of weight `k≥2`, level `N≥1` and character `ε` that is an eigenvector for every `T_p` with `p∤N`, a coefficient number field `K` containing `λ_p(f)` and `ε(p)`, and a place `λ|ℓ`, construct a continuous semisimple `ρ_{f,λ}:G_ℚ→GL₂(K_λ)`, unramified outside `Nℓ`, with arithmetic Frobenius polynomial `X²−λ_p(f)X+ε(p)p^(k−1)` at `p∤Nℓ`. Its image is compact and need not be finite. Good-place semisimple recognition proves uniqueness. For an Eisenstein eigensystem with `λ_p(f)=ψ₁(p)+ψ₂(p)p^(k−1)`, construct `ψ₁⊕ψ₂χ_cyc^(k−1)` directly by reciprocity.
 
+The milestone `TauCeti.ClassicalModularGalois.higherWeight_attachment` states this existence, continuity, semisimplicity, unramifiedness and Frobenius polynomial on the pinned holomorphic character space, `Representation`, number-field adic completion and `AlgHom.IsArithFrobAt` carriers. It retains the coefficient-field embedding and permits `ℓ|N`.
+
 For cusp forms pass to the normalized primitive associate with the same good-prime eigensystem and dualize its primitive cohomological multiplicity from R15.5A.1, allowing `ℓ|N`. At an auxiliary full level `m` divisible by `N`, use good-fibre specialization only at primes `q∤mℓ`. The q-isogeny correspondence gives `T_q=F+ε(q)V` and `FV=VF=q^(k−1)`, with `F` geometric Frobenius. On the primitive rank-two multiplicity construct a nondegenerate alternating pairing `B_f` from the coefficient pairing with the adjoint character block and root-dependent Fricke transport, extending coefficients to contain the required level roots. Its target is the one-dimensional Galois character `ε⁻¹χ_cyc^(1−k)`, whose geometric Frobenius at `q` acts by `ε(q)q^(k−1)`. Prove alternation using the isogeny adjoint and Fricke-square identities, including odd `k`; the natural cup pairing alone need not pair a character block with itself. Carry the transpose identity to this pairing as `B_f(Fx,y)=B_f(x,ε(q)Vy)`.
 
 The theorem `TauCeti.ClassicalModularGalois.frobeniusPolynomial_of_pairing` supplies the rank-two algebraic conclusion. Writing `c=q^(k−1)`, the transpose identity gives `B_f(Fx,Fy)=ε(q)c B_f(x,y)`, so the induced action on the top exterior power gives `det F=ε(q)c`. For an alternating pairing in dimension two the adjoint of `F` is `(tr F)I−F`. Thus `F+ε(q)V=λ_q(f)I` gives tr `F=λ_q(f)`, and `det(1−FT)=1−λ_q(f)T+ε(q)cT²`. This argument also covers scalar `F`. The dual has this polynomial at arithmetic Frobenius. For each `q∤Nℓ` choose a dominating full level `m` with `q∤m` and use auxiliary-level independence to obtain the polynomial and unramifiedness at `q`. Proper/parabolic specialization and tame cusps apply over `Spec ℤ[1/(mℓ)]`; no fibre at `ℓ` is required. Descent to `K_λ` uses the trace algebra of degree `≤2`: the rank-one idempotent `(1+c_∞)/2` for complex conjugation `c_∞` splits its possible central simple obstruction. In the reducible case, traces of `g` and `c_∞g` recover the two character values, so they descend too. This constructs a model, beyond equality of rationality fields.
@@ -1539,6 +1573,8 @@ Construct the classical Rankin–Selberg specialization directly. By classical o
 
 For `B>0` put `Y_B={a∈O_K : |σ(a)|≤B for every σ:K→ℂ}` and `X_B={q∤N : λ_q(f)∉Y_B}`. Prove `Y_B` finite and an upper Dirichlet-density bound `[K:ℚ]/B²` for `X_B` by summing the conjugate moment inequalities. Interpret the bound using the supplied `NumberField.Set.IsUpperDirichletDensityBound` on rational prime ideals. Its denominator is the all-prime sum; ArithmeticDirichletSeries §7.2 identifies it asymptotically with `log(1/(s−1))`. Equivalently the limsup of `Σ_{q∈X_B}q^(−s)/log(1/(s−1))` is at most `[K:ℚ]/B²`. Thus for every `η>0` there are a finite `Y⊂O_K` and an exceptional prime set of upper Dirichlet density at most `η`, outside which every good eigenvalue lies in `Y`. Adding primes dividing `N` preserves this bound.
 
+The milestone `TauCeti.ClassicalModularGalois.weightOne_finiteEigenvalues` states the resulting finite-set assertion on the pinned cuspidal eigenform carrier. For every `η>0` it gives a finite set of complex eigenvalues whose exceptional good primes satisfy `Σq^(−s)≤(η+ε)log(1/(s−1))` for every `ε>0` and all `s>1` sufficiently near 1.
+
 For a nontrivial finite Dirichlet character `χ`, deduce `Σ_q χ(q)q^(−s)=O(1)` near `s=1` from its Euler logarithm and Mathlib `DirichletCharacter.LFunction_apply_one_ne_zero`. Consequently two distinct finite Dirichlet characters have trace prime moment `2log(1/(s−1))+O(1)`, the comparison used for irreducibility in R15.5A.3.
 
 Use this same density convention in R15.5A.3: for a finite residual image `G`, Chebotarev identifies the density of a conjugacy-stable subset with its cardinality divided by `|G|`. If the complement of the polynomial fibres indexed by `Y` is contained in the exceptional set, those fibres occupy at least `(1−η)|G|` elements.
@@ -1560,6 +1596,8 @@ Use this same density convention in R15.5A.3: for a finite residual image `G`, C
 ### R15.5A.3 The Artin representation of a classical weight-one form
 
 For a nonzero holomorphic form `f` of weight one, level `N≥1` and odd Dirichlet character `ε` that is an eigenvector for every `T_p` with `p∤N`, construct a continuous finite-image semisimple `ρ_f:G_ℚ→GL₂(ℂ)`, unramified outside `N`. At arithmetic Frobenius `p∤N` its polynomial is `X²−λ_p(f)X+ε(p)`, with `λ_p(f)` the Hecke eigenvalue. It is unique up to isomorphism, irreducible exactly when `f` is cuspidal, has determinant `ε`, and complex conjugation has eigenvalues `1,−1`. Reductions specify a number field, coefficient place, residue embedding and stable lattice.
+
+The milestone `TauCeti.ClassicalModularGalois.weightOne_attachment` states existence of the continuous finite-image semisimple representation, its unramifiedness and its arithmetic Frobenius polynomial for the pinned holomorphic character-space carrier, including Eisenstein forms and arbitrary nonzero scaling.
 
 Proof: Eisenstein forms give their two Dirichlet characters. For cusp forms, [R15.5A.2a](#target-classical-weight-one-prime-moments) puts `λ_p(f)` in a fixed finite set outside a set of arbitrarily small upper Dirichlet density. At infinitely many split `ℓ`, multiply by an Eisenstein form `≡1`, then apply DS lifting and higher-weight attachment. Chebotarev transfers that same polynomial-density bound to the finite residual image, as specified in R15.5A.2a. DS7.2 bounds its order uniformly: torus fibres have at most two elements, a torus normalizer has index two, exceptional projective groups and their determinant-controlled scalar kernels are bounded, and `SL₂` polynomial fibres have at most `ℓ²+ℓ` elements, forcing `ℓ` bounded in that branch.
 
@@ -1752,7 +1790,7 @@ R15.4–R15.5A; ArithmeticGaloisRepresentations Layers 1, 3 and 5; [Residual att
 
 The [suggested file](Suggested.lean) states complete algebraic milestones, light series definitions and arithmetic tables against the pinned carriers. It is not an exhaustive checklist. Geometric section spaces, coherent correspondences, Galois classification and the full place-sensitive witness structures have their intended signatures in the targets above. Their API names and Checks also identify the mathematical statements that implementations must supply.
 
-The examples distinguish negative global weights from negative supersingular fibres, weight-zero functions from constants, integral reductions from all Katz forms, linear `V` from absolute Frobenius, curve Fricke from its Hodge scalar, full-boundary characters from a single cusp orbit, pe`u f`rom très with the same semisimplification, and eigenvalue lifting from a prescribed residual vector.
+The prose Checks distinguish negative global weights from negative supersingular fibres, weight-zero functions from constants, integral reductions from all Katz forms, linear `V` from absolute Frobenius, curve Fricke from its Hodge scalar, full-boundary characters from a single cusp orbit, peu from très with the same semisimplification, and eigenvalue lifting from a prescribed residual vector.
 
 ## Sources and pagination
 

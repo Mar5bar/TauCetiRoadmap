@@ -1,6 +1,6 @@
 import Mathlib
-import TauCeti.NumberTheory.ModularForms.Newforms.Coefficient
-import TauCeti.RingTheory.DedekindDomain.IntegralClosure
+import TauCeti.NumberTheory.ModularForms.HeckeSlash.Operators
+import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
 # AlgebraicModularFormsAndSerreWeights: representative target signatures
@@ -13,7 +13,9 @@ modularity witnesses are specified in the README.
 The classical coefficient realization there allows the coefficient prime to divide
 the level, using the base with both inverted. The rank-two pairing statement below
 identifies the Frobenius characteristic polynomial, including scalar operators.
-The weight-one prime moment uses the supplied cuspidal eigenform and good-index
+The classical attachments use holomorphic character spaces, number-field adic
+completions and the integral-closure action of the absolute Galois group. The
+weight-one prime moment uses the supplied cuspidal eigenform and good-index
 eigenvalue interface. Attachment traces are Hecke eigenvalues; Fourier coefficients
 agree with them under first-coefficient normalization.
 
@@ -26,26 +28,7 @@ allows inseparable coefficient extensions and does not prescribe a lifted vector
 open scoped TensorProduct
 open IsLocalRing
 
-#check TauCeti.integralClosure.isDedekindDomain
-
-/-! ## Layer R15.1: geometric forms and comparison
-
-Section spaces, descent and the integral logarithmic Kodaira–Spencer comparison
-are README targets. Their moduli and logarithmic carriers are required there.
--/
-
 namespace TauCeti.KatzModularForms
-
-/-- The stabilizer equation in odd weight forces vanishing when 2 is a unit. -/
-example {A M : Type*} [CommRing A] [AddCommGroup M] [Module A M]
-    (h2 : IsUnit (2 : A)) (f : M) (h : -f = f) : f = 0 := by sorry
-
-/-- The Eisenstein coefficients use `σ₃`, including its value at two. -/
-example :
-  let e4 : PowerSeries ℤ := PowerSeries.mk
-    (fun n => if n = 0 then 1 else 240 * n.divisors.sum (fun d => (d : ℤ)^3))
-  PowerSeries.coeff 0 e4 = 1 ∧ PowerSeries.coeff 1 e4 = 240 ∧
-    PowerSeries.coeff 2 e4 = 2160 := by sorry
 
 /-! ## Layer R15.2: integral q-expansion and coherent Hecke theory -/
 
@@ -69,44 +52,20 @@ theorem seriesHecke_map {B : Type*} [CommRing B] (u : A →+* B)
     PowerSeries.map u (seriesHecke l c d f) =
       seriesHecke l (u c) (u d) (PowerSeries.map u f) := by sorry
 
-example (l : ℕ) (c d : A) : seriesHecke l c d 0 = 0 := by sorry
-
-example (delta : PowerSeries ℤ) (h : PowerSeries.coeff 2 delta = -24) :
-    PowerSeries.coeff 1 (seriesHecke 2 (2^11) 1 delta) = -24 := by sorry
-
-example :
-    PowerSeries.coeff 2 (seriesHecke 2 (1 : ℤ) (-1) PowerSeries.X) = -1 ∧
-    PowerSeries.coeff 2 (seriesHecke 2 (1 : ℤ) 1 PowerSeries.X) = 1 := by sorry
-/-- The leading coefficient of `Δ` remains one after every residue map. -/
-example {O k : Type*} [CommRing O] [Field k] (place : O →+* k)
-    (delta : PowerSeries O) (h : PowerSeries.coeff 1 delta = 1) :
-    PowerSeries.map place delta ≠ 0 := by sorry
 end QHecke
+
+/-- A holomorphic congruence modular form with rational expansion has one
+integer clearing all denominators, including primes dividing its level. -/
+theorem boundedDenominators
+    (N : ℕ) [NeZero N] (k : ℤ)
+    (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ))
+    (hlevel : CongruenceSubgroup.Gamma N ≤ Γ)
+    (f : ModularForm (Γ.map (Matrix.SpecialLinearGroup.mapGL ℝ)) k)
+    (a : ℕ → ℚ)
+    (ha : ∀ n, (UpperHalfPlane.qExpansion (N : ℝ) f).coeff n = (a n : ℂ)) :
+    ∃ D : ℕ, 0 < D ∧ ∀ n, ∃ b : ℤ, (D : ℚ) * a n = b := by
+  sorry
 end TauCeti.KatzModularForms
-
-namespace TauCeti.GeometricHecke
-open CategoryTheory AlgebraicGeometry
-
-/-- A curve square moving a point cannot be the identity. -/
-example (T X : Scheme) (point : T ⟶ X) (w D : X ⟶ X)
-    (hsq : w ≫ w = D) (hmoved : point ≫ D ≠ point) :
-    w ≫ w ≠ 𝟙 X := by sorry
-
-/-- The weight-two scalar square obstructs an involution. -/
-example {M : Type*} [AddCommGroup M] [Module ℚ M] [Nontrivial M]
-    (W : Module.End ℚ M) (h : W*W = (4 : ℚ) • (1 : Module.End ℚ M)) :
-    W*W ≠ 1 := by sorry
-
-/-- Inverse roots give opposite weight-one evaluations when the evaluation is nonzero. -/
-example {K M : Type*} [Field K] [AddCommGroup M] [Module K M]
-    (h2 : (2 : K) ≠ 0) (Wneg W : Module.End K M) (hsign : Wneg = -W)
-    (ell : Module.Dual K M) (f : M) (hne : ell (W f) ≠ 0) :
-    ell (Wneg f) ≠ ell (W f) := by sorry
-
-/-- Infinity and zero cusp types have different boundary eigenvalues. -/
-example : ((-1 + 3^2 : ℤ) : ZMod 5) = 3 ∧
-    ((1 - 3^2 : ℤ) : ZMod 5) = 2 := by sorry
-end TauCeti.GeometricHecke
 
 /-! ## Layer R15.3: Hasse, seriesTheta and weight operations -/
 
@@ -117,6 +76,26 @@ variable {A : Type*} [CommRing A]
 /-- The series derivation `q d/dq`; geometric preservation is specified in R15.3. -/
 noncomputable def seriesTheta (f : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk (fun n => (n : A) * PowerSeries.coeff n f)
+
+/-- The coefficient formula characterizes the series operator `q d/dq`. -/
+theorem seriesTheta_coefficient (f : PowerSeries A) (n : ℕ) :
+    PowerSeries.coeff n (seriesTheta f) = (n : A) * PowerSeries.coeff n f := by
+  sorry
+
+/-- The series theta operator agrees with `q` times the formal derivative. -/
+theorem seriesTheta_eq_X_mul_derivative (f : PowerSeries A) :
+    seriesTheta f = PowerSeries.X * PowerSeries.derivative f := by
+  sorry
+
+/-- The series theta operator satisfies the product rule. -/
+theorem seriesTheta_mul (f g : PowerSeries A) :
+    seriesTheta (f * g) = seriesTheta f * g + f * seriesTheta g := by
+  sorry
+
+/-- In characteristic `p` the series theta operator annihilates every pth power. -/
+theorem seriesTheta_pow_charP (p : ℕ) [Fact p.Prime] [CharP A p]
+    (g : PowerSeries A) : seriesTheta (g ^ p) = 0 := by
+  sorry
 
 /-- The residue-zero Cartier operator selects coefficients at multiples of `p`.
 Its generic API belongs to `TauCeti.RingTheory.PowerSeries.Cartier`;
@@ -130,40 +109,8 @@ noncomputable def qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A where
 theorem qU_coefficient (p n : ℕ) (f : PowerSeries A) :
     PowerSeries.coeff n (qU p f) = PowerSeries.coeff (p*n) f := by sorry
 
-/-- At modulus zero the Cartier specialization repeats the constant coefficient. -/
-example (n : ℕ) (f : PowerSeries A) :
-    PowerSeries.coeff n (qU 0 f) = PowerSeries.coeff 0 f := by simp [qU]
-
 /-- Formal `U` is a left inverse of coefficient-linear `V` when `p>0`. -/
 theorem qU_qV (p : ℕ) (hp : 0 < p) (f : PowerSeries A) : qU p (PowerSeries.expand p (Nat.ne_of_gt hp) f) = f := by sorry
-
-example (p : ℕ) (hp : 0 < p) :
-    PowerSeries.expand p (Nat.ne_of_gt hp) (PowerSeries.X : PowerSeries A) = PowerSeries.X ^ p ∧
-    qU p (PowerSeries.X ^ p : PowerSeries A) = PowerSeries.X := by sorry
-
-example [IsDomain A] [CharP A 2] (a : A) (ha : a^2 ≠ a) :
-    PowerSeries.expand 2 (by decide) (PowerSeries.C a * PowerSeries.X) ≠
-      (PowerSeries.C a * PowerSeries.X)^2 := by sorry
-
-example (p : ℕ) (hp : 2 ≤ p) : qU p (PowerSeries.X : PowerSeries A) = 0 := by sorry
-
-example (p : ℕ) (hp : 0 < p) (a : A) :
-    qU p (PowerSeries.C a) = PowerSeries.C a ∧
-    PowerSeries.expand p (Nat.ne_of_gt hp) (PowerSeries.C a) = PowerSeries.C a := by sorry
-
-example (f : PowerSeries A) (n : ℕ) :
-    PowerSeries.coeff n (seriesTheta f) = (n : A) * PowerSeries.coeff n f := by sorry
-
-example (delta : PowerSeries (ZMod 5)) (h : PowerSeries.coeff 2 delta = -24) :
-    PowerSeries.coeff 2 (seriesTheta delta) = 2 := by sorry
-
-example (p : ℕ) [Fact p.Prime] [CharP A p] (g : PowerSeries A) :
-    seriesTheta (g^p) = 0 := by sorry
-
-example : seriesTheta (1 : PowerSeries A) = 0 := by sorry
-
-example : seriesTheta (PowerSeries.X^2 : PowerSeries ℤ) =
-    2 * PowerSeries.X^2 := by sorry
 
 /-- Formal coefficient identity underlying the weight-shifted Hecke relation. -/
 theorem seriesTheta_hecke (p l : ℕ) [Fact p.Prime] [CharP A p]
@@ -180,18 +127,6 @@ theorem seriesTheta_expand (p : ℕ) (hp : 0 < p) (f : PowerSeries A) :
 theorem seriesTheta_expand_charP (p : ℕ) (hp : 0 < p) [CharP A p]
     (f : PowerSeries A) :
     seriesTheta (PowerSeries.expand p (Nat.ne_of_gt hp) f) = 0 := by sorry
-
-/-- The expansion identity retains a nonzero scalar over mixed-characteristic torsion. -/
-example :
-    seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 9))) =
-      (3 : ZMod 9) • (PowerSeries.X ^ 3 : PowerSeries (ZMod 9)) ∧
-    seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 9))) ≠
-      0 := by sorry
-
-/-- The same `V` contribution has zero theta after passing to characteristic three. -/
-example :
-    seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 3))) =
-      0 := by sorry
 
 /-- Weight one retains the `V` term in its formal Hecke formula. -/
 theorem seriesHecke_weightOne (p : ℕ) (hp : 0 < p) (d : A) (f : PowerSeries A) :
@@ -213,10 +148,6 @@ theorem hasseScalar_weight {A : Type*} [CommRing A] (p : ℕ)
     (F : A →ₛₗ[frobenius A p] A) (lambda : Aˣ) :
     (lambda : A) * F (↑(lambda⁻¹) : A) =
       (↑(lambda ^ (1-(p : ℤ))) : A) * F 1 := by sorry
-
-/-- Eisenstein coefficient divisibilities underlying the first Hasse congruences. -/
-example : 240 % 5 = 0 ∧ 504 % 7 = 0 ∧ 264 % 11 = 0 ∧
-    65520 % 13 = 0 ∧ 691 % 13 ≠ 0 := by sorry
 
 /-- Edixhoven Proposition 3.3: small-prime arithmetic table on filtration and ordinarity data. -/
 def smallThetaCycle (p k : ℕ) (ordinary : Bool) : Option (List ℕ) :=
@@ -264,32 +195,15 @@ theorem thetaCycles (p k : ℕ) [Fact p.Prime] (hp : 3 < p)
     ∃ cycle : List ℕ, largeThetaCycle p k ordinary = some cycle ∧
       cycle.length = p-1 := by sorry
 
-example : smallThetaCycle 3 1 false = some [5,9] ∧
-    smallThetaCycle 3 1 true = some [5,9] := by sorry
-
-example : largeThetaCycle 2 1 true = none := by sorry
-
-example : largeThetaCycle 0 1 true = none := by sorry
-
-example (p : ℕ) (hp : 3 < p) : largeThetaCycle p (p+1) false = none := by sorry
-
--- The arithmetic table distinguishes the ordinary final drop.
-example : largeThetaCycle 5 2 false = some [8, 14, 20, 2] := by sorry
-
-example : largeThetaCycle 5 2 true = some [8, 14, 20, 10] := by sorry
-
 /-- Exponent of the ordinary unit-character group at a prime power. -/
 def ordinaryWeightDivisor (p m : ℕ) : ℕ :=
   if p = 2 then 2^(if m=1 then 0 else if m=2 then 1 else m-2)
   else (p-1)*p^(m-1)
 
-
-example : ordinaryWeightDivisor 2 1 = 1 := by sorry
-
-example : ordinaryWeightDivisor 2 2 = 2 ∧ ordinaryWeightDivisor 2 3 = 2 ∧
-    ordinaryWeightDivisor 2 4 = 4 := by sorry
-
-example : ordinaryWeightDivisor 5 2 = 20 := by sorry
+/-- The ordinary weight divisor is the exponent of the full prime-power unit group. -/
+theorem ordinaryWeightDivisor_eq_exponent (p m : ℕ) [Fact p.Prime] (hm : 1 ≤ m) :
+    ordinaryWeightDivisor p m = Monoid.exponent (ZMod (p ^ m))ˣ := by
+  sorry
 
 /-- The inverse deck character follows the weight-`k` trivialization. -/
 theorem igusaCharacterCalculation {K : Type*} [Field K] (u a f : Kˣ) (k : ℤ) :
@@ -315,18 +229,6 @@ def wildExponents : LocalData → Option (ℕ × ℕ)
   | .wild a b _ => some (a,b)
   | _ => none
 
-example : tameExponents (.niveauTwo 1 3) = some (1, 3) ∧
-    tameExponents (.wild 1 3 true) = none := by sorry
-
-example : wildExponents (.wild 3 1 false) = some (3, 1) ∧
-    wildExponents (.niveauOne 0 0) = none := by sorry
-
-example : wildExponents (.niveauTwo 1 3) = none := by rfl
-
-example : tameExponents (.niveauTwo 0 1) = some (0, 1) := by rfl
-
-example : tameExponents (.niveauOne 0 0) = some (0, 0) := by rfl
-
 /-- Classical Serre arithmetic table, retaining the unramified and dyadic corrections. -/
 def serreWeight (p : ℕ) : LocalData → ℕ
   | .niveauOne a b => if a=0 ∧ b=0 then p else 1+p*a+b
@@ -348,27 +250,6 @@ theorem serreWeight_wild (p alpha beta : ℕ) (peu : Bool) :
         if peu then 2+alpha*(p+1) else if p=2 then 4 else (alpha+1)*(p+1)
       else 1+p*min alpha beta+max alpha beta := by sorry
 
-example (p : ℕ) : serreWeight p (.niveauTwo 0 1) = 2 := by sorry
-
-example (p : ℕ) [Fact p.Prime] : serreWeight p (.niveauOne 0 0) = p := by sorry
-
-example : serreWeight 5 (.niveauTwo 1 3) = 9 ∧
-    serreWeight 5 (.niveauTwo 0 2) = 3 ∧ 9 = 3+1*(5+1) := by sorry
-
-example (p : ℕ) [Fact p.Prime] : ¬ (p-1 ≤ p-2) := by sorry
-
-example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) :
-    serreWeight p (.wild 0 1 true) = 2 ∧
-    serreWeight p (.wild 0 1 false) = p+1 := by sorry
-
-example : serreWeight 5 (.wild 1 3 true) = 9 := by sorry
-
-example : wildExponents (.wild 0 1 true) = wildExponents (.wild 0 1 false) ∧
-    serreWeight 2 (.wild 0 1 true) ≠ serreWeight 2 (.wild 0 1 false) := by sorry
-
-example : serreWeight 2 (.wild 0 1 true) = 2 ∧
-    serreWeight 2 (.wild 0 1 false) = 4 := by sorry
-
 /-- The tame arithmetic weight has the required determinant exponent modulo `p−1`. -/
 theorem determinantWeightCongruence (p a b : ℕ) [Fact p.Prime] :
     Nat.ModEq (p-1) ((1+p*a+b)-1) (a+b) := by sorry
@@ -386,6 +267,12 @@ theorem fontaineLaffailleWeight (p r : ℕ) [Fact p.Prime] (hr : 1 ≤ r) (h : r
     serreWeight p (.niveauTwo 0 r) = r+1 ∧
     serreWeight p (.niveauOne 0 r) = r+1 := by sorry
 
+/-- The wild Fontaine–Laffaille row has weight `r+1`, with the peu condition at `r=1`. -/
+theorem fontaineLaffailleWildWeight (p r : ℕ) [Fact p.Prime]
+    (hr : 1 ≤ r) (h : r ≤ p-2) (peu : Bool) (hpeu : r = 1 → peu = true) :
+    serreWeight p (.wild 0 r peu) = r+1 := by
+  sorry
+
 /-- The niveau-two arithmetic weight is two precisely for exponents `(0,1)`. -/
 theorem weightTwoNiveauTwo (p a b : ℕ) (hp : 2 ≤ p) (hab : a < b) :
     serreWeight p (.niveauTwo a b) = 2 ↔ a=0 ∧ b=1 := by sorry
@@ -401,10 +288,6 @@ theorem dyadicWeightTwoOrFour (d : LocalData)
 /-- Every integer power of a character valued in `𝔽₂×` is trivial. -/
 theorem dyadicCyclotomicCharacter {G : Type*} [Group G]
     (chi : G →* (ZMod 2)ˣ) (i : ℤ) : ∀ g : G, chi g ^ i = 1 := by sorry
-
-/-- The dyadic très branch exceeds three; trivial cyclotomic twists preserve it. -/
-example : serreWeight 2 (.wild 0 1 false) = 4 ∧
-    ¬ serreWeight 2 (.wild 0 1 false) ≤ 2+1 := by sorry
 
 /-- The Tate-extension arithmetic branch has the stated classical weights. -/
 theorem semistableMultiplicativeWeight (p : ℕ) [Fact p.Prime] (peu : Bool) :
@@ -424,21 +307,26 @@ def edixhovenWeight (p : ℕ) : LocalData → ℕ
       1+p*min alpha beta+max alpha beta +
         if beta=alpha+1 ∧ peu=false then p-1 else 0
 
+/-- The Edixhoven and classical arithmetic tables agree outside their unramified
+and dyadic très exceptions, for every normalized local branch. -/
+theorem edixhovenWeight_comparison (p : ℕ) [Fact p.Prime] (d : LocalData)
+    (h : match d with
+      | .niveauOne a b => a ≤ b ∧ b ≤ p-2
+      | .niveauTwo a b => a < b ∧ b ≤ p-1
+      | .wild a b _ => a ≤ p-2 ∧ 1 ≤ b ∧ b ≤ p-1) :
+    edixhovenWeight p d =
+      if d = .niveauOne 0 0 then 1
+      else if p = 2 ∧ d = .wild 0 1 false then 3
+      else serreWeight p d := by
+  sorry
+
 /-- The two dyadic exceptions distinguish Edixhoven and classical weights. -/
 theorem edixhovenExceptionalValues :
     edixhovenWeight 2 (.niveauOne 0 0) = 1 ∧
     serreWeight 2 (.niveauOne 0 0) = 2 ∧
     edixhovenWeight 2 (.wild 0 1 false) = 3 ∧
     serreWeight 2 (.wild 0 1 false) = 4 := by sorry
-example : edixhovenWeight 5 (.niveauOne 0 0) = 1 ∧
-    serreWeight 5 (.niveauOne 0 0) = 5 := by sorry
 
-example (p : ℕ) [Fact p.Prime] :
-    edixhovenWeight p (.niveauTwo 0 1) = 2 ∧
-    serreWeight p (.niveauTwo 0 1) = 2 := by sorry
-
-example : edixhovenWeight 2 (.wild 0 1 true) = 2 ∧
-    serreWeight 2 (.wild 0 1 true) = 2 := by sorry
 end TauCeti.SerreWeight
 
 /-! ## Layer R15.5: Deligne–Serre eigenvalue lifting -/
@@ -455,28 +343,7 @@ theorem existsUnique_eigencharacter
     (hs : ∀ h : H, ∃ a : k, r h f = a • f) :
     ∃! χ : H →ₐ[R] k, ∀ h : H, r h f = χ h • f := by sorry
 
-/-- Nilpotent operators have scalar zero on a nonzero eigenline. -/
-example (r : H →ₐ[R] Module.End k V) (f : V) (hf : f ≠ 0)
-    (χ : H →ₐ[R] k) (hχ : ∀ h, r h f = χ h • f)
-    (h : H) (hnil : IsNilpotent h) : χ h = 0 := by sorry
 end InvariantLine
-
-section CharacterTests
-variable {k : Type*} [Field k]
-
-/-- The scalar line gives the scalar character. -/
-example (r : k →ₐ[k] Module.End k k) (hr : ∀ a x : k, r a x = a * x)
-    (χ : k →ₐ[k] k) (hχ : ∀ a : k, r a 1 = χ a • (1 : k)) (a : k) :
-    χ a = a := by sorry
-
-/-- The two coordinate lines of the diagonal action give different characters. -/
-example (r : (k × k) →ₐ[k] Module.End k (k × k))
-    (hr : ∀ h x : k × k, r h x = (h.1 * x.1, h.2 * x.2))
-    (χ₁ χ₂ : (k × k) →ₐ[k] k)
-    (hχ₁ : ∀ h, r h (1, 0) = χ₁ h • ((1, 0) : k × k))
-    (hχ₂ : ∀ h, r h (0, 1) = χ₂ h • ((0, 1) : k × k)) :
-    χ₁ (1, 0) = 1 ∧ χ₂ (1, 0) = 0 := by sorry
-end CharacterTests
 
 section ResidualAlgebra
 variable {O k M ι : Type*} [CommRing O] [Field k] [Algebra O k]
@@ -547,6 +414,16 @@ theorem faithful_character_occurrence (r : H →ₐ[k] Module.End k V)
     (hr : Function.Injective r) (χ : H →ₐ[k] k) :
     ∃ v : V, v ≠ 0 ∧ ∀ h : H, r h v = χ h • v := by
   sorry
+
+/-- A finite-dimensional commutative algebra action and its transposed action
+on the field dual have the same support, including nonsemisimple actions. -/
+theorem dual_support (r : H →ₐ[k] Module.End k V)
+    (rDual : H →ₐ[k] Module.End k (Module.Dual k V))
+    (hdual : ∀ h, rDual h = (r h).dualMap) :
+    letI : Module H V := Module.compHom V r.toRingHom
+    letI : Module H (Module.Dual k V) := Module.compHom (Module.Dual k V) rDual.toRingHom
+    Module.support H V = Module.support H (Module.Dual k V) := by
+  sorry
 end FaithfulCharacter
 
 section GenericFaithfulness
@@ -615,27 +492,20 @@ theorem nilpotent_eigenvector_nonlifting (π : D) (hπ : π ≠ 0)
     eigenvalue = 0 ∧ y = 0 := by
   sorry
 
-example {k : Type*} [Field k] :
-    (0 * (1 : k), 0) = (0 : k) • ((0, 1) : k × k) := by
-  sorry
-
 /-- A nonzero eigenvector of `[[0,π],[1,0]]` forces `λ²=π`. -/
 theorem ramified_eigenvalue_equation (π eigenvalue x y : D) (hv : x ≠ 0 ∨ y ≠ 0)
     (hfirst : π * y = eigenvalue * x) (hsecond : x = eigenvalue * y) : eigenvalue ^ 2 = π := by
   sorry
 
-example (π α : D) (hα : α ^ 2 = π) :
-    (π * 1, α) = α • ((α, 1) : D × D) := by
-  sorry
-
-example {O K : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+/-- A uniformizer is not a square in the DVR fraction field, so the companion
+operator `[[0,π],[1,0]]` has no nonzero eigenvector over that field. -/
+theorem uniformizer_requires_eigenvalue_extension
+    {O K : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [Field K] [Algebra O K] [IsFractionRing O K]
     (π : O) (hπ : Irreducible π) :
-    ∀ a : K, a ^ 2 ≠ algebraMap O K π := by
-  sorry
-
-example {K : Type*} [Field K] (π : K) (hπ : ∀ a : K, a ^ 2 ≠ π) :
-    ¬ ∃ eigenvalue x y : K, (x ≠ 0 ∨ y ≠ 0) ∧ π * y = eigenvalue * x ∧ x = eigenvalue * y := by
+    (∀ a : K, a ^ 2 ≠ algebraMap O K π) ∧
+    ¬ ∃ eigenvalue x y : K, (x ≠ 0 ∨ y ≠ 0) ∧
+      algebraMap O K π * y = eigenvalue * x ∧ x = eigenvalue * y := by
   sorry
 
 /-- The first-projection representation cannot realize the second-projection character. -/
@@ -657,6 +527,60 @@ end TauCeti.EigenvalueLifting
 /-! ## Layer R15.5A: Frobenius polynomials and classical weight-one prime moments -/
 namespace TauCeti.ClassicalModularGalois
 
+/-- A holomorphic good-prime eigenform of weight at least two has a continuous
+semisimple attachment over every completion of its coefficient number field,
+unramified outside the level and coefficient prime, with the prescribed arithmetic
+Frobenius polynomials, including Eisenstein forms and coefficient primes dividing
+the level. -/
+theorem higherWeight_attachment {N : ℕ} [NeZero N] (k : ℤ) (hk : 2 ≤ k)
+    (K : Type*) [Field K] [NumberField K] (ι : K →+* ℂ)
+    (χ : (ZMod N)ˣ →* Kˣ)
+    (f : modFormCharSpace k ((Units.map ι.toMonoidHom).comp χ))
+    (hf : f ≠ 0) (a : ℕ → K)
+    (heig : ∀ (q : ℕ) (hq : q.Prime) (_hqN : Nat.Coprime q N),
+      HeckeRing.GL2.heckeTNat k q (_hn := ⟨hq.ne_zero⟩) f.val = ι (a q) • f.val)
+    (ℓ : ℕ) [Fact ℓ.Prime]
+    (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K))
+    (hv : (ℓ : NumberField.RingOfIntegers K) ∈ v.asIdeal) :
+    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
+      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
+    ∃ ρ : Representation (v.adicCompletion K) (Field.absoluteGaloisGroup ℚ)
+        (Fin 2 → v.adicCompletion K),
+      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → v.adicCompletion K) =>
+        ρ z.1 z.2) ∧ ρ.IsSemisimpleRepresentation ∧
+      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N), q ≠ ℓ →
+        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
+          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
+          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
+          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
+            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 -
+              Polynomial.C (NumberField.FinitePlace.embedding v (a q)) * Polynomial.X +
+              Polynomial.C (NumberField.FinitePlace.embedding v
+                ((χ (ZMod.unitOfCoprime q hqN) : K) * (q : K) ^ (k - 1))) := by
+  sorry
+
+/-- A holomorphic weight-one good-prime eigenform with odd character has a
+continuous finite-image semisimple complex attachment, unramified outside its
+level, whose arithmetic Frobenius traces are the Hecke eigenvalues. -/
+theorem weightOne_attachment {N : ℕ} [NeZero N]
+    (χ : (ZMod N)ˣ →* ℂˣ) (hodd : (χ (-1) : ℂ) = -1)
+    (f : modFormCharSpace 1 χ) (hf : f ≠ 0) (a : ℕ → ℂ)
+    (heig : ∀ (q : ℕ) (hq : q.Prime) (_hqN : Nat.Coprime q N),
+      HeckeRing.GL2.heckeTNat 1 q (_hn := ⟨hq.ne_zero⟩) f.val = a q • f.val) :
+    let act := fun σ : Field.absoluteGaloisGroup ℚ =>
+      ((show AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ from σ).restrictScalars ℤ).mapIntegralClosure
+    ∃ ρ : Representation ℂ (Field.absoluteGaloisGroup ℚ) (Fin 2 → ℂ),
+      Continuous (fun z : Field.absoluteGaloisGroup ℚ × (Fin 2 → ℂ) => ρ z.1 z.2) ∧
+      (Set.range ρ).Finite ∧ ρ.IsSemisimpleRepresentation ∧
+      ∀ (q : ℕ) (_hq : q.Prime) (hqN : Nat.Coprime q N),
+        ∀ Q : Ideal (integralClosure ℤ (AlgebraicClosure ℚ)), Q.IsMaximal →
+          (q : integralClosure ℤ (AlgebraicClosure ℚ)) ∈ Q →
+          (∀ σ, (∀ x, act σ x - x ∈ Q) → ρ σ = 1) ∧
+          ∀ σ, (act σ).toAlgHom.IsArithFrobAt Q →
+            LinearMap.charpoly (ρ σ) = Polynomial.X ^ 2 - Polynomial.C (a q) * Polynomial.X +
+              Polynomial.C (χ (ZMod.unitOfCoprime q hqN) : ℂ) := by
+  sorry
+
 /-- The alternating pairing and transpose identity determine rank-two Frobenius
 trace, determinant and characteristic polynomial, including scalar Frobenius.
 The scalar `eigenvalue` is the Hecke eigenvalue of the character block. -/
@@ -671,37 +595,6 @@ theorem frobeniusPolynomial_of_pairing {K : Type*} [Field K] [CharZero K]
       F.charpoly = Polynomial.X^2 - Polynomial.C eigenvalue * Polynomial.X +
         Polynomial.C (epsilon * c) := by sorry
 
-/-- Scalar Frobenius has a repeated characteristic root. -/
-example : ((2 : ℚ) • (1 : Matrix (Fin 2) (Fin 2) ℚ)).charpoly =
-    (Polynomial.X - Polynomial.C (2 : ℚ))^2 := by sorry
-
-/-- The two operator relations alone do not identify the characteristic polynomial. -/
-example :
-    (1 : Matrix (Fin 2) (Fin 2) ℚ) + (2 : ℚ) • 1 = (3 : ℚ) • 1 ∧
-    (1 : Matrix (Fin 2) (Fin 2) ℚ) * ((2 : ℚ) • 1) = (2 : ℚ) • 1 ∧
-    (1 : Matrix (Fin 2) (Fin 2) ℚ).charpoly ≠
-      Polynomial.X^2 - Polynomial.C (3 : ℚ) * Polynomial.X + Polynomial.C 2 := by sorry
-
-/-- Good-prime coefficients of a normalized cusp eigenform equal its Hecke eigenvalues. -/
-example {N : ℕ} [NeZero N] {k : ℤ}
-    (f : HeckeRing.GL2.EigenformAwayFromLevel N k)
-    (h₁ : (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff 1 = 1)
-    (n : ℕ+) (hn : Nat.Coprime (n : ℕ) N) :
-    (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff (n : ℕ) = f.eigenvalue n hn :=
-  f.qExpansion_coeff_eq_eigenvalue h₁ n hn
-
-/-- The usual `E₄` has eigenvalue nine at two, distinct from its Fourier coefficient. -/
-example (e4 : PowerSeries ℂ) (eigenvalue : ℂ)
-    (h₁ : PowerSeries.coeff 1 e4 = 240) (h₂ : PowerSeries.coeff 2 e4 = 2160)
-    (heig : TauCeti.KatzModularForms.seriesHecke 2 8 1 e4 = eigenvalue • e4) :
-    eigenvalue = 9 ∧ PowerSeries.coeff 2 e4 ≠ eigenvalue := by sorry
-
-/-- The eigenvalue of a nonzero eigenvector is invariant under nonzero rescaling. -/
-example {K M : Type*} [Field K] [AddCommGroup M] [Module K M]
-    (T : Module.End K M) (f : M) (hf : f ≠ 0) (c eigenvalue b : K) (hc : c ≠ 0)
-    (hf_eig : T f = eigenvalue • f) (hcf_eig : T (c • f) = b • (c • f)) :
-    b = eigenvalue := by sorry
-
 /-- A weight-one cusp eigensystem has a convergent good-prime second moment
 for every real `s>1`, bounded by `log(1/(s−1))` plus a constant near one. -/
 theorem weightOne_primeMoment {N : ℕ} [NeZero N]
@@ -713,36 +606,29 @@ theorem weightOne_primeMoment {N : ℕ} [NeZero N]
     ∃ C δ : ℝ, 0 < δ ∧ ∀ s : ℝ, 1 < s → s < 1 + δ →
       (∑' q, b q * (q.val : ℝ) ^ (-s)) ≤ Real.log (1 / (s - 1)) + C := by sorry
 
+/-- Outside a prime set of arbitrarily small upper Dirichlet density, the good
+eigenvalues of a weight-one cusp form lie in a finite set. The bound uses
+`log(1/(s−1))` as its prime-sum normalization near one. -/
+theorem weightOne_finiteEigenvalues {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) (η : ℝ) (hη : 0 < η) :
+    ∃ Y : Finset ℂ, ∀ ε : ℝ, 0 < ε → ∃ δ : ℝ, 0 < δ ∧
+      ∀ s : ℝ, 1 < s → s < 1 + δ →
+        (∑' q : {q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} //
+          f.eigenvalue ⟨q.val, q.property.1.pos⟩ q.property.2 ∉ Y},
+          (q.val.val : ℝ) ^ (-s)) ≤ (η + ε) * Real.log (1 / (s - 1)) := by
+  sorry
+
 end TauCeti.ClassicalModularGalois
 
 /-! ## Layer R15.6: residual modularity and the classical target -/
 namespace TauCeti.ResidualModularity
 
-/-- The split roots at eleven distinguish place change from coefficient transport. -/
-example : (3 : ZMod 11)^2 + 3 - 1 = 0 ∧
-    (7 : ZMod 11)^2 + 7 - 1 = 0 ∧
-    (7 : ZMod 11) ≠ 3 ∧ (-1 - 7 : ZMod 11) = 3 := by decide
-
-/-- Determinant oddness is automatic for an involution in characteristic two. -/
-example {G K : Type*} [Group G] [Field K] [CharP K 2]
+/-- Every rank-two representation sends an involution to determinant `−1`
+in characteristic two; the involution matrix can still be nontrivial. -/
+theorem isSType_p2_odd {G K : Type*} [Group G] [Field K] [CharP K 2]
     (rho : G →* Matrix.GeneralLinearGroup (Fin 2) K)
-    (c : G) (hc : c*c=1) : (rho c : Matrix (Fin 2) (Fin 2) K).det = -1 := by sorry
-
-/-- The Frobenius polynomial of 11a1 at two modulo three differs from the trivial one. -/
-example (F : Matrix (Fin 2) (Fin 2) (ZMod 3))
-    (htrace : Matrix.trace F = 1) (hdet : F.det = 2) :
-    F.charpoly ≠ (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly := by sorry
-
-/-- The different Frobenius traces of 11a1 and `Δ` at two modulo three exclude attachment. -/
-example (F D : Matrix (Fin 2) (Fin 2) (ZMod 3))
-    (hF : Matrix.trace F = 1) (hD : Matrix.trace D = 0) :
-    F.charpoly ≠ D.charpoly := by sorry
-
-/-- The trivial rank-two representation over `𝔽₃` cannot satisfy determinant oddness. -/
-example {G : Type*} [Group G]
-    (rho : G →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) (c : G)
-    (hodd : (rho c : Matrix (Fin 2) (Fin 2) (ZMod 3)).det = -1) :
-    rho ≠ 1 := by sorry
+    (c : G) (hc : c*c=1) : (rho c : Matrix (Fin 2) (Fin 2) K).det = -1 := by
+  sorry
 
 /-- The determinant identity fixes the parity of the residual character. -/
 theorem determinantParity {k : Type*} [Field k] (weight : ℕ) (hw : 1 ≤ weight)
