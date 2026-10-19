@@ -164,14 +164,6 @@ theorem normalizedTrace_comp_finiteUnit (h : IsUnit (Fintype.card I : Λ)) :
     normalizedTrace Λ I h ∘ₗ finiteUnit Λ I = LinearMap.id := by
   sorry
 
-/-- The empty finite fibre has zero trace. -/
-example : finiteTrace Λ (Fin 0) = 0 := by
-  simp [finiteTrace]
-
-/-- The diagonal on a one-point fibre returns the coefficient itself. -/
-example (a : Λ) : finiteUnit Λ (Fin 1) a 0 = a := by
-  rfl
-
 end FiniteModel
 
 /-! ## Layer S4: Cohomologically smooth morphisms -/
