@@ -35,6 +35,14 @@ noncomputable def idealOrderAt (I : Ideal R) (p : PrimeSpectrum R) : ℕ∞ :=
 /-- `IdealOrderChecks.unit`: the unit ideal has order zero at every prime. -/
 example (p : PrimeSpectrum R) : idealOrderAt (⊤ : Ideal R) p = 0 := sorry
 
+/-- `order_two_generators`: the ideal `(x³,y⁵)` has order three at the origin. -/
+example (K : Type u) [Field K] :
+    let x : MvPolynomial (Fin 2) K := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) K := MvPolynomial.X 1
+    let p : PrimeSpectrum (MvPolynomial (Fin 2) K) :=
+      PrimeSpectrum.comap (MvPolynomial.eval (fun _ => (0 : K))) ⟨⊥, inferInstance⟩
+    idealOrderAt (Ideal.span {x ^ 3, y ^ 5}) p = 3 := sorry
+
 /-- `OrderTests.dualNumbers`: on the dual numbers the maximal ideal has order one but its square,
 which is zero, has order `⊤`; the order is not multiplicative off regular rings. -/
 example (K : Type u) [Field K] :
@@ -54,6 +62,21 @@ structure MarkedIdeal (R : Type u) [CommRing R] where
 /-- The cosupport of a marked ideal: the primes at which the order of `I` is at least `d`. -/
 def MarkedIdeal.cosupport (J : MarkedIdeal R) : Set (PrimeSpectrum R) :=
   {p | (J.mark : ℕ∞) ≤ idealOrderAt J.ideal p}
+
+/-- `IdealOrderChecks.zero` and `marked_zero_and_unit`: the zero ideal has infinite order
+at every prime and full cosupport for every positive mark. -/
+example (d : ℕ) (hd : 0 < d) :
+    (∀ p : PrimeSpectrum R, idealOrderAt (⊥ : Ideal R) p = ⊤) ∧
+      (MarkedIdeal.mk (⊥ : Ideal R) d hd).cosupport = Set.univ := sorry
+
+/-- `mark_changes_cosupport`: the order-two zero of `x²` belongs to mark-two cosupport
+and lies outside mark-three cosupport. -/
+example :
+    let I : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2}
+    let p : PrimeSpectrum (Polynomial ℚ) :=
+      PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ℚ)) ⟨⊥, inferInstance⟩
+    p ∈ (MarkedIdeal.mk I 2 (by decide)).cosupport ∧
+      p ∉ (MarkedIdeal.mk I 3 (by decide)).cosupport := sorry
 
 /-- A residual factor of order zero along the cosupport is the unit ideal on its open
 complement of vanishing. This open contains the cosupport, and the ideal equals its other
@@ -150,6 +173,15 @@ example :
         (Ideal.span {MvPolynomial.X (1 : Fin 2) ^ 4, MvPolynomial.X (0 : Fin 2) ^ 6} :
           Ideal (MvPolynomial (Fin 2) ℚ)) := sorry
 
+/-- `weighted_common_mark`: summing `(x²,2)` and `(y³,3)` gives `((x⁶,y⁶),6)`. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let J := MarkedIdeal.mk (Ideal.span {x ^ 2}) 2 (by decide)
+    let K := MarkedIdeal.mk (Ideal.span {y ^ 3}) 3 (by decide)
+    (J.markedSum K).mark = 6 ∧
+      (J.markedSum K).ideal = Ideal.span {x ^ 6, y ^ 6} := sorry
+
 /-- Upper semicontinuity of the order on a regular ring of finite type over a field of
 characteristic zero (an affine chart of a smooth variety): the cosupport of a marked ideal is
 closed. -/
@@ -168,6 +200,43 @@ variable {k : Type u} [Field k] {σ : Type u}
 /-- The derivative ideal `D(I) = I + (∂f/∂xᵢ : f ∈ I)` of an ideal of a polynomial ring. -/
 noncomputable def derivativeIdeal (I : Ideal (MvPolynomial σ k)) : Ideal (MvPolynomial σ k) :=
   I ⊔ Ideal.span {g | ∃ f ∈ I, ∃ i : σ, g = MvPolynomial.pderiv i f}
+
+/-- `DerivativeIdealChecks.zero`: differentiating the zero ideal gives the zero ideal. -/
+example : derivativeIdeal (⊥ : Ideal (MvPolynomial σ k)) = ⊥ := sorry
+
+/-- `DerivativeIdealChecks.unit`: the derivative ideal of the unit ideal is the unit ideal. -/
+example : derivativeIdeal (⊤ : Ideal (MvPolynomial σ k)) = ⊤ := sorry
+
+/-- `MaxContactTests.characteristicTwoCusp`: over `𝔽₂`, the derivative ideal of
+`(x²+y³)` is `(x²,y²)`. -/
+example :
+    let x : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 1
+    derivativeIdeal (Ideal.span {x ^ 2 + y ^ 3}) = Ideal.span {x ^ 2, y ^ 2} := sorry
+
+/-- `HomogenizationTests.cusp`: the cusp has derivative ideal `(y,x²)` and its
+mark-two homogenization expression is `(y²,x³,x²y)`. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let I := Ideal.span {y ^ 2 - x ^ 3}
+    derivativeIdeal I = Ideal.span {y, x ^ 2} ∧
+      I ⊔ derivativeIdeal I ^ 2 = Ideal.span {y ^ 2, x ^ 3, x ^ 2 * y} := sorry
+
+/-- `CoeffTests.notPlainRestriction`: for `(y³+x⁷+x³y,3)` on `y=0`, the first two
+restricted derivative ideals are `(x³)` and `(x²)`. The differential coefficient expression
+has ideal `(x⁹)` with mark six, while plain restriction has ideal `(x⁷)`. -/
+example :
+    let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
+    let I := Ideal.span {y ^ 3 + x ^ 7 + x ^ 3 * y}
+    let ρ := MvPolynomial.eval₂Hom (Polynomial.C : ℚ →+* Polynomial ℚ)
+      (fun i : Fin 2 => if i = 0 then Polynomial.X else 0)
+    (derivativeIdeal I).map ρ = Ideal.span {Polynomial.X ^ 3} ∧
+      (derivativeIdeal (derivativeIdeal I)).map ρ = Ideal.span {Polynomial.X ^ 2} ∧
+      (I ^ 2 ⊔ derivativeIdeal I ^ 3 ⊔ derivativeIdeal (derivativeIdeal I) ^ 6).map ρ =
+        Ideal.span {Polynomial.X ^ 9} ∧
+      I.map ρ = Ideal.span {Polynomial.X ^ 7} := sorry
 
 /-- `DerivativeIdealChecks.cubic`: in characteristic zero the derivative ideal of `(x³)` is
 `(x²)`. -/
