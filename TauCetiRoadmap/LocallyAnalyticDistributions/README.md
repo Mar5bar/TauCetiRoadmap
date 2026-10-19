@@ -30,7 +30,9 @@ and compact operators of PadicFunctionalAnalysis and CompactOperators.
 
 Everything is stated over a complete nonarchimedean field K (a finite extension of ℚ_p in the arithmetic applications) and, for families, over a commutative Noetherian K-Banach algebra A; general locally convex or distribution spaces are never silently treated as Banach spaces.
 
-The targets below are specifications for formalisation. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its hypotheses, its source and the earlier targets or library declarations it rests on. The companion [Suggested.lean](Suggested.lean) states the light definitions with real bodies, the end theorems and milestones whose carriers exist in Mathlib or Tau Ceti at the pins, and `example` checks of those definitions; it is not the roadmap and not exhaustive, and this document is definitive. Targets whose carriers are not at the pins (the locally convex spaces `LA` and `D`, the global Mellin equivalences, everything built on the Fredholm determinant of a (Pr) module) are stated here only. The definitions used from PadicFunctionalAnalysis, CompactOperators and RestrictedPowerSeries are signature stand-ins for the named supplier APIs. Implementations import those APIs and retain one owner for each object; the supplier contracts list the interfaces.
+The targets below are specifications for formalisation. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its hypotheses, its source and the earlier targets or library declarations it rests on. The companion [Suggested.lean](Suggested.lean) states the light definitions with real bodies, the end theorems and milestones whose carriers exist in Mathlib or Tau Ceti at the pins, and proved `example` checks of those definitions; it is not the roadmap and not exhaustive, and this document is definitive. Targets whose carriers are not at the pins (the locally convex spaces `LA` and `D`, the global Mellin equivalences, everything built on the Fredholm determinant of a (Pr) module) are stated here only. The definitions used from PadicFunctionalAnalysis, CompactOperators and RestrictedPowerSeries are signature stand-ins for the named supplier APIs. Implementations import those APIs and retain one owner for each object; the supplier contracts list the interfaces.
+
+The named Lean boundary targets are `haar_subcritical` (§2.2–§2.3), `constant_padding` (§4.13), `integralLattice_boundary` (§4.15), `banachComplex_infinite_rank` (§4.16) and `frechetFactor_noncompact` (§4.17); each states the corresponding Check below.
 
 ## Scope and ownership
 
@@ -67,7 +69,7 @@ It leaves the following to the roadmaps and libraries named, and does not restat
 10. **Families.** Analytic c₀ stages commute with completed projective coefficient tensors; their infinite Banach duals have only a canonical scalar-extension map, and no unqualified isomorphism or automatic (Pr) property is asserted for them. For an affinoid A with a chosen Banach model, the norm unit ball is the integral lattice; it is not identified with the power-bounded elements of a non-reduced affinoid without proof.
 11. **Roots of unity.** A formula summing over `μ_{p^n}` (the clopen-restriction formula of §1.1 and §1.4, the finite Fourier inversions of §2.2) is stated after extending the coefficient field to contain `μ_{p^n}`; the result descends to the original field because the left-hand side is defined there.
 12. **Generality of the Lean signatures.** Each statement records its norm, scalar-action and ultrametric hypotheses explicitly. Algebraic matrix identities may be stated over a commutative ring, and elementary series identities over a complete normed ring, when their target says so. The component and branch Mellin targets of §3.1–§3.2 use a complete ultrametric field with a bounded ℤ_p-algebra structure; they do not use inversion of p. Arithmetic formulas with p⁻ⁿ, logarithms and roots of unity require the characteristic-zero coefficient fields specified at those targets. An abstract continuous transpose on fixed normed spaces does not by itself provide the global locally analytic map or its strong-topology comparison.
-13. **Witnesses for the conventions.** Each normalisation is pinned by one computed instance; the instances whose carriers are at the pins are repeated as `example`s in `Suggested.lean`. Amice: `δ_a ↦ (1 + T)^a`, so `x·δ_1 = δ_1 ↦ 1 + T = (1 + T)·d/dT(1 + T)`, which fixes `∂ = (1 + T)d/dT` rather than `d/dT` (whose value would be 1). Transpose derivative: for `μ = dδ_a` (`f ↦ f′(a)`) the coefficients `μ(binom(x, n))` are 1 for `n = 1` and `a − 1/2` for `n = 2`, which are the first two coefficients of `log(1 + T)·(1 + T)^a = T + (a − 1/2)T² + …`; the opposite sign convention `(dμ)(f) = −μ(f′)` would give `−log(1 + T)`. Clopen restriction: for `δ_a` and the class `b + pℤ_p` the formula `p⁻¹Σ_{η ∈ μ_p} η^{−b}(1 + T)^a η^a` equals `(1 + T)^a` when `a ≡ b` and 0 otherwise. Fredholm series: for `u = a·id` on A, `P_u = 1 − aT`, so `c_1 = −tr u` and the zero operator has `P = 1`; the `2 × 2` nilpotent Jordan block also has `P = 1`. Riesz: for `u = id` on A, `a = 1` and `h = 1`, `c = Δ_1 P_u(1) = −1` is a unit, `v = 0`, `N = A` and `E = 1`. Slope endpoint: for `u = a·id` with `v_p(a) = h` the eigenvalue a lies in the `≤ h` summand, and its reciprocal root `a⁻¹` has valuation `−h ≥ −h`. Reciprocal polynomial: `(X − a)* = 1 − aX`. Resultant: `Res(1, F) = 1` and `Res(X − a, F) = F(a)` with no sign. Hasse derivative (`hasse_characteristic_two`): `Δ_2(T²) = 1` in every characteristic, while the second ordinary derivative of `T²` is 0 in characteristic 2. Mellin: for `δ_u` on `ℤ_pˣ` with `u = γ^m` in the principal-unit component, the component series is `(1 + T)^m`, its value at the trivial character (`t = 0`) is 1, the total mass, and at `p = 2` the two components are indexed by `ω(x) = ±1` with `⟨−1⟩ = 1`. Clearing: the expression `F(t)/(κ_t(a) − 1)` is defined only where `κ_t(a) ≠ 1`, which excludes the trivial character; a pole-order bound additionally requires a denominator that is not identically zero, and is bounded by its vanishing multiplicity; no value is asserted at a zero denominator.
+13. **Witnesses for the conventions.** Each normalisation is pinned by one computed instance. Amice: `δ_a ↦ (1 + T)^a`, so `x·δ_1 = δ_1 ↦ 1 + T = (1 + T)·d/dT(1 + T)`, which fixes `∂ = (1 + T)d/dT` rather than `d/dT` (whose value would be 1). Transpose derivative: for `μ = dδ_a` (`f ↦ f′(a)`) the coefficients `μ(binom(x, n))` are 1 for `n = 1` and `a − 1/2` for `n = 2`, which are the first two coefficients of `log(1 + T)·(1 + T)^a = T + (a − 1/2)T² + …`; the opposite sign convention `(dμ)(f) = −μ(f′)` would give `−log(1 + T)`. Clopen restriction: for `δ_a` and the class `b + pℤ_p` the formula `p⁻¹Σ_{η ∈ μ_p} η^{−b}(1 + T)^a η^a` equals `(1 + T)^a` when `a ≡ b` and 0 otherwise. Fredholm series: for `u = a·id` on A, `P_u = 1 − aT`, so `c_1 = −tr u` and the zero operator has `P = 1`; the `2 × 2` nilpotent Jordan block also has `P = 1`. Riesz: for `u = id` on A, `a = 1` and `h = 1`, `c = Δ_1 P_u(1) = −1` is a unit, `v = 0`, `N = A` and `E = 1`. Slope endpoint: for `u = a·id` with `v_p(a) = h` the eigenvalue a lies in the `≤ h` summand, and its reciprocal root `a⁻¹` has valuation `−h ≥ −h`. Reciprocal polynomial: `(X − a)* = 1 − aX`. Resultant: `Res(1, F) = 1` and `Res(X − a, F) = F(a)` with no sign. Hasse derivative (`hasse_characteristic_two`): `Δ_2(T²) = 1` in every characteristic, while the second ordinary derivative of `T²` is 0 in characteristic 2. Mellin: for `δ_u` on `ℤ_pˣ` with `u = γ^m` in the principal-unit component, the component series is `(1 + T)^m`, its value at the trivial character (`t = 0`) is 1, the total mass, and at `p = 2` the two components are indexed by `ω(x) = ±1` with `⟨−1⟩ = 1`. Clearing: the expression `F(t)/(κ_t(a) − 1)` is defined only where `κ_t(a) ≠ 1`, which excludes the trivial character; a pole-order bound additionally requires a denominator that is not identically zero, and is bounded by its vanishing multiplicity; no value is asserted at a zero denominator.
 14. **Names.** All new declarations live under `TauCeti.`; the namespaces named in each layer are proposals. Names follow Mathlib's conventions (`foo_bar` for theorems, `fooBar` for data, `IsFoo` for predicates).
 
 
@@ -237,7 +239,7 @@ The following definitions in [Suggested.lean](Suggested.lean) are signature stan
 
 ## How to read the build
 
-Layer 0 builds the function spaces and the functional-analytic tools, with their Hyodo–Kato applications to Stein curves and towers in §0.CR.6.6; Layer 1 the Amice transform and the operator toolbox on ℤ_p; Layer 2 admissibility and uniqueness in one and several variables; Layer 3 the Mellin transform and character spaces; Layer 4 the operator theory of families and the finite-slope complexes. Each layer is divided into numbered subsections; a subsection opens with the hypotheses that all its targets share, then states its targets in dependency order as bold-titled paragraphs. A paragraph gives the statement, any further hypotheses, the API of a definition or construction as a list of named lemmas, the source with its locator, and *Needs*, the earlier targets (by subsection number and title, or by the name of a declaration stated in [Suggested.lean](Suggested.lean) or introduced in an API list of this document), library declarations and supplier targets it rests on. The checks of a definition or construction are the `**Checks.**` bullets under it, one per unit test; the checks of the definitions kept in [Suggested.lean](Suggested.lean) and the negative controls whose carriers are at the pins are `example`s there. Each layer ends with worked examples and its dependencies. Nothing is optional.
+Layer 0 builds the function spaces and the functional-analytic tools, with their Hyodo–Kato applications to Stein curves and towers in §0.CR.6.6; Layer 1 the Amice transform and the operator toolbox on ℤ_p; Layer 2 admissibility and uniqueness in one and several variables; Layer 3 the Mellin transform and character spaces; Layer 4 the operator theory of families and the finite-slope complexes. Each layer is divided into numbered subsections; a subsection opens with the hypotheses that all its targets share, then states its targets in dependency order as bold-titled paragraphs. A paragraph gives the statement, any further hypotheses, the API of a definition or construction as a list of named lemmas, the source with its locator, and *Needs*, the earlier targets (by subsection number and title, or by the name of a declaration stated in [Suggested.lean](Suggested.lean) or introduced in an API list of this document), library declarations and supplier targets it rests on. The checks of a definition or construction are the `**Checks.**` bullets under it, one per unit test; selected checks of the definitions kept in [Suggested.lean](Suggested.lean) are proved `example`s there, and named theorem targets state the boundary checks listed below. Each layer ends with worked examples and its dependencies. Nothing is optional.
 
 ## Layer 0: analytic Banach stages, locally analytic functions and their strong duals
 
@@ -285,7 +287,7 @@ Here K is a complete nontrivially valued ultrametric field. The categorical latt
 **Checks.**
 
 - `projectiveTensor_pure`: For normed factors, ‖x⊗y‖_π=‖x‖‖y‖. For complete Hausdorff E, K⊗̂_π E≃E via a⊗x↦ax; for arbitrary Hausdorff normed E it identifies with the completion of E. In particular finitely supported sequences with the sup norm complete to c₀.
-- `projectiveTensor_two_summands`: In K²⊗K² with sup-norm orthonormal bases, ‖e₁⊗e₁+e₂⊗e₂‖_π=1, whereas the infimum-of-sums norm gives 2. The finite coefficient maximum must agree with the constructed tensor seminorm on this tensor. The native finite coefficient norm example in Suggested.lean has value one; the tensor-seminorm identity uses the construction above.
+- `projectiveTensor_two_summands`: In K²⊗K² with sup-norm orthonormal bases, ‖e₁⊗e₁+e₂⊗e₂‖_π=1, whereas the infimum-of-sums norm gives 2. The finite coefficient maximum must agree with the constructed tensor seminorm on this tensor. The finite coefficient norm is one; the tensor-seminorm identity uses the construction above.
 - `projectiveTensor_zero`: Zero⊗̂_π E=0, including E=0; the unique bilinear map factors uniquely.
 - `projectiveTensor_completion`: Σ_(n≥0) p^n e_n⊗e_n gives the diagonal coefficient array in c₀(N²,K). Its infinite-rank matrix is not in the algebraic tensor (whose matrices have finite rank). An uncompleted algebraic model fails this check.
 
@@ -1022,7 +1024,7 @@ Source for this subsection unless a target says otherwise: Loeffler, §2.3, Defi
 
 - `boxIndicator_center`: boxIndicator a m a=1, including dimension zero.
 - `padicBox_depth_zero`: padicBox a (fun _ => 0)=Set.univ, including dimension zero.
-- `boxIndicator_outside`: At depth one in every coordinate, replacing a_i by a_i+1 gives indicator zero for every chosen i.
+- Outside the box: At depth one in every coordinate, replacing a_i by a_i+1 gives indicator zero for every chosen i.
 - `AnalyticDistributionTests.rectangularGrowth_dirac`: A point mass has growth r for every r_i≥0, with C=1.
 - `AnalyticDistributionTests.rectangularGrowth_zero` (degenerate): The zero functional has C=0.
 - `AnalyticDistributionTests.rectangularGrowth_refinement` (compatibility): A box mass equals the sum of its p children in a chosen coordinate.
@@ -1034,9 +1036,9 @@ Source for this subsection unless a target says otherwise: Loeffler, §2.3, Defi
 - `haar_constant`: The constant function one has value one.
 - `haar_ball`: A depth-m ball has mass 3^(−m) and norm 3^m; in particular a depth-one ball has norm 3, not 1/3.
 - `haar_refinement`: Each ball is the union of three children of mass 3^(−m−1), whose sum is 3^(−m).
-- `rectangularGrowth_haar_one`: The constructed Haar functional has rectangular growth one.
-- `rectangularGrowth_haar_zero`: It has no rectangular growth zero.
-- `rectangularGrowth_haar_subcritical`: For every 0≤r<1 it has no rectangular growth r, since 3^m cannot be bounded by C3^(rm).
+- Rectangular Haar growth one: The constructed Haar functional has rectangular growth one.
+- Rectangular Haar growth zero: It has no rectangular growth zero.
+- Subcritical rectangular Haar growth (`haar_subcritical`): For every 0≤r<1 it has no rectangular growth r, since 3^m cannot be bounded by C3^(rm).
 
 **Extension of rectangular distributions** (theorem). For 0≤r_i<1, every locally constant functional with rectangular growth ≤r extends uniquely to a continuous functional on the tensor vector-order function space. Its norm is bounded in terms of the growth constant and the fixed wavelet normalization. Under (a).
 
@@ -1082,11 +1084,11 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 **Checks.**
 
-- `isotropicGrowth_haar_one`: `locallyConstantHaar` has isotropic growth one.
-- `isotropicGrowth_haar_zero`: It has no isotropic growth zero.
-- `isotropicGrowth_haar_subcritical`: For every 0≤r<1 it has no isotropic growth r, by the same depth-m ball masses.
+- Isotropic Haar growth one: `locallyConstantHaar` has isotropic growth one.
+- Isotropic Haar growth zero: It has no isotropic growth zero.
+- Subcritical isotropic Haar growth (`haar_subcritical`): For every 0≤r<1 it has no isotropic growth r, by the same depth-m ball masses.
 - `isotropicGrowth_zero`: The zero functional has C=0 at every equal-radius order.
-- `isotropicGrowth_dirac`: A point mass has growth r≥0 with C=1 and extends to point evaluation.
+- Isotropic point mass: A point mass has growth r≥0 with C=1 and extends to point evaluation.
 - `isotropic_zero_order`: At r=0 the extension is exactly the imported bounded measure, with its original locally constant values.
 - `isotropic_endpoint` (non-example): At r=1 on Z_p, dδ_0 vanishes on all locally constant functions but takes x to 1. Uniqueness among order-one distributions cannot follow from those values.
 
@@ -2408,7 +2410,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Poly
 
 - `FixedSpectralTests.empty_rank` (degenerate): E_0(B,1)=1 for every B.
 - `FixedSpectralTests.zero_function` (degenerate): The zero functional input gives1.
-- `FixedSpectralTests.constant_padding` (non-example): For B=c constant and P=1, E_2(B,1)=(1−cT)^2, retaining both padded zero roots.
+- `constant_padding` (non-example): For B=c constant and P=1, E_2(B,1)=(1−cT)^2, retaining both padded zero roots.
 - `FixedSpectralTests.linear_value` (compatibility): E_1(B,1−aT)=1−B(a)T for entire B.
 - `FixedSpectralTests.nilpotent_coefficients`: If e²=0, E_2(T,1−eT²)=1−eT²; nilpotent coefficients remain visible.
 - `FixedSpectralTests.unit_input_zero_constant` (compatibility): For entire B with B(0)=0, E_n(B,1)=1 at every rank.
@@ -2559,7 +2561,7 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 
 - `AnalyticDistributionTests.integralLattice_zero` (degenerate): Zero belongs to the lattice.
 - `AnalyticDistributionTests.integralLattice_point`: At a point, multiplication by a lies in the lattice iff ‖a‖≤1.
-- `AnalyticDistributionTests.integralLattice_boundary` (non-example): Multiplication by p^(−1) is outside the lattice for the normalized p-adic norm.
+- `integralLattice_boundary` (non-example): Multiplication by p^(−1) is outside the lattice for the normalized p-adic norm; the Lean target uses p=3 on the singleton stage.
 
 **Scalar tensors of analytic stages** (comparison). For affinoid A/K and scalar c₀ stage E, the canonical map E⊗̂_(K,π)A→A_h(X,A) is an isomorphism of Banach A-modules, under the standard completed projective nonarchimedean tensor norm. This compares Mathlib's algebraic TensorProduct plus its separated completion; it does not replace that carrier. Under (a).
 
@@ -2631,7 +2633,7 @@ summation. Source: Urban Lemmas 3.4.6–3.4.7, pp.43–44; Colmez §II.4, pp.34�
 - `AnalyticDistributionTests.coefficientAction_identity` (degenerate): Identity pullback and multiplier return μ.
 - `AnalyticDistributionTests.coefficientAction_dirac`: U_σδ_x=j_σ(x)δ_(φ_σ(x)).
 - `AnalyticDistributionTests.coefficientAction_specialization` (compatibility): On a principal coordinate over A=K〈W/r〉 with r<1 and φ(z)=pz, let j(z)=(1+W)^(p^h z). Then U_σδ_1=(1+W)^(p^h)δ_p. At W=w its value on z² is (1+w)^(p^h)p². Taking w=0 gives p². Using j(p) instead of j(1) gives (1+w)^(p^(h+1))p², a wrong-action test at any w for which the two units differ.
-- `AnalyticDistributionTests.coefficientAction_wrongScalar`: Over A=K×K with constant multiplier (2,3), φ(z)=pz and μ=(5,7)δ_1, the second-projection fiber has value 21p² on z². The first projection gives 10p². At p=3 these are 189 and 90. The check is computed from the constructed stage dilation `analyticStageDilate`, the constant multiplier and the stage evaluation `analyticStageEvaluate`, followed by the constructed specialization; it does not assume their evaluation comparison. Its numerical values are an `example` in Suggested.lean.
+- `AnalyticDistributionTests.coefficientAction_wrongScalar`: Over A=K×K with constant multiplier (2,3), φ(z)=pz and μ=(5,7)δ_1, the second-projection fiber has value 21p² on z². The first projection gives 10p². At p=3 these are 189 and 90. The check is computed from the constructed stage dilation `analyticStageDilate`, the constant multiplier and the stage evaluation `analyticStageEvaluate`, followed by the constructed specialization; it does not assume their evaluation comparison.
 
 **Cocycle law and handedness** (lemma). Under the preceding cocycle identities, R_τ∘R_σ=R_(στ) and U_σ∘U_τ=U_(στ). Thus the function action is right and the dual action is left; reversing the composition of pullbacks reverses the semigroup law. Under (a).
 
@@ -2667,7 +2669,7 @@ Source for this subsection unless a target says otherwise: Pilloni, §§13.1.1�
 **Checks.**
 
 - `AnalyticDistributionTests.banachComplex_one_degree` (compatibility): A Banach (Pr) module in degree zero is a projective Banach complex.
-- `AnalyticDistributionTests.banachComplex_infinite_rank` (non-example): c_A(N) in degree zero is allowed although it is not a finite-projective algebraic A-module.
+- `banachComplex_infinite_rank` (non-example): c_A(N) in degree zero is allowed although it is not a finite-projective algebraic A-module.
 - `AnalyticDistributionTests.banachComplex_differential`: A→A with identity differential in consecutive degrees is an acyclic projective Banach complex.
 
 **Degreewise completely continuous representatives** (definition). A continuous cochain endomorphism U of a bounded projective Banach complex is degreewise completely continuous if each degree map U^i (`degreeCLM`, transported to the identified Banach module) satisfies the single earlier A-complete-continuity predicate. The chain condition dU=Ud is required; independent operators in the degrees do not define a complex endomorphism. Under (a). Its API consists of `DegreewiseCompletelyContinuous` (Every continuous degree map has finite A-image approximants), `degreewiseCompletelyContinuous_zero` (The zero cochain endomorphism is compact in every degree) and `degreewiseCompletelyContinuous_add` (Over Noetherian A, sums of two such representatives have the same property). The addition theorem carries `[IsNoetherianRing A]` explicitly, even when the underlying normed complex is stated without (Pr). Source: Buzzard, §2, pp. 9–10, approximation definition; Pilloni §13.1.2, author p. 84, degreewise compact representatives.
@@ -2849,7 +2851,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 - `AnalyticDistributionTests.frechetFactor_zero` (degenerate): Zero stage operators factor through any compact transition system.
 - `AnalyticDistributionTests.frechetFactor_finite`: The constant system A with identity transitions and scalar U=a factors with a_n=a.
-- `AnalyticDistributionTests.frechetFactor_noncompact` (non-example): The constant system c_K(N) with identity transitions fails the compact-transition condition, even if U=0.
+- `frechetFactor_noncompact` (non-example): The constant system c_K(N) with identity transitions fails the compact-transition condition, even if U=0.
 
 **Finite slopes of a compact Fréchet factorization** (theorem). If the stage operators in the preceding factorization have h-slope decompositions with finite-projective ≤h summands, the transitions identify all stage ≤h summands; the induced Fréchet operator has this common finite-slope module. Its characteristic finite-window factor is independent of the chosen stage. Under (a). (Source: Urban, Lemma 2.3.13, author pp. 27–28; derived from the cited passage, not printed there.)
 
