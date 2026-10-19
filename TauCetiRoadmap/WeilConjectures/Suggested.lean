@@ -7,6 +7,7 @@ import Mathlib.Algebra.Order.Archimedean.Basic
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Algebra.Polynomial.Eval.Defs
 import Mathlib.Data.ZMod.Basic
+import Mathlib.FieldTheory.Finite.Extension
 import Mathlib.CategoryTheory.Groupoid
 import Mathlib.CategoryTheory.IsomorphismClasses
 import Mathlib.CategoryTheory.SingleObj
@@ -113,8 +114,10 @@ theorem groupoidMass_sum {C D : Type*} [Groupoid C] [Groupoid D] [IsGroupoid (C 
     groupoidMass (C ⊕ D) hCD aCD = groupoidMass C hC aC + groupoidMass D hD aD := by
   sorry
 
-/-- the action groupoid has mass `#Y / #G` (orbit–stabiliser),
-the numerical content of the quotient-stack count `#Y(F_q) / #G(F_q)`. Mathlib's
+/-- The action groupoid of a finite group on a finite set has mass `#Y / #G`
+by orbit–stabilizer. For an algebraic quotient stack this is the trivial-torsor
+stratum; its full point groupoid includes all torsor forms. The full mass formula
+requires torsor triviality, as in README WC.1. Mathlib's
 `Groupoid (ActionCategory G Y)` instance does not yield `IsGroupoid` by instance search at the
 pin, so it is an argument here. -/
 theorem groupoidMass_actionCategory (G Y : Type*) [Group G] [MulAction G Y] [Finite G] [Finite Y]
@@ -247,6 +250,16 @@ example (hf : ∀ n : ℕ, Finite {S : Finset Bool // S.card = n ∧
     signedConfigurationCoefficient (Equiv.swap true false) hf 2 ≠ 1 := by
   sorry
 
+-- A fixed point disjoint from a two-cycle: (1-T)(1-T^2).
+example (hf : ∀ n : ℕ, Finite {S : Finset (Unit ⊕ Bool) // S.card = n ∧
+    S.map (Equiv.sumCongr (Equiv.refl Unit) (Equiv.swap true false)).toEmbedding = S}) :
+    let σ := Equiv.sumCongr (Equiv.refl Unit) (Equiv.swap true false)
+    signedConfigurationCoefficient σ hf 0 = 1 ∧
+    signedConfigurationCoefficient σ hf 1 = -1 ∧
+    signedConfigurationCoefficient σ hf 2 = -1 ∧
+    signedConfigurationCoefficient σ hf 3 = 1 := by
+  sorry
+
 /-! ### WC.1: algebraic cores of rationality, Fatou and Möbius inversion -/
 
 /-- WC.1 rational-series descent, algebraic core of the geometric comparison. -/
@@ -257,7 +270,8 @@ theorem rational_series_descent {K L : Type*} [Field K] [Field L] [Algebra K L]
     ∃ P Q : Polynomial K, Q.coeff 0 ≠ 0 ∧ (Q : PowerSeries K) * f = (P : PowerSeries K) := by
   sorry
 
-/-- WC.1 local Fatou core at any prime, including the geometric characteristic. -/
+/-- Specialization of DeligneWeightsAndPurity §4.4's local Fatou helper to
+`ℚ_ℓ`, at any prime including the geometric characteristic. -/
 theorem local_fatou_normalization (ℓ : ℕ) [Fact ℓ.Prime]
     (f : PowerSeries (Padic ℓ)) (P Q : Polynomial (Padic ℓ))
     (hf : ∀ n : ℕ, ‖f.coeff n‖ ≤ 1) (hf0 : f.coeff 0 = 1)
@@ -318,7 +332,8 @@ theorem functional_equation_base_extension {K : Type*} [Field K]
 
 /-! ### WC.3: algebraic core of the degreewise extraction -/
 
-/-- WC.3 finite Galois splitting-field core: all embeddings and multiplicities. -/
+/-- Finite-Galois adapter to DeligneWeightsAndPurity §4.4 degree-factor
+extraction, retaining all embeddings and multiplicities. -/
 theorem degreewise_pure_factor_extraction {K : Type*} [Field K] [Algebra ℚ K]
     [FiniteDimensional ℚ K] [IsGalois ℚ K] (hemb : Nonempty (K →ₐ[ℚ] ℂ))
     (q r : ℕ) (hq : 1 < q) (b : Fin r → ℕ)
@@ -676,11 +691,71 @@ theorem graded_polynomial_approximation (p : ℝ) (hp : 1 < p) (r s : ℕ)
     (∀ j : ℕ, s ≤ 2 * j → r < 2 * j → P.coeff j = 0) := by
   sorry
 
+-- The approximate polynomial for P^2 differs from the exact count by one.
+example (p : ℝ) (n : ℕ) :
+    ((p ^ n) ^ 2 + p ^ n + 1) - ((p ^ n) ^ 2 + p ^ n) = 1 := by
+  sorry
+
+-- That error is little-o of p^n for p>1, rather than identically zero.
+example (p : ℝ) (hp : 1 < p) :
+    Filter.Tendsto (fun n : ℕ =>
+      ‖((p ^ n) ^ 2 + p ^ n + 1) - ((p ^ n) ^ 2 + p ^ n)‖ / p ^ n)
+      Filter.atTop (nhds 0) := by
+  sorry
+
 end TauCeti.FiniteSpectrum
 
 namespace TauCeti.AlgebraicGeometry.WeilZeta
 
 /-! ### WC.6 and WC.7: convention and equation examples on existing carriers -/
+
+-- Every maximal cone of the specified nonprojective fan is regular.
+-- Cone 123.
+example : |(!![1, 0, 0; 0, 1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 127.
+example : |(!![1, 0, 0; 0, 1, 0; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 136.
+example : |(!![1, 0, 0; 0, 0, 1; 0, -1, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 167.
+example : |(!![1, 0, 0; 0, -1, -1; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 235.
+example : |(!![0, 1, 0; 0, 0, 1; -1, -1, 0] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 257.
+example : |(!![0, 1, 0; -1, -1, 0; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 356.
+example : |(!![0, 0, 1; -1, -1, 0; 0, -1, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 456.
+example : |(!![-1, -1, -1; -1, -1, 0; 0, -1, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 457.
+example : |(!![-1, -1, -1; -1, -1, 0; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- Cone 467.
+example : |(!![-1, -1, -1; 0, -1, -1; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
+  sorry
+
+-- The three primitive relations obstruct an ample support function.
+example :
+    (![0, 1, 0] : Fin 3 → ℤ) + ![0, -1, -1] = ![1, 0, 0] + ![-1, 0, -1] ∧
+    (![0, 0, 1] : Fin 3 → ℤ) + ![-1, 0, -1] = ![0, 1, 0] + ![-1, -1, 0] ∧
+    (![1, 0, 0] : Fin 3 → ℤ) + ![-1, -1, 0] = ![0, 0, 1] + ![0, -1, -1] := by
+  sorry
 
 -- Empty cohomology: normalized factor is one.
 example : (0 : Matrix (Fin 0) (Fin 0) ℚ).charpolyRev = 1 := by
@@ -751,6 +826,30 @@ example :
 -- The unique point at infinity is a separate supplier theorem.
 example :
     Fintype.card {xy : ZMod 2 × ZMod 2 // xy.2 ^ 2 + xy.2 = xy.1 ^ 5} = 2 := by
+  sorry
+
+-- Affine counts over the actual degree 2, 3 and 4 extensions; add infinity.
+example :
+    let K := FiniteField.Extension (ZMod 2) 2 2
+    let N := Nat.card {xy : K × K // xy.2 ^ 2 + xy.2 = xy.1 ^ 5}
+    N = 4 ∧ N + 1 = 5 := by
+  sorry
+
+example :
+    let K := FiniteField.Extension (ZMod 2) 2 3
+    let N := Nat.card {xy : K × K // xy.2 ^ 2 + xy.2 = xy.1 ^ 5}
+    N = 8 ∧ N + 1 = 9 := by
+  sorry
+
+example :
+    let K := FiniteField.Extension (ZMod 2) 2 4
+    let N := Nat.card {xy : K × K // xy.2 ^ 2 + xy.2 = xy.1 ^ 5}
+    N = 32 ∧ N + 1 = 33 := by
+  sorry
+
+-- A nonsplit quadric exchanges its rulings: eigenvalues 2,-2.
+example : (!![0, 2; 2, 0] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
+    1 - C 4 * X ^ 2 := by
   sorry
 
 -- P^1 x P^1/F_2 has two middle classes of scalar 2, via tensor Kunneth.
@@ -843,10 +942,10 @@ tateExtension_unramified, numericalPicardLocalSystem,
 numericalPicard_cycleInjection, numericalPicard_cycleIso_of_rank,
 numericalPicard_baseDivisorDescent, numericalPicard_baseCycleSurjective,
 IsEnriques, enriques_characterization, enriques_baseChange,
-enriques_etaleInvariants, RelativelyMinimalGenusOneFibration,
+enriques_etaleInvariants,
 genusOneFibration_baseChange, genusOneFibration_modelComparison,
 rationalGenusOne_etaleInvariants, rationalSurface_picardEtaleComparison,
 nonprojectiveToricModel, nonprojectiveToricThreefold,
 nonprojectiveToric_smoothProper, nonprojectiveToric_notProjective,
-nonprojectiveToric_etaleComparison.
+nonprojectiveToric_chowPresentation, nonprojectiveToric_etaleComparison.
 -/

@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap connects rational points over finite fields to the integral zeta function, its cohomological degree factors, and its functional equation. Its endpoint is a theorem about an actual smooth proper scheme over a finite field: integral factors independent of the coefficient prime, reciprocal roots of the prescribed absolute values in every complex embedding, the signed functional equation, and trace formulas for every finite extension. The same interfaces support point-count recurrences, polynomial-count criteria, weighted stack counts, and explicit curve and surface calculations.
 
-The constructions start with the rational-point and rational étale cohomology interfaces of **EtaleCohomologyFoundations §§`F`.4 and `F`.10.1–`F`.10.2b**. The proof of purity belongs to **DeligneWeightsAndPurity**. Perfect pairings, cycle classes and weak Lefschetz use **EtaleCohomologyFoundations §§`F`.5–`F`.7** and **EtaleDualityAndPerverseSheaves §§1, 4 and 8**. Here the work is to compare those constructions, prove the arithmetic descent and integrality statements, separate factors by weight, and expose consequences that retain their exact hypotheses.
+The constructions start with the rational-point and rational étale cohomology interfaces of **EtaleCohomologyFoundations §§`F`.4 and `F`.10.1–`F`.10.2b**. The proof of purity belongs to **DeligneWeightsAndPurity**. Perfect pairings, cycle classes and weak Lefschetz use **EtaleCohomologyFoundations §§`F`.5–`F`.7** and **EtaleDualityAndPerverseSheaves §§1, 4 and 8**. Here the work is to compare those constructions with counting interfaces, provide algebraic descent and factor-extraction adapters, and expose consequences that retain their exact hypotheses.
 
 There are two routes for curves. The general route imports purity and then takes traces. A second route imports the graph-of-Frobenius Hodge-index inequality on the product of a curve with itself and proves root bounds from estimates for all powers. The numerical argument is independent of the purity theorem. This distinction makes it possible to use either proof without a circular dependency.
 
@@ -10,7 +10,8 @@ There are two routes for curves. The general route imports purity and then takes
 
 This roadmap owns finite groupoid mass, signed Frobenius configurations, their
 inverse-zeta and sieve applications, the general finite-spectrum moment criteria,
-local Fatou normalization, signed functional-equation assembly and its arithmetic
+arbitrary-field rational-series descent, finite-Galois factor-extraction adapters,
+signed functional-equation assembly and its arithmetic
 sign descent, polynomial-count and equivariant Tate conclusions, and the geometric
 comparisons in WC.0–WC.7. It preserves the distinction between a theorem about
 actual cohomology and a numerical theorem about a supplied spectrum.
@@ -19,10 +20,12 @@ Scheme geometry, descent, Chow groups, intersection theory and the surface Weil
 bound are supplied by SchemeAndStackFoundations §§0–5. Rational adic carriers,
 Frobenius and base change are supplied by EtaleCohomologyFoundations §§`F`.0–`F`.4,
 `F`.10.1–`F`.10.5. Geometric trace identities belong to
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4. Their zeta
-construction and rationality, projective factor extraction, component bounds and
-smooth proper DM purity are consumed from DeligneWeightsAndPurity §§1.10, 4.4,
-10.2 and 8.24, respectively. The targets below identify these supplied objects
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
+DeligneWeightsAndPurity §1.10 supplies finite-field zeta rationality; §4.4
+supplies normalized integral rational-series presentations, their local and global
+Fatou helpers and `degreeFactorExtraction`; §§4.4 and 7.15 supply projective and
+smooth proper canonical factors. Its §§10.2 and 8.24 supply component bounds and
+smooth proper DM purity, respectively. The targets below identify these supplied objects
 with integral Euler expansions and with the counting and sign interfaces here;
 they do not introduce competing geometric carriers. The arbitrary-field
 rational-series theorem and the finite-Galois polynomial extraction theorem
@@ -33,8 +36,14 @@ by EllipticCurves Layer 3 and Tau Ceti. AlgebraicCurves Layers 7, 10 and 12 own 
 function-field/model/genus dictionary. Surface numerical divisor local systems
 and their cohomological descent comparisons needed here are targets in WC.7,
 as are the stated characteristic-sensitive surface invariant comparisons.
-WC.1 constructs the stack compact-support, coarse-space and pairing extensions
-used by the stack applications; scheme statements alone do not supply them.
+DeligneWeightsAndPurity §8.24 supplies rational DM cohomology, Frobenius-equivariant
+coarse comparison and smooth proper DM duality. WC.1 constructs point-groupoid
+masses, their cohomological comparison, and the remaining compact-support, trace
+and arithmetic-family extensions; its pairing export adapts the supplied pairing.
+NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5 and 5.0–5.2 supply
+the genus-one fibration carrier and rational-surface blowup, Picard and cohomology
+comparisons. WC.7 extends the rank-ten comparisons to arbitrary Picard rank and
+the Jacobian genus-one case to fibrations without a section.
 
 ## Conventions
 
@@ -95,15 +104,17 @@ Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an i
 | EtaleCohomologyFoundations §§`F`.5–`F`.7, 0.9–0.11 | Exceptional inverse image and duality, the smooth trace, cycle maps with Tate orientation, projective bundles and weak Lefschetz. Use the Frobenius-equivariant perfect pairing, not only equality of Betti numbers. |
 | InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 | Curve/Jacobian realization and graph trace, finite and rational constructible Grothendieck–Lefschetz, and constant-sheaf counts for every extension with compact support. §IG.0.T4 supplies the independent affine/projective-space and multiplicative-group cohomology comparisons. |
 | DeligneWeightsAndPurity §§0.1, 0.10–0.16, 1.6–1.10 | All-conjugates Weil numbers, characteristic power series, powers, tensor products and reciprocal pairings; curve purity and the coefficient Euler product/rational zeta construction `finiteFieldZetaRationality`. |
-| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity and canonical integral factors; mixed direct-image bounds, smooth proper and homology-manifold purity; `dmStack_etaleCohomology` and `dmStack_smoothProper_purity`; component-aware bounds. WC.3 compares its finite-Galois algebraic extraction with these canonical factors. |
-| EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. Stack duality is built separately in WC.1. |
+| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations, local/global Fatou helpers and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; `dmStack_etaleCohomology`, `dmStack_smoothProper_purity`, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares its finite-Galois algebraic extraction with these canonical factors. |
+| EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
 | ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
 | AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layers 7, 10, 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons, Artin–Schreier different and Hurwitz formula. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
 | ReductiveGroupsPartII §RG2.3 | Lang torsor triviality for connected smooth linear algebraic groups over finite fields; disconnected groups retain their torsor forms. |
 | ArithmeticGaloisRepresentations §§5.1, 5.3 | Frobenius density and characteristic-zero semisimple recognition from density-one traces, for the actual continuous generic Galois representations. |
 | PadicHodgeTheory §§5.3, 8.1; NumberFieldArithmetic Layer 6 | Potential semistability and good-reduction crystallinity, and the global everywhere-unramified number-field consequence. WC.5 proves the required extension-splitting implication, with the hypotheses of van den Bogaart–Edixhoven Lemma 4.2. |
 | PadicDifferentialEquationsAndRigidCohomology §§RD.7.1–RD.7.9 | The linear `q`-Frobenius comparison and equality of rigid/crystalline/étale degree factors, with explicit coefficient maps. |
-| LocalFieldsRamification Layer 0; EllipticCurves Layer 3 | Finite extensions and norms for the local Fatou argument; the independent Hasse theorem and Weierstrass normalization. |
+| ClassicalArithmeticCompletion §6.44; LocalFieldsRamification Layer 0 | The Hankel criterion for rational series; finite extensions and norms for the supplied local Fatou specialization. |
+| EllipticCurves Layer 3 | The independent Hasse theorem and Weierstrass normalization. |
+| NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2 | `GenusOneFibration`, relative minimality and model/base-change API; `rationalSurface_commonBlowup`, `blowup_Picard_intersection`, `rationalSurface_coherent_vanishing`, `pointBlowup_ellAdicCohomology`, `rationalSurface_cycleClass` and the rank-ten Picard-constancy criterion. WC.7 generalizes the rank and the Jacobian genus-one restriction and agrees with these specializations. |
 
 Tau Ceti supplies `TauCeti.repRing`, `TauCeti.repRingCharacter` and
 `TauCeti.mem_range_repRingCharacter_iff` in
@@ -262,23 +273,24 @@ Let `K → L` be a field extension and `f ∈ K[[T]]`. Suppose there are `P,Q �
 
 A proof may use eventual recurrences, finite Hankel rank and descent of the resulting linear equations. Applying it with `K = ℚ` and `L = ℚ_ℓ` to the Euler series gives `Z_X ∈ ℚ(T)`. Reduce the fraction and normalize each constant coefficient to one. Uniqueness of the reduced pair follows over the field; integrality comes next.
 
-*Needs:* `PowerSeries.ext` and polynomial/field algebra; the cohomological comparison for the geometric application. **Source:** Milne, Lemma 27.9 and proof, pp. 156–157; Deligne I, proof of (1.7) ⇒ (1.6), p. 276, for the Hankel descent. Suggested name: `TauCeti.PointCounting.rational_series_descent`.
+*Needs:* `PowerSeries.ext` and polynomial/field algebra; ClassicalArithmeticCompletion §6.44 for the Hankel criterion; the cohomological comparison and DeligneWeightsAndPurity §1.10 for compatibility with supplied geometric rationality. **Source:** Milne, Lemma 27.9 and proof, pp. 156–157; Deligne I, proof of (1.7) ⇒ (1.6), p. 276, for the Hankel descent. Suggested name: `TauCeti.PointCounting.rational_series_descent`.
 
 ### Local Fatou normalization
 
+Specialize DeligneWeightsAndPurity §4.4's local Fatou helper to `ℚ_ℓ`.
 Let `ℓ` be any prime. If `f ∈ 1 + Tℤ_ℓ[[T]]` and `P,Q ∈ ℚ_ℓ[T]` are coprime with `P(0) = Q(0) = 1` and `Qf = P`, every coefficient of `P` and `Q` has ℓ-adic norm **at most** one. Thus both polynomials are integral. The coefficient norm hypothesis is inclusive at one.
 
 In a splitting field, a denominator reciprocal root of norm greater than one would give a zero of `Q` in the convergence disc of `f`. Evaluating `Qf = P` there contradicts coprimality. Apply the argument to `f⁻¹` as well for the numerator. This local statement applies even when `ℓ = p`, although `p` cannot be used as the coefficient prime in the étale trace formula.
 
-*Needs:* local fields and their finite extensions from **LocalFieldsRamification, Layer 0**; norm comparison for series, `Summable.of_norm_bounded`, geometric-series summability, and `PowerSeries.ext`. **Source:** Milne, Lemma 27.10 and proof, p. 158. Suggested name: `TauCeti.PointCounting.local_fatou_normalization`.
+*Needs:* DeligneWeightsAndPurity §4.4 local Fatou helper; local fields and their finite extensions from **LocalFieldsRamification, Layer 0**; norm comparison for series, `Summable.of_norm_bounded`, geometric-series summability, and `PowerSeries.ext`. **Source:** Milne, Lemma 27.10 and proof, p. 158. Suggested name: `TauCeti.PointCounting.local_fatou_normalization`.
 
 ### The normalized integral rational presentation
 
 For separated finite-type `X/k`, let `Z_X = U/V` be the reduced rational presentation over `ℚ`, normalized by `U(0) = V(0) = 1`. Then `U,V` belong to `ℤ[T]` and are coprime over `ℚ`. Their expansion is exactly the integral Euler series. Normalization, reduction, numerator and denominator commute with field embeddings.
 
-Apply local Fatou at every rational prime and then use that a rational number integral at every prime is an integer. No weight statement enters this step. The reduced `U` and `V` are parity products after cancellations; individual cohomological factors need a separate argument.
+Compare the integral Euler series and determinant expression here with the normalized integral presentation supplied by DeligneWeightsAndPurity §4.4. Its global Fatou helper applies the local result at every rational prime. Uniqueness of the reduced normalized pair identifies the supplied numerator and denominator with this counting presentation. No weight statement enters; the reduced `U` and `V` are parity products after cancellations, rather than individual degree factors.
 
-*Needs:* the preceding three zeta/descent/integrality targets; Mathlib `padicNorm` and rational arithmetic. **Source:** Milne, Proposition 27.11 and proof, p. 158; Deligne I, proof of (1.7) ⇒ (1.6), p. 276. Suggested name: `TauCeti.PointCounting.normalized_integral_zeta_presentation`.
+*Needs:* the cohomological and Euler comparisons; DeligneWeightsAndPurity §§1.10 and 4.4 normalized integral rational-series presentation; Mathlib `padicNorm` and rational arithmetic. **Source:** Milne, Proposition 27.11 and proof, p. 158; Deligne I, proof of (1.7) ⇒ (1.6), p. 276. Suggested name: `TauCeti.PointCounting.normalized_integral_zeta_presentation`.
 
 ### Finite groupoid mass
 
@@ -323,10 +335,10 @@ isomorphism classes and finite automorphism groups, with extension, equivalence
 and locally closed stratification compatibility. The intended interface
 `stackPointGroupoid(𝒳, k_r)` returns a groupoid with these finiteness theorems;
 its numerical mass is the finite-groupoid definition above, applied after finiteness is proved.
-For a DM stack with coarse space `π:𝒳→X`, prove rational coarse comparison
-`Rπ_*ℚ_ℓ≃ℚ_ℓ` in characteristic `p≠ℓ`, with Frobenius and proper-support
-compatibility. This is a theorem for rational coefficients; stabilizer orders
-may be divisible by `ℓ`. (Bergström–Faber–Payne, Proposition 1.3, pp. 1324–1325;
+For a DM stack with coarse space `π:𝒳→X`, use DeligneWeightsAndPurity §8.24
+for rational coarse comparison `Rπ_*ℚ_ℓ≃ℚ_ℓ` in characteristic `p≠ℓ`,
+with Frobenius equivariance. Construct its compatibility with the compact-support
+interface below. Rational coefficients allow stabilizer orders divisible by `ℓ`. (Bergström–Faber–Payne, Proposition 1.3, pp. 1324–1325;
 van den Bogaart–Edixhoven §3, pp. 4–6, for rational coarse comparison.)
 
 Extend DeligneWeightsAndPurity §8.24's rational DM coefficient descent to
@@ -336,8 +348,9 @@ atlas-refinement invariance, finite-dimensionality and boundedness, localization
 Künneth, coefficient extension, finite group actions and geometric Frobenius
 compatibility. Prove the weighted trace identity for every `r≥1`:
 `mass(𝒳(k_r)) = ∑_i (-1)^i Tr(F^r | H_c^i(𝒳_k̄, ℚ_ℓ))`.
-For smooth proper pure-dimensional DM stacks construct the Frobenius-equivariant
-perfect pairing `H^i ⊗ H^(2d−i) → ℚ_ℓ(−d)`, with graded symmetry, alternating
+For smooth proper pure-dimensional DM stacks adapt DeligneWeightsAndPurity
+§8.24's Frobenius-equivariant perfect pairing
+`H^i ⊗ H^(2d−i) → ℚ_ℓ(−d)` to WC.2, retaining graded symmetry, alternating
 middle degree when `d` is odd, and determinant reciprocity. Name these exports
 `stackCompactSupportTrace` and `stackPoincarePairing`. Their API includes proper
 comparison `H_c=H`, base extension `F↦F^r`, pullback and finite-action compatibility,
@@ -367,7 +380,7 @@ Theorem 2.1 and §3–§4, pp. 3–10.)
   of its coarse-space cohomology.
 
 *Needs:* SchemeAndStackFoundations §§1.18–1.21;
-DeligneWeightsAndPurity §8.24 rational DM coefficients;
+DeligneWeightsAndPurity §8.24 rational DM coefficients, coarse comparison and smooth proper pairing;
 EtaleCohomologyFoundations §§`F`.2–`F`.6;
 InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 for scheme traces;
 ComplexComparisonPartII §C6.6 and PadicHodgeTheory §8.1 for the indicated comparisons.
@@ -420,7 +433,8 @@ The definition is `TauCeti.PointCounting.signedConfigurationCoefficient`. A fini
 - The empty permutation has `c₀=1` and `c₁=0`.
 - Two fixed points give coefficients `1,−2,1`.
 - One two-cycle gives `c₁=0` and `c₂=−1`, different from `+1`.
-- Disjoint union agrees with multiplication of generating polynomials by the convolution API.
+- A fixed point disjoint from a two-cycle has coefficients `1,−1,−1,1`: the
+  convolution API gives `(1−T)(1−T²)`.
 
 *Needs:* WC.0 closed points; `MulAction.orbitRel`, `Subgroup.zpowers`, finite subsets and the existing quotient. **Source:** Bergström–Faber–Payne, §7, equation (8), Definition 7.3 and equation (9), published pp. 1337–1338. The API and checks are finite combinatorial consequences of this definition.
 
@@ -566,17 +580,24 @@ Let `q > 1` be an integer. Consider finitely many normalized polynomials `P_i` o
 
 Then each `P_i` is the coefficient image of a unique `Π_i ∈ ℤ[T]`, normalized by `Π_i(0) = 1` and of degree `b_i`. Different degrees give `Π_i` that are coprime over `ℚ`. For odd `i`, `Π_i` is the weight-`i` part of the reduced numerator; for even `i`, it is the weight-`i` part of the reduced denominator. This characterizes the factors independently of a realization field or coefficient prime.
 
-The proof has three distinct steps. Since `q > 1`, the degree moduli differ, so no reciprocal root cancels across different degrees. In a finite Galois splitting field over `ℚ`, the set of roots belonging to each weight is Galois stable, giving rational coefficients. Reversing normalized factors makes their reciprocal roots roots of monic integral polynomials; integral closure or Gauss's lemma then gives integer coefficients for `Π_i`. The degree statement uses nonzero reciprocal roots. The theorem applies to any actual realization with these hypotheses.
+The proof has three distinct steps. Since `q > 1`, the degree moduli differ, so no reciprocal root cancels across different degrees. In a finite Galois splitting field over `ℚ`, the set of roots belonging to each weight is Galois stable, giving rational coefficients. Reversing normalized factors makes their reciprocal roots roots of monic integral polynomials; integral closure or Gauss's lemma then gives integer coefficients for `Π_i`. The degree statement uses nonzero reciprocal roots. The theorem applies to any actual realization with these hypotheses. Compare its
+integer factors with DeligneWeightsAndPurity §4.4's `degreeFactorExtraction` by
+uniqueness. Rational companion matrices of the reversed factors give the
+supplier's invertible `ℚ_ℓ`-Frobenius modules for a singleton coefficient-prime
+set; this adapter does not require geometric purity.
 
-*Needs:* WC.1 normalized integral presentation; DeligneWeightsAndPurity §0.1; `IsGalois.mem_range_algebraMap_iff_fixed` under finite-dimensional Galois hypotheses and `IsIntegrallyClosed.eq_map_mul_C_of_dvd`. **Source:** Deligne I, proof of (1.7) ⇒ (1.6), pp. 276–277; Milne, §27.14(c)–(d) and proof, p. 159. Suggested name: `TauCeti.PointCounting.degreewise_pure_factor_extraction`.
+*Needs:* WC.1 normalized integral presentation; DeligneWeightsAndPurity §§0.1 and 4.4 `degreeFactorExtraction`; `IsGalois.mem_range_algebraMap_iff_fixed` under finite-dimensional Galois hypotheses and `IsIntegrallyClosed.eq_map_mul_C_of_dvd`. **Source:** Deligne I, proof of (1.7) ⇒ (1.6), pp. 276–277; Milne, §27.14(c)–(d) and proof, p. 159. Suggested name: `TauCeti.PointCounting.degreewise_pure_factor_extraction`.
 
 ### The projective Weil factors
 
-For smooth projective `X/k`, import the actual projective purity theorem from DeligneWeightsAndPurity §§4.3–4.4. No geometric-connectedness hypothesis is needed. Apply generic extraction to the WC.1 determinant expression. For every `i` there is a unique `Π_i ∈ ℤ[T]` whose coefficient image equals `det(1 − TF on H^i)` for every `ℓ ≠ p`. It has constant coefficient one and degree `b_i`.
+For smooth projective `X/k`, import projective purity and canonical integral
+factors from DeligneWeightsAndPurity §§4.3–4.4. No geometric-connectedness
+hypothesis is needed. Compare these factors with generic extraction on the
+WC.1 determinant expression; uniqueness identifies both families. For every `i` there is a unique `Π_i ∈ ℤ[T]` whose coefficient image equals `det(1 − TF on H^i)` for every `ℓ ≠ p`. It has constant coefficient one and degree `b_i`.
 
 Its reciprocal roots are algebraic integers, and every complex conjugate of each has modulus `q^{i/2}`. Factors in different degrees are coprime; both the factors and their degrees are independent of `ℓ`. This conclusion contains no Frobenius semisimplicity statement.
 
-*Needs:* WC.0 rational realization; WC.1 cohomological comparison; generic extraction; DeligneWeightsAndPurity §§4.3–4.4 projective purity. **Source:** Deligne I, Theorem 1.6 and Lemma 1.7, p. 276, with the extraction proof on pp. 276–277. Suggested name: `TauCeti.PointCounting.integral_projective_weil_factors`.
+*Needs:* WC.0 rational realization; WC.1 cohomological comparison; generic extraction; DeligneWeightsAndPurity §§4.3–4.4 projective purity and canonical factors. **Source:** Deligne I, Theorem 1.6 and Lemma 1.7, p. 276, with the extraction proof on pp. 276–277. Suggested name: `TauCeti.PointCounting.integral_projective_weil_factors`.
 
 The zero space gives `Π_i = 1`. A permutation in degree zero retains its cycle factors and all roots of unity with their multiplicities. A unipotent block has the same polynomial as its semisimplification; this does not identify the two operators. These checks preserve the scope of the theorem.
 
@@ -996,7 +1017,11 @@ This layer reuses the preceding arithmetic and determinant algebra with broader 
 
 Let `X/k` be smooth proper of finite type and dimension at most `d`. For every `i` there is a unique `Π_i ∈ ℤ[T]` whose coefficient image is `det(1 − TF on H^i)` for every prime `ℓ ≠ p`. It has constant coefficient one, degree `dim H^i`, and reciprocal roots that are algebraic integers pure of weight `i` in every complex embedding. For `i > 2d` or empty `X`, `Π_i = 1`. The factors and dimensions are independent of `ℓ`.
 
-Projectivity, geometric connectedness and Frobenius semisimplicity are not hypotheses. DeligneWeightsAndPurity §7.15 supplies actual smooth proper purity. WC.1 supplies the normalized integral rational zeta, and the **generic** extraction theorem in WC.3 separates the factors. This application reuses those arguments without invoking the projective specialization.
+Projectivity, geometric connectedness and Frobenius semisimplicity are not hypotheses. DeligneWeightsAndPurity §§4.4 and 7.15 supply smooth proper purity and these
+canonical integral factors. Identify them with the factors obtained by WC.3's
+generic algebraic adapter from WC.1's counting presentation. Uniqueness gives
+compatibility with coefficient maps and finite extensions, without another
+geometric factor construction or the projective specialization.
 
 The nonprojective toric threefold target below supplies an actual smooth proper nonprojective variety with its cohomology comparison. Projective spaces alone do not exercise the removal of projectivity. The empty scheme and a degree-`m` finite étale point separately check trivial factors and a nontrivial degree-zero permutation.
 
@@ -1034,17 +1059,52 @@ v₂+v₆=v₁+v₇,    v₃+v₇=v₂+v₅,    v₁+v₅=v₃+v₆.
 
 The three strict inequalities required of an ample support function sum to a
 contradiction. Export chart and base-change comparisons,
-`nonprojectiveToric_smoothProper`, `nonprojectiveToric_notProjective` and
-`nonprojectiveToric_etaleComparison`. The last theorem identifies rational
-étale cohomology over every finite field, for `ℓ≠p`, with Tate spaces in
-degrees `0,2,4,6` of dimensions `1,4,4,1`, zero in odd degrees, compatibly with
-cycle maps and Frobenius. Prove the cycle/cohomology comparison by the smooth
-complete toric Chow presentation and localization, or by comparison with the
-projective modification and its blowup/flop correspondences; the resulting
-operator is the actual scheme Frobenius. (Fujino–Sato, *On non-projective
-complete toric varieties*, version 0.27, Example 4.1, pp. 7–8; Fulton,
-*Introduction to Toric Varieties*, §5.2, for the smooth complete toric
-cohomology/Chow comparison.)
+`nonprojectiveToric_smoothProper` and `nonprojectiveToric_notProjective`.
+(Fujino–Sato, *On non-projective complete toric varieties*, version 0.27,
+Example 4.1, pp. 7–8.)
+
+**Chow presentation of the specified fan.** Before the cohomology comparison,
+construct `nonprojectiveToric_chowPresentation`: for every field `k`, identify
+the native graded Chow ring of `nonprojectiveToricThreefold(k)` with
+
+```text
+ℤ[x₁,…,x₇]/(I_Σ + J_Σ),    deg x_i = 1,
+J_Σ = (x₁−x₄−x₅−x₇, x₂−x₄−x₅−x₆, x₃−x₄−x₆−x₇).
+```
+
+Here `I_Σ` is generated by squarefree monomials whose ray sets are not cones,
+and `J_Σ` consists of the character relations `Σ_i (v_i)_a x_i`, `a=1,2,3`.
+Send `x_i` to the invariant divisor of ray `i`; construct the inverse using
+invariant-cycle generation and the relations from divisors of characters on
+orbit closures. Prove the grading, product and unit laws, compatibility with
+field extension, the orbit-closure formula for products along a cone, and the
+degree map in codimension three. Compute free graded ranks `1,4,4,1` in
+codimensions `0,1,2,3`, with zero groups in higher codimensions. The ring is
+that of the field fibre, not the four-dimensional integral total space.
+
+Source: Fulton, *Introduction to Toric Varieties*, §§5.1–5.2; the invariant-cycle
+presentation in Fulton–Sturmfels, *Intersection theory on toric varieties*,
+Proposition 1.1 and equation (1.1), preprint pp. 4–5.
+
+**Checks.**
+
+- The `123` cone gives `deg(x₁x₂x₃)=1`, the class of its rational fixed point.
+- Rays `1,4` lie in no cone, so `x₁x₄=0`; each of the three displayed linear
+  relations maps to the principal divisor of its coordinate character.
+- The degree-one quotient has rank `7−3=4`; the full presentation has free
+  ranks `1,4,4,1`, rather than the `1,1,1,1` of projective three-space. These
+  ranks and the invariant generators persist in every field fibre.
+
+Using this presentation, construct `nonprojectiveToric_etaleComparison`:
+for every finite field and `ℓ≠p`, rational étale cohomology is Tate in degrees
+`0,2,4,6` of dimensions `1,4,4,1` and zero in odd degrees. Construct the cycle-class
+isomorphisms `CH^j⊗ℚ_ℓ≃H^(2j)(ℚ_ℓ(j))` by localization along split-torus
+orbits and the invariant-cycle presentation, retaining products and extension
+of fields. The invariant cycles are defined over the base field, so twisted
+Frobenius is the identity and untwisted Frobenius is `q^j`. Compare these actual
+operators with this layer's canonical factors. (Fulton, §5.2, for the complex
+cycle/cohomology comparison; the localization and finite-field étale comparison
+are constructions here on the integral model.)
 
 **Checks.**
 
@@ -1059,7 +1119,8 @@ cohomology/Chow comparison.)
   on a genuinely nonprojective scheme.
 
 *Needs:* Tau Ceti's fan, regular-cone and dual-semigroup APIs;
-SchemeAndStackFoundations §§0–1 for gluing and properness;
+SchemeAndStackFoundations §§0–1 and 5.1–5.6 for gluing, properness and the native Chow ring;
+the Chow presentation precedes the étale comparison;
 EtaleCohomologyFoundations §§`F`.5–`F`.7 for cycle maps, localization and blowups;
 WC.3 algebraic extraction and this layer's smooth proper factor theorem.
 
@@ -1085,7 +1146,12 @@ The determinants can also be read from the highest coefficients of `Π_i`: their
 
 *Needs:* smooth proper integral factors; WC.2 signed assembly, parity and multiplier descent; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2; SchemeAndStackFoundations Layers 0–2. **Source:** Deligne I, §§2.3–2.6, pp. 281–282, with (1.5.4). Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.functional_equation_of_smooth_proper`.
 
+<a id="homology-manifold-weil-assembly"></a>
+
 ### Proper rational homology manifolds
+
+The export `WC.6/homology-manifold-weil-assembly` is implemented by
+`TauCeti.AlgebraicGeometry.WeilZeta.weil_factors_of_dualizing_constant`.
 
 Let `X/k` be proper finite type of pure dimension `d`. For every `ℓ` under consideration suppose its actual dualizing object has a **Frobenius-equivariant** isomorphism
 
@@ -1103,9 +1169,13 @@ The geometric isomorphism is the hypothesis. It is not replaced by a field asser
 
 For a smooth proper finite-type DM stack over `k` with finite diagonal and `ℓ ≠ p`, its genuine finite-dimensional rational `H^i`, with geometric Frobenius, is pure of weight `i` in every complex embedding. Rational coefficients impose no restriction that `ℓ` be prime to stabilizer orders, and no global quotient presentation is a hypothesis.
 
-Use WC.1’s stack rational-cohomology and duality contracts, with the appropriate finite-characteristic coarse/étale comparison. The constant-coefficient argument then passes through the homology-manifold purity theorem. This target is a purity application. Stack masses and stack duality use WC.1. Identify this purity application with DeligneWeightsAndPurity §8.24’s `dmStack_smoothProper_purity`; the coefficient carrier is that section’s `dmStack_etaleCohomology`.
+Use DeligneWeightsAndPurity §8.24's `dmStack_etaleCohomology`, Frobenius-equivariant
+rational coarse comparison, smooth proper duality and `dmStack_smoothProper_purity`.
+Identify the supplied purity theorem with WC.1's point-mass, compact-support
+and pairing adapters. The underlying purity and perfect pairing are supplied
+by that section; WC.1 provides their counting and determinant compatibilities.
 
-*Needs:* SchemeAndStackFoundations §§1.19–1.20; WC.1 stack coarse comparison and pairing; DeligneWeightsAndPurity §§7.15 and 8.24. **Source:** Bergström–Faber–Payne, proof of Proposition 3.1, published p. 1330, and proof of Proposition 4.2, p. 1331; Deligne II, §3.3.11, p. 207. van den Bogaart–Edixhoven, Lemma 3.2, p. 5, gives the coarse comparison in characteristic zero; the finite-characteristic version is WC.1’s distinct coarse-comparison target. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.pure_cohomology_of_smooth_proper_dm_stack`.
+*Needs:* SchemeAndStackFoundations §§1.19–1.20; WC.1 stack counting and pairing adapters; DeligneWeightsAndPurity §§7.15 and 8.24 coarse comparison, duality and purity. **Source:** Bergström–Faber–Payne, proof of Proposition 3.1, published p. 1330, and proof of Proposition 4.2, p. 1331; Deligne II, §3.3.11, p. 207. van den Bogaart–Edixhoven, Lemma 3.2, p. 5, gives the coarse comparison in characteristic zero; the finite-characteristic comparison is supplied by DeligneWeightsAndPurity §8.24. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.pure_cohomology_of_smooth_proper_dm_stack`.
 
 ### The rigid/crystalline comparison boundary
 
@@ -1325,9 +1395,11 @@ pp. 19–21, especially Corollary 7.2; SchemeAndStackFoundations §§5.9–5.10.
   smooth quadric surface over a finite field Frobenius exchanges them. Their
   sum descends in both cases, but the nonsplit rank-two local system is not
   constant and untwisted `H²` has eigenvalues `q,−q`.
-- A degree-zero line bundle is numerically trivial and has zero rational
-  divisor cycle class. The numerical quotient does not retain it as a new
-  `H²` generator. When `ρ<b₂`, injectivity alone gives no surjectivity.
+- An algebraically trivial line bundle is numerically trivial and has zero
+  rational divisor cycle class. On `ℙ¹×ℙ¹`, `O(1,−1)` has zero intersection
+  with `O(1,1)` but is not numerically trivial: it intersects a ruling by `±1`
+  and has nonzero class `(1,−1)` in `H²(1)`. Numerical equivalence tests all
+  divisor classes. When `ρ<b₂`, injectivity alone gives no surjectivity.
 
 For a smooth proper geometrically connected surface, define `IsEnriques`
 by numerical triviality of the canonical line bundle and `χ(O_X)=1`. Use the
@@ -1350,23 +1422,34 @@ hypothesis `h¹(O_X)=0` or nontriviality of the canonical bundle is imposed.
 - Blowing up an Enriques surface gives an exceptional curve intersecting the
   canonical divisor by `−1`, so the blown-up surface fails numerical triviality.
 
-Define `RelativelyMinimalGenusOneFibration(f)` for a proper flat surjective
-map `f:X→ℙ¹_k` from a smooth projective geometrically connected surface, with
-geometrically connected fibres, generic fibre a geometrically integral curve
-of arithmetic genus one, and no geometric vertical exceptional curve of the
-first kind. Include elliptic and quasi-elliptic generic fibres, multiple fibres
-and fibrations without a section. Prove base-change and isomorphism invariance,
-compatibility with the usual relatively minimal genus-one models, and, when
-`X` is geometrically rational, `b₁=0` and `b₂=ρ=10`. Export
-`genusOneFibration_baseChange`, `genusOneFibration_modelComparison` and
-`rationalGenusOne_etaleInvariants`. For every smooth projective geometrically
-rational surface also prove that geometric Picard is a finite-rank free
-lattice, `Pic⁰=0`, its Galois action has finite image, `b₁=b₃=0`, and
-`Pic(X_k̄)⊗ℚ_ℓ≃H²(X_k̄,ℚ_ℓ(1))`; name this comparison
-`rationalSurface_picardEtaleComparison`. Use blowups and birational
-classification with their cohomology comparisons, not a numerical assumption
-that all surfaces have ten classes. (Schröer §7, Corollaries 7.2–7.3 and their
-proofs, pp. 20–21.)
+Use NeronModelsAndSemistableAbelianVarietiesPartII §2.1's `GenusOneFibration`
+and relative-minimality predicate, specialized to base `ℙ¹_k` and projective
+smooth geometrically connected total surface. Retain proper flat surjectivity,
+geometrically connected fibres, the regular geometrically integral generic
+curve of arithmetic genus one, and absence of geometric vertical exceptional
+curves of the first kind. This includes elliptic and quasi-elliptic generic
+fibres, multiple fibres and absence of a section. The adapter
+`genusOneFibration_modelComparison` identifies this specialization with the
+supplier's model; `genusOneFibration_baseChange` reuses its base-change and
+isomorphism API with proofs of preservation of these hypotheses and relative
+minimality. For geometrically rational `X`, prove `b₁=0` and `b₂=ρ=10` as
+`rationalGenusOne_etaleInvariants`. Use the supplier's §4.5 for the Jacobian
+case; extend the invariant calculation to fibrations without a section using
+`K²=0` and the blowup relation `rank Pic + K²=10`.
+
+For every smooth projective geometrically rational surface, generalize
+NeronModelsAndSemistableAbelianVarietiesPartII §5.2's rank-ten comparison to
+arbitrary Picard rank: geometric Picard is a finite-rank free lattice,
+`Pic⁰=0`, its Galois action has finite image, `b₁=b₃=0`, and
+`Pic(X_k̄)⊗ℚ_ℓ≃H²(X_k̄,ℚ_ℓ(1))`. Name this adapter
+`rationalSurface_picardEtaleComparison` and prove agreement with the supplied
+`rationalSurface_cycleClass` at rank ten. Import §4.0's
+`rationalSurface_commonBlowup`, `blowup_Picard_intersection` and
+`rationalSurface_coherent_vanishing`, and §5.0's
+`pointBlowup_ellAdicCohomology`; transport the Picard and cycle maps through
+the common blowups. (Schröer §7, Corollaries 7.2–7.3 and their proofs,
+pp. 20–21; Stacks, tags 0C5H, 0C5R and 0C5S for surface resolution and
+factorization.)
 
 **Checks.**
 
@@ -1380,8 +1463,10 @@ proofs, pp. 20–21.)
   fails relative minimality. Meanwhile `ℙ²` has Picard rank one, so geometric
   rationality alone does not imply the ten-class conclusion.
 
-*Needs:* SchemeAndStackFoundations §§3.1–3.4, 4.11–4.13, 5.9–5.10 for Picard,
-blowups, intersections and numerical divisors; EtaleCohomologyFoundations
+*Needs:* NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5 and
+5.0–5.2 for the genus-one carrier, common surface blowups, Picard and
+cohomology comparisons; SchemeAndStackFoundations §§3.1–3.4, 4.11–4.12,
+5.9–5.10 for Picard, blowups, intersections and numerical divisors; EtaleCohomologyFoundations
 §§`F`.5–`F`.7 for divisor cycles and blowup cohomology. These surface targets
 precede the constant-numerical-Picard and ten-class consequences below.
 
@@ -1425,9 +1510,11 @@ Pic_{X/k} is constant ↔ N₁ = 1 + ρ q + q².
 
 For the forward implication the lattice classes descend rationally, so scalar Frobenius gives the count. For the converse let `A` be Frobenius on the twisted Picard space. The trace formula gives `N₁ = 1 + q Tr(A) + q²`. Since `A` has finite order, its complex eigenvalues are roots of unity. Equality `Tr(A) = ρ` forces the real part of every eigenvalue to be one, hence every eigenvalue is one. Finite order in characteristic zero then makes `A` the identity, and faithfulness of rationalization for a free lattice gives the identity on `Pic`. Continuity and the procyclic finite-field Galois group give constancy of the étale local system.
 
-The freeness, `Pic⁰ = 0` and finite-order hypotheses are supplied by geometric rationality. This argument does not provide a criterion for arbitrary Picard schemes with a positive-dimensional `Pic⁰` or torsion. It is a consequence of the surface trace comparison and the finite lattice action, rather than a separate purity theorem.
+The freeness, `Pic⁰ = 0` and finite-order hypotheses are supplied by geometric rationality. This argument does not provide a criterion for arbitrary Picard schemes with a positive-dimensional `Pic⁰` or torsion. It is a consequence of the surface trace comparison and the finite lattice action.
+At `ρ=10` it agrees with NeronModelsAndSemistableAbelianVarietiesPartII §5.2's
+Picard-constancy criterion, using the same cycle-class map.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 actual rational surface; SchemeAndStackFoundations §§5.9–5.11 surface comparison; EtaleCohomologyFoundations §§F.5–F.6 and EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3; WC.1 trace and WC.5 finite-spectrum compatibility; WC.7 rational-surface Picard/étale comparison and finite-order action. **Source:** Schröer, §7 and Corollary 7.2, pp. 19–21; the reverse implication is the finite-order trace argument above. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.constant_picard_iff_maximal_count_rational_surface`.
+*Needs:* NeronModelsAndSemistableAbelianVarietiesPartII §§4.0, 5.0–5.2 common blowups, Picard/cohomology and rank-ten criterion; SchemeAndStackFoundations Layers 0–2 actual rational surface; SchemeAndStackFoundations §§5.9–5.11 surface comparison; EtaleCohomologyFoundations §§F.5–F.6 and EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3; WC.1 trace and WC.5 finite-spectrum compatibility; WC.7 rational-surface Picard/étale comparison and finite-order action. **Source:** Schröer, §7 and Corollary 7.2, pp. 19–21; the reverse implication is the finite-order trace argument above. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.constant_picard_iff_maximal_count_rational_surface`.
 
 ### The smooth proper endpoint
 
@@ -1451,7 +1538,7 @@ The elliptic and genus-two specializations above use their initial counts as exp
 
 ### Dependencies
 
-*Needs:* WC.0–WC.6; SchemeAndStackFoundations §§3–5; AlgebraicCurves Layers 7, 10, 12; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; EtaleCohomologyFoundations §§F.5–F.7; EtaleDualityAndPerverseSheaves §1.3.
+*Needs:* WC.0–WC.6; NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2; SchemeAndStackFoundations §§3–5; AlgebraicCurves Layers 7, 10, 12; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; EtaleCohomologyFoundations §§F.5–F.7; EtaleDualityAndPerverseSheaves §1.3.
 
 ## References and the interfaces they support
 
@@ -1465,7 +1552,11 @@ The locators above refer to printed pagination unless a particular arXiv version
 * **Theo van den Bogaart and Bas Edixhoven, Algebraic stacks whose number of points over finite fields is a polynomial**, arXiv:math/0505178v3. [Freely readable preprint](https://arxiv.org/abs/math/0505178). Theorem 2.1, p. 3, smooth proper stack comparison in §3, pp. 4–6, Lemma 4.1, pp. 6–7, and Lemma 4.2 and the proof in §4, pp. 8–10, support the polynomial-count and Tate consequences.
 * **Jonas Bergström, Carel Faber and Sam Payne, Polynomial point counts and odd cohomology vanishing on moduli spaces of stable curves**, Annals of Mathematics **199** (2024), 1323–1365. [Authors' freely readable published text](https://web.ma.utexas.edu/users/sampayne/pdf/PolynomialPointCounts.pdf); [arXiv:2206.07759](https://arxiv.org/abs/2206.07759). Proposition 1.3, pp. 1324–1325, concerns stack counts; Proposition 3.1, p. 1330, supplies the local cutoff; §7, pp. 1336–1339, supplies signed configurations, inverse zeta and the sieve; §§9.1–9.2, pp. 1351–1352, supply twists and equivariant polynomial counts. This roadmap uses those general counting results, not a new plan for the moduli spaces treated in the paper.
 * **Hongjie Yu, Comptage des systèmes locaux ℓ-adiques sur une courbe**, arXiv:1807.04659v5, Appendix C, pp. 79–81, especially the unnumbered finite-spectrum lemma on p. 81. [Freely readable preprint](https://arxiv.org/abs/1807.04659). The finite-spectrum layer develops its numerical mechanism with explicit weights and cancellation; the other arguments about automorphic forms and moduli in that paper belong to their respective owners.
-* **Osamu Fujino and Hiroshi Sato, On non-projective complete toric varieties**, version 0.27, 12 July 2025, Example 4.1, pp. 7–8. [Authors’ text](https://www.math.kyoto-u.ac.jp/~fujino/toric-projectivity11.pdf). **William Fulton, Introduction to Toric Varieties**, Annals of Mathematics Studies 131, §5.2. These identify the nonprojective fan and its cohomological comparison in WC.6.
+* **Osamu Fujino and Hiroshi Sato, On non-projective complete toric varieties**, version 0.27, 12 July 2025, Example 4.1, pp. 7–8. [Authors’ text](https://www.math.kyoto-u.ac.jp/~fujino/toric-projectivity11.pdf). **William Fulton, Introduction to Toric Varieties**, Annals of Mathematics Studies 131, §5.2. These specify the nonprojective fan and the Chow and complex cohomology inputs in WC.6.
+  **William Fulton and Bernd Sturmfels, Intersection theory on toric varieties**,
+  arXiv:alg-geom/9403002, Proposition 1.1 and equation (1.1), pp. 4–5.
+  [Freely readable preprint](https://arxiv.org/abs/alg-geom/9403002). Its invariant-cycle
+  generators and character relations underlie the specified Chow presentation.
 * **Stefan Schröer, There is no Enriques surface over the integers**, arXiv:2004.07025v3, §7, pp. 19–21, especially Proposition 7.1 and Corollaries 7.2–7.3. [Freely readable preprint](https://arxiv.org/abs/2004.07025). These are the cycle, numerical Picard and explicit surface point-count applications. WC.7 constructs the numerical-divisor descent and surface invariant comparisons used in these applications.
 * **Kiran S. Kedlaya, Notes on isocrystals**, arXiv:1606.01321v6, §§8.1–8.8 and 9.1–9.7, pp. 20–22, and §§10.1–10.3, p. 27. [Freely readable preprint](https://arxiv.org/abs/1606.01321). **Fourier transforms and p-adic “Weil II”**, Compositio Mathematica **142** (2006), 1426–1450, Proposition 5.3.1, Theorem 5.3.2 and the ensuing consequences, pp. 1445–1446. [Published article](https://doi.org/10.1112/S0010437X06002338); [freely readable preprint](https://arxiv.org/abs/math/0210149). These support the rigid/crystalline interface imported from PadicDifferentialEquationsAndRigidCohomology §RD.7.
 * **AlgebraicCurves**, [Layers 7, 10 and 12](../AlgebraicCurves/README.md), supplies the function-field/model/genus interfaces for the Artin–Schreier example.
