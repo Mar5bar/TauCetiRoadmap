@@ -607,11 +607,11 @@ The required API is:
 
 - `DominantWeight.isInW_classical` — For `F = ℚ, n = 2`, integer `k≥2` and `a = (k − 2, 0)`: `a` is dominant and lies in `(ℤ²)_{k−2}`
 
-- `DominantWeight.isInW_rank_one` — For `n = 1` every `a ∈ ℤ^{Hom(F,ℂ)}` is dominant, and `a ∈ (ℤ¹)_w` iff `a_τ + a_{cτ} = w` for all `τ`
+- For `n = 1` every `a ∈ ℤ^{Hom(F,ℂ)}` is dominant, and `a ∈ (ℤ¹)_w` iff `a_τ + a_{cτ} = w` for all `τ`.
 
 - `DominantWeight.not_isInW_unpaired` — For `F` imaginary quadratic, `n = 2, a_τ = (1, 0)` and `a_{cτ} = (0, 0): a_{τ,1} + a_{cτ,2} = 1` but `a_{τ,2} + a_{cτ,1} = 0`, so `a` lies in no `(ℤ²)_w`
 
-- `DominantWeight.not_dominant` — `(0, 1)` is not dominant: a definition with `a_{τ,1} ≤ ⋯ ≤ a_{τ,n}` would accept it.
+- `(0, 1)` is not dominant: a definition with `a_{τ,1} ≤ ⋯ ≤ a_{τ,n}` would accept it.
 
 *Needs:* Mathlib `NumberField.IsCMField.complexEmbedding_complexConj`; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
@@ -751,12 +751,13 @@ The required API is:
 - `expectedHodgeTate_twist`: `expectedHodgeTate (a − t) = (expectedHodgeTate a).map (· − t)`.
 - `expectedHodgeTate_card`: The multiset `expectedHodgeTate a` has cardinality `n`.
 - `expectedHodgeTate_nodup`: For antitone `a`, `expectedHodgeTate a` has no repetitions, by strict antitonicity of the shifted coordinates.
+- `sum_expectedHodgeTate`: The sum of the shifted coordinates is `Σ_i a_i+n(n−1)/2`, the determinant Hodge sum.
 
 **Checks.**
 
-- `expectedHodgeTate_classical` — `n = 2, a = (k − 2, 0) ↦ {k − 1, 0}`; for `k = 12, {11, 0}`
+- For `n = 2, a = (k − 2, 0)`, the multiset is `{k − 1, 0}`; for `k = 12`, it is `{11, 0}`.
 
-- `expectedHodgeTate_zero` — For `n≥1, a = 0 ↦ {n − 1, …, 1, 0}`: parallel weight 0 gives the Hodge–Tate numbers of `Symⁿ⁻¹` of the dual Tate module of an elliptic curve
+- For `n≥1, a = 0`, the multiset is `{n − 1, …, 1, 0}`: parallel weight 0 gives the Hodge–Tate numbers of `Symⁿ⁻¹` of the dual Tate module of an elliptic curve.
 
 - `expectedHodgeTate_regular` — The elements are pairwise distinct, so the multiset is regular in BLGGT's sense `(|HT_τ| = n)`
 
@@ -1014,6 +1015,8 @@ The required API is:
 
 - `CoefficientProjector.correction`: `P_D(T)` in a ring, with its polynomial congruences.
 - `CoefficientProjector.correction_idempotent`: Under `(T−T²)^D=0`, the corrected element is idempotent.
+- `CoefficientProjector.commuting_idempotent`: In any ring, if `ε²=ε`, `εT=Tε` and `(T−T²)^D=0`, then `ε P_D(T)` is idempotent.
+- `CoefficientProjector.comparison`: For linear maps `u:V→W`, `T:V→V` and `S:W→W` with `uT=Su`, one has `u P_D(T)=P_D(S)u`. Together with `geometricCoefficientPrimeComparison`, an intertwining linear equivalence identifies the corrected projector images.
 - `CoefficientProjector.idempotent`: `a_ξ²=a_ξ` on each global cohomology group with `D=2d+1`.
 - `CoefficientProjector.relativeDegree`: The corrected projector has coefficient image only in relative degree `m_ξ`.
 - `CoefficientProjector.centralTwist`: Twisting `ξ` by `ν^t` changes the central character and Tate normalization by the algebraic dictionary.
@@ -1023,8 +1026,8 @@ The required API is:
 
 **Checks.**
 
-- `CoefficientProjector.denominator` — For `N=2, y=0` the denominator is 1; for `y=2` it is `−2`.
-- `CoefficientProjector.degreeSelector` — On `H⁰` of one abelian factor the selector is zero;
+- For `N=2, y=0` the denominator is 1; for `y=2` it is `−2`.
+- On `H⁰` of one abelian factor the selector is zero;
   on `H¹` it is one, and `P_D` preserves these values.
 - `CoefficientProjector.zeroPower` — For `ξ=1, m_ξ=t_ξ=0` and `ε_ξ=1` the empty selector is
   the identity and `P_D(1)=1`. The condition `m_ξ=0` alone does not force a trivial Tate twist.
@@ -3158,11 +3161,11 @@ The required API is:
 
 **Checks.**
 
-- `isGeneric_repeated_eigenvalue` — Over `𝔽_3` with `q=2`, the list `(1,1)` is generic
+- Over `𝔽_3` with `q=2`, the list `(1,1)` is generic.
 
-- `not_isGeneric_distinct_ratio_q` — Over `𝔽_5` with `q=2`, the distinct list `(2,1)` is not generic
+- Over `𝔽_5` with `q=2`, the distinct list `(2,1)` is not generic.
 
-- `isGeneric_rank_one` — Every one-term nonzero list is generic
+- Every one-term nonzero list is generic.
 
 - `not_isGeneric_repeated_q_one` — Over `𝔽_3` with `q=1`, `(1,1)` is not generic
 
@@ -3230,6 +3233,7 @@ For any finite extension `L/ℚ_p, ℓ≠p`, define the Caraiani–Scholze Defin
 The required API is:
 
 - `IsStrongGenericEigenvalues`: `IsGenericEigenvalues(α,q)` and `α` injective, equivalently ratios avoid `{1,q}`.
+- `isStrongGenericEigenvalues_iff_ratios`: For every unit-valued tuple over a field, identify the strong predicate with exclusion of both ordered ratios `1` and `q`.
 - `IsStrongGeneric`: Trivial inertia plus the stronger eigenvalue predicate over `k̄`.
 - `strongGeneric_generic`: Forget the ratio-1 exclusion.
 - `strongGeneric_distinct`: The Frobenius eigenvalues have no repeated roots.
@@ -3239,11 +3243,11 @@ The required API is:
 
 - `strongGeneric_not_repeated` — Over `𝔽_3, q=2`, `(1,1)` is ACC+-generic but not strong-generic
 
-- `strongGeneric_distinct_nonratio` — Over `𝔽_7, q=2`, `(1,3)` is strong-generic: the two ordered ratios are 3 and 5
+- Over `𝔽_7, q=2`, `(1,3)` is strong-generic: the two ordered ratios are 3 and 5.
 
 - `strongGeneric_rank_one` — Every single nonzero eigenvalue is strong-generic
 
-- `strongGeneric_non_Qp` — For an unramified quadratic `L/ℚ_2` and `ℓ=3`, use `q=4≡1`; the ratio-1 clause remains explicit.
+- For an unramified quadratic `L/ℚ_2` and `ℓ=3`, use `q=4≡1`; the ratio-1 clause remains explicit.
 
 *Needs:* [AG2.7: Local residual genericity](#the-residual-ratio-condition-for-taylor-wiles-primes).
 
@@ -3264,6 +3268,15 @@ If `r:G_F→GL_n(k)` is continuous and decomposed generic, there are infinitely 
 ### Genericity transfer and projective qualification
 
 The eigenvalue nonratio predicate is invariant under permutation, nonzero scalar multiplication, inversion and coefficient-field extension. Local representation genericity is invariant under conjugacy, semisimplification of an already unramified representation, and unramified scalar twists. An arbitrary ramified scalar twist preserves the projective representation but can destroy local unramifiedness. The global existential decomposed-generic condition is invariant under finite residual-character twists: use infinitely many witnesses and avoid the finite ramification set of the character. Strong local genericity obeys the same rules with distinctness retained.
+
+The algebraic milestones `isGenericEigenvalues_coeffExtension` and
+`isStrongGenericEigenvalues_coeffExtension` preserve and reflect the tuple predicates along
+any field embedding `k→K`. The matrix forms `isGeneric_coeffExtension` and
+`isStrongGeneric_coeffExtension` use `Matrix.GeneralLinearGroup.map` and the image of `q`.
+For two representations related by `s(g)=A r(g) A⁻¹`, `isGeneric_conjugate` and
+`isStrongGeneric_conjugate` preserve and reflect the respective predicates.
+`genericityTransfer` and `strongGenericityTransfer` give the scalar-twist comparisons when
+the twisting character is trivial on the specified inertia subgroup.
 
 *Needs:* [AG2.7: Local residual genericity](#the-residual-ratio-condition-for-taylor-wiles-primes); [AG2.7: Strong local decomposed genericity](#strong-local-decomposed-genericity); [AG2.7: infinitely many generic primes](#infinitely-many-decomposed-generic-primes); Mathlib `Matrix.charpoly_units_conj`; Mathlib `Matrix.charpoly_map`.
 
@@ -3369,16 +3382,17 @@ Throughout this target, for the literal CS Corollary 5.5.5 application, retain t
 The required API is:
 
 - `UnitaryDiscreteExport`: Build the labelled direct sum with explicit algebraic character twists.
+- `unitaryDiscreteExport_exists`: Given two matrix representations over any field and two unit-valued characters, construct a block sum with the prescribed twisted diagonal blocks.
 - `unitaryDiscreteExport_constituent`: Retrieve `r_i, ε_i` and its inclusion into the direct sum.
 - `unitaryDiscreteExport_goodPolynomial`: Its good polynomial is the product of the twisted constituent polynomials and the specialized degree-n Hecke polynomial.
 
 **Checks.**
 
-- `unitaryDiscreteExport_two_characters` — For `n_1=n_2=1`, at good `v` with twisted values `β_1,β_2` the polynomial is `(X−β_1)(X−β_2)`
+- For `n_1=n_2=1`, at good `v` with twisted values `β_1,β_2` the polynomial is `(X−β_1)(X−β_2)`.
 
-- `unitaryDiscreteExport_rank_additivity` — The direct-sum dimension is `n_1+n_2`, with neither twist changing dimension
+- The direct-sum dimension is `n_1+n_2`, with neither twist changing dimension.
 
-- `unitaryDiscreteExport_not_cuspidal_irreducibility` — A two-character endoscopic sum cannot certify global irreducibility.
+- `unitaryDiscreteExport_not_cuspidal_irreducibility` — For positive `n_1,n_2`, the first block is a nonzero proper invariant subspace, so the block sum is not irreducible. In particular a two-character endoscopic sum cannot certify global irreducibility.
 
 *Needs:* [AG2.2: Caraiani–Scholze discrete normalization](#cs-discrete-polarization-normalization); AutomorphicGaloisRepresentationsPartII AG2.5; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
@@ -3442,9 +3456,9 @@ of equal-sized subsets after the Hodge shift, rather than distinctness of indivi
 
 - For rank one and a nonempty embedding index every weight is extremely regular; for an
   empty embedding index the existential embedding condition is false, even in rank zero.
-- For rank four, weight `(5,2,1,1)` shifts to `(8,4,2,1)`. Binary uniqueness makes all subset
+- `DominantWeight.extremelyRegular_binary`: For rank four, weight `(5,2,1,1)` shifts to `(8,4,2,1)`. Binary uniqueness makes all subset
   sums distinct, so it is extremely regular.
-- The dominant weight `(0,0,0,0)` shifts to `(3,2,1,0)`. Its two-element subsets `(3,0)` and
+- `DominantWeight.not_extremelyRegular_parallel`: The dominant weight `(0,0,0,0)` shifts to `(3,2,1,0)`. Its two-element subsets `(3,0)` and
   `(2,1)` both sum to 3, so dominance and regular Hodge weights do not imply extreme regularity.
 - Pullback along the identity preserves every coordinate; composing two restriction maps
   gives the same weight as their composite. For an involution-compatible restriction, `IsInW`
