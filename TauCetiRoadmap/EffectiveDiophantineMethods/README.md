@@ -466,8 +466,9 @@ error and embedding facts; no numerical coincidence is an equality test.
 
 `ED0.realIntervalContains l u x, ED0.complexBoxContains lr ur li ui z`, and `ED0.padicBallContains p c N x` are the underlying containment predicates in the Lean companion. Their definitions are
 respectively `l≤x≤u`, containment of real and imaginary parts, and `‖x−c‖≤p^(−N)`. They allow a
-zero-width interval and a zero ball centre. The examples below test positive containment, exclusion
-and the failure of enclosure overlap to prove equality.
+zero-width interval and a zero ball centre. The singleton real interval and complex box examples
+in the Lean companion prove that zero widths determine the enclosed value. The Checks also test
+positive-width overlap, exclusion and absolute p-adic precision.
 
 Three enclosure types carry every approximate value of this roadmap. (i) For `t ∈ ℝ`, a RealEnclosure
 t is a closed nonempty rational interval `I = [l, u]` (Mathlib's NonemptyInterval `ℚ`) with `l ≤ t ≤ u` in
@@ -708,7 +709,7 @@ places is `InfinitePlace.mk_eq_iff`.
 ### 0.5 Hensel's lemma with the exact distance to the root
 
 Let p be prime, `R` a commutative semiring with an algebra map to `ℤ_p, F ∈ R[X]` and a `∈ ℤ_p` with
-`‖F(a)‖ < ‖F′(a)‖²`. Let `z ∈ ℤ_p` be the root given by Mathlib's `hensels_lemma: F(z) = 0, ‖z − a‖ < ‖F′(a)‖, ‖F′(z)‖ = ‖F′(a)‖`, and z is the only root within distance `‖F′(a)‖` of a. Then for every `b ∈ ℤ_p` with `‖b − a‖ < ‖F′(a)‖: ‖F′(b)‖ = ‖F′(a)‖` and `‖z − b‖ = ‖F(b)‖ / ‖F′(a)‖`. In particular b
+`‖F(a)‖ < ‖F′(a)‖²`. Let `z ∈ ℤ_p` be the root given by Mathlib's `hensels_lemma: F(z) = 0, ‖z − a‖ < ‖F′(a)‖, ‖F′(z)‖ = ‖F′(a)‖`, and z is the only root within distance `‖F′(a)‖` of a. Then `ED0.hensel_distance` gives, for every `b ∈ ℤ_p` with `‖b − a‖ < ‖F′(a)‖: ‖F′(b)‖ = ‖F′(a)‖` and `‖z − b‖ = ‖F(b)‖ / ‖F′(a)‖`. In particular b
 satisfies the Hensel hypothesis with the same root, and for integers b and `N` with `v_p(F(b)) ≥ N + v_p(F′(a))` one has `z ≡ b (mod p^N`).
 
 Work under the following conditions. p prime; `F ∈ R[X]` with [Algebra `R ℤ_[p]`], evaluated by aeval;
@@ -724,6 +725,7 @@ every b in the Hensel disc.
 
 - `p = 7, F = X² − 2`, a `= 3: F(3) = 7` and F′(3) `= 6`, so `‖F(3)‖ = 1/7 < 1 = ‖F′(3)‖²`; for `b = 10, F(10) = 98 = 2·7²`, so the root `z = √2 ∈ ℤ_7` with `z ≡ 3` (mod 7) satisfies `‖z − 10‖ = 1/49, i.e`. `z ≡ 10` (mod 49) and z ≢ 10 (mod 343).
 - If `F(a) = 0` the formula gives `‖z − a‖ = 0, i.e`. `z =` a.
+- At `p = 3`, take `F = X² − 1`, `a = z = 1` and `b = −1`. Then `‖b − a‖ = ‖F′(a)‖ = 1`, while `F(b) = 0` and `‖z − b‖ = 1`; the strict disc hypothesis is necessary.
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), §2.5, printed pp. 32–33; [N. Tzanakis, B. M. M. de
 Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §15E, printed p. 263.)
@@ -854,7 +856,7 @@ uniformiser is `WithZero.exp(−1)`. Product rule: `σ(αβ) −` cc′ `= σ(α
 
 **Checks.**
 
-- In `Q(√3)`, the prime above 3 has residue degree 1 and ramification index 2. It admits no embedding into `Q_3`, since an element squaring to 3 would have valuation 1/2. A residue-degree-one test alone cannot supply this datum.
+- In `Q(√3)`, the prime above 3 has residue degree 1 and ramification index 2. It admits no embedding into `Q_3`, since an element squaring to 3 would have valuation 1/2 (`ED0.no_sqrt_three_in_padic_three`). A residue-degree-one test alone cannot supply this datum.
 
 
 - `valuation_rat_eighteen`. For `K = ℚ` (minpoly `X − 1`, a `= 1), p = 3` and `α = 18`, the enclosure `(18, 3)` certifies valuation `2 = padicValRat 3 18`.
@@ -1268,7 +1270,7 @@ pp.241–242, corrected initial bound and both repaired reduction routes.)
 
 For `n ≥ 1`, a positive-definite symmetric rational matrix `G`, rational centre t and
 `R ∈ ℚ`, define `ED1.fpEnumeration G t R` to be the finite set of integer vectors satisfying
-(x − t)ᵀG(x `− t) ≤ R`. Its finiteness is the affine bounded-norm consequence of
+(x − t)ᵀG(x `− t) ≤ R`. Its finiteness (`ED1.finite_ellipsoid`) is the affine bounded-norm consequence of
 IntegralLattices Layer 2. Define `ED1.quadraticCompletion` by the rational LDL decomposition:
 xᵀGx `= Σ_i q_ii(x_i + Σ_{j>i}q_ij x_j)²`. Its diagonal pivots are positive.
 The mathematical Fincke–Pohst description says that the same set consists of the vectors for
@@ -1307,7 +1309,7 @@ extension.)
 
 ### 1.8 Soundness and completeness of the Fincke–Pohst enumeration
 
-Let `G ∈ ℚ^(n×n)` be symmetric with all pivots of its quadratic completion positive, `t ∈ ℚ^n` and `R ∈ ℚ`. Then for every `x ∈ ℤ^n: x ∈ fpEnumeration G t R ⟺ (x − t)ᵀG(x − t) ≤ R`. Lattice form: if A `∈ ℤ^(n×n)` is nonsingular with `G = AᵀA, Γ = Aℤ^n` and `y ∈ ℚ^n` with `t = A^(−1)y`, then `{v ∈ Γ : ‖v − y‖² ≤ R} = {A x : x ∈ fpEnumeration G t R}`. Corollaries used as distance data: if the result is
+Let `G ∈ ℚ^(n×n)` be symmetric with all pivots of its quadratic completion positive, `t ∈ ℚ^n` and `R ∈ ℚ`. Then `ED1.mem_fpEnumeration` gives, for every `x ∈ ℤ^n: x ∈ fpEnumeration G t R ⟺ (x − t)ᵀG(x − t) ≤ R`. Lattice form: if A `∈ ℤ^(n×n)` is nonsingular with `G = AᵀA, Γ = Aℤ^n` and `y ∈ ℚ^n` with `t = A^(−1)y`, then `{v ∈ Γ : ‖v − y‖² ≤ R} = {A x : x ∈ fpEnumeration G t R}`. Corollaries used as distance data: if the result is
 empty then `‖v − y‖² > R` for every `v ∈ Γ`; if `t = 0` and the result is `{0}` then `‖v‖² > R` for every
 nonzero `v ∈ Γ`; in general every `v ∈ Γ` satisfies `‖v − y‖² ≥ min({R} ∪ {(x − t)ᵀG(x − t) : x in the`
 `output}`).
@@ -1325,6 +1327,7 @@ vector outside the output has squared distance `> R`.
 
 - `G = [[2, 1], [1, 2]], t = 0, R = 2`: exactly the seven vectors `{0, ±(1, 0), ±(0, 1), ±(1, −1)}` satisfy xᵀGx `≤ 2`, and these are the output.
 - `Γ = ℤ(1, 0) + ℤ(0, 10), y = (0, −1), R =` 1/2: the result is empty, certifying `‖v − y‖² >` 1/2 for all `v ∈ Γ` (the true distance is 1).
+- For `G = (1)`, `t = 1/2` and `R = 1/4`, both integral vectors 0 and 1 lie on the boundary and must be retained.
 
 ([U. Fincke, M. Pohst](https://www.ams.org/journals/mcom/1985-44-170/S0025-5718-1985-0777278-8/),
 §2, (2.6)–(2.7), printed p. 465; [de Weger (1989)](https://ir.cwi.nl/pub/13190), §3.6, printed p.
@@ -3715,7 +3718,8 @@ The representative `ED3.canonicalHeight_mem_doubling_interval` states this inter
 
 Let `P₁,…,P_r ∈ E(ℚ)` and let `I_{ij}` be rational intervals with `⟨P_i, P_j⟩ ∈ I_{ij}`
 (canonical-height-enclosure; `⟨·,·⟩` Tau Ceti's `neronTatePairing, ⟨P,P⟩ = ĥ(P)`). If the interval
-determinant of `(I_{ij})` has positive lower endpoint `δ > 0`, then the images of `P₁,…,P_r` in
+determinant of `(I_{ij})` has positive lower endpoint `δ > 0`, then
+`ED3.independent_of_gram_det_pos` proves that the images of `P₁,…,P_r` in
 `E(ℚ)/E(ℚ)_tors` are `ℤ-linearly` independent, `rank E(ℚ) ≥ r`, and `det(⟨P_i, P_j⟩) ≥ δ`. If moreover
 `P₁,…,P_r` is a basis of `E(ℚ)/E(ℚ)_tors` then Tau Ceti's regulator satisfies regulator `≥ δ`.
 
@@ -3732,6 +3736,7 @@ basis, `regulator_eq_abs_det_neronTateGramMatrix` identifies the regulator with 
 
 - Applied to Cremona's rank-two curve `y² = x³ − 673` with `P₁ = (29, 154)` and the second generator printed in §3.6, a positive lower endpoint certifies `rank ≥ 2`.
 - A single non-torsion point: `r = 1` and `δ =` lower endpoint of the enclosure of `ĥ(P₁)`.
+- Repeating the same point in a two-point family gives identical Gram columns and determinant zero, so no positive lower endpoint can certify independence.
 
 ([Cremona (1997)](https://johncremona.github.io/book/fulltext/index.html), Ch. III, §3.5, p. 76.)
 
@@ -3834,10 +3839,10 @@ order dividing p and [A:G], hence is trivial.
 
 **Checks.**
 
-- `isPSaturated_six_int`. In `ℤ: (6ℤ)` is 5-saturated, not 2-saturated, not 3-saturated.
-- `isPSaturated_top_any`. ⊤ `≤` A is p-saturated for every p.
-- `isPSaturated_index_coprime`. For `G = (6ℤ) ≤ ℤ` with `AddSubgroup.index = 6`: IsPSaturated `G p ↔` ¬ `p ∣ 6`.
-- `isPSaturated_torsion_missing`. In A `= ℤ × ℤ/2, G = ℤ × 0` has `G ∩ 2A = 2G` but is not 2-saturated, since `A[2]` ⊄ `G`: the injectivity of G/pG `→` A/pA alone is not p-saturation.
+- isPSaturated_six_int. In `ℤ: (6ℤ)` is 5-saturated, not 2-saturated, not 3-saturated.
+- isPSaturated_top_any. ⊤ `≤` A is p-saturated for every p.
+- isPSaturated_index_coprime. For `G = (6ℤ) ≤ ℤ` with `AddSubgroup.index = 6`: IsPSaturated `G p ↔` ¬ `p ∣ 6`.
+- isPSaturated_torsion_missing. In A `= ℤ × ℤ/2, G = ℤ × 0` has `G ∩ 2A = 2G` but is not 2-saturated, since `A[2]` ⊄ `G`: the injectivity of G/pG `→` A/pA alone is not p-saturation.
 - In A `= ℤ, G = 6ℤ` is 5-saturated but neither 2- nor 3-saturated.
 - `G = 0` in `ℤ/pℤ` is not p-saturated.
 
@@ -4402,7 +4407,7 @@ The interface includes these statements.
 - `ED4.formalLogExtension_compatible_inclusion`: Abstract inclusion compatibility under the supplied restricted-map identity; this does not construct geometric scalar extension.
 - `ED4.formalLogPairing`: Evaluate a supplied linear functional on `formalLogExtension`; the dual is not identified with invariant differentials.
 - `ED4.formalLogPairing_eq_zero_iff`: Vanishing against every abstract linear functional is equivalent to finite additive order.
-- `ED4.formalLogExtension_unique`: A homomorphism extending the supplied finite-index subgroup homomorphism equals `formalLogExtension`.
+- `ED4.formalLogExtension_unique`: A supplied homomorphism on a finite-index subgroup has a unique extension to the ambient additive group with values in a vector space over a characteristic-zero field. In the Néron-chart specialization this extension is `formalLogExtension`.
 
 For the comparison, apply AnabelianGeometryAndNonabelianChabauty §5.8's
 `abelianLog.formal` on a deep congruence subgroup and `abelianLog.unique` to the displayed
@@ -4823,6 +4828,11 @@ The interface includes these statements.
 - `annihilatingDifferentials_eq_ker`: For generators `D₁, …, D_r` of `Γ` and a basis `ω₁, …, ω_g, Σ c_i ω_i ∈ Ann_p(Γ) ↔ Σ_i c_i ∫_{D_j} ω_i = 0` for all j.
 - `reducedAnnihilator`: Ṽ `:=` image of `Ann_p(Γ) ∩ H⁰(𝒳, Ω¹)` in `H⁰(X̃, Ω¹); dim_{𝔽_p}` Ṽ `= dim Ann_p(Γ)`.
 
+The coordinate statements `ED4.annihilatingDifferentials_eq_ker` and
+`ED4.finrank_annihilatingDifferentials` identify the annihilator of the column span of
+a `g × r` logarithm matrix with the kernel of its transpose and give dimension
+`g − rank M`. Their geometric use requires the logarithm and differential-basis identifications above.
+
 For the proof, `Ann_p(Γ)` is the preimage of `Submodule.dualAnnihilator (span log Γ)` under the
 isomorphism `ω ↦ ω_J; finrank_add_finrank_dualAnnihilator` gives (a) with `r₀ = dim span`. (b): `span log G = span log Γ` by §4.8 (c). (c): `⟨·, ω_J⟩` is continuous and `ℚ_p` is torsion-free. (d):
 `Submodule.dualAnnihilator_anti`. (e): `V` is saturated in the free `ℤ_p-module H⁰(𝒳, Ω¹)` because
@@ -4893,7 +4903,11 @@ Because `v(a_i) ≥ −v_p(i)` for `i ≥ 1`, the inequality for `i > N` holds a
 modulo `p^{k_i}` with `k_i + i > μ` and the approximations satisfy both conditions, then the true
 coefficients satisfy them, and the bound holds for the true series. (e) Exceptional discs, `m ≥ p − 2`
 or m unknown, are treated by (a) and (d): the bound is `N_p(f)` for the actual series, not m + 1.
-Applied to `f = I_B` on a residue disc (`§4.4`, §4.7), (a)–(e) bound the zeros of `η` on that disc.
+Applied to `f = I_B` on a residue disc (`§4.4`, §4.7), (a)–(e) bound the zeros of `η` on that disc. The norm-form target
+`ED4.dominant_of_residue_bounds` carries convergence of the coefficients of `f(pT)`,
+a nonzero N-th coefficient and strict domination of every later scaled coefficient;
+it gives finiteness and at most N distinct zeros on the closed disc. Zeros mean
+convergent evaluation equal to zero, expressed by `HasSum` in the Lean companion.
 
 Work under the following conditions. p prime; f' `∈ ℤ_p[[t]]` (scale `ω` so that it is integral with
 nonzero reduction); zeros counted as distinct points of `pℤ_p`. In (d), 'known modulo `p^{k_i}'` means a
@@ -5787,11 +5801,11 @@ with `Finset.image`. Filter `Finset.univ` by the finite conjunction of local mem
 
 **Checks.**
 
-- `admissibleClasses_empty_index`. For arbitrary `L`, maps and local sets, `A_∅(L)=Γ/L`.
-- `admissibleClasses_empty_local`. For the singleton index set and any `φ:Γ→ℤ/4, X=∅` implies `A(L)=∅`.
-- `admissibleClasses_mod_four`. For `Γ=G=ℤ/4, φ=id, L=0` and `X={1,3}, A(L)={q₀(1),q₀(3)}`.
-- `admissibleClasses_non_surjective`. For `Γ=ℤ/2, G=ℤ/4, φ=0, L=Γ` and `X={1}, A(L)=∅` although `X` is nonempty.
-- `admissibleClasses_top_nonempty`. For `Γ=G=ℤ/4, φ=id, L=Γ` and `X={1}, A(L)={0}`.
+- admissibleClasses_empty_index. For arbitrary `L`, maps and local sets, `A_∅(L)=Γ/L`.
+- admissibleClasses_empty_local. For the singleton index set and any `φ:Γ→ℤ/4, X=∅` implies `A(L)=∅`.
+- admissibleClasses_mod_four. For `Γ=G=ℤ/4, φ=id, L=0` and `X={1,3}, A(L)={q₀(1),q₀(3)}`.
+- admissibleClasses_non_surjective. For `Γ=ℤ/2, G=ℤ/4, φ=0, L=Γ` and `X={1}, A(L)=∅` although `X` is nonempty.
+- admissibleClasses_top_nonempty. For `Γ=G=ℤ/4, φ=id, L=Γ` and `X={1}, A(L)={0}`.
 - Empty `S` retains every quotient class.
 - An empty Xᵢ at a selected index rejects all classes.
 - The torsion group `ℤ/4` and the allowed set `{1,3}` retain both odd classes.
@@ -5920,10 +5934,10 @@ finite fine quotient for `π(z)=0`. For each `a∈B`, translate the kernel enume
 
 **Checks.**
 
-- `refineClasses_empty_input`. For all data, `refineClasses` applied to `B=∅` is `∅`.
-- `refineClasses_identity`. For `K=L` and `σ=id, refineClasses(S,L,L,id,B)=B∩A_S(L)`.
-- `refineClasses_all_lifts`. With no local tests and a section correct on `B`, the result is the whole inverse image `π⁻¹(B)`, enumerated in `Γ/K`.
-- `refineClasses_wrong_section`. Take `Γ=ℤ/4, K=L=0, B={q₀(0)}`, no tests, and constant `σ=q₀(1)`. The result is `{q₀(1)}`, not `B`. This `σ` fails the section condition.
+- refineClasses_empty_input. For all data, `refineClasses` applied to `B=∅` is `∅`.
+- refineClasses_identity. For `K=L` and `σ=id, refineClasses(S,L,L,id,B)=B∩A_S(L)`.
+- refineClasses_all_lifts. With no local tests and a section correct on `B`, the result is the whole inverse image `π⁻¹(B)`, enumerated in `Γ/K`.
+- refineClasses_wrong_section. Take `Γ=ℤ/4, K=L=0, B={q₀(0)}`, no tests, and constant `σ=q₀(1)`. The result is `{q₀(1)}`, not `B`. This `σ` fails the section condition.
 - With `B` empty the result is empty.
 - When `K=L` and `σ=id`, the result is `B∩A_S(L)`.
 - A wrong section can move a candidate to the wrong fibre, so its verification is essential.
@@ -5950,7 +5964,8 @@ author LiftInformation, lines 2480–2493.)
 
 Write `q_L:Γ→Γ/L` for the native quotient map, `G_{L,i}=Gᵢ/φᵢ(L), q_{L,i}:Gᵢ→G_{L,i}`, and
 `φ_{L,i}:Γ/L→G_{L,i}` for the native induced map. Write `A_S(L)` for `admissibleClasses(S,L,φ,X)`. For `K≤L`
-and a section `σ` correct on `A_S(L), refineClasses(S,K,L,σ,A_S(L))=A_S(K)`. Both quotients are finite.
+and a section `σ` correct on `A_S(L)`, `Sieve.refineClasses_eq_admissibleClasses` gives
+`refineClasses(S,K,L,σ,A_S(L))=A_S(K)`. Both quotients are finite.
 
 Work under the following conditions. `Γ` is an abelian group; `S` is a finite set of local indices; each
 Gᵢ is an abelian group; `φᵢ:Γ→Gᵢ` is an additive homomorphism; Xᵢ is a finite subset of Gᵢ. `L` is an
@@ -5966,6 +5981,7 @@ fine survivor. The converse follows directly from the fine filter.
 
 - Any finite descending chain with checked inclusions and checked sections computes the same endpoint set as the direct finite filter.
 - Empty coarse input stays empty at every step.
+- For `Γ = ℤ/4`, `K = L = 0` and no local tests, a constant proposed section at zero returns only zero instead of the four fine classes; its section equation fails.
 
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), §3.3, published p.279.)
 
@@ -6004,7 +6020,7 @@ constraint-monotonicity.
 ### 5.8 A subgroup covers a coprime sieve quotient
 
 Let `H,L≤Γ` for an abelian group `Γ`, let `N` be a natural number, assume `NΓ⊆L` and `gcd([Γ:H],N)=1`, with
-the native natural index. Then `H→Γ/L, h↦q_L(h)`, is surjective. The usual application has `[Γ:H]`
+the native natural index. Then `Sieve.quotient_surjective_of_coprime` states that `H→Γ/L, h↦q_L(h)`, is surjective. The usual application has `[Γ:H]`
 finite and `N>0`. The statement also includes the harmless `N=1` boundary even if the native index is
 zero.
 
@@ -6061,7 +6077,7 @@ instance is curve-sieve-soundness.
 Write `q_L:Γ→Γ/L` for the native quotient map, `G_{L,i}=Gᵢ/φᵢ(L), q_{L,i}:Gᵢ→G_{L,i}`, and
 `φ_{L,i}:Γ/L→G_{L,i}` for the native induced map. Write `A_S(L)` for `admissibleClasses(S,L,φ,X)`. Let `P`
 be an existing type with `j:P→Γ` and `W⊆P` finite. Assume every `j(p)` satisfies all local constraints;
-every `a∈A_S(L)` equals `q_L(j(w))` for some `w∈W`; and `q_L∘j` is injective. Then every `p∈P` belongs to `W`.
+every `a∈A_S(L)` equals `q_L(j(w))` for some `w∈W`; and `q_L∘j` is injective. Then `Sieve.complete_of_unique_fibres` proves that every `p∈P` belongs to `W`.
 
 Work under the following conditions. `Γ` is an abelian group; `S` is a finite set of local indices; each
 Gᵢ is an abelian group; `φᵢ:Γ→Gᵢ` is an additive homomorphism; Xᵢ is a finite subset of Gᵢ. `L` is an
@@ -6079,6 +6095,7 @@ many curves do not satisfy it for a given modulus.
 
 - The conclusion can fail without the uniqueness hypothesis even if all quotient classes are represented by known points.
 - A singleton quotient can establish completeness only when the relevant point set has at most one element.
+- With `Γ = 0`, a two-element point set mapping to zero and a one-element known list cover the quotient but do not give completeness; the quotient-fibre injectivity hypothesis fails.
 
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), §1, published p.273.)
 
@@ -6215,11 +6232,11 @@ genus-two-deep-information supply finite supersets `X′_U` and generators of `K
 
 **Checks.**
 
-- `padicImageClasses_top`. With `U` the whole group and `Y` nonempty, `X_U` is the single class.
-- `padicImageClasses_empty_points`. With `Y = ∅, X_U = ∅`.
-- `padicImageClasses_mod_four`. `Γ = A = ℤ`, incl `= id, U = 4ℤ, Y = {1}: X_U = {1 mod 4}`.
-- `padicImageClasses_coset_not_point`. `Γ = A = ℤ, U = 4ℤ, Y = {5}`: the class of 1 lies in `X_U` although `1 ∉ Y`; the test is membership of the coset, not of the point.
-- `padicImageClasses_good_reduction`. With `U =` ker `ρ` for a homomorphism `ρ: A →` J̃, the class of g lies in `X_U` iff `ρ(incl g) ∈ ρ(Y)`: the good-reduction test of jacobian-reduction-data.
+- padicImageClasses_top. With `U` the whole group and `Y` nonempty, `X_U` is the single class.
+- padicImageClasses_empty_points. With `Y = ∅, X_U = ∅`.
+- padicImageClasses_mod_four. `Γ = A = ℤ`, incl `= id, U = 4ℤ, Y = {1}: X_U = {1 mod 4}`.
+- padicImageClasses_coset_not_point. `Γ = A = ℤ, U = 4ℤ, Y = {5}`: the class of 1 lies in `X_U` although `1 ∉ Y`; the test is membership of the coset, not of the point.
+- padicImageClasses_good_reduction. With `U =` ker `ρ` for a homomorphism `ρ: A →` J̃, the class of g lies in `X_U` iff `ρ(incl g) ∈ ρ(Y)`: the good-reduction test of jacobian-reduction-data.
 - At a good prime with `U = J¹` the datum agrees with the good-reduction datum of jacobian-reduction-data restricted to the image of `Γ`.
 - `Γ = G = ℤ/2, φ = id`, two places with `X₀ = {0}, X₁ = {1}`: at `L = 0` (below the kernels) `A_S(0) = ∅`, while at `L = Γ` the sieve set is `{0}`.
 - Box's sieve for `X₀(N)`: the intersection of the sets `φ_p^{-1}(ι_p(M_p)) ⊆ ℤⁿ` is empty iff the finite sieve at ⋂ ker `φ_p` is empty.
@@ -6292,10 +6309,10 @@ for the projection of native finite quotients.
 
 **Checks.**
 
-- `siftChain_level_zero`. Before any lifting the chain is the direct sieve at `L_0`.
-- `siftChain_no_places`. With `S = ∅, T_j = ∅` and correct lifts every class survives at every level.
-- `siftChain_two_levels`. `Γ = ℤ/4, L_0 = Γ, L_1 = 0, φ = id, X = {1}`, lift of the class 0 equal to 1 and `T_0 = S`: level 1 is `{1}`.
-- `siftChain_omitted_changed_test`. Same data with `T_0 = ∅`: level 1 has 4 elements, not the direct sieve `{1}`; the omitted place has `φ(L_1) = 0 ≠ φ(L_0)`.
+- siftChain_level_zero. Before any lifting the chain is the direct sieve at `L_0`.
+- siftChain_no_places. With `S = ∅, T_j = ∅` and correct lifts every class survives at every level.
+- siftChain_two_levels. `Γ = ℤ/4, L_0 = Γ, L_1 = 0, φ = id, X = {1}`, lift of the class 0 equal to 1 and `T_0 = S`: level 1 is `{1}`.
+- siftChain_omitted_changed_test. Same data with `T_0 = ∅`: level 1 has 4 elements, not the direct sieve `{1}`; the omitted place has `φ(L_1) = 0 ≠ φ(L_0)`.
 - Every level is a finite set determined by the displayed membership equivalence.
 - A `= ℤ/4, q = 2, M = 4: v₂(4) = 2 ≤ 2` and `8A = 4A = 0`.
 - A `= ℤ/4, q = 2, M = 2: v₂(4) = 2 > 1` and `4A = 0 ≠ 2A = {0, 2}`; the place is relevant.
@@ -6325,7 +6342,7 @@ relevant-tests with `K = L_{j+1}, L = L_j` and `T = T_j` gives `refineClasses(T_
 **Checks.**
 
 - PrepareLift and Lift with the corrected prepared subgroups `L_j = L_{j−1} ∩ φ_i^{-1}(N_kG_i)` and the test sets `I_j` compute `A(N_kΓ)`.
-- For the `ℤ/4` data of `siftChain_omitted_changed_test` the hypothesis on `T_0` fails and so does the conclusion.
+- For the `ℤ/4` data of siftChain_omitted_changed_test the hypothesis on `T_0` fails and so does the conclusion.
 
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), §3.3, published p.279.)
 
@@ -7259,10 +7276,10 @@ holomorphic primitives, which are regular.
 
 **Checks.**
 
-- `gaugeMatrix_zero`. `gaugeMatrix 0 0 Z = 1` for every `Z`.
-- `gaugeMatrix_g1_inverse`. For `g = 1` (index Unit `⊕` Fin `2 ⊕` Unit), `Z = [[0,1],[−1,0]], Ω =` (a, `b), g = c: gaugeMatrix Ω c Z * [[1,0,0],[−Ω,1,0],[−c,−ΩᵀZ,1]] = 1`.
-- `gaugeMatrix_sign_convention`. With `D Ω = +ω` (the 2021 convention) and `ω ≠ 0, gaugeMatrix⁻¹ · D(gaugeMatrix) ≠ Λ(ω, η, Z)`.
-- `gaugeMatrix_unipotent`. `(gaugeMatrix Ω g Z − 1)^3 = 0`; the nilpotence index may be smaller.
+- gaugeMatrix_zero. `gaugeMatrix 0 0 Z = 1` for every `Z`.
+- gaugeMatrix_g1_inverse. For `g = 1` (index Unit `⊕` Fin `2 ⊕` Unit), `Z = [[0,1],[−1,0]], Ω =` (a, `b), g = c: gaugeMatrix Ω c Z * [[1,0,0],[−Ω,1,0],[−c,−ΩᵀZ,1]] = 1`.
+- gaugeMatrix_sign_convention. With `D Ω = +ω` (the 2021 convention) and `ω ≠ 0, gaugeMatrix⁻¹ · D(gaugeMatrix) ≠ Λ(ω, η, Z)`.
+- gaugeMatrix_unipotent. `(gaugeMatrix Ω g Z − 1)^3 = 0`; the nilpotence index may be smaller.
 - Over `F₂`, the `2×2` matrix `Z=diag(1,0)` satisfies `Zᵀ=−Z` but is not alternating: `Ω=(1,0), g=0` makes the proposed inverse with lower-left entry −g fail. The zero-diagonal condition is essential for the general-ring helper.
 - With `Z=[[0,1],[−1,0]], c=(1,0), Ω=(0,1)`, shifting `Ω` by c shifts g by 1+e, rather than by e alone.
 - The 2021 restatement of this step uses `dΩ_{x,i} = ω_i` and defines `g_x` through the integral of `dΩ_xᵀZdΩ_x − η`; both deviate from (29).
@@ -8075,6 +8092,8 @@ analytic datum alone does not supply this rank-over-Q implication.
 **Checks.**
 
 - The modular route uses the analytic datum and the explicit admissible rank-one hypothesis. The alternative descent route also carries its GRH hypothesis.
+- For the cubic coefficient field K, the line `V = K` has rational dimension 3 by restriction of scalars.
+- The plane `V = K²` has rational dimension 6; it fails the one-dimensional K-space hypothesis even though the coefficient field still has degree 3.
 
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
 Proposition 6.2 and its proof, p.927; [BDMTV

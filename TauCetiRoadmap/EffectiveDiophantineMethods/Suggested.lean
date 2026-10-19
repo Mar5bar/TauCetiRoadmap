@@ -41,93 +41,26 @@ theorem exists_isolating_box (f : Polynomial ℚ) (hf : f ≠ 0) (z : ℂ)
         complexBoxContains lr ur li ui w → w = z := by
   sorry
 
-/-- Overlap of certified intervals does not prove equality of the values. -/
-example : realIntervalContains 1 2 (Real.sqrt 2) ∧
-    realIntervalContains 1 2 (Real.sqrt 3) ∧ Real.sqrt 2 ≠ Real.sqrt 3 := by
-  sorry
-
-/-- A degenerate interval at the wrong value excludes the root. -/
-example : ¬ realIntervalContains 2 2 (Real.sqrt 2) := by
-  sorry
-
 /-- A singleton real interval determines its enclosed value. -/
 example (q : ℚ) (x : ℝ) : realIntervalContains q q x ↔ x = (q : ℝ) := by
-  sorry
+  constructor
+  · intro h
+    exact le_antisymm h.2 h.1
+  · intro h
+    subst x
+    exact ⟨le_rfl, le_rfl⟩
 
 /-- A box with both widths zero determines both complex coordinates. -/
 example (a b : ℚ) (z : ℂ) :
     complexBoxContains a a b b z ↔ z = (a : ℂ) + (b : ℂ) * Complex.I := by
-  sorry
-
-example : complexBoxContains 0 0 1 1 Complex.I := by
-  sorry
-
-example : ¬ complexBoxContains 0 0 0 0 Complex.I := by
-  sorry
-
-/-- Real and imaginary interval coordinates cannot be interchanged. -/
-example : ¬ complexBoxContains 1 1 0 0 Complex.I := by
-  sorry
-
-/-- Corner norms bound a box from above; they need not give its minimum. -/
-example : complexBoxContains (-1) 1 (-1) 1 0 ∧
-    Complex.normSq (0 : ℂ) = 0 ∧ Complex.normSq (1 + Complex.I) = 2 := by
-  sorry
-
-example : padicBallContains 3 0 2 (9 : ℚ_[3]) := by
-  sorry
-
-example : ¬ padicBallContains 3 0 2 (3 : ℚ_[3]) := by
-  sorry
-
-/-- The precision-three square-root bracket has exactly the required rational width. -/
-example : realIntervalContains (11 / 8) (3 / 2) (Real.sqrt 2) ∧
-    (3 / 2 - 11 / 8 : ℚ) = (1 / 2 : ℚ) ^ 3 ∧
-    (1 / 2 : ℚ) ^ 3 < 3 / 2 - 1 := by
-  sorry
-
-/-- A rational midpoint admits a singleton bracket at every precision. -/
-example (n : ℕ) : realIntervalContains (1 / 2) (1 / 2) (1 / 2 : ℝ) ∧
-    (0 : ℚ) ≤ (1 / 2 : ℚ) ^ n ∧ (1 / 2 : ℚ) < 1 - 0 := by
-  sorry
-
-/-- Both signs of the square root lie in the broad interval, precluding isolation. -/
-example : realIntervalContains (-2) 2 (Real.sqrt 2) ∧
-    realIntervalContains (-2) 2 (-Real.sqrt 2) ∧ Real.sqrt 2 ≠ -Real.sqrt 2 := by
-  sorry
-
-/-- A zero-width box at zero certifies vanishing. -/
-example (z : ℂ) : complexBoxContains 0 0 0 0 z ↔ z = 0 := by
-  sorry
-
-/-- Multiplication gains the centre valuations as well as the input precisions. -/
-example (x y : ℚ_[3]) (hx : padicBallContains 3 3 4 x)
-    (hy : padicBallContains 3 9 5 y) :
-    padicBallContains 3 27 6 (x * y) := by
-  sorry
-
-/-- The inverse precision loss is attained by an element on the input boundary. -/
-example : padicBallContains 3 9 5 (252 : ℚ_[3]) ∧
-    padicBallContains 3 (1 / 9) 1 ((252 : ℚ_[3])⁻¹) ∧
-    ¬ padicBallContains 3 (1 / 9) 2 ((252 : ℚ_[3])⁻¹) := by
-  sorry
-
-/-- A zero-centred ball retains its full absolute precision in multiplication. -/
-example (x y : ℚ_[3]) (hx : padicBallContains 3 0 4 x)
-    (hy : padicBallContains 3 9 5 y) :
-    padicBallContains 3 0 6 (x * y) := by
-  sorry
-
-/-- Cancellation of centres preserves a ball but need not make the sum zero. -/
-example : padicBallContains 3 1 4 (82 : ℚ_[3]) ∧
-    padicBallContains 3 (-1) 4 (-1 : ℚ_[3]) ∧
-    padicBallContains 3 0 4 (81 : ℚ_[3]) ∧ (81 : ℚ_[3]) ≠ 0 := by
-  sorry
-
-/-- A valuation-two pivot loses two digits from a precision-nine numerator. -/
-example (x : ℚ_[3]) (hx : padicBallContains 3 9 9 x) :
-    padicBallContains 3 (-1) 7 (-x / 9) := by
-  sorry
+  constructor
+  · rintro ⟨hr, hi⟩
+    apply Complex.ext
+    · simpa using le_antisymm hr.2 hr.1
+    · simpa using le_antisymm hi.2 hi.1
+  · intro h
+    subst z
+    simp [complexBoxContains, realIntervalContains]
 
 /-- Strong precision at a nonzero centre determines both norm and nonzero. -/
 theorem padic_nonzero_of_error_lt {p : ℕ} [Fact p.Prime]
@@ -171,8 +104,34 @@ theorem exists_padic_ball {p : ℕ} [Fact p.Prime] (x : ℚ_[p]) (N : ℤ) :
     ∃ c : ℚ, padicBallContains p c N x := by
   sorry
 
-/-- Residue degree one does not put a ramified quadratic root in Q_p. -/
-example : ¬ ∃ x : ℚ_[3], x ^ 2 = 3 := by
+/-- Residue degree one does not embed a ramified quadratic root into Q₃. -/
+theorem no_sqrt_three_in_padic_three : ¬ ∃ x : ℚ_[3], x ^ 2 = 3 := by
+  sorry
+
+/-- The Hensel root has an exact distance formula throughout its Hensel disc. -/
+theorem hensel_distance {p : ℕ} [Fact p.Prime] {R : Type*} [CommSemiring R]
+    [Algebra R ℤ_[p]] (F : Polynomial R) (a z : ℤ_[p])
+    (ha : ‖Polynomial.aeval a F‖ < ‖Polynomial.aeval a F.derivative‖ ^ 2)
+    (hz : Polynomial.aeval z F = 0)
+    (hza : ‖z - a‖ < ‖Polynomial.aeval a F.derivative‖)
+    (b : ℤ_[p]) (hb : ‖b - a‖ < ‖Polynomial.aeval a F.derivative‖) :
+    ‖Polynomial.aeval b F.derivative‖ = ‖Polynomial.aeval a F.derivative‖ ∧
+      ‖z - b‖ = ‖Polynomial.aeval b F‖ / ‖Polynomial.aeval a F.derivative‖ := by
+  sorry
+
+/-- Multiplication by an arbitrary element has the minimal polynomial repeated
+according to the degree of the ambient number field over the generated field. -/
+theorem charpoly_leftMul_arbitrary {K : Type*} [Field K] [NumberField K]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℚ K) (x : K) :
+    (Algebra.leftMulMatrix b x).charpoly =
+      minpoly ℚ x ^ (Module.finrank ℚ K / (minpoly ℚ x).natDegree) := by
+  sorry
+
+/-- A change of rational basis preserves the multiplication characteristic polynomial. -/
+theorem charpoly_leftMul_basis_independent {K : Type*} [Field K] [NumberField K]
+    {ι κ : Type*} [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq κ]
+    (b : Module.Basis ι ℚ K) (b' : Module.Basis κ ℚ K) (x : K) :
+    (Algebra.leftMulMatrix b x).charpoly = (Algebra.leftMulMatrix b' x).charpoly := by
   sorry
 
 end ED0
@@ -192,8 +151,42 @@ theorem linear_form_excluded {n : ℕ} (a : Fin n → ℝ)
     Real.exp (-X) < |∑ i, (b i : ℝ) * a i| := by
   sorry
 
-/-- A nonzero integral affine target has zero distance to the lattice. -/
-example : (∃ z : ℤ, 2 * z = 2) ∧ ¬ (0 < |(2 : ℝ) - 2 * 1|) := by
+/-- Positive definiteness makes every closed rational affine ellipsoid contain
+only finitely many integral vectors, including its boundary. -/
+theorem finite_ellipsoid {n : ℕ} (G : Matrix (Fin n) (Fin n) ℚ)
+    (hG : G.PosDef) (t : Fin n → ℚ) (R : ℚ) :
+    {x : Fin n → ℤ | dotProduct (fun i => (x i : ℚ) - t i)
+      (G.mulVec (fun i => (x i : ℚ) - t i)) ≤ R}.Finite := by
+  sorry
+
+/-- The finite set of integral vectors in the closed affine ellipsoid;
+the value is empty when the matrix is not positive definite. -/
+def fpEnumeration {n : ℕ} (G : Matrix (Fin n) (Fin n) ℚ)
+    (t : Fin n → ℚ) (R : ℚ) : Finset (Fin n → ℤ) := by
+  classical
+  exact if hG : G.PosDef then (finite_ellipsoid G hG t R).toFinset else ∅
+
+/-- Ellipsoid membership is the exact closed quadratic inequality. -/
+theorem mem_fpEnumeration {n : ℕ} (G : Matrix (Fin n) (Fin n) ℚ)
+    (hG : G.PosDef) (t : Fin n → ℚ) (R : ℚ) (x : Fin n → ℤ) :
+    x ∈ fpEnumeration G t R ↔ dotProduct (fun i => (x i : ℚ) - t i)
+      (G.mulVec (fun i => (x i : ℚ) - t i)) ≤ R := by
+  sorry
+
+/-- Increasing the squared radius preserves all enumerated lattice vectors. -/
+theorem fpEnumeration_mono {n : ℕ} (G : Matrix (Fin n) (Fin n) ℚ)
+    (t : Fin n → ℚ) {R S : ℚ} (hRS : R ≤ S) :
+    fpEnumeration G t R ⊆ fpEnumeration G t S := by
+  sorry
+
+/-- A negative squared radius gives no lattice vectors. -/
+theorem fpEnumeration_of_neg {n : ℕ} (G : Matrix (Fin n) (Fin n) ℚ)
+    (t : Fin n → ℚ) {R : ℚ} (hR : R < 0) : fpEnumeration G t R = ∅ := by
+  sorry
+
+/-- A centred ellipsoid contains a vector exactly when it contains its negative. -/
+theorem fpEnumeration_neg {n : ℕ} (G : Matrix (Fin n) (Fin n) ℚ)
+    (R : ℚ) (x : Fin n → ℤ) : x ∈ fpEnumeration G 0 R ↔ -x ∈ fpEnumeration G 0 R := by
   sorry
 
 end ED1
@@ -228,19 +221,6 @@ theorem exists_scalar_log_precision (x : ℚ) (hx : 0 < x)
       ((2 * N + 1) * (1 - |(x - 1) / (x + 1)| ^ 2)) : ℚ) ≤ ε := by
   sorry
 
-example : realLogPartialSum 2 1 = 2 / 3 ∧
-    (2 * (1 / 3 : ℚ) ^ 3 / (3 * (1 - (1 / 3 : ℚ) ^ 2))) = 1 / 36 := by
-  sorry
-
-example (N : ℕ) : realLogPartialSum 1 N = 0 := by
-  sorry
-
-example : arctanPartialSum 1 1 = 1 ∧ arctanPartialSum (-1) 1 = -1 := by
-  sorry
-
-example : arctanPartialSum 1 2 = 2 / 3 ∧ arctanPartialSum 1 0 = 0 := by
-  sorry
-
 /-- The pinned principal-unit logarithm is compared with this finite
 sum. The README states the finite-extension version with ramification losses. -/
 def padicLogPartialSum {p : ℕ} [Fact p.Prime] (z : ℚ_[p]) (N : ℕ) : ℚ_[p] :=
@@ -264,37 +244,35 @@ theorem exists_padic_log_truncation (p : ℕ) (hp : p.Prime) (d : ℚ)
     ∃ N : ℕ, (m : ℚ) ≤ d + N * (d - 1 / ((p : ℚ) - 1)) := by
   sorry
 
-example : padicLogPartialSum (4 : ℚ_[3]) 4 = (-51 / 4 : ℚ_[3]) := by
-  sorry
-
-example {p : ℕ} [Fact p.Prime] (N : ℕ) :
-    padicLogPartialSum (1 : ℚ_[p]) N = 0 := by
-  sorry
-
-example : padicLogPartialSum (4 : ℚ_[3]) 0 = 0 ∧
-    padicLogPartialSum (4 : ℚ_[3]) 1 = 3 := by
-  sorry
-
-/-- An odd power does not kill the sign modulo four: the signed form vanishes,
-while its discrete logarithm in the order-two subgroup need not vanish. -/
-example : (3 : ZMod 4) ≠ 1 ∧ (3 : ZMod 4) ^ 2 = 1 ∧
-    (-(3 : ZMod 4) - 1 = 0) ∧ (1 : ZMod 2) ≠ 0 := by
-  sorry
-
-/-- A trivial cyclic subgroup has order p^0, including at p=2. -/
-example : (1 : ZMod 4) ^ (2 ^ 0 : ℕ) = 1 ∧ (2 ^ 0 : ℕ) = 1 := by
-  sorry
-
-/-- The zero form meets every valuation precision, although the totalised
-rational valuation of zero is zero. -/
-example [Fact (Nat.Prime 5)] :
-    padicValRat 5 (1 - 1 : ℚ) = 0 ∧ ED0.padicBallContains 5 0 3 (0 : ℚ_[5]) := by
-  sorry
-
 /- S-unit finite enumeration is an equivalence proved after the bound. The
 bounded-box hypothesis is about all solutions and is supplied by DT.4 plus
 ED.1/ED.2 reductions, never by a proposed answer list. -/
 namespace ED2
+
+/-- Componentwise rational bounds on an integral exponent vector. -/
+def InExponentBox {q : ℕ} (X : Fin q → ℚ) (a : Fin q → ℤ) : Prop :=
+  ∀ i, |(a i : ℚ)| ≤ X i
+
+/-- Decreasing exponent boxes with an exact reduction implication and a finite
+exceptional set at each step. -/
+structure ExponentReductionChain {q : ℕ} (S : Set (Fin q → ℤ)) (k : ℕ) where
+  bounds : Fin (k + 1) → Fin q → ℚ
+  nonneg : ∀ j i, 0 ≤ bounds j i
+  antitone : ∀ i, Antitone (fun j => bounds j i)
+  exceptions : Fin k → Finset (Fin q → ℤ)
+  step : ∀ j : Fin k, ∀ a ∈ S, InExponentBox (bounds j.castSucc) a →
+    InExponentBox (bounds j.succ) a ∨ a ∈ exceptions j
+
+/-- The last componentwise exponent bound of the reduction chain. -/
+def ExponentReductionChain.final {q k : ℕ} {S : Set (Fin q → ℤ)}
+    (c : ExponentReductionChain S k) : Fin q → ℚ := c.bounds (Fin.last k)
+
+/-- Every initial-box solution reaches the final box or a recorded exception. -/
+theorem ExponentReductionChain.sound {q k : ℕ} {S : Set (Fin q → ℤ)}
+    (c : ExponentReductionChain S k) (a : Fin q → ℤ)
+    (ha : a ∈ S) (hbox : InExponentBox (c.bounds 0) a) :
+    InExponentBox c.final a ∨ ∃ j, a ∈ c.exceptions j := by
+  sorry
 
 /-- Every prime divisor lies in S; positivity is imposed by the triple predicate. -/
 def supportedOn (S : Finset ℕ) (n : ℕ) : Prop :=
@@ -314,50 +292,6 @@ theorem sUnit_finite_search (S : Finset ℕ) (B : ℕ)
         ((Finset.range (B + 1)).product (Finset.range (B + 1)))) :
         Set (ℕ × ℕ × ℕ)) |
         coprimeSUnitTriple S x} := by
-  sorry
-
-example : supportedOn {2, 3} 12 := by
-  sorry
-
-example : ¬ supportedOn {2, 3} 5 := by
-  sorry
-
-example : supportedOn ∅ 1 ∧ ¬ supportedOn {2, 3} 0 := by
-  sorry
-
-example : coprimeSUnitTriple {2, 3} (1, 2, 3) := by
-  sorry
-
-example : ¬ coprimeSUnitTriple {2, 3} (2, 2, 4) := by
-  sorry
-
-example : ¬ coprimeSUnitTriple {2, 3} (2, 1, 3) ∧
-    ¬ coprimeSUnitTriple {2, 3} (0, 1, 1) := by
-  sorry
-
-/-- The cubic small-solution check has exactly two pairs at either stated bound. -/
-example (B : ℤ) (hB : B = 1 ∨ B = 4) :
-    {v : ℤ × ℤ | |v.2| ≤ B ∧ v.1 ^ 3 - 2 * v.2 ^ 3 = 1} =
-      (↑({(1, 0), (-1, -1)} : Finset (ℤ × ℤ)) : Set (ℤ × ℤ)) := by
-  sorry
-
-/-- The zero-Y slice and the larger-X solution test different search bounds. -/
-example :
-    {v : ℤ × ℤ | |v.2| ≤ 0 ∧ v.1 ^ 3 - 2 * v.2 ^ 3 = 8} =
-      (↑({(2, 0)} : Finset (ℤ × ℤ)) : Set (ℤ × ℤ)) ∧
-    (5 : ℤ) ^ 3 - 2 * 4 ^ 3 = -3 ∧ |(-3 : ℤ)| < |(5 : ℤ)| ∧
-    |(5 : ℚ)| < 126 := by
-  sorry
-
-/-- The y=-1 slice agrees with the integer roots of its specialization. -/
-example : {x : ℤ | x ^ 3 - 2 * (-1) ^ 3 = 1} = {-1} ∧
-    (Polynomial.X ^ 3 + 1 : Polynomial ℤ).roots.toFinset = {-1} := by
-  sorry
-
-/-- A linear times irreducible cubic reduction gives no quadratic conjugate pair. -/
-example :
-    (∀ x : ZMod 7, x ^ 4 - x - 1 = (x - 3) * (x ^ 3 + 3*x ^ 2 + 2*x + 5)) ∧
-    (∀ x : ZMod 7, x ^ 3 + 3*x ^ 2 + 2*x + 5 ≠ 0) := by
   sorry
 
 end ED2
@@ -380,20 +314,147 @@ theorem canonicalHeight_mem_doubling_interval (P : W.Point) (n : ℕ)
       P.canonicalHeight ≤ ((u : ℝ) + cplus) / 4 ^ n := by
   sorry
 
-/-- Width uses the full pinned x-height and the factor 4^n from doubling. -/
-example (n : ℕ) (a : ℚ) :
-    ((a + 1 / 8) + 3) / (4 : ℚ) ^ n -
-      (a - 2) / (4 : ℚ) ^ n = 41 / (8 * (4 : ℚ) ^ n) := by
+/-- A positive lower bound for the actual height Gram determinant certifies
+independence modulo torsion of the supplied elliptic points. -/
+theorem independent_of_gram_det_pos {r : ℕ} (P : Fin r → W.Point)
+    (δ : ℝ) (hδ : 0 < δ)
+    (hdet : δ ≤ Matrix.det (fun i j => WeierstrassCurve.Affine.neronTatePairing W
+      (P i) (P j))) (a : Fin r → ℤ)
+    (ha : IsOfFinAddOrder (∑ i, a i • P i)) : a = 0 := by
+  sorry
+
+/-- Finite free-coordinate boxes retain every torsion fibre of a supplied
+Mordell–Weil decomposition. -/
+def heightCoordinatePoints {A T : Type*} [AddCommGroup A] [AddCommGroup T]
+    [Fintype T] {r : ℕ} (e : A ≃+ ((Fin r → ℤ) × T)) (D : ℕ) : Finset A := by
+  classical
+  exact ((Finset.Icc (fun _ : Fin r => -(D : ℤ)) (fun _ => (D : ℤ))).product
+    Finset.univ).image e.symm
+
+/-- Membership restricts exactly the free coordinates, with no torsion restriction. -/
+theorem mem_heightCoordinatePoints {A T : Type*} [AddCommGroup A] [AddCommGroup T]
+    [Fintype T] {r : ℕ} (e : A ≃+ ((Fin r → ℤ) × T)) (D : ℕ) (P : A) :
+    P ∈ heightCoordinatePoints e D ↔ ∀ i, |(e P).1 i| ≤ (D : ℤ) := by
+  sorry
+
+/-- A coercive height bound makes the coordinate box exhaustive below B. -/
+theorem heightCoordinatePoints_complete {A T : Type*} [AddCommGroup A]
+    [AddCommGroup T] [Fintype T] {r : ℕ} (e : A ≃+ ((Fin r → ℤ) × T))
+    (height : A → ℝ) (lam B : ℝ) (hlam : 0 < lam)
+    (hlower : ∀ P, lam * ∑ i, ((e P).1 i : ℝ) ^ 2 ≤ height P)
+    (D : ℕ) (hD : B < lam * (D + 1 : ℝ) ^ 2) (P : A) (hP : height P ≤ B) :
+    P ∈ heightCoordinatePoints e D := by
+  sorry
+
+/-- A subgroup is p-saturated when division by p introduces no new ambient point. -/
+def IsPSaturated {A : Type*} [AddCommGroup A] (G : AddSubgroup A) (p : ℕ) : Prop :=
+  ∀ a : A, p • a ∈ G → a ∈ G
+
+/-- Saturation requires both all ambient p-torsion and equality of the p-divisible
+elements of the subgroup with the p-multiples of its elements. -/
+theorem isPSaturated_iff {A : Type*} [AddCommGroup A] (G : AddSubgroup A) (p : ℕ) :
+    IsPSaturated G p ↔ (∀ a : A, p • a = 0 → a ∈ G) ∧
+      (∀ a ∈ G, (∃ b : A, p • b = a) ↔ ∃ b ∈ G, p • b = a) := by
+  sorry
+
+/-- At finite index, p-saturation is exactly the absence of p in the index. -/
+theorem isPSaturated_iff_not_dvd_index {A : Type*} [AddCommGroup A]
+    (G : AddSubgroup A) [G.FiniteIndex] (p : ℕ) (hp : p.Prime) :
+    IsPSaturated G p ↔ ¬ p ∣ G.index := by
+  sorry
+
+/-- The full group is p-saturated for every p. -/
+theorem isPSaturated_top {A : Type*} [AddCommGroup A] (p : ℕ) :
+    IsPSaturated (⊤ : AddSubgroup A) p := by
+  sorry
+
+/-- Saturation at every prime up to an index bound certifies the full group. -/
+theorem index_eq_one_of_forall_isPSaturated {A : Type*} [AddCommGroup A]
+    (G : AddSubgroup A) [G.FiniteIndex] (N : ℕ) (hN : G.index ≤ N)
+    (hsat : ∀ p : ℕ, p.Prime → p ≤ N → IsPSaturated G p) : G = ⊤ := by
   sorry
 
 end ED3
 
-/-- The transpose kernel describes differential coefficient columns. -/
-example :
-    let M : Matrix (Fin 2) (Fin 1) ℚ := fun i _ => if i = 0 then 1 else 0
-    (∀ c : Fin 2 → ℚ, M.transpose.mulVec c = 0 ↔ c 0 = 0) ∧
-    (∀ v : Fin 1 → ℚ, M.mulVec v = 0 ↔ v = 0) := by
+/-! ## Layer 4: Finite-index extension and residue-disc bounds -/
+namespace ED4
+
+/-- A homomorphism from a finite-index subgroup to a characteristic-zero vector
+space has a unique extension to the whole additive group. -/
+theorem formalLogExtension_unique {A K V : Type*} [AddCommGroup A]
+    [Field K] [CharZero K] [AddCommGroup V] [Module K V]
+    (U : AddSubgroup A) [U.FiniteIndex] (l : U →+ V) :
+    ∃! L : A →+ V, ∀ u : U, L u = l u := by
   sorry
+
+/-- A finite-index extension preserves a torsion-kernel characterization. -/
+theorem ker_formalLogExtension {A K V : Type*} [AddCommGroup A]
+    [Field K] [CharZero K] [AddCommGroup V] [Module K V]
+    (U : AddSubgroup A) [U.FiniteIndex] (l : U →+ V) (L : A →+ V)
+    (hres : ∀ u : U, L u = l u)
+    (hker : ∀ u : U, l u = 0 ↔ IsOfFinAddOrder u) (a : A) :
+    L a = 0 ↔ IsOfFinAddOrder a := by
+  sorry
+
+/-- Restricted-map compatibility extends from a finite-index subgroup to the
+whole additive group. -/
+theorem formalLogExtension_map {A B K V W : Type*} [AddCommGroup A]
+    [AddCommGroup B] [Field K] [CharZero K] [AddCommGroup V] [Module K V]
+    [AddCommGroup W] [Module K W] (U : AddSubgroup A) [U.FiniteIndex]
+    (L : A →+ V) (L' : B →+ W) (f : A →+ B) (df : V →ₗ[K] W)
+    (hcompat : ∀ a ∈ U, df (L a) = L' (f a)) :
+    ∀ a, df (L a) = L' (f a) := by
+  sorry
+
+/-- The abstract integration pairing evaluates a linear functional on the
+finite-index extension supplied as L. -/
+def formalLogPairing {A K V : Type*} [AddCommGroup A] [Field K]
+    [AddCommGroup V] [Module K V] (L : A →+ V) (a : A) (ω : Module.Dual K V) : K :=
+  ω (L a)
+
+/-- Vanishing against every functional detects precisely the supplied torsion kernel. -/
+theorem formalLogPairing_eq_zero_iff {A K V : Type*} [AddCommGroup A]
+    [Field K] [AddCommGroup V] [Module K V] (L : A →+ V)
+    (hker : ∀ a, L a = 0 ↔ IsOfFinAddOrder a) (a : A) :
+    (∀ ω : Module.Dual K V, formalLogPairing L a ω = 0) ↔ IsOfFinAddOrder a := by
+  sorry
+
+/-- Spanning of the extension image makes the right kernel of the pairing zero. -/
+theorem formalLogPairing_rightKernel {A K V : Type*} [AddCommGroup A]
+    [Field K] [AddCommGroup V] [Module K V] (L : A →+ V)
+    (hspan : Submodule.span K (Set.range L) = ⊤) (ω : Module.Dual K V) :
+    (∀ a, formalLogPairing L a ω = 0) ↔ ω = 0 := by
+  sorry
+
+/-- In a differential basis, annihilating the logarithm columns is the kernel
+of the transpose matrix. -/
+theorem annihilatingDifferentials_eq_ker {p g r : ℕ} [Fact p.Prime]
+    (M : Matrix (Fin g) (Fin r) ℚ_[p]) (c : Fin g → ℚ_[p]) :
+    (∀ v ∈ Submodule.span ℚ_[p] (Set.range (fun j => fun i => M i j)),
+      dotProduct c v = 0) ↔ c ∈ LinearMap.ker M.transpose.mulVecLin := by
+  sorry
+
+/-- The coordinate annihilator has codimension equal to the logarithm matrix rank. -/
+theorem finrank_annihilatingDifferentials {p g r : ℕ} [Fact p.Prime]
+    (M : Matrix (Fin g) (Fin r) ℚ_[p]) :
+    Module.finrank ℚ_[p] (LinearMap.ker M.transpose.mulVecLin) = g - M.rank := by
+  sorry
+
+/-- A convergent residue-disc series with no later coefficient as large as
+its N-th scaled coefficient has at most N zeros on the whole closed disc. -/
+theorem dominant_of_residue_bounds {p : ℕ} [Fact p.Prime]
+    (f : PowerSeries ℚ_[p]) (N : ℕ) (hne : f.coeff N ≠ 0)
+    (hconv : Filter.Tendsto (fun i : ℕ => f.coeff i * (p : ℚ_[p]) ^ i)
+      Filter.atTop (nhds 0))
+    (htail : ∀ i : ℕ, N < i →
+      ‖f.coeff i * (p : ℚ_[p]) ^ i‖ < ‖f.coeff N * (p : ℚ_[p]) ^ N‖) :
+    {t : ℚ_[p] | ‖t‖ ≤ (p : ℝ)⁻¹ ∧
+      HasSum (fun i : ℕ => f.coeff i * t ^ i) 0}.Finite ∧
+    {t : ℚ_[p] | ‖t‖ ≤ (p : ℝ)⁻¹ ∧
+      HasSum (fun i : ℕ => f.coeff i * t ^ i) 0}.ncard ≤ N := by
+  sorry
+
+end ED4
 
 /- Layer 4 consumes AnabelianGeometryAndNonabelianChabauty §5.8's global abelian
 logarithm on A(K) and all A(C_p), its formal restriction, torsion kernel, morphism
@@ -426,6 +487,300 @@ theorem sieve_weaken (r : ∀ i, G →+ A i) (T U : ∀ i, Set (A i))
     {g : G | ∀ i, r i g ∈ T i} ⊆ {g : G | ∀ i, r i g ∈ U i} := by
   sorry
 
+/-- Surviving quotient classes satisfy every selected local quotient condition. -/
+def admissibleClasses (S : Finset ι) (L : AddSubgroup G) [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) : Finset (G ⧸ L) := by
+  classical
+  exact Finset.univ.filter fun a => ∀ i ∈ S,
+    QuotientAddGroup.map L (L.map (r i)) (r i) (L.le_comap_map (r i)) a ∈
+      (X i).image (QuotientAddGroup.mk' (L.map (r i)))
+
+/-- The finite filter represents precisely the conjunction of local quotient tests. -/
+theorem Sieve.admissibleClasses_eq_filter (S : Finset ι) (L : AddSubgroup G)
+    [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) :
+    (admissibleClasses S L r X : Set (G ⧸ L)) =
+      {a | ∀ i ∈ S, QuotientAddGroup.map L (L.map (r i)) (r i)
+        (L.le_comap_map (r i)) a ∈
+          (QuotientAddGroup.mk' (L.map (r i))) '' (X i : Set (A i))} := by
+  sorry
+
+/-- A quotient class survives exactly when its image meets each allowed local set. -/
+theorem Sieve.mem_admissibleClasses (S : Finset ι) (L : AddSubgroup G)
+    [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (a : G ⧸ L) :
+    a ∈ admissibleClasses S L r X ↔ ∀ i ∈ S,
+      QuotientAddGroup.map L (L.map (r i)) (r i) (L.le_comap_map (r i)) a ∈
+        (QuotientAddGroup.mk' (L.map (r i))) '' (X i : Set (A i)) := by
+  sorry
+
+/-- Equal selected local sets give equal survivor sets. -/
+theorem Sieve.admissibleClasses_congr (S : Finset ι) (L : AddSubgroup G)
+    [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i) (X Y : ∀ i, Finset (A i))
+    (hXY : ∀ i ∈ S, X i = Y i) :
+    admissibleClasses S L r X = admissibleClasses S L r Y := by
+  sorry
+
+/-- With no local tests the whole finite quotient survives. -/
+theorem Sieve.admissibleClasses_empty (L : AddSubgroup G) [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) :
+    admissibleClasses ∅ L r X = Finset.univ := by
+  sorry
+
+/-- Adding local tests can only remove surviving quotient classes. -/
+theorem Sieve.admissibleClasses_antitone (S T : Finset ι) (hST : S ⊆ T)
+    (L : AddSubgroup G) [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i)
+    (X : ∀ i, Finset (A i)) :
+    admissibleClasses T L r X ⊆ admissibleClasses S L r X := by
+  sorry
+
+/-- Enlarging each allowed local set preserves every survivor. -/
+theorem Sieve.admissibleClasses_mono (S : Finset ι) (L : AddSubgroup G)
+    [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i) (X Y : ∀ i, Finset (A i))
+    (hXY : ∀ i ∈ S, X i ⊆ Y i) :
+    admissibleClasses S L r X ⊆ admissibleClasses S L r Y := by
+  sorry
+
+/-- At the full subgroup the unique class survives if every selected local
+set meets the actual homomorphism image. -/
+theorem Sieve.admissibleClasses_top (S : Finset ι) [Fintype (G ⧸ (⊤ : AddSubgroup G))]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i))
+    (hmeet : ∀ i ∈ S, ∃ g : G, r i g ∈ X i) :
+    admissibleClasses S ⊤ r X = {0} := by
+  sorry
+
+/-- Admissibility is independent of representatives and uses precisely the
+local congruences modulo the images of L. -/
+theorem Sieve.mk_mem_admissibleClasses (S : Finset ι) (L : AddSubgroup G)
+    [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (g : G) :
+    QuotientAddGroup.mk' L g ∈ admissibleClasses S L r X ↔
+      ∀ i ∈ S, ∃ x ∈ X i, r i g - x ∈ L.map (r i) := by
+  sorry
+
+/-- Finite coset lifting enumerates all kernel translates before the fine
+local conditions are imposed. -/
+def refineClasses (S : Finset ι) (K L : AddSubgroup G) (hKL : K ≤ L)
+    [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i))
+    (σ : G ⧸ L → G ⧸ K) (B : Finset (G ⧸ L)) : Finset (G ⧸ K) := by
+  classical
+  let π := QuotientAddGroup.map K L (AddMonoidHom.id G) (by intro x hx; exact hKL hx)
+  exact (B.biUnion fun a => (Finset.univ.filter fun z => π z = 0).image
+    (fun z => σ a + z)).filter fun b => b ∈ admissibleClasses S K r X
+
+/-- Correct lifts on the input set recover exactly the admissible fine
+classes lying above that set. -/
+theorem Sieve.mem_refineClasses (S : Finset ι) (K L : AddSubgroup G) (hKL : K ≤ L)
+    [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i))
+    (σ : G ⧸ L → G ⧸ K) (B : Finset (G ⧸ L))
+    (hσ : ∀ a ∈ B, QuotientAddGroup.map K L (AddMonoidHom.id G)
+      (by intro x hx; exact hKL hx) (σ a) = a) (b : G ⧸ K) :
+    b ∈ refineClasses S K L hKL r X σ B ↔
+      QuotientAddGroup.map K L (AddMonoidHom.id G) (by intro x hx; exact hKL hx) b ∈ B ∧
+      b ∈ admissibleClasses S K r X := by
+  sorry
+
+/-- The lifting construction is the union of all proposed kernel translates
+intersected with the fine admissible set. -/
+theorem Sieve.refineClasses_eq_biUnion (S : Finset ι) (K L : AddSubgroup G)
+    (hKL : K ≤ L) [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i))
+    (σ : G ⧸ L → G ⧸ K) (B : Finset (G ⧸ L)) :
+    (refineClasses S K L hKL r X σ B : Set (G ⧸ K)) =
+      {b | (∃ a ∈ B, ∃ z : G ⧸ K,
+        QuotientAddGroup.map K L (AddMonoidHom.id G) (by intro x hx; exact hKL hx) z = 0 ∧
+        b = σ a + z) ∧ b ∈ admissibleClasses S K r X} := by
+  sorry
+
+/-- Empty coarse input gives no lifted classes, even without a section equation. -/
+theorem Sieve.refineClasses_empty (S : Finset ι) (K L : AddSubgroup G) (hKL : K ≤ L)
+    [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (σ : G ⧸ L → G ⧸ K) :
+    refineClasses S K L hKL r X σ ∅ = ∅ := by
+  sorry
+
+/-- Two sections correct on the same coarse input yield the same lifted set. -/
+theorem Sieve.refineClasses_section_independent (S : Finset ι)
+    (K L : AddSubgroup G) (hKL : K ≤ L) [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i))
+    (σ τ : G ⧸ L → G ⧸ K) (B : Finset (G ⧸ L))
+    (hσ : ∀ a ∈ B, QuotientAddGroup.map K L (AddMonoidHom.id G)
+      (by intro x hx; exact hKL hx) (σ a) = a)
+    (hτ : ∀ a ∈ B, QuotientAddGroup.map K L (AddMonoidHom.id G)
+      (by intro x hx; exact hKL hx) (τ a) = a) :
+    refineClasses S K L hKL r X σ B = refineClasses S K L hKL r X τ B := by
+  sorry
+
+/-- The number of lifted survivors is at most the coarse count times the
+kernel cardinality, without any correctness assumption on the lifts. -/
+theorem Sieve.card_refineClasses_le (S : Finset ι) (K L : AddSubgroup G) (hKL : K ≤ L)
+    [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i))
+    (σ : G ⧸ L → G ⧸ K) (B : Finset (G ⧸ L)) :
+    (refineClasses S K L hKL r X σ B).card ≤ B.card * Nat.card
+      (QuotientAddGroup.map K L (AddMonoidHom.id G)
+        (by intro x hx; exact hKL hx)).ker := by
+  sorry
+
+/-- A local test is unchanged by refinement when its image subgroup is unchanged. -/
+theorem Sieve.unchanged_local_condition (K L : AddSubgroup G) (hKL : K ≤ L)
+    [Fintype (G ⧸ K)] [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i)
+    (X : ∀ i, Finset (A i)) (i : ι) (himage : K.map (r i) = L.map (r i))
+    (b : G ⧸ K) : b ∈ admissibleClasses {i} K r X ↔
+      QuotientAddGroup.map K L (AddMonoidHom.id G) (by intro x hx; exact hKL hx) b ∈
+        admissibleClasses {i} L r X := by
+  sorry
+
+/-- Intersecting with the inverse image of the target subgroup image keeps
+the target subgroup. -/
+theorem Sieve.target_le_preparedStep {B : Type*} [AddCommGroup B]
+    (D L : AddSubgroup G) (hDL : D ≤ L) (r : G →+ B) :
+    D ≤ L ⊓ (D.map r).comap r := by
+  sorry
+
+/-- A local image larger than the target image gives a strict prepared step. -/
+theorem Sieve.preparedStep_lt {B : Type*} [AddCommGroup B]
+    (D L : AddSubgroup G) (r : G →+ B) (himage : ¬ L.map r ≤ D.map r) :
+    L ⊓ (D.map r).comap r < L := by
+  sorry
+
+/-- Lifting all coarse survivors and imposing the fine tests gives the
+same finite set as direct fine admissibility. -/
+theorem Sieve.refineClasses_eq_admissibleClasses (S : Finset ι)
+    (K L : AddSubgroup G) (hKL : K ≤ L) [Fintype (G ⧸ K)] [Fintype (G ⧸ L)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (σ : G ⧸ L → G ⧸ K)
+    (hσ : ∀ a ∈ admissibleClasses S L r X,
+      QuotientAddGroup.map K L (AddMonoidHom.id G) (by intro x hx; exact hKL hx) (σ a) = a) :
+    refineClasses S K L hKL r X σ (admissibleClasses S L r X) =
+      admissibleClasses S K r X := by
+  sorry
+
+/-- An index coprime to an annihilator of the quotient makes the subgroup
+surject onto that quotient. -/
+theorem Sieve.quotient_surjective_of_coprime (H L : AddSubgroup G) (N : ℕ)
+    (hNL : ∀ g : G, N • g ∈ L) (hcop : Nat.Coprime H.index N) :
+    Function.Surjective (fun h : H => QuotientAddGroup.mk' L (h : G)) := by
+  sorry
+
+/-- Necessary local conditions and injective quotient fibres turn coverage
+by known points into a complete list. -/
+theorem Sieve.complete_of_unique_fibres {P : Type*} (S : Finset ι)
+    (L : AddSubgroup G) [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i)
+    (X : ∀ i, Finset (A i)) (j : P → G) (W : Finset P)
+    (hlocal : ∀ p i, i ∈ S → r i (j p) ∈ X i)
+    (hcover : ∀ a ∈ admissibleClasses S L r X,
+      ∃ w ∈ W, QuotientAddGroup.mk' L (j w) = a)
+    (hinj : Function.Injective (fun p => QuotientAddGroup.mk' L (j p))) :
+    ∀ p : P, p ∈ W := by
+  sorry
+
+/-- When L lies in every selected kernel, quotient tests are the exact
+unquotiented local conditions on each representative. -/
+theorem Sieve.mk_mem_admissibleClasses_iff_of_le_ker (S : Finset ι)
+    (L : AddSubgroup G) [Fintype (G ⧸ L)] (r : ∀ i, G →+ A i)
+    (X : ∀ i, Finset (A i)) (hL : ∀ i ∈ S, L ≤ (r i).ker) (g : G) :
+    QuotientAddGroup.mk' L g ∈ admissibleClasses S L r X ↔
+      ∀ i ∈ S, r i g ∈ X i := by
+  sorry
+
+/-- Local image classes consist of the cosets meeting the supplied local point image. -/
+def Sieve.padicImageClasses {B : Type*} [AddCommGroup B] (incl : G →+ B)
+    (U : AddSubgroup B) [Fintype (G ⧸ U.comap incl)] (Y : Set B) :
+    Finset (G ⧸ U.comap incl) := by
+  classical
+  exact Finset.univ.filter fun c => ∃ g : G, QuotientAddGroup.mk' (U.comap incl) g = c ∧
+    ∃ y ∈ Y, incl g - y ∈ U
+
+/-- Membership means that a representative coset meets the local point image. -/
+theorem Sieve.mem_padicImageClasses {B : Type*} [AddCommGroup B] (incl : G →+ B)
+    (U : AddSubgroup B) [Fintype (G ⧸ U.comap incl)] (Y : Set B)
+    (c : G ⧸ U.comap incl) : c ∈ Sieve.padicImageClasses incl U Y ↔
+      ∃ g : G, QuotientAddGroup.mk' (U.comap incl) g = c ∧ ∃ y ∈ Y, incl g - y ∈ U := by
+  sorry
+
+/-- Enlarging the local point image preserves all its surviving cosets. -/
+theorem Sieve.padicImageClasses_mono {B : Type*} [AddCommGroup B] (incl : G →+ B)
+    (U : AddSubgroup B) [Fintype (G ⧸ U.comap incl)] (Y Y' : Set B) (hY : Y ⊆ Y') :
+    Sieve.padicImageClasses incl U Y ⊆ Sieve.padicImageClasses incl U Y' := by
+  sorry
+
+/-- Every global element belonging to the local point image survives its coset test. -/
+theorem Sieve.mk_mem_padicImageClasses {B : Type*} [AddCommGroup B]
+    (incl : G →+ B) (U : AddSubgroup B) [Fintype (G ⧸ U.comap incl)]
+    (Y : Set B) (g : G) (hg : incl g ∈ Y) :
+    QuotientAddGroup.mk' (U.comap incl) g ∈ Sieve.padicImageClasses incl U Y := by
+  sorry
+
+/-- A finer local coset meeting the point image projects to a coarser coset
+meeting the same image. -/
+theorem Sieve.padicImageClasses_refine {B : Type*} [AddCommGroup B]
+    (incl : G →+ B) (U' U : AddSubgroup B) (hU : U' ≤ U)
+    [Fintype (G ⧸ U'.comap incl)] [Fintype (G ⧸ U.comap incl)] (Y : Set B)
+    (c : G ⧸ U'.comap incl) (hc : c ∈ Sieve.padicImageClasses incl U' Y) :
+    QuotientAddGroup.map (U'.comap incl) (U.comap incl) (AddMonoidHom.id G)
+      (by intro g hg; exact hU hg) c ∈ Sieve.padicImageClasses incl U Y := by
+  sorry
+
+/-- The iterated finite sieve starts at the direct coarse filter and lifts
+through every successive subgroup using the selected tests. -/
+def Sieve.siftChain (S : Finset ι) (L : ℕ → AddSubgroup G)
+    (hL : ∀ j, L (j + 1) ≤ L j) [∀ j, Fintype (G ⧸ L j)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (T : ℕ → Finset ι)
+    (σ : ∀ j, G ⧸ L j → G ⧸ L (j + 1)) : ∀ j, Finset (G ⧸ L j)
+  | 0 => admissibleClasses S (L 0) r X
+  | j + 1 => refineClasses (T j) (L (j + 1)) (L j) (hL j) r X (σ j)
+      (Sieve.siftChain S L hL r X T σ j)
+
+/-- The initial sieve is precisely the direct admissible-class set. -/
+theorem Sieve.siftChain_zero (S : Finset ι) (L : ℕ → AddSubgroup G)
+    (hL : ∀ j, L (j + 1) ≤ L j) [∀ j, Fintype (G ⧸ L j)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (T : ℕ → Finset ι)
+    (σ : ∀ j, G ⧸ L j → G ⧸ L (j + 1)) :
+    Sieve.siftChain S L hL r X T σ 0 = admissibleClasses S (L 0) r X := by
+  rfl
+
+/-- The successor sieve is the finite lift and filter of its predecessor. -/
+theorem Sieve.siftChain_succ (S : Finset ι) (L : ℕ → AddSubgroup G)
+    (hL : ∀ j, L (j + 1) ≤ L j) [∀ j, Fintype (G ⧸ L j)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (T : ℕ → Finset ι)
+    (σ : ∀ j, G ⧸ L j → G ⧸ L (j + 1)) (j : ℕ) :
+    Sieve.siftChain S L hL r X T σ (j + 1) =
+      refineClasses (T j) (L (j + 1)) (L j) (hL j) r X (σ j)
+        (Sieve.siftChain S L hL r X T σ j) := by
+  rfl
+
+/-- Each lifting level has at most the previous count times its quotient kernel size. -/
+theorem Sieve.card_siftChain_succ_le (S : Finset ι) (L : ℕ → AddSubgroup G)
+    (hL : ∀ j, L (j + 1) ≤ L j) [∀ j, Fintype (G ⧸ L j)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (T : ℕ → Finset ι)
+    (σ : ∀ j, G ⧸ L j → G ⧸ L (j + 1)) (j : ℕ) :
+    (Sieve.siftChain S L hL r X T σ (j + 1)).card ≤
+      (Sieve.siftChain S L hL r X T σ j).card * Nat.card
+        (QuotientAddGroup.map (L (j + 1)) (L j) (AddMonoidHom.id G)
+          (by intro g hg; exact hL j hg)).ker := by
+  sorry
+
+/-- Correct sections and retention of all changed local tests make every
+iterated sieve equal the direct filter at that level. -/
+theorem Sieve.siftChain_eq_admissibleClasses (S : Finset ι) (L : ℕ → AddSubgroup G)
+    (hL : ∀ j, L (j + 1) ≤ L j) [∀ j, Fintype (G ⧸ L j)]
+    (r : ∀ i, G →+ A i) (X : ∀ i, Finset (A i)) (T : ℕ → Finset ι)
+    (σ : ∀ j, G ⧸ L j → G ⧸ L (j + 1))
+    (hσ : ∀ j, ∀ a ∈ admissibleClasses S (L j) r X,
+      QuotientAddGroup.map (L (j + 1)) (L j) (AddMonoidHom.id G)
+        (by intro g hg; exact hL j hg) (σ j a) = a)
+    (hT : ∀ j, T j ⊆ S)
+    (hunchanged : ∀ j i, i ∈ S → i ∉ T j → (L (j + 1)).map (r i) = (L j).map (r i))
+    (j : ℕ) : Sieve.siftChain S L hL r X T σ j = admissibleClasses S (L j) r X := by
+  sorry
+
+/-- A prime factor added beyond its exponent valuation does not change the
+multiple subgroup of a finite-exponent additive group. -/
+theorem Sieve.range_nsmul_mul_eq_of_padicValNat_le {B : Type*} [AddCommGroup B]
+    (e : ℕ) (he : 0 < e) (hexp : ∀ b : B, e • b = 0) (q M : ℕ) (hq : q.Prime)
+    (hv : padicValNat q e ≤ padicValNat q M) :
+    (nsmulAddMonoidHom (q * M) : B →+ B).range = (nsmulAddMonoidHom M : B →+ B).range := by
+  sorry
+
 end ED5
 
 /-! ## Layer 6: Quadratic Chabauty and complete solution lists -/
@@ -443,30 +798,23 @@ theorem FiniteSolutionSet.coe_eq_setOf {α : Type*} {H : Prop} {P : α → Prop}
     (c.solutions : Set α) = {x | P x} := by
   sorry
 
-/-- Both integer square roots give an unconditional complete list. -/
-example : ∃ c : FiniteSolutionSet True (fun x : ℤ => x ^ 2 = 4),
-    c.solutions = {-2, 2} := by
+/-- Membership in the list is equivalent to the equation when its hypotheses hold. -/
+theorem FiniteSolutionSet.mem_iff {α : Type*} {H : Prop} {P : α → Prop}
+    (c : FiniteSolutionSet H P) (hH : H) (x : α) : x ∈ c.solutions ↔ P x := by
   sorry
 
-/-- The constantly false predicate has an empty unconditional solution set. -/
-example : ∃ c : FiniteSolutionSet True (fun _ : ℤ => False),
-    c.solutions = ∅ := by
+/-- Complete data for the same equation agree after both labels are discharged. -/
+theorem FiniteSolutionSet.solutions_eq {α : Type*} {H₁ H₂ : Prop} {P : α → Prop}
+    (c₁ : FiniteSolutionSet H₁ P) (c₂ : FiniteSolutionSet H₂ P)
+    (h₁ : H₁) (h₂ : H₂) : c₁.solutions = c₂.solutions := by
   sorry
 
 /-- A false predicate forces an empty sound list under any completeness label. -/
 example (H : Prop) (c : FiniteSolutionSet H (fun _ : ℤ => False)) :
     c.solutions = ∅ := by
-  sorry
-
-/-- Exact membership alone cannot certify an incomplete list. -/
-example : ¬ ∃ c : FiniteSolutionSet True (fun x : ℤ => x ^ 2 = 4),
-    c.solutions = {2} := by
-  sorry
-
-/-- Conditional completeness with a false premise carries no completeness claim. -/
-example : ∃ c : FiniteSolutionSet False (fun x : ℤ => x ^ 2 = 4),
-    c.solutions = {2} := by
-  sorry
+  apply Finset.eq_empty_iff_forall_notMem.mpr
+  intro x hx
+  exact c.sound x hx
 
 /-- Candidate comparison is a set theorem. Geometry must supply R⊆Z, coverage,
 uniqueness and exclusions; a matched ball without uniqueness is insufficient. -/
@@ -479,32 +827,71 @@ theorem candidates_eq_known {X : Type*} {ι : Type*} [Fintype ι]
     R = L := by
   sorry
 
-/-- A distinct-root count of one does not supply a multiplicity bound of one. -/
-example : (Polynomial.X ^ 2 : Polynomial ℚ).roots = ({0, 0} : Multiset ℚ) := by
+/-- The unipotent gauge matrix in the ordered blocks (scalar, cohomology, scalar). -/
+def gaugeMatrix {n : ℕ} {R : Type*} [CommRing R]
+    (Ω : Fin n → R) (g : R) (Z : Matrix (Fin n) (Fin n) R) :
+    Matrix (Unit ⊕ (Fin n ⊕ Unit)) (Unit ⊕ (Fin n ⊕ Unit)) R :=
+  fun i j => match i, j with
+    | .inl _, .inl _ => 1
+    | .inr (.inl i), .inl _ => Ω i
+    | .inr (.inl i), .inr (.inl j) => if i = j then 1 else 0
+    | .inr (.inr _), .inl _ => g
+    | .inr (.inr _), .inr (.inl j) => ∑ i, Ω i * Z i j
+    | .inr (.inr _), .inr (.inr _) => 1
+    | _, _ => 0
+
+/-- The connection matrix with the negative sign convention for the regular forms. -/
+def connectionMatrix {n : ℕ} {R : Type*} [CommRing R]
+    (ω : Fin n → R) (η : R) (Z : Matrix (Fin n) (Fin n) R) :
+    Matrix (Unit ⊕ (Fin n ⊕ Unit)) (Unit ⊕ (Fin n ⊕ Unit)) R :=
+  fun i j => match i, j with
+    | .inr (.inl i), .inl _ => -ω i
+    | .inr (.inr _), .inl _ => -η
+    | .inr (.inr _), .inr (.inl j) => -(∑ i, ω i * Z i j)
+    | _, _ => 0
+
+/-- An alternating Tate matrix gives the stated inverse over any commutative ring,
+including characteristic two when the zero diagonal is imposed. -/
+theorem gaugeMatrix_inv {n : ℕ} {R : Type*} [CommRing R]
+    (Ω : Fin n → R) (g : R) (Z : Matrix (Fin n) (Fin n) R)
+    (hZ : Z.transpose = -Z) (hdiag : ∀ i, Z i i = 0) :
+    (gaugeMatrix Ω g Z)⁻¹ = gaugeMatrix (-Ω) (-g) Z := by
   sorry
 
-/-- The residual local height uses the negative away-place correction. -/
-example (hp away total : ℚ) (h : total = hp + away) :
-    hp - total = -away ∧ total - hp = away := by
+/-- Every gauge matrix has determinant one. -/
+theorem gaugeMatrix_det {n : ℕ} {R : Type*} [CommRing R]
+    (Ω : Fin n → R) (g : R) (Z : Matrix (Fin n) (Fin n) R) :
+    Matrix.det (gaugeMatrix Ω g Z) = 1 := by
   sorry
 
-example : (Finset.image (fun x : ℚ => -x) {1}) = {-1} ∧
-    (Finset.image (fun x : ℚ => -x) {0}) = {0} ∧
-    ({-1} : Finset ℚ) ≠ {1} := by
+/-- The gauge equation is exactly the two primitive equations with the chosen signs. -/
+theorem gaugeMatrix_gauge_iff {n : ℕ} {S R : Type*} [CommRing S] [CommRing R]
+    [Algebra S R] (D : Derivation S R R) (Ω ω : Fin n → R) (g η : R)
+    (Z : Matrix (Fin n) (Fin n) R) (hZ : Z.transpose = -Z)
+    (hdiag : ∀ i, Z i i = 0) (hconst : ∀ i j, D (Z i j) = 0) :
+    (gaugeMatrix Ω g Z)⁻¹ * (show Matrix (Unit ⊕ (Fin n ⊕ Unit)) (Unit ⊕ (Fin n ⊕ Unit)) R from
+      fun i j => D (gaugeMatrix Ω g Z i j)) =
+      connectionMatrix ω η Z ↔
+    (∀ i, D (Ω i) = -ω i) ∧ D g = dotProduct Ω (Z.mulVec (fun i => D (Ω i))) - η := by
   sorry
 
-/-- Dimension two requires coefficient two in the trace-zero construction. -/
-example :
-    let A : Matrix (Fin 2) (Fin 2) ℚ := (-2) • (1 : Matrix (Fin 2) (Fin 2) ℚ)
-    Matrix.trace A = -4 ∧
-    Matrix.trace (6 • A - Matrix.trace A • (1 : Matrix (Fin 2) (Fin 2) ℚ)) = -16 ∧
-    2 • A - Matrix.trace A • (1 : Matrix (Fin 2) (Fin 2) ℚ) = 0 := by
+/-- Shifting the first primitives changes the last primitive by the bilinear
+cross term as well as an additive constant. -/
+theorem gaugeMatrix_shift {n : ℕ} {R : Type*} [CommRing R]
+    (Ω c : Fin n → R) (g e : R) (Z : Matrix (Fin n) (Fin n) R) :
+    gaugeMatrix (Ω + c) (g + dotProduct c (Z.mulVec Ω) + e) Z =
+      gaugeMatrix c e Z * gaugeMatrix Ω g Z := by
   sorry
 
-/-- Scalar Hecke operators in dimension six give a zero trace-corrected class. -/
-example (a : ℚ) :
-    let A : Matrix (Fin 6) (Fin 6) ℚ := a • (1 : Matrix (Fin 6) (Fin 6) ℚ)
-    6 • A - Matrix.trace A • (1 : Matrix (Fin 6) (Fin 6) ℚ) = 0 := by
+/-- Every existing residue-disc root satisfies the finite truncation congruence
+when the omitted terms have the required absolute precision. -/
+theorem root_satisfies_truncation_congruence {p : ℕ} [Fact p.Prime]
+    (f : PowerSeries ℚ_[p]) (x : ℚ_[p]) (m : ℕ) (n : ℤ)
+    (hx : ‖x‖ ≤ (p : ℝ)⁻¹)
+    (hroot : HasSum (fun i : ℕ => f.coeff i * x ^ i) 0)
+    (htail : ∀ i : ℕ, m ≤ i → ‖f.coeff i‖ * (p : ℝ) ^ (-(i : ℤ)) ≤
+      (p : ℝ) ^ (-n)) :
+    ‖∑ i ∈ Finset.range m, f.coeff i * x ^ i‖ ≤ (p : ℝ) ^ (-n) := by
   sorry
 
 /-- Baran's homogeneous quartic evaluated in a commutative ring. -/
@@ -530,208 +917,37 @@ theorem xs13_quartic_identity_and_points :
       xs13Quartic v.1 v.2.1 v.2.2 = 0) := by
   sorry
 
-/-- A normalized conjugate eigenbasis cannot be the Baran coordinate basis. -/
-example : xs13Baran (1 : ℤ) 1 1 = -1 := by
+/-- Normalized projective representatives for the special fibre at 17. -/
+def xs13SpecialFibrePoints : Finset (ZMod 17 × ZMod 17 × ZMod 17) := by
+  classical
+  exact (Finset.univ.product (Finset.univ.product Finset.univ)).filter fun v =>
+    (v.2.2 = 1 ∨ (v.2.2 = 0 ∧ v.2.1 = 1) ∨
+      (v.2.2 = 0 ∧ v.2.1 = 0 ∧ v.1 = 1)) ∧ xs13Quartic v.1 v.2.1 v.2.2 = 0
+
+/-- The quartic has exactly twenty normalized projective points over F₁₇. -/
+theorem xs13_specialFibre_card : xs13SpecialFibrePoints.card = 20 := by
   sorry
 
-/-- Two further evaluations distinguish the constant and higher-degree terms. -/
-example : xs13Baran (0 : ℤ) 1 1 = -1 ∧ xs13Baran (2 : ℤ) 1 1 = -7 := by
+/-- Every enumerated F₁₇ point has a nonzero partial derivative of the quartic. -/
+theorem xs13_specialFibre_smooth (v : ZMod 17 × ZMod 17 × ZMod 17)
+    (hv : v ∈ xs13SpecialFibrePoints) :
+    ∃ i : Fin 3, MvPolynomial.eval ![v.1, v.2.1, v.2.2]
+      (MvPolynomial.pderiv i (xs13Quartic (MvPolynomial.X (0 : Fin 3))
+        (MvPolynomial.X (1 : Fin 3)) (MvPolynomial.X (2 : Fin 3)))) ≠ 0 := by
   sorry
 
-/-- The standard six-dimensional cup matrix is nondegenerate. -/
-example :
-    let C : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) ℚ :=
-      Matrix.fromBlocks 0 1 (-1) 0
-    Matrix.det C = 1 ∧ C.toBlocks₁₁ = 0 := by
+/-- A field generated by a root of the displayed irreducible cubic has degree three. -/
+theorem finrank_of_xs13_cubic {K : Type*} [Field K] [Algebra ℚ K]
+    (α : K) (hgen : Algebra.adjoin ℚ ({α} : Set K) = ⊤)
+    (hcubic : α ^ 3 + 2 * α ^ 2 - α - 1 = 0) : Module.finrank ℚ K = 3 := by
   sorry
 
-/-- The base point has a nonzero partial derivative in the affine chart. -/
-example :
-    let q : Polynomial ℚ := Polynomial.X ^ 4 - 10 * Polynomial.X ^ 3 +
-      24 * Polynomial.X ^ 2 - 16 * Polynomial.X
-    q.derivative.eval 0 = -16 := by
-  sorry
-
-example (x y : ℤ) :
-    xs13Quartic x y 0 = (y ^ 2 - x ^ 2) * (y ^ 2 - 5 * x ^ 2) := by
-  sorry
-
-/-- Affine representatives and X=1 infinity representatives cover the special
-fibre; the first chart consists of the affine points with nonzero Y derivative. -/
-example :
-    let affine := ((Finset.univ : Finset (ZMod 17)).product Finset.univ).filter
-      (fun v => xs13Quartic v.1 v.2 1 = 0)
-    let infinity := (Finset.univ : Finset (ZMod 17)).filter
-      (fun y => xs13Quartic 1 y 0 = 0)
-    let firstChart := affine.filter (fun v =>
-      4 * v.2 ^ 3 - 12 * v.1 ^ 2 * v.2 + 26 * v.1 ^ 2 +
-        20 * v.1 * v.2 - 30 * v.2 ^ 2 - 40 * v.1 + 48 * v.2 - 16 ≠ 0)
-    affine.card + infinity.card = 20 ∧ firstChart.card = 17 := by
-  sorry
-
-/-- The exceptional curve's four listed points satisfy its quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      4*x^3*y - 3*x^2*y^2 + 3*x*y^3 - x^3*z + 16*x^2*y*z -
-      11*x*y^2*z + 5*y^3*z + 3*x^2*z^2 + 9*x*y*z^2 + y^2*z^2 +
-      x*z^3 + 2*y*z^3
-    ∀ v ∈ ({(1, 3, -2), (0, 0, 1), (0, 1, 0), (1, 0, 0)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 97 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-y^2+z*y)*x^2 + (-y^3-z*y^2-z^3)*x + z*y^3+z^2*y^2
-    ∀ v ∈ ({(1, 0, 0), (-2, 1, 1), (-1, 0, 1), (0, 0, 1), (0, 1, 0), (0, -1, 1), (1, 0, 1), (1, 1, 1), (-1, 1, 0), (5, 3, 2)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 109 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (z*y+z^2)*x^2 + (-y^3-z*y^2-z^3)*x - z*y^3-3*z^2*y^2-2*z^3*y
-    ∀ v ∈ ({(1, 0, 0), (-2, 1, 2), (0, -2, 1), (0, -1, 1), (0, 1, 0), (0, 0, 1), (-1, -1, 1), (-2, 1, 1), (1, -1, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 113 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-y^2-z^2)*x^2 + (y^3+z^3)*x - 2*z^2*y^2+z^3*y
-    ∀ v ∈ ({(1, 0, 0), (2, 2, 1), (0, 1, 0), (1, 1, 1), (1, 1, 0), (0, 0, 1), (0, 1, 2), (5, 3, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 127 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-y^2-3*z^2)*x^2 + (y^3-z^2*y+4*z^3)*x + 2*z*y^3-3*z^2*y^2+3*z^3*y-2*z^4
-    ∀ v ∈ ({(1, 0, 0), (5, 3, 2), (2, 1, 1), (1, 1, 0), (1, 0, 1), (0, 1, 1), (0, 1, 0), (4, 2, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 139 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-y^2+z*y)*x^2 + (-y^3-2*z*y^2-3*z^2*y-z^3)*x + y^4+z*y^3+z^2*y^2+z^3*y
-    ∀ v ∈ ({(1, 0, 0), (4, -3, 1), (0, 0, 1), (0, -1, 1), (1, -1, 1), (1, 0, 1), (-1, 0, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 149 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3-y^2*x^2 + (y^3+z*y^2-2*z^2*y-z^3)*x - y^4+z*y^3+z^2*y^2-z^3*y
-    ∀ v ∈ ({(1, 0, 0), (-1, 0, 1), (0, 1, 1), (1, 0, 1), (0, 0, 1), (0, -1, 1), (2, 2, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 151 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-2*z*y+z^2)*x^2 + (-y^3+2*z*y^2)*x - z*y^3+3*z^2*y^2-z^3*y-2*z^4
-    ∀ v ∈ ({(1, 0, 0), (-2, -2, 1), (0, 1, 0), (0, 2, 1), (1, 1, 1), (2, 3, 2), (1, 0, 1), (3, 2, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 179 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-2*z*y-z^2)*x^2 + (-y^3-z*y^2-2*z^2*y-z^3)*x - z*y^3+z^3*y
-    ∀ v ∈ ({(1, 0, 0), (0, -1, 1), (0, 1, 0), (0, 0, 1), (0, 1, 1), (-2, 2, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- Every listed point at prime level 239 satisfies its displayed quartic. -/
-example :
-    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
-      z*x^3 + (-y^2+z*y+z^2)*x^2 + (-y^3-z*y^2-z^2*y)*x + y^4+3*z*y^3+2*z^2*y^2+z^3*y
-    ∀ v ∈ ({(1, 0, 0), (-1, 0, 1), (0, 0, 1), (1, -2, 1), (1, -1, 1)} :
-      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
-  sorry
-
-/-- The quartic Thue substitutions in the worked example are exact. -/
-example :
-    (∀ v ∈ ({(1, 0), (-1, 0)} : Finset (ℤ × ℤ)),
-      v.1^4 - 4*v.1^3*v.2 - 12*v.1^2*v.2^2 + 4*v.2^4 = 1) ∧
-    (∀ v ∈ ({(1, 0), (-1, 0), (1, -1), (-1, 1), (1, 3),
-      (-1, -3), (3, -1), (-3, 1)} : Finset (ℤ × ℤ)),
-      v.1^4 - 12*v.1^2*v.2^2 - 8*v.1*v.2^3 + 4*v.2^4 = 1) := by
-  sorry
-
-example : (1274 : ℤ)^3 - 4*1274 + 1 = 45473^2 := by
-  sorry
-
-/-- Both signs of each listed integral y-coordinate satisfy the elliptic equation. -/
-example : ∀ v ∈ ({(-2, 1), (-1, 2), (0, 1), (2, 1), (3, 4), (4, 7),
-    (10, 31), (12, 41), (20, 89), (114, 1217), (1274, 45473)} : Finset (ℤ × ℤ)),
-    v.2 ^ 2 = v.1 ^ 3 - 4*v.1 + 1 ∧ (-v.2) ^ 2 = v.1 ^ 3 - 4*v.1 + 1 := by
-  sorry
-
-/-- The integral substitutions for Mohanty's equation give the elliptic model. -/
-example (m n : ℤ) :
-    (2*n + 1)^2 - ((2*m + 2)^3 - 4*(2*m + 2) + 1) =
-      4 * (n*(n + 1) - 2*m*(m + 1)*(m + 2)) := by
-  sorry
-
-/-- The possible common-prime residue has odd valuation and cannot be a square. -/
-example : (29 : ℤ)^3 - 4*29 + 1 = 229*106 ∧
-    (3*29^2 - 4 : ℤ) = 229*11 ∧ (106 : ℤ) % 229 ≠ 0 := by
-  sorry
-
-/-- The bounded S-unit search checks consistency of the displayed list and
-exponent box; completeness beyond the search bound is a separate theorem. -/
-example :
-    let primes : Finset ℕ := {2, 3, 5, 7, 11, 13}
-    let smooth := (Finset.range 3000001).filter
-      (fun n => 0 < n ∧ n.primeFactors ⊆ primes)
-    let pairs := (smooth.product smooth).filter (fun v =>
-      v.1 ≤ v.2 ∧ v.1 + v.2 ≤ 3000000 ∧
-      Nat.Coprime v.1 v.2 ∧ (v.1 + v.2).primeFactors ⊆ primes)
-    let bounded := pairs.filter (fun v =>
-      padicValNat 2 (v.1*v.2*(v.1+v.2)) ≤ 12 ∧
-      padicValNat 3 (v.1*v.2*(v.1+v.2)) ≤ 7 ∧
-      padicValNat 5 (v.1*v.2*(v.1+v.2)) ≤ 5 ∧
-      padicValNat 7 (v.1*v.2*(v.1+v.2)) ≤ 4 ∧
-      padicValNat 11 (v.1*v.2*(v.1+v.2)) ≤ 3 ∧
-      padicValNat 13 (v.1*v.2*(v.1+v.2)) ≤ 3)
-    pairs.card = 545 ∧ bounded.card = 514 ∧
-      (∀ v ∈ pairs, v.1 + v.2 ≤ 1771561) := by
-  sorry
-
-/-- The largest displayed S-unit triple has the claimed exact sum and support. -/
-example : ED2.coprimeSUnitTriple {2, 3, 5, 7, 11, 13} (91, 1771470, 1771561) ∧
-    (1771561 : ℕ) = 11^6 ∧ (1771470 : ℕ) = 2*3^11*5 := by
-  sorry
-
-example :
-    (48632 : ℤ)^3 - 23*48632^2*(-3729) + 5*48632*(-3729)^2 + 24*(-3729)^3 =
-      320000000000000 ∧ (320000000000000 : ℤ) = 2^18*5^13 := by
-  sorry
-
-example :
-    (0 : ℤ)^3 - 23*0^2*(-1) + 5*0*(-1)^2 + 24*(-1)^3 = -24 ∧
-      (-24 : ℤ) = -(2^3*3) := by
-  sorry
-
-/-- The bad-reduction genus-one factors have different point counts over F₅. -/
-example :
-    let h₁ : ZMod 5 → ZMod 5 := fun x => x^4+x^2+4*x+1
-    let h₂ : ZMod 5 → ZMod 5 := fun x => x^4+2*x^2+2*x+1
-    let pairs := (Finset.univ : Finset (ZMod 5)).product Finset.univ
-    (pairs.filter (fun v => v.2^2 = h₁ v.1)).card + 2 = 8 ∧
-      (pairs.filter (fun v => v.2^2 = h₂ v.1)).card + 2 = 10 := by
-  sorry
-
-/-- The four small-level genus calculations use the full elliptic and cusp terms. -/
-example : (1 + 6/12 - 3/2 : ℚ) = 0 ∧ (1 + 12/12 - 4/2 : ℚ) = 0 ∧
-    (1 + 30/12 - 2/4 - 6/2 : ℚ) = 0 ∧
-    (1 + 56/12 - 2/3 - 8/2 : ℚ) = 1 := by
-  sorry
-
-/-- A fixed point of the Fricke action exists in the upper half-plane. -/
-example : -1 / ((49 : ℂ) * (Complex.I / 7)) = Complex.I / 7 := by
+/-- A line over a cubic field has rational dimension three. -/
+theorem finrank_restrictScalars_three {K V : Type*} [Field K] [Algebra ℚ K]
+    [FiniteDimensional ℚ K] [AddCommGroup V] [Module K V] [Module ℚ V]
+    [IsScalarTower ℚ K V] [FiniteDimensional K V]
+    (hK : Module.finrank ℚ K = 3) (hV : Module.finrank K V = 1) :
+    Module.finrank ℚ V = 3 := by
   sorry
 
 end ED6
@@ -743,13 +959,13 @@ ValuationData, LocalBallData, heightEnclosure, boundedHeightPoints
 and boundedHeightProjectivePoints, including the normalized p-adic ball record.
 Layer 1: linearFormMatrix, linearFormLattice, linearFormTarget, roundOfEnclosure,
 padicLatticeMatrix, padicLatticeTarget, padicLinearForm, apprOfEnclosure,
-quadraticCompletion, fpEnumeration, DistanceWitness, RealExclusionData,
+quadraticCompletion, DistanceWitness, RealExclusionData,
 PadicExclusionData, the bounded-distance comparison.
 Layer 2: ThueConstants.exists_of_enclosures supplies rational bounds under sufficiently
 narrow root/logarithm enclosures, nonempty representatives and invertible unit minors.
 logAbsEnclosure, argEnclosure, MatveevConstantData,
 YuConstantData, PadicLogEvaluationData, PadicDiscreteLogData,
-ExponentReductionChain, InExponentBox, WeightedExponentReductionChain, thueForm,
+WeightedExponentReductionChain, thueForm,
 thueSolutions, ThueEquation, ThueFactorCovering, ThueConstants, ThueBoundParameters,
 thueSmallSolutions, ThueData, thueMahlerSolutions,
 ThueMahlerEquation, ThueMahlerCovering, ThueMahlerData,
@@ -757,24 +973,22 @@ sUnitSolutions, SUnitData and
 sUnitExponentHeight, including their finite-set descriptions.
 Layer 3: ellipticLocalImage, LocalImageData, TwoSelmerData,
 quarticLocallySoluble, twoIsogenyIntegralQuartic, cremonaMu, canonicalHeightEnclosure, pairingEnclosure,
-heightCoordinatePoints,
-IsPSaturated, saturation, TorsionData, FiniteIndexSubgroupData
+saturation, TorsionData, FiniteIndexSubgroupData
 and MordellWeilBasisData.
 Layer 4: GoodReductionChabautyDatum, ReductionDiscData, abelianLog,
-integrationPairing, formalLogExtension, formalLogPairing, abelianIntegral,
+integrationPairing, formalLogExtension, abelianIntegral,
 formalLogIntegral, annihilatingDifferentials, reducedAnnihilator,
-ResidueDiscVerdict, dominant_of_residue_bounds, ChabautyColemanData and
+ResidueDiscVerdict, ChabautyColemanData and
 SymmetricSquareChabautyDatum, together with number-field local criterion data.
-Layer 5: admissibleClasses, refineClasses, JacobianReductionData, padicImageClasses,
-siftChain, subgroup_triangular_generators, SieveData, with genus-two Kummer
+Layer 5: JacobianReductionData, subgroup_triangular_generators, SieveData, with genus-two Kummer
 and finite group-presentation data.
 Layer 6: QCDiscData, ExplicitSetup (the third-kind span becomes the full sum-zero
 residue hyperplane after tensoring with its Galois splitting field L; its Q-image
 is the Galois-invariant part),
-AdmissibleTateMatrix, A_Z, gaugeMatrix, connectionMatrix, HodgeFiltrationData,
+AdmissibleTateMatrix, A_Z, HodgeFiltrationData,
 leftMulMatrix, rightMulMatrix, transportMatrix, Frobenius structure and splitting,
 localHeight, qc_candidates_cover, qc_complete_of_matched, xs13FrobeniusLift and xs13Theta,
-xs13AffineQuartic, xs13SpecialFibrePoints, xs13GammaFilClass,
+xs13AffineQuartic, xs13GammaFilClass,
 with the exact model, Hodge truncation, coefficient, root-cluster and finite
 comparison data used by the worked examples. -/
 /- Further mathematical signatures specified in the README, grouped by subsection.
@@ -789,8 +1003,6 @@ ED0.mem_boundedHeightProjectivePoints,
 ED0.mulHeight₁_lt_of_mem_lt.
 
 §0.10:
-ED0.charpoly_leftMul_arbitrary,
-ED0.charpoly_leftMul_basis_independent,
 ED0.heightEnclosure_rat,
 ED0.heightEnclosure_width,
 ED0.mulHeight₁_eq_leadingCoeff_mul_prod_embeddings,
@@ -826,16 +1038,6 @@ ED3.two_mul_card_localDescentImage_real.
 
 §3.2:
 ED3.ellipticLocalImage_span.
-
-§3.15:
-ED3.heightCoordinatePoints_complete,
-ED3.mem_heightCoordinatePoints.
-
-§3.17:
-ED3.index_eq_one_of_forall_isPSaturated,
-ED3.isPSaturated_iff,
-ED3.isPSaturated_iff_not_dvd_index,
-ED3.isPSaturated_top.
 
 §4.23:
 ED4.C05_rationalPoints,
@@ -891,14 +1093,10 @@ ED4.abelianLog_torsion,
 ED4.abelianLog_unique,
 ED4.formalLogExtension_compatible_inclusion,
 ED4.formalLogExtension_eq_formalLog,
-ED4.formalLogExtension_map,
-ED4.formalLogExtension_unique,
 ED4.formalLogExtension_zsmul,
-ED4.formalLogPairing_eq_zero_iff,
 ED4.integrationPairing_eq_zero_iff,
 ED4.integrationPairing_leftKernel,
-ED4.ker_abelianLog,
-ED4.ker_formalLogExtension.
+ED4.ker_abelianLog.
 
 §4.14:
 ED4.card_rationalPoints_le_badReduction.
@@ -938,10 +1136,6 @@ ED4.integrationPairing_eq_sum_tiny.
 §4.22:
 ED4.mem_pullback_of_relativeCriterion.
 
-§6.1:
-ED6.FiniteSolutionSet.mem_iff,
-ED6.FiniteSolutionSet.solutions_eq.
-
 §6.14:
 ED6.baseChange_splitting_eq.
 
@@ -950,12 +1144,10 @@ ED6.smallLevel_genus,
 ED6.w49_fixedPoints_card.
 
 §6.19:
-ED6.finrank_of_xs13_cubic,
 ED6.newform_endomorphism_comparison,
 ED6.xs13_endAlgebra.
 
 §6.21:
-ED6.finrank_restrictScalars_three,
 ED6.xs13_rank_eq_three.
 
 §6.12:
@@ -964,14 +1156,7 @@ ED6.frobeniusSplitting_eq.
 §6.11:
 ED6.frobeniusStructure_eq.
 
-§6.7:
-ED6.gaugeMatrix_det,
-ED6.gaugeMatrix_gauge_iff,
-ED6.gaugeMatrix_inv,
-ED6.gaugeMatrix_shift.
-
 §6.16:
-ED6.root_satisfies_truncation_congruence,
 ED6.roots_determined_of_truncation.
 
 §6.8:
@@ -1030,8 +1215,6 @@ ED6.xs13_hodgeData_conditions, for eta/beta/gamma relative to the supplied basis
 §6.18:
 ED6.xs13_planeModel, with rational h_i, their supplied invertible comparison with
 the normalized conjugate eigenforms, and exact weight-eight Sturm identities,
-ED6.xs13_specialFibre_card,
-ED6.xs13_specialFibre_smooth.
 
 §6.29:
 ED6.xs13_rationalPoints.
