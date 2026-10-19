@@ -1,5 +1,6 @@
 import Mathlib
-import TauCeti.RepresentationTheory.ProjectiveRepresentation.Extension
+import TauCeti.Algebra.GroupAction.Trivial
+import TauCeti.GroupTheory.GroupExtension.Of.FactorSet
 import TauCeti.LinearAlgebra.BilinearForm.Isometry
 
 /-!
@@ -66,26 +67,6 @@ theorem bilinearFactorSet_mul_left (B : LinearMap.BilinMap R W C)
     (p * q).left.toAdd = p.left.toAdd + q.left.toAdd + B p.right.toAdd q.right.toAdd := by
   sorry
 
-/-- For the zero cocycle on `ℤ`, multiplication adds the coefficient coordinates (0.1). -/
-example (t u x y : ℤ) :
-    let B : BilinForm ℤ ℤ := 0
-    let p : (bilinearFactorSet B).Extension := ⟨ofAdd t, ofAdd x⟩
-    let q : (bilinearFactorSet B).Extension := ⟨ofAdd u, ofAdd y⟩
-    (p * q).left.toAdd = t + u := by
-  sorry
-
-/-- The upper-triangular cocycle takes value one at `(e₀,e₁)` (0.1). -/
-example :
-    let B := Matrix.toBilin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ)
-    (bilinearFactorSet B (ofAdd ![1, 0], ofAdd ![0, 1])).toAdd = 1 := by
-  sorry
-
-/-- Reversing the basis vectors gives value zero for that cocycle (0.1). -/
-example :
-    let B := Matrix.toBilin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ)
-    (bilinearFactorSet B (ofAdd ![0, 1], ofAdd ![1, 0])).toAdd = 0 := by
-  sorry
-
 /-- The commutator of `p` and `q` is central, with coefficient `B(w, v) − B(v, w)` (0.3). -/
 theorem bilinearFactorSet_commutator (B : LinearMap.BilinMap R W C)
     (p q : (bilinearFactorSet B).Extension) :
@@ -101,27 +82,19 @@ theorem bilinearFactorSet_mem_center_iff (B : LinearMap.BilinMap R W C)
       ∀ y : W, B p.right.toAdd y = B y p.right.toAdd := by
   sorry
 
+/-- The half-alternating commutator recovers the original symplectic pairing (0.5). -/
+theorem halfForm_commutator (B : BilinForm R W) (hB : B.IsAlt) [Invertible (2 : R)]
+    (p q : (bilinearFactorSet ((⅟(2 : R)) • B)).Extension) :
+    p * q * p⁻¹ * q⁻¹ = (bilinearFactorSet ((⅟(2 : R)) • B)).inl
+      (ofAdd (B p.right.toAdd q.right.toAdd)) := by
+  sorry
+
 /-- **Center of the Heisenberg group** (0.6): for an alternating nondegenerate form `B` with `2`
 invertible, the center of the extension by `B/2` is the coefficient group. -/
 theorem halfForm_center (B : BilinForm R W) (hB : B.IsAlt) (hn : B.Nondegenerate)
     [Invertible (2 : R)] :
     Subgroup.center (bilinearFactorSet ((⅟(2 : R)) • B)).Extension =
       ((bilinearFactorSet ((⅟(2 : R)) • B)).inl).range := by
-  sorry
-
-/-- Without nondegeneracy the center is larger: for the zero form on `ℤ` every element is
-central, while the coefficient group is proper. -/
-example : Subgroup.center (bilinearFactorSet (0 : BilinForm ℤ ℤ)).Extension ≠
-    (bilinearFactorSet (0 : BilinForm ℤ ℤ)).inl.range := by
-  sorry
-
-/-- The cocycle `B(w, v)` of the upper-triangular form on `ℤ²` is not symmetric, so `e₀` and
-`e₁` do not commute: the commutator coefficient is `B(e₀, e₁) − B(e₁, e₀) = 1`. -/
-example :
-    let B := Matrix.toBilin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ)
-    let p : (bilinearFactorSet B).Extension := ⟨1, ofAdd ![1, 0]⟩
-    let q : (bilinearFactorSet B).Extension := ⟨1, ofAdd ![0, 1]⟩
-    (p * q * p⁻¹ * q⁻¹).left.toAdd = 1 := by
   sorry
 
 /-- A bilinear isometry `e : (W, B) ≃ (W', B')` induces `(t, w) ↦ (t, e w)` between the
@@ -146,23 +119,11 @@ def extensionIsometry {B : BilinForm R W} {B' : BilinForm R W'} (e : B.IsometryE
         bilinearFactorSet_apply, toAdd_ofAdd, e.map_app]
     · simp only [TauCeti.FactorSet.Extension.mul_right, toAdd_mul, toAdd_ofAdd, map_add]
 
-/-- Extension of the identity fixes `(3,4)` for the zero form (0.7). -/
-example : extensionIsometry (BilinForm.IsometryEquiv.refl (0 : BilinForm ℤ ℤ))
-    ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd 4⟩ := by
-  sorry
-
-/-- Extension of negation fixes the coefficient and negates the vector (0.7). -/
-example :
-    let e : (0 : BilinForm ℤ ℤ).IsometryEquiv 0 :=
-      { (LinearEquiv.neg ℤ : ℤ ≃ₗ[ℤ] ℤ) with map_app' := by intros; simp }
-    extensionIsometry e ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd (-4)⟩ := by
-  sorry
-
-/-- Inverse isometries induce inverse extension maps, also between different modules (0.7). -/
+/-- Inverse isometries induce inverse extension maps between arbitrary modules (0.7). -/
 example {B : BilinForm R W} {B' : BilinForm R W'} (e : B.IsometryEquiv B')
     (p : (bilinearFactorSet B).Extension) :
     extensionIsometry e.symm (extensionIsometry e p) = p := by
-  sorry
+  exact (extensionIsometry e).symm_apply_apply p
 
 /-- The isometry group of `B` acts on the extension through the vector coordinate (0.8). -/
 def extensionIsometryAction (B : BilinForm R W) :
@@ -173,33 +134,13 @@ def extensionIsometryAction (B : BilinForm R W) :
   map_one' := rfl
   map_mul' _ _ := rfl
 
-/-- The identity isometry acts identically on `(3,4)` (0.8). -/
-example : extensionIsometryAction (0 : BilinForm ℤ ℤ) 1
-    ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd 4⟩ := by
-  sorry
-
-/-- Negation in the native isometry group negates only the vector coordinate (0.8). -/
-example :
-    let e : TauCeti.BilinForm.isometryGroup (0 : BilinForm ℤ ℤ) :=
-      ⟨LinearEquiv.neg ℤ, by intro x y; simp⟩
-    extensionIsometryAction 0 e ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd (-4)⟩ := by
-  sorry
-
-/-- Every isometry fixes the entire coefficient subgroup (0.8). -/
+/-- Every isometry fixes the coefficient subgroup pointwise (0.8). -/
 example (B : BilinForm R W) (e : TauCeti.BilinForm.isometryGroup B) (t : R) :
     extensionIsometryAction B e ((bilinearFactorSet B).inl (ofAdd t)) =
       (bilinearFactorSet B).inl (ofAdd t) := by
-  sorry
-
-/-- The product `f * e` in the isometry group applies `e` first: on the zero form on `ℚ²`, with
-`e = diag(2, 1)` and `f` the coordinate swap, `(1, 1)` goes to `(1, 2)`, whereas `e * f` sends it
-to `(2, 1)`. -/
-example (e f : TauCeti.BilinForm.isometryGroup (0 : BilinForm ℚ (Fin 2 → ℚ)))
-    (he : ∀ v, (e : (Fin 2 → ℚ) ≃ₗ[ℚ] (Fin 2 → ℚ)) v = ![2 * v 0, v 1])
-    (hf : ∀ v, (f : (Fin 2 → ℚ) ≃ₗ[ℚ] (Fin 2 → ℚ)) v = ![v 1, v 0]) :
-    (extensionIsometryAction 0 (f * e) ⟨1, ofAdd ![1, 1]⟩).right = ofAdd ![1, 2] ∧
-      (extensionIsometryAction 0 (e * f) ⟨1, ofAdd ![1, 1]⟩).right = ofAdd ![2, 1] := by
-  sorry
+  change (⟨ofAdd t, ofAdd ((e : W ≃ₗ[R] W) 0)⟩ : (bilinearFactorSet B).Extension) = _
+  simp only [map_zero]
+  rfl
 
 /-- The character `(t, w) ↦ χ(t)` of the extension (0.12). It is multiplicative because `χ`
 kills the values of `B`; without that hypothesis the coefficient of a product carries `B(w, v)`. -/
@@ -220,36 +161,6 @@ theorem centralCharacter_unique {A : Type*} [Group A] (B : LinearMap.BilinMap R 
     (hc : ∀ t : C, ρ ((bilinearFactorSet B).inl (ofAdd t)) = χ (ofAdd t))
     (hs : ∀ x : W, ρ ⟨1, ofAdd x⟩ = 1) :
     ρ = centralCharacter B χ hχ := by
-  sorry
-
-/-- On the zero cocycle, the identity character reads the coefficient coordinate (0.12). -/
-example : centralCharacter (0 : BilinForm ℤ ℤ) (MonoidHom.id (Multiplicative ℤ))
-    (by intros; rfl) ⟨ofAdd 3, ofAdd 4⟩ = ofAdd 3 := by
-  sorry
-
-/-- The trivial character extends trivially for every bilinear cocycle (0.12). -/
-example (B : LinearMap.BilinMap R W C) (p : (bilinearFactorSet B).Extension) :
-    centralCharacter B (1 : Multiplicative C →* ℂˣ) (by intros; rfl) p = 1 := by
-  sorry
-
-/-- Parity kills the nonzero cocycle `2xy` and evaluates to `−1` at `(3,4)` (0.12). -/
-example :
-    let B : BilinForm ℤ ℤ := 2 • LinearMap.mul ℤ ℤ
-    let χ : Multiplicative ℤ →* ℂˣ :=
-      { toFun := fun n => (-1) ^ n.toAdd
-        map_one' := by simp
-        map_mul' := by intro a b; simp only [toAdd_mul, zpow_add] }
-    ∃ hχ : ∀ x y : ℤ, χ (ofAdd (B x y)) = 1,
-      centralCharacter B χ hχ ⟨ofAdd 3, ofAdd 4⟩ = -1 := by
-  sorry
-
-/-- The criterion is necessary: for the identity character of `ℤ` and the upper-triangular form,
-`(1, e₀)(1, e₁)` has coefficient `1`, so `(t, w) ↦ t` is not multiplicative. -/
-example :
-    let B := Matrix.toBilin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ)
-    let p : (bilinearFactorSet B).Extension := ⟨1, ofAdd ![1, 0]⟩
-    let q : (bilinearFactorSet B).Extension := ⟨1, ofAdd ![0, 1]⟩
-    (p * q).left ≠ p.left * q.left := by
   sorry
 
 end Heisenberg
@@ -306,17 +217,22 @@ theorem heisenberg_haar (B : LinearMap.BilinForm F V)
       μ.prod ν := by
   sorry
 
-/-- The center acts by `ψ(t)`. -/
+/-- The center acts by the prescribed character on every function (0.15). -/
 example (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F) (t : F) (φ : V → ℂ) :
     schroedinger ψ B t 0 0 φ = (ψ (ofAdd t) : ℂ) • φ := by
-  sorry
+  funext u
+  simp [schroedinger]
 
-/-- Translation and modulation commute up to the central phase `ψ(B(x, y))`. -/
-example (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F) (x : V) (y : W)
-    (h2 : (2 : F) ≠ 0) :
+/-- Translation and modulation have the central commutation phase (0.15). -/
+example (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F) (x : V) (y : W) :
     (schroedinger ψ B 0 x 0).comp (schroedinger ψ B 0 0 y) =
       (ψ (ofAdd (B x y)) : ℂ) • (schroedinger ψ B 0 0 y).comp (schroedinger ψ B 0 x 0) := by
-  sorry
+  ext φ u
+  simp only [LinearMap.comp_apply, LinearMap.smul_apply, Pi.smul_apply, smul_eq_mul,
+    schroedinger, LinearMap.coe_mk, AddHom.coe_mk, map_zero, LinearMap.zero_apply,
+    mul_zero, zero_add, add_zero, map_add, LinearMap.add_apply]
+  rw [ofAdd_add, map_mul, Units.val_mul]
+  ring
 
 end Schroedinger
 
@@ -336,12 +252,6 @@ theorem thetaCoinvariants_scalarMismatch {G : Type*} [Group G]
     (hg : ∀ x : V, ρ g x = c • x) (x : V) : Representation.Coinvariants.mk ρ x = 0 := by
   sorry
 
-/-- The sign mismatch in an even orthogonal tower kills every complex coinvariant. -/
-example {G E : Type*} [Group G] [AddCommGroup E] [Module ℂ E]
-    (ρ : Representation ℂ G E) (z : G) (hz : ∀ x : E, ρ z x = -x) (x : E) :
-    Representation.Coinvariants.mk ρ x = 0 := by
-  sorry
-
 /-- **The dual-pair form is symplectic** (3.1): a symmetric `b` and an alternating `ω` give an
 alternating `b ⊗ ω`, in every characteristic. -/
 theorem tensorSymplecticForm_isAlt (b : BilinForm F V) (ω : BilinForm F W) (hb : b.IsSymm)
@@ -352,20 +262,6 @@ theorem tensorSymplecticForm_isAlt (b : BilinForm F V) (ω : BilinForm F W) (hb 
 theorem tensorSymplecticForm_nondegenerate [FiniteDimensional F V] [FiniteDimensional F W]
     (b : BilinForm F V) (ω : BilinForm F W) (hb : b.Nondegenerate) (hω : ω.Nondegenerate) :
     (b.tmul ω).Nondegenerate := by
-  sorry
-
-/-- On pure tensors `b ⊗ ω` is the product of the two forms. -/
-example (b : BilinForm F V) (ω : BilinForm F W) (v v' : V) (w w' : W) :
-    (b.tmul ω) (v ⊗ₜ w) (v' ⊗ₜ w') = b v v' * ω w w' := by
-  sorry
-
-/-- Two alternating factors do not give an alternating form: for `ω` the standard symplectic
-form on `ℚ²`, `ω ⊗ ω` is symmetric and pairs `e₀ ⊗ e₁ − e₁ ⊗ e₀` with itself to `2`. -/
-example (ω : BilinForm ℚ (Fin 2 → ℚ))
-    (hω : ∀ v w, ω v w = v 0 * w 1 - v 1 * w 0) :
-    let x : (Fin 2 → ℚ) ⊗[ℚ] (Fin 2 → ℚ) :=
-      Pi.single 0 1 ⊗ₜ Pi.single 1 1 - Pi.single 1 1 ⊗ₜ Pi.single 0 1
-    (ω.tmul ω) x x = 2 := by
   sorry
 
 /-- The tensor action of `O(V) × Sp(W)` on `V ⊗ W` (3.1): `(g, h) ↦ g ⊗ h`. -/
@@ -382,19 +278,19 @@ theorem orthogonalSymplecticEmbedding_isometry (b : BilinForm F V) (ω : BilinFo
     orthogonalSymplecticEmbedding b ω p ∈ TauCeti.BilinForm.isometryGroup (b.tmul ω) := by
   sorry
 
+/-- The two tensor factors act by commuting linear automorphisms (3.1). -/
+theorem dualPair_commute (b : BilinForm F V) (ω : BilinForm F W)
+    (g : TauCeti.BilinForm.isometryGroup b) (h : TauCeti.BilinForm.isometryGroup ω) :
+    Commute (orthogonalSymplecticEmbedding b ω (g, 1))
+      (orthogonalSymplecticEmbedding b ω (1, h)) := by
+  sorry
+
 /-- **Kernel of the dual-pair map** (3.1): for nonzero `V` and `W`, `(g, h)` acts trivially on
 `V ⊗ W` exactly when `g = a` and `h = a⁻¹` for a scalar `a`. -/
 theorem dualPair_kernel [Nontrivial V] [Nontrivial W] (b : BilinForm F V) (ω : BilinForm F W)
     (g : TauCeti.BilinForm.isometryGroup b) (h : TauCeti.BilinForm.isometryGroup ω) :
     orthogonalSymplecticEmbedding b ω (g, h) = 1 ↔
       ∃ a : Fˣ, (∀ v, (g : V ≃ₗ[F] V) v = (a : F) • v) ∧ ∀ w, (h : W ≃ₗ[F] W) w = (a⁻¹ : Fˣ) • w := by
-  sorry
-
-/-- `(−1, −1)` lies in the kernel; without nontriviality of the factors the kernel is everything. -/
-example (b : BilinForm F V) (ω : BilinForm F W) (g : TauCeti.BilinForm.isometryGroup b)
-    (h : TauCeti.BilinForm.isometryGroup ω)
-    (hg : ∀ v, (g : V ≃ₗ[F] V) v = -v) (hh : ∀ w, (h : W ≃ₗ[F] W) w = -w) :
-    orthogonalSymplecticEmbedding b ω (g, h) = 1 := by
   sorry
 
 open Classical in
@@ -408,19 +304,31 @@ theorem firstOccurrence_eq_top_iff (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] :
     firstOccurrence Θ = ⊤ ↔ ∀ r (x : Θ r), x = 0 := by
   sorry
 
-/-- A nonzero member at rank zero gives first occurrence zero. -/
+/-- Finite first occurrence supplies a nonzero member at that rank (3.10). -/
+theorem firstOccurrence_nonzero (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (r : ℕ)
+    (hr : firstOccurrence Θ = (r : WithTop ℕ)) : ∃ x : Θ r, x ≠ 0 := by
+  sorry
+
+/-- Every member below first occurrence vanishes, including when the index is infinite (3.10). -/
+theorem firstOccurrence_vanishing (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (r : ℕ)
+    (hr : (r : WithTop ℕ) < firstOccurrence Θ) (x : Θ r) : x = 0 := by
+  sorry
+
+/-- A nonzero member at rank zero realizes first occurrence at rank zero (3.10). -/
 example (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (x : Θ 0) (hx : x ≠ 0) : firstOccurrence Θ = 0 := by
-  sorry
+  classical
+  have h : ∃ r, ∃ x : Θ r, x ≠ 0 := ⟨0, x, hx⟩
+  have hfind : Nat.find h = 0 := Nat.le_zero.mp (Nat.find_min' h ⟨x, hx⟩)
+  simp [firstOccurrence, h, hfind]
 
-/-- The tower of zero modules has first occurrence `⊤` (3.10). -/
-example : firstOccurrence (fun _ => Fin 1) = ⊤ := by
-  sorry
-
-/-- Equal occurrence ranks can give different dimension indices (3.10). -/
-example : firstOccurrence (fun _ => ℤ) = firstOccurrence (fun _ => ℚ) ∧
-    (0 : WithTop ℕ) + 2 * firstOccurrence (fun _ => ℤ) ≠
-      1 + 2 * firstOccurrence (fun _ => ℚ) := by
-  sorry
+/-- A tower of zero modules has infinite first occurrence (3.10). -/
+example (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] [∀ r, Subsingleton (Θ r)] :
+    firstOccurrence Θ = ⊤ := by
+  classical
+  have h : ¬ ∃ r, ∃ x : Θ r, x ≠ 0 := by
+    rintro ⟨r, x, hx⟩
+    exact hx (Subsingleton.elim x 0)
+  simp [firstOccurrence, h]
 
 end DualPair
 
@@ -450,30 +358,6 @@ theorem finiteWeil_SOperator_sq (pair : D →+ D →+ AddCircle (1 : ℝ)) (c : 
     (hsymm : ∀ μ ν, pair μ ν = pair ν μ) (hnd : ∀ ν, (∀ μ, pair μ ν = 0) → ν = 0)
     (φ : D → ℂ) (ν : D) :
     finiteWeil_SOperator pair c (finiteWeil_SOperator pair c φ) ν = c ^ 2 * φ (-ν) := by
-  sorry
-
-/-- The singleton zero quadratic module has trivial T action (4.7). -/
-example : finiteWeil_TOperator (0 : Unit → AddCircle (1 : ℝ)) = LinearMap.id := by
-  sorry
-
-/-- The Fourier phase survives even on the singleton discriminant module (4.7). -/
-example (c : ℂ) : finiteWeil_SOperator (0 : Unit →+ Unit →+ AddCircle (1 : ℝ)) c =
-    c • LinearMap.id := by
-  sorry
-
-/-- The sign of the `ω_L` convention: `q(μ) = 1/4` gives `T e_μ = −i e_μ`. -/
-example (q : D → AddCircle (1 : ℝ)) (μ : D) (hq : q μ = ((1 / 4 : ℝ) : AddCircle (1 : ℝ))) :
-    finiteWeil_TOperator q (Pi.single μ 1) μ = -Complex.I := by
-  sorry
-
-/-- Conjugation reverses the quarter-norm T phase (4.7). -/
-example (q : D → AddCircle (1 : ℝ)) (μ : D)
-    (hq : q μ = ((1 / 4 : ℝ) : AddCircle (1 : ℝ))) :
-    star (finiteWeil_TOperator q (Pi.single μ 1) μ) = Complex.I := by
-  sorry
-
-/-- On a singleton with the zero pairing and phase `1`, `S` is the identity. -/
-example : finiteWeil_SOperator (0 : Unit →+ Unit →+ AddCircle (1 : ℝ)) 1 = LinearMap.id := by
   sorry
 
 end FiniteWeil
@@ -516,11 +400,6 @@ the plus space only on the weight-one-half Maass space, a README target. -/
 noncomputable def plusProjector (F : ℍ → ℂ) : ℍ → ℂ :=
   (2 / 3 : ℂ) • plusW (plusU F) + (1 / 3 : ℂ) • F
 
-/-- On the constant function `1`, `pr⁺` is not the identity at `i`: the factor `√2` and the
-phase of `W` survive. -/
-example : plusProjector (fun _ => 1) UpperHalfPlane.I ≠ 1 := by
-  sorry
-
 end HalfWeight
 
 /-! ## Layer 8: Genus-two Jacobi and Eisenstein analysis -/
@@ -541,22 +420,6 @@ def fourierShift (a c : ℤ) (l : V) (p : FData) : FData :=
   (p.1 + c • (a • QuadraticMap.linMulLin (dotProductBilin ℤ ℤ l) (dotProductBilin ℤ ℤ l) -
       QuadraticMap.linMulLin (dotProductBilin ℤ ℤ p.2) (dotProductBilin ℤ ℤ l)),
     p.2 - (2 * a) • l)
-
-/-- The cusp-zero shift at `a=1,c=8` retains the factor eight (8.1). -/
-example : fourierShift 1 8 ![1, 0] (0, 0) =
-    (8 • QuadraticMap.proj (R := ℤ) (0 : Fin 2) 0, ![-2, 0]) := by
-  sorry
-
-/-- The cusp-one shift has `c=1` (8.1). -/
-example : fourierShift 1 1 ![1, 0] (0, 0) =
-    (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 0, ![-2, 0]) := by
-  sorry
-
-/-- Shifting the mixed index cancels its cross term (8.1). -/
-example : fourierShift 1 1 ![0, 1]
-    (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 1, ![1, 0]) =
-      (QuadraticMap.proj (R := ℤ) (1 : Fin 2) 1, ![1, -2]) := by
-  sorry
 
 /-- The discriminant form `4aT − c RRᵀ` of a Fourier index (8.2). -/
 def fourierDiscriminant (a c : ℤ) (p : FData) : QuadraticForm ℤ V :=
@@ -582,26 +445,11 @@ theorem existsUnique_fourierRepresentative (a c : ℤ) (ha : a ≠ 0) (p : FData
     ∃! Q : QuadraticForm ℤ V, fourierDiscriminant a c (Q, ν) = fourierDiscriminant a c p := by
   sorry
 
-/-- The mixed quadratic index with zero vector has discriminant four at `(1,1)` (8.2). -/
-example : fourierDiscriminant 1 1
-    (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 1, 0) ![1, 1] = 4 := by
-  sorry
-
-/-- At `a = 1, c = 8` the vector `R = e₀` gives discriminant `−8` at `e₀`. -/
-example : fourierDiscriminant 1 8 (0, ![1, 0]) ![1, 0] = -8 := by
-  sorry
-
-/-- The congruence condition is needed: `R = e₀` and `R = −e₀` have the same discriminant at
-`a = 2`, but are not shift-related, since `e₀ ≢ −e₀ (mod 4)`. -/
-example : fourierDiscriminant 2 1 (0, ![1, 0]) = fourierDiscriminant 2 1 (0, ![-1, 0]) ∧
-    ¬ ∃ l : V, fourierShift 2 1 l (0, ![1, 0]) = (0, ![-1, 0]) := by
-  sorry
-
-/-- For `a = 0` the classification fails: `x₀²` and `0` have the same (zero) discriminant and the
-same vector, but no shift relates them. -/
-example : fourierDiscriminant 0 1 (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 0, 0) =
-      fourierDiscriminant 0 1 (0, 0) ∧
-    ¬ ∃ l : V, fourierShift 0 1 l (0, 0) = (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 0, 0) := by
+/-- Shift-invariant coefficients depend only on the discriminant and residue vector (8.9). -/
+theorem coefficient_eq_of_fourierInvariants {A : Type*} (a c : ℤ) (ha : a ≠ 0)
+    (B : FData → A) (hB : ∀ (l : V) (p : FData), B (fourierShift a c l p) = B p)
+    (p q : FData) (hΔ : fourierDiscriminant a c p = fourierDiscriminant a c q)
+    (hR : ∀ i, Int.ModEq (2 * a) (p.2 i) (q.2 i)) : B p = B q := by
   sorry
 
 /-! ### Siegel space, theta series and Gaussian integrals (8.10–8.28) -/
@@ -616,18 +464,6 @@ def quad (Z : Matrix (Fin 2) (Fin 2) ℂ) (w : Fin 2 → ℂ) : ℂ := w ⬝ᵥ 
 imaginary part. -/
 abbrev SiegelSpace : Type :=
   {Z : Matrix (Fin 2) (Fin 2) ℂ // Zᵀ = Z ∧ (Z.map Complex.im).PosDef}
-
-/-- The strictly positive diagonal matrix `diag(i,2i)` is a Siegel point (8.10). -/
-example : ∃ Z : SiegelSpace, Z.1 = !![Complex.I, 0; 0, 2 * Complex.I] := by
-  sorry
-
-/-- A real identity matrix has zero imaginary part and is excluded (8.10). -/
-example : ¬ ∃ Z : SiegelSpace, Z.1 = 1 := by
-  sorry
-
-/-- Positive diagonal imaginary part does not replace symmetry (8.10). -/
-example : ¬ ∃ Z : SiegelSpace, Z.1 = !![Complex.I, 1; 0, Complex.I] := by
-  sorry
 
 /-- The imaginary part `Y` of a point of the Siegel space. -/
 def SiegelSpace.im (Z : SiegelSpace) : Matrix (Fin 2) (Fin 2) ℝ := Z.1.map Complex.im
@@ -648,12 +484,6 @@ noncomputable def genusTwoTheta (a : ℕ) (ν : Fin 2 → ℤ) (Z : Matrix (Fin 
     (W : Fin 2 → ℂ) : ℂ :=
   ∑' R : Fin 2 → ℤ, if ∀ i, Int.ModEq (2 * (a : ℤ)) (R i) (ν i) then
     expTwoPi (quad Z (fun i => (R i : ℂ)) / (4 * a) + (fun i => (R i : ℂ)) ⬝ᵥ W) else 0
-
-/-- Reflection of both the residue and elliptic variables preserves the actual theta series
-(8.18). -/
-example (a : ℕ) (ha : 0 < a) (ν : Fin 2 → ℤ) (Z : SiegelSpace) (W : Fin 2 → ℂ) :
-    genusTwoTheta a (-ν) Z.1 (-W) = genusTwoTheta a ν Z.1 W := by
-  sorry
 
 /-- **Quasi-periodicity** (8.18): `θ(Z, W) = e(a(Z[λ] + 2Wᵀλ)) θ(Z, W + Zλ + ρ)` for integral
 `λ, ρ`. -/
@@ -676,35 +506,6 @@ theorem theta_fourier_transform (a : ℕ) (ha : 0 < a) (Z : SiegelSpace) (W : Fi
             genusTwoTheta a (fun i => ((μ i : ℕ) : ℤ)) Z.1 W := by
   sorry
 
-/-- At the base point, theta inversion identifies the actual series, its finite residue sum,
-and one half of `jacobiTheta (i/2)²` (8.24). -/
-example :
-    genusTwoTheta 1 0 (-(SiegelSpace.base.1)⁻¹) 0 = jacobiTheta (2 * Complex.I) ^ 2 ∧
-    genusTwoTheta 1 0 (-(SiegelSpace.base.1)⁻¹) 0 =
-      (1 / 2 : ℂ) * (∑ μ : Fin 2 → Fin 2,
-        genusTwoTheta 1 (fun i => ((μ i : ℕ) : ℤ)) SiegelSpace.base.1 0) ∧
-    (1 / 2 : ℂ) * (∑ μ : Fin 2 → Fin 2,
-        genusTwoTheta 1 (fun i => ((μ i : ℕ) : ℤ)) SiegelSpace.base.1 0) =
-      (1 / 2 : ℂ) * jacobiTheta (Complex.I / 2) ^ 2 := by
-  sorry
-
-/-- The normalized finite Fourier matrix at `a=1` squares to the identity on the four actual
-residue vectors, since residue negation is trivial modulo two (8.24). -/
-example (ν κ : Fin 2 → Fin 2) :
-    (∑ μ : Fin 2 → Fin 2,
-      (expTwoPi (-(∑ i, ((ν i : ℕ) : ℂ) * ((μ i : ℕ) : ℂ)) / 2) / 2) *
-      (expTwoPi (-(∑ i, ((μ i : ℕ) : ℂ) * ((κ i : ℕ) : ℂ)) / 2) / 2)) =
-      if ν = κ then (1 : ℂ) else 0 := by
-  sorry
-
-/-- For `W=(1,0)` at the base point the inversion phase is `exp(2π)`, different from one
-(8.24). -/
-example :
-    quad SiegelSpace.base.1⁻¹ ![1, 0] = -Complex.I ∧
-    expTwoPi (-Complex.I) = Complex.exp (2 * (Real.pi : ℂ)) ∧
-    expTwoPi (-Complex.I) ≠ 1 := by
-  sorry
-
 /-- **Gaussian orthogonality** (8.21): with ordinary Lebesgue measure on `ℂ²`, written as
 `det Y dλ dρ` in the coordinates `W = Zλ + ρ`, the weighted pairing of `θᵃ_μ` and `θᵃ_ν` is
 `√det Y/(4a)` when `μ ≡ ν (mod 2a)` and zero otherwise. -/
@@ -720,30 +521,6 @@ theorem theta_pairing (a : ℕ) (ha : 0 < a) (Z : SiegelSpace) (μ ν : Fin 2 �
         (Real.sqrt Z.im.det : ℂ) / (4 * a) else 0 := by
   sorry
 
-/-- At `a=2,Z=iI₂`, the actual diagonal theta pairing is `1/8` (8.21). -/
-example :
-    (∫ l : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
-      ∫ r : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
-        let Z := SiegelSpace.base
-        let W := Z.1 *ᵥ (fun i => (l i : ℂ)) + (fun i => (r i : ℂ))
-        genusTwoTheta 2 0 Z.1 W * conj (genusTwoTheta 2 0 Z.1 W) *
-          Complex.exp (-4 * Real.pi * 2 *
-            quad ((Z.im)⁻¹.map (fun x : ℝ => (x : ℂ))) (fun i => ((W i).im : ℂ))) *
-          (Z.im.det : ℂ)) = 1 / 8 := by
-  sorry
-
-/-- At `a=1,Z=iI₂`, distinct residues have zero actual theta pairing (8.21). -/
-example :
-    (∫ l : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
-      ∫ r : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
-        let Z := SiegelSpace.base
-        let W := Z.1 *ᵥ (fun i => (l i : ℂ)) + (fun i => (r i : ℂ))
-        genusTwoTheta 1 0 Z.1 W * conj (genusTwoTheta 1 ![1, 0] Z.1 W) *
-          Complex.exp (-4 * Real.pi *
-            quad ((Z.im)⁻¹.map (fun x : ℝ => (x : ℂ))) (fun i => ((W i).im : ℂ))) *
-          (Z.im.det : ℂ)) = 0 := by
-  sorry
-
 /-- **Real Gaussian Fourier integral in `W`** (8.62): for `Z` in the Siegel space and `m > 0`,
 `∫_{ℝ²} e(−m Z⁻¹[W] − RᵀW) dW = √(−det Z)/(2m) · e(Z[R]/(4m))`, with the principal square root,
 which is the holomorphic branch positive at `Z = iY`. This is the source of the factor `1/(2m)` in
@@ -752,27 +529,6 @@ theorem gaussianFourier_genusTwo (Z : SiegelSpace) (m : ℝ) (hm : 0 < m) (R : F
     ∫ W : Fin 2 → ℝ,
         expTwoPi (-(m : ℂ) * quad Z.1⁻¹ (fun i => (W i : ℂ)) - ∑ i, (R i : ℂ) * W i) =
       (-Z.1.det) ^ (1 / 2 : ℂ) / (2 * m) * expTwoPi (quad Z.1 (fun i => (R i : ℂ)) / (4 * m)) := by
-  sorry
-
-/-- At `Z = iI₂`, `m = 1`, `R = 0` the Gaussian Fourier integral is `1/2`; a factor `1/m` in
-place of `1/(2m)` would give `1`. -/
-example : ∫ W : Fin 2 → ℝ,
-      expTwoPi (-(1 : ℂ) * quad SiegelSpace.base.1⁻¹ (fun i => (W i : ℂ))) = 1 / 2 := by
-  sorry
-
-/-- The same integral at `m = 2` is `1/4`, detecting the index scaling. -/
-example : ∫ W : Fin 2 → ℝ,
-      expTwoPi (-(2 : ℂ) * quad SiegelSpace.base.1⁻¹ (fun i => (W i : ℂ))) = 1 / 4 := by
-  sorry
-
-/-- The diagonal theta norm at `Z = iI₂`, `a = 1` is `1/4`; the printed denominator `2a` would
-give `1/2`. -/
-example : ∫ x : Fin 2 → ℝ, Real.exp (-4 * Real.pi * (x 0 ^ 2 + x 1 ^ 2)) = 1 / 4 := by
-  sorry
-
-/-- Residues modulo `2a` label the theta series: `θ¹_{(2,0)} = θ¹_{(0,0)}`. -/
-example (Z : Matrix (Fin 2) (Fin 2) ℂ) (W : Fin 2 → ℂ) :
-    genusTwoTheta 1 ![2, 0] Z W = genusTwoTheta 1 0 Z W := by
   sorry
 
 end GenusTwo
@@ -793,7 +549,7 @@ centralCharacter_apply centralCharacter_canonicalSection centralCharacter_inl
 centralCharacter_multiplicative_iff extensionIsometryAction_apply
 extensionIsometryAction_injective extensionIsometryAction_inl extensionIsometry_apply
 extensionIsometry_inl extensionIsometry_refl extensionIsometry_trans
-firstOccurrence_dimension firstOccurrence_nonzero firstOccurrence_vanishing
+firstOccurrence_dimension
 fourierDiscriminant_apply fourierDiscriminant_zero fourierDiscriminant_zero_vector
 fourierShift_add fourierShift_fst_apply fourierShift_injective fourierShift_modEq
 fourierShift_neg fourierShift_snd fourierShift_zero genusTwoTheta_diagonal
