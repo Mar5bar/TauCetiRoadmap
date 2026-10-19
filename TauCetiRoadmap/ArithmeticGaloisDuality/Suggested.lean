@@ -1,4 +1,7 @@
 import Mathlib
+import TauCeti.Topology.CompactOpen
+import TauCeti.Topology.Algebra.RestrictedProduct.Finite
+import TauCeti.RepresentationTheory.AsAlgebraHom
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.TraceForm
@@ -53,7 +56,7 @@ Design choices made explicit here:
   field `Ω`, of the finite subextensions unramified outside `S`. Unramifiedness at a finite place
   `v` is Mathlib's `Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal`, quantified explicitly over the places
   outside `S` as in NumberFieldArithmetic §1.2; no wrapper predicate is introduced.
-* Compact support is the mapping fibre `Cone(res)[-1]` of Mathlib's `CochainComplex.mappingCone`.
+* Compact support uses Mathlib's mapping fibre `CochainComplex.mappingCocone res`.
   Arithmetic localization uses ordinary cochains at finite places, complete Tate cochains at
   real places and zero at complex places. For coefficients of residue characteristic `p`,
   under `(P)` this is the finite-place fibre. Global degree bounds additionally require every
@@ -159,17 +162,21 @@ example : Subsingleton (Sections (AddMonoidHom.id C)) := sorry
 example : IsEmpty (Sections
     ((ZMod.castHom (show 2 ∣ 4 by decide) (ZMod 2)).toAddMonoidHom)) := sorry
 
+/-- A split projection onto the first factor has an additive section. -/
+example : Nonempty (Sections (AddMonoidHom.fst ℤ ℤ)) := sorry
+
 end SplittingTorsor
 
 section ContinuousHom
 
 /-- **Continuous homomorphisms from a compact source to a discrete target form a discrete group**:
 Mathlib's compact-open topology on `P →ₜ+ A` is discrete when `P` is compact and `A` is discrete,
-since each continuous map takes finitely many values on clopen fibres. This is the topology of the
-coefficient module `Hom_cts(H^ab, A)` in the transgression formula, not the pointwise one. -/
+by restriction of `ContinuousMap.discreteTopology` along the inducing map `toContinuousMap`.
+This is the topology of the coefficient module `Hom_cts(H^ab, A)` in the transgression formula, not the pointwise one. -/
 theorem discreteTopology_continuousAddMonoidHom (P A : Type*) [AddMonoid P] [TopologicalSpace P]
     [CompactSpace P] [AddMonoid A] [TopologicalSpace A] [DiscreteTopology A] :
-    DiscreteTopology (P →ₜ+ A) := sorry
+    DiscreteTopology (P →ₜ+ A) :=
+  (ContinuousAddMonoidHom.isEmbedding_toContinuousMap P A).discreteTopology
 
 end ContinuousHom
 
@@ -348,6 +355,10 @@ example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : maxUnramifiedOutside ℚ Ω �
 subextension, and the ramification condition for all finite places is vacuous. -/
 example [Algebra.IsAlgebraic K Ω] : maxUnramifiedOutside K Ω Set.univ = ⊤ := sorry
 
+/-- Check `restricted_rat_two`: `ℚ(i)` is unramified outside `2`. -/
+example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = -1) :
+    x ∈ maxUnramifiedOutside ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal} := sorry
+
 /-- Check `restricted_rat_two_nonexample`: `√3` is ramified at `3`, so it does not lie in
 `ℚ_{{2}}`. -/
 example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = 3) :
@@ -407,6 +418,11 @@ example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = -1) :
 /-- Check `exponent_two_empty_Q`: no quadratic field is unramified at every finite prime. -/
 example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : exponentTwoField ℚ Ω ∅ = ⊥ := sorry
 
+/-- Check `exponent_two_all_quadratic`: the exponent-two extension unramified outside `2`
+is `ℚ(ζ₈)`, of degree four, in an algebraic separably closed ambient field. -/
+example (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsSepClosed Ω] [Algebra.IsAlgebraic ℚ Ω] :
+    Module.finrank ℚ (exponentTwoField ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal}) = 4 := sorry
+
 section LocalizationKernel
 
 variable {ι A : Type*} [AddCommGroup A] {H : ι → Type*} [∀ v, AddCommGroup (H v)]
@@ -414,7 +430,10 @@ variable {ι A : Type*} [AddCommGroup A] {H : ι → Type*} [∀ v, AddCommGroup
 /-- The localization kernel `Ш` of a family of localization maps: the classes that vanish at
 every place of the family. With the restrictions to every place of a global field it is
 `Шⁱ(F, M)`; with the restrictions of a finite Galois quotient to its decomposition groups it is the
-relative kernel. -/
+relative kernel. Its arithmetic instance, with localization maps
+`ContinuousCohomology.map (Field.absoluteGaloisGroup.map (algebraMap F F_v)) (𝟙 _) i`,
+is Mathlib's `ContinuousCohomology.tateShafarevich` in positive degree; degree zero is
+ordinary there and modified by real norms here. -/
 def absoluteSha (loc : ∀ v, A →+ H v) : AddSubgroup A := ⨅ v, (loc v).ker
 
 theorem mem_absoluteSha (loc : ∀ v, A →+ H v) (a : A) :
@@ -465,10 +484,12 @@ abbrev restrictedProductCohomology : Type _ := Πʳ v, [H v, Hun v]_[cofinite]
 equivalence with the full product. -/
 example [Finite ι] :
     ∃ e : restrictedProductCohomology H Hun ≃+ (∀ v, H v),
-      ∀ x v, e x v = x v := sorry
+      ∀ x v, e x v = x v :=
+  ⟨TauCeti.addRestrictedProductOfFinite Hun,
+    fun x v => TauCeti.addRestrictedProductOfFinite_apply Hun x v⟩
 
-/-- With zero distinguished subgroups, the coordinates identify the restricted product
-with finitely supported families. -/
+/-- Check `rp_direct_sum`: with zero distinguished subgroups, the coordinates identify the
+restricted product with finitely supported families. -/
 example (J : ℕ → Type*) [∀ n, AddCommGroup (J n)] :
     ∃ e : restrictedProductCohomology J (fun n => (⊥ : AddSubgroup (J n))) ≃+ (Π₀ n, J n),
       ∀ x n, e x n = x n := sorry
@@ -506,6 +527,9 @@ theorem sha_eq_ker_localization (loc : ∀ v, A →+ H v)
   · intro h
     ext v
     exact h v
+
+/-- Check `rp_zero_local`: zero localization has the whole global group as its kernel. -/
+example : sha (Hun := Hun) (fun v => (0 : A →+ H v)) (by simp) = ⊤ := sorry
 
 /-- Localization over `S` gives the all-place kernel when `S` is all places. The arithmetic
 instance uses `G_{K,S} = G_K` to identify the source with `Hʳ(G_K, M)` and keeps the same
@@ -625,7 +649,9 @@ namespace ArithmeticDuality
 
 variable {R G M : Type*} [CommRing R] [Group G] [AddCommGroup M] [Module R M]
 
-/-- The image of the group algebra `R[G]` in `End_R(M)`. -/
+/-- The image of the group algebra `R[G]` in `End_R(M)`, equal to
+`Subalgebra.toSubmodule ρ.asAlgebraHom.range` by
+`Representation.toSubmodule_range_asAlgebraHom`. -/
 def actionSpan (ρ : Representation R G M) : Submodule R (Module.End R M) :=
   Submodule.span R (Set.range ρ)
 
@@ -657,6 +683,31 @@ example : actionSpan (Representation.trivial R G M) = Submodule.span R {1} := by
     simp [Representation.trivial, eq_comm]
   rw [actionSpan, this]
 
+/-- Every trivial representation is admissible for every ideal. -/
+example (I : Ideal R) : IsAdmissible I (Representation.trivial R G M) := sorry
+
+/-- Check `admissible_zero`: the zero module has zero image algebra. -/
+example : actionSpan (Representation.trivial R G (Fin 0 → R)) = ⊥ := sorry
+
+/-- Check `admissible_joint`: admissibility gives joint continuity on a finite-type module
+with its maximal-ideal-adic topology. -/
+example [IsNoetherianRing R] [IsLocalRing R] [Module.Finite R M]
+    (ρ : Representation R G M) (hρ : IsAdmissible (IsLocalRing.maximalIdeal R) ρ) :
+    letI : TopologicalSpace M := (IsLocalRing.maximalIdeal R).adicModuleTopology M
+    Continuous fun gm : G × M => ρ gm.1 gm.2 := sorry
+
+/-- A discontinuous character of the product of copies of `𝔽₂` gives a finite image algebra
+but neither an admissible nor an ind-admissible unipotent representation. -/
+example :
+    ∃ (φ : (ℕ → ZMod 2) →+ ZMod 2)
+    (ρ : Representation (ZMod 2) (Multiplicative (ℕ → ZMod 2)) (Fin 2 → ZMod 2)),
+    ¬ Continuous φ ∧
+    (∀ g, ρ g = Matrix.toLin' (!![1, φ (Multiplicative.toAdd g); 0, 1])) ∧
+    ¬ @IsAdmissible (ZMod 2) (Multiplicative (ℕ → ZMod 2)) (Fin 2 → ZMod 2)
+      inferInstance inferInstance inferInstance (Pi.module _ _ _) inferInstance ⊥ ρ ∧
+    ¬ @IsIndAdmissible (ZMod 2) (Multiplicative (ℕ → ZMod 2)) (Fin 2 → ZMod 2)
+      inferInstance inferInstance inferInstance (Pi.module _ _ _) inferInstance ⊥ ρ := sorry
+
 /-- Check `ind_admissible_trivial`: every trivial representation is ind-admissible, even when `M`
 is not finite over `R`. -/
 example (I : Ideal R) : IsIndAdmissible I (Representation.trivial R G M) := sorry
@@ -669,26 +720,16 @@ open CategoryTheory.Pretriangulated
 
 variable {R : Type u} [CommRing R] {A B A' B' : CochainComplex (ModuleCat.{u} R) ℤ}
 
-/-- The mapping fibre `Cone(res)[-1]`. For arithmetic compact support, `res` has target the
-modified local diagram: ordinary finite-place cochains, real Tate cochains and zero complex-place
-terms, or the quasi-isomorphic finite-place model under `(P)` for coefficients of residue
-characteristic `p`. At dyadic real places, boundedness of the finite-place fibre depends on
-the coefficients; arithmetic duality uses the model with real Tate terms. The fibre of ordinary cochains at
-every place is compared with the modified diagram through the maps `q_v` of the Conventions. -/
-abbrev compactCochains (res : A ⟶ B) : CochainComplex (ModuleCat.{u} R) ℤ :=
-  (CochainComplex.mappingCone res)⟦(-1 : ℤ)⟧
-
-/-- `Hⁿ_c`. -/
+/-- `Hⁿ_c`, the homology of Mathlib's mapping cocone. Arithmetic localization has ordinary
+finite-place cochains, real Tate cochains and zero complex-place terms; under `(P)` for
+coefficients of residue characteristic `p`, the finite-place model is quasi-isomorphic. -/
 abbrev compactCohomology (res : A ⟶ B) (n : ℤ) : ModuleCat.{u} R :=
-  (compactCochains res).homology n
+  (CochainComplex.mappingCocone res).homology n
 
-/-- The fibre triangle `C_c → A → B → C_c[1]`, the inverse rotation of the cone triangle. -/
-def compactTriangle (res : A ⟶ B) : Triangle (CochainComplex (ModuleCat.{u} R) ℤ) :=
-  Triangle.invRotate (CochainComplex.mappingCone.triangle res)
-
-/-- A commutative square of localization maps induces a map of compactly supported cochains. -/
+/-- A commutative localization square induces the shift of Mathlib's `mappingCone.map`. -/
 def compactMap (res : A ⟶ B) (res' : A' ⟶ B') (a : A ⟶ A') (b : B ⟶ B')
-    (comm : res ≫ b = a ≫ res') : compactCochains res ⟶ compactCochains res' :=
+    (comm : res ≫ b = a ≫ res') :
+    CochainComplex.mappingCocone res ⟶ CochainComplex.mappingCocone res' :=
   (CochainComplex.mappingCone.map res res' a b comm)⟦(-1 : ℤ)⟧'
 
 /-- **The compact-support long exact sequence**
@@ -708,6 +749,18 @@ example (res : A ⟶ B) (hB : Limits.IsZero B) (n : ℤ) :
 /-- Check `finite_support_identity`: the fibre of the identity is acyclic. -/
 example (n : ℤ) : Limits.IsZero (compactCohomology (𝟙 A) n) := sorry
 
+/-- Check `cone_square_zero`: Mathlib's mapping cocone differential squares to zero. -/
+example (res : A ⟶ B) (n : ℤ) :
+    (CochainComplex.mappingCocone res).d n (n + 1) ≫
+      (CochainComplex.mappingCocone res).d (n + 1) (n + 2) = 0 := by
+  exact HomologicalComplex.d_comp_d _ _ _ _
+
+/-- Check `h0_vanishes`: no negative local cohomology and injective degree-zero localization
+force degree-zero compactly supported cohomology to vanish. -/
+example (res : A ⟶ B) [B.IsGE 0]
+    (hres : Function.Injective (HomologicalComplex.homologyMap res 0).hom) :
+    Limits.IsZero (compactCohomology res 0) := sorry
+
 end GaloisCohomology
 
 /-! ## Dual local conditions (D7.7.1) -/
@@ -718,6 +771,7 @@ variable {R : Type*} [CommRing R] {X X' Y : Type*} [AddCommGroup X] [Module R X]
   [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
 
 /-- §D7.7.1: the image rule for adjoint `R`-linear maps, `(π F)^⊥ = ι^{-1}(F^⊥)`.
+It uses Mathlib's `Submodule.orthogonalBilin_map`.
 For rational pairings `R` is the coefficient field and `F` is a subspace over that field. -/
 theorem orthogonal_map_eq_comap {Z Z' : Type*} [AddCommGroup Z] [Module R Z] [AddCommGroup Z']
     [Module R Z'] (b : X →ₗ[R] X' →ₗ[R] Y) (bZ : Z →ₗ[R] Z' →ₗ[R] Y) (π : X →ₗ[R] Z)
@@ -842,6 +896,25 @@ example (ρ : G →* (Matrix n n k)ˣ) (g : G) :
     firstOrderLift ρ 0 g = (ρ g : Matrix n n k).map (algebraMap k (DualNumber k)) := by
   simp only [firstOrderLift, Pi.zero_apply]
   rw [Matrix.map_zero _ (map_zero _), smul_zero, add_zero, one_mul]
+
+/-- In rank one the adjoint action is trivial, so multiplicative lifts are additive cocycles. -/
+example (ρ : G →* (Matrix (Fin 1) (Fin 1) k)ˣ) (c : G → Matrix (Fin 1) (Fin 1) k) :
+    (∀ g h, firstOrderLift ρ c (g * h) = firstOrderLift ρ c g * firstOrderLift ρ c h) ↔
+      ∀ g h, c (g * h) = c g + c h := sorry
+
+/-- Conjugating the trivial lift by `1 + εX` produces the coboundary `X − ρ(g)Xρ(g)⁻¹`;
+its inverse matrix is `1 − εX`. -/
+example (ρ : G →* (Matrix n n k)ˣ) (X : Matrix n n k) (g : G) :
+    firstOrderLift ρ (fun h => X - (ρ h : Matrix n n k) * X *
+      ((ρ h)⁻¹ : (Matrix n n k)ˣ)) g =
+    (1 + (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))) *
+      (ρ g : Matrix n n k).map (algebraMap k (DualNumber k)) *
+      (1 - (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))) := sorry
+
+/-- Scalar first-order conjugation has zero coboundary. -/
+example (ρ : G →* (Matrix n n k)ˣ) (a : k) (g : G) :
+    (a • (1 : Matrix n n k)) - (ρ g : Matrix n n k) * (a • (1 : Matrix n n k)) *
+      ((ρ g)⁻¹ : (Matrix n n k)ˣ) = 0 := sorry
 
 /-! ## Layer R02.6: auxiliary primes and patching numerics -/
 

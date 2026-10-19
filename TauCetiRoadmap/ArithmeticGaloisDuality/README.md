@@ -182,9 +182,13 @@ spaces,
 
 **Library declarations used, not restated.** Mathlib's `continuousCohomology`, `TopRep`,
 `CategoryTheory.Functor.IsMittagLeffler`, `RestrictedProduct`, `tateCohomology`, `groupCohomology`,
-`CategoryTheory.Abelian.Ext`, `DerivedCategory`, `CategoryTheory.Tor`, `CochainComplex.mappingCone`,
-the spectral-object machinery, `AdicCompletion`, `Module.length` and `Polynomial.hilbertPoly`; Tau
-Ceti's `TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.InternalHom` with `homAction` and
+`CategoryTheory.Abelian.Ext`, `DerivedCategory`, `CategoryTheory.Tor`,
+`CochainComplex.mappingCone`, `CochainComplex.mappingCocone`,
+`ContinuousCohomology.tateShafarevich` with `mem_tateShafarevich` and
+`tateShafarevich_eq_ker_pi`, `Representation.asAlgebraHom`, the spectral-object machinery,
+`AdicCompletion`, `Module.length` and `Polynomial.hilbertPoly`; Tau Ceti's
+`Representation.toSubmodule_range_asAlgebraHom`, `ContinuousMap.discreteTopology`,
+`TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.InternalHom` with `homAction` and
 `evalPairing`, `TauCeti.exists_continuous_section`, `TauCeti.FactorSet`, `TauCeti.KummerCoeff`,
 `TauCeti.kummerShortExact`, the periodicity of Tate cohomology of cyclic groups, Artin's induction
 theorem `TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`,
@@ -200,7 +204,7 @@ cohomology in every degree (`TauCeti.ContinuousCohomology.map_eq_id_of_inner`), 
 maps and the modified local groups* cites; the topology of factor-set extensions and their
 profinite-group structure (`TauCeti.FactorSet.Extension.homeomorphProd`,
 `TauCeti.FactorSet.Extension.isTopologicalGroup`,
-`TauCeti.FactorSet.Extension.continuous_canonicalSection`,
+`TauCeti.FactorSet.continuous_canonicalSection`,
 `TauCeti.FactorSet.continuous_rescaleEquiv` and `TauCeti.ProfiniteGroupExtension.ofFactorSet`) and
 the classification of continuous profinite extensions by `TauCeti.ContCohomology.H2`
 (`TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv`), which *Continuous topology on
@@ -257,8 +261,9 @@ as inputs; and Galois representations attached to automorphic forms.
   and the evaluation pairing into `μ_m`. The Pontryagin dual `M^* = Hom_cts(M, ℚ/ℤ)` and the
   Matlis dual `D(M) = Hom_R(M, E(k))` are different functors and are always named.
 - **Compact support.** For a map `res : A → B` of complexes, the compactly supported complex is
-  the mapping fibre `Cone(res)[−1]`, with differential `(a, b) ↦ (da, −res(a) − db)` in degree
-  `n` on `Aⁿ ⊕ Bⁿ⁻¹`. A compact-first cup product has local coordinate `a_S ∪ res(b)`; a
+  Mathlib's mapping fibre `CochainComplex.mappingCocone res`, whose differential is
+  `(a, b) ↦ (da, −res(a) − db)` in degree `n` on `Aⁿ ⊕ Bⁿ⁻¹`. A compact-first cup product has
+  local coordinate `a_S ∪ res(b)`; a
   compact-second product has local coordinate `(−1)ⁱ res(a) ∪ b_S` for `a` of degree `i`.
   Arithmetic compact support uses `B = ⊕ C_v^mod`; for coefficients of residue characteristic
   `p`, under `(P)` its archimedean summands are acyclic, so it agrees with the finite-place fibre.
@@ -266,7 +271,9 @@ as inputs; and Galois representations attached to automorphic forms.
   using the modified diagram and its maps `q_v`.
 - **Transgression.** The transgression and the inhomogeneous cochain conventions are those of
   ProfiniteCohomology Layer 5; with them the second differential of the Hochschild–Serre spectral
-  sequence of a central extension with class `u` is `d₂ = −u ∪ (·)`.
+  sequence of a central extension with class `u` is `d₂ = −u ∪ (·)`. For the carry cocycle
+  of `ℤ/9 → ℤ/3`, the normalized lift has `dF(1,2) = −1 = 2` in `𝔽₃`
+  (*d₂ as cup product with the extension class*).
 - **The coefficient-prime hypothesis.** Write `(P)` for: `p` is odd, or `K` has no real places.
   For discrete `p`-primary `G_S`-modules, if `S` contains every place above `p`, then under `(P)`
   global cohomology vanishes above degree two. For finite `S` and finite `p`-primary coefficients,
@@ -296,12 +303,16 @@ as inputs; and Galois representations attached to automorphic forms.
   joint continuity is a separate hypothesis wherever a statement uses it.
 - `CategoryTheory.Functor.IsMittagLeffler` and `CategoryTheory.Functor.ofOpSequence`: towers are
   functors `ℕᵒᵖ ⥤ AddCommGrpCat`, and the Mittag-Leffler condition is Mathlib's.
+- `ContinuousCohomology.tateShafarevich`, `ContinuousCohomology.mem_tateShafarevich` and
+  `ContinuousCohomology.tateShafarevich_eq_ker_pi`: all-place localization kernels for
+  `TopRep ℤ (Field.absoluteGaloisGroup K)`, with ordinary degree-zero local cohomology.
 - `RestrictedProduct` with its topology: the restricted products `Pʳ_S` and the ideles.
 - `tateCohomology` and `groupCohomology`: the modified archimedean groups and the cohomology of
   finite quotients.
 - `CategoryTheory.Abelian.Ext` with `Ext.comp` and `covariantSequence_exact`, existence of `Ext`
   from enough injectives (`hasExt_of_enoughInjectives`, `IsGrothendieckAbelian.enoughInjectives`),
-  `DerivedCategory`, `CochainComplex.mappingCone`, `HomologicalComplex₂.total`, the spectral
+  `DerivedCategory`, `CochainComplex.mappingCone`, `CochainComplex.mappingCocone` with
+  `CochainComplex.mappingCocone.triangle`, `HomologicalComplex₂.total`, the spectral
   objects `HomotopyCategory.spectralObjectMappingCone`,
   `CategoryTheory.Abelian.SpectralObject.spectralSequence` with `IsFirstQuadrant` and
   `coreE₂CohomologicalNat`, and `CategoryTheory.Tor`.
@@ -319,13 +330,21 @@ as inputs; and Galois representations attached to automorphic forms.
   `NumberField.Units.finrank_eq`, `IsIntegral.of_pow`, `RingOfIntegers.instFintypeClassGroup`,
   `Nat.card_coe_set_eq`, `CommGroup.torsion` and `AddCommGroup.equiv_free_prod_directSum_zmod`
   for global units, S-unit rank and fundamental systems.
-- `Submodule.orthogonalBilin`, `LinearMap.IsPerfPair` and
+- `Submodule.orthogonalBilin`, `Submodule.orthogonalBilin_map`, `LinearMap.IsPerfPair` and
   `Submodule.map_le_iff_le_comap` for dual local conditions.
 - `PontryaginDual`, `AdicCompletion`, `Module.length`, `ringKrullDim`, `Polynomial.hilbertPoly`,
   `Ideal.exists_pow_inf_eq_pow_smul` (Artin–Rees), `localCohomology`, `Subrepresentation`,
   `Matrix.det_one_add_smul`, `DualNumber`.
 
 ### From Tau Ceti (pinned)
+
+- `ContinuousMap.discreteTopology` (`TauCeti/Topology/CompactOpen.lean`): compact-open
+  continuous maps from a compact space to a discrete space are discrete.
+- `TauCeti.addRestrictedProductOfFinite` with `TauCeti.addRestrictedProductOfFinite_apply`:
+  the additive restricted product over a finite index type is the full product.
+- `Representation.toSubmodule_range_asAlgebraHom`
+  (`TauCeti/RepresentationTheory/AsAlgebraHom.lean`):
+  `Subalgebra.toSubmodule ρ.asAlgebraHom.range = Submodule.span R (Set.range ρ)`.
 
 - `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg`,
   `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker` and
@@ -342,7 +361,7 @@ as inputs; and Galois representations attached to automorphic forms.
 - `TauCeti.FactorSet` and `TauCeti.FactorSet.Extension`: normalized factor sets and their group
   extensions. Their topology (`TauCeti.FactorSet.Extension.homeomorphProd`,
   `TauCeti.FactorSet.Extension.isTopologicalGroup`,
-  `TauCeti.FactorSet.Extension.continuous_canonicalSection`, and
+  `TauCeti.FactorSet.continuous_canonicalSection`, and
   `TauCeti.FactorSet.continuous_rescaleEquiv`, which assumes `ContinuousMul M`), the profinite
   extension `TauCeti.ProfiniteGroupExtension.ofFactorSet` and the classification
   `TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv` (continuous equivalence classes of
@@ -843,11 +862,10 @@ The API:
 - `CompactCoefficients.h1Equiv_continuousHom`: `H¹(H, A) ≅ Hom_cts(H^ab, A)` as `G/H`-modules for
   `H` acting trivially on `A`.
 
-*Proof sketch.* A continuous map from the compact space `P` to the discrete `A` has open and closed
-fibres, hence finitely many values, and the finitely many compact-open conditions "the fibre over
-`a` maps to `a`" isolate it. By compactness of `Γ` every open subgroup of `P` contains a `Γ`-stable
-one; a continuous homomorphism factors through such a finite quotient and takes finitely many
-values, so its stabiliser is open. Continuity of the product cochains is joint continuity of
+*Proof sketch.* `ContinuousMap.discreteTopology` gives `C(P, A)` the discrete topology, and
+`P →ₜ+ A` carries the topology induced by `ContinuousAddMonoidHom.toContinuousMap`. By
+compactness of `Γ` every open subgroup of `P` contains a `Γ`-stable one; a continuous homomorphism
+factors through such a finite quotient and takes finitely many values, so its stabiliser is open. Continuity of the product cochains is joint continuity of
 evaluation composed with continuous cochains; the Leibniz rule is the computation of
 ProfiniteCohomology Layer 12 with this pairing. With trivial action the continuous `1`-cocycles on
 `H` are the continuous homomorphisms `H → A`, which factor through `H^ab`; the conjugation action of
@@ -862,7 +880,7 @@ homomorphisms; Mathlib `Topology/Algebra/Group/CompactOpen.lean` for the compact
 `ContinuousAddMonoidHom`.) *Needs:* *Comparison with the canonical carrier for compact
 coefficients* (PerfectoidTowers §P9.0); *Pointwise Hom of discrete modules*; ProfiniteCohomology
 Layers 4 and 12; Mathlib
-`ContinuousAddMonoidHom`.
+`ContinuousAddMonoidHom`; Tau Ceti `ContinuousMap.discreteTopology`.
 
 **Checks.**
 
@@ -910,7 +928,7 @@ topology transported from `M × G`, is a profinite group: its operations and its
 are continuous and rescaling is a homeomorphism. All of this is in Tau Ceti and is cited, not
 rebuilt: `TauCeti.FactorSet.Extension.homeomorphProd`,
 `TauCeti.FactorSet.Extension.isTopologicalGroup`,
-`TauCeti.FactorSet.Extension.continuous_canonicalSection`,
+`TauCeti.FactorSet.continuous_canonicalSection`,
 `TauCeti.FactorSet.continuous_rescaleEquiv` and the profinite extension
 `TauCeti.ProfiniteGroupExtension.ofFactorSet`. What is built here is the class of `α` in Mathlib's
 continuous cohomology: read as a continuous inhomogeneous `2`-cocycle with values in the compact
@@ -940,7 +958,7 @@ Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), §2.7, 
 (PerfectoidTowers §P9.0); Tau Ceti
 `TauCeti.FactorSet`; Tau Ceti `TauCeti.FactorSet.Extension`; Tau Ceti
 `TauCeti.FactorSet.Extension.homeomorphProd`, `TauCeti.FactorSet.Extension.isTopologicalGroup`,
-`TauCeti.FactorSet.Extension.continuous_canonicalSection`,
+`TauCeti.FactorSet.continuous_canonicalSection`,
 `TauCeti.FactorSet.continuous_rescaleEquiv` and `TauCeti.ProfiniteGroupExtension.ofFactorSet`.
 
 **Checks.**
@@ -996,8 +1014,8 @@ factor-set extensions*; *Comparison with the canonical carrier for compact coeff
 
 **Unbalanced cochain products.** Let `Δ → Θ` be a surjection of finite groups, `A` a `Δ`-module, `B`
 a `Θ`-module, and `A ⊗ B` the tensor product with the diagonal `Δ`-action, `B` inflated from `Θ`.
-For integers `i > j′ ≥ j > 0`, let `C^{i,j′}(Δ, A)` be the degree-`i` cochains whose last `j′`
-variables factor through `Θ`. Negative-degree cochains `C^{−j}(Θ, B)` are those of the complete
+For integers `i > j′ ≥ j ≥ 0`, let `C^{i,j′}(Δ, A)` be the degree-`i` cochains whose last `j′`
+variables factor through `Θ`. For `j > 0`, cochains `C^{−j}(Θ, B)` are those of the complete
 (Tate) resolution of `Θ`, not ordinary cochains. There is a contraction product
 
 ```text
@@ -1005,17 +1023,17 @@ C^{i,j′}(Δ, A) × C^{−j}(Θ, B) → C^{i−j, j′−j}(Δ, A ⊗ B),   (f,
 ```
 
 obtained by summing over the `j` quotient variables (Kaletha §4.3), and at `j = 0` it is the
-ordinary cup product. In the range `i > j′ ≥ j > 0` it satisfies
-`d(f ⊔ g) = df ⊔ g + (−1)ⁱ f ⊔ dg` and is compatible with the quotient maps. No assertion is made
-outside this range.
+ordinary cup product. For `i > j′ ≥ j > 0` it satisfies
+`d(f ⊔ g) = df ⊔ g + (−1)ⁱ f ⊔ dg` and is compatible with the quotient maps. At `j = 0`
+no further differential identity is asserted. No assertion is made outside `i > j′ ≥ j ≥ 0`.
 
 The API:
 
 - `ArithmeticDuality.quotientFactoringCochains`: the submodule of cochains whose last variables
   factor through `Θ`.
 - `ArithmeticDuality.unbalancedProduct`: the finite contraction product in the range
-  `i > j′ ≥ j > 0`.
-- `ArithmeticDuality.unbalancedProduct_leibniz`: the differential identity in that range.
+  `i > j′ ≥ j ≥ 0`.
+- `ArithmeticDuality.unbalancedProduct_leibniz`: the differential identity for `j > 0`.
 - `ArithmeticDuality.unbalancedProduct_zeroDegree`: at `j = 0` it is the ordinary cup product.
 - `ArithmeticDuality.factoringDifferential`: `d` preserves the condition on the last `j`
   variables for `j < i`; the case `j = i` is excluded.
@@ -1256,6 +1274,17 @@ R02.1); ProfiniteCohomology Layers 4 and 12.
 
 **Checks.**
 
+- For `G = ℤ/9`, `H = 3ℤ/9` and trivial `A = 𝔽₃`, identify `3a ∈ H` with `a ∈ 𝔽₃`.
+  The section `s(i) = ī`, `ī ∈ {0,1,2}`, has carry cocycle
+  `u(i,j) = ⌊(ī + j̄)/3⌋`. The transgression lift `F(t) = ⌊t̄/3⌋ (mod 3)`
+  extends `id_H` and vanishes on the section. Thus
+  `dF(s(i),s(j)) = F(s(j)) − F(s(i)+s(j)) + F(s(i)) = −u(i,j)`.
+  In particular `(dF(1,1), dF(1,2)) = (0,2)`, whereas `(u(1,1),u(1,2)) = (0,1)`.
+  By `TauCeti.ContCohomology.transgressionCochain_apply` and
+  `TauCeti.ContCohomology.transgression_eq_mk_cocycle`, the pinned raw cochain has this
+  representative up to a coboundary from its choice of conjugation primitives; hence
+  `tg(id_H) = −[u]`. Summing over `j = 0,1,2` at `i = 1` gives `2` for `−u` and `1`
+  for `u`; coboundaries have sum zero, so the two classes differ.
 - For `G = ℤ/4`, `H = 2ℤ/4` and `A = 𝔽₂`: `H^ab = H ≅ ℤ/2`, `u` is the nonzero class of `ℤ/4`, and
   `tg(id_H) = −u ≠ 0`, as in `z4_nondegenerate`.
 - For a direct product `G = Q × H` the extension `1 → H^ab → Q × H^ab → Q → 1` splits, so `u = 0`
@@ -1645,7 +1674,8 @@ Mathlib `Set.unit`.
 ### R02.3.0d Finite Galois localization and Sha kernels
 
 **Finite Galois localization and Sha kernels.** Let `K` be a number field and `A` a finite discrete
-`Γ_K`-module. For `i ≥ 1` and a finite set `S` of places of `K`, define the Tate–Shafarevich kernels
+`Γ_K`-module, with `Γ_K = Field.absoluteGaloisGroup K`. For `i ≥ 1` and a finite set `S` of places
+of `K`, define the Tate–Shafarevich kernels
 `Ш^i` and the localization defect:
 
 ```text
@@ -1661,7 +1691,8 @@ Cartier dual is `A^D = Hom(A, μ_∞)`, with `Γ_K` acting by `(σf)(a) = σ(f(�
 evaluation pairing `A × A^D → μ_∞`.
 
 The API:
-- `FiniteGaloisLocalization.sha`: the kernel over all places, with the real-place convention.
+- `FiniteGaloisLocalization.sha`: Mathlib's `ContinuousCohomology.tateShafarevich (fun v => K_v) A i`
+  for `i ≥ 1`; at `i = 0` use the localization kernel after quotienting real invariants by norms.
 - `FiniteGaloisLocalization.shaS`: the kernel that requires vanishing at every place outside `S`.
 - `FiniteGaloisLocalization.dual`: the Cartier dual, with its contragredient cyclotomic action and
   evaluation pairing.
@@ -2334,7 +2365,9 @@ localisation with restriction and the Mackey decomposition over the places above
 The API:
 
 - `ArithmeticDuality.absoluteSha`: `Шⁱ(F, M)`, the kernel of the localisation map to the product
-  over all places.
+  over all places. Its arithmetic instance, with `loc_v` the maps
+  `ContinuousCohomology.map (Field.absoluteGaloisGroup.map (algebraMap F F_v)) (𝟙 _) i`,
+  is Mathlib's `ContinuousCohomology.tateShafarevich` (ordinary `H⁰` there, modified `H⁰` here).
 - `ArithmeticDuality.relativeSha`: `Ш¹(K/F, M)`, the kernel of restriction from `Gal(K/F)` to all
   the decomposition groups `Gal(K_w/F_v)`.
 - `ArithmeticDuality.mem_absoluteSha`: a class lies in `Шⁱ(F, M)` if and only if all its
@@ -2935,8 +2968,8 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
 
 **Checks.**
 
-- `rp_finite_pi`: for a finite index set the coordinate inclusion identifies the restricted
-  product with the full product.
+- `rp_finite_pi`: this is Tau Ceti's `TauCeti.addRestrictedProductOfFinite`; for a finite index set
+  the coordinate inclusion identifies the restricted product with the full product.
 - For index set `ℕ` and zero distinguished subgroups, the same coordinates identify the
   restricted product with the direct sum of the local groups: the families with finite support.
 - `rp_zero_local`: if every localisation is zero, `Ш^r_S` is the whole global group.
@@ -2952,7 +2985,7 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
   The discriminants and fields are recorded in [LMFDB 2.0.35.1](https://www.lmfdb.org/NumberField/2.0.35.1)
   and [LMFDB 4.0.1225.1](https://www.lmfdb.org/NumberField/4.0.1225.1); the splitting-at-`S`
   interpretation is Milne, Chapter I, Example 4.11(i), pp. 57–58.
-- `rp_modified_real`: the real Tate group `Ĥ⁰(C₂, ℤ/2) = ℤ/2` is nonzero, so the dyadic real
+- The real Tate group `Ĥ⁰(C₂, ℤ/2) = ℤ/2` is nonzero, so the dyadic real
   contribution is kept.
 - `rp_direct_sum`: over `ℕ`, the restricted product of copies of `ℤ` with respect to the zero
   subgroups is the direct sum.
@@ -4649,7 +4682,9 @@ of its own; only the members of `S(M)` are topologised.
 The API:
 
 - `ArithmeticDuality.actionSpan`: the `R`-span `A_M` of the image of `G` in `End_R(M)`, for a
-  representation in Mathlib's sense.
+  representation in Mathlib's sense; it equals `Subalgebra.toSubmodule ρ.asAlgebraHom.range`
+  by Tau Ceti's `Representation.toSubmodule_range_asAlgebraHom`, using Mathlib's
+  `Representation.asAlgebraHom`.
 - `ArithmeticDuality.IsAdmissible`: `A_M` is finitely generated and `G → A_M` is continuous for its
   `𝔪`-adic topology.
 - `ArithmeticDuality.admissible_of_finite`: a finite discrete module with jointly continuous action
@@ -4689,7 +4724,7 @@ and finite reductions* (Layer R02.1); *Matlis duality for arithmetic coefficient
   image algebra; `ℤ_p(1)` for `G = G_{ℚ_p}` is admissible with image algebra `ℤ_p`.
 - For `G = ∏_ℕ ℤ/2`, a homomorphism `φ : G → 𝔽₂` with non-open kernel, and `M = 𝔽₂²` with `g`
   acting by `(1 φ(g); 0 1)`, the image algebra is finite but `G → A_M` is not continuous: `M` is
-  not admissible.
+  neither admissible nor ind-admissible.
 
 **Continuous cochains in the derived category.** Let `R` and `G` be as in *Admissible compact and
 cofinite coefficients*. For `M` finitely generated with continuous `𝔪`-adic action, or of cofinite
@@ -5114,10 +5149,12 @@ Nakamura Check. Dyadic duality uses the construction with Tate cochains at the r
 
 The API:
 
-- `GaloisCohomology.compactCochains`: `C•_{c,cont}(G_{K,S}, M•)`, the shifted cone of `res_{S_f}`.
+- Mathlib's `CochainComplex.mappingCocone res_{S_f}` and
+  `CochainComplex.mappingCocone.triangle`: the compactly supported complex
+  `C•_{c,cont}(G_{K,S}, M•)` and its fibre triangle (5.3.1.1), with
+  `GaloisCohomology.compactCochains_diff` recording the differential.
 - `GaloisCohomology.compactCohomology`: its cohomology `Hⁱ_{c,cont}(G_{K,S}, M•)`.
-- `GaloisCohomology.compactTriangle`: the exact triangle (5.3.1.1); `compactCohomology_exact`: the
-  long exact sequence (5.3.1.2).
+- `GaloisCohomology.compactCohomology_exact`: the long exact sequence (5.3.1.2).
 - `GaloisCohomology.compactMap`: the map of compactly supported cochains induced by a commutative
   square of localisation maps.
 - `GaloisCohomology.compactCochains_embedding`: a change of embeddings gives a homotopy
@@ -5668,6 +5705,12 @@ in the same category, with `F` satisfying its stated linearity and closedness hy
 (Rubin (1999 draft), Chapter I, §4, Theorem 4.1, printed p. 8 (PDF p. 18); Mazur–Rubin (arXiv v1),
 §1, Definition 1.6, p. 5 (arXiv v1).)
 
+The finite two-module `ℤ/n` statements differ from Tau Ceti's `FiniteBilinearModule`
+(`TauCeti.FiniteBilinearModule.orthogonalComplement_orthogonalComplement` and
+`TauCeti.FiniteBilinearModule.IsNondegenerate.card_mul_card_orthogonalComplement`):
+that API uses one finite group with a symmetric `ℚ/ℤ`-valued pairing and retains its radical
+in general. Here the pairing is perfect between two modules, so no radical term appears.
+
 The named operations and identities are:
 
 - Perfectness of a pairing `b : X × X′ → R` into the base ring is Mathlib's `LinearMap.IsPerfPair`
@@ -5678,7 +5721,8 @@ The named operations and identities are:
 - `orthogonal_orthogonal` — `F^⊥⊥ = F` for perfect pairings of finite modules, of `Φ`-spaces, and of
   finitely generated compact `O`-modules against cofinitely generated discrete ones, with `F`
   a submodule in the category specified above.
-- `orthogonal_map_eq_comap` — `(π F)^⊥ = ι^{−1}(F^⊥)` for adjoint `π`, `ι`.
+- `orthogonal_map_eq_comap` — `(π F)^⊥ = ι^{−1}(F^⊥)` for adjoint `π`, `ι`,
+  using Mathlib's `Submodule.orthogonalBilin_map`.
 - `orthogonal_comap_eq_map` — `(π^{−1} G)^⊥ = ι(G^⊥)` for adjoint `π`, `ι` and perfect pairings.
 - `card_mul_card_orthogonal` — `#F · #F^⊥ = #X` for finite `X`, `b` perfect.
 - `quotientPairing_perfect` — For a perfect pairing in the finite, finite-dimensional or
@@ -6550,7 +6594,8 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   the carrier comparison supplied by PerfectoidTowers §P9.0; `G_{K,S}` and the localisation maps of
   Layer R02.3; Poitou–Tate
   duality; compact support, derived local and global duality and the compactly supported Euler
-  characteristic of Layer D7.
+  characteristic of Layer D7. Its §2A.4 consumes `Adjoint.det_one_add_eps` and the
+  `𝔽₂` involution Check from Layer D8.
 - **Deformation and modularity lifting** (GlobalGaloisDeformations, DeformationAndDerivedPatchingAlgebra,
   OrdinaryAutomorphicFormsAndModularityLifting, GL2ModularityLifting,
   PotentialAutomorphyInfrastructurePartII): Layers R02.3–R02.6, D7 and D8, in particular Poitou–Tate,
