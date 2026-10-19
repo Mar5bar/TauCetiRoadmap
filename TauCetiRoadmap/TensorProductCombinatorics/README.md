@@ -407,6 +407,23 @@ than a proof premise for the generic matrix theorem.
    region. No chamber-polynomiality for arbitrary root systems, arbitrary
    GT/hive polytopes or every vector list follows from this specialization.
 
+7. For restriction of an external GLₙ×GLₙ irreducible, consume
+   [ClassicalGroups Layer6A](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fcf0711f7ce08db45ecdab9c214efba5174452bb/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-6a-diagonal-overgroups-of-the-complex-general-linear-group)'s actual diagonal,
+   scalar-diagonal and determinant-equality subgroup maps. This is a separate
+   group-construction supplier, not a consequence of the hive-count or
+   Steinberg alternating formula. For n≥2 the connected CLOSED COMPLEX
+   intermediate groups are exactly the scalar-diagonal and determinant-equality
+   groups; neither is omitted. Compare the external representation's diagonal
+   restriction with the SAME tensor product counted in items2–3, including
+   all determinant shifts. Scalar-diagonal restriction has those same
+   multiplicities with the first input's fixed scalar central character;
+   determinant-equality restriction remains irreducible. Construct the
+   restriction/intertwiner/Hom comparisons supplied by CG6A. They do not give
+   an intermediate partial tensor-decomposition procedure. Use n=1's no-strict-
+   intermediate and n=0's trivial cases from that supplier. Arbitrary real
+   overgroups and source-uncertain scalar symbols are not identified with this
+   complex classification.
+
 ## H3. Octahedron recurrence and the excavation bijection
 
 1. Define the size-n tetrahedral lattice and its unit tetrahedral/octahedral
