@@ -171,7 +171,7 @@ sheaf finite-limit instance; Mathlib `Topology/Sheaves/Over.lean`, `sheafEquivOv
 
 - For `U=∅` the adapter is the zero functor, with zero stalks everywhere.
 - For `U=X` it is naturally the identity, with the identity adjunction and stalk comparisons.
-- On Mathlib’s Sierpiński space `Prop` with open generic point `True` and closed point `False`,
+- `extendByZero_sierpinski`: On Mathlib’s Sierpiński space `Prop` with open generic point `True` and closed point `False`,
   extension of `M` from `{True}` has stalk `M` at `True`, zero at `False`, and zero global sections.
   For `M≠0` this differs from direct image, whose stalk at `False` is `M`.
 
@@ -1689,10 +1689,10 @@ Require the following API.
 
 **Checks.**
 
-- `isConstructibleSheaf_zero`: The zero sheaf is constructible.
-- `isConstructibleSheaf_constant`: The constant sheaf `Λ^n` on a spectral space is constructible.
-- `isConstructibleSheaf_finite_T0`: On a finite `T₀` space (spectral, all subsets constructible) a sheaf is constructible iff all its stalks are finitely generated.
-- `isConstructibleSheaf_not_fg`: On a nonempty spectral space, the constant sheaf with value `⊕_{n∈N} Λ (Λ ≠ 0)` is not constructible.
+- The zero sheaf is constructible.
+- The constant sheaf `Λ^n` on a spectral space is constructible.
+- On a finite `T₀` space (spectral, all subsets constructible) a sheaf is constructible iff all its stalks are finitely generated.
+- On a nonempty spectral space, the constant sheaf with value `⊕_{n∈N} Λ (Λ ≠ 0)` is not constructible.
 - `isConstructibleSheaf_not_qc_open`: On the Cantor set `X`, a point `x` and `U = X ∖ {x}`, the sheaf `j_!Λ_U (Λ ≠ 0)` is not constructible: `U` is open but not quasicompact, hence not constructible.
 
 *Needs:* `Topology.IsConstructible`; `SpectralSpace`; `TopCat.Sheaf`; `Module.Finite`; `IsNoetherianRing`.
@@ -2099,10 +2099,10 @@ The subtype {`x′` | `f(x′)=x`} and the preimage subspace `f⁻¹({x})` are c
 
 **Checks.**
 
-- `relDim_empty`: A map with empty domain has `AdicSpace.relDim` bottom.
-- `relDim_identity`: The identity on any nonempty topological space has `AdicSpace.relDim` zero.
-- `relDim_toPoint`: For `f:X→`PUnit, `AdicSpace.relDim` equals `topologicalKrullDim X`.
-- `relDim_emptyTarget`: The unique function from the empty space to itself has `AdicSpace.relDim` bottom, despite being an identity.
+- A map with empty domain has `AdicSpace.relDim` bottom.
+- The identity on any nonempty topological space has `AdicSpace.relDim` zero.
+- For `f:X→`PUnit, `AdicSpace.relDim` equals `topologicalKrullDim X`.
+- The unique function from the empty space to itself has `AdicSpace.relDim` bottom, despite being an identity.
 
 *Needs:* `AdicEtaleGeometry`, A2.6 (`AdicSpace.relDim`); `topologicalKrullDim`; `C8.1`.
 
@@ -2122,10 +2122,10 @@ Require the following API.
 
 **Checks.**
 
-- `topologicalTrdeg_self_test`: For any field `K` with any topology, the identity extension has value zero.
-- `topologicalTrdeg_dense_algebraic`: If the image of an algebraic intermediate extension `A/K` is dense in `L`, the value is zero, even when `L/K` is not algebraic.
-- `topologicalTrdeg_discrete_one`: If `L` has the discrete topology and Algebra.trdeg `K L=1`, then `topologicalTrdeg(K,L)=1`.
-- `topologicalTrdeg_discrete_infinite`: For discrete `L` with infinite algebraic transcendence degree, the value is infinity, not zero.
+- For any field `K` with any topology, the identity extension has value zero.
+- If the image of an algebraic intermediate extension `A/K` is dense in `L`, the value is zero, even when `L/K` is not algebraic.
+- If `L` has the discrete topology and Algebra.trdeg `K L=1`, then `topologicalTrdeg(K,L)=1`.
+- For discrete `L` with infinite algebraic transcendence degree, the value is infinity, not zero.
 - `topologicalTrdeg_padicComplex`: `topologicalTrdeg(ℚ_p, ℂ_p) = 0`: the image of the algebraic `closure PadicAlgCl p` is a dense intermediate field algebraic over `ℚ_p`, although Algebra.trdeg `ℚ_p ℂ_p` is infinite. A definition using the algebraic transcendence degree of the ambient field fails this test.
 - `topologicalTrdeg_eq_zero_iff_surjective`: For complete algebraically closed nonarchimedean `K` with an isometric embedding into `L, topologicalTrdeg(K,L)=0` iff the embedding is surjective: a dense intermediate field algebraic over the algebraically closed `K` is `K`, whose image is closed.
 
@@ -2147,8 +2147,8 @@ Require the following API.
 **Checks.**
 
 - `topologicalIndependenceDegree_padicComplex`: `topologicalIndependenceDegree(ℚ_p, ℂ_p)=0` because the algebraic closure of `ℚ_p` is dense in `ℂ_p`, although `ℂ_p` has infinite algebraic transcendence degree over `ℚ_p`.
-- `isTopAlgIndependent_discrete`: If `L` has the discrete topology, a set is topologically algebraically independent over `K` iff it is algebraically independent over `K`.
-- `isTopAlgIndependent_singleton`: `{x}` is topologically algebraically independent over `K` iff `x` is not in the closure of the elements of `L` algebraic over `K`.
+- If `L` has the discrete topology, a set is topologically algebraically independent over `K` iff it is algebraically independent over `K`.
+- `{x}` is topologically algebraically independent over `K` iff `x` is not in the closure of the elements of `L` algebraic over `K`.
 - For `K=L`, the independent degree is zero because every element is algebraic over `K`.
 - For discrete `L` with Algebra.trdeg `K L=1`, the independent degree is one; a definition always returning zero fails.
 
@@ -2290,12 +2290,12 @@ Require the following API.
 
 **Checks.**
 
-- `modifiedTopologicalTrdeg_identity`: The identity extension has value zero.
-- `modifiedTopologicalTrdeg_zeroWitness`: Any further extension `E` with `topologicalTrdeg(K,E)=0` forces `modifiedTopologicalTrdeg(K,L)=0`.
-- `modifiedTopologicalTrdeg_noFiniteWitness`: If every further extension has infinite `topologicalTrdeg` over `K`, the modified invariant is infinity.
-- `modifiedTopologicalTrdeg_vsOriginal`: When every further extension `E` satisfies `topologicalTrdeg(K,L)≤topologicalTrdeg(K,E)`, the modified and original invariants agree; this monotonicity is an explicit hypothesis, not an unconditional theorem.
-- `modifiedTopologicalTrdeg_eq_zero_iff_surjective`: For an isometric extension `K⊆L` of complete algebraically closed nonarchimedean fields, `modifiedTopologicalTrdeg(K,L)=0` iff `L=K`: a further extension `E` with `topologicalTrdeg(K,E)=0` is `K` and contains `L`.
-- `modifiedTopologicalTrdeg_eq_one`: If `topologicalTrdeg(K,L)=1` then `modifiedTopologicalTrdeg(K,L)=1`, without Temkin's theorem: the value is at most `1` by `modifiedTopologicalTrdeg_le` and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
+- The identity extension has value zero.
+- Any further extension `E` with `topologicalTrdeg(K,E)=0` forces `modifiedTopologicalTrdeg(K,L)=0`.
+- If every further extension has infinite `topologicalTrdeg` over `K`, the modified invariant is infinity.
+- When every further extension `E` satisfies `topologicalTrdeg(K,L)≤topologicalTrdeg(K,E)`, the modified and original invariants agree; this monotonicity is an explicit hypothesis, not an unconditional theorem.
+- For an isometric extension `K⊆L` of complete algebraically closed nonarchimedean fields, `modifiedTopologicalTrdeg(K,L)=0` iff `L=K`: a further extension `E` with `topologicalTrdeg(K,E)=0` is `K` and contains `L`.
+- If `topologicalTrdeg(K,L)=1` then `modifiedTopologicalTrdeg(K,L)=1`, without Temkin's theorem: the value is at most `1` by `modifiedTopologicalTrdeg_le` and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
 
 *Needs:* `C8.3`; `DiamondsAndVStacks`, Layer D0.
 
@@ -2665,6 +2665,8 @@ The light carrier `SpecializationChain(X,n)` is the subtype of
 in the displayed order. Give it the subspace topology. The intended construction
 `specializationChainSpace : SimplicialObject TopCat` has degree-`n` object this carrier and
 reindexes coordinates along the simplex maps; prove continuity and the functor laws.
+`SpecializationChain.reindex` gives monotone vertex reindexing on the light carrier, and
+`SpecializationChain.reindex_comp` identifies successive reindexing with composition.
 The degree-zero comparison is a homeomorphism to `WithConstructibleTopology X`. Its API
 `specializationChainSpace_zero_apply` evaluates at coordinate zero, and the face and degeneracy
 formulas delete and repeat their specified coordinates. For `T₀` `X`, a positive-degree chain is
@@ -2680,10 +2682,10 @@ Require the following API.
 
 **Checks.**
 
-- `specializationChainSpace_empty`: All degrees are empty for empty `X`.
-- `specializationChainSpace_point`: For a one-point space there is exactly one simplex in every degree and no nondegenerate positive-dimensional simplex.
-- `specializationChainSpace_discrete`: For a two-point discrete space every chain is constant; there is no nondegenerate edge.
-- `specializationChainSpace_twoPointChain`: For a two-point spectral chain there is exactly one nondegenerate edge, whereas no nondegenerate simplex exists in degree `2`.
+- All degrees are empty for empty `X`.
+- For a one-point space there is exactly one simplex in every degree and no nondegenerate positive-dimensional simplex.
+- For a two-point discrete space every chain is constant; there is no nondegenerate edge.
+- For a two-point spectral chain there is exactly one nondegenerate edge, whereas no nondegenerate simplex exists in degree `2`.
 - For the nondegenerate Sierpiński edge `(η,s)`, taking face zero leaves `s`, while its first vertex was `η`. Hence the first-vertex maps do not form a simplicial augmentation.
 
 *Needs:* `WithConstructibleTopology`; `CategoryTheory.SimplicialObject`; `DiamondsAndVStacks`, Layer D0.
@@ -2950,7 +2952,31 @@ For spatial `Y` of bounded `Λ`-cohomological dimension, `Λ` commutative, `D_et
 
 *Needs:* `C9.6`; `C9.7`; `C0.16`; `EnhancedDerivedSheaves`, Layer E3.
 
-(ECD Proposition 20.17, p.121; [Stacks 09SQ](https://stacks.math.columbia.edu/tag/09SQ) Definition 13.37.5.)
+The topological coefficient form `compactGeneration_spectral` holds for every spectral
+space `X` and commutative `Λ` with one natural bound `N` on `Hⁱ(U,F)` for all
+quasicompact opens `U` and all module sheaves `F` on `X`. In the unbounded derived
+category of module sheaves on `X`, the degree-zero sheaves `j_!Λ_U` are compact
+generators. Its compact objects are their thick envelope, including retracts.
+The signature expresses the bound as vanishing of maps `j_!Λ_U→F[0][i]` for `i>N`.
+If `topologicalKrullDim X≤d` for some natural `d`, C8.44 gives such a common bound;
+the generator and thick-closure arguments are those of C9.6–C9.12.
+
+At a geometric point `Y=Spa(C,O_C)`, `compactGeneration_point` states the coefficient
+specialization on `DerivedCategory (ModuleCat Λ)`: arbitrary small coproducts exist,
+`Hom(Λ[0],−)` with values in abelian groups preserves them, and the shifts of `Λ[0]`
+detect zero. This is the `N=0` case, for every commutative `Λ`.
+
+**Checks.**
+
+- On a finite-dimensional spectral space, maps from `j_!Λ_U` to `A[i]` compute `Hⁱ(U,A)`; the quasicompact open basis detects every cohomology sheaf.
+- At a geometric point, maps from `Λ[0]` to `A[i]` recover `Hⁱ(A)`; vanishing in every integer degree detects zero.
+- The direct sum of copies of `Λ[0]` has the direct sum of their degree-zero cohomology groups, rather than their product.
+- For the zero coefficient ring the derived category is zero; the same compact-generator statement holds.
+
+(ECD Proposition 20.17, p.121; [Stacks 09SQ](https://stacks.math.columbia.edu/tag/09SQ)
+Definition 13.37.5 and [Stacks 09SR](https://stacks.math.columbia.edu/tag/09SR)
+Proposition 13.37.6; [Stacks 0A3G](https://stacks.math.columbia.edu/tag/0A3G),
+cohomological dimension of spectral spaces.)
 
 #### C9.9 Compact objects are perfect-constructible
 
@@ -2984,7 +3010,22 @@ For a commutative `Λ` and a spatial diamond `Y` with one finite bound on `Hⁱ(
 
 *Needs:* `C9.9`; `C9.11`.
 
-(ECD Proposition 20.17, p.121.)
+At a geometric point, `compact_iff_perfect_point` states this characterization on
+`DerivedCategory (ModuleCat Λ)`. Compactness is preservation of small coproducts by
+abelian-group-valued `Hom(A,−)`. Perfectness is membership in
+`CategoryTheory.ObjectProperty.triangEnvelope` of `Λ[0]`, including retracts,
+equivalently representation by a bounded complex of finitely generated projective modules.
+The spatial-diamond statement uses the C7 stratified perfectness predicate.
+
+**Checks.**
+
+- Finite projective coefficient modules, placed in any integer degree, are compact and perfect at a geometric point.
+- Over a field, this criterion gives precisely bounded complexes with finite-dimensional cohomology at the point.
+- Over `Λ=ℤ[ε]/(ε²)`, the degree-zero module `Λ/ε` is constructible but has nonzero self-Tor in every positive degree, so it is neither perfect nor compact.
+
+(ECD Proposition 20.17, p.121; [Stacks 0ATI](https://stacks.math.columbia.edu/tag/0ATI)
+Lemma 15.80.1 and [Stacks 07LT](https://stacks.math.columbia.edu/tag/07LT)
+Proposition 15.80.3.)
 
 #### C9.13 Compact complexes with finite-field coefficients
 

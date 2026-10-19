@@ -1,8 +1,6 @@
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Basic
-import TauCeti.CategoryTheory.Sites.ExtensionByZero
-import Mathlib.Topology.Sheaves.Over
 
 /-!
 # DiamondEtaleCohomology: representative target signatures
@@ -14,7 +12,11 @@ layer nor the roadmap.
 
 The statements use spectral spaces, module sheaves and complete nonarchimedean fields on the
 library's carriers. The coefficient sites, enhanced étale categories, geometric operations,
-compactifications and diamond dimension bounds are specified in the README. Field tower
+compactifications and diamond dimension bounds are specified in the README. The compact-generation
+and compact-object signatures at the top give the topological coefficient form of C9 on every
+spectral space with a common cohomological bound and its geometric-point form on the module-derived category.
+The full spatial-diamond statements use the
+geometric carriers specified in C0–C2. Field tower
 and extension embeddings are explicitly isometric for compatible norms; point-presentation isomorphisms preserve
 topology and valuation rings independently of normalization. Generating, independent and
 modified degrees remain distinct.
@@ -41,6 +43,71 @@ open CategoryTheory Limits Topology TopologicalSpace
 universe u v w
 
 namespace TauCeti.DiamondEtale
+
+/-- Open extension by zero transports the canonical slice-site left adjoint to
+sheaves on the open subspace, using the pinned generic construction. -/
+def extendByZero (Λ : Type u) [Ring Λ] {X : TopCat.{u}} (U : Opens X) :
+    TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U) ⥤ TopCat.Sheaf (ModuleCat.{u} Λ) X :=
+  U.sheafEquivOver.inverse ⋙
+    (Over.forget U).sheafPullback (ModuleCat.{u} Λ)
+      ((Opens.grothendieckTopology X).over U) (Opens.grothendieckTopology X)
+
+/-! ## Compact generation and compact objects -/
+
+section SpectralCompactGeneration
+variable (Λ : Type u) [CommRing Λ] (X : TopCat.{u}) [SpectralSpace X]
+    [HasDerivedCategory.{v} (TopCat.Sheaf (ModuleCat.{u} Λ) X)]
+
+/-- On a spectral space with one cohomological bound on its quasicompact open basis,
+extensions of the coefficient ring compactly generate the unbounded derived category;
+its compact objects are their thick closure (C9.8 and C9.12). -/
+theorem compactGeneration_spectral (N : ℕ) :
+    let G : Opens X → DerivedCategory (TopCat.Sheaf (ModuleCat.{u} Λ) X) := fun U =>
+      (DerivedCategory.singleFunctor (TopCat.Sheaf (ModuleCat.{u} Λ) X) 0).obj
+        ((extendByZero Λ U).obj
+          ((constantSheaf (Opens.grothendieckTopology U) (ModuleCat.{u} Λ)).obj
+            (ModuleCat.of Λ Λ)))
+    (∀ U : Opens X, IsCompact (U : Set X) →
+      ∀ F : TopCat.Sheaf (ModuleCat.{u} Λ) X, ∀ i : ℕ, N < i →
+        Subsingleton (G U ⟶
+          ((DerivedCategory.singleFunctor (TopCat.Sheaf (ModuleCat.{u} Λ) X) 0).obj F)⟦(i : ℤ)⟧)) →
+    HasCoproducts.{u} (DerivedCategory (TopCat.Sheaf (ModuleCat.{u} Λ) X)) ∧
+      (∀ U : Opens X, IsCompact (U : Set X) → ∀ J : Type u,
+        PreservesColimitsOfShape (Discrete J) (preadditiveCoyoneda.obj (Opposite.op (G U)))) ∧
+      (∀ A : DerivedCategory (TopCat.Sheaf (ModuleCat.{u} Λ) X),
+        (∀ U : Opens X, IsCompact (U : Set X) → ∀ n : ℤ,
+          Subsingleton (G U ⟶ A⟦n⟧)) → IsZero A) ∧
+      ∀ A : DerivedCategory (TopCat.Sheaf (ModuleCat.{u} Λ) X),
+        (∀ J : Type u, PreservesColimitsOfShape (Discrete J)
+          (preadditiveCoyoneda.obj (Opposite.op A))) ↔
+        ObjectProperty.triangEnvelope
+          (fun B => ∃ U : Opens X, IsCompact (U : Set X) ∧ Nonempty (B ≅ G U)) A := by sorry
+
+end SpectralCompactGeneration
+
+section PointCompactGeneration
+variable (Λ : Type u) [CommRing Λ] [HasDerivedCategory.{v} (ModuleCat.{u} Λ)]
+
+/-- At a geometric point, the coefficient ring compactly generates its unbounded derived
+category: coproducts exist, Hom from the unit preserves them, and its shifts detect zero (C9.8). -/
+theorem compactGeneration_point :
+    let R := (DerivedCategory.singleFunctor (ModuleCat.{u} Λ) 0).obj (ModuleCat.of Λ Λ)
+    HasCoproducts.{u} (DerivedCategory (ModuleCat.{u} Λ)) ∧
+      (∀ J : Type u, PreservesColimitsOfShape (Discrete J)
+        (preadditiveCoyoneda.obj (Opposite.op R))) ∧
+      ∀ A : DerivedCategory (ModuleCat.{u} Λ),
+        (∀ n : ℤ, Subsingleton (R ⟶ A⟦n⟧)) → IsZero A := by sorry
+
+/-- At a geometric point, compact coefficient complexes are exactly the thick closure
+of the unit, equivalently the perfect complexes, for every commutative ring (C9.12). -/
+theorem compact_iff_perfect_point (A : DerivedCategory (ModuleCat.{u} Λ)) :
+    let R := (DerivedCategory.singleFunctor (ModuleCat.{u} Λ) 0).obj (ModuleCat.of Λ Λ)
+    (∀ J : Type u, PreservesColimitsOfShape (Discrete J)
+      (preadditiveCoyoneda.obj (Opposite.op A))) ↔
+      ObjectProperty.triangEnvelope
+        ((fun B => Nonempty (B ≅ R)) : ObjectProperty (DerivedCategory (ModuleCat.{u} Λ))) A := by sorry
+
+end PointCompactGeneration
 
 /-! ## Layers C2–C3: cutoff mates and intrinsic pushforward -/
 
@@ -83,14 +150,6 @@ theorem push_coreflectionIso
 section OpenExtension
 variable (Λ : Type u) [Ring Λ]
 
-/-- Open extension by zero transports the canonical slice-site left adjoint to
-sheaves on the open subspace, using the pinned generic construction. -/
-def extendByZero {X : TopCat.{u}} (U : Opens X) :
-    TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U) ⥤ TopCat.Sheaf (ModuleCat.{u} Λ) X :=
-  U.sheafEquivOver.inverse ⋙
-    (Over.forget U).sheafPullback (ModuleCat.{u} Λ)
-      ((Opens.grothendieckTopology X).over U) (Opens.grothendieckTopology X)
-
 /-- The open adapter is left adjoint to restriction to the open subspace. -/
 theorem extendByZero_adjunction {X : TopCat.{u}} (U : Opens X) :
     Nonempty (extendByZero Λ U ⊣ U.sheafRestrict (C := ModuleCat.{u} Λ)) := by sorry
@@ -111,25 +170,12 @@ theorem extendByZero_stalk_not_mem {X : TopCat.{u}} (U : Opens X)
     (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)) (x : X) (hx : x ∉ U) :
     IsZero (((extendByZero Λ U).obj F).presheaf.stalk x) := by sorry
 
-/-- Extension from the empty open is zero, including every stalk. -/
-example {X : TopCat.{u}}
-    (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of (⊥ : Opens X))) :
-    IsZero ((extendByZero Λ (⊥ : Opens X)).obj F) ∧
-      ∀ x : X, IsZero (((extendByZero Λ (⊥ : Opens X)).obj F).presheaf.stalk x) := by
-  sorry
-
-/-- Restriction to the whole open followed by extension is naturally the identity. -/
-example {X : TopCat.{u}} :
-    Nonempty (((⊤ : Opens X).sheafRestrict (C := ModuleCat.{u} Λ) ⋙
-      extendByZero Λ (⊤ : Opens X)) ≅ 𝟭 (TopCat.Sheaf (ModuleCat.{u} Λ) X)) := by
-  sorry
-
 end OpenExtension
 
 /-- On Sierpiński space, extension of a nonzero constant value from the generic
 singleton has zero closed stalk and global sections; direct image has that value
 at the closed point and therefore differs from extension by zero. -/
-example (Λ : Type) [Ring Λ] (M : ModuleCat.{0} Λ) [Nontrivial M] :
+theorem extendByZero_sierpinski (Λ : Type) [Ring Λ] (M : ModuleCat.{0} Λ) [Nontrivial M] :
     let X := TopCat.of Prop
     let U : Opens X := ⟨{True}, isOpen_singleton_true⟩
     let F : TopCat.Sheaf (ModuleCat.{0} Λ) (TopCat.of U) :=
@@ -148,22 +194,6 @@ example (Λ : Type) [Ring Λ] (M : ModuleCat.{0} Λ) [Nontrivial M] :
 
 section ValuationCohomology
 attribute [local instance] HasExt.standard
-
-/-- The supplied spectrum of a discrete field with full plus ring is one point (C5.7). -/
-example (K : Type u) [Field K] [TopologicalSpace K] [DiscreteTopology K] :
-    Nonempty (TauCeti.ValuationSpectrum.spa (⊤ : Subring K)) ∧
-      Subsingleton (TauCeti.ValuationSpectrum.spa (⊤ : Subring K)) := by sorry
-
-/-- A proper valuation subring and the whole field give distinct points (C5.7). -/
-example (K : Type u) [Field K] [TopologicalSpace K] [DiscreteTopology K]
-    (V : ValuationSubring K) (hV : V ≠ ⊤) :
-    ∃ x y : TauCeti.ValuationSpectrum.spa V.toSubring, x ≠ y := by sorry
-
-/-- With V=K, restriction of every relative valuation ring is the whole base field (C5.7). -/
-example (K K' : Type u) [Field K] [Field K'] [Algebra K K']
-    [TopologicalSpace K'] [DiscreteTopology K']
-    (x : TauCeti.ValuationSpectrum.spa ((⊤ : Subring K).map (algebraMap K K'))) :
-    x.val.valuation.valuationSubring.comap (algebraMap K K') = ⊤ := by sorry
 
 /-- Relative Zariski–Riemann acyclicity on the supplied spectrum (C5.7, ECD Lemma 19.4).
 The special fibre consists of valuations whose valuation ring restricts to V. -/
@@ -193,19 +223,9 @@ def IsConstFGOn {X : TopCat.{u}} (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (Z : Se
       (TopCat.ofHom ⟨Subtype.val, continuous_subtype_val⟩ : TopCat.of Z ⟶ X)).obj F ≅
       (constantSheaf (Opens.grothendieckTopology Z) (ModuleCat.{u} Λ)).obj M)
 
-/-- A zero sheaf has zero finitely generated value on every subspace (C7.1). -/
-example {X : TopCat.{u}} (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (hF : IsZero F)
-    (Z : Set X) : IsConstFGOn Λ F Z := by sorry
-
-/-- A constant finite free sheaf has finitely generated value on every subspace (C7.1). -/
-example {X : TopCat.{u}} (n : ℕ) (Z : Set X) :
-    IsConstFGOn Λ ((constantSheaf (Opens.grothendieckTopology X)
-      (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (Fin n → Λ))) Z := by sorry
-
-/-- Infinite-rank free constant values fail finite generation on a nonempty space (C7.1). -/
-example [Nontrivial Λ] (X : TopCat.{u}) [Nonempty X] :
-    ¬ IsConstFGOn Λ ((constantSheaf (Opens.grothendieckTopology X)
-      (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (ℕ →₀ Λ))) Set.univ := by sorry
+/-- Constant finite-generation on a subspace is invariant under sheaf isomorphism (C7.1). -/
+theorem IsConstFGOn.iso {X : TopCat.{u}} {F G : TopCat.Sheaf (ModuleCat.{u} Λ) X}
+    (e : F ≅ G) (Z : Set X) : IsConstFGOn Λ F Z ↔ IsConstFGOn Λ G Z := by sorry
 
 /-- DiamondEtaleCohomology:C7/constructible-sheaf-spectral (ECD Definition 20.1(i), Lemma 20.4):
 a sheaf of Λ-modules on a spectral space is constructible if there is a finite stratification
@@ -252,37 +272,26 @@ theorem constructibleCompactSpectral [IsNoetherianRing Λ] (X : TopCat.{u}) [Spe
         (c : Cocone D) (_ : IsColimit c), Nonempty (c.pt ≅ F) ∧ ∀ j, IsConstructibleSheaf Λ (D.obj j) := by
   sorry
 
-/-- test isConstructibleSheaf_zero (degenerate): the zero sheaf is constructible. -/
-example [IsNoetherianRing Λ] {X : TopCat.{u}} [SpectralSpace X]
-    (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (hF : IsZero F) : IsConstructibleSheaf Λ F := by
-  sorry
-
-/-- test isConstructibleSheaf_constant (computation): the constant sheaf `Λⁿ` is constructible. -/
-example [IsNoetherianRing Λ] {X : TopCat.{u}} [SpectralSpace X] (n : ℕ) :
-    IsConstructibleSheaf Λ ((constantSheaf (Opens.grothendieckTopology X) (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (Fin n → Λ))) := by
-  sorry
-
-/-- test isConstructibleSheaf_not_fg (non-example): for `Λ ≠ 0` and `X ≠ ∅`, the constant sheaf
-with value `⊕_{n∈ℕ} Λ` is not constructible. -/
-example [IsNoetherianRing Λ] [Nontrivial Λ] {X : TopCat.{u}} [SpectralSpace X] [Nonempty X] :
-    ¬ IsConstructibleSheaf Λ ((constantSheaf (Opens.grothendieckTopology X) (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (ℕ →₀ Λ))) := by
-  sorry
-
-/-- isConstructibleSheaf_finite_T0: constructibility on a finite T0 spectral space
-is finite generation of every stalk (C7.1). -/
-example [IsNoetherianRing Λ] (X : TopCat.{u}) [Finite X] [SpectralSpace X]
-    (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) :
-    IsConstructibleSheaf Λ F ↔ ∀ x : X, Module.Finite Λ (F.presheaf.stalk x) := by sorry
-
 /-- The stalk description of extension by zero on the punctured Cantor set
 excludes constructibility (isConstructibleSheaf_not_qc_open, C7.1). -/
-example [IsNoetherianRing Λ] [Nontrivial Λ]
+theorem isConstructibleSheaf_not_qc_open [IsNoetherianRing Λ] [Nontrivial Λ]
     (X : TopCat.{u}) [SpectralSpace X] (e : X ≃ₜ (ℕ → Bool)) (x : X)
     (F : TopCat.Sheaf (ModuleCat.{u} Λ) X)
     (hx : IsZero (F.presheaf.stalk x))
     (hU : ∀ y : X, y ≠ x →
       Nonempty (F.presheaf.stalk y ≅ ModuleCat.of Λ Λ)) :
     ¬ IsConstructibleSheaf Λ F := by sorry
+
+/-- Extension by zero from a quasicompact open spectral subspace preserves constructibility (C7.1). -/
+theorem IsConstructibleSheaf.extendByZero_open [IsNoetherianRing Λ] {X : TopCat.{u}}
+    [SpectralSpace X] (U : Opens X) [SpectralSpace U]
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)) (hF : IsConstructibleSheaf Λ F) :
+    IsConstructibleSheaf Λ ((extendByZero Λ U).obj F) := by sorry
+
+/-- Constructible sheaves have finitely generated stalks at every point (C7.1). -/
+theorem IsConstructibleSheaf.stalk_fg [IsNoetherianRing Λ] {X : TopCat.{u}}
+    [SpectralSpace X] (F : TopCat.Sheaf (ModuleCat.{u} Λ) X)
+    (hF : IsConstructibleSheaf Λ F) (x : X) : Module.Finite Λ (F.presheaf.stalk x) := by sorry
 
 end ConstructibleSheaves
 
@@ -291,51 +300,10 @@ def HasFiltrationBy {C : Type*} [Category* C] [Abelian C] (P : C → Prop) (F : 
   ∃ (n : ℕ) (G : Fin (n + 1) → C) (m : ∀ i : Fin n, G i.castSucc ⟶ G i.succ),
     (∀ i, Mono (m i)) ∧ IsZero (G 0) ∧ Nonempty (G (Fin.last n) ≅ F) ∧ ∀ i, P (cokernel (m i))
 
-/-- A zero object has the length-zero filtration (ECD Proposition 20.8). -/
-example {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
-    (hF : IsZero F) : HasFiltrationBy P F := by sorry
-
 /-- The length-one filtration has its single graded piece isomorphic to F (ECD Proposition 20.8). -/
-example {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
+theorem HasFiltrationBy.of_mem {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
     (hF : P F) (hP : ObjectProperty.IsClosedUnderIsomorphisms (C := C) P) :
     HasFiltrationBy P F := by sorry
-
-/-- A false graded-piece predicate permits exactly the zero objects (C7.11). -/
-example {C : Type u} [Category C] [Abelian C] (F : C) :
-    HasFiltrationBy (fun _ => False) F ↔ IsZero F := by sorry
-
-/-! ## Layer C7: module Tor-amplitude checks -/
-
-section ModuleTorChecks
-attribute [local instance] HasDerivedCategory.standard
-variable (Λ : Type u) [CommRing Λ]
-
-/-- Degree-zero Tor with the unit recovers the module (C7.14). -/
-example (M : ModuleCat.{u} Λ) :
-    Nonempty ((((CategoryTheory.Tor (ModuleCat.{u} Λ) 0).obj M).obj
-      (ModuleCat.of Λ Λ)) ≅ M) := by sorry
-
-/-- Tensor with the unit has amplitude [0,0]: its positive Tor groups vanish (C7.14). -/
-example (M : ModuleCat.{u} Λ) (n : ℕ) :
-    IsZero (((CategoryTheory.Tor (ModuleCat.{u} Λ) (n + 1)).obj M).obj
-      (ModuleCat.of Λ Λ)) := by sorry
-
-/-- The shifted unit detects the cohomological sign of [1] (C7.14). -/
-example [Nontrivial Λ] :
-    let A := ((DerivedCategory.singleFunctor (ModuleCat.{u} Λ) 0).obj
-      (ModuleCat.of Λ Λ))⟦(1 : ℤ)⟧
-    Nonempty ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-1)).obj A ≅
-      ModuleCat.of Λ Λ) ∧
-    ¬ IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-1)).obj A) := by sorry
-
-end ModuleTorChecks
-
-/-- The dual-number quotient has nonzero Tor in every homological degree;
-the periodic ε-resolution detects failure of any finite Tor interval (C7.14). -/
-example (n : ℕ) :
-    let R := DualNumber ℤ
-    let M := ModuleCat.of R (R ⧸ Ideal.span ({DualNumber.eps} : Set R))
-    ¬ IsZero (((CategoryTheory.Tor (ModuleCat R) n).obj M).obj M) := by sorry
 
 /-! ## Layer C8: field degrees and cohomological bounds -/
 
@@ -355,17 +323,6 @@ theorem relDim_homeomorph [TopologicalSpace Y]
 theorem relDim_id [Nonempty X] :
     (⨆ x, topologicalKrullDim ((id : X → X) ⁻¹' {x})) = 0 := by sorry
 
--- relDim_empty
-example [IsEmpty X] (f : X → Y) :
-    (⨆ y, topologicalKrullDim (f ⁻¹' {y})) = ⊥ := by sorry
-
--- relDim_toPoint
-example : (⨆ y : PUnit, topologicalKrullDim ((fun _ : X => PUnit.unit) ⁻¹' {y})) =
-    topologicalKrullDim X := by sorry
-
--- relDim_emptyTarget
-example [IsEmpty X] :
-    (⨆ x, topologicalKrullDim ((id : X → X) ⁻¹' {x})) = ⊥ := by sorry
 end RelativeDimension
 
 section DenseIntermediateFields
@@ -378,20 +335,10 @@ def topologicalTrdeg (K L : Type u) [Field K] [Field L] [Algebra K L]
   ⨅ (n : ℕ) (_ : ∃ A : IntermediateField K L,
       Dense (A : Set L) ∧ Algebra.trdeg K A ≤ (n : Cardinal)), (n : ℕ∞)
 
--- topologicalTrdeg_self_test
-example [TopologicalSpace K] : topologicalTrdeg K K = 0 := by sorry
-
--- topologicalTrdeg_discrete_one
-example [DiscreteTopology L] (h : Algebra.trdeg K L = 1) :
-    topologicalTrdeg K L = 1 := by sorry
-
--- topologicalTrdeg_dense_algebraic
-example (A : IntermediateField K L) [Algebra.IsAlgebraic K A]
-    (hd : Dense (A : Set L)) : topologicalTrdeg K L = 0 := by sorry
-
--- topologicalTrdeg_discrete_infinite
-example [DiscreteTopology L] (h : Cardinal.aleph0 ≤ Algebra.trdeg K L) :
-    topologicalTrdeg K L = ⊤ := by sorry
+/-- A finite generating-degree bound is witnessed by a dense intermediate field (C8.3). -/
+theorem topologicalTrdeg_le_iff (n : ℕ) :
+    topologicalTrdeg K L ≤ n ↔ ∃ A : IntermediateField K L,
+      Dense (A : Set L) ∧ Algebra.trdeg K A ≤ (n : Cardinal) := by sorry
 
 variable {L} in
 /-- `DiamondEtaleCohomology:C8/topological-independence-degree`, Temkin §2.1.6.
@@ -401,36 +348,28 @@ completed algebraic closure, so this is Temkin's topgebraic independence. -/
 def IsTopAlgIndependent (s : Set L) : Prop :=
   ∀ x ∈ s, x ∉ closure {y : L | IsAlgebraic (IntermediateField.adjoin K (s \ {x})) y}
 
+/-- Topological algebraic independence implies algebraic independence (C8.4). -/
+theorem IsTopAlgIndependent.algebraicIndependent (s : Set L) (hs : IsTopAlgIndependent K s) :
+    AlgebraicIndependent K ((↑) : s → L) := by sorry
+
+/-- Restricting a topologically algebraically independent set preserves independence (C8.4). -/
+theorem IsTopAlgIndependent.mono {s t : Set L} (hs : IsTopAlgIndependent K s) (ht : t ⊆ s) :
+    IsTopAlgIndependent K t := by sorry
+
 /-- Temkin's independent degree `top.tr.deg`, through finite independent sets. -/
 def topologicalIndependenceDegree : ℕ∞ :=
   ⨆ (s : Finset L) (_ : IsTopAlgIndependent K (s : Set L)), (s.card : ℕ∞)
-
-/-- The identity extension has independent degree zero (C8.4). -/
-example [TopologicalSpace K] : topologicalIndependenceDegree K K = 0 := by sorry
-
-/-- Discrete transcendence degree one gives independent degree one (C8.4). -/
-example [DiscreteTopology L] (h : Algebra.trdeg K L = 1) :
-    topologicalIndependenceDegree K L = 1 := by sorry
-
--- isTopAlgIndependent_discrete
-example [DiscreteTopology L] (s : Set L) :
-    IsTopAlgIndependent K s ↔ AlgebraicIndependent K ((↑) : s → L) := by sorry
-
--- isTopAlgIndependent_singleton
-example (x : L) :
-    IsTopAlgIndependent K ({x} : Set L) ↔ x ∉ closure {y : L | IsAlgebraic K y} := by sorry
 
 end DenseIntermediateFields
 
 section PadicComplex
 variable (p : ℕ) [Fact p.Prime]
 
--- topologicalTrdeg_padicComplex: the algebraic closure of `ℚ_[p]` is dense in `ℂ_[p]`,
--- although `Algebra.trdeg ℚ_[p] ℂ_[p]` is infinite.
-example : topologicalTrdeg ℚ_[p] ℂ_[p] = 0 := by sorry
+/-- The dense algebraic closure of the p-adic field gives generating degree zero (C8.3). -/
+theorem topologicalTrdeg_padicComplex : topologicalTrdeg ℚ_[p] ℂ_[p] = 0 := by sorry
 
--- topologicalIndependenceDegree_padicComplex
-example : topologicalIndependenceDegree ℚ_[p] ℂ_[p] = 0 := by sorry
+/-- Density of algebraic p-adic elements rules out topological independence (C8.4). -/
+theorem topologicalIndependenceDegree_padicComplex : topologicalIndependenceDegree ℚ_[p] ℂ_[p] = 0 := by sorry
 end PadicComplex
 
 section CompleteFields
@@ -473,8 +412,8 @@ theorem topologicalIndependenceDegree_mono [Algebra K L] [Algebra L M] [Algebra 
     (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
     topologicalIndependenceDegree K L ≤ topologicalIndependenceDegree K M := by sorry
 
--- topologicalTrdeg_eq_zero_iff_surjective
-example [Algebra K L] (hKL : Isometry (algebraMap K L)) :
+/-- For complete algebraically closed fields, generating degree zero detects surjectivity (C8.3). -/
+theorem topologicalTrdeg_eq_zero_iff_surjective [Algebra K L] (hKL : Isometry (algebraMap K L)) :
     topologicalTrdeg K L = 0 ↔ Function.Surjective (algebraMap K L) := by sorry
 
 /-- `DiamondEtaleCohomology:C8/topological-trdeg-finite-monotonicity`.
@@ -529,24 +468,6 @@ theorem completeFieldAmalgamation
     (hKL : Isometry (algebraMap K L)) (hKM : Isometry (algebraMap K M)) :
     ∃ E : CompleteACExtension K L, ∃ f : M →ₐ[K] E.Field, Isometry f := by sorry
 
-/-- A commuting isometric tower gives an actual further-extension witness (C8.10). -/
-example (K L M : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
-    [NontriviallyNormedField M] [CompleteSpace M] [IsUltrametricDist M] [IsAlgClosed M]
-    [Algebra K L] [Algebra L M] [Algebra K M] [IsScalarTower K L M]
-    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
-    ∃ E : CompleteACExtension K L, Nonempty (E.Field ≃ₐ[L] M) := by sorry
-
-/-- Actual extension data force the K-algebra triangle to commute (C8.10). -/
-example (K L : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
-    [Algebra K L] (E : CompleteACExtension K L) :
-    ∀ x : K, algebraMap K E.Field x =
-      algebraMap L E.Field (algebraMap K L x) := by sorry
-
-/-- A continuous embedding that changes a norm fails the isometric-witness condition (C8.10). -/
-example (L M : Type u) [NontriviallyNormedField L] [NontriviallyNormedField M]
-    (f : L →+* M) (hf : Continuous f) (x : L) (hx : ‖f x‖ ≠ ‖x‖) :
-    ¬ Isometry f := by sorry
-
 section ModifiedFields
 variable (K L : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
 variable [CompleteSpace K] [CompleteSpace L] [IsUltrametricDist K] [IsUltrametricDist L]
@@ -556,10 +477,6 @@ variable [IsAlgClosed K] [IsAlgClosed L] [Algebra K L]
 def modifiedTopologicalTrdeg (K L : Type u)
     [NontriviallyNormedField K] [NontriviallyNormedField L] [Algebra K L] : ℕ∞ :=
   ⨅ (n : ℕ) (_ : ∃ E : CompleteACExtension K L, topologicalTrdeg K E.Field ≤ n), (n : ℕ∞)
-
-/-- The identity further extension is an actual witness (C8.10). -/
-example (hKL : Isometry (algebraMap K L)) :
-    ∃ E : CompleteACExtension K L, Nonempty (E.Field ≃ₐ[L] L) := by sorry
 
 /-- `DiamondEtaleCohomology:C8/modified-trdeg-finite-equality`.
 The finite-degree case does not assert an answer to Question 21.4. -/
@@ -589,29 +506,18 @@ theorem modified_topological_trdeg_base_change
       IsAlgebraic (IntermediateField.adjoin L (Set.range (algebraMap K' L'))) x}) :
     modifiedTopologicalTrdeg L L' ≤ modifiedTopologicalTrdeg K K' := by sorry
 
--- modifiedTopologicalTrdeg_identity
-example : modifiedTopologicalTrdeg K K = 0 := by sorry
+/-- A finite modified-degree bound is witnessed by an actual further valued extension (C8.10). -/
+theorem modifiedTopologicalTrdeg_le_iff (n : ℕ) :
+    modifiedTopologicalTrdeg K L ≤ n ↔
+      ∃ E : CompleteACExtension K L, topologicalTrdeg K E.Field ≤ n := by sorry
 
--- modifiedTopologicalTrdeg_zeroWitness
-example (E : CompleteACExtension K L) (hE : topologicalTrdeg K E.Field = 0) :
-    modifiedTopologicalTrdeg K L = 0 := by sorry
-
--- modifiedTopologicalTrdeg_eq_one
-example (hKL : Isometry (algebraMap K L)) (h : topologicalTrdeg K L = 1) :
-    modifiedTopologicalTrdeg K L = 1 := by sorry
-
--- modifiedTopologicalTrdeg_noFiniteWitness
-example (h : ∀ E : CompleteACExtension K L, topologicalTrdeg K E.Field = ⊤) :
-    modifiedTopologicalTrdeg K L = ⊤ := by sorry
-
--- modifiedTopologicalTrdeg_vsOriginal
-example (hKL : Isometry (algebraMap K L))
-    (h : ∀ E : CompleteACExtension K L, topologicalTrdeg K L ≤ topologicalTrdeg K E.Field) :
-    modifiedTopologicalTrdeg K L = topologicalTrdeg K L := by sorry
-
--- modifiedTopologicalTrdeg_eq_zero_iff_surjective
-example (hKL : Isometry (algebraMap K L)) :
-    modifiedTopologicalTrdeg K L = 0 ↔ Function.Surjective (algebraMap K L) := by sorry
+/-- Further isometric extension can only increase the modified generating degree (C8.10). -/
+theorem modifiedTopologicalTrdeg_mono
+    (M : Type u) [NontriviallyNormedField M] [CompleteSpace M]
+    [IsUltrametricDist M] [IsAlgClosed M] [Algebra L M] [Algebra K M]
+    [IsScalarTower K L M]
+    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
+    modifiedTopologicalTrdeg K L ≤ modifiedTopologicalTrdeg K M := by sorry
 
 end ModifiedFields
 
@@ -643,20 +549,6 @@ theorem wild_kernel_pro_p (hp : p.Prime)
     (hP : ∀ g : G, g ∈ P ↔ ∀ x : C, x ≠ 0 → ‖ρ g x / x - 1‖ < 1) :
     TauCeti.IsProP p P := by sorry
 
--- Negative control: identity automorphism satisfies both convergence conclusions.
-example (x : C) :
-    Tendsto (fun n : ℕ => ((RingEquiv.refl C) ^ Nat.factorial n) x) atTop (𝓝 x) ∧
-      Tendsto (fun n : ℕ => ((RingEquiv.refl C) ^ (p ^ n)) x) atTop (𝓝 x) := by sorry
-
--- Negative control: the leading-term condition omits zero, where division is totalized.
-example : ¬ ‖(RingEquiv.refl C) 0 / (0 : C) - 1‖ < 1 := by sorry
-
-/-- The trivial action has trivial wild kernel, which is pro-p. -/
-example (hp : p.Prime) (P : Subgroup PUnit)
-    (hP : ∀ g : PUnit, g ∈ P ↔
-      ∀ x : C, x ≠ 0 → ‖(1 : PUnit →* (C ≃+* C)) g x / x - 1‖ < 1) :
-    P = ⊥ ∧ TauCeti.IsProP p P := by sorry
-
 end WildAutomorphisms
 
 section SpecializationChains
@@ -670,31 +562,24 @@ abbrev SpecializationChain (X : Type u) [TopologicalSpace X] (n : ℕ) : Type u 
     ∀ i j, i ≤ j →
       Specializes (WithTopology.ofTopology (c i) : X) (WithTopology.ofTopology (c j) : X)}
 
--- specializationChainSpace_empty
-example [IsEmpty X] (n : ℕ) : IsEmpty (SpecializationChain X n) := by sorry
+/-- Monotone vertex reindexing preserves specialization chains (C8.42). -/
+def SpecializationChain.reindex {X : Type u} [TopologicalSpace X] {m n : ℕ}
+    (c : SpecializationChain X n) (θ : Fin (m + 1) →o Fin (n + 1)) :
+    SpecializationChain X m :=
+  ⟨c.val ∘ θ, fun i j hij => c.property (θ i) (θ j) (θ.monotone hij)⟩
 
-/-- A one-point space has exactly one chain in every degree (C8.42). -/
-example [Unique X] (n : ℕ) : Nonempty (SpecializationChain X n) ∧
-    Subsingleton (SpecializationChain X n) := by sorry
-
--- On a discrete space every specialization chain is constant.
-example [DiscreteTopology X] (n : ℕ) (c : SpecializationChain X n)
-    (i j : Fin (n + 1)) : c.val i = c.val j := by sorry
-
--- specializationChainSpace_twoPointChain: Prop with Mathlib's Sierpinski topology.
-example :
-    (∃! c : SpecializationChain Prop 1, Function.Injective c.val) ∧
-      ¬ ∃ c : SpecializationChain Prop 2, Function.Injective c.val := by sorry
-
-/-- The first vertex changes when face zero deletes it (C8.42). -/
-example : ∃ c : SpecializationChain Prop 1, c.val 0 ≠ c.val 1 := by sorry
+/-- Successive reindexings of a specialization chain compose as monotone vertex maps (C8.42). -/
+theorem SpecializationChain.reindex_comp {X : Type u} [TopologicalSpace X] {k m n : ℕ}
+    (c : SpecializationChain X n) (θ : Fin (m + 1) →o Fin (n + 1))
+    (φ : Fin (k + 1) →o Fin (m + 1)) :
+    (c.reindex θ).reindex φ = c.reindex (θ.comp φ) := by sorry
 
 end SpecializationChains
 
 section Specialization
 attribute [local instance] specializationOrder
 
--- DiamondEtaleCohomology:C8/specialization-dimension
+/-- Topological Krull dimension agrees with the specialization-order dimension (C8.1). -/
 theorem specialization_dimension (X : Type u) [TopologicalSpace X]
     [QuasiSober X] [T0Space X] :
     topologicalKrullDim X = Order.krullDim X := by sorry
@@ -716,15 +601,12 @@ end SpectralCohomology
 /-
 The README also specifies the valuation-ring comparison in C5.7 and
 IsConstFGOn.iff_exists in C7.1.
-The README specifies additional APIs: C7.11 includes HasFiltrationBy.of_mem; C7.1 includes
-IsConstructibleSheaf.extendByZero_open, IsConstructibleSheaf.iff_compact,
-IsConstructibleSheaf.stalk_fg. C8.2 uses the supplied AdicSpace.relDim;
-relDim_identity is its nonempty identity specialization. C8.3 includes topologicalTrdeg_le_iff,
-topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
+The README specifies additional APIs: C7.1 includes
+IsConstructibleSheaf.iff_compact. C8.2 uses the supplied AdicSpace.relDim;
+relDim_identity is its nonempty identity specialization. C8.3 includes topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
 topologicalTrdeg_equiv.
 C8.4 includes topologicalIndependenceDegree_le_iff and topologicalIndependenceDegree_self.
-C8.10 includes modifiedTopologicalTrdeg_le_iff, modifiedTopologicalTrdeg_le,
-modifiedTopologicalTrdeg_mono and modifiedTopologicalTrdeg_equiv. Their mathematical
+C8.10 includes modifiedTopologicalTrdeg_le and modifiedTopologicalTrdeg_equiv. Their mathematical
 contracts and the chain-space construction, quasi-augmentation and nondegeneracy theorem are in those sections.
 C8.48a specifies analyticFieldPairPartiallyProper and its unrestricted reduction
 analyticFieldPairPartiallyProper_iff_perfectoidTests; the comparison
