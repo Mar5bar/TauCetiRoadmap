@@ -16,8 +16,9 @@ projective bundles of quasi-coherent modules and their twisting sheaves, coheren
 and flags, the quasi-coherent descent pseudofunctor, relative Hom and Weil restriction presheaves,
 the intrinsic band sheaf and the Hom sheaves of banded morphisms, gerbe classes in `H²`,
 rigidifications and finite correspondences of stacks, Picard stack carriers and sheaves, framed
-deformation groupoids, nonarchimedean analytifications and the resolution functor. Layers 5 and 8
-consist of such targets only and have no section below.
+deformation groupoids and nonarchimedean analytifications. Layer 9 consumes resolution and
+marked-ideal APIs from ResolutionOfSingularitiesCharacteristicZero and specifies their algebraic
+vanishing and numerical applications in the README. Layers 5, 8 and 9 have no section below.
 
 Design choices made explicit here:
 
@@ -30,8 +31,6 @@ Design choices made explicit here:
   dual-number restriction over a fixed point, not all dual-number points.
 * The relative Picard presheaf is `T ↦ Pic(X_T)` on schemes over the base, before fppf
   sheafification; its values are Tau Ceti's `LineBundleClass`.
-* The order of an ideal at a prime is computed in the localisation, valued in `ℕ∞`; a marked
-  ideal carries a strictly positive mark.
 -/
 
 open CategoryTheory Opposite Bicategory
@@ -939,186 +938,6 @@ example (K : Type u) [Field K] :
     Subsingleton (LineBundleClass (Spec (CommRingCat.of K))) := sorry
 
 end RelativePicard
-
-/-! ## Layer 9: resolution and SNC compactification -/
-
-namespace Resolution
-
-variable {R : Type u} [CommRing R]
-
-open scoped Classical in
-/-- The order of an ideal at a prime: the largest `n` with `I R_𝔭 ⊆ 𝔭ⁿ R_𝔭`, in `ℕ∞`. Vanishing
-implies order `⊤`; the converse needs Noetherianity (Krull intersection). -/
-noncomputable def idealOrderAt (I : Ideal R) (p : PrimeSpectrum R) : ℕ∞ :=
-  ⨆ n : ℕ, if I.map (algebraMap R (Localization.AtPrime p.asIdeal)) ≤
-    (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)) ^ n then (n : ℕ∞) else 0
-
-/-- `IdealOrderChecks.unit`: the unit ideal has order zero at every prime. -/
-example (p : PrimeSpectrum R) : idealOrderAt (⊤ : Ideal R) p = 0 := sorry
-
-/-- `OrderTests.dualNumbers`: on the dual numbers the maximal ideal has order one but its square,
-which is zero, has order `⊤`; the order is not multiplicative off regular rings. -/
-example (K : Type u) [Field K] :
-    let m := IsLocalRing.maximalIdeal (DualNumber K)
-    ∃ p : PrimeSpectrum (DualNumber K), idealOrderAt m p = 1 ∧ idealOrderAt (m ^ 2) p = ⊤ :=
-  sorry
-
-/-- A marked ideal `(I, d)`: an ideal with a strictly positive mark. -/
-structure MarkedIdeal (R : Type u) [CommRing R] where
-  /-- The ideal whose order is compared with the mark. -/
-  ideal : Ideal R
-  /-- The order threshold. -/
-  mark : ℕ
-  /-- The threshold is strictly positive. -/
-  mark_pos : 0 < mark
-
-/-- The cosupport of a marked ideal: the primes at which the order of `I` is at least `d`. -/
-def MarkedIdeal.cosupport (J : MarkedIdeal R) : Set (PrimeSpectrum R) :=
-  {p | (J.mark : ℕ∞) ≤ idealOrderAt J.ideal p}
-
-/-- A residual factor of order zero along the cosupport is the unit ideal on its open
-complement of vanishing. This open contains the cosupport, and the ideal equals its other
-factor at every stalk there. -/
-theorem MarkedIdeal.residualUnitOnOpen (J : MarkedIdeal R) (M N : Ideal R)
-    (hfactor : J.ideal = M * N)
-    (hresidual : ∀ p ∈ J.cosupport, idealOrderAt N p = 0) :
-    ∃ U : TopologicalSpace.Opens (PrimeSpectrum R),
-      J.cosupport ⊆ (U : Set (PrimeSpectrum R)) ∧
-      (U : Set (PrimeSpectrum R)) = (PrimeSpectrum.zeroLocus (N : Set R))ᶜ ∧
-      ∀ p : PrimeSpectrum R, p ∈ U →
-        N.map (algebraMap R (Localization.AtPrime p.asIdeal)) = ⊤ ∧
-        J.ideal.map (algebraMap R (Localization.AtPrime p.asIdeal)) =
-          M.map (algebraMap R (Localization.AtPrime p.asIdeal)) := sorry
-
-/-- `CompanionChecks.locallyMonomial`: for `(x²(x−1), 2)` with boundary `x = 0`, the cosupport
-is `{0}` and the residual factor `(x−1)` has order zero there. The ideal equals `(x²)` on
-`D(x−1)`, while at `1` its order is one and the residual factor is nonunit globally. -/
-example :
-    let I : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2 * (Polynomial.X - 1)}
-    let M : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2}
-    let N : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X - 1}
-    let J := MarkedIdeal.mk I 2 (by decide)
-    let p₀ : PrimeSpectrum (Polynomial ℚ) :=
-      PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ℚ)) ⟨⊥, inferInstance⟩
-    let p₁ : PrimeSpectrum (Polynomial ℚ) :=
-      PrimeSpectrum.comap (Polynomial.evalRingHom (1 : ℚ)) ⟨⊥, inferInstance⟩
-    I = M * N ∧ J.cosupport = {p₀} ∧ idealOrderAt N p₀ = 0 ∧
-      idealOrderAt I p₁ = 1 ∧ N ≠ ⊤ ∧ I ≠ M ∧
-      ∀ p : PrimeSpectrum (Polynomial ℚ), p ∈ PrimeSpectrum.basicOpen (Polynomial.X - 1) →
-        I.map (algebraMap (Polynomial ℚ) (Localization.AtPrime p.asIdeal)) =
-          M.map (algebraMap (Polynomial ℚ) (Localization.AtPrime p.asIdeal)) := sorry
-
-/-- On a ring with regular local rings, `(I, d)` and `(Iᵏ, k d)` have the same cosupport. This is
-the affine shadow of the test equivalence `markedIdeal_rescale` of README §9.1, which also asks for
-equal cosupports after every permitted sequence of blowups and is a README target. -/
-theorem MarkedIdeal.cosupport_pow (J : MarkedIdeal R) (k : ℕ) (hk : 0 < k)
-    (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
-    (MarkedIdeal.mk (J.ideal ^ k) (k * J.mark) (Nat.mul_pos hk J.mark_pos)).cosupport =
-      J.cosupport := sorry
-
-/-- `CompanionChecks.dualNumbers`: without regularity `cosupport_pow` fails: on the dual numbers
-`(m, 2)` and `(m², 4)` have different cosupports. -/
-example (K : Type u) [Field K] :
-    let m := IsLocalRing.maximalIdeal (DualNumber K)
-    (MarkedIdeal.mk (m ^ 2) 4 (by decide)).cosupport ≠
-      (MarkedIdeal.mk m 2 (by decide)).cosupport := sorry
-
-/-- The marked sum `(I, a) + (J, b) = (I^b + J^a, a b)`. -/
-def MarkedIdeal.markedSum (J K : MarkedIdeal R) : MarkedIdeal R :=
-  ⟨J.ideal ^ K.mark ⊔ K.ideal ^ J.mark, J.mark * K.mark,
-    Nat.mul_pos J.mark_pos K.mark_pos⟩
-
-/-- The mark of a marked sum is the product of the marks. -/
-theorem MarkedIdeal.markedSum_mark (J K : MarkedIdeal R) :
-    (J.markedSum K).mark = J.mark * K.mark := rfl
-
-/-- Each summand is raised to the mark of the other. -/
-theorem MarkedIdeal.markedSum_ideal (J K : MarkedIdeal R) :
-    (J.markedSum K).ideal = J.ideal ^ K.mark ⊔ K.ideal ^ J.mark := rfl
-
-/-- On a ring with regular local rings, the cosupport of a marked sum is the intersection of the
-cosupports. -/
-theorem MarkedIdeal.markedSum_cosupport
-    (hreg : ∀ p : PrimeSpectrum R,
-      IsRegularLocalRing (Localization.AtPrime p.asIdeal)) (J K : MarkedIdeal R) :
-    (J.markedSum K).cosupport = J.cosupport ∩ K.cosupport := sorry
-
-/-- `CompanionChecks.unit`: with positive marks on regular localizations, a unit summand gives
-the unit ideal and empty cosupport. -/
-example (J : MarkedIdeal R) (d : ℕ) (hd : 0 < d)
-    (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
-    let K := MarkedIdeal.mk (⊤ : Ideal R) d hd
-    (K.markedSum J).ideal = ⊤ ∧ (K.markedSum J).cosupport = ∅ := sorry
-
-/-- `CompanionChecks.zero`: with positive marks on regular localizations, two zero ideals give
-the zero ideal and full cosupport with their positive product mark. -/
-example (a b : ℕ) (ha : 0 < a) (hb : 0 < b)
-    (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
-    let J := MarkedIdeal.mk (⊥ : Ideal R) a ha
-    let K := MarkedIdeal.mk (⊥ : Ideal R) b hb
-    (J.markedSum K).ideal = ⊥ ∧ (J.markedSum K).cosupport = Set.univ ∧
-      (J.markedSum K).mark = a * b := sorry
-
-/-- `CompanionChecks.marks`: the marked sum of `(y², 2)` and `(x³, 2)` is `((y⁴, x⁶), 4)`, not the
-unpowered sum. -/
-example :
-    let J := MarkedIdeal.mk
-      (Ideal.span {MvPolynomial.X (1 : Fin 2) ^ 2} : Ideal (MvPolynomial (Fin 2) ℚ)) 2 (by decide)
-    let K := MarkedIdeal.mk
-      (Ideal.span {MvPolynomial.X (0 : Fin 2) ^ 3} : Ideal (MvPolynomial (Fin 2) ℚ)) 2 (by decide)
-    (J.markedSum K).mark = 4 ∧
-      (J.markedSum K).ideal =
-        (Ideal.span {MvPolynomial.X (1 : Fin 2) ^ 4, MvPolynomial.X (0 : Fin 2) ^ 6} :
-          Ideal (MvPolynomial (Fin 2) ℚ)) := sorry
-
-/-- Upper semicontinuity of the order on a regular ring of finite type over a field of
-characteristic zero (an affine chart of a smooth variety): the cosupport of a marked ideal is
-closed. -/
-theorem MarkedIdeal.isClosed_cosupport (k : Type u) [Field k] [CharZero k] [Algebra k R]
-    [Algebra.FiniteType k R]
-    (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal))
-    (J : MarkedIdeal R) : IsClosed J.cosupport := sorry
-
-/-- The unit marked ideal has empty cosupport. -/
-example (d : ℕ) (hd : 0 < d) : (MarkedIdeal.mk (⊤ : Ideal R) d hd).cosupport = ∅ := sorry
-
-variable {k : Type u} [Field k] {σ : Type u}
-
-/-- The derivative ideal `D(I) = I + (∂f/∂xᵢ : f ∈ I)` of an ideal of a polynomial ring. -/
-noncomputable def derivativeIdeal (I : Ideal (MvPolynomial σ k)) : Ideal (MvPolynomial σ k) :=
-  I ⊔ Ideal.span {g | ∃ f ∈ I, ∃ i : σ, g = MvPolynomial.pderiv i f}
-
-/-- `DerivativeIdealChecks.cubic`: in characteristic zero the derivative ideal of `(x³)` is
-`(x²)`. -/
-example : derivativeIdeal (Ideal.span
-    {((MvPolynomial.X () : MvPolynomial Unit ℚ) ^ 3)}) =
-      Ideal.span {((MvPolynomial.X () : MvPolynomial Unit ℚ) ^ 2)} := sorry
-
-/-- `MaxContactTests.characteristicTwoPower`: in characteristic two the derivative ideal of `(x²)`
-is `(x²)` itself, so derivatives give no hypersurface of maximal contact. -/
-example :
-    derivativeIdeal (Ideal.span
-      {((MvPolynomial.X () : MvPolynomial Unit (ZMod 2)) ^ 2)}) =
-      Ideal.span {((MvPolynomial.X () : MvPolynomial Unit (ZMod 2)) ^ 2)} := sorry
-
-/-- Maximal contact in characteristic zero: if `I` has order exactly `d ≥ 1` at a prime `𝔭` of the
-polynomial ring, some element of the `(d − 1)`-st derivative ideal has order exactly `1` at `𝔭`.
-This fails in positive characteristic (`x^p` over `𝔽_p`). -/
-theorem exists_maximalContact [CharZero k] [Finite σ] (I : Ideal (MvPolynomial σ k))
-    (p : PrimeSpectrum (MvPolynomial σ k)) (d : ℕ) (hd : 0 < d) (hI : idealOrderAt I p = d) :
-    ∃ f ∈ derivativeIdeal^[d - 1] I, idealOrderAt (Ideal.span {f}) p = 1 := sorry
-
-open AlgebraicGeometry in
-/-- Resolution of singularities in characteristic zero: an integral separated scheme of finite type
-over a field of characteristic zero admits a proper surjective morphism from a smooth scheme which
-is an isomorphism over a dense open subscheme. The embedded, functorial and boundary forms are
-README targets (§§9.4–9.7). -/
-theorem exists_resolution [CharZero k] (X : Scheme.{u}) (s : X ⟶ Spec (CommRingCat.of k))
-    [LocallyOfFiniteType s] [QuasiCompact s] [IsSeparated s] [IsIntegral X] :
-    ∃ (Y : Scheme.{u}) (π : Y ⟶ X), IsProper π ∧ Function.Surjective π.base ∧
-      Smooth (π ≫ s) ∧ ∃ U : X.Opens, Dense (U : Set X) ∧ IsIso (π ∣_ U) := sorry
-
-end Resolution
 
 end TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
