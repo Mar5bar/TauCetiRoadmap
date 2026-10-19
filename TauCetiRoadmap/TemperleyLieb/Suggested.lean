@@ -444,7 +444,12 @@ noncomputable instance : (linearize R δ).Monoidal := sorry
 section LinearUniversalProperty
 
 variable {C : Type*} [Category C] [Preadditive C] [CategoryTheory.Linear R C] [MonoidalCategory C]
-  [MonoidalPreadditive C] [MonoidalLinear R C]
+
+/-! `[MonoidalPreadditive C] [MonoidalLinear R C]` are binders of each declaration below, not
+section variables: the data-valued `lift`, its `Monoidal` instance and `liftObjIso` mention
+neither, so as section variables they would drop out of those signatures. They are needed,
+since an `R`-linear strong monoidal functor out of `TL(R, δ)` forces
+`(δ • 𝟙 (𝟙_ C)) ▷ V = δ • 𝟙 V`. -/
 
 /-- The self-duality of the generating object `1` of `TL(R, δ)`: `η_` is the cup and `ε_` the cap,
 so `η_ ≫ ε_ = δ • 𝟙 (𝟙_ _)`. -/
@@ -455,28 +460,31 @@ noncomputable def TLCat.selfDuality :
 /-- **The `R`-linear universal property, existence**: a self-duality in an `R`-linear monoidal
 category whose loop is `δ` is the image of the generating one under an `R`-linear strong monoidal
 functor out of `TL(R, δ)`. No centrality hypothesis is needed here: `δ • 𝟙` is central. -/
-noncomputable def TLCat.lift (V : C) [ExactPairing V V]
-    (_hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : TLCat R δ ⥤ C := sorry
+noncomputable def TLCat.lift [MonoidalPreadditive C] [MonoidalLinear R C] (V : C)
+    [ExactPairing V V] (_hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : TLCat R δ ⥤ C := sorry
 
-noncomputable instance (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
-    (TLCat.lift R δ V hδ).Monoidal := sorry
+noncomputable instance [MonoidalPreadditive C] [MonoidalLinear R C] (V : C) [ExactPairing V V]
+    (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : (TLCat.lift R δ V hδ).Monoidal := sorry
 
-instance (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
-    (TLCat.lift R δ V hδ).Linear R := sorry
+instance [MonoidalPreadditive C] [MonoidalLinear R C] (V : C) [ExactPairing V V]
+    (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : (TLCat.lift R δ V hδ).Linear R := sorry
 
-noncomputable def TLCat.liftObjIso (V : C) [ExactPairing V V]
-    (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) : (TLCat.lift R δ V hδ).obj (TLCat.of 1) ≅ V := sorry
+noncomputable def TLCat.liftObjIso [MonoidalPreadditive C] [MonoidalLinear R C] (V : C)
+    [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
+    (TLCat.lift R δ V hδ).obj (TLCat.of 1) ≅ V := sorry
 
 /-- The images of `cup` and `cap` are `η_ V V` and `ε_ V V`, in the sense of `SendsSelfDuality`
 (defined with the diagrammatic universal properties above). -/
-theorem TLCat.lift_sendsSelfDuality (V : C) [ExactPairing V V]
+theorem TLCat.lift_sendsSelfDuality [MonoidalPreadditive C] [MonoidalLinear R C] (V : C)
+    [ExactPairing V V]
     (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
     letI := TLCat.selfDuality R δ
     SendsSelfDuality (TLCat.lift R δ V hδ) V (TLCat.liftObjIso R δ V hδ) := sorry
 
 /-- **The `R`-linear universal property, uniqueness** up to monoidal natural isomorphism among
 `R`-linear strong monoidal functors. -/
-theorem TLCat.lift_unique (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C))
+theorem TLCat.lift_unique [MonoidalPreadditive C] [MonoidalLinear R C] (V : C)
+    [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C))
     (G : TLCat R δ ⥤ C) [G.Monoidal] [G.Linear R] (e : G.obj (TLCat.of 1) ≅ V)
     (he : letI := TLCat.selfDuality R δ; SendsSelfDuality G V e) :
     ∃ i : G ≅ TLCat.lift R δ V hδ, NatTrans.IsMonoidal i.hom ∧
@@ -940,15 +948,32 @@ open CategoryTheory.Idempotents
 universe v u₁
 
 variable (S : Type*) [CommRing S]
-variable (C : Type u₁) [Category.{v} C] [Preadditive C] [MonoidalCategory C]
-  [MonoidalPreadditive C]
+variable (C : Type u₁) [Category.{v} C]
+
+/-! The source structures for the two monoidal instances are binders of each declaration, not
+section variables. A definition keeps only the section variables its type or value uses, and a
+`sorry` value uses none, so section-variable hypotheses would silently drop out. The `Karoubi`
+instance would then claim a tensor unit on the envelope of the empty category, which is empty. -/
 
 /-- **Reusable infrastructure, not `TL`-specific**: the monoidal structure induced on the
-additive envelope. Nothing in Mathlib provides this. -/
-noncomputable instance : MonoidalCategory (Mat_ C) := sorry
+additive envelope, lifting the tensor product of `C` bilinearly to matrices. Nothing in Mathlib
+provides this. -/
+noncomputable instance [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C] :
+    MonoidalCategory (Mat_ C) := sorry
 
-/-- And on the idempotent completion. -/
-noncomputable instance : MonoidalCategory (Karoubi C) := sorry
+/-- The embedding `C ⥤ Mat_ C` is strong monoidal: the tensor product on `Mat_ C` restricts to
+the given one on `1 × 1` matrices, with the unit of `C` as unit. -/
+noncomputable instance [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C] :
+    (Mat_.embedding C).Monoidal := sorry
+
+/-- And on the idempotent completion: `(X, p) ⊗ (Y, q) = (X ⊗ Y, p ⊗ q)`. -/
+noncomputable instance [MonoidalCategory C] : MonoidalCategory (Karoubi C) := sorry
+
+/-- The embedding `C ⥤ Karoubi C` is strong monoidal, pinning the tensor and unit above as the
+lift of those of `C`. -/
+noncomputable instance [MonoidalCategory C] : (toKaroubi C).Monoidal := sorry
+
+variable [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C]
 
 /-- The `S`-linear structures likewise: Layer 7 promises a `K`-linear fusion category, and a
 monoidal instance alone does not give one. -/

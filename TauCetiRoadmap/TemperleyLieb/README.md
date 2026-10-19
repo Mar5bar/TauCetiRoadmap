@@ -48,10 +48,8 @@ pivotal, spherical, balanced, and ribbon API is **not** built here: it is the ta
 `TauCeti/CategoryTheory/Monoidal/Pivotal/`), which this roadmap consumes and repays with
 its first diagrammatic instances.
 
-⚠ That roadmap is not yet in Tau Ceti: it is
-[#57](https://github.com/TauCetiProject/TauCetiRoadmap/pull/57), still open at the time of
-writing, and the cross-links here resolve only once it merges. Treat the pivotal/spherical API
-as a declared dependency on a roadmap, not as material already available.
+That roadmap is on `main`, but its API is not yet in Tau Ceti. Treat the pivotal/spherical
+API as a declared dependency on a roadmap, not as material already available.
 
 ## Standing conventions
 
@@ -542,7 +540,10 @@ previous layers land.
   for either. Both lifts are targets here, in general and not for `TL` alone: for a monoidal
   preadditive (resp. `R`-linear) category `C`, the induced monoidal (resp. `R`-linear)
   structure on `Mat_ C` and on `Karoubi C`, together with the induced rigid structure, and the
-  compatibility of the two lifts. Only the finite biproducts come free, from `Mat_` plus
+  compatibility of the two lifts. The monoidal structures are lifts of the given one: the
+  embeddings `C ⥤ Mat_ C` and `C ⥤ Karoubi C` are strong monoidal, and the `Karoubi` lift
+  needs only a monoidal `C`. In Lean the source monoidal structure must be a binder of each
+  instance; left as a section variable it drops out of a definition with a `sorry` value. Only the finite biproducts come free, from `Mat_` plus
   `Mathlib/CategoryTheory/Idempotents/Biproducts.lean`. Everything Layer 7 says about tensor
   products, duals or quantum dimensions in the envelope rests on this, so it is the first
   milestone of the layer, and it belongs in `TauCeti/CategoryTheory/Monoidal/Envelope/`
