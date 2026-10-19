@@ -4,7 +4,8 @@
 
 The definitive specification is this README. [`Suggested.lean`](Suggested.lean) records suggested
 forms of light definitions and milestones over the pinned library carriers; it is not an exhaustive
-checklist. Definitions whose construction needs local types, automorphic classes, Whittaker models
+checklist. These prototypes include admitted proof obligations and admitted constructor and theorem
+signatures. Definitions whose construction needs local types, automorphic classes, Whittaker models
 or modular cohomology are targets here, with their intended inputs and outputs, API and Checks.
 
 ## Scope and ownership
@@ -660,9 +661,9 @@ for the decomposition used by the supercuspidal block argument.
 
 ### R16.2.11 The Conrad–Diamond–Taylor vexing type
 
-Construct `cdtVexingType` on the actual finite quotient and regular-character data below, with its coefficient lattice; its intended inputs include CDT’s set S and membership of x in S; its output is the representation of the specified `U_x/V_x`. Let x≠ℓ be a vexing prime: x≡−1 mod ℓ, residual local rank-two representation irreducible but its inertia restriction reducible; its conductor `c_x=2n`. From CDT’s regular character θ of the unramified quadratic extension with conductor xⁿ construct Θ(θ), an existing finite-group representation of GL₂(ℤ/xⁿℤ), and choose a stable O-lattice for a characteristic-zero coefficient field containing its values. For x∈T(ρ)∖S, take `U_x=GL₂(ℤ_x)`, `V_x=U(xⁿ)`, and `σ_x=Θ(θ)`. For x∈T(ρ)∩S, take `U_x=U₀(x)`, `V_x=U(xⁿ)`, and `σ_x=Θ(θ)|U_x/V_x`. The U₀ branch carries x∈S as a hypothesis; retain the full compact representation separately. The larger GL₂ quotient representation Wσx in CG18 restricts to the U₀ selector in that branch.
+Construct `cdtVexingType` on the actual finite quotient and character data below, with its coefficient lattice; its inputs include CDT’s set S and membership of x in S; its output is the representation of the specified `U_x/V_x`. Let x≠ℓ be a vexing prime: x≡−1 mod ℓ, residual local rank-two representation irreducible but its inertia restriction reducible; its conductor `c_x=2n`. For the unramified quadratic extension E/ℚ_x with nontrivial automorphism σ, take a smooth character θ with `a(θ/θ^σ)=a(θ)=n≥1`, where a is the conductor exponent on E×. Thus θ is regular (`θ≠θ^σ`) and no norm-character twist lowers its conductor. Both selector branches take this conductor equality as an explicit input, in addition to the vexing-prime conditions. Construct Θ(θ), a finite-group representation of GL₂(ℤ/xⁿℤ), and choose a stable O-lattice for a characteristic-zero coefficient field containing its values. For x∈T(ρ)∖S, take `U_x=GL₂(ℤ_x)`, `V_x=U(xⁿ)`, and `σ_x=Θ(θ)`. For x∈T(ρ)∩S, take `U_x=U₀(x)`, `V_x=U(xⁿ)`, and `σ_x=Θ(θ)|U_x/V_x`. The U₀ branch carries x∈S as a hypothesis; retain the full compact representation separately. The larger GL₂ quotient representation Wσx in CG18 restricts to the U₀ selector in that branch.
 
-x and ℓ distinct primes; regular θ, `θ≠θ^Frob`; coefficient field contains values; choose an invariant lattice.
+x and ℓ distinct primes; `a(θ/θ^σ)=a(θ)=n≥1`; coefficient field contains values; choose an invariant lattice.
 
 Prove the following API.
 - Restriction of Θ(θ) uses the supplied `Representation.comp`; identify the resulting selector with the chosen full-compact or U₀ branch of CDT §5.1.
@@ -673,10 +674,11 @@ Prove the following API.
 - With x∉S the selector is the full Θ(θ); with x∈S its domain is U₀(x)/U(xⁿ). The lattice tensored with the coefficient field is isomorphic to the corresponding type.
 - A local representation with inertial characters not `θ,θ^Frob` has no occurrence of the full Θ(θ) type.
 - π and π⊗ξdet for unramified ξ have equal Θ(θ) occurrence multiplicity.
+- At x=5, ℓ=3, let θ₀ be inflated from a character of exact order eight on 𝔽₂₅×, with θ₀(5)=1, and let λ:ℚ₅×→μ₅ have conductor exponent two. For `θ=θ₀(λ∘N_{E/ℚ₅})`, `a(θ)=2` but `θ/θ^σ=θ₀^(−4)` has conductor exponent one. It is regular and its residual induction satisfies the vexing-prime conditions, but it is excluded by the selector’s conductor hypothesis.
 
 *Needs:* R16.2/henniart-unicity; R16.0/local-langlands; ArithmeticGaloisRepresentations §1.6, Stable lattices (`exists_stable_lattice_iff`): embed the finite characteristic-zero type in a p-adic coefficient field, apply the compact-closure criterion, and descend the finite orbit span to the specified coefficient DVR.
 
-*Source:* [cg18], §3.9.2 construction Wσx; CDT §5.1 p. 18.
+*Source:* [cdt99], §§3.1–3.2 (the character and conductor hypotheses), Lemma 3.2.1 and §5.1 p. 18 (the two selectors); [cg18], §3.9.2 construction Wσx.
 
 <a id="r16-2-iwahori-center"></a>
 
@@ -829,13 +831,18 @@ The complete hypotheses of tamelyDihedral, including q≡−1 mod ℓ.
 
 ### R16.3.9 The CDT inertial comparison and multiplicity one
 
-For CDT’s regular θ of conductor xⁿ, write Θ(θ) for its full GL₂(ℤ/xⁿℤ) type. For infinite-dimensional irreducible admissible Π of GL₂(ℚx), `Hom_K(Θ(θ),Π^{U(xⁿ)})≠0` iff `rec Π|I≅θ∘η_{x²} ⊕ θ∘Frob∘η_{x²}` in CDT’s reciprocity convention. In that case `Π^{U(xⁿ)}≅Θ(θ)` and the type multiplicity is one. Translate the Artin convention to R16.3. This comparison concerns the full K-type; its U₀(x) restriction used as a vexing selector can identify more than one finite-character twist. The special case in CDT’s surrounding discussion is translated with N retained, not as an N=0 parameter.
+For a smooth character θ of the unramified quadratic E/ℚ_x with `a(θ/θ^σ)=a(θ)=n≥1`, write Θ(θ) for its full GL₂(ℤ/xⁿℤ) type and K=GL₂(ℤ_x). For infinite-dimensional irreducible admissible Π of GL₂(ℚx), `Hom_K(Θ(θ),Π^{U(xⁿ)})≠0` iff `rec Π|I≅θ∘η_{x²} ⊕ θ∘Frob∘η_{x²}` in CDT’s reciprocity convention. In that case `Π^{U(xⁿ)}≅Θ(θ)` and the type multiplicity is one. Translate the Artin convention to R16.3. This comparison concerns the full K-type; its U₀(x) restriction used as a vexing selector can identify more than one finite-character twist. The special case in CDT’s surrounding discussion is translated with N retained, not as an N=0 parameter.
 
-x≠ℓ; regular θ and coefficient field containing its values; principal congruence U(xⁿ), full compact type. Use CFT Layer9 Weil reciprocity for ℚx and its unramified quadratic extension; Layer7 supplies the compatible absolute/finite-quotient map, not an inverse on all of `G_Fᵃᵇ`.
+x≠ℓ; `a(θ/θ^σ)=a(θ)=n≥1` and coefficient field containing its values; principal congruence U(xⁿ), full compact type. Use CFT Layer9 Weil reciprocity for ℚx and its unramified quadratic extension; Layer7 supplies the compatible absolute/finite-quotient map, not an inverse on all of `G_Fᵃᵇ`.
+
+**Checks.**
+- A regular tame θ has `a(θ/θ^σ)=a(θ)=1`; the comparison recovers the depth-zero cuspidal representation of GL₂(𝔽_x).
+- For the x=5, ℓ=3 norm twist in R16.2.11, let Π₀ be the depth-zero supercuspidal for θ₀ and `Π=Π₀⊗(λ∘det)`. Applying the even-n construction at n=2 and untwisting gives the inflation of `Ind_{𝔽₂₅×}^{GL₂(𝔽₅)}θ₀`. Its Hom into `Π₀^{U(5)}` vanishes: the finite cuspidal character sum is `(16−20+4)/24=0`. Thus the inertial match alone does not imply occurrence without the conductor equality.
+- An unramified determinant twist preserves both inertia and Θ(θ) multiplicity one under the stated conductor hypothesis.
 
 *Needs:* R16.2/cdt-vexing-type; R16.2/henniart-unicity; R16.3/supercuspidal-parameter; R16.0/local-langlands; ArithmeticGaloisRepresentations §2.4; ClassFieldTheory Layer 7; ClassFieldTheory Layer 9.
 
-*Source:* [cdt99], Lemma 4.2.4(3), pp. 17–18.
+*Source:* [cdt99], §§3.1–3.2 and Lemma 4.2.4(3), pp. 17–18.
 
 
 ### Examples
@@ -2208,29 +2215,41 @@ R16.1–R16.6; R17.4; ArithmeticGaloisRepresentations Layers 1–5; GlobalNumber
 ### R17.6.1 Adelic comparison of the classical rank-two summand
 
 For integer weight k≥2, a normalized cuspidal primitive classical eigenform f and its
-adelic representation π, identify the primitive rank-two summand of
+unitary adelic representation π_unit, use the finite-part coefficient model of
+R16.4.5 for `π_alg,f=π_unit,f⊗|det|^{−(k−2)/2}`. Identify the primitive rank-two summand of
 AlgebraicModularFormsAndSerreWeights R15.5A.1 with
-`Hom_{GL₂(𝔸_f)}(π_f,H¹_par)` in the modular-curve tower, over the specified coefficient
+`Hom_{GL₂(𝔸_f)}(π_alg,f,H¹_par)` in the modular-curve tower, over the specified coefficient
 completion. Use its coefficient system `V_k=Sym^(k−2)R¹h_*ℚ_ℓ` and the image
 `H¹_par=image(H¹_c→H¹)`, with the holomorphic and antiholomorphic contributions supplied
 by the classical comparison. Construct the adelic Hom identification through the finite-level
 and holomorphic dictionaries of R16.4 and R16.6. At exact level the automorphic newvector
 projector recovers the primitive summand; at larger levels distinguish the dimension of
-`π_f`'s oldvector invariants from its rank-two cohomological multiplicity.
+`π_alg,f`'s oldvector invariants from its rank-two cohomological multiplicity.
 
 Prove compatibility with coefficient extension, Galois and Hecke actions, and level
 pullback/trace. The adelic multiplicity is independent of the auxiliary neat full level;
 pullback is adjoint to trace under the supplied coefficient pairing.
+The geometric tower action uses the classical Hecke pullback/trace operators: at a good p,
+the volume-one raw spherical operator on `π_alg,p` has eigenvalue `a_p`, and the central
+operator `diag(p,p)` has eigenvalue `ε(p)p^{k−2}`. To apply R17.6.4's unitary local
+formula, transport through `π_unit,p=π_alg,p⊗|det|^{(k−2)/2}` under the fixed coefficient
+embedding; the cohomological multiplicity and its Galois action retain their geometric normalization.
 
 **Checks.** For k=2 the comparison identifies the constant-coefficient Jacobian realization;
-for the weight-twelve level-one cusp form the adelic multiplicity is two despite larger-level
-oldvector spaces; an Eisenstein boundary class has zero cuspidal projection; k=1 is excluded
+for the weight-twelve level-one form Δ the adelic multiplicity is two despite larger-level
+oldvector spaces, and at p=2 its geometric raw Hecke eigenvalue is −24, whereas the unitary
+raw eigenvalue is `2^(−5)(−24)=−3/4`; the central operator acts by `2¹⁰` on `π_alg,2`
+and by 1 on `π_unit,2`; an Eisenstein boundary class has zero cuspidal projection; k=1 is excluded
 from the prescribed symmetric coefficient system.
 
 *Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1
 [classical rank-two cohomological summand](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-parabolic-realization);
-R16.4; R16.6; AutomorphicLFunctionsAndLocalFactors AL.2
+R16.4/cohomological-rationality; R16.6; AutomorphicLFunctionsAndLocalFactors AL.2
 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors).
+
+*Source:* [deligne69], Theorem 2.10, pp.147–148, Definition 3.9 and (3.10)–(3.12),
+pp.153–154 (the coefficient tower and its adelic action); [carayol86], §§2.2 and 4.9,
+pp.419–420 and 426. The normalization is R16.4.5's algebraic twist of the unitary dictionary.
 
 AlgebraicModularFormsAndSerreWeights R15.5A.2
 [classical eigenforms of weight at least two](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-higher-weight-attachment)
@@ -2295,7 +2314,7 @@ For a primitive newform f of weight k≥2, exact level M and character ε, its a
 
 For p≠ℓ set `ν_W(Φ)=p⁻¹`; `π_p` is unitary-normalized. The arithmetic attachment satisfies `WD(ρ_{f,λ})=rec(π_p)^∨⊗ν_W^((k−1)/2)`; its dual matches `rec(π_p)⊗ν_W^(−(k−1)/2)`. Dualizing sends N to −Nᵗ. Conductor is unchanged by this dual and unramified twist.
 
-**Parabolic comparison.** For F=ℚ, Carayol uses M₂(ℚ) and classical parabolic H¹. The primitive `π_f` multiplicity in the `Sym^(k−2)` modular-curve tower has dimension two; level, Hecke and Galois actions commute. Good-prime recognition identifies its dual with `ρ_{f,λ}`.
+**Parabolic comparison.** For F=ℚ, Carayol uses M₂(ℚ) and classical parabolic H¹. The primitive `π_alg,f` multiplicity of R17.6.1 in the `Sym^(k−2)` modular-curve tower has dimension two; use R16.4.5's finite coefficient model with `π_alg,f=π_unit,f⊗|det|^{−(k−2)/2}`. Level, Hecke and Galois actions commute. Good-prime recognition identifies this geometric multiplicity's dual with `ρ_{f,λ}`. The displayed Weil–Deligne formula uses `π_p=π_unit,p=π_alg,p⊗|det|^{(k−2)/2}` under the fixed coefficient embedding, with its stated dual and norm factors.
 
 For a semistable model set `X=ker(H¹_par(special fibre)→H¹(normalization))`. Keep cusp extension by zero in the coefficient nearby-cycle sequence. Picard–Lefschetz surjects generic H¹(1) onto X through the nondegenerate pairing of the node branch-difference cokernel and dual incidence kernel, forcing rank-one N on special summands. Principal series come from the normalized fibre; ordinary supercuspidals use CM induction and good-prime recognition of the same multiplicity.
 
@@ -2306,7 +2325,7 @@ Proof: use Varshavsky on the **reordered** correspondence (c₂,c₁), with morp
 At odd p every supercuspidal is ordinary, so the ℓ=2 odd-conductor application uses Theorem (B), without cubic transfer. For p=2≠ℓ use Carayol §12.2's strong cubic comparison and field-change identification. Residual inequality gives N|M, hence M=N when M|N.
 The API includes Ramified Frobenius-semisimple compatibility with N; equality of characteristic-zero conductor and primitive level away from ℓ; independence of stable lattice for the semisimple residual class; residual conductor inequality.
 
-**Checks.** An unramified Steinberg twist has conductor one despite unramified semisimple Weil action; supercuspidals retain Swan conductor; reduction can lower conductor. For trace specialization, (a,d)=(1,pᵐ), m>0, uses the ordinary stalk, (2,3) has a length-two fixed scheme without an extra factor two, and (3,2) uses the dual stalk. Equal orders are excluded: the identity correspondence has a positive-dimensional fixed locus.
+**Checks.** An unramified Steinberg twist has conductor one despite unramified semisimple Weil action; supercuspidals retain Swan conductor; reduction can lower conductor. For Δ at p=2, ℓ≠2, the algebraic multiplicity has raw Hecke eigenvalue −24; undoing its determinant twist gives the unitary eigenvalue −3/4 before the local Weil–Deligne formula is applied. For trace specialization, (a,d)=(1,pᵐ), m>0, uses the ordinary stalk, (2,3) has a length-two fixed scheme without an extra factor two, and (3,2) uses the dual stalk. Equal orders are excluded: the identity correspondence has a positive-dimensional fixed locus.
 
 *Needs:* R17.6/proper-curve-correspondence-trace; R17.6/contracting-curve-local-term; AlgebraicModularFormsAndSerreWeights R15.5A.2
 [classical higher-weight attachment](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-higher-weight-attachment); R16.3; R16.6/classical-hecke-and-level; ArithmeticGaloisRepresentations §§3.1–3.6 and ArithmeticGaloisRepresentations Layer 5; R17.5/prescribed-local-induction; R17.4/nonnormal-cubic-base-change. R17.6/proper-curve-correspondence-trace and R17.6/contracting-curve-local-term supply the ramified trace; parabolic comparison and field-change identification are subsidiary targets here.

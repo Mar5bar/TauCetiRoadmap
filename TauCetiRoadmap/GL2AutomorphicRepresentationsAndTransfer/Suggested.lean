@@ -12,6 +12,8 @@ import TauCeti.Algebra.Quaternion.Split
 The mathematical roadmap is `README.md`. This file records light definitions and
 end theorems and milestones statable against the pinned Mathlib and Tau Ceti APIs.
 These are suggested forms, not an exhaustive checklist of the roadmap's targets.
+The representative definitions include admitted proof obligations; constructor
+and theorem signatures are admitted where indicated.
 
 AutomorphicLFunctionsAndLocalFactors AL.2, GL₂ newvectors, supplies the lower-left
 and last-row subgroups. The comparisons take supplied subgroups with explicit
@@ -26,6 +28,9 @@ AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization, its invers
 raising and Casimir formulas, scalar normalization and Hecke and diamond comparisons.
 R16.1/finite-level-comparison identifies these with the matrix and level realizations;
 R16.6 compares the supplied primitive occurrence with local newvectors and conductors.
+R17.6.1 and R17.6.4 use the algebraically normalized finite-part coefficient model
+π_alg,f = π_unit,f ⊗ |det|^(-(k-2)/2) in the geometric parabolic-cohomology Hom.
+Their local Weil–Deligne comparison uses π_unit,p after undoing this finite twist.
 
 LocalGaloisDeformationRings §2.26.1 supplies `DivisionAlgebraTypes.jacquetLanglands`.
 R17.1/local-quaternionic-comparison consumes its degree-two nonarchimedean
@@ -251,11 +256,14 @@ open scoped ValuativeRel
 variable {p : ℕ} [Fact p.Prime]
 
 /-- The norm-power character on Q_p with the normalized p-adic absolute value. -/
-def localNormCharacter (p : ℕ) [Fact p.Prime] (t : ℝ) : ℚ_[p]ˣ →* ℂˣ := by sorry
+def localNormCharacter (p : ℕ) [Fact p.Prime] (t : ℝ) : ℚ_[p]ˣ →* ℂˣ where
+  toFun u := Units.mk0 ((‖(u : ℚ_[p])‖ ^ t : ℝ) : ℂ) (by sorry)
+  map_one' := by sorry
+  map_mul' := by sorry
 
 /-- The norm character evaluates by the real power of the normalized absolute value. -/
 theorem localNormCharacter_eval (t : ℝ) (u : ℚ_[p]ˣ) :
-    (localNormCharacter p t u : ℂ) = (‖(u : ℚ_[p])‖ ^ t : ℝ) := by sorry
+    (localNormCharacter p t u : ℂ) = (‖(u : ℚ_[p])‖ ^ t : ℝ) := rfl
 
 /-- Smooth normalized upper-Borel induction as a submodule of functions on GL₂(Q_p). -/
 def localPrincipalSeriesSpace (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ) :
@@ -275,13 +283,20 @@ def localPrincipalSeriesSpace (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ) :
 /-- Right translation on the concrete smooth induced function space. -/
 def localPrincipalSeriesRep (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ) :
     Representation ℂ (GeneralLinearGroup (Fin 2) ℚ_[p])
-      (localPrincipalSeriesSpace χ₁ χ₂) := by sorry
+      (localPrincipalSeriesSpace χ₁ χ₂) where
+  toFun g :=
+    { toFun := fun f => ⟨fun x =>
+        (f : GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) (x * g), by sorry⟩
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  map_one' := by sorry
+  map_mul' := by sorry
 
 /-- The induced action evaluates by right translation of its argument. -/
 theorem localPrincipalSeriesRep_eval (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
     (g x : GeneralLinearGroup (Fin 2) ℚ_[p]) (f : localPrincipalSeriesSpace χ₁ χ₂) :
     (localPrincipalSeriesRep χ₁ χ₂ g f : GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) x =
-      (f : GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) (x * g) := by sorry
+      (f : GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) (x * g) := rfl
 
 /-- Constants in the unnormalized flag-function realization of the reducible principal series. -/
 def localSteinbergConstants (p : ℕ) [Fact p.Prime] :
@@ -293,7 +308,10 @@ def localSteinbergConstants (p : ℕ) [Fact p.Prime] :
 def localSteinbergTwist (χ : ℚ_[p]ˣ →* ℂˣ) :
     Representation ℂ (GeneralLinearGroup (Fin 2) ℚ_[p])
       ((localPrincipalSeriesSpace (localNormCharacter p (-(1/2)))
-        (localNormCharacter p (1/2))) ⧸ localSteinbergConstants p) := by sorry
+        (localNormCharacter p (1/2))) ⧸ localSteinbergConstants p) :=
+  Representation.charTwist (χ.comp GeneralLinearGroup.det)
+    ((localPrincipalSeriesRep (localNormCharacter p (-(1/2)))
+      (localNormCharacter p (1/2))).quotient (localSteinbergConstants p) (by sorry))
 
 /-- On the quotient, Steinberg's twist is the determinant character times right translation. -/
 theorem localSteinbergTwist_quotient (χ : ℚ_[p]ˣ →* ℂˣ)
@@ -1137,6 +1155,8 @@ README-only definitions and API targets:
 CentralCharacterL2 and its inner product, completeness, translation and measure API (R16.1).
 brauerCharacter, brauerCharacter_conjugate, brauerCharacter_one, brauerCharacter_spectrum.
 cdtVexingType, cdtVexingType_lattice, cdtVexingType_restrict, cdtVexingType_unramified.
+The CDT type and both vexing selector branches require a(θ/θ^σ) = a(θ) = n ≥ 1
+for the unramified quadratic character; regularity alone does not supply this input.
 involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, nonCM_iff.
 quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
 sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
