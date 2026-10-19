@@ -487,9 +487,13 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
 - For locally trace-class positive contraction kernels, construct determinantal point
   processes. For `f≥0` continuous with compact support prove the Laplace functional
   `E exp(-∫f dN) = det(I-(1-e^{-f})K)` on `L²(supp f)`, from the point-process roadmap's
-  factorial expansion and the exponential count moments supplied by the Bernoulli-sum
-  representation below, and deduce uniqueness of the law from the point-process roadmap's
-  Laplace-functional determination. Build the needed trace-class
+  factorial expansion, and deduce uniqueness of the law from the point-process roadmap's
+  Laplace-functional determination. The exponential count moments that expansion needs on
+  each bounded window `W` come from Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)` for
+  positive semidefinite kernels, which gives `α_k(W^k) = ∫_{W^k} det[K(xᵢ,xⱼ)] ≤ (tr K_W)^k`.
+  Take Hadamard's bound from `hermitian_gram_hadamard` in the geometry-of-numbers roadmap
+  ([Geometry of numbers, quadratic forms and homogeneous arithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851),
+  §0.1.2) by realizing each finite kernel matrix as a Gram matrix. Build the needed trace-class
   integral-operator and Fredholm-determinant theory: summability, determinant series,
   continuity in trace norm, restriction, and `P(N(B)=0)=det(I-K_B)`.
   Prove Bernoulli-sum representation of bounded-set counts and their CLT when variance
@@ -499,9 +503,8 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
   continuous `K`. Prove that `K` defines a locally trace-class positive contraction (via
   Hilbert–Schmidt convergence on each bounded window and Mercer's theorem), that the
   continuous versions `det[Kₙ(xᵢ,xⱼ)]` of the correlation functions converge locally
-  uniformly, and, using Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)` for positive
-  semidefinite kernels to dominate the Fredholm expansions, that the processes converge in law
-  in the point-process roadmap's weak topology on `PointMeasure ℝ`.
+  uniformly, and, using Hadamard's bound to dominate the Fredholm expansions, that the
+  processes converge in law in the point-process roadmap's weak topology on `PointMeasure ℝ`.
 - Prove Hermite bulk/turning-point asymptotics with uniform bounds strong enough to pass
   to correlation functions and gap probabilities. For GUE and `E∈(-2,2)`, scale points
   by `nρ_SC(E)(λ-E)`; the limiting kernel is
