@@ -749,7 +749,7 @@ light specializations as well as to their enhanced geometric instances.
 
 *Needs:* `L0/derived-I-complete-etale-category`; EnhancedDerivedSheaves §§E1.3/E3.2; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3/F.4.5 (`VanishingCycles.rationalAdicRealization`); SchemeAndStackFoundations §2.17.
 
-*Target names:* `RationalLattice`, `RationalLattice.localise`, `RationalLattice.invert`, `RationalLattice.hom`, `RationalLattice.schemeComparison`.
+*Target names:* `RationalLattice`, `RationalLattice.localise`, `RationalLattice.invert`, `RationalLattice.hom`, `RationalLattice.torsion`, `RationalLattice.schemeComparison`.
 
 #### Examples
 
@@ -1968,9 +1968,11 @@ roadmap.
 
 [`Suggested.lean`](Suggested.lean) records light real-bodied coefficient and plus-ring
 definitions, the scalar localization of an existing linear category, scheme-carrier predicates,
-examples using the native effective-Cartier predicate and the valuation locus of the DVR
-test space. Its theorem statements and examples use existing library carriers. These are suggested forms, not an
-exhaustive checklist; the README is definitive.
+and the valuation locus of the DVR test space. Its named theorems state the scalar-localization
+Hom formula (`RationalLattice.hom`), annihilation of ℓ-power-torsion objects
+(`RationalLattice.torsion`), the full plus ring for algebraic fields (`charPPlus_eq_top`), and
+analyticity of the DVR test locus (`DVRTestSpace.analytic`) on existing library carriers.
+These are suggested forms, not an exhaustive checklist; the README is definitive.
 
 The enhanced categories `AdicEtale`, `SchemeAdic`, their six operations and coherent exchange
 maps, the scheme v-sheaves and comparison functors, compactification refinements and their
