@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.LinearAlgebra.RootSystem.Weyl.Chamber
 
 /-!
 # Root systems, Weyl groups, and the Cartan-Killing classification: target signatures
@@ -378,5 +379,95 @@ theorem weylGroup_equiv_dihedral_of_isG2 {ι M N : Type*}
     [AddCommGroup M] [Module ℚ M] [AddCommGroup N] [Module ℚ N] (P : RootPairing ι ℚ M N)
     [Finite ι] [P.IsRootSystem] [P.IsG2] (b : P.Base) :
     HasCartanType P b .G2 ∧ Nonempty (P.weylGroup ≃* DihedralGroup 6) := sorry
+
+
+/-! ## Finite root automorphisms: native chamber complement and semidirect endpoint
+
+Only the complement is a new root application; the generic equivalence is native.
+The integral/full-datum target does not assume integral IsRootSystem. -/
+
+namespace RootAutomorphisms
+
+section Pairing
+variable {ι R M N : Type*} [CommRing R]
+  [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+
+/-- The actual subgroup preserving the chosen simple-root index set. -/
+def basedAut (P : RootPairing ι R M N) (b : P.Base) : Subgroup P.Aut where
+  carrier := {g | g.indexEquiv '' b.support = b.support}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+theorem weyl_normal (P : RootPairing ι R M N) : P.weylGroup.Normal := by sorry
+
+/-- Native conjugation action, with its actual normalizer inclusion. -/
+noncomputable def basedConjugation (P : RootPairing ι R M N) (b : P.Base) :
+    basedAut P b →* MulAut P.weylGroup := by
+  letI := weyl_normal P
+  exact P.weylGroup.normalizerMonoidHom.comp
+    (Subgroup.inclusion (P.weylGroup.normalizer_eq_top ▸ le_top))
+
+/-- This is exactly the native subgroup-complement equivalence. -/
+noncomputable def semidirectEquiv (P : RootPairing ι R M N) (b : P.Base)
+    (hc : P.weylGroup.IsComplement' (basedAut P b)) :
+    (P.weylGroup ⋊[basedConjugation P b] basedAut P b) ≃* P.Aut := by
+  letI := weyl_normal P
+  exact SemidirectProduct.mulEquivSubgroup hc
+
+theorem semidirectEquiv_apply (P : RootPairing ι R M N) (b : P.Base)
+    (hc : P.weylGroup.IsComplement' (basedAut P b))
+    (x : P.weylGroup ⋊[basedConjugation P b] basedAut P b) :
+    semidirectEquiv P b hc x = (x.left : P.Aut) * (x.right : P.Aut) := by rfl
+
+/-- Both factors are actual projections of the native inverse, not admitted values. -/
+noncomputable def weylFactor (P : RootPairing ι R M N) (b : P.Base)
+    (hc : P.weylGroup.IsComplement' (basedAut P b)) (g : P.Aut) : P.weylGroup :=
+  ((semidirectEquiv P b hc).symm g).left
+
+noncomputable def basedFactor (P : RootPairing ι R M N) (b : P.Base)
+    (hc : P.weylGroup.IsComplement' (basedAut P b)) (g : P.Aut) : basedAut P b :=
+  ((semidirectEquiv P b hc).symm g).right
+
+theorem factorization (P : RootPairing ι R M N) (b : P.Base)
+    (hc : P.weylGroup.IsComplement' (basedAut P b)) (g : P.Aut) :
+    g = (weylFactor P b hc g : P.Aut) * (basedFactor P b hc g : P.Aut) := by sorry
+
+/-- A specified lattice-preserving subgroup; the forward coweight map is inverse. -/
+def latticePreserving (P : RootPairing ι R M N)
+    (X₀ : AddSubgroup M) (Y₀ : AddSubgroup N) : Subgroup P.Aut where
+  carrier := {g | g.weightEquiv '' (X₀ : Set M) = X₀ ∧
+    g.coweightEquiv.symm '' (Y₀ : Set N) = Y₀}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+end Pairing
+
+section Real
+variable {ι M N : Type*} [AddCommGroup M] [Module ℝ M]
+  [AddCommGroup N] [Module ℝ N] (P : RootPairing ι ℝ M N)
+  [Finite ι] [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced]
+
+theorem weyl_based_complement (b : P.Base) :
+    P.weylGroup.IsComplement' (basedAut P b) := by sorry
+
+theorem image_openDominantChamber (b : P.Base) (g : P.Aut) :
+    g.weightEquiv '' TauCeti.openDominantChamber P b =
+      TauCeti.openWeylChamber P b (weylFactor P b (weyl_based_complement P b) g) := by sorry
+end Real
+
+section FullIntegralDatum
+variable {ι X Y : Type*} [Finite ι] [AddCommGroup X]
+  [AddCommGroup Y] [Module.Finite ℤ X] [Module.Free ℤ X]
+  [Module.Finite ℤ Y] [Module.Free ℤ Y]
+  (D : RootDatum ι X Y) [D.IsCrystallographic] [D.IsReduced]
+
+/-- Prove this through rational cylinder chambers, retaining central lattice gluing.
+No IsRootSystem over ℤ or integral central splitting is assumed. -/
+theorem full_datum_complement (b : D.Base) :
+    D.weylGroup.IsComplement' (basedAut D b) := by sorry
+end FullIntegralDatum
+
+end RootAutomorphisms
 
 end TauCetiRoadmap.RepresentationTheory.RootSystems

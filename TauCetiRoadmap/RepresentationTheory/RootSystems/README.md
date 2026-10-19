@@ -318,6 +318,59 @@ topology.
   `(weylCoxeterSystem b).length w₀ = (posRoots b).ncard`, and `w₀ ^ 2 = 1`; every `w` satisfies
   `ℓ(w) ≤ ℓ(w₀)`. The order of the Weyl group is `Nat.card P.weylGroup`.
 
+#### 4A. Finite root automorphisms and the based complement
+
+For the finite reduced crystallographic real root pairing of Layer4, spanning both
+spaces, construct the full native `RootPairing.Aut P` action on roots, coroots,
+positive systems and chambers. Use native reflection conjugation to prove that
+`P.weylGroup` is normal. Define `basedAut P b` as the subgroup preserving the
+actual base support, equivalently the open dominant chamber. Prove that a root
+automorphism takes that chamber to a chamber: transport the actual coroot
+inequalities and positive-system/base comparison. Chamber covering at one regular
+point alone is not this set-level transport theorem.
+
+Native chamber freeness/transitivity gives a unique factorization `g=wδ` with
+`w∈W` and `δ∈basedAut P b`. Construct the actual `W.IsComplement' (basedAut P b)`
+witness, then consume Mathlib's
+[`SemidirectProduct.mulEquivSubgroup`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SemidirectProduct.lean#L236-L240), not a second
+generic semidirect-equivalence construction. Its action is conjugation and its
+multiplication is `(w,δ)(v,η)=(w δ(v),δη)`. Export the map `(w,δ)↦wδ`, inverse
+`g↦(w,w⁻¹g)`, both inverse and multiplication equations, the two subgroup
+inclusions, projections, unique-factor theorem, intersection and normality laws,
+and their root/coroot, chamber and change-of-base equations. Keep native
+`RootPairing.Equiv.coweightEquiv` contravariant: its inverse is the geometric
+forward cocharacter action, including order3 triality.
+
+After Layers5–6, identify the based subgroup with automorphisms of the oriented Cartan matrix,
+using the actual finite root/coroot realization and inverse maps. Connected
+`A_r` has the reversal for `r≥2`, `D_r` the fork interchange for `r≥5`, `D₄`
+has triality `S₃`, and `E₆` has its involution; the other valid connected types
+have trivial based subgroup. Include `A₁`, and permutations of isomorphic
+components in reducible systems. Non-W root automorphisms exist in examples
+such as `A₂`; strict `Aut(Φ)>W` is not asserted for every type. In the spanning
+semisimple rank0 case both spaces and all three groups are trivial.
+
+For an actual finite-free integral root datum retain both lattices and compare
+with its rational/real scalar extension; do not impose integral `IsRootSystem`
+or identify an arbitrary isogeny lattice with the full weight lattice. For
+semisimple intermediate `Q⊆X⊆P`, `Q∨⊆Y⊆P∨`, construct the subgroup of based
+automorphisms preserving these actual dual lattices and the corresponding
+decomposition of full-datum automorphisms. Prove the integral/field extension
+and restriction maps inverse. A `D₄` vector isogeny form need not admit all
+triality permutations. For full reductive data use the cylinder chambers of
+the rational root span and carry the actual central/derived lattice gluing;
+the based full-datum stabilizer includes the compatible central automorphisms
+and need not be finite. A root-free rank-r datum has trivial W but its full
+datum automorphism group is `GL_r(ℤ)`, not the trivial group when r>0. State
+the finite root-space decomposition and this full-datum decomposition as
+different scopes, with their actual lattice and pairing maps.
+
+The signed ADE cover-lift group belongs to
+[ReductiveGroups9A.1a-L](../../ReductiveGroups/README.md), and the compact
+normalizer/Tits application to [LieGroups8N](../LieGroups/README.md). Neither
+the affine coweight quotient nor a based Lie functor is identified with a
+compact normalizer section.
+
 ### Layer 5: Dynkin diagrams and the Cartan-Killing classification
 
 - **The Dynkin type enumeration.** `DynkinType` : `A n | B n | C n | D n | E₆ | E₇ | E₈ | F₄ | G₂`, with
@@ -431,6 +484,8 @@ enumeration and its Cartan matrices, so it does not wait on either half of Layer
 convention should be fixed at the same time as `DynkinType.cartanMatrix` rather than afterwards. The
 worked examples are built alongside the layer that first makes them expressible: `Aₙ` after Layer 2,
 `G₂` after Layer 5.
+
+The Layer4A chamber-complement application uses Layer4 and native subgroup complements. Its oriented-Dynkin and integral/full-datum adapters follow Layers5–6 and are not premises of that classification. ReductiveGroups consumes the ADE cover comparison; LieGroups consumes the compact normalizer application only after its own period theorem.
 
 ## References
 
