@@ -23,9 +23,9 @@ mathematical assertions below are targets for formalisation; the existing librar
 distinguished in the `*Needs:*` annotations. Each construction states its usable API and its checks.
 The companion [Suggested.lean](Suggested.lean), in the namespace
 `TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants`, prototypes the central definitions and the
-headline theorems, with some of the Checks as `example`s. A target that ends with a `*Lean:*` line
-is carried by the declarations listed there; every other target, and every Check that is not one of
-those `example`s, is specified in this README only and has no Lean declaration. This document fixes
+headline theorems, including named boundary targets. A target that ends with a `*Lean:*` line
+is carried by the declarations listed there; every other target and unlisted Check is specified
+in this README only and has no Lean declaration. This document fixes
 the mathematical scope, including hypotheses whose carriers come from another roadmap.
 
 ## Scope and ownership
@@ -549,7 +549,7 @@ a realising representation.
 ## How to read the build
 
 `README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and
-the headline theorems, with some `example` checks. The targets that end with a `*Lean:*` line are
+the headline theorems, including named boundary targets. The targets that end with a `*Lean:*` line are
 prototyped there by the listed declarations; the others are specified in this README only. Each
 `*Needs:*` annotation names its mathematical prerequisites. The build order is
 IHG.0 → IHG.3a → IHG.1 → IHG.2 → IHG.3b → IHG.4 → IHG.5 → IHG.6.
@@ -638,7 +638,8 @@ p. 9). *Needs:* DerivedModuleAlgebra §0.DP.1 (homogeneous and multiplicative po
   `D(0) = 0` would exclude it.
 - Over `𝔽_p`, on the polynomial algebra `𝔽_p[T]`, the `p`-th powers of evaluation at `0` and at
   `1` are two different `p`-dimensional determinants with the same trace, namely zero, so a
-  definition that recorded only the trace would identify two distinct determinants.
+  definition that recorded only the trace would identify two distinct determinants
+  (`Determinant.exists_distinct_determinants_eq_trace`).
 
 **Characteristic polynomial and trace of a determinant.** For `D` a `d`-dimensional determinant on
 `R` and `x ∈ R`, define `χ(x, t) := D_{A[t]}(t − x) ∈ A[t]`, where `A[t]` is a commutative
@@ -655,7 +656,8 @@ define `Determinant.traceLinear` (`Tr` as an `A`-linear map) and prove `Tr(1) = 
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, p. 12;
 [Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, (1.3), p. 12). *Needs:* Determinants (Chenevier), Mathlib `Polynomial`, `Algebra.TensorProduct.rid`, `Polynomial.Monic`,
 §0.2 / Linear-map laws and ground-value adapters.
-*Lean:* `Determinant.charpoly`, `Determinant.trace`, `Determinant.traceLinear`.
+*Lean:* `Determinant.charpoly`, `Determinant.trace`, `Determinant.traceLinear`,
+`Determinant.charpoly_monic`, `Determinant.natDegree_charpoly`, `Determinant.charpoly_coeff_zero`.
 
 **Checks.**
 
@@ -674,7 +676,8 @@ determinant. Define `Determinant.ofMatrix` and prove `D(x) = det ρ(x)`, `Tr = t
 `Determinant.charpoly_ofMatrix` (`χ(x) = charpoly ρ(x)`) and that conjugate representations have the
 same determinant ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5, p. 9). *Needs:* Characteristic polynomial and trace of a determinant, Mathlib `Matrix.det`, `Matrix.det_mul`, `Matrix.det_smul`,
 `Matrix.det_conj`, `RingHom.map_det`, `Matrix.charpoly`, `Matrix.trace`.
-*Lean:* `Determinant.ofMatrix`, `Determinant.charpoly_ofMatrix`.
+*Lean:* `Determinant.ofMatrix`, `Determinant.charpoly_ofMatrix`, `Determinant.eval_ofMatrix`,
+`Determinant.trace_ofMatrix`, `Determinant.ofMatrix_eq_of_conjugate`.
 
 **Checks.**
 
@@ -775,7 +778,8 @@ cycle), `cycleTerm` (`T^σ(x)`) and the predicate `IsPseudocharacter`, and prove
 determinant is a pseudocharacter) ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, Lemma 1.12(iii) and
 §1.26, pp. 12, 20). *Needs:* Mathlib `Equiv.Perm.sign`, `Equiv.Perm.SameCycle`,
 `Function.minimalPeriod`, `LinearMap`.
-*Lean:* `cycleProduct`, `cycleTerm`, `IsPseudocharacter`.
+*Lean:* `cycleProduct`, `cycleTerm`, `cycleTerm_reindex` (central functions are invariant under
+simultaneous relabelling), `IsPseudocharacter`.
 
 FreeProbability §F8, Gaussian and Haar random-matrix asymptotic freeness, consumes
 `cycleProduct` and `cycleTerm` for normalized complex-matrix traces, with the permutation
@@ -1027,7 +1031,7 @@ of all mixed maps `D^{[α]} : G^d → A` in Chenevier's definition. Define
 `Determinant.IsContinuous` using the coefficients of `χ_D`; prove that a continuous determinant is determined on a dense subgroup and that, for profinite `G` and discrete
 `A`, continuity means that the kernel is open ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §2.30, p. 37). *Needs:*
 Amitsur's formula for determinants, Mathlib `Continuous`, `MonoidAlgebra.of`.
-*Lean:* `Determinant.IsContinuous`.
+*Lean:* `Determinant.IsContinuous`, `Determinant.isContinuous_ofMatrix`.
 
 **Checks.**
 
@@ -1683,7 +1687,7 @@ determinant coefficient is
 degree `n` when `A` is nonzero, and that it is compatible with every ring homomorphism ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.5, equation (2.2.6),
 p.922). *Needs:* IHG.0, Characteristic polynomial and trace of a determinant; [Smooth representations of local
 groups](../SmoothRepresentationsOfLocalGroups/README.md) SR.4.3, *gln-generators*.
-*Lean:* `Spherical.glnPolynomial`.
+*Lean:* `Spherical.glnPolynomial`, `Spherical.glnPolynomial_monic`.
 
 **Checks.**
 
@@ -1794,7 +1798,7 @@ Q(X) = X⁴ − T_1 X³ + (qT_2 + (q³+q)T_0) X² − q³ T_0 T_1 X + q⁶ T_0²
 be the monic spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4 (its
 `SpinPolynomial.reciprocal`), with `T_0, T_1, T_2` the double cosets of `diag(ϖ,ϖ,ϖ,ϖ)`,
 `diag(ϖ,ϖ,1,1)`, `diag(ϖ²,ϖ,ϖ,1)` for a uniformiser `ϖ`, `q` the residue cardinality, that is
-SR.4's `T0`, `T2`, `T1`. The wrapper `Spherical.gsp4SpinPolynomial` is the
+SR.4's `T0`, `T2`, `T1`. The explicit formula `Spherical.gsp4SpinPolynomial` equals the
 fixed-degree reflection of that supplied polynomial with these indices exchanged.
 Its constant coefficient `q⁶T_0²` and its compatibility with every coefficient change are
 targets. The dual definition needs only `T_0 ∈ Aˣ`; `q` can be any
@@ -2725,7 +2729,7 @@ commutative base; the invariant-subspace examples use the stated fields or `ℤ`
 | Extension module `E_ij` | For `M₂(A)`, the `(0,1)` module is `A` | For `M₃(A)`, the `(0,2)` module is zero | The lower extension module of the upper-triangular algebra is zero |
 
 Irreducibility requires a nonzero vector module. The empty matrix action is not irreducible
-(an `example` in `Suggested.lean`), while it is semisimple. The positive-dimensional natural
+while it is semisimple. The positive-dimensional natural
 action is irreducible. The three residual predicates have a field as
 coefficient ring, so their algebraic-closure tests do not become vacuous over the zero ring.
 
@@ -2859,10 +2863,10 @@ action on such a `C` is a finite `A`-module, as a submodule of `End(C)`.
 
 **Checks.**
 
-- `(ℤ²)[0]` is supported on `[0,0]` and on `[−1,3]` but not on `[1,1]` (a Lean `example`).
-- An object supported on `[1,0]` is zero (a Lean `example`).
-- `ℤ[0]` has finite cohomology while `(⊕_{n∈ℕ} ℤ)[0]` does not (a Lean `example`).
-- Every object supported on an empty interval has finite cohomology (a Lean `example`).
+- `(ℤ²)[0]` is supported on `[0,0]` and on `[−1,3]` but not on `[1,1]`.
+- An object supported on `[1,0]` is zero.
+- `ℤ[0]` has finite cohomology while `(⊕_{n∈ℕ} ℤ)[0]` does not.
+- Every object supported on an empty interval has finite cohomology.
 
 **Chain, homotopy and derived images.** Use `AlgHom.range` for each actual action;
 use `AlgHom.rangeRestrict`, `Subalgebra.val` and `AlgHom.quotientKerEquivRange` for
@@ -3204,7 +3208,7 @@ By *Coefficient reconstruction from group words* (`Determinant.eq_of_charpoly_eq
 polynomial is the coefficientwise image of that of `D`; the statements in `Suggested.lean` use
 this characterization, the predicate `Determinant.IsCoefficientChange`.
 Source: [Chenevier, §1.1, pp.6–7 and §2.30, p.37](https://arxiv.org/pdf/0809.0415v2).
-*Lean:* `Determinant.IsCoefficientChange`.
+*Lean:* `Determinant.IsCoefficientChange`, `Determinant.isCoefficientChange_ofMatrix`.
 
 **Uniqueness from Frobenius density.** `Determinant.eq_of_charpoly_frobenius` takes a group
 `G` with a topology, a Hausdorff coefficient ring `A`, continuous degree-`d` determinants `D,E`,
@@ -3608,7 +3612,7 @@ congruence and is excluded only by this hypothesis, and without it the Fitting c
 fail (the local module is `0` and its Fitting ideal is the unit ideal). The Checks record this: the
 scalar representation fails irreducibility, satisfies the congruences and refutes the
 containment, and for the trivial group the only cocycle is `0`, which refutes the global theorem
-without irreducibility.
+without irreducibility (`IntegralRibet.no_ribet_conclusion_trivial_group`).
 *Lean:* `IntegralRibet.Congruence`, `IntegralRibet.fieldRepresentation`,
 `IntegralRibet.IrreducibleOnFields`, `IntegralRibet.LocalInput`.
 
@@ -3664,6 +3668,15 @@ pp.8–9). *Needs:* Mathlib `MonoidAlgebra`, `Matrix`, `Submodule`.
 
 **Product containment of difference modules.** For the preceding algebra maps, prove
 `ΔχΔψ ⊆ Δψ` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1, p.9). *Needs:* Character difference modules.
+*Lean:* `IntegralRibet.product_le_differenceModule`.
+
+**Checks.**
+
+- Matching scalar data have zero product and zero right difference module.
+- For the integral upper-unipotent action with both characters trivial, the product is zero
+  inside the nonzero module `ℤE₁₂`.
+- For the sign scalar action with both comparison characters trivial, the containment is
+  `4ℤI₂ ⊆ 2ℤI₂`, and the two modules differ.
 
 **Initial Ribet quotient module.** Define `IntegralRibet.initialModule` as
 `M₀ = Δψ / (ΔχΔψ)`, interpreting the product submodule inside `Δψ` by the preceding containment
@@ -3679,6 +3692,7 @@ the classes of `ρ(g) − ψ(g)I₂` generate `M₀`
 - For the integral upper-unipotent representation of `ℤ` and `χ = ψ = 1`, `M₀ ≅ ℤ`: `Δψ = ℤE₁₂`
   and the product is zero, so this is a torsion-free nonzero quotient. The zero denominator does not distinguish a
   submodule product from its ambient two-sided ideal.
+  `IntegralRibet.unipotent_initialModule` identifies this quotient and its canonical cocycle.
 - An `A`-linear map `Δψ → L` factors uniquely through `M₀` iff it annihilates every product
   `(ρ(t) − χ(t))(ρ(u) − ψ(u))`: this is the universal property of the quotient, which a definition
   with the wrong submodule in the denominator would fail.
@@ -3690,7 +3704,8 @@ one-cocycle for the scalar action `α`, `κ₀(gh) = κ₀(g) + α(g)κ₀(h)`, 
 that the `A`-span of `κ₀(G)` is all of `M₀`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.3 and proof, p.9). *Needs:* [ProfiniteCohomology, layer
 2][profinitecohomology2], Initial Ribet quotient module.
-*Lean:* `IntegralRibet.canonicalCocycle`.
+*Lean:* `IntegralRibet.canonicalCocycle`, `IntegralRibet.canonicalCocycle_mul`,
+`IntegralRibet.span_canonicalCocycle`.
 
 **Checks.**
 
@@ -3722,7 +3737,8 @@ is no `v₀` relation and no `y_v`. Prove that `κ|G_{v₀} = 0`,
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1, pp.9–10, with the sign corrected to Theorem 2.1). *Needs:* Canonical Ribet cocycle.
 *Lean:* `IntegralRibet.LocalData`, `IntegralRibet.extraPlaces`, `IntegralRibet.enlargedModule`,
 `IntegralRibet.localRelations`, `IntegralRibet.localModule`, `IntegralRibet.localCocycle`,
-`IntegralRibet.localVector`.
+`IntegralRibet.localVector`, `IntegralRibet.localCocycle_relations`,
+`IntegralRibet.span_localCocycle_localVector`.
 
 **Checks.**
 
@@ -4606,6 +4622,7 @@ of ordered determinantal ideals, Tau Ceti `RingTheory/Flat/QuotientRegular.lean`
   by `L₂`: its product with each `b_j` equals `b′_jL₁`. It is nonzero because setting
   both `b` coordinates to zero retains this polynomial. Specializing all coefficients
   to zero also destroys regularity for one equation.
+  `IntegralRibet.mixed_scalar_regular_bound_sharp` states the two-equation boundary.
 
 **Generic variable count for the Ribet relations.** Let `N` count difference-generator
 slots after stabilization, `s=|Σ∖{v₀}|`, `t=|P|`, and `a₃,a₄,a₅` count selected rows
@@ -5072,8 +5089,9 @@ Ribet theory for distinct residual characters, Irreducibility excludes an exact 
 written as `Multiplicative ℤ` and both characters trivial. The scalar fixture
 `IntegralRibet.scalarRepresentation ψ` is `ρ(g)=ψ(g)I₂`. The sign-character input uses
 `G=ℤˣ`, `ρ(u)=uI₂` and both comparison characters equal to `1`; its differences span
-`2ℤI₂` and their products span `4ℤI₂`. These fixtures and the computations in the table
-are mirrored in [Suggested.lean](Suggested.lean).
+`2ℤI₂` and their products span `4ℤI₂`. These fixtures are defined in [Suggested.lean](Suggested.lean);
+`IntegralRibet.unipotent_initialModule` states the normalized unipotent quotient comparison.
+The other table entries are prose Checks.
 
 | Definition | Computed Check | Degenerate Check | Agreement Check |
 |---|---|---|---|
