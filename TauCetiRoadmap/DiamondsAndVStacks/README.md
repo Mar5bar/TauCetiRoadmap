@@ -8026,10 +8026,16 @@ D3.6; D5.6; D3.8.
 - `quasi_pro_etale` (characterisation) — a quasi-pro-étale map of locally spatial diamonds is
   representable in locally spatial diamonds.
 - `disc_not_quasi_pro_etale` (non-example for the fibre criterion) — the perfectoid closed disc
-  `𝔹 → Spa(C, O_C)` is separated and representable in locally spatial diamonds (its base change to a
-  locally spatial `X` is `𝔹 × X`, locally spatial by D5.5), but its fibre at the geometric point
-  `Spa(C, O_C)` is `𝔹` itself, not pro-étale, so it is not quasi-pro-étale: the fibre condition is
-  the one that fails, and both directions of the "exactly when" are used.
+  `𝔹 → P := Spa(C, O_C)` is separated and representable in locally spatial diamonds (for a
+  locally spatial `X → P`, its base change is `𝔹 ×_P X`, locally spatial by D5.5), but its fibre at
+  the geometric point `P` is `𝔹` itself, not pro-étale, so it is not quasi-pro-étale: the fibre
+  condition is the one that fails, and both directions of the "exactly when" are used.
+- `disc_relative_base_change` (boundary) — for `X = P` with its identity map, `𝔹 ×_P P ≅ 𝔹`.
+  In characteristic `p`, the test object `P` maps to the absolute product `𝔹 × P` by applying
+  Frobenius to the disc's coefficients, sending its variable and all compatible roots to zero,
+  and using the identity on the second factor. The two coefficient maps are Frobenius and the
+  identity, which differ on a topologically nilpotent unit of `C`, so this section does not
+  factor through `𝔹 ×_P P`.
 - `not_representable_in_perfectoid_spaces` (non-example) — a morphism of diamonds need not be
   representable in perfectoid spaces; a definition imposing that is wrong.
 - `classifying_stack` (characterisation) — the map from a charted geometric point to the classifying
@@ -8566,7 +8572,8 @@ diamonds is a locally spatial diamond: it is the diamond `X × Y` of D4.2 ([ECD]
 p. 55), with the atlas built from D5.4's affinoid perfectoid presentations over spatial opens of
 the factors, locally spatial because a product of two affinoid perfectoid spaces is perfectoid
 and the quasi-pro-étale permanence of D5.5 applies chart by chart
-([ECD] §11, proof of Prop. 11.26, p. 66). It is *not* asserted, and is false, that the absolute
+([Ked21] Lemma 10.2(a), printed pp. 1229–1230; the perfectoid-product construction is
+Lemma 9.3(a), printed p. 1227). It is *not* asserted, and is false, that the absolute
 product of two spatial diamonds is spatial: object-level quasi-compactness of the factors does
 not give quasi-compactness of their product over the non-quasiseparated terminal object (D2.4),
 and the relative statement of D5.5 (`spatial_pullback`, [ECD] Cor. 11.29, p. 67) requires a spatial
@@ -10503,6 +10510,9 @@ instead of pages.
 - [Berkeley] Peter Scholze and Jared Weinstein, Berkeley lectures on p-adic geometry.
   https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf. author manuscript dated 27 March 2020;
   printed lecture pagination.
+- [Ked21] Kiran S. Kedlaya, Simple connectivity of Fargues–Fontaine curves.
+  https://www.numdam.org/item/10.5802/ahl.101.pdf. Annales Henri Lebesgue 4 (2021),
+  printed pp. 1203–1233; Lemmas 9.3(a) and 10.2(a).
 - [Arc] Bhargav Bhatt and Akhil Mathew, The arc-topology. https://arxiv.org/pdf/1807.04725v4.
   arXiv:1807.04725v4.
 - [KL15] Kiran Kedlaya and Ruochuan Liu, Relative p-adic Hodge theory: foundations.
