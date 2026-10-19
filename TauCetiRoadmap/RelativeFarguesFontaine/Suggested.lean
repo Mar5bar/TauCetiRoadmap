@@ -45,43 +45,38 @@ def ramifiedGhost (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
 def ramifiedWittPolynomials (π : O) (q n : ℕ) : MvPolynomial ℕ O :=
   ∑ i ∈ Finset.range (n + 1), MvPolynomial.C (π ^ i) * MvPolynomial.X i ^ (q ^ (n - i))
 
+/-- The ramified Dwork criterion of README §0.2 gives injectivity and the exact ghost image
+for a torsion-free algebra with a coefficient-linear Frobenius lift. -/
+theorem ramifiedDworkCriterion [IsDomain O] [CharZero O] [IsDiscreteValuationRing O]
+    [Finite (IsLocalRing.ResidueField O)] (π : O) (q : ℕ)
+    (hπ : IsLocalRing.maximalIdeal O = Ideal.span {π})
+    (hq : q = Nat.card (IsLocalRing.ResidueField O))
+    (A : Type u) [CommRing A] [Algebra O A]
+    (hregular : algebraMap O A π ∈ nonZeroDivisors A) (σ : A →ₐ[O] A)
+    (hσ : ∀ a : A, algebraMap O A π ∣ σ a - a ^ q) :
+    Function.Injective (fun x : ℕ → A => fun n => ramifiedGhost π q A n x) ∧
+      ∀ y : ℕ → A, (∃ x : ℕ → A, ∀ n, ramifiedGhost π q A n x = y n) ↔
+        ∀ n, algebraMap O A π ^ (n + 1) ∣ y (n + 1) - σ (y n) := by
+  sorry
+
+/-- Polynomial evaluation realizes the ramified ghost formula of README §0.1. -/
+theorem ramifiedWittPolynomials_eval (π : O) (q : ℕ) (A : Type u)
+    [CommRing A] [Algebra O A] (n : ℕ) (x : ℕ → A) :
+    MvPolynomial.eval₂ (algebraMap O A) x (ramifiedWittPolynomials π q n) =
+      ramifiedGhost π q A n x := by
+  sorry
+
+/-- At the exact unramified specialization, README §0.1's ghosts are Mathlib's ghosts. -/
+theorem ramifiedGhost_p_typical (p : ℕ) [Fact p.Prime] (A : Type u) [CommRing A]
+    (x : WittVector p A) (n : ℕ) :
+    ramifiedGhost (p : ℤ) p A n x.coeff = WittVector.ghostComponent n x := by
+  sorry
+
 /-- Naturality is the coefficient-evaluation milestone, with no ghost-injectivity assumption. -/
 theorem ramifiedGhost_natural (π : O) (q : ℕ) (A B : Type u)
     [CommRing A] [Algebra O A] [CommRing B] [Algebra O B]
     (f : A →ₐ[O] B) (n : ℕ) (x : ℕ → A) :
     ramifiedGhost π q B n (f ∘ x) = f (ramifiedGhost π q A n x) := by
-  sorry
-
-example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
-    (x : ℕ → A) : ramifiedGhost π q A 0 x = x 0 := by
-  sorry
-
-example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
-    (n : ℕ) (x : ℕ → A) :
-    MvPolynomial.eval₂ (algebraMap O A) x (ramifiedWittPolynomials π q n) =
-      ramifiedGhost π q A n x := by
-  sorry
-
-example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A] (x : ℕ → A) :
-    ramifiedGhost π q A 1 x = x 0 ^ q + algebraMap O A π * x 1 := by
-  sorry
-
-example (p : ℕ) [Fact p.Prime] (A : Type u) [CommRing A] (x : WittVector p A) (n : ℕ) :
-    ramifiedGhost (p : ℤ) p A n x.coeff = WittVector.ghostComponent n x := by
-  sorry
-
-example :
-    WittVector.teichmuller 2 (1 : ZMod 2) + WittVector.teichmuller 2 (1 : ZMod 2) ≠
-      WittVector.teichmuller 2 ((1 : ZMod 2) + 1) := by
-  sorry
-
-example (π : O) (q : ℕ) :
-    ramifiedWittPolynomials π q 0 = MvPolynomial.X (0 : ℕ) := by
-  sorry
-
-example (π : O) (q : ℕ) :
-    ramifiedWittPolynomials π q 1 =
-      MvPolynomial.X (0 : ℕ) ^ q + MvPolynomial.C π * MvPolynomial.X 1 := by
   sorry
 
 /-- Coefficientwise congruence modulo π; the ordinary polynomial need not be LT. -/
@@ -94,22 +89,9 @@ def twistedGhost (π : O) (_q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
   ∑ i ∈ Finset.range (n + 1),
     algebraMap O A π ^ i * (fun a => Q.eval₂ (algebraMap O A) a)^[n - i] (x i)
 
-example (π : O) (q : ℕ) : WittTwistAdmissible π q (Polynomial.X ^ q) := by
-  sorry
-
-example (π : O) (q : ℕ) (Q : Polynomial O) (hπ : IsUnit π) :
-    WittTwistAdmissible π q Q := by
-  sorry
-
-example : ¬ WittTwistAdmissible (2 : ℤ) 2 (Polynomial.X ^ 2 + 1) := by
-  sorry
-
-example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
-    (Q : Polynomial O) (x : ℕ → A) :
-    twistedGhost π q A Q 1 x = Q.eval₂ (algebraMap O A) (x 0) + algebraMap O A π * x 1 := by
-  sorry
-
-example (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A] (x : ℕ → A) (n : ℕ) :
+/-- The ordinary polynomial recovers the untwisted ghost system of README §0.11. -/
+theorem twistedGhost_ordinary (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
+    (x : ℕ → A) (n : ℕ) :
     twistedGhost π q A (Polynomial.X ^ q) n x = ramifiedGhost π q A n x := by
   sorry
 
@@ -122,18 +104,10 @@ The geometric domain ensures both values lie strictly between zero and one. -/
 def periodRadiusValue (πval teichval : ℝ) : ℝ :=
   Real.log teichval / Real.log πval
 
+/-- The scalar Frobenius scaling law in README §1.2 multiplies the radius by `q`. -/
 theorem periodRadiusValue_frobenius (πval teichval : ℝ) (q : ℕ)
     (hπ : 0 < πval) (hπ1 : πval < 1) (ht : 0 < teichval) :
     periodRadiusValue πval (teichval ^ q) = q * periodRadiusValue πval teichval := by
-  sorry
-
-example (t : ℝ) : periodRadiusValue 1 t = 0 := by
-  sorry
-
-example : periodRadiusValue (1 / 2) (1 / 4) = 2 := by
-  sorry
-
-example : periodRadiusValue (1 / 2) ((1 / 4) ^ 3) = 6 := by
   sorry
 
 /-! ## Layer 2: the relative curve and its diamond
@@ -163,28 +137,6 @@ theorem twist_invariance_iff (φ : K →+* K) (π : Kˣ) (n : ℤ) (x : K) :
     twistMultiplier π n * φ x = x ↔ IsTwistSection φ π n x := by
   sorry
 
-example (π : Kˣ) : twistMultiplier π 0 = 1 := by
-  sorry
-
-example (n : ℤ) : twistMultiplier (1 : Kˣ) n = 1 := by
-  sorry
-
-example (φ : K →+* K) (π : Kˣ) (n : ℤ) : IsTwistSection φ π n 0 := by
-  sorry
-
-example (π : Kˣ) : twistMultiplier π 1 = (π : K)⁻¹ := by
-  sorry
-
-example (π : Kˣ) : twistMultiplier π (-1) = (π : K) := by
-  sorry
-
-example (φ : K →+* K) (π : Kˣ) (x : K) : IsTwistSection φ π 0 x ↔ φ x = x := by
-  sorry
-
-example (π : Kˣ) (hπ : (π : K) ≠ 1) :
-    ¬ IsTwistSection (RingHom.id K) π 1 1 := by
-  sorry
-
 end Twist
 
 /-! ## Layer 6: linear patching and modifications -/
@@ -201,15 +153,6 @@ structure ExactSquare : Prop where
   exact : ∀ (a : R₁) (b : R₂), algebraMap R₁ R₁₂ a = algebraMap R₂ R₁₂ b →
     ∃ r : R, algebraMap R R₁ r = a ∧ algebraMap R R₂ r = b
   surjective : ∀ z : R₁₂, ∃ (a : R₁) (b : R₂), algebraMap R₁ R₁₂ a - algebraMap R₂ R₁₂ b = z
-
-example (A : Type u) [CommRing A] : ExactSquare A A A A := by
-  sorry
-
-example (k : Type u) [Field k] :
-    ¬ ExactSquare (Polynomial k) (Localization.Away (Polynomial.X : Polynomial k))
-      (Localization.Away (Polynomial.X : Polynomial k))
-      (Localization.Away (Polynomial.X : Polynomial k)) := by
-  sorry
 
 end ExactSquare
 
@@ -231,20 +174,6 @@ variable {R₁ R₂ R₁₂ M₁ M₂ M₁₂}
 def GlueingDatum.IsSection (D : GlueingDatum R₁ R₂ R₁₂ M₁ M₂ M₁₂) (x : M₁ × M₂) : Prop :=
   D.ψ₁ (1 ⊗ₜ x.1) = D.ψ₂ (1 ⊗ₜ x.2)
 
-example (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M] (x : M × M) :
-    (⟨TensorProduct.lid A M, TensorProduct.lid A M⟩ : GlueingDatum A A A M M M).IsSection x ↔
-      x.1 = x.2 := by
-  sorry
-
-example (A : Type u) [CommRing A] (x : A × A) :
-    (⟨TensorProduct.lid A A, TensorProduct.lid A A⟩ : GlueingDatum A A A A A A).IsSection x ↔
-      x.1 - x.2 = 0 := by
-  sorry
-
-example : ¬ (⟨TensorProduct.lid ℤ ℤ, TensorProduct.lid ℤ ℤ⟩ :
-    GlueingDatum ℤ ℤ ℤ ℤ ℤ ℤ).IsSection (1, 0) := by
-  sorry
-
 end GlueingDatum
 
 /-- Rank-one overlap datum with the second identification multiplied by a specified unit. -/
@@ -255,34 +184,6 @@ def GlueingDatum.unitTransition (R₁ R₂ R₁₂ : Type u)
   ψ₁ := TensorProduct.AlgebraTensorModule.rid R₁ R₁₂ R₁₂
   ψ₂ := (TensorProduct.AlgebraTensorModule.rid R₂ R₁₂ R₁₂).trans
     (LinearEquiv.smulOfUnit a)
-
-example :
-    let D := GlueingDatum.unitTransition ℚ ℚ ℚ (Units.mk0 (3 : ℚ) (by norm_num))
-    D.IsSection (1, 1 / 3) ∧ ¬ D.IsSection (1, 1) := by
-  sorry
-
-example (S₂ S₃ S₆ : Type u) [CommRing S₂] [CommRing S₃] [CommRing S₆]
-    [Algebra ℤ S₂] [Algebra ℤ S₃] [Algebra ℤ S₆]
-    [IsLocalization.Away (2 : ℤ) S₂] [IsLocalization.Away (3 : ℤ) S₃]
-    [IsLocalization.Away (6 : ℤ) S₆]
-    [Algebra S₂ S₆] [Algebra S₃ S₆]
-    [IsScalarTower ℤ S₂ S₆] [IsScalarTower ℤ S₃ S₆] (h₃ : IsUnit (3 : S₆)) :
-    let D := GlueingDatum.unitTransition S₂ S₃ S₆ h₃.unit
-    D.IsSection (1, IsLocalization.Away.invSelf (S := S₃) (3 : ℤ)) ∧
-      ¬ D.IsSection (1, 1) := by
-  sorry
-
-example (S₂ S₃ S₆ : Type u) [CommRing S₂] [CommRing S₃] [CommRing S₆]
-    [Algebra ℤ S₂] [Algebra ℤ S₃] [Algebra ℤ S₆]
-    [IsLocalization.Away (2 : ℤ) S₂] [IsLocalization.Away (3 : ℤ) S₃]
-    [IsLocalization.Away (6 : ℤ) S₆]
-    [Algebra S₂ S₆] [Algebra S₃ S₆]
-    [IsScalarTower ℤ S₂ S₆] [IsScalarTower ℤ S₃ S₆] (h₃ : IsUnit (3 : S₆))
-    (a : S₂) (b : S₃) :
-    let D := GlueingDatum.unitTransition S₂ S₃ S₆ h₃.unit
-    D.IsSection (a, b) ↔ ∃ k : ℤ, a = algebraMap ℤ S₂ k ∧
-      b = algebraMap ℤ S₃ k * IsLocalization.Away.invSelf (S := S₃) (3 : ℤ) := by
-  sorry
 
 section GlueingPair
 
@@ -307,31 +208,23 @@ def Glueable (R' : Type u) [CommRing R'] [Algebra R R'] (f : R)
     (Submodule.torsion' R M (Submonoid.powers f))
     (Submodule.torsion' R' (R' ⊗[R] M) (Submonoid.powers (algebraMap R R' f)))
 
-example (M : Type u) [AddCommGroup M] [Module R M] :
-    Submodule.torsion' R M (Submonoid.powers (0 : R)) = ⊤ := by
+/-- A regular element gives the non-noetherian completion glueing pair of README §6.4. -/
+theorem GlueingPair.of_nonZeroDivisor (f : R) (hf : f ∈ nonZeroDivisors R) :
+    GlueingPair (AdicCompletion (Ideal.span {f}) R) f := by
   sorry
 
-example (M : Type u) [AddCommGroup M] [Module R M] :
-    Submodule.torsion' R M (Submonoid.powers (1 : R)) = ⊥ := by
+/-- Flat modules satisfy the glueability criterion of README §6.4. -/
+theorem Glueable.of_flat {R' : Type u} [CommRing R'] [Algebra R R']
+    (f : R) (h : GlueingPair R' f) (M : Type u) [AddCommGroup M] [Module R M]
+    [Module.Flat R M] : Glueable R' f M := by
   sorry
 
-example : (2 : ZMod 4) ^ 2 • (1 : ZMod 4) = 0 ∧
-    (2 : ZMod 4) ^ 0 • (1 : ZMod 4) ≠ 0 ∧
-    (2 : ZMod 4) ^ 1 • (1 : ZMod 4) ≠ 0 := by
-  sorry
-
-example (p : ℕ) [Fact p.Prime] :
-    GlueingPair (AdicCompletion (Ideal.span {(p : ℤ)}) ℤ) (p : ℤ) := by
-  sorry
-
-example : GlueingPair (ZMod 2) (0 : ℤ) → False := by
-  sorry
-
-example (M : Type u) [AddCommGroup M] [Module R M] : Glueable R (0 : R) M := by
-  sorry
-
-example (f : R) (hf : IsUnit f) :
-    Glueable (AdicCompletion (Ideal.span {f}) R) f R := by
+/-- Flatness is detected by the two scalar extensions in README §6.5's glueing pair. -/
+theorem beauvilleLaszlo_flat_iff {R' : Type u} [CommRing R'] [Algebra R R']
+    {f : R} (h : GlueingPair R' f) (M : Type u) [AddCommGroup M] [Module R M] :
+    Module.Flat R M ↔
+      Module.Flat R' (R' ⊗[R] M) ∧
+        Module.Flat (Localization.Away f) (Localization.Away f ⊗[R] M) := by
   sorry
 
 /-- Finite-projective detection needs a glueing pair, and applies even to an arbitrary module.
@@ -375,19 +268,13 @@ def localModificationsBoundedBy (ξ : A) (M' : Type u) [AddCommGroup M'] [Module
     (∀ m : M', ξ ^ k • ((1 : Localization.Away ξ) ⊗ₜ[A] m) ∈ M) ∧
     ∀ x ∈ M, ∃ m : M', ξ ^ k • x = (1 : Localization.Away ξ) ⊗ₜ[A] m}
 
-example (ξ : A) (hξ : ξ ∈ nonZeroDivisors A) (hnu : ¬ IsUnit ξ) :
+/-- The regular nonunit lattice of README §6.6 has bound one and fails bound zero. -/
+theorem localModificationsBoundedBy_regular_nonunit (ξ : A)
+    (hξ : ξ ∈ nonZeroDivisors A) (hnu : ¬ IsUnit ξ) :
     (Submodule.span A {(algebraMap A (Localization.Away ξ) ξ) ⊗ₜ[A] (1 : A)} ∈
       localModificationsBoundedBy ξ A 1) ∧
     Submodule.span A {(algebraMap A (Localization.Away ξ) ξ) ⊗ₜ[A] (1 : A)} ∉
       localModificationsBoundedBy ξ A 0 := by
-  sorry
-
-example (ξ : A) (hξ : IsUnit ξ) (M' : Type u) [AddCommGroup M']
-    [Module A M'] [Module.Finite A M'] [Module.Projective A M'] (k : ℕ) :
-    localModificationsBoundedBy ξ M' k = {⊤} := by
-  sorry
-
-example (ξ : A) : localModificationsBoundedBy ξ (Fin 0 → A) 0 = {⊥} := by
   sorry
 
 end LocalModification
@@ -417,10 +304,10 @@ ExactSquare.zariski_sections_can, ExactSquare.not_exact_double_localization;
 GlueingDatum.can_sections_adjunction, GlueingDatum.sections_can_of_flat,
 GlueingDatum.baseChange_can, GlueingDatum.sections_ext,
 GlueingDatum.sections_zariski_Z, GlueingDatum.sections_identitySquare;
-GlueingPair.iff_torsion_bijective, GlueingPair.of_nonZeroDivisor, GlueingPair.of_flat,
+GlueingPair.iff_torsion_bijective, GlueingPair.of_flat,
 GlueingPair.quotient_equiv, GlueingPair.spec_surjective, GlueingPair.int_p,
 GlueingPair.of_isUnit, GlueingPair.noetherian_compat, GlueingPair.not_stacks_example;
-Glueable.iff_torsion, Glueable.of_flat, Glueable.not_smooth_germs;
+Glueable.iff_torsion, Glueable.not_smooth_germs;
 GlueingDatum.sections, GlueingDatum.sectionsCompare, GlueingDatum.can,
 GlueingDatum.Hom, Modification,
 relativeBPairPeriodComparison, relativeBPairModificationCompatibility and meromorphic bundles
