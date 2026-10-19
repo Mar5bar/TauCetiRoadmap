@@ -2,6 +2,7 @@ import Mathlib.Data.List.Permutation
 import Mathlib.Data.List.Rotate
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
 import Completed.AlgebraicCodingTheory.Suggested
+import Completed.IntegralLattices.Suggested
 
 /-!
 # Rank-24 lattice constructions: target signatures
@@ -577,25 +578,33 @@ theorem a1DestinationToSource_values :
       [0, 1, 2, 6, 5, 13, 10, 15, 17, 4, 18, 19,
         11, 7, 14, 12, 3, 8, 23, 20, 22, 9, 21, 16] := by decide
 
-noncomputable def a1TableToGolayMonomial :
-    MonomialEquiv (F := ZMod 2) (ι := Fin 24) (Fin 12 ⊕ Fin 12) where
-  reindex := a1DestinationToSource.symm.trans (@finSumFinEquiv 12 12).symm
-  scale := fun _ ↦ 1
+/-- The binary Golay code on Tau Ceti's systematic coordinates `Fin 24`, with the `[I₁₂ | B]`
+generator assembled by `Fin.append`. -/
+noncomputable abbrev extendedBinaryGolay : LinearCode (ZMod 2) (Fin 24) := BinaryGolay.code
+
+/-- The coordinate permutation, with every scaling one. -/
+noncomputable def a1TableToGolayMonomial : (Fin 24 → ZMod 2) ≃ₗ[ZMod 2] (Fin 24 → ZMod 2) :=
+  monomialEquiv 1 a1DestinationToSource.symm
+
+/-- The binary coordinate quadratic module `Σ lift(cᵢ)²/4 mod ℤ`. -/
+noncomputable abbrev binaryCoordinateQuadraticModule (ι : Type) [Fintype ι] :
+    FiniteQuadraticModule :=
+  (FiniteQuadraticModule.zmodStandard 2 even_two).coordinatePower ι
 
 /-- Canonical `A₁²⁴` labels before applying the displayed coordinate permutation. -/
 noncomputable def a1CanonicalLabelIsometry :
     FiniteQuadraticModule.Isometry
       (glueQuadraticModule RootfulNiemeierType.a1_24.components)
-      (coordinateQuadraticModule (Fin 24) 2 (by decide) (by decide)) := sorry
+      (binaryCoordinateQuadraticModule (Fin 24)) := sorry
 
 /-- The binary comparison is a finite-quadratic-module isometry whose additive map is the exact
 permutation above (all scalings are one). -/
 noncomputable def a1GlueQuadraticIsometry :
     FiniteQuadraticModule.Isometry
       (glueQuadraticModule RootfulNiemeierType.a1_24.components)
-      (coordinateQuadraticModule (Fin 12 ⊕ Fin 12) 2 (by decide) (by decide)) where
+      (binaryCoordinateQuadraticModule (Fin 24)) where
   toLinearEquiv := (a1CanonicalLabelIsometry.toAddEquiv.trans
-    a1TableToGolayMonomial.toLinearEquiv.toAddEquiv).toIntLinearEquiv
+    a1TableToGolayMonomial.toAddEquiv).toIntLinearEquiv
   map_app' := sorry
 
 noncomputable abbrev a1GlueEquivGolay := a1GlueQuadraticIsometry.toAddEquiv
@@ -605,7 +614,7 @@ theorem a1_tableGlue_eq_extendedBinaryGolay :
       extendedBinaryGolay.toAddSubgroup := sorry
 
 noncomputable def a1RootfulIsometryGolayConstructionA :
-    IntegralLattice.Isometry (rootfulLattice .a1_24) golayConstructionA := sorry
+    IntegralLattice.Isometry (rootfulLattice .a1_24) BinaryGolay.constructionALattice := sorry
 
 /-- Destination-to-source permutation for the ternary Golay acceptance calculation. -/
 def a2DestinationToSourceFun : Fin 12 → Fin 12 :=
@@ -627,10 +636,18 @@ theorem a2Scaling_ne_zero (i : Fin 12) : a2Scaling i ≠ 0 := by
 def a2ScalingUnit (i : Fin 12) : (ZMod 3)ˣ :=
   Units.mk0 (a2Scaling i) (a2Scaling_ne_zero i)
 
-noncomputable def a2TableToGolayMonomial :
-    MonomialEquiv (F := ZMod 3) (ι := Fin 12) (Fin 6 ⊕ Fin 6) where
-  reindex := a2DestinationToSource.symm.trans (@finSumFinEquiv 6 6).symm
-  scale := fun i ↦ a2ScalingUnit (finSumFinEquiv i)
+/-- The ternary Golay code on Tau Ceti's systematic coordinates `Fin 12`. -/
+noncomputable abbrev extendedTernaryGolay : LinearCode (ZMod 3) (Fin 12) := TernaryGolay.code
+
+/-- The displayed scalings are attached to destination coordinates; `monomialEquiv` scales a
+source coordinate before moving it, so source `i` is scaled by the value at its destination. -/
+noncomputable def a2TableToGolayMonomial : (Fin 12 → ZMod 3) ≃ₗ[ZMod 3] (Fin 12 → ZMod 3) :=
+  monomialEquiv (fun i ↦ a2ScalingUnit (a2DestinationToSource.symm i)) a2DestinationToSource.symm
+
+/-- Orthogonal coordinate powers of the `A₂` discriminant alphabet, `Σ lift(cᵢ)²/3 mod ℤ`. -/
+noncomputable abbrev a2CoordinateQuadraticModule (ι : Type) [Fintype ι] :
+    FiniteQuadraticModule :=
+  (IntegralLattice.typeAStandardQuadraticModule 2).coordinatePower ι
 
 noncomputable def a2CanonicalLabelIsometry :
     FiniteQuadraticModule.Isometry
@@ -642,9 +659,9 @@ preserves the `A₂` half-norm and its polar pairing. -/
 noncomputable def a2GlueQuadraticIsometry :
     FiniteQuadraticModule.Isometry
       (glueQuadraticModule RootfulNiemeierType.a2_12.components)
-      (a2CoordinateQuadraticModule (Fin 6 ⊕ Fin 6)) where
+      (a2CoordinateQuadraticModule (Fin 12)) where
   toLinearEquiv := (a2CanonicalLabelIsometry.toAddEquiv.trans
-    a2TableToGolayMonomial.toLinearEquiv.toAddEquiv).toIntLinearEquiv
+    a2TableToGolayMonomial.toAddEquiv).toIntLinearEquiv
   map_app' := sorry
 
 noncomputable abbrev a2GlueEquivTernaryGolay := a2GlueQuadraticIsometry.toAddEquiv
@@ -652,6 +669,23 @@ noncomputable abbrev a2GlueEquivTernaryGolay := a2GlueQuadraticIsometry.toAddEqu
 theorem a2_tableGlue_eq_extendedTernaryGolay :
     (tableGlueSubgroup .a2_12).map a2GlueEquivTernaryGolay.toAddMonoidHom =
       extendedTernaryGolay.toAddSubgroup := sorry
+
+/-- The chosen four-element field, with Tau Ceti's root `ω` of `X² + X + 1`. -/
+abbrev F4 := GaloisField 2 2
+
+noncomputable abbrev omega : F4 := Hexacode.omega
+
+theorem natCard_F4 : Nat.card F4 = 4 := by
+  rw [GaloisField.card 2 2 (by decide)]
+  decide
+
+/-- The hexacode at the chosen root `ω`. -/
+noncomputable abbrev hexacode : LinearCode F4 (Fin 6) := Hexacode.galoisFieldCode
+
+/-- Orthogonal coordinate powers of the quaternary `D₄` alphabet. -/
+noncomputable abbrev d4CoordinateQuadraticModule (ι : Type) [Fintype ι] :
+    FiniteQuadraticModule :=
+  (typeD4QuaternaryQuadraticModule natCard_F4).coordinatePower ι
 
 /-- The raw Conway--Sloane digit-to-field convention: `1=s↦ω`, `2=v↦1`, `3=c↦ω²`. -/
 noncomputable def d4LabelToF4Digit : ℕ → F4
@@ -712,10 +746,8 @@ theorem d4Scaling_ne_zero (i : Fin 6) : d4Scaling i ≠ 0 := sorry
 noncomputable def d4ScalingUnit (i : Fin 6) : F4ˣ :=
   Units.mk0 (d4Scaling i) (d4Scaling_ne_zero i)
 
-noncomputable def d4TableToHexacodeMonomial :
-    MonomialEquiv (F := F4) (ι := Fin 6) (Fin 6) where
-  reindex := Equiv.refl _
-  scale := d4ScalingUnit
+noncomputable def d4TableToHexacodeMonomial : (Fin 6 → F4) ≃ₗ[F4] (Fin 6 → F4) :=
+  monomialEquiv d4ScalingUnit (Equiv.refl _)
 
 /-- Every displayed scale is nonzero and hence has cube one in `F₄`; consequently the monomial
 map preserves both Hamming half-norm and the traced-Hermitian polar pairing. -/
@@ -724,7 +756,7 @@ noncomputable def d4GlueQuadraticIsometry :
       (glueQuadraticModule RootfulNiemeierType.d4_6.components)
       (d4CoordinateQuadraticModule (Fin 6)) where
   toLinearEquiv := (d4CanonicalLabelIsometry.toAddEquiv.trans
-    d4TableToHexacodeMonomial.toLinearEquiv.toAddEquiv).toIntLinearEquiv
+    d4TableToHexacodeMonomial.toAddEquiv).toIntLinearEquiv
   map_app' := sorry
 
 noncomputable abbrev d4GlueEquivHexacode := d4GlueQuadraticIsometry.toAddEquiv
@@ -738,7 +770,7 @@ theorem a11d7e6_glue_cyclic_order :
 
 /-! ## Construction B, the odd shift, and the Leech lattice -/
 
-abbrev LeechCoordinate := Fin 12 ⊕ Fin 12
+abbrev LeechCoordinate := Fin 24
 
 /-- The index-two Construction-B carrier inside binary-Golay Construction A. -/
 noncomputable def constructionBCarrier : Submodule ℤ (LeechCoordinate → ℚ) := sorry
@@ -753,8 +785,8 @@ theorem mem_constructionBCarrier_iff (x : LeechCoordinate → ℚ) :
 noncomputable def constructionB : IntegralLattice (LeechCoordinate → ℚ) where
   carrier := constructionBCarrier
   isLattice := sorry
-  form := golayConstructionA.form
-  isSymm := golayConstructionA.isSymm
+  form := BinaryGolay.constructionALattice.form
+  isSymm := BinaryGolay.constructionALattice.isSymm
   le_dual := sorry
 
 /-- `constructionB` reuses the ambient Construction-A form, so it inherits nondegeneracy. -/
@@ -765,13 +797,13 @@ theorem constructionB_isEven : constructionB.IsEven := sorry
 /-- Construction B has index two in the unimodular Construction-A lattice. -/
 theorem constructionB_index_two :
     Nat.card
-      (golayConstructionA.carrier ⧸
-        constructionBCarrier.comap golayConstructionA.carrier.subtype) = 2 := sorry
+      (BinaryGolay.constructionALattice.carrier ⧸
+        constructionBCarrier.comap BinaryGolay.constructionALattice.carrier.subtype) = 2 := sorry
 
 theorem constructionB_discriminantGroup_order :
     Nat.card constructionB.DiscriminantGroup = 4 := sorry
 
-def leechInfinity : LeechCoordinate := Sum.inl 0
+def leechInfinity : LeechCoordinate := 0
 
 /-- In rational coordinates this is `(-3/2,1/2,…,1/2)`. -/
 noncomputable def leechShift : LeechCoordinate → ℚ := fun i ↦
