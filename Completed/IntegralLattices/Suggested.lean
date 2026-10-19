@@ -9,11 +9,11 @@ import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Bili
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.OrthogonalSum
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Quadratic
 import TauCeti.LinearAlgebra.IntegralLattice.RadicalQuotient
-import TauCeti.LinearAlgebra.IntegralLattice.RankOne
+import TauCeti.LinearAlgebra.IntegralLattice.RankOne.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.SimpleRoots
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 
 /-!

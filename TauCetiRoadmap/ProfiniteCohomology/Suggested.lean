@@ -10,13 +10,13 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.Corestriction.Bas
 import TauCeti.RepresentationTheory.Homological.ContCohomology.DegreeZero
 import TauCeti.RepresentationTheory.Homological.ContCohomology.DeltaNaturality
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Evens.Class
-import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains
+import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExplicitFunctoriality
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.Colimit
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.DegreeTwoDescent
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Functoriality
-import TauCeti.RepresentationTheory.Homological.ContCohomology.GroupCohomologyIso
+import TauCeti.RepresentationTheory.Homological.ContCohomology.GroupCohomologyIso.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.HomologySequence
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.ConnectingMap
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Comparison
@@ -25,7 +25,7 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.ProjectionFormula
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Transgression
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialF2
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.FiniteExtension
 import TauCeti.FieldTheory.GaloisCohomology.BrauerTorsion
