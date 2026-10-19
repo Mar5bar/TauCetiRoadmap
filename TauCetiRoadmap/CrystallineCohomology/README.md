@@ -436,10 +436,16 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   from an open `U ⊆ X` when every `x ∈ X ∖ U` has a regular local stalk of dimension at least two.
 - **PurityOfBranchLocus**, §§2.1–2.2: Zariski–Nagata branch purity (SGA 1 X, Théorème 3.1;
   Stacks [0BMB](https://stacks.math.columbia.edu/tag/0BMB)) and its global corollary: a finite
-  dominant morphism from a normal integral locally noetherian scheme to a regular integral
-  locally noetherian scheme is étale if it is unramified at every codimension-one point of
-  the source. Apply this componentwise to finite normal covers with dominant components.
-  This is the shared generic branch-purity theorem.
+  dominant generically étale morphism from a normal integral locally noetherian scheme to a
+  regular integral locally noetherian scheme is étale if it is unramified at every
+  codimension-one point of the source. Apply this componentwise to finite normal covers whose
+  components are dominant and generically étale. This is the shared generic branch-purity theorem.
+
+  *Check (inseparable field boundary).* For every prime `p`, including `2`, let `K = 𝔽_p(t)` and
+  `L = K[u]/(u^p − t)`. The finite dominant map `Spec L → Spec K` has normal regular
+  zero-dimensional source and target and no codimension-one points, but `Ω¹_(L/K) = L du ≠ 0`.
+  It is not étale: the field extension is purely inseparable, as excluded by
+  Stacks [00U3](https://stacks.math.columbia.edu/tag/00U3).
 - **AbhyankarLemma**, §§0.1–0.3, 1.1 and 3.3–3.4: tame finite separable extensions of DVR
   fraction fields, their Kummer extensions and DVR Abhyankar
   ([0BRM](https://stacks.math.columbia.edu/tag/0BRM)); the codimension-one tame-cover predicate
@@ -7962,6 +7968,8 @@ the DVR extension at codimension-one points; its §1.1 supplies the tame-cover p
 After spreading out these extensions, LocalPurity §§2.1–2.2 extends uniquely across the remaining
 complement, whose points have codimension at least two in the regular scheme `X′`. Generic
 branch purity for finite normalizations is supplied by PurityOfBranchLocus §§2.1–2.2.
+Each dominant component of the normalization is generically étale because its restriction to
+the dense open `U′` is finite étale.
 Primality of the n_i to p is proved
 by contradiction with a descent argument along X[T₁]/(T₁^p − f₁) on the strictly henselian local
 scheme. Over a strictly local `X`, the action of `μ_{n₁} × ⋯ × μ_{n_r}` on `U′` is compatible with
@@ -9771,7 +9779,8 @@ Lean: `DerivedDeRham.semistableChartExample`.
 ### Examples
 
 - For the semistable chart `W[x, y]/(xy − p)` over `W` with log structure from `x, y`, the log
-  differentials satisfy `dlog x + dlog y = dlog p`, and relative to `W^log` (`1 ↦ p`) the module
+  differentials satisfy `dlog x + dlog y = dlog p`. Write `W_p^log` for
+  `(Spec W, ℕ → W, 1 ↦ p)`. Relative to `W_p^log`, the relation is `dlog x + dlog y = 0`, and
   `Ω¹_log` is free of rank one on `dlog x`.
 
 ### Dependencies

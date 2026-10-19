@@ -402,7 +402,11 @@ Layer CR.6 includes log rigid Hyodo–Kato cohomology; Layer CR.5:log-algebra in
 SNC Abhyankar theorem, compatible prime-to-residue-characteristic Kummer tower, universal tame
 pro-cover and full tame fundamental group used in the logarithmic Abhyankar lemma. LocalPurity
 §§2.1–2.2 supplies regular-local purity and codimension-two cover extension;
-PurityOfBranchLocus §§2.1–2.2 supplies generic branch purity; AbhyankarLemma Layers 0–3 supplies
+PurityOfBranchLocus §§2.1–2.2 supplies branch purity for finite dominant generically étale
+morphisms from normal integral locally noetherian schemes to regular integral locally noetherian
+schemes, with unramifiedness at every codimension-one source point. The SNC normalization is
+generically étale because it extends a finite étale cover of the dense open.
+AbhyankarLemma Layers 0–3 supplies
 DVR tameness, DVR Abhyankar, codimension-one ramification and the regular-divisor theorem.
 Log rigid Hyodo–Kato cohomology uses S† = Spwf(A₀[t]†), weak formal lifts, products and blow-ups,
 and dagger generic fibres. The convergent comparison uses their adic completions over
@@ -645,6 +649,9 @@ the differential, compatibly with logification and canonical base-change maps. T
 formula presents the supplied module. CR.5.1 owns the geometric, residue, continuous and
 coefficient extensions. The ordinary chart complex is distinct from the realized raw derived
 log de Rham complex on general inputs.
+The semistable example B = W[x,y]/(xy − p), W = W(k), uses the base
+W_p^log = (Spec W, ℕ → W, 1 ↦ p). Its relative logarithmic differential module is
+B·dlog x, with dlog y = −dlog x. The standard W^log carries the chart 1 ↦ 0.
 
 CR.DDR.5.8–5.9 base-linear realization and lci comparison:
 For n ≥ 1 and lci maps of flat Z/p^n-schemes, the source of
