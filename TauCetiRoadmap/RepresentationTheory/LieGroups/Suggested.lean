@@ -1038,4 +1038,205 @@ theorem cartan_polar_decomposition (D : CartanInvolution I G) (g : G) :
 
 end RealReductive
 
+
+/-! ## Compact-normalizer application: actual word, period and matrix data
+
+The README constructs coherent pinned representatives before proving the explicit
+braid/square hypotheses recorded here. This conditional algebraic interface does
+not replace that compact-form/pinning construction by an opaque predicate. -/
+
+namespace CompactNormalizerLifts
+noncomputable section CompactNormalizerApplication
+open scoped BigOperators
+
+section Tits
+variable {ι M V G : Type*} [AddCommGroup M] [Module ℝ M]
+  [AddCommGroup V] [Module ℝ V] [Group G]
+  (P : RootPairing ι ℝ M V) (b : P.Base) (T : Subgroup G)
+
+def alternatingWord (i j : b.support) (m : ℕ) : List b.support :=
+  List.ofFn fun k : Fin m => if k.val % 2 = 0 then i else j
+
+def corootLattice : AddSubgroup V := AddSubgroup.closure (Set.range P.coroot)
+
+def doubleMap : V →+ V where
+  toFun v := v+v
+  map_zero' := by simp
+  map_add' := by intros; abel
+
+def normalizerProjection : (Subgroup.normalizer (T : Set G)) →* weylGroup T :=
+  QuotientGroup.mk' (T.subgroupOf (Subgroup.normalizer (T : Set G)))
+
+/-- Every field is an actual map or equation. Coherent pinning and all these
+equations must be constructed by the README, not postulated for arbitrary lifts. -/
+structure Input where
+  torusParam : Multiplicative V →* G
+  torusParam_range : torusParam.range = T
+  periods : AddSubgroup V
+  period_eq : ∀ v, torusParam (Multiplicative.ofAdd v) = 1 ↔ v ∈ periods
+  coroot_period : corootLattice P ≤ periods
+  simple_coroot_span : AddSubgroup.closure
+    (Set.range fun i : b.support => P.coroot i.val) = corootLattice P
+  matrix : CoxeterMatrix b.support
+  coxeter : CoxeterSystem matrix P.weylGroup
+  simple_eq : ∀ i, coxeter.simple i = RootPairing.weylGroup.ofIdx P i.val
+  weylComparison : weylGroup T ≃* P.weylGroup
+  weylFinite : Finite P.weylGroup
+  n : b.support → (Subgroup.normalizer (T : Set G))
+  lift_simple : ∀ i, weylComparison (normalizerProjection T (n i)) = coxeter.simple i
+  square : ∀ i, ((n i : (Subgroup.normalizer (T : Set G))) : G)^2 =
+    torusParam (Multiplicative.ofAdd ((1/2 : ℝ) • P.coroot i.val))
+  braid : ∀ i j, ((alternatingWord P b i j (matrix i j)).map fun k => (n k : G)).prod =
+    ((alternatingWord P b j i (matrix i j)).map fun k => (n k : G)).prod
+  conjugation : ∀ i v, (n i : G) * torusParam (Multiplicative.ofAdd v) * (n i : G)⁻¹ =
+    torusParam (Multiplicative.ofAdd (P.coreflection i.val v))
+
+def generated (D : Input P b T) : Subgroup G :=
+  Subgroup.closure (Set.range fun i => (D.n i : G))
+
+theorem generated_le_normalizer (D : Input P b T) : generated P b T D ≤ (Subgroup.normalizer (T : Set G)) := by sorry
+
+def intoNormalizer (D : Input P b T) : generated P b T D →* (Subgroup.normalizer (T : Set G)) where
+  toFun g := ⟨g.val, generated_le_normalizer P b T D g.property⟩
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+def weylProjection (D : Input P b T) : generated P b T D →* P.weylGroup :=
+  D.weylComparison.toMonoidHom.comp ((normalizerProjection T).comp (intoNormalizer P b T D))
+
+def doublePeriodIntersection (D : Input P b T) : AddSubgroup (corootLattice P) :=
+  (D.periods.map (doubleMap (V := V))).comap (corootLattice P).subtype
+
+/-- The half-period values are literal; membership and normal-form laws are proofs. -/
+def halfPeriod (D : Input P b T) : Multiplicative (corootLattice P) →*
+    (weylProjection P b T D).ker where
+  toFun q := ⟨⟨D.torusParam (Multiplicative.ofAdd ((1/2 : ℝ) • (q.toAdd : V))),
+    by sorry⟩, by sorry⟩
+  map_one' := by sorry
+  map_mul' := by sorry
+
+/-- Honest whole-Pi quotient/kernel comparison retaining every actual input record. -/
+noncomputable def kernelEquiv : (P : RootPairing ι ℝ M V) → (b : P.Base) →
+    (T : Subgroup G) → (D : Input P b T) →
+    Multiplicative ((corootLattice P) ⧸ doublePeriodIntersection P b T D) ≃*
+      (weylProjection P b T D).ker := by sorry
+
+theorem halfPeriod_eq_one_iff (D : Input P b T) (q : corootLattice P) :
+    halfPeriod P b T D (Multiplicative.ofAdd q) = 1 ↔
+      (q : V) ∈ D.periods.map (doubleMap (V := V)) := by sorry
+
+theorem weylProjection_surjective (D : Input P b T) :
+    Function.Surjective (weylProjection P b T D) := by sorry
+
+theorem generated_finite [Finite ι] (D : Input P b T) : Finite (generated P b T D) := by sorry
+
+/-- Faithful left regular permutation values, distinct from the possibly unfaithful adjoint. -/
+def regularPermutation (D : Input P b T) : generated P b T D →*
+    Equiv.Perm (generated P b T D) where
+  toFun g := Equiv.mulLeft g
+  map_one' := by ext; simp
+  map_mul' := by intros; ext; simp [mul_assoc]
+
+theorem regularPermutation_injective (D : Input P b T) :
+    Function.Injective (regularPermutation P b T D) := by sorry
+/-- Native linearization of the actual left action, not a new representation engine. -/
+noncomputable def regularLinear (D : Input P b T) :
+    Representation ℝ (generated P b T D) (MonoidAlgebra ℝ (generated P b T D)) :=
+  Representation.leftRegular ℝ (generated P b T D)
+
+theorem regularLinear_injective (D : Input P b T) :
+    Function.Injective (regularLinear P b T D) := by sorry
+end Tits
+
+section SU2
+abbrev SU2 := Matrix.specialUnitaryGroup (Fin 2) ℂ
+
+def su2Diagonal (z : ℂ) (hz : star z*z=1) : SU2 :=
+  ⟨!![z,0;0,star z], by sorry⟩
+
+def su2Torus : Subgroup SU2 where
+  carrier := {g | ∃ z : ℂ, ∃ hz : star z*z=1, g = su2Diagonal z hz}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+def su2J : SU2 := ⟨!![0,-1;1,0], by sorry⟩
+
+theorem su2J_square : (su2J : Matrix (Fin 2) (Fin 2) ℂ)^2 = -1 := by sorry
+theorem su2J_normalizes : su2J ∈ (Subgroup.normalizer (su2Torus : Set SU2)) := by sorry
+theorem su2_coset_square (t : su2Torus) :
+    (((t : SU2)*su2J : SU2) : Matrix (Fin 2) (Fin 2) ℂ)^2 = -1 := by sorry
+
+theorem su2_no_section : ¬ ∃ s : weylGroup su2Torus →* (Subgroup.normalizer (su2Torus : Set SU2)),
+    (normalizerProjection su2Torus).comp s = MonoidHom.id _ := by sorry
+end SU2
+
+section SOBlocks
+open scoped Matrix
+abbrev PlaneIndex (r : ℕ) := Fin r × Fin 2
+abbrev OddIndex (r : ℕ) := Sum (PlaneIndex r) Unit
+abbrev SOEven (r : ℕ) := Matrix.specialOrthogonalGroup (PlaneIndex r) ℝ
+abbrev SOOdd (r : ℕ) := Matrix.specialOrthogonalGroup (OddIndex r) ℝ
+
+def evenSignedMatrix {r : ℕ} (σ : Equiv.Perm (Fin r)) (ε : Fin r → ℤˣ) :
+    Matrix (PlaneIndex r) (PlaneIndex r) ℝ := fun a b =>
+  if a.1=σ b.1 ∧ a.2=b.2 then if b.2=0 then 1 else ((ε b.1 : ℤ) : ℝ) else 0
+
+def oddSignedMatrix {r : ℕ} (σ : Equiv.Perm (Fin r)) (ε : Fin r → ℤˣ) :
+    Matrix (OddIndex r) (OddIndex r) ℝ := fun a b => match a,b with
+  | .inl i,.inl j => evenSignedMatrix σ ε i j
+  | .inr _,.inr _ => (((∏ i, ε i : ℤˣ) : ℤ) : ℝ)
+  | _,_ => 0
+
+def rotationMatrix {r : ℕ} (θ : Fin r → ℝ) :
+    Matrix (PlaneIndex r) (PlaneIndex r) ℝ := fun a b =>
+  if a.1=b.1 then
+    if a.2=b.2 then Real.cos (θ b.1)
+    else if a.2=0 then -Real.sin (θ b.1) else Real.sin (θ b.1)
+  else 0
+
+def oddRotationMatrix {r : ℕ} (θ : Fin r → ℝ) :
+    Matrix (OddIndex r) (OddIndex r) ℝ := fun a b => match a,b with
+  | .inl i,.inl j => rotationMatrix θ i j
+  | .inr _,.inr _ => 1
+  | _,_ => 0
+
+def evenTorus (r : ℕ) : Subgroup (SOEven r) where
+  carrier := {g | ∃ θ : Fin r → ℝ, g.val = rotationMatrix θ}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+def oddTorus (r : ℕ) : Subgroup (SOOdd r) where
+  carrier := {g | ∃ θ : Fin r → ℝ, g.val = oddRotationMatrix θ}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+def evenComplement (r : ℕ) : Subgroup (SOEven r) where
+  carrier := {g | ∃ σ : Equiv.Perm (Fin r), ∃ ε : Fin r → ℤˣ,
+    ∏ i, ε i = 1 ∧ g.val = evenSignedMatrix σ ε}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+def oddComplement (r : ℕ) : Subgroup (SOOdd r) where
+  carrier := {g | ∃ σ : Equiv.Perm (Fin r), ∃ ε : Fin r → ℤˣ,
+    g.val = oddSignedMatrix σ ε}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+theorem evenComplement_le_normalizer (r : ℕ) : evenComplement r ≤ (Subgroup.normalizer ((evenTorus r) : Set (SOEven r))) := by sorry
+theorem oddComplement_le_normalizer (r : ℕ) : oddComplement r ≤ (Subgroup.normalizer ((oddTorus r) : Set (SOOdd r))) := by sorry
+
+theorem even_complement (r : ℕ) :
+    ((evenTorus r).subgroupOf (Subgroup.normalizer ((evenTorus r) : Set (SOEven r)))).IsComplement'
+      ((evenComplement r).subgroupOf (Subgroup.normalizer ((evenTorus r) : Set (SOEven r)))) := by sorry
+theorem odd_complement (r : ℕ) :
+    ((oddTorus r).subgroupOf (Subgroup.normalizer ((oddTorus r) : Set (SOOdd r)))).IsComplement'
+      ((oddComplement r).subgroupOf (Subgroup.normalizer ((oddTorus r) : Set (SOOdd r)))) := by sorry
+end SOBlocks
+
+end CompactNormalizerApplication
+end CompactNormalizerLifts
+
 end TauCetiRoadmap.RepresentationTheory.LieGroups
