@@ -12,9 +12,13 @@ characteristic and conductor inputs. Frobenius is arithmetic, and reductions ret
 chosen integral model. Compatible systems, prescribed lifts, period modules, geometric forms
 and Galois attachments are specified in the README. Its compatible-system inputs enrich
 SmallRamificationAndAbelianVarietyBaseCases §5.0d's shared data and rank-two specialization,
-using the supplied Frobenius/Weil–Deligne and Hodge-sign adapters. Almost-strict compatibility
-requires every pairwise comparison outside its stated reducible-residual exceptions;
-a finite exceptional set of coefficient places alone does not supply those comparisons.
+using the supplied Frobenius/Weil–Deligne and Hodge-sign adapters and
+AutomorphicGaloisRepresentations §7.1's `AutomorphicSystemData.IsAlmostStrictlyCompatible`
+and `AutomorphicSystemData.almostStrict_transport`. Every required pairwise comparison is
+retained outside the supplied predicate's reducible-residual exceptions. The rational-field
+prescribed lifts, families through them and residual-link transfers are Layer I exports.
+The crystalline lifting contract distinguishes lift weight `h` from residual Serre weight,
+including the nonordinary `h = p + 1` endpoint with residual weight two.
 -/
 
 noncomputable section
@@ -609,6 +613,13 @@ example : IsAbsIrreducible (MonoidHom.id (GL (Fin 2) ℚ)) := by sorry
 example (ρ : (ℚˣ × ℚˣ) →* GL (Fin 2) ℚ)
     (hρ : ∀ u, (ρ u : Matrix (Fin 2) (Fin 2) ℚ) =
       !![(u.1 : ℚ), 0; 0, (u.2 : ℚ)]) : ¬ IsAbsIrreducible ρ := by sorry
+
+/-- The split action `χ ⊕ 1` has invariant coordinate lines. In particular, the 3-adic
+cyclotomic specialization is excluded by the irreducibility hypothesis of
+`R33.1/dp-modularity-lifting-inputs`. -/
+example {k : Type*} [Field k] (χ : GQ →* kˣ) (ρ : GQ →* GL (Fin 2) k)
+    (hρ : ∀ g, (ρ g : Matrix (Fin 2) (Fin 2) k) = !![(χ g : k), 0; 0, 1]) :
+    ¬ Representation.IsIrreducible (toRepresentation ρ) := by sorry
 
 /-- The totally real S3 extension cut out by x³−4x+1 gives an even absolutely irreducible
 action over F5: among the three S-type conditions only oddness fails. -/
