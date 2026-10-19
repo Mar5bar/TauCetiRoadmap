@@ -24,6 +24,25 @@ normalization, monodromy is retained, and coefficient twists use the existing
 symmetric powers and character-twist API. Automorphic classes, local types,
 Whittaker models and their transfer maps have their full specification in README.
 
+R16.0.1 and R16.3.5 keep the inertia restriction, ramification-defined Artin/Swan
+conductors, monodromy and the least last-row fixed level as separate interfaces.
+ArithmeticGaloisRepresentations Layer 3 and §3.3 supplies
+a(r,N) = a(r) + dim V^I - dim (ker N)^I. AL.2 GL₂ newvectors supplies c(π)
+on generic classes.
+The equality c(π) = a(rec π) and the normalized epsilon-exponent formula are
+separate comparison theorems. The downstream construction
+AutomorphicGaloisRepresentationsPartII's `semisimpleParameter` and statements of
+semisimple local-global compatibility at ℓ ≠ p are independent of epsilon-compatibility;
+monodromy identification and the twisted-factor comparison are further obligations.
+Henniart's twisted-factor characterization gives uniqueness of the full correspondence.
+
+ArithmeticGaloisRepresentations §2.7 supplies local-constant-gauss-sum,
+standard-test-function-evaluations, hecke-zeta-integral-comparison and the
+finite-sum root-number-product-formula. AutomorphicSpectralTheory's
+unitary-hecke-functional-equation supplies the all-unitary scalar Hecke equation.
+AutomorphicLFunctionsAndLocalFactors AL.1/rank-one-local-functional-equation
+supplies local zeta integrals and their comparison with tateLocalConstant.
+
 AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization, its inverse,
 raising and Casimir formulas, scalar normalization and Hecke and diamond comparisons.
 R16.1/finite-level-comparison identifies these with the matrix and level realizations;
@@ -248,7 +267,9 @@ example (χ : Fˣ →* ℂˣ)
 end IwahoriOldforms
 
 /-! AutomorphicLFunctionsAndLocalFactors AL.2, GL₂ newvectors, supplies the least-level
-conductor and normalized Whittaker line. The following classification checks supply a
+conductor and normalized Whittaker line, independently of epsilon factors.
+R16.3.5 compares this conductor with the ramification-defined WD conductor.
+The following classification checks supply a
 nonempty level set in each concrete model and express its conductor as `Nat.find hex`. -/
 
 section LocalModelFixtures
@@ -426,7 +447,10 @@ end SupercuspidalProjectivity
 
 section Parameters
 
-/-- The nonzero rank-one monodromy matrix and its geometric Frobenius relation; q is a nonzero square root of the residue cardinality. -/
+/-- The nonzero rank-one monodromy matrix and its geometric Frobenius relation;
+q is a nonzero square root of the residue cardinality. With trivial inertia this
+monodromy contributes one to the WD conductor, while the semisimple Weil part
+alone has conductor zero, as in R16.0.1 and R16.3.5. -/
 theorem steinbergParameter (q α : ℂ) (hq : q ≠ 0) (hα : α ≠ 0) :
     let N : Matrix (Fin 2) (Fin 2) ℂ := !![0, 1; 0, 0]
     let R : Matrix (Fin 2) (Fin 2) ℂ := !![α / q, 0; 0, α * q]
