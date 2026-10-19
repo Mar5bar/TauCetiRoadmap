@@ -8,7 +8,7 @@ import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.TorusGeneratio
 The accompanying README is the full specification, with source locators and exact
 supplier contracts. This file records light definitions and selected milestones that
 can be stated against the pinned Mathlib; it is not exhaustive. Hurwitz schemes,
-monodromy representations, spacing measures and the arithmetic counts remain README
+monodromy representations and the arithmetic counts remain README
 targets.
 
 Design choices made explicit here: the Kolmogorov distance lives on Mathlib's
@@ -20,7 +20,7 @@ densities are taken along odd degrees `2 * m + 1`.
 -/
 
 noncomputable section
-open scoped BigOperators Topology
+open scoped BigOperators Topology Polynomial
 open Filter
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartVIII
@@ -54,6 +54,80 @@ end Concentration
 
 namespace GeometricStatistics
 open MeasureTheory ProbabilityTheory
+
+/-- Sorted cyclic gaps, including the wrap-around gap; the empty multiset gives no gaps. -/
+def cyclicGaps (θ : Multiset ℝ) : List ℝ :=
+  let xs := θ.sort (· ≤ ·)
+  (List.range θ.card).map fun i =>
+    if i + 1 < θ.card then xs.getD (i + 1) 0 - xs.getD i 0
+    else xs.getD 0 0 + 2 * Real.pi - xs.getD i 0
+
+/-- Each angle contributes one cyclic gap. -/
+theorem length_cyclicGaps (θ : Multiset ℝ) : (cyclicGaps θ).length = θ.card := by
+  simp [cyclicGaps]
+
+/-- Angles in one half-open period have nonnegative cyclic gaps. -/
+theorem cyclicGaps_nonneg (θ : Multiset ℝ)
+    (hθ : ∀ t ∈ θ, 0 ≤ t ∧ t < 2 * Real.pi) :
+    ∀ Δ ∈ cyclicGaps θ, 0 ≤ Δ := by sorry
+
+/-- A nonempty cycle has total gap one full period. -/
+theorem sum_cyclicGaps (θ : Multiset ℝ) (hN : 0 < θ.card) :
+    (cyclicGaps θ).sum = 2 * Real.pi := by sorry
+
+/-- The empirical probability law of gaps scaled to have mean one. -/
+def spacingMeasure (θ : Multiset ℝ) (hN : 0 < θ.card) : ProbabilityMeasure ℝ :=
+  ⟨ENNReal.ofReal ((θ.card : ℝ)⁻¹) •
+    ((cyclicGaps θ).map fun Δ =>
+      Measure.dirac ((θ.card : ℝ) * Δ / (2 * Real.pi))).sum, by sorry⟩
+
+/-- The spacing law has total mass one. -/
+theorem spacingMeasure_univ (θ : Multiset ℝ) (hN : 0 < θ.card) :
+    (spacingMeasure θ hN : Measure ℝ) Set.univ = 1 := by sorry
+
+/-- A spacing law from angles in one period is supported on nonnegative gaps. -/
+theorem spacingMeasure_Iio_zero (θ : Multiset ℝ) (hN : 0 < θ.card)
+    (hθ : ∀ t ∈ θ, 0 ≤ t ∧ t < 2 * Real.pi) :
+    (spacingMeasure θ hN : Measure ℝ) (Set.Iio 0) = 0 := by sorry
+
+/-- Arguments of all complex polynomial roots in `[0, 2π)`, with multiplicity. -/
+def eigenangles (P : ℂ[X]) : Multiset ℝ :=
+  P.roots.map fun z => toIcoMod (by positivity : 0 < 2 * Real.pi) 0 (Complex.arg z)
+
+/-- A complex polynomial of degree `2g` has `2g` eigenangles counted with multiplicity. -/
+theorem card_eigenangles (P : ℂ[X]) (g : ℕ) (hP : P.natDegree = 2 * g) :
+    (eigenangles P).card = 2 * g := by sorry
+
+/-- Eigenangles lie in the chosen half-open period. -/
+theorem eigenangles_mem_Ico (P : ℂ[X]) :
+    ∀ t ∈ eigenangles P, t ∈ Set.Ico 0 (2 * Real.pi) := by sorry
+
+/-- Two distinct angles each repeated at least `h` times force `2(h-1)` zero gaps. -/
+theorem sub_one_div_le_spacingMeasure_zero (θ : Multiset ℝ) (hN : 0 < θ.card)
+    (hθ : ∀ u ∈ θ, 0 ≤ u ∧ u < 2 * Real.pi) (s t : ℝ) (hst : s ≠ t)
+    (h : ℕ) (hs : h ≤ θ.count s) (ht : h ≤ θ.count t) :
+    2 * ((h : ℝ) - 1) / (θ.card : ℝ) ≤ (spacingMeasure θ hN : Measure ℝ).real {0} := by
+  sorry
+
+/-- Four equal angles give three zero gaps and one gap of normalized size four. -/
+example :
+    (spacingMeasure (↑([1, 1, 1, 1] : List ℝ)) (by norm_num) : Measure ℝ) =
+      (3 / 4 : ENNReal) • Measure.dirac 0 + (1 / 4 : ENNReal) • Measure.dirac 4 := by sorry
+
+/-- Two antipodal angles give two equal normalized gaps. -/
+example : spacingMeasure (↑([0, Real.pi] : List ℝ)) (by norm_num) = diracProba 1 := by
+  sorry
+
+/-- Repeated antipodal angles retain their zero gaps. -/
+example :
+    (spacingMeasure (↑([0, 0, Real.pi, Real.pi] : List ℝ)) (by norm_num) : Measure ℝ).real {0} =
+      1 / 2 ∧
+    (spacingMeasure (↑([0, Real.pi] : List ℝ)) (by norm_num) : Measure ℝ).real {0} = 0 := by
+  sorry
+
+/-- The roots of `X²+5` have arguments `π/2` and `3π/2`. -/
+example : eigenangles ((Polynomial.X : ℂ[X]) ^ 2 + Polynomial.C 5) =
+    ↑([Real.pi / 2, 3 * Real.pi / 2] : List ℝ) := by sorry
 
 /-- Supremum CDF distance on the existing probability-measure carrier. -/
 def kolmogorovDist (μ ν : ProbabilityMeasure ℝ) : ℝ :=
@@ -90,6 +164,10 @@ def lowerOddDensity (u : ℕ → ℝ) : ℝ := liminf (fun m => u (2 * m + 1)) a
 /-- For bounded sequences the lower odd density is at most the upper one. -/
 theorem lowerOddDensity_le_upperOddDensity (u : ℕ → ℝ) (hu : ∃ B, ∀ n, |u n| ≤ B) :
     lowerOddDensity u ≤ upperOddDensity u := by sorry
+
+/-- Constant sequences have the same upper and lower odd density. -/
+example (c : ℝ) : upperOddDensity (fun _ => c) = c ∧ lowerOddDensity (fun _ => c) = c := by
+  sorry
 
 /-- An alternating sequence on odd degrees has distinct densities. -/
 example : upperOddDensity (fun n => (-1 : ℝ) ^ ((n - 1) / 2)) = 1 ∧
@@ -128,12 +206,13 @@ namespace Similitude
 
 variable (l R : Type*) [Fintype l] [DecidableEq l] [CommRing R]
 
-/-- The similitude coset of multiplier `m`: matrices with `h * J * hᵀ = m • J`, in the
+/-- Matrices satisfying `h * J * hᵀ = m • J` for an arbitrary scalar multiplier, in the
 convention of `Matrix.symplecticGroup`. -/
 def similitudeCoset (m : R) : Set (Matrix (l ⊕ l) (l ⊕ l) R) :=
   {h | h * Matrix.J l R * h.transpose = m • Matrix.J l R}
 
-/-- The similitude matrices: the union of the cosets of unit multiplier. -/
+/-- The union of unit-multiplier matrix subsets, identified in positive rank with the
+matrix projection of ArithmeticGaloisRepresentations' supplied `GSp`. -/
 def similitudeSet : Set (Matrix (l ⊕ l) (l ⊕ l) R) :=
   ⋃ m : Rˣ, similitudeCoset l R (m : R)
 
@@ -151,6 +230,28 @@ theorem similitudeCoset_mul_mem {m m' : R} {h h' : Matrix (l ⊕ l) (l ⊕ l) R}
 theorem multiplier_unique [Nonempty l] {m m' : R}
     {h : Matrix (l ⊕ l) (l ⊕ l) R}
     (hm : h ∈ similitudeCoset l R m) (hm' : h ∈ similitudeCoset l R m') : m = m' := by sorry
+
+/-- Negating the identity preserves the standard alternating form. -/
+example : (-1 : Matrix (l ⊕ l) (l ⊕ l) R) ∈ similitudeCoset l R 1 := by sorry
+
+/-- A diagonal block scales the form by its unit entry. -/
+example {ℓ : ℕ} [Fact ℓ.Prime] (q : (PadicInt ℓ)ˣ) :
+    Matrix.fromBlocks (1 : Matrix l l (PadicInt ℓ)) 0 0
+      ((q : PadicInt ℓ) • (1 : Matrix l l (PadicInt ℓ))) ∈
+        similitudeCoset l (PadicInt ℓ) (q : PadicInt ℓ) := by sorry
+
+/-- The prime entry scales the form but cannot supply a unit multiplier in rank two. -/
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    Matrix.fromBlocks (1 : Matrix Unit Unit (PadicInt ℓ)) 0 0
+      ((ℓ : PadicInt ℓ) • (1 : Matrix Unit Unit (PadicInt ℓ))) ∈
+        similitudeCoset Unit (PadicInt ℓ) (ℓ : PadicInt ℓ) ∧
+    Matrix.fromBlocks (1 : Matrix Unit Unit (PadicInt ℓ)) 0 0
+      ((ℓ : PadicInt ℓ) • (1 : Matrix Unit Unit (PadicInt ℓ))) ∉
+        similitudeSet Unit (PadicInt ℓ) := by sorry
+
+/-- Empty matrices satisfy every scalar multiplier equation. -/
+example (m : R) : (1 : Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) R) ∈
+    similitudeCoset (Fin 0) R m := by sorry
 
 /-- `diag(1, -1)` has multiplier `-1`, a unit. -/
 example : Matrix.fromBlocks (1 : Matrix Unit Unit ℤ) 0 0 (-1) ∈ similitudeSet Unit ℤ := by
@@ -185,6 +286,14 @@ theorem allowedPrimePowers_zero : allowedPrimePowers 0 = ⊥ := by sorry
 theorem EventualDegreeLargeQLimit.unique {m : ℕ} (hm : m ≠ 0) {E : ℕ → ℕ → ℝ}
     {c c' : ℕ → ℝ} (h : EventualDegreeLargeQLimit m E c)
     (h' : EventualDegreeLargeQLimit m E c') : ∀ᶠ n in atTop, c n = c' n := by sorry
+
+/-- A function constant in `q` has its prescribed eventual-degree large-`q` limit. -/
+example (m : ℕ) (c : ℕ → ℝ) : EventualDegreeLargeQLimit m (fun _ n => c n) c := by sorry
+
+/-- The allowed filter contains its defining set and refines the filter at infinity. -/
+example (m : ℕ) :
+    {q | IsPrimePow q ∧ Nat.Coprime q m} ∈ allowedPrimePowers m ∧
+      allowedPrimePowers m ≤ atTop := by sorry
 
 /-- `n / (n + q)` has eventual-degree large-`q` limit `0`, although for each fixed `q` it
 tends to `1` in the degree. -/
@@ -222,6 +331,10 @@ theorem parityMultidegreeCount_eq (N N₀ d : ℕ) (hN : 1 ≤ N) (ε : Fin N �
         Nat.choose ((d - ∑ i, leastWithParity N₀ (ε i)) / 2 + N - 1) (N - 1)
       else 0 := by sorry
 
+/-- In one coordinate the total degree alone determines membership in the parity slice. -/
+example (N₀ d : ℕ) (ε : Fin 1 → ℕ) : parityMultidegreeCount 1 N₀ d ε =
+    if N₀ ≤ d ∧ d % 2 = ε 0 % 2 then 1 else 0 := by sorry
+
 /-- `(0,4), (2,2), (4,0)`. -/
 example : parityMultidegreeCount 2 0 4 ![0, 0] = 3 := by decide
 
@@ -237,11 +350,7 @@ end ComponentProfiles
 The README also specifies the surrounding API: `GeometricStatistics.kolmogorovDist_nonneg`,
 `GeometricStatistics.kolmogorovDist_comm`, `GeometricStatistics.kolmogorovDist_le_one`,
 `GeometricStatistics.abs_cdf_sub_le_kolmogorovDist`, `GeometricStatistics.kolmogorovDist_triangle`
-and `similitudeCoset_map`. Its spacing-measure targets include
-`GeometricStatistics.length_cyclicGaps`, `GeometricStatistics.cyclicGaps_nonneg`,
-`GeometricStatistics.sum_cyclicGaps`, `GeometricStatistics.spacingMeasure_univ`,
-`GeometricStatistics.spacingMeasure_Iio_zero`, `GeometricStatistics.card_eigenangles` and
-`GeometricStatistics.sub_one_div_le_spacingMeasure_zero`; their carriers are specified there.
+and `similitudeCoset_map`.
 -/
 
 end TauCetiRoadmap.ArithmeticStatisticsPartVIII
