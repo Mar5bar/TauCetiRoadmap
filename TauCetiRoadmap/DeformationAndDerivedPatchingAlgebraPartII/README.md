@@ -589,7 +589,8 @@ holds for finite `N` over a Noetherian local ring: for `N ≠ 0`, depth is the l
 - `ℚ⟦X⟧` satisfies it: `H^0_𝔪(ℚ⟦X⟧) = 0` and the dimension is `1`.
 - `R = k⟦x, y⟧/(x², xy)` does not: it has dimension `1` and the class of `x` is a nonzero element
   killed by `𝔪`, so `H^0_𝔪(R) ≠ 0`. Equivalently the same quotient as a module over
-  `k⟦x⟧⟦y⟧` fails `LowLocalCohomologyVanishes`; `Suggested.lean` pins this latter form for `k = ℚ`.
+  `k⟦x⟧⟦y⟧` fails `LowLocalCohomologyVanishes`;
+  `not_lowLocalCohomologyVanishes_embeddedPoint` states this boundary Check for `k = ℚ`.
 
 **CM-secant sequences.** For a finite module `M` over a Noetherian local ring `(R, 𝔪)`, a list
 `r₁, …, rₛ` is CM-secant for `M` when it is secant for `M`, the terminal quotient `M/(r₁, …, rₛ)M` is
