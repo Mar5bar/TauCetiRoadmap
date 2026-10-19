@@ -311,7 +311,7 @@ For the proof, Nonnegativity and `ratio_le_one`: `N_H(S ∩ T; X) ≤ N_H(T; X)`
 
 - Strict and inclusive cutoffs give the same limit, as the sources' `Σ(X) = {H < X}` and Burungale–Tian's `S(X) = {n ≤ X}` require.
 
-- The empty ambient family has density 0 in itself under the `0/0` convention, whereas a singleton has density 1 in itself. Infinitude is sufficient but not necessary for self-density 1.
+- The empty ambient family has density 0 in itself under the `0/0` convention and cannot have density 1 (`ArithmeticFamily.empty_ambient_density`), whereas a singleton has density 1 in itself. Infinitude is sufficient but not necessary for self-density 1.
 
 <a id="relative-density-is-multiplicative-in-towers"></a>
 
@@ -335,7 +335,7 @@ For the proof, For `S ⊆ T ⊆ U` and every X: if `N(T; X) > 0` then `N(S; X)/N
 
 <a id="density-one-restricts-to-subfamilies-of-positive-lower-density"></a>
 
-**Density one restricts to subfamilies of positive lower density.** Let `A ⊆ ι` and `U ⊆ T` be subfamilies of an arithmetic family. If A has relative density 1 in T and U has positive lower relative density in T, then `A ∩ U` has relative density 1 in U. Proposed declaration: `ArithmeticFamily.HasDensity.inter_of_lowerDensity_pos`.
+**Density one restricts to subfamilies of positive lower density.** Let `A ⊆ ι` and `U ⊆ T` be subfamilies of an arithmetic family. If A has relative density 1 in T and U has positive lower relative density in T, then `A ∩ U` has relative density 1 in U. Proposed declaration: `ArithmeticFamily.HasDensity.inter_of_lowerDensity_pos`, represented by `ArithmeticFamily.inter_of_lowerDensity_pos` in `Suggested.lean`.
 
 Positivity of the lower density of U in T is necessary: a density-one set may miss a density-zero subfamily entirely.
 
@@ -929,7 +929,7 @@ For the proof, family: height `=` Layer 8's shortEquationHeight; northcott from 
 
 **Quartic to curve height normalisation.** For every `E = E_{A,B}` in the family of elliptic curves over `ℚ`: `27·H(E) = 4·H′(E)`, where `H(E) = max{4|A|³, 27B²}` and `H′(E) = max{|I(E)|³, J(E)²/4}`. Hence `H′ = (27/4)·H` is a constant rescaling ([constant rescaling of a height](#constant-rescaling-of-a-height)): the two heights order every set of curves identically, the count of curves with `H′(E) ≤ X` is the count with `H(E) ≤ 4X/27`, averages agree, and `N_H(F; X) ~ C·X^(5/6)` gives `N_{H′}(F; X) ~ (4/27)^(5/6)·C·X^(5/6)`. Proposed declaration: `EllipticFamily.twentySeven_mul_height`.
 
-The absolute value on `I(E)³` matters.
+The absolute value on `I(E)³` matters. `BinaryQuartic.height_ofCurve` states the coefficient identity `27 max(4|A|³,27B²)=4H(−3A,−27B)` for real A,B; specializing to the minimal integral pair gives the curve-family identity.
 
 For the proof, `|I(E)|³ = 27|A|³ = (27/4)·4|A|³` and `J(E)²/4 = 729B²/4 = (27/4)·27B²`; take the maximum. The consequences are [constant rescaling of a height](#constant-rescaling-of-a-height) with `c = 27/4`.
 
@@ -1011,7 +1011,7 @@ Eligible pairs include degenerate ones with `4I³ = J²`: `(0, 0)` (the zero for
 
 - `BinaryQuartic.ofCurve`: `E_{A,B} ↦ (−3A, −27B)` as an eligible pair.
 
-- `BinaryQuartic.height_ofCurve`: `27·H(E) = 4·H(ofCurve E)`.
+- `BinaryQuartic.height_ofCurve`: The real coefficient identity `27 max(4|A|³,27B²)=4H(−3A,−27B)`, giving `27·H(E) = 4·H(ofCurve E)` on the curve family.
 
 For the proof, eligibleFamily: the subtype of `ℤ²` cut out by IsEligible with the height of [binary quartic height](#binary-quartic-height); `northcott_pairHeight` restricts to the subtype. ofCurve: [elliptic curves over q ordered by height](#elliptic-curves-over-q-ordered-by-height) `(invariants_eligible)`; `height_ofCurve` is [quartic to curve height normalisation](#quartic-to-curve-height-normalisation).
 
@@ -1371,7 +1371,7 @@ Use the [cubic supplier conventions](#cubic-supplier-conventions) and AnalyticNu
 
 **Count of squarefree monic polynomials over a finite field.** For a finite field `𝔽_q` the number `s_n` of squarefree monic polynomials of degree n over `𝔽_q` is `s₀ = 1`, `s₁ = q` and `s_n = q^n − q^{n−1}` for `n ≥ 2`.
 
-Squarefree in the sense of Mathlib's Squarefree in the monoid `𝔽_q[X]` (no square of a nonunit divides it).
+Squarefree in the sense of Mathlib's Squarefree in the monoid `𝔽_q[X]` (no square of a nonunit divides it). `monicSquarefreePolysOfDegree` is the monic squarefree degree-n slice; `card_monicSquarefreePolysOfDegree` states its finiteness and all three cardinality cases.
 
 For the proof, Every monic g has a unique factorisation `g = e²·d` with e monic and d monic squarefree (existence: mathlib:`exists_sq_mul_squarefree`, normalised to monic factors; uniqueness from unique factorisation). Counting monic polynomials of degree n by the degree k of e gives `q^n = Σ_{0 ≤ k ≤ n/2} q^k s_{n−2k}`. The generating functions satisfy `(1 − qt)⁻¹ = (1 − qt²)⁻¹ S(t)`, so `S(t) = (1 − qt²)/(1 − qt)`, whose coefficients are 1, q, `q^n − q^{n−1}`.
 
@@ -1595,7 +1595,13 @@ Nonnegative X in the coordinate and floor formulas; `n≥1` in the stated asympt
 
 - `Coefficients.weightedHeight_northcott`: The weighted height is Northcott.
 
-- `Coefficients.monicPolynomial_monic`: The constructed polynomial is monic of degree n.
+- `Coefficients.monicPolynomial`: The polynomial with descending monic coefficients.
+
+- `Coefficients.monicPolynomial_monic`: Over a nontrivial commutative ring, the constructed polynomial is monic of degree n.
+
+- `Coefficients.weightedBox`: The strict coefficient region `|a_i|<X^(i+1)`.
+
+- `Coefficients.weightedBox_count`: For `X>0` this region is finite with cardinality `∏_{i=1}^n(2⌈X^i⌉−1)`, including the empty product at n=0.
 
 For the proof, Construct `f_a` from the finite coefficient tuple. Real roots of the nonnegative absolute values give the height. Monotonicity of powers converts sublevel sets to anisotropic integer boxes; multiply interval counts. The strict-cutoff asymptotic follows by expanding the product.
 
@@ -1669,6 +1675,8 @@ For the proof, Evaluate the universal discriminant directly in `Z/p²Z`. Count i
 
 **Monic local proportions.** For `n≥0`, prime p and `j≥0`, `ν_j(n,p)` is the fraction of monic coefficient vectors modulo `p^(j+1)` for which `p^j` divides the integral discriminant and `p^(j+1)` does not. Compute the discriminant using any integer lifts; congruence makes this independent of lifts. For `j=0` reduction modulo p suffices, for `j=1` use `p²`. Degree zero and one have `Δ=1`.
 
+- `ArithmeticStatisticsPartI.monicProportion`: The exact valuation-j residue proportion, with positive natural modulus p and canonical integer coefficient lifts. Prime-modulus results carry primality explicitly.
+
 - `ArithmeticStatisticsPartI.monicProportion_nonneg`: A finite discriminant proportion is nonnegative.
 
 - `ArithmeticStatisticsPartI.monicProportion_le_one`: At a positive modulus the proportion is at most one.
@@ -1696,6 +1704,8 @@ For the proof, Choose canonical integer representatives, evaluate the integral p
 **Strong weak discriminant.** For an integral polynomial invariant D on a fixed coefficient vector, `D(a)` is strongly `p²`-divisible when every vector congruent to a modulo p still has `p²|D`. It is weakly `p²`-divisible when `p²|D(a)` but strong divisibility fails. For squarefree m, `W_m^(i)=`intersection over p|m of the corresponding strong or weak loci. These notions are coefficient-space notions; they are not defined by first factoring the affine polynomial.
 
 p is prime for the arithmetic interpretation; the predicates themselves make sense for every natural p.
+
+- `Coefficients.StrongSquareDivides`: Every coefficient perturbation by p preserves square divisibility.
 
 - `Coefficients.WeakSquareDivides`: Square divisibility without strong divisibility.
 
@@ -2045,6 +2055,8 @@ For the proof, Use transport of `λ` along an isomorphism from a fixed represent
 
 `q>1`; the geometric interpretation requires q the order of a finite field.
 
+- `ArithmeticStatisticsPartI.bundleMass`: The displayed mass at the normalized splitting index. Its analytic identities hold for every real `q>1`.
+
 - `ArithmeticStatisticsPartI.bundleLaw`: The mass function defines a probability mass function for `q>1`.
 
 - `ArithmeticStatisticsPartI.bundleMass_nonneg`: All masses are nonnegative.
@@ -2079,7 +2091,7 @@ For the proof, Use the rank-two splitting target in [the bundle geometry contrac
 
 **Bundle parity tails.** For `d≥1`, `μ_q({d,d+2,d+4,…})=1/(2q^(d−1))`; the even tail starting at `d=0` has mass `1/2`. Consequently `μ_q({a+1,a+3,…})=1/(2q^a)` for `a≥0`. The `d=0` exception is required by the balanced-bundle weight.
 
-`q>1`, as in the natural-bundle-law prerequisite; q is a prime power in the finite-field specialization.
+`q>1`, as in the natural-bundle-law prerequisite; q is a prime power in the finite-field specialization. `bundleMass_tail` states both the positive-start formula and the d=0 exception.
 
 For the proof, Sum the unbalanced geometric series with common ratio `q⁻²`. At `d=0` add the exceptional `n=0` term to the positive even tail.
 
@@ -2107,7 +2119,7 @@ For the proof, Sum the unbalanced geometric series with common ratio `q⁻²`. A
 
 - `ArithmeticStatisticsPartI.picQuotient_finite`: Surjective degree and finite degree-zero kernel make Q finite.
 
-- `ArithmeticStatisticsPartI.picQuotient_card`: The quotient has twice the degree-zero cardinality.
+- `ArithmeticStatisticsPartI.picQuotient_card`: For an additive commutative group P, a surjective homomorphism `deg:P→ℤ` with finite kernel, and κ with `deg κ=2`, the quotient `P/ℤκ` is finite with cardinality `2#ker(deg)`. This specializes to the Picard quotient.
 
 - `ArithmeticStatisticsPartI.picParity_class`: The parity of a class is degree modulo 2.
 
@@ -2150,6 +2162,8 @@ For the proof, Subtract an integer multiple of `κ` to normalize degree. Uniquen
 <a id="finite-joint-bundle-mass"></a>
 
 **Finite joint bundle mass.** Given the two quotient-invariant bundle indices `ν(L⊗M₁)` and `ν(L⊗M₂)`, push the uniform law on Q to `N×N`. Its mass at `(i,j)` is the fiber cardinality divided by `2h`, not h. Uniform translation makes it depend on `M₂−M₁`. The ratio and inverse-line-bundle conventions used in `θ` intersections must be compared using the hyperelliptic involution identity `σL=(deg L)κ−L` and invariance of the pushforward under `σ`; replacing only the second factor by inversion is not a general property of joint measures.
+
+- `ArithmeticStatisticsPartI.jointFiberMass`: For maps f,g from a finite source Q to ℕ, the mass at `(i,j)` is `#{x:f(x)=i,g(x)=j}/#Q`; the bundle indices give its geometric specialization.
 
 - `ArithmeticStatisticsPartI.jointFiberMass_nonneg`: Joint masses are nonnegative.
 
@@ -2196,6 +2210,8 @@ For the proof, For a split pushforward `O(u)`⊕`O(v)`, use `u+v=deg L−g−1` 
 **Parity product candidate.** Let `δ` be the parity of `deg(M₂−M₁)`. Define `μ_r(n)=2μ_q(n)` when `n≡r mod2` and 0 otherwise. The candidate joint law is `1/2[μ₀⊗μ_δ+μ₁⊗μ_(1+δ)]`. Equivalently its mass is `2μ_q(i)μ_q(j)` when `i+j≡δ` and zero otherwise. It has both marginals `μ_q` and total mass 1. This construction states the candidate only; equidistribution requires a separate geometric comparison with its stated hypotheses.
 
 `q>1`, as in the natural-bundle-law prerequisite; q is a prime power in the finite-field specialization.
+
+- `ArithmeticStatisticsPartI.parityProduct`: The displayed candidate mass, with `δ∈ℤ/2ℤ`.
 
 - `ArithmeticStatisticsPartI.parityProduct_support`: Incompatible parity has zero mass.
 
@@ -2620,7 +2636,9 @@ For the proof, establish the universal binary polynomial congruence before speci
 
 **Monic density formulas.** For prime p, `ν₀(0,p)=ν₀(1,p)=1` and `ν₀(n,p)=1−1/p` for `n≥2`. At `p=2`, `ν₁(n,2)=0`. For odd p, `ν₁(0,p)=ν₁(1,p)=0`, `ν₁(2,p)=p⁻¹(1−p⁻¹)`, and for `n≥3`, `ν₁(n,p)=(1−p⁻¹)²(1−(−p)^(2−n))/(p+1)`. Thus `λ_n(p)=ν₀+ν₁` equals 1 for `n≤1`, `1/2` at `p=2`,`n≥2`, `1−1/p²` for `n=2`, odd p, and `1−[3p^(n−1)−p^(n−2)+(−1)^n(p−1)²]/[p^n(p+1)]` for `n≥3`, odd p. The exponent `2−n` is essential.
 
-- `ArithmeticStatisticsPartI.nuOneFormula`: The valuation-one formula with exponent `2−n`.
+- `ArithmeticStatisticsPartI.monic_nu_zero`: The unit-discriminant formula, including degrees zero and one.
+
+- `ArithmeticStatisticsPartI.nuOneFormula`: The valuation-one formula with exponent `2−n`, with p=2 and degrees at most one assigned zero.
 
 - `ArithmeticStatisticsPartI.monic_nu_one`: The finite count equals the displayed formula.
 
@@ -2644,9 +2662,11 @@ For the proof, Squarefree residue polynomials give generating series `(1−t²/p
 
 <a id="monic-euler-products"></a>
 
-**Monic euler products.** For `n≥2` set `λ_n=`product over all primes of `λ_n(p)`, with `λ_n(p)=ν₀(n,p)+ν₁(n,p)`. The product converges to a strictly positive real number because its factors are positive and `1−λ_n(p)=O_n(p⁻²)`. As `n→∞` it tends to `(1/2)` times the product over odd primes of `[1−(3p−1)/(p²(p+1))]`. For degree two `λ₂=4/π²`. Identifying these local Euler constants with global family densities requires an infinite-prime tail estimate as a hypothesis.
+**Monic euler products.** For `n≥2` set `λ_n=`product over all primes of `λ_n(p)`, with `λ_n(p)=ν₀(n,p)+ν₁(n,p)`. The product converges to a strictly positive real number because its factors are positive and `1−λ_n(p)=O_n(p⁻²)`. As `n→∞` it tends to `(1/2)` times the product over odd primes of `[1−(3p−1)/(p²(p+1))]`. For degree two `λ₂=4/π²` (`monicEulerProduct_two`). Identifying these local Euler constants with global family densities requires an infinite-prime tail estimate as a hypothesis.
 
 - `ArithmeticStatisticsPartI.monicEulerProduct`: The product over prime local factors.
+
+- `ArithmeticStatisticsPartI.monicEulerProduct_converges`: For `n≥2` the prime factors form a convergent product.
 
 - `ArithmeticStatisticsPartI.monicEulerProduct_pos`: The degree-n product is strictly positive.
 
@@ -2720,7 +2740,7 @@ The coefficient reversal sends `x⁴-y⁴` to `y⁴-x⁴`, preserves I, J and `�
 
 At degree zero the monic polynomial is one, with discriminant one; a strict weighted box at a positive bound has one empty vector. Over `𝔽_q` the squarefree monic counts begin `1,q,q²-q`, so the formula `q^n-q^(n-1)` is restricted to `n≥2`. The odd quadratic exact slice at its smallest degree has q monic polynomials, not `q-1`.
 
-The representative Lean witnesses additionally pin the light coefficient formulas. The empty coefficient vector has box height zero; `(2,−3)` has height three; a one-dimensional box of radius three has seven members. Descending monic coefficients give `X−2` from `[-2]`, `X²+4` from `[0,4]`, and the constant one in degree zero. At height zero the empty weighted vector is admitted and the one-coordinate zero vector is excluded by the strict inequality. Binary evaluation gives `xy(2,3)=6`, `x²(1,0)=1`, and the constant form five at `(0,0)` remains five. At `p=3` the linear invariant at zero is weakly but not strongly square-divisible, its square is strongly divisible, and the constant nine is strongly but not weakly divisible. The zero invariant is strongly divisible and never weakly divisible. For quartics `x⁴+y⁴` has `(I,J,Δ)=(12,0,256)` and `x⁴+xy³` has `(0,−27,−27)`; together with `x⁴−y⁴` these test both signs and the J term. The pair heights at `(0,0)`, `(3,0)`, `(1,2)`, `(−2,8)` are respectively `0,27,1,16`. On an infinite ambient family, empty relative density is zero and cannot be one. Inclusive integer height three counts seven integers. The natural-valued height sublevel is the imported `TauCeti.normLE`, with its existing membership theorem.
+The characteristic-three Lean example compares `x³y−xy³` with the zero form: they have equal I and J but distinct discriminants. Thus the integral identity `27Δ=4I³−J²` cannot recover Δ by division in characteristic three. The finite-field squarefree-count theorem includes the degree-zero and degree-one boundaries; the strict weighted-box count retains its ceiling cutoff.
 
 <a id="pointless-curve-regression"></a>
 
