@@ -190,14 +190,16 @@ theorem continuous_iff_orbit [IsTopologicalRing A] (ρ : Representation A Γ M) 
 -- Over a field with the discrete topology a faithful representation of `ℤ_ℓ` (for instance
 -- `a ↦ (1 + ℓ)^a` on `ℚ_ℓ` made discrete) has every operator continuous but is not a
 -- `ContinuousRep`: its kernel `{0}` is not open in `ℤ_ℓ`.
-example (ℓ : ℕ) [Fact ℓ.Prime] (K : Type) [Field K] [TopologicalSpace K] [DiscreteTopology K]
+/-- A faithful action of the additive p-adic integers on a discrete field does not have jointly continuous action. -/
+theorem faithful_discrete_padic_not_continuous (ℓ : ℕ) [Fact ℓ.Prime] (K : Type) [Field K] [TopologicalSpace K] [DiscreteTopology K]
     (ρ : Representation K (Multiplicative ℤ_[ℓ]) K) (hρ : Function.Injective ρ) :
     ¬ ∃ r : ContinuousRep (Multiplicative ℤ_[ℓ]) K K, r.toRepresentation = ρ := by
   sorry
 
 -- The characteristic polynomial of a character at `g` is `X − χ(g)`; on the zero carrier every
 -- operator has determinant `1`.
-example [IsTopologicalRing A] [Nontrivial A] (χ : Γ →ₜ* Aˣ) (g : Γ) :
+/-- Characters have linear characteristic polynomial and the zero carrier has determinant one. -/
+theorem charpoly_character_and_det_zero [IsTopologicalRing A] [Nontrivial A] (χ : Γ →ₜ* Aˣ) (g : Γ) :
     (ofCharacter χ).charpoly g = Polynomial.X - Polynomial.C (χ g : A) ∧
       LinearMap.det ((trivial : ContinuousRep Γ A (Fin 0 → A)) g) = 1 := by
   sorry
@@ -234,7 +236,8 @@ def Framed.map {B : Type v'} [CommRing B] [TopologicalSpace B] (f : A →+* B) (
   { (Matrix.GeneralLinearGroup.map f).comp ρ.toMonoidHom with continuous_toFun := sorry }
 
 -- `(1 a; 0 1)` and `(1 ℓa; 0 1)` on `ℤ_ℓ²` are conjugate over `ℚ_ℓ` but not over `ℤ_ℓ`.
-example (ℓ : ℕ) [Fact ℓ.Prime]
+/-- The standard unipotent lattices are conjugate over the fraction field but not over the valuation ring. -/
+theorem unipotent_integral_conjugacy_obstruction (ℓ : ℕ) [Fact ℓ.Prime]
     (ρ₁ ρ₂ : Multiplicative ℤ_[ℓ] →ₜ* Matrix.GeneralLinearGroup (Fin 2) ℤ_[ℓ])
     (h₁ : ∀ a, (ρ₁ a : Matrix (Fin 2) (Fin 2) ℤ_[ℓ]) = !![1, Multiplicative.toAdd a; 0, 1])
     (h₂ : ∀ a, (ρ₂ a : Matrix (Fin 2) (Fin 2) ℤ_[ℓ]) =
@@ -248,7 +251,8 @@ example (ℓ : ℕ) [Fact ℓ.Prime]
   sorry
 
 -- In rank one a framed representation is a character; in rank zero there is exactly one.
-example (χ : Γ →ₜ* Aˣ) (ρ : Γ →ₜ* Matrix.GeneralLinearGroup (Fin 1) A)
+/-- Rank-one framed representations give characters and the rank-zero framed representation is unique. -/
+theorem framed_rank_one_and_zero (χ : Γ →ₜ* Aˣ) (ρ : Γ →ₜ* Matrix.GeneralLinearGroup (Fin 1) A)
     (h : ∀ g, (ρ g : Matrix (Fin 1) (Fin 1) A) 0 0 = χ g)
     (ρ₀ ρ₀' : Γ →ₜ* Matrix.GeneralLinearGroup (Fin 0) A) :
     Nonempty (Iso (ofFramed ρ) (ofCharacter χ)) ∧ ρ₀ = ρ₀' := by
@@ -295,11 +299,13 @@ theorem invariants_baseChange {K : Type v} [Field K] [TopologicalSpace K] [IsTop
 
 -- Base change along the identity changes nothing; along a discontinuous map to a discrete field
 -- the cyclotomic character of `G_ℚ` is not a `ContinuousRep`.
-example (ρ : ContinuousRep Γ A M) [TopologicalSpace (A ⊗[A] M)]
+/-- Extension along the identity coefficient algebra gives an isomorphic continuous representation. -/
+theorem baseChange_self_iso (ρ : ContinuousRep Γ A M) [TopologicalSpace (A ⊗[A] M)]
     [IsModuleTopology A (A ⊗[A] M)] : Nonempty (Iso (ρ.baseChange A) ρ) := by
   sorry
 
-example (ℓ : ℕ) [Fact ℓ.Prime] (B : Type) [Field B] [TopologicalSpace B] [DiscreteTopology B]
+/-- Extension of cyclotomic coefficients to a discrete characteristic-zero field fails joint continuity. -/
+theorem cyclotomic_discrete_baseChange_obstruction (ℓ : ℕ) [Fact ℓ.Prime] (B : Type) [Field B] [TopologicalSpace B] [DiscreteTopology B]
     [Algebra ℚ_[ℓ] B] :
     ¬ ∃ r : ContinuousRep (Field.absoluteGaloisGroup ℚ) B B, ∀ g b,
       r g b = algebraMap ℚ_[ℓ] B
@@ -396,13 +402,15 @@ theorem res_baseChange {Γ' : Type u'} [Group Γ'] [TopologicalSpace Γ']
 
 -- For a free carrier of rank `n` twisting multiplies the determinant by `χ^n`; twisting by the
 -- trivial character changes nothing.
-example [Module.Free A M] (ρ : ContinuousRep Γ A M) (χ : Γ →ₜ* Aˣ) (g : Γ) :
+/-- Twisting scales the determinant by the character to the rank and the trivial twist is the identity. -/
+theorem det_twist_and_twist_one [Module.Free A M] (ρ : ContinuousRep Γ A M) (χ : Γ →ₜ* Aˣ) (g : Γ) :
     LinearMap.det ((ρ.twist χ) g) = (χ g : A) ^ Module.finrank A M * LinearMap.det (ρ g) ∧
       ρ.twist 1 = ρ := by
   sorry
 
 -- `g ↦ ρ(g)ᵀ` is not multiplicative on `GL₂(F₂) ≅ S₃`: the dual needs the inverse transpose.
-example : ¬ ∀ g h : Matrix.GeneralLinearGroup (Fin 2) (ZMod 2),
+/-- Transpose alone fails multiplicativity for the natural rank-two residual image over F₂. -/
+theorem transpose_not_multiplicative : ¬ ∀ g h : Matrix.GeneralLinearGroup (Fin 2) (ZMod 2),
     Matrix.transpose ((g * h : Matrix.GeneralLinearGroup (Fin 2) (ZMod 2)) :
         Matrix (Fin 2) (Fin 2) (ZMod 2)) =
       Matrix.transpose (g : Matrix (Fin 2) (Fin 2) (ZMod 2)) *
@@ -410,7 +418,9 @@ example : ¬ ∀ g h : Matrix.GeneralLinearGroup (Fin 2) (ZMod 2),
   sorry
 
 -- `hom` carries Mathlib's `Representation.linHom`.
-example (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N)
+omit [IsTopologicalGroup Γ] [IsTopologicalRing A] in
+/-- The continuous internal Hom carries the supplied algebraic Hom action. -/
+theorem hom_toRepresentation (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N)
     [Module.Finite A (M →ₗ[A] N)] [Module.Projective A (M →ₗ[A] N)]
     [TopologicalSpace (M →ₗ[A] N)] [IsModuleTopology A (M →ₗ[A] N)] :
     (ρ.hom σ).toRepresentation = ρ.toRepresentation.linHom σ.toRepresentation :=
@@ -464,12 +474,14 @@ theorem nonempty_iso_dual_tateTwist (ρ : ContinuousRep (Field.absoluteGaloisGro
 
 -- In characteristic `ℓ` the cyclotomic character is trivial; this is why `ℓ ≠ char F` is a
 -- standing hypothesis for `ℤ_ℓ(1)`.
-example (F : Type*) [Field F] [CharP F ℓ] (g : Field.absoluteGaloisGroup F) :
+/-- The cyclotomic character in the characteristic of the base field is trivial. -/
+theorem cyclotomic_eq_one_in_characteristic (F : Type*) [Field F] [CharP F ℓ] (g : Field.absoluteGaloisGroup F) :
     TauCeti.localCyclotomicCharacter ℓ F g = 1 := by
   sorry
 
 -- On a free carrier of rank `r`, `det M(n) = det M · χ_ℓ^{n r}`.
-example [Module.Free A M] (ρ : ContinuousRep (Field.absoluteGaloisGroup F) A M) (n : ℤ)
+/-- The determinant of a Tate twist is scaled by the cyclotomic character to the twist times the rank. -/
+theorem det_tateTwist [Module.Free A M] (ρ : ContinuousRep (Field.absoluteGaloisGroup F) A M) (n : ℤ)
     (g : Field.absoluteGaloisGroup F) :
     LinearMap.det ((tateTwist ℓ ρ n) g) =
       ((cyclotomicPow ℓ (n * Module.finrank A M) g : Aˣ) : A) * LinearMap.det (ρ g) := by
@@ -577,7 +589,9 @@ theorem det_ind [Module.Free A U] [Module.Free A (IndV H σ)]
   sorry
 
 -- The underlying representation is Mathlib's `Representation.coind`.
-example : (ind H σ).toRepresentation =
+omit [IsTopologicalGroup Γ] [IsTopologicalRing A] in
+/-- Continuous induction has the supplied algebraic induced representation as underlying action. -/
+theorem ind_toRepresentation : (ind H σ).toRepresentation =
     Representation.coind (openSubtype H).toMonoidHom σ.toRepresentation :=
   rfl
 
@@ -585,7 +599,8 @@ end Induction
 
 -- For the closed subgroup `{0}` of `ℤ_ℓ` the module of all functions `ℤ_ℓ → K` is not finitely
 -- generated: induction needs `H` open.
-example (ℓ : ℕ) [Fact ℓ.Prime] (K : Type) [Field K] :
+/-- Induction from the zero closed subgroup of the p-adic integers has an infinite-dimensional function carrier. -/
+theorem closed_subgroup_induction_not_finite (ℓ : ℕ) [Fact ℓ.Prime] (K : Type) [Field K] :
     ¬ Module.Finite K (Multiplicative ℤ_[ℓ] → K) := by
   sorry
 
@@ -774,15 +789,18 @@ theorem IsAbsolutelyIrreducible.isIrreducible_and_end {ρ : ContinuousRep Γ K V
   sorry
 
 -- Dimension one is absolutely irreducible; the zero representation is not.
-example (ρ : ContinuousRep Γ K V) (h : Module.finrank K V = 1) : ρ.IsAbsolutelyIrreducible := by
+/-- A one-dimensional continuous representation is absolutely irreducible. -/
+theorem absolutelyIrreducible_of_finrank_one (ρ : ContinuousRep Γ K V) (h : Module.finrank K V = 1) : ρ.IsAbsolutelyIrreducible := by
   sorry
 
-example [Subsingleton V] (ρ : ContinuousRep Γ K V) : ¬ ρ.IsAbsolutelyIrreducible := by
+/-- The zero representation is not absolutely irreducible. -/
+theorem not_absolutelyIrreducible_zero [Subsingleton V] (ρ : ContinuousRep Γ K V) : ¬ ρ.IsAbsolutelyIrreducible := by
   sorry
 
 -- The rotation by `!![0, -1; 1, 0]` of a cyclic group of order four on `ℚ²` is irreducible but not
 -- absolutely irreducible.
-example {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] (γ : Γ)
+/-- The rational cyclic rotation representation is irreducible and fails absolute irreducibility. -/
+theorem rotation_irreducible_not_absolute {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] (γ : Γ)
     (hγ : ∀ x : Γ, ∃ n : ℕ, x = γ ^ n)
     (ρ : ContinuousRep Γ ℚ (Fin 2 → ℚ)) (hρ : LinearMap.toMatrix' (ρ γ) = !![0, -1; 1, 0]) :
     ρ.toRepresentation.IsIrreducible ∧ ¬ ρ.IsAbsolutelyIrreducible := by
@@ -819,7 +837,8 @@ theorem iso_of_trace_eq (ρ : ContinuousRep Γ K V) (σ : ContinuousRep Γ K W)
 
 -- The unipotent `ℤ_p`-representation `(1 a; 0 1)` over `F_p` has the characteristic polynomials of
 -- the trivial representation without being semisimple: semisimplicity is needed above.
-example (p : ℕ) [Fact p.Prime] [TopologicalSpace (ZMod p)] [DiscreteTopology (ZMod p)]
+/-- A residual unipotent plane has the characteristic polynomials of a trivial action without semisimplicity. -/
+theorem unipotent_not_semisimple (p : ℕ) [Fact p.Prime] [TopologicalSpace (ZMod p)] [DiscreteTopology (ZMod p)]
     {M : Type} [AddCommGroup M] [Module (ZMod p) M] [Module.Finite (ZMod p) M]
     [Module.Free (ZMod p) M] [TopologicalSpace M] [IsModuleTopology (ZMod p) M]
     (b : Module.Basis (Fin 2) (ZMod p) M)
@@ -832,7 +851,8 @@ example (p : ℕ) [Fact p.Prime] [TopologicalSpace (ZMod p)] [DiscreteTopology (
 
 -- For the three-dimensional unipotent Jordan block over `F_p` (`p ≥ 3`) with socle `W`, the sum
 -- `soc(V) ⊕ V/soc(V)` is not semisimple: a semisimplification is not obtained in one step.
-example (p : ℕ) [Fact p.Prime] (hp : 3 ≤ p) [TopologicalSpace (ZMod p)] [DiscreteTopology (ZMod p)]
+/-- Splitting off only the socle of a length-three Jordan block does not give its semisimplification. -/
+theorem socle_plus_quotient_not_semisimple (p : ℕ) [Fact p.Prime] (hp : 3 ≤ p) [TopologicalSpace (ZMod p)] [DiscreteTopology (ZMod p)]
     {M : Type} [AddCommGroup M] [Module (ZMod p) M] [Module.Finite (ZMod p) M]
     [Module.Free (ZMod p) M] [TopologicalSpace M] [IsModuleTopology (ZMod p) M]
     (b : Module.Basis (Fin 3) (ZMod p) M)
@@ -935,14 +955,16 @@ theorem integralModel_unique_and_selfDual [CompactSpace Γ] (ϖ : O) (hϖ : Irre
   sorry
 
 -- The trivial representation reduces to the trivial representation.
-example (h : ∀ g : Γ, ρ g = LinearMap.id) (g : Γ) : Λ.reduction g = LinearMap.id := by
+/-- The reduction of a trivial integral action is trivial. -/
+theorem reduction_trivial (h : ∀ g : Γ, ρ g = LinearMap.id) (g : Γ) : Λ.reduction g = LinearMap.id := by
   sorry
 
 end GaloisLattice.IntegralModel
 
 -- The reductions of the lattices `ℤ_ℓ²` and `ℤ_ℓ e₁ ⊕ ℓℤ_ℓ e₂` of `(1 a; 0 1)` are not isomorphic
 -- (non-split versus trivial): the reduction depends on the lattice.
-example (ℓ : ℕ) [Fact ℓ.Prime] [TopologicalSpace (IsLocalRing.ResidueField ℤ_[ℓ])]
+/-- The two standard unipotent lattices have nonisomorphic raw reductions. -/
+theorem unipotent_reductions_not_iso (ℓ : ℕ) [Fact ℓ.Prime] [TopologicalSpace (IsLocalRing.ResidueField ℤ_[ℓ])]
     [DiscreteTopology (IsLocalRing.ResidueField ℤ_[ℓ])]
     [ContinuousSMul ℤ_[ℓ] (IsLocalRing.ResidueField ℤ_[ℓ])]
     (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
@@ -994,14 +1016,16 @@ def frobTwist (p : ℕ) [Fact p.Prime] {k : Type v} [Field k] [CharP k p] [Perfe
 
 -- A character `χ̄ : Γ → GL₁(F_{p²})` with an element of order `p² − 1` in its image twists to
 -- `χ̄^p ≠ χ̄`, although conjugating its argument returns `χ̄`; over `F_p` the twist is trivial.
-example (p : ℕ) [Fact p.Prime] [TopologicalSpace (GaloisField p 2)]
+/-- A character of full quadratic-field order changes under coefficient Frobenius. -/
+theorem frobTwist_nontrivial_character (p : ℕ) [Fact p.Prime] [TopologicalSpace (GaloisField p 2)]
     [DiscreteTopology (GaloisField p 2)]
     (χ : Γ →ₜ* Matrix.GeneralLinearGroup (Fin 1) (GaloisField p 2))
     (hχ : ∃ g, orderOf (χ g) = p ^ 2 - 1) :
     (∀ g, frobTwist p χ g = χ g ^ p) ∧ (∀ φ g : Γ, χ (φ * g * φ⁻¹) = χ g) ∧ frobTwist p χ ≠ χ := by
   sorry
 
-example (p : ℕ) [Fact p.Prime] [TopologicalSpace (ZMod p)] [DiscreteTopology (ZMod p)] {n : ℕ}
+/-- Coefficient Frobenius fixes every representation defined over the prime field. -/
+theorem frobTwist_prime_field (p : ℕ) [Fact p.Prime] [TopologicalSpace (ZMod p)] [DiscreteTopology (ZMod p)] {n : ℕ}
     (ρ : Γ →ₜ* Matrix.GeneralLinearGroup (Fin n) (ZMod p)) : frobTwist p ρ = ρ := by
   sorry
 
@@ -1037,7 +1061,8 @@ theorem orderOf_lift (g : Γ) : orderOf (lift K ψ hψ g) = orderOf (ψ g) := by
   sorry
 
 -- The lift of the trivial character is trivial.
-example (h1 : IsOpen ((1 : Γ →* 𝓀[K]ˣ).ker : Set Γ)) (g : Γ) :
+/-- The Teichmüller lift of the trivial character is trivial. -/
+theorem lift_trivial (h1 : IsOpen ((1 : Γ →* 𝓀[K]ˣ).ker : Set Γ)) (g : Γ) :
     lift K (1 : Γ →* 𝓀[K]ˣ) h1 g = 1 := by
   sorry
 
@@ -1171,14 +1196,15 @@ theorem isUnramifiedAt_of_surjective {N : Type*} [AddCommGroup N] [Module A N]
   sorry
 
 -- The trivial representation is unramified everywhere.
-example : ramificationSet (Representation.trivial A (Field.absoluteGaloisGroup F) V) = ∅ := by
+/-- The trivial representation has empty ramification set. -/
+theorem ramificationSet_trivial : ramificationSet (Representation.trivial A (Field.absoluteGaloisGroup F) V) = ∅ := by
   sorry
 
 end Places
 
 /-- For `ℚ(i)` and a prime `Q` of `ℚ̄` above `p`, the inertia group of `Q` acts nontrivially on
 `ℚ(i)` iff `p = 2`, and the decomposition group acts trivially iff `p ≡ 1 mod 4`. -/
-example (i : AlgebraicClosure ℚ) (hi : i ^ 2 = -1) (p : ℕ) (hp : p.Prime)
+theorem gaussian_character_inertia_decomposition (i : AlgebraicClosure ℚ) (hi : i ^ 2 = -1) (p : ℕ) (hp : p.Prime)
     (Q : Ideal (integralClosure (𝓞 ℚ) (AlgebraicClosure ℚ))) [Q.IsMaximal]
     (hQ : algebraMap (𝓞 ℚ) (integralClosure (𝓞 ℚ) (AlgebraicClosure ℚ)) p ∈ Q) :
     ((∃ σ ∈ inertiaGroup ℚ Q,
@@ -1297,7 +1323,8 @@ theorem frobCharpoly_restrict (L : Type*) [Field L] [ValuativeRel L] [Topologica
   sorry
 
 -- For `ℓ ≠ p`, `P(ℤ_ℓ(1), X) = X − q`: arithmetic Frobenius, not `X − q⁻¹`.
-example (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : (ℓ : 𝓀[K]) ≠ 0) (u : ℤ_[ℓ])
+/-- The local cyclotomic characteristic polynomial uses arithmetic Frobenius and residue cardinality. -/
+theorem frobCharpoly_cyclotomic (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : (ℓ : 𝓀[K]) ≠ 0) (u : ℤ_[ℓ])
     (hu : u * (Nat.card 𝓀[K] : ℤ_[ℓ]) = 1) :
     frobCharpoly (ContinuousRep.ofCharacter (TauCeti.continuousLocalCyclotomicCharacter ℓ K)) =
       X - C (Nat.card 𝓀[K] : ℤ_[ℓ]) ∧
@@ -1306,7 +1333,8 @@ example (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : (ℓ : 𝓀[K]) ≠ 0) (u : ℤ_[�
   sorry
 
 -- The trivial representation of rank `n` has `P = (X − 1)^n`.
-example [Nontrivial A] [IsTopologicalRing A] (n : ℕ) :
+/-- The trivial representation has arithmetic Frobenius polynomial `(X − 1)^n`. -/
+theorem frobCharpoly_trivial [Nontrivial A] [IsTopologicalRing A] (n : ℕ) :
     frobCharpoly (ContinuousRep.trivial :
       ContinuousRep (Field.absoluteGaloisGroup K) A (Fin n → A)) = ((X : Polynomial A) - 1) ^ n := by
   sorry
@@ -1341,7 +1369,8 @@ theorem exists_unramifiedCharacter_iff (ℓ : ℕ) [Fact ℓ.Prime] {E : Type*}
   sorry
 
 -- There is no unramified `ℚ_ℓ`-valued character sending Frobenius to `ℓ`.
-example (ℓ : ℕ) [Fact ℓ.Prime] :
+/-- A continuous unramified p-adic character cannot send arithmetic Frobenius to a nonunit uniformizer. -/
+theorem unramified_character_nonunit_obstruction (ℓ : ℕ) [Fact ℓ.Prime] :
     ¬ ∃ χ : Field.absoluteGaloisGroup K →ₜ* ℚ_[ℓ]ˣ,
       (∀ τ ∈ TauCeti.inertiaSubgroup K, χ τ = 1) ∧ (χ (arithFrobLift K) : ℚ_[ℓ]) = ℓ := by
   sorry
@@ -1434,12 +1463,14 @@ theorem log_exp_and_exp_log {R V : Type*} [CommRing R] [Algebra ℚ R]
   sorry
 
 -- The identity unit has zero logarithm over `ℚ`.
-example : log (1 : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ))
+/-- The identity unipotent operator has zero logarithm. -/
+theorem log_one : log (1 : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ))
     _root_.LinearMap.GeneralLinearGroup.isUnipotent_one = 0 := by
   sorry
 
 -- The square-zero Jordan block gives a unipotent unit `1 + E₁₂` with logarithm `E₁₂`.
-example :
+/-- The square-zero unipotent Jordan block has its nilpotent part as logarithm. -/
+theorem log_jordan_two :
     let N := Matrix.toLin' (!![(0 : ℚ), 1; 0, 0])
     ∃ u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ),
       (u : Module.End ℚ (Fin 2 → ℚ)) = 1 + N ∧ ∃ hu, log u hu = N := by
@@ -1460,7 +1491,8 @@ example :
   sorry
 
 -- The length-three block retains the quadratic term in its logarithm.
-example :
+/-- The length-three unipotent Jordan block retains the quadratic term of its logarithm. -/
+theorem log_jordan_three :
     let N := Matrix.toLin' (!![(0 : ℚ), 1, 0; 0, 0, 1; 0, 0, 0])
     ∃ u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 3 → ℚ),
       (u : Module.End ℚ (Fin 3 → ℚ)) = 1 + N ∧ ∃ hu,
@@ -1482,7 +1514,8 @@ example :
   sorry
 
 -- A square-zero operator has the unipotent square root `1 + N/2`.
-example (N : Module.End ℚ (Fin 2 → ℚ)) (hN : N ^ 2 = 0) :
+/-- A square-zero nilpotent operator gives a unipotent square root by halving its coefficient. -/
+theorem squareZero_unipotent_sqrt (N : Module.End ℚ (Fin 2 → ℚ)) (hN : N ^ 2 = 0) :
     ∃ u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ),
       (u : Module.End ℚ (Fin 2 → ℚ)) = 1 + (1 / 2 : ℚ) • N ∧
       _root_.LinearMap.GeneralLinearGroup.IsUnipotent u ∧
@@ -1561,7 +1594,8 @@ theorem localFactor_indep (r : Representation Ω W V) (N : Module.End Ω V)
 
 -- The fields of `Sp(2)` have geometric Frobenius `diag(1, q⁻¹)` and `N e₀ = e₁`.
 -- Its factor is computed on `ker N`, and differs from the factor of the same action with `N = 0`.
-example (hq : (q : Ω) ≠ 0) (r : Representation Ω W (Fin 2 → Ω)) (F : W)
+/-- The special pair of rank two has local factor computed on the monodromy kernel. -/
+theorem localFactor_special_two (hq : (q : Ω) ≠ 0) (r : Representation Ω W (Fin 2 → Ω)) (F : W)
     (hF : deg F = Multiplicative.ofAdd (-1))
     (hI : ∀ σ ∈ deg.ker, r σ = LinearMap.id)
     (hr : r F = Matrix.toLin' (Matrix.diagonal ![1, (q : Ω)⁻¹]))
@@ -1575,14 +1609,16 @@ example (hq : (q : Ω) ≠ 0) (r : Representation Ω W (Fin 2 → Ω)) (F : W)
   sorry
 
 -- The zero representation has factor `1`; the trivial character has factor `1 − X`.
-example (F : W) :
+/-- The zero and trivial Weil–Deligne pairs have local factors one and `1 − X`. -/
+theorem localFactor_zero_and_trivial (F : W) :
     localFactor (deg := deg) (q := q) (Representation.trivial Ω W (Fin 0 → Ω))
       0 (by simp) F = 1 ∧
     localFactor (deg := deg) (q := q) (Representation.trivial Ω W Ω) 0 (by simp) F = 1 - X := by
   sorry
 
 -- In characteristic three, nontrivial tame inertia has only a one-dimensional fixed space.
-example :
+/-- A characteristic-three unipotent inertia action changes the local factor through its fixed subspace. -/
+theorem localFactor_modular_inertia :
     letI : AddCommGroup (ZMod 3) := (ZMod.commRing 3).toAddCommGroup
     let r : Representation (ZMod 3) (Multiplicative (ZMod 3) × Multiplicative ℤ)
         (Fin 2 → ZMod 3) :=
@@ -1616,15 +1652,18 @@ theorem charpoly_cyclicBlock {A V : Type*} [CommRing A] [AddCommGroup V] [Module
   sorry
 
 -- Two rank-one blocks apply the scalar only on the wraparound from the last block to the first.
-example : (cyclicBlock (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 1).charpoly = X ^ 2 - C 2 ∧
+/-- The cyclic block applies its scalar on the wraparound and has the corresponding characteristic polynomial. -/
+theorem cyclicBlock_wraparound : (cyclicBlock (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 1).charpoly = X ^ 2 - C 2 ∧
     LinearMap.toMatrix' (cyclicBlock (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 1) =
       !![(0 : ℚ), 2; 1, 0] := by
   sorry
 
-example : (cyclicBlock (LinearMap.id : ℚ →ₗ[ℚ] ℚ) 1).charpoly = X ^ 2 - 1 := by
+/-- Two identity blocks give characteristic polynomial `X² − 1`. -/
+theorem cyclicBlock_identity : (cyclicBlock (LinearMap.id : ℚ →ₗ[ℚ] ℚ) 1).charpoly = X ^ 2 - 1 := by
   sorry
 
-example : (cyclicBlock (0 : ℚ →ₗ[ℚ] ℚ) 2).charpoly = X ^ 3 := by
+/-- Three zero blocks give a nilpotent cyclic operator with characteristic polynomial `X³`. -/
+theorem cyclicBlock_zero : (cyclicBlock (0 : ℚ →ₗ[ℚ] ℚ) 2).charpoly = X ^ 3 := by
   sorry
 
 /-! ### The monodromy filtration and purity -/
@@ -1650,12 +1689,14 @@ theorem monodromyFiltration_basic (N : Module.End k V) (d : ℕ) (hN : N ^ (d + 
 
 -- On a two-step Jordan string the graded degrees are `−1` and `1`; for `N = 0` everything sits in
 -- degree `0`: the filtration is centred, and is not the kernel filtration.
-example : let N := Matrix.toLin' !![(0 : ℚ), 1; 0, 0]
+/-- The monodromy filtration of a two-step Jordan string has graded degrees minus one and one. -/
+theorem monodromyFiltration_jordan_two : let N := Matrix.toLin' !![(0 : ℚ), 1; 0, 0]
     monodromyFiltration N (-2) = ⊥ ∧ monodromyFiltration N (-1) = LinearMap.ker N ∧
       monodromyFiltration N 0 = LinearMap.ker N ∧ monodromyFiltration N 1 = ⊤ := by
   sorry
 
-example : monodromyFiltration (0 : Module.End ℚ (Fin 2 → ℚ)) (-1) = ⊥ ∧
+/-- Zero monodromy has its entire carrier in graded degree zero. -/
+theorem monodromyFiltration_zero : monodromyFiltration (0 : Module.End ℚ (Fin 2 → ℚ)) (-1) = ⊥ ∧
     monodromyFiltration (0 : Module.End ℚ (Fin 2 → ℚ)) 0 = ⊤ := by
   sorry
 
@@ -1696,7 +1737,8 @@ theorem isPureEnd_of_graded (q : ℕ) (hq : 2 ≤ q) (w : ℤ) (φ N : Module.En
   sorry
 
 -- `Sp(2)` is pure of weight `−1`; its underlying action with `N = 0` is pure of no weight.
-example {W : Type*} [Group W] (q : ℕ) (hq : 1 < q)
+/-- The special pair is pure although its underlying action with zero monodromy is pure of no weight. -/
+theorem special_two_pure_underlying_not_pure {W : Type*} [Group W] (q : ℕ) (hq : 1 < q)
     (r : Representation ℚ W (Fin 2 → ℚ)) (F : W)
     (hr : r F = Matrix.toLin' (Matrix.diagonal ![1, (q : ℚ)⁻¹])) (w : ℤ) :
     IsPure r (Matrix.toLin' !![(0 : ℚ), 0; 1, 0]) q (-1) F ∧
@@ -1845,7 +1887,8 @@ theorem isAbsolutelyIrreducible_of_isOddAt {k : Type*} [Field k] [TopologicalSpa
   sorry
 
 -- `−1` at complex conjugation is not odd (determinant `1`), although it is nontrivial there.
-example {k : Type*} [Field k] [TopologicalSpace k] (hk : (2 : k) ≠ 0)
+/-- Scalar minus one at complex conjugation fails rank-two oddness. -/
+theorem scalar_minus_one_not_odd {k : Type*} [Field k] [TopologicalSpace k] (hk : (2 : k) ≠ 0)
     {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V] [TopologicalSpace V]
     [IsModuleTopology k V] (hV : Module.finrank k V = 2)
     (ρ : ContinuousRep (Field.absoluteGaloisGroup ℚ) k V) (v : InfinitePlace ℚ) (hv : v.IsReal)
@@ -1854,14 +1897,17 @@ example {k : Type*} [Field k] [TopologicalSpace k] (hk : (2 : k) ≠ 0)
   sorry
 
 -- Over `F₂` every rank-two representation is odd: the condition is vacuous there.
-example {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
+/-- Every rank-two residual representation in characteristic two satisfies the determinant oddness condition. -/
+theorem rank_two_char_two_odd {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
     [TopologicalSpace (ZMod 2)] [TopologicalSpace V] [IsModuleTopology (ZMod 2) V]
     (hV : Module.finrank (ZMod 2) V = 2)
     (ρ : ContinuousRep (Field.absoluteGaloisGroup ℚ) (ZMod 2) V) : IsOdd ρ := by
   sorry
 
 -- Without real places every representation is odd.
-example (hF : ∀ v : InfinitePlace F, ¬ v.IsReal)
+omit [NumberField F] [Module.Free A M] in
+/-- Oddness at real places is vacuous over a totally imaginary field. -/
+theorem totally_imaginary_odd (hF : ∀ v : InfinitePlace F, ¬ v.IsReal)
     (ρ : ContinuousRep (Field.absoluteGaloisGroup F) A M) : IsOdd ρ :=
   fun v hv => absurd hv (hF v)
 
@@ -1924,7 +1970,8 @@ theorem exists_unique_of_disc_ne_zero [Finite k] (hk : ringChar k ≠ 2)
 
 -- A non-split Cartan has `q² − 1` elements and its normaliser `2(q² − 1)`; outside a Cartan in its
 -- normaliser (non-split, or split with `q ≥ 3`) elements have trace zero and scalar square.
-example [Finite k] (hV : Module.finrank k V = 2) (k' : Subalgebra k (Module.End k V))
+/-- A nonsplit Cartan and its normalizer have the expected orders and the outside elements have trace zero. -/
+theorem nonsplit_cartan_card_and_normalizer [Finite k] (hV : Module.finrank k V = 2) (k' : Subalgebra k (Module.End k V))
     (hk' : IsField k') (hcard : Nat.card k' = Nat.card k ^ 2) :
     Nat.card (nonsplit k') = Nat.card k ^ 2 - 1 ∧
       Nat.card (Subgroup.normalizer (nonsplit k' : Set (LinearMap.GeneralLinearGroup k V))) =
@@ -1933,7 +1980,8 @@ example [Finite k] (hV : Module.finrank k V = 2) (k' : Subalgebra k (Module.End 
 
 -- For `q = 2` the split Cartan is trivial and its normaliser is everything (index `6 ≠ 2`).
 -- In a basis along the two lines, `[[0,1],[1,1]]` normalises it but does not preserve their pair.
-example (hk : Nat.card k = 2) (hV : Module.finrank k V = 2) (D₁ D₂ : Submodule k V)
+/-- Over F₂ the trivial split Cartan has the full linear group as normalizer. -/
+theorem split_cartan_F2_normalizer (hk : Nat.card k = 2) (hV : Module.finrank k V = 2) (D₁ D₂ : Submodule k V)
     (h₁ : Module.finrank k D₁ = 1) (h₂ : Module.finrank k D₂ = 1) (hne : D₁ ≠ D₂) :
     split D₁ D₂ = ⊥ ∧
       Subgroup.normalizer (split D₁ D₂ : Set (LinearMap.GeneralLinearGroup k V)) = ⊤ ∧
@@ -2220,7 +2268,8 @@ theorem image_le_normalizer_cartan_of_res_cyclotomic [NumberField F] {p : ℕ} [
   sorry
 
 -- If `[F(ζ_p) : F]` is odd then `F' = F` and nothing is bad dihedral.
-example [NumberField F] {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) [Finite k] [CharP k p]
+/-- Odd cyclotomic degree makes the square subfield trivial and excludes bad-dihedral representations. -/
+theorem odd_cyclotomic_degree_not_bad_dihedral [NumberField F] {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) [Finite k] [CharP k p]
     (hodd : Odd (Module.finrank F (cyclotomicSubfield F p)))
     (ρ : ContinuousRep (Field.absoluteGaloisGroup F) k M) :
     cyclotomicSquareSubfield F p = ⊥ ∧ ¬ IsBadDihedral p ρ := by
@@ -2228,7 +2277,8 @@ example [NumberField F] {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) [Finite k] [Char
 
 -- For `F = ℚ(√5)` and `p = 5`, `F(√p*) = F` but `F' = F(ζ₅) ≠ F`: adjoining `√p*` is the wrong
 -- definition of `F'`.
-example [NumberField F] (h5 : ∃ x : F, x ^ 2 = 5) (hζ : ∀ ζ : F, ¬ IsPrimitiveRoot ζ 5) :
+/-- Over a field containing the square root of five the cyclotomic square subfield is not obtained by adjoining that root. -/
+theorem cyclotomic_square_subfield_sqrt_five [NumberField F] (h5 : ∃ x : F, x ^ 2 = 5) (hζ : ∀ ζ : F, ¬ IsPrimitiveRoot ζ 5) :
     IntermediateField.adjoin F {x : AlgebraicClosure F | x ^ 2 = 5} = ⊥ ∧
       cyclotomicSquareSubfield F 5 = cyclotomicSubfield F 5 ∧ cyclotomicSubfield F 5 ≠ ⊥ := by
   sorry
@@ -2237,7 +2287,8 @@ end BadDihedral
 
 -- The representation of `G_ℚ` over `F₂₃` cutting out the splitting field of `x³ − x − 1` (image
 -- `S₃`) is bad dihedral at `23`, although its restriction to `G_{ℚ(√−23)}` is irreducible over `F₂₃`.
-example [Fact (Nat.Prime 23)] [TopologicalSpace (ZMod 23)] [IsTopologicalRing (ZMod 23)]
+/-- The cubic S₃ representation at twenty-three distinguishes irreducibility from absolute irreducibility in bad-dihedral restriction. -/
+theorem bad_dihedral_F23_not_absolute [Fact (Nat.Prime 23)] [TopologicalSpace (ZMod 23)] [IsTopologicalRing (ZMod 23)]
     {M : Type*} [AddCommGroup M] [Module (ZMod 23) M] [Module.Finite (ZMod 23) M]
     [TopologicalSpace M] [IsModuleTopology (ZMod 23) M] (hM : Module.finrank (ZMod 23) M = 2)
     (ρ : ContinuousRep (Field.absoluteGaloisGroup ℚ) (ZMod 23) M)
@@ -2308,7 +2359,8 @@ theorem infinite_primes_jacobiSym_iff {r : ℕ} (d : Fin r → ℤ) (hd : ∀ i,
   sorry
 
 -- Three non-squares whose product is a square are never simultaneously nonresidues.
-example : ¬ ∃ p : ℕ, p.Prime ∧ 7 < p ∧
+/-- A product-square relation prevents simultaneous quadratic nonresiduosity at Frobenius primes. -/
+theorem nonresidue_product_obstruction : ¬ ∃ p : ℕ, p.Prime ∧ 7 < p ∧
     jacobiSym 2 p = -1 ∧ jacobiSym 3 p = -1 ∧ jacobiSym 6 p = -1 := by
   sorry
 
@@ -2366,7 +2418,8 @@ theorem iso_of_frobenius_charpoly_eq {K : Type*} [Field K] [NumberField K]
 
 -- Without continuity, agreement on the dense finite-support subgroup of `∏ ℤ/2` does not determine
 -- a character: the constant-one sequence survives in the quotient.
-example : ∃ χ : (ℕ → Multiplicative (ZMod 2)) →* (ZMod 3)ˣ,
+/-- An abstract character can be trivial on the dense finite-support subgroup without being trivial everywhere. -/
+theorem discontinuous_character_dense_kernel : ∃ χ : (ℕ → Multiplicative (ZMod 2)) →* (ZMod 3)ˣ,
     (∀ g, {i : ℕ | g i ≠ 1}.Finite → χ g = 1) ∧ χ (fun _ => Multiplicative.ofAdd (1 : ZMod 2)) ≠ 1 := by
   sorry
 
@@ -2385,11 +2438,6 @@ theorem trace_det_identities_of_rankTwo {A Γ : Type*} [CommRing A] [Group Γ]
         Matrix.trace ((ρ h : GL (Fin 2) A) : Matrix (Fin 2) (Fin 2) A) +
       Matrix.trace ((ρ (g * h) : GL (Fin 2) A) : Matrix (Fin 2) (Fin 2) A) = 0 := by
   sorry
-
--- With `g = diag(2, 3)`, `h = 1` over `ℚ` the identity gives `6·(1/2 + 1/3) − 5·2 + 5 = 0`; with
--- the inverse on the other side it would give `6·5 − 5·2 + 5 = 25`.
-example : (6 : ℚ) * (1 / 2 + 1 / 3) - 5 * 2 + 5 = 0 ∧ (6 : ℚ) * 5 - 5 * 2 + 5 = 25 := by
-  norm_num
 
 /-- For continuous `ρ₁, ρ₂ : Γ → GL₂(A)` into a Hausdorff ring, equal trace and determinant on a
 dense subset give equal characteristic polynomials everywhere, in every characteristic
@@ -2478,7 +2526,8 @@ theorem schurIndex_dvd_and_eq_one_iff [IsAlgClosed K] [NeZero n] (ρ : Γ →* G
 
 -- For the two-dimensional irreducible representation of `Q₈` over `ℂ` and `k = ℝ`, `k(ρ) = ℝ` and
 -- `B(ρ)` is Hamilton's quaternions, so `s(ρ) = 2`; for a character `B(ρ) = k(ρ)`.
-example (ρ : QuaternionGroup 2 →* GL (Fin 2) ℂ)
+/-- The complex irreducible quaternion representation has real trace field and Schur index two. -/
+theorem quaternion_schurIndex_two (ρ : QuaternionGroup 2 →* GL (Fin 2) ℂ)
     (hρ : Submodule.span ℂ
       (Set.range fun γ => ((ρ γ : GL (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)) = ⊤) :
     traceField (k := ℝ) ρ = ⊥ ∧ Nonempty (imageAlgebra (k := ℝ) ρ ≃+* Quaternion ℝ) ∧
@@ -2487,7 +2536,8 @@ example (ρ : QuaternionGroup 2 →* GL (Fin 2) ℂ)
 
 -- For a faithful character of `ℤ/3` the `ℚ`-span of the image has dimension `2`, while the image
 -- algebra over `k(χ) = ℚ(ζ₃)` has dimension `1`: the span is taken over `k(ρ)`, not `k`.
-example (χ : Multiplicative (ZMod 3) →* GL (Fin 1) (AlgebraicClosure ℚ))
+/-- A faithful cubic character has image algebra of dimension one over its trace field and dimension two over the rationals. -/
+theorem cubic_character_imageAlgebra (χ : Multiplicative (ZMod 3) →* GL (Fin 1) (AlgebraicClosure ℚ))
     (hχ : Function.Injective χ) :
     Module.finrank ℚ (Submodule.span ℚ (Set.range fun γ =>
       ((χ γ : GL (Fin 1) (AlgebraicClosure ℚ)) : Matrix (Fin 1) (Fin 1) (AlgebraicClosure ℚ)))) =
@@ -2697,12 +2747,14 @@ theorem two_smul_mem_eigensum (c : Module.End A T) (hc : c * c = 1) (x : T) :
 
 -- The swap involution of `ℤ²` has the index-two eigensum `{x₀ ≡ x₁ mod 2}`; over `ℚ` it is
 -- everything; `diag(1, −1)` has eigensum `ℤ²`, strictly larger than `2ℤ²`.
-example : let c := Matrix.toLin' !![(0 : ℤ), 1; 1, 0]
+/-- The swap involution has the index-two integral eigensum given by equal coordinate parity. -/
+theorem eigensum_swap_integral : let c := Matrix.toLin' !![(0 : ℤ), 1; 1, 0]
     (∀ x : Fin 2 → ℤ, x ∈ eigensum c ↔ Even (x 0 - x 1)) ∧
       (![1, 1] : Fin 2 → ℤ) ∈ eigensum c ∧ (![1, 0] : Fin 2 → ℤ) ∉ eigensum c := by
   sorry
 
-example : eigensum (Matrix.toLin' !![(0 : ℚ), 1; 1, 0]) = ⊤ ∧
+/-- The rational swap and the integral diagonal involution have full eigensum. -/
+theorem eigensum_swap_rational_and_diagonal : eigensum (Matrix.toLin' !![(0 : ℚ), 1; 1, 0]) = ⊤ ∧
     eigensum (Matrix.toLin' !![(1 : ℤ), 0; 0, -1]) = ⊤ := by
   sorry
 
@@ -2776,7 +2828,8 @@ theorem exists_tensorSquareEquiv [Invertible (2 : A)] (ρ : ContinuousRep Γ A M
   sorry
 
 -- `Sym² ρ(g)` for `det(X − ρ(g)) = (X − α)(X − β)` has roots `α², αβ, β²`.
-example [Module.Free A M] (ρ : ContinuousRep Γ A M) (g : Γ) (α β : A)
+/-- The symmetric-square characteristic polynomial has the three expected products of the rank-two eigenvalues. -/
+theorem charpoly_symSq_split [Module.Free A M] (ρ : ContinuousRep Γ A M) (g : Γ) (α β : A)
     (h : ρ.charpoly g = (X - C α) * (X - C β))
     [Module.Finite A (Sym[A]^2 M)] [Module.Projective A (Sym[A]^2 M)] [Module.Free A (Sym[A]^2 M)]
     [TopologicalSpace (Sym[A]^2 M)] [IsModuleTopology A (Sym[A]^2 M)] :
@@ -2837,7 +2890,8 @@ theorem charpoly_asai [Module.Free A V] [Module.Free A (⨂[A] _ : Γ ⧸ H, V)]
 
 -- In rank one tensor induction is the transfer: `⊗-Ind ψ = ψ ∘ Ver`; for index two and `g ∉ H` the
 -- rank-two Asai polynomial is `(X² − aX + b)(X² − b)`.
-example (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
+/-- Tensor induction of a character is its composite with transfer. -/
+theorem tensorInd_rank_one_transfer (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
     [Module.Finite A (⨂[A] _ : Γ ⧸ H, A)] [Module.Projective A (⨂[A] _ : Γ ⧸ H, A)]
     [TopologicalSpace (⨂[A] _ : Γ ⧸ H, A)] [IsModuleTopology A (⨂[A] _ : Γ ⧸ H, A)]
     (g : Γ) (x : ⨂[A] _ : Γ ⧸ H, A) :
@@ -2846,7 +2900,9 @@ example (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
 
 -- Over `F₂`, every rank-one character is trivial, so twisting the rank-one Asai representation
 -- by the quadratic character gives the same extension.
-example [TopologicalSpace (ZMod 2)] [IsTopologicalRing (ZMod 2)]
+omit [IsTopologicalGroup Γ] in
+/-- In characteristic two the Asai swap is a nontrivial unipotent involution. -/
+theorem asai_swap_char_two [TopologicalSpace (ZMod 2)] [IsTopologicalRing (ZMod 2)]
     (ψ η : Γ →ₜ* (ZMod 2)ˣ) :
     ψ = 1 ∧ η = 1 ∧ ofCharacter (ψ * η) = ofCharacter ψ := by
   have hu : ∀ u : (ZMod 2)ˣ, u = 1 := by decide
@@ -2905,7 +2961,8 @@ theorem charpoly_resScalars [Module A M] [IsScalarTower A B M] [Module.Finite A 
   sorry
 
 -- For `B` free of rank two and a character `ψ`, `det_A(X − ψ(g)) = X² − tr(ψ(g)) X + N(ψ(g))`.
-example [Module.Free A B] [Module.Finite A B] [IsModuleTopology A B]
+/-- Restriction of scalars of a character over a quadratic free algebra has trace and norm as polynomial coefficients. -/
+theorem charpoly_resScalars_rank_two [Module.Free A B] [Module.Finite A B] [IsModuleTopology A B]
     (h2 : Module.finrank A B = 2) (ψ : Γ →ₜ* Bˣ) (g : Γ) :
     (resScalars (A := A) (ofCharacter ψ)).charpoly g =
       X ^ 2 - C (Algebra.trace A B (ψ g : B)) * X + C (Algebra.norm A (ψ g : B)) := by
@@ -2982,17 +3039,20 @@ theorem adZero_to_adQuot [Module.Free A M] (hn : 0 < Module.finrank A M) :
 
 -- `endTrace` is `LinearMap.trace` on a free module; on a non-free projective module Mathlib's
 -- trace vanishes; over `F₂` in rank two `1 ∈ ad⁰`.
-example (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Module.Free R N]
+/-- On a free carrier the continuous adjoint trace is Mathlib's linear trace. -/
+theorem endTrace_free (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Module.Free R N]
     [Module.Finite R N] : endTrace R N = LinearMap.trace R N := by
   exact LinearMap.projectiveTrace_eq_trace
 
-example (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Module.Finite R N]
+/-- Mathlib's total linear trace vanishes on a nonfree projective carrier. -/
+theorem mathlib_trace_nonfree_zero (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Module.Finite R N]
     [Module.Projective R N] (h : ¬ Module.Free R N) : LinearMap.trace R N = 0 := by
   sorry
 
 -- In rank two over `F₂`, both adjoint carriers have dimension three, so are isomorphic for a
 -- trivial action, although the natural comparison map kills the nonzero identity.
-example {N : Type*} [AddCommGroup N] [Module (ZMod 2) N] [Module.Finite (ZMod 2) N]
+/-- The two rank-two adjoint carriers in characteristic two are isomorphic although their natural comparison kills the identity. -/
+theorem adZero_adQuot_char_two {N : Type*} [AddCommGroup N] [Module (ZMod 2) N] [Module.Finite (ZMod 2) N]
     (h : Module.finrank (ZMod 2) N = 2) :
     (1 : Module.End (ZMod 2) N) ∈ LinearMap.ker (endTrace (ZMod 2) N) ∧
       Nonempty (LinearMap.ker (endTrace (ZMod 2) N) ≃ₗ[ZMod 2]
@@ -3074,7 +3134,8 @@ theorem mem_iff (J : Matrix n n R) (p : GL n R × Rˣ) (m : ℕ) (g : GL (Fin m 
   sorry
 
 -- With zero Gram matrix in rank one, every infinitesimal multiplier projects to the same matrix.
-example : lie (0 : Matrix (Fin 1) (Fin 1) ℚ) = ⊤ ∧
+/-- The zero rank-one Gram matrix has the full matrix Lie algebra and does not determine an infinitesimal multiplier. -/
+theorem similitude_lie_rank_one : lie (0 : Matrix (Fin 1) (Fin 1) ℚ) = ⊤ ∧
     ∀ c : ℚ, (0 : Matrix (Fin 1) (Fin 1) ℚ)ᵀ * 0 + 0 * 0 = c • 0 := by
   constructor
   · ext X
@@ -3084,18 +3145,21 @@ example : lie (0 : Matrix (Fin 1) (Fin 1) ℚ) = ⊤ ∧
 
 -- `GSp₂ = GL₂` with `ν = det`; `Sp_{2m}` is Mathlib's `Matrix.symplecticGroup`; over `F₂` the
 -- identity lies in `sp₄`, so `gsp = sp ⊕ R·1` needs `2 ∈ Rˣ`.
-example (g : GL (Fin 1 ⊕ Fin 1) R) (ν : Rˣ) (m : ℕ) (h : GL (Fin m ⊕ Fin m) R) :
+/-- Rank-two similitudes have determinant multiplier and multiplier-one symplectic points agree with Mathlib. -/
+theorem GSp_two_and_Sp_comparison (g : GL (Fin 1 ⊕ Fin 1) R) (ν : Rˣ) (m : ℕ) (h : GL (Fin m ⊕ Fin m) R) :
     ((g, ν) ∈ GSp 1 R ↔ (ν : R) = (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) R).det) ∧
       ((h, 1) ∈ GSp m R ↔
         (h : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) R) ∈ Matrix.symplecticGroup (Fin m) R) := by
   sorry
 
-example : (1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2)) ∈
+/-- The identity belongs to the characteristic-two symplectic Lie algebra. -/
+theorem identity_mem_sp_char_two : (1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2)) ∈
     skewAdjointMatricesSubmodule (-Matrix.J (Fin 2) (ZMod 2)) := by
   sorry
 
 -- In rank four the two summands span `gsp₄`, a proper subspace of all matrices.
-example :
+/-- In rank four over the rationals the symplectic and scalar summands form the proper similitude Lie subspace. -/
+theorem gsp_four_scalar_decomposition :
     Disjoint (skewAdjointMatricesSubmodule (-Matrix.J (Fin 2) ℚ))
       (Submodule.span ℚ {(1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℚ)}) ∧
     skewAdjointMatricesSubmodule (-Matrix.J (Fin 2) ℚ) ⊔
@@ -3211,14 +3275,17 @@ theorem isTotallyOdd_iff_multiplier (P : PolarizedRep Δ ρ c) (hc : c ∉ Δ) (
   sorry
 
 -- The transposition subgroup of `S₃` is not preserved by a different transposition.
-example :
+/-- A transposition subgroup not normalized by another transposition cannot support the required conjugation operation. -/
+theorem polarization_normalization_obstruction :
     let Δ : Subgroup (Equiv.Perm (Fin 3)) := Subgroup.zpowers (Equiv.swap 0 1)
     let c : Equiv.Perm (Fin 3) := Equiv.swap 1 2
     ¬ ∀ σ : Δ, c * (σ : Equiv.Perm (Fin 3)) * c ∈ Δ := by
   sorry
 
 -- A multiplier on a product of involutions squares to one over every commutative coefficient ring.
-example (P : PolarizedRep Δ ρ c) (c' : Γ) (hc' : c' ^ 2 = 1) :
+omit [IsTopologicalGroup Γ] [IsTopologicalRing A] in
+/-- The multiplier on a product of two involutions squares to one. -/
+theorem multiplier_product_involutions_sq (P : PolarizedRep Δ ρ c) (c' : Γ) (hc' : c' ^ 2 = 1) :
     P.multiplier (c * c') ^ 2 = 1 := by
   calc
     P.multiplier (c * c') ^ 2 = P.multiplier c ^ 2 * P.multiplier c' ^ 2 := by
@@ -3227,13 +3294,15 @@ example (P : PolarizedRep Δ ρ c) (c' : Γ) (hc' : c' ^ 2 = 1) :
 
 -- In rank one over a domain with `2 ≠ 0` and `c ∉ Δ`, a polarisation forces `μ(c) = −1`; a
 -- multiplier with `μ(c) = 1` is impossible.
-example [IsDomain A] (h2 : (2 : A) ≠ 0) [Module.Free A M] (hM : Module.finrank A M = 1)
+/-- A rank-one polarization over a domain forces multiplier minus one on the outside involution. -/
+theorem polarization_rank_one_multiplier [IsDomain A] (h2 : (2 : A) ≠ 0) [Module.Free A M] (hM : Module.finrank A M = 1)
     (hc : c ∉ Δ) (P : PolarizedRep Δ ρ c) : (P.multiplier c : A) = -1 := by
   sorry
 
 -- For `Δ = Γ` (totally real), the trivial rank-one representation has multiplier and sign one
 -- and perfect pairing `xy`; the CM sign condition is vacuous.
-example (c : Γ) (hc2 : c ^ 2 = 1) :
+/-- The trivial rank-one representation over the full subgroup has the product pairing and trivial multiplier and sign. -/
+theorem polarization_trivial_totally_real (c : Γ) (hc2 : c ^ 2 = 1) :
     ∃ P : PolarizedRep (⊤ : Subgroup Γ)
       (ContinuousRep.trivial : ContinuousRep (⊤ : Subgroup Γ) A A) c,
       P.multiplier = 1 ∧ P.sign = 1 ∧ ∀ x y : A, P.pairing x y = x * y := by
@@ -3241,7 +3310,8 @@ example (c : Γ) (hc2 : c ^ 2 = 1) :
 
 -- For `G_ℚ` on the zero `ℚ₃`-module, every involution, including complex conjugation, admits
 -- the perfect alternating zero form with multiplier and sign one, although `1 ≠ -1`.
-example [Fact (Nat.Prime 3)] (c : Field.absoluteGaloisGroup ℚ) (hc : c ^ 2 = 1) :
+/-- A zero carrier permits a polarization whose sign cannot be recovered from the multiplier. -/
+theorem polarization_sign_nonfaithful [Fact (Nat.Prime 3)] (c : Field.absoluteGaloisGroup ℚ) (hc : c ^ 2 = 1) :
     ∃ P : PolarizedRep (⊤ : Subgroup (Field.absoluteGaloisGroup ℚ))
       (ContinuousRep.trivial : ContinuousRep (⊤ : Subgroup (Field.absoluteGaloisGroup ℚ))
         ℚ_[3] (Fin 0 → ℚ_[3])) c,
@@ -3288,7 +3358,8 @@ theorem GaloisRep.isBalancedAt_iff_trace {K : Type*} [Field K] [TopologicalSpace
 
 -- In characteristic `3` the identity of a plane has trace `−1` but is not balanced: `ℓ = n + 1` is
 -- sharp.
-example {k V : Type*} [Field k] [CharP k 3] [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+/-- At characteristic equal to rank plus one the trace condition does not force balanced involution eigenspaces. -/
+theorem trace_boundary_not_balanced {k V : Type*} [Field k] [CharP k 3] [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     (hV : Module.finrank k V = 2) :
     LinearMap.trace k V 1 = -1 ∧
       ¬ |(Module.finrank k (Module.End.eigenspace (1 : Module.End k V) 1) : ℤ) -
@@ -3298,7 +3369,8 @@ example {k V : Type*} [Field k] [CharP k 3] [AddCommGroup V] [Module k V] [Finit
 end Polarized
 
 -- The dual numbers are F₂[t]/(t²): a multiplier square identity does not force total oddness.
-example [TopologicalSpace (DualNumber (ZMod 2))] [DiscreteTopology (DualNumber (ZMod 2))]
+/-- A characteristic-two dual-number multiplier square identity does not force total oddness. -/
+theorem multiplier_square_not_totallyOdd [TopologicalSpace (DualNumber (ZMod 2))] [DiscreteTopology (DualNumber (ZMod 2))]
     [TopologicalSpace (Multiplicative (ZMod 2))] [DiscreteTopology (Multiplicative (ZMod 2))] :
     letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
     let R := DualNumber (ZMod 2)
@@ -3391,7 +3463,8 @@ theorem adZero_equiv_symSq {A : Type} [CommRing A] [TopologicalSpace A] [Inverti
   sorry
 
 -- An odd `r` over a field with `2 ≠ 0` has `r(c)` with eigenvalues `1, 1, −1, −1`.
-example {K : Type*} [Field K] [TopologicalSpace K] (r : GSp4Rep Γ K) (h2 : (2 : K) ≠ 0) (c : Γ)
+/-- Odd symplectic rank-four representations have balanced plus and minus one eigenvalues at the involution. -/
+theorem odd_GSp4_charpoly {K : Type*} [Field K] [TopologicalSpace K] (r : GSp4Rep Γ K) (h2 : (2 : K) ≠ 0) (c : Γ)
     (hc : c ^ 2 = 1) (hodd : r.IsOdd {c}) :
     ((r.toHom c).1.1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K).charpoly =
       (X - 1) ^ 2 * (X + 1) ^ 2 := by
@@ -3445,7 +3518,8 @@ theorem isStronglyIrreducible_iff_finiteExt {F : Type} [Field F]
   sorry
 
 -- Dimension one is strongly irreducible.
-example (ρ : ContinuousRep Γ K V) (h : Module.finrank K V = 1) : IsStronglyIrreducible ρ := by
+/-- A one-dimensional continuous representation is strongly irreducible. -/
+theorem stronglyIrreducible_of_finrank_one (ρ : ContinuousRep Γ K V) (h : Module.finrank K V = 1) : IsStronglyIrreducible ρ := by
   sorry
 
 end Strong
@@ -3566,8 +3640,46 @@ theorem isAdequate_of_coprime_or_large [Nonempty n] (H : Subgroup (GL n k)) [Fin
     (h : ¬ ringChar k ∣ Nat.card H ∨ 2 * (Fintype.card n + 1) ≤ ringChar k) : IsAdequate H := by
   sorry
 
+/-- Tensoring an adequate finite image with a prime-to-characteristic image preserves adequacy
+when the second factor is absolutely irreducible on the first factor's kernel
+(BLGG, Lemma A.3.1; §7.9). -/
+theorem isAdequate_tensor {Γ : Type*} {m : Type} [Group Γ] [Fintype m] [DecidableEq m]
+    [Nonempty n] [Nonempty m] (r₁ : Γ →* GL n k) (r₂ : Γ →* GL m k)
+    (r : Γ →* GL (n × m) k) [Finite r₁.range] [Finite r₂.range]
+    (hp : (ringChar k).Prime) (h₁ : IsAdequate r₁.range)
+    (h₂ : Submodule.span k
+      (Set.range fun g : r₁.ker => (r₂ g : Matrix m m k)) = ⊤)
+    (horder : ¬ ringChar k ∣ Nat.card r₂.range)
+    (htensor : ∀ g, r g = (r₁ g).kronecker (r₂ g)) : IsAdequate r.range := by
+  sorry
+
+/-- The cyclic cubic action on F₅² is irreducible but has a nonzero trace-zero centralizer,
+so its prime-to-five image is not adequate (§7.9). -/
+theorem cyclicThree_F5_not_adequate [Fact (Nat.Prime 5)]
+    (r : Multiplicative (ZMod 3) →* GL (Fin 2) (ZMod 5))
+    (hr : (r (Multiplicative.ofAdd 1) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, 4; 1, 4]) :
+    letI : AddCommGroup (ZMod 5) := (ZMod.commRing 5).toAddCommGroup
+    Representation.IsIrreducible (k := ZMod 5) (V := Fin 2 → ZMod 5)
+      (matrixRep r) ∧ ¬ IsAdequate r.range ∧
+      ∃ B : Matrix (Fin 2) (Fin 2) (ZMod 5), B ≠ 0 ∧ B.trace = 0 ∧
+        ∀ g, B * (r g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = (r g : Matrix (Fin 2) (Fin 2) (ZMod 5)) * B := by
+  sorry
+
+/-- The simple natural GL₂(F₂)-module restricts nonsemisimply to its transvection subgroup;
+residual restriction therefore needs an outer semisimplification (§1.9). -/
+theorem natural_GL2_F2_restrict_not_semisimple
+    (u : GL (Fin 2) (ZMod 2))
+    (hu : (u : Matrix (Fin 2) (Fin 2) (ZMod 2)) = !![1, 1; 0, 1]) :
+    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
+    Representation.IsIrreducible (k := ZMod 2) (V := Fin 2 → ZMod 2)
+      (matrixRep (MonoidHom.id (GL (Fin 2) (ZMod 2)))) ∧
+      ¬ Representation.IsSemisimpleRepresentation (k := ZMod 2) (V := Fin 2 → ZMod 2)
+        (matrixRep (Subgroup.zpowers u).subtype) := by
+  sorry
+
 -- `SL₂(F₅)` is not adequate (`H¹(SL₂(F₅), ad⁰) ≠ 0`); the trivial subgroup of `GL₂` is not adequate.
-example [Fact (Nat.Prime 5)] :
+/-- The natural SL₂(F₅) image and the trivial rank-two image fail adequacy. -/
+theorem SL2_F5_and_trivial_not_adequate [Fact (Nat.Prime 5)] :
     ¬ IsAdequate (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod 5) →* GL (Fin 2) (ZMod 5)).range ∧
     ¬ IsAdequate (⊥ : Subgroup (GL (Fin 2) (ZMod 5))) := by
@@ -3575,7 +3687,8 @@ example [Fact (Nat.Prime 5)] :
 
 -- The zero-dimensional subgroup satisfies the raw trace/cohomology conditions but has no
 -- nonzero carrier, so it satisfies none of the adequacy predicates.
-example (H : Subgroup (GL (Fin 0) k)) :
+/-- The three adequacy predicates exclude rank zero despite vacuous cohomology and trace conditions. -/
+theorem zero_rank_not_adequate (H : Subgroup (GL (Fin 0) k)) :
     ¬ IsWeaklyAdequate H ∧ ¬ IsAdequate H ∧ ¬ IsGHTAdequate H := by
   simp [IsWeaklyAdequate, IsAdequate, IsGHTAdequate]
 
@@ -3628,7 +3741,8 @@ theorem IsEnormous.isAdequate (p : ℕ) [Fact p.Prime] [Algebra (ZMod p) k]
 
 -- `SL₂(F₇)` is enormous; `SL₂(F₅)` is not (`H¹ ≠ 0`); `SL₂(F₃)` is not (it has a quotient of order
 -- three).
-example [Fact (Nat.Prime 7)] [Fact (Nat.Prime 5)] [Fact (Nat.Prime 3)] :
+/-- The natural SL₂ images at seven, five and three distinguish the small-characteristic enormity conditions. -/
+theorem SL2_small_enormity [Fact (Nat.Prime 7)] [Fact (Nat.Prime 5)] [Fact (Nat.Prime 3)] :
     IsEnormous (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod 7) →* GL (Fin 2) (ZMod 7)).range ∧
     ¬ IsEnormous (Matrix.SpecialLinearGroup.toGL :
@@ -3678,7 +3792,8 @@ theorem tw3_iff_zeta_not_mem {F : Type} [Field F] [CharZero F] (hk : (ringChar k
   sorry
 
 -- In rank one the conditions hold iff `ζ_p ∉ F`.
-example {F : Type} [Field F] [NumberField F] [Finite k] (hk : (ringChar k).Prime)
+/-- For rank-one finite residual coefficients the Taylor–Wiles image conditions are equivalent to absence of the primitive root of unity. -/
+theorem TaylorWiles_rank_one {F : Type} [Field F] [NumberField F] [Finite k] (hk : (ringChar k).Prime)
     (s : Field.absoluteGaloisGroup F →* GL (Fin 1) k) :
     TaylorWilesImageConditions s ↔ ∀ ζ : F, ¬ IsPrimitiveRoot ζ (ringChar k) := by
   sorry
@@ -3733,6 +3848,12 @@ def IsTidy (H : Subgroup (SimilitudeGroup.GSp 2 k)) : Prop :=
           (algebraMap k (AlgebraicClosure k))).charpoly.roots,
         a ≠ algebraMap k (AlgebraicClosure k) (h.1.2 : k) * b
 
+/-- A symplectic image with identically trivial multiplier cannot be tidy (§7.11). -/
+theorem not_isTidy_of_multiplier_eq_one (H : Subgroup (SimilitudeGroup.GSp 2 k))
+    (hν : ∀ h ∈ H, h.1.2 = 1) : ¬ IsTidy H := by
+  rintro ⟨h, hh, hne, _⟩
+  exact hne (hν h hh)
+
 /-- Vast (BCGP 2021, Def. 7.5.6): `ρ̄(G_{F(ζ_{p^N})})` enormous for all large `N`, or weakly enormous
 for all large `N` with `ζ_p` outside the field cut out by `ad⁰ ρ̄`. -/
 def IsVast {F : Type} [Field F] (ρ : Field.absoluteGaloisGroup F →* SimilitudeGroup.GSp 2 k) :
@@ -3750,7 +3871,8 @@ theorem isEnormous_Sp4_isTidy_GSp4 (p : ℕ) [Fact p.Prime] (hp : 3 ≤ p) :
 
 -- A central scalar `λ` with `λ² ≠ 1` makes a group tidy (`ν = λ²`); over `F₃` every scalar has
 -- `ν = 1`.
-example (H : Subgroup (SimilitudeGroup.GSp 2 k)) (lam : kˣ) (hlam : lam ^ 2 ≠ 1)
+/-- A scalar with nontrivial squared multiplier witnesses tidiness. -/
+theorem scalar_implies_tidy (H : Subgroup (SimilitudeGroup.GSp 2 k)) (lam : kˣ) (hlam : lam ^ 2 ≠ 1)
     (s : SimilitudeGroup.GSp 2 k) (hs : s.1.1 = Matrix.GeneralLinearGroup.scalar (Fin 2 ⊕ Fin 2) lam)
     (hν : s.1.2 = lam ^ 2) (hsH : s ∈ H) : IsTidy H := by
   sorry
