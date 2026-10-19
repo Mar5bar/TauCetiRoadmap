@@ -226,10 +226,9 @@ AutomorphicLFunctionsAndLocalFactors AL.2
 at `n = 1` supplies the global zeta integral, meromorphic continuation and reflected equation
 for arbitrary Schwartz–Bruhat test functions. Its AL.1
 [global-zeta-integral](../AutomorphicLFunctionsAndLocalFactors/README.md#global-zeta-integral)
-and [tate-global-functional-equation](../AutomorphicLFunctionsAndLocalFactors/README.md#tate-global-functional-equation)
-supply the distribution-valued forms, and
-[idele-class-volume](../AutomorphicLFunctionsAndLocalFactors/README.md#idele-class-volume)
-identifies the norm-one idele-class volume.
+and [hecke-l-functional-equation](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation)
+supplies the scalar continuation and reflected equation for every unitary idele-class character as the `n = 1`
+case of the matrix theory, including the residue identification of the norm-one idele-class volume with `κ`.
 AutomorphicLFunctionsAndLocalFactors, AL.0 `local-schwartz-bruhat-space` and its
 vector-space Fourier/Poisson refinements, AL.1 `canonical-archimedean-factor` and
 distribution refinements, AL.2 standard factors and `archimedean-standard-epsilon`,
