@@ -20,6 +20,10 @@ Section 1.1's NonabelianH1.exact_of_normal requires a Γ-stable normal subgroup 
 The (H/H′)^Γ-orbits are the fibres of H¹(Γ,H′) → H¹(Γ,H); their quotient is the
 neutral fibre of H¹(Γ,H) → H¹(Γ,H/H′). Other nonempty fibres use the twisted sequence
 after choosing a cocycle lift.
+Section 1.11 compares PadicHodgeTheory §5.5's localTorsorKottwitz with the
+abelianized dual-centre description for every finite F/ℚ_p, including p=2.
+The real and global extensions belong to §1.11. The shared finite-local theorem uses
+ClassFieldTheory's lattice Tate–Nakayama and AdelicAlgebraicGroups §4.1's local H¹ vanishing.
 Section 1.8 uses the full embedding-permuting Weil action on the supplied pinned dual.
 Section 1.9's InnerTwist.equiv_of_localClass_eq takes equality of localized marked
 cohomology classes and returns equivalence of the two InnerTwist objects as in §1.6.
@@ -73,6 +77,9 @@ example : ¬ IsConj (1 : Matrix.GeneralLinearGroup (Fin 2) ℚ)
 end GLn
 
 /-! ## Layer 2: orbital integrals and transfer factors
+Section 2.10's eulerPoincare_constantTerm gives zero invariant orbital class for
+normalized constant terms along proper real parabolics. Parabolic descent gives
+nonelliptic orbital-integral vanishing; the discrete-series character identity is elliptic.
 Section 2.6's rational nilpotent germs are locally constant on the regular semisimple locus.
 Their square-dilation homogeneity does not imply constancy on a Cartan's regular locus.
 Section 2.11 uses functions and the stable orbital quotient on H_{1,z}(F).
@@ -86,6 +93,12 @@ harish-chandra-tempered-support of SmoothRepresentationsOfLocalGroups SR.3.3;
 InnerGL.temperedInductionIrreducible and InnerGL.standardBasis give the inner-GL consequences.
 Section 2.13 constructs the endoscopically induced form B_h from B_g on matching Cartans;
 both Fourier transforms and Weil constants use these forms and the common character ψ. -/
+
+/-- For x=eᵗ with t>0, the hyperbolic SL₂ packet character sum is positive. -/
+example (x : ℝ) (hx : 1 < x) :
+    (x + x⁻¹) / (x - x⁻¹) - 1 = 2 / (x ^ 2 - 1) ∧
+      0 < 2 / (x ^ 2 - 1) := by
+  sorry
 
 section KappaSum
 variable {D : Type*} [CommGroup D] [Fintype D]
@@ -124,6 +137,10 @@ Section 3.6's kostantHitchinSection_hitchin sends a to that torsor/Higgs-field p
 The companion matrices below state only the untwisted GL_n formulas.
 Section 3.7 uses constructible locally closed strata for geometric indecomposables and
 moment-map charts for Higgs objects over bounded strongly generated sheaf charts.
+Section 3.10's HitchinPicard.regularTorsor takes a line bundle D′ and D′⊗²≅D;
+the arbitrary-D Picard carrier and action need no square root. The same choice is
+carried by §3.11's Kostant gluing and §3.11a's HitchinPicard.componentsOfFibre,
+together with deg D>2g−2 for the density and component comparison.
 Sections 3.11 and 3.16 permit auxiliary level at regular places and retain every local volume.
 EtaleDualityAndPerverseSheaves §§5.6, 5.8 supplies pureComplexGeometricSplitting,
 decompositionTheorem and relativeHardLefschetzTheorem; §3.15 extends their scheme statements
@@ -133,6 +150,11 @@ globalizations over every sufficiently large residue-extension degree.
 Section 3.17 gives codim Z ≤ δ_Z for every support and the top ordinary cohomology
 conclusion under equality, equivalently the additional hypothesis codim Z ≥ δ_Z.
 Section 3.18 is the preliminary H-good comparison; full stabilization is §4.3a. -/
+
+/-- A determinant-trivial SL₂ regular nilpotent pair with an odd-degree twist
+would force this impossible degree equation for its kernel line. -/
+example (d : ℤ) : 2 * d + 1 ≠ 0 := by
+  omega
 
 section ChevalleyGL
 variable {K : Type*} [Field K] {n : ℕ}
@@ -267,6 +289,12 @@ example : endoscopicCoefficient 2 0 2 = 0 := by
   norm_num [endoscopicCoefficient]
 
 /-! ## Layer 7: algebraic isocrystals and rational Igusa geometry
+PadicHodgeTheory §5.5 supplies sigmaConjugacy, B(G), the tensor Newton map,
+kottwitzInvariant and admissibility on L=ℚ̆_p=Frac W(𝔽̄_p). Section 7.2's
+GIsocrystal.classification extends this carrier to tensor isocrystals and automorphisms.
+The changes b′=g⁻¹bσ(g) and b′=h b σ(h)⁻¹ agree by h=g⁻¹.
+Section 7.4's NewtonMap.representation, KottwitzMap.functorial and AdmissibleClass.mem
+compare these supplied maps with the tensor construction and PEL dual sign.
 The structured isocrystal and moduli targets are stated in README.md.
 Section 7.8 includes m=0: FiniteIgusa at zero is the central leaf, U_p(0)=Γ_b,
 and its deck quotient is trivial. IgusaMonoid.levelMap in §7.9 is defined for m≥e₁,
@@ -279,9 +307,29 @@ These Layer 7 carriers and comparisons supply the common downstream Igusa founda
 Section 7.10a uses TauCeti.EtaleDuality.CohCorr and its rgammac, comp, pushforward, traceMap
 and localTerm from EtaleDualityAndPerverseSheaves §§6.1–6.3, with traceAdditivity and
 fujiwaraVarshavskyTraceFormula from §§6.4–6.5, for finite Igusa coefficient correspondences.
-The Frobenius-twisted trace requires proper first leg, quasi-finite second leg and Weil descent. -/
+The Frobenius-twisted trace requires proper first leg, quasi-finite second leg and Weil descent.
+Section 8.2's IgusaCorrespondence.ofMonoid puts the quotient/right-action map in c₁
+and the finite étale projection in c₂. IgusaCorrespondence.firstProper proves finiteness
+using a complementary monoid map with finite central composite; secondQuasiFinite
+uses the projection. The coefficient lift c₂!c₁*L→L uses the quasi-isogeny and étale trace,
+divided by [U∩gUg⁻¹:V], and acts as 1_UgU/vol(U). Direct pullback for right actions
+is a left representation. Further negative Frobenius shifts give (Fⁿ∘c₁,c₂),
+with the Weil-composed lift, as required by §7.10a and §8.5. -/
 
 /-! ## Layer 8: Igusa counting and stabilization -/
+
+/-- Direct pullback under the three-cycle sends the indicator of zero to that of two;
+the reversed correspondence instead sends it to that of one. -/
+example :
+    (if (2 : ZMod 3) + 1 = 0 then (1 : ℚ) else 0) = 1 ∧
+    (if (1 : ZMod 3) + 1 = 0 then (1 : ℚ) else 0) = 0 ∧
+    (if (1 : ZMod 3) - 1 = 0 then (1 : ℚ) else 0) = 1 := by
+  decide
+
+/-- For right translations on any group, direct pullbacks multiply in the group order. -/
+example {G : Type*} [Group G] (f : G → ℚ) (g h x : G) :
+    (fun y => f (y * h)) (x * g) = f (x * (g * h)) := by
+  exact congrArg f (mul_assoc x g h)
 
 /-- Across decreasing slope blocks, every eigenvalue valuation in an earlier block is smaller
 than every valuation in a later block. This checks only the numerical acceptability inequality. -/
