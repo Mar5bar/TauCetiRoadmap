@@ -991,8 +991,9 @@ theorem kloostermanSum_bound (ψ : AddChar F ℂ) (hψ : ψ ≠ 1) (n : ℕ) (z 
 
 end Kloosterman
 
-/-- A power series over `k` that is rational over an extension field `L` is rational over `k`
-(Kronecker–Hankel; ClassicalArithmeticCompletion §6.44). -/
+/-- A power series rational over an extension field descends with a denominator of constant
+coefficient `1`, so the rational function remains regular at zero (README RD.7.4(a);
+Kronecker–Hankel, ClassicalArithmeticCompletion §6.44). -/
 theorem rational_descent {k L : Type*} [Field k] [Field L] [Algebra k L] (f : PowerSeries k)
     (h : ∃ P Q : Polynomial L, Q.coeff 0 = 1 ∧
       (Q : PowerSeries L) * PowerSeries.map (algebraMap k L) f = (P : PowerSeries L)) :
@@ -1282,7 +1283,9 @@ end Elliptic
 
 section DenominatorBounds
 
-/-- The exponent `⌊log_p(2m + 1)⌋` of Kedlaya's Lemma 2 (README §RD.7.13 (a)). -/
+/-- The exponent `⌊log_p(2m + 1)⌋` for partial negative-power reduction to degree at most
+`2g` in Kedlaya's Lemma 2 (README RD.7.13(a), RD.7.16(iv)). Full reduction to the
+`2g` monomial classes also uses the factor `p ^ v_p(2g + 1)` of RD.7.13(c). -/
 def kedlayaNegativeExponent (p m : ℕ) : ℕ := Nat.log p (2 * m + 1)
 
 /-- The exponent `⌊log_p((2g + 1)(2m + 3))⌋` clearing the normalised positive-power
@@ -1300,6 +1303,26 @@ a basis of the integral image lattice specified in §RD.7.18. -/
 noncomputable def tuitmanReconstructionPrecision (p g n : ℕ) : ℕ :=
   (Finset.Icc 1 g).sup fun i =>
     (⌊Real.logb p ((4 * g).choose i) + ((n * i : ℕ) : ℝ) / 2⌋).toNat + 1
+
+/-- At `p=3`, `m=0`, partial negative-power reduction has multiplier one, while
+`x² dx/y = -(1/3) dx/y + d((2/3)y)` for `y²=x³+x+1` has a nonintegral basis coefficient. -/
+example : kedlayaNegativeExponent 3 0 = 0 ∧
+    (let Q : ℚ[X] := X ^ 3 + X + 1
+     X ^ 2 = -C (1 / 3) + C (1 / 3) * derivative Q) ∧
+    ‖(-(1 / 3) : ℚ_[3])‖ = 3 := by
+  refine ⟨by decide, ?_, ?_⟩
+  · dsimp
+    apply Polynomial.funext
+    intro x
+    norm_num [Polynomial.derivative_add, Polynomial.derivative_pow,
+      Polynomial.derivative_X, Polynomial.derivative_one, Polynomial.eval_add,
+      Polynomial.eval_mul, Polynomial.eval_pow, Polynomial.eval_C, Polynomial.eval_X]
+    ring
+  · rw [norm_neg, norm_div, norm_one]
+    have hn : ‖(3 : ℚ_[3])‖ = (3 : ℝ)⁻¹ := by
+      simpa only [Nat.cast_ofNat] using (Padic.norm_p (p := 3))
+    rw [hn]
+    norm_num
 
 /-- Unit test: for `Q = x³ + x + 1` and `p = 5`, `m = 0`, the corrected exponent is `1`. -/
 example : kedlayaPositiveExponent 5 1 0 = 1 := by
@@ -1396,7 +1419,7 @@ targets with their intended signatures and are not declared here:
 * Layer RD.3: §§3.1, 3.2, 3.3, 3.4, 3.13, 3.19, 3.22, 3.24, 3.25, 3.28, 3.34, 3.35, 3.37, 3.41,
   3.46, 3.51; §3.34a uses the general crystal carrier of CrystallineCohomology CR.1.2.
 * Layer RD.4: §§4.1, 4.2, 4.5, 4.10, 4.11, 4.12, 4.15, 4.16, 4.17, 4.18, 4.36, 4.41, 4.42, 4.43,
-  4.44, 4.45, 4.47, 4.49, 4.51, 4.58.
+  4.44, 4.45, 4.47, 4.49, 4.51, 4.58, 4.60 (shared fixed-weight form spaces and the Pan level adapter).
 * Layer RD.5: §§5.12, 5.13, 5.14, 5.24, 5.50, 5.67, 5.68, 5.81, 5.82, 5.86, 5.87, 5.92, 5.93, 5.101,
   5.107, 5.110a, 5.110b (arbitrary-PD perfect coefficients and their convergent evaluation).
 * Layer RD.6: §§6.1, 6.2, 6.3, 6.4, 6.6, 6.8, 6.11, 6.38, 6.40, 6.41, 6.42, 6.43, 6.45, 6.51, 6.57,
