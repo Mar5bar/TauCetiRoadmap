@@ -9,10 +9,10 @@ import TauCeti.RepresentationTheory.Homological.GroupHomology.Transfer.Basic
 
 `README.md` is the roadmap. This file states the targets that can be expressed using the pinned
 libraries and gives light definitions over their native carriers. These are suggested forms,
-not an exhaustive checklist. The supplied reduced covers,
-marked extensions and unit actions are prerequisites from InverseGaloisAndArithmeticFundamentalGroups
-IG.3.4–IG.3.5; they are not redeclared here. Targets requiring those carriers not provided by the pins are listed
-at the end and stated fully in the README.
+not an exhaustive checklist. The headline theorems use native central extensions, power-equation
+fibers, binary modules and homology quotients. The supplied reduced covers, marked extensions and
+unit actions are prerequisites from InverseGaloisAndArithmeticFundamentalGroups IG.3.4–IG.3.5;
+they are not redeclared here. Their precise specializations are stated in the README.
 
 RS.0.1 uses only IG.3.4's section-cocycle class map and universal coefficients. Its full
 five-term exactness and stem-surjectivity targets apply without finiteness. IG.3.4's finite
@@ -32,6 +32,155 @@ open scoped commutatorElement TensorProduct
 
 namespace TauCetiRoadmap.InductionRestrictionPartII
 
+open TauCeti
+
+/-! ## Native conventions -/
+
+/-- Native integral second group homology, used as an abbreviation throughout the README. -/
+abbrev Multiplier (G : Type) [Group G] : Type :=
+  groupHomology.H2 (Rep.trivial ℤ G ℤ)
+
+/-- **The torsion-image filtration** `B_t` (RS.4.8): the image of the `2^t`-torsion of `A` in
+`B = A / A²`. -/
+def torsionImageFiltration (A : Type) [CommGroup A] (t : ℕ) :
+    Submodule (ZMod 2) (ElementaryTwoQuotient A) :=
+  Submodule.span (ZMod 2) (elementaryTwoQuotientMk '' {a : A | a ^ (2 ^ t) = 1})
+
+/-- **The two-primary obstruction threshold** `t_A(b)` (RS.4.9): the least `t` at which
+the square class of `b` belongs to `B_t`. -/
+def obstructionThreshold {A : Type} [CommGroup A] [Finite A] (b : A) : ℕ :=
+  sInf {t : ℕ | elementaryTwoQuotientMk b ∈ torsionImageFiltration A t}
+
+/-- **The joint parity map** `L_t(v) = (a v, s v mod B_t)` (RS.4.15). -/
+def jointParityMap {V U B : Type} [AddCommGroup V] [Module (ZMod 2) V] [AddCommGroup U]
+    [Module (ZMod 2) U] [AddCommGroup B] [Module (ZMod 2) B]
+    (a : V →ₗ[ZMod 2] U) (s : V →ₗ[ZMod 2] B) (W : Submodule (ZMod 2) B) :
+    V →ₗ[ZMod 2] U × (B ⧸ W) :=
+  a.prod (W.mkQ ∘ₗ s)
+
+/-- The cyclic group of order two. -/
+abbrev C₂ : Type := Multiplicative (ZMod 2)
+
+/-- The swap action of `C₂` on `G × G`. -/
+def swapAction (G : Type) [Group G] : C₂ →* MulAut (G × G) where
+  toFun g := if g.toAdd.val = 0 then 1 else MulEquiv.prodComm
+  map_one' := rfl
+  map_mul' := by
+    intro g h
+    obtain ⟨g, rfl⟩ := Multiplicative.ofAdd.surjective g
+    obtain ⟨h, rfl⟩ := Multiplicative.ofAdd.surjective h
+    fin_cases g <;> fin_cases h <;> ext x <;> rfl
+
+/-- The **swap wreath product** `W(G) = (G × G) ⋊ C₂`. -/
+abbrev SwapWreath (G : Type) [Group G] : Type :=
+  (G × G) ⋊[swapAction G] C₂
+
+/-- The product map `G × G → Gᵃᵇ`, `(a, b) ↦ [a][b]`. -/
+def abelianizedSum (G : Type) [Group G] : G × G →* Abelianization G :=
+  Abelianization.of.comp (MonoidHom.fst G G) * Abelianization.of.comp (MonoidHom.snd G G)
+
+/-- The **sum-kernel model** (RS.6.9): the kernel of `W(G) → Gᵃᵇ`, `((a, b), t) ↦ [a][b]`. For
+abelian `G` it is the anti-diagonal model `F(G)` of RS.6.8, and for perfect `G` it is all of
+`W(G)`. -/
+def sumKernelModel (G : Type) [Group G] : Subgroup (SwapWreath G) :=
+  (SemidirectProduct.lift (φ := swapAction G) (abelianizedSum G)
+    (1 : C₂ →* Abelianization G) (by
+    intro g
+    ext x
+    change abelianizedSum G ((swapAction G g) x) =
+      (1 : Abelianization G) * abelianizedSum G x * 1⁻¹
+    rw [one_mul, inv_one, mul_one]
+    by_cases hg : g.toAdd.val = 0
+    · rw [show swapAction G g = 1 from ite_eq_left hg]
+      rfl
+    · rw [show swapAction G g = MulEquiv.prodComm from ite_eq_right hg]
+      change Abelianization.of x.2 * Abelianization.of x.1 =
+        Abelianization.of x.1 * Abelianization.of x.2
+      exact mul_comm _ _)).ker
+
+/-- The **outside involutions** of a subgroup of `W(G)`: elements with nontrivial `C₂`
+coordinate and square `1`. -/
+def outsideInvolutions {G : Type} [Group G] (F : Subgroup (SwapWreath G)) : Set F :=
+  {x | (x : SwapWreath G).right ≠ 1 ∧ x ^ 2 = 1}
+
+/-! ## Headline theorems -/
+
+/-- Every compatible central-extension fiber has either no fixed points or the kernel's
+`2r`-torsion count. Its obstruction is the lift-square product modulo squares and `r`-torsion.
+The coordinate action is `Z ↦ Z^(2r+1) ∏ᵢ (Xᵢ²)^(-r mᵢ)` (RS.4.5). -/
+theorem all_fixed_fibers {A E G D : Type} [CommGroup A] [Finite A] [Group E] [Group G]
+    [Fintype D] (S : GroupExtension A E G) (hcentral : S.inl.range ≤ Subgroup.center E)
+    (X : D → E) (a : D → A) (hX : ∀ i, S.inl (a i) = X i ^ 2)
+    (Y : E) (y₂ : A) (hY : S.inl y₂ = Y ^ 2) (m : D → ℤ) (r : ℕ) :
+    let compatible := (∏ i, Abelianization.of (S.rightHom (X i)) ^ m i) =
+      Abelianization.of (S.rightHom Y)
+    let b := y₂ * ∏ i, a i ^ (-m i)
+    let F := {Z : E // compatible ∧ S.rightHom Z = S.rightHom Y ∧
+      Z ^ (2 * r + 1) * S.inl (∏ i, a i ^ (-(r : ℤ) * m i)) = Z}
+    let survives := compatible ∧ ∃ u t : A, t ^ r = 1 ∧ b = u ^ 2 * t
+    (Nonempty F ↔ survives) ∧
+      (survives → Nat.card F = Nat.card {h : A // h ^ (2 * r) = 1}) ∧
+      (¬survives → Nat.card F = 0) := by
+  sorry
+
+/-- **The two-adic survival criterion** (RS.4.10), in the form used fiber by fiber: for finite
+`A`, odd `q > 1` and `r = (q - 1) / 2`, the equation `h ^ (q - 1) = b ^ r` (equivalently
+`= b ^ (-r)`) has a solution iff `v₂(q - 1) ≥ t_A(b) + 1`. -/
+theorem two_adic_survival {A : Type} [CommGroup A] [Finite A] (b : A) (q : ℕ) (hq : Odd q)
+    (hq1 : 1 < q) :
+    (∃ h : A, h ^ (q - 1) = b ^ ((q - 1) / 2)) ↔
+      obstructionThreshold b + 1 ≤ padicValNat 2 (q - 1) := by
+  sorry
+
+/-- Power-equation fibers survive on one affine joint-kernel coset; their nonempty fibers
+have the torsion count, and the number of surviving parities is given by rank-nullity (RS.4.16).
+The square-class identity ties the obstruction representatives to the given linear map. -/
+theorem surviving_parities {A V U : Type} [CommGroup A] [Finite A]
+    [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
+    [AddCommGroup U] [Module (ZMod 2) U]
+    (a : V →ₗ[ZMod 2] U) (s : V →ₗ[ZMod 2] ElementaryTwoQuotient A)
+    (b : V → A) (v₀ : V) (hb : ∀ v, elementaryTwoQuotientMk (b v) = s (v - v₀))
+    (q : ℕ) (hq : Odd q) (hq1 : 1 < q) :
+    let L := jointParityMap a s (torsionImageFiltration A (padicValNat 2 (q - 1) - 1))
+    let F := fun v : V ↦ {h : A // a v = a v₀ ∧
+      h ^ (q - 1) = b v ^ (-(((q - 1) / 2 : ℕ) : ℤ))}
+    {v : V | Nonempty (F v)} = {v : V | v - v₀ ∈ LinearMap.ker L} ∧
+      (∀ v, v - v₀ ∈ LinearMap.ker L →
+        Nat.card (F v) = Nat.card {h : A // h ^ (q - 1) = 1}) ∧
+      Nat.card {v : V // Nonempty (F v)} =
+        2 ^ (Module.finrank (ZMod 2) V - Module.finrank (ZMod 2) (LinearMap.range L)) := by
+  sorry
+
+/-- **Ranks count surviving parities** (RS.4.17): a translate of the kernel of a linear map on a
+finite `F₂`-space has `2 ^ (dim V - rank L)` elements. -/
+theorem rank_parity_count {V W : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
+    [AddCommGroup W] [Module (ZMod 2) W] (L : V →ₗ[ZMod 2] W) (v₀ : V) :
+    Nat.card {v : V // v - v₀ ∈ LinearMap.ker L} =
+      2 ^ (Module.finrank (ZMod 2) V - Module.finrank (ZMod 2) (LinearMap.range L)) := by
+  sorry
+
+/-- **The ordinary multiplier of the anti-diagonal model** (RS.6.8). The README identifies
+it with the reduced multiplier and then with the exterior square. -/
+theorem antidiagonal_multiplier (G : Type) [CommGroup G] [Finite G]
+    (hodd : Odd (Nat.card G)) : Nonempty (Multiplier (sumKernelModel G) ≃+ Multiplier G) := by
+  sorry
+
+/-- The reduced multiplier of the odd abelian anti-diagonal model is its ordinary multiplier
+and the exterior square of the base (RS.6.8). The relation subgroup is generated by the oriented
+commuting-pair cycles with first entry an outside involution. -/
+theorem antidiagonal_reduced_multiplier (G : Type) [CommGroup G] [Finite G]
+    (hodd : Odd (Nat.card G)) :
+    let F := sumKernelModel G
+    let Q := AddSubgroup.closure {w : Multiplier F |
+      ∃ x y : F, x ∈ outsideInvolutions F ∧ Commute x y ∧
+        ∃ z : groupHomology.cycles₂ (Rep.trivial ℤ F ℤ),
+          (z : F × F →₀ ℤ) = Finsupp.single (x, y) 1 - Finsupp.single (y, x) 1 ∧
+          groupHomology.H2π (Rep.trivial ℤ F ℤ) z = w}
+    Q = ⊥ ∧ Nonempty ((Multiplier F ⧸ Q) ≃+ Multiplier F) ∧
+      Nonempty ((Multiplier F ⧸ Q) ≃+ Multiplier G) ∧
+      Nonempty ((Multiplier F ⧸ Q) ≃+ (⋀[ℤ]^2 (Additive G))) := by
+  sorry
+
 -- The homological transfer and its index identity are supplied at the pin.
 #check TauCeti.groupHomology.transfer
 #check TauCeti.groupHomology.transfer_comp_map_subtype_id
@@ -42,10 +191,6 @@ namespace TauCetiRoadmap.InductionRestrictionPartII
 /-! ## Layer RS.0: exactness and Hall-coinvariant homology comparisons -/
 
 section RS0
-
-/-- Native integral second group homology, used as an abbreviation throughout the README. -/
-abbrev Multiplier (G : Type) [Group G] : Type :=
-  groupHomology.H2 (Rep.trivial ℤ G ℤ)
 
 variable {A E G : Type} [Group A] [Group E] [Group G]
 
@@ -177,8 +322,6 @@ end RS3
 
 section RS4
 
-open TauCeti
-
 /-- A lift of an element whose square is one has central square in a central extension. -/
 theorem involution_square_central {A E G : Type} [Group A] [Group E] [Group G]
     (S : GroupExtension A E G) (hcentral : S.inl.range ≤ Subgroup.center E)
@@ -203,12 +346,6 @@ theorem all_fixed_fibers_power_count {A : Type} [CommGroup A] [Finite A]
       Nat.card {h : A // h ^ (2 * r) = b ^ (- (r : ℤ))} = 0) := by
   sorry
 
-/-- **The torsion-image filtration** `B_t` (RS.4.8): the image of the `2^t`-torsion of `A` in
-`B = A / A²`. -/
-def torsionImageFiltration (A : Type) [CommGroup A] (t : ℕ) :
-    Submodule (ZMod 2) (ElementaryTwoQuotient A) :=
-  Submodule.span (ZMod 2) (elementaryTwoQuotientMk '' {a : A | a ^ (2 ^ t) = 1})
-
 /-- The first torsion-image space is zero, since the one-torsion subgroup is trivial. -/
 theorem torsionImageFiltration_zero (A : Type) [CommGroup A] :
     torsionImageFiltration A 0 = ⊥ := by
@@ -232,11 +369,6 @@ theorem torsionImageFiltration_cyclic (e t : ℕ) :
       if t < e then ⊥ else ⊤ := by
   sorry
 
-/-- **The two-primary obstruction threshold** `t_A(b)` (RS.4.9): the least `t` at which
-the square class of `b` belongs to `B_t`. -/
-def obstructionThreshold {A : Type} [CommGroup A] [Finite A] (b : A) : ℕ :=
-  sInf {t : ℕ | elementaryTwoQuotientMk b ∈ torsionImageFiltration A t}
-
 /-- `obstructionThreshold_zero`: `t_A(b) = 0` iff `b` is a square (for finite `A`). -/
 theorem obstructionThreshold_zero {A : Type} [CommGroup A] [Finite A] (b : A) :
     obstructionThreshold b = 0 ↔ IsSquare b := by
@@ -259,15 +391,6 @@ theorem obstructionThreshold_cyclic (e : ℕ) (he : 0 < e) :
     obstructionThreshold (Multiplicative.ofAdd (1 : ZMod (2 ^ e))) = e := by
   sorry
 
-/-- **The two-adic survival criterion** (RS.4.10), in the form used fiber by fiber: for finite
-`A`, odd `q > 1` and `r = (q - 1) / 2`, the equation `h ^ (q - 1) = b ^ r` (equivalently
-`= b ^ (-r)`) has a solution iff `v₂(q - 1) ≥ t_A(b) + 1`. -/
-theorem two_adic_survival {A : Type} [CommGroup A] [Finite A] (b : A) (q : ℕ) (hq : Odd q)
-    (hq1 : 1 < q) :
-    (∃ h : A, h ^ (q - 1) = b ^ ((q - 1) / 2)) ↔
-      obstructionThreshold b + 1 ≤ padicValNat 2 (q - 1) := by
-  sorry
-
 /-- **Involution classes span an elementary abelian abelianization** (RS.4.11). -/
 theorem involution_abelianization {G : Type} [Group G] (c : Set G) (hgen : Subgroup.closure c = ⊤)
     (hinv : ∀ x ∈ c, x ^ 2 = 1) (u : Abelianization G) : u ^ 2 = 1 := by
@@ -280,13 +403,6 @@ theorem lift_square_columns {A E G : Type} [CommGroup A] [Group E] [Group G]
     (hconj : IsConj (S.rightHom X) (S.rightHom Y)) :
     elementaryTwoQuotientMk a = elementaryTwoQuotientMk b := by
   sorry
-
-/-- **The joint parity map** `L_t(v) = (a v, s v mod B_t)` (RS.4.15). -/
-def jointParityMap {V U B : Type} [AddCommGroup V] [Module (ZMod 2) V] [AddCommGroup U]
-    [Module (ZMod 2) U] [AddCommGroup B] [Module (ZMod 2) B]
-    (a : V →ₗ[ZMod 2] U) (s : V →ₗ[ZMod 2] B) (W : Submodule (ZMod 2) B) :
-    V →ₗ[ZMod 2] U × (B ⧸ W) :=
-  a.prod (W.mkQ ∘ₗ s)
 
 /-- The joint parity map records compatibility and the quotient of the square obstruction. -/
 theorem jointParityMap_apply {V U B : Type} [AddCommGroup V] [Module (ZMod 2) V]
@@ -323,14 +439,6 @@ theorem surviving_parities_linear {V U B : Type} [AddCommGroup V] [Module (ZMod 
     (a : V →ₗ[ZMod 2] U) (s : V →ₗ[ZMod 2] B) (W : Submodule (ZMod 2) B) (v₀ : V) :
     {v : V | a v = a v₀ ∧ s (v - v₀) ∈ W} =
       {v : V | v - v₀ ∈ LinearMap.ker (jointParityMap a s W)} := by
-  sorry
-
-/-- **Ranks count surviving parities** (RS.4.17): a translate of the kernel of a linear map on a
-finite `F₂`-space has `2 ^ (dim V - rank L)` elements. -/
-theorem rank_parity_count {V W : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
-    [AddCommGroup W] [Module (ZMod 2) W] (L : V →ₗ[ZMod 2] W) (v₀ : V) :
-    Nat.card {v : V // v - v₀ ∈ LinearMap.ker L} =
-      2 ^ (Module.finrank (ZMod 2) V - Module.finrank (ZMod 2) (LinearMap.range L)) := by
   sorry
 
 /-- Nested joint kernels give the exact-threshold histogram as a difference of rank counts. -/
@@ -409,51 +517,6 @@ theorem centralizer_generator_relations {A E D : Type} [Group A] [Group E]
     Subgroup.closure {w : E | ∃ d t, w = ⁅X d, Y d t⁆} := by
   sorry
 
-/-- The cyclic group of order two. -/
-abbrev C₂ : Type := Multiplicative (ZMod 2)
-
-/-- The swap action of `C₂` on `G × G`. -/
-def swapAction (G : Type) [Group G] : C₂ →* MulAut (G × G) where
-  toFun g := if g.toAdd.val = 0 then 1 else MulEquiv.prodComm
-  map_one' := rfl
-  map_mul' := by
-    intro g h
-    obtain ⟨g, rfl⟩ := Multiplicative.ofAdd.surjective g
-    obtain ⟨h, rfl⟩ := Multiplicative.ofAdd.surjective h
-    fin_cases g <;> fin_cases h <;> ext x <;> rfl
-
-/-- The **swap wreath product** `W(G) = (G × G) ⋊ C₂`. -/
-abbrev SwapWreath (G : Type) [Group G] : Type :=
-  (G × G) ⋊[swapAction G] C₂
-
-/-- The product map `G × G → Gᵃᵇ`, `(a, b) ↦ [a][b]`. -/
-def abelianizedSum (G : Type) [Group G] : G × G →* Abelianization G :=
-  Abelianization.of.comp (MonoidHom.fst G G) * Abelianization.of.comp (MonoidHom.snd G G)
-
-/-- The **sum-kernel model** (RS.6.9): the kernel of `W(G) → Gᵃᵇ`, `((a, b), t) ↦ [a][b]`. For
-abelian `G` it is the anti-diagonal model `F(G)` of RS.6.8, and for perfect `G` it is all of
-`W(G)`. -/
-def sumKernelModel (G : Type) [Group G] : Subgroup (SwapWreath G) :=
-  (SemidirectProduct.lift (φ := swapAction G) (abelianizedSum G)
-    (1 : C₂ →* Abelianization G) (by
-    intro g
-    ext x
-    change abelianizedSum G ((swapAction G g) x) =
-      (1 : Abelianization G) * abelianizedSum G x * 1⁻¹
-    rw [one_mul, inv_one, mul_one]
-    by_cases hg : g.toAdd.val = 0
-    · rw [show swapAction G g = 1 from ite_eq_left hg]
-      rfl
-    · rw [show swapAction G g = MulEquiv.prodComm from ite_eq_right hg]
-      change Abelianization.of x.2 * Abelianization.of x.1 =
-        Abelianization.of x.1 * Abelianization.of x.2
-      exact mul_comm _ _)).ker
-
-/-- The **outside involutions** of a subgroup of `W(G)`: elements with nontrivial `C₂`
-coordinate and square `1`. -/
-def outsideInvolutions (F : Subgroup (SwapWreath G)) : Set F :=
-  {x | (x : SwapWreath G).right ≠ 1 ∧ x ^ 2 = 1}
-
 /-- Sum-kernel membership retains the product of the two abelianized base coordinates. -/
 theorem sumKernelModel_mem (x : SwapWreath G) :
     x ∈ sumKernelModel G ↔ Abelianization.of x.left.1 * Abelianization.of x.left.2 = 1 := by
@@ -492,12 +555,6 @@ theorem antidiagonal_marking (G : Type) [CommGroup G] :
       (Finite G → Odd (Nat.card G) →
         ∀ x ∈ outsideInvolutions (sumKernelModel G), ∀ y ∈ outsideInvolutions (sumKernelModel G),
           IsConj x y) := by
-  sorry
-
-/-- **The ordinary multiplier of the anti-diagonal model** (RS.6.8). The README identifies
-it with the reduced multiplier and then with the exterior square. -/
-theorem antidiagonal_multiplier (G : Type) [CommGroup G] [Finite G]
-    (hodd : Odd (Nat.card G)) : Nonempty (Multiplier (sumKernelModel G) ≃+ Multiplier G) := by
   sorry
 
 /-- The abelian sum kernel is the anti-diagonal subgroup in both swap coordinates. -/
@@ -552,14 +609,18 @@ end RS6
 * RS.3: `kernel_action_aut`, `finite_level_action`, `DegreeOrbitSet`, the actual marked-kernel
   and twisted restrictions of `boundedDegreeSlice` and `powerFixedDegree`.
 * RS.4: `squareObstruction`, `fixed_fiber_equation`,
-  `all_fixed_fibers`, `odd_parity_fiber`, `even_parity_fiber`,
-  `paritySquareMap`, `affine_compatible_parities`, `surviving_parities`, `independent_classes`.
+  `odd_parity_fiber`, `even_parity_fiber`,
+  `paritySquareMap`, `affine_compatible_parities`, `independent_classes`. The headline
+  `all_fixed_fibers` counts actual central-extension fibers in coordinates, and `surviving_parities`
+  states the power-equation specialization with its square-class identity.
 
 * RS.6: `centralizer_generator_quotient`,
-  `finite_parity_comparison`, `antidiagonal_reduced_multiplier`,
+  `finite_parity_comparison`,
   `order96_fixed_fibers` and `table_fixed_fiber_application`. The table's individual multiplier
   values are explicit input hypotheses of the conditional applications. The light `sumKernelModel` specializes to `order96Type`
   at `A₄` and to `antidiagonalModel` for abelian groups; `outsideInvolutions` retains their marking.
+  The headline `antidiagonal_reduced_multiplier` expresses the reduced multiplier as the native
+  quotient by the subgroup generated by its oriented commuting-pair cycles.
 
 The twisted preimage theorem `boundedDegreeSlice_preimage` uses the supplied twist carrier.
 `graphModel_embedding` states the graph construction and its marking on native semidirect products;

@@ -283,6 +283,20 @@ exterior-square formula
 for odd abelian bases, and applies the fixed-fiber theorems to finite marked models under explicit
 multiplier hypotheses. Each layer ends with examples and dependencies.
 
+The headline inventory at the start of `Suggested.lean` is:
+
+| Lean theorem | Roadmap statement on pinned carriers |
+| --- | --- |
+| `all_fixed_fibers` | RS.4.5: count the actual central-extension fiber with its degree compatibility and lift-square correction. |
+| `two_adic_survival` | RS.4.10: the finite abelian power equation is solvable exactly at the obstruction threshold. |
+| `surviving_parities` | RS.4.16: the power-equation fibers survive on an affine joint-kernel coset, with torsion and rank counts. |
+| `rank_parity_count` | RS.4.17: count any affine kernel coset over `𝔽₂`. |
+| `antidiagonal_multiplier` | RS.6.8: compare ordinary integral second homology of the anti-diagonal model and its base. |
+| `antidiagonal_reduced_multiplier` | RS.6.8: the oriented-cycle relation subgroup vanishes, and its quotient is the exterior square of the base. |
+
+The native coordinate statements also apply to the conditional finite-model applications of
+RS.6.5, RS.6.7 and RS.6.10 after identifying the specified reduced kernel and lift-square columns.
+
 ## Layer RS.0: Exactness and Hall-coinvariant homology comparisons
 
 The additional homological targets are the full five-term sequence, positive-degree finiteness
@@ -882,6 +896,21 @@ its inverse have the same fixed set. For an arbitrary finite central marked mode
 finite-kernel hypothesis and count the fixed subset of the actual (g,m) fiber. Its cardinality is
 zero when degree compatibility or power-image membership fails.
 
+The native headline `all_fixed_fibers` uses `S : GroupExtension A E G` with finite abelian
+central kernel and a finite index set `D`. Choose lifts `X_i`, kernel elements `a_i` with
+`S.inl(a_i)=X_i²`, and `Y,y₂` with `S.inl(y₂)=Y²`. For `m : D → ℤ`, compatibility is
+`∏ᵢ [π(X_i)]^{m_i}=[π(Y)]` and `b=y₂∏ᵢ a_i^{−m_i}`. For `q=2r+1`, the actual fixed fiber is
+
+```text
+{Z ∈ E : compatibility, π(Z)=π(Y), Z^(2r+1)·inl(∏ᵢ a_i^(−r m_i))=Z}.
+```
+
+It is nonempty exactly when compatibility holds and `b∈A²·A[r]`; its cardinality is then
+`|A[2r]|`, and otherwise zero. Only finiteness of the kernel is needed for this coordinate
+statement, including `r=0`. In the supplied marked model the chosen lifts represent their
+indexed classes, and the coprimality hypotheses identify this coordinate expression with the
+unit action. The statement counts fixed points in the actual extension fiber.
+
 The native theorem `all_fixed_fibers_power_count` states the power-equation count for any finite
 abelian `A`, `b∈A` and natural `r`, including zero: the solutions of `h^{2r}=b^{−r}` number
 `|A[2r]|` when `b` is a square times an `r`-torsion element, and zero otherwise.
@@ -895,8 +924,9 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 **Checks.**
 
 - Take `A = C₄` (written additively), `b = 1` and `q=3` (`r=1`): `b` is not in `2A + A[1] = 2A`, so the
-  fiber has no fixed point, although `|A[q−1]| = |A[2]| = 2`; an incompatible or obstructed fiber must
-  not be given the torsion count.
+  fiber has no fixed point, although `|A[q−1]| = |A[2]| = 2`.
+- A degree incompatible with `[g]` has an empty fixed fiber even when its square obstruction
+  vanishes; the compatibility condition is part of the native fiber subtype.
 - At `q=1` the action is the identity, so every compatible fiber has |A| fixed points and
   every incompatible fiber is empty. The positive-valuation criterion below requires `q>1`.
 
@@ -1016,8 +1046,11 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 **Checks.**
 
 - For `A = C₈` and `b a` generator, `t_A(b) = 3`, so the fixed fiber is nonempty exactly when 16 ∣ q `− 1`
-  (q `= 17` is the first prime that works); the parities of `odd_parity_fiber` and `even_parity_fiber`
-  have threshold 0 and survive every allowed q.
+  (q `= 17` is the first prime that works).
+- The parities of `odd_parity_fiber` and `even_parity_fiber` have threshold 0 and survive every
+  allowed odd `q>1`.
+- At `q=1` every compatible fiber survives, including a nonsquare obstruction in `C₈`;
+  the positive-valuation criterion's `q>1` hypothesis is essential.
 
 ### RS.4.11 Involution classes span the abelianization
 
@@ -1178,6 +1211,16 @@ specializes to the reduced-cover model, where `A` is the reduced multiplier; it 
 finite central marked model. The conditions are `q>1`, q odd, and q coprime to a positive common
 exponent `n` of the cover and `G`. No upper bound `q<n` is required.
 
+The native headline `surviving_parities` takes a finite abelian group `A`, a finite binary
+module `V`, a compatibility
+map `a : V →ₗ[ZMod 2] U`, a square-column map `s : V →ₗ[ZMod 2] ElementaryTwoQuotient A`,
+and actual obstruction representatives `b : V → A` satisfying
+`class(b(v))=s(v−v_g)`. For odd `q>1`, it identifies the parities with compatible nonempty
+power-equation fibers `h^{q−1}=b(v)^{−(q−1)/2}` with
+`v_g+ker(jointParityMap a s B_{v₂(q−1)−1})`, gives each nonempty fiber's torsion count and
+counts the surviving parities by rank-nullity. This uses the native representatives and their
+square-class identity; the actual extension supplies that identity by RS.4.14.
+
 The native linear-algebra statement `surviving_parities_linear` identifies
 `{v : a(v)=a(v_g), s(v−v_g)∈W}` with `v_g+ker(jointParityMap a s W)` for arbitrary binary
 modules, linear maps `a,s` and obstruction subspace `W`. The fixed-fiber assertion uses the
@@ -1193,8 +1236,11 @@ developed here, rather than separately numbered results in that paper.
 **Checks.**
 
 - With `a=0` and `s=id` on `V = F₂` and `B = F₂` (so `B_0 = 0` and `B_1=B`): for `t = 0` (q ≡ 3 mod 4) the
-  surviving parities for `g = 1` are {0}, and for `t = 1` (q ≡ 5 mod 8) they are all of `F₂`. Lower bounds
-  and total degree are not hypotheses here; they enter the counts of RS.4.18.
+  surviving parities for `g = 1` are {0}.
+- In the same fixture, for `t = 1` (q ≡ 5 mod 8) all of `F₂` survives. Lower bounds and total
+  degree enter the counts of RS.4.18.
+- At `t=0`, translating the fixture's signature to `v_g=1` gives the surviving coset `{1}`;
+  replacing the affine coset by the unshifted kernel would give `{0}`.
 
 ### RS.4.17 Ranks count surviving parities
 
@@ -1229,6 +1275,8 @@ developed here, rather than separately numbered results in that paper.
 - With `N=2` and `ker L_t={0,e₁+e₂}`, the coset for `g=1` is `{0,e₁+e₂}` and the coset
   for `v_g=e₁` is `{e₁,e₂}`. Both have `2=2^{2−1}` elements, but at `N₀=0` their weight
   enumerators are `1+X²` and `2X`.
+- For the zero map on `𝔽₂²`, every parity survives and the count is `4=2^{2−0}`.
+- For the zero-dimensional space there is one parity and the count is `1=2⁰`.
 
 ### RS.4.18 Lower bounds and the parity degree series
 
@@ -1620,7 +1668,12 @@ Prove `antidiagonal_reduced_multiplier`: for finite abelian `G` of odd order,
 M(F(G), c(G)) = M(F(G)) ≅ M(G) ≅ Λ²G,
 ```
 
-The native ordinary-homology comparison is `antidiagonal_multiplier`: `M(F(G)) ≅ M(G)`. Here `Λ²G`
+The native headline `antidiagonal_reduced_multiplier` forms the additive subgroup generated
+by the classes of the cycles `[x|y]−[y|x]` with `x∈c(G)` and `xy=yx`, using
+`groupHomology.cycles₂` and `groupHomology.H2π` directly. It states that this subgroup is zero
+and that its native quotient is isomorphic to `M(F(G))`, to `M(G)` and to `Λ²G`. This quotient
+is precisely IG.3.4's reduced multiplier. The native
+ordinary-homology comparison is `antidiagonal_multiplier`: `M(F(G)) ≅ M(G)`. Here `Λ²G`
 is the exterior square of the `ℤ`-module `G`. Concretely, for `G = ⊕ᵢ C_{nᵢ}` the multiplier is
 `⊕_{i<j} C_{gcd(nᵢ,nⱼ)}`.
 
