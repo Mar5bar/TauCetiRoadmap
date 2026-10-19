@@ -45,44 +45,8 @@ theorem sum_thetaAP (q : ℕ) [NeZero q] (x : ℝ) :
     ∑ a : ZMod q, thetaAP q a x = Chebyshev.theta x := by
   sorry
 
-/-- `θ(1; a, q) = 0`. -/
-example (q : ℕ) (a : ZMod q) : thetaAP q a 1 = 0 := by
-  sorry
-
-/-- `θ(5; 3, 8) = log 3` and `θ(5; 5, 8) = log 5`. -/
-example : thetaAP 8 3 5 = Real.log 3 ∧ thetaAP 8 5 5 = Real.log 5 := by
-  sorry
-
 /-- The noncoprime class `0 mod 2` contains only the prime `2`. -/
-example {x : ℝ} (hx : 2 ≤ x) : thetaAP 2 0 x = Real.log 2 := by
-  sorry
-
-/-- The inclusive progression ψ agrees with the ordinary ψ at level one. -/
-example (x : ℝ) : psiAP 1 0 x = Chebyshev.psi x := by
-  sorry
-
-/-- At cutoff three there is exactly one prime in the class three modulo four. -/
-example : primeCountAP 4 3 3 = 1 := by
-  sorry
-
-/-- At cutoff one the progression ψ sum is empty. -/
-example : psiAP 1 0 1 = 0 := by
-  sorry
-
-/-- The nonunit class includes the powers two and four. -/
-example : psiAP 2 0 4 = 2 * Real.log 2 := by
-  sorry
-
-/-- The zero class modulo four includes four and eight at cutoff eight. -/
-example : psiAP 4 0 8 = 2 * Real.log 2 := by
-  sorry
-
-/-- No prime contributes at cutoff one. -/
-example : primeCountAP 1 0 1 = 0 := by
-  sorry
-
-/-- Only the prime two contributes in the zero class modulo two. -/
-example : primeCountAP 2 0 10 = 1 := by
+theorem thetaAP_two_zero {x : ℝ} (hx : 2 ≤ x) : thetaAP 2 0 x = Real.log 2 := by
   sorry
 
 /-- `β` is a `c`-exceptional real zero of the primitive
@@ -95,16 +59,6 @@ def IsExceptionalRealZero (c : ℝ) {N : ℕ} [NeZero N] (χ : DirichletCharacte
 /-- Increasing the positive width parameter enlarges the exceptional-zero region. -/
 theorem IsExceptionalRealZero.mono {c c' : ℝ} {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N}
     {β : ℝ} (h : IsExceptionalRealZero c χ β) (hc : c ≤ c') : IsExceptionalRealZero c' χ β := by
-  sorry
-
-/-- `β = 1` is never exceptional. -/
-example (c : ℝ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) :
-    ¬ IsExceptionalRealZero c χ 1 := by
-  sorry
-
-/-- The strict lower endpoint is excluded from the exceptional-zero interval. -/
-example (c : ℝ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) :
-    ¬ IsExceptionalRealZero c χ (1 - c / Real.log N) := by
   sorry
 
 /-- Width zero does not designate an exceptional zero. -/
@@ -131,45 +85,9 @@ theorem riemannXi_eq {s : ℂ} (hs₀ : s ≠ 0) (hs₁ : s ≠ 1) :
 theorem riemannXi_one_sub (s : ℂ) : riemannXi (1 - s) = riemannXi s := by
   sorry
 
-/-- At zero, xi has value one half. -/
-example : riemannXi 0 = 1 / 2 := by
-  sorry
-
 /-- The other former pole has the same analytic value. -/
 example : riemannXi 1 = 1 / 2 := by
   norm_num [riemannXi]
-
-/-- Two regular values fix the factor of two against the normalization-one completion. -/
-example : riemannXi 2 = (Real.pi : ℂ) / 6 ∧ riemannXi (-1) = (Real.pi : ℂ) / 6 := by
-  sorry
-
-/-- A paired supplier E₁ product: its exponential factors cancel with this sign. -/
-example (z : ℂ) :
-    ((1 - z) * Complex.exp z) * ((1 + z) * Complex.exp (-z)) = 1 - z ^ 2 := by
-  sorry
-
-/-- The finite-sum canonical factors at minus one distinguish genera zero, one and two. -/
-example :
-    (1 - (-1 : ℂ)) * Complex.exp
-      (∑ j ∈ Finset.Icc (1 : ℕ) 0, (-1 : ℂ) ^ j / (j : ℂ)) = 2 ∧
-    (1 - (-1 : ℂ)) * Complex.exp
-      (∑ j ∈ Finset.Icc (1 : ℕ) 1, (-1 : ℂ) ^ j / (j : ℂ)) = 2 * Complex.exp (-1) ∧
-    (1 - (-1 : ℂ)) * Complex.exp
-      (∑ j ∈ Finset.Icc (1 : ℕ) 2, (-1 : ℂ) ^ j / (j : ℂ)) = 2 * Complex.exp (-1 / 2) := by
-  sorry
-
-/-- First and second differentiated Stieltjes kernels at one. -/
-example :
-    deriv (fun z : ℂ => (z + 1) ^ (-2 : ℤ)) 1 = -1 / 4 ∧
-      iteratedDeriv 2 (fun z : ℂ => (z + 1) ^ (-2 : ℤ)) 1 = 3 / 8 := by
-  sorry
-
-/-- In the rational ray dictionary, a quartic character's value distinguishes inversion. -/
-example (chi : DirichletCharacter ℂ 5) (hchi : chi 2 = I) :
-    chi 2 - (chi 2)⁻¹ = 2 * I := by
-  rw [hchi]
-  simp
-  ring
 
 /-- Siegel–Walfisz in ψ form, uniformly for q ≤ (log x)^B; the constant can be ineffective. -/
 theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
@@ -225,29 +143,67 @@ theorem thetaAP_mod_eight_mass (hfinite : ModEightFiniteInput) {a : ZMod 8}
     (1 - 3 * 0.002811) * k / 8 ≤ thetaAP 8 a k - thetaAP 8 a (k / 2) := by
   sorry
 
-/-- The first prime cutoff gives the stated theta value and strict upper bound. -/
-example : Chebyshev.theta 2 = Real.log 2 ∧
-    Chebyshev.theta 2 < 1.000081 * 2 := by
+/-- Pole cancellation makes xi entire, including both former poles. -/
+theorem riemannXi_entire : Differentiable ℂ riemannXi := by
   sorry
 
-/-- The inclusive prime count at fifty-nine satisfies both strict bounds. -/
-example : Nat.primeCounting 59 = 17 ∧
-    (59 : ℝ) / Real.log 59 * (1 + 1 / (2 * Real.log 59)) < Nat.primeCounting 59 ∧
-    (Nat.primeCounting 59 : ℝ) <
-      59 / Real.log 59 * (1 + 3 / (2 * Real.log 59)) := by
+/-- Siegel's lower bound is uniform over primitive nonprincipal quadratic characters. -/
+theorem siegel_lower_bound {ε : ℝ} (hε : 0 < ε) :
+    ∃ c > 0, ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N),
+      χ.IsPrimitive → χ ≠ 1 → χ ^ 2 = 1 →
+      c * (N : ℝ) ^ (-ε) ≤ (DirichletCharacter.LFunction χ 1).re := by
   sorry
 
-/-- The proposed lower bound already fails at the preceding integer cutoff. -/
-example : Nat.primeCounting 58 = 16 ∧
-    ¬ ((58 : ℝ) / Real.log 58 * (1 + 1 / (2 * Real.log 58)) <
-      Nat.primeCounting 58) := by
+/-- The logarithmically weighted prime sum has bounded remainder. -/
+theorem mertens_first :
+    (fun x : ℝ => (∑ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime,
+      Real.log p / p) - Real.log x) =O[atTop] (fun _ => (1 : ℝ)) := by
   sorry
 
-/-- Exact margin left after the prime-power error at the threshold in README §0.4. -/
-example :
-    (2 : ℚ) * (1 / 140000 + 35 / 7290000) <
-      (1 - 3 * (2811 / 1000000)) / 8 - 1239 / 10000 := by
-  norm_num
+/-- The reciprocal-prime sum has a constant term and logarithmic error. -/
+theorem mertens_second : ∃ B : ℝ,
+    (fun x : ℝ => (∑ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 : ℝ) / p) -
+      Real.log (Real.log x) - B) =O[atTop] (fun x => 1 / Real.log x) := by
+  sorry
+
+/-- The reciprocal prime Euler product has Euler's constant in its leading coefficient. -/
+theorem mertens_third :
+    (fun x : ℝ => (∏ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 - (p : ℝ)⁻¹)⁻¹) -
+      Real.exp Real.eulerMascheroniConstant * Real.log x) =O[atTop] (fun _ => (1 : ℝ)) := by
+  sorry
+
+/-- Siegel–Walfisz transfers to prime counts with the logarithmic-integral main term. -/
+theorem siegel_walfisz_primeCount (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
+    ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
+      ∀ a : ZMod q, IsUnit a →
+        |(primeCountAP q a x : ℝ) - (∫ t : ℝ in (2 : ℝ)..x, 1 / Real.log t) / q.totient| ≤
+          C * x * Real.log x ^ (-A) := by
+  sorry
+
+/-- A finite upper order gives a canonical product with polynomial exponential factor. -/
+theorem finite_order_hadamard (f : ℂ → ℂ) (hf : Differentiable ℂ f)
+    (hne : ∃ z, f z ≠ 0) {ρ : ℝ} (hρ : 0 ≤ ρ)
+    (hgrowth : ∀ b : ℝ, ρ < b → ∃ C > 0, ∀ z : ℂ,
+      ‖f z‖ ≤ C * Real.exp (‖z‖ ^ b)) :
+    ∃ P : Polynomial ℂ, P.natDegree ≤ ⌊ρ⌋₊ ∧ ∀ z : ℂ, ∃ v : ℂ,
+      HasProd (fun α : {a : ℂ // a ≠ 0} =>
+        ((1 - z / α.val) * Complex.exp
+          (∑ j ∈ Finset.Icc 1 ⌊ρ⌋₊, (z / α.val) ^ j / (j : ℂ))) ^
+            (analyticOrderAt f α.val).toNat) v ∧
+      f z = z ^ (analyticOrderAt f 0).toNat * Complex.exp (P.eval z) * v := by
+  sorry
+
+/-- Paired imaginary zeros and nonpolynomiality make every positive-axis derivative positive. -/
+theorem paired_derivatives_positive (f : ℂ → ℂ) (hf : Differentiable ℂ f)
+    (hne : ∃ z, f z ≠ 0)
+    (hgrowth : ∀ b : ℝ, 1 < b → ∃ C > 0, ∀ z : ℂ,
+      ‖f z‖ ≤ C * Real.exp (‖z‖ ^ b))
+    (hparity : ∀ z : ℂ, f (-z) = (-1) ^ (analyticOrderAt f 0).toNat * f z)
+    (hzeros : ∀ z : ℂ, f z = 0 → z.re = 0)
+    (hpositive : ∀ᶠ x : ℝ in atTop, (f x).im = 0 ∧ 0 < (f x).re)
+    (hpoly : ¬ ∃ P : Polynomial ℂ, ∀ z, P.eval z = f z) (k : ℕ) {x : ℝ} (hx : 0 < x) :
+    (iteratedDeriv k f x).im = 0 ∧ 0 < (iteratedDeriv k f x).re := by
+  sorry
 
 end AN2
 
@@ -274,12 +230,6 @@ theorem dirichletGRH_one_iff_riemannHypothesis :
 theorem GRH.riemannHypothesis (h : GRH) : RiemannHypothesis := by
   sorry
 
-/-- A zero with real part three quarters refutes both the individual and universal predicates. -/
-example {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (t : ℝ)
-    (hz : DirichletCharacter.LFunction χ (3 / 4 + t * I) = 0) :
-    ¬ DirichletGRH χ ∧ ¬ GRH := by
-  sorry
-
 /-- Under Dirichlet GRH, every nontrivial zero has real part one half. -/
 theorem DirichletGRH.re_eq_half {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N}
     (h : DirichletGRH χ) {s : ℂ} (hs : 0 < s.re) (hχ : χ ≠ 1 ∨ s ≠ 1)
@@ -299,21 +249,6 @@ theorem psiAP_isBigO_of_dirichletGRH (q : ℕ) [NeZero q]
     (fun x => psiAP q a x - x / q.totient) =O[atTop] fun x => x ^ (1 / 2 + ε) := by
   sorry
 
-/-- The negative-even trivial zero lies outside the GRH half-plane. -/
-example : DirichletCharacter.LFunction (1 : DirichletCharacter ℂ 1) (-2) = 0 ∧
-    ¬ (0 < (-2 : ℂ).re) := by
-  sorry
-
-/-- A principal deleted-factor zero lies on the excluded imaginary axis. -/
-example :
-    let s : ℂ := 2 * Real.pi * I / Real.log 2
-    DirichletCharacter.LFunction (1 : DirichletCharacter ℂ 2) s = 0 ∧ ¬ (0 < s.re) := by
-  sorry
-
-/-- The principal pole fails the GRH admissibility clause at one. -/
-example : ¬ ((1 : DirichletCharacter ℂ 1) ≠ 1 ∨ (1 : ℂ) ≠ 1) := by
-  simp
-
 /-- The Dirichlet-polynomial mean square has the Montgomery–Vaughan weighted error. -/
 theorem dirichlet_polynomial_mean_square :
     ∀ (N : ℕ) (a : ℕ → ℂ) (T : ℝ), 0 ≤ T →
@@ -332,20 +267,43 @@ theorem weighted_hilbert_inequality (n : ℕ) (lam delta : Fin n → ℝ) (u : F
       (3 * Real.pi / 2) * ∑ r : Fin n, ‖u r‖ ^ 2 / delta r := by
   sorry
 
-/-- Two frequencies zero and one, with coefficients one and i, pin the Hilbert-sum sign. -/
-example :
-    (1 : ℂ) * star I / (0 - 1) + I * star (1 : ℂ) / (1 - 0) = 2 * I := by
-  simp
-  ring
+/-- Passing to the inducing primitive character preserves Dirichlet GRH. -/
+theorem DirichletGRH.of_primitive {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) :
+    letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+    DirichletGRH χ ↔ DirichletGRH χ.primitiveCharacter := by
+  sorry
 
-/-- The Weyl area coefficient at the central point is one eighth. -/
-example : ((1 / 2 : ℂ) * (1 - 1 / 2) / 2) = 1 / 8 := by
-  norm_num
+/-- Davenport cancellation is uniform in the real additive frequency. -/
+theorem davenport_moebius {A : ℝ} (hA : 0 < A) :
+    ∃ C > 0, ∀ y : ℝ, 2 ≤ y → ∀ α : ℝ,
+      ‖∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (ArithmeticFunction.moebius n : ℂ) *
+        Complex.exp (I * ((n : ℝ) * α : ℝ))‖ ≤ C * y * Real.log y ^ (-A) := by
+  sorry
 
-/-- The same coefficient at height one is five eighths. -/
-example : ((1 / 2 + I : ℂ) * (1 - (1 / 2 + I)) / 2) = 5 / 8 := by
-  ring_nf
-  norm_num
+/-- The subtracted explicit formula counts zeros with analytic multiplicity and inclusive height. -/
+theorem half_interval_explicit_formula : ∃ C > 0,
+    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), χ.IsPrimitive → χ ≠ 1 →
+    ∀ k : ℕ, 4 ≤ k → ∀ T : ℝ, 2 ≤ T → T ≤ k →
+      ‖(∑ n ∈ Finset.Icc (k / 2 + 1) k,
+          χ n * (ArithmeticFunction.vonMangoldt n : ℂ)) +
+        ∑ᶠ z : {z : ℂ // 0 < z.re ∧ z.re < 1 ∧ |z.im| ≤ T ∧
+          DirichletCharacter.LFunction χ z = 0},
+          ((analyticOrderAt (DirichletCharacter.LFunction χ) z.val).toNat : ℂ) *
+            (((k : ℂ) ^ z.val - ((k : ℂ) / 2) ^ z.val) / z.val)‖ ≤
+        C * ((k : ℝ) * Real.log (q * (k : ℝ)) ^ 2 / T + Real.log (q * (k : ℝ)) ^ 2) := by
+  sorry
+
+open scoped Classical in
+/-- Selberg's primitive-character density estimate includes every exceptional zero. -/
+theorem selberg_zero_density {ε : ℝ} (hε : 0 < ε) :
+    ∃ C > 0, ∀ Q T σ : ℝ, 2 ≤ Q → 2 ≤ T → 1 / 2 ≤ σ → σ ≤ 1 →
+      (∑ q : Fin ⌊Q⌋₊, ∑ χ : DirichletCharacter ℂ (q.val + 1),
+        if χ.IsPrimitive then
+          ∑ᶠ z : {z : ℂ // σ ≤ z.re ∧ z.re < 1 ∧ |z.im| ≤ T ∧
+            DirichletCharacter.LFunction χ z = 0},
+            ((analyticOrderAt (DirichletCharacter.LFunction χ) z.val).toNat : ℝ)
+        else 0) ≤ C * ((Q ^ (5 + ε) * T ^ (3 + ε)) ^ (1 - σ) + 1) := by
+  sorry
 
 end AN3
 
@@ -369,15 +327,6 @@ theorem partialIdealZetaCoeff_eq_card (A : ClassGroup (𝓞 K)) (n : ℕ) :
         Ideal.absNorm (I : Ideal (𝓞 K)) = n ∧ ClassGroup.mk0 I = A} : ℂ) := by
   sorry
 
-/-- Nonzero integral ideals contribute no coefficient at norm zero. -/
-example (A : ClassGroup (𝓞 K)) : partialIdealZetaCoeff K A 0 = 0 := by
-  sorry
-
-/-- Only the unit ideal has norm one, and its class is principal. -/
-example : partialIdealZetaCoeff K 1 1 = 1 ∧
-    ∀ A : ClassGroup (𝓞 K), A ≠ 1 → partialIdealZetaCoeff K A 1 = 0 := by
-  sorry
-
 /-- In fixed degree, hR has discriminant exponent one half, with any positive power loss. -/
 theorem bounded_degree_brauer_siegel (n : ℕ) {ε : ℝ} (hε : 0 < ε) :
     ∃ C > 0, ∀ (L : Type) [Field L] [NumberField L], Module.finrank ℚ L = n →
@@ -391,35 +340,25 @@ theorem rootNumber_eq_one_of_isPrimitive_of_sq_eq_one {N : ℕ} [NeZero N]
     DirichletCharacter.rootNumber χ = 1 := by
   sorry
 
-/-- The quadratic Gauss-sum sign at `D = -4`: the root number of `χ₋₄` is `1`, i.e. its Gauss
-sum is `2i`. -/
-example : DirichletCharacter.rootNumber (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)) = 1 := by
+/-- Summing class coefficients recovers all nonzero integral ideals of each norm. -/
+theorem sum_partialIdealZetaCoeff (n : ℕ) :
+    ∑ A : ClassGroup (𝓞 K), partialIdealZetaCoeff K A n =
+      _root_.TauCeti.normCoeff K (fun _ => 1) n := by
   sorry
 
-/-- At `D = -4`, the standard parity completion and the DIT period completion
-have different endpoint values. Mathlib's completion contains neither conductor power.
-Compare DIT (5.13), p.964, and README conventions. -/
-example :
-    (4 : ℂ) ^ (1 / 2 : ℂ) *
-        DirichletCharacter.completedLFunction (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)) 0 = 1 ∧
-    (Real.pi : ℂ) ^ (1 / 2 : ℂ) *
-        DirichletCharacter.completedLFunction (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)) 0 =
-          (Real.sqrt Real.pi : ℂ) / 2 := by
+/-- Louboutin's bound for the Dedekind residue retains the degree and discriminant. -/
+theorem dedekindZeta_residue_le (hd : 1 < Module.finrank ℚ K) :
+    dedekindZeta_residue K ≤
+      (Real.exp 1 * Real.log |(discr K : ℝ)| / (2 * (Module.finrank ℚ K - 1))) ^
+        (Module.finrank ℚ K - 1) := by
   sorry
 
-/-- The same distinction at `s = 1`: conductor four contributes a factor two
-in the DIT completion and a factor four in the standard parity completion. -/
-example :
-    (4 : ℂ) *
-        DirichletCharacter.completedLFunction (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)) 1 = 1 ∧
-    2 * (Real.pi : ℂ) ^ (1 / 2 : ℂ) *
-        DirichletCharacter.completedLFunction (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)) 1 =
-          (Real.sqrt Real.pi : ℂ) / 2 := by
+/-- Dedekind residues have two-sided subpower bounds uniform in bounded degree. -/
+theorem dedekindZeta_residue_subpower (n : ℕ) (hn : 1 ≤ n) {ε : ℝ} (hε : 0 < ε) :
+    ∃ c > 0, ∃ C > 0, ∀ (L : Type) [Field L] [NumberField L], Module.finrank ℚ L ≤ n →
+      c * |(discr L : ℝ)| ^ (-ε) ≤ dedekindZeta_residue L ∧
+        dedekindZeta_residue L ≤ C * |(discr L : ℝ)| ^ ε := by
   sorry
-
-/-- Rational endpoint controls for the non-imaginary-quadratic Louboutin signatures. -/
-example : (6 : ℚ) * (329 / 1000) ^ 2 < 1 ∧ (318 : ℚ) / 1000 < 329 / 1000 := by
-  norm_num
 
 end AN4
 
@@ -431,34 +370,11 @@ section AN5
 def pretentiousDist (f g : ℕ → ℂ) (x : ℝ) : ℝ :=
   Real.sqrt (∑ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 - (f p * starRingEnd ℂ (g p)).re) / (p : ℝ))
 
-/-- The constant unit function has zero distance from itself. -/
-example (x : ℝ) : pretentiousDist 1 1 x = 0 := by
-  sorry
-
-/-- `D(1, -1; x)² = 2 Σ_{p ≤ x} 1/p`. -/
-example (x : ℝ) :
-    pretentiousDist 1 (fun _ => -1) x ^ 2 =
-      2 * ∑ p ∈ (Finset.Iic ⌊x⌋₊).filter Nat.Prime, (1 : ℝ) / p := by
-  sorry
-
-/-- Disk-valued prime data need not have zero distance from themselves. -/
-example : pretentiousDist 0 0 2 ^ 2 = (1 : ℝ) / 2 := by
-  sorry
-
-/-- The prime-data distance vanishes at cutoff one for arbitrary functions. -/
-example (f g : ℕ → ℂ) : pretentiousDist f g 1 = 0 := by
-  sorry
-
 /-- The prime-data distance satisfies the multiplicative triangle inequality for disk-valued functions. -/
 theorem pretentiousDist_mul_le (f₁ f₂ g₁ g₂ : ℕ → ℂ) (x : ℝ)
     (hf₁ : ∀ p, p.Prime → ‖f₁ p‖ ≤ 1) (hf₂ : ∀ p, p.Prime → ‖f₂ p‖ ≤ 1)
     (hg₁ : ∀ p, p.Prime → ‖g₁ p‖ ≤ 1) (hg₂ : ∀ p, p.Prime → ‖g₂ p‖ ≤ 1) :
     pretentiousDist (f₁ * f₂) (g₁ * g₂) x ≤ pretentiousDist f₁ g₁ x + pretentiousDist f₂ g₂ x := by
-  sorry
-
-/-- At the splitting endpoint, both distinct prime divisors belong to the large part. -/
-example : (6 : ℕ).primeFactors.filter (fun p : ℕ => (p : ℝ) < 2) = ∅ ∧
-    (6 : ℕ).primeFactors.filter (fun p : ℕ => 2 ≤ (p : ℝ)) = {2, 3} := by
   sorry
 
 /-- `Ψ(x, y)`, the number of `1 ≤ n ≤ x` with every prime factor `≤ y`. -/
@@ -470,12 +386,40 @@ theorem smoothCount_eq (x y : ℝ) (hy : 0 ≤ y) :
     smoothCount x y = ((Finset.Icc 1 ⌊x⌋₊).filter (· ∈ Nat.smoothNumbers (⌊y⌋₊ + 1))).card := by
   sorry
 
-/-- `Ψ(8, 2) = 4`, counting `1, 2, 4, 8`. -/
-example : smoothCount 8 2 = 4 := by
+/-- Largest-prime partition of the integers retains repeated largest prime factors. -/
+theorem smoothCount_decomposition {x y : ℝ} (hx : 1 ≤ x) (hy : 2 ≤ y) :
+    smoothCount x y + ∑ p ∈ (Finset.Iic ⌊x⌋₊).filter (fun p : ℕ => p.Prime ∧ y < p),
+      smoothCount (x / p) p = ⌊x⌋₊ := by
   sorry
 
-/-- `Ψ(6, 3) = 5`, counting `1, 2, 3, 4, 6`; the prime `3` is allowed. -/
-example : smoothCount 6 3 = 5 := by
+/-- Rankin's smooth-number bound holds for every positive real exponent. -/
+theorem smoothCount_rankin {x y σ : ℝ} (hx : 1 ≤ x) (hy : 2 ≤ y) (hσ : 0 < σ) :
+    (smoothCount x y : ℝ) ≤ x ^ σ *
+      ∏ p ∈ (Finset.Iic ⌊y⌋₊).filter Nat.Prime, (1 - (p : ℝ) ^ (-σ))⁻¹ := by
+  sorry
+
+/-- The delay equation and fixed initial extension determine Dickman's function uniquely. -/
+theorem existsUnique_dickman : ∃! ρ : ℝ → ℝ,
+    (∀ u < 0, ρ u = 0) ∧ (∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1) ∧
+    ContinuousOn ρ (Set.Ici 0) ∧
+    ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u := by
+  sorry
+
+/-- The normalized smooth count tends to the delay-equation solution for each fixed u. -/
+theorem smoothCount_dickman (ρ : ℝ → ℝ)
+    (hinit : ∀ u ∈ Set.Icc (0 : ℝ) 1, ρ u = 1)
+    (hcont : ContinuousOn ρ (Set.Ici 0))
+    (hdelay : ∀ u > 1, HasDerivAt ρ (-ρ (u - 1) / u) u) {u : ℝ} (hu : 0 < u) :
+    Tendsto (fun x : ℝ => (smoothCount x (x ^ (1 / u)) : ℝ) / x) atTop (𝓝 (ρ u)) := by
+  sorry
+
+/-- Halász's bound uses the infimum over twists and allows ordinary multiplicativity. -/
+theorem halasz_mean : ∃ C > 0, ∀ f : ArithmeticFunction ℂ, f.IsMultiplicative →
+    (∀ n : ℕ, 0 < n → ‖f n‖ ≤ 1) → ∀ x T : ℝ, 2 ≤ x → 1 ≤ T →
+    let M := sInf {m : ℝ | ∃ t ∈ Set.Icc (-2 * T) (2 * T),
+      m = pretentiousDist f (fun n => (n : ℂ) ^ (I * (t : ℂ))) x ^ 2}
+    ‖∑ n ∈ Finset.Icc 1 ⌊x⌋₊, f n‖ / x ≤
+      C * ((1 + M) * Real.exp (-M) + T ^ (-1 / 2 : ℝ)) := by
   sorry
 
 /-- For each positive exponent, the divisor count has a uniform subpower bound. -/
@@ -500,22 +444,48 @@ theorem exists_beurlingPrimeSystem_nth_prime :
     ∃ P : BeurlingPrimeSystem, ∀ j, P.p j = Nat.nth Nat.Prime j := by
   sorry
 
-/-- No indexed Beurling prime contributes at or below one. -/
-example (P : BeurlingPrimeSystem) {x : ℝ} (hx : x ≤ 1) : P.primeCount x = 0 := by
-  sorry
-
-/-- The ordinary prime sequence has four indexed primes at cutoff ten. -/
-example (P : BeurlingPrimeSystem) (hP : ∀ j, P.p j = Nat.nth Nat.Prime j) :
-    P.primeCount 10 = 4 := by
-  sorry
-
 /-- Repeated prime values contribute separate indices at their inclusive endpoint. -/
-example (P : BeurlingPrimeSystem) (h₀ : P.p 0 = 2) (h₁ : P.p 1 = 2)
+theorem BeurlingPrimeSystem.primeCount_repeated_two (P : BeurlingPrimeSystem) (h₀ : P.p 0 = 2) (h₁ : P.p 1 = 2)
     (h₂ : 2 < P.p 2) : P.primeCount 2 = 2 := by
   sorry
 
-/-- The smooth-count extension excludes zero even below the analytic cutoff range. -/
-example : smoothCount 0 2 = 0 := by
+/-- The norm of an indexed generalized integer retains the prime indices. -/
+def BeurlingPrimeSystem.integerNorm (P : BeurlingPrimeSystem) (a : ℕ →₀ ℕ) : ℝ :=
+  a.prod (fun j k => P.p j ^ k)
+
+/-- Bounded generalized-integer norm fibres are finite even with repeated prime values. -/
+theorem BeurlingPrimeSystem.finite_integerNorm_le (P : BeurlingPrimeSystem) (x : ℝ) :
+    Set.Finite {a : ℕ →₀ ℕ | P.integerNorm a ≤ x} := by
+  sorry
+
+/-- Generalized integers are counted as exponent vectors, including the empty vector. -/
+def BeurlingPrimeSystem.integerCount (P : BeurlingPrimeSystem) (x : ℝ) : ℕ :=
+  Nat.card {a : ℕ →₀ ℕ // P.integerNorm a ≤ x}
+
+/-- The generalized Euler series is absolutely summable in its specified half-plane. -/
+theorem BeurlingPrimeSystem.zeta_summable (P : BeurlingPrimeSystem)
+    (hconv : ∀ σ : ℝ, 1 < σ → Summable (fun a : ℕ →₀ ℕ => P.integerNorm a ^ (-σ)))
+    {s : ℂ} (hs : 1 < s.re) :
+    Summable (fun a : ℕ →₀ ℕ => Complex.exp (-s * (Real.log (P.integerNorm a) : ℂ))) := by
+  sorry
+
+/-- The generalized integer series is the Euler product over indexed primes. -/
+theorem BeurlingPrimeSystem.eulerProduct (P : BeurlingPrimeSystem)
+    (hconv : ∀ σ : ℝ, 1 < σ → Summable (fun a : ℕ →₀ ℕ => P.integerNorm a ^ (-σ)))
+    {s : ℂ} (hs : 1 < s.re) :
+    HasProd (fun j : ℕ => (1 - Complex.exp (-s * (Real.log (P.p j) : ℂ)))⁻¹)
+      (∑' a : ℕ →₀ ℕ, Complex.exp (-s * (Real.log (P.integerNorm a) : ℂ))) := by
+  sorry
+
+/-- Beurling prime and integer counts have all logarithmic remainders simultaneously. -/
+theorem BeurlingPrimeSystem.pnt_iff_integerCount (P : BeurlingPrimeSystem)
+    (hconv : ∀ σ : ℝ, 1 < σ → Summable (fun a : ℕ →₀ ℕ => P.integerNorm a ^ (-σ))) :
+    (∀ m : ℕ, 1 ≤ m →
+      (fun x : ℝ => (P.primeCount x : ℝ) - ∫ t : ℝ in (2 : ℝ)..x, 1 / Real.log t)
+        =O[atTop] (fun x => x / Real.log x ^ m)) ↔
+    ∃ a > 0, ∀ m : ℕ, 1 ≤ m →
+      (fun x : ℝ => (P.integerCount x : ℝ) - a * x)
+        =O[atTop] (fun x => x / Real.log x ^ m) := by
   sorry
 
 /-- The inclusive summatory divisor function, using the native finite divisor set. -/
@@ -525,6 +495,10 @@ def divisorSummatory (x : ℝ) : ℝ :=
 /-- The usual inclusive divisor remainder; the analytic statements assume `x ≥ 1`. -/
 def divisorError (x : ℝ) : ℝ :=
   divisorSummatory x - x * (Real.log x + 2 * Real.eulerMascheroniConstant - 1)
+
+/-- The inclusive divisor average has a square-root remainder. -/
+theorem divisorError_isBigO : divisorError =O[atTop] (fun x : ℝ => Real.sqrt x) := by
+  sorry
 
 /-- The coprime-divisor error obtained from the ordinary error by finite Möbius inversion. -/
 def divisorCoprimeError (D : ℕ) (x : ℝ) : ℝ :=
@@ -566,13 +540,14 @@ def BBRFiniteInput : Prop :=
 example (x : ℝ) : divisorCoprimeError 1 x = divisorError x := by
   simp [divisorCoprimeError]
 
-/-- The lower integration endpoint gives zero independently of the finite inequalities. -/
-example (D : ℕ) (σ : ℝ) : divisorRemainderIntegral D 1 σ = 0 := by
-  simp [divisorRemainderIntegral]
+/-- The explicit square-root divisor bound combines the finite input with its analytic tail. -/
+theorem divisorError_sqrt_bound (hBBR : BBRFiniteInput) {x : ℝ} (hx : 1 ≤ x) :
+    |divisorError x| ≤ Real.sqrt x := by
+  sorry
 
-/-- The finite cubic input includes its lower endpoint. -/
-example (hBBR : BBRFiniteInput) :
-    |divisorError 9995| ≤ 0.764 * (9995 : ℝ) ^ (1 / 3 : ℝ) * Real.log 9995 := by
+/-- The cubic divisor bound has the full stated lower endpoint. -/
+theorem divisorError_cubic_bound (hBBR : BBRFiniteInput) {x : ℝ} (hx : 9995 ≤ x) :
+    |divisorError x| ≤ 0.764 * x ^ (1 / 3 : ℝ) * Real.log x := by
   sorry
 
 /-- The Voronoi remainder has half weight at positive integral endpoints and subtracts `1/4`. -/
@@ -580,37 +555,19 @@ def divisorErrorStar (x : ℝ) : ℝ :=
   divisorError x -
     (if 1 ≤ x ∧ x = (⌊x⌋₊ : ℝ) then (⌊x⌋₊.divisors.card : ℝ) / 2 else 0) - 1 / 4
 
-example : divisorSummatory 0 = 0 ∧ divisorError 0 = 0 ∧ divisorErrorStar 0 = -1 / 4 := by
-  norm_num [divisorSummatory, divisorError, divisorErrorStar]
-
-example : divisorSummatory 1 = 1 ∧
-    divisorError 1 = 2 - 2 * Real.eulerMascheroniConstant ∧
-    divisorErrorStar 1 = 5 / 4 - 2 * Real.eulerMascheroniConstant := by
-  norm_num [divisorSummatory, divisorError, divisorErrorStar]
-  ring_nf
-  simp
-
-example : divisorSummatory 4 = 8 ∧
-    divisorError 4 = 12 - 4 * Real.log 4 - 8 * Real.eulerMascheroniConstant ∧
-    divisorErrorStar 4 = 41 / 4 - 4 * Real.log 4 - 8 * Real.eulerMascheroniConstant := by
-  sorry
-
-/-- A nonintegral cutoff has no divisor endpoint half-weight. -/
-example : divisorErrorStar (3 / 2) =
-    9 / 4 - (3 / 2) * Real.log (3 / 2) - 3 * Real.eulerMascheroniConstant := by
-  sorry
-
 /-- Capped inverse distance with the correct value one at an exact endpoint saddle. -/
 def endpointCap (u : ℝ) : ℝ := 1 / max 1 |u|
 
 example : endpointCap 0 = 1 ∧ min (1 : ℝ) |(0 : ℝ)|⁻¹ = 0 := by
   norm_num [endpointCap]
 
-example : endpointCap (1 / 2) = 1 ∧ endpointCap (-1 / 2) = 1 := by
-  norm_num [endpointCap]
+/-- The endpoint cap is bounded by one, including at zero. -/
+theorem endpointCap.le_one (u : ℝ) : endpointCap u ≤ 1 := by
+  sorry
 
-example : endpointCap 2 = 1 / 2 ∧ endpointCap (-2) = 1 / 2 := by
-  norm_num [endpointCap]
+/-- Outside the central band the endpoint cap is the reciprocal absolute distance. -/
+theorem endpointCap.eq_inv_abs {u : ℝ} (hu : 1 ≤ |u|) : endpointCap u = |u|⁻¹ := by
+  sorry
 
 /-- Schläfli's second-kind integral, with complex order and argument.
 Its analytic domain is `0 < z.re`; no convergence is asserted outside that domain. -/
@@ -626,14 +583,28 @@ theorem besselY_differentiableOn (ν : ℂ) :
     DifferentiableOn ℂ (besselY ν) {z : ℂ | 0 < z.re} := by
   sorry
 
-example : besselY (1 / 2) (Real.pi / 2) = 0 ∧
-    besselY (-1 / 2) (Real.pi / 2) = (2 / Real.pi : ℝ) := by
+/-- The second-kind integral agrees with the first-kind connection formula off integral order. -/
+theorem besselY_connection {ν z : ℂ} (hz : 0 < z.re)
+    (hν : Complex.sin ((Real.pi : ℂ) * ν) ≠ 0) :
+    besselY ν z = (Complex.cos ((Real.pi : ℂ) * ν) * Complex.besselJ ν z -
+      Complex.besselJ (-ν) z) / Complex.sin ((Real.pi : ℂ) * ν) := by
   sorry
 
-example : besselY (1 / 2) Real.pi = (Real.sqrt 2 / Real.pi : ℝ) := by
+/-- The second-kind integral satisfies Bessel's equation on the right half-plane. -/
+theorem besselY_ode (ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
+    z ^ 2 * iteratedDeriv 2 (besselY ν) z + z * deriv (besselY ν) z +
+      (z ^ 2 - ν ^ 2) * besselY ν z = 0 := by
   sorry
 
-example {x : ℝ} (hx : 0 < x) : besselY (-1) x = -besselY 1 x := by
+/-- Adjacent orders of the second-kind function satisfy the three-term recurrence. -/
+theorem besselY_recurrence (ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
+    besselY (ν - 1) z + besselY (ν + 1) z = 2 * ν / z * besselY ν z := by
+  sorry
+
+/-- Half-order second-kind functions fix both signs in the oscillatory normalization. -/
+theorem besselY_half {x : ℝ} (hx : 0 < x) :
+    besselY (1 / 2) x = (-Real.sqrt (2 / (Real.pi * x)) * Real.cos x : ℝ) ∧
+    besselY (-1 / 2) x = (Real.sqrt (2 / (Real.pi * x)) * Real.sin x : ℝ) := by
   sorry
 
 /-- Coefficients of the positive-axis Bessel expansion; the empty product is one. -/
@@ -641,15 +612,25 @@ def besselAsymptoticCoeff (ν : ℝ) (j : ℕ) : ℝ :=
   (∏ r ∈ Finset.range j, (4 * ν ^ 2 - (2 * (r : ℝ) + 1) ^ 2)) /
     ((8 : ℝ) ^ j * (j.factorial : ℝ))
 
-example : besselAsymptoticCoeff 1 0 = 1 ∧ besselAsymptoticCoeff 1 1 = 3 / 8 := by
-  norm_num [besselAsymptoticCoeff]
+/-- Positive-axis second-kind expansions admit real first-omitted-term remainder bounds. -/
+theorem besselY_positive_axis_remainders (ν : ℝ) {x : ℝ} (hx : 0 < x)
+    (r s : ℕ) (hr : 1 ≤ r) (hs : 1 ≤ s)
+    (hν : |ν| < min (2 * r + 1 / 2 : ℝ) (2 * s + 3 / 2 : ℝ)) :
+    ∃ U V : ℝ,
+      |U| ≤ |besselAsymptoticCoeff ν (2 * r)| * x ^ (-(2 * r : ℝ)) ∧
+      |V| ≤ |besselAsymptoticCoeff ν (2 * s + 1)| * x ^ (-(2 * s + 1 : ℝ)) ∧
+      besselY ν x = (Real.sqrt (2 / (Real.pi * x)) *
+        (Real.sin (x - Real.pi * ν / 2 - Real.pi / 4) *
+          ((∑ j ∈ Finset.range r, (-1 : ℝ) ^ j * besselAsymptoticCoeff ν (2 * j) *
+            x ^ (-(2 * j : ℝ))) + U) +
+        Real.cos (x - Real.pi * ν / 2 - Real.pi / 4) *
+          ((∑ j ∈ Finset.range s, (-1 : ℝ) ^ j * besselAsymptoticCoeff ν (2 * j + 1) *
+            x ^ (-(2 * j + 1 : ℝ))) + V)) : ℝ) := by
+  sorry
 
-example : besselAsymptoticCoeff 1 2 = -15 / 128 ∧
-    besselAsymptoticCoeff 1 3 = 105 / 1024 := by
-  norm_num [besselAsymptoticCoeff, Finset.prod_range_succ]
-
-example (j : ℕ) (hj : 1 ≤ j) : besselAsymptoticCoeff (1 / 2) j = 0 ∧
-    besselAsymptoticCoeff (-1 / 2) j = 0 := by
+/-- Half-integral orders terminate the Bessel expansion after the constant term. -/
+theorem besselAsymptoticCoeff_half (j : ℕ) (hj : 1 ≤ j) :
+    besselAsymptoticCoeff (1 / 2) j = 0 ∧ besselAsymptoticCoeff (-1 / 2) j = 0 := by
   sorry
 
 /-- Numerical saddle constants `(β, B₁, B₂, B₃, B₄)` of README §3.23c.
@@ -671,49 +652,6 @@ def saddleConstants (A₂ A₃ η : ℝ) : ℝ × ℝ × ℝ × ℝ × ℝ :=
       3 * (2 * Real.pi * A₂ / (1 - η * Real.sqrt 2) + Real.sqrt 2 * w₃) /
         (4 * Real.pi / A₃) ^ 2 + 15 * w₂ / (4 * Real.pi / A₃) ^ 3)
 
-example :
-    let c := saddleConstants (1 / Real.pi) (27 * Real.pi) (129 / (3800 * Real.sqrt 2))
-    c.1 = 2322 / 3671 ∧ 2.72570 < c.2.1 ∧ c.2.1 < 2.72571 ∧
-      9.58e-6 < c.2.2.1 ∧ c.2.2.1 < 9.59e-6 ∧
-      8.47e12 < c.2.2.2.1 ∧ c.2.2.2.1 < 8.48e12 ∧
-      9310 < c.2.2.2.2 ∧ c.2.2.2.2 < 9311 := by
-  sorry
-
-example :
-    let c := saddleConstants (1 / Real.pi) (80 / 9 + 9 * Real.pi) (1 / 20)
-    2.50674 < c.2.1 ∧ c.2.1 < 2.50675 ∧
-      0.00010328 < c.2.2.1 ∧ c.2.2.1 < 0.00010329 ∧
-      3.576e10 < c.2.2.2.1 ∧ c.2.2.2.1 < 3.577e10 ∧
-      907 < c.2.2.2.2 ∧ c.2.2.2.2 < 908 := by
-  sorry
-
-example :
-    let c := saddleConstants (1 / Real.pi) 1 (1 / 100)
-    1.06890 < c.2.1 ∧ c.2.1 < 1.06891 ∧
-      0.00038274 < c.2.2.1 ∧ c.2.2.1 < 0.00038275 ∧
-      1.4023e14 < c.2.2.2.1 ∧ c.2.2.2.1 < 1.4024e14 ∧
-      0.26491 < c.2.2.2.2 ∧ c.2.2.2.2 < 0.26492 := by
-  sorry
-
-/-- The undamped Gaussian is an improper symmetric limit, with positive quarter phase. -/
-example : Tendsto (fun R : ℝ => ∫ x : ℝ in -R..R,
-    Complex.exp ((Real.pi : ℂ) * Complex.I * (x : ℂ) ^ 2)) atTop
-    (𝓝 (Complex.exp ((Real.pi : ℂ) * Complex.I / 4))) ∧
-    Tendsto (fun R : ℝ => ∫ x : ℝ in -R..R,
-      Complex.exp (4 * (Real.pi : ℂ) * Complex.I * (x : ℂ) ^ 2)) atTop
-      (𝓝 (Complex.exp ((Real.pi : ℂ) * Complex.I / 4) / 2)) := by
-  sorry
-
-/-- The logarithmic plus phase has its saddle at one when `T = 4π`, `k = 1`.
-The minus phase has nonzero derivative there. -/
-example :
-    deriv (fun y : ℝ => 4 * Real.pi * Real.log ((1 + y) / y) + 2 * Real.pi * y) 1 = 0 ∧
-    deriv (fun y : ℝ => 4 * Real.pi * Real.log ((1 + y) / y) - 2 * Real.pi * y) 1 =
-      -4 * Real.pi ∧
-    deriv (deriv (fun y : ℝ =>
-      4 * Real.pi * Real.log ((1 + y) / y) + 2 * Real.pi * y)) 1 = 3 * Real.pi := by
-  sorry
-
 namespace atkinson
 
 /-- Positive logarithmic ratio on `y > 0`; its value at zero is only a totalization. -/
@@ -723,22 +661,39 @@ def logRatio (y : ℝ) : ℝ := Real.log ((1 + y) / y)
 def logarithmicWeight (α β γ y : ℝ) : ℝ :=
   y ^ (-α) * (1 + y) ^ (-β) * logRatio y ^ (-γ)
 
-example : logRatio 1 = Real.log 2 ∧
-    logarithmicWeight (1 / 2) (1 / 2) 1 1 = 1 / (Real.sqrt 2 * Real.log 2) := by
-  sorry
-
-example : logRatio (1 / 2) = Real.log 3 ∧
-    logarithmicWeight (1 / 2) (1 / 2) 1 (1 / 2) =
-      2 / (Real.sqrt 3 * Real.log 3) := by
-  sorry
-
-example : logRatio 2 = Real.log (3 / 2) ∧
-    logarithmicWeight (1 / 2) (1 / 2) 1 2 =
-      1 / (Real.sqrt 6 * Real.log (3 / 2)) := by
+/-- The logarithmic saddle has a positive quarter phase and three explicit error terms. -/
+theorem logarithmic_saddle (α β γ T k a b sign : ℝ)
+    (hα : 0 < α) (hβ : 0 < β) (hγ : 0 < γ) (hα₁ : α ≠ 1)
+    (hT : 1 ≤ T) (hk : 1 ≤ k) (ha : 0 < a) (ha₁ : a ≤ 1)
+    (haT : a ≤ T / (8 * Real.pi * k)) (hb : T ≤ b) (hsgn : sign = 1 ∨ sign = -1) :
+    let y₀ := Real.sqrt (T / (2 * Real.pi * k) + 1 / 4) - 1 / 2
+    let η := 129 / (3800 * Real.sqrt 2)
+    let A₁ := (2 : ℝ) ^ (α + β - γ) * (3 : ℝ) ^ γ
+    let c := saddleConstants (1 / Real.pi) (27 * Real.pi) η
+    let Φ := fun x : ℝ => x ^ (-α) * (1 + x) ^ (γ - β)
+    let f' := fun x : ℝ => -T / (2 * Real.pi * x * (1 + x))
+    let f'' := fun x : ℝ => T * (1 + 2 * x) / (2 * Real.pi * x ^ 2 * (1 + x) ^ 2)
+    ∃ R_end R_far R_loc : ℂ,
+      (∫ y : ℝ in a..b, (logarithmicWeight α β γ y : ℂ) *
+        Complex.exp (I * ((T * logRatio y + sign * 2 * Real.pi * k * y : ℝ) : ℂ))) =
+        (if sign = 1 then (logarithmicWeight α β γ y₀ *
+          Real.sqrt (1 / f'' y₀) : ℂ) *
+          Complex.exp (I * ((T * logRatio y₀ + 2 * Real.pi * k * y₀ + Real.pi / 4 : ℝ) : ℂ))
+          else 0) + R_end + R_far + R_loc ∧
+      ‖R_end‖ ≤ A₁ * c.2.1 *
+        (Φ a / (|f' a + sign * k| + Real.sqrt (f'' a)) +
+         Φ b / (|f' b + sign * k| + Real.sqrt (f'' b))) ∧
+      ‖R_far‖ ≤ A₁ * ∫ x : ℝ in a..b,
+        Φ x * Real.exp (-c.2.2.1 * (k * x / 2 + T / (1 + x))) *
+          (1 + η * Real.sqrt 2 / 2) ∧
+      ‖R_loc‖ ≤ if sign = 1 then
+        A₁ * ((27 * Real.pi) ^ 4 * c.2.2.2.1 +
+          Real.sqrt (27 * Real.pi) * c.2.2.2.2) * Φ y₀ * (y₀ / 2) *
+            (T / (1 + y₀)) ^ (-3 / 2 : ℝ) else 0 := by
   sorry
 
 /-- At the boundary weight the unpaired complex integral has no ordinary improper limit. -/
-example : ¬ ∃ ℓ : ℂ, Tendsto (fun R : ℝ => ∫ y : ℝ in (1 : ℝ)..R,
+theorem logarithmic_boundary_nonconvergence : ¬ ∃ ℓ : ℂ, Tendsto (fun R : ℝ => ∫ y : ℝ in (1 : ℝ)..R,
     (logarithmicWeight (1 / 2) (1 / 2) 1 y : ℂ) *
       Complex.exp (Complex.I * ((4 * Real.pi * logRatio y + 2 * Real.pi * y : ℝ) : ℂ)))
     atTop (𝓝 ℓ) := by
@@ -755,28 +710,8 @@ def movingPhase (T x : ℝ) : ℝ :=
   -2 * T * Real.arsinh (x * Real.sqrt (Real.pi / (2 * T))) -
     Real.sqrt (2 * Real.pi * x ^ 2 * T + Real.pi ^ 2 * x ^ 4) + Real.pi * x ^ 2
 
-example : movingWeight (4 * Real.pi) 1 = Real.sqrt (2 / 3) / Real.log 2 ∧
-    movingPhase (4 * Real.pi) 1 = -4 * Real.pi * Real.log 2 - 2 * Real.pi := by
-  sorry
-
-example : movingWeight (16 * Real.pi) 2 = Real.sqrt (2 / 3) / Real.log 2 ∧
-    movingPhase (16 * Real.pi) 2 = -16 * Real.pi * Real.log 2 - 8 * Real.pi := by
-  sorry
-
-example (T : ℝ) : movingWeight T 0 = 0 ∧ movingPhase T 0 = 0 := by
-  simp [movingWeight, movingPhase]
-
 /-- Real moving cutoff; analytic identities use positive `T` and `b`. -/
 def cutoff (T b : ℝ) : ℝ := (Real.sqrt (b + 2 * T / Real.pi) - Real.sqrt b) ^ 2 / 4
-
-example : cutoff (4 * Real.pi) 1 = 1 := by
-  sorry
-
-example : cutoff (12 * Real.pi) 1 = 4 := by
-  sorry
-
-example : cutoff (8 * Real.pi) 2 = 2 ∧ cutoff 0 1 = 0 := by
-  sorry
 
 /-- The saddle condition includes equality at the lower endpoint. -/
 theorem cutoff_saddle_iff {T b n : ℝ} (hT : 0 < T) (hb : 0 < b) (hn : 0 < n) :
@@ -792,40 +727,13 @@ def amplitude (T n : ℝ) : ℝ :=
 example (T : ℝ) : amplitude T 0 = 1 := by
   simp [amplitude]
 
-example : amplitude (Real.pi / 2) 1 = (2 : ℝ) ^ (-1 / 4 : ℝ) / Real.arsinh 1 := by
-  sorry
-
-example : amplitude (Real.pi / 2) 4 = 2 * (5 : ℝ) ^ (-1 / 4 : ℝ) / Real.arsinh 2 := by
-  sorry
-
 /-- First Atkinson phase, including the negative quarter-period shift. -/
 def phase₁ (T n : ℝ) : ℝ :=
   2 * T * Real.arsinh (Real.sqrt (Real.pi * n / (2 * T))) +
     Real.sqrt ((Real.pi * n) ^ 2 + 2 * Real.pi * n * T) - Real.pi / 4
 
-example (T : ℝ) : phase₁ T 0 = -Real.pi / 4 := by
-  simp [phase₁]
-  ring
-
-example : phase₁ (Real.pi / 2) 1 =
-    Real.pi * Real.arsinh 1 + Real.pi * Real.sqrt 2 - Real.pi / 4 := by
-  sorry
-
-example : phase₁ (Real.pi / 2) 4 =
-    Real.pi * Real.arsinh 2 + 2 * Real.pi * Real.sqrt 5 - Real.pi / 4 := by
-  sorry
-
 /-- Second Atkinson phase; its analytic domain has `T > 0` and `n > 0`. -/
 def phase₂ (T n : ℝ) : ℝ := T * Real.log (T / (2 * Real.pi * n)) - T + Real.pi / 4
-
-example : phase₂ (2 * Real.pi) 1 = -7 * Real.pi / 4 := by
-  sorry
-
-example : phase₂ (4 * Real.pi) 1 = 4 * Real.pi * Real.log 2 - 15 * Real.pi / 4 := by
-  sorry
-
-example : phase₂ (4 * Real.pi) 2 = -15 * Real.pi / 4 := by
-  sorry
 
 /-- The first finite sum has alternating signs and includes its natural cutoff. -/
 def firstSum (T : ℝ) (N : ℕ) : ℝ :=
@@ -840,27 +748,54 @@ def secondSum (T Z : ℝ) : ℝ :=
     (n.divisors.card : ℝ) / Real.sqrt n /
       Real.log (T / (2 * Real.pi * n)) * Real.cos (phase₂ T n)
 
-example (T : ℝ) : firstSum T 0 = 0 ∧ secondSum T 0 = 0 := by
-  simp [firstSum, secondSum]
-
-example (T : ℝ) : firstSum T 1 =
-    -Real.sqrt 2 * (T / (2 * Real.pi)) ^ (1 / 4 : ℝ) *
-      amplitude T 1 * Real.cos (phase₁ T 1) := by
-  norm_num [firstSum]
-  ring
-
-example (T : ℝ) : firstSum T 2 - firstSum T 1 =
-    Real.sqrt 2 * (T / (2 * Real.pi)) ^ (1 / 4 : ℝ) *
-      (2 * (2 : ℝ) ^ (-3 / 4 : ℝ) * amplitude T 2 * Real.cos (phase₁ T 2)) := by
+/-- The moving saddle is an improper limit with an inclusive endpoint and capped error. -/
+theorem moving_saddle (α A A' T n a η sign : ℝ)
+    (hα : 0 < α) (hA : 0 < A) (hAA' : A ≤ A') (hT : 1 ≤ T) (hn : 1 ≤ n)
+    (ha : A * Real.sqrt T ≤ a) (ha' : a ≤ A' * Real.sqrt T)
+    (hη : 0 < η) (hsgn : sign = 1 ∨ sign = -1)
+    (hη₁ : η < 1 / ((1 + 2 * (1 / Real.pi) * (8 / A ^ 2 + 9 * Real.pi) / 3) *
+      Real.sqrt 2))
+    (hη₂ : η < (8 / A ^ 2 + 9 * Real.pi) * (1 + 2 / Real.pi) / 2)
+    (hη₃ : η < (48 * (8 / A ^ 2 + 9 * Real.pi) ^ 3 / Real.pi ^ 3) ^ (1 / 6 : ℝ)) :
+    let A₃ := 8 / A ^ 2 + 9 * Real.pi
+    let c := saddleConstants (1 / Real.pi) A₃ η
+    let A₁ := (2 : ℝ) ^ (α + 1 / 2) / Real.arsinh (A / 2 * Real.sqrt (Real.pi / 2))
+    let V₁ := A₁ * c.2.1 * A ^ (-α) *
+      (1 - (1 + 1 / (2 * Real.pi * A' ^ 2)) ^ (-1 / 2 : ℝ)) ^ (-1 / 2 : ℝ)
+    let V₂ := A₁ / 2 * (A₃ ^ 4 * c.2.2.2.1 + Real.sqrt A₃ * c.2.2.2.2)
+    let V₃ := A₁ / c.2.2.1 * A ^ (-α) * (1 + η / Real.sqrt 2)
+    let hasSaddle := sign = 1 ∧ n < T / (2 * Real.pi) ∧ (T / (2 * Real.pi) - n) ^ 2 / n ≥ a ^ 2
+    ∃ J : ℂ,
+      Tendsto (fun b : ℝ => ∫ x : ℝ in a..b, ((x ^ (-α) * movingWeight T x : ℝ) : ℂ) *
+        Complex.exp (I * ((sign * 4 * Real.pi * x * Real.sqrt n + movingPhase T x : ℝ) : ℂ)))
+        atTop (𝓝 J) ∧
+      ‖J - (if hasSaddle then
+        ((4 * Real.pi / T * n ^ ((α - 1) / 2) / Real.log (T / (2 * Real.pi * n)) *
+          (T / (2 * Real.pi) - n) ^ (3 / 2 - α) : ℝ) : ℂ) *
+          Complex.exp (I * ((T - T * Real.log (T / (2 * Real.pi * n)) -
+            2 * Real.pi * n + Real.pi / 4 : ℝ) : ℂ)) else 0)‖ ≤
+        V₁ * T ^ (-α / 2) * endpointCap
+          (sign * 2 * Real.sqrt n + a - Real.sqrt (a ^ 2 + 2 * T / Real.pi)) +
+        (if hasSaddle then V₂ * T ^ (-3 / 2 : ℝ) * n ^ ((α - 1) / 2) *
+          (T / (2 * Real.pi) - n) ^ (1 - α) else 0) +
+        V₃ * T ^ (-α / 2) * n ^ (-1 / 2 : ℝ) *
+          Real.exp (-c.2.2.1 * (T + A * Real.sqrt T)) := by
   sorry
 
-example (T : ℝ) : secondSum T 1 =
-    -2 * Real.cos (phase₂ T 1) / Real.log (T / (2 * Real.pi)) := by
-  norm_num [secondSum]
-  ring
+/-- The first Atkinson amplitude has its continuous right extension at zero. -/
+theorem amplitude_tendsto_zero {T : ℝ} (hT : 0 < T) :
+    Tendsto (amplitude T) (𝓝[>] 0) (𝓝 1) := by
+  sorry
 
-example (T : ℝ) : secondSum T 2 - secondSum T 1 =
-    -2 * Real.sqrt 2 * Real.cos (phase₂ T 2) / Real.log (T / (4 * Real.pi)) := by
+/-- The moving cutoff stays strictly below the singular second-sum frequency. -/
+theorem cutoff_bounds {T b : ℝ} (hT : 0 < T) (hb : 0 < b) :
+    0 < cutoff T b ∧ cutoff T b < T / (2 * Real.pi) := by
+  sorry
+
+/-- The two main sums at the integer truncation satisfy the explicit square-root budget. -/
+theorem main_sum_bound {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) :
+    |firstSum T ⌊T⌋₊| + |secondSum T (cutoff T (⌊T⌋₊ + 1 / 2))| ≤
+      3.87 * Real.sqrt T * Real.log T - 1.1 * Real.sqrt T := by
   sorry
 
 end atkinson
@@ -872,26 +807,28 @@ def error (T : ℝ) : ℝ :=
   (∫ t : ℝ in (0 : ℝ)..T, ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
     T * Real.log (T / (2 * Real.pi)) - (2 * Real.eulerMascheroniConstant - 1) * T
 
-example : error 0 = 0 := by
+/-- The moment error uses the continuous value zero at the lower endpoint. -/
+theorem error_zero : error 0 = 0 := by
   simp [error]
 
-example : error (2 * Real.pi) =
-    (∫ t : ℝ in (0 : ℝ)..(2 * Real.pi),
-      ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
-    (2 * Real.eulerMascheroniConstant - 1) * (2 * Real.pi) := by
+/-- The moment error is continuous on the nonnegative real axis. -/
+theorem error_continuous : ContinuousOn error (Set.Ici 0) := by
   sorry
 
-/-- Moment-error increments retain the interval integral and both main-term endpoints. -/
-example {S T : ℝ} (hS : 0 < S) (hST : S ≤ T) :
+/-- Moment-error increments retain the integral and both main-term endpoints. -/
+theorem error_increment {S T : ℝ} (hS : 0 < S) (hST : S ≤ T) :
     error T - error S =
-      (∫ t : ℝ in S..T, ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
+      (∫ t : ℝ in S..T, ‖riemannZeta (1 / 2 + (t : ℂ) * I)‖ ^ 2) -
         (T * Real.log (T / (2 * Real.pi)) - S * Real.log (S / (2 * Real.pi))) -
         (2 * Real.eulerMascheroniConstant - 1) * (T - S) := by
   sorry
 
-/-- Adjacent error increments add, including degenerate intervals. -/
-example (S T U : ℝ) : (error T - error S) + (error U - error T) = error U - error S := by
-  ring
+/-- Proportional truncations in Atkinson's formula have logarithmic-square remainder. -/
+theorem atkinson_formula {A B : ℝ} (hA : 0 < A) (hAB : A ≤ B) :
+    ∃ C > 0, ∀ᶠ T in atTop, ∀ N : ℕ, A * T ≤ N → (N : ℝ) ≤ B * T →
+      |error T - atkinson.firstSum T N -
+        atkinson.secondSum T (atkinson.cutoff T (N + 1 / 2))| ≤ C * Real.log T ^ 2 := by
+  sorry
 
 /-- Explicit Atkinson remainder from the BBR finite input for proportional truncation. -/
 theorem atkinson_remainder_budget (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) (N : ℕ)
@@ -911,31 +848,26 @@ theorem mean_square (hBBR : BBRFiniteInput) : error =O[atTop] (fun T : ℝ => Re
 
 end zetaSecondMoment
 
+namespace zetaFourthMoment
+
+/-- The fourth moment has leading coefficient one over twice pi squared. -/
+theorem asymptotic :
+    (fun T : ℝ => (∫ t : ℝ in (0 : ℝ)..T,
+      ‖riemannZeta (1 / 2 + (t : ℂ) * I)‖ ^ 4) - T * Real.log T ^ 4 / (2 * Real.pi ^ 2))
+        =O[atTop] (fun T => T * Real.log T ^ 3) := by
+  sorry
+
+end zetaFourthMoment
+
 end AN5
 
 /-!
-The README also specifies the following API targets beyond the representative theorems:
-`DirichletGRH.of_primitive` (§1.6); `endpointCap.le_one`, `endpointCap.eq_inv_abs` (§3.23a);
-`atkinson.logarithmic_saddle`, `atkinson.logarithmic_saddle_uniform` (§3.23d),
-`atkinson.moving_saddle` (§3.23e), `atkinson.contour_decomposition`, `atkinson.budget_bound`,
-`atkinson.remainder_budget`, `atkinson.main_sum_bound` (§3.23g); and
-`zetaSecondMoment.error_zero`, `zetaSecondMoment.error_continuous`,
-`zetaSecondMoment.error_increment` (§3.23). These remain README API requirements.
-
-Definitions specified in README.md beyond these representative signatures include exceptional
-squareclasses (§0.13), the canonical-factor comparison (§0.15), the origin-zero adapter (§0.22),
-specializations of the AL.2 paired-product theorems (§0.29), the Weil test class (§1.3), ray-character and quadratic-period
-dictionaries (§§0.30, 2.1, 2.10),
-Artin analytic conductors (§2.2) and the AdelicAlgebraicGroups AA.2.4 local polynomials, canonical continued Hecke
-and Dedekind functions (§§2.3–2.5, 2.12), norm-regrouped Artin coefficient comparisons (§2.18), ArtinHolomorphy and
-field/Hecke zero hypotheses (§§2.41–2.42), medium-prime products (§3.5), even Mangoldt (§3.8),
-Gamma Euler factors (§3.10), residue-supported counts (§3.16), the logarithmic-derivative
-coefficient class (§3.19), Dickman's
-function (§3.21), the Bessel connection/recurrence API, ordered conditional Voronoi
-transform, quantitative saddle hypotheses and two improper-integral families (§§3.23b–f),
-generalized-integer norms and counts (§3.25), truncated Mangoldt functions
-and errors (§§3.29, 3.39), restricted squarefree counts (§3.32), Beurling zeta functions (§3.36),
-Selberg weights (§§3.31a, 3.36b), and regularized Beurling boundary logarithms (§3.42).
+The README also specifies the quantitative contour and saddle estimates, the arithmetic Hecke
+and Artin dictionaries, quadratic periods and the general automorphic Weil formula. These use
+their suppliers' function, divisor, representation and geometric interfaces. The auxiliary targets `atkinson.logarithmic_saddle_uniform`, `atkinson.contour_decomposition`
+and `atkinson.budget_bound` specify, respectively, the two uniform error ranges, the four contour
+terms with successive improper limits, and the coefficient bounds of the explicit remainder in
+§§3.23d,g. The signatures here use native functions, analytic multiplicities, ideal coefficients and indexed exponent vectors.
 -/
 
 end TauCetiRoadmap.AnalyticNumberTheoryPartI
