@@ -158,7 +158,7 @@ Define `HeightClass X` as the native real quotient (X→ℝ)/`boundedFilterSubmo
 
 ### 0.4 Pullback of height classes
 
-For f:X→Y define linear `pullback f` by [h]↦[h∘f]; uniform bounds survive precomposition. API: `pullback_mk/id/comp/add/smul/const`; composition reverses and constant maps induce zero. Use native `mapQ_apply/id/comp`. Source: de Jong §14 Steps 1–7 pp.7–9. *Needs:* §§0.1–3.
+For f:X→Y define linear `pullback f` by [h]↦[h∘f]; uniform bounds survive precomposition. API: `pullback_mk/id/add/smul/const` and `HeightClass.pullback_comp`; composition reverses and constant maps induce zero. Use native `mapQ_apply/id/comp`. Source: de Jong §14 Steps 1–7 pp.7–9. *Needs:* §§0.1–3.
 
 **Checks.**
 
@@ -168,21 +168,23 @@ For f:X→Y define linear `pullback f` by [h]↦[h∘f]; uniform bounds survive 
 
 ### 0.5 Surjective maps detect height classes
 
-`pullback_injective_of_surjective`: surjective f:X→Y induces injective pullback. Lift by native `mkQ_surjective` and transport the bound along f. Source: de Jong §14 pp.7–9. *Needs:* §§0.3–4.
+`HeightClass.pullback_injective_of_surjective`: surjective f:X→Y induces injective pullback. Lift by native `mkQ_surjective` and transport the bound along f. Source: de Jong §14 pp.7–9. *Needs:* §§0.3–4.
 
 **Checks.**
 
 - A bijection gives inverse pullbacks
 - ℕ×ℕ→ℕ detects classes although its fibres are infinite and it does not preserve Northcott.
+- The inclusion {0}→ℕ pulls the nonzero class [n] back to zero; surjectivity cannot be omitted.
 
 ### 0.6 Northcott transfer under a lower comparison
 
-`northcott_of_le_add`: h≤g+C and native `Northcott h` imply `Northcott g`, since {g≤B}⊆{h≤B+C}. Source: de Jong §17 p.10. *Needs:* native `Northcott.finite_le`.
+`HeightClass.northcott_of_le_add`: h≤g+C and native `Northcott h` imply `Northcott g`, since {g≤B}⊆{h≤B+C}. Source: de Jong §17 p.10. *Needs:* native `Northcott.finite_le`.
 
 **Checks.**
 
 - h(n)=n and g(n)=n+(-1)^n work with C=1.
 - Reversing the comparison fails: 0≤n but the zero function on ℕ is not Northcott.
+- h(n)=n and g(n)=2n satisfy the lower comparison with C=0.
 
 ### 0.7 Northcott invariance under bounded error
 
@@ -196,12 +198,13 @@ For f:X→Y define linear `pullback f` by [h]↦[h∘f]; uniform bounds survive 
 
 ### 0.8 Northcott for a boundedly equal pullback
 
-`northcott_of_pullback_eq`: if f:X→Y has finite fibres, h is Northcott and [g]=f\*[h], then g is Northcott. Apply native `Northcott.comp_of_finite_fibers` then §0.7. Finite fibres are native `Filter.TendstoCofinite`, by `tendstoCofinite_iff_finite_preimage_singleton`. Source: de Jong §14 Step 7 p.9, §17 p.10.
+`HeightClass.northcott_of_pullback_eq`: if f:X→Y has finite fibres, h is Northcott and [g]=f\*[h], then g is Northcott. Apply native `Northcott.comp_of_finite_fibers` then §0.7. Finite fibres are native `Filter.TendstoCofinite`, by `tendstoCofinite_iff_finite_preimage_singleton`. Source: de Jong §14 Step 7 p.9, §17 p.10.
 
 **Checks.**
 
 - Pulling n back to ℕ×Fin 2 preserves Northcott
 - pulling it back to ℕ×ℕ gives the infinite zero-sublevel {(0,m)}.
+- For the identity map this recovers Northcott invariance under bounded error.
 
 ### 0.9 Generalized global fields
 
@@ -317,7 +320,7 @@ For φ:S→S, d>1 and |f(φs)−df(s)|≤C define `tateLimit φ d f`=f+Σ_(m≥0
 
 - A constant f with φ=id has limit zero
 - an exact scaling function is fixed
-- doubling with f=naiveHeight/2, d=4 gives one half of native elliptic `canonicalHeight`.
+- `tateLimit_elliptic`: doubling with f=naiveHeight/2, d=4 gives one half of native elliptic `canonicalHeight`.
 - For id, d=2, f=1 the error bound 1 is attained.
 - For successor, d=1, f(n)=n, normalized iterates at zero equal m and diverge.
 
@@ -874,7 +877,7 @@ For finite-type K-algebra A, K a number field, define `AdelicPoints K A`=A→ₐ
 **Checks.**
 
 - Spec K gives a singleton
-- A=K[t] gives the native adeles with nonsurjective rational diagonal
+- `adelicPoints_affineLine_homeomorph`: evaluation at t identifies the points for A=K[t] with the native adeles, with nonsurjective rational diagonal
 - K[t,u]/(tu−1) gives ideles with the units topology.
 - ℚ[t]/(t²+1) has no adelic points despite having ℚ₅-points.
 - Hausdorffness and closed discrete rational diagonal are §2.6.
@@ -2633,7 +2636,7 @@ For `finiteRank_specialization_toNumberField`, fix a geometrically integral X of
 
 ### 5.14 The difference map
 
-Define `differenceMap M:A^(M+1)→A^M` by (x₀,…,x_M)↦(x₁−x₀,…,x_M−x₀). It is a homomorphism, with kernel the diagonal; API: projections, translation invariance, base change, fibre as common translation intersection. Source: Zhang, *Equidistribution of small points on abelian varieties*, Lemma 3.1 p.163 (consecutive differences, related by an invertible integral change of coordinates). *Needs:* native abelian-variety products and §1.1.
+Define `differenceMap M:A^(M+1)→A^M` by (x₀,…,x_M)↦(x₁−x₀,…,x_M−x₀). It is a homomorphism, with kernel the diagonal (`differenceMap_eq_zero_iff`); API: projections, translation invariance (`differenceMap_translate`), base change, fibre as common translation intersection. Source: Zhang, *Equidistribution of small points on abelian varieties*, Lemma 3.1 p.163 (consecutive differences, related by an invertible integral change of coordinates). *Needs:* native abelian-variety products and §1.1.
 
 **Checks.**
 
@@ -2903,7 +2906,7 @@ For a smooth projective geometrically connected genus-one C/K, its Jacobian E ac
 
 ### 6.4 Genus at least two
 
-For smooth projective geometrically connected C/K of genus≥2, C(K) is finite by §5.12. After a finite extension choose a degree-one class for its Abel–Jacobi embedding: §5.13 makes its intersection with every finite-rank subgroup finite, and §5.18 bounds its sufficiently small-height points to a finite set. Transfer rational points back through the closed immersion. The scoped non-isotrivial function-field theorem is §4.9. Source: Poonen Theorem 9.5.1/Remark 9.5.2 p.286. *Needs:* §§4.9, 5.12–13, 5.18; JC F.
+For smooth projective geometrically connected C/K over a number field with genus≥2, `mordell_finite` asserts that C(K) is finite by §5.12. Its native signature uses a smooth proper one-dimensional scheme, the equivalent curve hypotheses, with `Scheme.genus K` and its required finite-dimensional H¹(𝒪_C) instance; rational points are morphisms over Spec K. After a finite extension choose a degree-one class for its Abel–Jacobi embedding: §5.13 makes its intersection with every finite-rank subgroup finite, and §5.18 bounds its sufficiently small-height points to a finite set. Transfer rational points back through the closed immersion. The scoped non-isotrivial function-field theorem is §4.9. Source: Poonen Theorem 9.5.1/Remark 9.5.2 p.286. *Needs:* §§4.9, 5.12–13, 5.18; JC F.
 
 **Checks.**
 

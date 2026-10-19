@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.AbelianVariety.Basic
+import TauCeti.AlgebraicGeometry.Cohomology.Genus
 import TauCeti.AlgebraicGeometry.EllipticCurve.CanonicalHeight.Basic
 
 /-!
@@ -18,6 +19,19 @@ namespace TauCetiRoadmap.HeightsRationalPointsAndObstructions
 universe u v w
 open CategoryTheory _root_.AlgebraicGeometry Height
 open scoped CategoryTheory.MonObj TensorProduct
+
+/-! ## Curve finiteness -/
+
+/-- Mordell finiteness (§§5.12, 6.4): a smooth proper geometrically connected curve of genus
+at least two over a number field has finitely many rational points. -/
+theorem mordell_finite (K : Type u) [Field K] [NumberField K]
+    (C : Scheme.{u}) [C.Over (Spec (.of K))]
+    [Smooth (C ↘ Spec (.of K))] [IsProper (C ↘ Spec (.of K))]
+    [GeometricallyConnected (C ↘ Spec (.of K))]
+    [FiniteDimensional K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
+      (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial C).obj 1)]
+    (hdim : topologicalKrullDim C = 1) (hg : 2 ≤ C.genus K) :
+    Finite (Over.mk (𝟙 (Spec (.of K))) ⟶ Over.mk (C ↘ Spec (.of K))) := by sorry
 
 /-! ## Layer 0: height classes and canonical heights -/
 
@@ -50,40 +64,24 @@ def pullback {Y : Type v} (f : X → Y) : HeightClass Y →ₗ[ℝ] HeightClass 
         Asymptotics.IsBigO.comp_tendsto hh Filter.tendsto_top
       exact this)
 
-example {Y : Type v} (f : X → Y) (h : Y → ℝ) : pullback f (mk h) = mk (h ∘ f) := rfl
-example : pullback (fun _ : ℕ => (0 : ℕ)) (mk (fun n : ℕ => (n : ℝ))) = 0 := by sorry
+/-- Pullback of bounded-error classes reverses composition (§0.4). -/
+theorem pullback_comp {Y : Type v} {Z : Type w} (f : X → Y) (g : Y → Z) :
+    pullback (g ∘ f) = (pullback f).comp (pullback g) := by sorry
 
-example (h : Empty → ℝ) : mk h = 0 := by sorry
-example : mk (fun n : ℕ => (-1 : ℝ)^n) = 0 := by sorry
-example : mk (fun n : ℕ => (n : ℝ)) ≠ 0 := by sorry
-example : mk (fun _ : ℕ => (1 : ℝ)) = mk (fun _ : ℕ => (0 : ℝ)) ∧
-    mk (fun n : ℕ => (1 : ℝ) * n) ≠ mk (fun n : ℕ => (0 : ℝ) * n) := by sorry
+/-- A surjective map detects equality of height classes (§0.5). -/
+theorem pullback_injective_of_surjective {Y : Type v} (f : X → Y)
+    (hf : Function.Surjective f) : Function.Injective (pullback f) := by sorry
 
-example : mk (fun n : ℕ => (n : ℝ) + 7) = mk (fun n : ℕ => (n : ℝ)) := by sorry
-example : mk (fun n : ℕ => (n : ℝ) + (-1 : ℝ)^n) =
-    mk (fun n : ℕ => (n : ℝ)) := by sorry
-example : mk (fun n : ℕ => 2 * (n : ℝ)) ≠ mk (fun n : ℕ => (n : ℝ)) := by sorry
-example [Finite X] (h : X → ℝ) : mk h = 0 := by sorry
-example : mk (fun n : ℕ => (n : ℝ) + 7) = mk (fun n : ℕ => (n : ℝ)) ∧
-    (fun n : ℕ => (n : ℝ) + 7) 0 ≠ (fun n : ℕ => (n : ℝ)) 0 := by sorry
+/-- A lower comparison transfers Northcott finiteness (§0.6). -/
+theorem northcott_of_le_add {h g : X → ℝ} (hh : Northcott h) (C : ℝ)
+    (hcomp : ∀ x, h x ≤ g x + C) : Northcott g := by sorry
 
-example : pullback (fun n : ℕ => 2 * n) (mk (fun n : ℕ => (n : ℝ))) =
-    2 • mk (fun n : ℕ => (n : ℝ)) := by sorry
-example {Y : Type v} {Z : Type w} (f : X → Y) (g : Y → Z) (h : Z → ℝ) :
-    pullback (g ∘ f) (mk h) = pullback f (pullback g (mk h)) := by sorry
-example : ¬ Function.Injective (pullback (fun _ : ℕ => (0 : ℕ))) := by sorry
-example : Function.Injective (pullback (Prod.fst : ℕ × ℕ → ℕ)) := by sorry
+/-- A bounded-error pullback preserves Northcott finiteness when its fibres are finite (§0.8). -/
+theorem northcott_of_pullback_eq {Y : Type v} (f : X → Y) [Filter.TendstoCofinite f]
+    {h : Y → ℝ} {g : X → ℝ} (hh : Northcott h) (H : mk g = pullback f (mk h)) :
+    Northcott g := by sorry
 
 end HeightClass
-
-example {X : Type u} {Y : Type v} (e : X ≃ Y) (H : HeightClass X) :
-    HeightClass.pullback e (HeightClass.pullback e.symm H) = H := by sorry
-
-example : Northcott (fun n : ℕ => (n : ℝ) + (-1 : ℝ)^n) := by sorry
-example : ¬ Northcott (fun _ : ℕ => (0 : ℝ)) := by sorry
-example : ¬ Northcott (fun n : ℕ => -(n : ℝ)) := by sorry
-example : Northcott (fun x : ℕ × Fin 2 => (x.1 : ℝ)) := by sorry
-example : ¬ Northcott (fun x : ℕ × ℕ => (x.1 : ℝ)) := by sorry
 
 /-- The Tate limit written as its telescoping series. Its convergence theorem assumes d > 1. -/
 def tateLimit {S : Type u} (φ : S → S) (d : ℝ) (f : S → ℝ) (s : S) : ℝ :=
@@ -110,62 +108,25 @@ theorem tateLimit_unique (hd : 1 < d) (hf : ∃ C, ∀ s, |f (φ s) - d * f s| �
     (hg : ∀ s, g (φ s) = d * g s) (hb : ∃ C, ∀ s, |g s - f s| ≤ C) :
     g = tateLimit φ d f := by sorry
 
+/-- Boundedly equal representatives have the same expanding limit (§0.18). -/
+theorem congr_bounded (hd : 1 < d) (hf : ∃ C, ∀ s, |f (φ s) - d * f s| ≤ C)
+    (g : S → ℝ) (hb : ∃ C, ∀ s, |g s - f s| ≤ C) :
+    tateLimit φ d g = tateLimit φ d f := by sorry
+
 end TateLimit
 
-example : tateLimit (fun n : ℕ => 2 * n) 2 (fun n => (n : ℝ)) =
-    fun n : ℕ => (n : ℝ) := by sorry
-example : tateLimit (id : ℕ → ℕ) 2 (fun _ => 1) = fun _ => 0 := by sorry
-example : |tateLimit (id : ℕ → ℕ) 2 (fun _ => 1) 0 - 1| = 1 := by sorry
-example {F : Type u} [Field F] [AdmissibleAbsValues F] [DecidableEq F]
+/-- The general Tate limit recovers the native elliptic height with the `(O)` normalization
+(§0.18 and the elliptic normalization convention). -/
+theorem tateLimit_elliptic {F : Type u} [Field F] [AdmissibleAbsValues F] [DecidableEq F]
     {W : WeierstrassCurve.Affine F} [W.IsElliptic] :
     tateLimit (fun P : W.Point => 2 • P) 4 (fun P => P.naiveHeight / 2) =
       fun P => P.canonicalHeight / 2 := by sorry
-
--- The expanding-factor hypothesis is necessary.
-example : ¬ ∃ l : ℝ, Filter.Tendsto (fun m : ℕ => (m : ℝ))
-    Filter.atTop (nhds l) := by sorry
 
 /-- A fixed-field linear coordinate change changes projective height by a bounded amount. -/
 theorem logHeight_linearChange_bounded (K : Type u) [Field K] [NumberField K]
     {n : ℕ} (T : (Fin (n + 1) → K) ≃ₗ[K] (Fin (n + 1) → K)) :
     ∃ C : ℝ, ∀ x : Fin (n + 1) → K, x ≠ 0 →
       |logHeight (T x) - logHeight x| ≤ C := by sorry
-
-example : Set.ncard {x : Projectivization ℚ (Fin 2 → ℚ) |
-    Projectivization.logHeight x ≤ Real.log 2} = 8 := by sorry
-
-example : Set.ncard {x : Projectivization ℚ (Fin 2 → ℚ) |
-    Projectivization.logHeight x = 0} = 4 := by sorry
-example (F : Type u) [Field F] : Nonempty (Projectivization F (Fin 1 → F)) ∧
-    Subsingleton (Projectivization F (Fin 1 → F)) := by sorry
-example (x : Fin 2 → ℚ) (hx : x ≠ 0) :
-    logHeight ![x 0 ^ 2, x 0 * x 1, x 1 ^ 2] = 2 * logHeight x := by sorry
-
--- The native height is the (2O)-height; its halved polar form is the unhalved (O)-pairing.
-#check WeierstrassCurve.Affine.neronTatePairing_apply
-
-example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
-    {W : WeierstrassCurve.Affine F} [W.IsElliptic] (P Q : W.Point) :
-    (P + Q).canonicalHeight / 2 - P.canonicalHeight / 2 - Q.canonicalHeight / 2 =
-      W.neronTatePairing P Q := by sorry
-
-example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
-    {W : WeierstrassCurve.Affine F} [W.IsElliptic] (P : W.Point) :
-    W.neronTatePairing P P = 2 * (P.canonicalHeight / 2) := by sorry
-
-example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
-    {W : WeierstrassCurve.Affine F} [W.IsElliptic] (P : W.Point) :
-    W.neronTatePairing 0 P = 0 := by sorry
-
-example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
-    {W : WeierstrassCurve.Affine F} [W.IsElliptic] :
-    (0 : W.Point).canonicalHeight / 2 = 0 := by sorry
-
-example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
-    {W : WeierstrassCurve.Affine F} [W.IsElliptic] (P : W.Point) :
-    (2 • P).canonicalHeight / 2 = 4 * (P.canonicalHeight / 2) := by sorry
-
-example : logHeight ![(2 : ℚ), 1] = Real.log 2 := by sorry
 
 /-! ## Layer 1: Mordell–Weil on native abelian-variety points -/
 
@@ -179,30 +140,20 @@ abbrev AbelianVariety.Points {K : Type u} [Field K]
 namespace AbelianVariety
 variable {K : Type u} [Field K] (A : TauCeti.AlgebraicGeometry.AbelianVariety K)
 
-example (P : Points A K) : (-P) + P = 0 := by simp
-example (P : Points A K) : 2 • P = P + P := by simp [two_nsmul]
-example (P : Points A K) : (0 : Points A K) + P = P := by simp
-
 /-- The native point-level multiplication kernel, with its number-field interface supplied by
 SelmerIwasawaCohomology §2.12a. -/
 def torsion (n : ℕ) (L : Type u) [Field L] [Algebra K L] : AddSubgroup (Points A L) :=
   (nsmulAddMonoidHom n : Points A L →+ Points A L).ker
 
-/-- Weak Mordell–Weil for a number field; n=0 is excluded. -/
+/-- Weak Mordell–Weil (§1.6): quotienting number-field points by a positive integer is finite. -/
 theorem finite_quotient_nsmul [NumberField K] (n : ℕ) (hn : 0 < n) :
     Finite (Points A K ⧸ (nsmulAddMonoidHom n : Points A K →+ Points A K).range) := by sorry
 
-/-- General abelian-variety Mordell–Weil over a number field. -/
+/-- Mordell–Weil (§1.7): the native point group of an abelian variety over a number field is
+finitely generated. -/
 theorem fg_points [NumberField K] : AddGroup.FG (Points A K) := by sorry
 
-example (L : Type u) [Field L] [Algebra K L] : torsion A 1 L = ⊥ := by sorry
-example (L : Type u) [Field L] [Algebra K L] : torsion A 0 L = ⊤ := by sorry
-
-example (L : Type u) [Field L] [Algebra K L] (P : Points A L) :
-    P ∈ torsion A 2 L ↔ P + P = 0 := by simp [torsion, two_nsmul]
-
 end AbelianVariety
-
 
 /-! ## Layer 2: adelic points -/
 
@@ -226,50 +177,32 @@ theorem discrete_closed_diagonal [Algebra.FiniteType K A] :
       fun x => (Algebra.ofId K (AdeleRing (𝓞 K) K)).comp x
     IsClosed (Set.range diag) ∧ DiscreteTopology (Set.range diag) := by sorry
 
+/-- Evaluation at the coordinate identifies affine-line adelic points with native adeles (§2.1). -/
+theorem adelicPoints_affineLine_homeomorph :
+    ∃ e : AdelicPoints K (Polynomial K) ≃ₜ AdeleRing (𝓞 K) K,
+      ∀ x, e x = (show Polynomial K →ₐ[K] AdeleRing (𝓞 K) K from x) Polynomial.X := by sorry
+
 end Adelic
-
-example (K : Type) [Field K] [NumberField K] : Subsingleton (AdelicPoints K K) := by sorry
-example : IsEmpty (AdelicPoints ℚ
-    (Polynomial ℚ ⧸ Ideal.span {(Polynomial.X ^ 2 + 1 : Polynomial ℚ)})) := by sorry
-
-example (K : Type) [Field K] [NumberField K] :
-    Nonempty (AdelicPoints K (Polynomial K)) := by sorry
-
-example (K : Type) [Field K] [NumberField K] :
-    ∃ e : AdelicPoints K (Polynomial K) ≃ₜ
-        NumberField.AdeleRing (NumberField.RingOfIntegers K) K,
-      ∀ x, e x = (show Polynomial K →ₐ[K]
-        NumberField.AdeleRing (NumberField.RingOfIntegers K) K from x) Polynomial.X := by sorry
-
-example (K : Type) [Field K] [NumberField K] (A : Type) [CommRing A]
-    [Algebra K A] (a : A) : Continuous (fun x : AdelicPoints K A =>
-      (AlgHom.toRingHom (show A →ₐ[K] NumberField.AdeleRing (NumberField.RingOfIntegers K) K from x)) a) := by sorry
-
-example : ((1 / 2 : ℚ) : AddCircle (1 : ℚ)) + (1 / 2 : ℚ) = 0 := by sorry
 
 /-! ## Layers 3–4: torsor descent, curve covers and integral points
 
-Torsors, descent sets, curve models and integral points need scheme-level carriers; they are
-README targets and are named in the closing comment.
+Torsors, descent sets, integral models and integral points use the geometric interfaces
+specified in the README and named in the closing comment.
 -/
-
 
 /-! ## Layer 5: finite rank and difference maps -/
 
 /-- Finite rational rank, without an assumption of finite generation. -/
 def HasFiniteRank (G : Type u) [AddCommGroup G] : Prop := FiniteDimensional ℚ (ℚ ⊗[ℤ] G)
 
-/-- Finite rank is equivalent to containment in a finitely generated division hull. -/
+/-- A finitely generated abelian group has finite rational rank (§5.5). -/
+theorem HasFiniteRank.of_fg {G : Type u} [AddCommGroup G] (hG : AddGroup.FG G) :
+    HasFiniteRank G := by sorry
+
+/-- Finite rank is equivalent to containment in a finitely generated division hull (§5.5). -/
 theorem finiteRank_iff_le_divisionHull {G : Type u} [AddCommGroup G] (Γ : AddSubgroup G) :
     HasFiniteRank Γ ↔ ∃ Γ₀ : AddSubgroup G, AddGroup.FG Γ₀ ∧ Γ₀ ≤ Γ ∧
       ∀ x ∈ Γ, ∃ N : ℕ, 0 < N ∧ N • x ∈ Γ₀ := by sorry
-
-example (r : ℕ) : HasFiniteRank (Fin r → ℤ) := by sorry
-example : HasFiniteRank ℚ ∧ ¬ AddGroup.FG ℚ := by sorry
-example : HasFiniteRank (ZMod 2) := by sorry
-example : HasFiniteRank (ℕ →₀ ZMod 2) ∧ ¬ AddGroup.FG (ℕ →₀ ZMod 2) := by sorry
-example : Finite (ZMod 2) ∧ Infinite (ℕ →₀ ZMod 2) := by sorry
-example : ¬ HasFiniteRank (ℕ →₀ ℤ) := by sorry
 
 /-- The point-level difference map (x₀,…,x_M) ↦ (x₁−x₀,…,x_M−x₀), with target G^M. -/
 def differenceMap {G : Type u} [AddCommGroup G] (M : ℕ) :
@@ -284,18 +217,14 @@ def differenceMap {G : Type u} [AddCommGroup G] (M : ℕ) :
     simp only [Pi.add_apply]
     abel
 
-example {G : Type u} [AddCommGroup G] (P Q : G) :
-    differenceMap 1 ![P, Q] 0 = Q - P := rfl
+/-- The difference map has exactly the diagonal as its kernel, including `M = 0` (§5.14). -/
+theorem differenceMap_eq_zero_iff {G : Type u} [AddCommGroup G] (M : ℕ)
+    (P : Fin (M + 1) → G) : differenceMap M P = 0 ↔ ∀ i, P i = P 0 := by sorry
 
-example {G : Type u} [AddCommGroup G] (M : ℕ) (P : Fin (M + 1) → G) :
-    differenceMap M P = 0 ↔ ∀ i, P i = P 0 := by sorry
-
-example {G : Type u} [AddCommGroup G] (P : Fin 1 → G) :
-    differenceMap 0 P = 0 := by sorry
-example : differenceMap 1 ![(2 : ℤ), 5] 0 = 3 := by rfl
-example {G : Type u} [AddCommGroup G] (P : G) :
-    differenceMap 2 ![0, P, 2 • P] = ![P, 2 • P] := by sorry
-
+/-- Simultaneously translating all points leaves their differences unchanged (§5.14). -/
+theorem differenceMap_translate {G : Type u} [AddCommGroup G] (M : ℕ)
+    (P : Fin (M + 1) → G) (a : G) :
+    differenceMap M (fun i => P i + a) = differenceMap M P := by sorry
 
 /-!
 ## Layer 6 and the definitions not stated here
@@ -303,8 +232,7 @@ example {G : Type u} [AddCommGroup G] (P : G) :
 The following README definitions need geometric or cohomological carriers beyond the native
 point groups and light carriers used above.
 
-Layer 0: the height-class API pullback_comp and pullback_injective_of_surjective;
-GeneralizedGlobalField, extension and polarization structures,
+Layer 0: GeneralizedGlobalField, extension and polarization structures,
 normalized geometric projective height; generated difference presentations; weilHeight;
 general neronTateHeight and neronTateForm; PointHeightMetricFamily, canonicalPointMetric,
 LocalWeilFunction and neronFunction; integral models and naive/canonical subvariety heights.
@@ -368,7 +296,7 @@ KodairaParshin covers, S-integral points and section jets. SubspaceTheorem §6.2
 NumberField.exists_finset_submodule_of_approxProd_le; §4.7a transports relative products
 and heights to their absolute versions with the same epsilon and projectivizes the result.
 
-Layer 5: HasFiniteRank.of_fg; IsCoset, IsTorsionCoset and IsTorsionSubvariety; scheme stabilizer,
+Layer 5: IsCoset, IsTorsionCoset and IsTorsionSubvariety; scheme stabilizer,
 generatedByDifferences, uenoLocus, cosetFreeOpen and orthogonalComplement;
 ConnectedDieudonneModule on the supplied DieudonneModule carrier, its covector/crystalline
 scalar and cotangent comparisons, and formalWeight with beta>0, gamma>=0 and the lattice
