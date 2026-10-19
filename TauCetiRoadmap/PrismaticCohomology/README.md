@@ -443,7 +443,15 @@ For `δ` rings `R,S` and a ring map `f:R→S`, if multiplication by `p` is injec
 
 (BS22, Remark 2.2 and Definition 2.1; p. 13.)
 
+`Delta.isDeltaMap_iff_frobenius` states this equivalence on the elementary structures.
+
 *Needs:* §§0.3, 0.5 and injectivity of multiplication by p on the target.
+
+**Checks.**
+
+- The canonical integer structure and the identity map satisfy both compatibilities.
+- The projection `Z⊕F_p·ε→Z` from §0.14 has p-torsion in its source; target injectivity suffices.
+- The identity between the distinct structures of §0.15 commutes with Frobenius and fails delta compatibility when the target has p-torsion.
 
 **Proof route.** Verify the integral polynomial identities universally, then specialize; cancel `p` only for the explicitly torsion-free reconstruction (BS22 §2, pp.13–16).
 
@@ -485,7 +493,15 @@ use the actual ideal and quotient ring.
 
 (BS22, Lemma 2.9; p. 15.)
 
+`Delta.quotient_structure_iff` includes uniqueness of the compatible quotient structure.
+
 *Needs:* §§0.1, 0.3 and Mathlib `Ideal.Quotient.mk`, `Ideal.Quotient.lift`.
+
+**Checks.**
+
+- `I=0` recovers the given delta structure.
+- `I=R` gives the unique structure on the zero ring.
+- For canonical delta on `Z`, `(p)` is Frobenius-stable but not delta-stable, since `δ(p)=1−p^(p−1)` is not in `(p)`; it gives no quotient delta structure.
 
 <a id="s0-10"></a>
 <a id="layer-0-square-zero-correction"></a>
@@ -572,11 +588,19 @@ The square-zero signatures use `Delta.squareZeroRightModule`, `Delta.squareZeroC
 
 For `λ` different from `μ` in `F_p`, the square-zero structures on `B` plus `F_p` differ but have the same associated lift. With `B=Z` the ring has characteristic zero; with `B=Z_(p)` it is p-local. Ordinary Frobenius data need not determine `δ`.
 
+`Delta.squareZero_sameFrobenius` states the dyadic integer witness with parameters 0 and 1: the operations differ on `ε`, their Frobenius maps agree everywhere, and the identity ring map is not delta-compatible.
+
 The base and scalar actions are those of Delta structures on a square-zero extension; `λ` and `μ` are distinct.
 
 (BS22, Remarks 2.2-2.3 and Example 2.6; square-zero witness; pp. 13, 14.)
 
 *Needs:* §§0.5, 0.14 and Mathlib `TrivSqZeroExt.inr_injective`.
+
+**Checks.**
+
+- On `Z⊕F₂·ε`, the parameters 0 and 1 give `δ₀(ε)=0` and `δ₁(ε)=ε≠0`.
+- Both associated Frobenius maps send `(a,b)` to `(a,0)`, so their equality does not detect the parameter.
+- The identity ring map between these structures is Frobenius-compatible and fails delta compatibility; with parameter 1, `φ(ε)=ε²=0` although `ε` is not rank one.
 
 **Proof route.** Verify the integral polynomial identities universally, then specialize; cancel `p` only for the explicitly torsion-free reconstruction (BS22 §2, pp.13–16).
 
@@ -613,6 +637,7 @@ no p-torsionfreeness hypothesis on `R`.
 - `Delta.wittSectionEquiv_apply`: The section has coordinates `(x,δ(x))`.
 - `Delta.wittSectionEquiv_symm_apply`: The inverse recovers coordinate one.
 - `Delta.wittSectionEquiv_ghost_one`: `s(x)_0^p+p*s(x)_1` equals `phi_delta(x)`.
+- `Delta.wittSection_equivalence`: Existence of this equivalence on the pinned length-two Witt carrier, with coordinate one equal to the specified delta operation.
 
 **Checks.**
 
@@ -705,6 +730,7 @@ Let `B` be an A-algebra carrying IsLocalization `S B` and let `i:A→B` be its a
 - `Delta.localize_algebraMap`: `delta_B(i(a))=i(delta_A(a))`; supplied by Compatibility with the localization map.
 - `Delta.localize_unique`: Every `δ` structure on `B` compatible with `i` equals localize; supplied by Uniqueness of localized `δ` data.
 - `Delta.localize_fraction`: For `z=a/s`, `i(s)^p`*i(phi(s))*`delta_B(z)=i(s)^p`*i(delta(a))-i(a)^p*`i(δ(s))`; supplied by Delta of a fraction.
+- `Delta.localization_structure`: Existence and uniqueness of the compatible structure on any `IsLocalization S B` model under the image-unit hypothesis.
 
 **Checks.**
 
@@ -961,7 +987,15 @@ I.FG is retained for the kernel-power equality and hence uniqueness among ALL co
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17; PIN-adic-complete, pow_smul_top_eq_ker_eval and isAdicComplete.)
 
+`Delta.completion_structure` states existence and uniqueness on the pinned `AdicCompletion I A` carrier.
+
 *Needs:* §§0.31, 0.35–0.38 and Mathlib `AdicCompletion.pow_smul_top_eq_ker_eval`, `AdicCompletion.isAdicComplete`, with I finitely generated.
+
+**Checks.**
+
+- `I=A` gives the zero completion with its unique delta structure.
+- For `A=Z⊕F₂·ε`, `I=(2)` and the parameter-1 structure of §0.14, completion retains the nonzero class `ε` and its delta value `ε`; no torsion-free hypothesis is available.
+- For `A=Z×Q`, canonical delta on both factors and `I=(p)`, completion kills the rational factor and gives `Z_p`; separation of `A` is not required.
 
 <a id="s0-40"></a>
 <a id="layer-0-frobenius-image-unit-jacobson"></a>
@@ -1195,9 +1229,17 @@ For a in A, the constructed `δ` operation on `A/C_d(I)` sends `q(a)` to `q(δ(a
 
 Let `B` be a `δ` ring and f:A to `B` a unital ring map commuting with `δ` and annihilating `I`. There exists a unique ring map `g:A/C_d(I)` to `B` extending `f` and commuting with the quotient `δ` operation. Its underlying map is the existing ordinary quotient lift.
 
+`Delta.quotientByIdealClosure_universal` supplies the quotient structure and this unique factorization on the ordinary ideal quotient.
+
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
 
 *Needs:* §§0.50–0.53 and Mathlib `Ideal.Quotient.lift`, `Ideal.Quotient.lift_mk`, `Ideal.Quotient.mk_surjective`, `Ideal.Quotient.ringHom_ext`.
+
+**Checks.**
+
+- For `I=0`, the factorization through the zero-ideal quotient recovers the original delta map.
+- For `I=(p)`, its delta closure is the unit ideal, so the universal quotient is zero; an annihilating delta map can only have a zero target.
+- For `f` equal to the universal quotient projection, its unique delta-compatible factor is the identity endomorphism of the quotient.
 
 **Proof route.** The `δ` product and sum laws make the ideal generated by all δ-iterates stable; minimality gives the quotient universal property (BS22 Lemma 2.9, p.15).
 
@@ -1219,9 +1261,12 @@ Extend the p-local free object of PerfectoidSpaces §P4.15.2 integrally: `Delta.
 - `Delta.Free`: The carrier `Z[x_{s,n}]` of the free δ-ring on `S`, a polynomial ring on `S × N`.
 - `Delta.freeDelta`: The δ-structure on Free `S`.
 - `Delta.freeDelta_X`: `δ(x_{s,n}) = x_{s,n+1}`.
+- `Delta.freeDelta_exists`: Existence of that structure on `MvPolynomial (S × ℕ) ℤ` with the specified successor-variable law.
+- `Delta.freeDelta_lift`: For a structure with that law, every family in a delta ring extends uniquely to a delta-compatible ring map.
 - `Delta.Free.lift`: For a δ-ring `R` and `f` : `S → R`, the ring map Free `S → R` with `x_{s,n} ↦ δ^n(f s)`.
 - `Delta.Free.lift_isDeltaHom`: lift `f` commutes with `δ`, and it is the unique δ-map sending `x_{s,0}` to `f s`.
 - `Delta.Free.frobenius_faithfullyFlat`: Free `S` is faithfully flat over itself along its Frobenius.
+- `Delta.freeDelta_frobenius_faithfullyFlat`: The same faithful flatness for a ring endomorphism with the associated-Frobenius formula on `MvPolynomial (S × ℕ) ℤ`.
 
 **Checks.**
 
@@ -1258,6 +1303,7 @@ rings are commutative. The δ-structure on `W(R)` is constructed by integral uni
 - `Delta.wittUnit_isDeltaHom`: `w_A` commutes with `δ`, also with p-torsion.
 - `Delta.wittUnit_counit`: Both unit–constantCoeff adjunction triangles.
 - `Delta.wittLift`: Unique lift `W(f)∘w_A` of `f:A→R`, giving `Hom_δ(A,W(R))≃Hom_Ring(A,R)`.
+- `Delta.witt_cofree`: Existence of the Witt delta structure with its Frobenius and the unique lift of every ordinary ring map into the coefficient ring.
 
 **Checks.**
 
@@ -1425,7 +1471,15 @@ A δ-ring A is perfect if `φ` is an isomorphism. The following categories are e
 
 (BS22, Definition 2.26, Remark 2.27, Corollary 2.31 with proof; p. 20.)
 
+`Delta.witt_structure_unique` states that `W(R)` for perfect characteristic-p `R` has exactly one delta structure, with the Witt Frobenius as its associated lift.
+
 *Needs:* §§0.6, 0.55–0.56, 0.64, Mathlib `PerfectRing`, `WittVector.frobenius_bijective`, `WittVector.isAdicCompleteIdealSpanP` and DerivedModuleAlgebra §§0.1–0.17, 0.25 for the complete-category comparison.
+
+**Checks.**
+
+- For `R=F_p`, the unique structure on `W(R)=Z_p` has identity Frobenius.
+- For `R=F_p[t^(1/p^∞)]`, the structure on `W(R)` has bijective Witt Frobenius and reduction `R`; the statement is not restricted to fields.
+- The perfect delta ring `Q` with identity Frobenius is not p-adically complete: `Q/p=0`, so reduction and Witt reconstruction cannot recover it without the completeness hypothesis.
 
 <a id="s0-66"></a>
 <a id="layer-0-rank-one-elements"></a>
