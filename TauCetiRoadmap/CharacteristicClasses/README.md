@@ -198,11 +198,43 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
 
 ## C1. Universal principal bundles and cohomology infrastructure
 
+**C1.0. Metric frames before classification.** From TopK T1's finite-rank
+continuous vector bundles, local frames and continuous positive metrics,
+construct the orthonormal frame principal O(n) bundle by Gram–Schmidt.
+For a supplied orientation and n≥1, construct its positively oriented SO(n)
+principal subbundle; for complex Hermitian bundles construct the unitary U(n)
+frame bundle. Prove continuity, local chart/trivialization and division equations,
+freeness and transitivity on each fibre, reconstruction of the vector bundle as
+the associated standard module, and naturality under metric isometries and
+pullback. The smooth versions consume SBC B2's native frame and metric
+interfaces. Use the designated operator-norm matrix Lie topology and its proved
+identity homeomorphism to the default finite-dimensional matrix topology.
+These constructions precede universal joins, BSO classification, characteristic
+rings and the w₂ obstruction.
+
+For metrics h₀,h₁, construct the positive h₀-self-adjoint H defined by
+h₁(u,v)=h₀(Hu,v). Its inverse square root carries an h₀-orthonormal frame
+to an h₁-orthonormal frame. Prove chart independence, continuous and smooth
+parameter dependence, the inverse transport, and homotopy compatibility.
+Use the native finite-dimensional spectral/CFC square root pointwise; for
+smooth dependence invert the Sylvester derivative
+K↦H^(1/2)K+KH^(1/2), whose eigenvalue sums are positive.
+Prove the actual composition comparison for metric changes; the square-root
+maps for noncommuting metric changes need not compose literally.
+For rank0 use the singleton zero-frame carrier and retain the orientation sign
+as separate data. For variable rank work on the clopen rank strata.
+For n≥1 identify the determinant-sign orientation double cover with the frame
+quotient by SO(n), prove its local two-sheet description independently of a
+universal classifier, and compare its chart signs with DG's tangent orientation
+cover and with a supplied orientation. C1.1a consumes this metric-independent
+cover; C1.1b owns its later universal-bundle comparison and classification,
+and C3.5 owns the separate universal Spin obstruction.
+
 1. **C1.1a. Finite oriented-cover precursor.** Before TopK T1.6,
-   use TopK T1's vector-bundle atlases and T1.5's finite Stiefel quotients to
-   construct the determinant-sign orientation double cover, independent
-   of the metric, with pullback, direct-sum and cover-section comparisons
-   and its path-transport sign local system. Identify orientation forgetting
+   consume C1.0's single determinant-sign orientation double cover and its
+   metric independence. Construct its direct-sum and cover-section comparisons
+   and path-transport sign local system using TopK T1's vector-bundle atlases
+   and T1.5's finite Stiefel quotients. Identify orientation forgetting
    on HomotopySpheres' positive-rank finite oriented Grassmannians with this cover of
    TopK's tautological bundle. Consume T1.5's finite Schubert cells, append-last
    ambient Fin.castSucc inclusions and V↦ℝe₀⊕shift(V) rank maps, with the new
@@ -238,9 +270,9 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
    products and subgroup-associated fibrations. For finite discrete G compare the weak-topology model of
    #437 and the O/U/SO Grassmannian models of TopologicalKTheory T1/HomotopySpheres §4A by the universal bundle
    maps, including finite-rank and stable inclusions and orientation forgetting.
-   Construct continuous orthonormal/unitary frame principal bundles from
-   TopK's metrics and local frames, with Gram–Schmidt charts and the comparison
-   to pulled-back universal Stiefel bundles. Consume C1.1a's orientation
+   Consume C1.0's continuous orthonormal/unitary frame principal bundles
+   and Gram–Schmidt charts. Construct their comparison with pulled-back
+   universal Stiefel bundles. Consume C1.1a's orientation
    cover and TopK T1.6's fixed-rank BSO(n), stable BSO carrier and
    oriented classifier comparison. Prove the numerable SO join/Grassmannian
    universal-bundle comparison, finite-rank and stable inclusions,
@@ -268,19 +300,19 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
 
    **C1.2a. Compact-relative support foundations.** These constructions precede bundle classification, Thom theory and manifold duality.
 
-   **S0 (diagram and colimit).** For locally compact Hausdorff X, closed A⊂X and commutative R, construct K↦C_sing^*(X,A∪(X\K);R) on actual compact subsets ordered by inclusion. Define its degreewise filtered colimit and prove H^n of that complex is colim_K H^n(X,A∪(X\K);R), using exact filtered ModuleCat colimits.
+   **S0 (diagram and colimit).** For locally compact Hausdorff X, closed A subset X, commutative R and an arbitrary module-valued local system L on X, consume AT6.1's single local-coefficient singular cochain complex, its actual path transport and restriction maps. There is no finite-rank, projectivity, freeness or field assumption on the fibres. A degree-n cochain assigns each singular n-simplex an element of the designated first-vertex fibre, with the differential and edge transport fixed by AT6.1. Use that same convention in every construction below. Define C_K^*(X,A;L)=C_sing^*(X,A union (X\K);L), the subcomplex of cochains vanishing on simplices in that relative subspace, on actual compact K ordered by inclusion. Construct its degreewise filtered colimit C_c^*(X,A;L) and prove H^n of this complex is colim_K H^n(X,A union (X\K);L), using exact filtered ModuleCat R colimits. Define H_c^n from this one object. Constant L=R recovers the earlier constant-coefficient object naturally; do not create a second cohomology theory. Export naturality under morphisms of local systems and ordinary relative cochain restriction along maps of pairs. Pullback on compactly supported cohomology uses S3's properness hypotheses; open inclusions use its extension map.
 
-   **S1 (enlargement).** For K⊆L, support enlargement C_K→C_L is the contravariant identity pair map. Export the structure maps and their identity/composition laws.
+   **S1 (enlargement).** For K subset L_compact, construct C_K^*(X,A;L) -> C_L_compact^*(X,A;L) as the contravariant identity pair map with the unchanged local system. Export the actual structure maps, identity/composition laws, and commutation with local-system morphisms. Distinguish the compact set L_compact from the coefficient system L. No coefficient fibre is dualized or assumed finite.
 
-   **S2 (cofinality).** Prove cofinal-family comparison and common-refinement independence; use a countable exhaustion only with proved cofinality.
+   **S2 (cofinality).** Prove cofinal-family comparison and common-refinement independence for the actual compact-relative diagram with any module-valued local system L; the maps are those of S1. Use a countable exhaustion only with proved cofinality. Prove compatibility of this comparison with local-system morphisms, proper pullback and the constant-system specialization.
 
-   **S3 (proper pullback and open extension).** For a proper map of closed pairs, pull target compact K to f⁻¹K and construct proper pullback, functoriality and coefficient compatibility. Construct open extension by inverse relative excision, retaining mixed-support product hypotheses from AT6.2.
+   **S3 (proper pullback and open extension).** For a proper map of closed pairs f:(X,A)->(Y,B), local system L_Y and coefficient morphism alpha:f^*L_Y -> L_X, pull compact K subset Y to f^(-1)K and construct the AT6.1 cochain pullback followed by alpha. It induces the compact-relative and filtered-colimit pullbacks. Prove identities, composition with the composed coefficient morphism, and coefficient-change compatibility. For an open inclusion j:V->X use the same restricted local system and relative local-coefficient excision on compact supports inside V to construct extension H_c^*(V;L|V)->H_c^*(X;L). Bind its chain-level representatives/derived inverse to the chosen excision comparison and prove independence and composition, rather than assert a strict inverse to an arbitrary cochain quasi-isomorphism. Construct supported cup and mixed-support maps with coefficient pairing L tensor L' -> L'', using AT6.2's actual transport and support hypotheses, before the later cap-duality comparisons. Do not assume closed-pair excision without the S5 condition.
 
-   **S4 (jointly proper homotopy invariance).** For H:I×X→Y between closed pairs (X,A),(Y,B), require H(I×A)⊆B and joint properness. Use the single compact projection of H⁻¹K to obtain the relative cochain homotopy after support enlargement. Properness of separate slices alone is insufficient.
+   **S4 (jointly proper homotopy invariance).** For H:I times X -> Y between closed pairs (X,A),(Y,B), require H(I times A) subset B and JOINT properness. For a target local system L_Y construct the actual local system H^*L_Y on I times X; identify the endpoint pullback systems by its canonical transport along t -> H(t,x). Prove its naturality in x using AT6.1's homotopy transport. The cochain prism with those coefficient transports gives the homotopy between the two pullbacks AFTER this identification. For compact K subset Y use the single compact projection P_K=pr_X(H^(-1)K) to enlarge source support; the entire prism lies outside K when its source lies outside P_K. Pass to the filtered colimit and prove the induced cohomology equality. For a further coefficient morphism require compatibility over the whole pulled-back homotopy system; unrelated endpoint morphisms do not yield equality. Properness of separate slices alone is insufficient. For a homotopy fixed on A the restricted transport is the identity and the same prism proves the relative assertion.
 
-   **S5 (support excision and the pair triangle).** For closed pairs define the filtered union-relative to sum-subcomplex-relative
+   **S5 (support excision and the pair triangle).** For closed pairs and an arbitrary module-valued local system L on X define the filtered union-relative to sum-subcomplex-relative
    comparison
-   colim_K C^*(X,A∪(X\K);R) → colim_K C^*(X,A+(X\K);R),
+   colim_K C^*(X,A∪(X\K);L) → colim_K C^*(X,A+(X\K);L),
    induced contravariantly by C_*(A)+C_*(X\K)→C_*(A∪(X\K)). Here `+` is
    the sum of singular subcomplexes. Define a pair as support-excisive when
    this filtered comparison is a quasi-isomorphism. Prove that every closed
@@ -299,9 +331,19 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
    {c(A×[0,r0))∩(A∪(X\L)), X\L} to obtain the small-chain comparison.
    The prism homotopy identifies Q_L→Q_K with h_1 on these small chains;
    h_1 sends their collar part into A and kills the quotient. Thus Q_L→Q_K
-   is null-homotopic. Dualize these free quotient complexes and take exact
-   filtered colimits to prove the displayed support comparison is a
-   quasi-isomorphism. This generic theorem does not depend on AT8.5.
+   is null-homotopic in the constant-chain model. For the arbitrary local
+   system L, carry the SAME subdivision, small-chain and prism operators
+   through AT6.1's coefficient transports on each simplex. Prove their
+   identities with the first-vertex convention; use the canonical transport
+   along h to compare endpoint pullback systems as in S4. The resulting
+   local-coefficient cochain homotopies, after compact support enlargement,
+   prove the filtered comparison is a quasi-isomorphism. Cochain restriction
+   to the sum model is degreewise a coordinate projection on simplex fibres;
+   extension by zero on complementary simplex coordinates gives the required
+   degreewise splitting. This argument uses neither exactness of dualizing
+   arbitrary modules nor an identification of L with its dual. The constant
+   R case agrees with the free-chain dual argument. Take exact filtered
+   colimits of ModuleCat R complexes. This generic theorem does not depend on AT8.5.
    For proper f:X→Y between locally compact Hausdorff spaces, construct the
    AT4.5 mapping cylinder M_f as locally compact Hausdorff, with bottom
    collar c(x,u)=[x,u] an open embedding and the indicated closed strip.
@@ -314,10 +356,22 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
    so G is jointly proper. The full cylinder slide used for the proper
    homotopy is a different map and is not being used as the collar pusher.
    Use (C_*(A)+C_*(X\K))/C_*(X\K)≅C_*(A)/C_*(A\K) for the
-   degreewise-split sum-model sequence. Compact K∩A are cofinal among compact
-   supports in A. After exact filtered colimits and support excision, obtain
-   the supported relative cochain triangle with Cone(restriction)[−1], its
-   natural pair exact sequence and connecting signs. An arbitrary closed pair is not declared excisive merely
+   degreewise-split sum-model sequence in the constant case. For L use
+   the degreewise split local-cochain sequence
+   0 -> C^*(X,A+(X\K);L) -> C^*(X,X\K;L)
+     -> C^*(A,A\(K intersect A);L|A) -> 0,
+   with restriction as its last map; prove exactness directly on simplex
+   fibre coordinates and prove that it commutes with the local differential.
+   The degreewise splitting is not asserted to be a cochain splitting.
+   Compact K∩A are cofinal among compact supports in A. After exact filtered
+   colimits and support excision, obtain the supported relative cochain
+   triangle C_c^*(X,A;L) -> C_c^*(X;L) -> C_c^*(A;L|A), identifying its
+   first term with Cone(restriction)[−1], its natural pair exact sequence
+   and AT6.1's connecting signs. Prove naturality under proper closed-pair
+   maps with coefficient morphisms, including the homotopy transports of S4.
+   Specialize to the orientation local system and all tensor-twisted module
+   systems used by AffineMorseLefschetz A4.0's four cap dualities, without
+   changing that stage's single supported carrier or its integer grading. An arbitrary closed pair is not declared excisive merely
    by being closed. AT's supported cellular comparison specializes this support
    object to locally finite CW pairs; it is not an input to this generic
    definition or collared-pair proof. These foundations consume AT2–4 and
@@ -597,9 +651,12 @@ AT8.1's relative-cell connectivity and transport theorem.
    general-position perturbations. Use DG10.2's manifold Sard theorem to
    prove the finite-parameter transversality statements for these perturbations
    on the tangent sphere and off-diagonal pair space. Supply countable
-   avoidance/approximation on the compact exhaustion; prove convergence in
-   GT Layer3's smooth topology, persistence of immersion and pairwise
-   separation on each compact stage. Construct a smooth proper exhaustion
+   avoidance/approximation on the compact exhaustion. Use GT Layer1's weak
+   (compact-open C∞) topology on native `ContMDiffMap` carriers E→ℝ^N,
+   with its uniform compact derivative controls of every finite order.
+   Prove convergence to a smooth limit and persistence of immersion and
+   pairwise separation on each compact stage. Use Layer3's compact-source
+   comparison only for compact sources. Construct a smooth proper exhaustion
    and append it as one coordinate to make the embedding proper. Prove the
    graph remains proper over the base and admits a fibrewise tube.
    Define the intermediate cohomology with supports proper over the base.
