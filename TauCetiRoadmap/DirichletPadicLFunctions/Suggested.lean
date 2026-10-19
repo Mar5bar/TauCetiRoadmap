@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
+import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.ModularForms.EisensteinSeries.Normalized
 import TauCetiRoadmap.PadicMeasuresIwasawaAlgebras.Suggested
 
@@ -21,7 +22,7 @@ hypotheses stated in the roadmap.
 noncomputable section
 
 open scoped BigOperators Topology AbstractMeasure PowerSeries
-open Filter
+open Filter ValuativeRel
 
 namespace TauCetiRoadmap.DirichletPadicLFunctions
 
@@ -254,13 +255,13 @@ theorem existsUnique_moritaGamma (p : ℕ) [Fact p.Prime] :
         (moritaNaturalValue p n : ℤ_[p]) := by
   sorry
 
-/-- The native finite-field Gauss sum equals the signed Gamma orbit product in the Gross–Koblitz normalization. -/
+/-- The Gauss sum on a local field’s residue field, using its canonical Teichmüller lift,
+equals the signed Gamma orbit product in the Gross–Koblitz normalization. -/
 theorem grossKoblitz_formula (p f : ℕ) [Fact p.Prime] (hf : 0 < f)
-    {F : Type*} [Field F] [Fintype F] [DecidableEq F] [Algebra (ZMod p) F] (hcard : Fintype.card F = p ^ f)
-    {E : Type*} [NormedField E] [NormedAlgebra ℚ_[p] E] [FiniteDimensional ℚ_[p] E]
-    (O : ValuationSubring E) (hO : ∀ x : E, x ∈ O ↔ ‖x‖ ≤ 1)
-    (res : O →+* F) (hres : ∀ x : O, res x = 0 ↔ ‖(x : E)‖ < 1)
-    (ω : Fˣ →* Oˣ) (hω : ∀ x : Fˣ, res (ω x : O) = (x : F))
+    {E : Type*} [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] [Algebra ℚ_[p] E]
+    [Fintype 𝓀[E]] [DecidableEq 𝓀[E]] [Algebra (ZMod p) 𝓀[E]]
+    (hcard : Fintype.card 𝓀[E] = p ^ f)
     {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
     (σ : E →ₐ[ℚ_[p]] K) (ζ π : K) (hζ : IsPrimitiveRoot ζ p)
     (hπ : π ^ (p - 1) = -(p : K)) (hπζ : ‖π - (ζ - 1)‖ ≤ ‖ζ - 1‖ ^ 2)
@@ -268,8 +269,8 @@ theorem grossKoblitz_formula (p f : ℕ) [Fact p.Prime] (hf : 0 < f)
     (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[p]) : ℤ_[p]) = (moritaNaturalValue p n : ℤ_[p]))
     (den : (ℤ_[p])ˣ) (hden : (den : ℤ_[p]) = (p ^ f - 1 : ℕ))
     (a : ℕ) (ha : a < p ^ f - 1) :
-    -(∑ x : Fˣ, (σ ((ω x : O) : E)) ^ (-(a : ℤ)) *
-      ζ ^ (Algebra.trace (ZMod p) F (x : F)).val) =
+    -(∑ x : 𝓀[E]ˣ, (σ (TauCeti.teichmullerLift E (x : 𝓀[E]) : E)) ^ (-(a : ℤ)) *
+      ζ ^ (Algebra.trace (ZMod p) 𝓀[E] (x : 𝓀[E])).val) =
       π ^ grossKoblitzDigitSum p a f *
         ∏ j ∈ Finset.range f,
           algebraMap ℚ_[p] K
@@ -952,23 +953,21 @@ theorem dworkSplittingSeries_coeff {K : Type*} [Field K] [Algebra ℚ K]
         π * (F.coeff (n - 1) - (q : K) * F.coeff (n - q))) := by
   sorry
 
-/-- The convergent Dwork series evaluates at the finite-field Teichmüller lifts to the
-additive trace character with the root fixed by the linear-term normalization. -/
+/-- The Dwork series at a local field’s canonical Teichmüller lift converges to the
+additive residue-field trace character, with its root fixed by the linear term. -/
 theorem dworkSplittingSeries_traceCharacter (p f : ℕ) [Fact p.Prime] (hf : 0 < f)
-    {F : Type*} [Field F] [Fintype F] [Algebra (ZMod p) F] (hcard : Fintype.card F = p ^ f)
-    {E : Type*} [NormedField E] [NormedAlgebra ℚ_[p] E] [FiniteDimensional ℚ_[p] E]
-    (O : ValuationSubring E) (hO : ∀ x : E, x ∈ O ↔ ‖x‖ ≤ 1)
-    (res : O →+* F) (hres : ∀ x : O, res x = 0 ↔ ‖(x : E)‖ < 1)
-    (ω : Fˣ →* Oˣ) (hω : ∀ x : Fˣ, res (ω x : O) = (x : F))
+    {E : Type*} [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] [Algebra ℚ_[p] E]
+    [Fintype 𝓀[E]] [Algebra (ZMod p) 𝓀[E]] (hcard : Fintype.card 𝓀[E] = p ^ f)
     {K : Type*} [NormedField K] [NormedAlgebra ℚ_[p] K] [CompleteSpace K]
     [Algebra ℚ K] [IsScalarTower ℚ ℚ_[p] K]
     (σ : E →ₐ[ℚ_[p]] K) (ζ π : K) (hζ : IsPrimitiveRoot ζ p)
     (hπ : π ^ (p - 1) = -(p : K)) (hπζ : ‖π - (ζ - 1)‖ ≤ ‖ζ - 1‖ ^ 2)
-    (x : Fˣ) :
+    (x : 𝓀[E]ˣ) :
     let Θ : PowerSeries K := PowerSeries.subst
       (PowerSeries.C π * (PowerSeries.X - PowerSeries.X ^ (p ^ f))) (PowerSeries.exp K)
-    HasSum (fun n : ℕ => Θ.coeff n * (σ ((ω x : O) : E)) ^ n)
-      (ζ ^ (Algebra.trace (ZMod p) F (x : F)).val) := by
+    HasSum (fun n : ℕ => Θ.coeff n * (σ (TauCeti.teichmullerLift E (x : 𝓀[E]) : E)) ^ n)
+      (ζ ^ (Algebra.trace (ZMod p) 𝓀[E] (x : 𝓀[E])).val) := by
   sorry
 
 /-- Robert's continuous Gamma product is the limit of the normalized factorial quotients
@@ -1158,29 +1157,6 @@ theorem fullEisensteinAwaySeries_interpolation (p : ℕ) [Fact p.Prime]
           else (eisensteinPositiveMoment p n e : ℚ_[p]))) := by
   sorry
 
-/-- The doubled tame family's integral scalar multiples are characterized by all-test
-bounds: level one detects `2s`, and every higher tame level detects `s`, including principal
-and imprimitive characters and the dyadic prime. -/
-theorem tame_scalar_integral_iff (p : ℕ) [Fact p.Prime]
-    {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-    [CharZero K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [ContinuousSMul ℤ_[p] K]
-    {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hD : IsUnit (D : K))
-    (hDp : D.Coprime p) (hDnorm : ‖(D : K)‖ = 1) (hη : ∀ d, ‖η d‖ ≤ 1)
-    (μ : AbstractMeasure ℤ_[p] K K) (hμ : μ.amiceTransform = tameSeries η hD)
-    (units : ∀ d : ℕ, ¬p ∣ d → (ℤ_[p])ˣ)
-    (hunits : ∀ d hd, (units d hd : ℤ_[p]) = d)
-    (G : ℕ → AbstractMeasure (ℤ_[p])ˣ K K)
-    (hGzero : AbstractMeasure.map
-      ⟨fun u : (ℤ_[p])ˣ => (u : ℤ_[p]), by fun_prop⟩ (G 0) =
-        AbstractMeasure.weight (1 - AbstractMeasure.pMultiplesIndicator p K) μ)
-    (hGpos : ∀ n : ℕ, 0 < n → ∀ f : C((ℤ_[p])ˣ, K),
-      G n f = 2 * ∑ d ∈ n.divisors,
-        if hd : ¬p ∣ d then η d * f (units d hd) else 0)
-    (s : K) :
-    (∀ n : ℕ, ∀ f : C((ℤ_[p])ˣ, K), ‖s * G n f‖ ≤ ‖f‖) ↔
-      if D = 1 then ‖2 * s‖ ≤ 1 else ‖s‖ ≤ 1 := by
-  sorry
-
 /-- The normalized character Eisenstein form has the arithmetic generalized Bernoulli constant. -/
 theorem characterEisenstein_constant {u v N k : ℕ} [NeZero u] [NeZero v] [NeZero N]
     (ψ : DirichletCharacter ℂ u) (φ : DirichletCharacter ℂ v)
@@ -1250,6 +1226,7 @@ clearedEisensteinSeries, clearedEisensteinEvaluation, twistedPositiveEisensteinM
 integralTwistedPositiveEisensteinMeasure, twistedPositiveEisensteinFinite,
 twistedPositiveEisensteinSeriesMeasure, doubledTameEisensteinSeriesMeasure,
 normalizedTameEisensteinSeriesMeasure, dyadicTameQuadraticReference,
+the scalar-integrality criterion for the doubled tame family,
 principalTameEisensteinSeries and the full classical comparisons.
 
 Further API targets specified in the README:
