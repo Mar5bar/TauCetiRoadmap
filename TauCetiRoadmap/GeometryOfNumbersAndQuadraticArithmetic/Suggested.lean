@@ -6,16 +6,13 @@ import TauCeti.LinearAlgebra.IntegralLattice.Even
 import TauCeti.LinearAlgebra.IntegralLattice.Scaling
 import TauCeti.LinearAlgebra.IntegralLattice.Orthogonal.Sum
 import TauCeti.NumberTheory.HurwitzClassNumber
-import TauCeti.Algebra.Category.FGModuleCat.Basic
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 import TauCeti.CategoryTheory.InvolutiveDual
-import TauCeti.CategoryTheory.Exact.Split
 import TauCeti.CategoryTheory.Exact.Functor
 import TauCeti.CategoryTheory.Exact.Opposite
-import TauCeti.CategoryTheory.DG.HomComplexData
+import TauCeti.CategoryTheory.DG.Basic
 import TauCeti.CategoryTheory.DG.Functor
 import TauCeti.CategoryTheory.DG.Opposite.Basic
-import TauCeti.CategoryTheory.DG.CochainComplex
 
 /-!
 # Geometry of numbers and quadratic arithmetic: target signatures
@@ -96,20 +93,6 @@ theorem hermitian_gram_hadamard (v : Fin n → E) :
 
 end Gram
 
--- The Gram matrix is conjugate-linear in the first argument: the family `(1, i)` in `ℂ` has Gram
--- matrix `[[1, i], [-i, 1]]` and determinant `0`. The unconjugated matrix `[[1, i], [i, -1]]` also
--- has determinant `0`, so this family does not test conjugation.
-example : (Matrix.gram ℂ (![1, Complex.I] : Fin 2 → ℂ)).det = 0 := by sorry
-
--- Conjugation is what makes the Gram determinant nonnegative: the single vector `i` has Gram
--- determinant `1`, whereas its unconjugated bilinear Gram determinant `i * i` is `-1`.
-example : (Matrix.gram ℂ (![Complex.I] : Fin 1 → ℂ)).det = 1 ∧
-    (Matrix.of fun i j : Fin 1 =>
-      (![Complex.I] : Fin 1 → ℂ) i * (![Complex.I] : Fin 1 → ℂ) j).det = -1 := by
-  constructor
-  · simp [Matrix.det_unique, Matrix.gram_apply]
-  · simp [Matrix.det_unique]
-
 section Orthogonal
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
 
@@ -159,27 +142,6 @@ theorem primitive_orthogonal_covolume
 
 end Orthogonal
 
-section OrthogonalTests
-local notation "V2" => EuclideanSpace ℝ (Fin 2)
-local notation "udiag" => (WithLp.toLp 2 (![1,1] : Fin 2 → ℝ))
-local notation "Wdiag" => (Submodule.span ℝ ({udiag} : Set V2))
-local notation "Z2" =>
-  (Submodule.span ℤ (Set.range (OrthonormalBasis.toBasis (EuclideanSpace.basisFun (Fin 2) ℝ))))
-
--- Projecting `ℤ²` off the diagonal gives intrinsic covolume `1/√2`.
-example : ZLattice.covolume ((Z2).map
-    (Wdiagᗮ.orthogonalProjectionOnto.toLinearMap.restrictScalars ℤ)) = (Real.sqrt 2)⁻¹ := by sorry
-
--- The diagonal and antidiagonal primitive intersections of `ℤ²` both have covolume `√2`.
-example : ZLattice.covolume (ZLattice.comap ℝ Z2 (Wdiag).subtype) = Real.sqrt 2 ∧
-    ZLattice.covolume (ZLattice.comap ℝ Z2 Wdiagᗮ.subtype) = Real.sqrt 2 := by sorry
-
--- Negative control: the ambient inner dual of the zero subgroup of `ℝ` is all of `ℝ`, not a
--- lattice; a lower-rank lattice must be dualized inside its own span.
-example : LinearMap.BilinForm.dualSubmodule (innerₗ ℝ) (⊥ : Submodule ℤ ℝ) = ⊤ := by sorry
-
-end OrthogonalTests
-
 /-! ## Layer 1: Convex bodies, successive minima and Minkowski's theorems -/
 
 section ElementaryBounds
@@ -196,9 +158,6 @@ theorem intrinsic_ball_lower_bound
     [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
     {n : ℕ} (b : OrthonormalBasis (Fin n) ℝ E) (hn : 0 < n) :
     ENNReal.ofReal ((2 / Real.sqrt n) ^ n) ≤ volume (Metric.closedBall (0 : E) 1) := by sorry
-
--- Negative control for the ordering hypothesis: `(4, 1)` has `4² > 4·1`.
-example : ¬ (4 : ℝ) ^ 2 ≤ ∏ j : Fin 2, (![4, 1] : Fin 2 → ℝ) j := by sorry
 
 end ElementaryBounds
 
@@ -224,34 +183,6 @@ theorem IsPosSemidef.exists_linearIndependent_integralNorm_eq_successiveMinimum
     {L : TauCeti.IntegralLattice V} (hL : L.IsPosSemidef) :
     ∃ v : Fin (finrank ℤ L) → L, LinearIndependent ℤ v ∧
       ∀ i, L.integralNorm (v i) = (L.successiveMinimum i : ℤ) := by sorry
-
--- Thresholds for `[4]` distinguish the squared norm from its square root.
-example :
-    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 1))
-      (Matrix.diagonal ![4] : Matrix (Fin 1) (Fin 1) ℤ) (by sorry)
-    ∃ i : Fin (finrank ℤ L), L.successiveMinimum i = 4 ∧
-      ¬ L.successiveMinimum i ≤ 3 ∧ L.successiveMinimum i ≤ 4 := by sorry
-
--- The two ordered thresholds are simultaneous, including a semidefinite zero minimum.
-example :
-    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 2))
-      (Matrix.diagonal ![1, 4] : Matrix (Fin 2) (Fin 2) ℤ) (by sorry)
-    ∃ e : Fin 2 ≃ Fin (finrank ℤ L), ∀ i, L.successiveMinimum (e i) = ![1, 4] i := by sorry
-example :
-    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 2))
-      (Matrix.diagonal ![0, 4] : Matrix (Fin 2) (Fin 2) ℤ) (by sorry)
-    ∃ e : Fin 2 ≃ Fin (finrank ℤ L), ∀ i, L.successiveMinimum (e i) = ![0, 4] i := by sorry
-example {L : TauCeti.IntegralLattice V} [Subsingleton L] :
-    IsEmpty (Fin (finrank ℤ L)) ∧
-      ∃ v : Fin (finrank ℤ L) → L, LinearIndependent ℤ v := by sorry
-
--- Without semidefiniteness, the natural threshold can be zero without norm-equality attainment.
-example :
-    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 1))
-      (Matrix.diagonal ![-1] : Matrix (Fin 1) (Fin 1) ℤ) (by sorry)
-    ∃ i : Fin (finrank ℤ L), L.successiveMinimum i = 0 ∧
-      (∃ v : Fin 1 → L, LinearIndependent ℤ v ∧ ∀ j, L.integralNorm (v j) ≤ 0) ∧
-      ¬ ∃ x : L, x ≠ 0 ∧ L.integralNorm x = 0 := by sorry
 
 end TauCeti.IntegralLattice
 
@@ -305,10 +236,6 @@ example (L : Submodule ℤ E) (K : ConvexBody E) (n i : ℕ)
 example (L : Submodule ℤ E) (K : ConvexBody E) :
     successiveMinNat L K (finrank ℝ E) = 0 :=
   successiveMinNat_of_le L K _ le_rfl
-
-example (L : Submodule ℤ E) (K : ConvexBody E) (hdim : finrank ℝ E = 0) (i : ℕ) :
-    successiveMinNat L K i = 0 :=
-  successiveMinNat_of_le L K i (by omega)
 
 variable [FiniteDimensional ℝ E]
 
@@ -444,60 +371,6 @@ theorem minkowski_linear_forms {n : ℕ} (hn : 0 < n)
     (a : Fin n → ℝ) (ha : ∀ i, 0 < a i) (hprod : |A.det| ≤ ∏ i, a i) :
     ∃ z : Fin n → ℤ, z ≠ 0 ∧ ∀ i, |∑ j, A i j * (z j : ℝ)| ≤ a i := by sorry
 
-section MinimaTests
-
--- `λ_0(ℤ, [-2, 2]) = 1/2`.
-example (K : ConvexBody ℝ) (hK : (K : Set ℝ) = Set.Icc (-2) 2) :
-    successiveMin (Submodule.span ℤ {(1 : ℝ)}) K ⟨0, by simp⟩ = 1/2 := by sorry
-
--- The README's rectangle `K₂₃` has minima `(2, 3)`, attained along `e₀, e₁`.
-example (K23 : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK23 : (K23 : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/2 ∧ |x 1| ≤ 1/3}) :
-    successiveMin (Submodule.span ℤ
-      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K23 ⟨0, by simp⟩ = 2 ∧
-    successiveMin (Submodule.span ℤ
-      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K23 ⟨1, by simp⟩ = 3 := by sorry
-
--- Outside `ℝe₀`, `K₂₃` has least lattice gauge `3`, attained by `e₁`.
-example (K23 : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK23 : (K23 : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/2 ∧ |x 1| ≤ 1/3}) :
-    gauge (K23 : Set (EuclideanSpace ℝ (Fin 2)))
-      (EuclideanSpace.basisFun (Fin 2) ℝ 1) = 3 ∧
-    ∀ z : Fin 2 → ℤ, z 1 ≠ 0 →
-      3 ≤ gauge (K23 : Set (EuclideanSpace ℝ (Fin 2)))
-        (WithLp.toLp 2 (fun i => (z i : ℝ))) := by sorry
-
--- The axis-swapped `K₃₂` has least lattice gauge `2` outside `ℝe₀`, attained by `e₁`.
-example (K32 : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK32 : (K32 : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/3 ∧ |x 1| ≤ 1/2}) :
-    gauge (K32 : Set (EuclideanSpace ℝ (Fin 2)))
-      (EuclideanSpace.basisFun (Fin 2) ℝ 1) = 2 ∧
-    ∀ z : Fin 2 → ℤ, z 1 ≠ 0 →
-      2 ≤ gauge (K32 : Set (EuclideanSpace ℝ (Fin 2)))
-        (WithLp.toLp 2 (fun i => (z i : ℝ))) := by sorry
-
--- Negative control: without `0 ∈ interior K` positivity fails; the zero body gives `0`.
-example : successiveMin (Submodule.span ℤ {(1 : ℝ)}) (0 : ConvexBody ℝ) ⟨0, by simp⟩ = 0 := by
-  sorry
-
--- The unit diamond attains the lower bound for `ℤ²`: product `1` times area `2` is `2²/2!`.
-example (K : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK : (K : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| + |x 1| ≤ 1}) :
-    (∏ i, successiveMin (Submodule.span ℤ
-      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K i) *
-      volume.real (K : Set (EuclideanSpace ℝ (Fin 2))) = 2 := by sorry
-
--- Negative control for symmetry: `[-1/10, 1]` has minimum `1` and length `11/10 < 2`.
-example (K : ConvexBody ℝ) (hK : (K : Set ℝ) = Set.Icc (-1/10) 1) :
-    successiveMin (Submodule.span ℤ {(1 : ℝ)}) K ⟨0, by simp⟩ *
-      volume.real (K : Set ℝ) = 11/10 ∧ (11/10 : ℝ) < 2 := by sorry
-
--- The linear forms bound is closed: `|2z| ≤ 2` has the witness `z = 1`, `|2z| < 2` has none.
-example : (∃ z : ℤ, z ≠ 0 ∧ |2 * (z : ℝ)| ≤ 2) ∧
-    ¬ (∃ z : ℤ, z ≠ 0 ∧ |2 * (z : ℝ)| < 2) := by sorry
-
-end MinimaTests
-
 /-! ## Layer 2: Integral quadratic and hermitian lattices -/
 
 section IntegralQuadratic
@@ -523,22 +396,6 @@ def IntegralQuadraticLattice.ofCarrier (L : Submodule R V)
 /-- For a fixed form, equal carriers give equal integral lattices. -/
 theorem IntegralQuadraticLattice.ext (L M : IntegralQuadraticLattice R K V)
     (h : L.carrier = M.carrier) (hq : L.form = M.form) : L = M := by sorry
-
--- The carrier spans the ambient space and is finitely generated, without any basis parameter.
-example (L : IntegralQuadraticLattice R K V) :
-    Submodule.span K (L.carrier : Set V) = ⊤ := by sorry
-
--- Negative control: `B(x,y) = xy` on `ℤ` does not make `x²/2` integral, since `1/2 ∉ ℤ`.
-example : ¬ ∃ z : ℤ, (z : ℚ) = (1 : ℚ) / 2 := by sorry
-
--- The integral square lattice has polar pairing twice multiplication.
-example :
-    let L : IntegralQuadraticLattice ℤ ℚ ℚ :=
-      { carrier := Submodule.span ℤ {(1 : ℚ)}
-        isLattice := by sorry
-        form := QuadraticMap.sq
-        integral := by sorry }
-    QuadraticMap.polar L.form 1 1 = 2 := by sorry
 
 end IntegralQuadratic
 
@@ -591,10 +448,6 @@ theorem IntegralHermitianLattice.integral_iff_le_dual
     (hstar : ∀ r : R, star (algebraMap R K r) = algebraMap R K (star r)) :
     (∀ x ∈ L.carrier, ∀ y ∈ L.carrier,
       ∃ r : R, algebraMap R K r = L.form x y) ↔ L.carrier ≤ L.dual hstar := by sorry
-
--- The pairing is conjugate-linear in the first argument and linear in the second.
-example (L : IntegralHermitianLattice R K V) (x y : V) (a b : K) :
-    L.form (a • x) (b • y) = star a * b * L.form x y := by sorry
 
 end IntegralHermitian
 
@@ -651,20 +504,6 @@ theorem uniformizer_independent (a : HermitianLatticeInvariants R π M n) (u : R
     (b : HermitianLatticeInvariants R ((u : R) * π) M n) (hπ : Irreducible π) :
     a.exponent = b.exponent := by sorry
 
--- Rank one with `L^∨/L ≅ ℤ/8 = ℤ/2³`: valuation `3`, type `1`.
-example (a : HermitianLatticeInvariants ℤ 2 (ZMod 8) 1) : a.valuation = 3 ∧ a.type = 1 := by sorry
-
--- Exponents `(0, 1, 1)`: valuation `2` and type `2`.
-example (a : HermitianLatticeInvariants R π M 3) (ha : a.exponent = ![0, 1, 1]) :
-    a.valuation = 2 ∧ a.type = 2 := by sorry
-
--- A zero module has only padded zero exponents; the residue cardinality counts the quotient.
-example (a : HermitianLatticeInvariants R π M n) [Subsingleton M] (hπ : Irreducible π) :
-    a.valuation = 0 ∧ a.type = 0 := by sorry
-example [Fintype (R ⧸ Ideal.span {π})]
-    (a : HermitianLatticeInvariants R π M n) (hπ : Irreducible π) :
-    Nat.card M = Fintype.card (R ⧸ Ideal.span {π}) ^ a.valuation := by sorry
-
 end HermitianLatticeInvariants
 end PrimaryInvariantFactors
 
@@ -694,17 +533,6 @@ theorem IsAtomicIntegralQuadraticForm.binary (q : QuadraticForm R (Fin n → R))
     (hab : IsUnit a ∨ IsUnit b)
     (hq : ∀ x, q x = a * (e x 0) ^ 2 + b * (e x 0) * (e x 1) + c * (e x 1) ^ 2) :
     IsAtomicIntegralQuadraticForm q := by sorry
-
--- At a dyadic DVR the hyperbolic form `xy` is atomic and binary.
-example (q : QuadraticForm R (Fin 2 → R)) (h2 : ¬ IsUnit (2 : R))
-    (hq : ∀ x, q x = x 0 * x 1) : IsAtomicIntegralQuadraticForm q := by sorry
-
--- Negative control: the zero-dimensional form is not an atomic block.
-example (q : QuadraticForm R (Fin 0 → R)) : ¬ IsAtomicIntegralQuadraticForm q := by sorry
-
--- When two is a unit the unary branch cannot have rank two.
-example (q : QuadraticForm R (Fin 2 → R)) (h2 : IsUnit (2 : R)) :
-    ¬ IsAtomicIntegralQuadraticForm q := by sorry
 
 end AtomicDVRForms
 
@@ -766,10 +594,6 @@ def dual (L : QuaternionicIntegralHermitianLattice R K B V) : Submodule R V wher
 theorem integral_le_dual (L : QuaternionicIntegralHermitianLattice R K B V) :
     L.carrier ≤ L.dual := by sorry
 
--- The pairing is conjugate-linear on the left and linear on the right in the quaternions.
-example (L : QuaternionicIntegralHermitianLattice R K B V) (x y : V) (a b : B) :
-    L.pairing (op a • x) (op b • y) = star a * L.pairing x y * b := by sorry
-
 end QuaternionicIntegralHermitianLattice
 end QuaternionicLattices
 
@@ -785,12 +609,6 @@ def lipschitzOrder : Subalgebra ℤ ℍ[ℚ] where
   add_mem' := by sorry
   mul_mem' := by sorry
   algebraMap_mem' := by sorry
-
--- `i` is a Lipschitz quaternion.
-example : (⟨0, 1, 0, 0⟩ : ℍ[ℚ]) ∈ lipschitzOrder := by sorry
-
--- Negative control: the Hurwitz element `(1 + i + j + k)/2` is not in the Lipschitz order.
-example : (⟨1/2, 1/2, 1/2, 1/2⟩ : ℍ[ℚ]) ∉ lipschitzOrder := by sorry
 
 end LipschitzOrder
 
@@ -811,23 +629,6 @@ the hyperbolic condition. -/
 def SignedHermitianSpace.IsHyperbolic [NeZero (2 : K)] {ε : K}
     (h : SignedHermitianSpace K V ε) : Prop :=
   ∃ N : Submodule K V, (N : Set V) = {x | ∀ y ∈ N, h.form x y = 0}
-
--- The complex line with `h(x, y) = conj(x) y` is perfect of sign `+1`, and `h(i, i) = 1`.
-example : ∃ h : SignedHermitianSpace ℂ ℂ 1,
-    (∀ x y, h.form x y = star x * y) ∧ h.form Complex.I Complex.I = 1 := by sorry
-
--- Negative control: a one-dimensional rational skew-symmetric space cannot be perfect.
-example : IsEmpty (SignedHermitianSpace ℚ ℚ (-1)) := by sorry
-
--- The zero space is hyperbolic, with Lagrangian `0`.
-example (h : SignedHermitianSpace ℚ (Fin 0 → ℚ) 1) : h.IsHyperbolic := by sorry
-
--- Negative control: a perfect rational line has no Lagrangian.
-example (h : SignedHermitianSpace ℚ ℚ 1) : ¬ h.IsHyperbolic := by sorry
-
--- Characteristic two: `diag(1, 1)` over `𝔽₂` has the isotropic vector `(1, 1)` but
--- `B((1,0),(1,0)) = 1`, so a Lagrangian alone does not make a bilinear form hyperbolic there.
-example : (1 : ZMod 2) * 1 + 1 * 1 = 0 ∧ (1 : ZMod 2) * 1 + 0 * 0 ≠ 0 := by sorry
 
 end SignedFieldForms
 
@@ -862,26 +663,6 @@ theorem hermitianMaximalMinorIdeal_map {A' : Type*} [CommRing A'] (f : A →+* A
     (X : Matrix (Fin m) (Fin n) A) :
     Ideal.map f (hermitianMaximalMinorIdeal X) =
       hermitianMaximalMinorIdeal (X.map f) := by sorry
-
--- The empty determinant is one, so the rank-zero source is primitive.
-example (X : Matrix (Fin m) (Fin 0) A) : hermitianMaximalMinorIdeal X = ⊤ := by sorry
-
--- A nonzero field column is primitive.
-example : hermitianMaximalMinorIdeal (!![0; 1] : Matrix (Fin 2) (Fin 1) (ZMod 3)) = ⊤ := by
-  sorry
-
--- A dyadic local ring distinguishes a unit entry from a nonzero nonunit entry.
-example : hermitianMaximalMinorIdeal (!![2; 1] : Matrix (Fin 2) (Fin 1) (ZMod 4)) = ⊤ ∧
-    hermitianMaximalMinorIdeal (!![2; 0] : Matrix (Fin 2) (Fin 1) (ZMod 4)) ≠ ⊤ := by sorry
-
--- Over a split quadratic algebra with exchange involution, different factors need different minors.
-example {S : Type*} [Field S] :
-    letI : Star (S × S) := ⟨fun x => (x.2, x.1)⟩
-    let X : Matrix (Fin 2) (Fin 1) (S × S) := !![(1, 0); (0, 1)]
-    X.conjTranspose * (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) (S × S)) * X = 1 ∧
-      hermitianMaximalMinorIdeal X = ⊤ ∧
-      (∃ Y : Matrix (Fin 1) (Fin 2) (S × S), Y * X = 1) ∧
-      ¬ IsUnit (X 0 0) ∧ ¬ IsUnit (X 1 0) := by sorry
 
 end PrimitiveHermitianMatrices
 
@@ -976,38 +757,6 @@ theorem choYamauchiWeight_derivative (q a : ℕ) (ha : 1 ≤ a) :
     -((choYamauchiWeight q a).derivative.eval 1) =
       ∏ i ∈ Finset.Icc 1 (a - 1), (1 - (-(q : ℤ)) ^ i) := by sorry
 
--- Over `ℤ/3` with trivial involution, `x² = 1` has two solutions.
-example : hermitianRepresentationCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-    (1 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 2 := by sorry
-
--- Negative control: the zero source has one representation but no embedding.
-example : hermitianRepresentationCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-      (0 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 1 ∧
-    hermitianEmbeddingCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-      (0 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 0 := by sorry
-
--- The normalization uses `q`, not `q²`: `2/3` at `q = 3`, `N = 1`.
-example : normalizedHermitianCount 3 1 (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-    (1 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 2/3 := by sorry
-
--- `m_q(1; X) = 1 - X`, and `m_3(2; X)` has derivative weight `1 + 3 = 4`.
-example : choYamauchiWeight 3 1 = 1 - Polynomial.X := by sorry
-example : -((choYamauchiWeight 3 2).derivative.eval 1) = 4 := by sorry
-
-example (G : Matrix (Fin m) (Fin m) A) :
-    hermitianRepresentationCount G (0 : Matrix (Fin 0) (Fin 0) A) = 1 := by sorry
-example : hermitianEmbeddingCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-    (1 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 2 := by sorry
-example (G : Matrix (Fin m) (Fin m) A) :
-    hermitianEmbeddingCount G (0 : Matrix (Fin 0) (Fin 0) A) = 1 := by sorry
-example : hermitianEmbeddingCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-    (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 0 := by sorry
-example : normalizedHermitianCount 3 0 (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
-    (1 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 2 := by sorry
-example (q N : ℕ) (G : Matrix (Fin m) (Fin m) A) :
-    normalizedHermitianCount q N G (0 : Matrix (Fin 0) (Fin 0) A) = 1 := by sorry
-example : (choYamauchiWeight 3 0).derivative.eval 1 = 0 := by sorry
-
 end FiniteHermitianCounts
 
 section NumberRingTrace
@@ -1022,17 +771,6 @@ def numberRingTraceForm (q : QuadraticForm (𝓞 K) M) : QuadraticForm ℤ M :=
 theorem numberRingTraceForm_apply (q : QuadraticForm (𝓞 K) M) (x : M) :
     numberRingTraceForm q x = Algebra.trace ℤ (𝓞 K) (q x) := by sorry
 
--- Over `ℚ` the trace form is the form itself: `2x²` at `3` is `18`.
-example : numberRingTraceForm (2 • QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (3 : 𝓞 ℚ) = 18 := by
-  sorry
-
-example : numberRingTraceForm (QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (2 : 𝓞 ℚ) = 4 := by
-  sorry
-example : numberRingTraceForm (QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (-3 : 𝓞 ℚ) = 9 := by
-  sorry
-example : numberRingTraceForm (QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (0 : 𝓞 ℚ) = 0 := by
-  sorry
-
 end NumberRingTrace
 
 section BoundedIntegralEndomorphisms
@@ -1042,12 +780,6 @@ variable {M : Type*} [AddCommGroup M] [Module ℤ M]
 theorem finite_bounded_integral_endomorphisms [Module.Free ℤ M] [Module.Finite ℤ M]
     (q : QuadraticForm ℤ M) (hq : q.PosDef) (C : ℝ) (hC : 0 ≤ C) :
     {T : M →ₗ[ℤ] M | ∀ x : M, (q (T x) : ℝ) ≤ C ^ 2 * (q x : ℝ)}.Finite := by sorry
-
--- On `(ℤ, x²)` with `C = 1` the allowed multipliers are `-1, 0, 1`.
-example : {a : ℤ | ∀ x : ℤ, ((a * x) ^ 2 : ℤ) ≤ x ^ 2} = {-1, 0, 1} := by sorry
-
--- Negative control: the zero form allows every multiplier.
-example : ¬ {a : ℤ | ∀ x : ℤ, (0 : ℤ) * (a * x) ^ 2 ≤ 0 * x ^ 2}.Finite := by sorry
 
 end BoundedIntegralEndomorphisms
 
@@ -1067,9 +799,6 @@ theorem genusMass_singleton (a : ℕ) : genusMass (fun _ : Unit => a) = 1 / (a :
 /-- A nonempty class set with positive stabilizer orders has positive mass. -/
 theorem genusMass_pos {I : Type*} [Fintype I] [Nonempty I] (w : I → ℕ)
     (h : ∀ i, 0 < w i) : 0 < genusMass w := by sorry
-
--- The rank-one positive unimodular genus has mass `1/2`, not its class number `1`.
-example : genusMass (fun _ : Unit => 2) = 1/2 := by sorry
 
 /-- The local types of the maximal-lattice mass table (3.3.7). -/
 inductive MaximalMassLocalType
@@ -1123,34 +852,6 @@ theorem maximalLocalMassFactor_even_III (q r : ℕ) :
     maximalLocalMassFactor q r false .IIIPlus = 1/2 ∧
       maximalLocalMassFactor q r false .IIIMinus = 1/2 := by sorry
 
--- Rank `3 ≡ 3 (mod 8)` uses `c (−1, d)`.
-example : maximalMassWittSign 3 1 (-1) (-1) 1 = -1 := by sorry
-
--- Odd rank, odd discriminant valuation: the two Witt signs select different type-II cases.
-example : maximalMassLocalType true true false true true = .IIPlus ∧
-    maximalMassLocalType true true false true false = .IIMinus := by sorry
-
--- At `q = 2, r = 1`, odd types `I, IIPlus, IIMinus` give `1/2, 3/2, 1/2`.
-example : maximalLocalMassFactor 2 1 true .I = 1/2 ∧
-    maximalLocalMassFactor 2 1 true .IIPlus = 3/2 ∧
-    maximalLocalMassFactor 2 1 true .IIMinus = 1/2 := by sorry
-
--- At `q = 3, r = 2`, even types `I, II` give `2, 5`.
-example : maximalLocalMassFactor 3 2 false .I = 2 ∧ maximalLocalMassFactor 3 2 false .II = 5 := by
-  sorry
-
--- Cardinality alone does not determine mass; transport swaps unequal stabilizer orders.
-example : genusMass (fun _ : Fin 2 => 2) = 1 := by sorry
-example : genusMass (fun _ : Fin 0 => 2) = 0 := by sorry
-example : genusMass ((![2, 4] : Fin 2 → ℕ) ∘ (Equiv.swap (0 : Fin 2) 1).symm) =
-      genusMass (![2, 4] : Fin 2 → ℕ) ∧
-    genusMass (![2, 4] : Fin 2 → ℕ) = 3/4 := by sorry
-example (c hMinusMinus hMinusDisc hMinusNegDisc : ℤ) :
-    maximalMassWittSign 2 c hMinusMinus hMinusDisc hMinusNegDisc = c ∧
-    maximalMassWittSign 5 c hMinusMinus hMinusDisc hMinusNegDisc = c * hMinusMinus := by sorry
-example : maximalMassLocalType false false false true false = .IIIMinus ∧
-    maximalMassLocalType true false false true true = .zero := by sorry
-
 end WeightedMass
 
 section OrthogonalModels
@@ -1177,28 +878,12 @@ theorem orthogonalLocalVolumeRatio_pos (q NH NG countH countG : ℕ)
 theorem orthogonalLocalVolumeRatio_good (q N c : ℕ) (hq : 2 ≤ q) (hc : 0 < c) :
     orthogonalLocalVolumeRatio q N N c c = 1 := by sorry
 
--- At `q = 2`, `|SO₄⁺| = 36` and `|SO₄⁻| = 60`; swapping the signs changes the count.
-example : finiteEvenOrthogonalOrder 2 2 true = 36 ∧ finiteEvenOrthogonalOrder 2 2 false = 60 := by
-  sorry
-
--- `|SO₃(𝔽₂)| = 6`.
-example : finiteOddOrthogonalOrder 2 1 = 6 := by sorry
-
 -- For `x² + y² + 3z²` over `ℚ₃`, the full quotient `O₂⁻(𝔽₃)` has order `8`.
 -- Both the ratio against the good quotient and its reciprocal stabilizer volume are `1`.
 example : orthogonalLocalVolumeRatio 3 1 0 24 8 = 1 := by norm_num [orthogonalLocalVolumeRatio]
 
 -- Negative control: a zero denominator order returns `0`, outside the positivity hypotheses.
 example : orthogonalLocalVolumeRatio 2 1 1 6 0 = 0 := by norm_num [orthogonalLocalVolumeRatio]
-
--- Rank-zero and invalid-cardinality values of the polynomial expressions.
-example : finiteEvenOrthogonalOrder 0 0 true = 0 ∧
-    finiteEvenOrthogonalOrder 0 0 false = 2 := by sorry
-example : finiteEvenOrthogonalOrder 3 1 true = 2 ∧
-    finiteEvenOrthogonalOrder 3 1 false = 4 := by sorry
-example : finiteOddOrthogonalOrder 1 1 = 0 := by sorry
-example : orthogonalLocalVolumeRatio 2 1 1 6 12 = 1/2 ∧
-    orthogonalLocalVolumeRatio 2 1 0 6 6 = 1/2 := by sorry
 
 end OrthogonalModels
 
@@ -1244,14 +929,6 @@ theorem orthogonalSkewBasisVolume_odd (r : ℕ) :
 theorem orthogonalSkewBasisVolume_even (r : ℕ) (hr : 0 < r) :
     orthogonalSkewBasisVolume (2 * r) = 1 / orthogonalArchimedeanConstant r false := by sorry
 
--- `γ_odd(1) = 1/(4π²)` and `γ_even(2) = 1/(2π)⁴`; the odd formula at even rank is different.
-example : orthogonalArchimedeanConstant 1 true = 1 / (4 * Real.pi ^ 2) ∧
-    orthogonalArchimedeanConstant 2 false = 1 / (2 * Real.pi) ^ 4 := by sorry
-
--- `V₃ = 8π²`; the rank-three mass gauge is `V₃/2 = 4π²`, so the unscaled volume is not `4π²`.
-example : orthogonalSkewBasisVolume 3 = 8 * Real.pi ^ 2 ∧ orthogonalMassGaugeScale 3 = 1/2 := by
-  sorry
-
 variable (K : Type*) [Field K] [NumberField K]
 
 /-- Consumer spelling of LFunctions §0/§3's supplied Gamma expression, with zero shifts,
@@ -1275,41 +952,7 @@ theorem completedDedekindFactor_one :
       ((|NumberField.discr K| : ℤ) : ℂ) ^ (1/2 : ℂ) *
         (1 / (Real.pi : ℂ)) ^ NumberField.InfinitePlace.nrComplexPlaces K := by sorry
 
--- The mass-value consumers require the `ℚ` constants `1, 1/π, 1/(2π)` at `s = 1, 2, 3`.
-example : dedekindArchimedeanFactor ℚ 2 = 1 / (Real.pi : ℂ) := by sorry
-example : completedDedekindFactor ℚ 3 = 1 / (2 * Real.pi : ℂ) := by sorry
-
-example : orthogonalArchimedeanConstant 0 true = 1 := by sorry
-example : orthogonalArchimedeanConstant 2 true = 6 / (2 * Real.pi) ^ 6 := by sorry
-example : orthogonalSkewBasisVolume 2 = 2 * Real.pi ∧
-    orthogonalSkewBasisVolume 4 = 16 * Real.pi ^ 4 := by sorry
-example : orthogonalMassGaugeScale 1 = 1 ∧ orthogonalMassGaugeScale 4 = 1 ∧
-    orthogonalMassGaugeScale 5 = 1/4 := by sorry
-example : dedekindArchimedeanFactor ℚ 1 = 1 ∧ completedDedekindFactor ℚ 1 = 1 := by sorry
-example : completedDedekindFactor ℚ 2 = 1 / (Real.pi : ℂ) := by sorry
-example (hreal : NumberField.InfinitePlace.nrRealPlaces K = 0)
-    (hcomplex : NumberField.InfinitePlace.nrComplexPlaces K = 1) :
-    dedekindArchimedeanFactor K 1 = 1 / (Real.pi : ℂ) := by sorry
-
 end MassArchimedeanFactors
-
-section PinnedGaugeChecks
-
--- The rank-three pinned gauge: torus generator and short-root pair in skew coordinates have
--- determinant `-2`; replacing the primitive cocharacter by the coroot gives `-4`.
-example : Matrix.det (!![-Complex.I, 0, 0; 0, -1, -1; 0, -Complex.I, Complex.I] :
-    Matrix (Fin 3) (Fin 3) ℂ) = -2 := by
-  eval_det
-  ring_nf
-  norm_num [Complex.I_sq]
-
-example : Matrix.det (!![-2*Complex.I, 0, 0; 0, -1, -1; 0, -Complex.I, Complex.I] :
-    Matrix (Fin 3) (Fin 3) ℂ) = -4 := by
-  eval_det
-  ring_nf
-  norm_num [Complex.I_sq]
-
-end PinnedGaugeChecks
 
 section IntegralTheta
 variable {V : Type*} [AddCommGroup V] [Module ℚ V]
@@ -1362,37 +1005,6 @@ theorem latticeThetaSeries_directSum {W : Type*} [AddCommGroup W] [Module ℚ W]
 theorem latticeThetaSeries_rescale (L : TauCeti.IntegralLattice V) (a : ℤ) (τ : ℂ) :
     latticeThetaSeries (L.scale a) τ = latticeThetaSeries L (a * τ) := by sorry
 
--- The bilinear norm and half-norm give the same theta exponent.
-example (τ : ℂ) (b : ℤ) :
-    (Real.pi : ℂ) * Complex.I * τ * (b : ℂ) =
-      2 * (Real.pi : ℂ) * Complex.I * τ * ((b : ℂ) / 2) := by ring
-
--- The odd rank-one norm is `1`, whose half-norm is not integral.
-example : ¬ ∃ m : ℤ, (m : ℚ) = (1 : ℚ) / 2 := by
-  intro ⟨m, hm⟩
-  have h : (2 : ℚ) * m = 1 := by linarith
-  have hi : 2 * m = (1 : ℤ) := by exact_mod_cast h
-  omega
-
--- The rank-zero lattice has theta series `1`.
-example (τ : ℂ) :
-    let L := TauCeti.IntegralLattice.ofGramMatrix
-      (Pi.basisFun ℚ (Fin 0)) (1 : Matrix (Fin 0) (Fin 0) ℤ) (by sorry)
-    latticeThetaSeries L τ = 1 := by sorry
-
--- For `ℤ²` the shells of norm `1` and `2` have `4` points each.
-example :
-    let L := TauCeti.IntegralLattice.ofGramMatrix
-      (Pi.basisFun ℚ (Fin 2)) (1 : Matrix (Fin 2) (Fin 2) ℤ) (by sorry)
-    L.representationNumber 1 = 4 ∧ L.representationNumber 2 = 4 := by sorry
-
--- The Gram-[1] lattice has shells only at integer squares.
-example :
-    let L := TauCeti.IntegralLattice.ofGramMatrix
-      (Pi.basisFun ℚ (Fin 1)) (1 : Matrix (Fin 1) (Fin 1) ℤ) (by sorry)
-    L.representationNumber 1 = 2 ∧ L.representationNumber 2 = 0 ∧
-      L.representationNumber 3 = 0 ∧ L.representationNumber 4 = 2 := by sorry
-
 end IntegralTheta
 
 /-! ## Layer 4: Lattice points, star bodies and homogeneous dynamics -/
@@ -1418,21 +1030,6 @@ theorem multisetLatticeCount_superlevels (μ : (Fin n → ℝ) → ℕ) (m : ℕ
     (hm : ∀ x, μ x ≤ m) (hbound : Bornology.IsBounded (Function.support μ)) :
     multisetLatticeCount μ = ∑ j ∈ Finset.range m,
       (Nat.card {z : Fin n → ℤ | j + 1 ≤ μ (fun i => (z i : ℝ))} : ℝ) := by sorry
-
--- Twice the indicator of `[0, N]` has count `2(N + 1)` and volume `2N`.
-example (N : ℕ) :
-    multisetLatticeCount (fun x : Fin 1 → ℝ => if x 0 ∈ Set.Icc 0 (N : ℝ) then 2 else 0) =
-      2 * ((N : ℝ) + 1) := by sorry
-
--- The indicator of `{0, 2}` has count `2` and volume `0`.
-example : multisetLatticeCount (fun x : Fin 1 → ℝ => if x 0 = 0 ∨ x 0 = 2 then 1 else 0) = 2 ∧
-    multisetVolume (fun x : Fin 1 → ℝ => if x 0 = 0 ∨ x 0 = 2 then 1 else 0) = 0 := by sorry
-
-example : multisetLatticeCount (fun _ : Fin n → ℝ => 0) = 0 ∧
-    multisetVolume (fun _ : Fin n → ℝ => 0) = 0 := by sorry
-example (N : ℕ) :
-    multisetVolume (fun x : Fin 1 → ℝ => if x 0 ∈ Set.Icc 0 (N : ℝ) then 2 else 0) =
-      2 * (N : ℝ) := by sorry
 
 end DavenportMultisets
 
@@ -1473,9 +1070,6 @@ theorem lattice_count_lt_successive_minima
 
 end HenkProduct
 
--- Negative control for `d ≥ 2`: in rank one the strict bound would read `3 < 3`.
-example : ¬ (3 : ℕ) < 2 ^ (1 - 1) * (3 : ℕ) := by sorry
-
 section HilbertDynamics
 variable {G H : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
@@ -1495,9 +1089,6 @@ Tau Ceti's `ContRepresentation.matrixCoeff` asks instead for continuity in the o
 theorem matrixCoeff_continuous (π : ContRepresentation ℂ G H)
     (hs : StronglyContinuous π) (v w : H) :
     Continuous (fun g : G => inner (𝕜 := ℂ) (π g v) w) := by sorry
-
--- The trivial representation is strongly continuous.
-example (π : ContRepresentation ℂ G H) (h : ∀ g v, π g v = v) : StronglyContinuous π := by sorry
 
 /-- The contraction subgroup `{u | a_j⁻¹ u a_j → 1}` of a sequence. -/
 def contractionSubgroup (a : ℕ → G) : Subgroup G where
@@ -1532,31 +1123,6 @@ theorem contraction_fixed_weak_limit (π : ContRepresentation ℂ G H)
     (hw : ∀ w : H, Filter.Tendsto (fun j => inner (𝕜 := ℂ) (π (a j) v) w)
       Filter.atTop (nhds (inner (𝕜 := ℂ) v₀ w))) :
     ∀ u ∈ (contractionSubgroup a).topologicalClosure, π u v₀ = v₀ := by sorry
-
--- The constant sequence `1` in a Hausdorff group contracts only the identity.
-example [T2Space G] : contractionSubgroup (fun _ : ℕ => (1 : G)) = ⊥ := by sorry
-
--- In `SL₂(ℝ)`, `a_j = diag(e^j, e^{-j})` contracts upper unipotents under `a_j⁻¹ u a_j`.
-example (j : ℕ) (t : ℝ) :
-    (!![Real.exp (-(j : ℝ)), 0; 0, Real.exp (j : ℝ)]) *
-      (!![1, t; 0, 1]) * (!![Real.exp (j : ℝ), 0; 0, Real.exp (-(j : ℝ))]) =
-      (!![1, t * Real.exp (-2 * (j : ℝ)); 0, 1]) := by sorry
-
--- Every representation on the zero Hilbert space has continuous orbit maps.
-example (π : ContRepresentation ℂ G (EuclideanSpace ℂ (Fin 0))) :
-    StronglyContinuous π := by sorry
-
--- The real character is strongly continuous; conjugate-linearity fixes its coefficient phase.
-example :
-    let π : ContRepresentation ℂ (Multiplicative ℝ) ℂ :=
-      { toMonoidHom :=
-          { toFun := fun t => Complex.exp (Complex.I * (t.toAdd : ℂ)) •
-              (ContinuousLinearMap.id ℂ ℂ)
-            map_one' := by sorry
-            map_mul' := by sorry } }
-    StronglyContinuous π ∧ ∀ t : ℝ,
-      inner (𝕜 := ℂ) (π (Multiplicative.ofAdd t) 1) 1 =
-        Complex.exp (-Complex.I * (t : ℂ)) := by sorry
 
 end HilbertDynamics
 
@@ -1601,44 +1167,6 @@ theorem scalarLpKoopman_inv (g : G) (f : Lp ℂ p μ) :
 
 end ScalarLp
 
--- Zero measure has just one Lp class; all pullbacks still satisfy the inverse law.
-example (p : ℝ≥0∞) [Fact (1 ≤ p)]
-    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) 0 0)
-    (g : G) (f : Lp ℂ p (0 : Measure X)) :
-    scalarLpKoopman p 0 hμ g⁻¹ (scalarLpKoopman p 0 hμ g f) = f := by sorry
-
--- A real flow uses the additive time group, with inverse time in its pullback.
-example [MulAction (Multiplicative ℝ) X] (p : ℝ≥0∞) [Fact (1 ≤ p)] (μ : Measure X)
-    (hμ : ∀ t : Multiplicative ℝ, MeasurePreserving (fun x : X => t • x) μ μ)
-    (s t : ℝ) (f : Lp ℂ p μ) :
-    scalarLpKoopman p μ hμ (Multiplicative.ofAdd (s + t)) f =
-      scalarLpKoopman p μ hμ (Multiplicative.ofAdd s)
-        (scalarLpKoopman p μ hμ (Multiplicative.ofAdd t) f) := by sorry
-
--- On three counting-measure points, a cycle and a transposition detect product order.
-example :
-    let μ : Measure (Fin 3) := Measure.count
-    let hμ : ∀ g : Equiv.Perm (Fin 3), MeasurePreserving (fun x : Fin 3 => g • x) μ μ :=
-      by sorry
-    ∃ f : Lp ℂ 2 μ,
-      (f : Fin 3 → ℂ) =ᵐ[μ] (fun x => (x.val : ℂ)) ∧
-      (scalarLpKoopman 2 μ hμ (Equiv.swap 0 1 * Equiv.swap 1 2) f : Fin 3 → ℂ)
-        =ᵐ[μ] ![2, 0, 1] ∧
-      scalarLpKoopman 2 μ hμ (Equiv.swap 0 1 * Equiv.swap 1 2) f ≠
-        scalarLpKoopman 2 μ hμ (Equiv.swap 1 2 * Equiv.swap 0 1) f := by sorry
-
--- Translation of an interval is isometric on Lp, but discontinuous at zero on L∞.
-example :
-    let f : ℝ → ℂ := Set.indicator (Set.Icc (0 : ℝ) 1) (fun _ => 1)
-    (∀ t : ℝ, eLpNorm (fun x => f (x - t)) 2 volume = 1) ∧
-      (∀ t : ℝ, t ≠ 0 → eLpNorm (fun x => f (x - t) - f x) ∞ volume = 1) := by sorry
-
--- Dilation preserves continuity but changes the L² norm of the interval indicator.
-example :
-    let f : ℝ → ℂ := Set.indicator (Set.Icc (0 : ℝ) 1) (fun _ => 1)
-    eLpNorm (fun x => f (2 * x)) 2 volume = ENNReal.ofReal (1 / Real.sqrt 2) ∧
-      ¬ MeasurePreserving (fun x : ℝ => 2 * x) volume volume := by sorry
-
 /-- The L² specialization of the scalar pullback representation. -/
 def quotientKoopman (μ : Measure X)
     (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
@@ -1674,19 +1202,7 @@ theorem meanZeroL2_invariant
     (g : G) (f : Lp ℂ 2 μ) (hf : f ∈ meanZeroL2 μ) :
     quotientKoopman μ hμ g f ∈ meanZeroL2 μ := by sorry
 
--- On a probability space a constant lies in the mean-zero subspace only when it is zero.
-example [IsProbabilityMeasure μ] (c : ℂ) : Lp.const 2 μ c ∈ meanZeroL2 μ ↔ c = 0 := by sorry
-
 end FiniteMeasure
-
--- Negative control: on `ℕ` with counting measure, `f(n) = 1/(n+1)` and `g = 1_{0} - f` are in
--- `L²` with totalized integral `0`, but `f + g` has integral `1`; finiteness of `μ` is needed.
-example :
-    let μ : Measure ℕ := Measure.count
-    let f : ℕ → ℂ := fun n => 1 / (n + 1 : ℂ)
-    let g : ℕ → ℂ := fun n => (if n = 0 then 1 else 0) - f n
-    MemLp f 2 μ ∧ MemLp g 2 μ ∧
-      (∫ n, f n ∂μ) = 0 ∧ (∫ n, g n ∂μ) = 0 ∧ (∫ n, (f + g) n ∂μ) = 1 := by sorry
 
 section ContinuousAction
 variable [TopologicalSpace G] [IsTopologicalGroup G]
@@ -1724,21 +1240,6 @@ theorem ergodic_meanZero_invariants
     (hf : f ∈ meanZeroL2 μ) (hfix : ∀ g : G, quotientKoopman μ hμ g f = f) :
     f = 0 := by sorry
 
--- Negative control: the trivial action on two equiprobable points is not ergodic.
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
-    let μ : Measure (Fin 2) := (1 / 2 : ENNReal) • Measure.count
-    ¬ ErgodicSMul PUnit (Fin 2) μ := by sorry
-
--- The fair observable `(1,-1)` has zero mean and unit L² norm.
-example :
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    letI : IsProbabilityMeasure μ := by sorry
-    ∃ f : Lp ℂ 2 μ, (f : Fin 2 → ℂ) =ᵐ[μ] (fun x => if x = 0 then 1 else -1) ∧
-      f ∈ meanZeroL2 μ ∧ ‖f‖ = 1 := by sorry
-example : meanZeroL2 (Measure.dirac PUnit.unit) = ⊥ := by sorry
-
 end ErgodicKoopman
 
 section ErgodicKernels
@@ -1772,26 +1273,6 @@ theorem ActionErgodicKernel.integral (μ : Measure X)
 theorem ActionErgodicKernel.const_of_ergodic (μ : Measure X) [IsProbabilityMeasure μ]
     [StandardBorelSpace X] (E : ActionErgodicKernel (G := G) μ)
     (h : ErgodicSMul G X μ) : ∀ᵐ x ∂μ, E.κ x = μ := by sorry
-
--- Negative control: for the trivial action on two points the constant kernel is stationary but
--- is not a component kernel.
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
-    let μ : Measure (Fin 2) := (1 / 2 : ENNReal) • Measure.count
-    ¬ ∃ E : ActionErgodicKernel (G := PUnit) μ, E.κ = Kernel.const (Fin 2) μ := by sorry
-
--- Each trivial-action component is a Dirac probability at its base point.
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    ∃ E : ActionErgodicKernel (G := PUnit) μ, E.κ = Kernel.id := by sorry
--- The transitive permutation action has one ergodic component.
-example :
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    ∃ E : ActionErgodicKernel (G := Equiv.Perm (Fin 2)) μ,
-      E.κ = Kernel.const (Fin 2) μ := by sorry
 
 end ErgodicKernels
 
@@ -1851,30 +1332,6 @@ theorem finitePoissonConfiguration_campbell (intensity : NNReal) (μ : Measure X
     ∫ c, (∑ i : Fin c.1, f (c.2 i)) ∂finitePoissonConfiguration intensity μ =
       (intensity : ℝ) * ∫ x, f x ∂μ := by sorry
 
--- A repeated point is counted twice: `(0, 1, 0)` has count `2` in `{0}`.
-example : configurationCount ({0} : Set (Fin 2))
-    (⟨3, ![0, 1, 0]⟩ : Σ n : ℕ, Fin n → Fin 2) = 2 := by sorry
-
--- The point measure of `(0, 1, 0)` puts mass `2` on `0`.
-example : configurationMeasure (⟨3, ![0, 1, 0]⟩ : Σ n : ℕ, Fin n → Fin 2) {0} = 2 := by sorry
-
--- On a singleton with `μ = δ` and intensity `1` the total count is Poisson of parameter `1`.
-example : (finitePoissonConfiguration 1 (Measure.dirac PUnit.unit)).map
-    (configurationCount Set.univ) = poissonMeasure 1 := by sorry
-
-example (intensity : NNReal) : finitePoissonConfiguration intensity (0 : Measure X) =
-    Measure.dirac (⟨0, Fin.elim0⟩ : Σ n : ℕ, Fin n → X) := by sorry
-example (μ : Measure X) [IsFiniteMeasure μ] : finitePoissonConfiguration 0 μ =
-    Measure.dirac (⟨0, Fin.elim0⟩ : Σ n : ℕ, Fin n → X) := by sorry
-example : (finitePoissonConfiguration 2 (Measure.count : Measure (Fin 2))).map
-    (configurationCount Set.univ) = poissonMeasure 4 := by sorry
-example : (finitePoissonConfiguration 2 (Measure.count : Measure (Fin 2))).map
-    (configurationCount {0}) = poissonMeasure 2 := by sorry
-example (c : Σ n : ℕ, Fin n → X) : configurationCount ∅ c = 0 := by sorry
-example (s : Set X) : configurationCount s (⟨0, Fin.elim0⟩ : Σ n : ℕ, Fin n → X) = 0 := by sorry
-example : configurationMeasure (⟨2, fun _ => PUnit.unit⟩ : Σ n : ℕ, Fin n → PUnit) =
-    2 • Measure.dirac PUnit.unit := by sorry
-
 end FinitePoissonConfigurations
 
 section ActionAverages
@@ -1910,33 +1367,6 @@ def AveragingSequence (μ : Measure X) (η : Measure G)
 theorem normalizedActionAverage_const (η : Measure G) (A : Set G)
     (hA : MeasurableSet A) (hpos : 0 < η A) (hfin : η A < ⊤) (c : ℝ) (x : X) :
     normalizedActionAverage η A (fun _ => c) x = c := by sorry
-
--- The whole finite group is a tempered Følner sequence; a singleton in a nontrivial group is not.
-example : TemperedFolnerSequence (Measure.count : Measure (Equiv.Perm (Fin 2)))
-    (fun _ => Set.univ) := by sorry
-example : ¬ TemperedFolnerSequence (Measure.count : Measure (Equiv.Perm (Fin 2)))
-    (fun _ => {(1 : Equiv.Perm (Fin 2))}) := by sorry
-
--- Averaging `(1, -1)` over the full permutation group gives `0`.
-example : normalizedActionAverage (Measure.count : Measure (Equiv.Perm (Fin 2)))
-    Set.univ (fun x : Fin 2 => if x = 0 then 1 else -1) 0 = 0 := by sorry
-
--- Negative control: for the trivial action the constant kernel is not the averaging limit.
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
-    let μ : Measure (Fin 2) := (1 / 2 : ENNReal) • Measure.count
-    ¬ AveragingSequence (G := PUnit) μ Measure.count (fun _ : ℕ => Set.univ)
-      (Kernel.const (Fin 2) μ) := by sorry
-
-example (η : Measure G) (f : X → ℝ) (x : X) :
-    normalizedActionAverage η ∅ f x = 0 := by sorry
-example (η : Measure G) : ¬ TemperedFolnerSequence η (fun _ => ∅) := by sorry
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    AveragingSequence (G := PUnit) μ Measure.count (fun _ : ℕ => Set.univ) Kernel.id := by sorry
 
 end ActionAverages
 
@@ -1994,45 +1424,6 @@ theorem partitionEntropyRate_limit [Countable ι] [MeasurableSpace ι]
       countablePartitionEntropy μ (iteratedPartitionLabel T label (n + 1)) / (n + 1))
       Filter.atTop (nhds (partitionEntropyRate μ T label)) := by sorry
 
--- A fair binary label has entropy `log 2`.
-example :
-    finitePartitionEntropy ((1 / 2 : ENNReal) • (Measure.count : Measure (Fin 2))) id =
-      Real.log 2 := by sorry
-
--- Conditioning a label on itself gives `0`; independent fair labels give `log 2`.
-example : conditionalPartitionEntropy
-    ((1/2 : ENNReal) • (Measure.count : Measure (Fin 2))) id id = 0 := by sorry
-example : conditionalPartitionEntropy
-    ((1/4 : ENNReal) • (Measure.count : Measure (Fin 2 × Fin 2))) Prod.fst Prod.snd =
-      ENNReal.ofReal (Real.log 2) := by sorry
-
--- The two-point flip from `0` has itinerary `(0, 1, 0)`.
-example : iteratedPartitionLabel (fun i : Fin 2 => 1 - i) id 3 0 = ![0, 1, 0] := by sorry
-
--- The fair two-sided Bernoulli shift has measure entropy `log 2`; the identity has entropy `0`.
-example :
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    letI : IsProbabilityMeasure μ := by sorry
-    let ν := Measure.infinitePi (fun _ : ℤ => μ)
-    measureEntropy ν (fun x k => x (k + 1)) = ENNReal.ofReal (Real.log 2) := by sorry
-example : measureEntropy (Measure.dirac PUnit.unit) id = 0 := by sorry
-
-example : finitePartitionEntropy (Measure.dirac PUnit.unit) id = 0 := by sorry
-example : finitePartitionEntropy
-    ((1/4 : ENNReal) • (Measure.count : Measure (Fin 2 × Fin 2))) id = 2 * Real.log 2 := by sorry
-example : partitionEntropyRate
-    ((1/2 : ENNReal) • (Measure.count : Measure (Fin 2))) id id = 0 := by sorry
-example :
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    letI : IsProbabilityMeasure μ := by sorry
-    let ν := Measure.infinitePi (fun _ : ℤ => μ)
-    partitionEntropyRate ν (fun x k => x (k + 1)) (fun x => x 0) =
-      ENNReal.ofReal (Real.log 2) := by sorry
-example (T : X → X) (label : X → ι) (x : X) :
-    iteratedPartitionLabel T label 0 x = (Fin.elim0 : Fin 0 → ι) := by sorry
-example (label : X → ι) (n : ℕ) (x : X) :
-    iteratedPartitionLabel id label n x = (fun _ => label x) := by sorry
-
 end PartitionEntropy
 
 section ConditionalLabelEntropy
@@ -2057,24 +1448,6 @@ theorem conditionalLabelEntropy_countable [Countable Y] [Countable Z]
     (hl : Measurable label) (hb : Measurable base) :
     conditionalLabelEntropy μ label base = conditionalPartitionEntropy μ label base := by sorry
 
--- A zero-probability atom has infinite information; a fair atom has information `log 2`.
-example : atomInformation 0 = ⊤ ∧ atomInformation (1/2) = ENNReal.ofReal (Real.log 2) := by
-  sorry
-
--- The point label of a nonatomic uniform probability, given a constant, has infinite entropy.
-example : conditionalLabelEntropy
-    (volume.restrict (Set.Ico (0 : ℝ) 1)) id (fun _ => PUnit.unit) = ⊤ := by sorry
-
--- For the trivial leaf group the point partition has zero leaf entropy under every
--- measurable automorphism; this identity provides no assertion about total entropy.
-example (μ : Measure X) [IsProbabilityMeasure μ] (s : X ≃ᵐ X) :
-    conditionalLabelEntropy μ s.symm id = 0 := by sorry
-
-example : atomInformation 1 = 0 := by sorry
-example : conditionalLabelEntropy (Measure.dirac PUnit.unit) id id = 0 := by sorry
-example : conditionalLabelEntropy (Measure.dirac PUnit.unit) id (fun _ => PUnit.unit) = 0 := by
-  sorry
-
 end ConditionalLabelEntropy
 
 section KacReturnTimes
@@ -2095,19 +1468,6 @@ theorem kac_return_time_integral (μ : Measure X) [IsProbabilityMeasure μ]
     (∀ᵐ x ∂μ.restrict A, positiveReturnTime T A x < ⊤) ∧
       Integrable (fun x => ((positiveReturnTime T A x).toNat : ℝ)) (μ.restrict A) ∧
       (∫ x in A, ((positiveReturnTime T A x).toNat : ℝ) ∂μ) = 1 := by sorry
-
-example : positiveReturnTime (id : PUnit → PUnit) Set.univ PUnit.unit = 1 := by sorry
-example : (∫ x in (Set.univ : Set PUnit),
-    ((positiveReturnTime id Set.univ x).toNat : ℝ) ∂Measure.dirac PUnit.unit) = 1 := by sorry
-example : positiveReturnTime (fun i : Fin 2 => 1 - i) {0} 0 = 2 ∧
-    (∫ x in ({0} : Set (Fin 2)),
-      ((positiveReturnTime (fun i : Fin 2 => 1 - i) {0} x).toNat : ℝ)
-      ∂((1/2 : ENNReal) • Measure.count)) = 1 := by sorry
-example : (∫ x in ({0} : Set (Fin 2)),
-    ((positiveReturnTime id {0} x).toNat : ℝ) ∂((1/2 : ENNReal) • Measure.count)) = 1/2 := by sorry
-example (T : X → X) (x : X) : positiveReturnTime T ∅ x = ⊤ := by sorry
-example (μ : Measure X) (T : X → X) :
-    (∫ x in (∅ : Set X), ((positiveReturnTime T ∅ x).toNat : ℝ) ∂μ) = 0 := by sorry
 
 end KacReturnTimes
 
@@ -2133,35 +1493,6 @@ structure SubordinatePartition (μ : Measure X) (V : Type*) [Group V]
 theorem SubordinatePartition.null_change (μ ν : Measure X) (h : μ ≪ ν)
     (P : SubordinatePartition ν V Y) :
     ∃ Q : SubordinatePartition μ V Y, Q.label = P.label := by sorry
-
--- For the trivial action on two points the singleton partition is subordinate.
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := fun _ => rfl, mul_smul := fun _ _ _ => rfl }
-    ∃ P : SubordinatePartition (Measure.dirac (0 : Fin 2)) PUnit (Fin 2), P.label = id := by sorry
-
--- Negative control: for translations of `ℝ` the singleton partition at a Dirac point fails the
--- neighbourhood condition.
-example :
-    letI : MulAction (Multiplicative ℝ) ℝ :=
-      { smul := fun v x => v.toAdd + x
-        one_smul := by intro x; exact zero_add x
-        mul_smul := by intro a b x; exact add_assoc a.toAdd b.toAdd x }
-    ¬ ∃ P : SubordinatePartition (Measure.dirac (0 : ℝ)) (Multiplicative ℝ) ℝ,
-      P.label = id := by sorry
-
-example :
-    letI : MulAction PUnit (Fin 2) :=
-      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
-    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
-    ¬ ∃ P : SubordinatePartition μ PUnit PUnit, P.label = (fun _ => PUnit.unit) := by sorry
-example :
-    letI : MulAction (Multiplicative ℝ) ℝ :=
-      { smul := fun v x => v.toAdd + x
-        one_smul := by intro x; exact zero_add x
-        mul_smul := by intro a b x; exact add_assoc a.toAdd b.toAdd x }
-    ∃ P : SubordinatePartition (Measure.dirac (1/2 : ℝ)) (Multiplicative ℝ) ℤ,
-      P.label = Int.floor := by sorry
 
 end SubordinatePartitions
 
@@ -2206,35 +1537,7 @@ theorem polynomial_good (p : Polynomial ℝ) (k : ℕ) (hk : 1 ≤ k) (hdeg : p.
     GoodOn (fun t : ℝ => p.eval t) (2 * k * (k + 1 : ℝ) ^ (1 / (k : ℝ))) (1 / (k : ℝ))
       Set.univ := by sorry
 
--- The zero function is good by the zero-supremum branch.
-example : GoodOn (fun _ : ℝ => (0 : ℝ)) 1 1 Set.univ := by sorry
-
--- On `(-1, 1)`, `t²` has sublevel proportion `√ε`, not `ε`: a degree-independent exponent fails.
-example : volume.real {t : ℝ | t ∈ Set.Ioo (-1) 1 ∧ |t ^ 2| < (1/4 : ℝ)} = 1 ∧
-    volume.real {t : ℝ | t ∈ Set.Ioo (-1) 1 ∧ |t| < (1/4 : ℝ)} = 1/2 := by sorry
-
--- Maxima retain the goodness of the constant and linear inputs.
-example : GoodOn (fun t : ℝ => max |t| 1) 4 1 Set.univ := by sorry
-example : GoodOn (fun t : ℝ => max 0 |t|) 4 1 Set.univ := by sorry
-
 end GoodFunctions
-
-section SingularWedgeTests
-
--- The lower-left entry of `Ad(g) E₁₂` is `-g₁₀²` for a determinant-one matrix `g`.
-example (α : ℝ) (a b c d : ℤ) (hdet : a * d - b * c = 1) :
-    let g : Matrix (Fin 2) (Fin 2) ℝ :=
-      !![1, 0; α, 1] * (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) ℤ).map
-        (fun z => (z : ℝ))
-    (g * (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) * g.adjugate) 1 0 =
-      -(α * (a : ℝ) + (c : ℝ)) ^ 2 := by sorry
-
--- An irrational lower-unipotent translate has no integral representative whose wedge is
--- on the upper-unipotent line, although a constant trajectory has a constant wedge.
-example (α : ℝ) (hα : Irrational α) (a b c d : ℤ) (hdet : a * d - b * c = 1) :
-    -(α * (a : ℝ) + (c : ℝ)) ^ 2 ≠ 0 := by sorry
-
-end SingularWedgeTests
 
 section PrimitiveExteriorCovolumes
 variable {d k : ℕ}
@@ -2274,21 +1577,6 @@ theorem primitiveExteriorCovolume_rank_one
     (h : Matrix (Fin d) (Fin d) ℝ) (Δ : Submodule ℤ (Fin d → ℝ))
     (b : Basis (Fin 1) ℤ Δ) :
     primitiveExteriorCovolume h Δ b = ‖h.mulVec (b 0 : Fin d → ℝ)‖ := by sorry
-
--- The primitive vector `(1, 1)` has exterior sup norm `1`, not its Euclidean length `√2`.
-example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
-    (hb : (b 0 : Fin 2 → ℝ) = ![1, 1]) : primitiveExteriorCovolume 1 Δ b = 1 := by sorry
-
--- `diag(2, 3)` sends `(1, 1)` to exterior norm `3`.
-example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
-    (hb : (b 0 : Fin 2 → ℝ) = ![1, 1]) :
-    primitiveExteriorCovolume (Matrix.diagonal ![2, 3]) Δ b = 3 := by sorry
-
-example (h : Matrix (Fin d) (Fin d) ℝ) (Δ : Submodule ℤ (Fin d → ℝ))
-    (b : Basis (Fin 0) ℤ Δ) : primitiveExteriorCovolume h Δ b = 1 := by sorry
-example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 2) ℤ Δ)
-    (h0 : (b 0 : Fin 2 → ℝ) = ![2, 0]) (h1 : (b 1 : Fin 2 → ℝ) = ![0, 3]) :
-    primitiveExteriorCovolume 1 Δ b = 6 := by sorry
 
 end PrimitiveExteriorCovolumes
 
@@ -2336,41 +1624,6 @@ theorem primitiveExteriorCovolume_sat_extension_zero_le {d : ℕ} (hd : 0 < d)
     primitiveExteriorCovolume h (primitiveSpanExtension ⊥ v) c ≤
       ‖h.mulVec (fun i => (v i : ℝ))‖ := by sorry
 
--- A dependent vector leaves the subgroup unchanged and violates the unqualified bound.
-example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
-    (hb : (b 0 : Fin 2 → ℝ) = ![1, 0]) :
-    let h : Matrix (Fin 2) (Fin 2) ℝ := Matrix.diagonal ![1/10, 10]
-    primitiveSpanExtension Δ (![1, 0] : Fin 2 → ℤ) = Δ ∧
-      primitiveExteriorCovolume h Δ b = 1/10 ∧
-      ¬ primitiveExteriorCovolume h Δ b ≤
-        2 * primitiveExteriorCovolume h Δ b * ‖h.mulVec ![1, 0]‖ := by sorry
-
--- The independent extension has exterior covolume one and satisfies `1 ≤ 2`.
-example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
-    (hb : (b 0 : Fin 2 → ℝ) = ![1, 0])
-    (c : Basis (Fin 2) ℤ (primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ)))
-    (hc₀ : (c 0 : Fin 2 → ℝ) = ![1, 0]) (hc₁ : (c 1 : Fin 2 → ℝ) = ![0, 1]) :
-    let h : Matrix (Fin 2) (Fin 2) ℝ := Matrix.diagonal ![1/10, 10]
-    (![0, 1] : Fin 2 → ℝ) ∉ Submodule.span ℝ (Δ : Set (Fin 2 → ℝ)) ∧
-      primitiveExteriorCovolume h (primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ)) c = 1 ∧
-      primitiveExteriorCovolume h (primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ)) c ≤
-        2 * primitiveExteriorCovolume h Δ b * ‖h.mulVec ![0, 1]‖ := by sorry
-
--- Saturating `ℤe₁ + ℤ(2e₂)` divides its exterior covolume by the index two.
-example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
-    (hb : (b 0 : Fin 2 → ℝ) = ![1, 0]) :
-    primitiveSpanExtension Δ (![0, 2] : Fin 2 → ℤ) =
-      primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ) ∧
-    (Δ ⊔ Submodule.span ℤ ({(![0, 2] : Fin 2 → ℝ)} : Set (Fin 2 → ℝ))).toAddSubgroup.relIndex
-      (primitiveSpanExtension Δ (![0, 2] : Fin 2 → ℤ)).toAddSubgroup = 2 := by sorry
-
--- The zero starting term uses the rank-one norm, without an upper bound by `ρ` on `ν_h(0)`.
-example (c : Basis (Fin 1) ℤ (primitiveSpanExtension ⊥ (![1, 0] : Fin 2 → ℤ)))
-    (hc : (c 0 : Fin 2 → ℝ) = ![1, 0]) :
-    let h : Matrix (Fin 2) (Fin 2) ℝ := Matrix.diagonal ![1/10, 10]
-    primitiveExteriorCovolume h (primitiveSpanExtension ⊥ (![1, 0] : Fin 2 → ℤ)) c =
-      ‖h.mulVec ![1, 0]‖ ∧ ‖h.mulVec ![1, 0]‖ = 1/10 := by sorry
-
 /-- The parameters at which `h(x) ℤ^d` has a nonzero vector of sup norm below `ε`. -/
 def shortIntegerVectorSet {s d : ℕ} (h : (Fin s → ℝ) → Matrix (Fin d) (Fin d) ℝ)
     (B : Set (Fin s → ℝ)) (ε : ℝ) : Set (Fin s → ℝ) :=
@@ -2408,24 +1661,6 @@ theorem quantitative_nondivergence {s d : ℕ} (hd : 0 < d)
       (d : ℝ) * C * ((3 : ℝ) ^ s * Besicovitch.multiplicity (Fin s → ℝ)) ^ d *
         Real.rpow (ε / ρ) α * volume.real (Metric.ball x₀ r) := by sorry
 
--- `ℤ(1, 1)` is primitive in `ℤ²`; `ℤ(2, 0)` is not.
-example : integralPrimitiveSubgroup
-    (Submodule.span ℤ ({(![1, 1] : Fin 2 → ℝ)} : Set (Fin 2 → ℝ))) := by sorry
-example : ¬ integralPrimitiveSubgroup
-    (Submodule.span ℤ ({(![2, 0] : Fin 2 → ℝ)} : Set (Fin 2 → ℝ))) := by sorry
-
--- With `h = 1`, threshold `1/2` gives the empty set and threshold `2` everything.
-example : shortIntegerVectorSet (fun _ : Fin 1 → ℝ => (1 : Matrix (Fin 1) (Fin 1) ℝ))
-    Set.univ (1/2) = ∅ ∧
-    shortIntegerVectorSet (fun _ : Fin 1 → ℝ => (1 : Matrix (Fin 1) (Fin 1) ℝ))
-    Set.univ 2 = Set.univ := by sorry
-
-example {d : ℕ} : integralPrimitiveSubgroup (⊥ : Submodule ℤ (Fin d → ℝ)) := by sorry
-example {d : ℕ} : integralPrimitiveSubgroup
-    (Submodule.span ℤ (Set.range fun z : Fin d → ℤ => (fun i => (z i : ℝ)))) := by sorry
-example {s : ℕ} (h : (Fin s → ℝ) → Matrix (Fin 0) (Fin 0) ℝ)
-    (B : Set (Fin s → ℝ)) (ε : ℝ) : shortIntegerVectorSet h B ε = ∅ := by sorry
-
 end QuantitativeNondivergence
 
 section WeightedGaussianFourier
@@ -2440,11 +1675,6 @@ theorem fourier_harmonic_gaussian {n ℓ : ℕ} (P : MvPolynomial (Fin n) ℝ)
       (eval (fun i => x i) P : ℂ) * Complex.exp (-(Real.pi * t : ℂ) * ‖x‖ ^ 2)) y =
       (-Complex.I) ^ ℓ * (t : ℂ) ^ (-((n : ℂ) / 2 + ℓ)) *
         (eval (fun i => y i) P : ℂ) * Complex.exp (-(Real.pi / t : ℂ) * ‖y‖ ^ 2) := by sorry
-
--- In dimension one, `x e^{-πx²}` transforms to `-i ξ e^{-πξ²}`; `+i` reverses the phase.
-example (y : ℝ) :
-    𝓕 (fun x : ℝ => (x : ℂ) * Complex.exp (-(Real.pi : ℂ) * x ^ 2)) y =
-      -Complex.I * (y : ℂ) * Complex.exp (-(Real.pi : ℂ) * y ^ 2) := by sorry
 
 end WeightedGaussianFourier
 
@@ -2488,21 +1718,6 @@ theorem primitive_three_square_moebius {n : ℕ} (hn : 0 < n) :
       if k ^ 2 ∣ n then ArithmeticFunction.moebius k *
         (Nat.card (ternaryShell (n / k ^ 2)) : ℤ) else 0 := by sorry
 
--- Scaling the discriminant −23 form retains Hurwitz classes with nonprimitive edge triples.
-example : (⟨6, 3, 9⟩ : TauCeti.BinaryQuadraticForm ℤ) ∈ TauCeti.reducedForms 207 ∧
-    (3 : ℤ) * 9 + 3 * 15 + 9 * 15 = 207 ∧ Nat.gcd 3 (Nat.gcd 9 15) = 3 := by sorry
-example : (⟨4, 2, 6⟩ : TauCeti.BinaryQuadraticForm ℤ) ∈ TauCeti.reducedForms 92 ∧
-    (2 : ℤ) * 6 + 2 * 10 + 6 * 10 = 92 ∧
-    (Odd (1 : ℤ) ∧ Odd (3 : ℤ) ∧ Odd (5 : ℤ)) := by sorry
-example : TauCeti.hurwitzClassNumber 12 = 4 / 3 ∧ Nat.card (ternaryShell 3) = 8 := by sorry
-
--- Removing the square-divisor contribution distinguishes all from primitive representations.
-example : Nat.card (primitiveTernaryShell 1) = 6 ∧
-    Nat.card (primitiveTernaryShell 3) = 8 := by sorry
-example : Nat.card (ternaryShell 4) = 6 ∧ Nat.card (primitiveTernaryShell 4) = 0 := by sorry
-example : Nat.card (ternaryShell 12) = 8 ∧ Nat.card (primitiveTernaryShell 12) = 0 := by sorry
-example : Nat.card (ternaryShell 9) = 30 ∧ Nat.card (primitiveTernaryShell 9) = 24 := by sorry
-
 /-- The polynomial Laplacian `Σ ∂_i² P` in any finite coordinate dimension (§4.3). -/
 def polynomialLaplacian {n : ℕ} (P : MvPolynomial (Fin n) ℝ) : MvPolynomial (Fin n) ℝ :=
   ∑ i : Fin n, pderiv i (pderiv i P)
@@ -2523,11 +1738,6 @@ theorem polynomial_sphere_harmonic_span {n : ℕ} (hn : 0 < n)
       (∀ ℓ, (H ℓ).IsHomogeneous ℓ.val ∧ polynomialLaplacian (H ℓ) = 0) ∧
       ∀ x : EuclideanSpace ℝ (Fin n), ‖x‖ = 1 →
         eval (fun i => x i) P = ∑ ℓ, eval (fun i => x i) (H ℓ) := by sorry
-
--- The product of two degree-one harmonics need not be harmonic.
--- Its sphere restriction includes the constant term `1/3` in dimension three.
-example : polynomialLaplacian ((X (0 : Fin 3)) ^ 2 -
-    (1 / 3 : ℝ) • (∑ i : Fin 3, X i ^ 2) : MvPolynomial (Fin 3) ℝ) = 0 := by sorry
 
 /-- The shell coefficient `Σ_{v ∈ S_n} P(v)`. -/
 def ternaryWeightedCoefficient (P : MvPolynomial (Fin 3) ℝ) (n : ℕ) : ℝ :=
@@ -2570,33 +1780,9 @@ theorem ternaryHarmonicTheta_coeff (P : MvPolynomial (Fin 3) ℝ) (τ : ℂ) (h�
 example : signedThreeSquareCount 3 = 8 := by decide
 example : signedThreeSquareCount 7 = 0 := by decide
 
--- Negative control: at `n = 0` the signed expression is `0` but the shell has one point.
-example : signedThreeSquareCount 0 = 0 ∧ Nat.card (ternaryShell 0) = 1 := by sorry
-
--- `X₀² - X₁²` is harmonic; `X₀²` alone has Laplacian `2`.
-example : polynomialLaplacian
-    ((X (0 : Fin 3)) ^ 2 - (X (1 : Fin 3)) ^ 2 : MvPolynomial (Fin 3) ℝ) = 0 := by sorry
-example : polynomialLaplacian ((X (0 : Fin 3)) ^ 2 : MvPolynomial (Fin 3) ℝ) = 2 := by sorry
-
--- The harmonic quartic `Σ X_i⁴ - (3/5)(Σ X_i²)²` has shell coefficient `12/5` at `n = 1`.
-example :
-    let P : MvPolynomial (Fin 3) ℝ :=
-      (∑ i : Fin 3, X i ^ 4) - C (3/5) * (∑ i : Fin 3, X i ^ 2) ^ 2
-    P.IsHomogeneous 4 ∧ polynomialLaplacian P = 0 ∧
-      ternaryWeightedCoefficient P 1 = 12/5 := by sorry
-
--- `X₀` has vanishing theta series by `v ↦ -v`.
-example (τ : ℂ) : ternaryHarmonicTheta (X (0 : Fin 3)) τ = 0 := by sorry
-
 -- The fundamental discriminants of `1, 2, 3` are `-4, -8, -3`.
 example : ternaryFundamentalDiscriminant 1 = -4 ∧ ternaryFundamentalDiscriminant 2 = -8 ∧
     ternaryFundamentalDiscriminant 3 = -3 := by decide
-
-example : signedThreeSquareCount 1 = 6 ∧ signedThreeSquareCount 2 = 12 := by sorry
-example : ternaryWeightedCoefficient (1 : MvPolynomial (Fin 3) ℝ) 1 = 6 := by sorry
-example (n : ℕ) : ternaryWeightedCoefficient
-    ((X (0 : Fin 3)) ^ 2 - (X (1 : Fin 3)) ^ 2 : MvPolynomial (Fin 3) ℝ) n = 0 := by sorry
-example : 1 < (ternaryHarmonicTheta (1 : MvPolynomial (Fin 3) ℝ) Complex.I).re := by sorry
 
 end HarmonicTheta
 
@@ -2657,13 +1843,6 @@ theorem qPochhammer_shift (a q : ℂ) (hq : ‖q‖ < 1) :
 theorem jacobiProduct_inversion (a q : ℂ) (ha : a ≠ 0) (hq : ‖q‖ < 1) :
     jacobiProduct (a⁻¹) q = -a⁻¹ * jacobiProduct a q := by sorry
 
--- The index-zero factor cannot be omitted: `P(1; q) = 0` and `P(a; 0) = 1 - a`.
-example (q : ℂ) : qPochhammer 1 q = 0 := by sorry
-example (a : ℂ) : qPochhammer a 0 = 1 - a := by sorry
-
--- `J(q; q) = 0` for `0 < |q| < 1`: the factor is `P(q/a)`, not `P(a/q)`.
-example (q : ℂ) (hq0 : q ≠ 0) (hq : ‖q‖ < 1) : jacobiProduct q q = 0 := by sorry
-
 -- At `q = 0` the factor `P(q/q; q)` is `P(0; 0) = 1` because `0/0 = 0`, so `J(0; 0) = 1`.
 example : jacobiProduct (0 : ℂ) 0 = 1 := by
   simp [jacobiProduct, qPochhammer]
@@ -2671,21 +1850,6 @@ example : jacobiProduct (0 : ℂ) 0 = 1 := by
 -- At `(q, x, y, z) = (1/2, 1/3, 2/3, 3/4)` the summand at `(-1, -1)` is `-3`.
 example : kroneckerSummand (1/2) (1/3) (2/3) (3/4) (-1) (-1) = -3 := by
   norm_num [kroneckerSummand]
-
--- At `q = 0` the kernel, a cyclic term and the correction take the values `3/2`, `2`, `8/3`.
-example : kroneckerDoubleKernel 0 (1/3) 0 0 = 3/2 := by sorry
-example : kroneckerCyclicTerm 0 (1/3) (2/3) (3/4) = 2 := by sorry
-example : kroneckerCorrection 0 0 0 (1/2) = 8/3 := by sorry
-
-example (q : ℂ) (hq : ‖q‖ < 1) : jacobiProduct 1 q = 0 := by sorry
-example : kroneckerSummand (1/2) (1/3) (2/3) (3/4) 0 0 = 3/2 ∧
-    kroneckerSummand (1/2) (1/3) (2/3) (3/4) 1 0 = 4/5 := by sorry
-example : kroneckerDoubleKernel 0 0 0 0 = 1 ∧
-    kroneckerDoubleKernel 0 (1/3) (1/2) (1/2) = 7/2 := by sorry
-example : kroneckerCyclicTerm 0 (1/3) (3/4) (2/3) = 27/10 ∧
-    kroneckerCyclicTerm 0 (2/3) (3/4) (1/3) = 9/2 := by sorry
-example : kroneckerCorrection 0 0 0 0 = 2 ∧
-    kroneckerCorrection 0 (1/3) (2/3) (3/4) = 27/10 := by sorry
 
 end KroneckerKernels
 
@@ -2729,18 +1893,6 @@ theorem halfIntegralKloostermanPartialSum_continuous (ℓ n Q : ℕ) (x : ℝ) :
 example : thetaMultiplierPhase 1 = 1 ∧ thetaMultiplierPhase 3 = Complex.I := by
   norm_num [thetaMultiplierPhase]
 
--- `K_{ℓ=0}(0,0;4) = 1 - i` and `K_{ℓ=1}(0,0;4) = 1 + i`: the exponent is negative.
-example : halfIntegralKloosterman 0 0 0 4 = 1 - Complex.I ∧
-    halfIntegralKloosterman 1 0 0 4 = 1 + Complex.I := by sorry
-
--- At `x = 0` every partial sum is zero.
-example (ℓ n Q : ℕ) (v : ℝ) : halfIntegralKloostermanPartialSum ℓ n Q 0 v = 0 := by sorry
-
-example : thetaMultiplierPhase 5 = 1 := by sorry
-example : halfIntegralKloosterman 0 1 1 4 = -1 + Complex.I := by sorry
-example : halfIntegralKloostermanPartialSum 0 0 4 3 0 = 0 ∧
-    halfIntegralKloostermanPartialSum 0 0 4 4 0 = (1 - Complex.I) / 2 := by sorry
-
 end HalfIntegralKloosterman
 
 section PackingCovering
@@ -2773,21 +1925,6 @@ theorem latticeCoveringRadius_smul (L : Submodule ℤ E) [DiscreteTopology L]
     [IsZLattice ℝ L] (a : ℝ) (ha : 0 < a) :
     latticeCoveringRadius (L.map (a • LinearMap.id : E →ₗ[ℤ] E)) =
       a * latticeCoveringRadius L := by sorry
-
--- For `ℤ ⊂ ℝ` both radii are `1/2`.
-example : latticePackingRadius (Submodule.span ℤ ({1} : Set ℝ)) = 1/2 ∧
-    latticeCoveringRadius (Submodule.span ℤ ({1} : Set ℝ)) = 1/2 := by sorry
-
--- For `ℤ²` the covering radius `√2/2` exceeds the packing radius `1/2`.
-example : latticeCoveringRadius (Submodule.span ℤ
-    ({WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![0, 1]} : Set (EuclideanSpace ℝ (Fin 2)))) =
-      Real.sqrt 2 / 2 := by sorry
-
-example (L : Submodule ℤ (EuclideanSpace ℝ (Fin 0))) :
-    latticePackingRadius L = 0 ∧ latticeCoveringRadius L = 0 := by sorry
-example : latticePackingRadius (Submodule.span ℤ
-    ({WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![0, 1]} : Set (EuclideanSpace ℝ (Fin 2)))) =
-      1/2 := by sorry
 
 end PackingCovering
 
@@ -2826,14 +1963,6 @@ def CompactStarBody.admissible (K : CompactStarBody E) (L : Submodule ℤ E) : P
 def CompactStarBody.convexComparison (K : CompactStarBody E)
     (h : Convex ℝ {x | K.gauge x ≤ 1}) : ConvexBody E :=
   ⟨{x | K.gauge x ≤ 1}, h, K.compact, ⟨0, by sorry⟩⟩
-
--- The convex comparison has the unit sublevel as carrier.
-example (K : CompactStarBody E) (h : Convex ℝ {x | K.gauge x ≤ 1}) :
-    (K.convexComparison h : Set E) = {x | K.gauge x ≤ 1} := by sorry
-
--- Negative control: `(√|x| + √|y|)² ≤ 1` is a compact star body that is not convex.
-example : ¬ Convex ℝ {x : EuclideanSpace ℝ (Fin 2) |
-    (Real.sqrt |x 0| + Real.sqrt |x 1|) ^ 2 ≤ 1} := by sorry
 
 end StarBodies
 
@@ -2878,14 +2007,6 @@ theorem star_admissibility_closed (K : CompactStarBody E) {n : ℕ}
 theorem critical_lattice_exists (K : CompactStarBody E) :
     ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L),
       K.admissible L ∧ ZLattice.covolume L = criticalDeterminant K := by sorry
-
--- For `|x|` on `ℝ`, `Δ = 1`; for `|x|/2`, `Δ = 2`.
-example (K : CompactStarBody ℝ) (h : ∀ x, K.gauge x = |x|) : criticalDeterminant K = 1 := by sorry
-example (K : CompactStarBody ℝ) (h : ∀ x, K.gauge x = |x| / 2) : criticalDeterminant K = 2 := by
-  sorry
-
-example (K : CompactStarBody (EuclideanSpace ℝ (Fin 0))) : criticalDeterminant K = 1 := by
-  sorry
 
 end CriticalDeterminants
 
@@ -2933,22 +2054,6 @@ theorem gaussian_lattice_poisson (L : Submodule ℤ E) [DiscreteTopology L] [IsZ
 
 end GaussianSums
 
--- `ρ_2(2ℤ) = ρ_1(ℤ)`: simultaneous scaling.
-example : latticeGaussianSum (Submodule.span ℤ {(2 : ℝ)}) 2 0 =
-    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
-
--- Rank zero and integral translates are normalization controls for the Gaussian sum.
-example (s : ℝ) (hs : 0 < s) :
-    latticeGaussianSum (⊥ : Submodule ℤ (EuclideanSpace ℝ (Fin 0))) s 0 = 1 := by sorry
-example : latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 1 =
-    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
--- Positive nonzero terms and the odd dual terms in Poisson summation give strict inequalities.
-example : 1 < latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
-example : latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 (1/2) <
-    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
-example : latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 <
-    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 2 0 := by sorry
-
 section SiegelTransform
 variable {E : Type*} [AddCommGroup E]
 
@@ -2966,18 +2071,7 @@ theorem siegelTransform_add (L : Submodule ℤ E) (f g : E → ℝ)
 theorem siegelTransform_nonneg (L : Submodule ℤ E) (f : E → ℝ)
     (hf : ∀ x, 0 ≤ f x) : 0 ≤ siegelTransform L f := by sorry
 
--- The zero lattice has transform `0` even when `f(0) ≠ 0`.
-example (f : E → ℝ) : siegelTransform ⊥ f = 0 := by sorry
-
-example : siegelTransform (Submodule.span ℤ {(1 : ℝ)})
-    ((Set.Icc (-1 : ℝ) 1).indicator (fun _ => (1 : ℝ))) = 2 := by sorry
-
 end SiegelTransform
-
--- Negative control for `n = 1`: on `ℤ` the indicator of `[-1/2, 1/2]` has transform `0` while its
--- integral is `1`.
-example : siegelTransform (Submodule.span ℤ {(1 : ℝ)})
-    ((Set.Icc (-1/2 : ℝ) (1/2)).indicator (fun _ => (1 : ℝ))) = 0 := by sorry
 
 section GaussianAllIndex
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
@@ -3020,18 +2114,6 @@ theorem gaussian_characteristic_poisson (L : Submodule ℤ E)
       latticeGaussianSum (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) 1 u /
       latticeGaussianSum (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) 1 0 := by sorry
 
--- The defining inequality is strict: for `ℤ`, threshold `1` gives `0`, threshold `2` all of `ℝ`.
-example : shortVectorSpan (Submodule.span ℤ {(1 : ℝ)}) 1 = ⊥ ∧
-    shortVectorSpan (Submodule.span ℤ {(1 : ℝ)}) 2 = ⊤ := by sorry
-
--- For `ℤ`, the characteristic function at `1/2` is strictly less than `1`.
-example : gaussianCharacteristic (Submodule.span ℤ {(1 : ℝ)}) (1/2) < 1 := by sorry
-
-example (L : Submodule ℤ E) (r : ℝ) (hr : r ≤ 0) : shortVectorSpan L r = ⊥ := by sorry
-example (L : Submodule ℤ (EuclideanSpace ℝ (Fin 0)))
-    (u : EuclideanSpace ℝ (Fin 0)) : gaussianCharacteristic L u = 1 := by sorry
-example : gaussianCharacteristic (Submodule.span ℤ {(1 : ℝ)}) 1 = 1 := by sorry
-
 end GaussianAllIndex
 
 section HexagonalLattice
@@ -3048,22 +2130,6 @@ theorem hexagonalLattice_discrete : DiscreteTopology hexagonalLattice := by sorr
 theorem hexagonalLattice_full :
     letI := hexagonalLattice_discrete
     IsZLattice ℝ hexagonalLattice := by sorry
-
--- Its covolume is `√3/2` and `(0, 1)` is not a lattice point.
-example : letI := hexagonalLattice_full; ZLattice.covolume hexagonalLattice = Real.sqrt 3 / 2 := by
-  sorry
-example : WithLp.toLp 2 (![0, 1] : Fin 2 → ℝ) ∉ hexagonalLattice := by sorry
-
--- Both Euclidean minima are `1`; the dual minima are `2/√3`, so the paired product exceeds `1`.
-example (K : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK : (K : Set (EuclideanSpace ℝ (Fin 2))) = Metric.closedBall 0 1) :
-    letI := hexagonalLattice_discrete
-    ∀ i, successiveMin hexagonalLattice K i = 1 := by sorry
-
-example (K : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK : (K : Set (EuclideanSpace ℝ (Fin 2))) = Metric.closedBall 0 1) :
-    ∀ i, successiveMin (LinearMap.BilinForm.dualSubmodule
-      (innerₗ (EuclideanSpace ℝ (Fin 2))) hexagonalLattice) K i = 2 / Real.sqrt 3 := by sorry
 
 end HexagonalLattice
 
@@ -3101,17 +2167,6 @@ theorem oppenheim_values {n : ℕ} (hn : 3 ≤ n) (q : QuadraticForm ℝ (Fin n 
     (hirr : ¬ ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin n → ℤ,
       ∃ r : ℚ, q (fun i => (z i : ℝ)) = c * (r : ℝ)) :
     Dense (Set.range (fun z : Fin n → ℤ => q (fun i => (z i : ℝ)))) := by sorry
-
--- `x² + y² - √2 z²` is irrational up to scalar.
-example : ¬ ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin 3 → ℤ,
-    ∃ r : ℚ, QuadraticMap.weightedSumSquares ℝ
-      (![1, 1, -Real.sqrt 2] : Fin 3 → ℝ) (fun i => (z i : ℝ)) = c * (r : ℝ) := by sorry
-
--- Negative control: `√2 (x² + y² - z²)` is proportional to a rational form.
-example : ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin 3 → ℤ,
-    ∃ r : ℚ, QuadraticMap.weightedSumSquares ℝ
-      (![Real.sqrt 2, Real.sqrt 2, -Real.sqrt 2] : Fin 3 → ℝ)
-      (fun i => (z i : ℝ)) = c * (r : ℝ) := by sorry
 
 end Oppenheim
 
@@ -3170,32 +2225,6 @@ theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 <
 
 end LLL
 
-section LLLChecks
-
--- Dependent real-line families exercise the total Gram–Schmidt ratio.
-example : lllCoefficient (![1, 1] : Fin 2 → ℝ) 0 1 = 0 := by sorry
-example : lllCoefficient (![1, 1/2] : Fin 2 → ℝ) 1 0 = 1/2 := by sorry
-
--- `μ₁₀ = 1/2` for `((1, 0), (1/2, 1))`.
-example : lllCoefficient
-    (![WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![1/2, 1]] :
-      Fin 2 → EuclideanSpace ℝ (Fin 2)) 1 0 = 1/2 := by sorry
-
--- The standard basis is reduced; `((2, 0), (0, 1))` fails the Lovász condition.
-example : IsLLLReduced
-    (![WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![0, 1]] : Fin 2 → EuclideanSpace ℝ (Fin 2)) := by
-  sorry
-example : ¬ IsLLLReduced
-    (![WithLp.toLp 2 ![2, 0], WithLp.toLp 2 ![0, 1]] : Fin 2 → EuclideanSpace ℝ (Fin 2)) := by
-  sorry
-
--- Negative control: a dependent family is never reduced.
-example : ¬ IsLLLReduced
-    (![WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![2, 0]] : Fin 2 → EuclideanSpace ℝ (Fin 2)) := by
-  sorry
-
-end LLLChecks
-
 /-! ## Layer 6: Hermitian K-theory of exact categories -/
 
 section C2NormMaps
@@ -3209,37 +2238,7 @@ def c2Norm (σ : A →+ A) : A →+ A := AddMonoidHom.id A + σ
 endomorphism formula `1 - σ` under the involution hypothesis. -/
 def c2Difference (σ : A →+ A) : A →+ A := AddMonoidHom.id A - σ
 
-example : c2Norm (AddMonoidHom.id ℤ) 1 = 2 ∧
-    c2Difference (AddMonoidHom.id ℤ) 1 = 0 := by sorry
-example : c2Norm (-AddMonoidHom.id ℤ) 1 = 0 ∧
-    c2Difference (-AddMonoidHom.id ℤ) 1 = 2 := by sorry
-example (x : ZMod 2) : c2Norm (AddMonoidHom.id (ZMod 2)) x = 0 ∧
-    c2Difference (AddMonoidHom.id (ZMod 2)) x = 0 := by sorry
-
 end C2NormMaps
-
-section CoefficientInvolutionChecks
-
--- The free coefficient line over `ZMod 8` admits an involution beyond the two signs.
-example : Function.Involutive (fun x : ZMod 8 => 3 * x) := by
-  intro x
-  have h : (3 : ZMod 8) * 3 = 1 := by decide
-  simp only [← mul_assoc, h, one_mul]
-
-example (a b x : ZMod 8) : 3 * ((a * b) * x) = (b * a) * (3 * x) := by
-  ring
-
-example : (fun x : ZMod 8 => 3 * x) ≠ (fun x => x) ∧
-    (fun x : ZMod 8 => 3 * x) ≠ (fun x => -x) := by
-  constructor
-  · intro h
-    have h1 : (3 : ZMod 8) = 1 := by simpa using congrFun h 1
-    exact (by decide : (3 : ZMod 8) ≠ 1) h1
-  · intro h
-    have h1 : (3 : ZMod 8) = -1 := by simpa using congrFun h 1
-    exact (by decide : (3 : ZMod 8) ≠ -1) h1
-
-end CoefficientInvolutionChecks
 
 section CategoryDuality
 open CategoryTheory Opposite
@@ -3275,13 +2274,6 @@ theorem SymmetricSpace.preserves_comp {D : StrongCategoryDuality C}
     (X Y Z : SymmetricSpace D) (f : X.carrier ⟶ Y.carrier)
     (g : Y.carrier ⟶ Z.carrier) (hf : X.preserves Y f) (hg : Y.preserves Z g) :
     X.preserves Z (f ≫ g) := by sorry
-
--- The discrete one-object category carries a strong duality.
-example : Nonempty (StrongCategoryDuality (Discrete PUnit)) := by sorry
-
--- The pairing of a symmetric space is invertible: a separating but non-perfect form such as
--- `2xy` on `ℤ` is not a symmetric space.
-example {D : StrongCategoryDuality C} (X : SymmetricSpace D) : IsIso X.pairing.hom := by sorry
 
 end CategoryDuality
 
@@ -3334,9 +2326,6 @@ theorem sign_sign (D : ExactCategoryDuality E) : D.sign.sign = D := by sorry
 
 end ExactCategoryDuality
 
--- Over `F₂`, `b(x,y) = xy` is skew-symmetric but has nonzero diagonal.
-example : (∀ x y : ZMod 2, x * y = -(y * x)) ∧ (1 : ZMod 2) * 1 ≠ 0 := by decide
-
 variable {E : TauCeti.ExactStructure C} (D : ExactCategoryDuality E)
 
 /-- An admissible Lagrangian `L ↣ X ↠ DL` (6.2.6). -/
@@ -3378,10 +2367,6 @@ abbrev SymmetricIsometryClass := Quotient (symmetricIsometrySetoid D)
 /-- The isometry class of a symmetric space. -/
 def symmetricClass (X : SymmetricSpace D.toStrongCategoryDuality) : SymmetricIsometryClass D :=
   Quotient.mk _ X
-
--- The duality reverses conflations; the sign twist negates `η` and is an involution.
-example (X : C) : D.sign.biddual.hom.app X = -D.biddual.hom.app X := by sorry
-example : D.sign.sign = D := by sorry
 
 end NativeExactDuality
 
@@ -3504,23 +2489,9 @@ abbrev sFilteringQuotientFunctor (E : TauCeti.ExactStructure C) (A : C → Prop)
 def DualityStable (E : TauCeti.ExactStructure C) (D : ExactCategoryDuality E)
     (A : C → Prop) : Prop := ∀ X, A X ↔ A (D.dual.obj (op X))
 
--- The zero and whole subcategories are duality-stable; omitting a dual fails.
-example (E : TauCeti.ExactStructure C) (D : ExactCategoryDuality E) :
-    DualityStable E D (fun X => IsZero X) := by sorry
-example (E : TauCeti.ExactStructure C) (D : ExactCategoryDuality E)
-    (A : C → Prop) (X : C) (hX : A X) (hDX : ¬ A (D.dual.obj (op X))) :
-    ¬ DualityStable E D A := by sorry
-
--- Negative control: the empty predicate omits zero.
-example (E : TauCeti.ExactStructure C) : ¬ SFiltering E (fun _ => False) := by sorry
-
--- Elementary generators become invertible in the quotient.
-example (E : TauCeti.ExactStructure C) (A : C → Prop) {X Y : C} (f : X ⟶ Y)
-    (hf : sFilteringWeakGenerator E A f) :
-    IsIso ((sFilteringQuotientFunctor E A).map f) := by sorry
-
--- Negative control: the free groups are not s-filtering in finitely generated abelian groups.
-example : ¬ SFiltering (TauCeti.ExactStructure.abelian (C := FGModuleCat ℤ))
+/-- Free finitely generated abelian groups are not s-filtering (6.6a); multiplication
+by two tests the special-inflation condition in the induced exact structure. -/
+theorem freeFGAb_not_sFiltering : ¬ SFiltering (TauCeti.ExactStructure.abelian (C := FGModuleCat ℤ))
     (fun X => Module.Free ℤ X) := by sorry
 
 end SFiltering
@@ -3565,10 +2536,6 @@ def formationSetoid : Setoid (Formation D) where
 /-- Formation isometry classes. -/
 abbrev FormationClass := Quotient (formationSetoid D)
 
--- Swapping is an involution exchanging the two Lagrangians.
-example (F : Formation D) : F.swap.swap = F := by sorry
-example (F : Formation D) : F.swap.first = F.second := by sorry
-
 end Formations
 
 section ExactFormFunctors
@@ -3609,18 +2576,6 @@ theorem mapSpace_pairing_hom (F : ExactFormFunctor D D')
 
 end ExactFormFunctor
 end ExactFormFunctors
-
-section SplitExactControls
-open CategoryTheory CategoryTheory.Limits
-
--- Finite torsion is not reflexive for `ℤ`-linear duality.
-example : Subsingleton (Module.Dual ℤ (ZMod 2)) := by sorry
-
--- Multiplication by two is injective but not an admissible split inflation.
-example : ¬ (TauCeti.ExactStructure.split (ModuleCat ℤ)).IsInflation
-    (ModuleCat.ofHom (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ))) := by sorry
-
-end SplitExactControls
 
 section NativeDGDuality
 open CategoryTheory Opposite
@@ -3668,11 +2623,6 @@ theorem map_differential (D : DGDuality R A A₀) {X Y : A} (n : ℤ)
 
 end DGDuality
 
--- The signed opposite and native composition share the same homogeneous Hom modules.
-example {X Y Z : A} (f : TauCeti.DGHom R 1 Y X) (g : TauCeti.DGHom R 1 Z Y) :
-    TauCeti.dgComp (R := R) (C := Aᵒᵖ) f g (by omega : (1 : ℤ) + 1 = 2) =
-      -TauCeti.dgComp R g f (by omega : (1 : ℤ) + 1 = 2) := by sorry
-
 end NativeDGDuality
 
 section DGDualitySigns
@@ -3711,14 +2661,6 @@ example : dgDualMorphismSign 1 2 = 1 ∧ dgDualMorphismSign 0 1 = -1 ∧
 
 open CategoryTheory CochainComplex.HomComplex
 
--- For `X = ℚ[0]`, `Y = (ℚ →id ℚ)` in degrees `0,1` and `f⁰ = id`, this component
--- of the native Hom differential is `id`; closedness of `f` is not assumed.
-example {X Y : CochainComplex (ModuleCat ℚ) ℤ} (f : Cochain X Y 0)
-    (hX : X.d 0 1 = 0) :
-    (δ 0 1 f).v 0 1 (by omega) = f.v 0 0 (by omega) ≫ Y.d 0 1 := by
-  rw [δ_v 0 1 (by omega) f 0 1 (by omega) 0 1 (by omega) (by omega)]
-  simp [hX]
-
 -- In the dual two-term example, `d_DY^{-1} = id` and `(Df)⁰ = id`. The native Hom
 -- differential is `-id`, agreeing with dualization of `δf` with the degree-one sign.
 example {DX DY : CochainComplex (ModuleCat ℚ) ℤ} (Df : Cochain DY DX 0)
@@ -3729,38 +2671,6 @@ example {DX DY : CochainComplex (ModuleCat ℚ) ℤ} (Df : Cochain DY DX 0)
   simp [hDX, dgDualMorphismSign]
 
 end DGDualitySigns
-
-section LTheoryEndpointChecks
-
--- In §6.10b's quadratic endpoint, naturality with signature-eight symmetrization
--- forces the signature-one shift to act identically on the quadratic integer invariant.
-example (a xa : ℤ) (h : 8 * xa = 8 * a) : xa = a := by omega
-
--- The integral comparison from the quadratic telescope retains the missing signature-one class.
-example : ¬ Function.Surjective (fun a : ℤ => 8 * a) := by
-  intro h
-  obtain ⟨a, ha⟩ := h 1
-  change 8 * a = 1 at ha
-  omega
-
--- Eight becomes a unit after inverting two, as required by the separate endpoint comparison.
-example : IsUnit (8 : Localization.Away (2 : ℤ)) := by
-  have h := (IsLocalization.Away.algebraMap_isUnit
-    (S := Localization.Away (2 : ℤ)) (2 : ℤ)).pow 3
-  norm_num at h ⊢
-  exact h
-
-end LTheoryEndpointChecks
-
-section SurgeryMatrixChecks
-
--- Two invertible singleton blocks with a degenerate combination: `[[1,1],[1,1]]` has kernel
--- vector `(1, -1)`.
-example : Matrix.det (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℚ) = 0 := by norm_num
-example : (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℚ).mulVec ![1, -1] = 0 := by
-  ext i; fin_cases i <;> norm_num [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-
-end SurgeryMatrixChecks
 
 section ResidueDualityCoefficient
 variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
@@ -3782,10 +2692,6 @@ theorem residueRestriction_apply (p : Ideal R) (f : R →ₗ[R] M) (x : p) :
 /-- The unit ideal has zero residue coefficient. -/
 theorem residueDualizingModule_top :
     Subsingleton (residueDualizingModule (⊤ : Ideal R) M) := by sorry
-
--- `Hom(2ℤ, ℤ)/res Hom(ℤ, ℤ)` has two elements; at `3` it has three.
-example : Nat.card (residueDualizingModule (Ideal.span ({2} : Set ℤ)) ℤ) = 2 := by sorry
-example : Nat.card (residueDualizingModule (Ideal.span ({3} : Set ℤ)) ℤ) = 3 := by sorry
 
 end ResidueDualityCoefficient
 
