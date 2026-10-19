@@ -10,6 +10,13 @@ import TauCeti.Geometry.Lie.Exponential.Units.Basic
 import TauCeti.Algebra.Lie.Derivation.Basic
 import TauCeti.Algebra.Octonion.Basic
 import TauCeti.Algebra.Octonion.Derivation
+import TauCeti.Topology.Algebra.Group.Heisenberg
+import TauCeti.Algebra.Lie.Heisenberg
+import TauCeti.RepresentationTheory.Compact.Circle
+import TauCeti.AlgebraicTopology.UniversalCover.RealProjective.FundamentalGroup.Classification
+import TauCeti.AlgebraicTopology.UniversalCover.Torus.FundamentalGroup
+import TauCeti.RepresentationTheory.Compact.UnitaryModel
+import TauCeti.RepresentationTheory.Continuous.OrthogonalDecomposition
 
 /-!
 # Lie groups and the Lie algebra correspondence: target signatures
@@ -1658,5 +1665,365 @@ end SOBlocks
 
 end CompactNormalizerApplication
 end CompactNormalizerLifts
+
+/-! ### Layer 6A: finite real fields and a central-circle obstruction
+
+These interfaces supplement the definitive construction order in README 6A. The
+coordinate formulas precede the geometric classification; the native algebraic FTA
+endpoint is not used as a premise. Data operations below have literal native
+formulas, or have their full determining operands inside the admitted Pi family.
+-/
+
+open scoped Matrix.Norms.Operator
+
+namespace GeometricFiniteExtension
+
+section FieldCoordinates
+variable {F : Type u} [Field F] [Algebra ℝ F] {n : ℕ}
+
+/-- Coordinates are finite real vectors; no normed-field structure on F is assumed. -/
+noncomputable def coordinateMul (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x y : Fin (n+1) → ℝ) : Fin (n+1) → ℝ :=
+  b.equivFun (b.equivFun.symm x * b.equivFun.symm y)
+
+noncomputable def coordinateInv (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : Fin (n+1) → ℝ) : Fin (n+1) → ℝ :=
+  b.equivFun ((b.equivFun.symm x)⁻¹)
+
+noncomputable def multiplicationMatrix (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : Fin (n+1) → ℝ) : Matrix (Fin (n+1)) (Fin (n+1)) ℝ :=
+  Algebra.leftMulMatrix b (b.equivFun.symm x)
+
+theorem multiplicationMatrix_det_ne_zero (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : Fin (n+1) → ℝ) (hx : x ≠ 0) :
+    (multiplicationMatrix b x).det ≠ 0 := by sorry
+
+theorem coordinateInv_adjugate (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : Fin (n+1) → ℝ) (hx : x ≠ 0) :
+    coordinateInv b x = ((multiplicationMatrix b x).det)⁻¹ •
+      (Matrix.mulVec (multiplicationMatrix b x).adjugate (b.equivFun (1 : F))) := by sorry
+
+theorem contDiff_coordinateMul (b : Module.Basis (Fin (n+1)) ℝ F) :
+    ContDiff ℝ ∞ (fun p : (Fin (n+1) → ℝ) × (Fin (n+1) → ℝ) =>
+      coordinateMul b p.1 p.2) := by sorry
+
+theorem contDiffOn_coordinateInv (b : Module.Basis (Fin (n+1)) ℝ F) :
+    ContDiffOn ℝ ∞ (coordinateInv b) {x | x ≠ 0} := by sorry
+
+/-- Actual native units, identified with the open nonzero coordinate set. -/
+noncomputable def unitsCoordinates (b : Module.Basis (Fin (n+1)) ℝ F) :
+    Fˣ ≃ {x : Fin (n+1) → ℝ // x ≠ 0} where
+  toFun a := ⟨b.equivFun (a : F), by sorry⟩
+  invFun x := Units.mk0 (b.equivFun.symm x.1) (by sorry)
+  left_inv := by sorry
+  right_inv := by sorry
+
+/-- The actual coordinate-induced topology, not a second field/algebra dictionary. -/
+noncomputable def unitsTopology (b : Module.Basis (Fin (n+1)) ℝ F) : TopologicalSpace Fˣ :=
+  TopologicalSpace.induced (unitsCoordinates b) inferInstance
+
+/-- The canonical subgroup of nonzero real scalars; it does not depend on a basis. -/
+def realScalarUnits (F : Type u) [Field F] [Algebra ℝ F] : Subgroup Fˣ :=
+  (Units.map (algebraMap ℝ F).toMonoidHom).range
+
+/-- Abelian native units make the native quotient an actual group. -/
+instance realScalarUnits_normal : (realScalarUnits F).Normal := inferInstance
+
+abbrev ProjectiveUnits (F : Type u) [Field F] [Algebra ℝ F] :=
+  Fˣ ⧸ realScalarUnits F
+
+/-- The quotient-to-line map uses the actual representative, not an unrelated equivalence. -/
+noncomputable def quotientToProjectivization (F : Type u) [Field F] [Algebra ℝ F] :
+    ProjectiveUnits F → Projectivization ℝ F :=
+  Quotient.lift (fun a : Fˣ => Projectivization.mk ℝ (a : F) a.ne_zero) (by sorry)
+
+/-- Its inverse uses the same native projective representative made into a unit. -/
+noncomputable def projectivizationToQuotient (F : Type u) [Field F] [Algebra ℝ F] :
+    Projectivization ℝ F → ProjectiveUnits F :=
+  Projectivization.lift
+    (fun a : {x : F // x ≠ 0} => QuotientGroup.mk' (realScalarUnits F) (Units.mk0 a.1 a.2))
+    (by sorry)
+
+theorem quotient_projectivization_inverse (a : ProjectiveUnits F) :
+    projectivizationToQuotient F (quotientToProjectivization F a) = a := by sorry
+
+theorem projectivization_quotient_inverse (p : Projectivization ℝ F) :
+    quotientToProjectivization F (projectivizationToQuotient F p) = p := by sorry
+
+theorem realScalarUnits_isClosed (b : Module.Basis (Fin (n+1)) ℝ F) :
+    letI : TopologicalSpace Fˣ := unitsTopology b
+    IsClosed (realScalarUnits F : Set Fˣ) := by sorry
+
+/-- Whole family: the topology and actual homeomorphism retain F and b.
+The underlying forward map is pinned by the following line-comparison theorem. -/
+noncomputable def quotientProjectiveHomeomorph :
+    ∀ (F : Type u) [Field F] [Algebra ℝ F] (n : ℕ) (b : Module.Basis (Fin (n+1)) ℝ F),
+      letI : TopologicalSpace Fˣ := unitsTopology b
+      ProjectiveUnits F ≃ₜ TauCeti.RealProjectiveSpace n := by sorry
+
+/-- Pinned comparison to the actual antipodal sphere quotient, via the native
+projectivization carrier; AT4.6 constructs its ratio charts and normalization map. -/
+noncomputable def projectivizationSphereEquiv :
+    ∀ (F : Type u) [Field F] [Algebra ℝ F] (n : ℕ) (b : Module.Basis (Fin (n+1)) ℝ F),
+      Projectivization ℝ F ≃ TauCeti.RealProjectiveSpace n := by sorry
+
+/-- The actual Euclidean coordinate vector, deliberately not the finite-Pi sup norm. -/
+noncomputable def euclideanCoordinates (b : Module.Basis (Fin (n+1)) ℝ F) (x : F) :
+    EuclideanSpace ℝ (Fin (n+1)) := WithLp.toLp 2 (b.equivFun x)
+
+theorem euclideanCoordinates_ne_zero (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : F) (hx : x ≠ 0) : euclideanCoordinates b x ≠ 0 := by sorry
+
+/-- Unit-sphere membership is proved from hx using norm_smul; the vector is defined. -/
+noncomputable def normalizedCoordinates (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : F) (hx : x ≠ 0) : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n+1))) 1 :=
+  ⟨‖euclideanCoordinates b x‖⁻¹ • euclideanCoordinates b x, by sorry⟩
+
+theorem projectivizationSphereEquiv_mk (b : Module.Basis (Fin (n+1)) ℝ F)
+    (x : F) (hx : x ≠ 0) :
+    projectivizationSphereEquiv F n b (Projectivization.mk ℝ x hx) =
+      TauCeti.RealProjectiveSpace.mk n (normalizedCoordinates b x hx) := by sorry
+
+theorem quotientProjectiveHomeomorph_line (b : Module.Basis (Fin (n+1)) ℝ F)
+    (a : ProjectiveUnits F) :
+    quotientProjectiveHomeomorph F n b a =
+      projectivizationSphereEquiv F n b (quotientToProjectivization F a) := by sorry
+
+/-- Actual early compact-abelian application, before any complexification or FTA endpoint. -/
+theorem projectiveUnits_is_torus (b : Module.Basis (Fin (n+1)) ℝ F) :
+    letI : TopologicalSpace Fˣ := unitsTopology b
+    ∃ r : ℕ, Nonempty (ProjectiveUnits F ≃ₜ* (Fin r → Circle)) := by sorry
+
+/-- The based fundamental-group comparison forbids every torus rank, including zero. -/
+theorem realProjective_not_torus (n : ℕ) (hn : 2 ≤ n) (r : ℕ) :
+    ¬ Nonempty (TauCeti.RealProjectiveSpace n ≃ₜ (Fin r → Circle)) := by sorry
+
+/-- This application uses the native RP and product-circle fundamental group maps,
+not an algebraic field-classification premise. -/
+theorem coordinate_rank_le_two (b : Module.Basis (Fin (n+1)) ℝ F) : n+1 ≤ 2 := by sorry
+
+end FieldCoordinates
+
+/-- The nontrivial-field boundary d=0 is impossible. -/
+theorem finrank_pos (F : Type u) [Field F] [Algebra ℝ F] [FiniteDimensional ℝ F] :
+    0 < Module.finrank ℝ F := by sorry
+
+/-- The geometric proof uses the actual quotient and the based fundamental-group
+obstruction from 6A.2. Native Real.nonempty_algEquiv_or is only an endpoint comparison. -/
+theorem finrank_eq_one_or_two (F : Type u) [Field F] [Algebra ℝ F]
+    [FiniteDimensional ℝ F] :
+    Module.finrank ℝ F = 1 ∨ Module.finrank ℝ F = 2 := by sorry
+
+theorem dimension_one_scalar_equiv (F : Type u) [Field F] [Algebra ℝ F]
+    [FiniteDimensional ℝ F] (hd : Module.finrank ℝ F = 1) :
+    Nonempty (ℝ ≃ₐ[ℝ] F) := by sorry
+
+/-- Quadratic completion constructs j and the basis (1,j); it does not assume an embedding into C. -/
+theorem dimension_two_complex_structure (F : Type u) [Field F] [Algebra ℝ F]
+    [FiniteDimensional ℝ F] (hd : Module.finrank ℝ F = 2) :
+    ∃ j : F, j*j = -1 ∧ LinearIndependent ℝ (![1,j] : Fin 2 → F) := by sorry
+
+theorem dimension_two_complex_equiv (F : Type u) [Field F] [Algebra ℝ F]
+    [FiniteDimensional ℝ F] (hd : Module.finrank ℝ F = 2) :
+    ∃ e : ℂ ≃ₐ[ℝ] F, ∀ x y : ℝ, e ⟨x,y⟩ = algebraMap ℝ F x + algebraMap ℝ F y * e Complex.I :=
+  by sorry
+
+theorem geometric_finite_real_extension (F : Type u) [Field F] [Algebra ℝ F]
+    [FiniteDimensional ℝ F] :
+    Nonempty (F ≃ₐ[ℝ] ℝ) ∨ Nonempty (F ≃ₐ[ℝ] ℂ) := by sorry
+
+/-- These are geometric-proof corollaries through the native irreducible field quotient
+and the real-dimension tower formula, not uses of native isAlgClosed C. -/
+theorem real_irreducible_degree (p : Polynomial ℝ) (hp : Irreducible p) :
+    p.natDegree=1 ∨ p.natDegree=2 := by sorry
+
+theorem complex_polynomial_has_root (p : Polynomial ℂ) (hp : 0 < p.natDegree) :
+    ∃ z : ℂ, p.eval z=0 := by sorry
+
+end GeometricFiniteExtension
+
+namespace HeisenbergCircleObstruction
+
+local instance : Fact ((0:ℝ)<1) := ⟨by norm_num⟩
+
+abbrev H := TauCeti.HeisenbergGroup ℝ
+
+/-- The source matrix coordinates (a,c,b) are native (x,y,z). -/
+def unitriangularMatrix (h : H) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![1,h.x,h.z; 0,1,h.y; 0,0,1]
+
+noncomputable def unitriangular : H →* Matrix.GeneralLinearGroup (Fin 3) ℝ where
+  toFun h := ⟨unitriangularMatrix h, unitriangularMatrix h⁻¹, by sorry, by sorry⟩
+  map_one' := by sorry
+  map_mul' := by sorry
+
+theorem unitriangular_injective : Function.Injective unitriangular := by sorry
+
+def centralReal (t : ℝ) : H := ⟨0,0,t⟩
+
+/-- Literal period-one central integer lattice, not the full real center. -/
+def periodLattice : Subgroup H where
+  carrier := {h | h.x=0 ∧ h.y=0 ∧ ∃ m : ℤ, h.z=(m:ℝ)}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+theorem periodLattice_le_center : periodLattice ≤ Subgroup.center H := by sorry
+
+instance periodLattice_normal : periodLattice.Normal :=
+  Subgroup.normal_of_le_center periodLattice_le_center
+
+theorem periodLattice_isClosed : IsClosed (periodLattice : Set H) := by sorry
+
+theorem periodLattice_discrete : DiscreteTopology periodLattice := by sorry
+
+abbrev Q := H ⧸ periodLattice
+
+def projection : H →* Q := QuotientGroup.mk' periodLattice
+
+/-- A space map. The multiplication law below records the actual cocycle. -/
+noncomputable def quotientCoordinates : Q ≃ₜ ℝ × ℝ × AddCircle (1:ℝ) where
+  toFun := Quotient.lift (fun h : H => (h.x,h.y,(h.z : AddCircle (1:ℝ)))) (by sorry)
+  invFun p := projection ⟨p.1,p.2.1,(AddCircle.equivIco (1:ℝ) 0 p.2.2).1⟩
+  left_inv := by sorry
+  right_inv := by sorry
+  continuous_toFun := by sorry
+  continuous_invFun := by sorry
+
+theorem quotientCoordinates_projection (h : H) :
+    quotientCoordinates (projection h) = (h.x,h.y,(h.z : AddCircle (1:ℝ))) := by rfl
+
+theorem quotientCoordinates_mul (a b : Q) :
+    quotientCoordinates (a*b) =
+      ((quotientCoordinates a).1+(quotientCoordinates b).1,
+       (quotientCoordinates a).2.1+(quotientCoordinates b).2.1,
+       (quotientCoordinates a).2.2+(quotientCoordinates b).2.2+
+         (((quotientCoordinates a).1*(quotientCoordinates b).2.1:ℝ):AddCircle (1:ℝ))) := by sorry
+
+/-- The chosen half-open representative defines the same quotient element for every lift.
+Only the proof fields are admitted; the central-circle values are literal. -/
+noncomputable def centralCircle : Multiplicative (AddCircle (1:ℝ)) →* Q where
+  toFun c := projection (centralReal (AddCircle.equivIco (1:ℝ) 0 (Multiplicative.toAdd c)).1)
+  map_one' := by sorry
+  map_mul' := by sorry
+
+theorem centralCircle_lift (t : ℝ) :
+    centralCircle (Multiplicative.ofAdd (t : AddCircle (1:ℝ))) = projection (centralReal t) := by sorry
+
+/-- Native Fourier evaluation pins the derivative normalization used below. -/
+theorem central_fourier_parameter (k : ℤ) (t : ℝ) :
+    (TauCeti.fourierChar (1:ℝ) k (Multiplicative.ofAdd (t : AddCircle (1:ℝ))) : ℂ) =
+      Complex.exp ((((2*Real.pi:ℝ):ℂ)*Complex.I*(k:ℂ)) * (t:ℂ)) := by sorry
+
+theorem centralCircle_continuous : Continuous centralCircle := by sorry
+
+theorem centralCircle_injective : Function.Injective centralCircle := by sorry
+
+theorem centralCircle_range : centralCircle.range = Subgroup.center Q := by sorry
+
+theorem central_half_ne_one :
+    centralCircle (Multiplicative.ofAdd ((1/2:ℝ):AddCircle (1:ℝ))) ≠ 1 := by sorry
+
+/-- Coordinate homomorphism into the additive plane, written multiplicatively. -/
+def horizontal : Q →* Multiplicative (ℝ × ℝ) :=
+  QuotientGroup.lift periodLattice
+    { toFun := fun h : H => Multiplicative.ofAdd (h.x,h.y)
+      map_one' := by sorry
+      map_mul' := by sorry } (by sorry)
+
+theorem horizontal_surjective : Function.Surjective horizontal := by sorry
+
+theorem horizontal_ker : horizontal.ker = centralCircle.range := by sorry
+
+/-- These paths have the native Heisenberg tangent generators X,Y,Z, respectively. -/
+def generatorPath (j : Fin 3) (t : ℝ) : Q :=
+  projection (if j=0 then ⟨t,0,0⟩ else if j=1 then ⟨0,t,0⟩ else ⟨0,0,t⟩)
+
+theorem generatorPath_commutator (s t : ℝ) :
+    generatorPath 0 s * generatorPath 1 t * (generatorPath 0 s)⁻¹ * (generatorPath 1 t)⁻¹ =
+      generatorPath 2 (s*t) := by sorry
+
+section Matrices
+variable {m : ℕ}
+
+/-- Actual matrix derivative in a real normed coordinate model, retaining both operands. -/
+noncomputable def infinitesimalMatrix (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (j : Fin 3) : Matrix (Fin m) (Fin m) ℂ :=
+  fderiv ℝ (fun t : ℝ => (ρ (generatorPath j t) : Matrix (Fin m) (Fin m) ℂ)) 0 1
+
+noncomputable def centralWeightSpace (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (k : ℤ) : Submodule ℂ (Fin m → ℂ) where
+  carrier := {v | ∀ c : Multiplicative (AddCircle (1:ℝ)),
+    Matrix.mulVec (ρ (centralCircle c) : Matrix (Fin m) (Fin m) ℂ) v = (TauCeti.fourierChar 1 k c : ℂ) • v}
+  zero_mem' := by sorry
+  add_mem' := by sorry
+  smul_mem' := by sorry
+
+theorem centralWeightSpace_isInternal (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) : DirectSum.IsInternal (centralWeightSpace ρ) := by sorry
+
+theorem centralWeightSpace_finite_support (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) : Set.Finite {k : ℤ | centralWeightSpace ρ k ≠ ⊥} := by sorry
+
+theorem centralWeightSpace_invariant (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (k : ℤ) (g : Q) (v : Fin m → ℂ) (hv : v ∈ centralWeightSpace ρ k) :
+    Matrix.mulVec (ρ g : Matrix (Fin m) (Fin m) ℂ) v ∈ centralWeightSpace ρ k := by sorry
+
+theorem infinitesimal_preserves_weight (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (k : ℤ) (j : Fin 3) (v : Fin m → ℂ) (hv : v ∈ centralWeightSpace ρ k) :
+    (infinitesimalMatrix ρ j).mulVecLin v ∈ centralWeightSpace ρ k := by sorry
+
+/-- Native restriction of the actual differentiated endomorphism. -/
+noncomputable def weightDerivative (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (k : ℤ) (j : Fin 3) : Module.End ℂ (centralWeightSpace ρ k) :=
+  (infinitesimalMatrix ρ j).mulVecLin.restrict (infinitesimal_preserves_weight ρ hρ k j)
+
+theorem weightDerivative_commutator (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (k : ℤ) :
+    weightDerivative ρ hρ k 0 * weightDerivative ρ hρ k 1 -
+      weightDerivative ρ hρ k 1 * weightDerivative ρ hρ k 0 = weightDerivative ρ hρ k 2 := by sorry
+
+/-- Period 1 and Fourier action +k fix +2*pi*i*k; no matrix-coefficient sign reversal. -/
+theorem weightDerivative_center (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (k : ℤ) :
+    weightDerivative ρ hρ k 2 = (((2*Real.pi:ℝ):ℂ) * Complex.I * (k:ℂ)) •
+      (1 : Module.End ℂ (centralWeightSpace ρ k)) := by sorry
+
+theorem weight_trace_equation (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (k : ℤ) :
+    (((2*Real.pi:ℝ):ℂ)*Complex.I*(k:ℂ)) *
+      (Module.finrank ℂ (centralWeightSpace ρ k):ℂ) = 0 := by sorry
+
+theorem nonzero_weight_is_zero (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (k : ℤ) (hk : centralWeightSpace ρ k ≠ ⊥) : k=0 := by sorry
+
+theorem matrix_representation_kills_center (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) (c : Multiplicative (AddCircle (1:ℝ))) : ρ (centralCircle c) = 1 := by sorry
+
+theorem matrix_representation_factors_horizontal (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ)
+    (hρ : Continuous ρ) :
+    ∃! σ : Multiplicative (ℝ×ℝ) →* Matrix.GeneralLinearGroup (Fin m) ℂ,
+      Continuous σ ∧ ρ = σ.comp horizontal := by sorry
+
+end Matrices
+
+/-- Whole arbitrary finite-dimensional carrier, using an actual continuous-linear basis
+transport from the matrix theorem; no irreducibility or unitarity hypothesis on π. -/
+theorem representation_kills_center {V : Type u} [NormedAddCommGroup V] [NormedSpace ℂ V]
+    [FiniteDimensional ℂ V] (π : ContRepresentation ℂ Q V) (hπ : Continuous π)
+    (c : Multiplicative (AddCircle (1:ℝ))) :
+    π (centralCircle c) = (1 : V →L[ℂ] V) := by sorry
+
+theorem representation_factors_horizontal {V : Type u} [NormedAddCommGroup V]
+    [NormedSpace ℂ V] [FiniteDimensional ℂ V]
+    (π : ContRepresentation ℂ Q V) (hπ : Continuous π) :
+    ∃! σ : ContRepresentation ℂ (Multiplicative (ℝ×ℝ)) V,
+      Continuous σ ∧ ∀ g : Q, π g = σ (horizontal g) := by sorry
+
+theorem no_faithful_continuous_matrix_representation (m : ℕ)
+    (ρ : Q →* Matrix.GeneralLinearGroup (Fin m) ℂ) (hρ : Continuous ρ) :
+    ¬ Function.Injective ρ := by sorry
+
+end HeisenbergCircleObstruction
 
 end TauCetiRoadmap.RepresentationTheory.LieGroups

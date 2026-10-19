@@ -510,6 +510,134 @@ is independent of the universal-cover/asphericity and complexification construct
   formula D(t)=∏_(α>0)|1−α(t)⁻¹|² and derive compact Weyl character orthogonality using
   the actual torus Fourier and CompactGroups Haar interfaces.
 
+### Layer 6A: projective unit groups and a central-circle obstruction to linearity
+
+These are two definite applications of the early Lie-group interfaces. The first uses only
+Layer 6's initial compact connected abelian classification, before maximal-torus conjugacy,
+roots, Weyl integration or complexification. The second uses Layers 0–3 and
+[CompactGroups Layers 0–2](../CompactGroups/README.md#layer-0-normalized-haar-measure-and-averaging)
+with its circle-character comparison. Neither application uses Lie's triangularization theorem.
+
+**6A.1. Smooth units of a finite real field extension.** Let `F` be a finite-dimensional
+**commutative** field extension of ℝ, with `d=finrank ℝ F`. Prove `0<d`. Choose an actual real
+basis `b` and use its coordinate linear equivalence to give F its finite-dimensional real
+vector-space topology and smooth atlas. This construction uses the original additive/module
+parents of the algebra. Transport along changes of basis and prove independence of b; do not
+assume a normed-field structure obtained by first identifying F with ℝ or ℂ.
+
+Use native `Algebra.leftMulMatrix b x`: its entries are `b.repr(x*b_j)_i`. Prove the
+multiplication-coordinate map is bilinear and smooth. For `x≠0`, multiplication by x has
+inverse multiplication by `x⁻¹`, so its determinant is nonzero. Derive the inverse-coordinate
+formula
+`b.repr(x⁻¹)=(det L_x)⁻¹ • (adjugate L_x *ᵥ b.repr(1))`.
+This gives smooth inversion on the open complement of zero, independently of field
+classification. Transfer the open-submanifold structure to the **native units** `Fˣ`, prove
+its group laws smooth, identify its tangent space with F, and prove the inclusion, multiplication,
+inverse, and real-scalar-unit maps are smooth. The basis-coordinate norm need not be
+multiplicative; use the displayed polynomial/rational formulas, not an assumed Banach-field
+classification.
+
+**6A.2. The projective quotient and its fundamental group.** The scalar homomorphism
+`ℝˣ→Fˣ` is induced by `algebraMap ℝ F`. Prove injectivity and closedness of its image:
+in b-coordinates it is the nonzero part of the closed real line `ℝ·1`, closed relative to
+`F\{0}`. Its image is central. Apply the closed-subgroup/homogeneous-space floor to construct
+`P_F=Fˣ/image(ℝˣ)` with its actual quotient topology, smooth abelian group structure and
+projection. The map `[u]↦ℝ·u` is a bijection to native `Projectivization ℝ F`; construct its
+inverse from a nonzero representative made into `Units.mk0`, and prove representative
+independence, both inverse laws, and naturality under real algebra equivalences. Equip this
+native projectivization with the quotient topology and smooth ratio charts from
+[AlgebraicTopology Stage 4.6](../../AlgebraicTopology/README.md), and prove this is a
+diffeomorphism, including its projection and tangent-quotient equations. This is a group on
+the projective space of this particular field; it is not a group structure on arbitrary
+real projective spaces supplied without a field.
+
+For `d=n+1`, construct the explicit comparison with `TauCeti.RealProjectiveSpace n`, the
+native antipodal quotient of the **Euclidean** unit sphere: apply b, normalize using its
+Euclidean ℓ² norm, and quotient by sign. Prove this agrees with the Stage 4.6 projective
+comparison and is a homeomorphism/diffeomorphism. Do not confuse the default finite-Pi sup
+norm with that sphere. Hence P_F is compact; for d≥2 it is connected, abelian and of dimension
+d−1. (For d=1 it is a point.) The early compact connected abelian theorem gives an actual
+Lie-group equivalence with a finite product of circles. Use its real exponential/lattice
+proof: exp is a homomorphism and local diffeomorphism, its image is an open subgroup
+and hence all of the connected group, its kernel is discrete and torsion-free, and
+compactness makes that lattice full rank. Construct the lattice basis and the actual
+quotient equivalence. No complex eigenvalue, compact-representation or algebraic-closure
+classification enters this early abelian proof. Transport based fundamental groups
+along these specified maps and basepoint paths. Consume the native product/circle calculation
+`AddCircle.piFundamentalGroupMulEquiv`, giving a torsion-free integer lattice, and the native
+`TauCeti.RealProjectiveSpace.fundamentalGroupMulEquivAt` for n≥2, giving the nontrivial
+order-two element of `ℤˣ`. They cannot be isomorphic. This excludes d≥3; it uses no
+vanishing of π₂. Retain both low-dimensional cases: RP⁰ is a point and RP¹ has infinite
+cyclic fundamental group, not a group of cardinality zero. The `Nat.card=0` convention for
+infinite types is not used as an emptiness argument.
+
+Conclude d=1 or d=2. In dimension one prove the scalar algebra map is an equivalence. In
+dimension two choose u outside the real scalar line, express u² in the basis `(1,u)`, and
+complete the square. Its discriminant is negative: a nonnegative discriminant would factor
+that quadratic over ℝ and force u to be scalar in a field. Normalize to j²=−1; prove
+`x+iy↦x+yj` is the actual real algebra equivalence ℂ→F, with its inverse in that basis.
+Export the resulting finite-extension classification and the polynomial/algebraic corollaries
+with their explicit finite-dimensionality reductions. For a real irreducible polynomial,
+use its native field quotient and the power basis to obtain degree one or two. For a
+complex irreducible polynomial of degree greater than one, its field quotient is finite
+over ℂ and hence has real dimension at least four by the tower formula and the explicit
+basis `(1,i)` of ℂ over ℝ, contradicting this result. This constructs the geometric FTA
+corollary before comparing it with the native algebraic endpoint. Native `Real.nonempty_algEquiv_or`
+may compare the **final** algebra equivalences, after finite dimensionality implies algebraicity.
+It is not an input to the unit-group, projective quotient or dimension argument: its proof
+already uses the algebraic-closure theorem for ℂ.
+
+**6A.3. The period-one Heisenberg quotient.** Use native `TauCeti.HeisenbergGroup ℝ`, with
+`(x,y,z)(x',y',z')=(x+x',y+y',z+z'+xy')`, and its native transported product topology.
+Construct the explicit faithful homomorphism to `GL₃(ℝ)` with rows
+`(1,x,z),(0,1,y),(0,0,1)` and the displayed polynomial inverse; identify its image as the
+closed unitriangular subgroup and its Lie algebra with native `TauCeti.heisenberg ℝ`.
+Prove the coordinate smoothness and transport the actual native topology, rather than
+installing unrelated additive or topological parents. The generators are the native
+`heisenbergX=E₀₁`, `heisenbergY=E₁₂`, `heisenbergZ=E₀₂`, with `[X,Y]=Z`.
+
+Let `S={(0,0,m):m∈ℤ}`. Construct its integer parametrization, prove it is a closed discrete
+central subgroup, and construct `Q=H/S` on the native quotient-group carrier. The covering
+map and quotient Lie structure can be built in z-intervals of length less than one; prove
+compatibility with the closed-subgroup quotient interface. Give the homeomorphism
+`Q≃ℝ²×AddCircle 1`, `[x,y,z]↦(x,y,[z])`, its inverse, quotient-map laws and local smooth
+lifts. This is a space identification with the **twisted** multiplication
+`(x,y,c)(x',y',c')=(x+x',y+y',c+c'+[xy'])`, not the direct-product group law.
+Prove the center is precisely the embedded circle `c↦[0,0,c]`, with the lift
+`t↦[0,0,t]` of period one. Fix its multiplicative-circle comparison as
+`[t]↦Circle.exp(2*π*t)`; consequently the weight-k scalar is
+`exp(2*π*i*k*t)`. Prove injection of this circle, its closed image and its nontrivial
+half-period element. Prove the horizontal homomorphism `Q→(ℝ²,+)` is onto, with this circle
+as kernel and hence as its commutator subgroup, using
+`[ [s,0,0], [0,t,0] ]=[0,0,st]`.
+
+**6A.4. Every finite-dimensional continuous complex representation kills that circle.**
+For such a representation ρ of Q, automatic smoothness is Layer 2's theorem; apply the
+Layer 3 Lie functor to the actual quotient projection and representation, matching its
+three generators with X,Y,Z above. Restrict ρ to the central circle and consume early
+CompactGroups unitarization and internal complete reducibility, followed by the native
+circle irreducible classification `ContRepresentation.exists_nonempty_equiv_fourierRep`.
+Construct the finite-support **internal** direct sum of integer weight spaces
+`V_k={v | ρ(c)v=fourierChar(1,k)(c)v for every c}`. Centrality, not irreducibility of ρ,
+makes every V_k Q-invariant. Prove the restriction and differentiation maps on these
+actual subspaces, and the identities
+`[dρ(X)|V_k,dρ(Y)|V_k]=dρ(Z)|V_k=(2*π*i*k) Id`.
+Trace the commutator using native `LinearMap.trace_mul_comm`; its trace is zero, while
+the scalar right side has trace `(2*π*i*k)*finrank ℂ V_k`. If V_k is nonzero, finite
+dimensionality makes its dimension positive, forcing k=0. Include the zero space and
+zero-dimensional representation directly. Thus the whole central circle is killed by
+**every** finite-dimensional continuous complex representation; none is faithful.
+
+Export the useful stronger API: each such representation factors uniquely through the
+horizontal quotient Q/Z(Q)≃(ℝ²,+), with continuity and the converse pullback operation.
+Transport the matrix proof to any finite-dimensional complex carrier by an actual basis/
+continuous-linear equivalence; do not restrict the theorem to a chosen matrix size. Real
+finite-dimensional faithful representations are also excluded by complexifying their
+actual matrices. H itself has the faithful unitriangular representation, whose central
+period-one element is not the identity matrix, so it does not descend to Q. This example
+separates faithful Lie-algebra representations and faithful representations of a specified
+global Lie group without adding a new triangularization or complexification prerequisite.
+
 ### Layer 7: complexification and real forms
 - **Compact real forms of semisimple Lie algebras.** Own this construction
   before the group-level statements below. Consume LieHighestWeight Layer7's
@@ -1387,6 +1515,18 @@ handwritten qualifications remain separate from these constructions.
   `L(n)` of the highest-weight roadmap, via Layer 7.
 
 ## Ordering
+
+Layer6A.1–6A.2 is placed after the initial compact connected abelian theorem of Layer6,
+but before its conjugacy, root and integration applications and before Layer7. Its finite-vector
+multiplication/adjugate construction has no field-classification premise. AT4.6 supplies the
+native projectivization quotient topology/ratio charts and antipodal comparison; native
+UniversalCover circle/product/RP fundamental-group maps give the final obstruction. The
+dimension-two completion and polynomial quotient/tower argument then give the algebraic
+endpoint. Layer6A.3–6A.4 uses Layers0–3, the closed/discrete quotient constructions and only
+CompactGroups0–2 plus the native circle-character exhaustion; no Peter–Weyl separation,
+complexification or triangularization is required. Its arbitrary finite-dimensional carrier
+statement is transported from the actual matrix calculation, retaining the same scalar action.
+The position of the section does not make later Layer6 conjugacy a premise of either argument.
 
 Layer 0 (the exponential map, one-parameter subgroups) comes first and consumes the existing
 Tau Ceti derivation/tangent and exponential interfaces under their actual finite-dimensional,
