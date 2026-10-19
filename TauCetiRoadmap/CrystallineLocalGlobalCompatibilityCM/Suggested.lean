@@ -66,12 +66,21 @@ example : ![(1 : ℤ), 0] ∈ PositiveCentralCocharacters 2 ∧
 example (t : ℕ) (a : ℤ) : (fun _ : Fin t => a) ∈ PositiveCentralCocharacters t := by
   sorry
 
+example {t : ℕ} (a : Fin (t + 1) → ℤ)
+    (ha : a ∈ PositiveCentralCocharacters (t + 1)) (i : Fin t) :
+    0 ≤ a i.castSucc - a i.succ := by
+  sorry
+
 /-- The single-embedding torus value of the lowest-weight scaling character.
 The full character multiplies these factors over embeddings and extends from
 the torus to the positive monoid; CN §2.1.13, pp.20–21. -/
 def lowestWeightScalar {E : Type*} [Field E] {r : ℕ}
     (π : Eˣ) (lam nu : Fin r → ℤ) : Eˣ :=
   π ^ (∑ i, lam i.rev * nu i)
+
+example {E : Type*} [Field E] {r : ℕ} (π : Eˣ) (nu : Fin r → ℤ) :
+    lowestWeightScalar π 0 nu = 1 := by
+  sorry
 
 example {E : Type*} [Field E] (π : Eˣ) (a b : ℤ) :
     lowestWeightScalar π ![a, b] ![1, 0] = π ^ b := by
@@ -103,6 +112,13 @@ example {E G V : Type*} [Field E] [Monoid G] [AddCommGroup V] [Module E V]
     (ρ : Representation E G V) (α : G →* Eˣ) (g : G) (x : V)
     (hα : (α g : E) = 2) (hρ : ρ g x = (2 : E) • x) :
     RescaledActions ρ α g x = x := by
+  sorry
+
+/-- On the rational coefficient line the forward factor gives 4 instead of 1. -/
+example {G : Type*} [Monoid G] (ρ : Representation ℚ G ℚ)
+    (α : G →* ℚˣ) (g : G) (hα : (α g : ℚ) = 2) (hρ : ρ g 1 = 2) :
+    (α g : ℚ) * ρ g 1 = 4 ∧ (α g : ℚ) * ρ g 1 ≠ 1 ∧
+      RescaledActions ρ α g 1 = 1 := by
   sorry
 
 /-! ## Layer 3: Bruhat induction and deep unipotent cohomology -/
@@ -186,6 +202,45 @@ example : (3 : ℕ) ^ 2 * 3 - ((3 : ℕ) ^ 2 * 3 / 2) = 14 ∧
   sorry
 
 example : (0 : ℕ) ^ 2 * 3 - 0 ≤ (0 : ℕ) ^ 2 * 2 := by
+  sorry
+
+/-- Scalar evaluation has the expected image and annihilator on a free line. -/
+example {R : Type*} [CommRing R] (a : R) :
+    let action := (Algebra.lsmul R R R (A := R)).comp (Polynomial.aeval a)
+    (Polynomial.aeval a : Polynomial R →ₐ[R] R).range = ⊤ ∧
+      action.range = (Algebra.lsmul R R R (A := R)).range ∧
+      RingHom.ker action.toRingHom =
+        Ideal.span {Polynomial.X - Polynomial.C a} := by
+  sorry
+
+/-- The scalar action on a zero cohomology module has a zero image algebra. -/
+example :
+    let action := Algebra.lsmul ℚ ℚ (⊥ : Submodule ℚ ℚ) (A := ℚ)
+    Subsingleton action.range ∧ action.range = ⊥ := by
+  sorry
+
+/-- Reduction of the differential 3 creates a nonzero degree-zero scalar image.
+The integral kernel is zero, so no unital map of its image to the residue image exists. -/
+example :
+    letI : Algebra ℤ_[3] (ZMod 3) :=
+      (PadicInt.toZMod : ℤ_[3] →+* ZMod 3).toAlgebra
+    let d : ℤ_[3] →ₗ[ℤ_[3]] ℤ_[3] := (3 : ℤ_[3]) • LinearMap.id
+    let dbar : ZMod 3 →ₗ[ℤ_[3]] ZMod 3 := (3 : ℤ_[3]) • LinearMap.id
+    let integralAction := Algebra.lsmul ℤ_[3] ℤ_[3] d.ker (A := ℤ_[3])
+    let residueAction := Algebra.lsmul ℤ_[3] ℤ_[3] dbar.ker (A := ℤ_[3])
+    d.ker = ⊥ ∧ dbar.ker = ⊤ ∧
+      Subsingleton integralAction.range ∧ Nontrivial residueAction.range ∧
+      IsEmpty (integralAction.range →ₐ[ℤ_[3]] residueAction.range) := by
+  sorry
+
+/-- Two characters of a faithful image can agree on one unit and differ on another. -/
+example :
+    let action : (ℚ × ℚ) →ₐ[ℚ] Module.End ℚ (ℚ × ℚ) :=
+      Algebra.lsmul ℚ ℚ (ℚ × ℚ)
+    Function.Injective action ∧
+      AlgHom.fst ℚ ℚ ℚ (1, 1) = AlgHom.snd ℚ ℚ ℚ (1, 1) ∧
+      AlgHom.fst ℚ ℚ ℚ (1, 2) = 1 ∧ AlgHom.snd ℚ ℚ ℚ (1, 2) = 2 ∧
+      AlgHom.fst ℚ ℚ ℚ (1, 2) ≠ AlgHom.snd ℚ ℚ ℚ (1, 2) := by
   sorry
 
 /-! ## Layer 9: Barsotti–Tate automorphy lifting and solvable descent -/
@@ -358,6 +413,7 @@ not additional Lean declarations.
   CrystallineCM.POrdinaryFunctors_degree_zero
   CrystallineCM.POrdinaryFunctors_derived_action
   CrystallineCM.POrdinaryFunctors_test_degree_zero
+  CrystallineCM.POrdinaryFunctors_test_derived_transfer
   CrystallineCM.POrdinaryFunctors_test_nilpotent
   CrystallineCM.POrdinaryFunctors_test_trivial_u
 
@@ -613,6 +669,7 @@ not additional Lean declarations.
   CrystallineCM.HeckeImagesDual_adjoint
   CrystallineCM.HeckeImagesDual_coefficient
   CrystallineCM.HeckeImagesDual_test_involution
+  CrystallineCM.HeckeImagesDual_test_double_coset_degree
   CrystallineCM.HeckeImagesDual_test_scalar_inverse
   CrystallineCM.HeckeImagesDual_test_zero_cohomology
   CrystallineCM.HeckeImagesDual_unitary
@@ -659,7 +716,7 @@ not additional Lean declarations.
 7.6 Fixed-determinant refinement
   CrystallineCM.fixed_determinant_factorization
 
-7.7 Crystallinity at p of automorphic Galois representations over CM and totally real fields
+7.7 Crystallinity at p over totally real fields and the CM export
   CrystallineCM.unramified_automorphic_crystallinity
 
 8.1 Cohomology of PGL₂ locally symmetric spaces at non-neat level
@@ -706,6 +763,8 @@ not additional Lean declarations.
 
 9.3 Taylor–Wiles data for GL₂ over CM fields without enormous image (Allen–Khare–Thorne)
   CrystallineCM.small_image_taylor_wiles_prime_selection
+  CrystallineCM.small_image_dual_selmer_detection
+  CrystallineCM.cm_taylor_wiles_relative_presentation
 
 9.4 Prepared PGL₂ level and unitary parabolic branches
   CrystallineCM.PreparedPGL2Level
@@ -747,6 +806,7 @@ not additional Lean declarations.
 
 9.10 Automorphy lifting in the special case
   CrystallineCM.prepared_barsotti_tate_lifting
+  CrystallineCM.pgl2_weight_zero_rational_comparison
 
 9.11 Reduction of Theorem 5.2 to Proposition 5.6.1 by solvable base change
   CrystallineCM.solvable_preparation_and_descent_qualified
