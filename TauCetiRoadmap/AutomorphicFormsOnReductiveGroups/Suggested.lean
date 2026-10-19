@@ -22,8 +22,13 @@ Design choices.
 * `IsGFinite` and its elementary API form the independent algebraic prefix of README §2.1.
   Banach and Hilbert specializations forget continuity and restrict the underlying representation;
   `IsKFinite` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`.
+  `isGFinite_toRepresentation_iff` identifies it with the actual continuous-representation orbit span.
   The generic Banach theorem `gFiniteSubmodule_dense` follows this prefix, before the complete
   locally convex extension and the additional Hilbert comparisons.
+* Lie tests and Banach smooth vectors use SmoothBanachRepresentations SB1–SB4. The smooth
+  carrier has the supplied derivative topology, with its separate continuous inclusion;
+  the identity-on-vectors `smoothVectorTopologyEquiv` compares it with the enveloping/Sobolev
+  topology. The complete locally convex extensions and Fréchet Dixmier–Malliavin are README targets.
 * Cuspidality is the kernel condition for a family of linear constant-term maps; the arithmetic
   specialization indexes it by all proper rational parabolics.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
@@ -177,6 +182,14 @@ compact-finiteness theorems. -/
 def IsGFinite (ρ : Representation 𝕜 K V) (v : V) : Prop :=
   FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k v))
 
+/-- Forgetting continuity identifies the shared predicate with the actual orbit-span condition
+over any field, without compactness or completeness hypotheses. -/
+theorem isGFinite_toRepresentation_iff [TopologicalSpace V] [IsTopologicalAddGroup V]
+    (π : ContRepresentation 𝕜 K V) (v : V) :
+    IsGFinite π.toRepresentation v ↔
+      FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => π k v)) :=
+  Iff.rfl
+
 /-- A sum of two finite-orbit-span vectors has finite orbit span. -/
 theorem gFinite_add (ρ : Representation 𝕜 K V) {v w : V}
     (hv : IsGFinite ρ v) (hw : IsGFinite ρ w) : IsGFinite ρ (v + w) := sorry
@@ -238,7 +251,7 @@ example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
     (π : ContRepresentation ℂ G E) (K : Subgroup G) (v : E) :
     IsKFinite (π.restrict K.subtype).toRepresentation v ↔
       FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k : K => π (k : G) v)) :=
-  Iff.rfl
+  isGFinite_toRepresentation_iff (π.restrict K.subtype) v
 
 /-- Addition in the continuous subgroup specialization uses the common algebraic theorem. -/
 example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
@@ -261,6 +274,26 @@ theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
     Dense (gFiniteSubmodule π.toRepresentation : Set E) := sorry
 
 end CompactBanach
+
+section InductionInversion
+
+variable {G : Type*} [Group G]
+
+/-- Inversion turns left covariance by a character into right covariance by its inverse.
+For normalized induction the character includes the half-modulus. -/
+theorem induction_inversion_covariance (P : Subgroup G) (χ : P →* ℂˣ) (f : G → ℂ)
+    (hf : ∀ (p : P) (g : G), f ((p : G) * g) = (χ p : ℂ) * f g)
+    (g : G) (p : P) :
+    f ((g * (p : G))⁻¹) = (χ p : ℂ)⁻¹ * f (g⁻¹) := by
+  simpa only [mul_inv_rev, Subgroup.coe_inv, map_inv, Units.val_inv_eq_inv_val] using
+    hf (p⁻¹) (g⁻¹)
+
+/-- Inversion intertwines right translation with the left action by the inverse parameter. -/
+theorem induction_inversion_rightTranslate (f : G → ℂ) (y g : G) :
+    rightTranslate y f (g⁻¹) = f ((y⁻¹ * g)⁻¹) := by
+  simp [rightTranslate]
+
+end InductionInversion
 
 /-! ## Layer 3: adelic modules and their local factors -/
 
@@ -646,7 +679,16 @@ variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParame
 `D_k`, `archimedeanUnitaryDual` (the common real/complex Speh and complementary-block
 classification, including unitarity, product irreducibility, exhaustion and uniqueness),
 `genericUnitaryClassification`, `HasWhittakerModel`,
-`GContinuousNorm` and smooth Fréchet globalizations;
+`GContinuousNorm` and smooth Fréchet globalizations. The archimedean test factor of
+`AdelicTestFunction` is SmoothBanachRepresentations SB1's `LieTestFunction` with its
+fixed-support derivative and locally convex final topologies. Banach `smoothVectors`
+uses SB2's `smoothLieVectors` and its separate complete Fréchet topology, with
+`smoothVectorTopologyEquiv` the identity-on-vectors continuous linear equivalence
+to the ordered-monomial Sobolev topology, intertwining inclusions and the real and
+complexified Lie/enveloping actions. SB4's generic density and native
+`StronglyContinuousSemigroup.smoothVectors` comparison precede the compact-Lie
+comparison using §2.1. Arbitrary smooth Fréchet `dixmierMalliavin` and the complete
+locally convex extensions are specified here;
 `IsAutomorphicRepresentation`, `archimedeanHeckeAlgebra`, `RestrictedTensor`,
 `DiscreteOccurrence`, Whittaker coefficients and `HolomorphicSL2Form`.
 The scalar character foundations `standardAddChar`, local and adelic self-duality and the
