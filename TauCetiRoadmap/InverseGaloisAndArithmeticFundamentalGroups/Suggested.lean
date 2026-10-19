@@ -308,6 +308,18 @@ def IsHilbertian (K : Type*) [Field K] : Prop :=
     ∃ t : K, ∀ p ∈ s, (∀ n, (p.coeff n).denom.eval t ≠ 0) ∧
       (specialize t p).natDegree = p.natDegree ∧ Irreducible (specialize t p)
 
+/-- A rational function field in one indeterminate over any field is Hilbertian
+(Fried–Jarden, Theorem 13.4.2); no Hilbertianity assumption on the constant field is needed. -/
+theorem isHilbertian_ratFunc (K : Type*) [Field K] : IsHilbertian (RatFunc K) := sorry
+
+-- Finite and algebraically closed constant fields are allowed.
+example : IsHilbertian (RatFunc (ZMod 2)) := isHilbertian_ratFunc _
+
+example : IsHilbertian (RatFunc ℂ) := isHilbertian_ratFunc _
+
+-- Iteration gives the rational function field in two independent variables.
+example : IsHilbertian (RatFunc (RatFunc ℚ)) := isHilbertian_ratFunc _
+
 /-- A finite extension of a characteristic-zero Hilbertian field is Hilbertian, including
 extensions of degree one (Serre, Corollary 3.2.2). -/
 theorem IsHilbertian.finite_extension {K L : Type*} [Field K] [Field L] [CharZero K]
@@ -449,14 +461,14 @@ example {G : Type*} [CommGroup G] {r : ℕ} (t t' : BranchTuple r G) :
     (Quotient.mk (innerRelation r G) t : inner r G) = Quotient.mk (innerRelation r G) t' ↔
       t = t' := sorry
 
--- The identity representation of S₃ permits conjugation by (0 2) in the absolute quotient.
+-- In the regular representation of C₃, inversion identifies tuples absolutely but not innerly.
 example :
-    absoluteRelation (⊤ : Subgroup (Equiv.Perm (Fin 3))) Subgroup.topEquiv.symm
-      ![Equiv.swap (0 : Fin 3) 1, Equiv.swap (1 : Fin 3) 2]
-      ![Equiv.swap (1 : Fin 3) 2, Equiv.swap (0 : Fin 3) 1] ∧
-    (Quotient.mk _ ![Equiv.swap (0 : Fin 3) 1, Equiv.swap (1 : Fin 3) 2] :
-      absolute (⊤ : Subgroup (Equiv.Perm (Fin 3))) Subgroup.topEquiv.symm) =
-      Quotient.mk _ ![Equiv.swap (1 : Fin 3) 2, Equiv.swap (0 : Fin 3) 1] := sorry
+    let P : Subgroup (Equiv.Perm (Fin 3)) := Subgroup.closure
+      {Equiv.swap (0 : Fin 3) 1 * Equiv.swap (1 : Fin 3) 2}
+    let e : Multiplicative (ZMod 3) ≃* P := by sorry
+    let c := Multiplicative.ofAdd (1 : ZMod 3)
+    absoluteRelation P e ![c] ![c⁻¹] ∧
+      ¬ (innerRelation 1 (Multiplicative (ZMod 3))) ![c] ![c⁻¹] := sorry
 
 end NielsenClass
 
@@ -576,8 +588,8 @@ section Rigidity
 
 variable {G : Type*} [Group G]
 
-/-- A conjugacy class is rational if it is stable under every power prime to `|G|`. -/
-def IsRationalClass (C : ConjClasses G) : Prop :=
+/-- A conjugacy class in a finite group is rational if every power prime to `|G|` preserves it. -/
+def IsRationalClass [Finite G] (C : ConjClasses G) : Prop :=
   ∀ m : ℕ, Nat.Coprime m (Nat.card G) → ∀ x ∈ C.carrier, x ^ m ∈ C.carrier
 
 /-- A tuple of classes is rigid if the generating product-one tuples with entries in the classes

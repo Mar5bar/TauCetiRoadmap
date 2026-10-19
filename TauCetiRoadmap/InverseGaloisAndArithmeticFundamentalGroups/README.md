@@ -167,7 +167,8 @@ It does not own, and consumes by name:
   semisimple simply connected groups and their weak approximation (**AdelicAlgebraicGroups**, Layer
   4, §4.1); Swan conductors of local Galois representations and the upper numbering on open
   subgroups (**ArithmeticGaloisRepresentations**, Layer 3); resolution and normal crossings
-  compactification (**AlgebraicModuliForArithmeticGeometry**, Layer 9); complex analytic spaces,
+  compactification (**ResolutionOfSingularitiesCharacteristicZero**, §§5.5, 6.2, consumed through
+  **AlgebraicModuliForArithmeticGeometry**, §§9.4–9.5); complex analytic spaces,
   scheme and algebraic-space analytification and proper coherent GAGA
   (**ComplexComparisonPartII**, §§C−1.1–C−1.3, C1.9); derived categories of
   sheaves and derived limits (**EnhancedDerivedSheaves**, §§0.1–0.3 /
@@ -367,6 +368,13 @@ descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
 | Repleteness | SchemeAndStackFoundations §2.17 / `Proetale.isReplete_proetale` | IG.0 uses the pro-étale topos and its w-contractible covers. |
 | Algebraic Riemann–Hurwitz | SchemeAndStackFoundations §3.2 / `scheme_riemann_hurwitz` | IG.3.3 applies the tame formula to smooth proper connected complex curves and groups the `|G|/e` points over each branch point. |
 
+### From ResolutionOfSingularitiesCharacteristicZero
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Resolution preserving the smooth locus | ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` | IG.1 uses a proper surjective smooth-source resolution of a reduced finite-type characteristic-zero scheme, preserving its smooth locus; the comparison is consumed through AlgebraicModuliForArithmeticGeometry §9.4. |
+| SNC compactification | ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` | IG.1, IG.3 and IG.4 use a smooth projective compactification of a smooth quasi-projective finite-type characteristic-zero scheme, retaining the given open and reduced strict-SNC boundary; consumed through AlgebraicModuliForArithmeticGeometry §9.5. |
+
 ### From the other TauCetiRoadmap roadmaps
 
 ProfiniteArithmetic Layer 0 (the ring `ẑ` and its units) and Layer 2 (continuous outer
@@ -404,8 +412,10 @@ ArithmeticGaloisRepresentations Layer 3, §3.1 (Swan conductors with finite coef
 perfect residue field, and the upper numbering on open subgroups);
 ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace` and
 `complexSchemeAnalytification`), §§C−1.2, C1.9 (`complexSpaceAnalytification`, proper coherent GAGA);
-AlgebraicModuliForArithmeticGeometry Layer 9, §9.4 (`localIsomorphismResolution`, resolution of reduced finite-type schemes) and
-§9.5 (`sncCompactification`, normal crossings compactification); EnhancedDerivedSheaves §§0.1–0.3 /
+ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` (resolution of
+reduced finite-type characteristic-zero schemes) and §6.2 / `sncCompactification` (smooth
+quasi-projective characteristic-zero schemes), consumed through AlgebraicModuliForArithmeticGeometry
+§§9.4–9.5; EnhancedDerivedSheaves §§0.1–0.3 /
 `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`
 (derived categories, replacements and derived inverse limits), and SchemeAndStackFoundations §2.17 /
 `Proetale.isReplete_proetale` (replete topoi and w-contractible covers); ComplexComparisonPartII §C3.3 (`derivedGagaProperSpace`, for proper algebraic spaces) and §C4.5
@@ -653,8 +663,14 @@ to continuous actions of `π₁^ét` on discrete sets, which is why normality is
 application of Schröer this is applied in rank ten to the local system of numerical classes of
 divisors in a family of Enriques surfaces. *Proof sketch.* Normality makes `L` a continuous
 `π₁^ét`-module with discrete underlying group `ℤ^r`; the image of a compact group in the discrete
-group `GL_r(ℤ)` is finite. The stabiliser of a frame is open; the corresponding pointed cover
-trivialises `L`. Source: [Schröer](https://arxiv.org/pdf/2004.07025v3), Proposition 5.5, PDF p. 15.
+group `GL_r(ℤ)` is finite. The stabiliser of a frame is the intersection of the stabilisers of its
+finitely many basis vectors, hence is open; the corresponding pointed cover trivialises `L`. Sources:
+[SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé V, §7, for the fundamental-group correspondence;
+[Stacks, Lemma 59.65.2 (0GIY)](https://stacks.math.columbia.edu/tag/0GIY), for finite-type locally
+constant modules on an irreducible geometrically unibranch scheme (a connected normal locally
+Noetherian scheme is integral). Finiteness of the image follows from the open-stabiliser argument
+above. [Schröer](https://arxiv.org/pdf/2004.07025v3), Proposition 5.5, PDF p. 15, is the rank-ten
+application.
 *Needs:* Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations Layer 2.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
@@ -663,6 +679,8 @@ locally Noetherian schemes or the componentwise groupoid.
 **Checks.**
 
 - The constant system `ℤ^r` has trivial monodromy.
+- On `Spec ℤ`, the rank-ten numerical divisor local system in Schröer's Enriques-family
+  application is constant, since Minkowski's theorem gives `π₁^ét(Spec ℤ) = 1`.
 - Normality cannot be dropped. On the nodal rational curve over an algebraically closed field, glue
   the constant sheaf `ℤ²` on the normalisation `ℙ¹` along the two points over the node by the matrix
   `[[1, 1], [0, 1]]`: the result is an étale locally constant sheaf of free `ℤ`-modules of rank two
@@ -797,8 +815,8 @@ translates of one lattice is stable. Reduce `L_m` to a finite Grassmannian of su
 `p^{−m}T/p^m T` and build the incidence scheme after trivialising modulo `p^{4m}`. For descent, join
 the finitely many translated lattices to make the descent datum integral; one closure step
 stabilises locally and descends. Source: [Kedlaya–Liu, *Relative `p`-adic Hodge theory:
-foundations*](https://arxiv.org/pdf/1301.0792v5), Remarks 1.4.4–1.4.7, Lemma 1.4.8 and Remark 1.4.9,
-pp. 21–23; the localisation in their argument is of the base ring only, since a finite étale
+foundations*](https://arxiv.org/pdf/1301.0792v5), Remark 1.4.4, Examples 1.4.5–1.4.6, Remark 1.4.7,
+Lemma 1.4.8 and Remark 1.4.9, pp. 21–23; the localisation in their argument is of the base ring only, since a finite étale
 covering ring may be semilocal. *Needs:* *Integral, isogeny and rational `ℤ_p`-local systems*;
 Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
@@ -830,10 +848,13 @@ connected objects are transitive exactly under tameness; `InfiniteGaloisCategory
 for a tame category the fibre functor identifies it with continuous discrete actions; and
 `NoohiGroup.openSubgroup`: an open subgroup of a Noohi group is Noohi. *Proof sketch.* Topologise
 the natural automorphisms by pointwise stabilisers, identify stabilisers of points of fibres with
-open subgroups, and prove reconstruction from connected generators and tameness. Source:
+open subgroups, and prove reconstruction from connected generators and tameness. For the
+open-subgroup assertion, use Proposition 7.1.5: an open subgroup is closed, so it is complete
+for the induced two-sided uniformity, and its open subgroups still give a neighbourhood basis. Source:
 [Bhatt–Scholze, *The pro-étale topology for schemes*](https://arxiv.org/pdf/1309.1198v2),
-Definitions 7.1.1, 7.2.1 and 7.2.4 and Theorem 7.2.5, PDF pp. 63–66. Tameness here is a categorical
-condition and has nothing to do with tame ramification. *Needs:* Mathlib
+Definitions 7.1.1, 7.2.1 and 7.2.4, Proposition 7.1.5 and Theorem 7.2.5, PDF pp. 63–66;
+Lemma 7.1.8 gives the converse, from an open Noohi subgroup to its ambient group. Tameness here is
+a categorical condition and has nothing to do with tame ramification. *Needs:* Mathlib
 `CategoryTheory.PreGaloisCategory.FiberFunctor` (the finite theory it generalises),
 `IsTopologicalGroup`, `OpenSubgroup`; SchemeAndStackFoundations Layer 2.
 
@@ -853,22 +874,33 @@ the pro-étale site, with the stalk at `x̄`, is a tame infinite Galois category
 `π₁^proét(X, x̄)` as the automorphism group of this stalk functor with the pointwise topology; it is
 a Noohi group and `Loc(X_proét)` is equivalent to continuous `π₁^proét(X, x̄)`-sets. Its profinite
 completion is `π₁^ét(X, x̄)`, and if `X` is geometrically unibranch the map `π₁^proét → π₁^ét` is
-already an isomorphism. For a Noohi group `H`, the groupoid of pro-étale `H`-torsors (for the sheaf
-of continuous maps to `H`) is equivalent to the groupoid of continuous homomorphisms
+already an isomorphism. Let `H` be a Hausdorff topological group with an open profinite subgroup
+`U` (so `H` is Noohi by Lemma 7.1.8). The groupoid of pro-étale `H`-torsors, for the sheaf of
+continuous maps to `H`, is equivalent to the groupoid of continuous homomorphisms
 `π₁^proét(X, x̄) → H` with arrows given by conjugation in `H`. This applies to `H = GL_r(E)` for a
-finite extension `E/ℚ_p`, and to the groups `J_b(ℚ_p)` of Caraiani–Scholze. Define
+finite extension `E/ℚ_p`, to its closed subgroups, and to the groups `J_b(ℚ_p)` of Caraiani–Scholze;
+profinite and discrete groups are included. A closed subgroup of `GL_r(E)` has the open profinite
+subgroup obtained by intersection with `GL_r(𝒪_E)`. Define
 `ProetaleFundamentalGroup X x̄` and provide `ProetaleFundamentalGroup.actionEquivalence`, compatible
 with stalks; `ProetaleFundamentalGroup.toEtale`, inducing the profinite completion and agreeing on
 finite continuous actions; `ProetaleFundamentalGroup.torsorEquivalence`, the equivalence
-`Hom_cont(π₁^proét, H)//H ≃ H-torsors` including all conjugation arrows; and
+`Hom_cont(π₁^proét, H)//H ≃ H-torsors` for `H` with an open profinite subgroup, including all
+conjugation arrows; and
 `ProetaleFundamentalGroup.map`, continuous homomorphisms induced by pointed maps, with change of
 base point up to inner automorphisms. *Proof sketch.* Use the category `Cov(X)` of étale `X`-schemes
 satisfying the valuative criterion of properness, whose fibres may be infinite, to verify the
 axioms and tameness; apply the reconstruction theorem; restrict to finite actions for the profinite
-completion and to `H`-sets for torsors; on a geometrically unibranch base a connected object of
-`Cov(X)` is finite étale. Sources: [Bhatt–Scholze, *The pro-étale topology for
-schemes*](https://arxiv.org/pdf/1309.1198v2), Lemma 7.3.9, Lemma 7.4.1, Definition 7.4.2 and
-Lemmas 7.4.3, 7.4.7 and 7.4.10, PDF pp. 67–71;
+completion; on a geometrically unibranch base a connected object of `Cov(X)` is finite étale.
+For torsors, build the open-profinite-subgroup reduction as part of this target: given a
+homomorphism `ρ`, pass to the pointed geometric covering for `ρ⁻¹(U)`, classify the resulting
+`U`-torsor by Lemma 7.4.3, extend its structure group to `H`, and descend along the covering.
+Conversely an `H`-torsor pushes out each discrete continuous `H`-set to a local system; the
+fibre functor and Noohi reconstruction recover `ρ`. The two constructions are inverse on
+objects and conjugation arrows, by the same descent argument as Lemma 7.4.7. Sources:
+[Bhatt–Scholze, *The pro-étale topology for schemes*](https://arxiv.org/pdf/1309.1198v2), Lemma 7.3.9, Lemma 7.4.1, Definition 7.4.2 and
+Lemmas 7.4.3 and 7.4.6 (profinite and discrete torsors), Lemma 7.4.7 and its proof
+(linear groups over a local field), and Lemma 7.4.10, PDF pp. 67–71; the open-profinite-subgroup
+form is the reduction above;
 [Caraiani–Scholze](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf),
 Proposition 1.13, Remarks 1.14 and 4.3.14, pp. 656–657 and 721. *Needs:* *Noohi groups and infinite
 Galois categories*; Supplied by EtaleCohomologyFoundations §F.0 /
@@ -884,6 +916,8 @@ locally Noetherian schemes or the componentwise groupoid.
 - For the nodal rational curve, the loop through the node gives a continuous surjection of
   `π₁^proét` onto the discrete group `ℤ`; the rank-one `ℚ_p`-local system with monodromy `p`
   factors through it and through no finite quotient, so `π₁^ét` alone does not classify it.
+- The discrete group `ℤ` has the open profinite subgroup `{0}`; the nodal-curve torsor with
+  monodromy onto `ℤ` is included although its image is noncompact.
 - An `H`-torsor without a chosen point of its stalk gives a homomorphism only up to conjugation in
   `H`; a chosen point of the stalk removes exactly this ambiguity.
 
@@ -972,7 +1006,7 @@ compare their categories of covers. Sources: [SGA 1](https://arxiv.org/pdf/math/
 XIII, §§2.1–2.4, pp. 277–285, §§2.10–2.12, pp. 289–290, and Corollary 5.3, p. 316
 (the local Kummer tower); [Stacks, Lemma 59.28.1 (03PL)](https://stacks.math.columbia.edu/tag/03PL)
 (Kummer theory for invertible indices); [Wood, *An algebraic lifting
-invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §5, pp. 10–12. In
+invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §5, pp. 8–11. In
 positive characteristic the free presentation on loops around the punctures describes only the
 prime-to-`p` quotient, not the full tame group. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; LocalFieldsRamification Layer 3; BelyiMaps Layers 12
@@ -1275,9 +1309,10 @@ to the smooth affine case, relative normal crossings compactification);
 [Stacks](https://stacks.math.columbia.edu/tag/0363), Lemma 33.7.6 (0363), for the connected
 components. *Needs:* *Proper descent of finite étale covers*, *Tame specialization with a relative
 boundary*; Supplied by EtaleCohomologyFoundations §F.0 /
-`VanishingCycles.finiteEtaleGaloisCategory`; AlgebraicModuliForArithmeticGeometry Layer 9, §9.4
-(`localIsomorphismResolution`) and §9.5 (`sncCompactification`, for smooth quasi-projective
-varieties); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12 (henselization)
+`VanishingCycles.finiteEtaleGaloisCategory`; ResolutionOfSingularitiesCharacteristicZero
+§5.5 / `localIsomorphismResolution` and §6.2 / `sncCompactification` (for smooth quasi-projective
+varieties), consumed through AlgebraicModuliForArithmeticGeometry §§9.4–9.5;
+SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12 (henselization)
 and Layer 1 (Zariski gluing).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
@@ -1461,7 +1496,9 @@ small
 étale site;
 ComplexComparisonPartII §C6.2 / `riemannExistence` supplies Riemann existence for complex
 finite-type schemes, and
-AlgebraicModuliForArithmeticGeometry Layer 9 resolution and normal crossings compactifications.
+ResolutionOfSingularitiesCharacteristicZero §§5.5, 6.2 / `localIsomorphismResolution`,
+`sncCompactification` supply resolution and normal crossings compactifications through
+AlgebraicModuliForArithmeticGeometry §§9.4–9.5.
 ReductiveGroups
 Layer 6 and ModularCurves Layer 0c supply semisimple groups and finite torsors.
 The finite-cover contract has no coefficient-invertibility condition, étale invariance uses universal homeomorphisms, and Riemann existence uses finite-type complex schemes.
@@ -1881,9 +1918,9 @@ irreducible; in characteristic zero an irreducible specialization of full degree
 the discriminant condition removes no admissible parameter. Sources:
 [Dèbes, *Arithmétique des revêtements de la
 droite*](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
-§5.2 Definition 5.2.2, printed pp.135–137, for polynomial Hilbert subsets with regular coefficients
-and preserved degrees; [Harpaz–Wittenberg, *Zéro-cycles sur les espaces
-homogènes*](https://arxiv.org/pdf/1802.09605v2),
+§5.2.1, the Hilbert subsets following Théorème 5.2.1, printed p. 136, and Définition 5.2.2
+(Hilbertian fields), for polynomial Hilbert subsets with regular coefficients and preserved
+degrees; [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes*](https://arxiv.org/pdf/1802.09605v2),
 §1.1 p.6, for Hilbert subsets at all scheme points. *Needs:* *A polynomial guard for regular
 specialization*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory` (finite étale covers and their fibres);
@@ -1960,6 +1997,22 @@ GlobalNumberFields Layer 0.
   of `Y² − T` splits, so `ℂ` is not Hilbertian.
 - `ℝ` is not Hilbertian: `Y² − (T² + 1)` is irreducible over `ℝ(T)`, but every specialization splits
   over `ℝ` because `t² + 1 > 0`.
+
+**Rational function fields are Hilbertian.** For every field `K`, the rational function field
+`K(T)` is Hilbertian, with no assumption on the characteristic or Hilbertianity of `K`.
+Iteration gives `K(T₁, …, T_d)` for every `d ≥ 1`. Source: Fried–Jarden, *Field Arithmetic*,
+third edition, Theorem 13.4.2; [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
+§9.3, Théorème 9.3.1, printed pp. 246–249 (statement for every constant field, proof for infinite
+constant fields, and the reference to the global-field argument for finite constant fields).
+*Needs:* *Hilbert subsets and Hilbertian fields*; Mathlib `RatFunc`.
+*Lean:* `isHilbertian_ratFunc`.
+
+**Checks.**
+
+- `𝔽₂(T)` is Hilbertian although its constant field `𝔽₂` is finite and not Hilbertian.
+- `ℂ(T)` is Hilbertian although `ℂ` is algebraically closed and not Hilbertian.
+- Applying the statement to `K = ℚ(T₁)` gives `ℚ(T₁, T₂)`; the case of no transcendental
+  variables uses Hilbert's theorem for `ℚ` instead.
 
 ### IG.2.5 Thin sets and the integral count
 
@@ -2312,8 +2365,7 @@ base to exclude roots in `L`, rather than only in that finite base. Keep the fin
 finite avoidance set throughout; the properness hypothesis is essential to this step. Convert
 root avoidance for the resolvents back to irreducibility, retaining denominators and degrees.
 Finite-extension permanence is supplied by IG.2.4 *Finite-extension permanence of Hilbertianity*.
-The rational-function-field permanence used below is included in this target, by the
-several-parameter specialization argument. Source: Fried–Jarden, *Field Arithmetic*, third edition, §§13.2–13.3 and §13.9,
+Source: Fried–Jarden, *Field Arithmetic*, third edition, §§13.2–13.3 and §13.9,
 Theorem 13.9.1(b); the theorem's algebraic-Galois, proper-finite-separable hypotheses are also
 stated in [Jarden, *Almost locally free fields*](https://www.math.tau.ac.il/~jarden/Articles/paper99.pdf),
 Proposition 2.5 and its proof, pp. 7–8. *Needs:* *Hilbert subsets and Hilbertian fields*,
@@ -2354,9 +2406,11 @@ Layer IG.0 *Finite Galois algebras and torsors*; ProfiniteProPGroups Layer 3 (to
 
 **Normal subgroups of absolute Galois groups.** Let `k` be a field finitely generated over `ℚ` and
 `Γ_k` its absolute Galois group. Every closed normal subgroup `N ⊴ Γ_k` that is topologically finitely
-generated is trivial. The Hilbertianity of `k` follows from Hilbert's theorem for `ℚ` and the
-rational-function-field and finite-extension permanence in *Weissauer's Hilbertian extension
-theorem*. The conclusion is the case of fields finitely generated over `ℚ` of Fried–Jarden,
+generated is trivial. Choose a transcendence basis of `k/ℚ`; `k` is finite over the resulting
+rational function field. Its Hilbertianity follows from *Rational function fields are Hilbertian*
+when the basis is nonempty, from *Hilbert irreducibility over number fields* when it is empty,
+and from *Finite-extension permanence of Hilbertianity*. The conclusion is the case of fields
+finitely generated over `ℚ` of Fried–Jarden,
 Proposition 16.11.6; Hilbert irreducibility alone is not its proof.
 
 *Proof sketch.* Suppose `N ≠ 1`. A finite continuous quotient separating a nonidentity element
@@ -2372,7 +2426,9 @@ Weissauer makes `L` Hilbertian. The open-subgroup theorem
 a contradiction. No assumption that `M` or `L` is finitely generated over `ℚ` enters this argument.
 Source: [Schmidt–Stix](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p05-p.pdf),
 Theorem 7.1 proof, published p. 850, citing Fried–Jarden, Proposition 16.11.6;
-Fried–Jarden, Theorem 13.9.1(b). *Needs:* *Weissauer's Hilbertian extension theorem*,
+Fried–Jarden, Theorem 13.9.1(b). *Needs:* *Rational function fields are Hilbertian*,
+*Hilbert irreducibility over number fields*, *Finite-extension permanence of Hilbertianity*,
+*Weissauer's Hilbertian extension theorem*,
 *Independent quadratic characters of Hilbertian fields*; Mathlib infinite Galois correspondence;
 ProfiniteProPGroups Layers 0 and 3, with the pinned open-subgroup theorem above.
 
@@ -2615,8 +2671,9 @@ automorphism of `P`, hence through `e` to an automorphism of `G`. Sources:
 
 - In an abelian target, two inner Nielsen classes agree exactly when the tuples agree;
   dividing by all target automorphisms would identify additional tuples.
-- For the identity representation `S₃ ≤ S₃`, conjugating the pair `((12), (23))` by `(13)`
-  gives `((23), (12))`, so these pairs agree in the absolute quotient.
+- For the regular representation `C₃ ≅ A₃ ≤ S₃`, let `c` generate `C₃`. The tuples `(c)` and
+  `(c⁻¹)` agree absolutely: a transposition normalises `A₃` and inverts its `3`-cycle.
+  They are distinct inner classes because conjugation in `C₃` is trivial and `c ≠ c⁻¹`.
 - The trivial action of `C₂` on one point is not a faithful representation and is not an admissible
   input: `C₂` is not isomorphic to a subgroup of `S₁`. Through it every pair of tuples would be
   related, including a generating and a nongenerating one.
@@ -2831,6 +2888,8 @@ SchemeAndStackFoundations Layer 1; BelyiMaps Layer 11.
 
 **Checks.**
 
+- The finite-group hypothesis in `IsRationalClass` is essential: `Nat.card (Multiplicative ℤ) = 0`,
+  so its displayed power test on that infinite group would only test `m = 1` and accept every class.
 - For `G = S₃` and the classes (transposition, transposition, `3`-cycle) the generating product-one
   tuples form one orbit, and the cover descends to a regular `S₃`-cover over `ℚ`.
 - For `G = C₃` with classes `(C, C, C)` where `C = {a}`, the class `{a}` is not rational (`a² ∉ {a}`)
@@ -4078,8 +4137,9 @@ contains `Φ(G)` and is nilpotent by Frattini's argument, so it lies in `F(G)` a
 `NU = G` by maximality. Finally, check that the multiplication map from the conjugation semidirect
 product is a homomorphism.
 
-Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Propositions 16–17 and their proofs,
-arXiv v1 pp. 32–33, which cite Huppert, *Endliche Gruppen I*, Kap. III, Satz 3.2(b) and Satz 4.2(c).
+Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Propositions 16–17, arXiv v1 p. 32,
+stated without proof and cited from Huppert, *Endliche Gruppen I*, Kap. III, Satz 3.2(b) and
+Satz 4.2(c); the proof sketch above gives the arguments used here.
 *Needs:* Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
 `SemidirectProduct`.
 *Lean:* `fittingSubgroup`, `fittingSubgroup.normal`, `fittingSubgroup.isNilpotent`,
@@ -4293,7 +4353,8 @@ SchemeAndStackFoundations Layers 1–3 (torsors, Picard groups, Brauer groups an
 ReductiveGroups Layers 0 and 3, ReductiveGroupsPartII RG2.0a (multiplicative-type groups and
 quasi-trivial tori); ArithmeticGaloisDuality §R02.4.6 *Torus Sha duality and adelic annihilators*;
 ClassFieldTheory Layers 5 and 10–12; ProfiniteCohomology;
-AlgebraicModuliForArithmeticGeometry Layer 9 (smooth compactification and resolution).
+ResolutionOfSingularitiesCharacteristicZero §§5.5, 6.2 (smooth compactification and resolution,
+through AlgebraicModuliForArithmeticGeometry §§9.4–9.5).
 
 **Checks.**
 
@@ -4342,7 +4403,8 @@ Theorem 1.1 and §§2–3, PDF pp. 2 and 5–14.
 *Needs:* *Torus types and Brauer–Manin descent for cyclic stabiliser quotients*;
 IG.1 *Homogeneous spaces with finite stabilisers*; ReductiveGroups Layers 0 and 3;
 SchemeAndStackFoundations Layers 1, 3 and 4 (torsors, curves and deformations);
-AlgebraicModuliForArithmeticGeometry Layer 9.
+ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification`
+(through AlgebraicModuliForArithmeticGeometry §9.5).
 
 **Checks.**
 
@@ -4395,7 +4457,8 @@ cyclic stabiliser quotients* (its norm-kernel dense-open descent assertion),
 IG.2 *Hilbert specialization with
 local conditions*, *Hilbert pullback through geometrically integral norm maps*;
 ReductiveGroupsPartII RG2.0a;
-SchemeAndStackFoundations Layers 1–3; AlgebraicModuliForArithmeticGeometry Layer 9;
+SchemeAndStackFoundations Layers 1–3; ResolutionOfSingularitiesCharacteristicZero §6.2 /
+`sncCompactification` (through AlgebraicModuliForArithmeticGeometry §9.5);
 GlobalNumberFields Layers 0 and 1.
 
 **Checks.**
@@ -4446,8 +4509,9 @@ passage between `V` and `X` by the implicit function theorem is the remark after
 quotients*, *Quotient fibration and the smaller stabiliser*, *Brauer–Manin fibration density over
 a quasi-trivial torus*; AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity*, and *Weak approximation*,
 `Approximation.hasWeakApproximation_of_simplyConnected`); ReductiveGroups Layers 0 and 3,
-ReductiveGroupsPartII Layer RG2.0a (quasi-trivial tori), AlgebraicModuliForArithmeticGeometry Layer 9
-(smooth compactifications), SchemeAndStackFoundations Layers 1 and 2; Mathlib
+ReductiveGroupsPartII Layer RG2.0a (quasi-trivial tori), ResolutionOfSingularitiesCharacteristicZero
+§6.2 / `sncCompactification` (smooth compactifications, through AlgebraicModuliForArithmeticGeometry
+§9.5), SchemeAndStackFoundations Layers 1 and 2; Mathlib
 `HasStrictFDerivAt.implicitFunctionOfProdDomain`.
 
 **Checks.**
@@ -4485,7 +4549,7 @@ and use reciprocity. (2) Apply Demarche's group-cohomological description of the
 group of `SL_n/F` for a finite constant `F` to the generalized quaternion groups; this computation is
 part of the target. Sources: [Lucchini Arteche, *The unramified Brauer group of homogeneous
 spaces with finite stabilizer*](https://arxiv.org/pdf/1709.01170v3), definition of good places,
-Theorems 6.1 and 6.2 with their proofs and Corollary 6.3, PDF pp. 14–15;
+Theorems 6.1 and 6.2 with their proofs and Corollary 6.3, PDF pp. 14–16;
 [Demarche–Lucchini Arteche–Neftin](https://www.numdam.org/item/10.5802/aif.3104.pdf), Proposition 2.4
 and the tame approximation problem, published pp. 1017–1018; [Harpaz–Wittenberg, *Zéro-cycles sur les
 espaces homogènes*](https://arxiv.org/pdf/1802.09605v2), PDF p. 4, which takes (2) from Demarche (2010),
@@ -5101,7 +5165,8 @@ From other roadmaps:
   fundamental-group sequence. *Auxiliary cokernel comparison* owns the application-specific comparison diagrams.
 - LocalFieldsRamification Layers 2–4, AlgebraicCurves Layers 7 and 8, Chebotarev Layer 10,
   ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes) and
-  4, AlgebraicModuliForArithmeticGeometry Layer 9 (smooth compactifications), and ReductiveGroupsPartII
+  4, ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` (smooth compactifications,
+  through AlgebraicModuliForArithmeticGeometry §9.5), and ReductiveGroupsPartII
   Layer RG2.0a.
 - AdelicAlgebraicGroups Layer 4, §4.1: the Hasse principle for torsors under semisimple simply
   connected groups and their weak approximation.
@@ -5345,7 +5410,7 @@ normalizations; the local Kummer conditions are checked to be stable under base 
 markings are defined by their fibre functors. Sources:
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §7.1, published p. 765 (the genus-zero specialization and exact branch divisor);
-[Chen, *Nonabelian level structures*](https://arxiv.org/pdf/2011.12940v2), Definitions 2.1.4–2.1.6,
+[Chen, *Nonabelian level structures*](https://arxiv.org/pdf/2011.12940v2), Definition 2.1.4, Remark 2.1.5 and Definition 2.1.6,
 preprint pp. 14–15 (the smooth locus of general-genus marked covers);
 [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), §11.1, PDF pp. 41–42 (the marked and
 unramified-infinity variants);
@@ -5542,7 +5607,7 @@ by the Kummer charts, compare the proper deformation presentations by GAGA, and 
 analytic and algebraic charts with the chosen fibre/deck convention. Sources:
 [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XII, Theorem 5.1 and Corollary 5.2,
 pp. 251–253; [Chen, *Nonabelian level structures*](https://arxiv.org/pdf/2011.12940v2),
-Definitions 2.1.4–2.1.6, pp. 14–15, and Theorem 2.4.9, p. 23.
+Definition 2.1.4, Remark 2.1.5 and Definition 2.1.6, pp. 14–15, and Theorem 2.4.9, p. 23.
 *Needs:* *Tame G-covers in families*, IG.3.1 *Riemann existence for punctured curves*;
 ComplexComparisonPartII §§C5.2, C6.2 / `ehresmannFibration`, `riemannExistence`;
 ComplexComparisonPartII §§C−1.2, C1.9 (proper GAGA); SchemeAndStackFoundations Layers 1, 3–4;
@@ -6458,12 +6523,13 @@ algebraic closure of `K` in the function field of `Y` and `T'` the integral clos
 `T`, so `t` is a unit times the `[K' : K]`-th power of a function on `Y`, and the closed fibre of `Y`
 is nonreduced along every component when `K' ≠ K`; it is reduced over a generic point of `X` where
 `Y → X̂` is étale. Sources: [Harbater–Hartmann](https://arxiv.org/pdf/0710.1392v1), Theorems 5.7–5.9
-and Proposition 5.11, pp. 15–17; Theorem 6.1, pp. 18–19; Theorem 7.1(v), p. 22;
+and Proposition 5.11, PDF pp. 16–18; Theorem 6.1, pp. 18–19; Theorem 7.1(v), p. 22;
 §7.2, proof of Theorem 7.3, pp. 24–26 (induced factors and their common branch prime);
 [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), §3.3, sketches of Theorems 3.8
 and 3.13 and of the general case, PDF pp. 11–13 (the patching steps that consume this contract);
-[EGA IV₂](https://www.numdam.org/item/PMIHES_1965__24__5_0/), Corollaire (6.14.5) (normalization and
-normal base change) and Scholie (7.8.3)(v), pp. 214–215 (completions of excellent rings). *Needs:*
+[EGA IV₂](https://www.numdam.org/item/PMIHES_1965__24__5_0/), Corollaire (6.14.5), printed p. 176
+(normalization and normal base change), and
+Scholie (7.8.3)(v), printed p. 215 (completions of excellent rings). *Needs:*
 *Field patching for curves over a complete DVR*, Layer IG.0 *Finite Galois algebras and torsors*;
 SchemeAndStackFoundations Layers 0, 1 and 3 (excellence, normalization, faithfully flat descent of
 étaleness, curves).
@@ -7075,7 +7141,8 @@ Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XIII Corollary 2
 inertia and its relation, with the prime-to-`p` restriction);
 [Serre, *Topics in Galois
 Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
-§7.3, pp. 69–71 (rational conjugacy and branch-cycle arithmetic). *Needs:*
+§7.1, pp. 65–66 (rational classes), and §8.1, pp. 81–83 (the branch-cycle argument in the proof
+of Theorem 8.1.1). *Needs:*
 Layer IG.1 *Tame tangential fibres at a boundary point*,
 Layer IG.3 *Tate-twisted arithmetic lifting invariants*; Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
