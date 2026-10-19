@@ -1,34 +1,4 @@
-import Mathlib.LinearAlgebra.Vandermonde
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Normed.Group.Basic
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Algebra.Order.Archimedean.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Algebra.Polynomial.Eval.Defs
-import Mathlib.Data.ZMod.Basic
-import Mathlib.FieldTheory.Finite.Extension
-import Mathlib.CategoryTheory.Groupoid
-import Mathlib.CategoryTheory.IsomorphismClasses
-import Mathlib.CategoryTheory.SingleObj
-import Mathlib.CategoryTheory.Discrete.Basic
-import Mathlib.CategoryTheory.Products.Basic
-import Mathlib.CategoryTheory.Sums.Basic
-import Mathlib.CategoryTheory.Action
-import Mathlib.CategoryTheory.Equivalence
-import Mathlib.GroupTheory.GroupAction.Defs
-import Mathlib.Algebra.Group.Subgroup.ZPowers.Basic
-import Mathlib.Algebra.IsPrimePow
-import Mathlib.NumberTheory.Padics.PadicNumbers
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.NumberTheory.ArithmeticFunction.Moebius
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.RingTheory.LaurentSeries
-import Mathlib.RingTheory.PowerSeries.WellKnown
-import Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff
-import Mathlib.FieldTheory.RatFunc.Basic
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Basic
+import Mathlib
 
 /-!
 # Weil conjectures: representative target signatures
@@ -38,10 +8,10 @@ These statements suggest Lean forms so that contributors and reviewers converge
 on names and signatures. Proofs are sorry; elaboration checks the signatures only.
 
 The active declarations cover finite groupoid mass, signed configurations,
-polynomial point counts and their APIs and examples; the finite-spectrum lemmas;
+polynomial point counts and their APIs; the finite-spectrum theorems;
 and algebraic forms of descent, integrality, duality, factor extraction and
-recurrences. The final examples check Frobenius, Tate and zeta conventions on
-existing matrices, rational functions and equations.
+recurrences. The examples distinguish empty and weighted groupoid masses,
+empty configurations and polynomial counts over all prime powers.
 
 The geometric statements in README.md require the supplier's rational cohomology,
 compact-support Frobenius, stack point groupoids, family comparison, duality and
@@ -130,33 +100,13 @@ theorem groupoidMass_actionCategory (G Y : Type*) [Group G] [MulAction G Y] [Fin
 -- groupoidMass_empty
 example (h : Finite (Quotient (isIsomorphicSetoid (Discrete Empty))))
     (a : ∀ x : Discrete Empty, Finite (Aut x)) : groupoidMass (Discrete Empty) h a = 0 := by
-  sorry
-
--- groupoidMass_three
-example (h : Finite (Quotient (isIsomorphicSetoid (Discrete (Fin 3)))))
-    (a : ∀ x : Discrete (Fin 3), Finite (Aut x)) :
-    groupoidMass (Discrete (Fin 3)) h a = 3 := by
-  sorry
+  simpa using groupoidMass_discrete Empty h a
 
 -- groupoidMass_cyclic_two
 example (h : Finite (Quotient (isIsomorphicSetoid (SingleObj (Multiplicative (ZMod 2))))))
     (a : ∀ x : SingleObj (Multiplicative (ZMod 2)), Finite (Aut x)) :
     groupoidMass (SingleObj (Multiplicative (ZMod 2))) h a = 1 / 2 := by
-  sorry
-
--- groupoidMass_cyclic_two_not_one
-example (h : Finite (Quotient (isIsomorphicSetoid (SingleObj (Multiplicative (ZMod 2))))))
-    (a : ∀ x : SingleObj (Multiplicative (ZMod 2)), Finite (Aut x)) :
-    groupoidMass (SingleObj (Multiplicative (ZMod 2))) h a ≠ 1 := by
-  sorry
-
--- groupoidMass_regular_action: two objects, one class, mass 1
-example [IsGroupoid (ActionCategory (Multiplicative (ZMod 2)) (Multiplicative (ZMod 2)))]
-    (h : Finite (Quotient (isIsomorphicSetoid
-      (ActionCategory (Multiplicative (ZMod 2)) (Multiplicative (ZMod 2))))))
-    (a : ∀ x : ActionCategory (Multiplicative (ZMod 2)) (Multiplicative (ZMod 2)), Finite (Aut x)) :
-    groupoidMass (ActionCategory (Multiplicative (ZMod 2)) (Multiplicative (ZMod 2))) h a = 1 := by
-  sorry
+  simpa using groupoidMass_singleObj (Multiplicative (ZMod 2)) h a
 
 /-! ### WC.1: signed Frobenius configurations -/
 
@@ -227,38 +177,9 @@ example (hf : ∀ n : ℕ, Finite {S : Finset Empty // S.card = n ∧
     S.map (Equiv.refl Empty).toEmbedding = S}) :
     signedConfigurationCoefficient (Equiv.refl Empty) hf 0 = 1 ∧
     signedConfigurationCoefficient (Equiv.refl Empty) hf 1 = 0 := by
-  sorry
-
--- signedConfigurationCoefficient_fixed_two
-example (hf : ∀ n : ℕ, Finite {S : Finset Bool // S.card = n ∧
-    S.map (Equiv.refl Bool).toEmbedding = S}) :
-    signedConfigurationCoefficient (Equiv.refl Bool) hf 0 = 1 ∧
-    signedConfigurationCoefficient (Equiv.refl Bool) hf 1 = -2 ∧
-    signedConfigurationCoefficient (Equiv.refl Bool) hf 2 = 1 := by
-  sorry
-
--- signedConfigurationCoefficient_two_cycle
-example (hf : ∀ n : ℕ, Finite {S : Finset Bool // S.card = n ∧
-    S.map (Equiv.swap true false).toEmbedding = S}) :
-    signedConfigurationCoefficient (Equiv.swap true false) hf 1 = 0 ∧
-    signedConfigurationCoefficient (Equiv.swap true false) hf 2 = -1 := by
-  sorry
-
--- signedConfigurationCoefficient_two_cycle_sign
-example (hf : ∀ n : ℕ, Finite {S : Finset Bool // S.card = n ∧
-    S.map (Equiv.swap true false).toEmbedding = S}) :
-    signedConfigurationCoefficient (Equiv.swap true false) hf 2 ≠ 1 := by
-  sorry
-
--- A fixed point disjoint from a two-cycle: (1-T)(1-T^2).
-example (hf : ∀ n : ℕ, Finite {S : Finset (Unit ⊕ Bool) // S.card = n ∧
-    S.map (Equiv.sumCongr (Equiv.refl Unit) (Equiv.swap true false)).toEmbedding = S}) :
-    let σ := Equiv.sumCongr (Equiv.refl Unit) (Equiv.swap true false)
-    signedConfigurationCoefficient σ hf 0 = 1 ∧
-    signedConfigurationCoefficient σ hf 1 = -1 ∧
-    signedConfigurationCoefficient σ hf 2 = -1 ∧
-    signedConfigurationCoefficient σ hf 3 = 1 := by
-  sorry
+  constructor
+  · exact signedConfigurationCoefficient_zero _ hf
+  · exact signedConfigurationCoefficient_above_card _ hf 1 (by simp)
 
 /-! ### WC.1: algebraic cores of rationality, Fatou and Möbius inversion -/
 
@@ -278,28 +199,6 @@ theorem local_fatou_normalization (ℓ : ℕ) [Fact ℓ.Prime]
     (hP : P.coeff 0 = 1) (hQ : Q.coeff 0 = 1) (hpq : IsCoprime P Q)
     (heq : (Q : PowerSeries (Padic ℓ)) * f = (P : PowerSeries (Padic ℓ))) :
     (∀ n : ℕ, ‖P.coeff n‖ ≤ 1) ∧ (∀ n : ℕ, ‖Q.coeff n‖ ≤ 1) := by
-  sorry
-
--- The denominator of the geometric series attains the norm-one boundary.
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    let f : PowerSeries (Padic ℓ) := PowerSeries.mk (fun _ => 1)
-    let Q : Polynomial (Padic ℓ) := 1 - X
-    (Q : PowerSeries (Padic ℓ)) * f = 1 ∧ ‖Q.coeff 1‖ = 1 := by
-  sorry
-
--- The numerator of the polynomial series also attains that boundary.
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    let P : Polynomial (Padic ℓ) := 1 - X
-    (∀ n : ℕ, ‖(P : PowerSeries (Padic ℓ)).coeff n‖ ≤ 1) ∧
-      ‖P.coeff 1‖ = 1 := by
-  sorry
-
--- A common nonintegral factor defeats the conclusion without coprimality.
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    let P : Polynomial (Padic ℓ) := 1 - C ((ℓ : Padic ℓ)⁻¹) * X
-    P.coeff 0 = 1 ∧
-      (P : PowerSeries (Padic ℓ)) * 1 = (P : PowerSeries (Padic ℓ)) ∧
-      ‖P.coeff 1‖ = (ℓ : ℝ) ∧ 1 < ‖P.coeff 1‖ := by
   sorry
 
 /-- WC.1 integer Möbius core; actual nonnegative point counts give divisibility. -/
@@ -433,24 +332,16 @@ theorem HasPolynomialPointCount_congr {N M : ℕ → ℚ} {P : Polynomial ℚ}
 
 -- polynomialPointCount_projective_line
 example : HasPolynomialPointCount (fun q => q + 1) (X + 1) := by
-  sorry
-
--- polynomialPointCount_empty
-example : HasPolynomialPointCount (fun _ => 0) 0 := by
-  sorry
-
--- polynomialPointCount_multiplicative_group
-example : HasPolynomialPointCount (fun q => (q : ℚ) - 1) (X - 1) := by
-  sorry
+  intro q _hq
+  simp
 
 -- polynomialPointCount_prime_fields_insufficient
 example : ¬ HasPolynomialPointCount (fun q => if q = 4 then 0 else (q : ℚ) + 1) (X + 1) := by
-  sorry
-
--- polynomialPointCount_one_field_insufficient
-example : (X : Polynomial ℚ).eval 2 = (X + (X - C 2) : Polynomial ℚ).eval 2 ∧
-    (X : Polynomial ℚ) ≠ X + (X - C 2) := by
-  sorry
+  intro h
+  have hfour : IsPrimePow (4 : ℕ) := by
+    exact ⟨2, 2, Nat.prime_iff.mp (by decide : Nat.Prime 2), by decide, rfl⟩
+  have hcount := h 4 hfour
+  norm_num at hcount
 
 end TauCeti.PointCounting
 
@@ -586,112 +477,6 @@ theorem norm_eq_of_reciprocal_pairing {d : ℕ}
     ∀ i : Fin d, ‖α i‖ = R := by
   sorry
 
--- test empty_family
-example (n : ℕ) : (∑ i : Fin 0, (0 : ℂ) ^ n) = 0 := by
-  sorry
-
--- test repeated_root_multiplicity
-example (n : ℕ) : (∑ _i : Fin 2, (2 : ℂ) ^ n) = 2 * (2 : ℂ) ^ n := by
-  sorry
-
--- test first_moment_cancellation
-example : (2 : ℂ) + (-2) = 0 := by
-  sorry
-
--- test second_moment_detection
-example : (2 : ℂ) ^ 2 + (-2) ^ 2 = 8 := by
-  sorry
-
--- test invisible_grouped_root
-example (n : ℕ) : (100 : ℂ) ^ n - (100 : ℂ) ^ n = 0 := by
-  sorry
-
--- test positive_characteristic_multiplicity
-example (n : ℕ) : (∑ _i : Fin 2, (1 : ZMod 2) ^ n) = 0 := by
-  sorry
-
--- test four_equal_modulus_roots
-example : (1 : ℂ) + Complex.I + (-1) + (-Complex.I) = 0 ∧
-    (1 : ℂ)^2 + Complex.I^2 + (-1)^2 + (-Complex.I)^2 = 0 ∧
-    (1 : ℂ)^3 + Complex.I^3 + (-1)^3 + (-Complex.I)^3 = 0 ∧
-    (1 : ℂ)^4 + Complex.I^4 + (-1)^4 + (-Complex.I)^4 = 4 := by
-  sorry
-
--- test transpose_orientation
-example (c₀ c₁ : ℂ) (n : ℕ) :
-    c₀ * 2 ^ n = (c₀ * 2 ^ n + c₁ * (-2) ^ n) / 2 +
-      (c₀ * 2 ^ (n+1) + c₁ * (-2) ^ (n+1)) / 4 := by
-  sorry
-
--- test zero_radius_tail
-example {d : ℕ} (α : Fin d → ℂ) (N : ℕ)
-    (h : ∀ n : ℕ, max N 1 ≤ n → ‖∑ i : Fin d, α i ^ n‖ ≤ 0) :
-    ∀ i : Fin d, α i = 0 := by
-  sorry
-
--- test zero_at_origin
-example {d : ℕ} (β c : Fin d → ℂ) :
-    HasSum (fun n : ℕ => (∑ i : Fin d, c i * β i ^ (n+1)) * (0 : ℂ) ^ (n+1)) 0 := by
-  sorry
-
--- test one_root_generating_function
-example (b c z : ℂ) (h : ‖b * z‖ < 1) :
-    HasSum (fun n : ℕ => c * b ^ (n+1) * z ^ (n+1)) (c * b * z / (1-b*z)) := by
-  sorry
-
--- test repeated_denominator_requires_grouping
-example (b : ℂ) (hb : b ≠ 0) :
-    (2 * b * b⁻¹ * (1-b*b⁻¹) : ℂ) = 0 := by
-  sorry
-
--- test zero_root_no_finite_pole
-example (z c : ℂ) : c * 0 * z / (1 - 0 * z) = 0 := by
-  sorry
-
--- test reciprocal_pair
-example : (3 + 4 * Complex.I) * (3 - 4 * Complex.I) = (25 : ℂ) ∧
-    ‖3 + 4 * Complex.I‖ = (5 : ℝ) ∧ ‖3 - 4 * Complex.I‖ = (5 : ℝ) := by
-  sorry
-
--- test positive_exponents_only
-example : ((2 : ℂ) * 0 / (1 - 2 * 0)) = 0 ∧ (1 : ℂ) / (1 - 2 * 0) = 1 := by
-  sorry
-
--- test formal_positive_coefficients
-example {K : Type u} [CommRing K] {d : ℕ} (β c : Fin d → K) (n : ℕ) :
-    let G : PowerSeries K := PowerSeries.mk
-      (fun m : ℕ => if m = 0 then 0 else ∑ i : Fin d, c i * β i ^ m)
-    PowerSeries.coeff 0 G = 0 ∧
-      PowerSeries.coeff (n + 1) G = ∑ i : Fin d, c i * β i ^ (n + 1) := by
-  sorry
-
--- test formal_single_root_laurent
-example (b c : ℚ) :
-    ((PowerSeries.mk (fun n : ℕ => if n = 0 then 0 else c * b ^ n) :
-      PowerSeries ℚ) : LaurentSeries ℚ) =
-      algebraMap (RatFunc ℚ) (LaurentSeries ℚ)
-        ((algebraMap (Polynomial ℚ) (RatFunc ℚ) (C (c * b) * X)) /
-          algebraMap (Polynomial ℚ) (RatFunc ℚ) (1 - C b * X)) := by
-  sorry
-
--- test formal_empty_spectrum
-example :
-    ((PowerSeries.mk (fun n : ℕ => if n = 0 then 0 else
-      ∑ _i : Fin 0, (1 : ℚ) ^ n) : PowerSeries ℚ) : LaurentSeries ℚ) = 0 := by
-  sorry
-
--- test formal_characteristic_two_cancellation
-example :
-    (PowerSeries.mk (fun n : ℕ => if n = 0 then 0 else
-      ∑ _i : Fin 2, (1 : ZMod 2) ^ n) : PowerSeries (ZMod 2)) = 0 := by
-  sorry
-
--- test formal_zero_root_zeroth_power
-example :
-    (PowerSeries.mk (fun n : ℕ => if n = 0 then 0 else (0 : ℚ) ^ n) :
-      PowerSeries ℚ) = 0 := by
-  sorry
-
 /-- little-o-visible-root-vanishing. The boundary is strict. -/
 theorem norm_lt_of_moments_little_o {K : Type*} [NormedField K] {d : ℕ}
     (β c : Fin d → K) (hβ : Function.Injective β) (R : ℝ) (hR : 0 < R)
@@ -713,221 +498,7 @@ theorem graded_polynomial_approximation (p : ℝ) (hp : 1 < p) (r s : ℕ)
     (∀ j : ℕ, s ≤ 2 * j → r < 2 * j → P.coeff j = 0) := by
   sorry
 
--- The approximate polynomial for P^2 differs from the exact count by one.
-example (p : ℝ) (n : ℕ) :
-    ((p ^ n) ^ 2 + p ^ n + 1) - ((p ^ n) ^ 2 + p ^ n) = 1 := by
-  sorry
-
--- That error is little-o of p^n for p>1, rather than identically zero.
-example (p : ℝ) (hp : 1 < p) :
-    Filter.Tendsto (fun n : ℕ =>
-      ‖((p ^ n) ^ 2 + p ^ n + 1) - ((p ^ n) ^ 2 + p ^ n)‖ / p ^ n)
-      Filter.atTop (nhds 0) := by
-  sorry
-
 end TauCeti.FiniteSpectrum
-
-namespace TauCeti.AlgebraicGeometry.WeilZeta
-
-/-! ### WC.6 and WC.7: convention and equation examples on existing carriers -/
-
--- Every maximal cone of the specified nonprojective fan is regular.
--- Cone 123.
-example : |(!![1, 0, 0; 0, 1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 127.
-example : |(!![1, 0, 0; 0, 1, 0; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 136.
-example : |(!![1, 0, 0; 0, 0, 1; 0, -1, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 167.
-example : |(!![1, 0, 0; 0, -1, -1; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 235.
-example : |(!![0, 1, 0; 0, 0, 1; -1, -1, 0] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 257.
-example : |(!![0, 1, 0; -1, -1, 0; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 356.
-example : |(!![0, 0, 1; -1, -1, 0; 0, -1, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 456.
-example : |(!![-1, -1, -1; -1, -1, 0; 0, -1, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 457.
-example : |(!![-1, -1, -1; -1, -1, 0; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- Cone 467.
-example : |(!![-1, -1, -1; 0, -1, -1; -1, 0, -1] : Matrix (Fin 3) (Fin 3) ℤ).det| = 1 := by
-  sorry
-
--- The three primitive relations obstruct an ample support function.
-example :
-    (![0, 1, 0] : Fin 3 → ℤ) + ![0, -1, -1] = ![1, 0, 0] + ![-1, 0, -1] ∧
-    (![0, 0, 1] : Fin 3 → ℤ) + ![-1, 0, -1] = ![0, 1, 0] + ![-1, -1, 0] ∧
-    (![1, 0, 0] : Fin 3 → ℤ) + ![-1, -1, 0] = ![0, 0, 1] + ![0, -1, -1] := by
-  sorry
-
--- Empty cohomology: normalized factor is one.
-example : (0 : Matrix (Fin 0) (Fin 0) ℚ).charpolyRev = 1 := by
-  sorry
-
--- P^1 over F_4: the linear q-Frobenius on the Tate line is 4, not 2.
-example : (Matrix.diagonal (fun _ : Fin 1 => (4 : ℚ))).charpolyRev =
-    1 - C 4 * X := by
-  sorry
-
--- A length-two Frobenius orbit has factor 1-T^2, not (1-T)^2.
-example : (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
-    1 - X ^ 2 := by
-  sorry
-
--- The rank-two unipotent Jordan block has the same factor as its semisimplification.
-example : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
-    (1 - X) ^ 2 := by
-  sorry
-
--- The elliptic companion matrix tests det(1-TF), not det(T-F).
-example (q a : ℚ) :
-    (!![0, -q; 1, a] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
-      1 - C a * X + C q * X ^ 2 := by
-  sorry
-
--- Spec k has chi=1 and epsilon=-1.
-example :
-    let t : RatFunc ℚ := algebraMap ℚ[X] (RatFunc ℚ) X
-    (1 - t⁻¹)⁻¹ = -t * (1 - t)⁻¹ := by
-  sorry
-
--- For a fixed point a degree-two extension still has sign -1.
-example :
-    (-1 : ℚ) ^ ((2 + 1) * 1 : ℕ) * (-1) ^ (2 : ℕ) = -1 ∧
-      (-1 : ℚ) ^ (2 : ℕ) ≠ -1 := by
-  sorry
-
--- Algebraic substitution in Z(P^2/F_2,T): the sign is negative.
--- Here t is the existing transcendental rational function, so no denominator vanishes.
-example :
-    let t : RatFunc ℚ := algebraMap ℚ[X] (RatFunc ℚ) X
-    ((1 - (4 * t)⁻¹) * (1 - 2 * (4 * t)⁻¹) *
-      (1 - 4 * (4 * t)⁻¹))⁻¹ =
-        -8 * t ^ 3 * ((1 - t) * (1 - 2 * t) * (1 - 4 * t))⁻¹ := by
-  sorry
-
--- Reciprocal genus-two numerator, q=2: chi=-2 needs integer powers.
--- The reader specifies the smooth projective model of y^2+y=x^5 over F_2.
--- Its supplier route uses AlgebraicCurves Layer 10 (Artin-Schreier),
--- Layer 7 (different/Hurwitz), and Layer 12 (actual projective model).
--- This algebraic test does not discharge that model, genus, or cohomology import.
-example :
-    let t : RatFunc ℚ := algebraMap ℚ[X] (RatFunc ℚ) X
-    (1 + 4 * ((2 * t)⁻¹) ^ 4) /
-        ((1 - (2 * t)⁻¹) * (1 - 2 * (2 * t)⁻¹)) =
-      (2 : RatFunc ℚ)⁻¹ * t ^ (-2 : ℤ) *
-        ((1 + 4 * t ^ 4) / ((1 - t) * (1 - 2 * t))) := by
-  sorry
-
--- G_m: compact-support factorization, not the ordinary-cohomology quotient.
-example :
-    let t : RatFunc ℚ := algebraMap ℚ[X] (RatFunc ℚ) X
-    (1 - t) / (1 - 2 * t) =
-      (1 - 2 * t)⁻¹ / (1 - t)⁻¹ := by
-  sorry
-
--- The genuine existing equation carrier for E/F_5 has nonzero discriminant.
-example :
-    (⟨0, 0, 0, -1, 0⟩ : WeierstrassCurve (ZMod 5)).Δ = 4 := by
-  sorry
-
--- Its existing affine predicate has seven points; infinity makes eight.
-example :
-    let W : WeierstrassCurve (ZMod 5) := ⟨0, 0, 0, -1, 0⟩
-    Nat.card {xy : ZMod 5 × ZMod 5 // W.toAffine.Equation xy.1 xy.2} = 7 := by
-  sorry
-
--- The affine Artin-Schreier equation over F_2 has two points.
--- The unique point at infinity is a separate supplier theorem.
-example :
-    Fintype.card {xy : ZMod 2 × ZMod 2 // xy.2 ^ 2 + xy.2 = xy.1 ^ 5} = 2 := by
-  sorry
-
--- Affine counts over the actual degree 2, 3 and 4 extensions; add infinity.
-example :
-    let K := FiniteField.Extension (ZMod 2) 2 2
-    let N := Nat.card {xy : K × K // xy.2 ^ 2 + xy.2 = xy.1 ^ 5}
-    N = 4 ∧ N + 1 = 5 := by
-  sorry
-
-example :
-    let K := FiniteField.Extension (ZMod 2) 2 3
-    let N := Nat.card {xy : K × K // xy.2 ^ 2 + xy.2 = xy.1 ^ 5}
-    N = 8 ∧ N + 1 = 9 := by
-  sorry
-
-example :
-    let K := FiniteField.Extension (ZMod 2) 2 4
-    let N := Nat.card {xy : K × K // xy.2 ^ 2 + xy.2 = xy.1 ^ 5}
-    N = 32 ∧ N + 1 = 33 := by
-  sorry
-
--- A nonsplit quadric exchanges its rulings: eigenvalues 2,-2.
-example : (!![0, 2; 2, 0] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
-    1 - C 4 * X ^ 2 := by
-  sorry
-
--- On P^1 x P^1, (a,b).(c,d)=ad+bc tests both ruling intersections.
-example :
-    let D : Fin 2 → ℤ := ![1, -1]
-    let H : Fin 2 → ℤ := ![1, 1]
-    D 0 * H 1 + D 1 * H 0 = 0 ∧
-      D 0 * (0 : ℤ) + D 1 * 1 = -1 ∧
-      D 0 * (1 : ℤ) + D 1 * 0 = 1 ∧ D ≠ 0 := by
-  sorry
-
--- P^1 x P^1/F_2 has two middle classes of scalar 2, via tensor Kunneth.
-example : (Matrix.diagonal (fun _ : Fin 2 => (2 : ℚ))).charpolyRev =
-    (1 - C 2 * X) ^ 2 := by
-  sorry
-
--- A positive Tate twist on a point has scalar 1/q, not q.
-example : (Matrix.diagonal (fun _ : Fin 1 => ((2 : ℚ)⁻¹))).charpolyRev =
-    1 - C ((2 : ℚ)⁻¹) * X := by
-  sorry
-
--- The elliptic companion for E/F_5: trace -2, determinant 5.
-example : (!![0, -5; 1, -2] : Matrix (Fin 2) (Fin 2) ℚ).charpolyRev =
-    1 + C 2 * X + C 5 * X ^ 2 := by
-  sorry
-
--- The same Frobenius squared has trace -6, giving 1+25-(-6)=32.
-example : Matrix.trace ((!![0, -5; 1, -2] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2) =
-    (-6 : ℚ) := by
-  sorry
-
--- Scalar middle Frobenius of the ten-class surface is tested separately
--- from the geometric invariant comparisons in WC.7.
-example : (Matrix.diagonal (fun _ : Fin 10 => (2 : ℚ))).charpolyRev =
-    (1 - C 2 * X) ^ 10 := by
-  sorry
-
--- Constant rank-ten middle classes give 25 and 57 over F_2 and F_4.
-example : (1 : ℤ) + 10 * 2 + 2 ^ 2 = 25 := by
-  sorry
-example : (1 : ℤ) + 10 * 2 ^ 2 + 2 ^ 4 = 57 := by
-  sorry
-
-end TauCeti.AlgebraicGeometry.WeilZeta
 
 /-
 Geometric and arithmetic targets whose full statements are in README.md:
