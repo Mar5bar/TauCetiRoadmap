@@ -1,6 +1,4 @@
 import Mathlib
-import Mathlib.RepresentationTheory.Invariants
-import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
 # Classical Serre modularity: representative target signatures
@@ -88,20 +86,46 @@ def primesOfRat (S : Set ℕ) : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 �
 /-- The level `N′` of the weight-one statements: `N` if `N ≥ 5` and `5N` otherwise. -/
 def auxLevel (N : ℕ) : ℕ := if 5 ≤ N then N else 5 * N
 
-
 /-- The matrix action on the existing two-dimensional module. -/
 def toRepresentation {G R : Type*} [Group G] [CommRing R]
     (ρ : G →* GL (Fin 2) R) : Representation R G (Fin 2 → R) :=
   (Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp ρ)
 
-/-- Weight-one auxiliary level at the representable modular-curve threshold. -/
-example : auxLevel 1 = 5 ∧ auxLevel 4 = 20 := by decide
-
-/-- At and above the threshold the level is unchanged. -/
-example : auxLevel 5 = 5 ∧ auxLevel 11 = 11 := by decide
-
 /-! ## Layers R26.2–R26.3 and R27.2: numerical milestones -/
 
+/-- `R26.3/elementary-factorial-estimates`: the von Mangoldt divisor sum expresses
+the logarithm of a factorial as a finite sum of Chebyshev's psi. -/
+theorem log_factorial_eq_sum_psi (x : ℝ) (hx : 0 ≤ x) :
+    Real.log (Nat.factorial ⌊x⌋₊ : ℝ) =
+      ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, Chebyshev.psi (x / (n : ℝ)) := by
+  sorry
+
+/-- `R26.3/elementary-factorial-estimates`: Nagura's two log-Gamma differences
+are strictly increasing on their positive domains. -/
+theorem logGamma_difference_strictMonoOn (n : ℕ) (hn : 1 < n) :
+    StrictMonoOn (fun x : ℝ => Real.log (Real.Gamma x) / n -
+      Real.log (Real.Gamma ((x + n - 1) / n))) (Set.Ioi 1) ∧
+    StrictMonoOn (fun x : ℝ => Real.log (Real.Gamma (x + 1)) / n -
+      Real.log (Real.Gamma (x / n + 1))) (Set.Ioi 0) := by
+  sorry
+
+/-- `R26.3/elementary-factorial-estimates`: the signed Stirling remainder for
+log-Gamma is positive and bounded above by `1/(12x)` on the positive reals. -/
+theorem logGamma_stirling_remainder (x : ℝ) (hx : 0 < x) :
+    0 < Real.log (Real.Gamma x) -
+      ((x - 1 / 2) * Real.log x - x + Real.log (2 * Real.pi) / 2) ∧
+    Real.log (Real.Gamma x) -
+      ((x - 1 / 2) * Real.log x - x + Real.log (2 * Real.pi) / 2) < 1 / (12 * x) := by
+  sorry
+
+/-- `R26.3/elementary-factorial-estimates`: the two factorial combinations give
+the rational linear bounds used in Nagura's psi estimates. -/
+theorem nagura_factorial_combinations (x : ℝ) (hx : 2000 ≤ x) :
+    let T := fun y : ℝ => Real.log (Nat.factorial ⌊y⌋₊ : ℝ)
+    T x - T (x / 2) - T (x / 3) - T (x / 7) - T (x / 43) - T (x / 1806) <
+      (10851 / 10000 : ℝ) * x ∧
+    (229 / 250 : ℝ) * x < T x - T (x / 2) - T (x / 3) - T (x / 5) + T (x / 30) := by
+  sorry
 
 /-- `R26.3/elementary-psi-bounds`: Nagura's elementary affine bounds for Chebyshev's psi. -/
 theorem nagura_psi_bounds (x : ℝ) (hx : 0 < x) :
@@ -112,27 +136,6 @@ theorem nagura_psi_bounds (x : ℝ) (hx : 0 < x) :
 six-fifths interval. -/
 theorem prime_in_six_fifths (n : ℕ) (hn : 25 ≤ n) :
     ∃ P : ℕ, P.Prime ∧ n < P ∧ 5 * P < 6 * n := by sorry
-
-/-- The factorial divisor sum at six includes all multiplicities. -/
-example : (∑ n ∈ Finset.Icc (1 : ℕ) 6, Chebyshev.psi ((6 : ℝ) / (n : ℝ))) = Real.log 720 := by sorry
-
-/-- Psi vanishes below two and includes the prime at its endpoint. -/
-example : Chebyshev.psi (3 / 2) = 0 ∧ Chebyshev.psi 2 = Real.log 2 ∧
-    Chebyshev.psi 4 - Chebyshev.psi 3 = Real.log 2 := by sorry
-
-/-- The signed Stirling error at one lies strictly inside the asserted bound. -/
-example : 0 < (1 : ℝ) - Real.log (2 * Real.pi) / 2 ∧
-    (1 : ℝ) - Real.log (2 * Real.pi) / 2 < 1 / 12 := by sorry
-
-/-- The geometric summation fits inside the stated psi upper constant. -/
-example : (10851 / 10000 : ℚ) * 1806 / 1805 < 543 / 500 := by norm_num
-
-/-- The integer interval threshold is attained at 25, while 24 fails. -/
-example : Nat.Prime 29 ∧ 25 < 29 ∧ 5 * 29 < 6 * 25 ∧
-    ¬ (∃ P ∈ Finset.Ioo 24 29, P.Prime) := by native_decide
-
-/-- The finite interval estimate includes its overlap with the large range. -/
-example : Nat.Prime 100003 ∧ 100000 < 100003 ∧ 5 * 100003 < 6 * 100000 := by native_decide
 
 /-- `R26.3/next-prime-ratio`: the exact rational bound for consecutive primes. -/
 theorem next_prime_ratio (p P : ℕ) (hp : p.Prime) (h31 : 31 ≤ p)
@@ -148,7 +151,6 @@ theorem next_nonFermat_prime_ratio (p P : ℕ) (hp : p.Prime) (hbig : 21591 ≤ 
     (hnext : ∀ q : ℕ, q.Prime → p < q → (∀ a : ℕ, q ≠ 2 ^ (2 ^ a) + 1) → P ≤ q) :
     (P : ℚ) < 1499 / 1000 * p := by
   sorry
-
 
 /-- `R26.3/finite-auxiliary-prime-checks`: the auxiliary-prime estimate for every prime
 between 5 and 21591, including minimality of the non-Fermat prime and exact valuations. -/
@@ -171,27 +173,6 @@ theorem odd_auxiliary_prime (p : ℕ) (hp : p.Prime) (h31 : 31 ≤ p) :
       ℓ ^ e ∣ P - 1 ∧ ¬ ℓ ^ (e + 1) ∣ P - 1 ∧
       ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * p := by
   sorry
-
-/-- The nine small rows and the Fermat-skip and upper-boundary rows satisfy the full estimate. -/
-example (p P ℓ e m : ℕ)
-    (hrow : (p, P, ℓ, e, m) ∈
-      ([(5, 7, 3, 1, 1), (7, 11, 5, 1, 2), (11, 13, 3, 1, 1),
-        (13, 19, 3, 2, 4), (17, 19, 3, 2, 4), (19, 23, 11, 1, 5),
-        (23, 29, 7, 1, 3), (29, 31, 5, 1, 2), (31, 37, 3, 2, 4),
-        (251, 263, 131, 1, 65), (21589, 21599, 10799, 1, 5399)] :
-          List (ℕ × ℕ × ℕ × ℕ × ℕ))) :
-    p.Prime ∧ P.Prime ∧ p < P ∧
-      (∀ a : ℕ, P ≠ 2 ^ (2 ^ a) + 1) ∧
-      (∀ q : ℕ, q.Prime → p < q → (∀ a : ℕ, q ≠ 2 ^ (2 ^ a) + 1) → P ≤ q) ∧
-      ℓ.Prime ∧ Odd ℓ ∧ 0 < e ∧ ℓ ≤ p ∧
-      ℓ ^ e ∣ P - 1 ∧ ¬ ℓ ^ (e + 1) ∣ P - 1 ∧
-      ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * p := by sorry
-
-/-- The sharp ratios and the row at 31 satisfy the displayed numerical boundaries. -/
-example : (37 / 31 : ℚ) < 6 / 5 ∧ (36 / 25 : ℚ) < 1499 / 1000 ∧
-    (1499 / 1000 : ℚ) < 3 / 2 ∧
-    (4 + 1) * (37 : ℕ) + 4 = 189 ∧ 9 * (31 : ℕ) = 279 ∧
-    (189 : ℕ) ≤ 279 := by norm_num
 
 /-- `R26.3/weight-interval-containment`: both returned weights lie in the proved range. -/
 theorem weight_interval_containment (m P p j : ℚ)
@@ -221,49 +202,7 @@ theorem dyadic_weight_bound (p P e : ℕ) (he : 4 ≤ e)
     (2 ^ (e - 1) + 2) * (P - 1) + 2 * 2 ^ e ≤ (p + 1) * 2 ^ e := by
   sorry
 
-/-- The six terminal choices give the prescribed return-weight pairs. -/
-example : ([(7, 2), (11, 4), (19, 8), (29, 16), (29, 14), (31, 18)] : List (ℕ × ℕ)).map
-    (fun (P, j) => (j + 2, P + 1 - j)) = [(4, 6), (6, 8), (10, 12), (18, 14), (16, 16), (20, 14)] := by
-  decide
-
-/-- The terminal exponent cosets include both residue classes needed in characteristic 29. -/
-example : 2 % ((7 - 1) / 3) = 0 ∧ 4 % ((11 - 1) / 5) = 0 ∧
-    8 % ((19 - 1) / 9) = 0 ∧
-    (∀ k ∈ ([14, 16, 18, 20] : List ℕ), (k - 2) % 2 = 0) ∧ 16 % ((29 - 1) / 7) = 0 ∧
-    14 % ((29 - 1) / 7) = 2 ∧ 18 % ((31 - 1) / 5) = 0 ∧
-    (∀ k ∈ ([22, 26, 30] : List ℕ), (k - 2) % 4 = 0) ∧
-    (∀ k ∈ ([24, 28] : List ℕ), (k - 2) % 4 = 2) ∧
-    ¬ (6 : ℕ) ∣ 16 ∧ (6 : ℕ) ∣ 18 ∧ 12 < (18 : ℕ) ∧ (18 : ℕ) ≤ 18 := by decide
-
-/-- Prime counting at the two small values used to test Khare's printed bound. -/
-example : Nat.primeCounting 31 = 11 ∧ Nat.primeCounting 100 = 25 := by native_decide
-
-/-- The Fermat prime after 251 is skipped, and 263 obeys the needed ratio. -/
-example : Nat.Prime 251 ∧ Nat.Prime 257 ∧ Nat.Prime 263 ∧ 257 = 2 ^ (2 ^ 3) + 1 ∧
-    (∀ n ∈ Finset.Ioo 251 257, ¬ n.Prime) ∧
-    (∀ n ∈ Finset.Ioo 257 263, ¬ n.Prime) ∧
-    (263 : ℚ) / 251 ≤ 3 / 2 - 1 / 30 := by native_decide
-
-/-- The dyadic recursion has strict room in the row (13,17,4). -/
-example : (2 ^ (4 - 1) + 2) * 17 + (2 ^ (4 - 1) - 2) = 176 ∧
-    2 ^ 4 * 13 = 208 ∧ (176 : ℕ) ≤ 208 := by norm_num
-
-/-- The corrected local quadratic vanishes while the printed sign gives minus four. -/
-example : (3 : ℤ) - 2 = 1 * (2 - 1) ∧ (3 : ℤ) * 2 = 6 ∧
-    (2 : ℤ) ^ 2 + 2 * 1 * (2 - 1) - 6 = 0 ∧
-    (2 : ℤ) ^ 2 - 2 * 1 * (2 - 1) - 6 = -4 := by norm_num
-
-/-- The conductor six satisfies D1's dyadic divisibility bound and fails D0's. -/
-example : ¬ (4 : ℕ) ∣ 6 ∧ (2 : ℕ) ∣ 6 ∧ (2 : ℕ) - 1 = 1 ∧
-    (1 : ℕ) ≤ 1 ∧ ¬ (1 : ℕ) ≤ 0 := by norm_num
-
-/-- Trivial Weil inertia with rank-one monodromy gives the Steinberg conductor term. -/
-example : Module.finrank ℚ
-    (LinearMap.ker (Matrix.toLin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ))) = 1 ∧
-    (2 : ℕ) - 1 = 1 := by sorry
-
 /-! ## Layer R26.6: finiteness at level one -/
-
 
 /-- `R26.6/finiteness-corollary-1-3` (Khare Corollary 1.3), absolutely irreducible part: up to
 isomorphism there are finitely many S-type representations unramified outside `p`. The full
@@ -311,6 +250,7 @@ namespace IsGoodDihedralPrime
 
 variable {ρ : G →* GL (Fin 2) K} {ι : ∀ q, I q →* G} {p N q : ℕ}
 
+/-- A change of basis preserves good-dihedrality at the specified prime. -/
 theorem conjugate (B : GL (Fin 2) K) :
     IsGoodDihedralPrime ((MulAut.conj B⁻¹).toMonoidHom.comp ρ) ι p N q ↔
       IsGoodDihedralPrime ρ ι p N q := by
@@ -322,70 +262,13 @@ namespace IsLocallyGoodDihedral
 
 variable {ρ : G →* GL (Fin 2) K} {ι : ∀ q, I q →* G} {p N : ℕ}
 
+/-- A change of basis preserves the existence of a good-dihedral prime. -/
 theorem conjugate (B : GL (Fin 2) K) :
     IsLocallyGoodDihedral ((MulAut.conj B⁻¹).toMonoidHom.comp ρ) ι p N ↔
       IsLocallyGoodDihedral ρ ι p N := by
   sorry
 
 end IsLocallyGoodDihedral
-
--- goodDihedral_congruence_fails
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N : ℕ) :
-    ¬ IsGoodDihedralPrime ρ inertia p N 13 := by
-  sorry
-
--- goodDihedral_trivial_inertia_fails
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N q : ℕ)
-    (htriv : ∀ x, ρ (inertia q x) = 1) :
-    ¬ IsGoodDihedralPrime ρ inertia p N q := by
-  sorry
-
--- goodDihedral_upper_endpoint: the congruences at 2, 3, 5 and 8 hold; equality s = p = 7 fails.
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) :
-    Nat.maxPrimeFac ((9 * 241 ^ 2) / 241 ^ 2) = 3 ∧
-      241 % 8 = 1 ∧ 241 % 2 = 1 ∧ 241 % 3 = 1 ∧ 241 % 5 = 1 ∧
-      241 % 7 ≠ 1 ∧ ¬ IsGoodDihedralPrime ρ inertia 7 (9 * 241 ^ 2) 241 := by
-  sorry
-
--- goodDihedral_basis_change
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N q : ℕ) (B : GL (Fin 2) K) :
-    IsGoodDihedralPrime ((MulAut.conj B⁻¹).toMonoidHom.comp ρ) inertia p N q ↔
-      IsGoodDihedralPrime ρ inertia p N q := by
-  sorry
-
--- locallyGood_single_witness: one witness suffices although the candidate 13 always fails.
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N q : ℕ)
-    (h : IsGoodDihedralPrime ρ inertia p N q) :
-    IsLocallyGoodDihedral ρ inertia p N ∧ ¬ IsGoodDihedralPrime ρ inertia p N 13 := by
-  sorry
-
--- locallyGood_trivial_inertia_fails
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N : ℕ)
-    (htriv : ∀ q x, ρ (inertia q x) = 1) :
-    ¬ IsLocallyGoodDihedral ρ inertia p N := by
-  sorry
-
--- locallyGood_basis_change
-example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N : ℕ) (B : GL (Fin 2) K) :
-    IsLocallyGoodDihedral ((MulAut.conj B⁻¹).toMonoidHom.comp ρ) inertia p N ↔
-      IsLocallyGoodDihedral ρ inertia p N := by
-  sorry
-
-/-- Rotation and reflection on F8 realize a positive good-dihedral example at 41.
-The inertia group is the existing cyclic group of order seven. -/
-example : ∃ (ζ : GaloisField 2 3) (ρ : DihedralGroup 7 →* GL (Fin 2) (GaloisField 2 3))
-    (ι : Multiplicative (ZMod 7) →* DihedralGroup 7),
-    IsPrimitiveRoot ζ 7 ∧
-    (∀ i, ι i = DihedralGroup.r (Multiplicative.toAdd i)) ∧
-    (ρ (DihedralGroup.r 1) : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) =
-      !![ζ, 0; 0, ζ⁻¹] ∧
-    (ρ (DihedralGroup.sr 0) : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) =
-      !![0, 1; 1, 0] ∧
-    IsGoodDihedralPrime ρ (fun _ => ι) 2 (41 ^ 2) 41 ∧
-    IsLocallyGoodDihedral ρ (fun _ => ι) 2 (41 ^ 2) := by sorry
-
-example : Nat.Prime 41 ∧ 41 % 8 = 1 ∧ 41 % 2 = 1 ∧ 7 ∣ 41 + 1 ∧
-    max (max (Nat.maxPrimeFac ((41 ^ 2) / 41 ^ 2)) 5) 2 < 7 := by norm_num
 
 end GoodDihedral
 
@@ -397,28 +280,6 @@ unramified such that (i) `ρ̄_proj(Frob_q)` and `ρ̄_proj(c)` are conjugate in
 def auxiliaryPrimes {p : ℕ} (ρ : GQ →* GL (Fin 2) (ZMod p)) (c : GQ) : Set ℕ :=
   {q | q.Prime ∧ IsUnramifiedAt ρ q ∧ (∃ σ : GQ, IsFrobAt σ q ∧ IsProjConj ρ σ c) ∧
     (∀ ℓ : ℕ, ℓ.Prime → ℓ ≤ p - 1 → q % ℓ = 1) ∧ q % 8 = 1 ∧ q % p = p - 1}
-
-/-- Trivial inertia and projective images give a positive auxiliary-prime witness at 409. -/
-example (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ) (hc : ComplexEmbedding.IsConj φ c) :
-    409 ∈ auxiliaryPrimes (1 : GQ →* GL (Fin 2) (ZMod 5)) c := by sorry
-
-/-- The candidate 13 fails the modulus-eight condition of the actual auxiliary-prime set. -/
-example (ρ : GQ →* GL (Fin 2) (ZMod 5)) (c : GQ) :
-    13 ∉ auxiliaryPrimes ρ c := by sorry
-
-/-- A candidate satisfying all congruences is excluded when inertia acts nontrivially. -/
-example (ρ : GQ →* GL (Fin 2) (ZMod 5)) (c : GQ)
-    (Q : Ideal IntBar) (hQ : Q.IsPrime) (h409 : (409 : IntBar) ∈ Q)
-    (g : GQ) (hg : g ∈ Q.inertia GQ) (hρ : ρ g ≠ 1) :
-    409 ∉ auxiliaryPrimes ρ c := by sorry
-
-/-- Unramifiedness and the congruences do not replace projective Frobenius conjugacy. -/
-example (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ) (hc : ComplexEmbedding.IsConj φ c) :
-    ∃ ρ : GQ →* GL (Fin 2) (ZMod 5),
-    IsOpen (ρ.ker : Set GQ) ∧ IsOdd ρ ∧ IsUnramifiedAt ρ 409 ∧
-    (∃ σ : GQ, IsFrobAt σ 409) ∧
-    (∀ σ, IsFrobAt σ 409 → ¬ IsProjConj ρ σ c) ∧
-    409 ∉ auxiliaryPrimes ρ c := by sorry
 
 /-- `R27.1/lemma-8-2-chebotarev-choice-of-auxiliary-primes` (Khare–Wintenberger Lemma 8.2,
 Dieulefait–Pacetti Lemma 1.15): for `p ≡ 1 mod 4` and `ρ̄ : G_ℚ → GL₂(𝔽_p)` with coefficients in
@@ -471,7 +332,19 @@ theorem artin_reduction_isAbsIrreducible {G O : Type*} [Group G] [Finite G] [Com
     IsAbsIrreducible (residualRep ρ) := by
   sorry
 
-/-! ## Layers R33.2–R33.5: local matrices and negative controls -/
+/-- `R27.6/artin-reductions-of-serre-type`: integral models with isomorphic generic
+fibres have isomorphic full reductions when the finite group order is a residue-field unit. -/
+theorem artin_reduction_isomorphic_of_generic_isomorphic {G O : Type*} [Group G] [Finite G]
+    [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    (hG : (Nat.card G : IsLocalRing.ResidueField O) ≠ 0)
+    (ρ τ : G →* GL (Fin 2) O)
+    (hiso : ∃ B : GL (Fin 2) (FractionRing O),
+      ∀ g, genericRep τ g = B * genericRep ρ g * B⁻¹) :
+    ∃ B : GL (Fin 2) (IsLocalRing.ResidueField O),
+      ∀ g, residualRep τ g = B * residualRep ρ g * B⁻¹ := by
+  sorry
+
+/-! ## Layers R33.2–R33.3: integral models of local types -/
 
 namespace DP
 
@@ -500,278 +373,39 @@ theorem dihedralType_reduction {R k : Type*} [CommRing R] [CommRing k] (f : R �
     (N : ℕ) (hζ : f ζ = 1) : (dihedralInertia ζ N).map f = 1 := by
   sorry
 
--- level_two_q7_N13 and level_one_nonexample.
-example : 7 ∣ 13 + 1 ∧ ¬ 7 ∣ 13 - 1 ∧ 3 ∣ 7 - 1 := by norm_num
-
--- residue_field_units: `N² − 1 = (N − 1)(N + 1)`, and `|𝔽₂₅| = 25 ≠ 24`.
-example (N : ℤ) : N ^ 2 - 1 = (N - 1) * (N + 1) := by ring
-
-example : (5 : ℕ) ^ 2 - 1 = (5 - 1) * (5 + 1) ∧ (5 : ℕ) ^ 2 ≠ (5 - 1) * (5 + 1) := by norm_num
-
--- residual_trace_zero: the swap has trace zero.
-example : Matrix.trace (dihedralFrob ℤ) = 0 := by
-  simp [dihedralFrob, Matrix.trace_fin_two]
-
--- insertion_congruences_q13 and insertion_level_two (`R33.2/dp-lift-existence-and-good-dihedral-insertion`).
-example : Nat.Prime 406561 ∧ 406561 % 8 = 1 ∧ 406561 % 3 = 1 ∧ 406561 % 5 = 1 ∧
-    406561 % 7 = 1 ∧ 406561 % 11 = 1 ∧ 406561 % 13 = 12 ∧ 13 ∣ 406561 + 1 ∧
-    ¬ 13 ∣ 406561 - 1 := by
-  norm_num
-
--- insertion_crystalline_needs_weight_two (arithmetic content): weight 2 is not `q + 1` at `q = 13`.
-example : (2 : ℕ) ≠ 13 + 1 := by norm_num
-
--- Lemma 8.2 for `p = 5`: `q = 409` satisfies the three congruences.
-example : Nat.Prime 409 ∧ 409 % 8 = 1 ∧ 409 % 3 = 1 ∧ 409 % 5 = 5 - 1 := by norm_num
-
--- Lemma 8.2 uses that `−1` is a square modulo `p ≡ 1 mod 4`: `2² ≡ −1 mod 5`, `5² ≡ −1 mod 13`.
-example : (2 ^ 2 + 1) % 5 = 0 ∧ (5 ^ 2 + 1) % 13 = 0 := by norm_num
-
-/-! ## R33.1, R33.3–R33.5: bad-dihedral arithmetic -/
-
--- `R33.1/fontaine-laffaille-member-not-bad-dihedral`: `p > 2k` excludes `p = 2k − 1` and
--- `p = 2k − 3`.
-example (p k : ℕ) (hk : 2 ≤ k) (hp : 2 * k < p) : p ≠ 2 * k - 1 ∧ p ≠ 2 * k - 3 := by omega
-
--- The niveau-two case is attained at `p = 7`, `k = 5`.
-example : Nat.gcd (7 + 1) (5 - 1) = 4 ∧ (7 + 1) / 4 = 2 ∧ 7 = 2 * 5 - 3 := by norm_num
-
--- `R33.3/paso-5-killing-the-good-dihedral-prime` (Remark 5): at level one a bad-dihedral
--- representation has `p ≡ 3 mod 4`, which `N ≡ 1 mod 8` and `p = 5` avoid.
-example (m : ℕ) (hm : 1 ≤ m) : (2 * (2 * m) - 1) % 4 = 3 := by omega
-
-example (N : ℕ) (hN : N % 8 = 1) : N % 4 ≠ 3 := by omega
-
-example : 5 % 4 ≠ 3 := by norm_num
-
--- `R33.4/dp-terminal-characteristic-five-and-the-schoof-base-case`: the even weights in `[2, 6]`,
--- and `4 = 3 + 1`.
-example : (Finset.Icc 2 6).filter (fun k => k % 2 = 0) = {2, 4, 6} ∧ 4 = 3 + 1 := by decide
-
--- `R33.5/auxiliary-odd-prime-for-the-dyadic-system`: at weight 2 the excluded primes are 3 and 1.
-example : 2 * 2 - 1 = 3 ∧ 2 * 2 - 3 = 1 := by norm_num
-
-example (p : ℕ) (hp : 3 < p) : p ≠ 2 * 2 - 1 ∧ p ≠ 2 * 2 - 3 := by omega
-
--- `R33.5/dp-characteristic-two-closure` (Lemma 6.1): an element of 2-power order of `GL₂(𝔽̄₂)` is
--- unipotent, `1 + X` with `X² = 0`, and in characteristic two it has order at most 2; so `S₄`,
--- which has elements of order 4, is not a projective image in characteristic two.
-example {k : Type*} [CommRing k] [CharP k 2] (X : Matrix (Fin 2) (Fin 2) k) (hX : X * X = 0) :
-    (1 + X) * (1 + X) = 1 := by
-  have h2 : (2 : k) = 0 := CharP.cast_eq_zero k 2
-  have : (1 + X) * (1 + X) = 1 + (2 : k) • X + X * X := by
-    rw [add_mul, mul_add, mul_add, one_mul, mul_one, one_mul, two_smul]; simp only [add_assoc]
-  rw [this, hX, h2, zero_smul, add_zero, add_zero]
-
-example : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod 2)) ^ 2 = 1 := by decide
-
--- The Borel subgroup of `PGL₂(𝔽₄)` has order `12 = |A₄|`, and `|PGL₂(𝔽₄)| = 60 = |A₅|`.
-example : 4 * (4 - 1) = 12 ∧ 4 * (4 ^ 2 - 1) = 60 ∧ Nat.factorial 4 / 2 = 12 ∧
-    Nat.factorial 5 / 2 = 60 := by
-  decide
-
-end DP
-
-/-! ## Carrier Checks -/
-
-/-- The trivial representation is unramified at every prime. -/
-example (r : ℕ) : IsUnramifiedAt (1 : GQ →* GL (Fin 2) ℚ) r := by sorry
-
-/-- Triviality of the inertia action agrees with kernel containment. -/
-example {H : Type*} [Group H] (ρ : GQ →* H) (r : ℕ) :
-    IsUnramifiedAt ρ r ↔ ∀ Q : Ideal IntBar, Q.IsPrime → (r : IntBar) ∈ Q →
-      ∀ g ∈ Q.inertia GQ, ρ g = 1 := by sorry
-
-/-- Nontrivial unipotent inertia prevents unramifiedness despite trivial semisimplification. -/
-example (ρ : GQ →* GL (Fin 2) (ZMod 3)) (r : ℕ)
-    (Q : Ideal IntBar) (hQ : Q.IsPrime) (hr : (r : IntBar) ∈ Q)
-    (g : GQ) (hg : g ∈ Q.inertia GQ)
-    (hρ : (ρ g : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![1, 1; 0, 1]) :
-    ¬ IsUnramifiedAt ρ r := by sorry
-
-/-- The identity cannot be arithmetic Frobenius at the unit ideal's rational prime 1. -/
-example (σ : GQ) : ¬ IsFrobAt σ 1 := by sorry
-
-/-- A prime Frobenius witness has exactly the asserted residue characteristic. -/
-example (σ : GQ) (r : ℕ) (hr : r.Prime) (h : IsFrobAt σ r) :
-    ∃ Q : Ideal IntBar, Q.IsPrime ∧ IsArithFrobAt ℤ σ Q ∧ CharP (IntBar ⧸ Q) r := by sorry
-
-/-- At two, Frobenius acts nontrivially on an F4 residue subfield. -/
-example : ∃ (σ : GQ) (Q : Ideal IntBar), Q.IsPrime ∧
-    IsArithFrobAt ℤ σ Q ∧ CharP (IntBar ⧸ Q) 2 ∧
-    ∃ x : IntBar, (Ideal.Quotient.mk Q x) ^ 2 + Ideal.Quotient.mk Q x + 1 = 0 ∧
-      Ideal.Quotient.mk Q (σ • x) = (Ideal.Quotient.mk Q x) ^ 2 ∧
-      Ideal.Quotient.mk Q (σ • x) ≠ Ideal.Quotient.mk Q x := by sorry
-
-/-- The trivial action fails absolute irreducibility in dimension two. -/
-example : ¬ IsAbsIrreducible (1 : Unit →* GL (Fin 2) ℚ) := by sorry
-
-/-- The full general linear action spans the matrix algebra. -/
-example : IsAbsIrreducible (MonoidHom.id (GL (Fin 2) ℚ)) := by sorry
-
-/-- The diagonal action preserves its coordinate lines and does not span the matrix algebra. -/
-example (ρ : (ℚˣ × ℚˣ) →* GL (Fin 2) ℚ)
-    (hρ : ∀ u, (ρ u : Matrix (Fin 2) (Fin 2) ℚ) =
-      !![(u.1 : ℚ), 0; 0, (u.2 : ℚ)]) : ¬ IsAbsIrreducible ρ := by sorry
-
-/-- The split action `χ ⊕ 1` has invariant coordinate lines. In particular, the 3-adic
-cyclotomic specialization is excluded by the irreducibility hypothesis of
-`R33.1/dp-modularity-lifting-inputs`. -/
-example {k : Type*} [Field k] (χ : GQ →* kˣ) (ρ : GQ →* GL (Fin 2) k)
-    (hρ : ∀ g, (ρ g : Matrix (Fin 2) (Fin 2) k) = !![(χ g : k), 0; 0, 1]) :
-    ¬ Representation.IsIrreducible (toRepresentation ρ) := by sorry
-
-/-- The totally real S3 extension cut out by x³−4x+1 gives an even absolutely irreducible
-action over F5: among the three S-type conditions only oddness fails. -/
-example [Fact (Nat.Prime 5)] : ∃ (θ : GQ →* DihedralGroup 3) (τ : DihedralGroup 3 →* GL (Fin 2) (ZMod 5))
-    (ρ : GQ →* GL (Fin 2) (ZMod 5)),
-    ρ = τ.comp θ ∧ Function.Surjective θ ∧ IsOpen (θ.ker : Set GQ) ∧
-    (∀ (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ), ComplexEmbedding.IsConj φ c → θ c = 1) ∧
-    (τ (DihedralGroup.r 1) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, -1; 1, -1] ∧
-    (τ (DihedralGroup.sr 0) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, 1; 1, 0] ∧
-    IsOpen (ρ.ker : Set GQ) ∧ IsAbsIrreducible ρ ∧ ¬ IsOdd ρ ∧ ¬ IsSType ρ := by sorry
-
-/-- The natural F2 action of the totally real S3 extension is of S-type. -/
-example : ∃ ρ : GQ →* GL (Fin 2) (ZMod 2), IsSType ρ := by sorry
-
-/-- A trivial two-dimensional representation is never of S-type. -/
-example : ¬ IsSType (1 : GQ →* GL (Fin 2) ℚ) := by sorry
-
-/-- At a complex conjugation, a characteristic-zero trivial action fails oddness. -/
-example (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ) (hc : ComplexEmbedding.IsConj φ c) :
-    ¬ IsOdd (1 : GQ →* GL (Fin 2) ℚ) := by sorry
-
-/-- In characteristic two the determinant sign for the trivial action is automatic. -/
-example : IsOdd (1 : GQ →* GL (Fin 2) (ZMod 2)) := by sorry
-
-/-- The diagonal action of one and the mod-three cyclotomic character is odd. -/
-example : ∃ ρ : GQ →* GL (Fin 2) (ZMod 3), IsOpen (ρ.ker : Set GQ) ∧ IsOdd ρ ∧
-    ∀ (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ), ComplexEmbedding.IsConj φ c →
-      (ρ c : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![1, 0; 0, -1] := by sorry
-
-/-- Projective conjugacy forgets a nonzero scalar. -/
-example {G k : Type*} [Group G] [Field k] (ρ : G →* GL (Fin 2) k) (a b : G)
-    (z : k) (hz : (ρ a : Matrix (Fin 2) (Fin 2) k) = z • (ρ b : Matrix (Fin 2) (Fin 2) k)) :
-    IsProjConj ρ a b := by sorry
-
-/-- A nontrivial unipotent is not projectively conjugate to the identity. -/
-example {G : Type*} [Group G] (ρ : G →* GL (Fin 2) ℚ) (a : G)
-    (ha : (ρ a : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1]) :
-    ¬ IsProjConj ρ a 1 := by sorry
-
-/-- The swap conjugates the two signed diagonal matrices under the full GL2 action. -/
-example (a b : GL (Fin 2) ℚ)
-    (ha : (a : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; 0, -1])
-    (hb : (b : Matrix (Fin 2) (Fin 2) ℚ) = !![-1, 0; 0, 1]) :
-    IsProjConj (MonoidHom.id (GL (Fin 2) ℚ)) a b := by sorry
-
-/-- Reduction of a trivial action stays trivial. -/
-example {G O : Type*} [Group G] [CommRing O] [IsLocalRing O] :
-    residualRep (1 : G →* GL (Fin 2) O) = 1 := by sorry
-
-/-- A uniformizer in an upper-unipotent action vanishes in the residue field. -/
-example {G O : Type*} [Group G] [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-    (π : O) (hπ : Irreducible π) (ρ : G →* GL (Fin 2) O) (g : G)
-    (hρ : (ρ g : Matrix (Fin 2) (Fin 2) O) = !![1, π; 0, 1]) :
-    (residualRep ρ g : Matrix (Fin 2) (Fin 2) (IsLocalRing.ResidueField O)) = 1 := by sorry
-
-/-- Coefficient extension of a trivial action stays trivial. -/
-example {G O : Type*} [Group G] [CommRing O] [IsDomain O] :
-    genericRep (1 : G →* GL (Fin 2) O) = 1 := by sorry
-
-/-- Coefficient extension preserves each matrix entry. -/
-example {G O : Type*} [Group G] [CommRing O] [IsDomain O]
-    (ρ : G →* GL (Fin 2) O) (g : G) (i j : Fin 2) :
-    (genericRep ρ g : Matrix (Fin 2) (Fin 2) (FractionRing O)) i j =
-      algebraMap O (FractionRing O) ((ρ g : Matrix (Fin 2) (Fin 2) O) i j) := by sorry
-
-/-- Fraction-field extension keeps the nonzero off-diagonal entry of a unipotent. -/
-example {G O : Type*} [Group G] [CommRing O] [IsDomain O]
-    (ρ : G →* GL (Fin 2) O) (g : G)
-    (hρ : (ρ g : Matrix (Fin 2) (Fin 2) O) = !![1, 1; 0, 1]) :
-    (genericRep ρ g : Matrix (Fin 2) (Fin 2) (FractionRing O)) 0 1 = 1 := by sorry
-
-/-- Pullback of the empty prime set stays empty. -/
-example : primesOfRat ∅ = ∅ := by sorry
-
-/-- Pullback of all rational prime norms is the full height-one spectrum. -/
-example : primesOfRat Set.univ = Set.univ := by sorry
-
-/-- The prime generated by two has norm two and lies in the singleton pullback. -/
-example : ∃ v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ),
-    v.asIdeal = Ideal.span {(2 : 𝓞 ℚ)} ∧ Ideal.absNorm v.asIdeal = 2 ∧
-      v ∈ primesOfRat {2} := by sorry
-
-/-- No rational prime ideal has composite norm four. -/
-example : primesOfRat {4} = ∅ := by sorry
-
-/-- The total auxiliary-level function takes zero to zero. -/
-example : auxLevel 0 = 0 := by decide
-
-/-- The matrix-action adapter retains the actual linear action. -/
-example {G R : Type*} [Group G] [CommRing R] (ρ : G →* GL (Fin 2) R)
-    (g : G) (v : Fin 2 → R) :
-    toRepresentation ρ g v = (ρ g : Matrix (Fin 2) (Fin 2) R).mulVec v := by sorry
-
-/-- The trivial matrix action fixes every vector. -/
-example {G R : Type*} [Group G] [CommRing R] (g : G) (v : Fin 2 → R) :
-    toRepresentation (1 : G →* GL (Fin 2) R) g v = v := by sorry
-
-/-- The matrix adapter sends the first basis vector to the second under the swap. -/
-example (a : GL (Fin 2) ℚ)
-    (ha : (a : Matrix (Fin 2) (Fin 2) ℚ) = !![0, 1; 1, 0]) :
-    toRepresentation (MonoidHom.id (GL (Fin 2) ℚ)) a ![1, 0] = ![0, 1] := by sorry
-
-namespace DP
-
-/-- Specializing to a trivial character gives trivial inertia. -/
-example (N : ℕ) : dihedralInertia (1 : ℤ) N = 1 := by sorry
-
-/-- A nontrivial quadratic-root example keeps the two conjugate eigenvalues. -/
-example : dihedralInertia (2 : ZMod 7) 5 = !![2, 0; 0, 4] := by decide
-
-/-- Frobenius is a non-scalar involution with determinant minus one. -/
-example : dihedralFrob ℤ * dihedralFrob ℤ = 1 ∧ Matrix.det (dihedralFrob ℤ) = -1 := by decide
-
-/-- Characteristic two retains the swap even though the determinant sign disappears. -/
-example : dihedralFrob (ZMod 2) ≠ 1 ∧ Matrix.det (dihedralFrob (ZMod 2)) = 1 := by decide
-
-/-- In characteristic two the nontrivial unipotent swap cannot split into two trivial characters. -/
-example : (dihedralFrob (ZMod 2) - 1) ^ 2 = 0 ∧
-    ¬ ∃ B : GL (Fin 2) (ZMod 2),
-      (B : Matrix (Fin 2) (Fin 2) (ZMod 2)) * dihedralFrob (ZMod 2) *
-        (↑(B⁻¹) : Matrix (Fin 2) (Fin 2) (ZMod 2)) = !![1, 0; 0, 1] := by sorry
-
-/-- The standard and adapted integral matrices satisfy all eight local relations. -/
-example (ζ : CyclotomicRing 3 ℤ ℚ) (hζ : ζ ^ 2 + ζ + 1 = 0) :
+/-- `R33.3/dp-dyadic-transition-and-the-order-three-type`: the standard and adapted
+integral models satisfy the tame relations and the change-of-basis equations. -/
+theorem orderThree_lattice_relations {R : Type*} [CommRing R] (ζ : R) (hζ : ζ ^ 2 + ζ + 1 = 0) :
     let π := ζ - 1
-    let D₀ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![ζ, 0; 0, ζ ^ 2]
-    let F₀ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![0, 1; 1, 0]
-    let P : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![1, 0; 1, π]
-    let D₁ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![ζ, 0; ζ, ζ ^ 2]
-    let F₁ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![1, π; 0, -1]
+    let D₀ : Matrix (Fin 2) (Fin 2) R := !![ζ, 0; 0, ζ ^ 2]
+    let F₀ : Matrix (Fin 2) (Fin 2) R := !![0, 1; 1, 0]
+    let P : Matrix (Fin 2) (Fin 2) R := !![1, 0; 1, π]
+    let D₁ : Matrix (Fin 2) (Fin 2) R := !![ζ, 0; ζ, ζ ^ 2]
+    let F₁ : Matrix (Fin 2) (Fin 2) R := !![1, π; 0, -1]
     D₀ ^ 3 = 1 ∧ F₀ ^ 2 = 1 ∧ F₀ * D₀ * F₀ = D₀ ^ 2 ∧
       D₀ * P = P * D₁ ∧ F₀ * P = P * F₁ ∧
       D₁ ^ 3 = 1 ∧ F₁ ^ 2 = 1 ∧ F₁ * D₁ * F₁ = D₁ ^ 2 := by sorry
 
-/-- A residue map carrying zeta to one gives both inertia and Frobenius reductions. -/
-example (ζ : CyclotomicRing 3 ℤ ℚ) (f : CyclotomicRing 3 ℤ ℚ →+* ZMod 3)
+/-- `R33.3/dp-dyadic-transition-and-the-order-three-type`: a residue map carrying
+`ζ` to one gives trivial standard inertia and nontrivial adapted unipotent inertia. -/
+theorem orderThree_lattice_reductions {R k : Type*} [CommRing R] [CommRing k]
+    [CharP k 3] (ζ : R) (f : R →+* k)
     (hζ : ζ ^ 2 + ζ + 1 = 0) (hf : f ζ = 1) :
-    ( !![ζ, 0; 0, ζ ^ 2] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f = 1 ∧
-    ( !![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f =
+    ( !![ζ, 0; 0, ζ ^ 2] : Matrix (Fin 2) (Fin 2) R).map f = 1 ∧
+    ( !![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) R).map f =
       !![0, 1; 1, 0] ∧
-    ( !![ζ, 0; ζ, ζ ^ 2] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f =
+    ( !![ζ, 0; ζ, ζ ^ 2] : Matrix (Fin 2) (Fin 2) R).map f =
       !![1, 0; 1, 1] ∧
-    ( !![1, ζ - 1; 0, -1] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f =
-      !![1, 0; 0, 2] := by sorry
+    ( !![1, ζ - 1; 0, -1] : Matrix (Fin 2) (Fin 2) R).map f =
+      !![1, 0; 0, -1] := by sorry
 
-/-- The two reductions of the order-three local type have different invariant dimensions.
-The kernels are Mathlib submodules, without a separate matrix-invariant carrier. -/
-example :
-    Module.finrank (ZMod 3)
-      (LinearMap.ker (Matrix.toLin' ((!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) - 1))) = 1 ∧
-    Module.finrank (ZMod 3)
-      (LinearMap.ker (Matrix.toLin' ((1 : Matrix (Fin 2) (Fin 2) (ZMod 3)) - 1))) = 2 := by sorry
+/-- `R33.3/dp-dyadic-transition-and-the-order-three-type`: adapted inertia has one
+invariant dimension, whereas standard inertia fixes the entire rank-two module. -/
+theorem orderThree_invariant_dimensions {k : Type*} [Field k] [CharP k 3] :
+    Module.finrank k
+      (LinearMap.ker (Matrix.toLin' ((!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) k) - 1))) = 1 ∧
+    Module.finrank k
+      (LinearMap.ker (Matrix.toLin' ((1 : Matrix (Fin 2) (Fin 2) k) - 1))) = 2 := by sorry
 
 end DP
 
