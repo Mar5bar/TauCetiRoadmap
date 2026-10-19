@@ -323,6 +323,13 @@ diamonds and condensed coefficients) are not at the pins.
   envelopes and the big formal log crystalline site, including its continuous compatible PD
   data. Derived complete flatness of smooth charts uses the stated completion comparison
   (bounded base p-power torsion in the p-adic case).
+  `FormalLog.Chart.exact_neighbourhood` takes an existing relatively fine chart over the
+  integral base chart `M`, another integral chart `M′` of the same base log structure, and
+  a geometric point `x`. The abelian group `G` contains `M′^gp` and is finitely generated
+  over it. A compatible homomorphism `h : G → M_X,x^gp` surjects after quotienting by units;
+  the kernel on `M′^gp` is finitely generated modulo `M′^×`. The inverse image of the
+  characteristic monoid is relatively finitely presented over `M′`, and its map induced
+  by `h` extends to an étale neighbourhood chart exact at `x`.
   `LogRH.algebraicDerived` and `LogRH.solution_equivalence` retain all bounded algebraic
   objects and arbitrary bounded sheaf complexes. For `n ≥ 2`, `LogRH.wittReduction`
   compares derived coefficient change only when both reductions are bounded; finite Tor
