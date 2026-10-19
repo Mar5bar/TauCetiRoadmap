@@ -34,6 +34,22 @@ noncomputable def idealOrderAt (I : Ideal R) (p : PrimeSpectrum R) : ℕ∞ :=
   ⨆ n : ℕ, if I.map (algebraMap R (Localization.AtPrime p.asIdeal)) ≤
     (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)) ^ n then (n : ℕ∞) else 0
 
+/-- At a prime with regular local ring, ideal orders add under products, including zero ideals.
+The regular-local associated graded comparison supplies this in every characteristic. -/
+theorem idealOrderAt_mul (I J : Ideal R) (p : PrimeSpectrum R)
+    (hreg : IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
+    idealOrderAt (I * J) p = idealOrderAt I p + idealOrderAt J p := sorry
+
+/-- At a prime with regular local ring, a positive ideal power multiplies order by its exponent.
+The zero ideal retains order `⊤`; mixed characteristic is included. -/
+theorem idealOrderAt_pow (I : Ideal R) (p : PrimeSpectrum R) (r : ℕ) (hr : 0 < r)
+    (hreg : IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
+    idealOrderAt (I ^ r) p = r • idealOrderAt I p := sorry
+
+/-- The order of a sum of ideals is the minimum of their orders at every prime. -/
+theorem idealOrderAt_sup (I J : Ideal R) (p : PrimeSpectrum R) :
+    idealOrderAt (I ⊔ J) p = min (idealOrderAt I p) (idealOrderAt J p) := sorry
+
 /-- At a rational coordinate point, localized principal-ideal order equals the supplied
 polynomial Taylor order, in every characteristic. -/
 theorem idealOrderAt_span_eq_orderAt {k : Type u} [Field k] {σ : Type u} [Finite σ]
@@ -51,10 +67,10 @@ theorem idealOrderAt_span_eq_iInf_orderAt {k : Type u} [Field k]
         ⨅ i, MvPolynomial.orderAt (f i) a := sorry
 
 /-- `IdealOrderChecks.unit`: the unit ideal has order zero at every prime. -/
-example (p : PrimeSpectrum R) : idealOrderAt (⊤ : Ideal R) p = 0 := sorry
+theorem IdealOrderChecks.unit (p : PrimeSpectrum R) : idealOrderAt (⊤ : Ideal R) p = 0 := sorry
 
 /-- `order_two_generators`: the ideal `(x³,y⁵)` has order three at the origin. -/
-example (K : Type u) [Field K] :
+theorem order_two_generators (K : Type u) [Field K] :
     let x : MvPolynomial (Fin 2) K := MvPolynomial.X 0
     let y : MvPolynomial (Fin 2) K := MvPolynomial.X 1
     let p : PrimeSpectrum (MvPolynomial (Fin 2) K) :=
@@ -63,7 +79,7 @@ example (K : Type u) [Field K] :
 
 /-- `OrderTests.dualNumbers`: on the dual numbers the maximal ideal has order one but its square,
 which is zero, has order `⊤`; the order is not multiplicative off regular rings. -/
-example (K : Type u) [Field K] :
+theorem OrderTests.dualNumbers (K : Type u) [Field K] :
     let m := IsLocalRing.maximalIdeal (DualNumber K)
     ∃ p : PrimeSpectrum (DualNumber K), idealOrderAt m p = 1 ∧ idealOrderAt (m ^ 2) p = ⊤ :=
   sorry
@@ -83,13 +99,13 @@ def MarkedIdeal.cosupport (J : MarkedIdeal R) : Set (PrimeSpectrum R) :=
 
 /-- `IdealOrderChecks.zero` and `marked_zero_and_unit`: the zero ideal has infinite order
 at every prime and full cosupport for every positive mark. -/
-example (d : ℕ) (hd : 0 < d) :
+theorem IdealOrderChecks.zero (d : ℕ) (hd : 0 < d) :
     (∀ p : PrimeSpectrum R, idealOrderAt (⊥ : Ideal R) p = ⊤) ∧
       (MarkedIdeal.mk (⊥ : Ideal R) d hd).cosupport = Set.univ := sorry
 
 /-- `mark_changes_cosupport`: the order-two zero of `x²` belongs to mark-two cosupport
 and lies outside mark-three cosupport. -/
-example :
+theorem mark_changes_cosupport :
     let I : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2}
     let p : PrimeSpectrum (Polynomial ℚ) :=
       PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ℚ)) ⟨⊥, inferInstance⟩
@@ -113,7 +129,7 @@ theorem MarkedIdeal.residualUnitOnOpen (J : MarkedIdeal R) (M N : Ideal R)
 /-- `CompanionChecks.locallyMonomial`: for `(x²(x−1), 2)` with boundary `x = 0`, the cosupport
 is `{0}` and the residual factor `(x−1)` has order zero there. The ideal equals `(x²)` on
 `D(x−1)`, while at `1` its order is one and the residual factor is nonunit globally. -/
-example :
+theorem CompanionChecks.locallyMonomial :
     let I : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2 * (Polynomial.X - 1)}
     let M : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2}
     let N : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X - 1}
@@ -130,7 +146,8 @@ example :
 
 /-- On a ring with regular local rings, `(I, d)` and `(Iᵏ, k d)` have the same cosupport. This is
 the affine shadow of the test equivalence `markedIdeal_rescale` of README Layer 1, which also asks for
-equal cosupports after every permitted sequence of blowups and is a README target. -/
+equal cosupports after every permitted sequence of blowups and is a README target.
+The order comparison is provided by `idealOrderAt_pow`. -/
 theorem MarkedIdeal.cosupport_pow (J : MarkedIdeal R) (k : ℕ) (hk : 0 < k)
     (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
     (MarkedIdeal.mk (J.ideal ^ k) (k * J.mark) (Nat.mul_pos hk J.mark_pos)).cosupport =
@@ -138,7 +155,7 @@ theorem MarkedIdeal.cosupport_pow (J : MarkedIdeal R) (k : ℕ) (hk : 0 < k)
 
 /-- `CompanionChecks.dualNumbers`: without regularity `cosupport_pow` fails: on the dual numbers
 `(m, 2)` and `(m², 4)` have different cosupports. -/
-example (K : Type u) [Field K] :
+theorem CompanionChecks.dualNumbers (K : Type u) [Field K] :
     let m := IsLocalRing.maximalIdeal (DualNumber K)
     (MarkedIdeal.mk (m ^ 2) 4 (by decide)).cosupport ≠
       (MarkedIdeal.mk m 2 (by decide)).cosupport := sorry
@@ -157,7 +174,7 @@ theorem MarkedIdeal.markedSum_ideal (J K : MarkedIdeal R) :
     (J.markedSum K).ideal = J.ideal ^ K.mark ⊔ K.ideal ^ J.mark := rfl
 
 /-- On a ring with regular local rings, the cosupport of a marked sum is the intersection of the
-cosupports. -/
+cosupports, by the ideal-order power and sum formulas. -/
 theorem MarkedIdeal.markedSum_cosupport
     (hreg : ∀ p : PrimeSpectrum R,
       IsRegularLocalRing (Localization.AtPrime p.asIdeal)) (J K : MarkedIdeal R) :
@@ -165,14 +182,14 @@ theorem MarkedIdeal.markedSum_cosupport
 
 /-- `CompanionChecks.unit`: with positive marks on regular localizations, a unit summand gives
 the unit ideal and empty cosupport. -/
-example (J : MarkedIdeal R) (d : ℕ) (hd : 0 < d)
+theorem CompanionChecks.unit (J : MarkedIdeal R) (d : ℕ) (hd : 0 < d)
     (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
     let K := MarkedIdeal.mk (⊤ : Ideal R) d hd
     (K.markedSum J).ideal = ⊤ ∧ (K.markedSum J).cosupport = ∅ := sorry
 
 /-- `CompanionChecks.zero`: with positive marks on regular localizations, two zero ideals give
 the zero ideal and full cosupport with their positive product mark. -/
-example (a b : ℕ) (ha : 0 < a) (hb : 0 < b)
+theorem CompanionChecks.zero (a b : ℕ) (ha : 0 < a) (hb : 0 < b)
     (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
     let J := MarkedIdeal.mk (⊥ : Ideal R) a ha
     let K := MarkedIdeal.mk (⊥ : Ideal R) b hb
@@ -181,7 +198,7 @@ example (a b : ℕ) (ha : 0 < a) (hb : 0 < b)
 
 /-- `CompanionChecks.marks`: the marked sum of `(y², 2)` and `(x³, 2)` is `((y⁴, x⁶), 4)`, not the
 unpowered sum. -/
-example :
+theorem CompanionChecks.marks :
     let J := MarkedIdeal.mk
       (Ideal.span {MvPolynomial.X (1 : Fin 2) ^ 2} : Ideal (MvPolynomial (Fin 2) ℚ)) 2 (by decide)
     let K := MarkedIdeal.mk
@@ -192,7 +209,7 @@ example :
           Ideal (MvPolynomial (Fin 2) ℚ)) := sorry
 
 /-- `weighted_common_mark`: summing `(x²,2)` and `(y³,3)` gives `((x⁶,y⁶),6)`. -/
-example :
+theorem weighted_common_mark :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let J := MarkedIdeal.mk (Ideal.span {x ^ 2}) 2 (by decide)
@@ -202,7 +219,7 @@ example :
 
 /-- `ResidualChecks.strictContainment`: the original mark-two cosupport of `(x³y)` is
 `V(x)`, while the guarded residual marked sum has cosupport only the origin. -/
-example :
+theorem ResidualChecks.strictContainment :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let p : PrimeSpectrum (MvPolynomial (Fin 2) ℚ) :=
@@ -216,7 +233,7 @@ example :
 
 /-- `semicoherent_nonrational`: `(x²+1)³` has order three at the degree-two prime
 `(x²+1)`, and this prime is its entire mark-two cosupport. -/
-example :
+theorem semicoherent_nonrational :
     let q : Polynomial ℚ := Polynomial.X ^ 2 + 1
     let J := MarkedIdeal.mk (Ideal.span {q ^ 3}) 2 (by decide)
     ∃ p : PrimeSpectrum (Polynomial ℚ), p.asIdeal = Ideal.span {q} ∧
@@ -226,7 +243,7 @@ example :
 /-- `cusp_controlled_chart`, `TransformTests.cuspChart` and `semicoherent_hypersurface`:
 the cusp total equation factors by the square of the exceptional coordinate, and the
 remaining equation has empty mark-two cosupport. -/
-example :
+theorem TransformTests.cuspChart :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let w : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let ρ := MvPolynomial.eval₂Hom (MvPolynomial.C : ℚ →+* MvPolynomial (Fin 2) ℚ)
@@ -236,14 +253,14 @@ example :
 
 /-- `different_from_strict` and `cartier_identity_not_trivial`: division of `x³` by
 the mark-two exceptional factor leaves `x`, whose mark-two cosupport is empty. -/
-example :
+theorem different_from_strict :
     let x : Polynomial ℚ := Polynomial.X
     x ^ 3 = x ^ 2 * x ∧
       (MarkedIdeal.mk (Ideal.span {x}) 2 (by decide)).cosupport = ∅ := sorry
 
 /-- `MonomialTests.exponent`: in the x-chart, `(x³y³,4)` has total equation
 `x⁴(x²v³)`, so the controlled equation is `x²v³`. -/
-example :
+theorem MonomialTests.exponent :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let v : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let ρ := MvPolynomial.eval₂Hom (MvPolynomial.C : ℚ →+* MvPolynomial (Fin 2) ℚ)
@@ -252,7 +269,7 @@ example :
 
 /-- `MaxContactTests.notAnyContaining`: the higher cusp has controlled equation
 `v²−x³` in the x-chart, and its mark-two cosupport still contains the origin. -/
-example :
+theorem MaxContactTests.notAnyContaining :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let v : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let ρ := MvPolynomial.eval₂Hom (MvPolynomial.C : ℚ →+* MvPolynomial (Fin 2) ℚ)
@@ -265,7 +282,7 @@ example :
 /-- `semicoherent_common_open`: on `D(1−x)`, the reciprocal of `1−x` is a unit.
 The pair `(x²/(1−x),2)` has cosupport `V(x)` and its Cartier-centre controlled
 factor has empty cosupport. -/
-example :
+theorem semicoherent_common_open :
     let S := Localization.Away (1 - (Polynomial.X : Polynomial ℚ))
     let x : S := algebraMap (Polynomial ℚ) S Polynomial.X
     let v : S := IsLocalization.Away.invSelf (1 - (Polynomial.X : Polynomial ℚ))
@@ -283,7 +300,8 @@ theorem MarkedIdeal.isClosed_cosupport (k : Type u) [Field k] [CharZero k] [Alge
     (J : MarkedIdeal R) : IsClosed J.cosupport := sorry
 
 /-- The unit marked ideal has empty cosupport. -/
-example (d : ℕ) (hd : 0 < d) : (MarkedIdeal.mk (⊤ : Ideal R) d hd).cosupport = ∅ := sorry
+theorem MarkedIdeal.unit_cosupport (d : ℕ) (hd : 0 < d) :
+    (MarkedIdeal.mk (⊤ : Ideal R) d hd).cosupport = ∅ := sorry
 
 /-! ## Layer 2: derivative ideals and contact -/
 
@@ -305,26 +323,20 @@ noncomputable def derivativeIdeal (I : Ideal (MvPolynomial σ k)) : Ideal (MvPol
   I ⊔ Ideal.span {g | ∃ f ∈ I, ∃ i : σ, g = MvPolynomial.pderiv i f}
 
 /-- `DerivativeIdealChecks.zero`: differentiating the zero ideal gives the zero ideal. -/
-example : derivativeIdeal (⊥ : Ideal (MvPolynomial σ k)) = ⊥ := sorry
+theorem DerivativeIdealChecks.zero : derivativeIdeal (⊥ : Ideal (MvPolynomial σ k)) = ⊥ := sorry
 
 /-- `DerivativeIdealChecks.unit`: the derivative ideal of the unit ideal is the unit ideal. -/
-example : derivativeIdeal (⊤ : Ideal (MvPolynomial σ k)) = ⊤ := sorry
+theorem DerivativeIdealChecks.unit : derivativeIdeal (⊤ : Ideal (MvPolynomial σ k)) = ⊤ := sorry
 
 /-- `DerivTests.charP`: over a field of prime characteristic p, the derivative ideal
 of `(x^p)` stays `(x^p)`. -/
-example (p : ℕ) [Fact p.Prime] :
+theorem DerivTests.charP (p : ℕ) [Fact p.Prime] :
     let x : MvPolynomial Unit (ZMod p) := MvPolynomial.X ()
     derivativeIdeal (Ideal.span {x ^ p}) = Ideal.span {x ^ p} := sorry
 
-/-- `DerivTests.charP` at p = 3: the derivative ideal of `(x³)` over `𝔽₃`
-stays `(x³)`. -/
-example :
-    let x : MvPolynomial Unit (ZMod 3) := MvPolynomial.X ()
-    derivativeIdeal (Ideal.span {x ^ 3}) = Ideal.span {x ^ 3} := sorry
-
 /-- `jet_double_origin`: for `f=x²(x−1)` the first-jet equations generate `(x)`.
 The zero-jet equation vanishes at 1 although f has order one there and order two at 0. -/
-example :
+theorem jet_double_origin :
     let x : Polynomial ℚ := Polynomial.X
     let f := x ^ 2 * (x - 1)
     let p₀ : PrimeSpectrum (Polynomial ℚ) :=
@@ -338,7 +350,7 @@ example :
 
 /-- Under the generic-fibre embedding of §7.1, the absolute derivative ideal pulls
 back to an ideal containing `x²y²`, while the relative derivative ideal does not. -/
-example :
+theorem genericFibre_derivativeIdeal :
     let t : MvPolynomial (Fin 3) ℚ := MvPolynomial.X 0
     let x : MvPolynomial (Fin 3) ℚ := MvPolynomial.X 1
     let y : MvPolynomial (Fin 3) ℚ := MvPolynomial.X 2
@@ -355,14 +367,14 @@ example :
 
 /-- `MaxContactTests.characteristicTwoCusp`: over `𝔽₂`, the derivative ideal of
 `(x²+y³)` is `(x²,y²)`. -/
-example :
+theorem MaxContactTests.characteristicTwoCusp :
     let x : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 0
     let y : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 1
     derivativeIdeal (Ideal.span {x ^ 2 + y ^ 3}) = Ideal.span {x ^ 2, y ^ 2} := sorry
 
-/-- `HomogenizationTests.cusp`: the cusp has derivative ideal `(y,x²)` and its
+/-- `HomogenizationTests.cuspIdeal`: the cusp has derivative ideal `(y,x²)` and its
 mark-two homogenization expression is `(y²,x³,x²y)`. -/
-example :
+theorem HomogenizationTests.cuspIdeal :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let I := Ideal.span {y ^ 2 - x ^ 3}
@@ -372,7 +384,7 @@ example :
 /-- `CoeffTests.notPlainRestriction`: for `(y³+x⁷+x³y,3)` on `y=0`, the first two
 restricted derivative ideals are `(x³)` and `(x²)`. The differential coefficient expression
 has ideal `(x⁹)` with mark six, while plain restriction has ideal `(x⁷)`. -/
-example :
+theorem CoeffTests.notPlainRestriction :
     let x : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 0
     let y : MvPolynomial (Fin 2) ℚ := MvPolynomial.X 1
     let I := Ideal.span {y ^ 3 + x ^ 7 + x ^ 3 * y}
@@ -386,13 +398,13 @@ example :
 
 /-- `DerivativeIdealChecks.cubic`: in characteristic zero the derivative ideal of `(x³)` is
 `(x²)`. -/
-example : derivativeIdeal (Ideal.span
+theorem DerivativeIdealChecks.cubic : derivativeIdeal (Ideal.span
     {((MvPolynomial.X () : MvPolynomial Unit ℚ) ^ 3)}) =
       Ideal.span {((MvPolynomial.X () : MvPolynomial Unit ℚ) ^ 2)} := sorry
 
 /-- `MaxContactTests.characteristicTwoPower`: in characteristic two the derivative ideal of `(x²)`
 is `(x²)` itself, so derivatives give no hypersurface of maximal contact. -/
-example :
+theorem MaxContactTests.characteristicTwoPower :
     derivativeIdeal (Ideal.span
       {((MvPolynomial.X () : MvPolynomial Unit (ZMod 2)) ^ 2)}) =
       Ideal.span {((MvPolynomial.X () : MvPolynomial Unit (ZMod 2)) ^ 2)} := sorry
