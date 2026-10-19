@@ -3,23 +3,10 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
 import TauCeti.AlgebraicGeometry.AbelianVariety.Product
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 import TauCeti.AlgebraicGeometry.AbelianVariety.TangentSpace
-import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.BaseChange.Basic
-import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Comparison
-import TauCeti.NumberTheory.ModularForms.Newforms.Newform
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.AlgebraicGeometry.EllipticCurve.IsomOfJ
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.FieldTheory.AbsoluteGaloisGroup
-import Mathlib.FieldTheory.KrullTopology
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.NumberTheory.NumberField.CMField
-import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-import Mathlib.RepresentationTheory.Homological.ContCohomology.Basic
-import Mathlib.Topology.Instances.Matrix
-import Mathlib.GroupTheory.Solvable
-import Mathlib.Tactic.NormNum
+import TauCeti.NumberTheory.ModularForms.Newforms.NumberField
+import TauCeti.Algebra.Module.Torsion.TateModule
 
 /-!
 # Abelian varieties of GL₂-type: representative target signatures
@@ -38,6 +25,8 @@ noncomputable section
 open CategoryTheory CategoryTheory.Limits
 open scoped TensorProduct NumberField
 
+attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
+
 namespace TauCeti.GL2Type
 
 abbrev Qbar := AlgebraicClosure ℚ
@@ -48,12 +37,6 @@ abbrev AVQ := TauCeti.AlgebraicGeometry.AbelianVariety ℚ
 abbrev End0 {K : Type} [Field K] (A : TauCeti.AlgebraicGeometry.AbelianVariety K) :=
   ℚ ⊗[ℤ] TauCeti.AlgebraicGeometry.AbelianVariety.End A
 
-/-- The canonical map of integral endomorphisms into the rational tensor product. -/
-def integralEnd (A : AVQ) (a : TauCeti.AlgebraicGeometry.AbelianVariety.End A) : End0 A :=
-  1 ⊗ₜ[ℤ] a
-
-#check TauCeti.AlgebraicGeometry.AbelianVariety.finrank_tangentSpace_eq_dim
-
 /-- Simplicity over ℚ, spelled with actual closed subgroup varieties.
 The positive-dimension condition excludes the trivial variety. -/
 def IsSimpleOverQ (A : AVQ) : Prop :=
@@ -62,6 +45,119 @@ def IsSimpleOverQ (A : AVQ) : Prop :=
       (TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom f) →
     B.dim = 0 ∨ _root_.AlgebraicGeometry.Surjective
       (TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom f)
+
+/-- Geometric points with the additive form of the native group-scheme law. -/
+abbrev geometricPoints (A : AVQ) :=
+  Additive ((CategoryTheory.Over.mk
+    (_root_.AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap ℚ Qbar)))) ⟶ A.toOver)
+
+open scoped MonObj in
+instance (A : AVQ) : AddCommGroup (geometricPoints A) :=
+  inferInstanceAs (AddCommGroup (Additive (_ ⟶ A.toOver)))
+
+open scoped MonObj in
+/-- The action on geometric points is precomposition by the automorphism of Spec ℚ̄. -/
+def pointGalois (A : AVQ) (σ : GQ) : geometricPoints A →+ geometricPoints A :=
+  MonoidHom.toAdditive
+    (((CategoryTheory.yonedaGrpObj A.toOver).map
+      (CategoryTheory.Over.homMk
+        (_root_.AlgebraicGeometry.Spec.map (CommRingCat.ofHom σ.toRingHom)) (by
+          rw [← _root_.AlgebraicGeometry.Spec.map_comp]
+          congr 1
+          ext x
+          exact σ.commutes x)).op).hom)
+
+/-- The rational Tate module of the actual geometric point group. -/
+abbrev rationalTateModule (A : AVQ) (ℓ : ℕ) [Fact ℓ.Prime] :=
+  ℚ_[ℓ] ⊗[ℤ_[ℓ]] TauCeti.TateModule ℓ (geometricPoints A)
+
+/-- Galois acts on the rational Tate module through its action on every torsion level. -/
+def rationalTateAction (A : AVQ) (ℓ : ℕ) [Fact ℓ.Prime] (σ : GQ) :
+    Module.End ℚ_[ℓ] (rationalTateModule A ℓ) :=
+  (TauCeti.TateModule.mapLinearMap (p := ℓ) (pointGalois A σ)).baseChange ℚ_[ℓ]
+
+/-- Arithmetic Frobenius at a prime of the algebraic integers reduces to the p-power map. -/
+def IsArithmeticFrobenius (p : ℕ) (σ : GQ) : Prop :=
+  ∃ P : Ideal (integralClosure ℤ Qbar), P.IsMaximal ∧
+    (p : integralClosure ℤ Qbar) ∈ P ∧
+    ∀ x : integralClosure ℤ Qbar,
+      (⟨σ.toAlgHom x, (x.property.map (σ.toAlgHom.restrictScalars ℤ))⟩ : integralClosure ℤ Qbar) - x ^ p ∈ P
+
+/-- A newform realizes A when its conjugate Euler polynomials are the Tate characteristic
+polynomials outside one finite set, for every auxiliary prime and every Frobenius lift. -/
+def HasNewformRealization (A : AVQ) {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.Newform N 2) : Prop :=
+  letI := TauCeti.numberField_CoefficientField f (by norm_num)
+  ∃ S : Finset ℕ, ∀ (ℓ : ℕ) [Fact ℓ.Prime],
+    ∃ b : Module.Basis (Fin (2 * Module.finrank ℚ A.TangentSpace))
+      ℚ_[ℓ] (rationalTateModule A ℓ),
+    ∀ (p : ℕ) (hp : p.Prime) (hpN : p.Coprime N),
+      p ∉ S → p ≠ ℓ → ∀ σ : GQ, IsArithmeticFrobenius p σ →
+      (Matrix.charpoly (LinearMap.toMatrix b b (rationalTateAction A ℓ σ))).map
+          (algebraMap ℚ_[ℓ] (AlgebraicClosure ℚ_[ℓ])) =
+        ∏ τ : TauCeti.CoefficientField f →ₐ[ℚ] AlgebraicClosure ℚ_[ℓ],
+          (Polynomial.X ^ 2 - Polynomial.C
+            (τ ⟨(UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff p,
+              TauCeti.coeff_mem_CoefficientField f ⟨p, hp.pos⟩⟩) * Polynomial.X +
+            Polynomial.C (τ ⟨(f.χ (ZMod.unitOfCoprime p hpN) : ℂ),
+              TauCeti.char_mem_CoefficientField f _⟩ * (p : AlgebraicClosure ℚ_[ℓ])))
+
+/-- A geometric elliptic abelian variety is a ℚ-curve if each scalar conjugate is isogenous. -/
+def IsGeometricQCurve (C : TauCeti.AlgebraicGeometry.AbelianVariety Qbar) : Prop :=
+  C.dim = 1 ∧ ∀ σ : GQ,
+    ∃ φ : (@TauCeti.AlgebraicGeometry.AbelianVariety.baseChange Qbar _ C Qbar _
+      σ.toRingHom.toAlgebra) ⟶ C,
+      TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ
+
+/-- Every simple GL₂-type variety has a weight-two newform with its full rational
+endomorphism algebra and all good Frobenius characteristic polynomials. -/
+theorem modularityTheorem (A : AVQ) {E : Type} [Field E] [NumberField E]
+    (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim)
+    (hs : IsSimpleOverQ A) :
+    ∃ (N : ℕ) (_ : NeZero N) (f : HeckeRing.GL2.Newform N 2),
+      Nonempty (TauCeti.CoefficientField f ≃ₐ[ℚ] End0 A) ∧
+        HasNewformRealization A f := sorry
+
+/-- Every GL₂-type variety is isogenous to a finite power of a simple variety realized
+by a weight-two newform; oldforms give its modular Jacobian quotient. -/
+theorem modularityTheorem_general (A : AVQ) {E : Type} [Field E] [NumberField E]
+    (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim) :
+    ∃ (B : AVQ) (n : ℕ), 0 < n ∧ IsSimpleOverQ B ∧
+      (∃ (N : ℕ) (_ : NeZero N) (f : HeckeRing.GL2.Newform N 2),
+        Nonempty (TauCeti.CoefficientField f ≃ₐ[ℚ] End0 B) ∧ HasNewformRealization B f) ∧
+      ∃ φ : piObj (fun _ : Fin n => B) ⟶ A,
+        TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ := sorry
+
+/-- Every non-CM geometric ℚ-curve is a factor of a simple GL₂-type variety over ℚ,
+whose geometric base change is isogenous to the corresponding power of the curve. -/
+theorem ribetTheorem61 (C : TauCeti.AlgebraicGeometry.AbelianVariety Qbar)
+    (hC : IsGeometricQCurve C) (nonCM : Nonempty (ℚ ≃ₐ[ℚ] End0 C)) :
+    ∃ A : AVQ, IsSimpleOverQ A ∧
+      (∃ (E : Type) (_ : Field E) (_ : NumberField E),
+        Nonempty (E ≃ₐ[ℚ] End0 A) ∧
+          (Module.finrank ℚ E : WithBot ℕ∞) = A.dim) ∧
+      ∃ φ : A.baseChange Qbar ⟶
+        piObj (fun _ : Fin (Module.finrank ℚ A.TangentSpace) => C),
+        TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ := sorry
+
+/-- A non-CM geometric ℚ-curve is a factor of a rational variety realized by a
+weight-two newform, with a geometric isogeny to a power of the curve. -/
+theorem qCurvesGeometricallyModular (C : TauCeti.AlgebraicGeometry.AbelianVariety Qbar)
+    (hC : IsGeometricQCurve C) (nonCM : Nonempty (ℚ ≃ₐ[ℚ] End0 C)) :
+    ∃ (A : AVQ) (N : ℕ) (_ : NeZero N) (f : HeckeRing.GL2.Newform N 2),
+      IsSimpleOverQ A ∧ Nonempty (TauCeti.CoefficientField f ≃ₐ[ℚ] End0 A) ∧
+      HasNewformRealization A f ∧
+      ∃ φ : A.baseChange Qbar ⟶
+        piObj (fun _ : Fin (Module.finrank ℚ A.TangentSpace) => C),
+        TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ := sorry
+
+/-- The canonical map of integral endomorphisms into the rational tensor product. -/
+def integralEnd (A : AVQ) (a : TauCeti.AlgebraicGeometry.AbelianVariety.End A) : End0 A :=
+  1 ⊗ₜ[ℤ] a
+
+/-- A zero-dimensional variety fails the positive-dimension condition for simplicity. -/
+theorem not_isSimpleOverQ_of_dim_zero (A : AVQ) (h : A.dim = 0) :
+    ¬ IsSimpleOverQ A := fun hA => hA.1 h
 
 /-- Equality of rational actions after clearing a common denominator. This uses native
 homomorphisms and composition, whose pointwise additive law is written multiplicatively
@@ -85,6 +181,12 @@ def IsStable {A B : AVQ} {E : Type} [Field E] [Algebra ℚ E]
     f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom a =
       TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom b ≫ f
 
+/-- The dimension of any acting finite-dimensional division ℚ-algebra divides
+that of the native tangent space. -/
+theorem lieAlgebraDivisibility (A : AVQ) {D : Type} [DivisionRing D] [Algebra ℚ D]
+    [FiniteDimensional ℚ D] (ι : D →ₐ[ℚ] End0 A) :
+    Module.finrank ℚ D ∣ Module.finrank ℚ A.TangentSpace := sorry
+
 /-- A nonzero stable abelian subvariety of a GL₂-type variety is the whole variety. -/
 theorem stable_subvariety_surjective {A B : AVQ} {E : Type} [Field E] [NumberField E]
     (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim)
@@ -95,79 +197,7 @@ theorem stable_subvariety_surjective {A B : AVQ} {E : Type} [Field E] [NumberFie
     _root_.AlgebraicGeometry.Surjective
       (TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom f) := sorry
 
-/-- Rational scalars use the native integral multiplication map. -/
-example (A : AVQ) : integralEnd A (2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A) =
-    (2 : ℚ) • (1 : End0 A) := sorry
-
-example (A : AVQ) : integralEnd A 0 = 0 := sorry
-
-example (A : AVQ) :
-    integralEnd A ((2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A) * 3) =
-      (6 : ℚ) • (1 : End0 A) := sorry
-
-example (A : AVQ) :
-    IsUnit (integralEnd A (2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A)) := sorry
-
-example (A : AVQ) (h : A.dim = 1) : IsSimpleOverQ A := sorry
-
-example (B : AVQ) (h : B.dim = 1) :
-    ¬ IsSimpleOverQ (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B) := sorry
-
-example (B : AVQ) (h : B.dim = 1) :
-    Module.finrank ℚ
-      (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B).TangentSpace = 2 := sorry
-
-example (A : AVQ) (h : A.dim = 1) : Module.finrank ℚ A.TangentSpace = 1 := sorry
-
-example (A : AVQ) (h : A.dim = 0) : Module.finrank ℚ A.TangentSpace = 0 := sorry
-
-/-- Zero-dimensional varieties fail simplicity. -/
-example (A : AVQ) (h : A.dim = 0) : ¬ IsSimpleOverQ A := sorry
-
-/-- The same rational action intertwines the identity morphism. -/
-example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
-    (ι : E →ₐ[ℚ] End0 A) : EEquivariant ι ι (𝟙 A) := sorry
-
-/-- Integer-scalar isogenies intertwine the same rational field action. -/
-example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
-    (ι : E →ₐ[ℚ] End0 A) :
-    EEquivariant ι ι
-      (TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom
-        (2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A)) := sorry
-
-/-- The identity inclusion is stable for every rational field action. -/
-example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
-    (ι : E →ₐ[ℚ] End0 A) : IsStable ι (𝟙 A) := sorry
-
-/-- Rational scalar actions preserve every homomorphism's image. -/
-example {A B : AVQ} (f : B ⟶ A) :
-    IsStable (Algebra.ofId ℚ (End0 A)) f := sorry
-
-/-- Distinct conjugate actions cannot intertwine the identity. -/
-example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
-    (ι : E →ₐ[ℚ] End0 A) (hι : Function.Injective ι)
-    (θ : E ≃ₐ[ℚ] E) (hθ : θ ≠ AlgEquiv.refl) :
-    ¬ EEquivariant ι (ι.comp θ.toAlgHom) (𝟙 A) := sorry
-
-/-- Doubling a nonzero denominator preserves the same integral intertwining equation. -/
-example {A B : AVQ} {E : Type} [Field E] [Algebra ℚ E]
-    (ιA : E →ₐ[ℚ] End0 A) (ιB : E →ₐ[ℚ] End0 B) (f : A ⟶ B)
-    (x : E) (n : ℤ) (hn : n ≠ 0)
-    (a : TauCeti.AlgebraicGeometry.AbelianVariety.End A)
-    (b : TauCeti.AlgebraicGeometry.AbelianVariety.End B)
-    (ha : integralEnd A a = (n : ℚ) • ιA x)
-    (hb : integralEnd B b = (n : ℚ) • ιB x)
-    (hf : TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom a ≫ f =
-      f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom b) :
-    (2 * n : ℤ) ≠ 0 ∧
-      integralEnd A (2 * a) = ((2 * n : ℤ) : ℚ) • ιA x ∧
-      integralEnd B (2 * b) = ((2 * n : ℤ) : ℚ) • ιB x ∧
-      TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom (2 * a) ≫ f =
-        f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom (2 * b) := sorry
-
 /-! ## Layer GT.1: endomorphism algebras -/
-
-#check Module.finrank_dvd_finrank_right
 
 /-! GT.1/primitive. The underlying power is a native finite product.
 The regular field action uses a chosen basis; primitivity is specified in README.md. -/
@@ -175,35 +205,28 @@ The regular field action uses a chosen basis; primitivity is specified in README
 def power (B : AVQ) (F E : Type) [Field F] [Field E] [Algebra F E] : AVQ :=
   piObj (fun _ : Fin (Module.finrank F E) => B)
 
-/-- Regular multiplication in the chosen basis acts through the given rational F-action. -/
-def powerAction (B : AVQ) {F E : Type} [Field F] [NumberField F]
+/-- Regular multiplication in the chosen basis is realized by a rational E-action
+whose integral matrix entries agree after a common nonzero denominator is cleared. -/
+theorem powerAction (B : AVQ) {F E : Type} [Field F] [NumberField F]
     [Field E] [NumberField E] [Algebra F E] [IsScalarTower ℚ F E]
     (b : Module.Basis (Fin (Module.finrank F E)) F E) (ι : F →ₐ[ℚ] End0 B) :
-    E →ₐ[ℚ] End0 (power B F E) := sorry
-
-/-- For the regular quadratic action in the basis (1, √2), the first factor is unstable. -/
-example (B : AVQ) (hB : B.dim = 1) {E : Type} [Field E] [NumberField E]
-    (b : Module.Basis (Fin (Module.finrank ℚ E)) ℚ E)
-    (i j : Fin (Module.finrank ℚ E)) (hij : i ≠ j)
-    (hi : b i = 1) (hj : b j ^ 2 = 2) (hd : Module.finrank ℚ E = 2) :
-    ¬ IsStable (powerAction B b (Algebra.ofId ℚ (End0 B)))
-      (Pi.lift (fun k => if k = i then 𝟙 B else
-        TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom
-          (0 : TauCeti.AlgebraicGeometry.AbelianVariety.End B))) := sorry
+    ∃ ιE : E →ₐ[ℚ] End0 (power B F E), ∀ x : E,
+      ∃ (n : ℤ) (_ : n ≠ 0)
+        (a : TauCeti.AlgebraicGeometry.AbelianVariety.End (power B F E)),
+        integralEnd (power B F E) a = (n : ℚ) • ιE x ∧
+        ∀ i j : Fin (Module.finrank F E),
+          integralEnd B (TauCeti.AlgebraicGeometry.AbelianVariety.End.ofHom
+            ((Pi.lift (fun k => if k = j then 𝟙 B else
+              TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom
+                (0 : TauCeti.AlgebraicGeometry.AbelianVariety.End B))) ≫
+              TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom a ≫
+              Pi.π (fun _ : Fin (Module.finrank F E) => B) i)) =
+            (n : ℚ) • ι (b.repr (x * b j) i) := sorry
 
 /-- Dimension of the native finite power (GT.1). -/
 theorem power_dim (B : AVQ) (F E : Type) [Field F] [Field E] [Algebra F E]
     [FiniteDimensional F E] :
     (power B F E).dim = (Module.finrank F E : WithBot ℕ∞) * B.dim := sorry
-
-/-- The degree-one power has the original native carrier up to isomorphism. -/
-example (B : AVQ) (F : Type) [Field F] : Nonempty (power B F F ≅ B) := sorry
-
--- test: GL2Type.power_compat_degree_equation (native degree equation)
-example (B : AVQ) {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
-    [Algebra F E] [IsScalarTower ℚ F E] [FiniteDimensional F E]
-    (hd : (Module.finrank ℚ F : WithBot ℕ∞) = B.dim) :
-    (Module.finrank ℚ E : WithBot ℕ∞) = (power B F E).dim := sorry
 
 /-! GT.1/ribet-theorem-2-1: field part of the three-way equivalence. -/
 /-- For simple GL₂-type A, its given coefficient field is all of End⁰ (Ribet Theorem 2.1). -/
@@ -240,11 +263,8 @@ theorem endField_isogeny {A B : AVQ} (f : A ⟶ B)
         f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom b →
       e (integralEnd A a) = integralEnd B b := sorry
 
--- A dimension-one native abelian variety over ℚ has rational endomorphism field.
-example (A : AVQ) (hd : A.dim = 1) : Nonempty (endField A ≃ₐ[ℚ] ℚ) := sorry
-
--- A square of an elliptic curve has noncommutative rational endomorphisms.
-example (B : AVQ) (hd : B.dim = 1) :
+/-- The rational endomorphism algebra of an elliptic square is noncommutative. -/
+theorem endField_not_simple (B : AVQ) (hd : B.dim = 1) :
     ¬ ∀ x y : End0 (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B), x * y = y * x := sorry
 
 /-! GT.1/totally-real-or-cm: field alternative. The Rosati restriction is specified in the README. -/
@@ -273,16 +293,49 @@ theorem integralModel (A : AVQ) {E : Type} [Field E] [NumberField E]
     (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim)
     (hs : IsSimpleOverQ A) : Nonempty (IntegralModel A ι) := sorry
 
--- test: GL2Type.integralModel_trivial (existence with the SAME native variety)
-example (A : AVQ) {E : Type} [Field E] [NumberField E] (ι : E →ₐ[ℚ] End0 A)
-    (e : 𝓞 E ≃+* TauCeti.AlgebraicGeometry.AbelianVariety.End A)
-    (he : ∀ x : 𝓞 E, integralEnd A (e x) = ι (x : E)) :
-    ∃ M : IntegralModel A ι, M.variety = A := sorry
-
-/-- A square of an elliptic variety cannot have a full commutative maximal-order model. -/
-example (B : AVQ) (h : B.dim = 1) {E : Type} [Field E] [NumberField E]
+/-- An elliptic square has no isogenous model whose full integral endomorphism
+ring is the ring of integers of a number field. -/
+theorem integralModel_square_isEmpty (B : AVQ) (h : B.dim = 1)
+    {E : Type} [Field E] [NumberField E]
     (ι : E →ₐ[ℚ] End0 (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B)) :
     IsEmpty (IntegralModel (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B) ι) := sorry
+
+/-! ## Layer GT.3: coefficient and Tate-module comparisons -/
+
+/-- Exact good coefficients in a common overfield identify the coefficient field with
+the number field generated by the supplied good traces. -/
+theorem coefficientIdentification {E L : Type} [Field E] [NumberField E]
+    [Field L] [Algebra ℚ L] {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.Newform N 2) (i : E →ₐ[ℚ] L)
+    (j : TauCeti.CoefficientField f →ₐ[ℚ] L) (a : ℕ → E) (S : Finset ℕ)
+    (hgen : IntermediateField.adjoin ℚ
+      {x : E | ∃ p : ℕ, p.Prime ∧ p ∉ S ∧ p.Coprime N ∧ x = a p} = ⊤)
+    (hcoeff : ∀ (p : ℕ) (hp : p.Prime) (hpN : p.Coprime N), p ∉ S →
+      j ⟨(UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff p,
+        TauCeti.coeff_mem_CoefficientField f ⟨p, hp.pos⟩⟩ = i (a p)) :
+    ∃ e : TauCeti.CoefficientField f ≃ₐ[ℚ] E,
+      (∀ x, i (e x) = j x) ∧ ∀ (p : ℕ) (hp : p.Prime) (hpN : p.Coprime N),
+        p ∉ S → e ⟨(UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff p,
+          TauCeti.coeff_mem_CoefficientField f ⟨p, hp.pos⟩⟩ = a p := sorry
+
+/-- Two native varieties realized by the same newform have isomorphic rational Tate
+representations at every auxiliary prime. -/
+theorem tateModuleComparison (A B : AVQ) {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.Newform N 2)
+    (hA : HasNewformRealization A f) (hB : HasNewformRealization B f)
+    (ℓ : ℕ) [Fact ℓ.Prime] :
+    ∃ e : rationalTateModule A ℓ ≃ₗ[ℚ_[ℓ]] rationalTateModule B ℓ,
+      ∀ (σ : GQ) (v : rationalTateModule A ℓ),
+        e (rationalTateAction A ℓ σ v) = rationalTateAction B ℓ σ (e v) := sorry
+
+/-- A simple GL₂-type variety with totally real rational endomorphisms is realized
+by a newform with trivial nebentypus. -/
+theorem trivialCharacter (A : AVQ) {E : Type} [Field E] [NumberField E]
+    [NumberField.IsTotallyReal E] (ι : E →ₐ[ℚ] End0 A)
+    (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim) (hs : IsSimpleOverQ A)
+    {N : ℕ} [NeZero N] (f : HeckeRing.GL2.Newform N 2)
+    (hf : HasNewformRealization A f)
+    (hfield : Nonempty (TauCeti.CoefficientField f ≃ₐ[ℚ] End0 A)) : f.χ = 1 := sorry
 
 end TauCeti.GL2Type
 
@@ -330,22 +383,6 @@ instance : X0_11_model.IsElliptic := by
   norm_num [X0_11_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
-example : X0_11_model.Δ = -161051 := by
-  norm_num [X0_11_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
-example : ({ X0_11_model with a₃ := 0 } : WeierstrassCurve ℚ).Δ ≠
-    X0_11_model.Δ := by
-  norm_num [X0_11_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
-example : X0_11_model.c₄ = 496 := sorry
-
-example : X0_11_model.j = (-122023936 / 161051 : ℚ) := sorry
-
--- test: IsQCurve.rational
-example : IsQCurve (X0_11_model.map (algebraMap ℚ Qbar)) := sorry
-
 /-- A concrete CM curve, with its nonsingularity on the actual Mathlib carrier. -/
 def Gaussian_model : WeierstrassCurve ℚ :=
   { a₁ := 0, a₂ := 0, a₃ := 0, a₄ := -1, a₆ := 0 }
@@ -354,31 +391,6 @@ instance : Gaussian_model.IsElliptic := by
   norm_num [Gaussian_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
-example : Gaussian_model.Δ = 64 := by
-  norm_num [Gaussian_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
-example : ({ Gaussian_model with a₄ := 0 } : WeierstrassCurve ℚ).Δ = 0 := by
-  norm_num [Gaussian_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-
-example : Gaussian_model.j = (1728 : ℚ) := sorry
-
--- test: IsQCurve.cm (concrete curve)
-example : IsQCurve (Gaussian_model.map (algebraMap ℚ Qbar)) := sorry
-
--- test: IsQCurve.twist (native quadraticTwistOf with nonzero discriminant)
--- t=0, n=-d/4 has t²-4n=d, so this is the short model twist by d.
-example (W : WeierstrassCurve ℚ) [W.IsElliptic] (d : Qbar) (hd : d ≠ 0) :
-    ∃ h : ((W.map (algebraMap ℚ Qbar)).quadraticTwistOf 0 (-d / 4)).IsElliptic,
-      @IsQCurve ((W.map (algebraMap ℚ Qbar)).quadraticTwistOf 0 (-d / 4)) h := sorry
-
--- Same test: the two reductions of the √2 twist at 7; unequal traces are allowed.
-example :
-    1 + (Finset.univ.filter (fun xy : ZMod 7 × ZMod 7 =>
-      xy.2 ^ 2 = xy.1 ^ 3 - 9 * xy.1 + 27)).card = 4 ∧
-    1 + (Finset.univ.filter (fun xy : ZMod 7 × ZMod 7 =>
-      xy.2 ^ 2 = xy.1 ^ 3 - 16 * xy.1 + 64)).card = 12 := by decide
 end TauCeti.EllipticCurve
 
 namespace TauCeti.QCurve
@@ -388,31 +400,6 @@ open TauCeti.GL2Type
 def rationalScalar {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
     (nonCM : ℚ ≃ₐ[ℚ] End0 A) (u : (End0 A)ˣ) : ℚˣ :=
   Units.map nonCM.symm.toMonoidHom u
-
-example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
-    (nonCM : ℚ ≃ₐ[ℚ] End0 A) (u : (End0 A)ˣ) :
-    nonCM (rationalScalar nonCM u : ℚ) = (u : End0 A) := sorry
-
-example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
-    (nonCM : ℚ ≃ₐ[ℚ] End0 A) (u v : (End0 A)ˣ) :
-    rationalScalar nonCM (u * v) = rationalScalar nonCM u * rationalScalar nonCM v := sorry
-
-example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
-    (e : ℚ ≃ₐ[ℚ] End0 A) : rationalScalar e 1 = 1 := sorry
-
-example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
-    (e : ℚ ≃ₐ[ℚ] End0 A) :
-    rationalScalar e (Units.map e.toMonoidHom (-1 : ℚˣ)) = -1 := sorry
-
-example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
-    (e : ℚ ≃ₐ[ℚ] End0 A) :
-    rationalScalar e
-      (Units.map e.toMonoidHom (Units.mk0 (2 / 3 : ℚ) (by norm_num))) =
-        Units.mk0 (2 / 3 : ℚ) (by norm_num) := sorry
-
-example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
-    (e : ℚ ≃ₐ[ℚ] End0 A) (u : (End0 A)ˣ) :
-    rationalScalar e u⁻¹ = (rationalScalar e u)⁻¹ := sorry
 
 /-! The coefficient action here is TRIVIAL, including on algebraic units.
 It is distinct from the natural Galois action on ℚ̄. These local instances are
@@ -435,19 +422,9 @@ local instance : ContinuousSMul GQ (Additive Fˣ) := ⟨continuous_snd⟩
 def trivialUnitsCoefficients : TopRep ℤ GQ :=
   TauCeti.ofDiscreteModule ℤ GQ (Additive Fˣ)
 
-/-- An abbreviation of canonical continuous cohomology, never a new quotient. -/
+/-- Canonical continuous degree-two cohomology of the discrete trivial unit module. -/
 abbrev unitCohomology2 : TopModuleCat ℤ :=
   continuousCohomology 2 (trivialUnitsCoefficients F)
-/-- The additive zero is the multiplicative identity. -/
-example : (0 : Additive Fˣ) = Additive.ofMul (1 : Fˣ) := rfl
-
-/-- The coefficient action fixes each unit, even for nontrivial Galois elements. -/
-example (g : GQ) (u : Additive Fˣ) : g • u = u := rfl
-
-example :
-    Additive.ofMul (Units.mk0 (2 : ℚ) (by norm_num)) +
-      Additive.ofMul (Units.mk0 (3 : ℚ) (by norm_num)) =
-        Additive.ofMul (Units.mk0 (6 : ℚ) (by norm_num)) := sorry
 
 end UnitCoefficients
 end TauCeti.QCurve
@@ -490,7 +467,7 @@ end TauCeti.GL2Type
 README targets whose full carriers or constructions require the stated supplier interfaces:
 GT.1: power_basis_indep, IsPrimitive, IsPrimitive.of_isogeny,
 isPrimitive_iff_isSimple, endField_equiv, endField_isGL2Type, endField_involution,
-modularQuotientIsGl2Type; the derivative action. IsStable and
+modularQuotientIsGl2Type; functoriality of the derivative action. IsStable and
 stable_subvariety_surjective use nonzero denominators above.
 GT.2: integralModel_end, residualRep, residualRep_finrank, residualRep_charpoly,
 residualRep_ss_indep, frobeniusPolynomial, determinantCharacter, odd,
@@ -500,16 +477,16 @@ GT.3: AbelianVariety.IsModularOfLevel, AbelianVariety.IsModular,
 AbelianVariety.IsModularOfLevel.mono, AbelianVariety.IsModular.of_isogeny,
 AbelianVariety.IsModular.quotient, AbelianVariety.isModular_iff,
 AbelianVariety.IsModularOfLevel.gamma0, AbelianVariety.IsModular.elliptic;
-serreWitnesses, fixedNewform, coefficientIdentification, tateModuleComparison,
-modularityTheorem, modularityEquivalences, simpleQuotientsCharacterisation,
-trivialCharacter, modularParametrisation.
+serreWitnesses, fixedNewform,
+modularityEquivalences, simpleQuotientsCharacterisation,
+modularParametrisation.
 GT.4: conductorOfGl2Type, exactLevel, strictCompatibility, lFunction, parentCompatibility.
 GT.5: EllipticCurve.IsQCurve.of_cm, IsQCurve.not_of_squared_traces;
 QCurve.cocycle, QCurve.cocycle_isCocycle, QCurve.cocycleClass, QCurve.cocycleClass_indep,
 QCurve.cocycle_sq, QCurve.cocycleClass_of_rat, QCurve.cocycle_rational,
 QCurve.cocycle_quadratic, QCurve.cocycle_twist_after_extension, QCurve.cocycle_cm_excluded;
-restrictionOfScalarsEndomorphisms, lieFreeRankOne, ribetTheorem61,
-qCurvesGeometricallyModular, quadraticQCurves, and the geometric splitting map α.
+restrictionOfScalarsEndomorphisms, lieFreeRankOne,
+quadraticQCurves, and the geometric splitting map α.
 GT.6: qCurveGaloisModularity, qCurveAutomorphy, quadraticQCurvesModular.
 The explicit Jacobian and regular-action checks use GL2Type.power_degree_one,
 GL2Type.power_not_primitive, GL2Type.J0_23_primitive, GL2Type.endField_J0_23,
