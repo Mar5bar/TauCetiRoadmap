@@ -7,6 +7,9 @@ import TauCeti.Geometry.Lie.Functor
 import TauCeti.Geometry.Lie.Subgroup.LieAlgebra
 import TauCeti.Geometry.Lie.Exponential.BCH
 import TauCeti.Geometry.Lie.Exponential.Units.Basic
+import TauCeti.Algebra.Lie.Derivation.Basic
+import TauCeti.Algebra.Octonion.Basic
+import TauCeti.Algebra.Octonion.Derivation
 
 /-!
 # Lie groups and the Lie algebra correspondence: target signatures
@@ -707,6 +710,423 @@ structure SymmetricMetricTangentComparison (H : Subgroup G)
       (lieAlgebraTangentEquiv I G (S.tangentInclusion X)) = tangentEquiv X
 
 end SymmetricMetricTangent
+
+/-! ## Layer 7G₂: compact automorphisms of the positive division octonions
+
+The lower positive Cayley-double algebra and its native derivations are supplied in the
+LieHighestWeight Layer8 prototype. These signatures use its actual real carrier, unit,
+product, trace and norm as inputs; they do not model the nonassociative algebra with
+`AlgEquiv`. -/
+namespace CompactG2
+
+open scoped TensorProduct Matrix.Norms.Elementwise
+
+/-- A coherence bundle only: native nonassociative ring and normed additive structures
+share one additive parent. It adds neither associativity nor an admitted algebra dictionary. -/
+class CayleyNormedRing (A : Type*) extends NonAssocRing A, NormedAddCommGroup A
+
+/-- Reuse actual compatible native records. The norm and metric are unchanged; the normed
+additive parent is transported to the ring parent using the supplied record equality. -/
+def CayleyNormedRing.ofCompatibleParents (A : Type*)
+    (r : NonAssocRing A) (n : NormedAddCommGroup A)
+    (h : r.toAddCommGroup = n.toAddCommGroup) : CayleyNormedRing A := by
+  let n' : NormedAddCommGroup A :=
+    { n with
+      toAddCommGroup := r.toAddCommGroup
+      dist_eq := by
+        intro x y
+        have hn := n.dist_eq x y
+        rw [← h] at hn
+        exact hn }
+  exact { r, n' with }
+
+/-- The compatibility constructor retains the given native product, unit and ring operations. -/
+theorem CayleyNormedRing.ofCompatibleParents_ring (A : Type*)
+    (r : NonAssocRing A) (n : NormedAddCommGroup A)
+    (h : r.toAddCommGroup = n.toAddCommGroup) :
+    (CayleyNormedRing.ofCompatibleParents A r n h).toNonAssocRing = r := rfl
+
+
+/-- The compatibility constructor also retains the entire native normed additive record,
+not only the native ring. Proof fields are transported, while its norm and metric are unchanged. -/
+theorem CayleyNormedRing.ofCompatibleParents_normed (A : Type*)
+    (r : NonAssocRing A) (n : NormedAddCommGroup A)
+    (h : r.toAddCommGroup = n.toAddCommGroup) :
+    (CayleyNormedRing.ofCompatibleParents A r n h).toNormedAddCommGroup = n := by
+  cases n
+  cases h
+  rfl
+
+/-- Transport the supplied actual normed-space dictionary along normed-parent retention.
+This preserves its scalar action; it neither constructs nor admits an unrelated Module. -/
+@[instance_reducible]
+def CayleyNormedRing.ofCompatibleParents_normedSpace (A : Type*)
+    (r : NonAssocRing A) (n : NormedAddCommGroup A)
+    (h : r.toAddCommGroup = n.toAddCommGroup)
+    (s : letI : NormedAddCommGroup A := n; NormedSpace ℝ A) :
+    letI : NormedAddCommGroup A :=
+      (CayleyNormedRing.ofCompatibleParents A r n h).toNormedAddCommGroup
+    NormedSpace ℝ A := by
+  cases n
+  cases h
+  exact s
+
+/-- Both native projections have literally the same additive operations and laws. -/
+theorem cayleyNormedRing_additive_parent_eq (A : Type*) [C : CayleyNormedRing A] :
+    C.toNonAssocRing.toAddCommGroup = C.toNormedAddCommGroup.toAddCommGroup := rfl
+
+/-- Finite-dimensional automorphisms carry the topology induced by their actual bounded maps. -/
+noncomputable instance linearEquivOperatorTopology {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A] [FiniteDimensional ℝ A] :
+    TopologicalSpace (A ≃ₗ[ℝ] A) :=
+  TopologicalSpace.induced
+    (fun e : A ≃ₗ[ℝ] A => e.toLinearMap.toContinuousLinearMap) inferInstance
+
+/-- The fixed ordered quaternion-pair product used by the lower owner's Cayley coordinates. -/
+noncomputable def pairMul (x y : Quaternion ℝ × Quaternion ℝ) : Quaternion ℝ × Quaternion ℝ :=
+  let (a,b) := x
+  let (c,d) := y
+  (a * c - Star.star d * b, d * a + b * Star.star c)
+
+noncomputable def pairTrace (x : Quaternion ℝ × Quaternion ℝ) : ℝ := 2 * x.1.re
+noncomputable def pairNormSq (x : Quaternion ℝ × Quaternion ℝ) : ℝ :=
+  Quaternion.normSq x.1 + Quaternion.normSq x.2
+
+/-- The exact positive Cayley-pair carrier supplied by LieHighestWeight Layer 8. -/
+structure PositivePairCoordinates (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] where
+  coord : A ≃ₗ[ℝ] (Quaternion ℝ × Quaternion ℝ)
+  coord_one : coord 1 = (1, 0)
+  coord_mul : ∀ x y : A, coord (x * y) = pairMul (coord x) (coord y)
+  trace : A →ₗ[ℝ] ℝ
+  trace_pair : ∀ x, trace x = pairTrace (coord x)
+  normSq : A → ℝ
+  normSq_pair : ∀ x, normSq x = pairNormSq (coord x)
+  norm_eq : ∀ x, ‖x‖ ^ 2 = normSq x
+
+/-- Unit imaginary vectors for the actual trace and norm of the positive real algebra. -/
+abbrev UnitImaginary (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] (P : PositivePairCoordinates A) :=
+  {u : A // P.trace u = 0 ∧ P.normSq u = 1}
+
+/-- The Euclidean product on imaginary vectors, with the fixed `-Re(vw)` convention. -/
+noncomputable def inner {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A] (P : PositivePairCoordinates A) (v w : A) : ℝ :=
+  -((pairMul (P.coord v) (P.coord w)).1.re)
+
+/-- The full (possibly disconnected) group of real-linear product automorphisms. -/
+def productAutGroup (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] : Subgroup (A ≃ₗ[ℝ] A) where
+  carrier := {f | f 1 = 1 ∧ ∀ x y : A, f (x * y) = f x * f y}
+  one_mem' := ⟨rfl, fun _ _ => rfl⟩
+  mul_mem' := by
+    intro f g hf hg
+    constructor
+    · change f (g 1) = 1
+      rw [hg.1, hf.1]
+    · intro x y
+      change f (g (x * y)) = f (g x) * f (g y)
+      rw [hg.2, hf.2]
+  inv_mem' := by
+    intro f hf
+    constructor
+    · change f.symm 1 = 1
+      apply f.injective
+      rw [LinearEquiv.apply_symm_apply, hf.1]
+    · intro x y
+      change f.symm (x * y) = f.symm x * f.symm y
+      apply f.injective
+      rw [LinearEquiv.apply_symm_apply, hf.2,
+        LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
+
+section GroupApi
+variable {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+
+@[simp] theorem productAut_map_one (g : productAutGroup A) :
+    (g.1 : A ≃ₗ[ℝ] A) 1 = 1 := g.property.1
+
+@[simp] theorem productAut_map_mul (g : productAutGroup A) (x y : A) :
+    (g.1 : A ≃ₗ[ℝ] A) (x * y) = (g.1 : A ≃ₗ[ℝ] A) x * (g.1 : A ≃ₗ[ℝ] A) y :=
+  g.property.2 x y
+
+section NativeDerivations
+variable [SMulCommClass ℝ A A] [IsScalarTower ℝ A A]
+
+/-- The actual Tau Ceti derivation transport, not a private replacement. -/
+noncomputable def productAut_onDerivations (g : productAutGroup A) :
+    TauCeti.derivationLieAlgebra ℝ A ≃ₗ⁅ℝ⁆ TauCeti.derivationLieAlgebra ℝ A :=
+  TauCeti.derivationLieAlgebraCongr g.1 g.property.2
+
+end NativeDerivations
+end GroupApi
+
+theorem productAut_preserves_trace
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    (P : PositivePairCoordinates A) (g : productAutGroup A) :
+    ∀ x, P.trace ((g.1 : A →ₗ[ℝ] A) x) = P.trace x := sorry
+
+theorem productAut_preserves_norm
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    (P : PositivePairCoordinates A) (g : productAutGroup A) :
+    ∀ x, ‖(g.1 : A →ₗ[ℝ] A) x‖ = ‖x‖ := sorry
+
+theorem productAutGroup_closed (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] [SMulCommClass ℝ A A] [IsScalarTower ℝ A A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) :
+    IsClosed ((productAutGroup A : Set (A ≃ₗ[ℝ] A))) := sorry
+
+theorem productAutGroup_compact (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] [SMulCommClass ℝ A A] [IsScalarTower ℝ A A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) :
+    IsCompact (Set.univ : Set (productAutGroup A)) := sorry
+
+def pointStabilizer {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A] (P : PositivePairCoordinates A)
+    (u : UnitImaginary A P) : Subgroup (productAutGroup A) where
+  carrier := {g | (g.1 : A →ₗ[ℝ] A) u.1 = u.1}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+/-- A Cayley frame records the actual product, trace, inner product, and positive norm data. -/
+structure CayleyFrame (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] (P : PositivePairCoordinates A) where
+  u : A
+  v : A
+  z : A
+  trace_u : P.trace u = 0
+  trace_v : P.trace v = 0
+  trace_z : P.trace z = 0
+  inner_one_u : inner P 1 u = 0
+  inner_one_v : inner P 1 v = 0
+  trace_uv : P.trace (u * v) = 0
+  inner_one_uv : inner P 1 (u * v) = 0
+  inner_one_z : inner P 1 z = 0
+  inner_u_v : inner P u v = 0
+  inner_u_uv : inner P u (u * v) = 0
+  inner_v_uv : inner P v (u * v) = 0
+  inner_u_z : inner P u z = 0
+  inner_v_z : inner P v z = 0
+  inner_uv_z : inner P (u * v) z = 0
+  norm_u : P.normSq u = 1
+  norm_v : P.normSq v = 1
+  norm_uv : P.normSq (u * v) = 1
+  norm_z : P.normSq z = 1
+
+theorem exists_productAut_sending_frame
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    (P : PositivePairCoordinates A) (frame₁ frame₂ : CayleyFrame A P) :
+    ∃ g : productAutGroup A,
+      (g.1 frame₁.u, g.1 frame₁.v, g.1 frame₁.z) =
+        (frame₂.u, frame₂.v, frame₂.z) := sorry
+
+/-- A local section is smooth in ambient finite-dimensional coordinates. `ContDiffOn` is only
+asserted on an open subset of the vector space `A`, never on the sphere or automorphism subtype. -/
+structure CayleyOrbitChart {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A] [FiniteDimensional ℝ A] (P : PositivePairCoordinates A)
+    (u₀ : UnitImaginary A P) where
+  neighborhood : Set (UnitImaginary A P)
+  isOpen_neighborhood : IsOpen neighborhood ∧ u₀ ∈ neighborhood
+  sectionMap : neighborhood → productAutGroup A
+  section_sends_base : ∀ x, (sectionMap x).1 u₀.1 = x.1.1
+  ambientDomain : Set A
+  ambientDomain_open : IsOpen ambientDomain
+  neighborhood_in_domain : ∀ x ∈ neighborhood, x.1 ∈ ambientDomain
+  sectionExtension : A → (A →L[ℝ] A)
+  sectionExtension_eq : ∀ x (hx : x ∈ neighborhood),
+    sectionExtension x.1 = (sectionMap ⟨x, hx⟩).1.toContinuousLinearMap
+  sectionExtension_smooth : ContDiffOn ℝ ⊤ sectionExtension ambientDomain
+
+theorem exists_smooth_local_Cayley_section
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P) :
+    Nonempty (CayleyOrbitChart P u₀) := sorry
+
+/-- Actual action on the chosen unit-imaginary vector; the two arguments are retained. -/
+noncomputable def orbitMap
+    {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P) :
+    productAutGroup A → UnitImaginary A P := fun g =>
+  ⟨(g.1 : A ≃ₗ[ℝ] A) u₀.1, by
+    constructor
+    · exact (productAut_preserves_trace A P g u₀.1).trans u₀.2.1
+    · have hnorm := productAut_preserves_norm A P g u₀.1
+      calc
+        P.normSq ((g.1 : A ≃ₗ[ℝ] A) u₀.1) =
+            ‖(g.1 : A ≃ₗ[ℝ] A) u₀.1‖ ^ 2 := (P.norm_eq _).symm
+        _ = ‖u₀.1‖ ^ 2 := congrArg (fun r : ℝ => r ^ 2) hnorm
+        _ = P.normSq u₀.1 := P.norm_eq _
+        _ = 1 := u₀.2.2⟩
+
+def orbitPreimage
+    {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P)
+    (U : Set (UnitImaginary A P)) :=
+  {g : productAutGroup A // orbitMap P u₀ g ∈ U}
+
+/-- The standard principal-bundle chart as an equivalence of actual fibers. The fiber over a
+point is a torsor, not a group. -/
+noncomputable def localOrbitTrivialization
+    {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A]
+    (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P)
+    (C : CayleyOrbitChart P u₀) :
+    orbitPreimage P u₀ C.neighborhood ≃
+      (C.neighborhood × pointStabilizer P u₀) where
+  toFun g :=
+    let x : C.neighborhood := ⟨orbitMap P u₀ g.1, g.2⟩
+    (x, ⟨(C.sectionMap x)⁻¹ * g.1, by sorry⟩)
+  invFun p :=
+    ⟨(C.sectionMap p.1) * p.2.1, by sorry⟩
+  left_inv := by intro g; sorry
+  right_inv := by intro p; sorry
+
+/-- Ambient coordinate of a product automorphism as a bounded linear map. -/
+noncomputable def autCoordinate {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (g : productAutGroup A) : A →L[ℝ] A :=
+  g.1.toContinuousLinearMap
+
+noncomputable def orbitCoordinates {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P)
+    {U : Set (UnitImaginary A P)} (g : orbitPreimage P u₀ U) :
+    A × (A →L[ℝ] A) := ⟨(orbitMap P u₀ g.1).1, autCoordinate g.1⟩
+
+noncomputable def productCoordinates {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P)
+    (C : CayleyOrbitChart P u₀) (p : C.neighborhood × pointStabilizer P u₀) :
+    A × (A →L[ℝ] A) := ⟨p.1.1.1, autCoordinate p.2.1⟩
+
+/-- Forward and inverse coordinate maps have ambient extensions that are smooth on open domains.
+This is the finite-dimensional-chart regularity statement for the local principal bundle. -/
+structure LocalOrbitAmbientSmoothness
+    {A : Type*} [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P)
+    (C : CayleyOrbitChart P u₀) where
+  forwardDomain : Set (A × (A →L[ℝ] A))
+  forwardDomain_open : IsOpen forwardDomain
+  forwardExtension : A × (A →L[ℝ] A) → A × (A →L[ℝ] A)
+  forward_smooth : ContDiffOn ℝ ⊤ forwardExtension forwardDomain
+  forwardCoordinates_in_domain : ∀ g : orbitPreimage P u₀ C.neighborhood,
+    orbitCoordinates P u₀ g ∈ forwardDomain
+  inverseDomain : Set (A × (A →L[ℝ] A))
+  inverseDomain_open : IsOpen inverseDomain
+  inverseExtension : A × (A →L[ℝ] A) → A × (A →L[ℝ] A)
+  inverse_smooth : ContDiffOn ℝ ⊤ inverseExtension inverseDomain
+  inverseCoordinates_in_domain : ∀ x : C.neighborhood × pointStabilizer P u₀,
+    productCoordinates P u₀ C x ∈ inverseDomain
+  forward_agrees : ∀ g : orbitPreimage P u₀ C.neighborhood,
+    forwardExtension (orbitCoordinates P u₀ g) =
+      productCoordinates P u₀ C (localOrbitTrivialization P u₀ C g)
+  inverse_agrees : ∀ x : C.neighborhood × pointStabilizer P u₀,
+    inverseExtension (productCoordinates P u₀ C x) =
+      orbitCoordinates P u₀ ((localOrbitTrivialization P u₀ C).symm x)
+
+theorem exists_localOrbitAmbientSmoothness
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) (u₀ : UnitImaginary A P)
+    (C : CayleyOrbitChart P u₀) : Nonempty (LocalOrbitAmbientSmoothness P u₀ C) := sorry
+
+theorem pointStabilizer_equiv_SU3
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    (P : PositivePairCoordinates A) (u : UnitImaginary A P) :
+    Nonempty (pointStabilizer P u ≃* Matrix.specialUnitaryGroup (Fin 3) ℂ) := sorry
+
+/-- First columns live in Euclidean `WithLp 2` on `Fin 3`, not the sup-norm Pi space. -/
+abbrev UnitComplexColumn := {x : EuclideanSpace ℂ (Fin 3) // ‖x‖ = 1}
+
+noncomputable def standardFirstColumn : UnitComplexColumn :=
+  ⟨EuclideanSpace.single 0 (1 : ℂ), by simp⟩
+
+noncomputable def su3_firstColumn
+    (g : Matrix.specialUnitaryGroup (Fin 3) ℂ) : UnitComplexColumn :=
+  ⟨WithLp.toLp 2 (fun i : Fin 3 => (g.1 : Matrix (Fin 3) (Fin 3) ℂ) i 0), by sorry⟩
+
+def standardColumnStabilizer : Subgroup (Matrix.specialUnitaryGroup (Fin 3) ℂ) where
+  carrier := {g | su3_firstColumn g = standardFirstColumn}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+theorem standardColumnStabilizer_equiv_su2 :
+    Nonempty (standardColumnStabilizer ≃* Matrix.specialUnitaryGroup (Fin 2) ℂ) := sorry
+
+/-- Each first-column fiber is a torsor for the standard stabilizer. The chosen `g₀` is a
+basepoint witness; this equivalence is intentionally not multiplicative. -/
+theorem exists_su3_sending_column (x : UnitComplexColumn) :
+    ∃ g₀ : Matrix.specialUnitaryGroup (Fin 3) ℂ, su3_firstColumn g₀ = x := sorry
+
+noncomputable def su3ColumnFiberEquiv
+    (x : UnitComplexColumn) (g₀ : Matrix.specialUnitaryGroup (Fin 3) ℂ)
+    (hg₀ : su3_firstColumn g₀ = x) :
+    {g : Matrix.specialUnitaryGroup (Fin 3) ℂ // su3_firstColumn g = x} ≃
+      standardColumnStabilizer where
+  toFun g := ⟨g₀⁻¹ * g.1, by sorry⟩
+  invFun h := ⟨g₀ * h.1, by sorry⟩
+  left_inv := by intro g; sorry
+  right_inv := by intro h; sorry
+
+structure SU3FirstColumnChart (basePoint : UnitComplexColumn) where
+  neighborhood : Set UnitComplexColumn
+  isOpen_neighborhood : IsOpen neighborhood ∧ basePoint ∈ neighborhood
+  sectionMap : neighborhood → Matrix.specialUnitaryGroup (Fin 3) ℂ
+  section_firstColumn : ∀ x, su3_firstColumn (sectionMap x) = x.1
+  ambientDomain : Set (EuclideanSpace ℂ (Fin 3))
+  ambientDomain_open : IsOpen ambientDomain
+  neighborhood_in_domain : ∀ x ∈ neighborhood, x.1 ∈ ambientDomain
+  sectionExtension : EuclideanSpace ℂ (Fin 3) → Matrix (Fin 3) (Fin 3) ℂ
+  sectionExtension_eq : ∀ x (hx : x ∈ neighborhood),
+    sectionExtension x.1 = (sectionMap ⟨x, hx⟩).1
+  sectionExtension_smooth : ContDiffOn ℝ ⊤ sectionExtension ambientDomain
+
+theorem exists_su3_firstColumn_local_section (x₀ : UnitComplexColumn) :
+    Nonempty (SU3FirstColumnChart x₀) := sorry
+
+theorem su3_connected_simplyConnected :
+    SimplyConnectedSpace (Matrix.specialUnitaryGroup (Fin 3) ℂ) := sorry
+
+theorem productAut_connected_simplyConnected
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    [FiniteDimensional ℝ A] (P : PositivePairCoordinates A) :
+    IsConnected (Set.univ : Set (productAutGroup A)) ∧
+      SimplyConnectedSpace (productAutGroup A) := sorry
+
+/-- Actual comparison datum from a positive real pair carrier to the native split Zorn
+`TauCeti.Octonion ℂ`. Its maps are unital and multiplicative on the native tensor product; the
+last field records the complex-linear extension of real conjugation and does not identify it with
+tensor `Star.star` (which conjugates the coefficient). -/
+structure PositivePairSplitComparison (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A] [Star A]
+    [SMulCommClass ℝ A A] [IsScalarTower ℝ A A] (P : PositivePairCoordinates A) where
+  conjugation_pair : ∀ x : A,
+    P.coord (Star.star x) = (Star.star (P.coord x).1, -(P.coord x).2)
+  toNative : ℂ ⊗[ℝ] A ≃ₗ[ℂ] TauCeti.Octonion ℂ
+  map_one : toNative 1 = 1
+  map_mul : ∀ x y, toNative (x * y) = toNative x * toNative y
+  map_trace : ∀ (z : ℂ) (x : A),
+    TauCeti.Octonion.trace (toNative (z ⊗ₜ[ℝ] x)) = z * (P.trace x : ℂ)
+  map_real_conjugation : ∀ (z : ℂ) (x : A),
+    toNative (z ⊗ₜ[ℝ] Star.star x) =
+      z • TauCeti.Octonion.conj (toNative ((1 : ℂ) ⊗ₜ[ℝ] x))
+
+/-- The actual complexified derivation comparison, conditioned on the explicit positive-pair to
+native split-octonion comparison and finite-dimensional Leibniz-kernel base-change construction. -/
+theorem compactDerivation_complexification_equiv_split
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    [Star A]
+    [SMulCommClass ℝ A A] [IsScalarTower ℝ A A] [FiniteDimensional ℝ A]
+    (P : PositivePairCoordinates A) (C : PositivePairSplitComparison A P) :
+    Nonempty ((ℂ ⊗[ℝ] TauCeti.derivationLieAlgebra ℝ A) ≃ₗ⁅ℂ⁆
+      TauCeti.derivationLieAlgebra ℂ (TauCeti.Octonion ℂ)) := sorry
+
+/-- Negative definiteness of the actual Killing form on the positive-pair derivations. -/
+theorem compactDerivation_killing_negative
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    [SMulCommClass ℝ A A] [IsScalarTower ℝ A A] [FiniteDimensional ℝ A]
+    (P : PositivePairCoordinates A)
+    (D : TauCeti.derivationLieAlgebra ℝ A) (hD : D ≠ 0) :
+    LinearMap.trace ℝ (TauCeti.derivationLieAlgebra ℝ A)
+      ((LieAlgebra.ad ℝ (TauCeti.derivationLieAlgebra ℝ A) D) ∘ₗ
+        (LieAlgebra.ad ℝ (TauCeti.derivationLieAlgebra ℝ A) D)) < 0 := sorry
+
+theorem productAut_imaginary_action_faithful
+    (A : Type*) [CayleyNormedRing A] [NormedSpace ℝ A]
+    [SMulCommClass ℝ A A] [IsScalarTower ℝ A A] [FiniteDimensional ℝ A]
+    (P : PositivePairCoordinates A)
+    (decomposition : ∀ x : A, ∃ r : ℝ, ∃ v : A,
+      P.trace v = 0 ∧ x = r • (1 : A) + v) :
+    ∀ g h : productAutGroup A,
+      (∀ v, P.trace v = 0 → (g.1 : A →ₗ[ℝ] A) v = (h.1 : A →ₗ[ℝ] A) v) → g = h := sorry
+
+end CompactG2
 
 /-! ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 

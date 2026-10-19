@@ -937,6 +937,150 @@ connected reductive `G`, first split its actual Lie algebra into center and semi
 using Layer 5A; apply the finite quotient statement to the simply connected semisimple cover and
 carry the central torus and finite central gluing through the existing Layer 7 period-quotient data.
 
+### Layer 7G₂: the compact automorphism group of the positive division octonions
+
+This is the compact real-form application of the **positive** division carrier built in
+LieHighestWeight Layer8. It is a distinct owner from the split construction
+`Der(TauCeti.Octonion ℂ) ≃ 𝔤₂(ℂ)`; neither a dimension count nor equality of
+complexifications identifies the real group. Reuse that algebra owner’s ordered
+`ℍ⊕ℍ` product comparison, positive norm, trace-zero seven-plane, cross product,
+Cayley-frame table, and native
+`TauCeti.derivationLieAlgebra ℝ A`. The dependency is one-way: the division algebra is
+constructed without this layer’s group or classification.
+
+**The actual full automorphism group and its Lie algebra.** Define `G` as the subgroup of
+`A ≃ₗ[ℝ] A` whose elements fix `1` and preserve the binary product. This is the full
+automorphism group, not its identity component. Prove restriction to `Im(A)` identifies
+it with the closed subgroup of `O(Im(A))` preserving the actual cross product; the inverse
+extends by the identity on the scalar line. For closedness, use the finitely many
+bilinear basis equations and the unit equation in the finite-dimensional matrix carrier.
+This proves compactness and gives the actual embedded-subgroup Lie structure. Do not use
+`AlgEquiv`: this multiplication is nonassociative.
+
+Identify `Lie(G)` with the native derivation Lie algebra by both inclusions. For a
+derivation D, first prove D(1)=0. In the associative endomorphism algebra set
+`E_t=exp(tD)`. For fixed x,y, prove `f(t)=(E_t x)(E_t y)` solves `f′=D f` by the
+Leibniz rule and the derivative rule for the bilinear product, while `q(t)=E_t(xy)` solves
+the same linear ODE with the same initial value. Uniqueness proves multiplicativity;
+`E_t(1)=1` and `E_{−t}` is the inverse. This gives a smooth one-parameter curve in the
+actual automorphism group. Only now differentiate the already established automorphism
+norm equation to obtain skew-adjointness for every D. Conversely differentiate the group
+unit and product equations along a smooth automorphism curve to put its tangent in the
+native derivation carrier. Prove these maps inverse and bracket preserving. The roadmap uses the ODE route above. A trace-based alternative would need a separate
+trace-to-norm argument: taking traces in `[D,L_x]=L_(Dx)` gives `tr(L_(Dx))=0`, not
+`tr(D L_x)=0`. Do not presuppose norm preservation for an arbitrary Leibniz map.
+
+**Cayley frames, transitivity, and local orbit charts.** A frame is an ordered tuple
+`(u,v,z)` of unit imaginary vectors with `u⊥v` and `z` orthogonal to
+`Q=span{1,u,v,uv}`. Prove the complete multiplication table of
+`(1,u,v,uv,z,uz,vz,(uv)z)` on the positive carrier. The table makes the linear map
+between any two such frames a unital product-preserving map; this proves transitivity
+without assuming connectedness. For a fixed frame `(u₀,v₀,z₀)`, on a neighborhood of `u₀` put
+`ṽ(u)=v₀−⟨v₀,u⟩u`, `v(u)=ṽ(u)/‖ṽ(u)‖`. Let `Q(u)` be the actual orthonormal
+four-frame `1,u,v(u),u v(u)` and put
+`z̃(u)=z₀−Σ_(e∈Q(u))⟨z₀,e⟩e`, `z(u)=z̃(u)/‖z̃(u)‖`.
+At `u₀` both denominators equal one, hence remain nonzero on an explicit open
+neighborhood. These formulas are local sections of the orbit map. State all-orders regularity using smooth extensions
+in ambient finite-dimensional coordinates on open domains: the sphere point lies in the open
+chart domain in `Im(A)`, and the automorphism is represented in `End(A)`. Each extension domain
+must contain every actual coordinate value on which that extension is used. Do not assert
+`ContDiff` on the sphere or subgroup subtype without first constructing their manifold charts.
+Show the ambient extensions agree with the actual section and subgroup-valued map on the chart. For `H=Stab_G(u₀)`, give the inverse local trivializations
+`g ↦ (g u₀, s(g u₀)⁻¹g)` and `(u,h) ↦ s(u)h`, verify both composites are identities,
+and prove smoothness and right-H compatibility. Thus `G→S(Im(A))≃S⁶` is a principal H-bundle for the **full possibly
+disconnected** G and `G/H≃S⁶` is a diffeomorphism, not just an orbit bijection or
+dimension comparison.
+
+**The stabilizer is the actual matrix SU(3).** Keep the real scalar plane
+`span_ℝ{1,u₀}≃ℂ` as one complex line. Let
+`V=(span_ℝ{1,u₀})⊥⊂A`; on this real six-plane put `Jv=u₀×v`. Prove `J²=−1`
+and orthogonality from the algebra owner’s identities, so V is a complex 3-space.
+Use `ω(v,w)=g(Jv,w)`, the Hermitian form
+`h(v,w)=g(v,w)+iω(v,w)` (conjugate-linear in its first variable), and
+`ρ=φ|V³`. Fix the Cayley frame `u=i`, `b₁=j`, `b₂=ℓ`, `b₃=jℓ`; in this frame
+`J(jℓ)=−(ij)ℓ`. Prove that ρ has type `(3,0)+(0,3)`, and set
+`Ω(v,w,z)=ρ(v,w,z)−iρ(Jv,w,z)`. Verify complex multilinearity and the normalization
+`Ω(b₁,b₂,b₃)=1` on the fixed coordinate frame `u=i`, `b₁=j`, `b₂=ℓ`, `b₃=jℓ`,
+including the identity `J(jℓ)=−(ij)ℓ`. For
+`g(c(v,w),z)=ρ(v,w,z)`, prove the full reconstruction, for real s,t,r,q and v,w∈V,
+
+`(s1+tu+v)(r1+qu+w)=(sr−tq−g(v,w))1+(sq+tr+ω(v,w))u+s w+r v+tJw−qJv+c(v,w)`.
+
+In particular the `u` coefficient is `+ω(v,w)`. Restriction of an automorphism fixing u
+is a unitary map preserving Ω. For every complex-linear A,
+`Ω(Av,Aw,Az)=det_ℂ(A)Ω(v,w,z)`; since Ω is nonzero, its unitary preservers are exactly
+SU(V,h). Conversely a unitary map preserving Ω preserves every term in this product formula and extends by the identity on the single real plane
+`span_ℝ{1,u}`. Prove these inverse maps are smooth group isomorphisms with the actual
+`Matrix.specialUnitaryGroup (Fin 3) ℂ`, including all components. A Lie-algebra dimension
+calculation or a claim about two independent complex lines does not establish this
+stabilizer.
+
+**Topology with no connectedness circularity.** Construct
+`SU(2)→SU(3)→S⁵` by the first-column map. Give the block-diagonal stabilizer and its
+inverse, and local sections on a neighborhood of each fixed unit first column x. With the Hermitian
+convention `h` conjugate-linear in its first variable, project fixed orthonormal complement
+vectors `w₂,w₃` by
+`ṽ₂=w₂−h(x,w₂)x`, `v₂=ṽ₂/‖ṽ₂‖`, then
+`ṽ₃=w₃−h(x,w₃)x−h(v₂,w₃)v₂`, `v₃=ṽ₃/‖ṽ₃‖`.
+(The real orthogonal formulas use `g(x,w₂)`, `g(x,w₃)`, and `g(v₂,w₃)`.) These denominators
+are nonzero on a sufficiently small open neighborhood of the selected base column. Extend the
+resulting matrix-valued section to all orders smoothly in ambient Euclidean coordinates on that open domain;
+do not assert differentiability on the sphere or SU(3) subtype without first supplying manifold
+charts. The stabilizer of the standard column is the block-diagonal subgroup `diag(1,A)` with
+`A∈SU(2)`. A fiber over an arbitrary x is a torsor for this stabilizer, not a group; choose a
+basepoint in each fiber to identify it with the standard stabilizer as a set. For
+`U=(x,v₂,v₃)`, multiply its last column by `det(U)⁻¹`. This retains x and gives determinant
+one without a cube-root choice. Prove the bundle charts and right-SU(2) laws. Reuse LG Layer2’s SU(2)≃S³
+construction and its explicit sphere low-homotopy method, extending the latter to S⁵ and
+S⁶: based smoothing, Sard to choose a missing point, and based stereographic contraction.
+Use the native DGFloer Layer1 item2 fibration exact sequence, including its π₀ term, after
+proving these locally trivial bundles are Serre fibrations. First show SU(3) connected and
+simply connected; then use `SU(3)→G→S⁶` to show π₀(G)=0 and next π₁(G)=0. No compact
+G₂ classification, presumed connected Aut(A), or theorem whose hypotheses assume G
+connected is an input. Prove and export `π₂(S⁶)=0` by the same based
+smoothing/Sard method, and use that result in the homotopy exact-sequence computation.
+
+**Root datum and compact global form.** Differentiating the now-constructed orbit bundle
+gives an actual SU(3)-equivariant sequence
+`0→su(3)→Lie(G)→V_ℝ→0`. Split it using the positive invariant inner product obtained by
+restricting `tr(DᵀE)` from the concrete orthogonal representation. Thus the actual
+complexified adjoint module is `sl₃ ⊕ ℂ³ ⊕ (ℂ³)*`, by explicit maps. For the diagonal
+torus put `εᵢ=eᵢ−(e₁+e₂+e₃)/3`. Compute the six roots `εᵢ−εⱼ`, the six short
+weights `±εᵢ`, and the zero-weight plane; prove their differentials agree with LG6's
+`dχ=iα` convention. This yields the actual centralizer and maximal torus, and the Lie
+center is zero. Prove the Weyl-invariant inner product on the sum-zero plane is a positive
+multiple of the Euclidean one. With short α=ε₂ and long β=ε₁−ε₂, pin
+`α²=2/3`, `β²=2`, `(α,β)=−1` and root-entry convention
+`αᵢ(αⱼ∨)=[[2,−1],[-3,2]]`. Construct the six positive roots, one-dimensional root
+spaces, coroots and bracket constants; compare the simple-Chevalley matrix once with the
+native Serre transpose. Match the native twelve roots and seven weights of the fundamental seven-dimensional module
+entry-by-entry, but do not call its indefinite invariant form the positive division norm.
+
+Consume `TauCeti.DynkinType.g2SimplyConnectedRootDatum` only after the actual compact root
+and bracket comparison. Match the positive-root coordinates and coroots, and compare the
+native seven-weight `TauCeti.G2ShortRoot` Cartan, raising and lowering matrices with the
+actual SU(3)-equivariant action, including their Serre relations and cross-product
+intertwiner. Construct the compact conjugation on the complex split Serre algebra and its
+fixed real Lie algebra; prove its brackets and normalized root vectors give the same real
+compact form as `Lie(G)`. Complexification equality alone is insufficient. Then LG4
+integrates this real Lie isomorphism and its inverse between the simply connected
+integrations; uniqueness proves they are inverse. The G₂ Cartan matrix has determinant
+one, so the actual character and cocharacter lattices identify `P=Q` and the center of
+the simply connected compact form is trivial. Independently prove the seven-dimensional
+action faithful: an automorphism acting trivially on Im(A) fixes the scalar unit and hence
+every element of A. Do not infer the global form or its center from the label `G₂` or the
+dimension 14.
+This lower Lie-algebra and period comparison consumes the explicit actual-root datum above;
+it does not feed back into the division algebra or Cayley-frame construction.
+
+**Owner boundary.** LieHighestWeight Layer8 owns the positive ℍ⊕ℍ algebra, all
+nonassociative identities, the real trace/cross tensors, and scalar-extension comparison.
+This late LieGroups Layer7G₂ subsection owns the full automorphism group, orbit/stabilizer
+geometry and topology, and compact Lie/root/global-form identification. Existing generic
+subgroup Lie theory, integration, compact roots, DGFloer exact sequence and homogeneous
+bundle theory remain their existing single owners. Preserve all split exceptional,
+formally-real Albert, triality, Layer7E and downstream symmetric-space targets unchanged.
+
 ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
 - **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
@@ -1321,3 +1465,6 @@ interfaces kept here.
 - V. S. Varadarajan, *Lie Groups, Lie Algebras, and Their Representations*, Springer GTM 102 (1984) - the
   exponential map, the closed-subgroup theorem, Ado's theorem, and Lie's third theorem with the
   simply-connected integration in full detail (Chs. 2-3).
+
+
+**Prototype typing boundary for the positive-pair application.** The new compact derivation targets are quantified over `A`, `PositivePairCoordinates A`, and an explicit comparison datum to native `TauCeti.Octonion ℂ`; the theorem hypotheses include the actual normed, finite-dimensional and real scalar-compatibility structures. They do not refer to `CompactDivisionOctonion.DivisionOctonionReal` from another unimported file. Every linear-to-bounded coordinate helper is finite-dimensional, every local chart smoothness witness is `ContDiffOn ℝ ⊤` on an open ambient domain containing the actual coordinates, and the native octonion/derivation modules are explicitly imported.
