@@ -102,7 +102,7 @@ Types for tame groups (Adler–Roche forms and tameness of tori), z-embeddings a
 `G ×_Z T`, and the identification of the affine Grassmannian embeddings of Zhu are deliberately not
 here; they belong to later roadmaps which cite RG2.2–RG2.5.
 
-Six Tau Ceti roadmaps are cited by layer. The Reductive groups roadmap supplies the functor of
+Seven Tau Ceti roadmaps are cited by layer. The Reductive groups roadmap supplies the functor of
 points and the three-way dictionary (layer 0), Lie algebras and the adjoint representation
 (layer 2), identity components, quotients and exact sequences (layer 3), character modules of groups
 of multiplicative type (layer 4; their Galois action is layer 7), unipotent radicals (layer 5),
@@ -117,7 +117,8 @@ and point adjunction with that Hom-scheme supplier by Yoneda, compatibly with ba
 rather than introducing a second Hom-scheme carrier. Its layer 4D supplies strict henselisation. The Root systems roadmap supplies Coxeter combinatorics for a general Coxeter system
 (layer 3) and chambers with the fundamental domain (layer 4). The Profinite and pro-p groups
 roadmap, layer 3, supplies pro-p groups, and the Class field theory roadmap, layer 9, the local Weil
-group for the Weil form of the L-group.
+group for the Weil form of the L-group. MassFormula, Layer 2, supplies the DVR lattice index
+and the regular-Haar linear image law used by the positive-characteristic analytic charts.
 
 ## Conventions
 
@@ -937,7 +938,8 @@ seventh roots of unity over `ℚ₂`), and `Ĕ ≅ Frac W(F̄_p)` for `E = ℚ_p
 ### Dependencies
 
 Mathlib and Tau Ceti as listed in the supplier contracts; ReductiveGroups layers 0 and 2;
-LocalFieldsRamification layers 0 and 2; ProfiniteProPGroups layer 3.
+LocalFieldsRamification layers 0 and 2; ProfiniteProPGroups layer 3; MassFormula, Layer 2
+(DVR lattice index and regular-Haar linear image law).
 
 ## Layer RG2.0a: Weil restriction and the Deligne torus
 
@@ -966,7 +968,7 @@ ring map, `A'` a `k'`-algebra and `X' = Spec A'`. The Weil restriction `Res_{k'/
 `R ↦ Hom_{k'}(A', k' ⊗_k R) = X'(k' ⊗_k R)` on commutative `k`-algebras, contravariant in `A'`; it is
 representable by an affine `k`-scheme when `k → k'` is finite locally free, and representability is
 needed only there. In `WeilRestriction`, define `functor` as the functor `CommAlgCat k ⥤ Type`,
-`R ↦ (A' →ₐ[k'] k' ⊗[k] R)`, and `functorMap` (a map `φ : B' → A'` induces
+`R ↦ (A' →ₐ[k'] k' ⊗[k] R)`, and *functorMap* (a map `φ : B' → A'` induces
 `functor A' ⟶ functor B'`, `x ↦ x ∘ φ`); prove *functor_obj* (`obj R = (A' →ₐ[k'] k' ⊗[k] R)`
 definitionally), *functor_map_apply* (`(map f) x = (id ⊗ f) ∘ x`) and *functorMap_app*
 (`x ↦ x ∘ φ`). Its base change along `k → l` is recorded on the representing algebra
@@ -1241,8 +1243,19 @@ case is derived from the splitting). Its proposed Lean form
 separably closed `Ω`, `(Res T')(Ω)` is a product of copies of `(Ω^×)^n` indexed by the
 `k`-embeddings `k' → Ω`. *Needs:* *weil-restriction-separable-splitting*; Tau Ceti
 `TauCeti.CommHopfAlgCat.geometricCharacterGroup`, `TauCeti.DiagonalizableGroup.pairing`;
-ReductiveGroups layer 4.
+ReductiveGroups layers 4 and 7 (the character modules and their Galois action).
 *Lean:* none (README-only).
+
+**Checks.**
+
+- `characterInduced_identity` — when `k' = k`, induction is the identity on the
+  character module and on the cocharacter module, with the original pairing.
+- `characterInduced_complex` — for `ℂ/ℝ` and `D' = G_m`, the character lattice is
+  `ℤ²` with complex conjugation exchanging the two standard basis vectors.
+  Replacing the induced action by a trivial action gives the wrong real torus.
+- `characterInduced_rootsOfUnity` — for a separable quadratic extension and
+  `D' = μ₃`, the geometric character module is `(ℤ/3)²` with the two embeddings
+  permuted by Galois; it is not a free `ℤ`-lattice, unlike the torus case.
 
 **Norm maps and norm-one tori.** (*norm-torus*) For a finite free algebra `k → k'` of rank `d`,
 `NormTorus.norm` is the algebra norm on units of `k' ⊗_k R`, after commuting tensor factors
@@ -2943,11 +2956,23 @@ vertices, and their conjugacy classes correspond to the vertices of a closed cha
 acts type-preservingly when `G` is simply connected. (4) Fixed points of a compact `H ⊂ G(E)`
 persist in `B(G,E')` for every finite `E'/E`, through the equivariant map of
 *building-field-extension-embedding*. The proposed Lean statement is
-`Building.exists_fixedPoint_of_bounded` (a subgroup
+*Building.exists_fixedPoint_of_bounded* (a subgroup
 of `G(K)` with a bounded orbit fixes a point of `B`) ([Bruhat–Tits I], 3.2.1–3.2.4 and Thm 3.3.1
 with Cors. 3.3.2–3.3.3, pp. 63–65; [Garrett], §§14.6–14.8, pp. 229–236). *Needs:*
-*building-metric*.
+*building-metric*; *building-field-extension-embedding* for (4).
 *Lean:* none (README-only).
+
+**Checks.**
+
+- *Building.fixedPoint_units* — `O_E^× ⊂ G_m(E)` fixes every point of the enlarged
+  apartment because every unit has valuation zero; the same points remain fixed
+  after every finite field extension.
+- *Building.fixedPoint_uniformizer* (non-example) — the powers of a uniformizer in
+  `G_m(E)` translate its enlarged apartment by all integers and have no fixed point.
+  Their orbit is unbounded, although the reduced building is a point.
+- *Building.fixedPoint_edge* — in the `SL₂` tree the stabilizer of an interior point
+  of an edge is the Iwahori, properly contained in either endpoint stabilizer.
+  Thus fixing a point does not imply maximal boundedness.
 
 ### RG2.2.2 facets, fixers and the reduced building
 
@@ -3732,7 +3757,12 @@ restrictions; the Reductive groups roadmap, layers 6 and 7; the Local fields and
 roadmap, layer 3, for tame descent; Tau Ceti `AlgHom.mapDomain`, `AlgHom.mapValue` and
 `AlgHom.baseChangePointsMulEquiv` for the maps on points; and Mathlib `Submodule.IsLattice`,
 `SimpleGraph.IsTree`, `Monoid.PushoutI`, `ValuativeExtension` and
-`ValuationSubring.decompositionSubgroup`.
+`ValuationSubring.decompositionSubgroup`. The model comparisons in
+*weil-restriction-building* and the proof of *tame-descent-of-building* also use the
+unramified instances of RG2.3.1–RG2.3.3: *smooth-affine-model*, *big-cell-criteria*,
+*neron-finite-type-and-connected-models*, *bruhat-tits-group-scheme* and
+*finite-group-fixed-points-model*. The field and building-action clauses of
+*finite-group-fixed-points-reductive* precede its separate RG2.3 model clause.
 
 ## Layer RG2.3: parahoric and congruence group schemes
 
@@ -4642,10 +4672,8 @@ kernel model or its components.
 
 ### RG2.3.5 integral models of stabilizers for classical and Hodge-type groups
 
-The statements of this subsection are stated with their hypotheses and sources and have no Lean
-targets, except the lattice-rescaling step `KisinPappas.hyperspecial_orthogonal_selfDual` of
-*classical-hyperspecial-lattices*; the rational-point form of the lattice-chain description is
-*GLBuilding.stabilizer_eq* (RG2.2).
+The targets of this subsection have no signatures in `Suggested.lean`; the rational-point
+form of the lattice-chain description is *GLBuilding.stabilizer_eq* (RG2.2).
 
 **Parahorics of GL and GSp as lattice-chain automorphism groups.**
 (*lattice-chain-stabilizer-schemes*) Let `V` be finite-dimensional and let `x ∈ B(GL(V),K)`
@@ -4752,7 +4780,7 @@ quaternionic hermitian form `S` on `T_0 ≅ D^s` has a `D`-basis in which
 `S = Σ d̄_i d′_i` ([Kisin–Pappas–Zhou],
 §6.2.2 (b), p. 70). (c) The representation `σ_{T_0}` is a sum of basic symplectic representations by
 (b), and so is `σ_{V_0}` ([Kisin–Pappas–Zhou], §6.2.2 (a), pp. 69–70). The rescaling step of (a) is
-`KisinPappas.hyperspecial_orthogonal_selfDual`, independently over any discretely valued
+*KisinPappas.hyperspecial_orthogonal_selfDual*, independently over any discretely valued
 field `K`: for a bilinear form `h` on `Kⁿ` and an
 `O`-submodule `Λ ⊆ Kⁿ` (for instance a lattice) with `Λ^∨ := {v : h(v, Λ) ⊆ O} = cΛ`, and `s² = c`
 with `s ≠ 0`, `(sΛ)^∨ = sΛ`. *Needs:* *reductive-model*; *hyperspecial-vertices*;
@@ -5470,7 +5498,9 @@ for the Néron models; the index and congruence computation for the norm-one tor
 
 ### Dependencies
 
-Layers RG2.0, RG2.0a, RG2.1 and RG2.2 of this roadmap; ReductiveGroups layers 2, 3, 5, 6 and 7;
+Layers RG2.0, RG2.0a, RG2.1 and RG2.2 of this roadmap; RG2.4
+*iwahori-bruhat-decomposition* over `L` for *positive-depth-intersection-presentation*;
+ReductiveGroups layers 0, 2, 3, 5, 6 and 7;
 LocalFieldsRamification layer 3; Mathlib `AlgebraicGeometry.Scheme`,
 `Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`, `QuotientGroup.comapMk'OrderIso`,
 `Matrix.GeneralLinearGroup.map`, `groupCohomology` and `Submodule.IsLattice`; Tau Ceti
@@ -6520,23 +6550,38 @@ the displayed maps (4.12)–(4.13) in part (II) of its proof, pp. 30–31, and L
 
 **Transport of root combinatorics to an unramified comparison group.** (*unramified-combinatorial-comparison*)
 Let `G` be quasi-split, adjoint and simple over `ℚ_p` (or `E`), with `W̃` over `L` and `σ` preserving the base
-alcove. First, some unramified adjoint group `G'` over `ℚ_p` has `(W̃', σ') ≅ (W̃, σ)`, matching `Σ`
-with the absolute roots of `G'`, `X_*(T)_I` with `X_*(T')`, `π₁(G)_I` with `π₁(G')`, lengths, Bruhat
-orders, Levi subsets (`σ`-stable sets of simple reflections), and dominant `μ̄` with dominant `μ'`
-such that `Adm(μ) ↔ Adm(μ')` with equal `(κ, ν)`. Second, for a `σ`-stable lattice `Λ` with
+alcove. Put `Λ = X_*(T)_I`. This lattice is torsion-free: inertia permutes the fundamental
+coweight basis of the absolute adjoint datum. First, an unramified quasi-split semisimple group
+`G'` over the same field has cocharacter lattice `X_*(T') = Λ`, absolute root system `Σ`, and
+`(W̃', σ') ≅ (W̃, σ)`. Construct it from the based root datum with cocharacter lattice `Λ`
+and roots `Σ`, by the pinned Chevalley construction and unramified descent of the finite-order
+based action of `σ`. It is adjoint exactly when `Λ = P^∨(Σ)`; unramified `G` is one such case.
+The comparison matches `π₁(G)_I = Λ/Q^∨(Σ)` with `π₁(G')`, lengths, Bruhat orders, Levi subsets
+(`σ`-stable sets of simple reflections), and dominant `μ̄` with dominant `μ'` such that
+`Adm(μ) ↔ Adm(μ')` with equal `(κ, ν)`. Second, for any `σ`-stable lattice `Λ` with
 `Q^∨ ⊆ Λ ⊆ P^∨` (the coroot and coweight lattices of `Σ`; for instance `X_*(T)_I` modulo torsion),
 the groups `W_a = W_{Q^∨} ⊆ W_Λ = Λ ⋊ W(Σ) ⊆ W_{P^∨}` have compatible lengths, Bruhat orders (on
 equal `P^∨/Q^∨`-components), pairings `⟨·, 2ρ⟩`, dominance, positive coroots and `σ`-actions, so
 results for `P^∨` (the adjoint case) or `Q^∨` (the simply connected case) transfer along the chain
-([van Hoften], §A.3.2, p. 69; [He 2021], §4.1, footnote 1, p. 7 (a reference to He 2014, §6; not a
-proof); [Haines–Rapoport], Lem. 15, p. 9). *Needs:* *dominant-coinvariant-cocharacters*;
-*translation-length-formula*; *length-and-bruhat-order*; *admissible-set*.
+([van Hoften], §A.3.2, p. 69, for transport of the combinatorial data; [He 2021], §4.1,
+footnote 1, p. 7 (a reference to He 2014, §6; not a proof); [Haines–Rapoport], Lem. 15, p. 9,
+for `Q^∨(Σ)` inside the translation lattice; [Conrad RGS], Theorems 6.1.16(2) and 6.1.17,
+pp. 196–197, for the pinned group realizing the specified root datum). *Needs:*
+*dominant-coinvariant-cocharacters*; *iwahori-weyl-exact-sequences*; RG2.1
+*echelonnage-root-system*; *translation-length-formula*; *length-and-bruhat-order*;
+*admissible-set*; ReductiveGroups layers 7 and 9.
 *Lean:* none (README-only).
 
 **Checks.**
 
 - `unramifiedComparison_split_A1` — split `PGL₂` compares to itself; the identity on
   the two affine simple reflections intertwines their trivial Frobenius actions.
+- `unramifiedComparison_ramified_PU3` — for ramified quasi-split `PU₃` over `ℚ_p`,
+  `p` odd, inertia exchanges the two fundamental coweights. In coinvariants they
+  have one common generator, and each absolute simple coroot maps to that generator.
+  Thus `Λ = Q^∨(Σ)` for `Σ = A₁`, and `π₁(G)_I = (ℤ/3)/(x ∼ −x) = 0`.
+  The comparison group is `SL₂`, with `Ω = 1` and infinite dihedral `W̃ = W_a`.
+  Adjoint `PGL₂` has `Ω = ℤ/2` and cannot supply these matchings.
 - `unramifiedComparison_inner_A1_rejected` — for quaternionic `PGL₁(D)`, Frobenius
   interchanges `s₀,s₁`. No bijection of these two reflections intertwines this action
   with the identity action of split `PGL₂`. Splitting over an unramified extension
