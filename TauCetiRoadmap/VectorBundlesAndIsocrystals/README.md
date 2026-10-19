@@ -23,15 +23,15 @@ The bundle classification, relative local-system comparisons and Banach–Colmez
 
 Fix a nonarchimedean local field E with residue field `𝔽_q`, uniformizer `π` and algebraic closure k of `𝔽_q`. Write `L=Ĕ`. In mixed characteristic `L=W_{O_E}(k)[1/π]`; in equal characteristic `L=k((π))`. The specified automorphism `σ` is arithmetic q-Frobenius and fixes E and `π`. Objects of `Isoc_E` are finite-dimensional L-vector spaces with bijective `σ`-semilinear Frobenius. Their morphisms are L-linear intertwining maps, with E-linear Hom spaces. Arbitrary L-scalar multiplication need not preserve the intertwining equation.
 
-The block `D(s,r)`, for `r>0`, cycles through a basis and multiplies the wrap by `π^s`. Its isocrystal slope is s/r. For coprime d,h with `h>0`, the standard bundle `O(d/h)` is the image of `D(−d,h)`; its rank is h and its degree is d. The functor reverses slopes. The corresponding division algebra `D_{d/h}` has arithmetic invariant d/h modulo Z and E-dimension `h²`. An isocrystal of slope a therefore has endomorphism invariant `−a`. Standard rational bundles can be defined over an `𝔽_q-base`, while the functor on arbitrary isocrystals requires a specified k-structure on the base.
+The block `D(s,r)`, for `r>0`, cycles through a basis and multiplies the wrap by `π^s`. Its isocrystal slope is `s/r`. For coprime `d,h` with `h>0`, the standard bundle `O(d/h)` is the image of `D(−d,h)`; its rank is h and its degree is d. The functor reverses slopes. The corresponding division algebra `D_{d/h}` has arithmetic invariant `d/h` modulo `ℤ` and E-dimension `h²`. An isocrystal of slope a therefore has endomorphism invariant `−a`. Standard rational bundles can be defined over an `𝔽_q-base`, while the functor on arbitrary isocrystals requires a specified k-structure on the base.
 
-A bundle is a structure-sheaf module with one local-generator family that is both finite and free. It is not an arbitrary locally free sheaf. On a connected geometric curve, degree is the integer Picard degree of its determinant; slope is degree divided by positive rank. The zero bundle has rank and degree zero, the empty HN filtration and no slope. HN polygons use ranks as horizontal lengths and decreasing slopes: they are concave upper polygons. The KL lower polygon convention reverses the order: on a rank-n component, `P_KL(x)=deg(V)−P_FS(n−x)`. The KL slope attached to a `φ^a` eigenvalue `p^b` is `−b/a`; the untilt line has slope 1/a in that normalization.
+A bundle is a structure-sheaf module with one local-generator family that is both finite and free. It is not an arbitrary locally free sheaf. On a connected geometric curve, degree is the integer Picard degree of its determinant; slope is degree divided by positive rank. The zero bundle has rank and degree zero, the empty HN filtration and no slope. HN polygons use ranks as horizontal lengths and decreasing slopes: they are concave upper polygons. The KL lower polygon convention reverses the order: on a rank-n component, `P_KL(x)=deg(V)−P_FS(n−x)`. The KL slope attached to a `φ^a` eigenvalue `p^b` is `−b/a`; the untilt line has slope `1/a` in that normalization.
 
 A geometric base field C is complete, algebraically closed and perfectoid of characteristic p. A closed point x of the curve determines its own untilt `C_x^♯`; the completed local ring is its period DVR, and for `E=ℚ_p` it is `B_dR⁺(C_x^♯)`. A chosen parameter `t_x` need not be the parameter at another point. For a general perfectoid S, rank and geometric degree are locally constant on appropriate components; statements about slopes mean statements about every geometric fibre unless a single point is explicitly specified.
 
 Cohomological degrees are used throughout. The complex `[E₁→E₀]` places `E₁` in degree `−1` and `E₀` in degree 0. Its Banach–Colmez object is `H⁰` of derived global sections, not the cokernel of a map on ordinary sections. Frobenius cohomology is E-linear, even though the underlying coefficient module is over L. The sheaf underline E has locally constant sections; on a disjoint union of two nonempty connected bases these sections are `E²`.
 
-Projectivization means the v-sheaf quotient of the complement of the zero section by underline `E×`. The `π^Z` quotient is an intermediate construction. Absolute spatiality and a morphism's representability in spatial diamonds are separate properties: the intermediate absolute quotient can fail quasiseparatedness while its structure morphism is relatively representable in spatial diamonds.
+Projectivization means the v-sheaf quotient of the complement of the zero section by underline `E×`. The `π^ℤ` quotient is an intermediate construction. Absolute spatiality and a morphism's representability in spatial diamonds are separate properties: the intermediate absolute quotient can fail quasiseparatedness while its structure morphism is relatively representable in spatial diamonds.
 
 For the classical sympathetic-algebra category, take `E=ℚ_p`, choose C as the completion of an algebraic closure of a complete discretely valued characteristic-zero K with countable perfect residue field, and fix the point `∞` with residue field C and parameter t. Sympathetic algebras are connected spectral C-Banach algebras with p-divisible unit neighbourhood, faithful evaluation on C-valued spectral points, and a dense C-linear subspace with countable basis. These separability assumptions are retained in all targets below involving the CN sympathetic-algebra realization. The abstract pro-étale category and SW diamond realization have their own stated scope for arbitrary algebraically closed complete `C/ℚ_p`.
 
@@ -244,7 +244,7 @@ Construct the zero object, direct sums and tensor products with their genuine se
 
 #### Rational standard Frobenius blocks
 
-For `s∈Z` and `r>0`, define `D(s,r)=L^r` with `Φ(e_i)=e_{i+1}` for `i<r−1` and `Φ(e_{r−1})=π^s e_0`, applying `σ` to coefficients. Then `Φ^r=π^sσ^r` and its isocrystal slope is s/r. The coprime pair gives the simple block. FF `M(d,h)` is `D(−d,h)`; its bundle is `O(d/h)`, rank h and degree d.
+For `s∈ℤ` and `r>0`, define `D(s,r)=L^r` with `Φ(e_i)=e_{i+1}` for `i<r−1` and `Φ(e_{r−1})=π^s e_0`, applying `σ` to coefficients. Then `Φ^r=π^sσ^r` and its isocrystal slope is `s/r`. The coprime pair gives the simple block. FF `M(d,h)` is `D(−d,h)`; its bundle is `O(d/h)`, rank h and degree d.
 
 **API.**
 
@@ -252,7 +252,7 @@ For `s∈Z` and `r>0`, define `D(s,r)=L^r` with `Φ(e_i)=e_{i+1}` for `i<r−1` 
 - `SlopeBlock.frobenius_basis`: Evaluate `Φ` on the cyclic basis, including the `π^s` wraparound.
 - `SlopeBlock.iterate`: `Φ^r=π^sσ^r`, with `σ^r` acting coefficientwise.
 - `SlopeBlock.rank`: The L-rank is r.
-- `SlopeBlock.slope`: The rational isocrystal slope is s/r.
+- `SlopeBlock.slope`: The rational isocrystal slope is `s/r`.
 - `SlopeBlock.rankOneWitt`: At `E=ℚ_p`, `r=1`, `D(s,1)` identifies with StandardOneDimIsocrystal s.
 
 **Checks.**
@@ -280,7 +280,7 @@ Over L with algebraically closed residue field `𝔽̄_q`, every finite E-isocry
 
 #### Tensor and dual calculus for isocrystals
 
-Finite isocrystals form a rigid exact E-linear tensor category. Tensor Frobenius is `Φ_D⊗Φ_D′` and dual Frobenius is `ℓ↦σ∘ℓ∘Φ_D⁻¹`. Tensor slopes are pairwise sums, dual slopes are negatives. If a,b have reduced denominators `h_a,h_b,h_{a+b}`, then `D_a⊗D_b≅D_{a+b}^{⊕h_a h_b/h_{a+b}}`.
+Finite isocrystals form a rigid exact E-linear tensor category. Tensor Frobenius is `Φ_D⊗Φ_D′` and dual Frobenius is `ℓ↦σ∘ℓ∘Φ_D⁻¹`. Tensor slopes are pairwise sums, dual slopes are negatives. If `a,b` have reduced denominators `h_a,h_b,h_{a+b}`, then `D_a⊗D_b≅D_{a+b}^{⊕h_a h_b/h_{a+b}}`.
 
 ([Ked][Ked], Definition 3.1.5 and Lemma 4.1.2, pp. 478, 487; [FF][FF], Proposition 8.2.6, p. 237.)
 
@@ -294,7 +294,7 @@ Finite isocrystals form a rigid exact E-linear tensor category. Tensor Frobenius
 
 For a field `L`, automorphism `σ`, nonzero finite `L`-space `D` and invertible `σ`-semilinear Frobenius, assume every Frobenius-stable subspace is zero or the whole space. Every nonzero intertwining endomorphism then has a two-sided intertwining inverse; `FiniteIsocrystal.isocrystalEndDivision` records this Schur form. The geometric coefficient hypotheses and standard-block identification in the following assertion give its arithmetic content. (FF Proposition 8.2.8, pp. 237–238.)
 
-For coprime (s,r), `End_Φ(D(s,r))` is a central division algebra over E of dimension `r²`. With `E_r/E` unramified degree r and arithmetic `σ`, it has presentation `⊕_{i=0}^{r−1}E_r Π^i`, `Π^r=π^{−s}`, `Πx=σ(x)Π`. The arithmetic Brauer invariant is determined by the sign comparison below; the stable-bundle endomorphism identification belongs to the classification layer.
+For coprime `(s,r)`, `End_Φ(D(s,r))` is a central division algebra over E of dimension `r²`. With `E_r/E` unramified degree r and arithmetic `σ`, it has presentation `⊕_{i=0}^{r−1}E_r Π^i`, `Π^r=π^{−s}`, `Πx=σ(x)Π`. The arithmetic Brauer invariant is determined by the sign comparison below; the stable-bundle endomorphism identification belongs to the classification layer.
 
 ([FF][FF], Definition 8.2.7 and Proposition 8.2.8, pp. 237–238.)
 
@@ -304,12 +304,12 @@ For coprime (s,r), `End_Φ(D(s,r))` is a central division algebra over E of dime
 
 #### Slope-labelled cyclic algebra
 
-For bundle slope `λ=d/h` in lowest terms, `h>0`, set `D_λ=Cyc(E_h/E`, arithmetic `σ`, `π^d`), a central division algebra with `Π^h=π^d` and `Πx=σ(x)Π`. Specialize the cyclic algebra construction of Class Field Theory to these slope parameters and identify it with `End_Φ(D(−d,h))`.
+For bundle slope `λ=d/h` in lowest terms, `h>0`, set `D_λ=Cyc(E_h/E, σ, π^d)` (arithmetic `σ`), a central division algebra with `Π^h=π^d` and `Πx=σ(x)Π`. Specialize the cyclic algebra construction of Class Field Theory to these slope parameters and identify it with `End_Φ(D(−d,h))`.
 
 **API.**
 
 - `SlopeDivisionAlgebra`: The cyclic algebra `D_λ` for the reduced pair of `λ`.
-- `SlopeDivisionAlgebra.generator`: The element Π with `Π^h=π^d`.
+- `SlopeDivisionAlgebra.generator`: The element `Π` with `Π^h=π^d`.
 - `SlopeDivisionAlgebra.commutation`: `Πx=σ(x)Π` for `x∈E_h`; specify arithmetic Frobenius.
 - `SlopeDivisionAlgebra.basis`: E-basis obtained from an E-basis of `E_h` times `Π^i`, `0≤i<h`.
 - `SlopeDivisionAlgebra.isocrystalEnd`: E-algebra equivalence with `End_Φ(D(−d,h))`.
@@ -329,7 +329,7 @@ For bundle slope `λ=d/h` in lowest terms, `h>0`, set `D_λ=Cyc(E_h/E`, arithmet
 
 #### Arithmetic Brauer invariant and slope normalization
 
-Under the algebraic-to-cohomological Brauer comparison and the arithmetic local invariant `inv_E:Br(E)≃Q/Z`, `inv_E[D_λ]=λ` mod Z. Restriction to finite E′/E multiplies this invariant by [E′:E]; the opposite algebra negates it. This fixes the choice `Πx=σ(x)Π` with arithmetic, not geometric, Frobenius.
+Under the algebraic-to-cohomological Brauer comparison and the arithmetic local invariant `inv_E:Br(E)≃ℚ/ℤ`, `inv_E[D_λ]=λ` mod `ℤ`. Restriction to finite `E′/E` multiplies this invariant by `[E′:E]`; the opposite algebra negates it. This fixes the choice `Πx=σ(x)Π` with arithmetic, not geometric, Frobenius.
 
 ([FF][FF], Definition 8.2.7, p. 237.)
 
@@ -343,7 +343,7 @@ Finite separable coefficient extension needs both tensor–restriction adjunctio
 
 #### Coefficient extension and induction adjunction
 
-For finite separable E′/E of residue degree f, ramification degree e and total degree `n=ef`, identify the coefficient fields compatibly. Pull D to `D⊗_{L_E}L_E′` with Frobenius `Φ^f⊗σ_E′`; induction is the f cyclic conjugate copies of restriction of scalars, with wraparound given by `Φ′`. Pull and induction are adjoint in both directions: `Hom(Pull D,D′)≅Hom(D,Ind` D′) and `Hom(Ind D′,D)≅Hom(D′,Pull` D). The reverse adjunction uses the perfect separable trace pairing and the identification of finite cyclic induction with coinduction; no division by n is required. Pull preserves rank and scales slopes by n; induction multiplies rank by n and divides isoclinic slopes by n. At the bundle stage they compare to pullback/pushforward along the finite étale coefficient curve map, with its two trace adjunctions.
+For finite separable `E′/E` of residue degree f, ramification degree e and total degree `n=ef`, identify the coefficient fields compatibly. Pull D to `D⊗_{L_E}L_E′` with Frobenius `Φ^f⊗σ_E′`; induction is the f cyclic conjugate copies of restriction of scalars, with wraparound given by `Φ′`. Pull and induction are adjoint in both directions: `Hom(Pull D,D′)≅Hom(D,Ind D′)` and `Hom(Ind D′,D)≅Hom(D′,Pull D)`. The reverse adjunction uses the perfect separable trace pairing and the identification of finite cyclic induction with coinduction; no division by n is required. Pull preserves rank and scales slopes by n; induction multiplies rank by n and divides isoclinic slopes by n. At the bundle stage they compare to pullback/pushforward along the finite étale coefficient curve map, with its two trace adjunctions.
 
 ([FF][FF], 8.2.3 after Proposition 8.2.8, p. 238; [SW][SW], Theorem 13.5.7, proof, printed p. 114 (PDF p. 124).)
 
@@ -353,7 +353,7 @@ For finite separable E′/E of residue degree f, ramification degree e and total
 
 #### Finite Galois descent of isocrystals
 
-Let L′/L be finite Galois and let `σ′` be a coefficient automorphism extending `σ`. Finite L-vector spaces with bijective `σ`-semilinear `Φ` are equivalent to finite L′-vector spaces with bijective `σ′`-semilinear `Φ′` and a semilinear Galois descent action ρ satisfying `Φ′ρ_g=ρ_{σ′gσ′⁻¹}Φ′` for every `g∈Gal(L′/L)`. The descended module is the invariant module and `Φ′` restricts to a bijective `σ`-semilinear `Φ`. Ordinary commutation with each `ρ_g` is sufficient only when `σ′` centralizes the Galois group. This is module descent with Frobenius, not classification over arbitrary perfect residue fields.
+Let `L′/L` be finite Galois and let `σ′` be a coefficient automorphism extending `σ`. Finite L-vector spaces with bijective `σ`-semilinear `Φ` are equivalent to finite L′-vector spaces with bijective `σ′`-semilinear `Φ′` and a semilinear Galois descent action `ρ` satisfying `Φ′ρ_g=ρ_{σ′gσ′⁻¹}Φ′` for every `g∈Gal(L′/L)`. The descended module is the invariant module and `Φ′` restricts to a bijective `σ`-semilinear `Φ`. Ordinary commutation with each `ρ_g` is sufficient only when `σ′` centralizes the Galois group. This is module descent with Frobenius, not classification over arbitrary perfect residue fields.
 
 ([FF][FF], 8.2.3, Definition 8.2.5, printed p. 236; [Ked][Ked], 4.5.7–4.5.8, pp. 498–499.)
 
@@ -427,7 +427,7 @@ For perfectoid affinoid `S=Spa(R,R⁺)` in characteristic p, define the relative
 
 - `tiltedRobba_cofinal`: Using `s_j→0` in a fixed r inverse limit produces the same ring and topology.
 - `tiltedRobba_zero_section`: The zero compatible annular family has all seminorms zero.
-- `tiltedRobba_frobenius_radius`: At `ℚ_p`, Frobenius moves the outer radius r to r/p in the CS convention.
+- `tiltedRobba_frobenius_radius`: At `ℚ_p`, Frobenius moves the outer radius r to `r/p` in the CS convention.
 - `tiltedRobba_not_algebraic_union`: Replacing the fixed-r inverse limit by an algebraic union loses compatible sections defined on all sufficiently small inner radii.
 
 ([CS][CS], Definition 3.2.10 and Theorems 3.2.13, 3.3.4, pp. 681–683.)
@@ -438,7 +438,7 @@ For perfectoid affinoid `S=Spa(R,R⁺)` in characteristic p, define the relative
 
 #### Finite projective Frobenius modules and integral models
 
-A Robba Frobenius module is a finite projective `R̃_R`-module M with a semilinear Frobenius whose linearization φ* `M→M` is an isomorphism. A globally étale model is a finite locally free module over the integral Robba ring whose linearized Frobenius is invertible and whose scalar extension is M. This defines the global model predicate needed in KL 8.8.7; equivalence with pointwise purity or local systems is not included here and remains VB4-owned.
+A Robba Frobenius module is a finite projective `R̃_R`-module M with a semilinear Frobenius whose linearization `φ*M→M` is an isomorphism. A globally étale model is a finite locally free module over the integral Robba ring whose linearized Frobenius is invertible and whose scalar extension is M. This defines the global model predicate needed in KL 8.8.7; equivalence with pointwise purity or local systems is not included here and remains VB4-owned.
 
 **API.**
 
@@ -492,7 +492,7 @@ The construction includes `termIso`, identifying degrees zero and one with the s
 
 - `frobeniusComplex_zero`: For the zero module both terms and both cohomology groups vanish.
 - `frobeniusComplex_identity`: For `φ=id` on a nonzero E-vector space the differential is zero, so `H⁰` and `H¹` both equal that space.
-- `frobeniusComplex_kernel`: `H⁰` consists precisely of φ-fixed vectors, not all vectors.
+- `frobeniusComplex_kernel`: `H⁰` consists precisely of `φ`-fixed vectors, not all vectors.
 - `frobeniusComplex_degree`: The cokernel occupies degree 1, and cannot represent `H⁰(V)` for an arbitrary V.
 
 ([FS][FS], II.2 preamble, p. 57.)
@@ -513,7 +513,7 @@ On `Perf/𝔽_q`, `S↦Bun(X_S)` is a v-stack. For any perfectoid S and `V∈Bun
 
 #### The exact tensor isocrystal-to-bundle functor
 
-Fix `k=𝔽̄_q` and its coefficient inclusion in `L=Ĕ`. For perfectoid S/k with the specified k-structure, define `E_S(D)` by descending `D⊗_L O_{Y_S}` along `Φ_D⊗φ_Y`. It is an exact tensor functor from finite E-isocrystals to `Bun(X_S)`, compatible with duals, k-compatible base change and finite coefficient pull/induction. For any perfectoid `S/𝔽_q`, define the standard `O_{X_S}(d/h)` directly by descending the cyclic rank-h Frobenius matrix with wrap coefficient `π^{−d}`; this needs no chosen k-embedding. After base change to k it agrees with `E_S(D(−d,h))`. Its rank is h, `O(n)` agrees with `VB−1` rank-one twists, and `O(λ)∨=O(−λ)`. Geometric degree d is a later consequence of degree-rank-slope-and-HN-formalism, not an input to this construction. No relative classification is asserted.
+Fix `k=𝔽̄_q` and its coefficient inclusion in `L=Ĕ`. For perfectoid `S/k` with the specified k-structure, define `E_S(D)` by descending `D⊗_L O_{Y_S}` along `Φ_D⊗φ_Y`. It is an exact tensor functor from finite E-isocrystals to `Bun(X_S)`, compatible with duals, k-compatible base change and finite coefficient pull/induction. For any perfectoid `S/𝔽_q`, define the standard `O_{X_S}(d/h)` directly by descending the cyclic rank-h Frobenius matrix with wrap coefficient `π^{−d}`; this needs no chosen k-embedding. After base change to k it agrees with `E_S(D(−d,h))`. Its rank is h, `O(n)` agrees with `VB−1` rank-one twists, and `O(λ)∨=O(−λ)`. Geometric degree d is a later consequence of degree-rank-slope-and-HN-formalism, not an input to this construction. No relative classification is asserted.
 
 For the general finite-isocrystal functor, S is over the fixed `k=𝔽̄_q` so that L embeds in `O_{Y_S}`. The standard cyclic bundles alone are defined over `𝔽_q`.
 
@@ -524,14 +524,14 @@ For the general finite-isocrystal functor, S is over the fixed `k=𝔽̄_q` so t
 - `bundleOfIsocrystal.tensorDual`: Exact tensor structure and dual compatibility.
 - `standardBundle`: For `S/𝔽_q`, descend the cyclic matrix for `(−d,h)`; over k compare with `E_S(D(−d,h))`.
 - `standardBundle.integerTwist`: `O(n)` identifies with `VB−1` rank-one twists, with their tensor laws.
-- `standardBundle.baseChange`: Perfectoid pullback preserves the cyclic standard bundle; general `E_S(D)` pullback retains the chosen k-embedding. At a geometric point, coefficient pullback multiplies `λ` by [E′:E], as proved with degree and scalar extension.
+- `standardBundle.baseChange`: Perfectoid pullback preserves the cyclic standard bundle; general `E_S(D)` pullback retains the chosen k-embedding. At a geometric point, coefficient pullback multiplies `λ` by `[E′:E]`, as proved with degree and scalar extension.
 
 **Checks.**
 
 - `standardBundle_zero`: `O(0)` is the tensor unit of rank 1, rather than the rank-zero bundle.
-- `standardBundle_half_sign`: Over geometric C/k, `D(1,2)` maps to `O(−1/2)`, rank 2; the degree `−1` check belongs after geometric degree is constructed.
+- `standardBundle_half_sign`: Over geometric `C/k`, `D(1,2)` maps to `O(−1/2)`, rank 2; the degree `−1` check belongs after geometric degree is constructed.
 - `standardBundle_integer`: `D(−2,1)` maps to the `VB−1` twist `O(2)`.
-- `standardBundle_tensor_half`: Over geometric C/k, `O(1/2)⊗O(1/2)≅O(1)^{⊕4}`; rank 4 detects omission of the tensor multiplicity.
+- `standardBundle_tensor_half`: Over geometric `C/k`, `O(1/2)⊗O(1/2)≅O(1)^{⊕4}`; rank 4 detects omission of the tensor multiplicity.
 
 ([FS][FS], II.2 preamble, p. 58; [FF][FF], Proposition 8.2.6 and Remark 8.2.9, pp. 237–238.)
 
@@ -559,7 +559,7 @@ At a geometric point, prove coverage by homogeneous opens directly: classical po
 
 #### Classical points and annular Dedekind rings
 
-For complete algebraically closed perfectoid `C/𝔽_q` and a connected affinoid `U=Spa(B,B⁺)` in `Y_C`, Spm(B) identifies with the classical points of U, whose residue fields are untilts of C over E. B is a PID. On `X_C`, classical points are Frobenius orbits and affinoid chart rings are Dedekind domains; their PID upgrade is obtained from geometric Picard degree, rather than assumed as an early analytic input.
+For complete algebraically closed perfectoid `C/𝔽_q` and a connected affinoid `U=Spa(B,B⁺)` in `Y_C`, `Spm(B)` identifies with the classical points of U, whose residue fields are untilts of C over E. B is a PID. On `X_C`, classical points are Frobenius orbits and affinoid chart rings are Dedekind domains; their PID upgrade is obtained from geometric Picard degree, rather than assumed as an early analytic input.
 
 ([FS][FS], Proposition II.1.11, Corollary II.1.12 and Definition/Proposition II.1.22, pp. 53–57.)
 
@@ -593,7 +593,7 @@ For complete algebraically closed perfectoid C, `VB−1` supplies `P_C=⊕_{n≥
 
 #### Regular noetherian geometric curve and PID complements
 
-For complete algebraically closed perfectoid C, `X_C^alg=Proj(P_C)` is connected, regular, noetherian and one-dimensional. Classical points correspond bijectively to its closed points; for every classical x the complement of x in `X_C^alg` is affine with PID coordinate ring. Degree-one untilt divisor sections cut out Spec(C♯) and their nonvanishing complements give these charts.
+For complete algebraically closed perfectoid C, `X_C^alg=Proj(P_C)` is connected, regular, noetherian and one-dimensional. Classical points correspond bijectively to its closed points; for every classical x the complement of x in `X_C^alg` is affine with PID coordinate ring. Degree-one untilt divisor sections cut out `Spec(C♯)` and their nonvanishing complements give these charts.
 
 ([FS][FS], Proposition II.2.9 and proof, p. 68.)
 
@@ -603,7 +603,7 @@ For complete algebraically closed perfectoid C, `X_C^alg=Proj(P_C)` is connected
 
 #### Untilts and completed local rings
 
-At a classical point x of the geometric curve, identify the completed local ring with the `VB−1` untilt period DVR, whose residue field is `C_x♯`. At `E=ℚ_p` this is `B_dR⁺(C_x♯)`. A uniformizer `t_x` depends on a choice of generator; neither its equality with a global t nor the equality of every untilt with a fixed C♯ is asserted.
+At a classical point x of the geometric curve, identify the completed local ring with the `VB−1` untilt period DVR, whose residue field is `C_x♯`. At `E=ℚ_p` this is `B_dR⁺(C_x♯)`. A uniformizer `t_x` depends on a choice of generator; neither its equality with a global t nor the equality of every untilt with a fixed `C♯` is asserted.
 
 ([CN (arXiv)][CN-arXiv], §3.2.1, p. 14.)
 
@@ -627,7 +627,7 @@ Degree bounds for subbundles of each rank and the saturation axioms establish HN
 
 #### Rank, determinant degree and rational slope
 
-For `V∈Bun(X_C)`, rank(V) is its finite locally constant rank, constant on connected `X_C`. Set `deg(V)=PicDegree(det V)∈Z` and `μ(V)=deg(V)/rank(V)∈Q` only for `V≠0`. Rank and degree are additive in bundle short exact sequences; `deg(V⊗W)=rank(W)deg(V)+rank(V)deg(W)`, `deg(V∨)=−deg(V)`. For `O(d/h)` in reduced form, `rank=h` and `degree=d`. No global degree function on arbitrary perfectoid S is asserted; VB4 uses geometric fibers.
+For `V∈Bun(X_C)`, `rank(V)` is its finite locally constant rank, constant on connected `X_C`. Set `deg(V)=PicDegree(det V)∈ℤ` and `μ(V)=deg(V)/rank(V)∈ℚ` only for `V≠0`. Rank and degree are additive in bundle short exact sequences; `deg(V⊗W)=rank(W)deg(V)+rank(V)deg(W)`, `deg(V∨)=−deg(V)`. For `O(d/h)` in reduced form, `rank=h` and `degree=d`. No global degree function on arbitrary perfectoid S is asserted; VB4 uses geometric fibers.
 
 **API.**
 
@@ -653,7 +653,7 @@ For `V∈Bun(X_C)`, rank(V) is its finite locally constant rank, constant on con
 
 #### Saturation and torsion degree on the geometric curve
 
-For a coherent subsheaf F of a geometric bundle V, its saturation `F^sat` is the inverse image of the torsion subsheaf of V/F, so `V/F^sat` is torsion free and locally free on the regular one-dimensional curve. A torsion coherent sheaf T has degree `∑_x length_{O_x}(T_x)deg(x)`, with `deg(x)=1` at a classical point. A generic-fiber isomorphism `F→G` of bundles satisfies `deg(F)≤deg(G)`, with equality iff it is an isomorphism. This gives the strict-subobject and degree-monotonicity HN axioms.
+For a coherent subsheaf F of a geometric bundle V, its saturation `F^sat` is the inverse image of the torsion subsheaf of `V/F`, so `V/F^sat` is torsion free and locally free on the regular one-dimensional curve. A torsion coherent sheaf T has degree `∑_x length_{O_x}(T_x)deg(x)`, with `deg(x)=1` at a classical point. A generic-fiber isomorphism `F→G` of bundles satisfies `deg(F)≤deg(G)`, with equality iff it is an isomorphism. This gives the strict-subobject and degree-monotonicity HN axioms.
 
 **API.**
 
@@ -771,7 +771,7 @@ The generation proof separates the two half-annuli and uses the corrected contra
 
 #### Global generation and vanishing after positive twists
 
-For affinoid perfectoid `S/𝔽_q` and `V∈Bun(X_S)`, there is `n_0` such that for every `n≥n_0`, V(n) is generated by finitely many global sections and `H^i(X_S,V(n))=0` for all `i>0`. The bound depends on V and the chosen affinoid S. On a general perfectoid base the assertion is local on S; no uniform global bound is asserted. Prove the finite-presentation and matrix-factorization steps using the two half-annulus contraction estimates of KL 6.2.2–6.2.4 and Remark 6.2.5; these are part of the generation theorem, with the stated annular norms.
+For affinoid perfectoid `S/𝔽_q` and `V∈Bun(X_S)`, there is `n_0` such that for every `n≥n_0`, `V(n)` is generated by finitely many global sections and `H^i(X_S,V(n))=0` for all `i>0`. The bound depends on V and the chosen affinoid S. On a general perfectoid base the assertion is local on S; no uniform global bound is asserted. Prove the finite-presentation and matrix-factorization steps using the two half-annulus contraction estimates of KL 6.2.2–6.2.4 and Remark 6.2.5; these are part of the generation theorem, with the stated annular norms.
 
 ([FS][FS], Theorem II.2.6 and proof, pp. 64–66; [KL][KL], Propositions 6.2.2–6.2.4 and Remark 6.2.5, pp. 136–137.)
 
@@ -807,7 +807,7 @@ For affinoid perfectoid S, set `X_S^alg=Proj(P_S)` using the `VB−1` graded rin
 
 #### GAGA for the relative schematic curve
 
-Let X be a locally ringed spectral space with line bundle `O(1)` such that every finite locally free V has V(n) globally generated and `H^i(X,V(n))=0` for all `i>0` and all sufficiently large n. The homogeneous chart maps define a global `α:X→Proj⊕Γ(X,O(n))`; pullback gives an exact tensor equivalence of finite locally free bundles and comparison isomorphisms on all bundle cohomology. Apply this to `X_S` for affinoid perfectoid S via GG and GMap. No coherent-sheaf equivalence on arbitrary nonnoetherian S is inferred from this bundle statement.
+Let X be a locally ringed spectral space with line bundle `O(1)` such that every finite locally free V has `V(n)` globally generated and `H^i(X,V(n))=0` for all `i>0` and all sufficiently large n. The homogeneous chart maps define a global `α:X→Proj⊕Γ(X,O(n))`; pullback gives an exact tensor equivalence of finite locally free bundles and comparison isomorphisms on all bundle cohomology. Apply this to `X_S` for affinoid perfectoid S via GG and GMap. No coherent-sheaf equivalence on arbitrary nonnoetherian S is inferred from this bundle statement.
 
 ([FS][FS], Proposition II.2.7 and proof, pp. 66–67.)
 
@@ -878,10 +878,10 @@ Construct the trivial action, and the action from a finite discrete group when e
 
 **Checks.**
 
-- `continuousPhiAction_trivial`: The trivial group action is continuous and commutes with φ.
+- `continuousPhiAction_trivial`: The trivial group action is continuous and commutes with `φ`.
 - `continuousPhiAction_all_weights`: The criterion quantifies over all integers n, including negative and zero twists.
 - `continuousPhiAction_finite`: A finite discrete group acting by continuous semilinear automorphisms yields a continuous action.
-- `continuousPhiAction_requires_commutation`: A continuous module action that does not commute with φ does not restrict to the invariant spaces and is excluded.
+- `continuousPhiAction_requires_commutation`: A continuous module action that does not commute with `φ` does not restrict to the invariant spaces and is excluded.
 
 ([KL][KL], Definition 6.3.18, printed p. 143.)
 
@@ -905,11 +905,11 @@ In the relative KL setting choose a fixed analytic coefficient field L and two h
 
 #### Tensor global ampleness and rational-local ampleness
 
-For a finite locally free F on `X_S^alg`, GloballyAmple(F) means: for every finite-type quasi-coherent G, there exists N(G) such that `F^{⊗n}⊗G` is globally generated by finitely many sections for all `n≥N(G)`. Ample(F) means this on a strong rational covering of the perfectoid base. This is KL’s tensor-power bundle notion, not an unproved equivalence with projective-bundle ampleness or with pointwise positive slopes.
+For a finite locally free F on `X_S^alg`, `GloballyAmple(F)` means: for every finite-type quasi-coherent G, there exists `N(G)` such that `F^{⊗n}⊗G` is globally generated by finitely many sections for all `n≥N(G)`. `Ample(F)` means this on a strong rational covering of the perfectoid base. This is KL’s tensor-power bundle notion, not an unproved equivalence with projective-bundle ampleness or with pointwise positive slopes.
 
 **API.**
 
-- `BundleGloballyAmple`: ∀ finite-type G, eventually every `F^{⊗n}⊗G` is finitely globally generated.
+- `BundleGloballyAmple`: `∀` finite-type G, eventually every `F^{⊗n}⊗G` is finitely globally generated.
 - `BundleAmple`: Global ampleness after a strong rational cover of S.
 - `BundleGloballyAmple.iso`: The predicates are invariant under bundle isomorphism.
 - `BundleGloballyAmple.tensorPower`: Positive powers preserve and detect the predicate.
@@ -950,7 +950,7 @@ For every integer `e>0`, `O_alg(e)` is globally ample. Every finite-type quasi-c
 
 #### Cohomological criterion for tensor global ampleness
 
-For a bundle F on `X_S^alg` the following are equivalent: (a) F is globally ample; (b) for every finite-type quasi-coherent G, `H¹(F^{⊗n}⊗G)=0` for all sufficiently large n; (c) for every `e∈Z`, `H¹(F^{⊗n}(e))=0` for all sufficiently large n. Thresholds may depend on G or e. The implication (c)⇒(a) must produce one positive power independently of e, then apply the power criterion.
+For a bundle F on `X_S^alg` the following are equivalent: (a) F is globally ample; (b) for every finite-type quasi-coherent G, `H¹(F^{⊗n}⊗G)=0` for all sufficiently large n; (c) for every `e∈ℤ`, `H¹(F^{⊗n}(e))=0` for all sufficiently large n. Thresholds may depend on G or e. The implication `(c)⇒(a)` must produce one positive power independently of e, then apply the power criterion.
 
 ([KL][KL], Proposition 8.8.6 and proof, pp. 181–182.)
 
@@ -960,7 +960,7 @@ For a bundle F on `X_S^alg` the following are equivalent: (a) F is globally ampl
 
 #### Positive twists of globally étale bundles
 
-In the KL coefficient setting, if F corresponds to a Robba Frobenius module with a global finite locally free étale integral model, then for every integer `n>0`, `H¹(F(n))=0` and F(n) is globally ample. The global model hypothesis is stronger than pointwise purity. General-E specialization requires the normalized `VB−1` comparison; no converse to this theorem is asserted.
+In the KL coefficient setting, if F corresponds to a Robba Frobenius module with a global finite locally free étale integral model, then for every integer `n>0`, `H¹(F(n))=0` and `F(n)` is globally ample. The global model hypothesis is stronger than pointwise purity. General-E specialization requires the normalized `VB−1` comparison; no converse to this theorem is asserted.
 
 ([KL][KL], Corollary 8.8.7, p. 182.)
 
@@ -992,7 +992,7 @@ Twisting by `𝒪(1)` changes Frobenius invariants to eigenvalue `π`; reversing
 
 #### Stability of rational standard bundles
 
-For every `λ=d/h` in lowest terms, `O_{X_C}(λ)` is stable of rank h, degree d and slope `λ`. If a saturated subbundle F has rank `r<h` and degree s, then `s/r≤λ` by the `wedge/H⁰` argument; equality would force h|r and is impossible.
+For every `λ=d/h` in lowest terms, `O_{X_C}(λ)` is stable of rank h, degree d and slope `λ`. If a saturated subbundle F has rank `r<h` and degree s, then `s/r≤λ` by the `wedge/H⁰` argument; equality would force `h|r` and is impossible.
 
 ([FS][FS], Example II.2.11 and proof, p. 69.)
 
@@ -1002,7 +1002,7 @@ For every `λ=d/h` in lowest terms, `O_{X_C}(λ)` is stable of rank h, degree d 
 
 #### Fixed-slope abelian finite-length category
 
-For each `λ∈Q`, semistable bundles of slope `λ` together with the zero bundle form an E-linear abelian finite-length category. Its simple objects are the stable bundles. Kernels and cokernels inside this category are saturated bundle kernels and quotients; a nonzero map between stable equal-slope objects is an isomorphism. This statement precedes classification and does not yet identify all simple objects with `O(λ)`.
+For each `λ∈ℚ`, semistable bundles of slope `λ` together with the zero bundle form an E-linear abelian finite-length category. Its simple objects are the stable bundles. Kernels and cokernels inside this category are saturated bundle kernels and quotients; a nonzero map between stable equal-slope objects is an isomorphism. This statement precedes classification and does not yet identify all simple objects with `O(λ)`.
 
 ([FF][FF], Theorem 5.5.4 and Proposition 5.5.6, pp. 163–164.)
 
@@ -1012,7 +1012,7 @@ For each `λ∈Q`, semistable bundles of slope `λ` together with the zero bundl
 
 #### Base change of the geometric HN filtration
 
-For an extension of complete algebraically closed perfectoid fields C⊂C′, the pullback of every threshold HN piece is the corresponding threshold piece on `X_C′`. For finite separable E′/E of degree n, the finite coefficient curve map f satisfies `(f*V)^{≥λ}=f*(V^{≥λ/n})`; ranks are preserved and degrees/slopes multiply by n. In particular `f*O(1)=O(n)`. These are geometric-field and coefficient changes with different normalizations.
+For an extension of complete algebraically closed perfectoid fields `C⊂C′`, the pullback of every threshold HN piece is the corresponding threshold piece on `X_C′`. For finite separable `E′/E` of degree n, the finite coefficient curve map f satisfies `(f*V)^{≥λ}=f*(V^{≥λ/n})`; ranks are preserved and degrees/slopes multiply by n. In particular `f*O(1)=O(n)`. These are geometric-field and coefficient changes with different normalizations.
 
 ([FS][FS], Proposition II.2.13 and proof, pp. 69–70.)
 
@@ -1026,7 +1026,7 @@ The key extension lemma supplies a nonzero section after a geometric field exten
 
 #### Nonzero sections of the key rank-one extension
 
-Let C be complete algebraically closed and let `0→O(−1)→V→O(1/n)→0` be a bundle extension on `X_C`, `n≥1`. After an extension C′/C of complete algebraically closed perfectoid fields, `H⁰(X_C′,V)≠0`. The proof applies in both mixed and equal characteristic and does not require a prior claim that the negative Banach–Colmez quotient is nonperfectoid in equal characteristic.
+Let C be complete algebraically closed and let `0→O(−1)→V→O(1/n)→0` be a bundle extension on `X_C`, `n≥1`. After an extension `C′/C` of complete algebraically closed perfectoid fields, `H⁰(X_C′,V)≠0`. The proof applies in both mixed and equal characteristic and does not require a prior claim that the negative Banach–Colmez quotient is nonperfectoid in equal characteristic.
 
 ([FS][FS], Lemma II.2.15 and proof, pp. 71–72.)
 
@@ -1056,7 +1056,7 @@ For geometric standard bundles on `X_C^alg`, compute Ext in the abelian category
 
 #### Stable-bundle division endomorphism comparison
 
-The natural E-algebra map `End_Φ(D(−d,h))→End_{X_C}(O(d/h))` is an isomorphism for each reduced rational slope. Both identify with `D_{d/h}`, of dimension `h²` and invariant d/h mod Z. This full endomorphism comparison on one simple block coexists with the failure of full faithfulness between different slopes.
+The natural E-algebra map `End_Φ(D(−d,h))→End_{X_C}(O(d/h))` is an isomorphism for each reduced rational slope. Both identify with `D_{d/h}`, of dimension `h²` and invariant `d/h` mod `ℤ`. This full endomorphism comparison on one simple block coexists with the failure of full faithfulness between different slopes.
 
 ([FF][FF], Proposition 8.2.8 and proof, pp. 237–238.)
 
@@ -1104,7 +1104,7 @@ These are the early geometric constructions used in VB1. The crystalline `φ=π`
 
 #### Banach–Colmez section and hypercohomology sheaves
 
-For a perfectoid `S/𝔽_q` and a bundle E on `X_S`, `BC(E)(T)=H⁰(X_T,E_T)`. If E has only negative geometric slopes, `BCneg(E)(T)=H¹(X_T,E_T)`. For a complex `[E₁→E₀]` in COHOMOLOGICAL degrees `−1,0` with `H⁰(X_T,E₁,T)=0` for EVERY T/S, `BCcomplex(T)=H⁰ RΓ(X_T,[E₁→E₀]_T)`, the degree-zero hypercohomology v-sheaf. No representability is assumed. FS calls these homological degrees [0,1].
+For a perfectoid `S/𝔽_q` and a bundle E on `X_S`, `BC(E)(T)=H⁰(X_T,E_T)`. If E has only negative geometric slopes, `BCneg(E)(T)=H¹(X_T,E_T)`. For a complex `[E₁→E₀]` in COHOMOLOGICAL degrees `−1,0` with `H⁰(X_T,E₁,T)=0` for EVERY `T/S`, `BCcomplex(T)=H⁰ RΓ(X_T,[E₁→E₀]_T)`, the degree-zero hypercohomology v-sheaf. No representability is assumed. FS calls these homological degrees [0,1].
 
 S belongs to `Perf_Fq`; coefficients are the fixed local field E with uniformizer `π`. Derived v-descent is imported from the bundle and cohomology theory of VB1–VB2; the universal `H⁰` vanishing prevents negative cohomology of the section complex.
 
@@ -1113,7 +1113,7 @@ S belongs to `Perf_Fq`; coefficients are the fixed local field E with uniformize
 - `BC`: The v-sheaf `T↦H⁰(X_T,E_T)`.
 - `BCneg`: For universally negative slopes, `T↦H¹(X_T,E_T)`.
 - `BCcomplex`: Degree-zero hypercohomology of `[E₁→E₀]` in degrees `−1,0`, with universal `H⁰(E₁)` vanishing.
-- `BC.module`: BC(E), BCneg(E) and BCcomplex are sheaves of E-modules on `Perf_S`, E acting through `O_{X_T}`, and BC.map is E-linear. This scalar action is the one BCProjectivization divides out.
+- `BC.module`: `BC(E)`, `BCneg(E)` and BCcomplex are sheaves of E-modules on `Perf_S`, E acting through `O_{X_T}`, and BC.map is E-linear. This scalar action is the one BCProjectivization divides out.
 - `BC.map`: A bundle or complex map induces the corresponding E-linear map of v-sheaves; identity and composition are preserved.
 - `BC.exactSequence`: A short exact sequence `0→E′→E→E″→0` of bundles gives an exact sequence of E-module v-sheaves `0→BC(E′)→BC(E)→BC(E″)→H¹(E′)→H¹(E)→H¹(E″)→0` (Prop. II.2.1 and the two-term complex); for `[E₁→E₀]` with `E₁` universally negative it gives `0→BC(E₀)→BCcomplex→BCneg(E₁)→H¹(E₀)`.
 - `BC.baseChange`: For `U→S`, restriction of BCcomplex on `Perf_U` is BCcomplex of the pulled-back complex.
@@ -1123,7 +1123,7 @@ S belongs to `Perf_Fq`; coefficients are the fixed local field E with uniformize
 
 - `BCtest.zero`: The zero complex has zero BC v-sheaf.
 - `BCtest.single`: `BCcomplex([0→E])=BC(E)` and `BCcomplex([E→0])=BCneg(E)` when E is negative.
-- `BCtest.constantSections`: For S the disjoint union of two geometric points, `BC(O)(S)=E²`, not E; BC(O) is the constant SHEAF underline E.
+- `BCtest.constantSections`: For S the disjoint union of two geometric points, `BC(O)(S)=E²`, not E; `BC(O)` is the constant SHEAF underline E.
 - `BCtest.hypercohomology`: For `[O(−1)→0]` over a geometric point, `BCcomplex=H¹(O(−1))≠0` although the cokernel of the map of `H⁰` groups is zero.
 
 ([FS][FS], Definition I.3.5, p. 19; two-term definition after II.2.1, p. 58; [FS][FS], Two-term definition after Proposition II.2.1, p. 58.)
@@ -1134,9 +1134,9 @@ S belongs to `Perf_Fq`; coefficients are the fixed local field E with uniformize
 
 #### Lubin–Tate universal cover and sections of O(1)
 
-Let S `= Spa(R,R^+)` be affinoid perfectoid over `𝔽_q` with untilt `S^sharp` over E, and let `O_{X_S}(1)` correspond to `D(−1,1)`, with Frobenius `π⁻¹σ` after extending coefficients to L. For x in `R^{circ` circ}, the series sum over i in Z of `π^i [x^{q^{-i}}]` defines a natural isomorphism `G-tilde(R^{sharp+}) = R^{circ` circ} `→ H⁰(X_S`, `O(1)`) `= H⁰(Y_S`, `O_{Y_S})^{φ =` pi}, and the evaluation map `H⁰(X_S,O(1)) → R^sharp` at `S^sharp` is the logarithm map `log_G` : `G-tilde(R^{sharp+}) → G(R^{sharp+}) → R^sharp`.
+Let `S = Spa(R,R⁺)` be affinoid perfectoid over `𝔽_q` with untilt `S^♯` over E, and let `O_{X_S}(1)` correspond to `D(−1,1)`, with Frobenius `π⁻¹σ` after extending coefficients to L. For `x` in `R°°`, the series `Σ_{i∈ℤ} π^i [x^{q^(−i)}]` defines a natural isomorphism `G̃(R^{♯+}) = R°° → H⁰(X_S,O(1)) = H⁰(Y_S,O_{Y_S})^{φ = π}`, and the evaluation map `H⁰(X_S,O(1)) → R^♯` at `S^♯` is the logarithm map `log_G` : `G̃(R^{♯+}) → G(R^{♯+}) → R^♯`.
 
-G `= G_LT` is the Lubin-Tate formal `O_E`-module over `O_E-breve`, normalized by M `= W_{O_E}(k)` with F `=` sigma/pi in Dieudonne theory (with the SW20 renormalisation dividing F by p and base changing along W(k) `tensor_{ℤ_p} O_E → W_{O_E}(k)`); under this normalisation G is already defined over `O_E`. G-tilde `=` inverse limit of G along multiplication by pi, isomorphic to Spf `O_E[[X-tilde^{1/p^infty}]]`; for pi-adically complete A one has G-tilde(A) `=` G-tilde(A/pi) `= Hom_{O_E}(E/O_E`, G(A/pi))[1/pi] `=` the topologically nilpotent elements of `A^flat`. The equal-characteristic case is a direct power-series computation with the condition `r_i = r_{i+1}^q`. In mixed characteristic, construct the normalized crystalline comparison `B^{φ=π}_{R,[1,∞]}≃Hom_{O_E}(E/O_E,G(R^{♯+}/π))[1/π]` using R07.2. The SW13 full-faithfulness input applies after isogenies to f-semiperfect rings: Frobenius is surjective and its inverse limit has a finitely generated ideal of definition. Its integral version requires a quotient S/J with S perfect and J regular. Full faithfulness alone does not identify this Hom space with the displayed eigenspace. For compatibility with the explicit formula, SW13 Lemma 3.5.1 identifies the map G-tilde(R) `→ M(G)(S)[1/p]` coming from Dieudonne theory agrees with q log, proved by functoriality reduction to G `= ℚ_p/ℤ_p`. For the universal-cover shape use SW13 Proposition 3.1.3(iii): if R is perfect of characteristic p, G connected and Lie G free of dimension d, then G-tilde `=` Spf `R[[X_1^{1/p^infty}`, ..., `X_d^{1/p^infty}]]`.
+`G = G_LT` is the Lubin-Tate formal `O_E`-module over `O_Ĕ`, normalized by `M = W_{O_E}(k)` with `F = σ/π` in Dieudonne theory (with the SW20 renormalisation dividing F by p and base changing along `W(k) ⊗_{ℤ_p} O_E → W_{O_E}(k)`); under this normalisation G is already defined over `O_E`. `G̃ =` inverse limit of G along multiplication by `π`, isomorphic to Spf `O_E[[X̃^{1/p^∞}]]`; for `π`-adically complete A one has `G̃(A) = G̃(A/π) = Hom_{O_E}(E/O_E,G(A/π))[1/π] =` the topologically nilpotent elements of `A^♭`. The equal-characteristic case is a direct power-series computation with the condition `r_i = r_{i+1}^q`. In mixed characteristic, construct the normalized crystalline comparison `B^{φ=π}_{R,[1,∞]}≃Hom_{O_E}(E/O_E,G(R^{♯+}/π))[1/π]` using R07.2. The SW13 full-faithfulness input applies after isogenies to f-semiperfect rings: Frobenius is surjective and its inverse limit has a finitely generated ideal of definition. Its integral version requires a quotient `S/J` with S perfect and J regular. Full faithfulness alone does not identify this Hom space with the displayed eigenspace. For compatibility with the explicit formula, SW13 Lemma 3.5.1 identifies the map `G̃(R) → M(G)(S)[1/p]` coming from Dieudonne theory agrees with `q log`, proved by functoriality reduction to `G = ℚ_p/ℤ_p`. For the universal-cover shape use SW13 Proposition 3.1.3(iii): if R is perfect of characteristic p, G connected and Lie G free of dimension d, then `G̃ = Spf R[[X₁^{1/p^∞}, …, X_d^{1/p^∞}]]`.
 
 ([FS][FS], Proposition II.2.2, p. 60; [SW13][SW13], Theorem A, p. 3; [SW13][SW13], Proposition 3.1.3(iii), p. 22; [SW13][SW13], Lemma 3.5.1, p. 29.)
 
@@ -1146,9 +1146,9 @@ G `= G_LT` is the Lubin-Tate formal `O_E`-module over `O_E-breve`, normalized by
 
 #### The fundamental untilt sequence and degree-one divisors
 
-For any perfectoid S with untilt `S^sharp` over `E_infty`, the above construction gives an exact sequence 0 `→ O_{X_S} → O_{X_S}(1) → O_{S^sharp} →` 0 of `O_{X_S}`-modules. Consequently there is a well-defined map `BC(O(1))` minus {0} `→ Div¹` sending a nonzero section f to V(f), and it descends to an isomorphism (`BC(O(1))` minus `{0})/E^times = Div¹`. The scalar `E×`-torsor is the Lubin–Tate Tate-module torsor. Export it for the divisor-to-Weil-group comparison; the geometric section/divisor identity uses the stated Lubin–Tate and Cartier inputs.
+For any perfectoid S with untilt `S^♯` over `E_∞`, the above construction gives an exact sequence `0 → O_{X_S} → O_{X_S}(1) → O_{S^♯} → 0` of `O_{X_S}`-modules. Consequently there is a well-defined map `BC(O(1))∖{0} → Div¹` sending a nonzero section `f` to `V(f)`, and it descends to an isomorphism `(BC(O(1))∖{0})/E× = Div¹`. The scalar `E×`-torsor is the Lubin–Tate Tate-module torsor. Export it for the divisor-to-Weil-group comparison; the geometric section/divisor identity uses the stated Lubin–Tate and Cartier inputs.
 
-For II.2.3 the untilt `S^sharp` must be over `E_infty` (the completion of the union of the Lubin-Tate level fields `E_n`), not merely over E; this is what supplies the canonical nonzero section. The check that the map `O_{X_S} →` I(1) is an isomorphism is done on geometric points. The vanishing locus computation identifies the zeroes of the logarithm on `G-tilde^ad_E` minus {0} with the disjoint union over n of Spa `E_n`, each a simple zero. Corollary II.2.4 uses `BC(O(1)) =` Spd `𝔽_q[[X^{1/p^infty}]]`, so `BC(O(1))` minus {0} `=` Spa `𝔽_q((X^{1/p^infty})) =` Spd `E_infty`, and the map to `Div¹` is Spd `E_infty →` Spd E `→` Spd `E/φ^Z`, a quotient first by `O_E^times` and then by `π^Z`.
+For II.2.3 the untilt `S^♯` must be over `E_∞` (the completion of the union of the Lubin-Tate level fields `E_n`), not merely over E; this is what supplies the canonical nonzero section. The check that the map `O_{X_S} → I(1)` is an isomorphism is done on geometric points. The vanishing locus computation identifies the zeroes of the logarithm on `G̃^ad_E∖{0}` with the disjoint union over n of Spa `E_n`, each a simple zero. Corollary II.2.4 uses `BC(O(1)) = Spd 𝔽_q[[X^{1/p^∞}]]`, so `BC(O(1))∖{0} = Spa 𝔽_q((X^{1/p^∞})) = Spd E_∞`, and the map to `Div¹` is `Spd E_∞ → Spd E → Spd E/φ^ℤ`, a quotient first by `O_E×` and then by `π^ℤ`.
 
 ([FS][FS], Propositions II.2.3–II.2.4, pp. 60–61.)
 
@@ -1166,15 +1166,15 @@ W is an E-module v-sheaf; the zero section is closed in the locally spatial case
 
 - `BCProjectivization`: The v-sheaf quotient of punctured W by scalar `E×`.
 - `BCProjectivization.torsor`: `W×→PBC(W)` is an underline `E×` torsor.
-- `BCProjectivization.lift`: An `E×-invariant` map `W×→Z` descends uniquely to PBC(W).
+- `BCProjectivization.lift`: An `E×-invariant` map `W×→Z` descends uniquely to `PBC(W)`.
 - `BCProjectivization.baseChange`: Perfectoid base change commutes with scalar projectivization.
 
 **Checks.**
 
-- `BCProjectivizationTest.zero`: PBC(0) is empty.
-- `BCProjectivizationTest.line`: PBC(underline `E)=S`.
+- `BCProjectivizationTest.zero`: `PBC(0)` is empty.
+- `BCProjectivizationTest.line`: `PBC(underline E)=S`.
 - `BCProjectivizationTest.unitTwist`: `PBC(BC(O(1)))≅Div¹`, with the fundamental scalar torsor.
-- `BCProjectivizationTest.absolute`: Punctured `BC(O(d))` is spatial while its `π^Z-quotient` is not quasiseparated; ordinary properness does not imply total absolute spatiality.
+- `BCProjectivizationTest.absolute`: Punctured `BC(O(d))` is spatial while its `π^ℤ-quotient` is not quasiseparated; ordinary properness does not imply total absolute spatiality.
 
 ([FS][FS], Propositions II.2.16 and II.3.5, pp. 72,80.)
 
@@ -1188,9 +1188,9 @@ Ordinary section-sheaf properness uses positive generation and the contracting-a
 
 #### Quotients by contracting automorphisms
 
-Suppose X is locally spectral and taut, and the generalizations of each point are linearly ordered by specialization. An automorphism γ has a spectral fixed locus `X₀`. Assume that for every `x∈X` and every open neighborhood U of `X₀`, γⁿ(x) lies in U for all sufficiently large n, and that the negative orbit of every point outside `X₀` eventually avoids each quasicompact open of X. Then `X₀` is closed. On its complement, the `γ^Z`-action is free and totally discontinuous: its action map `(X∖X₀)×Z→(X∖X₀)²` is a closed immersion. The orbit space `(X∖X₀)/γ^Z` is spectral.
+Suppose X is locally spectral and taut, and the generalizations of each point are linearly ordered by specialization. An automorphism `γ` has a spectral fixed locus `X₀`. Assume that for every `x∈X` and every open neighborhood U of `X₀`, `γⁿ(x)` lies in U for all sufficiently large n, and that the negative orbit of every point outside `X₀` eventually avoids each quasicompact open of X. Then `X₀` is closed. On its complement, the `γ^ℤ`-action is free and totally discontinuous: its action map `(X∖X₀)×ℤ→(X∖X₀)²` is a closed immersion. The orbit space `(X∖X₀)/γ^ℤ` is spectral.
 
-X taut locally spectral; generalization sets totally ordered chains (automatic for locally spatial diamonds by ECD Prop. 11.19, and tautness holds if X is partially proper over a spatial diamond by ECD Prop. 18.10). `X_0` must be a spectral space, and both convergence conditions (i) and (ii) are needed. Total discontinuity is in the strong sense: the action map (X minus `X_0`) x Z `→` (X minus `X_0`) x (X minus `X_0`) is a closed immersion.
+X taut locally spectral; generalization sets totally ordered chains (automatic for locally spatial diamonds by ECD Prop. 11.19, and tautness holds if X is partially proper over a spatial diamond by ECD Prop. 18.10). `X_0` must be a spectral space, and both convergence conditions (i) and (ii) are needed. Total discontinuity is in the strong sense: the action map `(X∖X₀) × ℤ → (X∖X₀) × (X∖X₀)` is a closed immersion.
 
 ([FS][FS], Lemma II.2.17, pp. 72–74.)
 
@@ -1202,7 +1202,7 @@ X taut locally spectral; generalization sets totally ordered chains (automatic f
 
 For a bundle E on `X_S` with S perfectoid over `𝔽_q`, its section v-sheaf `BC(E)(T)=H⁰(X_T,E_T)` is a locally spatial diamond and is partially proper over S. Removing its zero section and taking the `E^×-quotient` yields a locally spatial diamond proper over S. Ampleness in II.2.6 and positive-twist geometry in II.2.5(iii) supply the proof without the bundle classification theorem.
 
-S may be assumed qcqs for the second part. The presentation 0 `→` E `→ O_{X_S}(n)^m → O_{X_S}(n')^{m'}` is obtained by applying Thm. II.2.6 to `E^dual` and dualising, with n, n' `>` 0 - the positivity of n, n' is what lets II.2.5(iii) apply. It suffices to treat (BC(E) minus `{0})/pi^Z` because the `O_E^times`-action is free, so ECD Proposition 11.24 (last part) applies. The contracting-action criterion is checked by formally reducing to `BC(O_{X_S}(n)^m)` and then to `A¹_{S^sharp}` by evaluating sections at a collection of untilts.
+S may be assumed qcqs for the second part. The presentation `0 → E → O_{X_S}(n)^m → O_{X_S}(n′)^{m′}` is obtained by applying Thm. II.2.6 to `E∨` and dualising, with `n, n′ > 0` - the positivity of `n, n′` is what lets II.2.5(iii) apply. It suffices to treat `(BC(E)∖{0})/π^ℤ` because the `O_E×`-action is free, so ECD Proposition 11.24 (last part) applies. The contracting-action criterion is checked by formally reducing to `BC(O_{X_S}(n)^m)` and then to `A¹_{S^♯}` by evaluating sections at a collection of untilts.
 
 ([FS][FS], Proposition II.2.16, p. 72.)
 
@@ -1242,7 +1242,7 @@ Let `S∈Perf_Fq`, E a bundle on `X_S` and `r≥1`. (a) If all HN slopes of E at
 
 For `[E₁→E₀]` in degrees `−1,0`, with `E₁` negative at every geometric point of S, BCcomplex is a locally spatial diamond partially proper over S; its punctured `E×-quotient` is locally spatial and proper over S. If `E₀` is everywhere strictly positive, `BCcomplex→S` is cohomologically smooth. In this positive range, `0→BC(E₀)→BCcomplex→BCneg(E₁)→0` is exact as E-module v-sheaves. Neither unpunctured absolute spatiality nor perfectoid representability is asserted.
 
-`E_1` must have only NEGATIVE slopes at all geometric points; this is what makes `H⁰(X_T,E_1) =` 0 (Prop. II.3.4(i)) so that the two-term complex has a well-defined `H_0`. Part (iii) additionally requires all slopes of `E_0` to be POSITIVE. All assertions are etale-local, in fact v-local, on S. The reduction replaces `[E_1 → E_0]` by a quasi-isomorphic `[E'_1 → O_{X_S}(-d)^m]` obtained from a surjection `O_{X_S}(-d)^m → E_0` with d `>` 0 given by Thm. II.2.6; `E'_1` still has only negative slopes. Separatedness of `BC(O_{X_S}(-d)^m[1])` from Prop. II.2.5(i) is used to reduce (i) and (ii) to `BC(E'_1[1])`.
+`E_1` must have only NEGATIVE slopes at all geometric points; this is what makes `H⁰(X_T,E₁) = 0` (Prop. II.3.4(i)) so that the two-term complex has a well-defined `H_0`. Part (iii) additionally requires all slopes of `E_0` to be POSITIVE. All assertions are etale-local, in fact v-local, on S. The reduction replaces `[E_1 → E_0]` by a quasi-isomorphic `[E'_1 → O_{X_S}(-d)^m]` obtained from a surjection `O_{X_S}(-d)^m → E_0` with `d > 0` given by Thm. II.2.6; `E'_1` still has only negative slopes. Separatedness of `BC(O_{X_S}(-d)^m[1])` from Prop. II.2.5(i) is used to reduce (i) and (ii) to `BC(E'_1[1])`.
 
 ([FS][FS], Proposition II.3.5, pp. 79–81.)
 
@@ -1252,7 +1252,7 @@ For `[E₁→E₀]` in degrees `−1,0`, with `E₁` negative at every geometric
 
 #### Dimension in the positive range
 
-For bundles `E₀,E₁` with `E₀` everywhere positive and `E₁` everywhere negative, the cohomologically smooth relative `BCcomplex([E₁→E₀])` has locally constant dimension `deg(E₀)−deg(E₁)`, componentwise. In particular a positive bundle E has BC dimension deg(E); a negative bundle has shifted BC dimension `−deg(E)`. Geometrically these are the first entries of the BC Dimension; height is `rank(E₀)−rank(E₁)`. Slope-zero section sheaves are locally profinite of dimension zero via the E-local-system equivalence.
+For bundles `E₀,E₁` with `E₀` everywhere positive and `E₁` everywhere negative, the cohomologically smooth relative `BCcomplex([E₁→E₀])` has locally constant dimension `deg(E₀)−deg(E₁)`, componentwise. In particular a positive bundle E has BC dimension `deg(E)`; a negative bundle has shifted BC dimension `−deg(E)`. Geometrically these are the first entries of the BC Dimension; height is `rank(E₀)−rank(E₁)`. Slope-zero section sheaves are locally profinite of dimension zero via the E-local-system equivalence.
 
 Use the canonical geometric degree and fixed coefficient field E. Diamond relative dimension is the cohomologically smooth dimension, not the rank or height; the numeric Dimension comparison is classical `ℚ_p` over fixed C.
 
@@ -1268,9 +1268,9 @@ Work on `Perf_k` and distinguish punctured absolute spatiality from relative spa
 
 #### Absolute Banach–Colmez spaces of isocrystals of one sign
 
-On the absolute site `Perf_k`, with k an algebraic closure of `𝔽_q`, take a nonzero isocrystal D whose slopes all have the same strict sign. If they are negative, put `W=BC(E(D))`; if positive, put `W=BC(E(D)[1])`. These choices reflect the reversal of slopes under E. The open punctured sheaf W∖{0} is a spatial diamond and is cohomologically smooth over the absolute base. The map `(W∖{0})/E^×→∗` is proper, cohomologically smooth, and representable in spatial diamonds. This relative representability condition does not make every absolute total quotient spatial: for positive d the `π^Z-quotient` of punctured `BC(O(d))` fails quasiseparatedness.
+On the absolute site `Perf_k`, with k an algebraic closure of `𝔽_q`, take a nonzero isocrystal D whose slopes all have the same strict sign. If they are negative, put `W=BC(E(D))`; if positive, put `W=BC(E(D)[1])`. These choices reflect the reversal of slopes under E. The open punctured sheaf `W∖{0}` is a spatial diamond and is cohomologically smooth over the absolute base. The map `(W∖{0})/E^×→∗` is proper, cohomologically smooth, and representable in spatial diamonds. This relative representability condition does not make every absolute total quotient spatial: for positive d the `π^ℤ-quotient` of punctured `BC(O(d))` fails quasiseparatedness.
 
-D has slopes of a single sign; mixed-sign isocrystals are not covered by this statement. One works on `Perf_k` with k algebraically closed. The proof of (i) chooses, by Dieudonne-Manin, a basis in which phi is E-rational and U `= φ^N` is diagonal with entries powers of pi for some N `>` 0 - i.e. D is DECENT in the sense of Rapoport-Zink Definition 1.8. Since U `= φ^N` and BC(D) (resp. BC(D[1])) is already defined on `Perf_Fq`, the action of U agrees with that of `Frob^N`. The hypotheses of Lemma II.2.17 are checked for `U⁻¹` (resp. U) after base change to Spa `𝔽_q((t^{1/p^∞}))`, because that lemma needs a spatial base; the quotient statement is translated back using that the absolute Frobenius acts trivially on topological spaces. Surjectivity of the sum map is checked on geometric points using Prop. II.2.9 (every element of `P_d` is a product of elements of `P_1`).
+D has slopes of a single sign; mixed-sign isocrystals are not covered by this statement. One works on `Perf_k` with k algebraically closed. The proof of (i) chooses, by Dieudonne-Manin, a basis in which `φ` is E-rational and `U = φ^N` is diagonal with entries powers of `π` for some `N > 0` - i.e. D is DECENT in the sense of Rapoport-Zink Definition 1.8. Since `U = φ^N` and `BC(D)` (resp. `BC(D[1])`) is already defined on `Perf_Fq`, the action of U agrees with that of `Frob^N`. The hypotheses of Lemma II.2.17 are checked for `U⁻¹` (resp. U) after base change to Spa `𝔽_q((t^{1/p^∞}))`, because that lemma needs a spatial base; the quotient statement is translated back using that the absolute Frobenius acts trivially on topological spaces. Surjectivity of the sum map is checked on geometric points using Prop. II.2.9 (every element of `P_d` is a product of elements of `P_1`).
 
 ([FS][FS], Proposition II.3.7, pp. 82–83.)
 
@@ -1280,7 +1280,7 @@ D has slopes of a single sign; mixed-sign isocrystals are not covered by this st
 
 #### Effective divisors and projective sections
 
-For `d≥1`, the already owned absolute divisor v-sheaf `Div^d` of degree-d relative Cartier divisors is `(BC(O(d))∖{0})/E^×`. It is proper over ∗, representable in spatial diamonds and cohomologically smooth. The sum map `(Div¹)^d→Div^d` is a quasi-pro-étale cover identifying `Div^d=(Div¹)^d/Σ_d` as v-sheaves; in particular `Div^d` is a diamond (ECD Propositions 11.4, 11.6).
+For `d≥1`, the already owned absolute divisor v-sheaf `Div^d` of degree-d relative Cartier divisors is `(BC(O(d))∖{0})/E^×`. It is proper over `∗`, representable in spatial diamonds and cohomologically smooth. The sum map `(Div¹)^d→Div^d` is a quasi-pro-étale cover identifying `Div^d=(Div¹)^d/Σ_d` as v-sheaves; in particular `Div^d` is a diamond (ECD Propositions 11.4, 11.6).
 
 Absolute curve over `k=𝔽̄_q`; coefficient field E as in FS; d positive integral.
 
@@ -1292,7 +1292,7 @@ Absolute curve over `k=𝔽̄_q`; coefficient field E as in FS; d positive integ
 
 #### Punctured absolute spaces and scalar quotients
 
-For `d≥1` on `Perf_k`, punctured `BC(O(d))` is a spatial diamond. Write `Q=(BC(O(d))∖{0})/π^Z`. Although Q is not quasiseparated, `Q→∗` is representable in spatial diamonds. The full scalar quotient identifies with `Div^d`, and `Div^d→∗` is both proper and representable in spatial diamonds. For equal-characteristic E, punctured positive absolute spaces, corresponding to negative isocrystal slopes, are perfectoid; the negative absolute spaces are spatial diamonds. For p-adic E the relative space `BC(O_{X_C}(−1)[1])` cannot be perfectoid, by the argument of FS II.2.15. The corresponding equal-characteristic assertion is left unresolved in footnote 5 of that source.
+For `d≥1` on `Perf_k`, punctured `BC(O(d))` is a spatial diamond. Write `Q=(BC(O(d))∖{0})/π^ℤ`. Although Q is not quasiseparated, `Q→∗` is representable in spatial diamonds. The full scalar quotient identifies with `Div^d`, and `Div^d→∗` is both proper and representable in spatial diamonds. For equal-characteristic E, punctured positive absolute spaces, corresponding to negative isocrystal slopes, are perfectoid; the negative absolute spaces are spatial diamonds. For p-adic E the relative space `BC(O_{X_C}(−1)[1])` cannot be perfectoid, by the argument of FS II.2.15. The corresponding equal-characteristic assertion is left unresolved in footnote 5 of that source.
 
 Use punctured spaces throughout; absolute spatiality and relative spatial representability are different assertions.
 
@@ -1304,7 +1304,7 @@ Use punctured spaces throughout; absolute spatiality and relative spatial repres
 
 #### Quaternion presentation of negative Banach–Colmez space
 
-Over `Perf_k`, the absolute punctured `BC(O(−1)[1])∖{0}` classifies extensions `0→O(−1)→E→O→0` that are non-split fiberwise; geometrically `E≅O(−1/2)`. It identifies with `(BC(O(1/2))∖{0})/SL₁(D)`, where D is the quaternion division algebra over E (invariant 1/2) and `SL₁(D)` its reduced-norm-one group. After base change to Spa C with a chosen untilt C♯/E, `BC(O(−1)[1])×_k` Spa `C≅(A¹_{C♯})^♢/E` and the punctured space becomes `(Ω_{C♯})^♢/E` with Ω `= A¹_E∖E = P¹_E∖P¹(E)`. The latter description uses the untilt and is not an identification with a perfectoid quotient space.
+Over `Perf_k`, the absolute punctured `BC(O(−1)[1])∖{0}` classifies extensions `0→O(−1)→E→O→0` that are non-split fiberwise; geometrically `E≅O(−1/2)`. It identifies with `(BC(O(1/2))∖{0})/SL₁(D)`, where D is the quaternion division algebra over E (invariant 1/2) and `SL₁(D)` its reduced-norm-one group. After base change to Spa C with a chosen untilt `C♯/E`, `BC(O(−1)[1])×_k Spa C≅(A¹_{C♯})^♢/E` and the punctured space becomes `(Ω_{C♯})^♢/E` with `Ω = A¹_E∖E = P¹_E∖P¹(E)`. The latter description uses the untilt and is not an identification with a perfectoid quotient space.
 
 The nonzero extension has fixed determinant; the acting group is `SL₁(D)`, not `D×`.
 
@@ -1332,14 +1332,14 @@ The sympathetic-algebra targets in this subsection use the fixed-C, countable-re
 
 #### Sympathetic Vector Spaces
 
-Use the category of connected spectral C-Banach algebras whose p-power map is onto the open unit neighborhood of 1. CN further require faithful evaluation on C-valued spectral points and a dense C-linear subspace with a countable basis. Write `O_Λ` for the unit ball. These extra requirements exclude the spherical-closure example in footnote 6 and permit the Hahn–Banach arguments under the standing countability assumption. A sympathetic Vector Space is a covariant functor from this category to `ℚ_p`-vector spaces. Exactness means exactness after evaluation at each algebra Λ.
+Use the category of connected spectral C-Banach algebras whose p-power map is onto the open unit neighborhood of 1. CN further require faithful evaluation on C-valued spectral points and a dense C-linear subspace with a countable basis. Write `O_Λ` for the unit ball. These extra requirements exclude the spherical-closure example in footnote 6 and permit the Hahn–Banach arguments under the standing countability assumption. A sympathetic Vector Space is a covariant functor from this category to `ℚ_p`-vector spaces. Exactness means exactness after evaluation at each algebra `Λ`.
 
 **API.**
 
 - `SympatheticVS`: A covariant functor from the stated sympathetic C-Banach algebras to ModuleCat `ℚ_p`.
 - `SympatheticVS.constant`: The constant functor of a finite-dimensional `ℚ_p` vector space.
 - `SympatheticVS.additive`: `V_d` evaluates to `Λ^d` and maps by the C-algebra homomorphism in every coordinate.
-- `SympatheticVS.exact`: A short complex is short exact iff its evaluated ModuleCat complex is short exact at every Λ.
+- `SympatheticVS.exact`: A short complex is short exact iff its evaluated ModuleCat complex is short exact at every `Λ`.
 - `SympatheticVS.periodTargets`: Construct the functorial period objects `B_dR⁺(Λ)`, `B_dR(Λ)` and `B_m(Λ)` on sympathetic algebras using the theta-kernel completion; compare them with PadicHodgeTheory §§0.2–0.3 and 2.2 on its field and perfectoid-chart domains. Prove compatibility with algebra maps, quotient by the Cartier parameter, finite direct sums and the stated evaluations at `C`. This is the sympathetic-algebra extension beyond the supplier domain.
 
 **Checks.**
@@ -1364,7 +1364,7 @@ A sympathetic Vector Space W admits a finite Banach–Colmez presentation when s
 - `BCPresentation`: Y and exact `0→V₁→Y→V_d→0`, `0→V₂→Y→W→0` with finite `ℚ_p` spaces `V₁,V₂`.
 - `BCPresentation.dim`: The natural number d.
 - `BCPresentation.height`: The integer `finrank_Qp(V₁)−finrank_Qp(V₂)`.
-- `BCPresentation.dimension`: The pair (d,height) is independent of the presentation by DimensionAbelian.
+- `BCPresentation.dimension`: The pair (`d,h`eight) is independent of the presentation by DimensionAbelian.
 - `BCPresentation.stabilize`: Adding the same finite `ℚ_p` vector space to `Y,V₁,V₂` gives another presentation of W and the same Dimension.
 
 **Checks.**
@@ -1382,7 +1382,7 @@ A sympathetic Vector Space W admits a finite Banach–Colmez presentation when s
 
 #### Exact faithful Banach realization
 
-Evaluation at C is faithful on BC objects. Evaluation at any sympathetic algebra Λ gives a `ℚ_p-Banach` space; BC morphisms evaluate to continuous strict linear maps, and BC short exact sequences evaluate to strict short exact sequences. Nonetheless, the topology of W(C) alone cannot recover Dimension: C and `C⊕ℚ_p` have isomorphic topological `ℚ_p`-vector spaces but different BC Dimensions.
+Evaluation at C is faithful on BC objects. Evaluation at any sympathetic algebra `Λ` gives a `ℚ_p-Banach` space; BC morphisms evaluate to continuous strict linear maps, and BC short exact sequences evaluate to strict short exact sequences. Nonetheless, the topology of `W(C)` alone cannot recover Dimension: C and `C⊕ℚ_p` have isomorphic topological `ℚ_p`-vector spaces but different BC Dimensions.
 
 ([CN (author copy)][CN-author], Remark 3.1, p. 13; [FF][FF], §8.4.1, main text pp. 245–247.)
 
@@ -1392,7 +1392,7 @@ Evaluation at C is faithful on BC objects. Evaluation at any sympathetic algebra
 
 #### Dimension and the abelian BC category
 
-BC is an abelian category. The presentation invariant `Dim=(dim,ht)` is well defined and additive in short exact sequences. In particular, any BC map f has BC kernel, image and cokernel, with `Dim(W₁)=Dim(ker f)+Dim(im` f) and `Dim(W₂)=Dim(im f)+Dim(coker` f). A zero-dimensional object has nonnegative height. If W is built from an increasing filtration with `V₁` as every successive quotient, each BC subobject of W also has nonnegative height.
+BC is an abelian category. The presentation invariant `Dim=(dim,ht)` is well defined and additive in short exact sequences. In particular, any BC map f has BC kernel, image and cokernel, with `Dim(W₁)=Dim(ker f)+Dim(im f)` and `Dim(W₂)=Dim(im f)+Dim(coker f)`. A zero-dimensional object has nonnegative height. If W is built from an increasing filtration with `V₁` as every successive quotient, each BC subobject of W also has nonnegative height.
 
 ([CN (author copy)][CN-author], Proposition 3.2, p. 13; [FF][FF], Preface, Theorem 2.12(i)–(ii), printed pp. 16–17.)
 
@@ -1402,7 +1402,7 @@ BC is an abelian category. The presentation invariant `Dim=(dim,ht)` is well def
 
 #### Dimensions of standard Banach–Colmez spaces
 
-For integers `h≥1`, `d∈Z` and `m≥1`, the period objects `B_m=B⁺_dR/t^m` and `U_{h,d}` belong to BC. Their Dimensions are `Dim(B_m)=(m,0)`, `Dim(U_{h,d})=(d,h)` for `d≥0`, and `Dim(U_{h,d})=(−d,−h)` for `d<0`. In particular `U_{1,0}=ℚ_p` has Dimension (0,1); the zero-slope case is retained in the nonnegative branch.
+For integers `h≥1`, `d∈ℤ` and `m≥1`, the period objects `B_m=B⁺_dR/t^m` and `U_{h,d}` belong to BC. Their Dimensions are `Dim(B_m)=(m,0)`, `Dim(U_{h,d})=(d,h)` for `d≥0`, and `Dim(U_{h,d})=(−d,−h)` for `d<0`. In particular `U_{1,0}=ℚ_p` has Dimension (0,1); the zero-slope case is retained in the nonnegative branch.
 
 ([CN (author copy)][CN-author], Example 3.3, p. 13.)
 
@@ -1452,7 +1452,7 @@ Use five curvature classes for `W∈BC`. Positive curvature means `Hom(W,V₁)=0
 - `BCCurvature.nonnegative`: `Hom_VS(W,BdR⁺)=0`.
 - `BCCurvature.affine`: A finite filtration with `V₁` quotients.
 - `BCCurvature.negative`: An injection into `(BdR⁺)^d` for some finite d, equivalently `BdR^d`.
-- `BCCurvature.nonpositive`: An injection into a VS carrying a BdR⁺-Module structure.
+- `BCCurvature.nonpositive`: An injection into a VS carrying a `B_dR⁺`-Module structure.
 - `BCCurvature.iso`: Every curvature predicate is invariant under BC isomorphism.
 
 For a supplied abelian category and additive object `Ga`, the light predicate `AffineClosure Ga` is the closure of zero and `Ga` under isomorphisms and successive short exact extensions with quotient `Ga`. It is the finite-filtration definition of affine curvature, rather than a condition on one numerical height. The other light predicates use the actual chosen `Ga`, period object, finite powers and restriction-of-scalars functor. Instantiate them with the sympathetic period objects only after their construction. (CN author copy Definition 3.5, p. 13.)
@@ -1544,7 +1544,7 @@ On the tilted coherent heart, assign `rk⁻([E₋₁→E₀])=deg(E₀)−deg(E�
 
 #### HN decomposition and connected components
 
-The object `U₀=ℚ_p` has BC slope `−∞`. The diamond realization of W identifies its identity component with `W_{>−∞}` and its component quotient `W_{−∞}` with the maximal étale quotient, a finite-dimensional `ℚ_p-space`. The BC HN filtration admits a noncanonical splitting. Consequently `W≅(⊕_i U_{−1/λ_i})⊕(⊕_x H⁰(X,F_x)`), where `λ_i∈Q∪{−∞}` are nonzero and the torsion sheaves `F_x` have finite support. Each `U_{−1/λ_i}` has BC slope `λ_i`; each nonzero torsion summand has BC slope 0. These are precisely the slopes of W. In the hypercohomology sequence of §3.2.4, the `H¹(X,E_{−1})` term is the positive-slope HN subobject of `BC([E_{−1}→E₀])`.
+The object `U₀=ℚ_p` has BC slope `−∞`. The diamond realization of W identifies its identity component with `W_{>−∞}` and its component quotient `W_{−∞}` with the maximal étale quotient, a finite-dimensional `ℚ_p-space`. The BC HN filtration admits a noncanonical splitting. Consequently `W≅(⊕_i U_{−1/λ_i})⊕(⊕_x H⁰(X,F_x))`, where `λ_i∈ℚ∪{−∞}` are nonzero and the torsion sheaves `F_x` have finite support. Each `U_{−1/λ_i}` has BC slope `λ_i`; each nonzero torsion summand has BC slope 0. These are precisely the slopes of W. In the hypercohomology sequence of §3.2.4, the `H¹(X,E_{−1})` term is the positive-slope HN subobject of `BC([E_{−1}→E₀])`.
 
 ([CN (author copy)][CN-author], Remark 3.13 and (3.14), p. 16.)
 
@@ -1554,7 +1554,7 @@ The object `U₀=ℚ_p` has BC slope `−∞`. The diamond realization of W iden
 
 #### Canonical curvature filtration
 
-The canonical curvature filtration of a BC object W is uniquely specified by `W_{>0}⊂W_{≥0}⊂W`: the subobject has curvature `>0`, the middle quotient has curvature 0, and the final quotient has curvature `<0`. Define `W_{>0}=∩_{m≥1`, `f:W→B_m}ker` f and `W_{≥0}=∩_{f:W→B_dR}ker` f. The HN description verifies the middle quotient condition. Set `W_{≤0}=W/W_{>0}` and `W_{=0}=W_{≥0}/W_{>0}`; they are respectively the maximal nonpositive-curvature quotient and its maximal affine subobject. In the decomposition (3.14), `W_{>0}` consists of the `U_{−1/λ_i}` with `λ_i>0` together with all `H⁰(X,F_x)` for `x≠∞`; `W_{≤0}` consists of the `U_{−1/λ_i}` with `λ_i<0` and `H⁰(X,F_∞)`. Thus `W_{<0}=⊕_{λ_i<0}U_{−1/λ_i}` and `W_{=0}=H⁰(X,F_∞)`. Strictly negative curvature is equivalent to strictly negative BC HN slopes; strictly positive BC HN slopes imply positive curvature. This is Plût’s filtration, described through Le Bras’s HN equivalence.
+The canonical curvature filtration of a BC object W is uniquely specified by `W_{>0}⊂W_{≥0}⊂W`: the subobject has curvature `>0`, the middle quotient has curvature 0, and the final quotient has curvature `<0`. Define `W_{>0}=∩_{m≥1, f:W→B_m}ker f` and `W_{≥0}=∩_{f:W→B_dR}ker f`. The HN description verifies the middle quotient condition. Set `W_{≤0}=W/W_{>0}` and `W_{=0}=W_{≥0}/W_{>0}`; they are respectively the maximal nonpositive-curvature quotient and its maximal affine subobject. In the decomposition (3.14), `W_{>0}` consists of the `U_{−1/λ_i}` with `λ_i>0` together with all `H⁰(X,F_x)` for `x≠∞`; `W_{≤0}` consists of the `U_{−1/λ_i}` with `λ_i<0` and `H⁰(X,F_∞)`. Thus `W_{<0}=⊕_{λ_i<0}U_{−1/λ_i}` and `W_{=0}=H⁰(X,F_∞)`. Strictly negative curvature is equivalent to strictly negative BC HN slopes; strictly positive BC HN slopes imply positive curvature. This is Plût’s filtration, described through Le Bras’s HN equivalence.
 
 **API.**
 
@@ -1592,7 +1592,7 @@ For every coherent sheaf F on the geometric curve, `ht(H⁰(X,F))−ht(H¹(X,F))
 
 #### Artinian property of BC
 
-Every descending chain `W₀` ⊇ `W₁` ⊇ ⋯ of BC subobjects stabilizes. In the dimension-height argument, `dim(W_n)` first becomes constant; the quotients `W_N/W_n` then have dimension zero and come from the maximal finite `ℚ_p` quotient of `W_N`, so their heights are bounded and eventually constant. A second argument reduces via a presentation to `V_d` and inducts on d: a proper subobject of `V₁` is finite-dimensional over `ℚ_p`. The latter argument also proves the artinian property for almost C-representations.
+Every descending chain `W₀ ⊇ W₁ ⊇ ⋯` of BC subobjects stabilizes. In the dimension-height argument, `dim(W_n)` first becomes constant; the quotients `W_N/W_n` then have dimension zero and come from the maximal finite `ℚ_p` quotient of `W_N`, so their heights are bounded and eventually constant. A second argument reduces via a presentation to `V_d` and inducts on d: a proper subobject of `V₁` is finite-dimensional over `ℚ_p`. The latter argument also proves the artinian property for almost C-representations.
 
 ([CN (author copy)][CN-author], Remark 3.15, p. 16.)
 
@@ -1686,7 +1686,7 @@ Negative/nonpositive curvature is preserved by sub-BCs; positive/nonnegative cur
 
 #### Height of torsion period subobjects
 
-For any BC inclusion U⊂W with W a torsion `B⁺_dR-Module`, ht(U) is nonnegative. Equality holds precisely when U is itself a torsion `B⁺_dR-Module`. An alternative to HN theory is induction on the length of W: subobjects of `V₁` are `V₁` or finite-dimensional `ℚ_p-spaces`, and the period-module class is extension closed. With Proposition 2.5, the same induction applies to almost C-representations.
+For any BC inclusion `U⊂W` with W a torsion `B⁺_dR-Module`, `ht(U)` is nonnegative. Equality holds precisely when U is itself a torsion `B⁺_dR-Module`. An alternative to HN theory is induction on the length of W: subobjects of `V₁` are `V₁` or finite-dimensional `ℚ_p-spaces`, and the period-module class is extension closed. With Proposition 2.5, the same induction applies to almost C-representations.
 
 ([CN (author copy)][CN-author], Remark 3.22, p. 19.)
 
@@ -1696,7 +1696,7 @@ For any BC inclusion U⊂W with W a torsion `B⁺_dR-Module`, ht(U) is nonnegati
 
 #### Cokernel of a generating period-module image
 
-Suppose f : `W₁ → W₂` is a BC morphism, `W₂` is a finite-length BdR⁺-module, and the BdR⁺-span of im(f) equals `W₂`. Any nonzero BC cokernel of f has positive curvature and negative height. After quotienting `W₁` by `ker(f)`, represent f by a coherent map `F₁ → F₂` on X with `H¹(F_i)=0` and `F₂` supported at `∞`. Generation implies surjectivity of this coherent map, while injectivity on BC sections gives `H⁰(ker(F₁ → F₂))=0`. Its cohomology sequence identifies the BC cokernel with `H¹` of that kernel. A nonzero cokernel excludes the torsion case, where the BdR⁺-linear map would already be surjective on sections; the kernel is therefore a nonzero bundle with strictly negative slopes. Its `H¹` has the asserted curvature and height.
+Suppose f : `W₁ → W₂` is a BC morphism, `W₂` is a finite-length `B_dR⁺`-module, and the `B_dR⁺`-span of `im(f)` equals `W₂`. Any nonzero BC cokernel of f has positive curvature and negative height. After quotienting `W₁` by `ker(f)`, represent f by a coherent map `F₁ → F₂` on X with `H¹(F_i)=0` and `F₂` supported at `∞`. Generation implies surjectivity of this coherent map, while injectivity on BC sections gives `H⁰(ker(F₁ → F₂))=0`. Its cohomology sequence identifies the BC cokernel with `H¹` of that kernel. A nonzero cokernel excludes the torsion case, where the `B_dR⁺`-linear map would already be surjective on sections; the kernel is therefore a nonzero bundle with strictly negative slopes. Its `H¹` has the asserted curvature and height.
 
 ([CN (author copy)][CN-author], Proposition 3.23, p. 19.)
 
@@ -1746,7 +1746,7 @@ The upper polygon convention is the one of VB1. Proper projectivized ordinary BC
 
 #### Upper semicontinuity of geometric HN polygons
 
-For a constant-rank n bundle E on `X_S`, the concave HN polygon, horizontal coordinate rank and decreasing slopes repeated with their ranks, is upper semicontinuous on |S|: for every `x∈[0,n]` its ordinate is upper semicontinuous. Rank and total degree are locally constant. This is FS II.2.19(i), including equal-characteristic coefficient fields. The polygon is the UPPER boundary of the convex hull of the exterior-power section points; do not replace it by KL’s convex lower polygon.
+For a constant-rank n bundle E on `X_S`, the concave HN polygon, horizontal coordinate rank and decreasing slopes repeated with their ranks, is upper semicontinuous on `|S|`: for every `x∈[0,n]` its ordinate is upper semicontinuous. Rank and total degree are locally constant. This is FS II.2.19(i), including equal-characteristic coefficient fields. The polygon is the UPPER boundary of the convex hull of the exterior-power section points; do not replace it by KL’s convex lower polygon.
 
 S is perfectoid over `𝔽_q`; rank n is constant on the component considered. Geometric-point values are invariant under extension of the complete algebraically closed field.
 
@@ -1758,7 +1758,7 @@ S is perfectoid over `𝔽_q`; rank n is constant on the component considered. G
 
 #### Relative HN filtration and pro-étale splitting
 
-Assume the HN polygon of E is constant on S. Then there exists a global separated exhaustive decreasing Harder-Narasimhan filtration `E^{≥` lambda} in E specialising to the HN filtration at each point; and after replacing S by a PRO-ETALE cover the filtration can be split, with isomorphisms `E^lambda = O_{X_S}(lambda)^{n_lambda}` for integers `n_lambda ≥` 0.
+Assume the HN polygon of E is constant on S. Then there exists a global separated exhaustive decreasing Harder-Narasimhan filtration `E^{≥λ}` in E specialising to the HN filtration at each point; and after replacing S by a PRO-ETALE cover the filtration can be split, with isomorphisms `E^λ = O_{X_S}(λ)^{n_λ}` for integers `n_λ ≥ 0`.
 
 S is perfectoid over `𝔽_q`, the bundle has constant rank and constant geometric HN polygon. Splitting is PRO-ÉTALE local; it is not asserted étale local or globally split.
 
@@ -1772,7 +1772,7 @@ S is perfectoid over `𝔽_q`, the bundle has constant rank and constant geometr
 
 There is an exact tensor equivalence between finite-rank pro-étale E-local systems on S and vector bundles on `X_S` whose EVERY geometric HN slope is zero, via `L↦L⊗_E O_X`. The quasi-inverse is `T↦H⁰(X_T,E_T)`; it commutes with perfectoid base change and coefficient extension with its normalized Frobenius. Locally constant rank is handled componentwise. Total degree zero alone does not suffice.
 
-Every geometric fibre is semistable of slope zero. On each component of locally constant rank its HN polygon is therefore the fixed zero polygon. Fibrewise triviality does not trivialize the descent datum globally. Full faithfulness is proved by pro-étale descent, reducing to L trivial, and then by Prop. II.2.5(ii): `H⁰(X_S,O)=underline` E(S), the locally constant E-valued functions on |S|, and `RΓ(X_S,O)=RΓ_proét(S,E)`. Essential surjectivity is Thm. II.2.19(ii) applied with a single slope 0. A local system is not the same as a globally trivial bundle: the descent datum is the content.
+Every geometric fibre is semistable of slope zero. On each component of locally constant rank its HN polygon is therefore the fixed zero polygon. Fibrewise triviality does not trivialize the descent datum globally. Full faithfulness is proved by pro-étale descent, reducing to L trivial, and then by Prop. II.2.5(ii): `H⁰(X_S,O)=underline E(S)`, the locally constant E-valued functions on `|S|`, and `RΓ(X_S,O)=RΓ_proét(S,E)`. Essential surjectivity is Thm. II.2.19(ii) applied with a single slope 0. A local system is not the same as a globally trivial bundle: the descent datum is the content.
 
 ([FS][FS], Corollary II.2.20, p. 75.)
 
@@ -1782,7 +1782,7 @@ Every geometric fibre is semistable of slope zero. On each component of locally 
 
 #### Slope-dependent cohomology vanishing
 
-For a bundle E on `X_S`: everywhere negative slopes imply `H⁰(X_S,E)=0`, universally after perfectoid base change; everywhere nonnegative slopes imply `H¹(X_S,E)=0` after some pro-étale cover of S; everywhere positive slopes imply an étale cover `S′→S` such that `H¹(X_T,E_T)=0` for EVERY affinoid perfectoid T/S′. The second assertion is local vanishing of cohomology, not vanishing on every original S.
+For a bundle E on `X_S`: everywhere negative slopes imply `H⁰(X_S,E)=0`, universally after perfectoid base change; everywhere nonnegative slopes imply `H¹(X_S,E)=0` after some pro-étale cover of S; everywhere positive slopes imply an étale cover `S′→S` such that `H¹(X_T,E_T)=0` for EVERY affinoid perfectoid `T/S′`. The second assertion is local vanishing of cohomology, not vanishing on every original S.
 
 `S∈Perf_Fq`; slope assertions hold at all geometric points.
 
@@ -1808,23 +1808,23 @@ For a `φ^a`-module M over `ℛ̃_R`, write `M_r` for its radius-r model. A basi
 
 #### Pure models and purity loci
 
-Choose integers c,d with `d>0` and a|d. For a `φ^a`-module M, let `A₀=W(R)` when M has `ℰ̃_R` coefficients, and `A₀=ℛ̃^int_R` for bounded or full Robba coefficients. A (c,d)-pure model is an `A₀-submodule M₀⊂M` satisfying three conditions: there exist a finitely generated `A₀-submodule N₀⊂M` and `n≥0` with `p^nM₀⊂N₀` and `p^nN₀⊂M₀`; extension from `A₀` to the coefficient ring identifies `M₀` with M; and the Frobenius on M restricts to an isomorphism `(p^cφ^d)^*M₀≅M₀`. Thus boundedness means commensurability with a finitely generated submodule, and the required stability is under `φ^d` after inverting p, without imposing `φ^a-stability` at this point (Remark 7.3.2). Such a model implies pointwise slope c/d. The adjectives free and locally free refer to finite free and finite locally free `A₀`-modules; finite presentation implies local freeness. A local model at β is a model after rational localization `R→R′` through a neighborhood of β. Lemma 7.3.3 equates existence of free and locally free local models, and for bounded Robba coefficients allows this existence test after extension to `ℰ̃_R`. Define purity of slope s at β by existence of a locally free local model with `c/d=s`; for nonzero rank `s=μ(M,β)`, while rank zero is pure of every slope. Purity means this condition at every β; compactness then gives finitely many local models. Étaleness is slope-zero purity, and an étale model has `c=0`. Global purity requires a locally free model over the original base. Distinguish five properties: (a) global purity; (b) existence of a pure model; (c) purity; (d) existence of local pure models; (e) pointwise purity. For `ℰ̃_R` and `ℛ̃^bd_R`, properties (b),(c),(d),(e) are equivalent, whereas (a) is stronger. For `ℛ̃_R`, the equivalent properties are (c),(d),(e), with (b) stronger and (a) stronger still. KL Corollaries 7.3.9 and 8.5.14 supply the equivalences. Examples 8.5.17 and 8.5.18 distinguish the global conditions, with the stronger bounded-ring interpretation of the nodal example requiring its own patching argument. Extension from `ℛ̃^bd_R` to `ℛ̃_R` does not detect purity over the bounded coefficient ring.
+Choose integers `c,d` with `d>0` and `a|d`. For a `φ^a`-module M, let `A₀=W(R)` when M has `ℰ̃_R` coefficients, and `A₀=ℛ̃^int_R` for bounded or full Robba coefficients. A `(c,d)`-pure model is an `A₀-submodule M₀⊂M` satisfying three conditions: there exist a finitely generated `A₀-submodule N₀⊂M` and `n≥0` with `p^nM₀⊂N₀` and `p^nN₀⊂M₀`; extension from `A₀` to the coefficient ring identifies `M₀` with M; and the Frobenius on M restricts to an isomorphism `(p^cφ^d)^*M₀≅M₀`. Thus boundedness means commensurability with a finitely generated submodule, and the required stability is under `φ^d` after inverting p, without imposing `φ^a-stability` at this point (Remark 7.3.2). Such a model implies pointwise slope `c/d`. The adjectives free and locally free refer to finite free and finite locally free `A₀`-modules; finite presentation implies local freeness. A local model at `β` is a model after rational localization `R→R′` through a neighborhood of `β`. Lemma 7.3.3 equates existence of free and locally free local models, and for bounded Robba coefficients allows this existence test after extension to `ℰ̃_R`. Define purity of slope s at `β` by existence of a locally free local model with `c/d=s`; for nonzero rank `s=μ(M,β)`, while rank zero is pure of every slope. Purity means this condition at every `β`; compactness then gives finitely many local models. Étaleness is slope-zero purity, and an étale model has `c=0`. Global purity requires a locally free model over the original base. Distinguish five properties: (a) global purity; (b) existence of a pure model; (c) purity; (d) existence of local pure models; (e) pointwise purity. For `ℰ̃_R` and `ℛ̃^bd_R`, properties (b),(c),(d),(e) are equivalent, whereas (a) is stronger. For `ℛ̃_R`, the equivalent properties are (c),(d),(e), with (b) stronger and (a) stronger still. KL Corollaries 7.3.9 and 8.5.14 supply the equivalences. Examples 8.5.17 and 8.5.18 distinguish the global conditions, with the stronger bounded-ring interpretation of the nodal example requiring its own patching argument. Extension from `ℛ̃^bd_R` to `ℛ̃_R` does not detect purity over the bounded coefficient ring.
 
 **API.**
 
 - `PureModel`: A bounded integral submodule generating the ambient Frobenius module, with `p^cφ^d` linearization invertible.
 - `PureModel.lattice`: The integral lattice is a Submodule of the restricted-scalars module, with its actual inclusion.
 - `PureModel.baseChange`: Rational localization transports the pure model, its boundedness and its Frobenius isomorphism.
-- `PureModel.etale`: A (0,d)-pure model is an étale model; globally pure means a globally finite locally free such model.
-- `PureModel.fibreSlope`: On a nonzero fibre a (c,d)-pure model forces the Robba slope c/d, with `p^cφ^d=1` on a trivializing basis.
+- `PureModel.etale`: A `(0,d)`-pure model is an étale model; globally pure means a globally finite locally free such model.
+- `PureModel.fibreSlope`: On a nonzero fibre a `(c,d)`-pure model forces the Robba slope `c/d`, with `p^cφ^d=1` on a trivializing basis.
 
 For the lattice obstruction `no_bounded_stable_lattice`, let `R` be a commutative ring, `Kp` a normed field with an `R`-algebra structure, and `V` a nontrivial normed `Kp`-space whose restricted `R`-module structure satisfies the scalar-tower equation. If `p ∈ Kp` is nonzero with `‖p‖ ≠ 1`, there is no bounded `R`-submodule `N ⊂ V` with `Kp`-span equal to `V` on which multiplication by `p` is bijective. A nonzero vector in `N` would have all its positive and negative scalar iterates in a bounded set, while one direction has unbounded norm. This is the normed linear obstruction used by the monodromy check, distinct from identifying the period-ring lattice itself. (KL Examples 8.5.17–8.5.18, pp. 174–175.)
 
 **Checks.**
 
-- `PureModelTest.unit`: The trivial φ-module with unit integral lattice is (0,a)-pure.
+- `PureModelTest.unit`: The trivial `φ`-module with unit integral lattice is `(0,a)`-pure.
 - `PureModelTest.zero`: The zero module is pure of every slope; it has no distinguished numeric slope.
-- `PureModelTest.scaled`: A rank-one action `φ^d=p^{−c}` with standard lattice is (c,d)-pure, detecting the sign of `p^c`.
+- `PureModelTest.scaled`: A rank-one action `φ^d=p^{−c}` with standard lattice is `(c,d)`-pure, detecting the sign of `p^c`.
 - `PureModelTest.localNotGlobal`: The perfected Tate-curve local system with p monodromy is locally étale but has no global integral étale model.
 
 ([KL][KL], §7.3, Definitions 7.3.1 and 7.3.4, Lemma 7.3.3 and Remarks 7.3.2, 7.3.5, 7.3.11, pp. 147–152.)
@@ -1835,7 +1835,7 @@ For the lattice obstruction `no_bounded_stable_lattice`, let `R` be a commutativ
 
 #### Pro-étale trivialization of pure models
 
-If a `φ^a`-module M over `ℰ̃_R` (resp. `ℛ̃^bd_R`, `ℛ̃_R`) has a free (c,d)-pure model `M_0`, there is an R-algebra S, the completed direct limit of faithfully finite étale R-subalgebras, such that `M_0 ⊗` W(S) (resp. `M_0 ⊗ ℛ̃^int_S`) has a basis fixed by `p^cφ^d`.
+If a `φ^a`-module M over `ℰ̃_R` (resp. `ℛ̃^bd_R`, `ℛ̃_R`) has a free `(c,d)`-pure model `M₀`, there is an R-algebra S, the completed direct limit of faithfully finite étale R-subalgebras, such that `M₀ ⊗ W(S)` (resp. `M₀ ⊗ ℛ̃^int_S`) has a basis fixed by `p^cφ^d`.
 
 ([KL][KL], §7.3, Proposition 7.3.6, p. 149.)
 
@@ -1845,7 +1845,7 @@ If a `φ^a`-module M over `ℰ̃_R` (resp. `ℛ̃^bd_R`, `ℛ̃_R`) has a free (
 
 #### Openness and pointwise detection of purity
 
-Take a `φ^a`-module M over `ℛ̃_R` with nonzero rank at every point, and β in its pure locus. For integers c,d with `d>0` divisible by a and `c/d=μ(M,β)`, a (c,d)-pure model of the fibre over `ℛ̃_{ℋ(β)}` spreads to a free pure model on a rational neighborhood of β with the same parameters. For arbitrary rank, this implies openness of both purity and étaleness on ℳ(R), equivalence of pointwise and local purity (and of pointwise and local étaleness), and detection of purity at β by the existence of a local pure model without a local-freeness assumption.
+Take a `φ^a`-module M over `ℛ̃_R` with nonzero rank at every point, and `β` in its pure locus. For integers `c,d` with `d>0` divisible by a and `c/d=μ(M,β)`, a `(c,d)`-pure model of the fibre over `ℛ̃_{ℋ(β)}` spreads to a free pure model on a rational neighborhood of `β` with the same parameters. For arbitrary rank, this implies openness of both purity and étaleness on `ℳ(R)`, equivalence of pointwise and local purity (and of pointwise and local étaleness), and detection of purity at `β` by the existence of a local pure model without a local-freeness assumption.
 
 ([KL][KL], §7.3, Theorem 7.3.7 and Corollaries 7.3.8–7.3.10, pp. 150–151.)
 
@@ -1855,7 +1855,7 @@ Take a `φ^a`-module M over `ℛ̃_R` with nonzero rank at every point, and β i
 
 #### Diagonal Frobenius gauge normal form
 
-For a `φ^a`-module over `ℛ̃^bd_R`, suppose its chosen Frobenius matrix is AD, with D diagonal, `D_ii∈p^Z`, and `A−I∈p Mat(ℛ̃^int_R)`. One can find an R-algebra S formed as a union of faithfully finite étale R-subalgebras and `U∈GL_n(W(S))`, U≡I mod p, satisfying `U⁻¹ADφ^a(U)=D`. Completion of this union is unnecessary. At every β, the generic slope multiset is `{−v_p(D_ii)/a}_i`.
+For a `φ^a`-module over `ℛ̃^bd_R`, suppose its chosen Frobenius matrix is `AD`, with D diagonal, `D_ii∈p^ℤ`, and `A−I∈p Mat(ℛ̃^int_R)`. One can find an R-algebra S formed as a union of faithfully finite étale R-subalgebras and `U∈GL_n(W(S))`, `U≡I mod p`, satisfying `U⁻¹ADφ^a(U)=D`. Completion of this union is unnecessary. At every `β`, the generic slope multiset is `{−v_p(D_ii)/a}_i`.
 
 ([KL][KL], §7.4, Lemma 7.4.4, pp. 152–153.)
 
@@ -1869,7 +1869,7 @@ Use the same KL hypotheses as above. The lower convex Robba polygon is related t
 
 #### Robba slope-polygon semicontinuity
 
-For any `φ^a`-module M over `ℛ̃_R`, β ↦ the slope polygon of M `⊗ ℛ̃_{ℋ(β)}` is lower semicontinuous on ℳ(R): where the rank is constant, for each x `∈` [0, rank M] the y-coordinate of the polygon at x is a lower semicontinuous function of β, and it is locally constant at x `=` rank M.
+For any `φ^a`-module M over `ℛ̃_R`, `β ↦` the slope polygon of `M ⊗ ℛ̃_{ℋ(β)}` is lower semicontinuous on `ℳ(R)`: where the rank is constant, for each `x ∈ [0, rank M]` the y-coordinate of the polygon at x is a lower semicontinuous function of `β`, and it is locally constant at `x = rank M`.
 
 ([KL][KL], §7.4, Theorem 7.4.5, p. 153.)
 
@@ -1879,7 +1879,7 @@ For any `φ^a`-module M over `ℛ̃_R`, β ↦ the slope polygon of M `⊗ ℛ̃
 
 #### Bounded polygons and dense constant loci
 
-For any `φ^a`-module M over `ℛ̃_R`, the slope polygons of M at the points of ℳ(R) are bounded above and below (all slopes are at least `−N/a` for N as in Proposition 6.2.4, and the sum of the slopes is continuous). Hence the polygon takes finitely many values locally, and there is an open dense U ⊆ ℳ(R) on which it is locally constant.
+For any `φ^a`-module M over `ℛ̃_R`, the slope polygons of M at the points of `ℳ(R)` are bounded above and below (all slopes are at least `−N/a` for N as in Proposition 6.2.4, and the sum of the slopes is continuous). Hence the polygon takes finitely many values locally, and there is an open dense `U ⊆ ℳ(R)` on which it is locally constant.
 
 ([KL][KL], §7.4, Proposition 7.4.6 and Corollary 7.4.7, pp. 153–154.)
 
@@ -1889,7 +1889,7 @@ For any `φ^a`-module M over `ℛ̃_R`, the slope polygons of M at the points of
 
 #### Submodule at a constant polygon vertex
 
-(7.4.8) Let A be an n × n matrix over ℛ̃^int_R invertible over ℛ̃^bd_R, x_1, …, x_n ∈ ℛ̃^bd_R, and y_1, …, y_n ∈ ℰ̃_R with y_i − x_i = Σ_j A_{ij}φ^a(y_j). Then all y_i lie in ℛ̃^bd_R iff their images lie in ℛ̃^bd_{ℋ(β)} for every β ∈ ℳ(R). (7.4.9) Let M over ℛ̃_R have constant rank n and slopes μ_1(M,β) ≥ ⋯ ≥ μ_n(M,β) at β. If for some m ∈ {1, …, n−1} and all β we have μ_m(M,β) > μ_{m+1}(M,β) and μ_1 + ⋯ + μ_m constant, there is a unique φ^a-submodule N of rank m with M/N a φ^a-module such that at every β the slopes of N are μ_1, …, μ_m and those of M/N are μ_{m+1}, …, μ_n.
+(7.4.8) Let A be an `n × n` matrix over `ℛ̃^int_R` invertible over `ℛ̃^bd_R`, `x₁, …, x_n ∈ ℛ̃^bd_R`, and `y₁, …, y_n ∈ ℰ̃_R` with `y_i − x_i = Σ_j A_{ij}φ^a(y_j)`. Then all `y_i` lie in `ℛ̃^bd_R` iff their images lie in `ℛ̃^bd_{ℋ(β)}` for every `β ∈ ℳ(R)`. (7.4.9) Let M over `ℛ̃_R` have constant rank n and slopes `μ₁(M,β) ≥ ⋯ ≥ μ_n(M,β)` at `β`. If for some `m ∈ {1, …, n−1}` and all `β` we have `μ_m(M,β) > μ_{m+1}(M,β)` and `μ₁ + ⋯ + μ_m` constant, there is a unique `φ^a`-submodule N of rank m with `M/N` a `φ^a`-module such that at every `β` the slopes of N are `μ₁, …, μ_m` and those of `M/N` are `μ_{m+1}, …, μ_n`.
 
 ([KL][KL], §7.4, Lemma 7.4.8 and Theorem 7.4.9, pp. 154–155.)
 
@@ -1899,7 +1899,7 @@ For any `φ^a`-module M over `ℛ̃_R`, the slope polygons of M at the points of
 
 #### Robba filtration on a constant-polygon locus
 
-If the slope polygon of a `φ^a`-module M over `ℛ̃_R` is constant on ℳ(R), there is a unique filtration 0 `= M_0` ⊂ ⋯ ⊂ `M_l =` M by `φ^a-submodules` whose quotients are `φ^a`-modules pure of constant slope with `μ(M_1/M_0) >` ⋯ `> μ(M_l/M_{l−1})`.
+If the slope polygon of a `φ^a`-module M over `ℛ̃_R` is constant on `ℳ(R)`, there is a unique filtration `0 = M₀ ⊂ ⋯ ⊂ M_l = M` by `φ^a-submodules` whose quotients are `φ^a`-modules pure of constant slope with `μ(M₁/M₀) > ⋯ > μ(M_l/M_{l−1})`.
 
 ([KL][KL], §7.4, Corollary 7.4.10, p. 155.)
 
@@ -1909,7 +1909,7 @@ If the slope polygon of a `φ^a`-module M over `ℛ̃_R` is constant on ℳ(R), 
 
 #### Pointwise detection of negative Frobenius cohomology
 
-If M over `ℛ̃_R` has everywhere negative slopes, then `H⁰_{φ^a}(M) =` 0, `H⁰_{φ^a}(M ⊗ ℛ̃_{ℋ(β)}`) `=` 0 for all β `∈` ℳ(R), and `H¹_{φ^a}(M) → ∏_β H¹_{φ^a}(M ⊗ ℛ̃_{ℋ(β)}`) is injective. For any M this applies to `M(n)` for n small enough (by Proposition 7.4.6); the injectivity also holds for n large, since then `H¹_{φ^a}(M(n)) =` 0 by Proposition 6.2.2.
+If M over `ℛ̃_R` has everywhere negative slopes, then `H⁰_{φ^a}(M) = 0`, `H⁰_{φ^a}(M ⊗ ℛ̃_{ℋ(β)}) = 0` for all `β ∈ ℳ(R)`, and `H¹_{φ^a}(M) → ∏_β H¹_{φ^a}(M ⊗ ℛ̃_{ℋ(β)})` is injective. For any M this applies to `M(n)` for n small enough (by Proposition 7.4.6); the injectivity also holds for n large, since then `H¹_{φ^a}(M(n)) = 0` by Proposition 6.2.2.
 
 ([KL][KL], §7.4, Corollary 7.4.11 and Remark 7.4.12, pp. 155–156.)
 
@@ -1923,7 +1923,7 @@ Use the same KL hypotheses. For the two-out-of-three theorem add KL Hypothesis 8
 
 #### Ring and sheaf Frobenius-module comparison
 
-Let (R, R⁺) be a perfect uniform adic Banach algebra over `𝔽_p` and X `= Spa(R`, R⁺). For ∗ `∈` {ℰ̃, `ℛ̃^bd`, ℛ̃}, the natural functor from `φ^d`-modules over `∗_R` to `φ^d`-modules over the sheaf `∗_X` (called local `φ^d`-modules over `∗_R`) is fully faithful (Theorem 5.3.3). For ∗ `=` ℛ̃ it is an equivalence of categories (Corollary 6.3.13); for ∗ `=` ℰ̃ and ∗ `= ℛ̃^bd` it is not (Example 8.5.17). A `φ^d`-module over `∗_R` is pure (resp. étale) if and only if the corresponding `φ^d`-module over `∗_X` is.
+Let `(R,R⁺)` be a perfect uniform adic Banach algebra over `𝔽_p` and `X = Spa(R,R⁺)`. For `∗ ∈ {ℰ̃, ℛ̃^bd, ℛ̃}`, the natural functor from `φ^d`-modules over `∗_R` to `φ^d`-modules over the sheaf `∗_X` (called local `φ^d`-modules over `∗_R`) is fully faithful (Theorem 5.3.3). For `∗ = ℛ̃` it is an equivalence of categories (Corollary 6.3.13); for `∗ = ℰ̃` and `∗ = ℛ̃^bd` it is not (Example 8.5.17). A `φ^d`-module over `∗_R` is pure (resp. étale) if and only if the corresponding `φ^d`-module over `∗_X` is.
 
 ([KL][KL], §8.5, Remark 8.5.10, p. 172 (arXiv 1301.0792v5).)
 
@@ -1933,7 +1933,7 @@ Let (R, R⁺) be a perfect uniform adic Banach algebra over `𝔽_p` and X `= Sp
 
 #### Adic pure and étale loci
 
-For a `φ^d`-module M on `ℛ̃_X`, where X is perfect uniform over `F_{p^d}`, purity and étaleness define open subspaces of X. If X lies over an analytic field, these opens are partially proper in the sense of KL Definition 8.2.11. When X is taut, both subspaces are taut as well, by Lemma 8.2.12. The loci concern the module M, rather than its coefficient sheaf.
+For a `φ^d`-module M on `ℛ̃_X`, where X is perfect uniform over `𝔽_{p^d}`, purity and étaleness define open subspaces of X. If X lies over an analytic field, these opens are partially proper in the sense of KL Definition 8.2.11. When X is taut, both subspaces are taut as well, by Lemma 8.2.12. The loci concern the module M, rather than its coefficient sheaf.
 
 ([KL][KL], §8.5, Lemma 8.5.11, p. 173 (arXiv 1301.0792v5).)
 
@@ -1953,7 +1953,7 @@ KL constructs a rational local system with p-monodromy by identifying the two bo
 
 #### Pure modules in short exact sequences
 
-Under KL Hypothesis 8.6.1, (c,d)-purity has the two-out-of-three property for `0→M₁→M→M₂→0` in φ-modules over `ℛ̃_R`: purity of any pair among `M₁,M,M₂` forces purity of the remaining term.
+Under KL Hypothesis 8.6.1, `(c,d)`-purity has the two-out-of-three property for `0→M₁→M→M₂→0` in `φ`-modules over `ℛ̃_R`: purity of any pair among `M₁,M,M₂` forces purity of the remaining term.
 
 ([KL][KL], §8.6, Lemma 8.6.3, p. 176 (arXiv 1301.0792v5).)
 
@@ -1967,17 +1967,17 @@ Use the KL hypotheses for pure-module statements. The twisted local-system defin
 
 #### Twisted rational local systems
 
-For `c∈Z` and `d>0`, a `(c,d)-ℚ_p` local system is an étale local system of finite-dimensional `Q_{p^d}`-vector spaces equipped with a Frobenius-semilinear automorphism τ such that `p^c τ^d=1`. Scheme-side isogeny `(c,d)-ℤ_p` local systems carry the same data on an isogeny `Z_{p^d}` local system. The categories for proportional pairs (c,d) are naturally equivalent, not literally equal.
+For `c∈ℤ` and `d>0`, a `(c,d)-ℚ_p` local system is an étale local system of finite-dimensional `ℚ_{p^d}`-vector spaces equipped with a Frobenius-semilinear automorphism `τ` such that `p^c τ^d=1`. Scheme-side isogeny `(c,d)-ℤ_p` local systems carry the same data on an isogeny `ℤ_{p^d}` local system. The categories for proportional pairs `(c,d)` are naturally equivalent, not literally equal.
 
-`Q_{p^d}/ℚ_p` unramified; τ acts semilinearly for arithmetic Frobenius. Étale rational local systems need not admit a global integral lattice.
+`ℚ_{p^d}/ℚ_p` unramified; `τ` acts semilinearly for arithmetic Frobenius. Étale rational local systems need not admit a global integral lattice.
 
 **API.**
 
-- `TwistedLocalSystem`: Finite-rank `Q_{p^d}` étale local system with arithmetic-Frobenius-semilinear τ and `p^cτ^d=1`.
-- `TwistedLocalSystem.frobenius`: The specified semilinear automorphism τ, with its coefficient Frobenius.
+- `TwistedLocalSystem`: Finite-rank `ℚ_{p^d}` étale local system with arithmetic-Frobenius-semilinear `τ` and `p^cτ^d=1`.
+- `TwistedLocalSystem.frobenius`: The specified semilinear automorphism `τ`, with its coefficient Frobenius.
 - `TwistedLocalSystem.iterate`: For every section v, `p^c τ^d(v)=v`.
-- `TwistedLocalSystem.pullback`: Pullback transports τ and its equation; identities and composition agree.
-- `TwistedLocalSystem.reindex`: Pairs of positive denominator with the same c/d give naturally equivalent categories by unramified scalar extension/descent.
+- `TwistedLocalSystem.pullback`: Pullback transports `τ` and its equation; identities and composition agree.
+- `TwistedLocalSystem.reindex`: Pairs of positive denominator with the same `c/d` give naturally equivalent categories by unramified scalar extension/descent.
 
 **Checks.**
 
@@ -1993,7 +1993,7 @@ For `c∈Z` and `d>0`, a `(c,d)-ℚ_p` local system is an étale local system of
 
 #### Integral Frobenius and local-system comparison
 
-For a perfect uniform adic Banach pair over `F_{p^d}`, étale `Z_{p^d}` local systems on Spec(R), on its inverse-perfecting complete subring, and on the corresponding untilt agree with `φ^d`-modules over W(R) and the integral relative Robba ring; the ring functor is scalar extension. The equivalence globalizes to perfectoid X and its tilt/inverse perfection. Over an algebraically closed complete `C/ℚ_p`, φ-modules over the integral Robba ring and W(C♭) agree with finite free `ℤ_p` modules (SW12.3.4). Taking isogenies yields globally pure models, not all rational étale local systems.
+For a perfect uniform adic Banach pair over `𝔽_{p^d}`, étale `ℤ_{p^d}` local systems on `Spec(R)`, on its inverse-perfecting complete subring, and on the corresponding untilt agree with `φ^d`-modules over `W(R)` and the integral relative Robba ring; the ring functor is scalar extension. The equivalence globalizes to perfectoid X and its tilt/inverse perfection. Over an algebraically closed complete `C/ℚ_p`, `φ`-modules over the integral Robba ring and `W(C♭)` agree with finite free `ℤ_p` modules (SW12.3.4). Taking isogenies yields globally pure models, not all rational étale local systems.
 
 KL Theorems 8.5.3–8.5.6, with integral finite projective modules. The absolute SW12.3.4 is restricted to `E=ℚ_p` and C algebraically closed.
 
@@ -2005,7 +2005,7 @@ KL Theorems 8.5.3–8.5.6, with integral finite projective modules. The absolute
 
 #### Pure modules and twisted local systems
 
-Fix `c∈Z` and a perfectoid space X over `Q_{p^d}`, with characteristic-p partner X′ over `F_{p^d}`. Twisted étale `(c,d)-ℚ_p-local` systems on X, on X′, and on any adic `X₀′` with inverse perfection X′ give equivalent categories. Each is also equivalent to the category of (c,d)-pure φ-modules for any of the three coefficient sheaves `ℰ̃_{X′}`, `ℛ̃^bd_{X′}`, or `ℛ̃_{X′}`. These are sheaf-coefficient equivalences; they do not assert descent to the corresponding global coefficient rings.
+Fix `c∈ℤ` and a perfectoid space X over `ℚ_{p^d}`, with characteristic-p partner X′ over `𝔽_{p^d}`. Twisted étale `(c,d)-ℚ_p-local` systems on X, on X′, and on any adic `X₀′` with inverse perfection X′ give equivalent categories. Each is also equivalent to the category of `(c,d)`-pure `φ`-modules for any of the three coefficient sheaves `ℰ̃_{X′}`, `ℛ̃^bd_{X′}`, or `ℛ̃_{X′}`. These are sheaf-coefficient equivalences; they do not assert descent to the corresponding global coefficient rings.
 
 ([KL][KL], §8.5, Theorem 8.5.12, p. 173 (arXiv 1301.0792v5).)
 
@@ -2015,7 +2015,7 @@ Fix `c∈Z` and a perfectoid space X over `Q_{p^d}`, with characteristic-p partn
 
 #### Independence of purity denominator
 
-Let X be perfect uniform over `F_{p^d}`, and use any of the coefficient sheaves `ℰ̃_X`, `ℛ̃^bd_X`, `ℛ̃_X` for a `φ^d`-module M. At a fixed point x, purity with slope s is independent of the presentation of s: it is equivalent to (c′,d′)-purity at x for all integers c′,d′ satisfying `d′>0`, d|d′, and `c′/d′=s`.
+Let X be perfect uniform over `𝔽_{p^d}`, and use any of the coefficient sheaves `ℰ̃_X`, `ℛ̃^bd_X`, `ℛ̃_X` for a `φ^d`-module M. At a fixed point x, purity with slope s is independent of the presentation of s: it is equivalent to `(c′,d′)`-purity at x for all integers `c′,d′` satisfying `d′>0`, `d|d′`, and `c′/d′=s`.
 
 ([KL][KL], §8.5, Corollary 8.5.13, p. 173 (arXiv 1301.0792v5).)
 
@@ -2025,7 +2025,7 @@ Let X be perfect uniform over `F_{p^d}`, and use any of the coefficient sheaves 
 
 #### Pointwise purity over all three coefficient rings
 
-Let (R, R⁺) be as in Hypothesis 5.0.1 (a perfect uniform adic Banach algebra over `𝔽_p` that is a Banach algebra over an analytic field) and M a `φ^d`-module over `ℰ̃_R`, `ℛ̃^bd_R` or `ℛ̃_R`. If M is pointwise pure (M `⊗` ℋ(β) is pure for every β `∈` ℳ(R)), then M is pure (it admits a locally free local pure model at every β `∈` ℳ(R)).
+Let `(R,R⁺)` be as in Hypothesis 5.0.1 (a perfect uniform adic Banach algebra over `𝔽_p` that is a Banach algebra over an analytic field) and M a `φ^d`-module over `ℰ̃_R`, `ℛ̃^bd_R` or `ℛ̃_R`. If M is pointwise pure (`M ⊗ ℋ(β)` is pure for every `β ∈ ℳ(R)`), then M is pure (it admits a locally free local pure model at every `β ∈ ℳ(R)`).
 
 ([KL][KL], §8.5, Corollary 8.5.14, p. 173 (arXiv 1301.0792v5).)
 
@@ -2035,7 +2035,7 @@ Let (R, R⁺) be as in Hypothesis 5.0.1 (a perfect uniform adic Banach algebra o
 
 #### Surjective descent and detection of purity
 
-Consider a bounded map `(R,R⁺)→(S,S⁺)` between perfect uniform adic Banach `F_{p^d}-algebras`, with surjective induced map of adic spectra. For a local `φ^d`-module M, purity is equivalent to purity after scalar extension from R to S, for each of ℰ̃, bounded Robba, and full Robba coefficients. For full Robba sheaves, KL Corollary 8.5.16 gives the analogous equivalence under any surjective map of perfectoid adic spaces.
+Consider a bounded map `(R,R⁺)→(S,S⁺)` between perfect uniform adic Banach `𝔽_{p^d}`-algebras, with surjective induced map of adic spectra. For a local `φ^d`-module M, purity is equivalent to purity after scalar extension from R to S, for each of `ℰ̃`, bounded Robba, and full Robba coefficients. For full Robba sheaves, KL Corollary 8.5.16 gives the analogous equivalence under any surjective map of perfectoid adic spaces.
 
 ([KL][KL], §8.5, Corollaries 8.5.15–8.5.16, p. 174 (arXiv 1301.0792v5).)
 
@@ -2049,11 +2049,11 @@ KL Hypothesis 8.7.1: mixed characteristic, perfectoid untilt over `ℚ_p`, `q=p^
 
 #### Pointwise ampleness
 
-In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair (A,A⁺) over `ℚ_p` with associated perfect uniform characteristic-p pair (R,R⁺), and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. For F on `Proj(P_R)`, use the fibrewise HN polygon as its slope-polygon function on ℳ(R); compose with the retraction for its interpretation on `Spa(R,R⁺)`. Via Theorem 6.3.12 and Remark 4.2.18, this agrees with the polygon of the associated Robba `φ^a`-module. Define the pointwise ample locus by strict positivity of every fibre slope. Theorem 7.4.5 makes this locus open. Call F pointwise ample when the locus is all of ℳ(R).
+In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair `(A,A⁺)` over `ℚ_p` with associated perfect uniform characteristic-p pair `(R,R⁺)`, and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. For F on `Proj(P_R)`, use the fibrewise HN polygon as its slope-polygon function on `ℳ(R)`; compose with the retraction for its interpretation on `Spa(R,R⁺)`. Via Theorem 6.3.12 and Remark 4.2.18, this agrees with the polygon of the associated Robba `φ^a`-module. Define the pointwise ample locus by strict positivity of every fibre slope. Theorem 7.4.5 makes this locus open. Call F pointwise ample when the locus is all of `ℳ(R)`.
 
 **API.**
 
-- `PointwiseAmple`: At β the predicate that all slopes of the fibre polygon are strictly positive.
+- `PointwiseAmple`: At `β` the predicate that all slopes of the fibre polygon are strictly positive.
 - `PointwiseAmple.isOpen`: The set of `β∈ℳ(R)` at which F is pointwise ample is open (KL Theorem 7.4.5), and so is its preimage in `Spa(R,R⁺)` under the retraction.
 - `PointwiseAmple.pullback`: The predicate is preserved under residue-field extension and perfectoid pullback.
 - `PointwiseAmple.tensor`: Tensor products of positive fibres are positive, with slopes added with their multiplicities.
@@ -2074,7 +2074,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### Positive tensor powers dominate a bundle
 
-In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair (A,A⁺) over `ℚ_p` with associated perfect uniform characteristic-p pair (R,R⁺), and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. Suppose F on `Proj(P_R)` is pointwise ample and G is any bundle there. Tensor powers of F eventually dominate G: some integer `n₀` has `F^{⊗n}⊗G` pointwise ample for every `n≥n₀`.
+In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair `(A,A⁺)` over `ℚ_p` with associated perfect uniform characteristic-p pair `(R,R⁺)`, and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. Suppose F on `Proj(P_R)` is pointwise ample and G is any bundle there. Tensor powers of F eventually dominate G: some integer `n₀` has `F^{⊗n}⊗G` pointwise ample for every `n≥n₀`.
 
 ([KL][KL], §8.8, Lemma 8.8.11 and its proof, p. 183 (arXiv 1301.0792v5).)
 
@@ -2084,7 +2084,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### Positive bundles on the geometric Proj curve
 
-In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair (A,A⁺) over `ℚ_p` with associated perfect uniform characteristic-p pair (R,R⁺), and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. If `R=L` is an analytic field and F on `Proj(P_L)` is ample, then `H¹(Proj(P_L),F)=0` and the evaluation map from its global sections generates F. Both claims use the analytic-field hypothesis of KL Lemma 8.8.12.
+In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair `(A,A⁺)` over `ℚ_p` with associated perfect uniform characteristic-p pair `(R,R⁺)`, and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. If `R=L` is an analytic field and F on `Proj(P_L)` is ample, then `H¹(Proj(P_L),F)=0` and the evaluation map from its global sections generates F. Both claims use the analytic-field hypothesis of KL Lemma 8.8.12.
 
 ([KL][KL], §8.8, Lemma 8.8.12(a)–(b) and its proof, p. 183 (arXiv 1301.0792v5).)
 
@@ -2094,7 +2094,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### Nonnegative extension by a negative twist
 
-In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair (A,A⁺) over `ℚ_p` with associated perfect uniform characteristic-p pair (R,R⁺), and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. Suppose that at a chosen `β∈ℳ(R)`, the slopes of F on `Proj(P_R)` are nonnegative and at least one is positive. F admits a vector-bundle extension `0→O(−1)→G→F→0` for which every slope of G at β remains nonnegative.
+In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair `(A,A⁺)` over `ℚ_p` with associated perfect uniform characteristic-p pair `(R,R⁺)`, and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. Suppose that at a chosen `β∈ℳ(R)`, the slopes of F on `Proj(P_R)` are nonnegative and at least one is positive. F admits a vector-bundle extension `0→O(−1)→G→F→0` for which every slope of G at `β` remains nonnegative.
 
 ([KL][KL], §8.8, Lemma 8.8.13 and its proof, pp. 183–185 (arXiv 1301.0792v5).)
 
@@ -2104,7 +2104,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### Resolution by an étale-at-a-point bundle
 
-In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair (A,A⁺) over `ℚ_p` with associated perfect uniform characteristic-p pair (R,R⁺), and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. When the slopes of F on `Proj(P_R)` at a chosen `β∈ℳ(R)` are nonnegative, there are bundles H,G and an exact sequence `0→H→G→F→0` with G étale at β.
+In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair `(A,A⁺)` over `ℚ_p` with associated perfect uniform characteristic-p pair `(R,R⁺)`, and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. When the slopes of F on `Proj(P_R)` at a chosen `β∈ℳ(R)` are nonnegative, there are bundles `H,G` and an exact sequence `0→H→G→F→0` with G étale at `β`.
 
 ([KL][KL], §8.8, Corollary 8.8.14, p. 185 (arXiv 1301.0792v5).)
 
@@ -2114,7 +2114,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### Ampleness and positive fibre slopes
 
-Under Hypothesis 8.7.1 (a `≥` 1 an integer, q `= p^a`; (A, A⁺) a perfectoid adic Banach algebra over `ℚ_p` and (R, R⁺) the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it by Theorem 3.6.5; X a perfectoid adic space over `ℚ_p` and X′ the perfect uniform adic space over `𝔽_p` corresponding to it by Theorem 8.3.5), a vector bundle F on `Proj(P_R)` is ample if and only if it is pointwise ample (all its slopes at every β `∈` ℳ(R) are positive).
+Under Hypothesis 8.7.1 (`a ≥ 1` an integer, `q = p^a`; `(A,A⁺)` a perfectoid adic Banach algebra over `ℚ_p` and `(R,R⁺)` the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it by Theorem 3.6.5; X a perfectoid adic space over `ℚ_p` and X′ the perfect uniform adic space over `𝔽_p` corresponding to it by Theorem 8.3.5), a vector bundle F on `Proj(P_R)` is ample if and only if it is pointwise ample (all its slopes at every `β ∈ ℳ(R)` are positive).
 
 ([KL][KL], §8.8, Theorem 8.8.15 and Remark 8.8.16, p. 185 (arXiv 1301.0792v5).)
 
@@ -2124,7 +2124,7 @@ Under Hypothesis 8.7.1 (a `≥` 1 an integer, q `= p^a`; (A, A⁺) a perfectoid 
 
 #### Ampleness on the relative curve
 
-In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair (A,A⁺) over `ℚ_p` with associated perfect uniform characteristic-p pair (R,R⁺), and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. For a bundle F on `FF_X`, define ampleness by testing every affinoid map `f:Spa(A,A⁺)→X`: under the comparison of Theorem 8.7.7, the pullback bundle on `FF_R` must yield an ample bundle on `Proj(P_R)`. This is equivalent to positivity of all slopes at every point of X. In particular, on an affinoid base the Proj and analytic-curve notions agree. Ampleness descends under surjective maps of perfectoid bases and is local on the base. Its locus is open, including on the real quotient: an ample fibre over ℋ(x) extends over a partially proper open neighborhood of x.
+In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a perfectoid adic Banach pair `(A,A⁺)` over `ℚ_p` with associated perfect uniform characteristic-p pair `(R,R⁺)`, and a perfectoid space `X/ℚ_p` with its corresponding characteristic-p space X′. The pair and space comparisons are KL Theorems 3.6.5 and 8.3.5. For a bundle F on `FF_X`, define ampleness by testing every affinoid map `f:Spa(A,A⁺)→X`: under the comparison of Theorem 8.7.7, the pullback bundle on `FF_R` must yield an ample bundle on `Proj(P_R)`. This is equivalent to positivity of all slopes at every point of X. In particular, on an affinoid base the Proj and analytic-curve notions agree. Ampleness descends under surjective maps of perfectoid bases and is local on the base. Its locus is open, including on the real quotient: an ample fibre over `ℋ(x)` extends over a partially proper open neighborhood of x.
 
 **API.**
 
@@ -2137,7 +2137,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 **Checks.**
 
 - `RelativeAmpleTest.affinoid`: On an affinoid perfectoid untilt, relative ampleness agrees with the Proj ampleness of VB2.
-- `RelativeAmpleTest.untiltLine`: The untilt divisor line `L_X` is relatively ample; in KL normalization its slope is 1/a.
+- `RelativeAmpleTest.untiltLine`: The untilt divisor line `L_X` is relatively ample; in KL normalization its slope is `1/a`.
 - `RelativeAmpleTest.unit`: The unit bundle is not relatively ample on a nonempty base.
 
 ([KL][KL], §8.8, Definition 8.8.17, pp. 185–186 (arXiv 1301.0792v5).)
@@ -2148,7 +2148,7 @@ In the setting of KL Hypothesis 8.7.1, take an integer `a≥1` and `q=p^a`, a pe
 
 #### The positive line of an untilt
 
-Under Hypothesis 8.7.1 (a `≥` 1 an integer, q `= p^a`; (A, A⁺) a perfectoid adic Banach algebra over `ℚ_p` and (R, R⁺) the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it by Theorem 3.6.5; X a perfectoid adic space over `ℚ_p` and X′ the perfect uniform adic space over `𝔽_p` corresponding to it by Theorem 8.3.5) with X `= Spa(A`, A⁺), write z `=` [z̄] `+` p `z_1`. Let M be the `φ^a`-module over `ℛ̃_R` free on one generator v with `φ^a(v) = z_1^{−1}` z v; it is globally étale. The convergent product u `= ∏_{n≥0} φ^{an}(1 + p^{−1} z_1^{−1}[z̄]`) `∈ ℛ̃⁺_R` satisfies `φ^a(u) =` p `z_1 z^{−1}` u in `ℛ̃_R`, so uv defines an inclusion `ℛ̃_R → M(1)` of `φ^a`-modules, and `M(1)` is the `φ^a`-module corresponding to `L_X`. Hence the `φ^a`-module corresponding to `L_X` is globally pure of slope 1/a, i.e. globally (1, a)-pure (with the `φ^a-normalized` slope rather than the printed unnormalized slope 1).
+Under Hypothesis 8.7.1 (`a ≥ 1` an integer, `q = p^a`; `(A,A⁺)` a perfectoid adic Banach algebra over `ℚ_p` and `(R,R⁺)` the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it by Theorem 3.6.5; X a perfectoid adic space over `ℚ_p` and X′ the perfect uniform adic space over `𝔽_p` corresponding to it by Theorem 8.3.5) with `X = Spa(A,A⁺)`, write `z = [z̄] + p z₁`. Let M be the `φ^a`-module over `ℛ̃_R` free on one generator v with `φ^a(v) = z₁⁻¹ z v`; it is globally étale. The convergent product `u = ∏_{n≥0} φ^{an}(1 + p⁻¹ z₁⁻¹[z̄]) ∈ ℛ̃⁺_R` satisfies `φ^a(u) = p z₁ z⁻¹ u` in `ℛ̃_R`, so `uv` defines an inclusion `ℛ̃_R → M(1)` of `φ^a`-modules, and `M(1)` is the `φ^a`-module corresponding to `L_X`. Hence the `φ^a`-module corresponding to `L_X` is globally pure of slope `1/a`, i.e. globally `(1,a)`-pure (with the `φ^a-normalized` slope rather than the printed unnormalized slope 1).
 
 ([KL][KL], §8.8, Lemma 8.8.19 and its proof, p. 186 (arXiv 1301.0792v5).)
 
@@ -2156,15 +2156,15 @@ Under Hypothesis 8.7.1 (a `≥` 1 an integer, q `= p^a`; (A, A⁺) a perfectoid 
 
 ### The integral boundary and group torsors
 
-Fix an affinoid characteristic-p perfectoid `S=Spa(R,R⁺)`, a pseudouniformizer ϖ and `r>0`. Keep the characteristic-p boundary in `Y_`[0,r](S), and use the SW inverse-Frobenius pullback convention. The group theorem needs a smooth affine `ℤ_p-model` with connected fibres and the integral tensor-functor dictionary.
+Fix an affinoid characteristic-p perfectoid `S=Spa(R,R⁺)`, a pseudouniformizer `ϖ` and `r>0`. Keep the characteristic-p boundary in `Y_[0,r](S)`, and use the SW inverse-Frobenius pullback convention. The group theorem needs a smooth affine `ℤ_p-model` with connected fibres and the integral tensor-functor dictionary.
 
 <a id="integral-boundary-realization"></a>
 
 #### Integral boundary realization
 
-For `S∈Perf`, finite free `ℤ_p` local systems on `S_proét` are equivalent to `φ⁻¹`-modules on `Y_`[0,r](S), including the characteristic-p boundary. Restriction to `Y_(0,r]` realizes the rationalized local system L[1/p], which has all Newton slopes zero. This distinguishes integral lattices at the boundary from a slope-zero bundle on the open curve.
+For `S∈Perf`, finite free `ℤ_p` local systems on `S_proét` are equivalent to `φ⁻¹`-modules on `Y_[0,r](S)`, including the characteristic-p boundary. Restriction to `Y_(0,r]` realizes the rationalized local system `L[1/p]`, which has all Newton slopes zero. This distinguishes integral lattices at the boundary from a slope-zero bundle on the open curve.
 
-Use an affinoid characteristic-p perfectoid base `S=Spa(R,R⁺)`. Choose and fix a pseudouniformizer `ϖ∈R` for the construction of the SW space `Y_`[0,r](S). `r>0`; the integral period space and `φ⁻¹` pullback conventions are those of SW Lecture 22. Finite rank is locally constant; no boundary deletion in the integral comparison.
+Use an affinoid characteristic-p perfectoid base `S=Spa(R,R⁺)`. Choose and fix a pseudouniformizer `ϖ∈R` for the construction of the SW space `Y_[0,r](S)`. `r>0`; the integral period space and `φ⁻¹` pullback conventions are those of SW Lecture 22. Finite rank is locally constant; no boundary deletion in the integral comparison.
 
 ([SW][SW], Proposition 22.3.2, book p. 209.)
 
@@ -2174,9 +2174,9 @@ Use an affinoid characteristic-p perfectoid base `S=Spa(R,R⁺)`. Choose and fix
 
 #### Integral group torsors and Frobenius
 
-For a smooth affine group scheme `G/ℤ_p` with connected fibres, pro-étale `G(ℤ_p)-torsors` on S are equivalent to `φ⁻¹-G-torsors` on `Y_`[0,r](S). For `G=GL_n` this is the integral local-system equivalence. Connectedness of fibres and the integral boundary are retained; extensions requiring a parahoric model are not inferred from this theorem.
+For a smooth affine group scheme `G/ℤ_p` with connected fibres, pro-étale `G(ℤ_p)-torsors` on S are equivalent to `φ⁻¹-G-torsors` on `Y_[0,r](S)`. For `G=GL_n` this is the integral local-system equivalence. Connectedness of fibres and the integral boundary are retained; extensions requiring a parahoric model are not inferred from this theorem.
 
-Use an affinoid characteristic-p perfectoid base `S=Spa(R,R⁺)`. Choose and fix a pseudouniformizer `ϖ∈R` for the construction of the SW space `Y_`[0,r](S). S perfectoid; `r>0`; smooth affine integral model with connected fibres.
+Use an affinoid characteristic-p perfectoid base `S=Spa(R,R⁺)`. Choose and fix a pseudouniformizer `ϖ∈R` for the construction of the SW space `Y_[0,r](S)`. S perfectoid; `r>0`; smooth affine integral model with connected fibres.
 
 For the reduction from G to `GL_n`, construct the exact tensor category `Rep_{ℤ_p}(G)` of algebraic representations on finite free `ℤ_p`-modules. Prove that G-torsors on a `ℤ_p-scheme` are equivalent to exact tensor functors from this category to vector bundles; for a smooth G over an analytic sousperfectoid `ℤ_p-space`, prove the corresponding étale equivalence. The reconstruction extends the functor to the coordinate Hopf algebra by filtered colimits and recovers the torsor from its faithfully flat algebra. Apply this to the integral local-system equivalence, then use connected fibres and Lang's lemma to identify the fibre functor pro-étale locally with the forgetful functor. These are ingredients of the integral torsor target, rather than consequences of the field-valued dictionary.
 
