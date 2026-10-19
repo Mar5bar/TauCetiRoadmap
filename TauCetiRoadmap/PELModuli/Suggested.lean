@@ -1,6 +1,6 @@
 import Mathlib
-import TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier
-import TauCeti.Geometry.Symplectic.AlmostComplex
+import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
+import TauCeti.Geometry.Hodge.WeightOne.RiemannForm
 
 /-!
 # PELModuli: representative target signatures
@@ -8,9 +8,10 @@ import TauCeti.Geometry.Symplectic.AlmostComplex
 The roadmap is `README.md`; these are suggested forms, not an exhaustive checklist. This file records
 definitions and theorem signatures of the Siegel and PEL moduli roadmap that can be stated against
 the pinned Mathlib and Tau Ceti APIs, fixing their hypotheses and conventions. The
-moduli problems themselves, their stacks, universal families, uniformization, canonical models and
-arithmetic interface need carriers (abelian schemes over a base, algebraic stacks, analytic spaces,
-Shimura varieties) that are not at the pins; they are README targets only and are listed at the end.
+complex-realization theorem retains the abelian variety, dimension and order action. The full
+moduli problems, their stacks, universal families, uniformization, canonical models and arithmetic
+interface use the relative abelian-scheme, polarization, level, analytic-space and Shimura-variety
+carriers specified in the README and listed at the end.
 
 Design choices made explicit here:
 * The Tate-valued pairing is `φ = 2πi ψ`; the scalar pairing `ψ` is used after choosing the generator
@@ -43,6 +44,23 @@ namespace TauCetiRoadmap.PELModuli
 
 open scoped TensorProduct
 
+/-- Complex realization of a polarized integral complex structure with an order action (M3.4).
+There is a complex abelian variety of half the lattice rank carrying the action with exactly the
+same annihilator. This is the nonemptiness consequence of Riemann's equivalence and PEL complex
+uniformization; the full polarization, level and homology comparison is M3.4 of the README.
+Milne, Theorems 6.7–6.8 and 8.17. -/
+theorem complexPoints_realization {O L : Type*} [Ring O] [AddCommGroup L] [Module O L]
+    [Module.Free ℤ L] [Module.Finite ℤ L]
+    (J : TauCeti.AlmostComplexStructure (ℝ ⊗[ℤ] L)) (E : LinearMap.BilinForm ℤ L)
+    (hE : J.IsRiemannForm E)
+    (hcomm : ∀ (b : O) (x : ℝ ⊗[ℤ] L),
+      J (((DistribSMul.toAddMonoidHom L b).toIntLinearMap.baseChange ℝ) x) =
+        ((DistribSMul.toAddMonoidHom L b).toIntLinearMap.baseChange ℝ) (J x)) :
+    ∃ (A : TauCeti.AlgebraicGeometry.AbelianVariety ℂ) (i : O →+* A.End) (g : ℕ),
+      Module.finrank ℤ L = 2 * g ∧ A.dim = (g : WithBot ℕ∞) ∧
+        ∀ b : O, i b = 0 ↔ ∀ x : L, b • x = 0 := by
+  sorry
+
 /-! ## Layer M0: Linear algebra and reflex fields -/
 
 section PositiveInvolution
@@ -72,28 +90,7 @@ structure StarOrder where
 /-- Forgetting the lattice and star-stability proofs retains the arithmetic order's subring. -/
 def StarOrder.toSubring (O : StarOrder B) : Subring B := O.toSubalgebra.toSubring
 
-/-- The integer order contains `2` and excludes `1/2`; spanning over `ℚ` is not equality with `ℚ`
-(Check `starOrder_integer`). -/
-example : ∃ O : StarOrder ℚ, (2 : ℚ) ∈ O.toSubring ∧ (1 / 2 : ℚ) ∉ O.toSubring := by
-  sorry
-
 end PositiveInvolution
-
-/-- The identity is a positive involution of `ℚ` (Check `positiveInvolution_rat`). -/
-example : IsPositiveInvolution ℚ := by
-  sorry
-
-/-- Transposition is a positive involution of `M_n(ℚ)` (Check `positiveInvolution_transpose`); the
-star of `Matrix (Fin n) (Fin n) ℚ` is the conjugate transpose, which is the transpose over `ℚ`. -/
-example (n : ℕ) : IsPositiveInvolution (Matrix (Fin n) (Fin n) ℚ) := by
-  sorry
-
-/-- The adjugate involution of `M_2(ℚ)` is not positive (Check `not_positiveInvolution_adjugate`):
-`x · adj x = det x`, whose reduced trace is `−2` at `x = diag(1, −1)`;
-the unreduced trace on the matrix algebra is `−4`. -/
-example : (Matrix.diagonal ![(1 : ℚ), -1]) * (Matrix.diagonal ![(1 : ℚ), -1]).adjugate =
-    (-1 : ℚ) • (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
-  sorry
 
 section SymplecticLattice
 
@@ -131,24 +128,11 @@ theorem dualIndex_pos (S : SymplecticOLattice O L) : 0 < S.dualIndex := by
 noncomputable def realForm (S : SymplecticOLattice O L) : LinearMap.BilinForm ℝ (ℝ ⊗[ℤ] L) :=
   LinearMap.BilinForm.baseChange ℝ S.form
 
-/-- Zero rank has Gram determinant one, rather than zero. -/
-example : ∃ S : SymplecticOLattice ℤ (Fin 0 → ℤ), S.dualIndex = 1 := by
-  sorry
-
-/-- Scalar extension retains the integral pairing on pure tensors. -/
-example (S : SymplecticOLattice O L) (x y : L) :
-    S.realForm (1 ⊗ₜ[ℤ] x) (1 ⊗ₜ[ℤ] y) = (S.form x y : ℝ) := by
-  sorry
-
 end SymplecticOLattice
 
 /-- The action of `b ∈ O` on `ℝ ⊗ L`. -/
 noncomputable def realAction (b : O) : Module.End ℝ (ℝ ⊗[ℤ] L) :=
   ((DistribSMul.toAddMonoidHom L b).toIntLinearMap).baseChange ℝ
-
-/-- The scalar `−1` acts by negation after extension to `ℝ`, fixing the action convention. -/
-example : realAction O L (-1) = -1 := by
-  sorry
 
 /-- **Linear part of an integral PEL datum** (M0.5). A symplectic `O`-lattice with an `O ⊗ ℝ`-linear complex structure
 `J = h(√−1)` with `J² = −1`, preserving the real pairing, and with `ψ(x, J x) > 0` for `x ≠ 0` (Lan's
@@ -167,15 +151,6 @@ structure IntegralPELLinearDatum where
   /-- Positivity: `ψ(x, J x) > 0` for `x ≠ 0`. -/
   pos : ∀ x, x ≠ 0 → 0 < lattice.realForm x (J x)
 
-/-- The linear carrier admits rank zero, where positivity has no nonzero vector to test. -/
-example : Nonempty (IntegralPELLinearDatum ℤ (Fin 0 → ℤ)) := by
-  sorry
-
-/-- Reversing `J` reverses the positivity sign on every nonzero vector. -/
-example (D : IntegralPELLinearDatum O L) (x : ℝ ⊗[ℤ] L) (hx : x ≠ 0) :
-    D.lattice.realForm x (-D.J x) < 0 := by
-  sorry
-
 /-- **Similitude with multiplier** (M0.7). Over a commutative ring `R`, a pair `(g, r)` of an
 `O`-linear automorphism of `R ⊗ L` and a unit `r` with `⟨g x, g y⟩ = r ⟨x, y⟩`. The multiplier is data:
 over nonflat `R` it is not determined by `g` (Lan's thesis errata, p. 4). -/
@@ -187,23 +162,49 @@ def IsSimilitude (S : SymplecticOLattice O L) (R : Type*) [CommRing R]
     ∀ x y, LinearMap.BilinForm.baseChange R S.form (g x) (g y) =
       (r : R) * LinearMap.BilinForm.baseChange R S.form x y
 
-/-- The identity automorphism has multiplier one over every base ring. -/
-example (S : SymplecticOLattice O L) (R : Type*) [CommRing R] :
-    IsSimilitude O L S R (LinearEquiv.refl R _) 1 := by
+/-- The negative scalar pairing is a Riemann form for the PEL complex structure (M0.11).
+Its sign changes the PEL test `ψ(x,Jx) > 0` into the Riemann test `E(Jx,x) > 0`. -/
+theorem IntegralPELLinearDatum.isRiemannForm (D : IntegralPELLinearDatum O L) :
+    D.J.IsRiemannForm (-D.lattice.form) := by
+  sorry
+
+/-- The negative PEL pairing polarizes the effective weight-one structure of the lattice (M0.11).
+The homological structure and its dual have the distinct signs specified in the README. -/
+theorem IntegralPELLinearDatum.hodgePolarization (D : IntegralPELLinearDatum O L)
+    {Vℂ : Type*} [AddCommGroup Vℂ] [Module ℂ Vℂ] {ιℂ : L →ₗ[ℤ] Vℂ}
+    (hℂ : IsBaseChange ℂ ιℂ) :
+    TauCeti.Hodge.IsPolarization hℂ (D.J.latticeHodgeStructure hℂ) (-D.lattice.form) := by
+  sorry
+
+/-- Positive order-linear complex structures on the same symplectic lattice are conjugate by a
+real order-linear isometry (M0.11; Kottwitz, Lemma 4.3). -/
+theorem IntegralPELLinearDatum.conjugacy (D D' : IntegralPELLinearDatum O L)
+    (hform : D.lattice.form = D'.lattice.form) :
+    ∃ g : (ℝ ⊗[ℤ] L) ≃ₗ[ℝ] (ℝ ⊗[ℤ] L),
+      (∀ x y, D.lattice.realForm (g x) (g y) = D.lattice.realForm x y) ∧
+      (∀ b x, g (realAction O L b x) = realAction O L b (g x)) ∧
+      ∀ x, g (D.J x) = D'.J (g x) := by
+  sorry
+
+/-- On a nonzero lattice over a nonzero flat base, a similitude has a unique multiplier (M0.7).
+Flatness preserves a nonzero integral pairing value. -/
+theorem IsSimilitude.multiplier_unique (S : SymplecticOLattice O L)
+    (R : Type*) [CommRing R] [Nontrivial R] [Module.Flat ℤ R] [Nontrivial L]
+    (g : (R ⊗[ℤ] L) ≃ₗ[R] (R ⊗[ℤ] L)) (r s : Rˣ)
+    (hr : IsSimilitude O L S R g r) (hs : IsSimilitude O L S R g s) : r = s := by
+  sorry
+
+/-- On the integral plane with form `5ψ`, reduction modulo five admits different multipliers for
+the identity (M0.7). The pair-valued similitude definition retains both choices. -/
+theorem IsSimilitude.multiplier_nonflat :
+    ∃ S : SymplecticOLattice ℤ (Fin 2 → ℤ),
+      S.form = (5 : ℤ) • Matrix.toBilin' !![0, 1; -1, 0] ∧
+      IsSimilitude ℤ (Fin 2 → ℤ) S (ZMod 5) (LinearEquiv.refl _ _) 1 ∧
+      IsSimilitude ℤ (Fin 2 → ℤ) S (ZMod 5) (LinearEquiv.refl _ _)
+        (ZMod.unitOfCoprime 2 (by decide)) := by
   sorry
 
 end SymplecticLattice
-
-/-- The genus-one multiplier is the determinant (Check `similitudeGroup_siegel_one`): every
-`A ∈ M_2(R)` scales the standard symplectic form by `det A`; this is `GL₂ = GSp₂`. -/
-example {R : Type*} [CommRing R] (A : Matrix (Unit ⊕ Unit) (Unit ⊕ Unit) R) :
-    A.transpose * Matrix.J Unit R * A = A.det • Matrix.J Unit R :=
-  Matrix.transpose_mul_J_mul_eq_det_smul A
-
-/-- Nonflat bases lose the multiplier (Check `similitudeGroup_multiplier_nonflat`): the form `5J`
-vanishes over `𝔽₅`, so the identity scales it by both `1` and `2`. -/
-example : (5 : ZMod 5) • Matrix.J (Fin 1) (ZMod 5) = 2 * ((5 : ZMod 5) • Matrix.J (Fin 1) (ZMod 5)) := by
-  sorry
 
 section BadPrimes
 
@@ -214,23 +215,6 @@ def badPrimeInteger (n Ibad disc dualIndex : ℕ) : ℕ := n * Ibad * disc * dua
 separate condition; none follows from `p` being large. -/
 def IsGoodPrime (n Ibad disc dualIndex p : ℕ) : Prop :=
   Nat.Prime p ∧ ¬ p ∣ badPrimeInteger n Ibad disc dualIndex
-
-/-- The Siegel datum of type `(1 | 6)` at level one has bad primes `2` and `3`
-(Check `goodPrime_type`). -/
-example : ¬ IsGoodPrime 1 1 1 36 2 ∧ ¬ IsGoodPrime 1 1 1 36 3 ∧ IsGoodPrime 1 1 1 36 5 := by
-  sorry
-
-/-- In type D, `I_bad = 2` makes `2` bad (Check `goodPrime_typeD_two`). -/
-example : ¬ IsGoodPrime 1 2 9 1 2 := by
-  sorry
-
-/-- A composite number is never a good prime, even if it is coprime to the bad-prime integer. -/
-example : ¬ IsGoodPrime 1 1 1 1 4 := by
-  sorry
-
-/-- A zero factor makes every prime bad. -/
-example : badPrimeInteger 3 1 0 4 = 0 := by
-  rfl
 
 end BadPrimes
 
@@ -253,6 +237,12 @@ theorem detPoly_eval (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O)
     MvPolynomial.eval (b.repr x) (detPoly φ b) = LinearMap.det (φ x) := by
   sorry
 
+/-- Evaluation at the negative of an element gives the constant term of its characteristic
+polynomial, with no further sign (M0.14). -/
+theorem detPoly_eval_charpoly (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O) (x : O) :
+    MvPolynomial.eval (b.repr (-x)) (detPoly φ b) = (LinearMap.charpoly (φ x)).eval 0 := by
+  sorry
+
 /-- **Determinant condition** (M0.18): equality of the determinant polynomials of arbitrary
 linear families, including nonfaithful actions and zero modules. For families induced by unital
 algebra actions this implies equality of characteristic polynomials and traces, by specializing the
@@ -262,19 +252,88 @@ def SatisfiesDetCondition {M' : Type*} [AddCommGroup M'] [Module R M'] [Module.F
     (b : Module.Basis ι R O) : Prop :=
   detPoly φ b = detPoly ψ b
 
-end Determinant
-
-/-- A zero linear family has determinant zero in positive rank and one in rank zero.
-Thus the determinant condition separates those two cases. -/
-example {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℚ ℚ) :
-    ¬ SatisfiesDetCondition (0 : ℚ →ₗ[ℚ] Module.End ℚ ℚ)
-      (0 : ℚ →ₗ[ℚ] Module.End ℚ (Fin 0 → ℚ)) b := by
+/-- Determinant polynomials commute with extension of scalars (M0.14). -/
+theorem detPoly_baseChange (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O)
+    (A : Type*) [CommRing A] [Algebra R A] :
+    detPoly ((LinearMap.tensorProduct R A M M).comp (φ.baseChange A))
+        (b.baseChange A) = MvPolynomial.map (algebraMap R A) (detPoly φ b) := by
   sorry
 
-/-- Traces do not detect the determinant in characteristic `3` (Check `detPoly_not_trace`): on `k³`
-with `i` acting by `±τ(i)`, both trace maps vanish while the determinants of `i` differ. -/
-example (k : Type*) [Field k] [CharP k 3] (t : k) (ht : t ^ 2 = -1) :
-    (3 : k) * t = 3 * (-t) ∧ t ^ 3 ≠ (-t) ^ 3 := by
+/-- A change of basis substitutes the coordinates of the new generic element (M0.14). -/
+theorem detPoly_basis_indep (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O)
+    {κ : Type*} [Fintype κ] [DecidableEq κ] (b' : Module.Basis κ R O) :
+    detPoly φ b' = MvPolynomial.bind₁
+      (fun i => ∑ j, MvPolynomial.C (b.repr (b' j) i) * MvPolynomial.X j) (detPoly φ b) := by
+  sorry
+
+/-- The determinant polynomial has the rank of the represented module as its degree (M0.14). -/
+theorem detPoly_homogeneous [Nontrivial R] (φ : O →ₗ[R] Module.End R M)
+    (b : Module.Basis ι R O) : (detPoly φ b).IsHomogeneous (Module.finrank R M) := by
+  sorry
+
+/-- In a short exact sequence of finite free representations, the determinant polynomial is the
+product of those of the submodule and quotient (M0.14). -/
+theorem detPoly_exact
+    {M₁ M₃ : Type*} [AddCommGroup M₁] [Module R M₁] [Module.Free R M₁] [Module.Finite R M₁]
+    [AddCommGroup M₃] [Module R M₃] [Module.Free R M₃] [Module.Finite R M₃]
+    (φ₁ : O →ₗ[R] Module.End R M₁) (φ₂ : O →ₗ[R] Module.End R M)
+    (φ₃ : O →ₗ[R] Module.End R M₃) (b : Module.Basis ι R O)
+    (f : M₁ →ₗ[R] M) (g : M →ₗ[R] M₃)
+    (hf : Function.Injective f) (hg : Function.Surjective g) (hexact : LinearMap.range f = LinearMap.ker g)
+    (hfφ : ∀ a x, f (φ₁ a x) = φ₂ a (f x)) (hgφ : ∀ a x, g (φ₂ a x) = φ₃ a (g x)) :
+    detPoly φ₂ b = detPoly φ₁ b * detPoly φ₃ b := by
+  sorry
+
+end Determinant
+
+section ModuleClassification
+
+variable {k C M N : Type*} [Field k] [Ring C] [Algebra k C]
+variable [FiniteDimensional k C] [IsSemisimpleRing C]
+variable [AddCommGroup M] [Module k M] [FiniteDimensional k M]
+variable [AddCommGroup N] [Module k N] [FiniteDimensional k N]
+variable {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+/-- Determinant polynomials classify finite-dimensional representations of a semisimple algebra in
+every characteristic (M0.15). After separable-centre scalar extension, apply this to the extended
+semisimple algebra. Lan, Proposition 1.1.2.16. -/
+theorem detPoly_classifies (φ : C →ₐ[k] Module.End k M) (ψ : C →ₐ[k] Module.End k N)
+    (b : Module.Basis ι k C) :
+    detPoly φ.toLinearMap b = detPoly ψ.toLinearMap b ↔
+      ∃ f : M ≃ₗ[k] N, ∀ a x, f (φ a x) = ψ a (f x) := by
+  sorry
+
+/-- In characteristic zero, traces also classify finite-dimensional semisimple representations
+(M0.15; Milne, Proposition 8.1). -/
+theorem detPoly_classifies_charZero [CharZero k]
+    (φ : C →ₐ[k] Module.End k M) (ψ : C →ₐ[k] Module.End k N) :
+    (∀ a, LinearMap.trace k M (φ a) = LinearMap.trace k N (ψ a)) ↔
+      ∃ f : M ≃ₗ[k] N, ∀ a x, f (φ a x) = ψ a (f x) := by
+  sorry
+
+end ModuleClassification
+
+/-- Equal determinant polynomials of unital algebra actions give equal characteristic polynomials
+of every element (M0.18), using the generic element `T·1 − a`. -/
+theorem SatisfiesDetCondition.charpoly_eq
+    {R C M N : Type*} [CommRing R] [Ring C] [Algebra R C]
+    [AddCommGroup M] [Module R M] [Module.Free R M] [Module.Finite R M]
+    [AddCommGroup N] [Module R N] [Module.Free R N] [Module.Finite R N]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι R C)
+    (φ : C →ₐ[R] Module.End R M) (ψ : C →ₐ[R] Module.End R N)
+    (h : SatisfiesDetCondition φ.toLinearMap ψ.toLinearMap b) (a : C) :
+    LinearMap.charpoly (φ a) = LinearMap.charpoly (ψ a) := by
+  sorry
+
+/-- In characteristic `p`, the scalar representations of ranks `p` and zero have the same traces
+and different determinant polynomials (M0.15). Thus traces cannot replace the determinant condition. -/
+theorem detCondition_not_trace (k : Type*) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] :
+    let φ := (Algebra.lsmul k k (Fin p → k)).toLinearMap
+    let ψ := (Algebra.lsmul k k (Fin 0 → k)).toLinearMap
+    let b := Module.Basis.singleton Unit k
+    (∀ a : k, LinearMap.trace k (Fin p → k) (φ a) =
+      LinearMap.trace k (Fin 0 → k) (ψ a)) ∧
+    detPoly φ b = MvPolynomial.X () ^ p ∧ detPoly ψ b = 1 ∧ detPoly φ b ≠ detPoly ψ b := by
   sorry
 
 section CMTypes
@@ -293,24 +352,7 @@ def IsCMType (Φ : (K →+* ℂ) →₀ ℕ) : Prop := IsGeneralizedCMType K 1 �
 theorem IsCMType.le_one {Φ : (K →+* ℂ) →₀ ℕ} (h : IsCMType K Φ) (τ : K →+* ℂ) : Φ τ ≤ 1 := by
   sorry
 
-/-- The empty multiplicity function is the unique rank-zero generalized CM type. -/
-example : IsGeneralizedCMType K 0 0 := by
-  sorry
-
-/-- In rank one, selecting no embedding fails the conjugate-pair condition. -/
-example (τ : K →+* ℂ) : ¬ IsCMType K 0 := by
-  sorry
-
 end CMTypes
-
-/-! ## Layer M2: Representability and smooth good models -/
-
-/-- The ratio of two infinite-order rational eigenvalues can be torsion;
-AdelicAlgebraicGroups §4.3's rational neatness predicate tests the generated subgroup.
-The adelic Pink condition is a README target. -/
-example : (2 : ℂ)⁻¹ * (-2) = -1 := by
-  norm_num
-
 
 /-! ## Layer M5: Siegel, Hilbert and unitary examples -/
 
@@ -325,9 +367,6 @@ on `ℤ^{2g}` with basis `e = inl`, `f = inr`. For `d = 1` it is `−Matrix.J`. 
 def siegelGram (d : Fin g → ℤ) : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) ℤ :=
   Matrix.fromBlocks 0 (Matrix.diagonal d) (-Matrix.diagonal d) 0
 
--- M5.1 uses Mathlib's complex-structure matrix and its square identity.
-#check Matrix.J_squared
-
 /-- For the principal type the Gram matrix is `−Matrix.J` (the sign convention of the roadmap). -/
 theorem siegelGram_one : siegelGram (fun _ : Fin g => (1 : ℤ)) = -Matrix.J (Fin g) ℤ := by
   sorry
@@ -336,20 +375,11 @@ theorem siegelGram_one : siegelGram (fun _ : Fin g => (1 : ℤ)) = -Matrix.J (Fi
 theorem siegelGram_det (d : Fin g → ℤ) : (siegelGram d).det = (∏ i, d i) ^ 2 := by
   sorry
 
-/-- For `g = 2`, `D = (1, 2)` the dual index is `4` (Check `siegelDatum_index_12`). -/
-example : (siegelGram ![(1 : ℤ), 2]).det = 4 := by
-  sorry
-
-/-- The type `(1,p)` Gram determinant is `p²` (M0.20's non-self-dual integral reference Check). -/
-example (p : ℤ) : (siegelGram ![(1 : ℤ), p]).det = p ^ 2 := by
-  sorry
-
-/-- The determinant valuations in M0.20's type `(1,p)` Check exclude every rational multiplier. -/
-example (v : ℤ) : 4 * v + 2 ≠ 0 := by
-  omega
-
-/-- The determinant of the genus-zero alternating form is one. -/
-example : (siegelGram (g := 0) (fun _ => (1 : ℤ))).det = 1 := by
+/-- Positive polarization weights give a positive definite Siegel form in every genus and type
+(M5.1). Divisibility of the weights is needed to name a polarization type, not for positivity. -/
+theorem siegel_type_pos (d : Fin g → ℤ) (hd : ∀ i, 0 < d i)
+    (x : Fin g ⊕ Fin g → ℝ) (hx : x ≠ 0) :
+    0 < x ⬝ᵥ ((siegelGram d).map (Int.cast : ℤ → ℝ) *ᵥ (Matrix.J (Fin g) ℝ *ᵥ x)) := by
   sorry
 
 /-- Positivity in the Siegel convention (Check `IntegralPELDatum.siegel`): with
@@ -365,20 +395,7 @@ theorem siegel_neg (x : Fin g ⊕ Fin g → ℝ) (hx : x ≠ 0) :
       ((-Matrix.J (Fin g) ℝ) *ᵥ x)) < 0 := by
   sorry
 
-/-- The two-term witness fixes `J e = f`, rather than `−f`. -/
-example : Matrix.J (Fin 1) ℝ *ᵥ (Pi.single (Sum.inl 0) 1) = Pi.single (Sum.inr 0) 1 := by
-  sorry
-
-/-- In genus one the Riemann input `E = −ψ` has `E(Je,e) = 1` (M3.5's sign Check). -/
-example : (-siegelGram (fun _ : Fin 1 => (1 : ℤ))) (Sum.inr 0) (Sum.inl 0) = 1 := by
-  sorry
-
 end Siegel
-
-/-- A rank-one CM torus has positive real multiplier, so its orbit has no negative-sign component
-(M3.5's CM torus Check). -/
-example (z : ℂ) (hz : z ≠ 0) : 0 < (z * star z).re := by
-  sorry
 
 section Hilbert
 
@@ -396,6 +413,16 @@ theorem hilbertPairing_self (x : F × F) : hilbertPairing F x x = 0 := by
 /-- The order acts by self-adjoint maps (`* = id`): `ψ(bx, y) = ψ(x, by)`. -/
 theorem hilbertPairing_smul (b : F) (x y : F × F) :
     hilbertPairing F (b • x) y = hilbertPairing F x (b • y) := by
+  sorry
+
+/-- The lattice `O_F ⊕ 𝔡⁻¹` is exactly its dual under the Hilbert trace pairing (M5.4).
+Integrality is expressed by membership in the image of `ℤ` in `ℚ`. -/
+theorem hilbertPairing_selfDual :
+    let I : FractionalIdeal (nonZeroDivisors (NumberField.RingOfIntegers F)) F := 1
+    let J := FractionalIdeal.dual ℤ ℚ I
+    ∀ x : F × F,
+      (∀ y : F × F, y.1 ∈ I → y.2 ∈ J → ∃ n : ℤ, hilbertPairing F x y = (n : ℚ)) ↔
+        x.1 ∈ I ∧ x.2 ∈ J := by
   sorry
 
 /-- The Hilbert convention adapter `f(a,b) = (a,−b)` transports `(J,ψ)` to `(-J,-ψ)` (M5.4). -/
@@ -419,17 +446,6 @@ theorem hilbertConventionMap_mem_prod (I J : Submodule ℤ F) (x : F × F) :
     hilbertConventionMap F x ∈ I.prod J ↔ x ∈ I.prod J := by
   sorry
 
-/-- **Self-duality of the principal Hilbert lattice** (`hilbertExample`): the trace dual of the inverse
-different `𝔡⁻¹ = dual(O_F)` is `O_F`, which makes `O_F ⊕ 𝔡⁻¹` self-dual for the trace pairing. -/
-example :
-    FractionalIdeal.dual ℤ ℚ (FractionalIdeal.dual ℤ ℚ (1 : FractionalIdeal (nonZeroDivisors
-      (NumberField.RingOfIntegers F)) F)) = 1 := by
-  sorry
-
-/-- In the degree-one case the trace pairing has `ψ(e,f) = 1`. -/
-example : hilbertPairing ℚ (1, 0) (0, 1) = 1 := by
-  sorry
-
 end Hilbert
 
 section Unitary
@@ -439,8 +455,8 @@ variable (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
 /-- The **scalar unitary trace form** (M5.5) is `ψ(x, y) = Tr_{K/ℚ}(δ H(x, y))`, with values in `ℚ`.
 For hermitian `H` and anti-invariant `δ` it is alternating and `ψ(a x, y) = ψ(x, ā y)`.
 The Tate-valued polarization is `φ = 2πi ψ`, and positivity tests `ψ(x,Jx)` (M0.11).
-This signature is the rank-one specialization; the full finite-dimensional version is in the README. -/
-noncomputable def unitaryTraceForm (H : K → K → K) (δ : K) (x y : K) : ℚ :=
+The domain of the hermitian form is arbitrary; the finite-dimensional construction is M5.5. -/
+noncomputable def unitaryTraceForm {V : Type*} (H : V → V → K) (δ : K) (x y : V) : ℚ :=
   Algebra.trace ℚ K (δ * H x y)
 
 /-- With `δ = 1`, which is not anti-invariant, the trace form of the standard hermitian form on `K` is
@@ -450,223 +466,30 @@ theorem unitaryTraceForm_one_not_alternating :
       (fun a b => a * NumberField.IsCMField.complexConj K b) 1 x x ≠ 0 := by
   sorry
 
-/-- An anti-invariant scalar gives an alternating rank-one trace form. -/
-example (δ : K) (hδ : NumberField.IsCMField.complexConj K δ = -δ) (x : K) :
-    unitaryTraceForm K (fun a b => a * NumberField.IsCMField.complexConj K b) δ x x = 0 := by
+/-- Taking the trace of a nondegenerate hermitian form times a nonzero anti-invariant scalar gives
+an alternating nondegenerate rational form with the CM action star-adjoint (M5.5).
+The hermitian form is linear in its first variable. -/
+theorem unitaryTraceForm_properties {V : Type*} [AddCommGroup V] [Module K V]
+    [Module ℚ V] [IsScalarTower ℚ K V] [FiniteDimensional K V]
+    (H : V → V → K)
+    (hadd : ∀ x y z, H (x + y) z = H x z + H y z)
+    (hsmul : ∀ a x y, H (a • x) y = a * H x y)
+    (hherm : ∀ x y, H y x = NumberField.IsCMField.complexConj K (H x y))
+    (hnd : ∀ x, x ≠ 0 → ∃ y, H x y ≠ 0)
+    (δ : K) (hδ : δ ≠ 0) (hcδ : NumberField.IsCMField.complexConj K δ = -δ) :
+    ∃ ψ : LinearMap.BilinForm ℚ V,
+      (∀ x y, ψ x y = unitaryTraceForm K H δ x y) ∧ ψ.IsAlt ∧ ψ.Nondegenerate ∧
+      ∀ (a : K) x y, ψ (a • x) y = ψ x (NumberField.IsCMField.complexConj K a • y) := by
   sorry
 
 end Unitary
 
-/-! ## Linear Checks -/
-
-/-- The nonmaximal order `ℤ[2i]` is a star-order in `ℚ(i)` and excludes `i`
-(Check `starOrder_nonmaximal`); the coordinates describe its underlying subring. -/
-example : ∃ O : StarOrder (QuadraticAlgebra ℚ (-1) 0),
-    (∀ x, x ∈ O.toSubring ↔ ∃ a b : ℤ,
-      x = (⟨(a : ℚ), 2 * (b : ℚ)⟩ : QuadraticAlgebra ℚ (-1) 0)) ∧
-    (⟨0, 1⟩ : QuadraticAlgebra ℚ (-1) 0) ∉ O.toSubring := by
-  sorry
-
-/-- The entire rational field is not an integral star-order (Check `starOrder_not_field`). -/
-example : ¬ ∃ O : StarOrder ℚ, O.toSubring = ⊤ := by
-  sorry
-
-/-- The identity on `ℚ(i)` violates the positive-trace inequality at `i`
-(Check `not_positiveInvolution_id_imaginary`). -/
-example : Algebra.trace ℚ (QuadraticAlgebra ℚ (-1) 0)
-    ((⟨0, 1⟩ : QuadraticAlgebra ℚ (-1) 0) * ⟨0, 1⟩) = -2 := by
-  sorry
-
-/-- Conjugation satisfies the positive-trace inequality on the same quadratic algebra. -/
-example : IsPositiveInvolution (QuadraticAlgebra ℚ (-1) 0) := by
-  sorry
-
-/-- Left multiplication on the four-dimensional matrix algebra has unreduced trace `−4`
-at the adjugate witness (Check `not_positiveInvolution_adjugate`); its reduced trace is `−2`. -/
-example : LinearMap.trace ℚ (Matrix (Fin 2) (Fin 2) ℚ)
-    (LinearMap.mulLeft ℚ
-      ((Matrix.diagonal ![(1 : ℚ), -1]) *
-        (Matrix.diagonal ![(1 : ℚ), -1]).adjugate)) = -4 := by
-  sorry
-
-/-- The standard integral alternating plane is self-dual and has index one
-(Check `SymplecticOLattice.dual_standard`). -/
-example : (∃ S : SymplecticOLattice ℤ (Fin 2 → ℤ),
-    S.form = Matrix.toBilin' !![0, 1; -1, 0] ∧ S.dualIndex = 1) ∧
-    (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]).dualSubmodule
-      (Submodule.span ℤ (Set.range (Pi.basisFun ℚ (Fin 2)))) =
-      Submodule.span ℤ (Set.range (Pi.basisFun ℚ (Fin 2))) := by
-  sorry
-
-/-- Weights `1,d` give dual index `d²`, with `d ≠ 0` ensuring nondegeneracy
-(Check `SymplecticOLattice.index_type`). -/
-example (d : ℤ) (hd : d ≠ 0) : ∃ S : SymplecticOLattice ℤ (Fin 2 ⊕ Fin 2 → ℤ),
-    S.form = Matrix.toBilin' (siegelGram ![1, d]) ∧
-    S.dualIndex = d.natAbs ^ 2 := by
-  sorry
-
-/-- The symmetric product form on `ℤ` fails alternation
-(Check `SymplecticOLattice.not_symmetric`). -/
-example : ¬ (LinearMap.mul ℤ ℤ).IsAlt := by
-  sorry
-
-/-- The principal plane retains its pairing and its order action under real extension (M0.5). -/
-example (S : SymplecticOLattice ℤ (Fin 2 → ℤ))
-    (hS : S.form = Matrix.toBilin' !![0, 1; -1, 0]) :
-    let e : ℝ ⊗[ℤ] (Fin 2 → ℤ) := 1 ⊗ₜ[ℤ] ![1, 0]
-    let f : ℝ ⊗[ℤ] (Fin 2 → ℤ) := 1 ⊗ₜ[ℤ] ![0, 1]
-    S.realForm e f = 1 ∧ S.realForm (2 • e) f = 2 ∧
-    S.realForm f (2 • e) = -2 ∧
-    realAction ℤ (Fin 2 → ℤ) 2 e = 2 • e ∧
-    realAction ℤ (Fin 2 → ℤ) 2 (realAction ℤ (Fin 2 → ℤ) 3 e) = 6 • e := by
-  sorry
-
-/-- On the zero lattice every extended form and order action is zero (M0.5). -/
-example (S : SymplecticOLattice ℤ (Fin 0 → ℤ)) (b : ℤ) :
-    S.realForm = 0 ∧ realAction ℤ (Fin 0 → ℤ) b = 0 := by
-  sorry
-
-/-- At level `3`, the only bad prime of a principal Siegel datum is `3`
-(Check `goodPrime_siegel`). -/
-example (p : ℕ) : IsGoodPrime 3 1 1 1 p ↔ Nat.Prime p ∧ p ≠ 3 := by
-  sorry
-
-/-- The determinant of scalar multiplication on a rank-`r` integer module is `X^r`
-(Check `detPoly_int`). -/
-example (r : ℕ) :
-    detPoly (Algebra.lsmul ℤ ℤ (Fin r → ℤ)).toLinearMap (Module.Basis.singleton Unit ℤ) =
-      MvPolynomial.X () ^ r := by
-  sorry
-
-/-- In Gaussian coordinates `(1,i)`, the two rank-one actions have determinant
-`X₁ ± i X₂` (Check `detPoly_gaussian`). -/
-example (u : ℂ) (hu : u = Complex.I ∨ u = -Complex.I) :
-    detPoly ((Algebra.lsmul ℂ ℂ ℂ).toLinearMap.comp
-      (LinearMap.proj (0 : Fin 2) + u • LinearMap.proj (1 : Fin 2)))
-      (Pi.basisFun ℂ (Fin 2)) = MvPolynomial.X 0 + MvPolynomial.C u * MvPolynomial.X 1 := by
-  sorry
-
-/-- Negative evaluation gives the characteristic polynomial's constant term, without an
-extra sign (Check `detPoly_eval_charpoly`). -/
-example {R : Type*} [CommRing R] {O : Type*} [AddCommGroup O] [Module R O]
-    {ι : Type*} [Fintype ι] [DecidableEq ι]
-    {M : Type*} [AddCommGroup M] [Module R M] [Module.Free R M] [Module.Finite R M]
-    (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O) (x : O) :
-    MvPolynomial.eval (b.repr (-x)) (detPoly φ b) = (LinearMap.charpoly (φ x)).eval 0 := by
-  sorry
-
-/-- In rank one negative evaluation at `1` is `−1` (Check `detPoly_eval_charpoly`). -/
-example : MvPolynomial.eval (fun _ : Unit => (-1 : ℤ))
-    (detPoly (Algebra.lsmul ℤ ℤ ℤ).toLinearMap (Module.Basis.singleton Unit ℤ)) = -1 := by
-  sorry
-
-/-- Two arbitrary linear families can have zero determinant polynomials and unequal traces (M0.18). -/
-example (k : Type*) [Field k] [CharP k 3] (b : Module.Basis Unit k k) :
-    let φ : k →ₗ[k] Module.End k (Fin 2 → k) :=
-      (LinearMap.id : k →ₗ[k] k).smulRight (Matrix.toLin' !![1, 0; 0, 0])
-    SatisfiesDetCondition (R := k) (O := k) φ
-      (0 : k →ₗ[k] Module.End k (Fin 2 → k)) b ∧
-      LinearMap.trace k (Fin 2 → k) (φ 1) ≠ 0 := by
-  sorry
-
-/-- Selecting both members of a conjugate pair violates rank-one CM type (M0.25). -/
-example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K] (τ : K →+* ℂ) :
-    ¬ IsCMType K (Finsupp.single τ 1 +
-      Finsupp.single (NumberField.ComplexEmbedding.conjugate τ) 1) := by
-  sorry
-
-/-- Reversing the Hilbert basis pair gives `−1`, fixing the argument order (M5.4). -/
-example : hilbertPairing ℚ (0, 1) (1, 0) = -1 := by
-  sorry
-
-/-- In the imaginary quadratic case, `δ = i` gives a positive value at `(1,i)` and
-`δ = −i` gives the negative value (Check `unitary_sign_witness`). -/
-example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
-    (i : K) (hi : i ^ 2 = -1) (hc : NumberField.IsCMField.complexConj K i = -i)
-    (hdeg : Module.finrank ℚ K = 2) :
-    unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) i 1 i = 2 ∧
-    unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) (-i) 1 i = -2 := by
-  sorry
-
-/-- The normalized Gaussian trace pairing is unimodular on `(1,i)` and its value at `(x,ix)`
-is the sum of the squares of the rational coordinates (Check `signature_gaussian_trace`). -/
-example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
-    (i : K) (hi : i ^ 2 = -1) (hc : NumberField.IsCMField.complexConj K i = -i)
-    (hdeg : Module.finrank ℚ K = 2) (a b : ℚ) :
-    let ψ := unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) (i / 2)
-    ψ 1 1 = 0 ∧ ψ 1 i = 1 ∧ ψ i 1 = -1 ∧ ψ i i = 0 ∧
-    ψ ((a : K) + (b : K) * i) (i * ((a : K) + (b : K) * i)) = a ^ 2 + b ^ 2 ∧
-    (a ≠ 0 ∨ b ≠ 0 → 0 < ψ ((a : K) + (b : K) * i) (i * ((a : K) + (b : K) * i))) := by
-  sorry
-
-/-- The Gaussian integral trace Gram matrix has determinant `−4`
-(Check `Order.disc_numberField_quadratic`). -/
-example : Matrix.det !![(2 : ℤ), 0; 0, -2] = -4 := by
-  norm_num [Matrix.det_fin_two]
-
-/-- The order with basis `(1,2i)` has trace Gram determinant `−16`
-(Check `Order.disc_nonmaximal`). -/
-example : Matrix.det !![(2 : ℤ), 0; 0, -8] = -16 := by
-  norm_num [Matrix.det_fin_two]
-
-/-- The selected one-dimensional block evaluates to `1` at `x = 1`
-(Check `bpsSignatureConstancy`). -/
-example : Matrix.det
-    (Matrix.diagonal (fun _ : Fin 1 => (1 : ℤ) - 1) + 1) = 1 := by
-  simp
-
-/-- The two integral Hecke matrices detect the order of right translation
-(Check `hecke_matrices_noncommute`). -/
-example : (!![(1 : ℤ), 1; 0, 1] * !![1, 0; 1, 1]) ≠
-    (!![(1 : ℤ), 0; 1, 1] * !![1, 1; 0, 1]) := by
-  sorry
-
-/-- Scalar actions in characteristic `p` have equal zero traces on ranks `p` and zero,
-but determinant polynomials `X^p` and `1` (Check `detPoly_classifies_charP`). -/
-example (k : Type*) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] :
-    let φ := (Algebra.lsmul k k (Fin p → k)).toLinearMap
-    let ψ := (Algebra.lsmul k k (Fin 0 → k)).toLinearMap
-    let b := Module.Basis.singleton Unit k
-    (∀ a : k, LinearMap.trace k (Fin p → k) (φ a) =
-      LinearMap.trace k (Fin 0 → k) (ψ a)) ∧
-    detPoly (R := k) (O := k) φ b = MvPolynomial.X () ^ p ∧ detPoly (R := k) (O := k) ψ b = 1 ∧
-    detPoly (R := k) (O := k) φ b ≠ detPoly (R := k) (O := k) ψ b := by
-  sorry
-
-/-- At elliptic level `3` all invertible matrices are similitudes, giving `48` bases;
-a fixed multiplier has `24` bases (M1.4–M1.5). -/
-example : Nat.card (GL (Fin 2) (ZMod 3)) = 48 ∧
-    Nat.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)) = 24 := by
-  sorry
-
-/-- The type-`(3)` pairing vanishes modulo `3`, so its finite scaling equation
-cannot distinguish multipliers `1` and `2` (M1.4–M1.5). -/
-example : (!![(0 : ZMod 3), 3; -3, 0] : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 0 ∧
-    (2 : ZMod 3) • (!![0, 3; -3, 0] : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 0 := by
-  sorry
-
-/-- A completed change of basis reducing to the identity has determinant `1 mod 3`,
-excluding the alternative multiplier `2` for the type-`(3)` lift (M1.4–M1.5). -/
-example (A : Matrix (Fin 2) (Fin 2) ℤ)
-    (hA : A.map (Int.cast : ℤ → ZMod 3) = 1) :
-    (A.map (Int.cast : ℤ → ZMod 3)).det = 1 ∧
-    (A.map (Int.cast : ℤ → ZMod 3)).det ≠ 2 := by
-  sorry
-
-/-- The principal plane and twice its form have determinant `1` and `4`, respectively;
-the latter determinant is not a unit modulo `2`, obstructing a completed lift even at
-level `1` (M1.4–M1.5). -/
-example : Matrix.det !![(0 : ℤ), 1; -1, 0] = 1 ∧
-    Matrix.det !![(0 : ℤ), 2; -2, 0] = 4 ∧
-    ¬ IsUnit ((4 : ℤ) : ZMod 2) := by
-  sorry
-
 /-!
-## Targets stated in the README only
+## Further README interfaces and conventions
 
-The following targets need carriers that are not at the pins (abelian schemes over a base and their
-duals, polarizations over a base, algebraic stacks and spaces, complex analytic spaces, Shimura data
-and Shimura varieties, crystalline and étale cohomology, displays) and are specified in `README.md`:
+The full interfaces below are specified in `README.md`. They include abelian schemes over a base
+and their duals, polarizations over a base, algebraic stacks and spaces, complex analytic spaces,
+Shimura data and Shimura varieties, crystalline and étale cohomology, and displays:
 the full `PositiveInvolution`, `IntegralPELDatum`, `RationalPELDatum`, and `PIntegralPELDatum`;
 `IntegralPELDatum.coordinate`, `IntegralPELDatum.coordinatePoints`,
 `IntegralPELDatum.isometryCoordinate`, `IntegralPELDatum.similitudePoints`;
@@ -871,7 +694,7 @@ The following APIs and discriminating Checks are also specified in the README:
   representative `y² = x³ − 16x` is isomorphic via `(x,y) ↦ (4x,8y)`.
   The forms classification keeps the full automorphism group at exceptional j-invariants.
 
-The affine determinant polynomial is stated above. Its sheaf construction and classification,
+The affine determinant polynomial is stated above. Its sheaf construction,
 the order and dual-lattice APIs, and their remaining Checks are README targets; this list does
 not introduce additional Lean declarations.
 -/
