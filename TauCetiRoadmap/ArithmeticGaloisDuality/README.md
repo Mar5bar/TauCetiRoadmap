@@ -576,7 +576,8 @@ Exercise 4, p. 11 (PDF p. 25)). *Needs:* Tau Ceti `TauCeti.exists_continuous_sec
 **Checks.**
 
 - The section need not be a homomorphism: `ℤ/4 → ℤ/2` has continuous normalised sections but no
-  additive one: `CompactCoefficients.Sections` of the reduction map is empty.
+  additive one: `CompactCoefficients.sections_zmod_four_two_isEmpty` states that
+  `CompactCoefficients.Sections` of the reduction map is empty.
 - Profiniteness is needed: the squaring map `z ↦ z²` of the circle group is a continuous
   surjective homomorphism of compact groups without a continuous section (a continuous square root
   on the circle does not exist).
@@ -736,13 +737,13 @@ fields*](https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf), §5, Le
 
 **Checks.**
 
-- `homPt_int`: for discrete `A`, evaluation at `1` identifies `Hom_pt(ℤ, A)` with `A` as a
+- For discrete `A`, evaluation at `1` identifies `Hom_pt(ℤ, A)` with `A` as a
   topological additive group.
-- `homPt_fg_discrete`: evaluation at the two basis vectors identifies `Hom_pt(ℤ², A)`
+- Evaluation at the two basis vectors identifies `Hom_pt(ℤ², A)`
   with `A²`, with its product topology; it is discrete for discrete `A`.
 - For the zero source, `Hom_pt(0, A) = 0`.
-- `homPt_not_discrete`: for `C = ⊕_ℕ 𝔽₂`, `Hom_pt(C, 𝔽₂) = 𝔽₂^ℕ` with the product topology, which
-  is not discrete.
+- `CompactCoefficients.homPt_not_discrete`: for `C = ⊕_ℕ 𝔽₂`, `Hom_pt(C, 𝔽₂) = 𝔽₂^ℕ`
+  with the product topology, which is not discrete.
 
 **The splitting torsor.** Let `Γ` be profinite and `0 → A → B → C → 0` an exact sequence of
 discrete `Γ`-modules (jointly continuous actions) that splits additively. Then the additive
@@ -1540,7 +1541,8 @@ The named operations and identities are:
 - For `A=ℚ_p/ℤ_p`, every `A/p^mA` is zero, so `Â=0`. The identity `A→ℚ_p/ℤ_p` is a nonzero `p`-primary
   character, and evaluation at a nonzero element gives a nonzero character double dual. Thus the
   double-dual and quotient-tower notions differ outside the finitely generated setting.
-- For the free direct sum `A=⨁_ℕ ℤ`, `ℤ_p ⊗ A → Â` is not surjective (`∑ p^i e_i` is not a finite sum).
+- `CompletionChecks.pCompletion_infinite_free_not_surjective`: for the free direct sum
+  `A=⨁_ℕ ℤ`, `ℤ_p ⊗ A → Â` is not surjective (`∑ p^i e_i` is not a finite sum).
 - For `ℓ ≠ p`, `ℤ_ℓ` is `p`-divisible, so its completion is 0 although `ℤ_p ⊗_ℤ ℤ_ℓ ≠ 0`.
 
 Thus completion of `Fˣ` must retain its quotient tower when `Fˣ` is not finitely generated.
@@ -1779,14 +1781,14 @@ Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I, §4, defini
 
 **Checks.**
 
-- `restricted_rat_infty`: for `K = ℚ` and `S = {∞}`, `K_S = ℚ` and `G_S = 1`: every number field
+- For `K = ℚ` and `S = {∞}`, `K_S = ℚ` and `G_S = 1`: every number field
   of degree `> 1` has `|disc| > 2` (Mathlib `NumberField.abs_discr_gt_two`), so it ramifies at
   some finite prime. A definition that ignored ramification would give `K^s`.
-- `restricted_rat_two`: for `K = ℚ` and `S = {2, ∞}`, a root `i` of `x² + 1` in `K^s` lies in
+- For `K = ℚ` and `S = {2, ∞}`, a root `i` of `x² + 1` in `K^s` lies in
   `K_S`, and so do `√2` and every `ζ_{2ⁿ}`.
-- `restricted_rat_two_nonexample`: for the same `S`, a root of `x² − 3` does not lie in `K_S`,
+- For the same `S`, a root of `x² − 3` does not lie in `K_S`,
   since `3` ramifies in `ℚ(√3)`.
-- `restricted_all_places`: if `S` is the set of all places, `K_S = K^s` and `G_S` is Mathlib's
+- If `S` is the set of all places, `K_S = K^s` and `G_S` is Mathlib's
   `Field.absoluteGaloisGroup K`.
 - For `K = ℚ` and `S = {2, ∞}`, `2 ∈ P` because `ℚ(ζ_{2^∞}) ⊆ K_S`; for `S = {∞}`, `G_S = 1` and
   `P = ∅`.
@@ -2387,7 +2389,7 @@ field*; ProfiniteCohomology Layer 10; §R02.3.0d *Finite Galois localization and
 
 **Checks.**
 
-- `absolute_sha_zero`: for `M = 0`, `Шⁱ(F, M) = 0` in every degree.
+- For `M = 0`, `Шⁱ(F, M) = 0` in every degree.
 - For zero localization maps, `ArithmeticDuality.absoluteSha` is the whole source group; for a
   one-component identity localization it is zero.
 - `absolute_sha_nonzero_local`: the class of `ℚ(i)` in `H¹(ℚ, ℤ/2)` is not in `Ш¹(ℚ, ℤ/2)`, since
@@ -2473,9 +2475,9 @@ ProfiniteCohomology Layer 9.
 
 **Checks.**
 
-- `exponent_two_empty_Q`: `ℚ(∅) = ℚ`, since every quadratic field has a ramified finite prime.
-- `exponent_two_imaginary`: `ℚ(i) ⊆ ℚ({2})`, although `ℚ(i)` is ramified at `∞`.
-- `exponent_two_all_quadratic`: `ℚ({2}) = ℚ(i, √2)`, of degree `4`, the compositum of `ℚ(i)`,
+- `ℚ(∅) = ℚ`, since every quadratic field has a ramified finite prime.
+- `ℚ(i) ⊆ ℚ({2})`, although `ℚ(i)` is ramified at `∞`.
+- `ℚ({2}) = ℚ(i, √2)`, of degree `4`, the compositum of `ℚ(i)`,
   `ℚ(√2)` and `ℚ(√−2)`.
 - `ℚ({2}) ⊆ ℚ({2, 3}) = ℚ(i, √2, √3)`, of degree `8`.
 - For `F = ℚ(√3)` the class number is `1`, but `F(∅) = F(i)`: the fundamental unit `2 + √3` has
@@ -2968,11 +2970,11 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
 
 **Checks.**
 
-- `rp_finite_pi`: this is Tau Ceti's `TauCeti.addRestrictedProductOfFinite`; for a finite index set
-  the coordinate inclusion identifies the restricted product with the full product.
+- For a finite index set, Tau Ceti's `TauCeti.addRestrictedProductOfFinite` identifies the
+  restricted product with the full product through the coordinate inclusion.
 - For index set `ℕ` and zero distinguished subgroups, the same coordinates identify the
   restricted product with the direct sum of the local groups: the families with finite support.
-- `rp_zero_local`: if every localisation is zero, `Ш^r_S` is the whole global group.
+- If every localisation is zero, `Ш^r_S` is the whole global group.
 - For `S` all places, `G_{K,S} = G_K`, and `Ш^r_S(K,M) = Ш^r(K,M)` for every `r ≥ 0`, with the
   same Tate-modified archimedean groups on both sides.
 - For `K = ℚ(√−35)`, `L = ℚ(√5,√−7) = K(√−7)`, trivial `M = ℤ/2` and `S` consisting of the
@@ -2987,7 +2989,7 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
   interpretation is Milne, Chapter I, Example 4.11(i), pp. 57–58.
 - The real Tate group `Ĥ⁰(C₂, ℤ/2) = ℤ/2` is nonzero, so the dyadic real
   contribution is kept.
-- `rp_direct_sum`: over `ℕ`, the restricted product of copies of `ℤ` with respect to the zero
+- Over `ℕ`, the restricted product of copies of `ℤ` with respect to the zero
   subgroups is the direct sum.
 - Agreement: for `r = 1, 2` the archimedean Tate groups are ordinary cohomology, so `Ш¹_S` and
   `Ш²_S` agree with Harpaz–Wittenberg's `Ш`.
@@ -3186,7 +3188,8 @@ ProfiniteCohomology Layer 12.
 ### R02.4.4 Finiteness, cohomological dimension and the Euler characteristic
 
 **Finiteness of Galois cohomology with restricted ramification.** Let `S` be finite and `M` a finite
-`G_S`-module whose order is a unit in `R_{K,S}`. Then `H^r(G_S, M)` is finite for every `r`.
+`G_S`-module whose order is a unit in `R_{K,S}`. Then `H^r(G_S, M)` is finite for every `r`
+(`RestrictedRamification.finite_cohomology_galoisGroupS`).
 
 *Proof sketch.* `P^r_S(K, M)` is finite for `S` and `M` finite, and `H⁰` is finite. `H¹` and `H²`
 are finite because `Ш¹_S(K, M)` and `Ш²_S(K, M)` are (part (a) of *Poitou–Tate duality and the
@@ -3195,10 +3198,21 @@ nine-term exact sequence*, for `M` and for `M^D`); for `r ≥ 3` use its part (c
 Corollary 4.15, p. 62 (PDF p. 70).) *Needs:* *Poitou–Tate duality and the nine-term exact
 sequence*; *Restricted products of local cohomology and `Ш^r_S`*.
 
+**Checks.**
+
+- `K = ℚ`, `S = {3, ∞}`, `M = ℤ/3`: ordinary `H⁰` has order `3`.
+- With the same `K`, `S` and `M`, all groups in degrees `r ≥ 3` vanish, since the real Tate
+  groups of odd-order coefficients vanish.
+- `K = ℚ`, `S = {2, ∞}`, `M = ℤ/2`: the groups in degrees `r ≥ 3` have order `2`;
+  finiteness does not imply eventual vanishing.
+
 **Cohomological dimension of `G_{K,S}`.** Let `ℓ` be a prime that is a unit in `R_{K,S}`. For every
 finite `ℓ`-primary `G_S`-module `M` and `r ≥ 3`, `H^r(G_S, M) ≅ ⊕_{v real} Ĥ^r(G_v, M)`. Hence
 `cd_ℓ(G_S) ≤ 2` if `ℓ` is odd or `K` is totally imaginary. If `ℓ = 2` and `K` has `r₁ ≥ 1` real
 places, `H^r(G_S, ℤ/2) ≅ (ℤ/2)^{r₁} ≠ 0` for every `r ≥ 3`, so `cd₂(G_S) = ∞`.
+For arbitrary finite `M` with order a unit in `R_{K,S}`, odd `#M` or a totally imaginary `K`
+gives vanishing in every degree `r > 2`
+(`RestrictedRamification.subsingleton_cohomology_galoisGroupS_of_two_lt`).
 
 *Proof sketch.* Part (c) of *Poitou–Tate duality and the nine-term exact sequence* applies to finite
 `ℓ`-primary `M`, since `#M` is a power of `ℓ`, a unit in `R_{K,S}`. For `ℓ` odd the Tate cohomology
@@ -3620,7 +3634,7 @@ field* (Layer R02.3); *The class formation of a global function field* (Layer R0
 
 **Checks.**
 
-- `finite_support_identity`: the mapping fibre of an identity map is acyclic.
+- `GaloisCohomology.compactCohomology_identity`: the mapping fibre of an identity map is acyclic.
 - `finite_support_no_local`: a zero local complex gives back the global cochain complex.
 - `finite_support_h0`: `H⁰` of the fibre is the kernel of localisation on `H⁰` when the local complex
   has no cohomology in negative degrees.
@@ -4715,10 +4729,10 @@ and finite reductions* (Layer R02.1); *Matlis duality for arithmetic coefficient
 
 - `admissible_trivial`: the image algebra of a trivial representation is the cyclic `R`-span of
   `Id`, including the case of the zero module.
-- `admissible_zero`: the zero module has zero image algebra.
-- `admissible_joint`: for a finitely generated module with the `𝔪`-adic topology, admissibility
-  implies joint continuity of the action.
-- `ind_admissible_trivial`: every trivial representation is ind-admissible, since each element lies
+- The zero module has zero image algebra.
+- `ArithmeticDuality.continuous_of_isAdmissible`: for a finitely generated module with the
+  `𝔪`-adic topology, admissibility implies joint continuity of the action.
+- Every trivial representation is ind-admissible, since each element lies
   in its cyclic `R`-submodule, even when the module is not finitely generated.
 - `ℤ/pⁿ` with `G` acting through a continuous character `G → (ℤ/pⁿ)^×` is admissible, with finite
   image algebra; `ℤ_p(1)` for `G = G_{ℚ_p}` is admissible with image algebra `ℤ_p`.
@@ -5175,13 +5189,14 @@ compact and cofinite coefficients*; *Continuous cochains in the derived category
 
 **Checks.**
 
-- `cone_square_zero`: the signed mapping-fibre differential composes to zero.
+- The signed mapping-fibre differential composes to zero.
 - The residue characteristic is essential: for `p = 3`, `R = 𝔽₂`, `K = ℚ`,
   `S = {2, 3, ∞}` and trivial `X = 𝔽₂[0]`, `(P)` holds but
   `Ĥ^i(C₂, 𝔽₂) = 𝔽₂` for every integer `i`; the finite-place fibre omits a nonacyclic real term.
-- `compact_no_local`: a zero local complex recovers the global cohomology.
-- `h0_vanishes`: if the local complex has no negative cohomology and localisation on `H⁰` is
-  injective, then `H⁰` of the fibre vanishes.
+- `GaloisCohomology.compactCohomology_no_local`: a zero local complex recovers the global
+  cohomology.
+- `GaloisCohomology.compactCohomology_zero_of_injective`: if local `H⁻¹` vanishes and
+  localisation on `H⁰` is injective, then `H⁰` of the fibre vanishes.
 - For `K = ℚ`, `S = {p, ∞}`, `p` odd and `M = 𝔽_p`: `H⁰_c = H¹_c = H³_c = 0` and `H²_c ≅ 𝔽_p`, so
   `χ_c = 1 = dim 𝔽_p^{G_ℝ}` (Theorem 5.3.6).
 - For `p` odd the complete Tate cohomology of `Gal(ℂ/ℝ)` with `p`-primary coefficients vanishes, so
@@ -6188,7 +6203,8 @@ the trace: `det ρ_ε = det ρ` exactly when `tr ∘ c = 0`, i.e. `c ∈ Z¹(G, 
 classes of lifts with fixed determinant form `ker(H¹(G, ad ρ) → H¹(G, k)) = H¹(G, ad⁰ ρ)/δ(H⁰(G, k))`,
 with `δ` the boundary of the trace sequence. In `Suggested.lean` the lift is
 `Adjoint.firstOrderLift ρ c`, the cocycle criterion is `Adjoint.firstOrderLift_mul_iff`, and the
-determinant identity is `Adjoint.det_one_add_eps`.
+determinant identity is `Adjoint.det_one_add_eps`. The coboundary identity for first-order
+conjugation is `Adjoint.firstOrderLift_conjugation`.
 
 *Proof sketch.* Multiply two first-order matrices and compare the `ε`-coefficient with the group
 law to get the cocycle condition. Compute conjugation by `1 + εX` and identify the difference as a

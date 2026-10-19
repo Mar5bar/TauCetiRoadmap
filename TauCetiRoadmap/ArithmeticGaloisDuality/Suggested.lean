@@ -1,12 +1,9 @@
 import Mathlib
 import TauCeti.Topology.CompactOpen
-import TauCeti.Topology.Algebra.RestrictedProduct.Finite
-import TauCeti.RepresentationTheory.AsAlgebraHom
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.TraceForm
 import TauCeti.FieldTheory.GaloisCohomology.Coefficients
-import TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule
 import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
 
 /-!
@@ -115,26 +112,13 @@ variable {C A}
 theorem continuous_eval [TopologicalSpace C] [DiscreteTopology C] :
     Continuous fun x : HomPt C A × C => x.1 x.2 := sorry
 
-/-- For finitely generated `C` and discrete `A`, `Hom_pt(C, A)` is discrete (Check
-`homPt_fg_discrete`). -/
+/-- For finitely generated `C` and discrete `A`, `Hom_pt(C, A)` is discrete. -/
 theorem discreteTopology_of_fg [DiscreteTopology A] (hC : AddGroup.FG C) :
     DiscreteTopology (HomPt C A) := sorry
 
-/-- Check `homPt_int`: evaluation at `1` is a topological additive equivalence. -/
-example [DiscreteTopology A] :
-    ∃ e : HomPt ℤ A ≃ₜ+ A, ∀ f, e f = f 1 := sorry
-
-/-- Check `homPt_fg_discrete`: two basis evaluations give the product topology on `A²`. -/
-example [DiscreteTopology A] :
-    ∃ e : HomPt (Fin 2 → ℤ) A ≃ₜ+ (Fin 2 → A),
-      ∀ f i, e f i = f (Pi.single i 1) := sorry
-
-/-- The zero source has only the zero additive map. -/
-example : Subsingleton (HomPt (Fin 0 → ℤ) A) := sorry
-
-/-- Check `homPt_not_discrete`: for `C = ⊕_ℕ 𝔽₂` the pointwise topology on `Hom(C, 𝔽₂) = 𝔽₂^ℕ`
-is not discrete. -/
-example : letI : TopologicalSpace (ZMod 2) := ⊥
+/-- §R02.1.4, Pointwise Hom: an infinitely generated source can give a nondiscrete
+pointwise Hom even when the target is finite and discrete. -/
+theorem homPt_not_discrete : letI : TopologicalSpace (ZMod 2) := ⊥
     ¬ DiscreteTopology (HomPt (ℕ →₀ ZMod 2) (ZMod 2)) := sorry
 
 end PointwiseHom
@@ -155,15 +139,9 @@ theorem sections_sub_mem_ker (κ : B →+ C) (s t : Sections κ) (c : C) :
   simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddMonoidHom.id_apply] at hs ht
   simp [AddMonoidHom.mem_ker, hs, ht]
 
-/-- The identity of `C` has exactly one section. -/
-example : Subsingleton (Sections (AddMonoidHom.id C)) := sorry
-
 /-- Reduction `ℤ/4 → ℤ/2` has no additive section. -/
-example : IsEmpty (Sections
+theorem sections_zmod_four_two_isEmpty : IsEmpty (Sections
     ((ZMod.castHom (show 2 ∣ 4 by decide) (ZMod 2)).toAddMonoidHom)) := sorry
-
-/-- A split projection onto the first factor has an additive section. -/
-example : Nonempty (Sections (AddMonoidHom.fst ℤ ℤ)) := sorry
 
 end SplittingTorsor
 
@@ -183,23 +161,6 @@ end ContinuousHom
 end CompactCoefficients
 
 /-! ## Layer R02.3: completions, S-units and restricted ramification -/
-
-/-- Finite local Tate duality supplies all three bijections for finite discrete coefficients
-killed by an invertible `n`, in mixed and equal characteristic. -/
-example {K : Type} [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsNonarchimedeanLocalField K] {n : ℕ} (hn : IsUnit (n : K))
-    (A : Type) [AddCommGroup A] [TopologicalSpace A] [DiscreteTopology A]
-    [DistribMulAction (TauCeti.AbsoluteGaloisGroup K) A] [ContinuousSMul (TauCeti.AbsoluteGaloisGroup K) A]
-    [Finite A] (hA : ∀ a : A, n • a = 0) :
-    Function.Bijective (TauCeti.ContCohomology.dualityMap0
-      (TauCeti.AbsoluteGaloisGroup K) A (TauCeti.KummerCoeff K n)) ∧
-    Function.Bijective (TauCeti.ContCohomology.dualityMap1
-      (TauCeti.AbsoluteGaloisGroup K) A (TauCeti.KummerCoeff K n)) ∧
-    Function.Bijective (TauCeti.ContCohomology.dualityMap2
-      (TauCeti.AbsoluteGaloisGroup K) A (TauCeti.KummerCoeff K n)) :=
-  ⟨TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective hn A hA,
-    TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective hn A hA,
-    TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective hn A hA⟩
 
 open scoped NumberField
 
@@ -277,25 +238,9 @@ namespace CompletionChecks
 
 variable (p : ℕ) [Fact p.Prime]
 
-/-- Completion kills a `p`-divisible group. -/
-example : Subsingleton (pCompletion p ℚ) := sorry
-
-/-- Prime-to-three finite torsion disappears in the quotient-tower completion. -/
-example : Subsingleton (pCompletion 3 (ZMod 2)) := sorry
-
 /-- An infinite free lattice has completed elements with infinite support. -/
-example : ¬ Function.Surjective
+theorem pCompletion_infinite_free_not_surjective : ¬ Function.Surjective
     (AdicCompletion.ofTensorProduct (Ideal.span {(p : ℤ)}) (ℕ →₀ ℤ)) := sorry
-
-/-- The integer completion map is injective, while every rational maps to zero. -/
-example : Function.Injective (AdicCompletion.of (Ideal.span {(p : ℤ)}) ℤ) ∧
-    ∀ x : ℚ, AdicCompletion.of (Ideal.span {(p : ℤ)}) ℚ x = 0 := sorry
-
-/-- `ℚ` with no finite place in `S_f` has a finitely generated S-unit module of rank zero. -/
-example : Module.Finite ℤ
-    (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ)) ∧
-    Module.finrank ℤ
-      (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ)) = 0 := sorry
 
 end CompletionChecks
 
@@ -347,23 +292,6 @@ theorem kummerCoeffS_exists (S : Set (HeightOneSpectrum (𝓞 K))) (m : ℕ) (hm
       Continuous (fun gx : galoisGroupS K (SeparableClosure K) S × TauCeti.KummerCoeff K m =>
         ρ gx.1 gx.2) := sorry
 
-/-- Check `restricted_rat_infty`: with no finite place allowed, `ℚ` has no nontrivial extension
-(Minkowski). -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : maxUnramifiedOutside ℚ Ω ∅ = ⊥ := sorry
-
-/-- Check `restricted_all_places`: algebraicity makes every element lie in a finite
-subextension, and the ramification condition for all finite places is vacuous. -/
-example [Algebra.IsAlgebraic K Ω] : maxUnramifiedOutside K Ω Set.univ = ⊤ := sorry
-
-/-- Check `restricted_rat_two`: `ℚ(i)` is unramified outside `2`. -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = -1) :
-    x ∈ maxUnramifiedOutside ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal} := sorry
-
-/-- Check `restricted_rat_two_nonexample`: `√3` is ramified at `3`, so it does not lie in
-`ℚ_{{2}}`. -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = 3) :
-    x ∉ maxUnramifiedOutside ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal} := sorry
-
 /-- **Hermite's finiteness theorem**: for finite `S` and `n ≥ 1`, only finitely many subextensions
 of `Ω/K` of degree at most `n` are unramified outside `S`. -/
 theorem finite_unramifiedOutside_of_finrank_le (S : Set (HeightOneSpectrum (𝓞 K)))
@@ -379,6 +307,30 @@ theorem finite_H1_galoisGroupS [IsSepClosed Ω] [Algebra.IsAlgebraic K Ω]
     (M : Type) [AddCommGroup M] [Finite M] [TopologicalSpace M] [DiscreteTopology M]
     [DistribMulAction (galoisGroupS K Ω S) M] [ContinuousSMul (galoisGroupS K Ω S) M] :
     Finite (continuousCohomology 1 (TauCeti.ofDiscreteModule ℤ (galoisGroupS K Ω S) M)) := sorry
+
+/-- §R02.4.4, Finiteness of Galois cohomology with restricted ramification:
+all degrees are finite for finite coefficients with order invertible outside `S`
+(Milne, ADT I, Corollary 4.15). -/
+theorem finite_cohomology_galoisGroupS [IsSepClosed Ω] [Algebra.IsAlgebraic K Ω]
+    (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite)
+    (M : Type) [AddCommGroup M] [Finite M] [TopologicalSpace M] [DiscreteTopology M]
+    [DistribMulAction (galoisGroupS K Ω S) M] [ContinuousSMul (galoisGroupS K Ω S) M]
+    (hunit : ∀ v : HeightOneSpectrum (𝓞 K), (Nat.card M : 𝓞 K) ∈ v.asIdeal → v ∈ S)
+    (r : ℕ) :
+    Finite (continuousCohomology r (TauCeti.ofDiscreteModule ℤ (galoisGroupS K Ω S) M)) := sorry
+
+/-- §R02.4.4, Cohomological dimension of `G_{K,S}`: finite odd-order coefficients,
+or a totally complex base field, have zero cohomology above degree two when the order
+is invertible outside `S` (Milne, ADT I, Theorem 4.10(c)). -/
+theorem subsingleton_cohomology_galoisGroupS_of_two_lt
+    [IsSepClosed Ω] [Algebra.IsAlgebraic K Ω]
+    (S : Set (HeightOneSpectrum (𝓞 K)))
+    (M : Type) [AddCommGroup M] [Finite M] [TopologicalSpace M] [DiscreteTopology M]
+    [DistribMulAction (galoisGroupS K Ω S) M] [ContinuousSMul (galoisGroupS K Ω S) M]
+    (hunit : ∀ v : HeightOneSpectrum (𝓞 K), (Nat.card M : 𝓞 K) ∈ v.asIdeal → v ∈ S)
+    (harch : Odd (Nat.card M) ∨ NumberField.IsTotallyComplex K) (r : ℕ) (hr : 2 < r) :
+    Subsingleton (continuousCohomology r
+      (TauCeti.ofDiscreteModule ℤ (galoisGroupS K Ω S) M)) := sorry
 
 end RestrictedRamification
 
@@ -409,19 +361,6 @@ theorem exponentTwoField_contains (S : Set (HeightOneSpectrum (𝓞 K)))
 /-- For finite `S` the exponent-two field is a finite extension (Hermite). -/
 theorem exponentTwoField_finite (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite) :
     FiniteDimensional K (exponentTwoField K Ω S) := sorry
-
-/-- Check `exponent_two_imaginary`: `ℚ(i) = ℚ(√-1)` is unramified outside `2`, so it lies in the
-exponent-two field of `{2}`. -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = -1) :
-    x ∈ exponentTwoField ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal} := sorry
-
-/-- Check `exponent_two_empty_Q`: no quadratic field is unramified at every finite prime. -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : exponentTwoField ℚ Ω ∅ = ⊥ := sorry
-
-/-- Check `exponent_two_all_quadratic`: the exponent-two extension unramified outside `2`
-is `ℚ(ζ₈)`, of degree four, in an algebraic separably closed ambient field. -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsSepClosed Ω] [Algebra.IsAlgebraic ℚ Ω] :
-    Module.finrank ℚ (exponentTwoField ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal}) = 4 := sorry
 
 section LocalizationKernel
 
@@ -455,15 +394,6 @@ theorem sha_res_cor {B : Type*} [AddCommGroup B] {J : ι → Type*}
   simp only [AddMonoidHom.coe_comp, Function.comp_apply] at this
   rw [this, ha v, map_zero]
 
-/-- Check `absolute_sha_zero`: a zero global group has zero localization kernel. -/
-example [Subsingleton A] (loc : ∀ v, A →+ H v) : absoluteSha loc = ⊥ := sorry
-
-/-- Zero localization maps have the whole global group as their kernel. -/
-example : absoluteSha (fun v => (0 : A →+ H v)) = ⊤ := sorry
-
-/-- An identity localization has zero kernel. -/
-example : absoluteSha (fun _ : Unit => AddMonoidHom.id A) = ⊥ := sorry
-
 end LocalizationKernel
 
 end ArithmeticDuality
@@ -479,20 +409,6 @@ variable {ι : Type*} (H : ι → Type*) [∀ v, AddCommGroup (H v)] (Hun : ∀ 
 /-- `P_S^r`: the restricted product of the local groups with respect to the unramified
 subgroups. -/
 abbrev restrictedProductCohomology : Type _ := Πʳ v, [H v, Hun v]_[cofinite]
-
-/-- Check `rp_finite_pi`: for finite indices the coordinate inclusion is an additive
-equivalence with the full product. -/
-example [Finite ι] :
-    ∃ e : restrictedProductCohomology H Hun ≃+ (∀ v, H v),
-      ∀ x v, e x v = x v :=
-  ⟨TauCeti.addRestrictedProductOfFinite Hun,
-    fun x v => TauCeti.addRestrictedProductOfFinite_apply Hun x v⟩
-
-/-- Check `rp_direct_sum`: with zero distinguished subgroups, the coordinates identify the
-restricted product with finitely supported families. -/
-example (J : ℕ → Type*) [∀ n, AddCommGroup (J n)] :
-    ∃ e : restrictedProductCohomology J (fun n => (⊥ : AddSubgroup (J n))) ≃+ (Π₀ n, J n),
-      ∀ x n, e x n = x n := sorry
 
 variable {H Hun} {A : Type*} [AddCommGroup A]
 
@@ -528,9 +444,6 @@ theorem sha_eq_ker_localization (loc : ∀ v, A →+ H v)
     ext v
     exact h v
 
-/-- Check `rp_zero_local`: zero localization has the whole global group as its kernel. -/
-example : sha (Hun := Hun) (fun v => (0 : A →+ H v)) (by simp) = ⊤ := sorry
-
 /-- Localization over `S` gives the all-place kernel when `S` is all places. The arithmetic
 instance uses `G_{K,S} = G_K` to identify the source with `Hʳ(G_K, M)` and keeps the same
 modified archimedean local groups on both sides. -/
@@ -555,9 +468,6 @@ end PoitouTate
 
 namespace EulerCharacteristic
 
-local instance : TopologicalSpace (ZMod 3) := ⊥
-local instance : DiscreteTopology (ZMod 3) := ⟨rfl⟩
-
 /-- The Euler characteristic `χ = #H⁰ · #H² / #H¹`, with ordinary `H⁰`. -/
 def eulerChar (h0 h1 h2 : ℕ) : ℚ := (h0 * h2 : ℚ) / h1
 
@@ -565,62 +475,6 @@ def eulerChar (h0 h1 h2 : ℕ) : ℚ := (h0 * h2 : ℚ) / h1
 complex place. -/
 def archFactor (isComplex : Bool) (h0 m : ℕ) : ℚ :=
   (h0 : ℚ) / (if isComplex then (m : ℚ) ^ 2 else m)
-
-/-- The arithmetic function gives factor `1` on real-place input cardinalities `2, 2`. -/
-example : archFactor false 2 2 = 1 := by norm_num [archFactor]
-
-/-- The arithmetic function squares the coefficient cardinality at a complex place. -/
-example : archFactor true 2 2 = 1 / 2 := by norm_num [archFactor]
-
-/-- Unit values of the Euler quotient and archimedean-factor functions. -/
-example :
-    (eulerChar 3 3 1, archFactor false 3 3, eulerChar 1 3 1, archFactor false 1 3) =
-      (1, 1, 1 / 3, 1 / 3) := by
-  norm_num [eulerChar, archFactor]
-
-/-- In the additive `𝔽₃` models of the real actions on `ℤ/3` and `μ₃`, complex conjugation
-acts by `+1` and `−1`; the ordinary invariant groups have orders `3` and `1`. -/
-example :
-    Fintype.card {x : ZMod 3 // (1 : ZMod 3) * x = x} = 3 ∧
-      Fintype.card {x : ZMod 3 // (-1 : ZMod 3) * x = x} = 1 := by
-  decide
-
-open RestrictedRamification IsDedekindDomain in
-/-- Over `ℚ`, unramified outside `3`, the trivial coefficient `ℤ/3` has cohomology orders
-`3, 3, 1` in degrees `0, 1, 2`. -/
-example (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsSepClosed Ω] [Algebra.IsAlgebraic ℚ Ω] :
-    let X : TopRep ℤ
-        (galoisGroupS ℚ Ω {v | (3 : NumberField.RingOfIntegers ℚ) ∈ v.asIdeal}) :=
-      { V := ZMod 3, hV5 := ⟨continuous_of_discreteTopology⟩,
-        ρ := ContRepresentation.trivial ℤ _ (ZMod 3) }
-    (Nat.card (continuousCohomology 0 X), Nat.card (continuousCohomology 1 X),
-      Nat.card (continuousCohomology 2 X)) = (3, 3, 1) := sorry
-
-open RestrictedRamification IsDedekindDomain in
-/-- Over `ℚ`, unramified outside `3`, the descended pinned Kummer coefficient `μ₃` has
-cohomology orders `1, 3, 1`. The compatibility pins its nontrivial Galois action. -/
-example :
-    let S : Set (HeightOneSpectrum (NumberField.RingOfIntegers ℚ)) :=
-      {v | (3 : NumberField.RingOfIntegers ℚ) ∈ v.asIdeal}
-    let L := maxUnramifiedOutside ℚ (SeparableClosure ℚ) S
-    letI : IsGalois ℚ L := isGalois_maxUnramifiedOutside ℚ (SeparableClosure ℚ) S
-    ∀ ρ : ContRepresentation ℤ (galoisGroupS ℚ (SeparableClosure ℚ) S) (TauCeti.KummerCoeff ℚ 3),
-      (∀ (σ : TauCeti.AbsoluteGaloisGroup ℚ) (x : TauCeti.KummerCoeff ℚ 3),
-        ρ (AlgEquiv.restrictNormalHom L σ) x = σ • x) →
-      (Nat.card (continuousCohomology 0 (TopRep.of ρ)),
-        Nat.card (continuousCohomology 1 (TopRep.of ρ)),
-        Nat.card (continuousCohomology 2 (TopRep.of ρ))) = (1, 3, 1) := sorry
-
-/-- Real ordinary invariants of the trivial `ℤ/3` action have order three. -/
-example :
-    let X : TopRep ℤ (TauCeti.AbsoluteGaloisGroup ℝ) :=
-      { V := ZMod 3, hV5 := ⟨continuous_of_discreteTopology⟩,
-        ρ := ContRepresentation.trivial ℤ _ (ZMod 3) }
-    Nat.card (continuousCohomology 0 X) = 3 := sorry
-
-/-- Real ordinary invariants of `μ₃` use its Galois action and have order one. -/
-example : Nat.card (continuousCohomology 0
-    (TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup ℝ) (TauCeti.KummerCoeff ℝ 3))) = 1 := sorry
 
 end EulerCharacteristic
 
@@ -683,34 +537,26 @@ example : actionSpan (Representation.trivial R G M) = Submodule.span R {1} := by
     simp [Representation.trivial, eq_comm]
   rw [actionSpan, this]
 
-/-- Every trivial representation is admissible for every ideal. -/
-example (I : Ideal R) : IsAdmissible I (Representation.trivial R G M) := sorry
+/-- §D7.3, Admissible compact and cofinite coefficients: a finite discrete module
+with jointly continuous action is admissible for every ideal. -/
+theorem admissible_of_finite [Finite M] [TopologicalSpace M] [DiscreteTopology M]
+    (I : Ideal R) (ρ : Representation R G M)
+    (hρ : Continuous fun gm : G × M => ρ gm.1 gm.2) : IsAdmissible I ρ := sorry
 
-/-- Check `admissible_zero`: the zero module has zero image algebra. -/
-example : actionSpan (Representation.trivial R G (Fin 0 → R)) = ⊥ := sorry
+/-- §D7.3, Admissible compact and cofinite coefficients: joint continuity of the adic
+action on a finite-type module implies admissibility (Nekovář 3.2.4). -/
+theorem admissible_of_finiteType [IsNoetherianRing R] [IsLocalRing R] [Module.Finite R M]
+    (ρ : Representation R G M)
+    (hρ : letI : TopologicalSpace M := (IsLocalRing.maximalIdeal R).adicModuleTopology M
+      Continuous fun gm : G × M => ρ gm.1 gm.2) :
+    IsAdmissible (IsLocalRing.maximalIdeal R) ρ := sorry
 
-/-- Check `admissible_joint`: admissibility gives joint continuity on a finite-type module
-with its maximal-ideal-adic topology. -/
-example [IsNoetherianRing R] [IsLocalRing R] [Module.Finite R M]
+/-- §D7.3, Admissible compact and cofinite coefficients: admissibility gives joint continuity
+on a finite-type module with its maximal-ideal-adic topology. -/
+theorem continuous_of_isAdmissible [IsNoetherianRing R] [IsLocalRing R] [Module.Finite R M]
     (ρ : Representation R G M) (hρ : IsAdmissible (IsLocalRing.maximalIdeal R) ρ) :
     letI : TopologicalSpace M := (IsLocalRing.maximalIdeal R).adicModuleTopology M
     Continuous fun gm : G × M => ρ gm.1 gm.2 := sorry
-
-/-- A discontinuous character of the product of copies of `𝔽₂` gives a finite image algebra
-but neither an admissible nor an ind-admissible unipotent representation. -/
-example :
-    ∃ (φ : (ℕ → ZMod 2) →+ ZMod 2)
-    (ρ : Representation (ZMod 2) (Multiplicative (ℕ → ZMod 2)) (Fin 2 → ZMod 2)),
-    ¬ Continuous φ ∧
-    (∀ g, ρ g = Matrix.toLin' (!![1, φ (Multiplicative.toAdd g); 0, 1])) ∧
-    ¬ @IsAdmissible (ZMod 2) (Multiplicative (ℕ → ZMod 2)) (Fin 2 → ZMod 2)
-      inferInstance inferInstance inferInstance (Pi.module _ _ _) inferInstance ⊥ ρ ∧
-    ¬ @IsIndAdmissible (ZMod 2) (Multiplicative (ℕ → ZMod 2)) (Fin 2 → ZMod 2)
-      inferInstance inferInstance inferInstance (Pi.module _ _ _) inferInstance ⊥ ρ := sorry
-
-/-- Check `ind_admissible_trivial`: every trivial representation is ind-admissible, even when `M`
-is not finite over `R`. -/
-example (I : Ideal R) : IsIndAdmissible I (Representation.trivial R G M) := sorry
 
 end ArithmeticDuality
 
@@ -741,23 +587,18 @@ theorem compactCohomology_exact (res : A ⟶ B) (n : ℤ) :
       Function.Exact δ.hom ι.hom ∧
       Function.Exact ι.hom (HomologicalComplex.homologyMap res (n + 1)).hom := sorry
 
-/-- Check `compact_no_local`: with no local terms the compactly supported cohomology is the
-global cohomology. -/
-example (res : A ⟶ B) (hB : Limits.IsZero B) (n : ℤ) :
+/-- §D7.5, Continuous cochains with compact support: a zero local complex recovers
+global cohomology in every degree. -/
+theorem compactCohomology_no_local (res : A ⟶ B) (hB : Limits.IsZero B) (n : ℤ) :
     Nonempty (compactCohomology res n ≅ A.homology n) := sorry
 
-/-- Check `finite_support_identity`: the fibre of the identity is acyclic. -/
-example (n : ℤ) : Limits.IsZero (compactCohomology (𝟙 A) n) := sorry
+/-- §R02.4.4a, Finite arithmetic compact support: the fibre of the identity is acyclic. -/
+theorem compactCohomology_identity (n : ℤ) : Limits.IsZero (compactCohomology (𝟙 A) n) := sorry
 
-/-- Check `cone_square_zero`: Mathlib's mapping cocone differential squares to zero. -/
-example (res : A ⟶ B) (n : ℤ) :
-    (CochainComplex.mappingCocone res).d n (n + 1) ≫
-      (CochainComplex.mappingCocone res).d (n + 1) (n + 2) = 0 := by
-  exact HomologicalComplex.d_comp_d _ _ _ _
-
-/-- Check `h0_vanishes`: no negative local cohomology and injective degree-zero localization
-force degree-zero compactly supported cohomology to vanish. -/
-example (res : A ⟶ B) [B.IsGE 0]
+/-- §D7.5, Continuous cochains with compact support: vanishing of local `H⁻¹` and
+injective degree-zero localization force degree-zero compact support to vanish. -/
+theorem compactCohomology_zero_of_injective (res : A ⟶ B)
+    (hB : Limits.IsZero (B.homology (-1)))
     (hres : Function.Injective (HomologicalComplex.homologyMap res 0).hom) :
     Limits.IsZero (compactCohomology res 0) := sorry
 
@@ -805,27 +646,6 @@ theorem card_mul_card_orthogonal (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) 
 
 end FiniteDuality
 
-namespace PairingChecks
-
-/-- The closed lattice of p-adic integers has zero annihilator under rational multiplication,
-while it is a proper subset of the rational space. Rational double annihilation requires a subspace. -/
-example (p : ℕ) [Fact p.Prime] :
-    {y : ℚ_[p] | ∀ x : ℤ_[p], (x : ℚ_[p]) * y = 0} = {0} ∧
-      Set.range (fun x : ℤ_[p] => (x : ℚ_[p])) ≠ Set.univ := sorry
-
-/-- A zero pairing on a nonzero space fails perfectness. -/
-example : ¬ (0 : ℚ →ₗ[ℚ] ℚ →ₗ[ℚ] ℚ).IsPerfPair := sorry
-
-/-- Nondegeneracy without surjectivity: `3xy` on `ℤ` is not perfect. -/
-example : ¬ ((3 : ℤ) • LinearMap.mul ℤ ℤ).IsPerfPair := sorry
-
-/-- A zero pairing has full annihilator for every condition. -/
-example {R X X' Y : Type*} [CommRing R] [AddCommGroup X] [Module R X]
-    [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
-    (F : Submodule R X) : Submodule.orthogonalBilin (0 : X →ₗ[R] X' →ₗ[R] Y) F = ⊤ := sorry
-
-end PairingChecks
-
 /-! ## Layer D8: adjoint coefficients and first-order lifts -/
 
 namespace Adjoint
@@ -836,10 +656,6 @@ attribute [local instance 100] LieRing.ofAssociativeRing
 
 variable (k : Type*) [Field k] (n : Type*) [Fintype n] [DecidableEq n]
 
-/-- The trace pairing on `ad` is Tau Ceti's `TauCeti.traceBilinForm`, perfect in every
-characteristic (`TauCeti.traceBilinForm_nondegenerate`). -/
-example : (TauCeti.traceBilinForm k n).Nondegenerate := TauCeti.traceBilinForm_nondegenerate k n
-
 /-- **Trace-zero adjoint duality**: the trace pairing restricted to `ad⁰`, the underlying submodule
 of Tau Ceti's trace-zero ideal `TauCeti.slIdeal k n`, is perfect exactly when `n` is invertible in
 `k`. Nothing divides by `n`: when `char k ∣ n`, the scalars lie in `ad⁰` and span its radical, and
@@ -847,26 +663,6 @@ of Tau Ceti's trace-zero ideal `TauCeti.slIdeal k n`, is perfect exactly when `n
 theorem traceBilinForm_restrict_slIdeal_nondegenerate_iff [Nonempty n] :
     ((TauCeti.traceBilinForm k n).restrict (TauCeti.slIdeal k n).toSubmodule).Nondegenerate ↔
       (Fintype.card n : k) ≠ 0 := sorry
-
-/-- In characteristic two the identity of `M₂` has trace zero, so `ad⁰` contains the scalars. -/
-example : (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) ∈ TauCeti.slIdeal (ZMod 2) (Fin 2) := by
-  rw [TauCeti.mem_slIdeal_iff]
-  decide
-
-/-- For the unipotent real involution over `𝔽₂`, the invariant groups on `ad` and `ad⁰` both
-have order four, while the norm images have orders four and two. Thus their Tate `H⁰` groups
-have orders one and two, and the trace sequence retains its preceding Tate term. -/
-example :
-    let u : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![1, 1; 0, 1]
-    (Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) // u * X * u = X},
-      Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-        X.trace = 0 ∧ u * X * u = X},
-      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), Y = X + u * X * u},
-      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
-        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), X.trace = 0 ∧ Y = X + u * X * u}) =
-      (4, 4, 4, 2) := by
-  decide
 
 /-- **The determinant derivative is the trace**: `det(1 + εX) = 1 + ε tr X` over `k[ε]`. -/
 theorem det_one_add_eps (X : Matrix n n k) :
@@ -897,24 +693,14 @@ example (ρ : G →* (Matrix n n k)ˣ) (g : G) :
   simp only [firstOrderLift, Pi.zero_apply]
   rw [Matrix.map_zero _ (map_zero _), smul_zero, add_zero, one_mul]
 
-/-- In rank one the adjoint action is trivial, so multiplicative lifts are additive cocycles. -/
-example (ρ : G →* (Matrix (Fin 1) (Fin 1) k)ˣ) (c : G → Matrix (Fin 1) (Fin 1) k) :
-    (∀ g h, firstOrderLift ρ c (g * h) = firstOrderLift ρ c g * firstOrderLift ρ c h) ↔
-      ∀ g h, c (g * h) = c g + c h := sorry
-
 /-- Conjugating the trivial lift by `1 + εX` produces the coboundary `X − ρ(g)Xρ(g)⁻¹`;
 its inverse matrix is `1 − εX`. -/
-example (ρ : G →* (Matrix n n k)ˣ) (X : Matrix n n k) (g : G) :
+theorem firstOrderLift_conjugation (ρ : G →* (Matrix n n k)ˣ) (X : Matrix n n k) (g : G) :
     firstOrderLift ρ (fun h => X - (ρ h : Matrix n n k) * X *
       ((ρ h)⁻¹ : (Matrix n n k)ˣ)) g =
     (1 + (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))) *
       (ρ g : Matrix n n k).map (algebraMap k (DualNumber k)) *
       (1 - (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))) := sorry
-
-/-- Scalar first-order conjugation has zero coboundary. -/
-example (ρ : G →* (Matrix n n k)ˣ) (a : k) (g : G) :
-    (a • (1 : Matrix n n k)) - (ρ g : Matrix n n k) * (a • (1 : Matrix n n k)) *
-      ((ρ g)⁻¹ : (Matrix n n k)ˣ) = 0 := sorry
 
 /-! ## Layer R02.6: auxiliary primes and patching numerics -/
 
@@ -930,16 +716,6 @@ theorem finrank_slIdeal_centralizer_involution [Nonempty n] (hk : ringChar k ≠
     (hb : Module.finrank k (LinearMap.ker (Matrix.toLin' c + 1)) = b) :
     Module.finrank k ↥((TauCeti.slIdeal k n).toSubmodule ⊓
       LinearMap.ker (LinearMap.mulLeft k c - LinearMap.mulRight k c)) = a ^ 2 + b ^ 2 - 1 := sorry
-
-/-- Over `𝔽₃`, conjugation by `diag(1, -1)` has three trace-zero invariants and three
-trace-zero norms. Thus ordinary `H⁰` has dimension one, while Tate `H⁰` is zero. -/
-example :
-    let c : Matrix (Fin 2) (Fin 2) (ZMod 3) := !![1, 0; 0, -1]
-    (Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 3) //
-        X.trace = 0 ∧ c * X * c = X},
-      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 3) //
-        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 3), X.trace = 0 ∧ Y = X + c * X * c}) = (3, 3) := by
-  decide
 
 end Adjoint
 
@@ -1033,7 +809,7 @@ declared here.
   `productTensorIso`, `unbalancedProduct_one`, `relativeSha`, `finiteCompactCochains`,
   `finiteCompactCohomology`, `finiteCompact_exact`, `finiteCompact_map`, `hilbertSamuelPolynomial`,
   `hilbertSamuelPolynomial_eventual`, `hilbertSamuelEuler`, `hilbertSamuelEuler_coefficient`,
-  `hilbertSamuelEuler_exact`, `admissible_of_finite`, `admissible_of_finiteType`,
+  `hilbertSamuelEuler_exact`,
   `algebraicContinuousCochains`, `algebraicContinuousCohomology`, `algebraicCohomology_compare`,
   `continuousCochains_d_squared`.
 * `GaloisCohomology`: `dualizingHom`, `localDualityMap`, `localDualityMap'`, `localDualityPairing`,
