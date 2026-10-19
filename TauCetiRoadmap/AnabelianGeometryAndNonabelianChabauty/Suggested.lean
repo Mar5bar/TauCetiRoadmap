@@ -6,9 +6,11 @@ import Mathlib
 **This file is not the roadmap and is not exhaustive.** The definitive document is README.md.
 The declarations suggest forms for particular milestones; discharging them does not finish a layer.
 This file records light definitions and representative theorem
-signatures statable against the pinned APIs; it is not exhaustive. Continuous cocycles retain
-their ordered multiplication, gauge classes use a native quotient, and sections are over a fixed
-quotient. The linear correspondence and height formulas record their signs and normalization.
+signatures statable against the pinned APIs; it is not exhaustive. Equation-level cocycle formulas
+retain their ordered multiplication, and sections are over a fixed quotient. The continuous cocycle and H¹ carriers are supplied by the native Tau Ceti
+Nonabelian.Basic and Nonabelian.Inflation modules specified in README.md; the signatures here
+use the pinned APIs without introducing another carrier or quotient. The linear correspondence
+and height formulas record their signs and normalization.
 Geometric fundamental groups, comparison functors and represented Selmer varieties are targets
 of README.md. They are not introduced here by admitted data definitions.
 -/
@@ -27,23 +29,9 @@ variable {G : Type u} {U : Type v} [Group G] [Group U]
 def IsCocycle (ρ : G →* MulAut U) (c : G → U) : Prop :=
   ∀ g h, c (g * h) = c g * ρ g (c h)
 
-/-- A continuous cocycle is an actual continuous map satisfying the ordered equation. -/
-def Z1 [TopologicalSpace G] [TopologicalSpace U] (ρ : G →* MulAut U) :=
-  {c : C(G, U) // IsCocycle ρ c}
-
 /-- Gauge translation uses the source action on the inverse gauge. -/
 def gauge (ρ : G →* MulAut U) (a : U) (c : G → U) : G → U :=
   fun g => a * c g * (ρ g a)⁻¹
-
-/-- Equality up to one constant gauge, on the genuine continuous cocycle carrier. -/
-def GaugeRelated [TopologicalSpace G] [TopologicalSpace U]
-    (ρ : G →* MulAut U) (c d : Z1 ρ) : Prop :=
-  ∃ a : U, ∀ g, d.1 g = gauge ρ a c.1 g
-
-/-- The native quotient by gauge equivalence. Its generated equivalence relation agrees with
-the single-gauge relation, giving the orbit-set realization described in README.md. -/
-def H1 [TopologicalSpace G] [TopologicalSpace U] (ρ : G →* MulAut U) :=
-  Quotient (Relation.EqvGen.setoid (GaugeRelated ρ))
 
 /-- The positive defect matches the additive differential after central abelian conversion. -/
 def positiveDefect (ρ : G →* MulAut U) (a : G → U) (g h : G) : U :=
@@ -63,13 +51,6 @@ theorem gauge_isCocycle (ρ : G →* MulAut U) {c : G → U}
 theorem gauge_continuous [TopologicalSpace G] [TopologicalSpace U] [IsTopologicalGroup U]
     (ρ : G →* MulAut U) (hρ : Continuous (fun z : G × U => ρ z.1 z.2))
     (a : U) (c : C(G, U)) : Continuous (gauge ρ a c) := by
-  sorry
-
-/-- The generated equivalence relation introduces no additional identifications. -/
-theorem class_eq_iff [TopologicalSpace G] [TopologicalSpace U]
-    (ρ : G →* MulAut U) (c d : Z1 ρ) :
-    Quotient.mk (Relation.EqvGen.setoid (GaugeRelated ρ)) c =
-      Quotient.mk (Relation.EqvGen.setoid (GaugeRelated ρ)) d ↔ GaugeRelated ρ c d := by
   sorry
 
 /-- A cocycle has zero positive defect. -/
@@ -95,14 +76,6 @@ example :
       (fun g => g * a⁻¹ * g⁻¹ * g⁻¹ * a) := by
   sorry
 
-/-- The concrete continuous identity cocycle retains those two distinct products. -/
-example [TopologicalSpace (Equiv.Perm (Fin 3))] :
-    ∃ c : Z1 (1 : Equiv.Perm (Fin 3) →* MulAut (Equiv.Perm (Fin 3))),
-      (∀ g, c.1 g = g) ∧
-      c.1 (Equiv.swap 0 1 * Equiv.swap 1 2) ≠
-        c.1 (Equiv.swap 1 2) * c.1 (Equiv.swap 0 1) := by
-  sorry
-
 /-- A constant unit function is a cocycle for every automorphism action. -/
 example (ρ : G →* MulAut U) : IsCocycle ρ (fun _ => 1) := by
   sorry
@@ -114,23 +87,6 @@ example (ρ : G →* MulAut U) (a : U) (g : G) :
 
 /-- At the identity source element, gauging the neutral representative gives the identity. -/
 example (ρ : G →* MulAut U) (a : U) : gauge ρ a (fun _ => 1) 1 = 1 := by
-  sorry
-
-/-- Every actual cocycle is gauge-related to itself. -/
-example [TopologicalSpace G] [TopologicalSpace U] (ρ : G →* MulAut U) (c : Z1 ρ) :
-    GaugeRelated ρ c c := by
-  sorry
-
-/-- Two gauge-related cocycles give the same element of the native quotient. -/
-example [TopologicalSpace G] [TopologicalSpace U] (ρ : G →* MulAut U) (c d : Z1 ρ)
-    (h : GaugeRelated ρ c d) :
-    (Quotient.mk (Relation.EqvGen.setoid (GaugeRelated ρ)) c : H1 ρ) =
-      Quotient.mk (Relation.EqvGen.setoid (GaugeRelated ρ)) d := by
-  sorry
-
-/-- A trivial source group has only one gauge class. -/
-example [TopologicalSpace G] [TopologicalSpace U] [Subsingleton G]
-    (ρ : G →* MulAut U) : Subsingleton (H1 ρ) := by
   sorry
 
 /-- The least-residue C₉→C₃ lift has positive defect 3 at (2,1). -/
@@ -263,66 +219,76 @@ end RelativeMaps
 
 namespace Selmer
 
-variable {G : Type u} {U : Type v} [Group G] [Group U]
-variable [TopologicalSpace G] [TopologicalSpace U]
-variable {I : Type w} {L : I → Type*}
+variable {C : Type u} {I : Type w} {L : I → Type*}
 
-/-- The underlying Selmer set is the intersection of the specified local conditions on actual
-gauge classes. Its arithmetic localization maps and representing scheme are README targets. -/
-def SelmerSet (ρ : G →* MulAut U) (localization : ∀ i, Nonabelian.H1 ρ → L i)
-    (condition : ∀ i, Set (L i)) : Set (Nonabelian.H1 ρ) :=
+/-- The intersection of local conditions on a supplied global class carrier.
+Its arithmetic instance uses native nonabelian H¹ and the localization maps of README.md. -/
+def SelmerSet (localization : ∀ i, C → L i)
+    (condition : ∀ i, Set (L i)) : Set C :=
   {x | ∀ i, localization i x ∈ condition i}
 
 /-- Refining every local condition can only shrink the Selmer set. -/
-theorem condition_mono (ρ : G →* MulAut U)
-    (localization : ∀ i, Nonabelian.H1 ρ → L i) (A B : ∀ i, Set (L i))
-    (h : ∀ i, A i ⊆ B i) : SelmerSet ρ localization A ⊆ SelmerSet ρ localization B := by
+theorem condition_mono
+    (localization : ∀ i, C → L i) (A B : ∀ i, Set (L i))
+    (h : ∀ i, A i ⊆ B i) : SelmerSet localization A ⊆ SelmerSet localization B := by
+  sorry
+
+/-- Local Kummer containment puts each allowed global class in the refined Selmer set. -/
+theorem kummer_mem {P : Type v} (localization : ∀ i, C → L i)
+    (condition : ∀ i, Set (L i)) (kummer : P → C)
+    (hcontain : ∀ x i, localization i (kummer x) ∈ condition i) (x : P) :
+    kummer x ∈ SelmerSet localization condition := by
+  sorry
+
+/-- A finite refined Selmer locus bounds a global point set when its Kummer classes satisfy
+all local conditions and localization of the global points is injective. -/
+theorem finite_points_of_refined_locus {P : Type v} {X : Type*}
+    (localization : ∀ i, C → L i) (condition : ∀ i, Set (L i))
+    (kummer : P → C) (embed : P → X) (locus : Set X)
+    (hcontain : ∀ x i, localization i (kummer x) ∈ condition i)
+    (hglobal : ∀ x, kummer x ∈ SelmerSet localization condition → embed x ∈ locus)
+    (hinj : Function.Injective embed) (hfinite : locus.Finite) : Finite P := by
   sorry
 
 /-- With no places the condition is vacuous. -/
-example [IsEmpty I] (ρ : G →* MulAut U)
-    (localization : ∀ i, Nonabelian.H1 ρ → L i) (A : ∀ i, Set (L i)) :
-    SelmerSet ρ localization A = Set.univ := by
+example [IsEmpty I] (localization : ∀ i, C → L i) (A : ∀ i, Set (L i)) :
+    SelmerSet localization A = Set.univ := by
   sorry
 
 /-- An empty condition at a specified place makes the intersection empty. -/
-example (ρ : G →* MulAut U) (localization : ∀ i, Nonabelian.H1 ρ → L i)
-    (A : ∀ i, Set (L i)) (i : I) (hi : A i = ∅) : SelmerSet ρ localization A = ∅ := by
+example (localization : ∀ i, C → L i)
+    (A : ∀ i, Set (L i)) (i : I) (hi : A i = ∅) : SelmerSet localization A = ∅ := by
   sorry
 
 /-- Universal local conditions accept every global class for arbitrary local indices. -/
-example (ρ : G →* MulAut U)
-    (localization : ∀ i, Nonabelian.H1 ρ → L i) :
-    SelmerSet ρ localization (fun _ => Set.univ) = Set.univ := by
+example (localization : ∀ i, C → L i) :
+    SelmerSet localization (fun _ => Set.univ) = Set.univ := by
   sorry
 
 /-- A single failed local condition excludes a class from the Selmer set. -/
-example (ρ : G →* MulAut U)
-    (localization : ∀ i, Nonabelian.H1 ρ → L i)
-    (A : ∀ i, Set (L i)) (x : Nonabelian.H1 ρ) (i : I)
-    (h : localization i x ∉ A i) : x ∉ SelmerSet ρ localization A := by
+example (localization : ∀ i, C → L i)
+    (A : ∀ i, Set (L i)) (x : C) (i : I)
+    (h : localization i x ∉ A i) : x ∉ SelmerSet localization A := by
+  sorry
+
+/-- Finiteness of an empty refinement does not bound an excluded infinite global domain. -/
+example :
+    (SelmerSet (fun _ : Unit => id : Unit → ℕ → ℕ) (fun _ => (∅ : Set ℕ))).Finite ∧
+      ¬ (∀ n : ℕ, n ∈ SelmerSet (fun _ : Unit => id) (fun _ => (∅ : Set ℕ))) := by
   sorry
 
 end Selmer
 
-/-- Dual-number coefficient maps distinguish and kill actual continuous additive H¹ classes.
-The product topology on the dual numbers is their finite-dimensional coordinate topology. -/
+/-- Continuous additive homomorphisms retain the dual-number direction and its augmentation.
+For trivial additive coefficients their distinctness is also distinctness of native H¹ classes. -/
 example (p : ℕ) [Fact p.Prime] :
-    let ρ := (1 : Multiplicative ℤ_[p] →* MulAut (Multiplicative (DualNumber ℚ_[p])))
-    ∃ cε c₁ c₀ : Nonabelian.Z1 ρ,
-      (∀ g, (cε.1 g).toAdd =
-        (g.toAdd : ℚ_[p]) • (DualNumber.eps : DualNumber ℚ_[p])) ∧
-      (∀ g, (c₁.1 g).toAdd =
-        algebraMap ℚ_[p] (DualNumber ℚ_[p]) (g.toAdd : ℚ_[p])) ∧
-      (∀ g, c₀.1 g = 1) ∧
-      (Quotient.mk (Relation.EqvGen.setoid (Nonabelian.GaugeRelated ρ)) cε :
-        Nonabelian.H1 ρ) ≠ Quotient.mk _ c₀ ∧
-      (Quotient.mk (Relation.EqvGen.setoid (Nonabelian.GaugeRelated ρ)) c₁ :
-        Nonabelian.H1 ρ) ≠ Quotient.mk _ c₀ ∧
-      (Quotient.mk (Relation.EqvGen.setoid (Nonabelian.GaugeRelated ρ)) c₁ :
-        Nonabelian.H1 ρ) ≠ Quotient.mk _ cε ∧
-      (∀ g, TrivSqZeroExt.fst ((cε.1 g).toAdd) = 0) ∧
-      (∀ g, TrivSqZeroExt.fst ((c₁.1 g).toAdd) = (g.toAdd : ℚ_[p])) := by
+    ∃ cε c₁ c₀ : ℤ_[p] →+ DualNumber ℚ_[p],
+      Continuous cε ∧ Continuous c₁ ∧ Continuous c₀ ∧
+      (∀ g, cε g = (g : ℚ_[p]) • (DualNumber.eps : DualNumber ℚ_[p])) ∧
+      (∀ g, c₁ g = algebraMap ℚ_[p] (DualNumber ℚ_[p]) (g : ℚ_[p])) ∧
+      c₀ = 0 ∧ cε ≠ c₀ ∧ c₁ ≠ c₀ ∧ c₁ ≠ cε ∧
+      (∀ g, TrivSqZeroExt.fst (cε g) = 0) ∧
+      (∀ g, TrivSqZeroExt.fst (c₁ g) = (g : ℚ_[p])) := by
   sorry
 
 /-! ## Layer 5: Albanese maps and Chabauty–Kim finiteness -/
@@ -762,6 +728,16 @@ the corresponding layers of README.md.
 /-!
 The README specifies the following further API and Checks on its stated carriers.
 These names refer to those mathematical targets.
+
+Shared abelian-logarithm API:
+abelianLog.add, abelianLog.derivative, abelianLog.kernel, abelianLog.functorial,
+abelianLog.formal, abelianLog.baseChange, abelianLog.cp, abelianLog.pairing, abelianLog.unique;
+colemanAbelian.integral, colemanAbelian.basepoint, colemanAbelian.depthOne.
+
+Arithmetic higher-K and Chern API:
+arithmeticK.finiteGeneration, arithmeticK.evenFinite, arithmeticK.oddRank; higherChern.map, higherChern.surjective,
+higherChern.h1_finiteKernel, higherChern.rationalIso, higherChern.transfer,
+higherChern.changeRamification; rationalTate.changeRamification.
 
 ArithmeticPath:
 galoisAction_val, restrict_id, rightMul_val.

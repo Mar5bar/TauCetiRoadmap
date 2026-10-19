@@ -4,19 +4,19 @@
 
 ## Scope and ownership
 
-This roadmap owns the arithmetic refinement of geometric paths, the noncommutative cocycle and torsor calculus, the curve-specific étale `K(π,1)` assemblies, unipotent path realizations, anabelian reconstruction, nonabelian Selmer geometry, Albanese maps and quadratic Chabauty equations. Generic sites, schemes, Picard functors, cycle operations, period rings, continuous abelian cohomology and p-adic integration retain their owners. The specific comparisons joining these objects are stated below with their domains and hypotheses.
+This roadmap owns the arithmetic refinement of geometric paths, the additional coefficient-action twisting, torsor classification and kernel-orbit calculus on Tau Ceti's continuous nonabelian H¹, the curve-specific étale `K(π,1)` assemblies, unipotent path realizations, anabelian reconstruction, nonabelian Selmer geometry, Albanese maps and quadratic Chabauty equations. Generic sites, schemes, Picard functors, cycle operations, period rings, continuous abelian cohomology and p-adic integration retain their owners. The specific comparisons joining these objects are stated below with their domains and hypotheses.
 
 Mathlib supplies natural isomorphisms, abstract Galois categories, affine finite étale fibres, group actions and their orbit and coset quotients. Its `FixedPoints.subgroup` is `H⁰`. Tau Ceti supplies absolute Galois groups, finite Kummer classes, homogeneous continuous cohomology, explicit restriction and coefficient maps, maximal pro-p quotients and reconstruction for the finite comodules of an already specified Hopf algebra. These are inputs. PadicDifferentialEquationsAndRigidCohomology §RD.6.64 (`RD6.neutralTannakian_recognition`) supplies reconstruction from an arbitrary neutral tensor category. This roadmap constructs the two-fibre-functor torsor and unit-extension/pro-unipotent specialization using that equivalence.
 
-Tau Ceti supplies all-degree finite-quotient cohomology, classwise killing on an open subgroup and positive-degree vanishing for the trivial group. They are in the Tau Ceti modules `RepresentationTheory/Homological/ContCohomology/FiniteQuotient/AllDegreeColimit`, `…/ContCohomology/ClosedSubgroup` and `…/ContCohomology/TrivialGroup`, which carry out TauCetiRoadmap.ProfiniteCohomology Layer 10. The retained nonabelian finite-quotient statements concern ordered cocycles and gauge witnesses, including the same-subgroup reflection assertion; they do not reconstruct abelian cohomology.
+Tau Ceti supplies all-degree finite-quotient cohomology, classwise killing on an open subgroup and positive-degree vanishing for the trivial group. They are in the Tau Ceti modules `RepresentationTheory/Homological/ContCohomology/FiniteQuotient/AllDegreeColimit`, `…/ContCohomology/ClosedSubgroup` and `…/ContCohomology/TrivialGroup`, which carry out TauCetiRoadmap.ProfiniteCohomology Layer 10. Tau Ceti also supplies continuous ordered nonabelian cocycles, their gauge quotient, compatible-pair maps, restriction, descent, inflation injectivity and compact-discrete finite-quotient surjectivity through the native modules specified below. Layer 0 adds their categorical finite-colimit refinement and the further twisting, torsor, kernel-orbit and central-H² comparisons; same-subgroup gauge reflection is part of the supplied inflation proof.
 
 TauCetiRoadmap.ProfiniteArithmetic supplies continuous automorphism and outer-automorphism groups and outer actions. The centre-free extension comparison used here is the additional pullback identification, rather than a new outer-automorphism group. TauCetiRoadmap.PeripheralActions supplies generic peripheral power actions; Chen's good and symmetric paths below impose geometric normalization and inversion conditions on tangential paths. TauCetiRoadmap.AlgebraicCurves Layers 4, 7, 9 and 12 supply Riemann–Roch, Hurwitz, complete-DVR differentials and the function-field/scheme dictionary. TauCetiRoadmap.JacobianChallenge Layers A, B, D, E and F supply line bundles, coherent cohomology, Picard and Jacobian schemes, abelian-variety theory and Abel–Jacobi maps. TauCetiRoadmap.AlgebraicVectorBundles Layers 0A and 0B supply coherent and locally free sheaves and their tensor operations.
 
 SchemeAndStackFoundations §3.6 owns Picard torsors, and JacobianChallenge Layer D owns the obstruction from a relative Picard point to a line bundle. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 and AbelianSchemesAndArithmeticModuli §A4.4 supply the finite-level curve–Jacobian and H¹/Tate-module comparisons; SchemeAndStackFoundations §4.15 owns stable pointed moduli and their level covers; its Layer 5 owns Chow groups, Chern classes, intersection, pushforward and pullback. These supply the portions of the reconstruction and correspondence arguments that require no general theory of motives. ArithmeticGaloisDuality R02.1, R02.2 and D7 own compact coefficient limits and arithmetic Hochschild–Serre; its R02.3.2 owns function-field reciprocity. Mixed extensions and Nekovář's p-adic heights are constructed in Layer 6, in the generality the quadratic Chabauty equations need; a general theory of height pairings on Selmer complexes is outside this roadmap.
 
-Continuous Galois `H¹` of a linear algebraic group over a characteristic-zero field (profinite `Γ_k` acting on the discrete group `G(k̄)`), with its functoriality, inner twisting and torsor bijection, is [PELModuli](../PELModuli/README.md) §M0.9 (`galoisH1`, `twist_bijection`, `galoisH1_equiv_torsorClasses`); Layer 0 here is the general continuous theory for a topological group acting on a topological coefficient group, needed for the `ℚ_p`-unipotent coefficients of Layers 4–7, and on profinite sources with discrete coefficients it agrees with PELModuli §M0.9. TauCetiRoadmap.EllipticCurves names continuous nonabelian `H¹` as a prerequisite of its Layer 5 twist classification without stating it; Layer 0 supplies it. The fppf homogeneous quotient sheaf `G/N` of an affine group by a closed, not necessarily normal, subgroup, with its torsor property, is supplied by Tau Ceti (`CommHopfAlgCat.fppfHomogeneousQuotient`, the sheafification of `CommHopfAlgCat.homogeneousQuotientPresheaf`; `CommHopfAlgCat.isPullback_fppfHomogeneousQuotientTorsor` and `CommHopfAlgCat.isLocallySurjective_fppfHomogeneousQuotientSheafProjection` give the torsor property); representability of `U/H` and the point formula for unipotent groups in characteristic zero are constructed in Layer 2 ([Unipotent groups and their homogeneous quotients in characteristic zero](#split-unipotent-quotients)). The complex-analytic statement that Artin neighbourhoods are `K(π,1)` is InverseGaloisAndArithmeticFundamentalGroups §IG.3.1; Layer 1 here proves the étale finite-coefficient statement over any field of characteristic zero.
+The common continuous carrier for PELModuli §M0.9, the EllipticCurves Layer 5 twist classification and the unipotent coefficients here is `TauCeti.NonabelianH1.Cocycle` with class set `TauCeti.NonabelianH1`. PELModuli supplies the algebraic Galois torsor comparison for smooth affine groups, including disconnected groups, using discrete geometric points; Layer 0 here adds the general topological torsor classification and coefficient-action twisting needed by Layers 4–7. These specializations and their comparisons use that same native carrier. The fppf homogeneous quotient sheaf `G/N` of an affine group by a closed, not necessarily normal, subgroup, with its torsor property, is supplied by Tau Ceti (`CommHopfAlgCat.fppfHomogeneousQuotient`, the sheafification of `CommHopfAlgCat.homogeneousQuotientPresheaf`; `CommHopfAlgCat.isPullback_fppfHomogeneousQuotientTorsor` and `CommHopfAlgCat.isLocallySurjective_fppfHomogeneousQuotientSheafProjection` give the torsor property); representability of `U/H` and the point formula for unipotent groups in characteristic zero are constructed in Layer 2 ([Unipotent groups and their homogeneous quotients in characteristic zero](#split-unipotent-quotients)). The complex-analytic statement that Artin neighbourhoods are `K(π,1)` is InverseGaloisAndArithmeticFundamentalGroups §IG.3.1; Layer 1 here proves the étale finite-coefficient statement over any field of characteristic zero.
 
-The local logarithm, residue-chart specialization of analytic zero bounds and Mordell–Weil closure comparisons in Layer 5 are owned here. RestrictedPowerSeries owns the restricted-series carriers and Strassmann theorem; ColemanIntegration owns the analytic Coleman algebra, primitives and polylogarithms. Layer 5 compares those supplied functions with the tensor paths of Layer 2. Effective Diophantine methods may use these comparisons and applications. The supplied neutral tensor reconstruction and the character formulas in Layers 2 and 7 require no motive or modular-form theory. Applications with a specified rank, finite local height-value sets or a complete list of zeros carry those facts as explicit hypotheses of the final theorem. The mathematical finiteness and height equations are targets here.
+HeightsRationalPointsAndObstructions §§1.15a–1.16 owns the integral formal groups, formal identity charts and normalized convergent formal logarithms. Layer 5 here owns their extension to the global abelian logarithm for arbitrary abelian varieties over finite p-adic fields, its compatible `ℂ_p` interface, the regular Coleman/abelian comparison, residue-chart specialization of analytic zero bounds and Mordell–Weil closure comparisons. RestrictedPowerSeries owns the restricted-series carriers and Strassmann theorem; ColemanIntegration owns the analytic Coleman algebra, primitives and polylogarithms. Layer 5 compares those supplied functions with the tensor paths of Layer 2. Effective Diophantine methods may use these comparisons and applications. The supplied neutral tensor reconstruction and the character formulas in Layers 2 and 7 require no motive or modular-form theory. Applications with a specified rank, finite local height-value sets or a complete list of zeros carry those facts as explicit hypotheses of the final theorem. The mathematical finiteness and height equations are targets here.
 
 ## Conventions
 
@@ -34,7 +34,7 @@ Sections of an arithmetic exact sequence are identified only under conjugation b
 
 At a prime v away from p, the stringent quadratic Chabauty condition is membership in the local Kummer image. At p it is crystalline. The global depth-one cut is the rational Mordell–Weil Kummer image, rather than a rank substitution in the whole Selmer group. For a global height `h=h_p+Σ_(v≠p)h_v`, the correction set is `Υ={−Σ_v t_v | t_v∈Γ_v}`. A single away-place value 3 therefore contributes −3.
 
-The coordinate and set-level specializations have the following domains. `Nonabelian.IsCocycle` and `Z1` express an automorphism action by `ρ:G→*MulAut U`; `H1` is the quotient by the equivalence relation generated by the single-gauge relation, which the class-equality theorem identifies with that relation itself. `ArithmeticPath.pathCocycle` uses a common group frame for the two arithmetic sections. `Unipotent.UnipotentLength` is the finite-dimensional linear-representation specialization of extension length over an arbitrary field; the geometric categories below use characteristic-zero coefficients, and `RelativeMaps.RelativeOpenHom` is the representative before target geometric conjugacy. `Selmer.SelmerSet` is the underlying class-set intersection for supplied localization maps, while the represented cohomology schemes are constructed in Layer 4. `Period.periodRatio` is the group representative before its right homogeneous coset. `Heights.IsNiceCorrespondence` specifies the linear cycle conditions after the cycle maps have been supplied; `HeightPrevalue` gives the linear correction formula, and `HeightDeterminant` gives the determinant in fixed coordinates. `Frontier.GaloisSection` is a section before geometric conjugacy; `KimDimensionCondition` records the numeric inequality for supplied dimensions, and `EventualEquality` records eventual equality of supplied loci. Each geometric carrier and comparison is constructed separately below with its own hypotheses.
+The coordinate and set-level specializations have the following domains. `Nonabelian.IsCocycle` displays the ordered equation for `ρ:G→*MulAut U`; `Nonabelian.gauge` displays our inverse-parameter convention and `Nonabelian.positiveDefect` the central defect. Continuous cocycles and their classes use the native Tau Ceti carriers specified below. `ArithmeticPath.pathCocycle` uses a common group frame for the two arithmetic sections. `Unipotent.UnipotentLength` is the finite-dimensional linear-representation specialization of extension length over an arbitrary field; the geometric categories below use characteristic-zero coefficients, and `RelativeMaps.RelativeOpenHom` is the representative before target geometric conjugacy. `Selmer.SelmerSet` is the intersection on any supplied class carrier C with localization maps; its arithmetic instance uses native nonabelian H¹, and the represented cohomology schemes are constructed in Layer 4. `Period.periodRatio` is the group representative before its right homogeneous coset. `Heights.IsNiceCorrespondence` specifies the linear cycle conditions after the cycle maps have been supplied; `HeightPrevalue` gives the linear correction formula, and `HeightDeterminant` gives the determinant in fixed coordinates. `Frontier.GaloisSection` is a section before geometric conjugacy; `KimDimensionCondition` records the numeric inequality for supplied dimensions, and `EventualEquality` records eventual equality of supplied loci. Each geometric carrier and comparison is constructed separately below with its own hypotheses.
 
 For algebra-valued unipotent points, the final topology is declared on each finite coordinate power. A continuous cochain on a compact domain has finite-dimensional coordinate image. Polynomial operations on these images give the compact-cochain continuity needed for gauge classes and central induction. An ordinary product-topology group structure is an additional specialization, with its compatibility hypothesis stated explicitly; it is not assumed for an arbitrary coefficient algebra.
 
@@ -47,6 +47,14 @@ Use Mathlib `ContinuousMap`, `ContinuousMonoidHom`, `MulDistribMulAction`, `Cont
 Use `CategoryTheory.Aut`, `CategoryTheory.Functor.isoWhiskerLeft`, `CategoryTheory.PreGaloisCategory.autEmbedding_isClosedEmbedding` and `CommAlgCat.FiniteEtale.fiber` with their arrow directions. `Aut F` is a natural automorphism, not a group of labels. Its topology is the evaluation topology. `TauCeti.AbsoluteGaloisGroup`, `TauCeti.kummerMap` and `TauCeti.kummerMap_eq_kummerCocycleClass` provide the field and finite Kummer interfaces, with the coefficient order invertible in the field. The Abel–Jacobi rational Tate-module comparison below requires more than these finite classes.
 
 Canonical abelian cohomology is `continuousCohomology` of a topological representation. The low-degree `TauCeti.ContCohomology` cocycle carriers and their canonical comparisons, explicit coefficient maps, restriction and inflation fix the additive comparison maps used in Layer 0. Use `TauCeti.ContCohomology.continuousFiniteQuotientColimit` and `TauCeti.ContCohomology.exists_continuousFiniteQuotientComparisonApp_eq` for the all-degree comparison, and `TauCeti.ContinuousCohomology.exists_openSubgroup_res_eq_zero` and `TauCeti.ContinuousCohomology.subsingleton_continuousCohomology_succ_of_subsingleton` for killing and vanishing, through the ProfiniteCohomology boundary above. The Tau Ceti quotient `TauCeti.maximalProPQuotient` (module `TauCeti.Topology.Algebra.Group.Profinite.MaximalProP`) supplies the geometric maximal pro-p quotient. `TauCeti.Tannaka.fgPointTensorIsoEquiv` identifies algebra-valued points of a given Hopf algebra with tensor automorphisms of its finite-comodule scalar-extension functor; PadicDifferentialEquationsAndRigidCohomology §RD.6.64 supplies general neutral reconstruction from a tensor category.
+
+<a id="native-nonabelian-h1"></a>
+
+The native continuous nonabelian supplier is Tau Ceti's `RepresentationTheory/Homological/ContCohomology/Nonabelian/Basic.lean` and `Nonabelian/Inflation.lean` at [ce47fe1](https://github.com/TauCetiProject/TauCeti/tree/ce47fe1230545b9a6998d23746b87c8bdbaeb9e1/TauCeti/RepresentationTheory/Homological/ContCohomology/Nonabelian). Adoption requires a Tau Ceti dependency containing these modules and imports of those individual modules before implementing the carrier-dependent Layer 0 targets. The representative signatures use only APIs available at the fixed `a91d3aa` pin: the ordered equation, gauge-coordinate formulas and intersections on a supplied class carrier. They introduce no replacement cocycle type or H¹ quotient.
+
+Use `TauCeti.NonabelianH1.Cocycle`, its `setoid`, and `TauCeti.NonabelianH1` directly. The names `TauCeti.NonabelianCohomology.Z1` and `TauCeti.NonabelianCohomology.H1` below denote compatibility aliases to these carriers, rather than new structures or quotients. Native `Cocycle.apply_one`, `Cocycle.apply_inv`, `mk_eq_mk_iff`, `mk_eq_one_iff`, compatible-pair `Cocycle.map`/`map` and `res` supply their basic identities and functoriality. The native gauge `c.twist(a)(g)=a⁻¹c(g)(g•a)` equals this roadmap's `x·c` with `a=x⁻¹`. In particular native `Cocycle.twist` changes a representative by a constant gauge; the coefficient action `g⋆u=c(g)(g•u)c(g)⁻¹` constructed here is a different operation.
+
+Native `Cocycle.descend`, `infl`, `infl_injective`, `res_eq_one_iff` and `exists_mem_range_infl` supply descent, same-kernel gauge reflection, inflation–restriction and finite-stage existence. Listed names for these operations are aliases or compatibility lemmas with our parameter convention. Additional inverse equivalences, quotient-transition diagrams and their categorical colimit use these results. The native carrier and quotient require only groups, topologies and `MulDistribMulAction`; this includes §4.2's weak coefficient topology. Closure of cocycles under representative gauge translation or under coefficient-action twisting uses the continuity hypotheses stated where those constructions are applied.
 
 ### From SchemeAndStackFoundations
 
@@ -104,7 +112,7 @@ Layer 0 gives the nonabelian cohomology used by paths. Layer 1 supplies the fini
 
 ## Layer 0: Continuous nonabelian cohomology
 
-Build continuous nonabelian cohomology as a pointed orbit set. Its exact sequences, inner twists and kernel orbit descriptions retain the order of multiplication and the topology; no commutativity of the coefficient group is imposed.
+Use the [native continuous nonabelian H¹](#native-nonabelian-h1) pointed set. Construct its additional coefficient-action twists, torsor classification, kernel-orbit descriptions, central obstruction theory and categorical finite-colimit comparison, retaining the order of multiplication and the topology; no commutativity of the coefficient group is imposed.
 
 **Standing hypotheses.** Many targets of this layer share their hypotheses. They are collected here once, and each such target names its set; any further hypothesis is stated with the target.
 
@@ -167,7 +175,7 @@ Build continuous nonabelian cohomology as a pointed orbit set. Its exact sequenc
 ### 0.1 Continuous cocycles and H¹
 <a id="nc-3-continuous-cocycles"></a>
 
-**Continuous 1-cocycles and invariants with nonabelian coefficients.** Let G be a topological group and U a topological group on which G acts by group automorphisms, continuously (`G × U → U` continuous). The invariants are `H⁰(G, U) := U^G = {u ∈ U : g•u = u for all g}`, a subgroup of U (Mathlib FixedPoints.subgroup). The continuous 1-cocycles are `Z¹(G, U) := {c : G → U continuous : c(gh) = c(g)·(g•c(h)) for all g, h ∈ G}`, with the trivial cocycle 1 (the constant map to the identity) as base point.
+**Continuous 1-cocycles and invariants with nonabelian coefficients.** Let G be a topological group and U a topological group on which G acts by group automorphisms, continuously (`G × U → U` continuous). The invariants are `H⁰(G, U) := U^G = {u ∈ U : g•u = u for all g}`, a subgroup of U (Mathlib FixedPoints.subgroup). Use the supplied `TauCeti.NonabelianH1.Cocycle G U` for `Z¹(G,U)`, with equation `c(gh)=c(g)·(g•c(h))`, and its trivial cocycle 1 as base point.
 
 G is a topological group and U a topological group with an action of G by group automorphisms (MulDistribMulAction G U) such that the action map `G × U → U` is continuous (ContinuousSMul G U). No commutativity of U; for U commutative written additively the definitions agree with Tau Ceti's explicit continuous cohomology ([Comparison with abelian continuous cohomology](#nc-3-abelian-comparison)).
 
@@ -175,11 +183,11 @@ Definition as stated; `H⁰` is FixedPoints.subgroup for the MulDistribMulAction
 
 The interface consists of the following named results.
 
-- `TauCeti.NonabelianCohomology.Z1`: The type of continuous maps `c : G → U` with `c(gh) = c(g)·g•c(h)`.
+- `TauCeti.NonabelianCohomology.Z1`: Compatibility alias for `TauCeti.NonabelianH1.Cocycle`, with the same underlying function and ordered cocycle equation.
 - `TauCeti.NonabelianCohomology.Z1.mem_iff`: A function `f:G→U` is the underlying function of a continuous cocycle if and only if f is continuous and `f(gh)=f(g)·(g•f(h))` for all g,h.
 - `TauCeti.NonabelianCohomology.Z1.instOne`: The trivial cocycle `g ↦ 1`, the base point.
-- <a id="nc-3-cocycle-map-one"></a>`TauCeti.NonabelianCohomology.Z1.map_one` (*Identity value of a nonabelian cocycle*): For every continuous nonabelian cocycle c, `c(1)=1`. Under (H12). *Proof.* Use `c(1)=c(1)c(1)` from the cocycle identity `at(1,1)` and cancel the left factor. Source: [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
-- <a id="nc-3-cocycle-map-inverse"></a>`TauCeti.NonabelianCohomology.Z1.map_inv` (*Inverse value of a nonabelian cocycle*): For every c and g, `c(g⁻¹)=g⁻¹•c(g)⁻¹`. Under (H12). *Proof.* Evaluate the cocycle identity `at(g⁻¹,g)`. Since `c(1)=1`, `c(g⁻¹)` is the inverse of `g⁻¹•c(g)`. The automorphism action preserves inverses. Source: [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11. Uses [Identity value of a nonabelian cocycle](#nc-3-cocycle-map-one).
+- <a id="nc-3-cocycle-map-one"></a>`TauCeti.NonabelianCohomology.Z1.map_one` (*Identity value of a nonabelian cocycle*): For every continuous nonabelian cocycle c, `c(1)=1`. Under (H12). *Proof.* Use `c(1)=c(1)c(1)` from the cocycle identity `at(1,1)` and cancel the left factor. Source: [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.apply_one`; the displayed calculation is an elementary deduction from the cocycle equation.
+- <a id="nc-3-cocycle-map-inverse"></a>`TauCeti.NonabelianCohomology.Z1.map_inv` (*Inverse value of a nonabelian cocycle*): For every c and g, `c(g⁻¹)=g⁻¹•c(g)⁻¹`. Under (H12). *Proof.* Evaluate the cocycle identity `at(g⁻¹,g)`. Since `c(1)=1`, `c(g⁻¹)` is the inverse of `g⁻¹•c(g)`. The automorphism action preserves inverses. Source: [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.apply_inv`; the displayed calculation is an elementary deduction from the cocycle equation. Uses [Identity value of a nonabelian cocycle](#nc-3-cocycle-map-one).
 - `TauCeti.NonabelianCohomology.Z1.coboundary`: For `u ∈ U`, the cocycle `g ↦ u·(g•u)⁻¹`.
 - `TauCeti.NonabelianCohomology.Z1.equivContinuousMonoidHomOfTrivial`: If G acts trivially, `Z¹(G, U) ≃ (G →ₜ* U)`, continuous homomorphisms.
 - `TauCeti.NonabelianCohomology.Z1.ext`: Two cocycles are equal iff they agree at every g.
@@ -194,12 +202,12 @@ The interface consists of the following named results.
 - The order of the factors matters when U is not commutative: the condition `c(gh) = (g•c(h))·c(g)` of Mathlib's commutative IsMulCocycle₁ defines a different set for nonabelian U (test below).
 - Continuity is part of the definition. For compact G and discrete U, every continuous cocycle is identically 1 on some open normal N, is constant on its cosets and takes values in the `U^N`. The quotient is finite. Descent must retain `U^N`; the action on all U need not factor through `G/N`.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, p. 6; [Minhyong Kim](#reference-kim2005), §1, p. 6; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14, p. 11.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, p. 6; [Minhyong Kim](#reference-kim2005), §1, p. 6; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15, pp. 11–12, for Galois-cohomology notation and Hilbert 90 background only.
 
 Use `MulDistribMulAction`; `FixedPoints.subgroup`; `ContinuousSMul`; `IsTopologicalGroup`; `ContinuousMap`; `ContinuousMonoidHom`; `groupCohomology.IsMulCocycle₁`.
 <a id="nc-3-nonabelian-h1"></a>
 
-**Nonabelian first cohomology as a pointed set.** In the situation of [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles), U acts on `Z¹(G, U)` by `(u·c)(g) := u·c(g)·(g•u)⁻¹`. The first cohomology `H¹(G, U)` is the orbit set of this action (Mathlib MulAction.orbitRel.Quotient `U (Z¹ G U)`), pointed by the class of the trivial cocycle; two cocycles in one orbit are called cohomologous. The class of c is trivial iff c is a coboundary `g ↦ u·(g•u)⁻¹`.
+**Nonabelian first cohomology as a pointed set.** In the situation of [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles), U acts on `Z¹(G, U)` by `(u·c)(g) := u·c(g)·(g•u)⁻¹`. Use `TauCeti.NonabelianH1 G U`, the quotient by the native cocycle setoid, pointed by the class of the trivial cocycle. Its equivalence with the orbit set for the displayed inverse-parameter action is a compatibility description on this carrier; two cocycles in one orbit are called cohomologous. The class of c is trivial iff c is a coboundary `g ↦ u·(g•u)⁻¹`.
 
 G is a topological group and U a topological group with an action of G by group automorphisms (MulDistribMulAction G U) such that the action map `G × U → U` is continuous (ContinuousSMul G U).
 
@@ -208,7 +216,7 @@ The formula defines a group action: `(u·(v·c))(g) = u v c(g) (g•v)⁻¹ (g�
 The interface consists of the following named results.
 
 - `TauCeti.NonabelianCohomology.Z1.instMulAction`: The action `(u·c)(g) = u·c(g)·(g•u)⁻¹` of U on `Z¹(G, U)`.
-- `TauCeti.NonabelianCohomology.H1`: `H¹(G, U) =` MulAction.orbitRel.Quotient `U (Z¹ G U)`.
+- `TauCeti.NonabelianCohomology.H1`: Compatibility alias for `TauCeti.NonabelianH1 G U`; express its native setoid as the orbits of the displayed gauge action without introducing a second quotient.
 - `TauCeti.NonabelianCohomology.H1.mk`: The class map `Z¹(G, U) → H¹(G, U)`.
 - `TauCeti.NonabelianCohomology.H1.mk_surjective`: Every class has a representing cocycle.
 - <a id="nc-3-h1-orbit-criterion"></a>`TauCeti.NonabelianCohomology.H1.mk_eq_mk_iff` (*Equality of nonabelian cohomology classes*): For continuous cocycles c,c′, their classes in `H¹(G,U)` are equal if and only if there is `x∈U` with `x·c=c′`, where `(x·c)(g)=x c(g)(g•x)⁻¹`. The equality criterion uses the genuine gauge action, not multiplication by a coboundary. Hypotheses: G is a group endowed with a topology. U is a topological group with a group-automorphism action of G whose joint action is continuous. `H¹` is the twisted-conjugation orbit set of continuous nonabelian cocycles, with the class of the constant identity cocycle as base point. *Proof.* Unfold the orbit-set class map. Quotient equality is the orbit relation; reverse its arguments to match the stated `x·c=c′` orientation. Use the orbit-relation membership and orbit witness formulas. Source: [Minhyong Kim](#reference-kim2005), §1, printed p. 6, continuous cocycle and gauge-orbit definitions; derived fixed-normal-subgroup argument.
@@ -252,6 +260,9 @@ The interface consists of the following named results.
 
 **Checks.**
 
+- For the trivial action of `C₂` on additive `ℤ/2`, both pointed sets have two elements, distinguished by the generator value.
+- For the negation action of `C₂` on additive `ℤ`, cocycles are indexed by an integer and coboundaries by even integers, giving two H¹ classes. The inverse gauge parameter changes the coboundary sign and leaves the quotient unchanged.
+
 - For trivial action, both sides are the continuous homomorphisms `G → M` (Tau Ceti ContCohomology.H1EquivOfSmulEqSelf).
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, p. 6.
@@ -259,9 +270,12 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2005), 
 Use [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1); `TauCeti.ContCohomology.Z1`; `TauCeti.ContCohomology.B1`; `TauCeti.ContCohomology.H1`; `TauCeti.ContCohomology.H1pi`; `TauCeti.ContCohomology.H0`; `TauCeti.ContCohomology.d0`; `TauCeti.ContCohomology.d1`; `TauCeti.ContCohomology.H1EquivOfSmulEqSelf`; `groupCohomology.IsMulCocycle₁`; `Multiplicative`.
 
 ### 0.3 Coefficient maps on cocycles
+
+Use native `TauCeti.NonabelianH1.Cocycle.map` with the identity source map; the names below specialize its compatible-pair API.
+
 <a id="nc-3-coefficient-cocycle-map"></a>
 
-**Coefficient map on continuous cocycles.** For a continuous G-equivariant homomorphism `f:U→U′`, construct the cocycle map `c↦f∘c` on the continuous cocycle subtypes. Its exact evaluation, neutral cocycle and gauge formulas determine the induced pointed-set map.
+**Coefficient map on continuous cocycles.** For a continuous G-equivariant homomorphism `f:U→U′`, use the native compatible-pair cocycle map `c↦f∘c`. Its exact evaluation, neutral cocycle and gauge formulas determine the induced pointed-set map.
 
 Standing hypotheses (H1).
 
@@ -269,7 +283,7 @@ Continuity is composition. Apply f to the ordered cocycle identity and use its m
 
 The interface consists of the following named results.
 
-- `TauCeti.NonabelianCohomology.Z1.map`: For a continuous G-equivariant homomorphism `f:U→U′`, construct the cocycle map `c↦f∘c` on the continuous cocycle subtypes. Its exact evaluation, neutral cocycle and gauge formulas determine the induced pointed-set map.
+- `TauCeti.NonabelianCohomology.Z1.map`: For a continuous G-equivariant homomorphism `f:U→U′`, use the native compatible-pair cocycle map `c↦f∘c`. Its exact evaluation, neutral cocycle and gauge formulas determine the induced pointed-set map.
 - `TauCeti.NonabelianCohomology.Z1.map_apply`: The exact cocycle-map value at g is `f(c(g))`.
 - `TauCeti.NonabelianCohomology.Z1.map_trivial`: The trivial cocycle maps to the trivial cocycle.
 - <a id="nc-3-coefficient-cocycle-gauge"></a>`TauCeti.NonabelianCohomology.Z1.map_smul` (*Gauge compatibility of coefficient cocycle maps*): For every `x∈U` and cocycle c, mapping the gauge transform `x·c` equals the gauge transform `f(x)·(f∘c)`. *Proof.* Apply cocycle extensionality, keeping factor order, and expand `f(x c(g) (g·x)⁻¹)`. Use homomorphism multiplication/inverse preservation and G-equivariance. Uses [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1).
@@ -288,6 +302,9 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2005), 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); `Continuous.comp`; `map_mul`.
 
 ### 0.4 Coefficient maps on H¹ and restriction along the source
+
+Use native `TauCeti.NonabelianH1.map` for the class map; the coefficient and source specializations below share this implementation.
+
 <a id="nc-3-coefficient-h1-map"></a>
 
 **Coefficient map on nonabelian cohomology.** The continuous equivariant coefficient homomorphism f induces the map on gauge-orbit `H¹`, taking [c] to `[f∘c]`. It preserves the distinguished class and obeys identity and composition; `H¹` remains a pointed set. No injectivity is asserted for arbitrary f.
@@ -372,9 +389,12 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2009), 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); `Continuous.comp`; `map_mul`.
 
 ### 0.5 Restriction on H¹ and invariants; the source–coefficient square
+
+Source restriction is native `TauCeti.NonabelianH1.map` with identity coefficients. The additional fixed-subgroup square and gauge-convention formulas below compare that supplied map.
+
 <a id="nc-3-source-h1-restriction"></a>
 
-**Restriction on nonabelian cohomology.** Let G,H,K be groups with topologies, U a group with a topology and actions by automorphisms, `φ:H→G` a continuous homomorphism, and `h·u=φ(h)·u`. Write `res_φ` for precomposition on continuous cocycles. For `H¹`, require U to be a topological group and the actions jointly continuous; `H¹` is the gauge-orbit pointed set, not a group. Construct the pointed-set map `res_φ:H¹(G,U)→H¹(H,U)` from cocycle precomposition.
+**Restriction on nonabelian cohomology.** Let G,H,K be groups with topologies, U a group with a topology and actions by automorphisms, `φ:H→G` a continuous homomorphism, and `h·u=φ(h)·u`. Write `res_φ` for precomposition on continuous cocycles. For `H¹`, require U to be a topological group and the actions jointly continuous; `H¹` is the gauge-orbit pointed set, not a group. Use the native compatible-pair map `res_φ:H¹(G,U)→H¹(H,U)` from cocycle precomposition.
 
 Standing hypotheses (H3).
 
@@ -431,9 +451,12 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2009), 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); `FixedPoints.subgroup`.
 
 ### 0.6 Restriction of cocycles
+
+Use native `Cocycle.map` along subgroup inclusion for the displayed cocycle restriction.
+
 <a id="nc-3-cocycle-restriction"></a>
 
-**Restriction of continuous nonabelian cocycles.** Construct `res_N:Z¹(G,U)→Z¹(N,U)` by `res_N(c)(n)=c(n)`, using the subgroup inclusion and restricted action. This keeps continuity and the ordered cocycle law.
+**Restriction of continuous nonabelian cocycles.** Use native `Cocycle.map` for `res_N:Z¹(G,U)→Z¹(N,U)` by `res_N(c)(n)=c(n)`, using the subgroup inclusion and restricted action. This keeps continuity and the ordered cocycle law.
 
 G is a group endowed with a topology; U is a group endowed with a topology and G acts on U by group automorphisms. N is an arbitrary subgroup with its subtype topology and restricted action.
 
@@ -458,9 +481,12 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2005), 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); `continuous_subtype_val`; `Continuous.comp`.
 
 ### 0.7 Restriction of classes and neutral classes
+
+The supplied class map is `TauCeti.NonabelianH1.res`; use its `res_mk` and `res_one` formulas.
+
 <a id="nc-3-h1-restriction"></a>
 
-**Restriction of nonabelian cohomology classes.** Construct the pointed-set map `res_N:H¹(G,U)→H¹(N,U)` sending [c] to `[res_N(c)]`. It uses the gauge-orbit quotients and the whole U-gauge action on both sides.
+**Restriction of nonabelian cohomology classes.** Use native `res` for the pointed-set map `res_N:H¹(G,U)→H¹(N,U)` sending [c] to `[res_N(c)]`. It uses the gauge-orbit quotients and the whole U-gauge action on both sides.
 
 Standing hypotheses (H4).
 
@@ -949,13 +975,16 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2005), 
 Use [Joint continuity of the descended inner action](#nc-3-twisted-quotient-action-continuity); [Continuous cocycle equivalence for quotient twists](#nc-3-twisted-quotient-cocycle-equivalence); [Gauge compatibility of the quotient comparison](#nc-3-twisted-quotient-cocycle-equivalence-gauge); [Coefficient map on nonabelian cohomology](#nc-3-coefficient-h1-map); [Continuity of the inverse quotient comparison](#nc-3-twisted-kernel-quotient-inverse-continuous).
 
 ### 0.14 Functoriality of nonabelian H⁰ and H¹
+
+The cocycle and H¹ maps and their identity/composition laws are the native compatible-pair API. The remaining targets compare these with invariants, inner coefficient-action twisting and geometric local conditions.
+
 <a id="nc-3-functoriality"></a>
 
 **Functoriality of nonabelian H⁰ and H¹.** (a) A continuous G-equivariant group homomorphism `f : U → U′` induces a homomorphism `H⁰(G, U) → H⁰(G, U′)` and maps `Z¹(G, U) → Z¹(G, U′)`, `c ↦ f ∘ c`, and `H¹(G, U) → H¹(G, U′)`, preserving base points, compatible with identities and composition, and with `f(u·c) = f(u)·(f ∘ c)`. (b) A continuous group homomorphism `φ : G′ → G`, with G′ acting on U through `φ`, induces the restriction maps `H⁰(G, U) → H⁰(G′, U)` (inclusion) and `Z¹(G, U) → Z¹(G′, U)`, `c ↦ c ∘ φ`, and `H¹(G, U) → H¹(G′, U)`, base point preserving and functorial; in particular for a closed `subgroup H ≤ G` there is restriction `H¹(G, U) → H¹(H, U)`. Maps of pointed sets that are compatible in this way are what the exact sequences ([Kernel of inclusion in nonabelian cohomology](#nc-3-exact-sequence)) are built from.
 
 G is a topological group and U a topological group with an action of G by group automorphisms (MulDistribMulAction G U) such that the action map `G × U → U` is continuous (ContinuousSMul G U). In (a) U′ satisfies the same hypotheses and f is continuous with `f(g•u) = g•f(u)`; in `(b) φ` is continuous and G′ acts on U by `g′•u = φ(g′)•u`.
 
-The coefficient-map leaves supply part (a). The new source-restriction leaves supply part (b) on cocycles, gauge-orbit classes and fixed subgroups, with identity/composition and mixed coefficient/source squares. Their subgroup comparisons identify the previously constructed restrictions. The geometric, additive and local-condition comparisons use their separate construction targets. `(a) f ∘ c` is continuous and `f(c(gh)) = f(c(g))·f(g•c(h)) = f(c(g))·g•f(c(h))`; `f(u·c) = f(u)·(f∘c)` because `f(u c(g) (g•u)⁻¹) = f(u) f(c(g)) (g•f(u))⁻¹`. So the map descends to orbits and sends the trivial cocycle to the trivial cocycle. `(b) c ∘ φ` is continuous and `(c∘φ)(g′h′) = c(φg′)·φ(g′)•c(φh′)`; the U-actions correspond, so the map descends. Identities and composition hold on cocycles, hence on classes. For repointed twisting comparisons under source restriction, import the direct twisted-source map, its proved translation square, representative-change naturality and translated composition law. The geometric localization and local-condition identifications are supplied by the coefficient-family and local-condition constructions of Layer 4; the abstract square alone does not imply them. Apply H1.map to the restricted twisted-kernel inclusion using its joint action continuity. The quotient action and `H¹` comparison are supplied by [Continuous automorphism action on the twisted quotient](#nc-3-twisted-quotient-action) through [Quotient neutral fibre and the original image cocycle](#nc-3-twisted-quotient-h1-repointed-fibre); the continuous equivalence requires surjectivity and a quotient map. The single-gauge lift in [Lift from a surjective coefficient-map neutral fibre](#nc-3-twisted-kernel-h1-mapped-converse) gives the converse image statement when f is surjective, without requiring a continuous section. General inclusion injectivity is governed by the invariant action, not by functoriality alone. Geometric local-condition compatibility uses the realization and local-condition constructions of Layer 4.
+The coefficient-map leaves supply part (a). The supplied source-restriction maps give part (b) on cocycles, gauge-orbit classes and fixed subgroups, with identity/composition and mixed coefficient/source squares. Their subgroup comparisons identify the previously constructed restrictions. The geometric, additive and local-condition comparisons use their separate construction targets. `(a) f ∘ c` is continuous and `f(c(gh)) = f(c(g))·f(g•c(h)) = f(c(g))·g•f(c(h))`; `f(u·c) = f(u)·(f∘c)` because `f(u c(g) (g•u)⁻¹) = f(u) f(c(g)) (g•f(u))⁻¹`. So the map descends to orbits and sends the trivial cocycle to the trivial cocycle. `(b) c ∘ φ` is continuous and `(c∘φ)(g′h′) = c(φg′)·φ(g′)•c(φh′)`; the U-actions correspond, so the map descends. Identities and composition hold on cocycles, hence on classes. For repointed twisting comparisons under source restriction, import the direct twisted-source map, its proved translation square, representative-change naturality and translated composition law. The geometric localization and local-condition identifications are supplied by the coefficient-family and local-condition constructions of Layer 4; the abstract square alone does not imply them. Apply H1.map to the restricted twisted-kernel inclusion using its joint action continuity. The quotient action and `H¹` comparison are supplied by [Continuous automorphism action on the twisted quotient](#nc-3-twisted-quotient-action) through [Quotient neutral fibre and the original image cocycle](#nc-3-twisted-quotient-h1-repointed-fibre); the continuous equivalence requires surjectivity and a quotient map. The single-gauge lift in [Lift from a surjective coefficient-map neutral fibre](#nc-3-twisted-kernel-h1-mapped-converse) gives the converse image statement when f is surjective, without requiring a continuous section. General inclusion injectivity is governed by the invariant action, not by functoriality alone. Geometric local-condition compatibility uses the realization and local-condition constructions of Layer 4.
 
 The interface consists of the following named results.
 
@@ -968,6 +997,9 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.H0.map`: The homomorphism of invariants induced by an equivariant homomorphism.
 
 **Checks.**
+
+- For identity source and coefficient maps, a nontrivial transposition class in `H¹(C₂,S₃)` is fixed.
+- For the trivial action on `C₃⊂S₃`, coefficient inclusion identifies the two nontrivial `C₃→C₃` classes by conjugacy in S₃. Functoriality does not imply injectivity.
 
 - Restriction to the decomposition group at a place v, `H¹(G_T, U) → H¹(G_v, U)`, is the case (b) of the inclusion `G_v → G_T` used for Selmer conditions.
 
@@ -993,6 +1025,9 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2005), 
 Use [Comparison with abelian continuous cohomology](#nc-3-abelian-comparison); [Functoriality of nonabelian `H⁰` and `H¹`](#nc-3-functoriality); `TauCeti.ContCohomology.Z1`; `TauCeti.ContCohomology.H1`; `TauCeti.ContCohomology.explicitMap1`.
 
 ### 0.16 Descent of cocycles to quotients
+
+Use native `Cocycle.apply_mul_of_mem`, `Cocycle.smul_apply_of_mem`, `Cocycle.descend` and `Cocycle.map_descend`. The displayed deductions identify their formulas and our gauge parameter; they do not assign a second descent construction.
+
 <a id="nc-3-cocycle-right-cosets"></a>
 
 **Trivial restriction gives right-coset constancy.** For any subgroup N on which c is identically 1, c(gn)=c(g) for all `n∈N`. Normality, compactness and discrete U are not needed.
@@ -1001,7 +1036,13 @@ Standing hypotheses (H12).
 
 Use c(gn)=c(g)(g•c(n)) and `c(n)=1`. This is the right-coset relation, not a homomorphism property.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+**Checks.**
+
+- For `N={1}`, right-coset constancy specializes to `c(g1)=c(g)` for every cocycle.
+- For `N=G` and the trivial cocycle, every coset has value 1.
+- For the conjugation action on S₃ and `c(h)=τ(h•τ)⁻¹` with `τ=(01)`, the nonnormal subgroup generated by τ is killed. Right-coset constancy still holds although left-coset constancy can fail.
+
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.apply_mul_of_mem`; the displayed proof is an elementary deduction.
 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles).
 <a id="nc-3-cocycle-left-cosets"></a>
@@ -1014,9 +1055,11 @@ Normality places g⁻¹ng in N. Rewrite ng=g(g⁻¹ng) and apply right-coset con
 
 **Checks.**
 
+- For `N={1}`, the conclusion is `c(1g)=c(g)` for every cocycle.
+- For `N=G` and the trivial cocycle, both left and right translates have value 1.
 - `TauCeti.NonabelianCohomology.Z1.mul_left_eq_of_trivial.test_requires_normal`: Let G=ConjAct(S₃) act on `U=S₃` by conjugation, `τ=(01)`, `n=τ`, `g=(12)`, and `c(h)=τ(h•τ)⁻¹`. Then `c(n)=1` and c(gn)=c(g), but c(ng)≠c(g). The cocycle one-fibre is the nonnormal centralizer of `τ`. Thus killing a subgroup alone does not imply left-coset constancy.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.apply_mul_of_mem`, applied to `g(g⁻¹ng)`; the displayed proof is an elementary deduction.
 
 Use [Trivial restriction gives right-coset constancy](#nc-3-cocycle-right-cosets); `Subgroup.Normal.conj_mem'`.
 
@@ -1028,7 +1071,13 @@ Standing hypotheses (H12).
 
 The cocycle identity gives c(ng)=n•c(g). Normal left-coset constancy gives c(ng)=c(g). Compare them.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+**Checks.**
+
+- For `N={1}`, every value is fixed, without a triviality hypothesis on the full G-action.
+- For `N=G`, trivial restriction forces every cocycle value to be 1, which is fixed by every automorphism.
+- Under the trivial G-action, each cocycle value is N-fixed for every normal N that it kills; the quotient cocycle can still be nontrivial.
+
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.smul_apply_of_mem`; the displayed proof is an elementary deduction.
 
 Use [Normality gives left-coset constancy](#nc-3-cocycle-left-cosets); [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles).
 
@@ -1042,15 +1091,18 @@ Use the imported fixed-subgroup membership criterion; for each n:N, the precedin
 
 **Checks.**
 
+- For `N={1}`, the fixed coefficient subgroup is all U and the value map is unchanged.
+- For the conjugation action of `G=S₃` on U=S₃ and `N=G`, `U^N` is the trivial centre; a transposition is excluded.
+
 - `TauCeti.NonabelianCohomology.Z1.values_mem_fixedPoints.test_top_trivial`: The trivial cocycle at any g is 1 and belongs to the `U^G` even when `U^G` is proper; the target is not all of U.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.smul_apply_of_mem` and Mathlib `FixedPoints.subgroup`; the displayed proof is an elementary deduction.
 
 Use [Trivial normal restriction fixes each value](#nc-3-cocycle-values-fixed); `FixedPoints.subgroup`; `FixedPoints.mem_subgroup`.
 
 <a id="nc-3-quotient-cocycle-descent"></a>
 
-**Descent of a cocycle to the quotient.** For a normal subgroup N of G and a continuous nonabelian cocycle c with `c(n)=1` for every `n∈N`, construct the continuous cocycle `d:G/N→U^N` with `d([g])=c(g)`. Here `U^N` is Mathlib FixedPoints.subgroup N U with its quotient automorphism action and subspace topology; `G/N` has the quotient topology. Neither compactness, openness of N, discreteness nor finiteness of U is required. For an abelian coefficient group written additively it agrees with the pinned Tau Ceti declaration `TauCeti.ContCohomology.descendZ1`.
+**Descent of a cocycle to the quotient.** For a normal subgroup N of G and a continuous nonabelian cocycle c with `c(n)=1` for every `n∈N`, use native `Cocycle.descend` for the continuous cocycle `d:G/N→U^N` with `d([g])=c(g)`. Here `U^N` is Mathlib FixedPoints.subgroup N U with its quotient automorphism action and subspace topology; `G/N` has the quotient topology. Neither compactness, openness of N, discreteness nor finiteness of U is required. For an abelian coefficient group written additively it agrees with the pinned Tau Ceti declaration `TauCeti.ContCohomology.descendZ1`.
 
 Standing hypotheses (H13).
 
@@ -1071,16 +1123,19 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.Z1.descend.test_representative`: For `n∈N`, the descended values at [gn] and [g] agree in `U^N`.
 - `TauCeti.NonabelianCohomology.Z1.descend.test_proper_invariants`: For ConjAct `S₃` acting on `S₃` and `N=G`, the transposition(01) is not in `U^N`: conjugation by(12) changes it. The coefficient target cannot be replaced by all U.
 - `TauCeti.NonabelianCohomology.Z1.descend.test_identity_S3_values`: For discrete `G=U=S₃` with trivial G-action, `N={1}`, and the identity homomorphism cocycle `c(g)=g`, the descended cocycle at [(01)] has underlying U-value (01), which is not 1.
-- For a normal subgroup N of G and a continuous nonabelian cocycle c with `c(n)=1` for every `n∈N`, construct the continuous cocycle `d:G/N→U^N` with `d([g])=c(g)`. Here `U^N` is Mathlib FixedPoints.subgroup N U with its quotient automorphism action and subspace topology; `G/N` has the quotient topology. Neither compactness, openness of N, discreteness nor finiteness of U is required.
+- For a normal subgroup N of G and a continuous nonabelian cocycle c with `c(n)=1` for every `n∈N`, use native `Cocycle.descend` for the continuous cocycle `d:G/N→U^N` with `d([g])=c(g)`. Here `U^N` is Mathlib FixedPoints.subgroup N U with its quotient automorphism action and subspace topology; `G/N` has the quotient topology. Neither compactness, openness of N, discreteness nor finiteness of U is required.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and full Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.descend`, `Cocycle.coe_descend_apply` and `Cocycle.map_descend`; the displayed proof is an elementary deduction.
 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); [Trivial restriction gives right-coset constancy](#nc-3-cocycle-right-cosets); [Values lie in the invariant coefficient subgroup](#nc-3-cocycle-values-invariants); `MulAction.coe_quotient_smul_fixedPoints`; `coe_smul_fixedPoints_of_normal`; `QuotientGroup.leftRel_apply`; `QuotientGroup.isQuotientMap_mk`; `Topology.IsQuotientMap.continuous_iff`; `QuotientGroup.induction_on`; `QuotientGroup.mk_mul`.
 
 ### 0.17 Inflation and the quotient transition maps
+
+Inflation is native `TauCeti.NonabelianH1.infl`, and same-kernel class injectivity is `infl_injective`. The pointwise fixed-gauge deduction below is the argument inside its native proof. Construct only the further transition and compatibility API on those carriers.
+
 <a id="nc-3-quotient-cocycle-inflation"></a>
 
-**Inflation of quotient cocycles.** For any normal `N≤G` and any continuous cocycle `d:G/N→U^N` with the quotient action, construct its inflation `c:G→U` by `c(g)=d([g])` included in U. It is continuous, satisfies the ordered cocycle law, and is identically 1 on N. No `H¹` pointed-set map is asserted. For an abelian coefficient group written additively it agrees with the pinned Tau Ceti declaration `TauCeti.ContCohomology.explicitInfl1`.
+**Inflation of quotient cocycles.** For any normal `N≤G` and any continuous cocycle `d:G/N→U^N` with the quotient action, use native `Cocycle.map` for its inflation `c:G→U` with `c(g)=d([g])` included in U. It is continuous, satisfies the ordered cocycle law, and is identically 1 on N. No `H¹` pointed-set map is asserted. For an abelian coefficient group written additively it agrees with the pinned Tau Ceti declaration `TauCeti.ContCohomology.explicitInfl1`.
 
 Standing hypotheses (H13).
 
@@ -1092,7 +1147,7 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.Z1.inflate_trivialOn`: Every inflated cocycle is identically 1 on N.
 - <a id="nc-3-quotient-cocycle-inflation-one"></a>`TauCeti.NonabelianCohomology.Z1.inflate_one` (*Trivial cocycle under inflation*): Inflation of the constant identity cocycle on `G/N` with coefficients `U^N` is the constant identity cocycle on G with coefficients U. Hypotheses: G and U are groups endowed with topologies, G acts on U by group automorphisms, and N is an arbitrary normal subgroup. The quotient action on the `subgroup U^N` is used. Joint action continuity and continuous group operations are not required for this identity of cocycles. *Proof.* Evaluate at every g; the fixed-subgroup inclusion sends 1 to 1. Apply cocycle extensionality. Source: [Minhyong Kim](#reference-kim2005), §1, printed p. 6, continuous cocycle and gauge-orbit definitions; derived fixed-normal-subgroup argument.
 - <a id="nc-3-descend-inflated-cocycle"></a>`TauCeti.NonabelianCohomology.Z1.descend_inflate` (*Recovery after cocycle inflation*): For every `d∈Z¹(G/N,U^N)`, descend its inflation using the proved triviality on N; the result equals d in `Z¹(G/N,U^N)`. *Proof.* Use uniqueness of descent and the pointwise inflation formula on every representative. Uses [Uniqueness of quotient cocycle descent](#nc-3-quotient-cocycle-unique).
-- <a id="nc-3-quotient-cocycle-inflation-injective"></a>`TauCeti.NonabelianCohomology.Z1.inflate_injective` (*Injectivity of quotient-cocycle inflation*): For every normal N, inflation `Z¹(G/N,U^N)→Z¹(G,U)` is injective. Hypotheses: G and U are groups with topologies, with a G-action on U by group automorphisms. Use the continuous ordered cocycles `c(gh)=c(g)(g•c(h))`, quotient topologies and fixed coefficient subgroups. N is a normal subgroup of G. No compactness, openness/closedness, discrete coefficients, continuity of the action or commutativity is required for cocycle inflation injectivity. *Proof.* If two cocycles have equal inflations, descend both to N and apply the descend-inflate identity. This gives reflection at the same finite quotient. Source: [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12. Uses [Recovery after cocycle inflation](#nc-3-descend-inflated-cocycle).
+- <a id="nc-3-quotient-cocycle-inflation-injective"></a>`TauCeti.NonabelianCohomology.Z1.inflate_injective` (*Injectivity of quotient-cocycle inflation*): For every normal N, inflation `Z¹(G/N,U^N)→Z¹(G,U)` is injective. Hypotheses: G and U are groups with topologies, with a G-action on U by group automorphisms. Use the continuous ordered cocycles `c(gh)=c(g)(g•c(h))`, quotient topologies and fixed coefficient subgroups. N is a normal subgroup of G. No compactness, openness/closedness, discrete coefficients, continuity of the action or commutativity is required for cocycle inflation injectivity. *Proof.* If two cocycles have equal inflations, descend both to N and apply the descend-inflate identity. This gives reflection at the same finite quotient. Source: [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.map`, `infl_mk` and the fixed-gauge argument in `infl_injective`; the displayed proof is an elementary deduction. Uses [Recovery after cocycle inflation](#nc-3-descend-inflated-cocycle).
 - <a id="nc-3-quotient-inflation-equivariance"></a>`TauCeti.NonabelianCohomology.Z1.inflate_smul` (*Gauge equivariance of cocycle inflation*): For `x∈U^N` and `d∈Z¹(G/N,U^N)`, `inflate_N(x·d)=x·inflate_N(d)`, with x included in U on the right. The products and inverses stay in their printed order. Under (H14). *Proof.* Evaluate the cocycles at any `g∈G`. The quotient representative and fixed-subgroup inclusion formulas identify both gauge expressions. Apply cocycle extensionality. No representative section or coefficient action on all U through `G/N` is introduced. Source: [Minhyong Kim](#reference-kim2005), §1, printed p. 6, continuous cocycle and gauge-orbit definitions; derived fixed-normal-subgroup argument. Uses [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1).
 - <a id="nc-3-quotient-inflation-gauge-reflection"></a>`TauCeti.NonabelianCohomology.Z1.inflate_gauge_iff` (*Same-subgroup reflection of gauge witnesses*): For `d,e∈Z¹(G/N,U^N)`, there is `x∈U` with `x·inflate_N(d)=inflate_N(e)` if and only if there is `x∈U^N` with `x·d=e`. This is the same N on both sides, with no replacement by a smaller subgroup. Under (H14). *Proof.* Evaluate a global gauge equality on each `n∈N`. Both inflated cocycles take value 1, so the `gauge_witness_fixed` theorem forces that very witness into `U^N`. Use this genuine subgroup element and quotient representative induction, then subtype/cocycle extensionality, to obtain `x·d=e`. The converse follows by inflation equivariance and inclusion of the fixed gauge witness. Source: [Minhyong Kim](#reference-kim2005), §1, printed p. 6, continuous cocycle and gauge-orbit definitions; derived fixed-normal-subgroup argument. Uses [A same-stage gauge witness is already invariant](#nc-3-gauge-witness-fixed); [Gauge equivariance of cocycle inflation](#nc-3-quotient-inflation-equivariance); [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1).
 
@@ -1102,12 +1157,12 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.Z1.inflate.test_native_projection`: Inflation evaluates as the d composed with the quotient projection and subgroup inclusion.
 - `TauCeti.NonabelianCohomology.Z1.inflate.test_subgroup`: At any `n∈N` the inflated cocycle is 1; no arbitrary chosen quotient representative is used.
 - `TauCeti.NonabelianCohomology.Z1.inflate.test_identity_S3_values`: For discrete `G=U=S₃` with trivial G-action, `N={1}`, and d the descent of `c(g)=g`, `inflate_N(d)((01))=(01)≠1`.
-- For any normal `N≤G` and any continuous cocycle `d:G/N→U^N` with the quotient action, construct its inflation `c:G→U` by `c(g)=d([g])` included in U. It is continuous, satisfies the ordered cocycle law, and is identically 1 on N. No `H¹` pointed-set map is asserted.
+- For any normal `N≤G` and any continuous cocycle `d:G/N→U^N` with the quotient action, use native `Cocycle.map` for its inflation `c:G→U` with `c(g)=d([g])` included in U. It is continuous, satisfies the ordered cocycle law, and is identically 1 on N. No `H¹` pointed-set map is asserted.
 - The identity value is that of the coefficient group, rather than an arbitrary selected cocycle.
 - A nonidentity fixed gauge element gives the same equality; the assertion holds for noncommutative U.
 - The forward implication keeps the original witness, rather than assuming a fixed witness or refining N. Infinite U is allowed.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and full Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.map`, `infl_mk` and the fixed-gauge argument in `infl_injective`; the displayed proof is an elementary deduction.
 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); [Identity value of a nonabelian cocycle](#nc-3-cocycle-map-one); `MulAction.coe_quotient_smul_fixedPoints`; `coe_smul_fixedPoints_of_normal`; `QuotientGroup.continuous_mk`; `QuotientGroup.eq_one_iff`; `QuotientGroup.mk_mul`.
 <a id="nc-3-cocycle-transition"></a>
@@ -1133,7 +1188,7 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.Z1.transition.test_value`: At the class of each `g∈G`, the underlying value is exactly `d([g]_N)`. Reversing the subgroup inclusion or forgetting the fixed coefficient target fails this interface.
 - `TauCeti.NonabelianCohomology.Z1.transition.test_identity`: The self-transition fixes every cocycle, including nonidentity ones.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.map` and `Cocycle.map_map`, specialized to the quotient projections; the displayed proof is an elementary deduction.
 
 Use [Descent of a cocycle to the quotient](#nc-3-quotient-cocycle-descent); [Inflation of quotient cocycles](#nc-3-quotient-cocycle-inflation); [Recovery after quotient descent](#nc-3-inflate-descended-cocycle); [Recovery after cocycle inflation](#nc-3-descend-inflated-cocycle); [Injectivity of quotient-cocycle inflation](#nc-3-quotient-cocycle-inflation-injective); [Trivial cocycle under inflation](#nc-3-quotient-cocycle-inflation-one).
 
@@ -1151,7 +1206,7 @@ The interface consists of the following named results.
 - <a id="nc-3-h1-inflation-one"></a>`TauCeti.NonabelianCohomology.H1.inflate_one` (*Inflation preserves the distinguished cohomology class*): Inflation sends the distinguished class of `H¹(G/N,U^N)` to the distinguished class of `H¹(G,U)`. *Proof.* Represent the distinguished class by the identity cocycle. Use the inflation representative API and [Trivial cocycle under inflation](#nc-3-quotient-cocycle-inflation-one), then identify the resulting identity-cocycle class with the distinguished point by definition. Source: [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle/gauge definitions; authored library-based inflation–restriction deduction.
 - <a id="nc-3-h1-inflation-injective"></a>`TauCeti.NonabelianCohomology.H1.inflate_injective` (*Injectivity of nonabelian inflation*): For this fixed normal subgroup N, `inflate_N:H¹(G/N,U^N)→H¹(G,U)` is injective. Equality of inflated classes implies equality of source classes at the same N. *Proof.* Apply quotient induction to representatives d,e of the two source classes. The representative computation is definitional. The proved class equality criterion gives a global gauge witness for the inflated cocycles. Same-N gauge reflection gives a genuine `U^N` witness between d,e, and the same class criterion identifies their source classes. Uses [Same-subgroup reflection of gauge witnesses](#nc-3-quotient-inflation-gauge-reflection).
 - `TauCeti.NonabelianCohomology.H1.inflate_eq_one_iff`: For `a∈H¹(G/N,U^N)`, `inflate_N(a)=1` if and only if `a=1`. This reflects the neutral point; it does not assert image=neutral restriction fibre.
-- <a id="nc-3-gauge-witness-fixed"></a>`TauCeti.NonabelianCohomology.Z1.gauge_witness_fixed` (*A same-stage gauge witness is already invariant*): Let c,d be continuous cocycles both identically 1 on N. If `d(g)=x c(g)(g•x)⁻¹` for a fixed `x∈U` and every g, then `n•x=x` for every `n∈N`. No refinement of N is needed, and no normality, discreteness or compactness is required for this pointwise assertion. This is the witness lemma for same-stage `H¹` inflation injectivity; it does not by itself construct inflation or prove quotient pointed-set injectivity. Under (H12). *Proof.* Evaluate the gauge equation `at n∈N`. It becomes `1=x(n•x)⁻¹`. Group cancellation forces `n•x=x`. The inverse/gauge factor order is retained. Source: [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11. Uses [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles).
+- <a id="nc-3-gauge-witness-fixed"></a>`TauCeti.NonabelianCohomology.Z1.gauge_witness_fixed` (*A same-stage gauge witness is already invariant*): Let c,d be continuous cocycles both identically 1 on N. If `d(g)=x c(g)(g•x)⁻¹` for a fixed `x∈U` and every g, then `n•x=x` for every `n∈N`. No refinement of N is needed, and no normality, discreteness or compactness is required for this pointwise assertion. This is the witness lemma for same-stage `H¹` inflation injectivity; it does not by itself construct inflation or prove quotient pointed-set injectivity. Under (H12). *Proof.* Evaluate the gauge equation `at n∈N`. It becomes `1=x(n•x)⁻¹`. Group cancellation forces `n•x=x`. The inverse/gauge factor order is retained. Source: [Native nonabelian H¹](#native-nonabelian-h1), `infl` and `infl_mk`; the displayed proof is an elementary deduction. Uses [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles).
 
 **Checks.**
 
@@ -1195,7 +1250,7 @@ The interface consists of the following named results.
 - N need not be closed; no Hausdorffness of `G/N` is asserted.
 - No topology on U is changed to the discrete topology; continuity is joint, not just fixed-vector continuity.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `map` and `map_map`, specialized to the quotient projections; the displayed proof is an elementary deduction.
 
 Use [Reverse-inclusion transition of quotient cocycles](#nc-3-cocycle-transition); [Inflation commutes with cocycle transition](#nc-3-cocycle-transition-inflation); [Inflation of nonabelian cohomology classes](#nc-3-h1-inflation); [Injectivity of nonabelian inflation](#nc-3-h1-inflation-injective); [Equality of nonabelian cohomology classes](#nc-3-h1-orbit-criterion); [Inflation preserves the distinguished cohomology class](#nc-3-h1-inflation-one).
 
@@ -1217,7 +1272,7 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.H1.quotientDiagram.test_composition`: On every class, `F(f≫g)=F(g)∘F(f)`.
 - `TauCeti.NonabelianCohomology.H1.quotientDiagram.test_coefficients`: The object at N is exactly `H¹(G/N,U^N)`, with the fixed subgroup, not `H¹(G/N,U)` with an assumed action.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `map_id` and `map_map`, specialized to the quotient projections; the displayed proof is an elementary deduction.
 
 Use [Reverse-inclusion transition on nonabelian cohomology](#nc-3-h1-transition); [Identity law for quotient cohomology transition](#nc-3-h1-transition-identity); [Composition law for quotient cohomology transition](#nc-3-h1-transition-composition); [Joint continuity of the fixed-subgroup quotient action](#nc-3-quotient-fixed-action-continuity).
 
@@ -1241,11 +1296,14 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.H1.inflationCocone.test_one`: Every leg sends the distinguished quotient class to the distinguished ambient class.
 - `TauCeti.NonabelianCohomology.H1.inflationCocone.test_commutes`: Every transition followed by its target leg equals its source leg on every input class.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `infl`, `infl_mk` and `map_map`; the displayed proof is an elementary deduction.
 
 Use [The reverse-inclusion quotient cohomology diagram](#nc-3-h1-quotient-diagram); [Inflation commutes with cohomology transition](#nc-3-h1-transition-inflation); [Inflation of nonabelian cohomology classes](#nc-3-h1-inflation).
 
 ### 0.18 Compact sources, discrete coefficients and the finite-quotient colimit
+
+Use native `exists_mem_range_infl` for finite-stage existence. The additional target is the transition diagram and its colimit universal property in types.
+
 <a id="nc-3-cocycle-one-fibre"></a>
 
 **One-fibre subgroup of a nonabelian cocycle.** Construct `K_c={g∈G:c(g)=1}` as a Subgroup G. This is a cocycle-specific subgroup on the carrier; it is not a kernel of a homomorphism unless a homomorphism has been identified. No normality is part of the construction.
@@ -1267,7 +1325,7 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.Z1.oneFibre.test_native_kernel`: Under a trivial action, the continuous homomorphism cocycle has one-fibre its kernel, using the given continuous f.
 - `TauCeti.NonabelianCohomology.Z1.oneFibre.test_nonnormal`: For `S₃` acting on itself by the ConjAct conjugation action and `τ=(01)`, the cocycle `c(g)=τ(g•τ)⁻¹` has one-fibre containingτ but missing its conjugate by(12). Hence its subgroup is not normal. The two permutation values distinguish the cocycle convention.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.apply_mul`, `Cocycle.apply_one` and `Cocycle.apply_inv`; the displayed proof is an elementary deduction.
 
 Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-continuous-cocycles); [Identity value of a nonabelian cocycle](#nc-3-cocycle-map-one); [Inverse value of a nonabelian cocycle](#nc-3-cocycle-map-inverse); `Subgroup`; `ConjAct`; `ConjAct.toConjAct`; `ConjAct.toConjAct_smul`.
 <a id="nc-3-discrete-normal-killing"></a>
@@ -1280,10 +1338,12 @@ Apply the compact-group clopen-neighbourhood theorem to `K_c` and its identity m
 
 **Checks.**
 
+- For the reduction homomorphism `ℤ_p→ℤ/p` with trivial action, `pℤ_p` is a killing open normal subgroup and the finite quotient has p elements.
+
 - `TauCeti.NonabelianCohomology.Z1.exists_openNormal_killing.test_finite_quotient`: For every open normal subgroup N of compact G, the quotient `G/N` is finite by the theorem; no coefficient cardinality hypothesis is inserted.
 - If G is compact and U is discrete, there exists an OpenNormalSubgroup N of G on which c is identically 1. Its quotient `G/N` is finite by the imported open-subgroup theorem. Neither total disconnectedness of G nor finiteness of U is required.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), the clopen-neighbourhood argument in the proof of `exists_mem_range_infl`; the displayed proof is an elementary deduction.
 
 Use [Discrete cocycle one-fibres are clopen](#nc-3-cocycle-one-fibre-clopen); [Identity value of a nonabelian cocycle](#nc-3-cocycle-map-one); `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`; `Subgroup.quotient_finite_of_isOpen`.
 
@@ -1297,9 +1357,13 @@ Choose a continuous cocycle representative c of a. The compact/discrete normal-k
 
 **Checks.**
 
+- For `G=C₂` and trivial action on discrete S₃, the nonneutral transposition class inflates from `N={1}`; it does not come from the trivial quotient.
+- For `G=ℤ_p` and discrete additive U=ℤ with trivial action, every continuous homomorphism is zero, so the single class comes from the quotient by all G.
+- With nondiscrete U=ℤ_p, the identity continuous additive cocycle kills no open subgroup; the finite-quotient assertion requires discreteness.
+
 - For every `a∈H¹(G,U)`, there exist an open normal N and `b∈H¹(G/N,U^N)` with `inflate_N(b)=a`.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `exists_mem_range_infl`; the displayed proof is an elementary deduction.
 
 Use [Equality of nonabelian cohomology classes](#nc-3-h1-orbit-criterion); [An open normal subgroup kills a discrete cocycle](#nc-3-discrete-normal-killing); [Descent of a cocycle to the quotient](#nc-3-quotient-cocycle-descent); [Recovery after quotient descent](#nc-3-inflate-descended-cocycle); [Inflation of nonabelian cohomology classes](#nc-3-h1-inflation); [Joint continuity of the fixed-subgroup quotient action](#nc-3-quotient-fixed-action-continuity); [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1).
 
@@ -1311,7 +1375,13 @@ G is a group with a topology; no continuity, compactness or coefficient group is
 
 The top subgroup is an open normal subgroup, so the indexing type is nonempty. Its infimum gives `N∩M` and the two reverse-inclusion arrows. Parallel arrows in a preorder agree. Apply the semilattice-sup filteredness instance to the order dual; do not construct a competing category.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+**Checks.**
+
+- The top open normal subgroup gives an object even when G has no proper open subgroup.
+- For `G=ℤ_p`, the two kernels `p^aℤ_p` and `p^bℤ_p` refine to `p^max(a,b)ℤ_p`.
+- Two parallel refinement arrows agree because the index category is a preorder.
+
+Source: elementary order-theoretic deduction from Mathlib `OpenNormalSubgroup.instSemilatticeInfOpenNormalSubgroup` and its order-dual filtered-category instance.
 
 Use `OpenNormalSubgroup.instSemilatticeInfOpenNormalSubgroup`; `CategoryTheory.IsFiltered`.
 
@@ -1325,9 +1395,12 @@ Apply the isColimitOf criterion to the inflation cocone. Its surjectivity input 
 
 **Checks.**
 
+- For finite discrete G, the stage `N={1}` already has the full H¹ and the colimit comparison restricts to its identity.
+- For the transposition class in `H¹(C₂,S₃)`, the colimit map preserves the nonneutral class; an arbitrary bijection interchanging the two classes fails the prescribed-leg equations.
+
 - The specified inflation cocone is a colimit of F in the category of types. For any cocone with apex X there is a unique map `H¹(G,U)→X` whose composite with every `inflate_N` is the specified N-leg.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+Source: elementary categorical deduction using Mathlib `CategoryTheory.Limits.Types.FilteredColimit.isColimitOf` and the [native nonabelian H¹](#native-nonabelian-h1) results `exists_mem_range_infl` and `infl_injective`.
 
 Use [The inflation cocone](#nc-3-h1-inflation-cocone); [Every compact-discrete class comes from a finite quotient](#nc-3-h1-finite-quotient-surjectivity); [Filteredness of reverse-inclusion open normal subgroups](#nc-3-h1-quotient-index-filtered); [Inflation commutes with cohomology transition](#nc-3-h1-transition-inflation); [Injectivity of nonabelian inflation](#nc-3-h1-inflation-injective); `CategoryTheory.Limits.Types.FilteredColimit.isColimitOf`; `OpenNormalSubgroup.instSemilatticeInfOpenNormalSubgroup`.
 
@@ -2370,6 +2443,9 @@ The construction and its conventions follow [Minhyong Kim](#reference-kim2005), 
 Use [Representative formula for the connecting map](#nc-3-connecting-map-lift); [Fibres of the connecting class](#nc-3-connecting-fixed-orbits); `QuotientGroup.eq`; `MulAction.left_quotientAction`.
 
 ### 0.35 Inflation–restriction exactness and the finite-quotient equivalence
+
+Inflation–restriction exactness is supplied by native `res_eq_one_iff`, and uniqueness by `infl_injective`. The cocycle/neutral-fibre equivalences and categorical finite-colimit comparison below package these supplied maps with their specified forward formulas.
+
 <a id="nc-3-finite-family-normal-killing"></a>
 
 **Simultaneous killing for finite discrete cocycle families.** Let G be compact. For a finite index type I, discrete groups `U_i` with automorphism actions and continuous cocycles `c_i∈Z¹(G,U_i)`, there is one open normal N with `c_i(n)=1` for all i and `n∈N`. Groups and actions may vary with i, and `U_i` need not be finite. The empty family is included. Infinite families and nondiscrete coefficients do not satisfy this conclusion in general.
@@ -2380,10 +2456,12 @@ Intersect the finitely many clopen one-fibre carriers; finite-intersection topol
 
 **Checks.**
 
+- For `G=∏_(n∈ℕ)C₂`, the first r coordinate characters are killed by their common finite-index kernel. All coordinate characters together have trivial common kernel, which is not open.
+
 - `TauCeti.NonabelianCohomology.Z1.exists_openNormal_killing_family.test_empty`: For `I=Fin0` the class-killing condition is vacuous and an open normal subgroup exists.
 - `TauCeti.NonabelianCohomology.Z1.exists_openNormal_killing_family.test_single`: Specializing the varying-coefficient family theorem to Fin1 and one c gives its pointwise normal-open killing conclusion.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and opening proof of Proposition 1.3.15, printed p. 11.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), the proof of `exists_mem_range_infl`, applied to the finite intersection of one-fibres; the displayed proof is an elementary deduction.
 
 Use [Discrete cocycle one-fibres are clopen](#nc-3-cocycle-one-fibre-clopen); [Identity value of a nonabelian cocycle](#nc-3-cocycle-map-one); `isClopen_iInter_of_finite`; `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`.
 <a id="nc-3-quotient-cocycle-equivalence"></a>
@@ -2418,7 +2496,7 @@ The interface consists of the following named results.
 - This gives the forward image-in-neutral-fibre inclusion without assuming the reverse inclusion.
 - Uniqueness is of the quotient cohomology class; a normalizing gauge element or a cocycle representative need not be unique.
 
-The construction and its conventions follow [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and full Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Native nonabelian H¹](#native-nonabelian-h1), `Cocycle.descend` and `Cocycle.map_descend`; the displayed proof is an elementary deduction.
 
 Use [Recovery after quotient descent](#nc-3-inflate-descended-cocycle); [Recovery after cocycle inflation](#nc-3-descend-inflated-cocycle).
 
@@ -2489,7 +2567,7 @@ The interface consists of the following named results.
 - `TauCeti.NonabelianCohomology.H1.finiteQuotientColimitEquiv.test_nonneutral`: For `a≠1 at` any quotient level, `E(ι_N(a))≠1`.
 - `TauCeti.NonabelianCohomology.H1.finiteQuotientColimitEquiv.test_transposition`: Give `S₂` and `S₃` discrete topologies and let `S₂` act trivially on `S₃`. The cocycle sending the nonidentity element of `S₂` to `(01)∈S₃` defines a class `c≠1`. In the colimit `E⁻¹([c])≠E⁻¹(1)`, as checked by evaluating a hypothetical coboundary at the transposition.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Bjorn Poonen](#reference-poonen-rational-points), §1.3.5, Definition 1.3.14 and Proposition 1.3.15 proof, printed pp. 11–12.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), §1, printed pp. 5–7, continuous cocycle and gauge definitions; [Native nonabelian H¹](#native-nonabelian-h1), `exists_mem_range_infl` and `infl_injective`; the displayed proof is an elementary deduction.
 
 Use [Nonabelian finite-quotient colimit theorem](#nc-3-h1-inflation-colimit); [Inflation preserves the distinguished cohomology class](#nc-3-h1-inflation-one); `CategoryTheory.Limits.IsColimit.coconePointUniqueUpToIso`; `CategoryTheory.Limits.IsColimit.comp_coconePointUniqueUpToIso_hom`; `CategoryTheory.Limits.colimit.isColimit`; `CategoryTheory.Iso.toEquiv`; `Equiv.symm_apply_apply`; `Equiv.apply_symm_apply`.
 
@@ -2621,17 +2699,17 @@ Faithful coefficient maps need not be injective on `H¹`. With trivial actions, 
 
 For an inner twist of a trivial action by the identity cocycle `S₃→S₃`, the fixed group becomes the centre, hence has one element, whereas the original fixed group has six. For the cocycle determined by a transposition from `C₂`, the twisted fixed group is its centralizer, of order two. Twisting therefore changes `H⁰` as well as repointing `H¹`. The translation of twisted cocycles is `d(g)c(g)`; the reverse order does not give the same repointing map.
 
-Finally, a finite quotient of a profinite source records cocycles valued in the fixed subgroup of its open normal kernel. Gauge reflection at that same quotient uses gauges fixed by the same kernel. Enlarging the allowed gauge group would collapse classes that need not be equal at the chosen finite level.
+Finally, a finite quotient of a profinite source records cocycles valued in the fixed subgroup of its open normal kernel. Every ambient gauge relating two inflated cocycles is automatically fixed by that same kernel, so inflation reflects equality without refining the quotient.
 
 
-The coordinate API names the identity-value theorem `Nonabelian.cocycle_one`, algebraic gauge preservation `gauge_isCocycle`, and `gauge_continuous` under joint continuity of the action and the topological-group structure on U. On `Z1`, `GaugeRelated` is existence of one constant gauge. The quotient equality theorem `class_eq_iff` identifies equality in `H1` with this single-gauge relation. These algebraic identifications do not require a topology on `H¹`.
+The equation-level coordinate API names the identity-value theorem `Nonabelian.cocycle_one`, algebraic gauge preservation `gauge_isCocycle`, and `gauge_continuous` under joint continuity of the action and the topological-group structure on U. These express the native formulas with an explicit automorphism homomorphism and the inverse gauge parameter; continuous cocycle and class carriers are supplied by Tau Ceti. No topology on `H¹` is needed.
 
 
 For `G=U=S₃` acting on U by conjugation, `c(g)=g⁻¹` is an ordered cocycle. Put `a=(01)`, `x=(01)`, `y=(12)` and t=xy. The reversed gauge expression `d(g)=g(a⁻¹)c(g)a` gives `d(x)=x`, `d(y)=y` and `d(t)=1`. Its required cocycle right side at (x,y) is d(x)x(d(y))=yx≠1. Thus this expression does not preserve cocycles. In contrast, the declared constant gauge `a·c(g)=a c(g)g(a)⁻¹` equals `c(g)` in this example. Repointing a right torsor by `p↦p·a` gives `a⁻¹c(g)g(a)`, which is the declared gauge with parameter `a⁻¹` (Kim, published survey, p. 642, read together with the torsor action on pp. 637–641).
 
 ### Dependencies
 
-This layer uses `MulDistribMulAction`; `FixedPoints.subgroup`; `ContinuousSMul`; `IsTopologicalGroup`; `ContinuousMap`; `ContinuousMonoidHom`; `groupCohomology.IsMulCocycle₁`; `MulAction.orbitRel`; `MulAction.orbitRel.Quotient`; `TauCeti.ContCohomology.Z1`; `TauCeti.ContCohomology.B1`; `TauCeti.ContCohomology.H1`; `TauCeti.ContCohomology.H1pi`; `TauCeti.ContCohomology.H0`; `TauCeti.ContCohomology.d0`; `TauCeti.ContCohomology.d1`; `TauCeti.ContCohomology.H1EquivOfSmulEqSelf`; `Multiplicative`; `Continuous.comp`; `map_mul`; `map_inv`; `MulAction.orbitRel_apply`; `MulAction.mem_orbit_iff`; `FixedPoints.mem_subgroup`; `map_one`; `MonoidHom.comp`; `MonoidHom.comp_apply`; `MulDistribMulAction.compHom`; `MulAction.continuousSMul_compHom`; `continuous_subtype_val`; `Subgroup.subtype`; `Subgroup.continuousSMul`; `MulAut.conj`; `MulDistribMulAction.toMulAut`; `MulEquiv.refl`; `MulEquiv.trans`; `MulEquiv.symm`; `Quotient.congr`; `Equiv.trans`; `Equiv.symm`; `Equiv.apply_symm_apply`; `Equiv.injective`; `MonoidHom.ker`; `MonoidHom.mem_ker`; `MulAction.QuotientAction`; `MulAction.quotient`; `QuotientGroup.Quotient.group`; `MulAction.Quotient.smul_mk`; `QuotientGroup.isOpenQuotientMap_mk`; `IsOpenQuotientMap.id`; `IsOpenQuotientMap.prodMap`; `IsOpenQuotientMap.continuous_comp_iff`; `QuotientGroup.continuous_mk`; `QuotientGroup.mk'`; `QuotientGroup.quotientKerEquivOfSurjective`; `QuotientGroup.mk_surjective`; `QuotientGroup.isQuotientMap_mk`; `Topology.IsQuotientMap.continuous_iff`; `TauCeti.ContCohomology.explicitMap1`; `Subgroup.Normal.conj_mem'`; `MulAction.coe_quotient_smul_fixedPoints`; `coe_smul_fixedPoints_of_normal`; `QuotientGroup.leftRel_apply`; `QuotientGroup.induction_on`; `QuotientGroup.mk_mul`; `QuotientGroup.eq_one_iff`; `inv_smul_smul`; `continuous_induced_rng`; `Continuous.smul`; `continuous_fst`; `continuous_snd`; `Subgroup`; `ConjAct`; `ConjAct.toConjAct`; `ConjAct.toConjAct_smul`; `isClopen_discrete`; `IsClopen.preimage`; `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`; `Subgroup.quotient_finite_of_isOpen`; `OpenNormalSubgroup.instSemilatticeInfOpenNormalSubgroup`; `CategoryTheory.IsFiltered`; `CategoryTheory.Limits.Types.FilteredColimit.isColimitOf`; `TauCeti.ContCohomology.descendZ1`; `TauCeti.ContCohomology.explicitInfl1`; `TauCeti.ContCohomology.explicitFiniteQuotientTransition1`; `TauCeti.ContCohomology.explicitFiniteQuotientCocone1`; `TauCeti.ContCohomology.explicitFiniteQuotientColimit1`; `TauCeti.ContCohomology.Z2`; `TauCeti.ContCohomology.B2`; `TauCeti.ContCohomology.mem_Z2_iff`; `TauCeti.ContCohomology.mem_B2_iff`; `TauCeti.ContCohomology.H2pi_eq_iff`; `TauCeti.ContCohomology.H2pi_eq_zero_iff`; `Topology.IsEmbedding.continuous_iff`; `Continuous.subtype_mk`; `MulEquiv`; `QuotientGroup.isOpenMap_coe`; `Homeomorph.isQuotientMap`; `Topology.IsQuotientMap.comp`; `TauCeti.ContCohomology.H2`; `TauCeti.ContCohomology.H2pi`; `Subgroup.center`; `MulAction.toPermHom`; `MonoidHom.liftOfSurjective`; `MulAction.compHom`; `Equiv.Perm.sign`; `Equiv.Perm.sign_surjective`; `MonoidHom.liftOfRightInverse_comp_apply`; `Equiv.ofBijective`; `Set.equivOfEq`; `Equiv.subtypeEquiv`; `MonoidHom.ofInjective`; `Topology.IsEmbedding.continuous`; `Homeomorph`; `Torsor`; `IsTopologicalTorsor`; `Homeomorph.smulConst`; `MulOpposite.opHomeomorph`; `MulAction.fixedPoints`; `MulAction.mem_fixedPoints`; `QuotientGroup.eq`; `QuotientGroup.out_eq'`; `QuotientGroup.mk_out_eq_mul`; `MulAction.left_quotientAction`; `isClopen_iInter_of_finite`; `Equiv.symm_apply_apply`; `CategoryTheory.Limits.IsColimit.coconePointUniqueUpToIso`; `CategoryTheory.Limits.IsColimit.comp_coconePointUniqueUpToIso_hom`; `CategoryTheory.Limits.colimit.isColimit`; `CategoryTheory.Iso.toEquiv`; `MonoidHom.id`; `MulAction.stabilizer`; `MulAction.mem_stabilizer_iff`.
+This layer uses the native `TauCeti.RepresentationTheory.Homological.ContCohomology.Nonabelian.Basic` and `TauCeti.RepresentationTheory.Homological.ContCohomology.Nonabelian.Inflation` modules; `MulDistribMulAction`; `FixedPoints.subgroup`; `ContinuousSMul`; `IsTopologicalGroup`; `ContinuousMap`; `ContinuousMonoidHom`; `groupCohomology.IsMulCocycle₁`; `MulAction.orbitRel`; `MulAction.orbitRel.Quotient`; `TauCeti.ContCohomology.Z1`; `TauCeti.ContCohomology.B1`; `TauCeti.ContCohomology.H1`; `TauCeti.ContCohomology.H1pi`; `TauCeti.ContCohomology.H0`; `TauCeti.ContCohomology.d0`; `TauCeti.ContCohomology.d1`; `TauCeti.ContCohomology.H1EquivOfSmulEqSelf`; `Multiplicative`; `Continuous.comp`; `map_mul`; `map_inv`; `MulAction.orbitRel_apply`; `MulAction.mem_orbit_iff`; `FixedPoints.mem_subgroup`; `map_one`; `MonoidHom.comp`; `MonoidHom.comp_apply`; `MulDistribMulAction.compHom`; `MulAction.continuousSMul_compHom`; `continuous_subtype_val`; `Subgroup.subtype`; `Subgroup.continuousSMul`; `MulAut.conj`; `MulDistribMulAction.toMulAut`; `MulEquiv.refl`; `MulEquiv.trans`; `MulEquiv.symm`; `Quotient.congr`; `Equiv.trans`; `Equiv.symm`; `Equiv.apply_symm_apply`; `Equiv.injective`; `MonoidHom.ker`; `MonoidHom.mem_ker`; `MulAction.QuotientAction`; `MulAction.quotient`; `QuotientGroup.Quotient.group`; `MulAction.Quotient.smul_mk`; `QuotientGroup.isOpenQuotientMap_mk`; `IsOpenQuotientMap.id`; `IsOpenQuotientMap.prodMap`; `IsOpenQuotientMap.continuous_comp_iff`; `QuotientGroup.continuous_mk`; `QuotientGroup.mk'`; `QuotientGroup.quotientKerEquivOfSurjective`; `QuotientGroup.mk_surjective`; `QuotientGroup.isQuotientMap_mk`; `Topology.IsQuotientMap.continuous_iff`; `TauCeti.ContCohomology.explicitMap1`; `Subgroup.Normal.conj_mem'`; `MulAction.coe_quotient_smul_fixedPoints`; `coe_smul_fixedPoints_of_normal`; `QuotientGroup.leftRel_apply`; `QuotientGroup.induction_on`; `QuotientGroup.mk_mul`; `QuotientGroup.eq_one_iff`; `inv_smul_smul`; `continuous_induced_rng`; `Continuous.smul`; `continuous_fst`; `continuous_snd`; `Subgroup`; `ConjAct`; `ConjAct.toConjAct`; `ConjAct.toConjAct_smul`; `isClopen_discrete`; `IsClopen.preimage`; `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`; `Subgroup.quotient_finite_of_isOpen`; `OpenNormalSubgroup.instSemilatticeInfOpenNormalSubgroup`; `CategoryTheory.IsFiltered`; `CategoryTheory.Limits.Types.FilteredColimit.isColimitOf`; `TauCeti.ContCohomology.descendZ1`; `TauCeti.ContCohomology.explicitInfl1`; `TauCeti.ContCohomology.explicitFiniteQuotientTransition1`; `TauCeti.ContCohomology.explicitFiniteQuotientCocone1`; `TauCeti.ContCohomology.explicitFiniteQuotientColimit1`; `TauCeti.ContCohomology.Z2`; `TauCeti.ContCohomology.B2`; `TauCeti.ContCohomology.mem_Z2_iff`; `TauCeti.ContCohomology.mem_B2_iff`; `TauCeti.ContCohomology.H2pi_eq_iff`; `TauCeti.ContCohomology.H2pi_eq_zero_iff`; `Topology.IsEmbedding.continuous_iff`; `Continuous.subtype_mk`; `MulEquiv`; `QuotientGroup.isOpenMap_coe`; `Homeomorph.isQuotientMap`; `Topology.IsQuotientMap.comp`; `TauCeti.ContCohomology.H2`; `TauCeti.ContCohomology.H2pi`; `Subgroup.center`; `MulAction.toPermHom`; `MonoidHom.liftOfSurjective`; `MulAction.compHom`; `Equiv.Perm.sign`; `Equiv.Perm.sign_surjective`; `MonoidHom.liftOfRightInverse_comp_apply`; `Equiv.ofBijective`; `Set.equivOfEq`; `Equiv.subtypeEquiv`; `MonoidHom.ofInjective`; `Topology.IsEmbedding.continuous`; `Homeomorph`; `Torsor`; `IsTopologicalTorsor`; `Homeomorph.smulConst`; `MulOpposite.opHomeomorph`; `MulAction.fixedPoints`; `MulAction.mem_fixedPoints`; `QuotientGroup.eq`; `QuotientGroup.out_eq'`; `QuotientGroup.mk_out_eq_mul`; `MulAction.left_quotientAction`; `isClopen_iInter_of_finite`; `Equiv.symm_apply_apply`; `CategoryTheory.Limits.IsColimit.coconePointUniqueUpToIso`; `CategoryTheory.Limits.IsColimit.comp_coconePointUniqueUpToIso_hom`; `CategoryTheory.Limits.colimit.isColimit`; `CategoryTheory.Iso.toEquiv`; `MonoidHom.id`; `MulAction.stabilizer`; `MulAction.mem_stabilizer_iff`.
 
 ## Layer 1: Étale K(π,1) schemes and arithmetic paths
 
@@ -6205,7 +6283,7 @@ The central invariant factor in Kim's induction is `V^B/V`. It is a quotient of 
 At depth one, the crystalline Selmer condition agrees with the Bloch–Kato finite condition on the Jacobian's rational Tate module. Globally its exact sequence retains the rational Tate module of Sha. A nonzero Sha direction is therefore present in the full Selmer variety and is removed only by the separate Mordell–Weil cut of Layer 5.
 
 
-For the underlying class-set intersection with supplied localizations, `Selmer.condition_mono` states that replacing each local condition by a subset shrinks `SelmerSet`. No dimension or representability conclusion follows from this set operation alone.
+For the intersection on a supplied class carrier with supplied localizations, `Selmer.condition_mono` states that replacing each local condition by a subset shrinks `SelmerSet`. `Selmer.kummer_mem` carries the hypothesis that every global Kummer class satisfies every local condition. `Selmer.finite_points_of_refined_locus` combines that containment with an injective localization of global points into a finite refined locus. No dimension or representability conclusion follows from the set intersection alone; an empty refinement excluding infinitely many global points fails the containment hypothesis.
 
 ### Dependencies
 
@@ -6714,6 +6792,7 @@ Use [A regular equation from a small Selmer image](#nc-4-selmer-annihilator) to 
 
 - For a proper genus-g curve at depth one the target has dimension g; the source dimension is a Selmer dimension, not automatically the Mordell–Weil rank.
 - The statement applies even when the period map itself is not injective.
+- A zero-dimensional refinement excluding a global Kummer class proves finiteness only of its own locus. Every application to the full global domain requires the stated Kummer-image containment at every place.
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2009), Conjecture 1 and following conditional implication, p. 96; §3 proof pp. 120–121.
 
@@ -6723,36 +6802,41 @@ Use [A regular equation from a small Selmer image](#nc-4-selmer-annihilator); [K
 
 <a id="abelian-logarithm"></a>
 
-**Local abelian logarithm.** For an abelian variety J with good reduction over a finite `K/ℚ_p`, construct the continuous analytic homomorphism `log_J:J(K)→Lie J(K)` from the formal logarithm of [Rational abelian Kummer and Sha comparison](#abelian-kummer-mordell-weil)6 and multiplication into its formal neighbourhood. Its differential at the identity is the identity; its kernel is the finite torsion subgroup, and it is a local analytic isomorphism on a sufficiently small open subgroup. Preserve homomorphisms and field extension. A differential in `H⁰(J,Ω¹)` pairs with `log_J` to give its normalized local primitive.
+**Local abelian logarithm.** For every abelian variety `A/K` over a finite extension `K/ℚ_p`, construct the continuous locally analytic homomorphism `abelianLog: A(K)→Lie(A)(K)`, with differential the identity, finite torsion kernel and a local analytic inverse on a sufficiently small open subgroup. Good reduction is not required. Use the smooth Néron model supplied by NeronModelsAndSemistableAbelianVarieties §1.1 and the integral commutative formal group, identity chart and normalized logarithm of HeightsRationalPointsAndObstructions §§1.15a–1.16. These formal constructions, including their convergence, inverse and change-of-parameter laws, are supplied inputs.
 
-Complete the smooth proper group model at its identity. Choose parameters `T₁,…,T_g` to obtain its commutative g-dimensional formal group law over `O_K`; construct `abelianFormalLog` over K with linear term the identity, satisfying `log(F(T,S))=log(T)+log(S)`. Prove uniqueness, convergence on a sufficiently small polydisc, a convergent inverse there, and compatibility with homomorphisms and parameter changes. Its API is `abelianFormalLog_linear`, `abelianFormalLog_add`, `abelianFormalLog_converges`, `abelianFormalLog_inverse` and `abelianFormalLog_changeParameter`. Invariant differentials determine its derivative and the degreewise construction in characteristic zero gives the coefficients. Bound their denominators to obtain convergence on a smaller integral polydisc; apply the analytic inverse theorem at the identity.
+Choose a deep congruence subgroup H identified by `SmoothGroup.formalIdentityChart` with an ideal on which `formalLogarithm_smallIdeal_equiv` is an analytic group isomorphism. The finite-index quotient `A(K)/H` has an exponent m. Define `log_A(P)=m⁻¹ log_H(mP)`, with values in the intrinsic Lie algebra using the differential of the chart. Additivity of the supplied logarithm proves independence of m; its uniqueness and parameter-change laws prove independence of the chart. Injectivity on H gives the torsion kernel, and finite index bounds that torsion inside `A[m]`. This uses local compactness, not global finite generation. Extend homomorphisms through the Néron models to prove functoriality; normalized uniqueness gives compatibility with every finite extension of K.
 
-Every point P has a nonzero integer multiple mP in this subgroup: the reduction quotient is finite, and p-power multiplication enters any sufficiently small formal neighbourhood. Define `log_J(P)=m⁻¹ log_J(mP)`, prove independence of m by additivity, and prove the claimed kernel and local isomorphism. The local field is finite over `ℚ_p`; compactness and the finite residue field are used here. Good-reduction formal models come from NeronModelsAndSemistableAbelianVarieties §1.1. The construction requires neither a computed global rank nor finite generation of global points.
+Construct the unique homomorphism of `ℂ_p`-Lie groups `A(ℂ_p)→Lie(A)(ℂ_p)` with differential the identity. It restricts to these finite-extension logarithms and gives their continuous locally analytic extension to all `ℂ_p`-points. Use that the quotient by any open subgroup of `A(ℂ_p)` is torsion, as in Katz–Rabinoff–Zureick-Brown §3.3 and the proof of Proposition 3.16. Finite-extension points alone are not the carrier of this map. The pairing `⟨P,ω⟩=ω(log_A(P))` for invariant differentials has torsion left kernel and zero right kernel over finite K; the image contains a full Lie lattice. All base-change and morphism comparisons use this same pairing.
 
 The interface consists of the following named results.
 
 - `abelianLog.add`: The logarithm is additive.
 - `abelianLog.derivative`: Its differential at zero is the identity.
-- `abelianLog.kernel`: Its kernel on `J(K)` is torsion.
-- `abelianLog.functorial`: Respect abelian-variety homomorphisms.
+- `abelianLog.kernel`: Its kernel on `A(K)` is the finite torsion subgroup.
+- `abelianLog.functorial`: Respect every abelian-variety homomorphism over K.
+- `abelianLog.formal`: Restrict to the supplied normalized formal logarithm on H.
+- `abelianLog.baseChange`: Respect finite extensions and the restriction of the `ℂ_p` logarithm.
+- `abelianLog.cp`: The compatible locally analytic logarithm on all `A(ℂ_p)`.
+- `abelianLog.pairing`: Evaluation against invariant differentials, with the stated two kernels.
+- `abelianLog.unique`: Agreement on an open subgroup determines the logarithm over finite `K/ℚ_p` uniquely.
 
 **Checks.**
 
-`- log_J(0)=0`.
-- Every torsion point has zero logarithm.
-- For the multiplicative formal group, the local formula is `log(1+t)`, not log t.
-- For the additive formal group, the normalized formal logarithm is T; the zero series has the wrong linear term and is excluded.
-- In dimension zero the unique formal group and its logarithm have empty coordinate tuples, with the identity as the unique point.
+- `log_A(0)=0`, and every torsion point maps to zero. For `E:y²+y=x³−x²` over `ℚ₅`, `(0,0)` has order 5, so the global logarithm has no global inverse.
+- Split multiplicative elliptic reduction still has a Néron formal chart and a deep subgroup on which the logarithm is an isomorphism. A smooth proper group model is not required.
+- The supplied multiplicative formal logarithm is `log(1+t)`, and the additive one is T. A zero series fails the identity differential condition.
+- In dimension zero the Lie algebra is zero and the abelian variety is the trivial group.
+- A `ℂ_p`-point need not be defined over a finite extension of `ℚ_p`; `abelianLog.cp` has that point in its domain and agrees with the formal logarithm near zero.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2009), Introduction, p. 93 (the abelian logarithm comparison); §2, pp. 115–117 (the étale realization); [Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Muller, Jan Tuitman and Jan Vonk](#reference-bdmtv), §3.1 and §5.1, pp. 901–905 and 917–919.
+The construction and its conventions follow [Eric Katz, Joseph Rabinoff and David Zureick-Brown](#reference-krzb), §3.3, Definition 3.8, pp. 18–19, and proof of Proposition 3.16, p. 22; [Minhyong Kim](#reference-kim2009), Introduction, p. 93. The formal-group inputs are HeightsRationalPointsAndObstructions §§1.15a–1.16, with Katz Appendix Lemma′, pp. 501–502, and Mattuck Theorem 7, §§13–14, pp. 114–118, as located there.
 
-Use [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) §2.12a (number-field abelian descent and local Kummer images); [HeightsRationalPointsAndObstructions](../HeightsRationalPointsAndObstructions/README.md) §1.1 (fppf comparison) and §§1.6–1.7 (Mordell–Weil); [Rational abelian Kummer and Sha comparison](#abelian-kummer-mordell-weil); [TauCetiRoadmap.JacobianChallenge](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/JacobianChallenge/README.md#layer-e-abelian-varieties); [Coleman functions and normalized primitives](#coleman-functions-primitives); [Coleman integration on a proper curve with good reduction](#proper-curve-coleman-charts).
+Use [HeightsRationalPointsAndObstructions](../HeightsRationalPointsAndObstructions/README.md) §§1.15a–1.16; [NeronModelsAndSemistableAbelianVarieties](../NeronModelsAndSemistableAbelianVarieties/README.md) §1.1; [TauCetiRoadmap.JacobianChallenge](../JacobianChallenge/README.md) Layer E; [AbelianSchemesAndArithmeticModuli](../AbelianSchemesAndArithmeticModuli/README.md) §A3.2 (finite multiplication kernels).
 
 <a id="coleman-abelian-comparison"></a>
 
-**Coleman and abelian logarithm comparison.** For a proper good-reduction curve `X/K` with `b∈X(K)`, identify the Coleman integral from b to x of `ω` with the pairing of the corresponding invariant differential on J with `log_J([x−b])`. Respect the depth-one period sign and Abel–Jacobi pullback. Prove equality by agreement of local derivatives and Frobenius-normalized transport, rather than choosing unrelated primitives.
+**Coleman and abelian logarithm comparison.** For a smooth proper geometrically connected good-reduction curve `X/K` over finite `K/ℚ_p`, with `b∈X(K)`, identify the Coleman integral from b to x of `ω` with the pairing of the corresponding invariant differential on J with `log_J([x−b])`. Respect the depth-one period sign and Abel–Jacobi pullback. Prove equality by agreement of local derivatives and Frobenius-normalized transport, rather than choosing unrelated primitives.
 
-The curve is proper and has good reduction; the base point fixes both normalizations.
+The curve is proper and has good reduction; the base point fixes both normalizations. The equality holds after every finite extension and on `X(ℂ_p)` through the same `abelianLog.cp` and the supplied Coleman evaluation. This target owns the generic equality; its depth-one tensor-path specialization is §5.9.
 
 The interface consists of the following named results.
 
@@ -6764,6 +6848,7 @@ The interface consists of the following named results.
 
 - At `x=b` both sides are zero.
 - Changing b to b′ changes the integral by the constant integral from b to b′.
+- Finite-extension evaluation and `ℂ_p` evaluation agree under the fixed embedding and logarithm normalization.
 - An open-curve logarithmic differential has a boundary component and requires the generalized-Jacobian version.
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2009), Introduction, p. 93 (the abelian logarithm comparison); §2, pp. 115–117 (the étale realization); [Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Muller, Jan Tuitman and Jan Vonk](#reference-bdmtv), §5.1, pp. 917–919.
@@ -6840,9 +6925,9 @@ Use [The exact, period-image and closed-image loci](#nc-4-kim-loci); [The depth-
 
 <a id="finite-away-kummer-image"></a>
 
-**Finite away-place Kummer images.** For a proper smooth curve over a finite extension `L/Q_l` with `l≠p`, and a chosen rational base point, prove that its finite-depth `ℚ_p`-unipotent Kummer map on `X(L)` has finite image. Use a regular proper model and its smooth reduction points; points with the same reduction have identical prime-to-l nilpotent path class, and the `ℚ_p`-unipotent quotient factors through that path system. Construct the finite image as the set of classes, independent of the regular model. Integral affine variants use the specified integral domain. Under a fixed potential-good extension, all these paths become unramified; the vanishing of their local heights is proved in Layer 6, in [Vanishing for potentially unramified extensions](#nc-5-away-height-vanishes).
+**Finite away-place Kummer images.** For a proper smooth curve over a finite extension `L/Q_l` with `l≠p`, and a chosen rational base point, prove that its finite-depth `ℚ_p`-unipotent Kummer map on `X(L)` has finite image. Use a regular proper model and its smooth reduction points; points with the same reduction have identical prime-to-l nilpotent path class, and the `ℚ_p`-unipotent quotient factors through that path system. Construct the finite image as the set of classes, independent of the regular model. For the integral affine domains of a regular minimal model with horizontal boundary removed, prove finite image by local constancy on the compact integral domain, as in BDCKW §2.5. Potential good reduction makes proper paths potentially unramified. For an affine pair it does so only when the pair has good reduction after extension and both endpoints remain integral in that pair; the integral domain in the original model alone does not imply this.
 
-The coefficient prime p differs from the local residue characteristic l. Properness gives the finite cover of all local points.
+The coefficient prime p differs from the local residue characteristic l. Properness gives the finite cover of all local points; the affine statement concerns the specified compact integral domain, rather than all points of the affine curve.
 
 The interface consists of the following named results.
 
@@ -6855,8 +6940,9 @@ The interface consists of the following named results.
 - The base point maps to the neutral class.
 - Points in the same smooth reduction class have equal finite-depth image.
 - The `p=l` crystalline case is not this finite-image theorem.
+- On `y²=x³−25x` with `b=(−4,6)`, the integral endpoint `(0,0)` gives a nonzero central local class at 5 for `p=13`; finite image does not mean neutral image or potential unramifiedness.
 
-The construction and its conventions follow [Minhyong Kim and Akio Tamagawa](#reference-kt), Theorem 0.1, Corollary 0.2 and proof, author pp. 1–5.
+The construction and its conventions follow [Minhyong Kim and Akio Tamagawa](#reference-kt), Theorem 0.1, Corollary 0.2 and proof, author pp. 1–5; [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §§2.1–2.5, pp. 8–9; [Francesca Bianchi](#reference-bianchi), §2.1.1, pp. 7–9.
 
 Use [Good-model inertia and arithmetic factorization](#good-model-unramified-paths); [InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticFundamentalGroups/README.md) Layer IG.1 (arithmetic fundamental groups, inertia and specialization).
 
@@ -7670,9 +7756,62 @@ Separate proved injectivity and conditional dimension estimates from the section
 
 ### 7.0 Rational Tate Selmer dimensions
 
+<a id="arithmetic-higher-k-inputs"></a>
+
+**Arithmetic higher K-group finiteness and rank.** For every number field F, write `K_m(𝒪_F)=exactKGroup(P(𝒪_F),m)` on the split exact category of finite projective modules supplied by GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.7. Prove that these groups are finitely generated for `m≥0`, and, for `k≥2`, that `K_(2k−2)(𝒪_F)` is finite and `rank K_(2k−1)(𝒪_F)` is `r₁+r₂` for odd k and `r₂` for even k. Here r₁ and r₂ count the real embeddings and complex pairs of F. The arithmetic finite-generation theorem and its integer-ring consequences are targets here. The generic K-group carrier remains with its supplier; use ColemanIntegration L3.Fa.1 for scheme specialization/localization and L3.Fc.1 for the complex regulator and Borel rank theorem.
+
+For every positive-rank finite projective `𝒪_F`-module P, construct the integral Steinberg module as the top reduced homology of the building of proper nonzero subspaces of `P⊗F`, and prove finite generation of `H_i(Aut(P),St(P⊗F))` for all i≥0, with the usual rank-one augmented-homology convention. Quillen's filtration of the supplied Q-construction with these groups proves K-group finite generation. The rank-zero category contributes its zero object. The supplied localization sequence and finite-field K-groups identify `K_m(𝒪_F)⊗ℚ` with `K_m(F)⊗ℚ` for m≥2. Transport the supplied odd-degree Borel rank calculation through this identification. For the even-degree part, prove Borel's rational vanishing for `K_(2k−2)(𝒪_F)` by the even primitive part of stable rational arithmetic-group cohomology, and combine with finite generation to obtain finiteness. The rational vanishing alone would not imply integral finiteness. The complex regulator is imported on the common K-group carrier, not constructed again.
+
+The API is `arithmeticK.finiteGeneration`, `arithmeticK.evenFinite` and `arithmeticK.oddRank`. GeometryOfNumbersAndQuadraticArithmetic's generic K-groups and ColemanIntegration's regulator foundations precede these arithmetic targets; these targets precede the higher-Chern comparison below. GeometryOfNumbersAndQuadraticArithmetic's arithmetic motivation section supplies none of the arithmetic finiteness or higher-Chern theorems.
+
+**Checks.**
+
+- For `F=ℚ`, `K₃(ℤ)⊗ℚ=0` and `K₅(ℤ)⊗ℚ` has dimension one: the first higher odd Tate class occurs at k=3.
+- For an imaginary quadratic field `r₁=0,r₂=1`, every displayed odd K-group has rank one, including even k.
+- All `K_(2k−2)(𝒪_F)⊗ℚ` vanish for k≥2, while `K₀` has a rank summand and `K₁` is the unit calculation; neither belongs to this even-degree range.
+
+Sources: [Christophe Soulé](#reference-soule), §2.1, p. 231, and §6.1, pp. 246–247; [Charles A. Weibel](#reference-weibel), Chapter IV, Theorems 1.17–1.18 and regulator discussion 1.18.1, pp. 270–272, and Theorem 6.9 for Quillen finite generation.
+
+*Needs:* [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) §§6.1.1–6.1.7 and §6.10 (generic K-groups, plus comparison and finite-field K-groups); [ColemanIntegration](../ColemanIntegration/README.md) L3.Fa.1 and L3.Fc.1 (scheme localization, complex regulator and Borel rank theorem); TauCetiRoadmap.GlobalNumberFields (number fields and rings of integers). Arithmetic finite generation and its integer-ring consequences are owned here.
+
+<a id="higher-etale-chern-comparison"></a>
+
+**Higher étale Chern comparison for number fields.** For p odd, a number field F, `k≥2`, `j∈{1,2}` and `T₀={v:v|p}`, construct the natural higher étale Chern maps `ch_(k,j):K_(2k−j)(𝒪_F)⊗ℤ_p→Hʲ(G_(F,T₀),ℤ_p(k))`. Use the same K-groups as [Arithmetic higher K-group finiteness and rank](#arithmetic-higher-k-inputs), finite-coefficient Tate twists and compact continuous cohomology. Construct the universal higher Chern classes on the K-space, their finite-coefficient maps and compatible inverse limits; identify the étale cohomology of `Spec 𝒪_F[1/p]` with this unramified Galois cohomology. Prove Soulé's surjectivity for both j, and finite kernel for j=1. The j=2 domain is finite by the preceding target, so its target is finite as well. After inverting p the degree-one map is an isomorphism and degree two vanishes. No bound k<p is imposed.
+
+Require compatibility with number-field restriction, transfer and the localization map `𝒪_F→𝒪_F[1/p]`. Ordinary vector-bundle Chern classes are the degree-zero normalization, not substitutes for these higher maps. The rational étale regulator image in the Soulé target is the image of `ch_(k,1)⊗ℚ_p` under this identification.
+
+The API is `higherChern.map`, `higherChern.surjective`, `higherChern.h1_finiteKernel`, `higherChern.rationalIso` and `higherChern.transfer`.
+
+**Checks.**
+
+- For `F=ℚ,k=3`, the rational degree-one map has a one-dimensional source and nonzero image.
+- For `F=ℚ,k=2`, both rational targets vanish, but this makes no assertion that the integral K-groups vanish.
+- The case k=p is included for every odd p. A construction available only for k<p does not supply the target.
+- k=1 is excluded; the S-unit Kummer map has its separate localization and class-group terms.
+
+Source: [Christophe Soulé](#reference-soule), §6.1, pp. 246–247, including the distinction between surjectivity of both maps and the finite-kernel assertion for the first.
+
+*Needs:* [Arithmetic higher K-group finiteness and rank](#arithmetic-higher-k-inputs); [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) §6.1; [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§F.0–F.4 (étale coefficients and realization); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.1–R02.2 (compact limits and continuous comparison). The universal higher classes and arithmetic Chern comparison are constructed here.
+
+<a id="tate-change-ramification"></a>
+
+**Rational Tate change of ramification.** For a number field F, odd p, `k≥2` and finite `T⊇T₀={v:v|p}`, prove that inflation `Hʲ(G_(F,T₀),ℚ_p(k))→Hʲ(G_(F,T),ℚ_p(k))` is an isomorphism for j=1,2, compatible with the rational higher Chern maps and enlargement of T. Apply the localization sequence on rings of S-integers: the new residue terms are finite-field cohomology with twist k−1. Frobenius minus one is invertible on `ℚ_p(k−1)` at every added `v∤p`, so both invariant and coinvariant terms vanish. Retain the Galois/étale comparison and the purity twist. This comparison is a target here and uses the supplied localization theorem, not an undeclared arithmetic K-theory result.
+
+The API is `rationalTate.changeRamification` and `higherChern.changeRamification`.
+
+**Checks.**
+
+- Adding no places gives the identity, and two successive enlargements compose to direct inflation.
+- For `F=ℚ,k=2`, adding 2 when p≠2 leaves rational H¹ and H² zero, although finite integral residue terms may remain.
+- At k=1 the residue twist is zero and Frobenius minus one is zero. Adding a prime can increase the S-unit rank, so the isomorphism is not asserted in weight one.
+
+Source: the localization and purity sequence of [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.6; the deduction from its residue terms uses the elementary finite-field procyclic cohomology calculation. [Christophe Soulé](#reference-soule), §6.1, pp. 246–247, supplies the minimal-ramification arithmetic input.
+
+*Needs:* [Higher étale Chern comparison for number fields](#higher-etale-chern-comparison); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.6 (localization and purity); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.1–R02.2; TauCetiRoadmap.ProfiniteCohomology (procyclic cohomology). GeometryOfNumbersAndQuadraticArithmetic precedes this roadmap; the arithmetic higher-K, higher-Chern and finite-T comparisons are owned here and precede Soulé's rational Tate specialization.
+
 <a id="soule-rational-tate-cohomology"></a>
 
-**Soulé rational Tate cohomology.** For p odd, a finite set S of rational primes and `T=S∪{p}`, prove `H²(G_(Q,T),ℚ_p(k))=0` for `k≥2`. Prove `dim H¹=1` for odd `k≥3` and `H¹=0` for even `k≥2`, with the continuous rational cohomology and the fixed ramification set. Relate the classes to the rational étale Chern/regulator image and its nonzero odd class, and identify the local finite-condition and global Euler-characteristic consequences used for the thrice-punctured line. The weight-one S-unit group is calculated separately; it is not part of the `k≥2` vanishing statement.
+**Soulé rational Tate cohomology.** For p odd, a finite set S of rational primes and `T=S∪{p}`, prove `H²(G_(Q,T),ℚ_p(k))=0` for `k≥2`. Prove `dim H¹=1` for odd `k≥3` and `H¹=0` for even `k≥2`, with the continuous rational cohomology and the fixed ramification set. Use `higherChern.rationalIso` at `F=ℚ` and `rationalTate.changeRamification` to identify the classes with the rational higher étale Chern/regulator image and its nonzero odd class, and identify the local finite-condition and global Euler-characteristic consequences used for the thrice-punctured line. The weight-one S-unit group is calculated separately; it is not part of the `k≥2` vanishing statement.
 
 p is odd, S is finite, T contains p; rational Tate twists and continuous cohomology use their canonical carriers.
 
@@ -7685,14 +7824,14 @@ The interface consists of the following named results.
 
 **Checks.**
 
-`- k=2` has `H¹=0` and `H²=0`.
-`- k=3` has `H¹` dimension one.
-`- k=1` depends on S-units and is excluded.
+- `k=2` has `H¹=0` and `H²=0`.
+- `k=3` has `H¹` dimension one.
+- `k=1` depends on S-units and is excluded.
 - The odd sum starts `at k=3`, even when the depth index starts at one.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), proof of Siegel's theorem, Soulé input and dimension estimates, preprint pp. 17–18; [Minhyong Kim](#reference-kim2009), §3, genus-zero case, published pp. 121–122.
+The arithmetic comparison follows [Christophe Soulé](#reference-soule), §6.1, pp. 246–247. Its application follows [Minhyong Kim](#reference-kim2005), proof of Siegel's theorem, Soulé input and dimension estimates, preprint pp. 17–18; [Minhyong Kim](#reference-kim2009), §3, genus-zero case, published pp. 121–122.
 
-Use [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) Layer R02.4 (arithmetic duality); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§0.9–0.11, F.6 (cycle and Chern classes, localization, purity and Gysin maps); [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) Layer 4 (finite conditions).
+Use [Arithmetic higher K-group finiteness and rank](#arithmetic-higher-k-inputs); [Higher étale Chern comparison for number fields](#higher-etale-chern-comparison); [Rational Tate change of ramification](#tate-change-ramification); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) Layer R02.4 (arithmetic duality); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§0.9–0.11, F.6 (cycle and Chern classes, localization, purity and Gysin maps); [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) Layer 4 (finite conditions).
 
 ### 7.1 Sections and the section conjecture
 
@@ -7764,17 +7903,18 @@ Use [Conjugacy classes of Galois sections](#nc-6-section-classes); [EtaleCohomol
 
 <a id="nc-6-kummer-section-comparison"></a>
 
-**Sections of an abelian variety and the Kummer map.** Let `A/k` be an abelian variety and `n ≥ 1` invertible in k. Multiplication by n is finite étale and geometrically Galois, with geometric deck group A[n](k^s) and its natural `Γ_k`-action. The `Γ_k`-stable geometric kernel defines a quotient `π_1(A/k) → π^{[n]}(A/k)`, an extension of `Γ_k` by A[n](k^s). For a `∈ A(k)`, let `s_a` and `s_0` be the images in `π^{[n]}(A/k)` of sections attached to a and to the origin. Then the difference cocycle `σ ↦ s_a(σ) s_0(σ)⁻¹`, with values in A[n](k^s), represents the Kummer class `δ_n(a) ∈ H¹(k, A[n])` of [Rational abelian Kummer and Sha comparison](#abelian-kummer-mordell-weil), with the sign convention `δ_n(a)(σ) = σ(b) − b` for any b with nb `=` a. In characteristic zero, passing to the limit over all n gives the profinite Kummer class of a in `H¹(k,T̂A)`, with `T̂A=lim_n A[n](k^s)`. In characteristic `ℓ>0`, take only n prime to ℓ and use the prime-to-ℓ Tate module `T̂^(ℓ′)A=lim_(n,ℓ)=1 A[n](k^s)` and the corresponding Kummer class. For a curve X with a rational point b and Jacobian J, combining with the Abel–Jacobi map `ι_b` and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 and AbelianSchemesAndArithmeticModuli §A4.4 (Tate module and étale `H¹` of the Jacobian), the abelianised section map of X is `x ↦` Kummer class of [x − b].
+**Sections of an abelian variety and the Kummer map.** Let `A/k` be an abelian variety and `n ≥ 1` invertible in k. Multiplication by n is finite étale and geometrically Galois, with geometric deck group A[n](k^s) and its natural `Γ_k`-action. The `Γ_k`-stable geometric kernel defines a quotient `π_1(A/k) → π^{[n]}(A/k)`, an extension of `Γ_k` by A[n](k^s). For a `∈ A(k)`, let `s_a` and `s_0` be the images in `π^{[n]}(A/k)` of sections attached to a and to the origin. Then the difference cocycle `σ ↦ s_a(σ) s_0(σ)⁻¹`, with values in A[n](k^s), represents the Kummer class `δ_n(a) ∈ H¹(k, A[n])` of [Rational abelian Kummer and Sha comparison](#abelian-kummer-mordell-weil), with the sign convention `δ_n(a)(σ) = σ(b) − b` for any b with nb `=` a. In characteristic zero, passing to the limit over all n gives the profinite Kummer class of a in `H¹(k,T̂A)`, with `T̂A=lim_n A[n](k^s)`. In characteristic `ℓ>0`, take only n prime to ℓ and use the prime-to-ℓ Tate module `T̂^(ℓ′)A=lim_(n,ℓ)=1 A[n](k^s)` and the corresponding Kummer class. For a smooth proper geometrically connected curve X with a rational point b and ordinary Jacobian J, combining with the Abel–Jacobi map `ι_b` and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 and AbelianSchemesAndArithmeticModuli §A4.4 (Tate module and étale `H¹` of the Jacobian), the abelianised section map of X is `x ↦` Kummer class of [x − b], using the prime-to-characteristic quotient in positive characteristic. For an open curve `C−D`, the corresponding boundary-inclusive statement uses the generalized Jacobian `J_D` of Layer 2.
 
-A abelian variety over k; n invertible in k (all n when char `k = 0`). Sign convention: Kummer cocycle `σ(b) − b` with nb `=` a, equal to the difference cocycle `s_a s_0⁻¹`.
+A abelian variety over k; n invertible in k (all n when char `k = 0`). The ordinary-Jacobian clause requires X smooth, proper and geometrically connected; its positive-characteristic version uses only prime-to-characteristic covers. Sign convention: Kummer cocycle `σ(b) − b` with nb `=` a, equal to the difference cocycle `s_a s_0⁻¹`.
 
-Identify the fibre of `[n]: A → A` over 0 with A[n](k^s); `s_0` acts on it through the natural Galois action. To let `s_a` act on the fibre over 0, choose the path from 0 to a given on the cover [n] by translation by a fixed b with nb `=` a. Compute `s_a(σ)(P) = −b + σ(P + b) = σ(P) + (σ(b) − b)`, so `s_a(σ)s_0(σ)⁻¹` is translation by `σ(b) − b`, a Kummer cocycle ([Rational abelian Kummer and Sha comparison](#abelian-kummer-mordell-weil)). Compatibility of the covers [nm] `→ [n]` gives the inverse limit statement; for Jacobians use the Abel–Jacobi functoriality of sections and the identification of T̂J with the abelianised geometric fundamental group (InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 and AbelianSchemesAndArithmeticModuli §A4.4).
+Identify the fibre of `[n]: A → A` over 0 with A[n](k^s); `s_0` acts on it through the natural Galois action. To let `s_a` act on the fibre over 0, choose the path from 0 to a given on the cover [n] by translation by a fixed b with nb `=` a. Compute `s_a(σ)(P) = −b + σ(P + b) = σ(P) + (σ(b) − b)`, so `s_a(σ)s_0(σ)⁻¹` is translation by `σ(b) − b`, a Kummer cocycle ([Rational abelian Kummer and Sha comparison](#abelian-kummer-mordell-weil)). Compatibility of the covers [nm] `→ [n]` gives the inverse limit statement; for smooth proper geometrically connected curves use the Abel–Jacobi functoriality of sections and the identification of T̂J (prime to the characteristic when positive) with the corresponding abelianised geometric fundamental group (InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 and AbelianSchemesAndArithmeticModuli §A4.4).
 
 **Checks.**
 
 - For `E:y²=x³−2` over `ℚ`, the cover [2] has degree four and geometric deck group of order four, but its rational deck group is trivial because `E[2](ℚ)=0`.
 - For `E: y² = x³ − x` over Q and a `= (0, 0)`, `δ_2(a) ≠ 0` because `E(Q) = E`[2](Q) `≅ (Z/2)²` and so `2E(Q) = 0`; hence the images of `s_a` and `s_0` in `π^{[2]}(E/Q)` are not conjugate.
 - For a `= 0` the difference cocycle is trivial and `δ_n(0) = 0`.
+- For `X=𝔾_m/ℚ`, `b=1`, `x=−1`, the mod-two section class is nonzero since −1 is not a square, whereas the ordinary Jacobian of `ℙ¹` is zero. For `ℙ¹−{0,1,∞}`, the generalized Jacobian is `𝔾_m²`; both toric directions are required.
 
 The construction and its conventions follow [Jakob Stix](#reference-stix-2008v1), Appendix B, Proposition 44 and proof, p. 22.
 
@@ -7866,7 +8006,7 @@ Use [Conjugacy classes of Galois sections](#nc-6-section-classes); [The section 
 
 <a id="nc-6-kim-dimension-conjecture"></a>
 
-**Kim's dimension conjecture.** Setting (Kim 2009, pp.91–96): X is a smooth hyperbolic curve over Q, `𝒳 ⊂ 𝒳′` a smooth model over `Z[1/S]` with smooth compactification and smooth complement, `b ∈ 𝒳(Z[1/S])` or an integral tangential base point (for a tangential base point the unipotent group, Selmer variety and Albanese map are those of Layers 2, 4 and 5 at the tangential fibre functor, constructed by the integral tangential realization, Selmer and Albanese targets), `p ∉ S` a prime of good reduction and `T = S ∪ {p}`. Depth n means the quotient `U⟨n⟩ = U/Γ_{n+1}U` of the `ℚ_p`-unipotent étale fundamental group U of `X_{Q̄} at b` (Layer 2), which is Kim's `U_{n+1}`; `S_n = H¹_f(G_T, U⟨n⟩)` is the Selmer variety (classes crystalline at p, no condition at the other places of T), an affine `ℚ_p`-scheme of finite type (Layer 4), and `Q_n = U_dR⟨n⟩/F⁰` is the target of the depth-n de Rham Albanese map at p (Layer 5). The proposition `KimDimensionConjecture(X, p)` states: there is `n ≥ 1` with `dim S_n` &lt; `dim Q_n` (Kim 2009, Conjecture 1). By [Conditional Chabauty–Kim finiteness](#nc-4-dimension-finiteness) the inequality at one depth n gives finiteness of `𝒳(Z[1/S])`, and of `X(Q)` when X is proper. State the conjecture as a named proposition; every conditional consequence lists it as a hypothesis. Refining the local conditions (for example the stringent conditions of BDCKW or the potentially unramified conditions of Kim §4) replaces `S_n` by a closed subscheme and can only lower `dim S_n`.
+**Kim's dimension conjecture.** Setting (Kim 2009, pp.91–96): X is a smooth hyperbolic curve over Q, `𝒳 ⊂ 𝒳′` a smooth model over `Z[1/S]` with smooth compactification and smooth complement, `b ∈ 𝒳(Z[1/S])` or an integral tangential base point (for a tangential base point the unipotent group, Selmer variety and Albanese map are those of Layers 2, 4 and 5 at the tangential fibre functor, constructed by the integral tangential realization, Selmer and Albanese targets), `p ∉ S` a prime of good reduction and `T = S ∪ {p}`. Depth n means the quotient `U⟨n⟩ = U/Γ_{n+1}U` of the `ℚ_p`-unipotent étale fundamental group U of `X_{Q̄} at b` (Layer 2), which is Kim's `U_{n+1}`; `S_n = H¹_f(G_T, U⟨n⟩)` is the Selmer variety (classes crystalline at p, no condition at the other places of T), an affine `ℚ_p`-scheme of finite type (Layer 4), and `Q_n = U_dR⟨n⟩/F⁰` is the target of the depth-n de Rham Albanese map at p (Layer 5). The proposition `KimDimensionConjecture(X, p)` states: there is `n ≥ 1` with `dim S_n` &lt; `dim Q_n` (Kim 2009, Conjecture 1). By [Conditional Chabauty–Kim finiteness](#nc-4-dimension-finiteness) the inequality at one depth n gives finiteness of `𝒳(Z[1/S])`, and of `X(Q)` when X is proper. State the conjecture as a named proposition; every conditional consequence lists it as a hypothesis. A represented closed refinement `S′_n⊆S_n` can only lower the dimension. To deduce finiteness of a specified global point set from the refined inequality, require that every point in that set has its global Kummer class in `S′_n`, including every imposed bad-place condition.
 
 X hyperbolic over Q (`2g − 2 + s > 0` where s is the number of geometric points of the boundary); `p ∉ S` of good reduction for 𝒳′ and the boundary. Dimensions are Krull dimensions of the represented affine schemes; `dim Q_n = dim U_dR⟨n⟩ − dim F⁰U_dR⟨n⟩`. Depth indexing follows Layer 2/Layer 5 (depth 1 is the abelian quotient). Use the integral tangential realization, Selmer and Albanese constructions for a tangential base point, and the integral interior versions for an S-integral point.
 
@@ -7876,7 +8016,7 @@ The interface consists of the following named results.
 
 - `KimDimensionConjecture`: The proposition `∃ n ≥ 1`, `dim S_n` &lt; `dim Q_n` for the data (X, 𝒳, b, p, S).
 - `finite_of_kimDimensionConjecture`: `KimDimensionConjecture(X, p)` implies that `𝒳(Z[1/S])` is finite, and that `X(Q)` is finite if X is proper.
-- `kimDimensionConjecture_of_refined`: If `S′_n ⊆ S_n` is the Selmer variety for finer local conditions, `dim S′_n ≤ dim S_n`; the inequality for `S_n` implies it for `S′_n`, and finiteness follows from either ([Depth projection and change of conditions for the loci](#nc-4-locus-compatibilities)).
+- `kimDimensionConjecture_of_refined`: For a represented closed refinement `S′_n⊆S_n`, `dim S′_n≤dim S_n`, so the unrefined inequality implies the refined inequality. If every allowed global point has its Kummer class in `S′_n`, the refined inequality gives finiteness of that point set by §5.7. A dimension bound for a refinement alone gives no containment and does not imply the unrefined dimension conjecture.
 - `kimDimensionConjecture_basepoint`: The proposition does not depend on the integral base point b: change of base point gives isomorphic Selmer varieties (BDCKW §2.9) and the de Rham dimensions are independent of b.
 - `dim_Q_eq_sum`: `dim Q_n = Σ_{k=1}^{n} (d_k − f_k)`, where `d_k = dim gr_k U` and `f_k = dim F⁰ gr_k U_dR` ([Dimensions of the lower central quotients](#nc-6-graded-central-dimensions)).
 - `KimDimensionInequality`: The form on dimension sequences: for selDim, dRDim : `ℕ → ℕ`, `∃ n ≥ 1`, selDim n &lt; dRDim n; KimDimensionConjecture is the instance selDim `n = dim S_n`, dRDim `n = dim Q_n`.
@@ -8084,20 +8224,22 @@ Use [Kim's dimension conjecture](#nc-6-kim-dimension-conjecture); [Dimensions of
 
 <a id="nc-6-cm-rank-one-finiteness"></a>
 
-**Integral points on punctured CM elliptic curves of rank one.** Let `E/Q` be an elliptic curve with complex multiplication, `X = E ∖ {O}` with its minimal model 𝒳 and an integral base point `b ∈ 𝒳(Z)` (if 𝒳(Z) is empty there is nothing to prove), p an odd prime of good reduction and T the bad primes together with p. Assume that the Bloch–Kato Selmer group `H¹_f(G_Q, V_pE)` has dimension one (this holds, for example, when `E(Q)` has rank one and `Ш(E)[p^∞]` is finite). Let `Sel_T(U⟨n⟩)` be the refined Selmer variety of classes potentially unramified at the primes of T other than p and potentially crystalline at p. Then `dim Sel_T(U⟨2⟩) ≤ 1` &lt; `2 = dim U_dR⟨2⟩/F⁰`, so the integral points 𝒳(Z) form a finite set, without any conjectural input.
+**Integral points on punctured CM elliptic curves of rank one.** Let `E/ℚ` have complex multiplication, let `𝒳` be the regular minimal model of `X=E−{O}` with the zero section removed, and choose `b∈𝒳(ℤ)`. Let p be an odd good-reduction prime, S the bad primes and `T=S∪{p}`. Assume `dim H¹_f(G_ℚ,V_pE)=1`; rank one together with finiteness of `Ш(E)[p^∞]` suffices. For `v∈S` put `C_v=Im(j_v:𝒳(ℤ_v)→H¹(G_v,U⟨2⟩))`, with its finite reduced scheme structure. Define `Sel_T(U⟨2⟩)` by the crystalline condition at p, these bad-place Kummer conditions and the neutral conditions at good places away from p. Prove that every global integral Kummer class belongs to this Selmer scheme and that `dim Sel_T(U⟨2⟩)≤1<2=dim U_dR⟨2⟩/F⁰`. Consequently `𝒳(ℤ)` is finite. If there is no integral base point, the global point set is empty.
 
-CM ensures potentially good reduction everywhere (good reduction over `Q(E[12])`), which defines the potentially unramified conditions. Selmer rank one is a hypothesis on `V_pE`; `rank E(Q) = 1` alone does not give it without finiteness of `Ш(E)[p^∞]`. The base point is integral, as Layers 2, 4 and 5 require; Kim §4 does not fix one, and the finiteness statement is empty when `𝒳(Z) = ∅`.
+Use [Finite away-place Kummer images](#finite-away-kummer-image) for the specified integral domains. The finitely many tuples `η=(η_v)∈∏_(v∈S) C_v` give closed pieces by imposing `loc_v=η_v`; their union is the stringent Selmer scheme. Potential good reduction of E does not identify these conditions with the neutral potentially-unramified condition on the punctured curve.
 
-Depth-two graded piece: `gr_2 U = Λ²H₁ ≅ ℚ_p(1)` ([Dimensions of the lower central quotients](#nc-6-graded-central-dimensions) with `m = 2`). The refined central sequence `0 → Sel_T(gr_2 U) → Sel_T(U⟨2⟩) → Sel_T(U⟨1⟩)` is exact in the torsor sense ([Central Selmer dimension bound](#nc-3-central-selmer-dimension)), so `dim Sel_T(U⟨2⟩) ≤ dim Sel_T(H₁) + dim Sel_T(ℚ_p(1))`. `Sel_T(ℚ_p(1)) = Z^× ⊗ ℚ_p = 0` (SelmerIwasawaCohomology L0, S-unit Kummer identification). `Sel_T(H₁) = H¹_f(G_Q, V_pE): at ℓ ≠ p` the local `H¹` of `V_pE` vanishes for potentially good reduction (weights), and at p potentially crystalline classes are de Rham, where `H¹_g = H¹_f` for `V_pE`; it has dimension one by hypothesis (SelmerIwasawaCohomology §4.26). On the de Rham side `F⁰(gr_2 U_dR) = 0` because `F⁰H₁ ∧ F⁰H₁ = 0`, so `dim U_dR⟨2⟩/F⁰ = 3 − 1 = 2`. The refined conditions are finer than Kim's, so [Depth projection and change of conditions for the loci](#nc-4-locus-compatibilities) and [Conditional Chabauty–Kim finiteness](#nc-4-dimension-finiteness) give finiteness.
+Here `1→ℚ_p(1)→U⟨2⟩→V_pE→1`. At every `v≠p`, `H⁰(G_v,V_pE)=H¹(G_v,V_pE)=0`, so local central differences have unique coordinates in `H¹(G_v,ℚ_p(1))`. For a fixed tuple η, any two lifts of the same geometric depth-one class differ by a global central class whose localization is zero at every away place and is finite at p. Prove this on all coefficient algebras over each geometric residue field, using the crystalline invariant lifting and freeness hypotheses of [Central Selmer dimension bound](#nc-3-central-selmer-dimension). The difference group is `H¹_f(G_ℚ,ℚ_p(1))=ℤ^×⊗ℚ_p=0`, so each nonempty geometric fibre is zero-dimensional; η need not be zero. The depth-one image lies in `H¹_f(G_ℚ,V_pE)`, of dimension one by hypothesis. Finite union over η gives the bound. On the de Rham side `gr₂U=Λ²V_pE≅ℚ_p(1)` and `F⁰(gr₂U_dR)=0`, so the quotient dimension is `3−1=2`. The localization square puts every integral point into the finite union; apply §5.7 to that containing refinement.
 
 **Checks.**
 
-- The congruent-number curve `y² = x³ − 25x` has CM by Z[i] and `E(Q)` of rank one, generated modulo torsion by (−4, 6); with `Ш(E)[p^∞]` finite it satisfies the hypothesis.
-- The depth used is 2 in this roadmap's indexing (Kim's `U_3`).
+- For `E:y²=x³−25x`, `b=(−4,6)`, `x=(0,0)` and `p=13`, both points are integral. At 5 the type is `I₀*`; Bianchi's normalization gives `λ₅(b)=0`, `λ₅(x)=−log₁₃(5)≠0`. The ordinary-basepoint path coordinate is their difference divided by two in BDCKW's normalization, so the nonneutral member of `C₅` is required.
+- That path never becomes unramified: after every finite extension at 5, `H¹_unr(−,ℚ₁₃(1))=0` because Frobenius minus one is invertible, and rational restriction is injective. Over `ℚ₅(√5)`, `x=5X`, `y=5√5Y` gives `Y²=X³−X`; b reduces to O and x does not. The original integral endpoints need not stay integral in the good punctured pair.
+- With a fixed tuple η the difference of two lifts has zero away coordinates even when η is nonzero. Imposing the neutral tuple alone can discard integral points.
+- The depth is 2 in this roadmap's indexing, Kim's `U_3`. Its central linear Selmer group is zero; its depth-one Selmer dimension is an explicit hypothesis, not rank alone.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2009), §4, pp. 127–129.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2009), §4, pp. 127–129, for the central dimension calculation; [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §§2.5–2.7, pp. 9–10, and §§4.1.4–4.1.6, pp. 16–17, for finite local images and their central coordinates; [Francesca Bianchi](#reference-bianchi), §2.1.1, Lemma 2.1, Proposition 2.4 and Table 1, pp. 7–9, for the additive-reduction values.
 
-Use [Dimensions of the lower central quotients](#nc-6-graded-central-dimensions); [Kim's dimension conjecture](#nc-6-kim-dimension-conjecture); [Central Selmer dimension bound](#nc-3-central-selmer-dimension); [Local condition geometry](#nc-3-local-condition-geometry); [Depth projection and change of conditions for the loci](#nc-4-locus-compatibilities); [Conditional Chabauty–Kim finiteness](#nc-4-dimension-finiteness); [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) §0.9 (the Kummer identification for S-units); [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) §4.26 (elliptic Bloch–Kato and classical Selmer groups); [Depth one and the Jacobian](#nc-2-depth-one-jacobian); [The Bloch–Kato subgroups `H¹_e⊆H¹_f⊆H¹_g`](#bloch-kato-subgroups).
+Use [Finite away-place Kummer images](#finite-away-kummer-image); [Dimensions of the lower central quotients](#nc-6-graded-central-dimensions); [Central Selmer dimension bound](#nc-3-central-selmer-dimension); [Local condition geometry](#nc-3-local-condition-geometry); [Global points lie in the Chabauty–Kim loci](#nc-4-rational-integral-containment); [Conditional Chabauty–Kim finiteness](#nc-4-dimension-finiteness); [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) §§0.9, 4.26; [Depth one and the Jacobian](#nc-2-depth-one-jacobian); [The Bloch–Kato subgroups `H¹_e⊆H¹_f⊆H¹_g`](#bloch-kato-subgroups); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.2, D7.5 (restriction–corestriction and local duality).
 
 <a id="nc-6-pseudo-null-implies-dimension"></a>
 
@@ -8214,7 +8356,7 @@ This layer uses [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/READM
 
 ## Downstream consumers
 
-EffectiveDiophantineMethods consumes the local logarithm, residue-chart zero bounds, path equations and quadratic height loci of Layer 5 and Layer 6. Generic restricted-series zero bounds come from RestrictedPowerSeries §2.4, and analytic Coleman functions, primitives and polylogarithms from ColemanIntegration L1–L2; Layer 5 supplies their tensor-path comparisons and Chabauty applications. PeriodsAndSpecialValues uses tangential path periods and the two finite towers. Arithmetic Galois and moduli applications use the relative outer reconstruction interfaces of Layer 3. General motives and K-theory may consume the supplied neutral tensor reconstruction and the Tate-character and Selmer comparisons constructed here.
+EffectiveDiophantineMethods consumes §5.8's global abelian logarithm, integration pairing and regular Coleman/abelian equality, together with the residue-chart zero bounds, path equations and quadratic height loci of Layers 5–6. Its §4.2 abelian-logarithm names and §4.6 regular comparison use these common constructions; its finite data and effective applications belong there. ColemanIntegration supplies the analytic Coleman algebra and transport; the generic Jacobian comparison belongs to §5.8 here. HeightsRationalPointsAndObstructions §§1.15a–1.16 remains the sole supplier of formal groups, identity charts and their convergent formal logarithms. The supplier order is formal charts and logarithms, Coleman integration, the global logarithm and comparisons here, then their effective applications. Generic restricted-series zero bounds come from RestrictedPowerSeries §2.4, and analytic Coleman functions, primitives and polylogarithms from ColemanIntegration L1–L2; Layer 5 supplies their tensor-path comparisons and Chabauty applications. PeriodsAndSpecialValues uses tangential path periods and the two finite towers. Arithmetic Galois and moduli applications use the relative outer reconstruction interfaces of Layer 3. General motives and K-theory may consume the supplied neutral tensor reconstruction and the Tate-character and Selmer comparisons constructed here.
 
 A theorem identifying all rational points from these equations assumes the stated local images, complete correction sets, rank and completeness of the specified zero sets. Named conjectures remain hypotheses of their conditional consequences.
 
@@ -8255,6 +8397,22 @@ A theorem identifying all rational points from these equations assumes the state
 <a id="reference-bd1"></a>
 
 **Jennifer S. Balakrishnan and Netan Dogra.** Quadratic Chabauty and rational points I: p-adic heights. arXiv:1601.00388v2, 1 May 2018; PDF pagination. [Source](https://arxiv.org/pdf/1601.00388v2).
+
+<a id="reference-soule"></a>
+
+**Christophe Soulé.** Éléments cyclotomiques en K-théorie. Astérisque 147–148 (1987), 225–257. [Source](https://numdam.org/item/AST_1987__147-148__225_0.pdf).
+
+<a id="reference-weibel"></a>
+
+**Charles A. Weibel.** The K-book: An introduction to algebraic K-theory. AMS, 2013; author-hosted complete text, Chapter IV. [Source](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf).
+
+<a id="reference-bianchi"></a>
+
+**Francesca Bianchi.** Quadratic Chabauty for (bi)elliptic curves and Kim's conjecture. arXiv:1904.04622v2, author pagination. [Source](https://arxiv.org/pdf/1904.04622v2).
+
+<a id="reference-krzb"></a>
+
+**Eric Katz, Joseph Rabinoff and David Zureick-Brown.** Uniform bounds for the number of rational points on curves of small Mordell–Weil rank. arXiv:1504.00694v2, author pagination. [Source](https://arxiv.org/pdf/1504.00694v2).
 
 <a id="reference-bdckw-2018v4"></a>
 
