@@ -1015,7 +1015,7 @@ Layers 4, 5, 7 and 9.
   compact-group algebra.
 - For `n = 1` and `λ = (k) ≠ 0`, `𝒱_λ = O` has the rank-one character action through the
   `k`-th powers of the embeddings. Freeness and finiteness are over `O`, separately from that
-  representation. `Suggested.lean` records the trivial and character actions on a finite free line.
+  representation.
 
 ### Examples
 
@@ -1483,11 +1483,9 @@ over any commutative ring, the first two as the preimages under reduction modulo
 `iwahori_index_GL2` (the `ℤ_p` case of ReductiveGroupsPartII's check) and `iwahoriOne_relIndex`;
 over an arbitrary local ring `iwahori` and `iwahoriOne` are only the preimages of the upper
 triangular and upper unitriangular groups, and they are the Iwahori and pro-`p` Iwahori subgroups
-when the ring is the valuation ring of a nonarchimedean local field. Its `example``s` test each
-definition: membership and non-membership over `ZMod 5`, the trivial and unit ideals, equality
-`iwahoriOne = iwahori` at residue field `F_2` and strictness at `F_3`, the main clause of
-`gamma0_eq_congruenceSubgroup`, the `SL_2(ℤ)` witness of its `2`-adic clause, and `Γ_3 = Γ_1` at
-`q = 5` against `Γ_2 ≠ Γ_1` at `q = 7`.
+when the ring is the valuation ring of a nonarchimedean local field.
+The theorem `gamma0_eq_congruenceSubgroup` identifies the pullback to `SL_2(ℤ)` with Mathlib's
+classical `Γ₀(N)` for every natural number `N`.
 
 *Needs:* [ALS.0.6](#locally-symmetric-space); ReductiveGroupsPartII RG2.3.3 (parahoric and Iwahori
 subgroups), RG2.3.5 (lattice-chain stabilizers) and the examples of Layer RG2.3
@@ -1528,8 +1526,6 @@ statement assumes: `ρ` faithful; `v, v′` finite places with distinct residue 
 `ρ(K_v), ρ(K_{v′})` pro-`q` and pro-`q′`. ([ACC+23, §6.5.1, Lemma 6.5.2, p. 1062]; [ACC+23, §6.5.1,
 proof of
 Lemma 6.5.2, p. 1062])
-
-`Suggested.lean` records the order-three element of the pro-`3` Iwahori subgroup as an `example`.
 
 *Needs:* [ALS.0.10](#standard-level-subgroups); AdelicAlgebraicGroups §4.3 (`Neat.IsNeatLevel`);
 AdelicAlgebraicGroups §4.3 (`Neat.IsNeatAut`).
@@ -2171,8 +2167,7 @@ including the Levi conjugation action on `N_P`; `LocallySymmetric.BorelSerre.fac
 
 `Suggested.lean` defines the geodesic action of the diagonal torus of `SL_2` on `ℍ` as
 `geodesicActionSL2`, with `geodesicActionSL2_add`, `geodesicActionSL2_vadd` (it commutes with
-`N_B(ℝ)`) and `geodesicActionSL2_re`, and tests it against the left action of Tau Ceti's
-`Matrix.SpecialLinearGroup.dilation`.
+`N_B(ℝ)`), `geodesicActionSL2_re` and the freeness statement `geodesicActionSL2_free`.
 
 *Needs:* [ALS.0.4](#symmetric-space); [ALS.0.1](#cartan-involution); AdelicAlgebraicGroups §3.2
 (horospherical decomposition for a fixed maximal compact, stated there for semisimple groups; its
@@ -2645,9 +2640,8 @@ is independent of the representatives and `Γ₂`-invariant. The invariant opera
 transpose under `(V^∨)^U = (V_U)^∨` for finite free `V`, with `g` replaced by `g⁻¹`; an
 implementation reuses it. `Suggested.lean` records the basis elements as `heckeBasis` and the action
 of one double coset as `doubleCosetOperator`, with `IsDoubleCosetReps`,
-`doubleCosetOperator_mem_invariants` and `doubleCosetOperator_indep`, and tests the representatives
-on the unit double coset and on `S_3` with `U = ⟨(1 2)⟩`, where `U(1 3)U` is two cosets and a set
-missing one of them or repeating one is rejected.
+`doubleCosetOperator_mem_invariants` and `doubleCosetOperator_indep`, and states the degree
+formula on the trivial module as `hecke_degree_eq_index`.
 
 *Needs:* Mathlib `IsHeckeTriple`; Mathlib `HeckeCoset`; Mathlib `HeckeRing`; Tau Ceti
 `HeckeCosetModule.instRingHeckeRing`; Tau Ceti `HeckeCoset.degree_eq_relIndex`; Tau Ceti
@@ -2687,8 +2681,9 @@ finite-group action at once; for `K′_S = K_S` this is the identification
 `H(G^S × K_S, K) ≅ H(G^S, K^S)` used by Newton–Thorne. ([NT16, §2.2.1, Lemma 2.3 and (2.5), pp.
 12–13]; [NT16, §3.1, p. 43])
 
-`Suggested.lean` states (i) as `heckeRing_normal`, and the computation and the rank of the
-non-example below as `example``s`.
+`Suggested.lean` states (i) as `heckeRing_normal` and (ii), including its value on pure basis
+tensors, as `heckeRing_prod`. The theorem `isHeckeTriple_prod` supplies the Hecke-pair property
+of the product from that of its two factors.
 
 *Needs:* [ALS.3.1](#hecke-action-on-invariants); Mathlib `IsHeckeTriple`, `HeckeCoset`, `HeckeRing`;
 Tau Ceti `HeckeCosetModule.instRingHeckeRing`.
@@ -3020,7 +3015,8 @@ compact open; neat for the correspondence description. ([NT16, §2.2.1, Lemma 2.
 - `[KgK]·[Kg⁻¹K]` contains `[K]` with coefficient [`K : K ∩ gKg⁻¹`]. For `G=S₃` and `K={1}, H=R[S₃]` acts on
   its left regular module: left multiplication by (12) fails to commute with left multiplication by
   (23), so is not an `H`-linear endomorphism.
-- For `GL_2` and `p ∤` level, `T_p² = T_{p²} + (p + 1)S_p` with `T_{p²} = [K diag(p², 1) K]` the single
+- `heckeBasis_GL2_square`: For `GL_2` and `p ∤` level, `T_p² = T_{p²} + (p + 1)S_p` with
+  `T_{p²} = [K diag(p², 1) K]` the single
   double coset and `S_p = [K diag(p, p) K]`: the coefficient of `S_p` counts the `p + 1` index-`p`
   sublattices between `ℤ_p²` and `pℤ_p²`. If `T_{p²}` denotes the sum of all double cosets of determinant
   `p²`, the coefficient becomes `p`.
@@ -3064,8 +3060,7 @@ invariants require the extra averaging or base-change comparison stated at
   For `d = (1,4,2)`, the `χ` twist fixes `d`, but `4 T_g(d · x) = 2d ≠ d · T_g x`.
   These are the component functions for `G = GL₁/ℚ` and
   `K(7) = {u ∈ Ẑˣ : u ≡ 1 mod 7}`: the full archimedean compact gives
-  `(ℤ/7)ˣ/{±1} ≅ C₃` with trivial arithmetic stabilizers. `Suggested.lean` records the
-  pointwise cup identities and the failure for `d`.
+  `(ℤ/7)ˣ/{±1} ≅ C₃` with trivial arithmetic stabilizers.
 
 <a id="discrete-topological-comparison"></a>
 
@@ -3114,7 +3109,7 @@ category).
 - For odd `p`, `K_p = 1 + pℤ_p` acting on `V = ℤ_p` by multiplication has stabilizer `{1}`
   at `1`, which is not open. This lattice is continuous for the `p`-adic topology but is not a
   smooth discrete coefficient module. Each `V/p^m` is smooth: `1 + p^mℤ_p` fixes every vector
-  for `m ≥ 1`. `Suggested.lean` records these open-stabilizer tests.
+  for `m ≥ 1`.
 - Smoothness: for smooth `V` in the topological set-up, `H^i(𝔛̄^top, V̄)` and `H^i(𝔛̄^top, j_!V)`
   are smooth `G^S × K_S`-representations, by compactness of `𝔛̄^top`.
 - Non-example: the interior cannot replace the compactified tower in (i): on the noncompact
@@ -3247,7 +3242,8 @@ here.
 `Suggested.lean` defines the twist of a Hecke ring by a character `χ` trivial on `U` as
 `twistHecke`,
 through the value `heckeCosetCharacter` of `χ` on a double coset, with its basis formula
-`twistHecke_single` and the checks `f_1 = id` and `f_χ ∘ f_{χ⁻¹} = id` as `example``s`.
+`twistHecke_single`, its identity law `twistHecke_trivial`, and its general composition law
+`twistHecke_mul` for any two characters trivial on `U`.
 
 *Needs:* [ALS.3.3](#derived-hecke-action); [ALS.3.11](#derived-hecke-algebra); ClassFieldTheory,
 Layers 7, 10 and 11 (`artinMap`, `geometricArtinMap`, `globalArtinMap`, `globalArtinMap_local`,
@@ -4184,7 +4180,7 @@ Proposition 3.7(2), p. 48]; [ACC+23, §2.2.20, p. 932])
   `H⁰ RHom_ℤ(ℤ_(p),ℤ) = 0` whereas `(H⁰ RHom_ℤ(ℤ,ℤ))_(p) = ℤ_(p)`.
   The image of `1` under a homomorphism `ℤ_(p) → ℤ` must be divisible by every power of any
   prime distinct from `p`, so it is zero. Ordinary localization does not preserve duality over
-  the original coefficient ring; `Suggested.lean` records this vanishing of linear maps.
+  the original coefficient ring.
 - Supports, in the complete-DVR finite-image setting: if `𝔪` is not in the support of
   `H^*_c(X_K, V)`, then `D(C_c(V)_𝔪) = 0 ≅ C(V^∨ ⊗ o)_{𝔪^∨}[d]`, so `𝔪^∨` is not in the
   support of `H^*(X_K, V^∨ ⊗ o_K)`.
