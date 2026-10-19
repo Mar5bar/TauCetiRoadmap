@@ -123,9 +123,15 @@ isogenies, intrinsic and polarised Weil pairings, the geometric Tate module and 
 Galois action, and endomorphism polynomials. Layer 6 packages these in `ContinuousRep` and proves
 arithmetic consequences. Lie-theoretic semisimplicity is a target of §7.6.
 Crystalline and finite-flat conditions on Tate modules and automorphic `ε`-factors belong to their owners.
-LFunctions Layers 0, 5–6 supply primitive Hecke functions, completions, continuation and
-functional equations on GlobalNumberFields' characters. Section 2.7 owns their comparison with
-adelic Tate integrals and products of local epsilon factors. AdelicAlgebraicGroups AA.2.4 supplies
+LFunctions Layers 0, 5–6 supply primitive finite-order and algebraic Hecke functions, completions,
+continuation and functional equations on GlobalNumberFields' characters. Section 2.7 owns arithmetic
+character constants defined by finite Gauss sums, the standard-test-function evaluations, the
+algebraic Hecke zeta-integral comparison and the finite-sum root-number product formula. Its
+finite-order Hecke functional equation is the supplied Layer 5 interface. The downstream
+AutomorphicLFunctionsAndLocalFactors AL.1 owns `rank-one-local-functional-equation`, including
+the comparison of its analytic constant with `tateLocalConstant`; the downstream
+AutomorphicSpectralTheory owns `unitary-hecke-functional-equation` via Eisenstein continuation.
+AdelicAlgebraicGroups AA.2.4 supplies
 finite-image Artin factors, induction and meromorphic assembly; §2.5a owns their comparison with
 the geometric-Frobenius local polynomials on the dual ℓ-adic representation, and §2.7 proves their
 completed functional equation with these local constants. CFSGBasicProperties T1–T2 supplies finite
@@ -371,8 +377,9 @@ topology in which inertia is open (`isOpenEmbedding_inertiaToWeil`), `weilDegree
 For §7.6, Layer 5 supplies local duality and Brauer invariants; Layer 10 supplies the global
 Brauer localization and sum of invariants (`eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`).
 Layers 11–12 supply global reciprocity and its local compatibility, used to turn the finite-order
-Hecke extension constructed in §7.6 into a global Galois character. Section 2.7 also consumes
-this reciprocity for its prescribed global characters.
+Hecke extension constructed in §7.6 into a global Galois character. Section 2.7 consumes this
+reciprocity and owns the finite-order character-globalisation corollary of Grunwald–Wang used
+in its transfer argument.
 
 ### From `TauCetiRoadmap.NumberFieldArithmetic`
 
@@ -504,9 +511,10 @@ duals and polar divisors. Layers 5–6 supply primitive finite-order Hecke and a
 Grössencharacter presentations on GlobalNumberFields' carriers, their conductors, gamma factors,
 root numbers, continuation and inverse-character functional equations. Section 2.7 compares
 adelic Tate integrals with these functions and obtains complex norm twists by translating their
-meromorphic germs. Its continuous-character Hecke completion extends the classical theta method
-to general unitary infinity parameters. It identifies the supplied root number with the product
-of Tate's local epsilon factors in the specified conductor normalization.
+meromorphic germs. Its finite-order Hecke functional equation restates the Layer 5 interface;
+its root-number product formula identifies the supplied root numbers with finite Gauss-sum
+constants in the specified conductor normalization. For every unitary character, the same
+formula defines and factors Hecke's Gauss-sum root number independently of continuation.
 
 AdelicAlgebraicGroups AA.2.4, *convergence-factors*, supplies finite-image complex Artin factors,
 their ramified induction identity, Artin–Hecke comparison and global meromorphic assembly.
@@ -514,8 +522,9 @@ Section 2.5a compares those factors with §2.5's local polynomials over a common
 with specified complex and ℓ-adic embeddings: the geometric lift on the dual ℓ-adic representation
 matches the arithmetic lift on the complex representation, with `N = 0` and `v ∤ ℓ`.
 Section 2.7 consumes this comparison on dual representations. It proves the completed functional
-equation by Brauer induction and identifies its epsilon factors; it constructs the adelic
-Schwartz–Bruhat, Fourier, Poisson and globalization inputs used by local constants.
+equation for finite-image representations by Brauer induction using only finite-order Hecke
+equations and identifies its epsilon factors; it constructs the adelic Schwartz–Bruhat, Fourier,
+Poisson and finite-order globalization inputs used by local constants.
 
 CFSGBasicProperties
 T1–T2 supplies the finite fixed-point root calculus and simplicity on CFSGStatement's exact
@@ -542,7 +551,9 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Frobenius-semisimplified Weil–Deligne parameter and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md#wd-linear-substrate) SR.5.2, `wd-linear-substrate` through `wd-frobenius-semisimplification`, and **Classical parameters and the generic convention**, `classical-llc-normalization` | Owns exp/log, Grothendieck monodromy, parameter operations, the full construction with its inverse and exactness, Frobenius semisimplification, and the normalized parameter and functor with dual compatibility, descent and scalar extension. Section 2.4 owns the `ContinuousRep` specialization and arithmetic adapter; §2.5 owns the agreement theorem and local factors. These consume the same `(V, r, N)` data, with Frobenius semisimplicity an additional hypothesis. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. |
 | Fundamental characters and residual tame inertia | §2.3 here | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
 | Projective-unitary simplicity | CFSGBasicProperties T1–T2; Mathlib rank-two simplicity | §7.12 owns the Hermitian matrix, centre and quotient comparison with the valid derived central quotient at fixed-field parameter `q`, and transports supplied simplicity. Rank two uses `PSL₂(F_q)`; the small exceptions and rank one are direct checks. |
-| Grössencharacter continuation and completed equation | LFunctions Layers 0, 5–6 | §2.7 consumes the primitive functions and completed equations, compares them with adelic Tate integrals, translates complex norm twists, and identifies the product of local epsilon factors, including conductor, inverse, gamma and pole conventions. |
+| Finite-order and algebraic Hecke continuation and completed equation | LFunctions Layers 0, 5–6 | §2.7 restates `finite-order-hecke-functional-equation`, compares standard integrals on algebraic norm twists, and identifies the supplied root numbers with the finite-sum product in `root-number-product-formula`. |
+| Arithmetic character constants and root numbers | §2.7 here, `local-constant-gauss-sum` and `root-number-product-formula` | Finite Gauss-sum definitions and identities for all local quasi-characters and global unitary characters, independent of analytic functional equations. |
+| Finite-order character globalisation | §2.7 here, Globalisation and Deligne's transfer | Grunwald–Wang's finite-order character-extension corollary, with unrestricted exponent and auxiliary ramification, uses ClassFieldTheory Layers 7, 9 and 11–12's reciprocity. |
 | Finite-image Artin factors and meromorphic assembly | AdelicAlgebraicGroups AA.2.4, *convergence-factors* | §2.5a owns the coefficient-extension and Frobenius comparison with §2.5's local polynomials on dual ℓ-adic representations. §2.7 consumes this comparison, the factors and ramified induction identity on dual representations, and proves the completed functional equation with the local-epsilon product. |
 | Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace (`leftTrace`, `rightTrace`, common spherical `trace`) | §7.2 standard symmetric module duality and tensor-unit/scalar identification. |
 | Concrete projective contraction trace | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | §7.2 `ContinuousRep.endTrace` consumer alias and finite-free Check; the concrete scalar realization and its Mathlib-based finite-free compatibility in `Suggested.lean` use contraction, without assuming finite projective modules are free. |
@@ -573,9 +584,11 @@ Frobenius-semisimplified output with `classical-llc-normalization` and builds th
 Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the same direction
 as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
 are in build order.
-For global constants, GlobalNumberFields → LFunctions Layers 0, 5–6 → §2.7's Tate-integral
-comparison; AdelicAlgebraicGroups AA.2.4 and Layers 1–2 through §2.5 → §2.5a's finite-image
-comparison → §2.7's completed Artin equation and epsilon comparison → Deligne–Langlands existence.
+For global constants, §2.7's finite Gauss sums → root-number product formula;
+GlobalNumberFields → LFunctions Layer 5 → §2.7's finite-order Hecke functional equation.
+These and §2.7's finite-order globalisation, together with AdelicAlgebraicGroups AA.2.4 and
+§2.5a's finite-image comparison, give the meromorphic Artin equation and Deligne–Langlands
+existence. LFunctions Layer 6 also gives the algebraic Hecke zeta-integral comparison.
 Section 7.12 consumes CFSGBasicProperties T2 after constructing the valid matrix comparison. Section 7.6's Tate
 vanishing uses ClassFieldTheory Layers 5, 10–12 and its own idelic torsion-character extension;
 ArithmeticGaloisDuality consumes that vanishing.
@@ -1779,12 +1792,54 @@ Throughout, `K/ℚ_p` is finite, `ψ : K → ℂ^×` a nontrivial additive chara
 `n(ψ)`, `dx` a Haar measure on `K`, and the reciprocity map sends uniformisers to geometric lifts:
 `Art_K(x) = artinMap(x)⁻¹`, with `artinMap` from `TauCetiRoadmap.ClassFieldTheory` layer 7.
 
-**Tate's local constant.** Prove that for a character `ω` of `K^×`, `s ∈ ℂ`, `ν = n(ψ)` and the
-self-dual measure `dx_ψ` (`vol(O_K) = q^{−ν/2}`), `ε(ω ω_s, ψ, dx_ψ) = ω(ϖ^ν) q^{(1/2−s)ν}` for `ω`
-unramified, and `ε(ω ω_s, ψ, dx_ψ) = ω(ϖ^{ν+c}) q^{(1/2−s)(ν+c)} 𝔤(ω, ψ)` with
-`𝔤(ω, ψ) = q^{(ν+c)/2} ∫_{O_K^×} ω⁻¹(y) ψ(ϖ^{−ν−c} y) dy_ψ` for `ω` of conductor exponent `c ≥ 1`
-(Deligne 1973, 3.4, p. 528, and 5.5.3–5.7.1, p. 549). Intended signature of the constant:
-`tateLocalConstant (ω : Kˣ →* ℂˣ) (ψ : AddChar K ℂ) (μ : Measure K) : ℂˣ`.
+<a id="local-constant-gauss-sum"></a>
+
+**Arithmetic character constants.** For a continuous quasi-character `χ : K^× → ℂ^×`,
+define `tateLocalConstant χ ψ dx` by finite Gauss sums. Write `a = a(χ)`, `ν = n(ψ)`
+and choose `c ∈ K^×` of valuation `a+ν`. For `a ≥ 1`, put
+`ε(χ,ψ,dx) = ∫_{c⁻¹O_K^×} χ⁻¹(x) ψ(x) dx`.
+This notation denotes the finite sum obtained by substituting `x = c⁻¹y` and summing over
+`y ∈ (O_K/ϖ^a)^×`, each additive coset having measure `vol_dx(O_K) q^(−a)`:
+`ε(χ,ψ,dx) = χ(c) q^ν vol_dx(O_K) Σ_y χ⁻¹(y) ψ(y/c)`.
+For `a = 0`, define `ε(χ,ψ,dx) = χ(c) q^ν vol_dx(O_K)`, with `v(c) = ν`.
+Prove independence of representatives and of `c`, and nonvanishing. Intended signature:
+`tateLocalConstant (χ : Kˣ →* ℂˣ) (ψ : AddChar K ℂ) (dx : Measure K) : ℂˣ`,
+for continuous `χ`, nontrivial continuous `ψ` and nonzero Haar `dx`.
+
+For the self-dual measure `dx_ψ`, `vol(O_K) = q^(−ν/2)`, these definitions give
+`ε(ω |·|^s,ψ,dx_ψ) = ω(ϖ^ν) q^((1/2−s)ν)` when `ω` is unramified, and, for `a ≥ 1`,
+`ε(ω |·|^s,ψ,dx_ψ) = ω(c) q^((1/2−s)(a+ν)) 𝔤(ω,ψ)` with
+`𝔤(ω,ψ) = q^(−a/2) Σ_y ω⁻¹(y) ψ(y/c)`.
+At a real place define the constant of `sgn^b |·|^t` to be `i^b`, `b ∈ {0,1}`;
+at a complex place that of `(z/|z|)^k |·|_ℂ^t` to be `i^|k|`. Here the trace character
+has positive archimedean sign and the self-dual measures are `dx` and `2 dx dy`.
+
+Prove by finite-sum identities the unramified-twist formula
+`ε(χ |·|^t,ψ,dx) = q^(−t(a(χ)+ν)) ε(χ,ψ,dx)`, measure scaling
+`ε(χ,ψ,r dx) = r ε(χ,ψ,dx)` for `r > 0`, and additive-character scaling
+`ε(χ,ψ_b,dx) = χ(b)|b|⁻¹ ε(χ,ψ,dx)` for `ψ_b(x) = ψ(bx)`, `b ≠ 0`.
+For unitary `ω` prove `|ε(ω,ψ,dx_ψ)| = q^((a(ω)+ν)/2)`, hence
+`|ε(ω |·|^(1/2),ψ,dx_ψ)| = 1`. For Fourier-dual measures prove
+`ε(χ,ψ,dx) ε(χ⁻¹|·|,ψ(−x),dx') = 1`, equivalently
+`ε(χ,ψ,dx) ε(χ⁻¹|·|,ψ,dx') = χ(−1)`.
+The archimedean scaling and dual identities use the same conventions.
+(Source: Tate, *Number theoretic background*, (3.2.2)–(3.2.6.3), pp. 13–14,
+and (3.4.3)–(3.4.7), p. 15; Deligne 1973, 3.4, p. 528, and 5.4–5.7, pp. 548–550.)
+*Needs:* ClassFieldTheory Layer 7's character conductor; local residue rings and Haar measure;
+Mathlib's Gauss-sum API and Tau Ceti's
+`DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` for Dirichlet checks.
+The downstream `rank-one-local-functional-equation` of AutomorphicLFunctionsAndLocalFactors
+AL.1 identifies its analytic constant with this finite-sum constant.
+
+**Checks.**
+- Unramified `ω` and `ν = 0` give `ε(ω |·|^s) = 1`; for `ν = 1` the value is
+  `ω(ϖ) q^(1/2−s)`, retaining both the different and the uniformiser value.
+- Over `ℚ₃`, for the quadratic residue character with `ω(3) = 1` and
+  `ψ(x) = exp(−2πi{x}_3)`, the sum is `−i√3`, so
+  `ε(ω |·|^s) = −i · 3^(1/2−s)` and its central value has norm one.
+- Scaling `dx` by two doubles `ε`; replacing `ψ` by `ψ(−x)` multiplies it by `χ(−1)`.
+  Omitting the character factor breaks the dual identity for an odd character.
+- Real `sgn` and complex angular frequencies `k = ±1` all give `i`; frequency zero gives one.
 
 **Global inputs.** For a number field `F` and a continuous complex idele-class quasi-character
 `χ`, construct the scalar character foundations before the zeta-integral comparison.
@@ -1839,7 +1894,7 @@ If `c = 0`, put `f_ω = q^(ν/2) 1_{O_v}`; if `c ≥ 1`, put
 Then `z_v(f_ω,ω,s) = L_v(s,ω)`, where the factor is
 `(1−ω(ϖ)q^(−s))⁻¹` for `c = 0` and `1` for `c ≥ 1`, and
 `z_v(f̂_ω,ω⁻¹,1−s) = ε_v(s,ω) L_v(1−s,ω⁻¹)`, with
-`ε_v(s,ω) = tateLocalConstant(ω |·|_v^s, ψ_v, dx_ψ)` given by Tate's local constant above.
+`ε_v(s,ω) = tateLocalConstant(ω |·|_v^s, ψ_v, dx_ψ)` given by [Arithmetic character constants](#local-constant-gauss-sum).
 For `c = 0`, `f̂_ω = 1_{ϖ^(−ν)O_v}`; for `c ≥ 1`, its support is exactly
 `ϖ^(−ν−c)O_v^×`. The factor `q^(ν/2)` normalizes Tate's multiplicative unit volume;
 with unit-volume-one multiplicative measure the unscaled functions have integral `L_v`.
@@ -1864,7 +1919,7 @@ These are evaluations of the specified functions by geometric series, Gauss sums
 Mellin integrals. (Tate §2.5; Kudla §3, (3.7), (3.17), Proposition 3.5 and
 Proposition 3.8 (i)–(iv), pp. 118–125; Deligne 1973, 3.2–3.4, pp. 526–528,
 and 5.5–5.7, pp. 548–550.)
-*Needs:* the local Fourier and measure foundations above; Tate's local constant above;
+*Needs:* the local Fourier and measure foundations above; [Arithmetic character constants](#local-constant-gauss-sum);
 ClassFieldTheory layer 7; Mathlib Haar integration, Fourier transform and gamma integrals.
 
 **Checks.**
@@ -1919,62 +1974,71 @@ GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6; Mathlib 
   Here `A = 4`, `σ = 0` and `Z = Γ_ℂ(s+2|m|) L(s,χ_m) = 4^(−s/2) Λ_unit(χ_m,s)`;
   the gamma shift is nonzero and the completion is entire.
 
-<a id="continuous-character-hecke-completion"></a>
+<a id="finite-order-hecke-functional-equation"></a>
 
-**Continuous-character Hecke completion.** For every unitary idele-class character `ω` of a
-number field `F`, define `Λ_H(ω,u) = A^(u/2) L_∞(ω,u) L_f(ω,u)` and its Hecke root number
-`W_H(ω)`, with `A = |disc F| N(𝔣(ω))` and the primitive ideal Euler product `L_f`.
-If `ω_v = sgn^a |·|^(i r_v)` at a real place or
-`ω_v = (z/|z|)^k |·|_ℂ^(i r_v)` at a complex place, with `r_v ∈ ℝ`, `a ∈ {0,1}`
-and `k ∈ ℤ`, its factor in `L_∞` is
-`Γ_ℝ(u+i r_v+a)` or `Γ_ℂ(u+i r_v+|k|/2)`, respectively.
-Extend the supplied classical Hecke theta/Mellin construction to these continuous infinity
-parameters: retain the imaginary powers in the integral over the archimedean unit quotient.
-Prove meromorphic continuation, `Λ_H(ω,u) = W_H(ω) Λ_H(ω⁻¹,1−u)` and `|W_H(ω)| = 1`,
-with `W_H` given by Hecke's finite Gauss sum and its archimedean normalisation.
-If `ω = |·|_𝔸^(i r)`, its poles are simple at `−i r,1−i r`; otherwise it is entire.
-For `χ = ω |·|_𝔸^t`, `t ∈ ℂ`, use `Λ_H(ω,s+t)` and translate the poles by `−t`.
-Identify the algebraic specialisations with LFunctions' unitary completions and root numbers.
-This is the continuous-character extension of those supplied functions
-(`continuousHeckeCompletion`); its equation is proved by the classical theta method.
-(Source: Neukirch VII (6.7), (6.13)–(6.14), (8.3)–(8.6), pp. 476–483, 499–503.)
-*Needs:* GlobalNumberFields Layers 9–10's unitary decomposition and `ContinuousInfinityType`;
-LFunctions Layers 0–1 and 5–6's classical theta/Mellin construction.
+**Finite-order Hecke functional equation.** Restate LFunctions Layer 5's primitive interface
+as `finiteOrderHeckeFunctionalEquation`. For a finite-order idele-class character `χ` of a
+number field `F`, use its unique primitive ray-class presentation, finite conductor `𝔣`, and
+`A = |disc F| N(𝔣)`. Its completion is
+`Λ(χ,s) = A^(s/2) Γ_ℝ(s)^(r₁−b) Γ_ℝ(s+1)^b Γ_ℂ(s)^r₂ L_f(χ,s)`,
+where `b` counts its odd real components. Consume meromorphic continuation and the equation
+`Λ(χ,s) = W(χ) Λ(χ⁻¹,1−s)`, `|W(χ)| = 1`, as meromorphic germs and pointwise away from poles.
+It is entire for `χ ≠ 1`; the trivial character has simple poles at `0,1`.
+At a larger presentation modulus, the uncompleted series differs from the primitive series by
+`∏_{v ∣ 𝔪₀, v ∤ 𝔣} (1−χ(π_v) q_v^(−s))`; the conductor and root number remain primitive.
+(Source: LFunctions Layer 5, **Primitive versus presented** and its displayed functional equation;
+Neukirch VII (8.5)–(8.6), pp. 502–503.)
+*Needs:* LFunctions Layers 0 and 5; GlobalNumberFields' ray-class and finite-order Hecke characters.
 
 **Checks.**
-- For `ω = 1`, recover the supplied Dedekind completion, root number one and simple poles
-  at `0,1`; its norm twist by `t` has poles at `−t,1−t`.
-- For `ω = |·|_𝔸^(i r)`, `r ∈ ℝ`, put `D = |disc F|`. Then
-  `Λ_H(ω,u) = D^(−i r/2) Λ_F(u+i r)` and `W_H(ω) = D^(−i r)`.
-  The prefactor records the conductor normalisation when an imaginary norm power is moved
-  between the unitary character and the variable shift.
-- Over `F = ℚ(√2)`, put `ε = 1+√2` and `r = π/log ε`. The unramified character whose
-  infinity component is `|x₁/x₂|^(i r)` is well-defined on units since `ε^(2i r) = 1`;
-  define its ideal value on `(α)` as `|α₁/α₂|^(−i r)`.
-  Its real gamma shifts are `i r,−i r`. It is neither a pure norm character nor an algebraic
-  character times a complex norm power, and its completion is entire.
+- The trivial character has root number one and the supplied Dedekind completion, including its
+  two poles; a pointwise equation at totalized polar values is not asserted.
+- Over `ℚ`, the odd character modulo `4` has conductor four, gamma factor `Γ_ℝ(s+1)` and
+  root number one.
+- The principal character presented modulo a prime `p` has primitive conductor one; its series
+  is `(1−p^(−s)) ζ(s)`, and no conductor-`p` completion is assigned to that presentation.
 
 <a id="root-number-product-formula"></a>
 
-**Root-number product formula.** For every continuous idele-class quasi-character
-`χ = ω |·|_𝔸^t`, with `ω` unitary, `t ∈ ℂ` and `A = |disc F| N(𝔣(ω))`, prove
+**Root-number product formula.** Define Hecke's root number for every unitary idele-class
+character `ω` by a finite Gauss sum, independently of any continued L-function. Put
+`𝔣 = ∏_{v finite} 𝔭_v^a_v`, `a_v = a(ω_v)`, `ν_v = n(ψ_v)` and
+`A = |disc F| N(𝔣)`. Choose a finite idele `c` with `v(c_v) = a_v+ν_v`.
+On `(𝓞_F/𝔣)^×` put
+`τ⁻(ω,c) = Σ_y (∏_{v ∣ 𝔣} ω_v(y_v)⁻¹) (∏_{v ∣ 𝔣} ψ_v(y_v/c_v))`,
+using local lifts of each residue class. Set
+`W_H(ω) = i^(Σ_{v real} b_v + Σ_{v complex} |k_v|) (∏_{v finite} ω_v(c_v)) τ⁻(ω,c) / √N(𝔣)`,
+where the infinity components of `ω` are `sgn^b_v |·|^(i r_v)` and
+`(z/|z|)^k_v |·|_ℂ^(i r_v)`, with `b_v ∈ {0,1}`, `k_v ∈ ℤ` and `r_v ∈ ℝ`.
+At conductor one the residue group has one element and
+`τ⁻ = 1`. Prove that the sum is well-defined, independent of `c` after its displayed
+character factor, and has norm `√N(𝔣)`, so `|W_H(ω)| = 1`.
+This is Hecke's Gauss-sum expression in finite-idele coordinates: compare it with the ideal-number
+expression of Neukirch VII (7.4)–(7.6), including its archimedean phase and conductor normalization.
+
+For every continuous idele-class quasi-character `χ = ω |·|_𝔸^t`, `t ∈ ℂ`, prove
 `∏_v ε_v(s,χ_v,ψ_v) = W_H(ω) A^(1/2−s−t)`
-(`rootNumber_eq_prod_tateLocalConstant`). Use the standard trace character and self-dual
-measures above. At finite places `ε_v = tateLocalConstant(χ_v |·|_v^s, ψ_v, dx_ψ)`;
-at infinity the constants are `i^a` and `i^|k|`. All but finitely many factors are one.
-For `χ = χ₀ |·|_𝔸^t` with algebraic `χ₀` of ideal-side shift `σ`, this reads
-`∏_v ε_v(s,χ_v,ψ_v) = W(χ₀) A^(1/2−s−t+σ)` with LFunctions' root number.
-Factor Hecke's Gauss sum over conductor primes and match the factors with the local integrals
-`𝔤(ω_v,ψ_v)`. Include the different at every finite place, the uniformiser values, the
-archimedean phase and, for general infinity parameters, their imaginary-power normalisations.
-This comparison uses the explicit Gauss sums and Hecke's root number.
-Scaling the global trace character by `b ∈ F^×` leaves the product unchanged by the product
-formula and `χ(b) = 1`.
-(Source: Neukirch VII (7.4)–(7.6), (8.5)–(8.6), pp. 486–489, 502–503;
-Tate 1950 §2.5 for the local formulas; Deligne 1973 §§3–5, especially 3.11–3.12 and 5.5.)
-*Needs:* [Continuous-character Hecke completion](#continuous-character-hecke-completion);
-[Hecke zeta-integral comparison](#hecke-zeta-integral-comparison);
-[Standard-test-function evaluations](#standard-test-function-evaluations); Tate's local constant above.
+(`rootNumber_eq_prod_tateLocalConstant`). Here
+`ε_v(s,χ_v,ψ_v) = tateLocalConstant(χ_v |·|_v^s,ψ_v,dx_ψ)`;
+use the standard trace character and self-dual measures above. All but finitely many factors are
+one. Factor the single residue-class sum by the Chinese remainder theorem and compare each term
+with the local Gauss sum, including the different and the uniformiser values. Scaling the trace
+character by `b ∈ F^×` leaves the product unchanged by the product formula and `χ(b) = 1`.
+
+For finite-order `ω`, identify `W_H(ω)` with the root number supplied by
+`finite-order-hecke-functional-equation`. For algebraic `χ₀` with ideal-side shift `σ`, put
+`ω₀ = χ₀ |·|_𝔸^σ` and identify `W_H(ω₀) = W(χ₀)` from LFunctions Layer 6. Thus for
+`χ = χ₀ |·|_𝔸^t` the product is `W(χ₀) A^(1/2−s−t+σ)`.
+For checks on completions, write `Λ_H(ω,u) = A^(u/2) L_∞(ω,u) L_f(ω,u)` initially in
+`Re u > 1`, with factors `Γ_ℝ(u+i r_v+b_v)` and `Γ_ℂ(u+i r_v+|k_v|/2)`.
+The downstream AutomorphicSpectralTheory target `unitary-hecke-functional-equation` identifies
+`W_H(ω)` with its functional-equation constant for all unitary `ω`.
+(Source: Neukirch VII (7.4)–(7.7), pp. 488–490, and (8.5)–(8.6), pp. 502–503;
+Tate, *Number theoretic background*, (3.2.6), pp. 13–14; Deligne 1973, 3.11–3.12 and 5.5.)
+*Needs:* [Arithmetic character constants](#local-constant-gauss-sum);
+[Finite-order Hecke functional equation](#finite-order-hecke-functional-equation) and
+LFunctions Layer 6 for the finite-order and algebraic identifications only;
+GlobalNumberFields Layers 4–6 and 9–10's unitary decomposition; the standard trace character above.
 
 **Checks.**
 - For the trivial character, `W = 1` and
@@ -1986,36 +2050,61 @@ Tate 1950 §2.5 for the local formulas; Deligne 1973 §§3–5, especially 3.11�
   with `ω(3) = 1` and nontrivial quadratic restriction to `ℤ₃^×`.
   Its constant is `−i · 3^(1/2−s)` as in the local check, while the real constant is `i`;
   their product is `3^(1/2−s)`, with root number one.
+- For `ω = |·|_𝔸^(i r)`, `r ∈ ℝ`, put `D = |disc F|`. The finite-idele factor gives
+  `W_H(ω) = D^(−i r)` and `Λ_H(ω,u) = D^(−i r/2) Λ_F(u+i r)` on the convergence
+  half-plane and through the supplied Dedekind continuation.
+- Over `F = ℚ(√2)`, put `ε = 1+√2` and `r = π/log ε`. The unramified character with
+  infinity component `|x₁/x₂|^(i r)` is well-defined on units since `ε^(2i r) = 1`;
+  its value on `(α)` is `|α₁/α₂|^(−i r)`. It is neither a pure norm character nor an
+  algebraic character times a complex norm power. Nevertheless `𝔣 = 1`, `τ⁻ = 1` and
+  `W_H(ω) = ∏_{v finite} ω_v(c_v)` are finite arithmetic data; its real gamma shifts are
+  `i r,−i r`.
+- For `F` imaginary quadratic, every unitary `ω` has
+  `ω_∞(z) = (z/|z|)^m |z|_ℂ^(i t)`, `m ∈ ℤ`, `t ∈ ℝ`.
+  Then `η = ω |·|_𝔸^(m/2−i t)` is algebraic of
+  weight `m`, `η^u = η |·|_𝔸^(−m/2)` and `ω = η^u |·|_𝔸^(i t)`.
+  The conductor is unchanged and
+  `Λ_H(ω,u) = A^(−i t/2) Λ(η^u,u+i t)`, `W_H(ω) = A^(−i t) W(η^u)`, where the
+  completion and root number of `η^u` come from LFunctions Layer 6's presentation of `η`.
+  Thus the unitary functional equation over the Caraiani–Newton base field is a norm shift
+  of that supplied algebraic equation.
 
-Prove the following globalization statements. A finite Galois extension `K'/K` of
-`p`-adic fields embeds as a subextension of a completion of a finite Galois extension
-`F'/F` of number fields, with `F_v = K` and `v` having a unique extension to `F'`
-(Deligne 1973, Lemma 4.13, pp. 544–545). For a number field `F`, a finite set `S` of finite places
-and integers `m_v ≥ 0`, construct a continuous idele-class quasi-character unramified at every
-finite place outside `S` and with conductor exponent at least `m_v` at `v ∈ S`
-(Lemma 4.14, p. 545). Its infinity type is unrestricted. Apply these contracts, the
-inverse-character Hecke equation (LFunctions on its algebraic domain and the continuous-character
-extension above) together with the root-number product formula, and the unramified and
-sufficiently ramified local calculations to prove
-Deligne's transfer of local-constant theories at a place that does not split
-(Lemma 4.12 and Lemmas 4.15–4.16, pp. 544–547).
-Consume AdelicAlgebraicGroups AA.2.4's finite-image Artin factors, ramified induction and
-meromorphic assembly. For our representation `V`, use its complex dual in that supplier:
-§2.5a identifies its arithmetic-Frobenius factor with our geometric-Frobenius factor. Use Brauer
-induction and the inverse-character Hecke equation for the induced one-dimensional twists
-(LFunctions on its algebraic domain and the continuous-character extension above) together with
-the root-number product formula to prove
-the completed functional equation for finite-image `V` twisted by a continuous idele-class
-quasi-character, with the product of the local epsilon factors. For the untwisted representation,
-identify it with AA.2.4's meromorphic assembly (Deligne 1973, 3.12 (B)–(C), p. 533). These inputs precede Deligne–Langlands existence.
-*Needs:* [Hecke zeta-integral comparison](#hecke-zeta-integral-comparison);
-[Continuous-character Hecke completion](#continuous-character-hecke-completion);
+**Globalisation and Deligne's transfer.** For a finite Galois extension `K'/K` of
+`p`-adic fields, prove that there is a finite Galois extension `F'/F` of totally complex number
+fields with `F_v = K`, a unique place over `v` in `F'`, and `K'/K` a subextension of
+`F'_v/F_v`. For this global extension, prove the following finite-order character-globalisation
+corollary of Grunwald–Wang: for finitely many finite places `S` disjoint from `{v}` and
+integers `m_w ≥ 0`, there is a finite-order idele-class character `α` with `α_v = 1` and
+`a(α_w) ≥ m_w` for `w ∈ S`. Prove the corollary here from the finite-order character-extension
+argument of Grunwald–Wang: prescribe the trivial character at `v` and sufficiently ramified
+finite-order characters at `S`. Auxiliary ramification outside `S ∪ {v}` is allowed; the order
+is unrestricted, including the doubled exponent in Wang's exceptional case. Take `S` to contain
+every ramified place of `F'/F` other than `v`; any auxiliary ramification then lies where
+`F'/F` is unramified. At infinity finite-order characters over the totally complex base are trivial.
+
+Use [Finite-order Hecke functional equation](#finite-order-hecke-functional-equation) and
+[Root-number product formula](#root-number-product-formula), with Brauer induction on the finite
+Galois groups, to obtain the meromorphic Artin functional equations for finite-image
+representations and their finite-order twists. All inducing characters have finite order;
+Brauer products may have negative exponents and no Artin holomorphy is asserted.
+Consume AdelicAlgebraicGroups AA.2.4's factors, ramified induction and meromorphic assembly on the
+complex dual, so §2.5a matches its arithmetic lift with our geometric lift. Identify the untwisted
+assembly and its equation. At every place other than `v`, use the unramified-extension or
+sufficiently ramified-twist calculations to obtain the local-constant theory; the global product
+then supplies it at `v`, where `α_v = 1`. Prove induction in degree zero and independence of the
+global choices. Extend from finite-image Galois representations to Weil representations with
+open kernel on inertia by decomposition into unramified twists and the unramified-twist identity.
+(Source: Tate, *Local constants*, §2 Theorem 1, pp. 105–109, and pp. 117–118;
+Tate, *Number theoretic background*, (3.4.1)–(3.5.4), pp. 14–16;
+Deligne 1973, 3.12 (B)–(C), p. 533, 4.12–4.13 and 4.15–4.16, pp. 544–547;
+Artin–Tate, *Class Field Theory*, Ch. X, Theorem 5, and Milne, *Class Field Theory*,
+VIII, Theorem 2.4, p. 232, for finite-order character extension.)
+*Needs:* [Finite-order Hecke functional equation](#finite-order-hecke-functional-equation);
 [Root-number product formula](#root-number-product-formula);
-[Standard-test-function evaluations](#standard-test-function-evaluations);
-§2.5a; LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
-GlobalNumberFields Layers 4–6 (adeles and ideles) and Layers 9–10 (Hecke characters);
-Mathlib Haar integration and Fourier transform; ClassFieldTheory layers 7, 9 and 11–12;
-RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's local constant above.
+[Arithmetic character constants](#local-constant-gauss-sum); §2.5a;
+AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
+ClassFieldTheory Layers 7, 9 and 11–12's local and global reciprocity;
+RepresentationTheory/InductionRestriction Layer 6 (Brauer induction).
 
 **Checks.**
 - At diagonal `1/3 ∈ ℚ`, the real and `3`-adic factors are `exp(2πi/3)` and
@@ -2038,9 +2127,14 @@ RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's loc
   real parity is one even though its algebraic type is zero on the identity component.
 - In the local-extension globalization the completion of `F'` may strictly contain `K'`;
   the contract supplies a subextension, rather than equality with the chosen local extension.
-- With `S` empty the trivial quasi-character meets the conductor conditions. For nonempty `S`
-  the prescribed numbers are lower bounds; neither exact conductors nor arbitrary local Weil
-  characters are prescribed.
+- With `S` empty the trivial finite-order character suffices. For nonempty `S`, the conductor
+  bounds are lower bounds, `α_v = 1` is imposed on the whole local multiplicative group, and
+  auxiliary ramification is permitted where the extension is unramified.
+- Wang's exceptional case can require twice the common exponent of the prescribed local
+  characters; fixing that exponent would invalidate the globalisation contract.
+- A finite-order character at a complex place is trivial, so the transfer uses no continuous
+  infinity parameters. A negative Brauer coefficient gives a meromorphic quotient, not a
+  claim of Artin holomorphy.
 - For a finite-image character with arithmetic Frobenius eigenvalue `ζ₃`, our local factor
   is `(1−ζ₃⁻¹ q_v^(−s))⁻¹`, agreeing with AA.2.4 on the dual character.
 
@@ -2058,9 +2152,17 @@ semisimplification, and the formula for unramified twists. Prove that for `K/ℚ
 the purity statement of §2.6, `ε(WD r, ψ, dx) = ε(WD r̄, ψ, dx)` (FSY, proof of Lemma 5.40, p. 58)
 (Deligne 1973, 4.1, p. 535, 8.12, p. 572, and 2.3, p. 523; FSY, (5.33), p. 54). Intended signatures:
 `epsilonWeil : (ρ : Representation ℂ W V) → AddChar K ℂ → Measure K → ℂˣ` and `WeilDeligneRep.epsilon`
-likewise. *Needs:* `TauCetiRoadmap.ClassFieldTheory` layers 7 and 9;
-`TauCetiRoadmap.LocalFieldsRamification` layer 0. The dependence of `ε(V ⊗ ω_s)` on `s` through the
-Artin conductor is §3.3.
+likewise. *Needs:* [Arithmetic character constants](#local-constant-gauss-sum);
+[Finite-order Hecke functional equation](#finite-order-hecke-functional-equation);
+[Root-number product formula](#root-number-product-formula); Globalisation and Deligne's transfer
+above; `TauCetiRoadmap.ClassFieldTheory` Layers 7, 9 and 11–12;
+`TauCetiRoadmap.LocalFieldsRamification` Layer 0.
+For `ω_s = |·|^s`, the unramified-twist identity is
+`ε(V ⊗ ω_s) = q^(−s(a(V)+n(ψ) dim V)) ε(V)`.
+Its conductor exponent uses the Artin conductor from ramification groups (§§3.2–3.3), defined
+independently of `ε`; for Weil–Deligne data the definition is
+`a(r,N) = a(r) + dim V^I − dim (ker N)^I`. Section 3.3 proves the comparison of this definition
+with the exponent for `ε((r,N) ⊗ ω_s)`.
 
 **Checks.**
 - An unramified character with `n(ψ) = 0` and `vol(O_K) = 1` has `ε = 1`; `ε(Sp(2)) = −1`; `ε(0) = 1`.
@@ -2091,7 +2193,7 @@ For §§2.4–2.5: SmoothRepresentationsOfLocalGroups SR.5.2 `wd-linear-substrat
 `full-wd-construction`, `wd-frobenius-semisimplification` and `classical-llc-normalization`.
 For §§2.5a and 2.7: AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly.
 For §2.7: §2.5a; GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6;
-ClassFieldTheory Layers 11–12 for global characters.
+ClassFieldTheory Layers 11–12 for reciprocity; finite-order character globalisation is owned in §2.7.
 
 ## Layer 3: Artin and Swan conductors
 
@@ -4603,6 +4705,19 @@ are consumed by complex multiplication and explicit reciprocity, by the finitene
 for abelian varieties, by Euler systems of Heegner points and by the arithmetic of moduli of abelian
 schemes. The continuous carrier of Layer 1 is the input of the period functors of `p`-adic Hodge theory.
 
+AutomorphicLFunctionsAndLocalFactors AL.1 owns
+[`rank-one-local-functional-equation`](../AutomorphicLFunctionsAndLocalFactors/README.md#rank-one-local-functional-equation),
+the local zeta integral and functional equation, and identifies its constant with §2.7's
+[`local-constant-gauss-sum`](#local-constant-gauss-sum). It also consumes
+[`standard-test-function-evaluations`](#standard-test-function-evaluations),
+[`hecke-zeta-integral-comparison`](#hecke-zeta-integral-comparison),
+[`finite-order-hecke-functional-equation`](#finite-order-hecke-functional-equation) and the
+finite-sum [`root-number-product-formula`](#root-number-product-formula).
+AutomorphicSpectralTheory owns
+[`unitary-hecke-functional-equation`](../AutomorphicSpectralTheory/README.md#unitary-hecke-functional-equation)
+via Eisenstein continuation, identifying its constant with `W_H` for all unitary characters.
+These analytic targets consume the arithmetic constants; they are not inputs to their construction.
+
 ## References
 
 BCGP21 page locators use arXiv:1812.09269v3, starting at page 1, rather than the published
@@ -4613,6 +4728,7 @@ printed pagination of version 2.00 (2008).
 
 - P. B. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm, B. V. Le Hung, J. Newton, P. Scholze, R.
   Taylor, J. A. Thorne, *Potential automorphy over CM fields*, Ann. of Math. 197 (2023), 897–1113.
+- E. Artin, J. Tate, *Class Field Theory*, Benjamin, 1967, Ch. X, Theorem 5 (Grunwald–Wang).
 - T. Barnet-Lamb, T. Gee, D. Geraghty, *Serre weights for rank two unitary groups*, Math. Ann. 356
   (2013), 1551–1598; arXiv:1106.5586v1.
 - T. Barnet-Lamb, T. Gee, D. Geraghty, R. Taylor, *Potential automorphy and change of weight*, Ann. of
@@ -4688,6 +4804,8 @@ printed pagination of version 2.00 (2008).
 - J. S. Milne, *Abelian Varieties*, revised article, 2 January 2022, §19, pp. 40–41.
   <https://www.jmilne.org/math/xnotes/AVs.pdf>
 - J. S. Milne, *Elliptic Curves*, 2nd ed., World Scientific, 2021.
+- J. S. Milne, *Class Field Theory*, course notes, VIII, Theorem 2.4, p. 232.
+  <https://www.jmilne.org/math/CourseNotes/CFT.pdf>
 - D. Mumford, *Abelian Varieties*, Tata Institute / Oxford University Press, 1970.
 - O. Brinon, B. Conrad, *CMI summer school notes on p-adic Hodge theory*, 2009, §§6.3, 15.1.
 - J. Nekovář, *Eichler–Shimura relations and semisimplicity of étale cohomology of quaternionic Shimura
@@ -4731,6 +4849,8 @@ printed pagination of version 2.00 (2008).
   Amer. Math. Soc., 2016.
 - J. Tate, *Number theoretic background*, in Automorphic Forms, Representations and L-functions
   (Corvallis), Proc. Sympos. Pure Math. 33, part 2, Amer. Math. Soc., 1979, 3–26.
+- J. Tate, *Local constants*, in A. Fröhlich (ed.), Algebraic Number Fields: L-functions and Galois
+  Properties (Durham 1975), Academic Press, 1977, 89–131, prepared with C. J. Bushnell and M. J. Taylor.
 - J. Thorne, *On the automorphy of ℓ-adic Galois representations with small residual image*, J. Inst.
   Math. Jussieu 11 (2012), 855–920; arXiv:1107.5989v1.
 - J. A. Thorne, *A 2-adic automorphy lifting theorem for unitary groups over CM fields*, Math. Z. 285

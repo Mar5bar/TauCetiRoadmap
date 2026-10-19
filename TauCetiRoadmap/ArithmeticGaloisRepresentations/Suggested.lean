@@ -57,6 +57,10 @@ Design choices made explicit here.
 * Data whose construction is a theorem (semisimplification, the Weil–Deligne representation of an
   `ℓ`-adic representation, conductors, local constants, Tate modules of abelian varieties) are README
   targets and do not appear here.
+  Section 2.7 defines character constants and root numbers by finite Gauss sums, restates the
+  supplied finite-order Hecke equation, and constructs local constants through finite-order
+  globalisation and Brauer induction. The general unitary Hecke equation belongs to
+  AutomorphicSpectralTheory.
 -/
 
 noncomputable section
