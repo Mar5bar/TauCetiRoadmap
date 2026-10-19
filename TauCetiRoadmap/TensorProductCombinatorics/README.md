@@ -270,6 +270,199 @@ than a proof premise for the generic matrix theorem.
    the positive ray; do not replace the theorem by an unconditional ordinary
    polynomial statement for every integer matrix.
 
+## H1.6. Rational cone series, Fourier boundary values and lattice endpoints
+
+Use H1.3 and H1.5's actual finite lattice, integer matrix, solution fibre,
+cone valuation and rational generating-function constructions. This phase
+builds their Fourier and boundary-value comparisons. H2.6 supplies the
+type-A root-coordinate specialization afterwards. It has no hive, Schubert,
+symplectic reduction or index-theorem premise. Consume CompactGroups'
+normalized torus Haar/character conventions, Mathlib's `UnitAddTorus`,
+`UnitAddTorus.mFourier`, `mFourierCoeff`, `mFourierBasis`,
+`TemperedDistribution` and its Fourier equivalence. The generic smooth-test
+and distribution carriers, density duality and localization belong to
+[ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md#k5-compact-hermitian-elliptic-theory-and-serre-duality).
+Consume the smooth periodic Fourier expansion and rapid derivative-seminorm
+decay explicitly commissioned by
+[PseudodifferentialOperators P3](../PseudodifferentialOperators/README.md#p3-oscillatory-kernels-and-local-quantization).
+Here build the finite-lattice/cone comparisons on those carriers, not a
+second distribution, Haar or smooth-section foundation. The relevant early
+K5a/P3 Fourier subphases precede this phase independently of PDO spectral,
+microlocal and index-theorem applications.
+
+**1. Categories and chosen expansions.** Put L=ℤ^r, V=L⊗ℝ with specified
+lattice basis and covolume-one Lebesgue measure, and T=Hom(L,ℝ/ℤ), represented
+by native `UnitAddTorus (Fin r)`. Write z^a(θ)=exp(2πi⟨a,θ⟩).
+Build the evaluation of ℂ[L] in continuous torus functions and identify
+its coefficient map with native `mFourierCoeff`. Keep this finite group
+algebra, its fraction field/localization, functions L→ℂ with coefficientwise
+addition, and distributions on T as different objects. All lattice-basis
+changes have explicit dual torus maps, Haar preservation and Fourier
+coefficient equations.
+
+For a finite list X=(a_j) of nonzero lattice vectors, choose a real linear
+functional h nonzero on every a_j. Let B={j:h(a_j)<0}, replace a_j by
+a_j^h=sign(h(a_j))a_j, and set s_h=−Σ_(j∈B)a_j. Prove the polarized
+coefficient function is
+
+`P_X^h(b)=(-1)^|B| · # {c∈ℕ^m : Σ c_j a_j^h=b−s_h}`.
+
+The positive height gives finiteness and a polynomial growth bound; construct
+an integral positive height on the same rational open chamber when needed
+for H1.5's enumeration. Prove invariance under h within a chamber, list
+permutation, lattice change, monomial translation, direct sum and repeated
+vectors. Its expansion represents ∏(1−z^a_j)⁻¹ in the localization. Each
+flipped factor is `−Σ_(n≥1) z^(−n a_j)`, not a closed negative ray starting
+at n=0. Construct the ring of series supported in a translate of a finitely
+generated h-positive lattice cone, prove coefficientwise convolution finite
+and its unit/geometric inverse laws, and construct the localization map into
+this ring. Use a single h and a common finite denominator list for rational
+identities. General bilateral coefficient functions form only the natural
+Laurent-polynomial module here; their unrestricted convolution is not a
+ring operation. H1.5's rational cone valuation is not re-proved or identified
+with an injective map on all bilateral series.
+
+**2. Fourier and Abel boundary comparison.** For any polynomial-growth
+coefficient function c on L construct the torus distribution with pairing
+`⟨Θ(c),φ⟩=Σ_b c(b) φ̂(−b)` using P3's rapid decay, with all continuity
+seminorm estimates and uniqueness. Compare it to the periodic distribution
+on V obtained as the inverse native Fourier transform of the tempered
+weighted lattice distribution Σ_b c(b)δ_b. Prove this last sum in Schwartz
+duality, periodization of tests, torus descent/pullback and equality of the
+two constructions, including the sign and 2π conversion. No new topology is
+silently placed on native `TemperedDistribution`, whose topology is pointwise
+on Schwartz tests; state separately convergence in the compact-manifold test
+dual supplied by K5a.
+
+For c=P_X^h, prove absolute locally uniform convergence after multiplying
+coefficient b by exp(−εh(b)), ε>0, and identify the sum with the actual
+rational function at `z^a=exp(2πi⟨a,θ⟩−εh(a))`. Its ε↓0 limit is Θ(c)
+in test duality. Prove the result for finite monomial translates and finite
+linear combinations, with uniform polynomial bounds permitting the limit.
+Away from the subtori z^a_j=1 the limit is the ordinary smooth rational
+function. This supplies boundary values, not a globally integrable rational
+function or a definition by pointwise restriction at its poles.
+
+Prove Laurent-polynomial multiplication corresponds to coefficient shifts
+and finite differences. Denominator-clearing alone does not determine a
+distributional solution: multiplication by 1−z^a has a kernel. For two h
+chambers prove their boundary values agree off the polar subtori, give the
+exact single-factor wall-crossing delta-comb formula and its finite-list
+coefficient/convolution version on the common pointed supports, then obtain
+general wall crossing by a generic path crossing one hyperplane at a time.
+When factors are dependent, prove all support/properness conditions before
+using convolution or multiplication; do not multiply arbitrary distributions
+or treat a product of singular boundary values as automatically defined.
+If a rational expression is a Laurent polynomial, its common-h expansion
+is that finite coefficient function and its boundary distribution is the
+ordinary torus polynomial for every regular h. Prove this by the chosen
+series localization map before applying Fourier uniqueness, not by canceling
+a denominator in the distribution space.
+
+**3. Continuous versus discrete cones.** For a positive-height spanning list
+X, define the actual pushforwards of Lebesgue measure on [0,1]^m and ℝ_≥0^m
+under (t_j)↦Σ t_j a_j: the compact box measure B_X and the locally finite
+cone measure T_X. Prove tempered growth, support, pushforward/test-pairing
+formulas, convolution, deletion/directional derivative and difference laws,
+and their transforms. Use the native negative-2π Fourier phase:
+
+`F(B_X)(ξ)=∏_j (1−exp(−2πi⟨a_j,ξ⟩))/(2πi⟨a_j,ξ⟩)`,
+
+with the removable value 1 for each zero pairing. Prove the Laplace/Abel
+regularization for T_X with factors `(εh(a_j)+2πi⟨a_j,ξ⟩)⁻¹`.
+Tiling the orthant by half-open cubes gives the actual distribution identity
+`T_X=Σ_b P_X(b)·translate_b B_X`; prove local finiteness on compact supports
+and the Schwartz estimates, not an unjustified exchange of infinite sums.
+For an arbitrary nonzero list with regular h, define its polarized continuous
+cone distribution as `T_X^h=(−1)^|B| T_(X^h)` with NO lattice offset, and prove
+`B_X *_d P_X^h=T_X^h`. Indeed the negative interval factors translate B_(X^h)
+by Σ_B a_j while the discrete polarization translates its count by the
+opposite vector; construct these translation maps and cancellation explicitly.
+Thus the discrete endpoint shift and continuous orientation sign have distinct
+roles even for mixed root directions in a fixed-point Weyl term.
+Construct densities on the span, piecewise polynomial formulae on the
+admissible hyperplane arrangement and the lattice-normalized fibre-volume
+comparison. Rank-deficient lists are treated in their actual saturated span
+and pushed forward, rather than assigned an ambient density; the empty list
+has δ_0 and count δ_0. Zero columns are excluded from infinite-ray counting.
+
+**4. Endpoint reconstruction.** Build the finite admissible central hyperplane
+arrangement and its locally finite affine lattice-translate arrangement. Prove
+local finiteness from the rational hyperplane directions and the specified
+lattice, and give finite enumeration and restriction on each bounded region.
+Construct the global alcoves, polynomial pieces and directional lattice
+restriction, with compatible bounded-stage presentations preserving the global
+translation and refinement laws for every lattice translate: choose an alcove c
+with 0 in its closure inside the zonotope,
+and evaluate the polynomial on b+c at b. Keep piecewise differentiation
+separate from distributional differentiation; for B_[1], the latter is
+δ_0−δ_1 while the former is zero. Supply well-definedness, translation and
+refinement laws and independence whenever the differentiated function is
+continuous. The infinite formal Todd symbol acts on each finite-degree
+polynomial through its finite jet, not as an unproved convergent differential
+operator on all distributions.
+
+For spanning unimodular X in its specified lattice prove
+
+`c-limit (Todd(X)_pw (B_X *_d K))=K`
+
+for every coefficient function K:L→ℂ; here
+`Todd(X)=∏ ∂_a/(1−exp(−∂_a))`, the convolution is locally finite because
+B_X is compact, and c has the stated zonotope condition. Build the requisite
+finite polynomial/difference solution spaces, cocircuit equations,
+interpolation on translated zonotope lattice sets and their deletion/
+contraction or equivalent constructive proof before this inversion. Combine
+with the cone identity for the exact directional evaluation of P_X, including
+support facets and the origin. For shifted Todd exp(−∂_z)Todd retain the
+compatible translated alcove/lattice window; prove its domain rather than
+allowing arbitrary boundary z and any closed support chamber. A polynomial
+piece evaluated at b is not evaluation at a perturbed lattice point.
+
+For general spanning positive-height integer lists build the finite toric
+vertex set `{g∈T : X^g={a∈X:g^a=1} spans V}` and prove its finiteness
+using full-rank column determinants. Construct the finite-dimensional
+difference/differential spaces and the character-twisted finite-jet inverses
+of `1−g^(−a)exp(−∂_a)` when g^a≠1. Prove the reconstruction
+
+`P_X(b)=Σ_g g^b · c-limit [Todd(X^g)_pw · ∏_(a∉X^g)
+ (1−g^(−a)exp(−∂_a))⁻¹_pw T_(X^g)](b)`
+
+with c a small alcove inside Cone(X) adjoining 0, all operators defined on
+the actual polynomial pieces. Give the finite coefficient algorithm and
+quasipolynomial constituent/period comparison. The unimodular case has only
+g=1. This does not replace H1.5's already-owned chamber-counting theorem;
+prove agreement with its actual coefficient polynomials and face restrictions.
+In particular [2] has a parity count and a nontrivial toric contribution;
+dropping it does not give an ordinary polynomial formula.
+
+**5. Terminal Weyl and boundary examples.** Parts1–4 above precede this
+application part and have no character-theoretic premise. H2.6 transports the above construction
+through its actual type-A positive-root matrix and native Kostant partition
+equivalence. LieHighestWeight Layer6's Fourier comparison supplies the
+finite Weyl alternating numerator/denominator and coefficient cancellation;
+it consumes the generic construction here. The representation-theoretic
+WCF and H2.3/H2.6 counts are earlier independent inputs, not consequences
+assumed in the generic cone proof. Compute the rank-one two boundary values,
+their delta-comb difference, all four open/closed endpoints of an integral
+interval and its rational cone formula. Compute A2 with columns e1,e2,e1+e2:
+P(a,b)=min(a,b)+1 on the nonnegative quadrant, T(a,b)=min(a,b) there in
+lattice-normalized density, and the specified Todd correction; record both
+internal-wall agreement and the discontinuity to exterior zero. Compute [2]
+including both toric vertices. Check GL2 and SU2 Weyl characters, central
+determinant translations and n=0,1. Half-sum roots, polarization shifts,
+infinitesimal alcove displacements and half-open endpoint offsets are
+different data with their own maps. None is identified by notation alone.
+
+Representative finite-matrix, polarization, Abel and native tempered-dual
+interfaces are in [FourierConeTargets.lean](FourierConeTargets.lean); this
+prose commissions the complete theory beyond those examples. Use
+[De Concini–Procesi–Vergne, §§1–3](https://arxiv.org/html/1012.1049v3),
+[Lenz, §2.2](https://arxiv.org/html/1305.2784) and
+[Beck–Haase–Sottile](https://arxiv.org/html/math/0506466) for the specified
+distribution/polarization, directional-boundary and cone-valuation conventions.
+All comparisons, inversion and boundary-domain statements above are proof
+targets on the actual carriers, not conclusions obtained solely by citation.
+
 ## H2. Native GT and LR comparisons and the hive ring
 
 1. Define the directional finite-difference map from a hive to native signed
