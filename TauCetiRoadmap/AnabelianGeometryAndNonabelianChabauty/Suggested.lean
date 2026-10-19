@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree
+import TauCeti.AlgebraicGeometry.Cohomology.Genus
 
 /-!
 # AnabelianGeometryAndNonabelianChabauty: representative target signatures
@@ -19,6 +20,109 @@ of README.md. They are not introduced here by admitted data definitions.
 namespace TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
 
 universe u v w
+
+open scoped Topology
+
+/-! ## Headline reconstruction and finiteness theorems
+
+Finite étale covers use the native morphism-property over categories.
+Affine period and Selmer schemes are expressed through their coordinate algebras. Compact
+charts and absence of a zero germ record the analytic consequence of residue-disc density.
+The geometric constructions and comparisons supplying these hypotheses are README targets.
+-/
+
+open CategoryTheory AlgebraicGeometry in
+/-- An equivalence of finite étale cover categories compatible with constant covers
+comes from a unique base-field isomorphism of proper hyperbolic curves over a sub-p-adic
+field. No rational point is required; the base field embeds in a finitely generated
+extension of the specified p-adic field. -/
+theorem anabelian_isom
+    (p : ℕ) [Fact p.Prime] {K L : Type u} [Field K] [Field L] [Algebra ℚ_[p] L]
+    (embedding : K →+* L)
+    (hfg : ∃ s : Finset L, IntermediateField.adjoin ℚ_[p] (s : Set L) = ⊤)
+    (X Y : Scheme.{u}) [X.Over (Spec (.of K))] [Y.Over (Spec (.of K))]
+    [SmoothOfRelativeDimension 1 (X ↘ Spec (.of K))]
+    [SmoothOfRelativeDimension 1 (Y ↘ Spec (.of K))]
+    [IsProper (X ↘ Spec (.of K))] [IsProper (Y ↘ Spec (.of K))]
+    [GeometricallyConnected (X ↘ Spec (.of K))]
+    [GeometricallyConnected (Y ↘ Spec (.of K))]
+    [FiniteDimensional K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
+      (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial X).obj 1)]
+    [FiniteDimensional K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
+      (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial Y).obj 1)]
+    (hX : 2 ≤ X.genus K) (hY : 2 ≤ Y.genus K) :
+    let P : MorphismProperty Scheme.{u} := @AlgebraicGeometry.IsFinite ⊓ @AlgebraicGeometry.Etale
+    letI : P.IsStableUnderBaseChange := {
+      of_isPullback := fun sq hf =>
+        ⟨MorphismProperty.of_isPullback (P := @AlgebraicGeometry.IsFinite) sq hf.1,
+          MorphismProperty.of_isPullback (P := @AlgebraicGeometry.Etale) sq hf.2⟩ }
+    ∀ e : P.Over ⊤ X ≌ P.Over ⊤ Y,
+      Nonempty (MorphismProperty.Over.pullback P ⊤ (X ↘ Spec (.of K)) ⋙ e.functor ≅
+        MorphismProperty.Over.pullback P ⊤ (Y ↘ Spec (.of K))) →
+      ∃! f : X ≅ Y, f.hom.IsOver (Spec (.of K)) ∧
+        Nonempty (e.functor ≅ MorphismProperty.Over.pullback P ⊤ f.inv) := by
+  sorry
+
+/-- A smaller-dimensional affine Selmer source cuts out a finite closed period locus on
+finitely many compact analytic charts. Global points with Selmer witnesses form a finite set.
+The period algebra is integral, and density is required near every point of every chart. -/
+theorem chabautyKim_finite
+    {K : Type*} [NontriviallyNormedField K]
+    {A B : Type*} [CommRing A] [CommRing B] [IsDomain B]
+    [Algebra K A] [Algebra K B] [Algebra.FiniteType K A] [Algebra.FiniteType K B]
+    (period : B →ₐ[K] A) (hdim : ringKrullDim A < ringKrullDim B)
+    {X I : Type*} [Finite I] (domain : I → Set K) (chart : I → K → X)
+    (Y points : Set X) (j : X → (B →ₐ[K] K))
+    (hcompact : ∀ i, IsCompact (domain i))
+    (hcover : ∀ x ∈ Y, ∃ i, x ∈ chart i '' domain i)
+    (hanalytic : ∀ i b, AnalyticOnNhd K (fun t => j (chart i t) b) (domain i))
+    (hdense : ∀ i b, b ≠ 0 → ∀ t ∈ domain i,
+      ¬ ∀ᶠ z in 𝓝 t, j (chart i z) b = 0)
+    (hpoints : points ⊆ Y)
+    (hglobal : ∀ x ∈ points, ∃ a : A →ₐ[K] K, j x = a.comp period) :
+    {x ∈ Y | ∀ b : B, period b = 0 → j x b = 0}.Finite ∧ points.Finite := by
+  sorry
+
+/-- Joint polynomial density of the Abel–Jacobi and height coordinates makes every
+quadratic residual equation have finitely many solutions on the compact chart domain.
+A finite correction set containing all global residuals therefore bounds the global points. -/
+theorem quadraticChabauty_finite
+    {K : Type*} [NontriviallyNormedField K]
+    {X I : Type*} [Finite I] {m : ℕ}
+    (domain : I → Set K) (chart : I → K → X) (Y points : Set X)
+    (AJ : X → Fin m → K) (θ : X → K)
+    (E : (Fin m → K) →ₗ[K] (Fin m → K)) (c : Fin m → K)
+    (B : (Fin m → K) →ₗ[K] (Fin m → K) →ₗ[K] K)
+    (Υ : Set K) (hΥ : Υ.Finite)
+    (hcompact : ∀ i, IsCompact (domain i))
+    (hcover : ∀ x ∈ Y, ∃ i, x ∈ chart i '' domain i)
+    (hAJ : ∀ i k, AnalyticOnNhd K (fun t => AJ (chart i t) k) (domain i))
+    (hθ : ∀ i, AnalyticOnNhd K (fun t => θ (chart i t)) (domain i))
+    (hdense : ∀ i (P : MvPolynomial (Option (Fin m)) K), P ≠ 0 → ∀ t ∈ domain i,
+      ¬ ∀ᶠ z in 𝓝 t,
+        MvPolynomial.eval (fun k => match k with
+          | none => θ (chart i z)
+          | some a => AJ (chart i z) a) P = 0)
+    (hpoints : points ⊆ Y)
+    (hglobal : ∀ x ∈ points, θ x - B (AJ x) (E (AJ x) + c) ∈ Υ) :
+    {x ∈ Y | θ x - B (AJ x) (E (AJ x) + c) ∈ Υ}.Finite ∧ points.Finite := by
+  sorry
+
+/-- An analytic function with no zero germ has finitely many zeros on a compact chart. -/
+theorem analytic_zero_set_finite {K : Type*} [NontriviallyNormedField K]
+    (D : Set K) (f : K → K) (hcompact : IsCompact D) (hf : AnalyticOnNhd K f D)
+    (hnonzero : ∀ t ∈ D, ¬ ∀ᶠ z in 𝓝 t, f z = 0) :
+    {t ∈ D | f t = 0}.Finite := by
+  sorry
+
+/-- A morphism from a smaller-dimensional finite-type affine scheme to an integral affine
+scheme has a nonzero regular annihilator of its scheme-theoretic image. -/
+theorem selmer_period_annihilator
+    {K : Type*} [Field K] {A B : Type*} [CommRing A] [CommRing B] [IsDomain B]
+    [Algebra K A] [Algebra K B] [Algebra.FiniteType K A] [Algebra.FiniteType K B]
+    (period : B →ₐ[K] A) (hdim : ringKrullDim A < ringKrullDim B) :
+    ∃ b : B, b ≠ 0 ∧ period b = 0 := by
+  sorry
 
 /-! ## Layer 0: Continuous nonabelian cohomology -/
 
@@ -171,15 +275,14 @@ theorem pathCocycle_neutral_iff (sb sx : G →* E) (p : E) :
     (∀ g, pathCocycle sb sx p g = 1) ↔ (∀ g, p⁻¹ * sx g * p = sb g) := by
   sorry
 
-/-- Equal sections with the identity path give the neutral representative. -/
-example (sb : G →* E) : pathCocycle sb sb 1 = fun _ => 1 := by
-  funext g
-  simp [pathCocycle]
-
-/-- Distinct section values give a nonneutral representative at the identity path. -/
-example (sb sx : G →* E) (g : G) (h : sx g ≠ sb g) :
-    pathCocycle sb sx 1 g ≠ 1 := by
-  simpa [pathCocycle, mul_inv_eq_one] using h
+open CategoryTheory in
+/-- Two paths between fixed fibre functors differ by a unique source automorphism,
+acting by right precomposition. -/
+theorem existsUnique_translation {C : Type*} {D : Type*}
+    [CategoryTheory.Category C] [CategoryTheory.Category D]
+    {F H : C ⥤ D} (p q : F ≅ H) :
+    ∃! a : CategoryTheory.Aut F, a ≪≫ p = q := by
+  sorry
 
 end ArithmeticPath
 
@@ -245,6 +348,14 @@ theorem over_identity (q : E →ₜ* G)
     (f : RelativeOpenHom q (ContinuousMonoidHom.id G)) : f.hom = q := by
   sorry
 
+/-- Over a centre-free base, a conjugator between relative maps lies in the geometric
+kernel when the source projection is surjective. -/
+theorem geometric_conjugator (qE : E →ₜ* G) (qF : F →ₜ* G)
+    (hsurj : Function.Surjective qE) (hcenter : Subgroup.center G = ⊥)
+    (f g : E →ₜ* F) (hf : qF.comp f = qE) (hg : qF.comp g = qE)
+    (a : F) (hconj : ∀ x, g x = a * f x * a⁻¹) : a ∈ qF.ker := by
+  sorry
+
 end RelativeMaps
 
 /-! ## Layer 4: Cohomology varieties and Selmer conditions -/
@@ -304,16 +415,12 @@ theorem periodRatio_coset_eq_iff (H : Subgroup U) (I γ γ' : U) :
     QuotientGroup.leftRel H (periodRatio I γ) (periodRatio I γ') ↔ γ⁻¹ * γ' ∈ H := by
   sorry
 
-/-- Coincident Frobenius and Hodge paths give the neutral period. -/
-example (I : U) : periodRatio I I = 1 := by
-  simp [periodRatio]
-
-/-- Reversing the ratio changes the period for noncommuting paths. -/
-example :
-    let I : Equiv.Perm (Fin 3) := Equiv.swap 0 1
-    let γ : Equiv.Perm (Fin 3) := Equiv.swap 1 2
-    periodRatio I γ ≠ γ * I⁻¹ := by
-  decide
+/-- Right Hodge translation preserves the period coset for every subgroup,
+including nonnormal Hodge subgroups. -/
+example (H : Subgroup U) (I γ : U) (h : H) :
+    QuotientGroup.leftRel H (periodRatio I γ) (periodRatio I (γ * h)) := by
+  rw [QuotientGroup.leftRel_apply]
+  simp [periodRatio, mul_assoc]
 
 end Period
 
@@ -334,6 +441,13 @@ namespace Heights
 This is the trace-equals-cup convention of the divisor correspondence target. -/
 def symplecticTensorAction (u v : ℚ × ℚ) : (ℚ × ℚ) →ₗ[ℚ] ℚ × ℚ :=
   (u.1 • LinearMap.snd ℚ ℚ ℚ - u.2 • LinearMap.fst ℚ ℚ ℚ).smulRight v
+
+/-- The trace of the simple-tensor correspondence equals the symplectic cup pairing,
+with the first tensor factor in the first pairing slot. -/
+theorem symplecticTensorAction_trace (u v : ℚ × ℚ) :
+    LinearMap.trace ℚ (ℚ × ℚ) (symplecticTensorAction u v) =
+      u.1 * v.2 - u.2 * v.1 := by
+  sorry
 
 variable {K : Type u} [Field K]
 variable {C : Type v} [AddCommGroup C] [Module K C]
