@@ -251,10 +251,10 @@ one, and a single weight of multiplicity two contributes the square.
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. |
-| Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
+| Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
 | Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: `arakelovMulHeight`, `arakelovMulHeight_eq_height2`, and relative extension-power transport from `height2_baseExtension`; prototype namespace `TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation` in that roadmap's `Suggested.lean` | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Brauer and monomial character induction | RepresentationTheory/InductionRestriction, layer 6; pinned `TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`: `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`, `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`; `TauCeti/GroupTheory/Elementary.lean`: `TauCeti.IsElementary.isNilpotent`; `TauCeti/RepresentationTheory/Induction/Monomial.lean`: `FDRep.exists_character_eq_indClassFun_of_isNilpotent`; `TauCeti/RepresentationTheory/Induction/ClassFunction.lean`: `TauCeti.indClassFun_indClassFun_subgroupOf` | For a finite group over an algebraically closed characteristic-zero field, write every character as an integral combination of characters induced from linear characters of subgroups. AA.2.4 owns the ramified local Artin-factor induction identity, one-dimensional Artin–Hecke comparison and analytic assembly. |
-| Finite-order Hecke analysis | [LFunctions, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
+| Finite-order Hecke analysis | [LFunctions, Layer 5 for continuation and Layer 7 for nonvanishing](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
 | One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
@@ -498,9 +498,9 @@ NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/L
 (Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
-obstructions only). LFunctions, layers 5–6, consumes ThetaSeries for the
-meromorphic extension and nonvanishing of finite-order Hecke L-functions; AA assembles
-finite-image Artin functions. ClassFieldTheory, layers 11–12
+obstructions only). LFunctions supplies primitive finite-order Hecke continuation in Layer 5,
+using ThetaSeries, and nonvanishing in Layer 7; AA assembles finite-image Artin functions.
+ClassFieldTheory, layers 11–12
 (quadratic idele characters, reciprocity, the global norm-index theorem). AlgebraicTopology,
 stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layer 0
 (the input for the distance of `p`-adic roots of unity from one).
@@ -2176,7 +2176,8 @@ Layers AA.0 and AA.1; Mathlib's group-like elements, modular character, Riesz re
 fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; Tau Ceti's geometric
 characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics
 and Euler product; ReductiveGroups, layer 4; ReductiveGroupsPartII, RG2.0 and RG2.1;
-GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4; LFunctions, layers 5–6 (ThetaSeries);
+GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
+LFunctions, Layer 5 for primitive finite-order Hecke continuation using ThetaSeries and Layer 7 for nonvanishing;
 ClassFieldTheory reciprocity;
 RepresentationTheory/CompactGroups, layer 5.
 
@@ -2746,7 +2747,7 @@ The identity has the identity form; columns `(1,0),(1,2)` of `g⁻¹` give `[[1,
 A reductive group with finite component group, over a characteristic-zero field, is a smooth
 group every normal smooth unipotent subgroup of whose geometric fibre is trivial.
 It allows finite component groups. Connected reductive groups in the supplier's sense
-(`TauCeti.reductiveCommHopfAlgProperty`) are examples. [Borel], §5.3, p. 19.
+(`TauCeti.reductiveCommHopfAlgProperty`) are examples. [Borel], §5.3, p. 20.
 *Lean:* none; specified in the README only.
 
 **Checks.** `G_m` qualifies; `μ₂` qualifies
@@ -4371,8 +4372,13 @@ quaternion norms and compact abelian Fourier limits.
   - The groupoid is not determined by `X_U`: `Y(1)` and the coarse space of the groupoid agree,
     but the groupoid remembers the stabilizers of orders `4` and `6`.
   - The automorphism attached to `γ` has underlying group element `γ`;
-    composing with conjugation by a fixed stabilizer element is
-    another isomorphism of the same groups and moves every noncentral `γ`.
+    postcomposing the canonical identification with conjugation by a stabilizer element `h`
+    sends `γ` to `hγh⁻¹` and moves it exactly when `h` and `γ` do not commute.
+    For every noncentral `γ`, some stabilizer element `h` moves it.
+  - For `GL₂/ℚ`, `U = GL₂(ℤ̂)` and `K∞ = ℝ_{>0}O(2)`, the object represented by `1` has
+    stabilizer `O₂(ℤ)`, the dihedral group of order eight. With `h = diag(1,−1)` and
+    `r = [[0,−1],[1,0]]`, conjugation by `h` fixes the noncentral element `h` and sends
+    `r` to `r⁻¹ ≠ r`.
 
 ### 4.5 Hecke correspondences, volumes and abelianization
 
